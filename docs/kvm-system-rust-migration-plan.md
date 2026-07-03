@@ -204,11 +204,25 @@ Completed first slice:
 4. Ethernet, Wi-Fi, route/ping checks, OLED drawing, button handling, and
    LT6911/I2C hardware code are still owned by the legacy helper for this slice.
 
+Completed second shadow slice:
+
+1. Added a `network` section to the Rust hwmon snapshot with normalized
+   `eth0`, `wlan0`, `usb0`, and `tailscale0` state.
+2. The network snapshot records existence, `UP`/`RUNNING`, carrier, primary
+   IPv4/IPv6 addresses, default IPv4/IPv6 gateways, and a route-based
+   `route_state` code.
+3. Default routes are parsed from `/proc/net/route` and
+   `/proc/net/ipv6_route`; non-forwarding loopback IPv6 defaults are filtered
+   out so the snapshot matches `ip route` / `ip -6 route show default`.
+4. This slice remains read-only shadow mode for network state. It does not ping,
+   write Wi-Fi state files, restart services, or change C++ network behavior.
+
 Remaining steps:
 
-1. Keep C++ OLED drawing but read normalized state from Rust-generated files or a
-   small JSON/state file for the remaining passive network fields.
-2. Stop duplicated ping/route checks in C++ when Rust network state is enabled.
+1. Let C++ read route-based Ethernet state from the Rust network snapshot under
+   the existing `/etc/kvm/rust_hwmon_enabled` flag.
+2. Stop duplicated Ethernet ping/route checks in C++ when Rust network state is
+   enabled.
 3. Decide whether C++ should keep Wi-Fi API-triggered reconnect handling until
    OLED AP provisioning has a Rust-backed replacement.
 
@@ -231,6 +245,15 @@ Validation on 133:
   `fail to allocate ion`, or `invalid buffer`.
 - Confirm OLED shows correct USB, HDMI, stream type, FPS, and resolution during
   longer manual observation.
+- Installed `nanokvm-hwmon` hash
+  `27526584abb321568ac96090016209553281cc80f7a7dba52b7f400b392d3994`.
+- On 133, the new `network` snapshot matched `ip route` and
+  `ip -6 route show default`: `eth0` routed via IPv4 gateway `10.0.87.5` and
+  IPv6 gateway `fe80::9`, `usb0` addressed without a default route, and
+  `wlan0`/`tailscale0` missing.
+- HTTP `/api/health` stayed OK, `kvm_system`, `NanoKVM-Server`, and
+  `nanokvm-hwmon` stayed alive, and authenticated MJPEG returned about
+  57.1 MiB in 8 seconds.
 - Confirm no increase in SD-card writes from status polling.
 
 ### Phase 4: Move Safe Control Actions

@@ -3,6 +3,7 @@ use serde::Serialize;
 use std::{
     collections::{BTreeMap, BTreeSet},
     env, fs, io,
+    net::{Ipv4Addr, Ipv6Addr},
     path::Path,
     process, thread,
     time::{Duration, SystemTime, UNIX_EPOCH},
@@ -17,6 +18,7 @@ struct Snapshot {
     schema: &'static str,
     generated_at_unix_ms: u128,
     interfaces: BTreeMap<String, InterfaceSnapshot>,
+    network: NetworkSnapshot,
     usb: UsbSnapshot,
     hdmi: HdmiSnapshot,
     stream: StreamSnapshot,
@@ -33,6 +35,37 @@ struct InterfaceSnapshot {
     mac: Option<String>,
     ipv4: Vec<String>,
     ipv6: Vec<String>,
+}
+
+#[derive(Debug, Serialize)]
+struct NetworkSnapshot {
+    interfaces: BTreeMap<String, NetworkInterfaceSnapshot>,
+    default_routes: Vec<DefaultRouteSnapshot>,
+}
+
+#[derive(Debug, Serialize)]
+struct NetworkInterfaceSnapshot {
+    exists: bool,
+    up: bool,
+    running: bool,
+    carrier: bool,
+    route_state: i8,
+    route_state_label: &'static str,
+    primary_ipv4: Option<String>,
+    primary_ipv6: Option<String>,
+    has_default_ipv4_route: bool,
+    default_ipv4_gateway: Option<String>,
+    has_default_ipv6_route: bool,
+    default_ipv6_gateway: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct DefaultRouteSnapshot {
+    family: &'static str,
+    interface: String,
+    gateway: Option<String>,
+    metric: Option<u32>,
+    flags: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -107,10 +140,15 @@ fn write_snapshot(path: &str) -> io::Result<()> {
 }
 
 fn collect_snapshot() -> Snapshot {
+    let interfaces = collect_interfaces();
+    let default_routes = collect_default_routes();
+    let network = collect_network(&interfaces, default_routes);
+
     Snapshot {
         schema: "nanokvm-hwmon/v1",
         generated_at_unix_ms: unix_ms(),
-        interfaces: collect_interfaces(),
+        interfaces,
+        network,
         usb: collect_usb(),
         hdmi: collect_hdmi(),
         stream: collect_stream(),
@@ -172,6 +210,186 @@ fn collect_interfaces() -> BTreeMap<String, InterfaceSnapshot> {
     }
 
     interfaces
+}
+
+fn collect_network(
+    interfaces: &BTreeMap<String, InterfaceSnapshot>,
+    default_routes: Vec<DefaultRouteSnapshot>,
+) -> NetworkSnapshot {
+    let mut normalized = BTreeMap::new();
+
+    for name in ["eth0", "wlan0", "usb0", "tailscale0"] {
+        let interface = interfaces.get(name);
+        let default_ipv4_route = default_routes
+            .iter()
+            .find(|route| route.family == "ipv4" && route.interface == name);
+        let default_ipv6_route = default_routes
+            .iter()
+            .find(|route| route.family == "ipv6" && route.interface == name);
+
+        let exists = interface.map(|iface| iface.exists).unwrap_or_default();
+        let up = interface.map(|iface| iface.flags_up).unwrap_or_default();
+        let running = interface
+            .map(|iface| iface.flags_running)
+            .unwrap_or_default();
+        let carrier = interface
+            .and_then(|iface| iface.carrier.as_deref())
+            .map(|carrier| carrier == "1")
+            .unwrap_or(running);
+        let primary_ipv4 = interface.and_then(|iface| iface.ipv4.first().cloned());
+        let primary_ipv6 = interface.and_then(|iface| iface.ipv6.first().cloned());
+        let has_address = primary_ipv4.is_some() || primary_ipv6.is_some();
+        let has_default_route = default_ipv4_route.is_some() || default_ipv6_route.is_some();
+        let link_ready = running || carrier;
+        let (route_state, route_state_label) =
+            route_state(exists, link_ready, has_address, has_default_route);
+
+        normalized.insert(
+            name.to_string(),
+            NetworkInterfaceSnapshot {
+                exists,
+                up,
+                running,
+                carrier,
+                route_state,
+                route_state_label,
+                primary_ipv4,
+                primary_ipv6,
+                has_default_ipv4_route: default_ipv4_route.is_some(),
+                default_ipv4_gateway: default_ipv4_route.and_then(|route| route.gateway.clone()),
+                has_default_ipv6_route: default_ipv6_route.is_some(),
+                default_ipv6_gateway: default_ipv6_route.and_then(|route| route.gateway.clone()),
+            },
+        );
+    }
+
+    NetworkSnapshot {
+        interfaces: normalized,
+        default_routes,
+    }
+}
+
+fn route_state(
+    exists: bool,
+    link_ready: bool,
+    has_address: bool,
+    has_default_route: bool,
+) -> (i8, &'static str) {
+    if !exists {
+        return (-2, "missing");
+    }
+    if !link_ready {
+        return (0, "down");
+    }
+    if !has_address {
+        return (1, "link");
+    }
+    if has_default_route {
+        return (3, "routed");
+    }
+    (2, "addressed")
+}
+
+fn collect_default_routes() -> Vec<DefaultRouteSnapshot> {
+    let mut routes = Vec::new();
+    if let Ok(content) = fs::read_to_string("/proc/net/route") {
+        routes.extend(parse_ipv4_default_routes(&content));
+    }
+    if let Ok(content) = fs::read_to_string("/proc/net/ipv6_route") {
+        routes.extend(parse_ipv6_default_routes(&content));
+    }
+    routes
+}
+
+fn parse_ipv4_default_routes(content: &str) -> Vec<DefaultRouteSnapshot> {
+    content
+        .lines()
+        .filter_map(|line| {
+            let fields: Vec<&str> = line.split_whitespace().collect();
+            if fields.len() < 8 || fields[1] != "00000000" {
+                return None;
+            }
+            Some(DefaultRouteSnapshot {
+                family: "ipv4",
+                interface: fields[0].to_string(),
+                gateway: parse_ipv4_route_gateway(fields[2]),
+                metric: fields[6].parse().ok(),
+                flags: Some(fields[3].to_string()),
+            })
+        })
+        .collect()
+}
+
+fn parse_ipv6_default_routes(content: &str) -> Vec<DefaultRouteSnapshot> {
+    content
+        .lines()
+        .filter_map(|line| {
+            let fields: Vec<&str> = line.split_whitespace().collect();
+            if fields.len() < 10
+                || fields[0] != "00000000000000000000000000000000"
+                || fields[1] != "00"
+            {
+                return None;
+            }
+            let interface = fields[9].to_string();
+            let gateway = parse_ipv6_route_gateway(fields[4]);
+            let metric = u32::from_str_radix(fields[5], 16).ok();
+            if interface == "lo" && gateway.is_none() {
+                return None;
+            }
+            if metric == Some(u32::MAX) {
+                return None;
+            }
+            Some(DefaultRouteSnapshot {
+                family: "ipv6",
+                interface,
+                gateway,
+                metric,
+                flags: Some(fields[8].to_string()),
+            })
+        })
+        .collect()
+}
+
+fn parse_ipv4_route_gateway(value: &str) -> Option<String> {
+    let gateway = u32::from_str_radix(value, 16).ok()?;
+    if gateway == 0 {
+        return None;
+    }
+    Some(
+        Ipv4Addr::new(
+            (gateway & 0xff) as u8,
+            ((gateway >> 8) & 0xff) as u8,
+            ((gateway >> 16) & 0xff) as u8,
+            ((gateway >> 24) & 0xff) as u8,
+        )
+        .to_string(),
+    )
+}
+
+fn parse_ipv6_route_gateway(value: &str) -> Option<String> {
+    if value.len() != 32 || value == "00000000000000000000000000000000" {
+        return None;
+    }
+
+    let mut segments = [0_u16; 8];
+    for (index, segment) in segments.iter_mut().enumerate() {
+        let start = index * 4;
+        *segment = u16::from_str_radix(&value[start..start + 4], 16).ok()?;
+    }
+    Some(
+        Ipv6Addr::new(
+            segments[0],
+            segments[1],
+            segments[2],
+            segments[3],
+            segments[4],
+            segments[5],
+            segments[6],
+            segments[7],
+        )
+        .to_string(),
+    )
 }
 
 fn collect_usb() -> UsbSnapshot {
@@ -264,12 +482,78 @@ fn push_unique(values: &mut Vec<String>, value: String) {
 
 #[cfg(test)]
 mod tests {
-    use super::parse_vi_fps;
+    use super::{
+        parse_ipv4_default_routes, parse_ipv4_route_gateway, parse_ipv6_default_routes,
+        parse_ipv6_route_gateway, parse_vi_fps, route_state,
+    };
 
     #[test]
     fn parses_vi_fps_from_vendor_line() {
         assert_eq!(parse_vi_fps("VIFPS\t\t\t:  60"), Some("60".to_string()));
         assert_eq!(parse_vi_fps("VIFPS : 59.94"), Some("59.94".to_string()));
         assert_eq!(parse_vi_fps("too-short"), None);
+    }
+
+    #[test]
+    fn parses_little_endian_ipv4_gateway() {
+        assert_eq!(
+            parse_ipv4_route_gateway("0557000A").as_deref(),
+            Some("10.0.87.5")
+        );
+        assert_eq!(parse_ipv4_route_gateway("00000000"), None);
+    }
+
+    #[test]
+    fn parses_default_ipv4_routes() {
+        let routes = parse_ipv4_default_routes(
+            "Iface Destination Gateway Flags RefCnt Use Metric Mask MTU Window IRTT\n\
+             eth0 00000000 0557000A 0003 0 0 10 00000000 0 0 0\n\
+             eth0 0057000A 00000000 0001 0 0 0 00FFFFFF 0 0 0\n",
+        );
+
+        assert_eq!(routes.len(), 1);
+        assert_eq!(routes[0].family, "ipv4");
+        assert_eq!(routes[0].interface, "eth0");
+        assert_eq!(routes[0].gateway.as_deref(), Some("10.0.87.5"));
+        assert_eq!(routes[0].metric, Some(10));
+    }
+
+    #[test]
+    fn parses_ipv6_route_gateway() {
+        assert_eq!(
+            parse_ipv6_route_gateway("fe800000000000000000000000000001").as_deref(),
+            Some("fe80::1")
+        );
+        assert_eq!(
+            parse_ipv6_route_gateway("00000000000000000000000000000000"),
+            None
+        );
+    }
+
+    #[test]
+    fn parses_default_ipv6_routes() {
+        let routes = parse_ipv6_default_routes(
+            "00000000000000000000000000000000 00 00000000000000000000000000000000 00 \
+             fe800000000000000000000000000001 00000400 00000000 00000000 00000003 eth0\n\
+             fd001234abcd00010000000000000000 40 00000000000000000000000000000000 00 \
+             00000000000000000000000000000000 00000100 00000000 00000000 00000001 eth0\n\
+             00000000000000000000000000000000 00 00000000000000000000000000000000 00 \
+             00000000000000000000000000000000 ffffffff 00000000 00000000 00200200 lo\n",
+        );
+
+        assert_eq!(routes.len(), 1);
+        assert_eq!(routes[0].family, "ipv6");
+        assert_eq!(routes[0].interface, "eth0");
+        assert_eq!(routes[0].gateway.as_deref(), Some("fe80::1"));
+        assert_eq!(routes[0].metric, Some(1024));
+    }
+
+    #[test]
+    fn route_state_matches_legacy_display_levels_without_ping() {
+        assert_eq!(route_state(false, false, false, false), (-2, "missing"));
+        assert_eq!(route_state(true, false, false, false), (0, "down"));
+        assert_eq!(route_state(true, true, false, false), (1, "link"));
+        assert_eq!(route_state(true, true, true, false), (2, "addressed"));
+        assert_eq!(route_state(true, true, true, true), (3, "routed"));
     }
 }
