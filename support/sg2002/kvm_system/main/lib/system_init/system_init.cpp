@@ -52,22 +52,3 @@ void Production_testing_patch(void)
 	system("rm -f /etc/init.d/S50ssdpd");
 	system("sync");
 }
-
-void new_app_init(void)
-{
-	printf("legacy kvm_new_app marker ignored by kvm_system; S95nanokvm owns app migration\n");
-	system("rm -f /kvmapp/kvm_new_app");
-}
-
-void build_complete_resolv(void)
-{
-	// DNS is owned by the Rust network API and init scripts. The legacy helper
-	// used to overwrite resolv.conf with public defaults on new images, which
-	// could break private lab DNS and static network settings.
-}
-
-void new_img_init(void)
-{
-	build_complete_resolv();
-	system("rm -f /kvmapp/kvm_new_img");
-}

@@ -32,7 +32,7 @@ small reversible slices. The target validation device is 133.
 
 | Area | Current owner | Existing overlap |
 | --- | --- | --- |
-| Boot/app migration markers `kvm_new_app` and `kvm_new_img` | `S95nanokvm`; C++ only clears stale markers if reached | `S95nanokvm`, `S01fs`, Rust app/system update code |
+| Boot/app migration markers `kvm_new_app` and `kvm_new_img` | `S95nanokvm` | `S95nanokvm`, `S01fs`, Rust app/system update code |
 | Init script installation | `S95nanokvm::install_boot_scripts` | Rust startup repair |
 | `/kvmapp/kvm/*` stream state defaults | `S95nanokvm::ensure_kvm_state_files` | Rust stream API |
 | Rust server runtime staging/restart | `S95nanokvm::start_server_runtime`, `restart-server` | Rust app update restart hook |
@@ -71,9 +71,11 @@ Completed slices:
    legacy `kvm_new_app` handling.
 2. Rust app update validation rejects archives that try to reintroduce
    `kvm_new_app`, `kvm_new_img`, `jpg_stream`, or `kvm_system/kvm_stream`.
-3. `new_img_init()` no longer writes hardcoded DNS defaults.
-4. `new_app_init()` no longer copies scripts, restarts `NanoKVM-Server`, or
-   reboots the device. If reached, it only clears the stale marker.
+3. C++ `kvm_system` no longer handles `kvm_new_img`; DNS remains owned by the
+   Rust network API and init scripts.
+4. C++ `kvm_system` no longer handles `kvm_new_app`; script installation,
+   compatibility repair, runtime staging, and marker cleanup are owned by
+   `S95nanokvm`.
 5. Legacy `soph_mipi_rx.ko` compatibility repair moved to `S95nanokvm`, gated by
    the old `kvm_new_app` marker and executed before runtime starts.
 
@@ -88,6 +90,13 @@ Remaining slices:
 
 Validation on 133:
 
+- Installed the C++ cleanup helper and confirmed `/tmp/kvm_system/kvm_system`
+  hash `095cb6507ab14c8e0e73092deeeb7025057e33b0be9ae3ce887aaa1da3cf0cdb`.
+- Created both legacy markers, restarted `S95nanokvm`, and confirmed
+  `S95nanokvm` removed `kvm_new_app` and `kvm_new_img` before runtime start.
+- Confirmed clean-boot and post-marker-restart MJPEG streams returned data and
+  did not produce new ION allocation failures, invalid buffer frees, segfaults,
+  panics, or oopses.
 - Fresh app update boots without `kvm_system` doing script copies.
 - `/etc/init.d` contains the expected Hardened scripts and no stale vendor-only
   scripts.

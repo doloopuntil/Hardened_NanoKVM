@@ -184,16 +184,6 @@ int main(int argc, char* argv[])
 	pthread_t display_thread;
 	pthread_t key_thread;
 
-	// Execute only when it's a new image
-	if(access("/kvmapp/kvm_new_img", F_OK) == 0){
-		new_img_init();
-	}
-
-	// Execute only when it's a new app
-	if(access("/kvmapp/kvm_new_app", F_OK) == 0){
-		new_app_init();
-	}
-
 	// only for production testing
 	if (access("/tmp/S49kvmtest", F_OK) == 0){
 		printf("Production testing patch\n");
