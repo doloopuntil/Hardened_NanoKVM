@@ -112,6 +112,113 @@ const downloadExtras: Record<string, TranslationMap> = {
   zh_tw: { 'download.complete': '下載完成' }
 };
 
+const systemActionExtras: Record<string, TranslationMap> = {
+  en: {
+    'settings.system.saveChanges': 'Save changes',
+    'settings.system.unsaved': 'Unsaved changes'
+  },
+  ru: {
+    'settings.system.saveChanges': 'Сохранить изменения',
+    'settings.system.unsaved': 'Несохраненные изменения'
+  },
+  ca: {
+    'settings.system.saveChanges': 'Desa els canvis',
+    'settings.system.unsaved': 'Canvis no desats'
+  },
+  cz: {
+    'settings.system.saveChanges': 'Uložit změny',
+    'settings.system.unsaved': 'Neuložené změny'
+  },
+  da: {
+    'settings.system.saveChanges': 'Gem ændringer',
+    'settings.system.unsaved': 'Ikke-gemte ændringer'
+  },
+  de: {
+    'settings.system.saveChanges': 'Änderungen speichern',
+    'settings.system.unsaved': 'Ungespeicherte Änderungen'
+  },
+  es: {
+    'settings.system.saveChanges': 'Guardar cambios',
+    'settings.system.unsaved': 'Cambios sin guardar'
+  },
+  et: {
+    'settings.system.saveChanges': 'Salvesta muudatused',
+    'settings.system.unsaved': 'Salvestamata muudatused'
+  },
+  fi: {
+    'settings.system.saveChanges': 'Tallenna muutokset',
+    'settings.system.unsaved': 'Tallentamattomia muutoksia'
+  },
+  fr: {
+    'settings.system.saveChanges': 'Enregistrer les modifications',
+    'settings.system.unsaved': 'Modifications non enregistrées'
+  },
+  hu: {
+    'settings.system.saveChanges': 'Módosítások mentése',
+    'settings.system.unsaved': 'Nem mentett módosítások'
+  },
+  id: {
+    'settings.system.saveChanges': 'Simpan perubahan',
+    'settings.system.unsaved': 'Perubahan belum disimpan'
+  },
+  it: {
+    'settings.system.saveChanges': 'Salva modifiche',
+    'settings.system.unsaved': 'Modifiche non salvate'
+  },
+  ja: {
+    'settings.system.saveChanges': '変更を保存',
+    'settings.system.unsaved': '未保存の変更'
+  },
+  ko: {
+    'settings.system.saveChanges': '변경사항 저장',
+    'settings.system.unsaved': '저장되지 않은 변경사항'
+  },
+  nb: {
+    'settings.system.saveChanges': 'Lagre endringer',
+    'settings.system.unsaved': 'Ulagrede endringer'
+  },
+  nl: {
+    'settings.system.saveChanges': 'Wijzigingen opslaan',
+    'settings.system.unsaved': 'Niet-opgeslagen wijzigingen'
+  },
+  pl: {
+    'settings.system.saveChanges': 'Zapisz zmiany',
+    'settings.system.unsaved': 'Niezapisane zmiany'
+  },
+  pt_br: {
+    'settings.system.saveChanges': 'Salvar alterações',
+    'settings.system.unsaved': 'Alterações não salvas'
+  },
+  se: {
+    'settings.system.saveChanges': 'Spara ändringar',
+    'settings.system.unsaved': 'Osparade ändringar'
+  },
+  th: {
+    'settings.system.saveChanges': 'บันทึกการเปลี่ยนแปลง',
+    'settings.system.unsaved': 'มีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก'
+  },
+  tr: {
+    'settings.system.saveChanges': 'Değişiklikleri kaydet',
+    'settings.system.unsaved': 'Kaydedilmemiş değişiklikler'
+  },
+  uk: {
+    'settings.system.saveChanges': 'Зберегти зміни',
+    'settings.system.unsaved': 'Незбережені зміни'
+  },
+  vi: {
+    'settings.system.saveChanges': 'Lưu thay đổi',
+    'settings.system.unsaved': 'Thay đổi chưa lưu'
+  },
+  zh: {
+    'settings.system.saveChanges': '保存更改',
+    'settings.system.unsaved': '未保存的更改'
+  },
+  zh_tw: {
+    'settings.system.saveChanges': '儲存變更',
+    'settings.system.unsaved': '未儲存的變更'
+  }
+};
+
 const networkExtras: Record<string, TranslationMap> = {
   ca: {
     'settings.network.tls.rebootTitle': 'NanoKVM es reiniciarà',
@@ -3422,6 +3529,7 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
     key === 'en' || key === 'ru' ? {} : firewallModerateFallbackExtras;
   const extras = {
     ...(downloadExtras[key] || {}),
+    ...(systemActionExtras[key] || {}),
     ...(networkExtras[key] || {}),
     ...(legacyExtras[key] || {}),
     ...(firewallExtras[key] || {}),

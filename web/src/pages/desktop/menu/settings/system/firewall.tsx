@@ -30,7 +30,6 @@ export const FirewallSettings = () => {
   const { t } = useTranslation();
 
   const [status, setStatus] = useState<FirewallStatus | null>(null);
-  const [requestedMode, setRequestedMode] = useState<FirewallMode | null>(null);
   const [rulesTab, setRulesTab] = useState<RulesTab>('ipv4');
   const [isLoading, setIsLoading] = useState(false);
   const [isApplying, setIsApplying] = useState(false);
@@ -41,8 +40,6 @@ export const FirewallSettings = () => {
   }, [status, rulesTab, t]);
 
   const effectiveMode = status?.effectiveMode || status?.config.mode || 'moderate';
-  const selectedMode = requestedMode || effectiveMode;
-  const hasModeChange = selectedMode !== effectiveMode;
   const isBaselineMode = effectiveMode === 'baseline';
   const isModerateMode = status?.moderateActive || effectiveMode === 'moderate';
   const isRestrictedMode = status?.restrictedActive || effectiveMode === 'restricted';
@@ -114,7 +111,6 @@ export const FirewallSettings = () => {
         return;
       }
       setStatus(rsp.data);
-      setRequestedMode(rsp.data.effectiveMode || rsp.data.config.mode || 'moderate');
     } catch (err) {
       console.log(err);
       message.error(t('settings.system.firewall.loadFailed'));
@@ -124,24 +120,17 @@ export const FirewallSettings = () => {
   }
 
   function selectMode(mode: FirewallMode) {
-    if (mode !== 'baseline' && mode !== 'moderate' && !status?.httpsEnabled) {
-      message.warning(t('settings.system.firewall.enableHttpsFirst'));
+    if (!status || isApplying || mode === effectiveMode) return;
+
+    const option = modeOptions.find((item) => item.mode === mode);
+    if (!option || option.disabled) {
+      if (mode !== 'baseline' && mode !== 'moderate' && !status.httpsEnabled) {
+        message.warning(t('settings.system.firewall.enableHttpsFirst'));
+      }
       return;
     }
 
-    setRequestedMode(mode);
-  }
-
-  function requestSelectedMode() {
-    const mode = selectedMode;
-    if (mode === effectiveMode) return;
-
     if (mode === 'restricted') {
-      if (!status?.httpsEnabled) {
-        message.warning(t('settings.system.firewall.enableHttpsFirst'));
-        return;
-      }
-
       Modal.confirm({
         title: t('settings.system.firewall.restricted.confirmTitle'),
         content: t('settings.system.firewall.restricted.confirmDesc'),
@@ -153,11 +142,6 @@ export const FirewallSettings = () => {
     }
 
     if (mode === 'paranoid') {
-      if (!status?.httpsEnabled) {
-        message.warning(t('settings.system.firewall.enableHttpsFirst'));
-        return;
-      }
-
       Modal.confirm({
         title: t('settings.system.firewall.paranoid.confirmTitle'),
         content: t('settings.system.firewall.paranoid.confirmDesc'),
@@ -179,7 +163,13 @@ export const FirewallSettings = () => {
       return;
     }
 
-    applyMode(mode);
+    Modal.confirm({
+      title: modeApplyLabel(t, mode),
+      content: option.description,
+      okText: modeApplyLabel(t, mode),
+      cancelText: t('settings.system.firewall.cancel'),
+      onOk: () => applyMode(mode)
+    });
   }
 
   async function applyMode(mode: FirewallMode) {
@@ -200,7 +190,6 @@ export const FirewallSettings = () => {
       }
 
       setStatus(nextStatus);
-      setRequestedMode(nextStatus.effectiveMode || nextStatus.config.mode || mode);
       message.success(t('settings.system.firewall.saved'));
     } catch (err) {
       console.log(err);
@@ -293,25 +282,13 @@ export const FirewallSettings = () => {
             <ModeChoice
               key={option.mode}
               option={option}
-              active={option.mode === selectedMode}
+              active={option.mode === effectiveMode}
               current={option.mode === effectiveMode}
               busy={isApplying || !status}
               currentLabel={t('settings.system.firewall.mode.current')}
               onSelect={selectMode}
             />
           ))}
-        </div>
-
-        <div className="flex justify-end">
-          <Button
-            type="primary"
-            icon={<ShieldCheckIcon size={14} />}
-            loading={isApplying}
-            disabled={!status || !hasModeChange}
-            onClick={requestSelectedMode}
-          >
-            {modeApplyLabel(t, selectedMode)}
-          </Button>
         </div>
 
         <div className="grid grid-cols-2 gap-3 pt-1 text-xs text-neutral-400">

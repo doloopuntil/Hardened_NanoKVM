@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Alert, Button, Divider, Input, Select, Switch, message } from 'antd';
-import { ClockIcon, PlusIcon, RefreshCwIcon, RouterIcon, SaveIcon, Trash2Icon } from 'lucide-react';
+import { ClockIcon, PlusIcon, RefreshCwIcon, RouterIcon, Trash2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/system-time.ts';
 import type { TimeConfig, TimeConfigResponse } from '@/api/system-time.ts';
+import type { SystemActionHandle, SystemActionState } from './action.ts';
 
 const defaultConfig: TimeConfig = {
   ntpEnabled: true,
@@ -13,11 +14,18 @@ const defaultConfig: TimeConfig = {
   servers: ['0.pool.ntp.org', '1.pool.ntp.org', '2.pool.ntp.org', '3.pool.ntp.org']
 };
 
-export const TimeSettings = () => {
+type TimeSettingsProps = {
+  showFooter?: boolean;
+  onActionStateChange?: (state: SystemActionState) => void;
+};
+
+export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
+  ({ showFooter = true, onActionStateChange }, ref) => {
   const { t } = useTranslation();
 
   const [data, setData] = useState<TimeConfigResponse | null>(null);
   const [config, setConfig] = useState<TimeConfig>(defaultConfig);
+  const [savedConfig, setSavedConfig] = useState<TimeConfig>(defaultConfig);
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -48,8 +56,10 @@ export const TimeSettings = () => {
         return;
       }
 
+      const nextConfig = { ...defaultConfig, ...rsp.data.config };
       setData(rsp.data);
-      setConfig({ ...defaultConfig, ...rsp.data.config });
+      setConfig(nextConfig);
+      setSavedConfig(nextConfig);
     } catch (err) {
       console.log(err);
       message.error(t('settings.system.time.loadFailed'));
@@ -101,7 +111,7 @@ export const TimeSettings = () => {
     patchConfig({ servers: data?.defaultServers || defaultConfig.servers });
   }
 
-  async function save() {
+  const save = useCallback(async () => {
     if (isSaving) return;
 
     const servers = config.servers.map((server) => server.trim()).filter(Boolean);
@@ -118,8 +128,10 @@ export const TimeSettings = () => {
         return;
       }
 
+      const nextConfig = { ...defaultConfig, ...rsp.data.config };
       setData(rsp.data);
-      setConfig({ ...defaultConfig, ...rsp.data.config });
+      setConfig(nextConfig);
+      setSavedConfig(nextConfig);
       message.success(t('settings.system.time.saved'));
     } catch (err) {
       console.log(err);
@@ -127,7 +139,7 @@ export const TimeSettings = () => {
     } finally {
       setIsSaving(false);
     }
-  }
+  }, [config, isSaving, t]);
 
   async function syncNow() {
     if (isSyncing) return;
@@ -140,8 +152,10 @@ export const TimeSettings = () => {
         return;
       }
 
+      const nextConfig = { ...defaultConfig, ...rsp.data.config };
       setData(rsp.data);
-      setConfig({ ...defaultConfig, ...rsp.data.config });
+      setConfig(nextConfig);
+      setSavedConfig(nextConfig);
       message.success(t('settings.system.time.synced'));
     } catch (err) {
       console.log(err);
@@ -150,6 +164,30 @@ export const TimeSettings = () => {
       setIsSyncing(false);
     }
   }
+
+  const normalizedConfig = normalizeTimeConfig(config);
+  const normalizedSavedConfig = normalizeTimeConfig(savedConfig);
+  const hasPending = JSON.stringify(normalizedConfig) !== JSON.stringify(normalizedSavedConfig);
+  const hasInvalid = normalizedConfig.ntpEnabled && normalizedConfig.servers.length === 0;
+  const isBusy = isLoading || isSaving || isSyncing;
+
+  useImperativeHandle(ref, () => ({ save }), [save]);
+
+  useEffect(() => {
+    onActionStateChange?.({
+      hasPending,
+      hasInvalid,
+      canSave: hasPending && !hasInvalid && !isBusy,
+      isBusy,
+      statusText: hasInvalid
+        ? t('settings.system.time.invalidServers')
+        : hasPending
+          ? t('settings.system.unsaved')
+          : '',
+      statusKind: hasInvalid ? 'error' : hasPending ? 'warning' : '',
+      label: t('settings.system.time.save')
+    });
+  }, [hasInvalid, hasPending, isBusy, onActionStateChange, t]);
 
   return (
     <div className="flex flex-col space-y-6">
@@ -258,13 +296,30 @@ export const TimeSettings = () => {
         >
           {t('settings.system.time.syncNow')}
         </Button>
-        <Button type="primary" icon={<SaveIcon size={16} />} loading={isSaving} onClick={save}>
-          {t('settings.system.time.save')}
-        </Button>
+        {showFooter && (
+          <Button
+            type="primary"
+            loading={isSaving}
+            disabled={!hasPending || hasInvalid}
+            onClick={() => void save()}
+          >
+            {t('settings.system.time.save')}
+          </Button>
+        )}
       </div>
     </div>
   );
-};
+});
+
+TimeSettings.displayName = 'TimeSettings';
+
+function normalizeTimeConfig(config: TimeConfig): TimeConfig {
+  return {
+    ntpEnabled: Boolean(config.ntpEnabled),
+    timezone: config.timezone || defaultConfig.timezone,
+    servers: config.servers.map((server) => server.trim()).filter(Boolean)
+  };
+}
 
 const SettingRow = ({
   label,

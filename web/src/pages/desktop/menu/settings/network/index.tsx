@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { Button, Divider } from 'antd';
 import { CheckIcon, SaveIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -9,12 +9,15 @@ import { Tls } from './tls.tsx';
 import { Wifi } from './wifi.tsx';
 import type { NetworkSectionHandle, NetworkSectionStatus } from './types.ts';
 import { idleNetworkSectionStatus } from './types.ts';
+import type { SystemActionHandle, SystemActionState } from '../system/action.ts';
 
 type NetworkProps = {
   showTitle?: boolean;
+  onActionStateChange?: (state: SystemActionState) => void;
 };
 
-export const Network = ({ showTitle = true }: NetworkProps) => {
+export const Network = forwardRef<SystemActionHandle, NetworkProps>(
+  ({ showTitle = true, onActionStateChange }, ref) => {
   const { t } = useTranslation();
   const dnsRef = useRef<NetworkSectionHandle>(null);
   const ipv6Ref = useRef<NetworkSectionHandle>(null);
@@ -22,7 +25,7 @@ export const Network = ({ showTitle = true }: NetworkProps) => {
   const [ipv6Status, setIPv6Status] = useState<NetworkSectionStatus>(idleNetworkSectionStatus);
   const [isApplying, setIsApplying] = useState(false);
 
-  async function applyNetwork() {
+  const applyNetwork = useCallback(async () => {
     if (isApplying) return;
 
     setIsApplying(true);
@@ -35,7 +38,7 @@ export const Network = ({ showTitle = true }: NetworkProps) => {
     } finally {
       setIsApplying(false);
     }
-  }
+  }, [isApplying]);
 
   const statuses = [dnsStatus, ipv6Status];
   const hasPending = statuses.some((status) => status.hasPending);
@@ -53,6 +56,20 @@ export const Network = ({ showTitle = true }: NetworkProps) => {
       : status?.statusKind === 'success'
         ? 'text-green-400'
         : 'text-yellow-400/80';
+
+  useImperativeHandle(ref, () => ({ save: applyNetwork }), [applyNetwork]);
+
+  useEffect(() => {
+    onActionStateChange?.({
+      hasPending,
+      hasInvalid,
+      canSave: canApply,
+      isBusy,
+      statusText,
+      statusKind: status?.statusKind || (hasPending ? 'warning' : ''),
+      label: t('settings.network.dns.apply')
+    });
+  }, [canApply, hasInvalid, hasPending, isBusy, onActionStateChange, status?.statusKind, statusText, t]);
 
   return (
     <>
@@ -84,7 +101,7 @@ export const Network = ({ showTitle = true }: NetworkProps) => {
           onStatusChange={setIPv6Status}
         />
 
-        {(hasPending || statusText) && (
+        {!onActionStateChange && (hasPending || statusText) && (
           <div className="flex items-center justify-between">
             <span className={`text-xs ${statusColor}`}>{statusText}</span>
             <Button
@@ -101,4 +118,6 @@ export const Network = ({ showTitle = true }: NetworkProps) => {
       </div>
     </>
   );
-};
+});
+
+Network.displayName = 'Network';

@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Alert, Button, Divider, Input, InputNumber, Select, Switch, message } from 'antd';
-import { RefreshCwIcon, SaveIcon, SendIcon } from 'lucide-react';
+import { RefreshCwIcon, SendIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/system-log.ts';
 import type { SystemLogConfig } from '@/api/system-log.ts';
+import type { SystemActionHandle, SystemActionState } from '../system/action.ts';
 
 const defaultConfig: SystemLogConfig = {
   remoteEnabled: false,
@@ -20,10 +21,18 @@ const defaultConfig: SystemLogConfig = {
   kernelConsoleLevel: 7
 };
 
-export const SystemLog = ({ showTitle = true }: { showTitle?: boolean }) => {
+type SystemLogProps = {
+  showTitle?: boolean;
+  showFooter?: boolean;
+  onActionStateChange?: (state: SystemActionState) => void;
+};
+
+export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
+  ({ showTitle = true, showFooter = true, onActionStateChange }, ref) => {
   const { t } = useTranslation();
 
   const [config, setConfig] = useState<SystemLogConfig>(defaultConfig);
+  const [savedConfig, setSavedConfig] = useState<SystemLogConfig>(defaultConfig);
   const [localLogFile, setLocalLogFile] = useState('/tmp/hardened-syslog/messages');
   const [lineCount, setLineCount] = useState(200);
   const [content, setContent] = useState('');
@@ -60,7 +69,9 @@ export const SystemLog = ({ showTitle = true }: { showTitle?: boolean }) => {
         return;
       }
 
-      setConfig({ ...defaultConfig, ...rsp.data.config });
+      const nextConfig = { ...defaultConfig, ...rsp.data.config };
+      setConfig(nextConfig);
+      setSavedConfig(nextConfig);
       setLocalLogFile(rsp.data.localLogFile || defaultConfigPath());
     } catch (err) {
       console.log(err);
@@ -70,7 +81,7 @@ export const SystemLog = ({ showTitle = true }: { showTitle?: boolean }) => {
     }
   }
 
-  async function save() {
+  const save = useCallback(async () => {
     if (isSaving) return;
     if (config.remoteEnabled && !config.remoteHost.trim()) {
       message.error(t('settings.systemLog.invalidHost'));
@@ -89,7 +100,11 @@ export const SystemLog = ({ showTitle = true }: { showTitle?: boolean }) => {
       }
 
       message.success(t('settings.systemLog.saved'));
-      if (rsp.data?.config) setConfig({ ...defaultConfig, ...rsp.data.config });
+      if (rsp.data?.config) {
+        const nextConfig = { ...defaultConfig, ...rsp.data.config };
+        setConfig(nextConfig);
+        setSavedConfig(nextConfig);
+      }
       refreshLog(lineCount);
     } catch (err) {
       console.log(err);
@@ -97,7 +112,7 @@ export const SystemLog = ({ showTitle = true }: { showTitle?: boolean }) => {
     } finally {
       setIsSaving(false);
     }
-  }
+  }, [config, isSaving, lineCount, t]);
 
   async function refreshLog(lines = lineCount) {
     setIsLogLoading(true);
@@ -143,6 +158,30 @@ export const SystemLog = ({ showTitle = true }: { showTitle?: boolean }) => {
     setLineCount(value);
     refreshLog(value);
   }
+
+  const normalizedConfig = normalizeSystemLogConfig(config);
+  const normalizedSavedConfig = normalizeSystemLogConfig(savedConfig);
+  const hasPending = JSON.stringify(normalizedConfig) !== JSON.stringify(normalizedSavedConfig);
+  const hasInvalid = normalizedConfig.remoteEnabled && !normalizedConfig.remoteHost;
+  const isBusy = isLoading || isSaving;
+
+  useImperativeHandle(ref, () => ({ save }), [save]);
+
+  useEffect(() => {
+    onActionStateChange?.({
+      hasPending,
+      hasInvalid,
+      canSave: hasPending && !hasInvalid && !isBusy,
+      isBusy,
+      statusText: hasInvalid
+        ? t('settings.systemLog.invalidHost')
+        : hasPending
+          ? t('settings.system.unsaved')
+          : '',
+      statusKind: hasInvalid ? 'error' : hasPending ? 'warning' : '',
+      label: t('settings.systemLog.save')
+    });
+  }, [hasInvalid, hasPending, isBusy, onActionStateChange, t]);
 
   return (
     <>
@@ -271,9 +310,16 @@ export const SystemLog = ({ showTitle = true }: { showTitle?: boolean }) => {
           <Button icon={<SendIcon size={16} />} loading={isTesting} onClick={sendTestMessage}>
             {t('settings.systemLog.test')}
           </Button>
-          <Button type="primary" icon={<SaveIcon size={16} />} loading={isSaving} onClick={save}>
-            {t('settings.systemLog.save')}
-          </Button>
+          {showFooter && (
+            <Button
+              type="primary"
+              loading={isSaving}
+              disabled={!hasPending || hasInvalid}
+              onClick={() => void save()}
+            >
+              {t('settings.systemLog.save')}
+            </Button>
+          )}
         </div>
 
         <Divider className="opacity-50" />
@@ -312,10 +358,27 @@ export const SystemLog = ({ showTitle = true }: { showTitle?: boolean }) => {
       </div>
     </>
   );
-};
+});
+
+SystemLog.displayName = 'SystemLog';
 
 function defaultConfigPath() {
   return '/tmp/hardened-syslog/messages';
+}
+
+function normalizeSystemLogConfig(config: SystemLogConfig): SystemLogConfig {
+  return {
+    remoteEnabled: Boolean(config.remoteEnabled),
+    remoteHost: config.remoteHost.trim(),
+    remotePort: Number(config.remotePort) || defaultConfig.remotePort,
+    priority: Number(config.priority) || defaultConfig.priority,
+    bufferKb: Number(config.bufferKb) || defaultConfig.bufferKb,
+    rotations: Number(config.rotations) || 0,
+    smallOutput: Boolean(config.smallOutput),
+    stripTimestamps: Boolean(config.stripTimestamps),
+    kernelEnabled: Boolean(config.kernelEnabled),
+    kernelConsoleLevel: Number(config.kernelConsoleLevel) || defaultConfig.kernelConsoleLevel
+  };
 }
 
 const SettingRow = ({
