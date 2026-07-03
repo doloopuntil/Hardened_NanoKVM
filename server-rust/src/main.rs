@@ -16,8 +16,12 @@ use std::{
     fs, io,
     os::unix::fs::PermissionsExt,
     path::{Path, PathBuf},
+    process,
 };
-use tokio::net::TcpListener;
+use tokio::{
+    net::TcpListener,
+    time::{self, Duration},
+};
 use tracing::{info, warn};
 use tracing_subscriber::{EnvFilter, fmt};
 
@@ -37,6 +41,7 @@ const BOOT_INIT_SCRIPTS: &[&str] = &[
     "S80dnsmasq",
     "S95nanokvm",
 ];
+const KVM_SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(4);
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -47,6 +52,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     config.log_runtime_warnings();
     install_runtime_boot_scripts();
     initialize_kvm();
+    install_shutdown_signal_handler();
 
     if config.proto == "https" {
         run_https(config).await?;
@@ -55,6 +61,57 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     Ok(())
+}
+
+fn install_shutdown_signal_handler() {
+    tokio::spawn(async {
+        shutdown_signal().await;
+        warn!("shutdown signal received; deinitializing NanoKVM video backend");
+
+        match time::timeout(
+            KVM_SHUTDOWN_TIMEOUT,
+            tokio::task::spawn_blocking(kvm::shutdown),
+        )
+        .await
+        {
+            Ok(Ok(Ok(()))) => info!("deinitialized NanoKVM video backend"),
+            Ok(Ok(Err(err))) => warn!(error = ?err, "NanoKVM video backend deinit failed"),
+            Ok(Err(err)) => warn!(error = ?err, "NanoKVM video backend deinit task failed"),
+            Err(_) => warn!("NanoKVM video backend deinit timed out"),
+        }
+
+        process::exit(0);
+    });
+}
+
+async fn shutdown_signal() {
+    let ctrl_c = async {
+        if let Err(err) = tokio::signal::ctrl_c().await {
+            warn!(error = ?err, "failed to listen for Ctrl-C");
+        }
+    };
+
+    #[cfg(unix)]
+    {
+        let terminate = async {
+            match tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate()) {
+                Ok(mut signal) => {
+                    signal.recv().await;
+                }
+                Err(err) => warn!(error = ?err, "failed to listen for SIGTERM"),
+            }
+        };
+
+        tokio::select! {
+            _ = ctrl_c => {},
+            _ = terminate => {},
+        }
+    }
+
+    #[cfg(not(unix))]
+    {
+        ctrl_c.await;
+    }
 }
 
 fn install_runtime_boot_scripts() {

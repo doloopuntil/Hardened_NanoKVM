@@ -46,6 +46,9 @@ const SCREEN_QUALITY_FILE: &str = "/kvmapp/kvm/qlty";
 const SCREEN_RESOLUTION_FILE: &str = "/kvmapp/kvm/res";
 const SCREEN_GOP_FILE: &str = "/kvmapp/kvm/gop";
 const H264_SAFE_MODE_FILE: &str = "/etc/kvm/h264_safe_mode";
+const MJPEG_FAILURE_LIMIT: usize = 3;
+const MJPEG_FAILURE_BACKOFF: Duration = Duration::from_millis(500);
+const MJPEG_FAILURE_COOLDOWN: Duration = Duration::from_secs(5);
 const H264_READ_TIMEOUT: Duration = Duration::from_secs(5);
 const H264_FAILURE_LIMIT: usize = 3;
 
@@ -405,6 +408,7 @@ async fn run_mjpeg_producer() {
 
     let mut fps = current_screen().fps;
     let mut interval = frame_interval(fps);
+    let mut consecutive_failures = 0usize;
 
     loop {
         interval.tick().await;
@@ -441,6 +445,7 @@ async fn run_mjpeg_producer() {
                 if !MJPEG_FIRST_ERROR_LOGGED.swap(true, Ordering::Relaxed) {
                     warn!(error = ?err, "failed to read mjpeg frame");
                 }
+                backoff_after_mjpeg_failure(&mut consecutive_failures, -1, 0).await;
                 continue;
             }
             Err(err) => {
@@ -448,6 +453,7 @@ async fn run_mjpeg_producer() {
                 if !MJPEG_FIRST_ERROR_LOGGED.swap(true, Ordering::Relaxed) {
                     warn!(error = ?err, "mjpeg frame task failed");
                 }
+                backoff_after_mjpeg_failure(&mut consecutive_failures, -1, 0).await;
                 continue;
             }
         };
@@ -456,8 +462,10 @@ async fn run_mjpeg_producer() {
             if !MJPEG_FIRST_ERROR_LOGGED.swap(true, Ordering::Relaxed) {
                 warn!(result, bytes = data.len(), "mjpeg frame unavailable");
             }
+            backoff_after_mjpeg_failure(&mut consecutive_failures, result, data.len()).await;
             continue;
         }
+        consecutive_failures = 0;
         if !MJPEG_FIRST_SUCCESS_LOGGED.swap(true, Ordering::Relaxed) {
             info!(result, bytes = data.len(), "read first mjpeg frame");
         }
@@ -472,6 +480,24 @@ async fn run_mjpeg_producer() {
             data: Bytes::from(data),
         });
     }
+}
+
+async fn backoff_after_mjpeg_failure(consecutive_failures: &mut usize, result: i32, bytes: usize) {
+    *consecutive_failures += 1;
+    let delay = if *consecutive_failures >= MJPEG_FAILURE_LIMIT {
+        MJPEG_FAILURE_COOLDOWN
+    } else {
+        MJPEG_FAILURE_BACKOFF
+    };
+
+    warn!(
+        failures = *consecutive_failures,
+        result,
+        bytes,
+        delay_ms = delay.as_millis() as u64,
+        "mjpeg capture failure backoff"
+    );
+    time::sleep(delay).await;
 }
 
 async fn run_h264_direct_producer() {

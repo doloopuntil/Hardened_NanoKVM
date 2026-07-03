@@ -91,6 +91,11 @@ pub fn init() -> Result<()> {
     Ok(())
 }
 
+pub fn shutdown() -> Result<()> {
+    vision()?.lock().map_err(lock_error)?.shutdown();
+    Ok(())
+}
+
 fn vision() -> Result<&'static Mutex<KvmVision>> {
     VISION
         .as_ref()
@@ -123,7 +128,9 @@ unsafe extern "C" {
 }
 
 #[cfg(all(target_arch = "riscv64", feature = "linked-libkvm"))]
-struct KvmVision;
+struct KvmVision {
+    deinitialized: bool,
+}
 
 #[cfg(all(target_arch = "riscv64", feature = "linked-libkvm"))]
 unsafe impl Send for KvmVision {}
@@ -135,9 +142,22 @@ impl KvmVision {
         unsafe {
             kvmv_init(0);
         }
-        let vision = Self;
+        let vision = Self {
+            deinitialized: false,
+        };
         vision.initialize_hdmi();
         Ok(vision)
+    }
+
+    fn shutdown(&mut self) {
+        if self.deinitialized {
+            return;
+        }
+        // SAFETY: Deinitializes the libkvm singleton once before process exit.
+        unsafe {
+            kvmv_deinit();
+        }
+        self.deinitialized = true;
     }
 
     fn initialize_hdmi(&self) {
@@ -215,10 +235,7 @@ impl KvmVision {
 #[cfg(all(target_arch = "riscv64", feature = "linked-libkvm"))]
 impl Drop for KvmVision {
     fn drop(&mut self) {
-        // SAFETY: Deinitializes the libkvm singleton at process shutdown.
-        unsafe {
-            kvmv_deinit();
-        }
+        self.shutdown();
     }
 }
 
@@ -231,6 +248,7 @@ struct KvmVision {
     set_frame_detect: SetFrameDetect,
     deinit: KvmvDeinit,
     hdmi_control: KvmvHdmiControl,
+    deinitialized: bool,
 }
 
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
@@ -259,6 +277,7 @@ impl KvmVision {
             set_frame_detect,
             deinit,
             hdmi_control,
+            deinitialized: false,
         };
 
         // SAFETY: Initializes libkvm with logging disabled, matching Go backend.
@@ -306,6 +325,17 @@ impl KvmVision {
         unsafe { (self.hdmi_control)(u8::from(enabled)) }
     }
 
+    fn shutdown(&mut self) {
+        if self.deinitialized {
+            return;
+        }
+        // SAFETY: Deinitializes the libkvm singleton once before process exit.
+        unsafe {
+            (self.deinit)();
+        }
+        self.deinitialized = true;
+    }
+
     fn read_img(
         &mut self,
         width: u16,
@@ -345,10 +375,7 @@ impl KvmVision {
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
 impl Drop for KvmVision {
     fn drop(&mut self) {
-        // SAFETY: Deinitializes the libkvm singleton at process shutdown.
-        unsafe {
-            (self.deinit)();
-        }
+        self.shutdown();
     }
 }
 
