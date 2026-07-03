@@ -118,12 +118,65 @@ Do not:
 - Read `/dev/input/event0` exclusively.
 - Restart services.
 
+Initial slice:
+
+- `server-rust/src/bin/nanokvm-hwmon.rs` writes
+  `/tmp/nanokvm-hwmon-state.json`.
+- `S95nanokvm` starts and stops the helper as a separate shadow process when the
+  binary exists at `/kvmapp/hwmon/nanokvm-hwmon`.
+- Packaging and rootfs validation require the helper so test images and app
+  archives do not silently omit the shadow observer.
+- The helper reads only sysfs/proc and `/kvmapp/kvm/*`; it does not change device
+  state.
+
+Validated on 133:
+
+- `S95nanokvm` starts `nanokvm-hwmon` after a 20 second delay so it does not
+  read `/proc/cvitek/vi_dbg` during video stack startup.
+- `S95nanokvm stop_runtime` now stops `NanoKVM-Server` before `kvm_system`; this
+  avoids killing the vendor helper while the Rust backend may still be reading
+  frames through libkvm.
+- Remote syslog forwarding was enabled with local `-L` logging preserved.
+- Controlled `S95nanokvm restart` kept `/api/health` OK, started `kvm_system`,
+  `NanoKVM-Server`, and `nanokvm-hwmon`, produced a valid snapshot, and kept
+  MJPEG streaming.
+- Ten post-restart observation cycles kept health OK, all expected PIDs alive,
+  and no `segfault`, `signal 11`, `panic`, or `oops` in `dmesg`.
+
 Validation on 133:
 
 - Run C++ `kvm_system` and Rust `nanokvm-hwmon` side by side.
 - Compare Rust snapshot against visible OLED state and existing files.
 - Confirm no video stream regression for at least 15 minutes.
 - Confirm CPU/RAM/write rate is acceptable.
+- Keep `/tmp/hardened-syslog/messages` active during restart tests and enable
+  remote syslog for any test that may require post-reboot failure evidence.
+
+### Phase 2.5: Remove Legacy C++ Reboot Watchdog
+
+The old `kvm_system` software watchdog watched `/etc/kvm/watchdog`,
+`/tmp/watchdog`, and `/tmp/nanokvm_wd`; when it decided the vision service was
+not feeding the marker, it rebooted the entire device from C++.
+
+Completed slice:
+
+- Removed the C++ reboot loop from `main.cpp`.
+- Removed C++ ownership of `/tmp/watchdog` cleanup and `/tmp/nanokvm_wd`
+  checking.
+- Kept `S95nanokvm` as the runtime recovery owner; it health-checks the Rust
+  backend and restarts `NanoKVM-Server` in MJPEG safe mode instead of performing
+  an opaque full-device reboot.
+
+Validated on 133:
+
+- Built `kvm_system` with the MaixCDK CMake build tree.
+- Installed hash
+  `850bdc5e76fa240edf75b684f3d7021eb960e3b9d6c903efa09badb421da8332`.
+- Restarted `S95nanokvm`; `/api/health` stayed OK, `nanokvm-hwmon` restarted
+  after its delay, and MJPEG returned data.
+- Created `/tmp/watchdog` with `/tmp/nanokvm_wd` absent for 18 seconds; the
+  device did not reboot, expected processes stayed alive, and both markers were
+  removed after the test.
 
 ### Phase 3: Move Passive State Ownership
 
@@ -192,8 +245,12 @@ Validation on 133:
    helper exists.
 4. Update `S95nanokvm` to start the Rust helper in shadow mode while continuing
    to start the remaining C/C++ helper.
-5. Promote by feature flag first, then by default.
-6. Before release, remove replaced legacy code paths from:
+5. When C/C++ helper source changes, package from the freshly built helper
+   (`support/sg2002/kvm_system/build/kvm_system` or explicit
+   `KVM_SYSTEM_SOURCE`) and fail instead of silently restoring an older helper
+   from the base rootfs.
+6. Promote by feature flag first, then by default.
+7. Before release, remove replaced legacy code paths from:
    - `S95nanokvm` startup and service ownership.
    - `scripts/package-rust-kvmapp.sh` restoration from the base rootfs.
    - image/rootfs validation requirements.

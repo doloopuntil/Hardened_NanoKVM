@@ -14,6 +14,10 @@ SERVER_SOURCE_DIR=/kvmapp/server
 SERVER_RUNTIME_DIR=/tmp/server
 SERVER_RUNTIME_NEW_DIR=/tmp/server.new
 SERVER_LOG=/tmp/nanokvm-server.log
+HWMON_SOURCE=/kvmapp/hwmon/nanokvm-hwmon
+HWMON_PID_FILE=/tmp/nanokvm-hwmon.pid
+HWMON_LOG=/tmp/nanokvm-hwmon.log
+HWMON_START_DELAY_SECS=20
 SYSTEM_UPDATE_WATCHDOG_PID_FILE=/tmp/system-update-watchdog.pid
 SYSTEM_UPDATE_LOG=/tmp/system-update-watchdog.log
 SYSTEM_VERSION_FILE=/etc/kvm/system-version.json
@@ -34,6 +38,12 @@ MIPI_RX_LEGACY_MD5=086ed01749188975afaa40fb569374f8
 MIPI_RX_CURRENT_MD5=69be7eeded3777f750480a5dd5a1aa26
 BOOT_INIT_SCRIPTS="S00kmod S01fs S01syslogd S02klogd S03usbdev S15kvmhwd S30eth S30wifi S40firewall S49ntp S50avahi-daemon S50sshd S80dnsmasq S95nanokvm"
 OPTIONAL_BOOT_INIT_SCRIPTS="S98tailscaled"
+
+runtime_log() {
+    message="$*"
+    command -v logger >/dev/null 2>&1 && logger -t nanokvm-runtime "$message" 2>/dev/null || true
+    echo "$(date '+%Y-%m-%d %H:%M:%S') $message" >> /tmp/nanokvm-watchdog.log 2>/dev/null || true
+}
 
 cleanup_legacy_app_artifacts() {
     mkdir -p /etc/kvm /kvmapp/kvm
@@ -98,19 +108,19 @@ update_mipi_rx_module_if_needed() {
     fi
 
     if cp "$MIPI_RX_BUNDLED_MODULE" "$MIPI_RX_MODULE"; then
-        echo "$(date '+%Y-%m-%d %H:%M:%S') updated legacy soph_mipi_rx.ko; rebooting before runtime start" >> /tmp/nanokvm-watchdog.log
+        runtime_log "updated legacy soph_mipi_rx.ko; rebooting before runtime start"
         sync
         reboot
         exit 0
     fi
 
-    echo "$(date '+%Y-%m-%d %H:%M:%S') failed to update legacy soph_mipi_rx.ko; continuing boot" >> /tmp/nanokvm-watchdog.log
+    runtime_log "failed to update legacy soph_mipi_rx.ko; continuing boot"
 }
 
 cleanup_legacy_new_app_marker() {
     [ -e "$LEGACY_NEW_APP_MARKER" ] || return
 
-    echo "$(date '+%Y-%m-%d %H:%M:%S') handling legacy kvm_new_app marker in S95nanokvm" >> /tmp/nanokvm-watchdog.log
+    runtime_log "handling legacy kvm_new_app marker in S95nanokvm"
     rmmod soph_saradc 2>/dev/null || true
     rm -f /mnt/system/ko/soph_saradc.ko 2>/dev/null || true
     update_mipi_rx_module_if_needed
@@ -120,7 +130,7 @@ cleanup_legacy_new_app_marker() {
 
 cleanup_legacy_new_image_marker() {
     [ -e /kvmapp/kvm_new_img ] || return
-    echo "$(date '+%Y-%m-%d %H:%M:%S') removed legacy kvm_new_img marker; DNS is managed by network config" >> /tmp/nanokvm-watchdog.log
+    runtime_log "removed legacy kvm_new_img marker; DNS is managed by network config"
     rm -f /kvmapp/kvm_new_img 2>/dev/null || true
 }
 
@@ -138,7 +148,7 @@ wait_process_exit() {
 
 reboot_after_unrecoverable_server() {
     reason="$1"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') NanoKVM-Server did not exit during $reason; rebooting to recover vendor video driver" >> /tmp/nanokvm-watchdog.log
+    runtime_log "NanoKVM-Server did not exit during $reason; rebooting to recover vendor video driver"
     sync
     reboot
     exit 1
@@ -159,6 +169,26 @@ stop_pid_file() {
 
 stop_watchdog() {
     stop_pid_file "$WATCHDOG_PID_FILE"
+}
+
+start_hwmon_shadow() {
+    [ -x "$HWMON_SOURCE" ] || return
+    [ -f "$HWMON_PID_FILE" ] && kill -0 "$(cat "$HWMON_PID_FILE" 2>/dev/null)" 2>/dev/null && return
+
+    : > "$HWMON_LOG" 2>/dev/null || HWMON_LOG=/dev/null
+    runtime_log "starting nanokvm-hwmon shadow monitor after ${HWMON_START_DELAY_SECS}s delay"
+    (
+        sleep "$HWMON_START_DELAY_SECS"
+        exec "$HWMON_SOURCE"
+    ) >"$HWMON_LOG" 2>&1 &
+    echo $! > "$HWMON_PID_FILE"
+}
+
+stop_hwmon_shadow() {
+    pidof nanokvm-hwmon >/dev/null 2>&1 && runtime_log "stopping nanokvm-hwmon shadow monitor"
+    stop_pid_file "$HWMON_PID_FILE"
+    killall nanokvm-hwmon 2>/dev/null || true
+    wait_process_exit nanokvm-hwmon >/dev/null 2>&1 || true
 }
 
 stop_system_update_watchdog() {
@@ -253,14 +283,15 @@ start_server_runtime() {
             mv "$SERVER_RUNTIME_NEW_DIR" "$SERVER_RUNTIME_DIR"
             server_bin="$SERVER_RUNTIME_DIR/NanoKVM-Server"
         else
-            echo "$(date '+%Y-%m-%d %H:%M:%S') failed to stage NanoKVM-Server in /tmp; running from $SERVER_SOURCE_DIR" >> /tmp/nanokvm-watchdog.log
+            runtime_log "failed to stage NanoKVM-Server in /tmp; running from $SERVER_SOURCE_DIR"
             rm -rf "$SERVER_RUNTIME_NEW_DIR" 2>/dev/null
         fi
     else
-        echo "$(date '+%Y-%m-%d %H:%M:%S') /tmp has only ${tmp_free} KiB free; running NanoKVM-Server from $SERVER_SOURCE_DIR" >> /tmp/nanokvm-watchdog.log
+        runtime_log "/tmp has only ${tmp_free} KiB free; running NanoKVM-Server from $SERVER_SOURCE_DIR"
     fi
 
     : > "$SERVER_LOG" 2>/dev/null || SERVER_LOG=/dev/null
+    runtime_log "starting NanoKVM-Server from $server_bin"
     nohup "$server_bin" >"$SERVER_LOG" 2>&1 &
 }
 
@@ -301,7 +332,7 @@ start_watchdog() {
         sleep 20
         while true; do
             if ! pidof NanoKVM-Server >/dev/null 2>&1; then
-                echo "$(date '+%Y-%m-%d %H:%M:%S') NanoKVM-Server is not running; restarting in MJPEG safe mode" >> /tmp/nanokvm-watchdog.log
+                runtime_log "NanoKVM-Server is not running; restarting in MJPEG safe mode"
                 restart_server_safe
                 failures=0
                 sleep 10
@@ -312,11 +343,11 @@ start_watchdog() {
                 failures=0
             else
                 failures=$((failures + 1))
-                echo "$(date '+%Y-%m-%d %H:%M:%S') NanoKVM-Server health check failed ($failures/3)" >> /tmp/nanokvm-watchdog.log
+                runtime_log "NanoKVM-Server health check failed ($failures/3)"
             fi
 
             if [ "$failures" -ge 3 ]; then
-                echo "$(date '+%Y-%m-%d %H:%M:%S') restarting NanoKVM-Server in MJPEG safe mode" >> /tmp/nanokvm-watchdog.log
+                runtime_log "restarting NanoKVM-Server in MJPEG safe mode"
                 restart_server_safe
                 failures=0
                 sleep 10
@@ -451,10 +482,11 @@ start_system_update_watchdog() {
 stop_runtime() {
     stop_system_update_watchdog
     stop_watchdog
-    killall kvm_system 2>/dev/null
+    stop_hwmon_shadow
     killall NanoKVM-Server 2>/dev/null
-    wait_process_exit kvm_system
     wait_process_exit NanoKVM-Server || reboot_after_unrecoverable_server "runtime stop"
+    killall kvm_system 2>/dev/null
+    wait_process_exit kvm_system
     rm -rf /tmp/kvm_system /tmp/server 2>/dev/null
 }
 
@@ -473,6 +505,7 @@ start_runtime() {
     start_server_runtime
     start_watchdog
     start_system_update_watchdog
+    start_hwmon_shadow
 }
 
 case "$1" in

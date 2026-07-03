@@ -6,6 +6,7 @@ LOG_DIR=/tmp/hardened-syslog
 
 SYSLOGD_ARGS=
 [ -r /etc/default/syslogd ] && . /etc/default/syslogd
+SYSLOGD_ARGS="${SYSLOGD_ARGS:--O /tmp/hardened-syslog/messages -s 200 -b 1 -l 8}"
 
 start() {
     printf 'Starting syslogd: '

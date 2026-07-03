@@ -8,11 +8,13 @@ KVMAPP_STAGE="$STAGE_DIR/kvmapp"
 OUT_DIR="${OUT_DIR:-$BUILD_DIR/artifacts}"
 RUST_TARGET="${RUST_TARGET:-}"
 RUST_BINARY="${RUST_BINARY:-}"
+HWMON_BINARY="${HWMON_BINARY:-}"
 WEB_DIST="${WEB_DIST:-$ROOT_DIR/web/dist}"
 APP_VERSION="${APP_VERSION:-}"
 ARTIFACT_NAME="${ARTIFACT_NAME:-nanokvm-kvmapp-rust.tar.gz}"
 BASE_ROOTFS_IMAGE="${BASE_ROOTFS_IMAGE:-$BUILD_DIR/sd-image/rootfs.ext}"
 KVM_SYSTEM_SOURCE="${KVM_SYSTEM_SOURCE:-}"
+KVM_SYSTEM_BUILD_SOURCE="${KVM_SYSTEM_BUILD_SOURCE:-$ROOT_DIR/support/sg2002/kvm_system/build/kvm_system}"
 NATIVE_LIB_DIR="${NATIVE_LIB_DIR:-$ROOT_DIR/server-rust/native/dl_lib}"
 
 restore_kvm_system_helper() {
@@ -30,6 +32,19 @@ restore_kvm_system_helper() {
     cp "$KVM_SYSTEM_SOURCE" "$dest"
     chmod 0755 "$dest"
     return
+  fi
+
+  if [ -s "$KVM_SYSTEM_BUILD_SOURCE" ]; then
+    cp "$KVM_SYSTEM_BUILD_SOURCE" "$dest"
+    chmod 0755 "$dest"
+    return
+  fi
+
+  if [ -d "$ROOT_DIR/support/sg2002/kvm_system/main" ]; then
+    echo "missing built NanoKVM helper: $KVM_SYSTEM_BUILD_SOURCE" >&2
+    echo "run: PATH=/tmp/codex-bin:\$PATH make -C support/sg2002/kvm_system/build -j16" >&2
+    echo "or set KVM_SYSTEM_SOURCE=<path>" >&2
+    exit 1
   fi
 
   if [ -f "$BASE_ROOTFS_IMAGE" ] && command -v debugfs >/dev/null 2>&1; then
@@ -54,8 +69,22 @@ if [ -z "$RUST_BINARY" ]; then
   fi
 fi
 
+if [ -z "$HWMON_BINARY" ]; then
+  if [ -n "$RUST_TARGET" ]; then
+    HWMON_BINARY="$ROOT_DIR/server-rust/target/$RUST_TARGET/release/nanokvm-hwmon"
+  else
+    HWMON_BINARY="$ROOT_DIR/server-rust/target/release/nanokvm-hwmon"
+  fi
+fi
+
 if [ ! -x "$RUST_BINARY" ]; then
   echo "missing executable Rust backend: $RUST_BINARY" >&2
+  echo "run: make rust-app RUST_TARGET=<target>" >&2
+  exit 1
+fi
+
+if [ ! -x "$HWMON_BINARY" ]; then
+  echo "missing executable Rust hwmon helper: $HWMON_BINARY" >&2
   echo "run: make rust-app RUST_TARGET=<target>" >&2
   exit 1
 fi
@@ -66,7 +95,7 @@ if [ ! -f "$NATIVE_LIB_DIR/libkvm.so" ]; then
 fi
 
 rm -rf "$STAGE_DIR"
-mkdir -p "$KVMAPP_STAGE/server" "$KVMAPP_STAGE/backends" "$OUT_DIR"
+mkdir -p "$KVMAPP_STAGE/server" "$KVMAPP_STAGE/backends" "$KVMAPP_STAGE/hwmon" "$OUT_DIR"
 cp -R "$ROOT_DIR/kvmapp/." "$KVMAPP_STAGE/"
 rm -rf "$KVMAPP_STAGE/jpg_stream"
 rm -f "$KVMAPP_STAGE/kvm_system/kvm_stream" \
@@ -84,6 +113,8 @@ cp "$RUST_BINARY" "$KVMAPP_STAGE/server/NanoKVM-Server"
 chmod 0755 "$KVMAPP_STAGE/server/NanoKVM-Server"
 cp "$RUST_BINARY" "$KVMAPP_STAGE/backends/NanoKVM-Server.rust"
 chmod 0755 "$KVMAPP_STAGE/backends/NanoKVM-Server.rust"
+cp "$HWMON_BINARY" "$KVMAPP_STAGE/hwmon/nanokvm-hwmon"
+chmod 0755 "$KVMAPP_STAGE/hwmon/nanokvm-hwmon"
 
 rm -f "$KVMAPP_STAGE/backends/NanoKVM-Server.go" \
   "$KVMAPP_STAGE/server/NanoKVM-Server.go" \
@@ -103,6 +134,7 @@ fi
   printf 'artifact: kvmapp-rust\n'
   printf 'source: %s\n' "$(git -C "$ROOT_DIR" rev-parse --short HEAD 2>/dev/null || printf unknown)"
   printf 'rust_binary: %s\n' "$RUST_BINARY"
+  printf 'hwmon_binary: %s\n' "$HWMON_BINARY"
   printf 'rust_target: %s\n' "${RUST_TARGET:-host}"
   printf 'web_dist: %s\n' "$WEB_DIST"
   printf 'app_version: %s\n' "$(cat "$KVMAPP_STAGE/version")"
