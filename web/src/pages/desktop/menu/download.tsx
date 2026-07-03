@@ -14,6 +14,12 @@ import { MenuItem } from '@/components/menu-item.tsx';
 
 type TransferKind = 'local' | 'remote';
 
+function isAllowedLocalImage(file: File | null) {
+  if (!file) return false;
+  const name = file.name.toLowerCase();
+  return name.endsWith('.iso') || name.endsWith('.img');
+}
+
 export const DownloadImage = () => {
   const { t } = useTranslation();
   const setIsKeyboardEnable = useSetAtom(isKeyboardEnableAtom);
@@ -192,7 +198,7 @@ export const DownloadImage = () => {
   }
 
   function selectLocalFile(file: File | null) {
-    if (!file || !file.name.toLowerCase().endsWith('.iso')) {
+    if (!isAllowedLocalImage(file)) {
       setDownloadStatus('failed');
       setLog(t('download.NoISO'));
       setSelectedFile(null);
@@ -214,7 +220,7 @@ export const DownloadImage = () => {
   async function upload(file: File | null) {
     if (!file) return;
 
-    if (!file || !file.name.toLowerCase().endsWith('.iso')) {
+    if (!isAllowedLocalImage(file)) {
       setDownloadStatus('failed');
       setLog(t('download.NoISO'));
       return;
@@ -222,7 +228,7 @@ export const DownloadImage = () => {
 
     activeTransferRef.current = 'local';
     setDownloadStatus('in_progress');
-    setLog('Downloading: ' + file.name);
+    setLog('Uploading: ' + file.name);
 
     const formData = new FormData();
     formData.append('file', file);
@@ -282,7 +288,12 @@ export const DownloadImage = () => {
               <Button
                 type="primary"
                 onClick={() => download(input)}
-                disabled={status === 'in_progress' || status === 'complete' || !remoteEnabled || !input.trim()}
+                disabled={
+                  status === 'in_progress' ||
+                  status === 'complete' ||
+                  !remoteEnabled ||
+                  !input.trim()
+                }
               >
                 {t('download.ok')}
               </Button>
@@ -332,7 +343,7 @@ export const DownloadImage = () => {
                   id="file-upload"
                   ref={fileInputRef}
                   type="file"
-                  accept=".iso"
+                  accept=".iso,.img"
                   onChange={handleFileChange}
                   disabled={status === 'in_progress'}
                   className="hidden"

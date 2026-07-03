@@ -86,30 +86,32 @@ const firewallModerateLocalizedExtras: Record<string, TranslationMap> = {
 };
 
 const downloadExtras: Record<string, TranslationMap> = {
-  ca: { 'download.complete': 'Descàrrega completada' },
-  cz: { 'download.complete': 'Stahování dokončeno' },
-  da: { 'download.complete': 'Download fuldført' },
-  de: { 'download.complete': 'Download abgeschlossen' },
-  es: { 'download.complete': 'Descarga completada' },
-  et: { 'download.complete': 'Allalaadimine lõpetatud' },
-  fi: { 'download.complete': 'Lataus valmis' },
-  fr: { 'download.complete': 'Téléchargement terminé' },
-  hu: { 'download.complete': 'Letöltés kész' },
-  id: { 'download.complete': 'Unduhan selesai' },
-  it: { 'download.complete': 'Download completato' },
-  ja: { 'download.complete': 'ダウンロードが完了しました' },
-  ko: { 'download.complete': '다운로드 완료' },
-  nb: { 'download.complete': 'Nedlasting fullført' },
-  nl: { 'download.complete': 'Download voltooid' },
-  pl: { 'download.complete': 'Pobieranie zakończone' },
-  pt_br: { 'download.complete': 'Download concluído' },
-  se: { 'download.complete': 'Nedladdningen är klar' },
-  th: { 'download.complete': 'ดาวน์โหลดเสร็จสมบูรณ์' },
-  tr: { 'download.complete': 'İndirme tamamlandı' },
-  uk: { 'download.complete': 'Завантаження завершено' },
-  vi: { 'download.complete': 'Tải xuống hoàn tất' },
-  zh: { 'download.complete': '下载完成' },
-  zh_tw: { 'download.complete': '下載完成' }
+  en: { 'download.NoISO': 'No image' },
+  ru: { 'download.NoISO': 'Нет образа' },
+  ca: { 'download.complete': 'Descàrrega completada', 'download.NoISO': 'Cap imatge' },
+  cz: { 'download.complete': 'Stahování dokončeno', 'download.NoISO': 'Žádný obraz' },
+  da: { 'download.complete': 'Download fuldført', 'download.NoISO': 'Intet image' },
+  de: { 'download.complete': 'Download abgeschlossen', 'download.NoISO': 'Kein Image' },
+  es: { 'download.complete': 'Descarga completada', 'download.NoISO': 'Sin imagen' },
+  et: { 'download.complete': 'Allalaadimine lõpetatud', 'download.NoISO': 'Image puudub' },
+  fi: { 'download.complete': 'Lataus valmis', 'download.NoISO': 'Ei levykuvaa' },
+  fr: { 'download.complete': 'Téléchargement terminé', 'download.NoISO': 'Aucune image' },
+  hu: { 'download.complete': 'Letöltés kész', 'download.NoISO': 'Nincs képfájl' },
+  id: { 'download.complete': 'Unduhan selesai', 'download.NoISO': 'Tidak ada image' },
+  it: { 'download.complete': 'Download completato', 'download.NoISO': 'Nessuna immagine' },
+  ja: { 'download.complete': 'ダウンロードが完了しました', 'download.NoISO': 'イメージなし' },
+  ko: { 'download.complete': '다운로드 완료', 'download.NoISO': '이미지 없음' },
+  nb: { 'download.complete': 'Nedlasting fullført', 'download.NoISO': 'Ingen image' },
+  nl: { 'download.complete': 'Download voltooid', 'download.NoISO': 'Geen image' },
+  pl: { 'download.complete': 'Pobieranie zakończone', 'download.NoISO': 'Brak obrazu' },
+  pt_br: { 'download.complete': 'Download concluído', 'download.NoISO': 'Sem imagem' },
+  se: { 'download.complete': 'Nedladdningen är klar', 'download.NoISO': 'Ingen image' },
+  th: { 'download.complete': 'ดาวน์โหลดเสร็จสมบูรณ์', 'download.NoISO': 'ไม่มีอิมเมจ' },
+  tr: { 'download.complete': 'İndirme tamamlandı', 'download.NoISO': 'İmaj yok' },
+  uk: { 'download.complete': 'Завантаження завершено', 'download.NoISO': 'Немає образу' },
+  vi: { 'download.complete': 'Tải xuống hoàn tất', 'download.NoISO': 'Không có image' },
+  zh: { 'download.complete': '下载完成', 'download.NoISO': '无镜像' },
+  zh_tw: { 'download.complete': '下載完成', 'download.NoISO': '無映像檔' }
 };
 
 const systemActionExtras: Record<string, TranslationMap> = {
@@ -3525,8 +3527,7 @@ function setDeep(target: Record<string, unknown>, path: string, value: string) {
 
 export function applyLocaleExtras(language: string, resource: ResourceLanguage) {
   const key = languageAliases[language] || language;
-  const firewallModerateExtras =
-    key === 'en' || key === 'ru' ? {} : firewallModerateFallbackExtras;
+  const firewallModerateExtras = key === 'en' || key === 'ru' ? {} : firewallModerateFallbackExtras;
   const extras = {
     ...(downloadExtras[key] || {}),
     ...(systemActionExtras[key] || {}),

@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use std::{
     ffi::OsString,
     fs,
-    io::{Read, Seek, SeekFrom, Write},
+    io::{ErrorKind, Read, Seek, SeekFrom, Write},
     os::unix::fs::{OpenOptionsExt, PermissionsExt},
     path::{Path, PathBuf},
     time::Duration,
@@ -31,6 +31,13 @@ pub const MAX_UPLOAD_BYTES: usize = 8 * 1024 * 1024 * 1024;
 const SENTINEL_PATH: &str = "/tmp/.download_in_progress";
 const ISO9660_MAGIC_OFFSET: u64 = 0x8001;
 const ISO9660_MAGIC: &[u8; 5] = b"CD001";
+const SECTOR_SIZE: usize = 512;
+const MASS_STORAGE_HEADER_BYTES: usize = 128 * 1024;
+const GPT_HEADER_OFFSET: usize = SECTOR_SIZE;
+const GPT_MAGIC: &[u8; 8] = b"EFI PART";
+const EXT_SUPERBLOCK_MAGIC_OFFSET: usize = 1024 + 56;
+const BTRFS_SUPERBLOCK_MAGIC_OFFSET: usize = 0x10040;
+const BTRFS_MAGIC: &[u8; 8] = b"_BHRfS_M";
 const REMOTE_DOWNLOAD_TIMEOUT: Duration = Duration::from_secs(2 * 60 * 60);
 
 #[derive(Debug, Deserialize)]
@@ -185,11 +192,7 @@ pub async fn upload_image_file(
         file.flush().await?;
         drop(file);
 
-        if !is_iso9660(temp.path())? {
-            return Err(AppError::BadRequest(
-                "file is not a valid ISO image".to_string(),
-            ));
-        }
+        validate_uploaded_image(temp.path(), &filename)?;
 
         fs::rename(temp.path(), &target)?;
         fs::set_permissions(&target, fs::Permissions::from_mode(0o644))?;
@@ -203,6 +206,12 @@ pub async fn upload_image_file(
 
     drop(guard);
     Ok(Json(ApiResponse::ok(StatusImageRsp::idle())))
+}
+
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+enum UploadImageKind {
+    Iso,
+    MassStorage,
 }
 
 #[derive(Debug)]
@@ -299,6 +308,11 @@ fn validate_remote_iso_url(raw: &str) -> Result<RemoteIso> {
         .and_then(|segments| segments.filter(|segment| !segment.is_empty()).next_back())
         .ok_or_else(|| AppError::BadRequest("url must end with an ISO filename".to_string()))?;
     let filename = valid_upload_filename(filename)?;
+    if upload_image_kind(&filename) != Some(UploadImageKind::Iso) {
+        return Err(AppError::BadRequest(
+            "url must end with an ISO filename".to_string(),
+        ));
+    }
 
     Ok(RemoteIso {
         url: parsed.to_string(),
@@ -405,7 +419,7 @@ fn valid_upload_filename(filename: &str) -> Result<String> {
     if filename.is_empty()
         || path.file_name().and_then(|name| name.to_str()) != Some(filename)
         || filename.contains("..")
-        || !filename.ends_with(".iso")
+        || upload_image_kind(filename).is_none()
         || !filename
             .bytes()
             .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-'))
@@ -413,6 +427,19 @@ fn valid_upload_filename(filename: &str) -> Result<String> {
         return Err(AppError::BadRequest("invalid filename".to_string()));
     }
     Ok(filename.to_string())
+}
+
+fn upload_image_kind(filename: &str) -> Option<UploadImageKind> {
+    match Path::new(filename)
+        .extension()
+        .and_then(|extension| extension.to_str())
+    {
+        Some(extension) if extension.eq_ignore_ascii_case("iso") => Some(UploadImageKind::Iso),
+        Some(extension) if extension.eq_ignore_ascii_case("img") => {
+            Some(UploadImageKind::MassStorage)
+        }
+        _ => None,
+    }
 }
 
 fn safe_upload_target(root: &Path, filename: &str) -> Result<PathBuf> {
@@ -432,8 +459,126 @@ fn is_iso9660(path: &Path) -> Result<bool> {
     let mut file = fs::File::open(path)?;
     file.seek(SeekFrom::Start(ISO9660_MAGIC_OFFSET))?;
     let mut magic = [0_u8; 5];
-    file.read_exact(&mut magic)?;
+    if let Err(err) = file.read_exact(&mut magic) {
+        if err.kind() == ErrorKind::UnexpectedEof {
+            return Ok(false);
+        }
+        return Err(err.into());
+    }
     Ok(&magic == ISO9660_MAGIC)
+}
+
+fn validate_uploaded_image(path: &Path, filename: &str) -> Result<()> {
+    let valid = match upload_image_kind(filename) {
+        Some(UploadImageKind::Iso) => is_iso9660(path)?,
+        Some(UploadImageKind::MassStorage) => is_mass_storage_image(path)?,
+        None => false,
+    };
+
+    if !valid {
+        return Err(AppError::BadRequest(
+            "file is not a valid ISO or mass storage image".to_string(),
+        ));
+    }
+
+    Ok(())
+}
+
+fn is_mass_storage_image(path: &Path) -> Result<bool> {
+    let size = fs::metadata(path)?.len();
+    if size < SECTOR_SIZE as u64 || size > MAX_UPLOAD_BYTES as u64 {
+        return Ok(false);
+    }
+
+    let mut file = fs::File::open(path)?;
+    let mut header = vec![0_u8; MASS_STORAGE_HEADER_BYTES.min(size as usize)];
+    let read = file.read(&mut header)?;
+    header.truncate(read);
+
+    Ok(has_partition_table(&header)
+        || has_superfloppy_filesystem(&header)
+        || has_raw_filesystem(&header))
+}
+
+fn has_partition_table(header: &[u8]) -> bool {
+    has_gpt_header(header)
+        || header
+            .get(..SECTOR_SIZE)
+            .is_some_and(has_mbr_partition_table)
+}
+
+fn has_gpt_header(header: &[u8]) -> bool {
+    header
+        .get(GPT_HEADER_OFFSET..GPT_HEADER_OFFSET + GPT_MAGIC.len())
+        .is_some_and(|magic| magic == GPT_MAGIC)
+}
+
+fn has_mbr_partition_table(sector: &[u8]) -> bool {
+    has_boot_signature(sector)
+        && sector[446..510].chunks_exact(16).any(|entry| {
+            let boot_flag = entry[0];
+            let partition_type = entry[4];
+            let start_lba = u32::from_le_bytes([entry[8], entry[9], entry[10], entry[11]]);
+            let sectors = u32::from_le_bytes([entry[12], entry[13], entry[14], entry[15]]);
+
+            matches!(boot_flag, 0x00 | 0x80)
+                && partition_type != 0
+                && start_lba != 0
+                && sectors != 0
+        })
+}
+
+fn has_superfloppy_filesystem(header: &[u8]) -> bool {
+    let Some(sector) = header.get(..SECTOR_SIZE) else {
+        return false;
+    };
+    if !has_boot_signature(sector) {
+        return false;
+    }
+
+    if sector.get(3..11) == Some(b"EXFAT   ") {
+        return true;
+    }
+
+    let jump = sector[0];
+    if !matches!(jump, 0xeb | 0xe9) {
+        return false;
+    }
+
+    let bytes_per_sector = u16::from_le_bytes([sector[11], sector[12]]);
+    let sectors_per_cluster = sector[13];
+    let reserved_sectors = u16::from_le_bytes([sector[14], sector[15]]);
+    let fat_count = sector[16];
+    let total_sectors_16 = u16::from_le_bytes([sector[19], sector[20]]);
+    let total_sectors_32 = u32::from_le_bytes([sector[32], sector[33], sector[34], sector[35]]);
+    let has_fat_label = sector
+        .get(54..62)
+        .is_some_and(|label| label.starts_with(b"FAT"))
+        || sector
+            .get(82..90)
+            .is_some_and(|label| label.starts_with(b"FAT"));
+
+    matches!(bytes_per_sector, 512 | 1024 | 2048 | 4096)
+        && sectors_per_cluster != 0
+        && sectors_per_cluster.is_power_of_two()
+        && reserved_sectors != 0
+        && fat_count != 0
+        && (total_sectors_16 != 0 || total_sectors_32 != 0)
+        && has_fat_label
+}
+
+fn has_raw_filesystem(header: &[u8]) -> bool {
+    header.starts_with(b"XFSB")
+        || header
+            .get(EXT_SUPERBLOCK_MAGIC_OFFSET..EXT_SUPERBLOCK_MAGIC_OFFSET + 2)
+            .is_some_and(|magic| magic == [0x53, 0xef])
+        || header
+            .get(BTRFS_SUPERBLOCK_MAGIC_OFFSET..BTRFS_SUPERBLOCK_MAGIC_OFFSET + BTRFS_MAGIC.len())
+            .is_some_and(|magic| magic == BTRFS_MAGIC)
+}
+
+fn has_boot_signature(sector: &[u8]) -> bool {
+    sector.len() >= SECTOR_SIZE && sector[510] == 0x55 && sector[511] == 0xaa
 }
 
 fn random_suffix() -> String {
@@ -465,19 +610,23 @@ mod tests {
     use tempfile::tempdir;
 
     #[test]
-    fn upload_filename_accepts_simple_iso_names() {
+    fn upload_filename_accepts_simple_image_names() {
         assert_eq!(
             valid_upload_filename("rescue-1.0_x86.iso").unwrap(),
             "rescue-1.0_x86.iso"
         );
+        assert_eq!(
+            valid_upload_filename("usb-stick_2026.IMG").unwrap(),
+            "usb-stick_2026.IMG"
+        );
     }
 
     #[test]
-    fn upload_filename_rejects_paths_and_non_iso_files() {
+    fn upload_filename_rejects_paths_and_non_image_files() {
         for name in [
             "../evil.iso",
             "nested/evil.iso",
-            "evil.img",
+            "evil.raw",
             "evil iso.iso",
             "",
         ] {
@@ -537,5 +686,90 @@ mod tests {
         file.write_all(ISO9660_MAGIC).unwrap();
 
         assert!(is_iso9660(&path).unwrap());
+    }
+
+    #[test]
+    fn iso_magic_rejects_short_files() {
+        let dir = tempdir().unwrap();
+        let path = dir.path().join("short.iso");
+        File::create(&path).unwrap();
+
+        assert!(!is_iso9660(&path).unwrap());
+    }
+
+    #[test]
+    fn mass_storage_image_accepts_mbr_partition_table() {
+        let dir = tempdir().unwrap();
+        let path = dir.path().join("usb.img");
+        let mut sector = [0_u8; SECTOR_SIZE];
+        sector[446] = 0x00;
+        sector[446 + 4] = 0x0c;
+        sector[446 + 8..446 + 12].copy_from_slice(&2048_u32.to_le_bytes());
+        sector[446 + 12..446 + 16].copy_from_slice(&4096_u32.to_le_bytes());
+        sector[510] = 0x55;
+        sector[511] = 0xaa;
+        File::create(&path).unwrap().write_all(&sector).unwrap();
+
+        assert!(is_mass_storage_image(&path).unwrap());
+        validate_uploaded_image(&path, "usb.img").unwrap();
+    }
+
+    #[test]
+    fn mass_storage_image_accepts_gpt_header() {
+        let dir = tempdir().unwrap();
+        let path = dir.path().join("usb.img");
+        let mut image = vec![0_u8; SECTOR_SIZE * 2];
+        image[GPT_HEADER_OFFSET..GPT_HEADER_OFFSET + GPT_MAGIC.len()].copy_from_slice(GPT_MAGIC);
+        File::create(&path).unwrap().write_all(&image).unwrap();
+
+        assert!(is_mass_storage_image(&path).unwrap());
+    }
+
+    #[test]
+    fn mass_storage_image_accepts_fat_superfloppy() {
+        let dir = tempdir().unwrap();
+        let path = dir.path().join("usb.img");
+        let mut sector = [0_u8; SECTOR_SIZE];
+        sector[0] = 0xeb;
+        sector[1] = 0x3c;
+        sector[2] = 0x90;
+        sector[3..11].copy_from_slice(b"MSDOS5.0");
+        sector[11..13].copy_from_slice(&512_u16.to_le_bytes());
+        sector[13] = 1;
+        sector[14..16].copy_from_slice(&1_u16.to_le_bytes());
+        sector[16] = 2;
+        sector[19..21].copy_from_slice(&2880_u16.to_le_bytes());
+        sector[54..62].copy_from_slice(b"FAT16   ");
+        sector[510] = 0x55;
+        sector[511] = 0xaa;
+        File::create(&path).unwrap().write_all(&sector).unwrap();
+
+        assert!(is_mass_storage_image(&path).unwrap());
+    }
+
+    #[test]
+    fn mass_storage_image_accepts_raw_ext_filesystem() {
+        let dir = tempdir().unwrap();
+        let path = dir.path().join("usb.img");
+        let mut image = vec![0_u8; EXT_SUPERBLOCK_MAGIC_OFFSET + 2];
+        image[EXT_SUPERBLOCK_MAGIC_OFFSET..EXT_SUPERBLOCK_MAGIC_OFFSET + 2]
+            .copy_from_slice(&[0x53, 0xef]);
+        File::create(&path).unwrap().write_all(&image).unwrap();
+
+        assert!(is_mass_storage_image(&path).unwrap());
+    }
+
+    #[test]
+    fn mass_storage_image_rejects_random_data() {
+        let dir = tempdir().unwrap();
+        let path = dir.path().join("random.img");
+        File::create(&path)
+            .unwrap()
+            .write_all(&vec![0x42_u8; SECTOR_SIZE * 2])
+            .unwrap();
+
+        assert!(!is_mass_storage_image(&path).unwrap());
+        let err = validate_uploaded_image(&path, "random.img").unwrap_err();
+        assert!(matches!(err, AppError::BadRequest(_)));
     }
 }
