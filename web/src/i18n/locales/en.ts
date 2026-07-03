@@ -401,6 +401,9 @@ const en = {
         diskDesc: 'Mount SD card on the remote host',
         network: 'Virtual Network',
         networkDesc: 'Mount virtual network card on the remote host',
+        usbWakeup: 'USB Wakeup',
+        usbWakeupDesc:
+          'Allow keyboard or mouse events to wake the remote host. Turn off if the host logs repeated USB wakeup messages.',
         reboot: 'Reboot',
         rebootDesc: 'Are you sure you want to reboot NanoKVM?',
         okBtn: 'Yes',

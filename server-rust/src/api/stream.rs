@@ -51,6 +51,7 @@ const MJPEG_FAILURE_BACKOFF: Duration = Duration::from_millis(500);
 const MJPEG_FAILURE_COOLDOWN: Duration = Duration::from_secs(5);
 const H264_READ_TIMEOUT: Duration = Duration::from_secs(5);
 const H264_FAILURE_LIMIT: usize = 3;
+const H264_KEYFRAME_REQUEST_HOLD: Duration = Duration::from_millis(250);
 
 static SCREEN: LazyLock<Mutex<Screen>> = LazyLock::new(|| Mutex::new(Screen::default()));
 static LATEST_MJPEG_FRAME: LazyLock<Mutex<Option<LatestMjpegFrame>>> =
@@ -66,6 +67,7 @@ static H264_DIRECT_FIRST_SUCCESS_LOGGED: AtomicBool = AtomicBool::new(false);
 static H264_DIRECT_FIRST_ERROR_LOGGED: AtomicBool = AtomicBool::new(false);
 static H264_CAPTURE_DISABLED: AtomicBool = AtomicBool::new(false);
 static H264_CONSECUTIVE_FAILURES: AtomicUsize = AtomicUsize::new(0);
+static H264_KEYFRAME_REQUEST_IN_PROGRESS: AtomicBool = AtomicBool::new(false);
 static CAPTURE_STATUS: LazyLock<Mutex<CaptureStatusStore>> =
     LazyLock::new(|| Mutex::new(CaptureStatusStore::default()));
 
@@ -118,6 +120,12 @@ struct MjpegFrame {
 #[derive(Debug, Clone)]
 struct H264DirectFrame {
     packet: Bytes,
+}
+
+#[derive(Debug, Clone, Copy)]
+enum H264FailureRecovery {
+    RequestKeyframe,
+    DisableAndRestart,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -689,6 +697,31 @@ pub fn h264_capture_disabled() -> bool {
         || std::path::Path::new(H264_SAFE_MODE_FILE).exists()
 }
 
+pub fn request_h264_keyframe(reason: &'static str) {
+    if h264_capture_disabled() {
+        return;
+    }
+    if H264_KEYFRAME_REQUEST_IN_PROGRESS
+        .compare_exchange(false, true, Ordering::AcqRel, Ordering::Acquire)
+        .is_err()
+    {
+        return;
+    }
+
+    let gop = current_screen().gop;
+    std::thread::spawn(move || {
+        info!(reason, gop, "requesting h264 keyframe");
+        if let Err(err) = kvm::set_h264_gop(1) {
+            warn!(reason, error = ?err, "failed to request h264 keyframe");
+        }
+        std::thread::sleep(H264_KEYFRAME_REQUEST_HOLD);
+        if let Err(err) = kvm::set_h264_gop(gop) {
+            warn!(reason, error = ?err, "failed to restore h264 gop after keyframe request");
+        }
+        H264_KEYFRAME_REQUEST_IN_PROGRESS.store(false, Ordering::Release);
+    });
+}
+
 pub async fn read_h264_capture_frame(
     mode: &'static str,
     screen: H264Screen,
@@ -709,12 +742,17 @@ pub async fn read_h264_capture_frame(
                 mode,
                 "failed to read h264 frame",
                 Some(err.to_string()),
-                true,
+                H264FailureRecovery::DisableAndRestart,
             );
             return None;
         }
         Ok(Err(err)) => {
-            record_h264_failure(mode, "h264 frame task failed", Some(err.to_string()), true);
+            record_h264_failure(
+                mode,
+                "h264 frame task failed",
+                Some(err.to_string()),
+                H264FailureRecovery::DisableAndRestart,
+            );
             return None;
         }
         Err(_) => {
@@ -726,11 +764,16 @@ pub async fn read_h264_capture_frame(
     let (data, result) = frame;
     update_capture_status(mode, result);
     if result < 0 || data.is_empty() {
+        let recovery = if result == -2 {
+            H264FailureRecovery::DisableAndRestart
+        } else {
+            H264FailureRecovery::RequestKeyframe
+        };
         record_h264_failure(
             mode,
             "h264 frame unavailable",
             Some(format!("result={result} bytes={}", data.len())),
-            false,
+            recovery,
         );
         return None;
     }
@@ -752,14 +795,20 @@ fn record_h264_failure(
     mode: &'static str,
     reason: &'static str,
     detail: Option<String>,
-    restart: bool,
+    recovery: H264FailureRecovery,
 ) {
     update_capture_status(mode, -1);
     let failures = H264_CONSECUTIVE_FAILURES.fetch_add(1, Ordering::AcqRel) + 1;
     warn!(mode, failures, detail = ?detail, reason, "h264 capture failure");
 
     if failures >= H264_FAILURE_LIMIT {
-        disable_h264_capture(mode, reason, restart);
+        match recovery {
+            H264FailureRecovery::RequestKeyframe => {
+                H264_CONSECUTIVE_FAILURES.store(0, Ordering::Release);
+                request_h264_keyframe(reason);
+            }
+            H264FailureRecovery::DisableAndRestart => disable_h264_capture(mode, reason, true),
+        }
     }
 }
 

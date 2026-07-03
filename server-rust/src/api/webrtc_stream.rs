@@ -7,6 +7,9 @@ use axum::{
     response::IntoResponse,
 };
 use bytes::Bytes;
+use rtcp::payload_feedbacks::{
+    full_intra_request::FullIntraRequest, picture_loss_indication::PictureLossIndication,
+};
 use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
@@ -54,7 +57,7 @@ use crate::{
     AppError, Result,
     api::stream::{
         CAPTURE_MODE_H264, current_h264_screen, h264_frame_duration, is_h264_capture_active,
-        read_h264_capture_frame, update_capture_status,
+        read_h264_capture_frame, request_h264_keyframe, update_capture_status,
     },
     config::Config,
     state::AppState,
@@ -491,9 +494,35 @@ fn register_peer_callbacks(peer: Arc<RTCPeerConnection>, signal_tx: mpsc::Sender
 async fn read_rtcp(sender: Arc<RTCRtpSender>) {
     let mut buffer = vec![0u8; 1500];
     loop {
-        if sender.read(&mut buffer).await.is_err() {
-            return;
+        let (packets, _) = match sender.read(&mut buffer).await {
+            Ok(result) => result,
+            Err(err) => {
+                debug!(error = ?err, "h264 rtcp reader stopped");
+                return;
+            }
+        };
+
+        for packet in packets {
+            if let Some(reason) = h264_keyframe_request_reason(packet.as_ref()) {
+                request_h264_keyframe(reason);
+            }
         }
+    }
+}
+
+fn h264_keyframe_request_reason(
+    packet: &(dyn rtcp::packet::Packet + Send + Sync),
+) -> Option<&'static str> {
+    if packet
+        .as_any()
+        .downcast_ref::<PictureLossIndication>()
+        .is_some()
+    {
+        Some("rtcp picture loss indication")
+    } else if packet.as_any().downcast_ref::<FullIntraRequest>().is_some() {
+        Some("rtcp full intra request")
+    } else {
+        None
     }
 }
 
@@ -559,7 +588,14 @@ struct ClientIceServer {
 
 #[cfg(test)]
 mod tests {
-    use super::{Config, client_ice_servers};
+    use rtcp::{
+        payload_feedbacks::{
+            full_intra_request::FullIntraRequest, picture_loss_indication::PictureLossIndication,
+        },
+        receiver_report::ReceiverReport,
+    };
+
+    use super::{Config, client_ice_servers, h264_keyframe_request_reason};
 
     #[test]
     fn ice_servers_match_frontend_shape() {
@@ -569,5 +605,22 @@ mod tests {
         assert_eq!(data[0]["urls"][0], "stun:stun.l.google.com:19302");
         assert!(data[0].get("username").is_none());
         assert!(data[0].get("credential").is_none());
+    }
+
+    #[test]
+    fn detects_rtcp_keyframe_requests() {
+        let pli = PictureLossIndication::default();
+        let fir = FullIntraRequest::default();
+        let receiver_report = ReceiverReport::default();
+
+        assert_eq!(
+            h264_keyframe_request_reason(&pli),
+            Some("rtcp picture loss indication")
+        );
+        assert_eq!(
+            h264_keyframe_request_reason(&fir),
+            Some("rtcp full intra request")
+        );
+        assert_eq!(h264_keyframe_request_reason(&receiver_report), None);
     }
 }

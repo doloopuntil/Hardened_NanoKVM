@@ -2,20 +2,22 @@ import { useEffect, useState } from 'react';
 import { Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-import { getHidMode } from '@/api/hid.ts';
+import { getHidMode, getUsbWakeup, setUsbWakeup } from '@/api/hid.ts';
 import * as api from '@/api/virtual-device.ts';
 
 export const VirtualDevices = () => {
   const { t } = useTranslation();
 
   const [isHidOnlyMode, setIsHidOnlyMode] = useState(false);
+  const [isUsbWakeupEnabled, setIsUsbWakeupEnabled] = useState(false);
   const [isDiskEnabled, setIsDiskEnabled] = useState(false);
   const [isNetworkEnabled, setIsNetworkEnabled] = useState(false);
-  const [loading, setLoading] = useState<'' | 'disk' | 'network'>('');
+  const [loading, setLoading] = useState<'' | 'disk' | 'network' | 'wakeup'>('');
 
   useEffect(() => {
     getHidOnlyMode();
     getVirtualDevice();
+    getWakeup();
   }, []);
 
   async function getHidOnlyMode() {
@@ -46,6 +48,19 @@ export const VirtualDevices = () => {
     }
   }
 
+  async function getWakeup() {
+    try {
+      const rsp = await getUsbWakeup();
+      if (rsp.code !== 0) {
+        console.log(rsp.msg);
+        return;
+      }
+      setIsUsbWakeupEnabled(rsp.data.enabled);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async function update(device: 'disk' | 'network') {
     if (loading) return;
     setLoading(device);
@@ -65,16 +80,48 @@ export const VirtualDevices = () => {
     }
   }
 
+  async function updateWakeup(enabled: boolean) {
+    if (loading) return;
+    setLoading('wakeup');
+
+    try {
+      const rsp = await setUsbWakeup(enabled);
+      if (rsp.code !== 0) {
+        console.log(rsp.msg);
+        return;
+      }
+      setIsUsbWakeupEnabled(rsp.data.enabled);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading('');
+    }
+  }
+
+  const usbWakeup = (
+    <div className="flex items-center justify-between">
+      <div className="flex flex-col space-y-1">
+        <span>{t('settings.device.usbWakeup')}</span>
+        <span className="text-xs text-neutral-500">{t('settings.device.usbWakeupDesc')}</span>
+      </div>
+
+      <Switch checked={isUsbWakeupEnabled} loading={loading === 'wakeup'} onChange={updateWakeup} />
+    </div>
+  );
+
   if (isHidOnlyMode) {
     return (
-      <div className="flex items-center justify-between space-x-10">
-        <div className="flex flex-col space-y-1">
-          <span>{t('settings.device.hidOnly')}</span>
-          <span className="text-xs text-neutral-500">{t('settings.device.hidOnlyDesc')}</span>
-        </div>
+      <>
+        <div className="flex items-center justify-between space-x-10">
+          <div className="flex flex-col space-y-1">
+            <span>{t('settings.device.hidOnly')}</span>
+            <span className="text-xs text-neutral-500">{t('settings.device.hidOnlyDesc')}</span>
+          </div>
 
-        <Switch checked={true} disabled={true} />
-      </div>
+          <Switch checked={true} disabled={true} />
+        </div>
+        {usbWakeup}
+      </>
     );
   }
 
@@ -107,6 +154,8 @@ export const VirtualDevices = () => {
           onChange={() => update('network')}
         />
       </div>
+
+      {usbWakeup}
     </>
   );
 };

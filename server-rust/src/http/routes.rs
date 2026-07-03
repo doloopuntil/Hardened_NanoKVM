@@ -199,6 +199,10 @@ pub fn build(state: AppState) -> Router {
             get(hid::get_leader_key).post(hid::set_leader_key),
         )
         .route("/api/hid/mode", get(hid::get_mode).post(hid::set_mode))
+        .route(
+            "/api/hid/usb-wakeup",
+            get(hid::get_usb_wakeup).post(hid::set_usb_wakeup),
+        )
         .route("/api/hid/paste", post(hid::paste))
         .route(
             "/api/download/file",

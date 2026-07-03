@@ -2,8 +2,8 @@ use axum::{Json, response::IntoResponse};
 use rand_core::{OsRng, RngCore};
 use serde::{Deserialize, Serialize};
 use std::{
-    fs,
-    os::unix::fs::PermissionsExt,
+    fs, io,
+    os::unix::fs::{PermissionsExt, symlink},
     path::{Path, PathBuf},
     sync::{LazyLock, RwLock},
     thread,
@@ -24,6 +24,11 @@ const MODE_FLAG_FILE: &str = "/sys/kernel/config/usb_gadget/g0/bcdDevice";
 const MODE_NORMAL_SCRIPT: &str = "/kvmapp/system/init.d/S03usbdev";
 const MODE_HID_ONLY_SCRIPT: &str = "/kvmapp/system/init.d/S03usbhid";
 const USB_DEV_SCRIPT: &str = "/etc/init.d/S03usbdev";
+const USB_WAKEUP_ENABLE_FILE: &str = "/boot/usb.wakeup";
+const USB_WAKEUP_DISABLE_FILE: &str = "/boot/usb.notwakeup";
+const USB_HID_FUNCTION_DIR: &str = "/sys/kernel/config/usb_gadget/g0/functions";
+const USB_CONFIG_DIR: &str = "/sys/kernel/config/usb_gadget/g0/configs/c.1";
+const USB_UDC_FILE: &str = "/sys/kernel/config/usb_gadget/g0/UDC";
 const MODE_NORMAL: &str = "normal";
 const MODE_HID_ONLY: &str = "hid-only";
 const MAX_SHORTCUT_KEYS: usize = 6;
@@ -86,6 +91,16 @@ pub struct GetHidModeRsp {
 #[derive(Debug, Deserialize)]
 pub struct SetHidModeReq {
     mode: String,
+}
+
+#[derive(Debug, Serialize)]
+pub struct UsbWakeupRsp {
+    enabled: bool,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct SetUsbWakeupReq {
+    enabled: bool,
 }
 
 #[derive(Debug, Deserialize)]
@@ -191,6 +206,21 @@ pub async fn set_mode(Json(req): Json<SetHidModeReq>) -> Result<impl IntoRespons
     });
 
     Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+pub async fn get_usb_wakeup() -> Result<impl IntoResponse> {
+    Ok(Json(ApiResponse::ok(UsbWakeupRsp {
+        enabled: usb_wakeup_enabled()?,
+    })))
+}
+
+pub async fn set_usb_wakeup(Json(req): Json<SetUsbWakeupReq>) -> Result<impl IntoResponse> {
+    write_usb_wakeup_config(req.enabled)?;
+    apply_usb_wakeup_live(req.enabled)?;
+
+    Ok(Json(ApiResponse::ok(UsbWakeupRsp {
+        enabled: req.enabled,
+    })))
 }
 
 pub async fn reset_hid() -> Result<impl IntoResponse> {
@@ -541,6 +571,157 @@ fn copy_hid_mode_file(mode: &str) -> Result<()> {
     write_file(Path::new(USB_DEV_SCRIPT), &data, mode)
 }
 
+fn usb_wakeup_enabled() -> Result<bool> {
+    let enable_exists = Path::new(USB_WAKEUP_ENABLE_FILE).exists();
+    let disable_exists = Path::new(USB_WAKEUP_DISABLE_FILE).exists();
+    if enable_exists || disable_exists {
+        return Ok(effective_usb_wakeup(enable_exists, disable_exists));
+    }
+
+    live_usb_wakeup_enabled()
+}
+
+fn effective_usb_wakeup(enable_exists: bool, disable_exists: bool) -> bool {
+    enable_exists && !disable_exists
+}
+
+fn live_usb_wakeup_enabled() -> Result<bool> {
+    for path in hid_function_paths()? {
+        let path = path.join("wakeup_on_write");
+        let value = match fs::read_to_string(&path) {
+            Ok(value) => value,
+            Err(err) if err.kind() == io::ErrorKind::NotFound => continue,
+            Err(err) => return Err(err.into()),
+        };
+        if value.trim() == "1" {
+            return Ok(true);
+        }
+    }
+
+    Ok(false)
+}
+
+fn write_usb_wakeup_config(enabled: bool) -> Result<()> {
+    if enabled {
+        remove_file_if_exists(USB_WAKEUP_DISABLE_FILE)?;
+        write_file(Path::new(USB_WAKEUP_ENABLE_FILE), b"", 0o644)
+    } else {
+        remove_file_if_exists(USB_WAKEUP_ENABLE_FILE)?;
+        write_file(Path::new(USB_WAKEUP_DISABLE_FILE), b"", 0o644)
+    }
+}
+
+fn apply_usb_wakeup_live(enabled: bool) -> Result<()> {
+    match write_hid_wakeup_attrs(enabled) {
+        Ok(()) => Ok(()),
+        Err(err) if is_resource_busy(&err) => apply_usb_wakeup_with_relink(enabled),
+        Err(err) => Err(err),
+    }
+}
+
+fn write_hid_wakeup_attrs(enabled: bool) -> Result<()> {
+    let value = if enabled { b"1\n" } else { b"0\n" };
+    for path in hid_function_paths()? {
+        let path = path.join("wakeup_on_write");
+        match fs::write(&path, value) {
+            Ok(()) => {}
+            Err(err) if err.kind() == io::ErrorKind::NotFound => {}
+            Err(err) => return Err(err.into()),
+        }
+    }
+
+    Ok(())
+}
+
+fn apply_usb_wakeup_with_relink(enabled: bool) -> Result<()> {
+    let current_udc = fs::read_to_string(USB_UDC_FILE)
+        .unwrap_or_default()
+        .trim()
+        .to_string();
+    let functions = hid_function_paths()?;
+    if functions.is_empty() {
+        return Ok(());
+    }
+
+    fs::write(USB_UDC_FILE, b"\n")?;
+
+    let mut links = Vec::new();
+    let mut setup_result = Ok(());
+    for function in &functions {
+        let Some(name) = function.file_name() else {
+            continue;
+        };
+        let link = Path::new(USB_CONFIG_DIR).join(name);
+        let was_linked = fs::symlink_metadata(&link).is_ok();
+        if was_linked {
+            if let Err(err) = remove_file_if_exists_path(&link) {
+                setup_result = Err(err);
+                links.push((function.clone(), link, was_linked));
+                break;
+            }
+        }
+        links.push((function.clone(), link, was_linked));
+    }
+
+    let write_result = if setup_result.is_ok() {
+        write_hid_wakeup_attrs(enabled)
+    } else {
+        setup_result
+    };
+    let relink_result = restore_hid_links(&links);
+    let udc_result = if current_udc.is_empty() {
+        Ok(())
+    } else {
+        fs::write(USB_UDC_FILE, format!("{current_udc}\n")).map_err(AppError::from)
+    };
+
+    write_result?;
+    relink_result?;
+    udc_result
+}
+
+fn restore_hid_links(links: &[(PathBuf, PathBuf, bool)]) -> Result<()> {
+    for (function, link, was_linked) in links {
+        if !was_linked {
+            continue;
+        }
+        if fs::symlink_metadata(link).is_err() {
+            symlink(function, link)?;
+        }
+    }
+    Ok(())
+}
+
+fn hid_function_paths() -> Result<Vec<PathBuf>> {
+    let entries = match fs::read_dir(USB_HID_FUNCTION_DIR) {
+        Ok(entries) => entries,
+        Err(err) if err.kind() == io::ErrorKind::NotFound => return Ok(Vec::new()),
+        Err(err) => return Err(err.into()),
+    };
+
+    let mut paths = Vec::new();
+    for entry in entries {
+        let entry = entry?;
+        let name = entry.file_name();
+        let Some(name) = name.to_str() else {
+            continue;
+        };
+        if !name.starts_with("hid.") {
+            continue;
+        }
+        paths.push(entry.path());
+    }
+
+    Ok(paths)
+}
+
+fn is_resource_busy(err: &AppError) -> bool {
+    match err {
+        AppError::Io(err) => err.raw_os_error() == Some(16),
+        _ => false,
+    }
+}
+
 fn write_file(path: &Path, content: &[u8], mode: u32) -> Result<()> {
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent)?;
@@ -573,6 +754,10 @@ fn tmp_path_for(path: &Path) -> PathBuf {
 }
 
 fn remove_file_if_exists(path: &str) -> Result<()> {
+    remove_file_if_exists_path(Path::new(path))
+}
+
+fn remove_file_if_exists_path(path: &Path) -> Result<()> {
     match fs::remove_file(path) {
         Ok(()) => Ok(()),
         Err(err) if err.kind() == std::io::ErrorKind::NotFound => Ok(()),
@@ -630,6 +815,14 @@ mod tests {
         assert_eq!(validate_hid_mode("normal").unwrap(), MODE_NORMAL);
         assert_eq!(validate_hid_mode("hid-only").unwrap(), MODE_HID_ONLY);
         assert!(validate_hid_mode("storage-only").is_err());
+    }
+
+    #[test]
+    fn usb_wakeup_is_opt_in_and_disable_flag_wins() {
+        assert!(!effective_usb_wakeup(false, false));
+        assert!(effective_usb_wakeup(true, false));
+        assert!(!effective_usb_wakeup(false, true));
+        assert!(!effective_usb_wakeup(true, true));
     }
 
     #[test]

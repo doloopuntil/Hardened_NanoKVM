@@ -221,6 +221,12 @@ const systemActionExtras: Record<string, TranslationMap> = {
   }
 };
 
+const usbWakeupFallbackExtras: TranslationMap = {
+  'settings.device.usbWakeup': 'USB Wakeup',
+  'settings.device.usbWakeupDesc':
+    'Allow keyboard or mouse events to wake the remote host. Turn off if the host logs repeated USB wakeup messages.'
+};
+
 const networkExtras: Record<string, TranslationMap> = {
   ca: {
     'settings.network.tls.rebootTitle': 'NanoKVM es reiniciarà',
@@ -3528,9 +3534,11 @@ function setDeep(target: Record<string, unknown>, path: string, value: string) {
 export function applyLocaleExtras(language: string, resource: ResourceLanguage) {
   const key = languageAliases[language] || language;
   const firewallModerateExtras = key === 'en' || key === 'ru' ? {} : firewallModerateFallbackExtras;
+  const usbWakeupExtras = key === 'en' || key === 'ru' ? {} : usbWakeupFallbackExtras;
   const extras = {
     ...(downloadExtras[key] || {}),
     ...(systemActionExtras[key] || {}),
+    ...usbWakeupExtras,
     ...(networkExtras[key] || {}),
     ...(legacyExtras[key] || {}),
     ...(firewallExtras[key] || {}),

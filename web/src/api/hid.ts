@@ -23,6 +23,14 @@ export function setHidMode(mode: string) {
   return http.post('/api/hid/mode', data);
 }
 
+export function getUsbWakeup() {
+  return http.get('/api/hid/usb-wakeup');
+}
+
+export function setUsbWakeup(enabled: boolean) {
+  return http.post('/api/hid/usb-wakeup', { enabled });
+}
+
 // get shortcuts
 export function getShortcuts() {
   return http.get('/api/hid/shortcuts');
