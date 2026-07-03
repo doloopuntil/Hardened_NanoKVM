@@ -5,6 +5,7 @@
 #include <sys/ioctl.h>
 #include <ctype.h>
 #include <time.h>
+#include <string>
 
 using namespace maix;
 using namespace maix::sys;
@@ -274,6 +275,60 @@ static void copy_state_string(uint8_t *dst, size_t dst_len, const char *src)
 	strncpy((char*)dst, src, dst_len - 1);
 }
 
+static void trim_state_line(uint8_t *value, size_t value_len)
+{
+	for(size_t i = 0; i < value_len; i++){
+		if(value[i] == '\r' || value[i] == '\n'){
+			value[i] = 0;
+			return;
+		}
+		if(value[i] == 0) return;
+	}
+	if(value_len > 0) value[value_len - 1] = 0;
+}
+
+static int state_string_is_ipv4(const uint8_t *value)
+{
+	size_t len = 0;
+	for(; len < 16 && value[len] != 0; len++){
+		if(!(isdigit(value[len]) || value[len] == '.')) return 0;
+	}
+	return len > 0 && len < 16;
+}
+
+static int copy_interface_ip(const char *interface_name, uint8_t *dst, size_t dst_len)
+{
+	std::string addr = ip_address()[interface_name];
+	if(addr.empty()){
+		printf("can`t get ip addr\r\n");
+		copy_state_string(dst, dst_len, NULL);
+		return 0;
+	}
+	if(strcmp(addr.c_str(), (char*)dst) != 0){
+		copy_state_string(dst, dst_len, addr.c_str());
+		printf("%s\r\n", (char*)dst);
+	}
+	return 1;
+}
+
+static int read_route_gateway(const char *cmd, uint8_t *dst, size_t dst_len)
+{
+	char value[32] = {0};
+	FILE *fp;
+
+	copy_state_string(dst, dst_len, NULL);
+	fp = popen(cmd, "r");
+	if(fp == NULL) return 0;
+	if(fgets(value, sizeof(value), fp) == NULL){
+		pclose(fp);
+		return 0;
+	}
+	pclose(fp);
+	trim_state_line((uint8_t*)value, sizeof(value));
+	copy_state_string(dst, dst_len, value);
+	return dst[0] != 0;
+}
+
 static int json_find_network_interface(const char *json, const char *name, const char **iface_start, const char **iface_end)
 {
 	const char *network_start;
@@ -325,7 +380,7 @@ int get_nic_state(const char* interface_name)
 	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 		return ret;
 	}
-	strcpy(ifr.ifr_name, interface_name);
+	snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "%s", interface_name);
 	if (ioctl(sock, SIOCGIFFLAGS, &ifr) < 0) {
 		close(sock);
 		return ret;
@@ -358,133 +413,26 @@ int get_ip_addr(ip_addr_t ip_type)
 {
 	switch (ip_type){
 		case ETH_IP: // eth_addr
-			if(strcmp(ip_address()["eth0"].c_str(), (char*)kvm_sys_state.eth_addr) != 0){
-				if(*(ip_address()["eth0"].c_str()) == 0){
-					printf("can`t get ip addr\r\n");
-					kvm_sys_state.eth_addr[0] = 0;
-					return 0;
-				} 
-				for(int i = 0; i <= 15; i++)
-				{
-					kvm_sys_state.eth_addr[i] = *(ip_address()["eth0"].c_str() + i);
-					printf("%c", kvm_sys_state.eth_addr[i]);
-				}
-				printf("\r\n");
-			}
-			return 1;
+			return copy_interface_ip("eth0", kvm_sys_state.eth_addr, sizeof(kvm_sys_state.eth_addr));
 		case WiFi_IP: // wifi_addr
-			if(strcmp(ip_address()["wlan0"].c_str(), (char*)kvm_sys_state.wifi_addr) != 0){
-				if(*(ip_address()["wlan0"].c_str()) == 0){
-					printf("can`t get ip addr\r\n");
-					kvm_sys_state.wifi_addr[0] = 0;
-					return 0;
-				} 
-				for(int i = 0; i <= 15; i++)
-				{
-					kvm_sys_state.wifi_addr[i] = *(ip_address()["wlan0"].c_str() + i);
-					printf("%c", kvm_sys_state.wifi_addr[i]);
-				}
-				printf("\r\n");
-			}
-			return 1;
+			return copy_interface_ip("wlan0", kvm_sys_state.wifi_addr, sizeof(kvm_sys_state.wifi_addr));
 		case Tailscale_IP: // tail_addr
-			if(*(ip_address()["tailscale0"].c_str()) == 0){
-				printf("can`t get ip addr\r\n");
-				kvm_sys_state.tail_addr[0] = 0;
-				return 0;
-			} 
-			for(int i = 0; i <= 15; i++)
-			{
-				kvm_sys_state.tail_addr[i] = *(ip_address()["tailscale0"].c_str() + i);
-				printf("%c", kvm_sys_state.tail_addr[i]);
-			}
-			printf("\r\n");
-			return 1;
+			return copy_interface_ip("tailscale0", kvm_sys_state.tail_addr, sizeof(kvm_sys_state.tail_addr));
 		case RNDIS_IP: // rndis_addr
-			if(*(ip_address()["usb0"].c_str()) == 0){
-				printf("can`t get ip addr\r\n");
-				kvm_sys_state.rndis_addr[0] = 0;
-				return 0;
-			} 
-			for(int i = 0; i <= 15; i++)
-			{
-				kvm_sys_state.rndis_addr[i] = *(ip_address()["usb0"].c_str() + i);
-				printf("%c", kvm_sys_state.rndis_addr[i]);
-			}
-			printf("\r\n");
-			return 1;
+			return copy_interface_ip("usb0", kvm_sys_state.rndis_addr, sizeof(kvm_sys_state.rndis_addr));
 		case ETH_ROUTE: // eth_route
 			if(access("/etc/kvm/gateway", F_OK) != 0){
-				// 不存在gateway文件
-				memset( kvm_sys_state.eth_route, 0, sizeof( kvm_sys_state.eth_route ) );
-				char Cmd[100]={0};
-				memset( Cmd, 0, sizeof( Cmd ) );
-				sprintf( Cmd,"ip route | grep -i '^default' | grep -i 'eth0' | awk '{print $3}'");
-				FILE* fp = popen( Cmd, "r" );
-				if ( NULL == fp )
-				{
-					pclose(fp);
-					return 0;
-				}
-				memset( kvm_sys_state.eth_route, 0, sizeof( kvm_sys_state.eth_route ) );
-				while ( NULL != fgets( (char*)kvm_sys_state.eth_route,sizeof( kvm_sys_state.eth_route ),fp ))
-				{
-					// printf("ip=%s\n",kvm_sys_state.eth_route);
-					break;
-				}
-				if(kvm_sys_state.eth_route[0] == 0){
-					// 开机时未插入ETH
-					pclose(fp);
-					return 0;
-				}
-				for(int i = 0; i < 40; i++){
-					if(kvm_sys_state.eth_route[i] == 10){
-						kvm_sys_state.eth_route[i] = ' ';
-						break;
-					}
-				}
-				pclose(fp);
-				return 1;
+				return read_route_gateway("ip route | grep -i '^default' | grep -i 'eth0' | awk '{print $3}'", kvm_sys_state.eth_route, sizeof(kvm_sys_state.eth_route));
 			} else {
-				int file_size;
-				FILE *fp = fopen("/etc/kvm/gateway", "r");
-				fseek(fp, 0, SEEK_END);
-				file_size = ftell(fp); 
-				fseek(fp, 0, SEEK_SET);
-				fread(kvm_sys_state.eth_route, sizeof(char), file_size, fp);
-				fclose(fp);
-				return 1;
+				if(!read_text_file("/etc/kvm/gateway", (char*)kvm_sys_state.eth_route, sizeof(kvm_sys_state.eth_route))){
+					copy_state_string(kvm_sys_state.eth_route, sizeof(kvm_sys_state.eth_route), NULL);
+					return 0;
+				}
+				trim_state_line(kvm_sys_state.eth_route, sizeof(kvm_sys_state.eth_route));
+				return kvm_sys_state.eth_route[0] != 0;
 			}
 		case WiFi_ROUTE: // wifi_route
-			memset( kvm_sys_state.wifi_route, 0, sizeof( kvm_sys_state.wifi_route ) );
-			char Cmd[100]={0};
-			memset( Cmd, 0, sizeof( Cmd ) );
-			sprintf( Cmd,"ip route | grep -i '^default' | grep -i 'wlan0' | awk '{print $3}'");
-			FILE* fp = popen( Cmd, "r" );
-			if ( NULL == fp )
-			{
-				pclose(fp);
-				return 0;
-			}
-			memset( kvm_sys_state.wifi_route, 0, sizeof( kvm_sys_state.wifi_route ) );
-			while ( NULL != fgets( (char*)kvm_sys_state.wifi_route,sizeof( kvm_sys_state.wifi_route ),fp ))
-			{
-				// printf("ip=%s\n",kvm_sys_state.wifi_route);
-				break;
-			}
-			if(kvm_sys_state.wifi_route[0] == 0){
-				// 开机时未插入ETH
-				pclose(fp);
-				return 0;
-			}
-			for(int i = 0; i < 40; i++){
-				if(kvm_sys_state.wifi_route[i] == 10){
-					kvm_sys_state.wifi_route[i] = ' ';
-					break;
-				}
-			}
-			pclose(fp);
-			return 1;
+			return read_route_gateway("ip route | grep -i '^default' | grep -i 'wlan0' | awk '{print $3}'", kvm_sys_state.wifi_route, sizeof(kvm_sys_state.wifi_route));
 	}
 	return 0;
 }
@@ -492,8 +440,14 @@ int get_ip_addr(ip_addr_t ip_type)
 int chack_net_state(ip_addr_t use_ip_type)
 {
 	char Cmd[100]={0};
-	if		(use_ip_type == ETH_ROUTE)  sprintf( Cmd,"ping -I eth0 -w 1 %s > /dev/null", kvm_sys_state.eth_route);
-	else if	(use_ip_type == WiFi_ROUTE) sprintf( Cmd,"ping -I wlan0 -w 1 %s > /dev/null", kvm_sys_state.wifi_route);
+	if(use_ip_type == ETH_ROUTE){
+		if(!state_string_is_ipv4(kvm_sys_state.eth_route)) return 0;
+		snprintf(Cmd, sizeof(Cmd), "ping -I eth0 -w 1 %s > /dev/null", kvm_sys_state.eth_route);
+	}
+	else if(use_ip_type == WiFi_ROUTE){
+		if(!state_string_is_ipv4(kvm_sys_state.wifi_route)) return 0;
+		snprintf(Cmd, sizeof(Cmd), "ping -I wlan0 -w 1 %s > /dev/null", kvm_sys_state.wifi_route);
+	}
 	else return -1;	// 不支持的端口
 	if(system(Cmd) == 0){	// 256：不通； = 0：通
 		return 1;
@@ -517,24 +471,24 @@ int kvm_wifi_exist()
 void kvm_update_usb_state()
 {
 	// usb_state, hid_state, rndis_state, udisk_state
-	FILE *fp;
-	int file_size;
-	uint8_t RW_Data[10];		
-	fp = fopen("/sys/class/udc/4340000.usb/state", "r");
-	fseek(fp, 0, SEEK_END);
-	file_size = ftell(fp); 
-	fseek(fp, 0, SEEK_SET);
-	fread(RW_Data, sizeof(char), file_size, fp);
-	fclose(fp);
+	char RW_Data[10] = {0};
+	if(!read_text_file("/sys/class/udc/4340000.usb/state", RW_Data, sizeof(RW_Data))){
+		kvm_sys_state.usb_state = -1;
+		kvm_sys_state.hid_state = 0;
+		kvm_sys_state.udisk_state = 0;
+		return;
+	}
 	if(RW_Data[0] == 'n') kvm_sys_state.usb_state = 0;
 	else if(RW_Data[0] == 'c') kvm_sys_state.usb_state = 1;
 	else kvm_sys_state.usb_state = -1;
 	// hid_state & udisk_state (rndis_state单独处理)
 	if(kvm_sys_state.usb_state == 1){
-		if(access("/sys/kernel/config/usb_gadget/g0/configs/c.1/hid.GS*", F_OK) == 0) 
-			kvm_sys_state.hid_state = 1;
-		if(access("/sys/kernel/config/usb_gadget/g0/configs/c.1/mass_storage.disk0", F_OK) == 0) 
-			kvm_sys_state.udisk_state = 1;
+		kvm_sys_state.hid_state =
+			(access("/sys/kernel/config/usb_gadget/g0/configs/c.1/hid.GS0", F_OK) == 0 ||
+			 access("/sys/kernel/config/usb_gadget/g0/configs/c.1/hid.GS1", F_OK) == 0 ||
+			 access("/sys/kernel/config/usb_gadget/g0/configs/c.1/hid.GS2", F_OK) == 0) ? 1 : 0;
+		kvm_sys_state.udisk_state =
+			access("/sys/kernel/config/usb_gadget/g0/configs/c.1/mass_storage.disk0", F_OK) == 0 ? 1 : 0;
 	} else {
 		kvm_sys_state.hid_state = 0;
 		kvm_sys_state.udisk_state = 0;
@@ -607,16 +561,17 @@ void kvm_update_hdmi_state()
 {
 	static uint8_t check_times = 4;
 	FILE *fp;
-	int file_size;
-	uint8_t RW_Data[10];
+	uint8_t RW_Data[10] = {0};
 	if(++check_times > 5){
 		check_times = 0;
 		fp = popen("cat /proc/cvitek/vi_dbg | grep VIFPS | awk '{print $3}'", "r");
 		if (fp == NULL) {
+			return;
+		}
+		if(fgets((char*)RW_Data, sizeof(RW_Data), fp) == NULL){
 			pclose(fp);
 			return;
 		}
-		fgets((char*)RW_Data, 2, fp);
 		pclose(fp);
 		// printf("[kvmd]HDMI exist? %c\n", RW_Data[0]);
 		if (RW_Data[0] != '0'){
@@ -629,34 +584,20 @@ void kvm_update_hdmi_state()
 
 void kvm_update_stream_fps(void)
 {
-	FILE *fp;
-	int file_size;
-	uint8_t RW_Data[10];
+	char RW_Data[10] = {0};
 
 	// FPS
-	fp = fopen("/kvmapp/kvm/now_fps", "r");
-    fseek(fp, 0, SEEK_END);
-    file_size = ftell(fp); 
-    fseek(fp, 0, SEEK_SET);
-    fread(RW_Data, sizeof(char), file_size, fp);
-	fclose(fp);
-	RW_Data[file_size] = 0;
-	kvm_sys_state.now_fps = atoi((char*)RW_Data);
+	if(read_text_file("/kvmapp/kvm/now_fps", RW_Data, sizeof(RW_Data))){
+		kvm_sys_state.now_fps = atoi(RW_Data);
+	}
 }
 
 void kvm_update_stream_type(void)
 {
-	FILE *fp;
-	int file_size;
-	uint8_t RW_Data[10];
+	char RW_Data[10] = {0};
 
 	// type
-	fp = fopen("/kvmapp/kvm/type", "r");
-    fseek(fp, 0, SEEK_END);
-    file_size = ftell(fp); 
-    fseek(fp, 0, SEEK_SET);
-    fread(RW_Data, sizeof(char), file_size, fp);
-	fclose(fp);
+	if(!read_text_file("/kvmapp/kvm/type", RW_Data, sizeof(RW_Data))) return;
 	if(RW_Data[0] == 'm') 		kvm_sys_state.type = KVM_TYPE_MJPG;
 	else if(RW_Data[0] == 'h') 	kvm_sys_state.type = KVM_TYPE_H264;
 	else 						kvm_sys_state.type = KVM_TYPE_none;
@@ -664,20 +605,12 @@ void kvm_update_stream_type(void)
 
 void kvm_update_stream_qlty(void)
 {
-	FILE *fp;
-	int file_size;
-	uint8_t RW_Data[10];
+	char RW_Data[10] = {0};
 	uint16_t tmp16;
 
 	// QLTY
-	fp = fopen("/kvmapp/kvm/qlty", "r");
-    fseek(fp, 0, SEEK_END);
-    file_size = ftell(fp); 
-    fseek(fp, 0, SEEK_SET);
-    fread(RW_Data, sizeof(char), file_size, fp);
-	fclose(fp);
-	RW_Data[file_size] = 0;
-	tmp16 = atoi((char*)RW_Data);
+	if(!read_text_file("/kvmapp/kvm/qlty", RW_Data, sizeof(RW_Data))) return;
+	tmp16 = atoi(RW_Data);
 	if(kvm_sys_state.type == KVM_TYPE_MJPG){
 		if(tmp16 < 60) 						 	kvm_sys_state.qlty = 1;
 		else if(tmp16 >= 60 && tmp16 < 75) 	 	kvm_sys_state.qlty = 2;
@@ -695,27 +628,15 @@ void kvm_update_stream_qlty(void)
 
 void kvm_update_hdmi_res(void)
 {
-	FILE *fp;
-	int file_size;
-	uint8_t RW_Data[10];
+	char RW_Data[10] = {0};
 	// HDMI width
-	fp = fopen("/kvmapp/kvm/width", "r");
-	fseek(fp, 0, SEEK_END);
-	file_size = ftell(fp); 
-	fseek(fp, 0, SEEK_SET);
-	fread(RW_Data, sizeof(char), file_size, fp);
-	fclose(fp);
-	RW_Data[file_size] = 0;
-	kvm_sys_state.hdmi_width = atoi((char*)RW_Data);
+	if(read_text_file("/kvmapp/kvm/width", RW_Data, sizeof(RW_Data))){
+		kvm_sys_state.hdmi_width = atoi(RW_Data);
+	}
 	// HDMI height
-	fp = fopen("/kvmapp/kvm/height", "r");
-	fseek(fp, 0, SEEK_END);
-	file_size = ftell(fp); 
-	fseek(fp, 0, SEEK_SET);
-	fread(RW_Data, sizeof(char), file_size, fp);
-	fclose(fp);
-	RW_Data[file_size] = 0;
-	kvm_sys_state.hdmi_height = atoi((char*)RW_Data);
+	if(read_text_file("/kvmapp/kvm/height", RW_Data, sizeof(RW_Data))){
+		kvm_sys_state.hdmi_height = atoi(RW_Data);
+	}
 }
 
 void kvm_update_eth_state(void)

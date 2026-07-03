@@ -279,6 +279,18 @@ Validation on 133:
   53.1 MiB in 8 seconds.
 - `dmesg` grep found no new `segfault`, `signal 11`, `panic`, `oops`,
   `fail to allocate ion`, or `invalid buffer`.
+- `S95nanokvm` now enables `/etc/kvm/rust_hwmon_enabled` by default when the
+  packaged Rust hwmon helper exists. Removing the flag before restart on 133 was
+  followed by `S95nanokvm restart` recreating it before `kvm_system` startup.
+- Installed hardened `kvm_system` hash
+  `72565ccddb21c9661a5e566bdc6e288e1d44171b5a258ca7b26dca4592fc6a6f` and
+  `S95nanokvm` hash
+  `dd949fb6c87ed3c6c41ad1f7baa0446491be015c629718c8a665cfbe0566aadc`.
+- After the default-on restart, `kvm_system`, `NanoKVM-Server`, and
+  `nanokvm-hwmon` stayed alive, the snapshot was fresh, `eth0` was routed, and
+  a five-second process sample showed no legacy `ping -I eth0` route checks.
+- HTTP `/api/health` stayed OK and authenticated MJPEG returned about 57.5 MiB
+  in 8 seconds.
 - Confirm no increase in SD-card writes from status polling.
 
 ### Phase 4: Move Safe Control Actions
@@ -338,12 +350,38 @@ leave alone. If Rust takes over any of these responsibilities, remove the
 corresponding C/C++ implementation and startup path after the Rust implementation
 passes the 133 checklist.
 
+Decision:
+
+- Keep OLED drawing, button handling, OLED Wi-Fi AP provisioning state, and
+  LT6911/I2C HDMI handling in C/C++ for now.
+- Do not rewrite these paths only for language uniformity. Revisit them only if
+  a concrete crash, security problem, or maintenance blocker appears.
+
+Completed C++ hardening:
+
+- Replaced unsafe fixed-buffer route/IP copying with bounded helpers.
+- Removed out-of-bounds newline trimming on 16-byte gateway buffers.
+- Validated legacy fallback gateway strings before shelling out to `ping`.
+- Stopped using shell `echo` to write AP SSID/password files.
+- Added `popen`/`fopen` failure handling in Wi-Fi/AP, HDMI-version, HDMI-state,
+  USB-state, and stream-state fallback readers.
+- Fixed HID fallback detection by checking the concrete `hid.GS0`/`hid.GS1`/
+  `hid.GS2` configfs paths instead of passing a glob to `access()`.
+- Fixed OLED IP-change detection so unexpected address types and empty IPs do
+  not use uninitialized pointers or stale comparison state.
+
 Validation on 133:
 
 - HDMI hotplug and resolution changes update `/kvmapp/kvm/width` and `height`.
 - OLED works across boot, sleep, wake, page switching, and Wi-Fi provisioning.
 - Button short/long press behavior matches legacy behavior.
 - No `kvm_system` replacement segfaults or busy loops.
+- Local C++ build passed after hardening.
+- Installed hardened `kvm_system` on 133, restarted runtime, and confirmed
+  health OK, fresh Rust hwmon snapshot, MJPEG about 57.5 MiB in 8 seconds, and
+  no new kernel crash/video allocation errors.
+- Remaining manual checks: OLED page/button behavior, HDMI hotplug, and Wi-Fi AP
+  provisioning on hardware with `wlan0`.
 
 ## Build and Packaging Plan
 
@@ -353,8 +391,9 @@ Validation on 133:
    binary, so helper crashes do not take down the HTTP/API service.
 3. Update `scripts/package-rust-kvmapp.sh` and image validation only after the
    helper exists.
-4. Update `S95nanokvm` to start the Rust helper in shadow mode while continuing
-   to start the remaining C/C++ helper.
+4. Update `S95nanokvm` to start the Rust helper and enable Rust-owned passive
+   state consumption by default while continuing to start the remaining C/C++
+   helper.
 5. When C/C++ helper source changes, package from the freshly built helper
    (`support/sg2002/kvm_system/build/kvm_system` or explicit
    `KVM_SYSTEM_SOURCE`) and fail instead of silently restoring an older helper

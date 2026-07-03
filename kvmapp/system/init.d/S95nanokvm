@@ -18,6 +18,7 @@ HWMON_SOURCE=/kvmapp/hwmon/nanokvm-hwmon
 HWMON_PID_FILE=/tmp/nanokvm-hwmon.pid
 HWMON_LOG=/tmp/nanokvm-hwmon.log
 HWMON_START_DELAY_SECS=20
+RUST_HWMON_FLAG=/etc/kvm/rust_hwmon_enabled
 SYSTEM_UPDATE_WATCHDOG_PID_FILE=/tmp/system-update-watchdog.pid
 SYSTEM_UPDATE_LOG=/tmp/system-update-watchdog.log
 SYSTEM_VERSION_FILE=/etc/kvm/system-version.json
@@ -182,6 +183,13 @@ start_hwmon_shadow() {
         exec "$HWMON_SOURCE"
     ) >"$HWMON_LOG" 2>&1 &
     echo $! > "$HWMON_PID_FILE"
+}
+
+enable_rust_hwmon_state() {
+    [ -x "$HWMON_SOURCE" ] || return
+    mkdir -p /etc/kvm
+    : > "$RUST_HWMON_FLAG" 2>/dev/null || true
+    chmod 0600 "$RUST_HWMON_FLAG" 2>/dev/null || true
 }
 
 stop_hwmon_shadow() {
@@ -498,6 +506,7 @@ start_runtime() {
     cleanup_legacy_app_artifacts
     cleanup_legacy_new_app_marker
     cleanup_legacy_new_image_marker
+    enable_rust_hwmon_state
 
     cp -r /kvmapp/kvm_system /tmp/
     nohup /tmp/kvm_system/kvm_system >/tmp/kvm_system.log 2>&1 &

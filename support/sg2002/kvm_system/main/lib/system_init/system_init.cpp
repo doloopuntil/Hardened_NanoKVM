@@ -10,11 +10,12 @@ extern kvm_oled_state_t kvm_oled_state;
 uint8_t get_hdmi_version()
 {
 	FILE *fp;
-	uint8_t RW_Data[2];
+	uint8_t RW_Data[2] = {0};
     system("/kvmapp/system/init.d/S15kvmhwd get_hdmi_version");
 	if(access("/etc/kvm/hdmi_version", F_OK) == 0){
         fp = fopen("/etc/kvm/hdmi_version", "r");
-        fread(RW_Data, sizeof(char), 2, fp);
+		if(fp == NULL) return 0;
+        fread(RW_Data, sizeof(char), sizeof(RW_Data), fp);
         fclose(fp);
         if(RW_Data[0] == 'u'){
             // 6911uxc / 6911uxe

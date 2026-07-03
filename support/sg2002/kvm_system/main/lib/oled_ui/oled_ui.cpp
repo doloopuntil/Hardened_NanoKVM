@@ -166,17 +166,22 @@ uint8_t ip_changed(ip_addr_t ip_type)
 {
 	uint8_t *kvm_sys_ip;
 	uint8_t *kvm_oled_ip;
-	uint8_t ret;
+	uint8_t ret = 0;
 	if(ip_type == ETH_IP){
 		kvm_sys_ip = kvm_sys_state.eth_addr;
 		kvm_oled_ip = kvm_oled_state.eth_addr;
 	} else if(ip_type == WiFi_IP){
 		kvm_sys_ip = kvm_sys_state.wifi_addr;
 		kvm_oled_ip = kvm_oled_state.wifi_addr;
-	} else ret = 0;
+	} else {
+		return 0;
+	}
+	if(kvm_sys_ip[0] == 0) return 0;
 	for (int i = 0; i < 16; i++){
-		if(kvm_sys_ip[i] == 0) ret = 0;
-		if(kvm_sys_ip[i] != kvm_oled_ip[i]) ret = 1;
+		if(kvm_sys_ip[i] != kvm_oled_ip[i]){
+			ret = 1;
+			break;
+		}
 	}
 	if(ret == 1){
 		memcpy(kvm_oled_ip, kvm_sys_ip, 16);
@@ -424,8 +429,8 @@ void show_wifi_config_ip(void)
 	// OLED_ShowString_AlignRight(63, 2, (char*)kvm_sys_state.wifi_addr, 4);
 	static char wifi_addr_with_path[30];
 	static char wifi_addr_with_key[30];
-	sprintf(wifi_addr_with_path, "%s/#/", kvm_sys_state.wifi_addr);
-	sprintf(wifi_addr_with_key, "WIFI?P=%s", kvm_sys_state.wifi_ap_pass);
+	snprintf(wifi_addr_with_path, sizeof(wifi_addr_with_path), "%s/#/", kvm_sys_state.wifi_addr);
+	snprintf(wifi_addr_with_key, sizeof(wifi_addr_with_key), "WIFI?P=%s", kvm_sys_state.wifi_ap_pass);
 	OLED_ShowString_AlignRight(63, 2, wifi_addr_with_path, 4);
 	OLED_ShowString_AlignRight(63, 3, wifi_addr_with_key, 4);
 }
@@ -435,7 +440,7 @@ void show_wifi_config_QR(void)
 	static char cmd[70];
 	OLED_Clear();
 	get_ip_addr(WiFi_IP);
-	sprintf(cmd, "http://%s/#/WIFI?P=%s", kvm_sys_state.wifi_addr, kvm_sys_state.wifi_ap_pass);
+	snprintf(cmd, sizeof(cmd), "http://%s/#/WIFI?P=%s", kvm_sys_state.wifi_addr, kvm_sys_state.wifi_ap_pass);
 	qrencode(cmd);
 }
 
@@ -465,7 +470,7 @@ void kvm_wifi_config_ui_disp(uint8_t first_disp, uint8_t subpage_changed)
 				break;
 			case 1: // QRcode
 				printf("WIFI:T:WPA2;S:NanoKVM;P:%s;;\n", kvm_sys_state.wifi_ap_pass);
-				sprintf(cmd, "WIFI:T:WPA2;S:NanoKVM;P:%s;;", kvm_sys_state.wifi_ap_pass);
+				snprintf(cmd, sizeof(cmd), "WIFI:T:WPA2;S:NanoKVM;P:%s;;", kvm_sys_state.wifi_ap_pass);
 				qrencode(cmd);
 				break;
 			case 2: // Textcode
