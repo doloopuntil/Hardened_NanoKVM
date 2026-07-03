@@ -41,7 +41,7 @@ small reversible slices. The target validation device is 133.
 | Wi-Fi AP provisioning via OLED/button | `system_ctrl.cpp`, OLED UI | No complete Rust replacement yet |
 | OLED existence and display | `oled_ctrl.cpp`, `oled_ui.cpp` | Rust VM API only reads/writes OLED settings |
 | Button handling | `main.cpp` | No Rust replacement yet |
-| Passive status polling | `system_state.cpp` | Partial overlap with Rust network/stream APIs |
+| Passive status polling | `system_state.cpp`, optionally Rust `nanokvm-hwmon` snapshot | Partial overlap with Rust network/stream APIs |
 | HDMI/LT6911 resolution probing | `hdmi.cpp` | No complete Rust replacement yet |
 
 ## Migration Strategy
@@ -192,19 +192,45 @@ Validated on 133:
 Once shadow output is stable, let Rust own passive status files and state
 normalization while C++ keeps OLED rendering.
 
-Steps:
+Completed first slice:
+
+1. Added feature-flagged C++ consumption of
+   `/tmp/nanokvm-hwmon-state.json` when `/etc/kvm/rust_hwmon_enabled` exists.
+2. C++ OLED/state loop now takes USB gadget state, HID/mass-storage/RNDIS
+   presence, HDMI active state, stream type, FPS, quality bucket, and resolution
+   from the Rust snapshot when it is fresh and parseable.
+3. If the flag is absent, the snapshot is stale, or parsing fails, C++ falls
+   back to the legacy direct sysfs/proc/file reads without reflashing.
+4. Ethernet, Wi-Fi, route/ping checks, OLED drawing, button handling, and
+   LT6911/I2C hardware code are still owned by the legacy helper for this slice.
+
+Remaining steps:
 
 1. Keep C++ OLED drawing but read normalized state from Rust-generated files or a
-   small JSON/state file.
-2. Stop duplicated ping/route checks in C++ when Rust state is enabled.
-3. Preserve a feature flag, for example `/etc/kvm/rust_hwmon_enabled`, to fall
-   back to legacy behavior without reflashing.
+   small JSON/state file for the remaining passive network fields.
+2. Stop duplicated ping/route checks in C++ when Rust network state is enabled.
+3. Decide whether C++ should keep Wi-Fi API-triggered reconnect handling until
+   OLED AP provisioning has a Rust-backed replacement.
 
 Validation on 133:
 
-- Toggle the feature flag and restart only the helper service.
-- Confirm OLED shows correct Ethernet, Wi-Fi, USB, HDMI, stream type, FPS, and
-  resolution.
+- Installed `kvm_system` hash
+  `23bf1be4549ee4d8d550819bf7e3e75c15f6b07a2173fb09ddcac1a48583f4a5`.
+- With the flag absent, `S95nanokvm restart` brought up the new helper and
+  fallback path; HTTP `/api/health` returned OK and authenticated MJPEG returned
+  about 53.7 MiB in 8 seconds.
+- With `/etc/kvm/rust_hwmon_enabled` present, the helper log showed
+  `Rust hwmon passive state active`, briefly `fallback` while the delayed hwmon
+  process restarted, then `active` again after a fresh snapshot.
+- The active snapshot reported USB `configured`, HDMI active at `60` VIFPS, and
+  stream `mjpeg` at `1920x1080`.
+- Authenticated MJPEG in active mode returned about 54.0 MiB in 8 seconds.
+- Final process/hash check showed `kvm_system`, `NanoKVM-Server`, and
+  `nanokvm-hwmon` alive, the feature flag present, and a fresh snapshot.
+- `dmesg` grep found no new `segfault`, `signal 11`, `panic`, `oops`,
+  `fail to allocate ion`, or `invalid buffer`.
+- Confirm OLED shows correct USB, HDMI, stream type, FPS, and resolution during
+  longer manual observation.
 - Confirm no increase in SD-card writes from status polling.
 
 ### Phase 4: Move Safe Control Actions

@@ -3,12 +3,228 @@
 #include <sys/socket.h>
 #include <net/if.h>
 #include <sys/ioctl.h>
+#include <ctype.h>
+#include <time.h>
 
 using namespace maix;
 using namespace maix::sys;
 
 extern kvm_sys_state_t kvm_sys_state;
 extern kvm_oled_state_t kvm_oled_state;
+
+#define RUST_HWMON_FLAG_PATH "/etc/kvm/rust_hwmon_enabled"
+#define RUST_HWMON_STATE_PATH "/tmp/nanokvm-hwmon-state.json"
+#define RUST_HWMON_MAX_AGE_SEC 20
+#define RUST_HWMON_MAX_BYTES 8192
+
+static int rust_hwmon_mode_reported = -1;
+
+static void rust_hwmon_report_mode(int active)
+{
+	if(rust_hwmon_mode_reported == active) return;
+	printf("[kvms]Rust hwmon passive state %s\r\n", active ? "active" : "fallback");
+	fflush(stdout);
+	rust_hwmon_mode_reported = active;
+}
+
+static int rust_hwmon_state_is_fresh(void)
+{
+	struct stat st;
+	time_t now;
+
+	if(stat(RUST_HWMON_STATE_PATH, &st) != 0) return 0;
+	now = ::time(NULL);
+	if(now == (time_t)-1) return 1;
+	if(st.st_mtime > now) return 1;
+	return (now - st.st_mtime) <= RUST_HWMON_MAX_AGE_SEC;
+}
+
+static int read_text_file(const char *path, char *buf, size_t buf_len)
+{
+	FILE *fp;
+	size_t size;
+
+	if(buf_len == 0) return 0;
+	fp = fopen(path, "r");
+	if(fp == NULL) return 0;
+	size = fread(buf, 1, buf_len - 1, fp);
+	if(ferror(fp)){
+		fclose(fp);
+		return 0;
+	}
+	fclose(fp);
+	buf[size] = 0;
+	return size > 0;
+}
+
+static int load_rust_hwmon_snapshot(char *buf, size_t buf_len)
+{
+	if(access(RUST_HWMON_FLAG_PATH, F_OK) != 0){
+		rust_hwmon_mode_reported = -1;
+		return 0;
+	}
+	if(!rust_hwmon_state_is_fresh()){
+		rust_hwmon_report_mode(0);
+		return 0;
+	}
+	if(!read_text_file(RUST_HWMON_STATE_PATH, buf, buf_len)){
+		rust_hwmon_report_mode(0);
+		return 0;
+	}
+	if(strstr(buf, "\"schema\": \"nanokvm-hwmon/v1\"") == NULL){
+		rust_hwmon_report_mode(0);
+		return 0;
+	}
+	return 1;
+}
+
+static const char *json_skip_ws(const char *p, const char *end)
+{
+	while(p < end && *p && isspace((unsigned char)*p)) p++;
+	return p;
+}
+
+static const char *json_find_section(const char *json, const char *section, const char **section_end)
+{
+	char pattern[64];
+	const char *pos;
+	const char *colon;
+	const char *start;
+	int depth = 0;
+
+	snprintf(pattern, sizeof(pattern), "\"%s\"", section);
+	pos = strstr(json, pattern);
+	if(pos == NULL) return NULL;
+	colon = strchr(pos, ':');
+	if(colon == NULL) return NULL;
+	start = strchr(colon, '{');
+	if(start == NULL) return NULL;
+
+	for(const char *p = start; *p; p++){
+		if(*p == '{') depth++;
+		else if(*p == '}'){
+			depth--;
+			if(depth == 0){
+				*section_end = p;
+				return start;
+			}
+		}
+	}
+	return NULL;
+}
+
+static const char *json_find_key(const char *start, const char *end, const char *key)
+{
+	char pattern[64];
+	const char *pos = start;
+
+	snprintf(pattern, sizeof(pattern), "\"%s\"", key);
+	while((pos = strstr(pos, pattern)) != NULL){
+		if(pos >= end) return NULL;
+		return pos;
+	}
+	return NULL;
+}
+
+static int json_bool_in_section(const char *json, const char *section, const char *key, int *out)
+{
+	const char *section_end;
+	const char *section_start = json_find_section(json, section, &section_end);
+	const char *key_pos;
+	const char *value;
+
+	if(section_start == NULL) return 0;
+	key_pos = json_find_key(section_start, section_end, key);
+	if(key_pos == NULL) return 0;
+	value = strchr(key_pos, ':');
+	if(value == NULL || value >= section_end) return 0;
+	value = json_skip_ws(value + 1, section_end);
+	if(strncmp(value, "true", 4) == 0){
+		*out = 1;
+		return 1;
+	}
+	if(strncmp(value, "false", 5) == 0){
+		*out = 0;
+		return 1;
+	}
+	return 0;
+}
+
+static int json_u32_in_section(const char *json, const char *section, const char *key, unsigned long *out)
+{
+	const char *section_end;
+	const char *section_start = json_find_section(json, section, &section_end);
+	const char *key_pos;
+	const char *value;
+	char *end_ptr;
+	unsigned long parsed;
+
+	if(section_start == NULL) return 0;
+	key_pos = json_find_key(section_start, section_end, key);
+	if(key_pos == NULL) return 0;
+	value = strchr(key_pos, ':');
+	if(value == NULL || value >= section_end) return 0;
+	value = json_skip_ws(value + 1, section_end);
+	if(strncmp(value, "null", 4) == 0) return 0;
+	parsed = strtoul(value, &end_ptr, 10);
+	if(end_ptr == value) return 0;
+	*out = parsed;
+	return 1;
+}
+
+static int json_string_in_section(const char *json, const char *section, const char *key, char *out, size_t out_len)
+{
+	const char *section_end;
+	const char *section_start = json_find_section(json, section, &section_end);
+	const char *key_pos;
+	const char *value;
+	size_t i = 0;
+
+	if(out_len == 0) return 0;
+	out[0] = 0;
+	if(section_start == NULL) return 0;
+	key_pos = json_find_key(section_start, section_end, key);
+	if(key_pos == NULL) return 0;
+	value = strchr(key_pos, ':');
+	if(value == NULL || value >= section_end) return 0;
+	value = json_skip_ws(value + 1, section_end);
+	if(strncmp(value, "null", 4) == 0) return 0;
+	if(value >= section_end || *value != '"') return 0;
+	value++;
+	while(value < section_end && *value && *value != '"'){
+		if(*value == '\\' && *(value + 1)) value++;
+		if(i + 1 < out_len) out[i++] = *value;
+		value++;
+	}
+	out[i] = 0;
+	return 1;
+}
+
+static int8_t clamp_i8(unsigned long value)
+{
+	if(value > 127) return 127;
+	return (int8_t)value;
+}
+
+static int16_t clamp_i16(unsigned long value)
+{
+	if(value > 32767) return 32767;
+	return (int16_t)value;
+}
+
+static int stream_quality_bucket(unsigned long raw, int8_t stream_type)
+{
+	if(stream_type == KVM_TYPE_MJPG){
+		if(raw < 60) return 1;
+		if(raw < 75) return 2;
+		if(raw < 90) return 3;
+		return 4;
+	}
+	if(raw < 1500) return 1;
+	if(raw < 2500) return 2;
+	if(raw < 3500) return 3;
+	return 4;
+}
 
 int get_nic_state(const char* interface_name)
 {
@@ -232,6 +448,68 @@ void kvm_update_usb_state()
 		kvm_sys_state.hid_state = 0;
 		kvm_sys_state.udisk_state = 0;
 	}
+}
+
+int kvm_update_passive_state_from_rust_hwmon(void)
+{
+	char json[RUST_HWMON_MAX_BYTES];
+	char value[64];
+	int bool_value;
+	unsigned long number;
+	int applied = 0;
+
+	if(!load_rust_hwmon_snapshot(json, sizeof(json))) return 0;
+
+	if(json_string_in_section(json, "usb", "udc_state", value, sizeof(value))){
+		if(value[0] == 'n') kvm_sys_state.usb_state = 0;
+		else if(value[0] == 'c') kvm_sys_state.usb_state = 1;
+		else kvm_sys_state.usb_state = -1;
+		applied = 1;
+	}
+	if(json_bool_in_section(json, "usb", "hid_enabled", &bool_value)){
+		kvm_sys_state.hid_state = bool_value ? 1 : 0;
+		applied = 1;
+	}
+	if(json_bool_in_section(json, "usb", "mass_storage_enabled", &bool_value)){
+		kvm_sys_state.udisk_state = bool_value ? 1 : 0;
+		applied = 1;
+	}
+	if(json_bool_in_section(json, "usb", "rndis_enabled", &bool_value)){
+		kvm_sys_state.rndis_state = bool_value ? 1 : 0;
+		applied = 1;
+	}
+	if(json_bool_in_section(json, "hdmi", "active", &bool_value)){
+		kvm_sys_state.hdmi_state = bool_value ? 1 : 0;
+		applied = 1;
+	}
+	if(json_string_in_section(json, "stream", "type", value, sizeof(value))){
+		if(value[0] == 'm') kvm_sys_state.type = KVM_TYPE_MJPG;
+		else if(value[0] == 'h') kvm_sys_state.type = KVM_TYPE_H264;
+		else kvm_sys_state.type = KVM_TYPE_none;
+		applied = 1;
+	}
+	if(json_u32_in_section(json, "stream", "now_fps", &number)){
+		kvm_sys_state.now_fps = clamp_i8(number);
+		applied = 1;
+	}
+	if(json_u32_in_section(json, "stream", "width", &number) ||
+		json_u32_in_section(json, "hdmi", "width", &number)){
+		kvm_sys_state.hdmi_width = clamp_i16(number);
+		applied = 1;
+	}
+	if(json_u32_in_section(json, "stream", "height", &number) ||
+		json_u32_in_section(json, "hdmi", "height", &number)){
+		kvm_sys_state.hdmi_height = clamp_i16(number);
+		applied = 1;
+	}
+	if(json_u32_in_section(json, "stream", "qlty", &number)){
+		kvm_sys_state.qlty = stream_quality_bucket(number, kvm_sys_state.type);
+		applied = 1;
+	}
+
+	if(applied) rust_hwmon_report_mode(1);
+	else rust_hwmon_report_mode(0);
+	return applied;
 }
 
 void kvm_update_hdmi_state()

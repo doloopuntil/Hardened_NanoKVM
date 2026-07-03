@@ -152,12 +152,14 @@ void* thread_sys_handle(void * arg)
 			// kvm_update_rndis_state();
 			// kvm_update_tailscale_state();
 			// sys_state
-			kvm_update_usb_state();
-			kvm_update_hdmi_state();
-			kvm_update_stream_fps();
-			kvm_update_hdmi_res();
-			kvm_update_stream_type();
-			kvm_update_stream_qlty();
+			if(!kvm_update_passive_state_from_rust_hwmon()){
+				kvm_update_usb_state();
+				kvm_update_hdmi_state();
+				kvm_update_stream_fps();
+				kvm_update_hdmi_res();
+				kvm_update_stream_type();
+				kvm_update_stream_qlty();
+			}
 			kvm_wifi_web_config_process();
 
 		} else if(kvm_sys_state.page == 1){
