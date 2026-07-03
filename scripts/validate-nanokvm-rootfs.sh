@@ -124,6 +124,8 @@ reject_path /kvmapp/server/NanoKVM-Server.go
 reject_path /kvmapp/server/NanoKVM-Server.go.bak
 reject_path /kvmapp/jpg_stream
 reject_path /kvmapp/kvm_system/kvm_stream
+reject_path /kvmapp/kvm_new_app
+reject_path /kvmapp/kvm_new_img
 reject_path /etc/kvm/scripts/switch-backend-go.sh
 reject_path /etc/kvm/scripts/switch-backend-rust.sh
 reject_path /etc/init.d/S02udisk

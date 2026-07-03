@@ -32,11 +32,11 @@ small reversible slices. The target validation device is 133.
 
 | Area | Current owner | Existing overlap |
 | --- | --- | --- |
-| Boot/app migration markers `kvm_new_app` and `kvm_new_img` | `system_init.cpp` | `S95nanokvm`, `S01fs`, Rust app/system update code |
-| Init script installation | `system_init.cpp` | `S95nanokvm::install_boot_scripts`, Rust `install_runtime_boot_scripts` |
-| `/kvmapp/kvm/*` stream state defaults | `system_init.cpp` | `S95nanokvm::ensure_kvm_state_files`, Rust stream API |
-| Rust server runtime staging/restart | `system_init.cpp` | `S95nanokvm::start_server_runtime`, `restart-server` |
-| DNS bootstrap | `new_img_init()` | Rust network API and `S01fs` preserved config restore |
+| Boot/app migration markers `kvm_new_app` and `kvm_new_img` | `S95nanokvm`; C++ only clears stale markers if reached | `S95nanokvm`, `S01fs`, Rust app/system update code |
+| Init script installation | `S95nanokvm::install_boot_scripts` | Rust startup repair |
+| `/kvmapp/kvm/*` stream state defaults | `S95nanokvm::ensure_kvm_state_files` | Rust stream API |
+| Rust server runtime staging/restart | `S95nanokvm::start_server_runtime`, `restart-server` | Rust app update restart hook |
+| DNS bootstrap | Rust network API and `S01fs` preserved config restore | `S95nanokvm` clears old marker |
 | Wi-Fi API-triggered reconnect | `system_ctrl.cpp` | Rust network API writes the request files, `S30wifi` performs the actual service change |
 | Wi-Fi AP provisioning via OLED/button | `system_ctrl.cpp`, OLED UI | No complete Rust replacement yet |
 | OLED existence and display | `oled_ctrl.cpp`, `oled_ui.cpp` | Rust VM API only reads/writes OLED settings |
@@ -64,22 +64,27 @@ Required check on 133:
 Move one-time migration work out of C++ and into boot/update scripts where it
 belongs.
 
-Steps:
+Completed slices:
 
-1. Add or confirm init-script installation in one place only:
-   `S95nanokvm::install_boot_scripts` plus Rust startup repair.
-2. Move missing `new_app_init()` work into init/update flow:
-   - `update-nanokvm.py` permission/placement if still required.
-   - stale service cleanup for vendor-only scripts.
-   - stale `/kvmapp/jpg_stream` and old stream helper cleanup.
-   - `soph_mipi_rx.ko` compatibility handling if still required for supported
-     images.
-3. Remove server restart/staging from `new_app_init()`. `S95nanokvm` already owns
-   runtime staging and `restart-server`.
-4. Make `kvm_system` ignore or only clear `kvm_new_app` after the new owner has
-   completed migration.
-5. Remove `new_img_init()` hardcoded DNS rewrite after confirming image bootstrap
-   and Rust DNS settings cover it.
+1. `S95nanokvm` owns init-script installation, runtime staging, runtime restart,
+   state-file defaults, legacy app artifact cleanup, `kvm_new_img` cleanup, and
+   legacy `kvm_new_app` handling.
+2. Rust app update validation rejects archives that try to reintroduce
+   `kvm_new_app`, `kvm_new_img`, `jpg_stream`, or `kvm_system/kvm_stream`.
+3. `new_img_init()` no longer writes hardcoded DNS defaults.
+4. `new_app_init()` no longer copies scripts, restarts `NanoKVM-Server`, or
+   reboots the device. If reached, it only clears the stale marker.
+5. Legacy `soph_mipi_rx.ko` compatibility repair moved to `S95nanokvm`, gated by
+   the old `kvm_new_app` marker and executed before runtime starts.
+
+Remaining slices:
+
+1. Decide whether API-triggered Wi-Fi reconnect should stay in the OLED helper
+   until the Rust hardware monitor exists. Current low-risk choice is to leave it
+   in C++ because it shares state with the OLED Wi-Fi provisioning flow.
+2. Add Rust shadow hardware monitor for passive state observation only.
+3. After shadow validation, move passive polling/state normalization out of C++
+   while keeping OLED/button/I2C rendering and control in C++.
 
 Validation on 133:
 

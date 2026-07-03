@@ -69,7 +69,9 @@ rm -rf "$STAGE_DIR"
 mkdir -p "$KVMAPP_STAGE/server" "$KVMAPP_STAGE/backends" "$OUT_DIR"
 cp -R "$ROOT_DIR/kvmapp/." "$KVMAPP_STAGE/"
 rm -rf "$KVMAPP_STAGE/jpg_stream"
-rm -f "$KVMAPP_STAGE/kvm_system/kvm_stream"
+rm -f "$KVMAPP_STAGE/kvm_system/kvm_stream" \
+  "$KVMAPP_STAGE/kvm_new_app" \
+  "$KVMAPP_STAGE/kvm_new_img"
 restore_kvm_system_helper
 
 if [ -n "$APP_VERSION" ]; then
@@ -108,7 +110,7 @@ fi
   printf 'kvm_system_helper: %s\n' "$(wc -c < "$KVMAPP_STAGE/kvm_system/kvm_system" | tr -d ' ') bytes"
 } > "$STAGE_DIR/MANIFEST.txt"
 
-if find "$KVMAPP_STAGE" \( -name 'NanoKVM-Server.go' -o -name 'NanoKVM-Server.go.bak' -o -name 'switch-backend-go.sh' -o -name 'switch-backend-rust.sh' -o -name 'jpg_stream' -o -name 'kvm_stream' \) | grep -q .; then
+if find "$KVMAPP_STAGE" \( -name 'NanoKVM-Server.go' -o -name 'NanoKVM-Server.go.bak' -o -name 'switch-backend-go.sh' -o -name 'switch-backend-rust.sh' -o -name 'jpg_stream' -o -name 'kvm_stream' -o -name 'kvm_new_app' -o -name 'kvm_new_img' \) | grep -q .; then
   echo "legacy backend switch, Go backend, or legacy app migration artifact found in staged kvmapp" >&2
   exit 1
 fi

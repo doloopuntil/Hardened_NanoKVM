@@ -27,10 +27,17 @@ SYSTEM_UPDATE_PUBLIC_KEY=/etc/kvm/system-update-signing.pub.pem
 SYSTEM_UPDATE_BUNDLED_PUBLIC_KEY=/kvmapp/system/keys/system-update-signing.pub.pem
 SENSOR_BUNDLE_DIR=/kvmapp/system/mnt-data
 SENSOR_DATA_DIR=/mnt/data
+LEGACY_NEW_APP_MARKER=/kvmapp/kvm_new_app
+MIPI_RX_MODULE=/mnt/system/ko/soph_mipi_rx.ko
+MIPI_RX_BUNDLED_MODULE=/kvmapp/system/ko/soph_mipi_rx.ko
+MIPI_RX_LEGACY_MD5=086ed01749188975afaa40fb569374f8
+MIPI_RX_CURRENT_MD5=69be7eeded3777f750480a5dd5a1aa26
 BOOT_INIT_SCRIPTS="S00kmod S01fs S01syslogd S02klogd S03usbdev S15kvmhwd S30eth S30wifi S40firewall S49ntp S50avahi-daemon S50sshd S80dnsmasq S95nanokvm"
+OPTIONAL_BOOT_INIT_SCRIPTS="S98tailscaled"
 
 cleanup_legacy_app_artifacts() {
     mkdir -p /etc/kvm /kvmapp/kvm
+    touch /etc/kvm/frame_detact 2>/dev/null || true
 
     if [ -f /kvmapp/system/update-nanokvm.py ]; then
         if ! cmp -s /kvmapp/system/update-nanokvm.py /etc/kvm/update-nanokvm.py; then
@@ -49,6 +56,66 @@ cleanup_legacy_app_artifacts() {
         /kvmapp/kvm_system/kvm_stream 2>/dev/null || true
 
     rm -rf /kvmapp/jpg_stream 2>/dev/null || true
+}
+
+install_optional_boot_scripts() {
+    for name in $OPTIONAL_BOOT_INIT_SCRIPTS; do
+        [ -e "/etc/init.d/$name" ] || continue
+        install_boot_script "$name"
+    done
+}
+
+file_md5() {
+    md5sum "$1" 2>/dev/null | awk '{ print $1 }'
+}
+
+ensure_hdmi_version_file() {
+    [ -x /kvmapp/system/init.d/S15kvmhwd ] || return
+    /kvmapp/system/init.d/S15kvmhwd get_hdmi_version >/dev/null 2>&1 || true
+}
+
+mipi_rx_module_is_compatible() {
+    current_md5="$(file_md5 "$MIPI_RX_MODULE")"
+    [ -n "$current_md5" ] || return 1
+
+    hdmi_version="$(cat /etc/kvm/hdmi_version 2>/dev/null | head -c 2)"
+    case "$hdmi_version" in
+        u*|d*)
+            [ "$current_md5" = "$MIPI_RX_CURRENT_MD5" ]
+            ;;
+        *)
+            [ "$current_md5" = "$MIPI_RX_LEGACY_MD5" ] || [ "$current_md5" = "$MIPI_RX_CURRENT_MD5" ]
+            ;;
+    esac
+}
+
+update_mipi_rx_module_if_needed() {
+    [ -f "$MIPI_RX_BUNDLED_MODULE" ] || return
+
+    ensure_hdmi_version_file
+    if mipi_rx_module_is_compatible; then
+        return
+    fi
+
+    if cp "$MIPI_RX_BUNDLED_MODULE" "$MIPI_RX_MODULE"; then
+        echo "$(date '+%Y-%m-%d %H:%M:%S') updated legacy soph_mipi_rx.ko; rebooting before runtime start" >> /tmp/nanokvm-watchdog.log
+        sync
+        reboot
+        exit 0
+    fi
+
+    echo "$(date '+%Y-%m-%d %H:%M:%S') failed to update legacy soph_mipi_rx.ko; continuing boot" >> /tmp/nanokvm-watchdog.log
+}
+
+cleanup_legacy_new_app_marker() {
+    [ -e "$LEGACY_NEW_APP_MARKER" ] || return
+
+    echo "$(date '+%Y-%m-%d %H:%M:%S') handling legacy kvm_new_app marker in S95nanokvm" >> /tmp/nanokvm-watchdog.log
+    rmmod soph_saradc 2>/dev/null || true
+    rm -f /mnt/system/ko/soph_saradc.ko 2>/dev/null || true
+    update_mipi_rx_module_if_needed
+    [ -e /root/old/kvm_new_img ] && rm -rf /root/old 2>/dev/null || true
+    rm -f "$LEGACY_NEW_APP_MARKER" 2>/dev/null || true
 }
 
 cleanup_legacy_new_image_marker() {
@@ -151,6 +218,7 @@ install_boot_scripts() {
     for name in $BOOT_INIT_SCRIPTS; do
         install_boot_script "$name"
     done
+    install_optional_boot_scripts
 }
 
 restore_sensor_configs() {
@@ -396,6 +464,7 @@ start_runtime() {
     install_system_update_public_key
     install_boot_scripts
     cleanup_legacy_app_artifacts
+    cleanup_legacy_new_app_marker
     cleanup_legacy_new_image_marker
 
     cp -r /kvmapp/kvm_system /tmp/
