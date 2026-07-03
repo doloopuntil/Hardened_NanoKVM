@@ -1,8 +1,11 @@
 #!/bin/sh
 
 DAEMON=/usr/sbin/ntpd
+NTPDATE=/usr/bin/ntpdate
 PIDFILE=/var/run/ntpd.pid
 CONFIG_FILE=/etc/kvm/time.json
+NTP_CONF=/etc/ntp.conf
+DEFAULT_NTP_SERVERS="0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org"
 
 NTPD_ARGS=" -g"
 [ -r /etc/default/ntpd ] && . /etc/default/ntpd
@@ -15,12 +18,118 @@ ntp_enabled() {
     return 0
 }
 
+valid_ntp_server() {
+    server="$1"
+    case "$server" in
+        ""|-*|:*|*..*|*[!A-Za-z0-9._:-]*|*-)
+            return 1
+            ;;
+    esac
+    return 0
+}
+
+config_ntp_servers() {
+    [ -r "$CONFIG_FILE" ] || return 0
+
+    awk '
+        /"servers"[[:space:]]*:/ {
+            in_servers = 1
+            sub(/^.*\[/, "")
+        }
+        in_servers {
+            line = $0
+            while (match(line, /"[^"]+"/)) {
+                print substr(line, RSTART + 1, RLENGTH - 2)
+                line = substr(line, RSTART + RLENGTH)
+            }
+            if ($0 ~ /\]/) {
+                exit
+            }
+        }
+    ' "$CONFIG_FILE" 2>/dev/null
+}
+
+existing_ntp_servers() {
+    [ -r "$NTP_CONF" ] || return 0
+    awk '$1 == "server" || $1 == "pool" { print $2 }' "$NTP_CONF" 2>/dev/null
+}
+
+ntp_servers() {
+    count=0
+    for server in $(config_ntp_servers); do
+        if valid_ntp_server "$server"; then
+            printf '%s\n' "$server"
+            count=$((count + 1))
+            [ "$count" -ge 6 ] && return 0
+        fi
+    done
+    [ "$count" -gt 0 ] && return 0
+
+    for server in $(existing_ntp_servers); do
+        if valid_ntp_server "$server"; then
+            printf '%s\n' "$server"
+            count=$((count + 1))
+            [ "$count" -ge 6 ] && return 0
+        fi
+    done
+    [ "$count" -gt 0 ] && return 0
+
+    for server in $DEFAULT_NTP_SERVERS; do
+        printf '%s\n' "$server"
+    done
+}
+
+write_ntp_conf() {
+    tmp=/etc/.ntp.conf.tmp
+    {
+        echo "# Managed by Hardened NanoKVM."
+        echo "driftfile /var/lib/ntp/ntp.drift"
+        echo
+        ntp_servers | while read -r server; do
+            [ -n "$server" ] && printf 'server %s iburst\n' "$server"
+        done
+        echo
+        echo "restrict default kod nomodify notrap nopeer noquery"
+        echo "restrict 127.0.0.1"
+        echo "restrict ::1"
+    } > "$tmp" && mv "$tmp" "$NTP_CONF"
+}
+
+sync_time_once() {
+    [ -x "$NTPDATE" ] || return 0
+
+    server="$(ntp_servers | sed -n '1p')"
+    [ -n "$server" ] || return 0
+
+    printf 'syncing time with %s: ' "$server"
+    "$NTPDATE" -u "$server" >/tmp/ntpdate.log 2>&1 &
+    ntpdate_pid=$!
+    (
+        sleep 20
+        kill "$ntpdate_pid" 2>/dev/null
+    ) >/dev/null 2>&1 &
+    watchdog_pid=$!
+    wait "$ntpdate_pid"
+    status=$?
+    kill "$watchdog_pid" 2>/dev/null
+
+    if [ "$status" = 0 ]; then
+        echo OK
+    else
+        echo WARN
+        sed -n '1,3p' /tmp/ntpdate.log 2>/dev/null
+    fi
+}
+
 start() {
     printf 'Starting ntpd: '
     if ! ntp_enabled; then
         echo 'disabled'
         return 0
     fi
+    write_ntp_conf
+    sync_time_once
+    printf 'Starting ntpd daemon: '
     start-stop-daemon -S -q -b -m -p "$PIDFILE" -x "$DAEMON" -- $NTPD_ARGS -p "$PIDFILE"
     [ $? = 0 ] && echo OK || echo FAIL
 }

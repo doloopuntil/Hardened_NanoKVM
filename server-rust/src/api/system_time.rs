@@ -27,6 +27,7 @@ const DEFAULT_NTP_SERVERS: &[&str] = &[
     "2.pool.ntp.org",
     "3.pool.ntp.org",
 ];
+const NTP_SERVICE_TIMEOUT: Duration = Duration::from_secs(30);
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
@@ -370,7 +371,7 @@ fn set_timezone(timezone: &str) -> Result<()> {
 
 async fn apply_ntp_state(enabled: bool) -> Result<()> {
     let action = if enabled { "restart" } else { "stop" };
-    let output = run_allowed(AllowedCommand::ServiceNtp, [action], Duration::from_secs(8)).await?;
+    let output = run_allowed(AllowedCommand::ServiceNtp, [action], NTP_SERVICE_TIMEOUT).await?;
     if output.status != 0 {
         return Err(AppError::Internal(command_error(
             "failed to apply NTP settings",
