@@ -2,8 +2,8 @@
 
 ## Hardened NanoKVM 2.0.27 RC5 (2026-07-03)
 
-Application-only release candidate. The raw system-update and SD-card channels
-remain on the tested RC4 `0.2.18-raw.1` baseline.
+Full application, raw system-update, and SD-card release candidate with app
+`2.0.27`, raw system-update `0.2.19-raw.1`, and matching SD-card image.
 
 ### Changed
 
@@ -14,14 +14,20 @@ remain on the tested RC4 `0.2.18-raw.1` baseline.
 * Strengthened package/rootfs validation for stale backend artifacts.
 * Simplified System settings confirmation flows:
   * Network now has one Apply action for IPv4, DNS, and IPv6 changes.
-  * Firewall mode cards now select a mode, and one Apply action performs the
-    change with the existing guarded confirmations where needed.
+  * Network, Time, and System Log keep their save action in the fixed System
+    header when there are pending changes.
+  * Firewall mode cards now ask for confirmation directly and apply the
+    selected mode without a separate Apply button.
+  * The System section header remains fixed while long sections scroll.
+* Published matching raw system-update and SD-card artifacts for
+  `0.2.19-raw.1`.
 
 ### Verified
 
-* Rust backend tests, frontend build, linked RISC-V build, and release package
-  validation passed locally.
-* The app package was installed and smoke-tested on NanoKVM hardware.
+* Rust backend tests, frontend build, linked RISC-V build, release package
+  validation, raw/rootfs validation, and metadata verification passed locally.
+* The app package and final System settings UI were installed and smoke-tested
+  on NanoKVM hardware.
 
 ## Hardened NanoKVM 2.0.26 RC4 (2026-07-02)
 

@@ -12,9 +12,9 @@ Current published channels:
 
 - app update: `2.0.27 RC5`, tag `hardened-rust-rc5`;
 - current source/test build: `2.0.27`, smoke-tested on hardware;
-- raw system-update: `0.2.18-raw.1`, built from the RC4 `2.0.26` SD rootfs
+- raw system-update: `0.2.19-raw.1`, built from the RC5 `2.0.27` SD rootfs
   with gzip-compressed raw payload staging and sysrq reboot after raw writes;
-- SD-card image: RC4 `2.0.26` / `0.2.18-raw.1`.
+- SD-card image: RC5 `2.0.27` / `0.2.19-raw.1`.
 
 ## Build
 

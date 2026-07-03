@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Divider, Segmented } from 'antd';
+import { Button, Segmented } from 'antd';
 import { SaveIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -55,7 +55,7 @@ export const System = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-20 -mx-1 bg-neutral-900/95 px-1 pb-3 pt-1 backdrop-blur">
+      <div className="sticky top-14 z-20 -mx-1 mb-6 border-b border-neutral-700/70 bg-neutral-900/95 px-1 pb-3 pt-1 shadow-[0_10px_20px_rgba(0,0,0,0.25)] backdrop-blur before:absolute before:bottom-full before:left-0 before:right-0 before:h-14 before:bg-neutral-900/95 before:content-['']">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-base">{t('settings.system.title')}</div>
           <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
@@ -91,7 +91,6 @@ export const System = () => {
           </div>
         </div>
       </div>
-      <Divider className="opacity-50" />
 
       {section === 'network' && (
         <Network

@@ -21,8 +21,8 @@ SD-card images. Install those through the web GUI updater instead.
 - Pick the target disk carefully. A wrong disk name can overwrite your computer
   drive.
 
-Current release note: the latest published full SD-card image remains the RC4
-`2.0.26` image with matching raw system version `0.2.18-raw.1`. It includes
+Current release note: the latest published full SD-card image is the RC5
+`2.0.27` image with matching raw system version `0.2.19-raw.1`. It includes
 raw-system update support and the
 `Buildroot 2023.11.3 package backports` security-backport baseline.
 
