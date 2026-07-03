@@ -51,6 +51,12 @@ cleanup_legacy_app_artifacts() {
     rm -rf /kvmapp/jpg_stream 2>/dev/null || true
 }
 
+cleanup_legacy_new_image_marker() {
+    [ -e /kvmapp/kvm_new_img ] || return
+    echo "$(date '+%Y-%m-%d %H:%M:%S') removed legacy kvm_new_img marker; DNS is managed by network config" >> /tmp/nanokvm-watchdog.log
+    rm -f /kvmapp/kvm_new_img 2>/dev/null || true
+}
+
 wait_process_exit() {
     name="$1"
     for _ in 1 2 3 4 5; do
@@ -390,6 +396,7 @@ start_runtime() {
     install_system_update_public_key
     install_boot_scripts
     cleanup_legacy_app_artifacts
+    cleanup_legacy_new_image_marker
 
     cp -r /kvmapp/kvm_system /tmp/
     nohup /tmp/kvm_system/kvm_system >/tmp/kvm_system.log 2>&1 &

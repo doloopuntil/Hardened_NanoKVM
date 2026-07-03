@@ -183,20 +183,13 @@ void new_app_init(void)
 
 void build_complete_resolv(void)
 {
-	FILE *fp = NULL;
-	// fp = fopen("/boot/resolv.conf", "w+");
-	fp = fopen("/boot/resolv.conf", "w");
-	// 阿里: 223.5.5.5
-	// 腾讯: 119.29.29.29
-	fprintf(fp, "nameserver 192.168.0.1\nnameserver 8.8.4.4\nnameserver 8.8.8.8\nnameserver 114.114.114.114\nnameserver 119.29.29.29\nnameserver 223.5.5.5");
-	fclose(fp);
-	system("rm -rf /etc/resolv.conf");
-	system("cp -vf /etc/resolv.conf /etc/resolv.conf.old");
-	system("cp -vf /boot/resolv.conf /etc/resolv.conf");
+	// DNS is owned by the Rust network API and init scripts. The legacy helper
+	// used to overwrite resolv.conf with public defaults on new images, which
+	// could break private lab DNS and static network settings.
 }
 
 void new_img_init(void)
 {
 	build_complete_resolv();
-	system("rm /kvmapp/kvm_new_img");
+	system("rm -f /kvmapp/kvm_new_img");
 }
