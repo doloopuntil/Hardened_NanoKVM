@@ -430,6 +430,18 @@ fn validate_update_root(root: &Path) -> Result<()> {
             )));
         }
     }
+    for relative in [
+        "kvm_new_app",
+        "kvm_new_img",
+        "jpg_stream",
+        "kvm_system/kvm_stream",
+    ] {
+        if root.join(relative).exists() {
+            return Err(AppError::BadRequest(format!(
+                "update archive contains forbidden legacy app migration artifact: {relative}"
+            )));
+        }
+    }
     validate_update_tree_has_no_symlinks(root)?;
     Ok(())
 }
@@ -978,6 +990,35 @@ mod tests {
 
         let err = validate_update_root(root).unwrap_err();
         assert!(err.to_string().contains("legacy Go backend"));
+    }
+
+    #[test]
+    fn rejects_legacy_app_migration_artifacts_in_update_root() {
+        for relative in [
+            "kvm_new_app",
+            "kvm_new_img",
+            "jpg_stream",
+            "kvm_system/kvm_stream",
+        ] {
+            let dir = tempfile::tempdir().unwrap();
+            let root = dir.path();
+            fs::create_dir_all(root.join("server")).unwrap();
+            fs::create_dir_all(root.join("system/init.d")).unwrap();
+            fs::create_dir_all(root.join("backends")).unwrap();
+            fs::write(root.join("server/NanoKVM-Server"), b"rust").unwrap();
+            fs::write(root.join("system/init.d/S95nanokvm"), b"init").unwrap();
+            fs::write(root.join("backends/NanoKVM-Server.rust"), b"rust").unwrap();
+            if relative == "jpg_stream" {
+                fs::create_dir(root.join(relative)).unwrap();
+            } else {
+                let path = root.join(relative);
+                fs::create_dir_all(path.parent().unwrap()).unwrap();
+                fs::write(path, b"legacy").unwrap();
+            }
+
+            let err = validate_update_root(root).unwrap_err();
+            assert!(err.to_string().contains("legacy app migration artifact"));
+        }
     }
 
     #[test]
