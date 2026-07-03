@@ -400,7 +400,9 @@ pub async fn connect_wifi(Json(req): Json<ConnectWifiReq>) -> Result<impl IntoRe
     let ssid = validate_wifi_ssid(&req.ssid)?;
     let password = validate_wifi_password(&req.password)?;
 
-    write_wifi_connect_files(&ssid, &password)?;
+    write_wifi_credentials(&ssid, &password)?;
+    remove_file_if_exists(WIFI_CONNECT_FILE)?;
+    restart_wifi_after_web_config().await?;
 
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
@@ -533,9 +535,33 @@ fn validate_wifi_password(password: &str) -> Result<String> {
 }
 
 fn write_wifi_connect_files(ssid: &str, password: &str) -> Result<()> {
+    write_wifi_credentials(ssid, password)?;
+    write_wifi_connect_marker()
+}
+
+fn write_wifi_credentials(ssid: &str, password: &str) -> Result<()> {
     write_file(Path::new(WIFI_SSID_FILE), ssid.as_bytes(), 0o644)?;
-    write_file(Path::new(WIFI_PASSWORD_FILE), password.as_bytes(), 0o600)?;
+    write_file(Path::new(WIFI_PASSWORD_FILE), password.as_bytes(), 0o600)
+}
+
+fn write_wifi_connect_marker() -> Result<()> {
     write_file(Path::new(WIFI_CONNECT_FILE), &[], 0o644)
+}
+
+async fn restart_wifi_after_web_config() -> Result<()> {
+    let output = run_allowed(
+        AllowedCommand::ServiceWifi,
+        ["restart"],
+        Duration::from_secs(20),
+    )
+    .await?;
+    if output.status != 0 {
+        return Err(AppError::Internal(command_error(
+            "failed to restart wifi",
+            output,
+        )));
+    }
+    Ok(())
 }
 
 fn normalize_wifi_secret(content: &str) -> String {

@@ -289,10 +289,37 @@ Move service-control actions that are already shell-based and recoverable:
 - Optional AP provisioning state machine, only after preserving OLED/button UX.
 - Watchdog temp marker creation/removal if still needed.
 
+Completed first slice:
+
+1. Authenticated web/API Wi-Fi connect now writes `/etc/kvm/wifi.ssid` and
+   `/etc/kvm/wifi.pass`, removes any stale `/kvmapp/kvm/wifi_try_connect`
+   marker, and runs `/etc/init.d/S30wifi restart` directly from the Rust
+   backend through the allowlisted command wrapper.
+2. AP setup unauthenticated Wi-Fi connect still writes
+   `/kvmapp/kvm/wifi_try_connect` and leaves handling to the C++ OLED/AP state
+   machine. That preserves the setup-screen transitions until AP provisioning is
+   deliberately migrated.
+3. The legacy C++ `kvm_wifi_web_config_process()` remains as a temporary
+   compatibility fallback, but the normal web/API path no longer depends on it
+   and no longer creates the marker that could trigger duplicate restarts.
+
 Validation on 133:
 
-- Configure Wi-Fi from web UI and OLED AP flow.
-- Verify `S30wifi restart` and `S30wifi ap` paths.
+- Built the linked Rust backend and installed `NanoKVM-Server` hash
+  `fce9ba421303eb8a5baa4d6114b08c7ee95355fc256bc2fe04d4d518700c2283`.
+- `S95nanokvm restart-server` brought up the new backend while `kvm_system` and
+  `nanokvm-hwmon` stayed alive.
+- `/api/health` returned OK and authenticated MJPEG returned about 52.7 MiB in
+  8 seconds.
+- 133 has no Wi-Fi module, so the positive `S30wifi restart` path could not be
+  exercised there. Authenticated POST to the Wi-Fi connect endpoint reached the
+  expected business logic and returned `wifi is not supported` without creating
+  Wi-Fi credentials or `/kvmapp/kvm/wifi_try_connect`.
+- `dmesg` grep found no new `segfault`, `signal 11`, `panic`, `oops`,
+  `fail to allocate ion`, or `invalid buffer`.
+- Remaining: configure Wi-Fi from web UI on a device with `wlan0` and verify the
+  direct Rust `S30wifi restart` path.
+- Remaining: verify `S30wifi ap` and OLED AP flow are unchanged.
 - Verify failure recovery returns to the expected OLED page/state.
 
 ### Phase 5: Evaluate Hardware I/O Last
