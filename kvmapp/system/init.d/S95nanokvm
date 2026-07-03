@@ -29,6 +29,28 @@ SENSOR_BUNDLE_DIR=/kvmapp/system/mnt-data
 SENSOR_DATA_DIR=/mnt/data
 BOOT_INIT_SCRIPTS="S00kmod S01fs S01syslogd S02klogd S03usbdev S15kvmhwd S30eth S30wifi S40firewall S49ntp S50avahi-daemon S50sshd S80dnsmasq S95nanokvm"
 
+cleanup_legacy_app_artifacts() {
+    mkdir -p /etc/kvm /kvmapp/kvm
+
+    if [ -f /kvmapp/system/update-nanokvm.py ]; then
+        if ! cmp -s /kvmapp/system/update-nanokvm.py /etc/kvm/update-nanokvm.py; then
+            cp /kvmapp/system/update-nanokvm.py /etc/kvm/update-nanokvm.py
+        fi
+        chmod 0755 /etc/kvm/update-nanokvm.py 2>/dev/null || true
+    fi
+
+    rm -f \
+        /boot/logo.jpeg \
+        /etc/init.d/S02udisk \
+        /etc/init.d/S04backlight \
+        /etc/init.d/S05tp \
+        /etc/init.d/S40bluetoothd \
+        /etc/init.d/S50ssdpd \
+        /kvmapp/kvm_system/kvm_stream 2>/dev/null || true
+
+    rm -rf /kvmapp/jpg_stream 2>/dev/null || true
+}
+
 wait_process_exit() {
     name="$1"
     for _ in 1 2 3 4 5; do
@@ -367,6 +389,7 @@ start_runtime() {
     ensure_kvm_state_files
     install_system_update_public_key
     install_boot_scripts
+    cleanup_legacy_app_artifacts
 
     cp -r /kvmapp/kvm_system /tmp/
     nohup /tmp/kvm_system/kvm_system >/tmp/kvm_system.log 2>&1 &

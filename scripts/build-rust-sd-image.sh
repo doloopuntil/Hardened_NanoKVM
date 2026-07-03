@@ -111,6 +111,10 @@ fi
   printf 'rm /kvmapp/backends/NanoKVM-Server.go\n'
   printf 'rm /kvmapp/server/NanoKVM-Server.go\n'
   printf 'rm /kvmapp/server/NanoKVM-Server.go.bak\n'
+  printf 'rm /kvmapp/jpg_stream/jpg_stream\n'
+  printf 'rm /kvmapp/jpg_stream/S95nanokvm\n'
+  printf 'rmdir /kvmapp/jpg_stream\n'
+  printf 'rm /kvmapp/kvm_system/kvm_stream\n'
   printf 'rm /kvmapp/backends/NanoKVM-Server.rust\n'
   printf 'write %s /kvmapp/backends/NanoKVM-Server.rust\n' "$KVMAPP_DIR/server/NanoKVM-Server"
   printf 'sif /kvmapp/backends/NanoKVM-Server.rust mode 0100755\n'
@@ -130,6 +134,11 @@ fi
   printf 'sif /etc/kvm/backend gid 0\n'
   printf 'rm /etc/kvm/scripts/switch-backend-go.sh\n'
   printf 'rm /etc/kvm/scripts/switch-backend-rust.sh\n'
+  printf 'rm /etc/init.d/S02udisk\n'
+  printf 'rm /etc/init.d/S04backlight\n'
+  printf 'rm /etc/init.d/S05tp\n'
+  printf 'rm /etc/init.d/S40bluetoothd\n'
+  printf 'rm /etc/init.d/S50ssdpd\n'
 
   if [ -n "$SYSTEM_VERSION" ]; then
     printf 'rm /etc/kvm/system-version.json\n'

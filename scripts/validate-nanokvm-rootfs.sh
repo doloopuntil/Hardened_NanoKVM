@@ -122,8 +122,15 @@ done
 reject_path /kvmapp/backends/NanoKVM-Server.go
 reject_path /kvmapp/server/NanoKVM-Server.go
 reject_path /kvmapp/server/NanoKVM-Server.go.bak
+reject_path /kvmapp/jpg_stream
+reject_path /kvmapp/kvm_system/kvm_stream
 reject_path /etc/kvm/scripts/switch-backend-go.sh
 reject_path /etc/kvm/scripts/switch-backend-rust.sh
+reject_path /etc/init.d/S02udisk
+reject_path /etc/init.d/S04backlight
+reject_path /etc/init.d/S05tp
+reject_path /etc/init.d/S40bluetoothd
+reject_path /etc/init.d/S50ssdpd
 
 version_file=$(dump_file /kvmapp/version version)
 version=$(trim_file "$version_file")
