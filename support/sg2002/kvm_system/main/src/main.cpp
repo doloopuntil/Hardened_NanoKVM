@@ -84,9 +84,7 @@ void* thread_key_handle(void * arg)
 				oled_auto_sleep_time_update();
 				// printf ("[kvmk]按键抬起\n");
 				press_cycle = time::time_ms() - press_time;
-				if(press_cycle >= KEY_LONGLONG_PRESS){
-					kvm_reset_password();
-				} else if (press_cycle >= KEY_LONG_PRESS && press_cycle < KEY_LONGLONG_PRESS){
+				if (press_cycle >= KEY_LONG_PRESS){
 					// long
 					// printf ("[kvmk]按键长按\n");
 					// printf("[kvmk]wifi_state = %d\n", kvm_sys_state.wifi_state);

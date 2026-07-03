@@ -152,30 +152,3 @@ void kvm_wifi_config_process()
 			break;
 	}
 }
-
-uint8_t kvm_reset_password(void)
-{
-	FILE *fp = popen("bash", "w");
-    if (fp == NULL) {
-        perror("popen");
-        return 0;
-    }
-
-    fputs("passwd root\n", fp);
-	time::sleep_ms(10);
-    fputs("root\n", fp);
-	time::sleep_ms(10);
-    fputs("root\n", fp);
-	time::sleep_ms(10);
-    fputs("rm /etc/kvm/pwd\n", fp);
-	time::sleep_ms(10);
-    fputs("sync\n", fp);
-	time::sleep_ms(10);
-    fputs("exit\n", fp); // 退出 bash
-
-    if (pclose(fp) == -1) {
-        perror("pclose");
-        return 1;
-    }
-    return 0;
-}

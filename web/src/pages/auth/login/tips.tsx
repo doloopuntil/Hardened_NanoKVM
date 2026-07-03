@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { Button, Card, Modal, Typography } from 'antd';
+import { Button, Card, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
-
-const { Text } = Typography;
 
 export const Tips = () => {
   const { t } = useTranslation();
@@ -35,27 +33,12 @@ export const Tips = () => {
       >
         <Card style={{ marginTop: '20px' }}>
           <div className="flex w-[430px] flex-col space-y-5">
-            <div>{t('auth.tips.reset1')}</div>
-
-            <div className="flex items-center space-x-1">
-              <span>{t('auth.tips.reset2')}</span>
-              <a href="https://wiki.sipeed.com/hardware/en/kvm/NanoKVM/reset.html" target="_blank">
-                wiki
-              </a>
+            <div>
+              {t('auth.tips.hardenedRecovery', {
+                defaultValue:
+                  'This Hardened image does not support password reset from the BOOT button. If the password is lost, reflash the SD card and create a new account.'
+              })}
             </div>
-
-            <ul className="list-outside list-disc">
-              <li>
-                {t('auth.tips.reset3')}
-                <Text>
-                  {t('auth.tips.resetWebAccount', { defaultValue: 'created during first setup' })}
-                </Text>
-              </li>
-              <li>
-                {t('auth.tips.reset4')}
-                <Text code={true}>root/root</Text>
-              </li>
-            </ul>
           </div>
         </Card>
 
