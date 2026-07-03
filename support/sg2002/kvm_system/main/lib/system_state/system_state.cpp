@@ -84,7 +84,7 @@ static const char *json_skip_ws(const char *p, const char *end)
 	return p;
 }
 
-static const char *json_find_section(const char *json, const char *section, const char **section_end)
+static const char *json_find_section_range(const char *range_start, const char *range_end, const char *section, const char **section_end)
 {
 	char pattern[64];
 	const char *pos;
@@ -93,14 +93,15 @@ static const char *json_find_section(const char *json, const char *section, cons
 	int depth = 0;
 
 	snprintf(pattern, sizeof(pattern), "\"%s\"", section);
-	pos = strstr(json, pattern);
+	pos = strstr(range_start, pattern);
 	if(pos == NULL) return NULL;
+	if(pos >= range_end) return NULL;
 	colon = strchr(pos, ':');
-	if(colon == NULL) return NULL;
+	if(colon == NULL || colon >= range_end) return NULL;
 	start = strchr(colon, '{');
-	if(start == NULL) return NULL;
+	if(start == NULL || start >= range_end) return NULL;
 
-	for(const char *p = start; *p; p++){
+	for(const char *p = start; *p && p < range_end; p++){
 		if(*p == '{') depth++;
 		else if(*p == '}'){
 			depth--;
@@ -111,6 +112,11 @@ static const char *json_find_section(const char *json, const char *section, cons
 		}
 	}
 	return NULL;
+}
+
+static const char *json_find_section(const char *json, const char *section, const char **section_end)
+{
+	return json_find_section_range(json, json + strlen(json), section, section_end);
 }
 
 static const char *json_find_key(const char *start, const char *end, const char *key)
@@ -126,19 +132,16 @@ static const char *json_find_key(const char *start, const char *end, const char 
 	return NULL;
 }
 
-static int json_bool_in_section(const char *json, const char *section, const char *key, int *out)
+static int json_bool_in_range(const char *start, const char *end, const char *key, int *out)
 {
-	const char *section_end;
-	const char *section_start = json_find_section(json, section, &section_end);
 	const char *key_pos;
 	const char *value;
 
-	if(section_start == NULL) return 0;
-	key_pos = json_find_key(section_start, section_end, key);
+	key_pos = json_find_key(start, end, key);
 	if(key_pos == NULL) return 0;
 	value = strchr(key_pos, ':');
-	if(value == NULL || value >= section_end) return 0;
-	value = json_skip_ws(value + 1, section_end);
+	if(value == NULL || value >= end) return 0;
+	value = json_skip_ws(value + 1, end);
 	if(strncmp(value, "true", 4) == 0){
 		*out = 1;
 		return 1;
@@ -150,21 +153,45 @@ static int json_bool_in_section(const char *json, const char *section, const cha
 	return 0;
 }
 
-static int json_u32_in_section(const char *json, const char *section, const char *key, unsigned long *out)
+static int json_bool_in_section(const char *json, const char *section, const char *key, int *out)
 {
 	const char *section_end;
 	const char *section_start = json_find_section(json, section, &section_end);
+	if(section_start == NULL) return 0;
+	return json_bool_in_range(section_start, section_end, key, out);
+}
+
+static int json_i32_in_range(const char *start, const char *end, const char *key, long *out)
+{
+	const char *key_pos;
+	const char *value;
+	char *end_ptr;
+	long parsed;
+
+	key_pos = json_find_key(start, end, key);
+	if(key_pos == NULL) return 0;
+	value = strchr(key_pos, ':');
+	if(value == NULL || value >= end) return 0;
+	value = json_skip_ws(value + 1, end);
+	if(strncmp(value, "null", 4) == 0) return 0;
+	parsed = strtol(value, &end_ptr, 10);
+	if(end_ptr == value) return 0;
+	*out = parsed;
+	return 1;
+}
+
+static int json_u32_in_range(const char *start, const char *end, const char *key, unsigned long *out)
+{
 	const char *key_pos;
 	const char *value;
 	char *end_ptr;
 	unsigned long parsed;
 
-	if(section_start == NULL) return 0;
-	key_pos = json_find_key(section_start, section_end, key);
+	key_pos = json_find_key(start, end, key);
 	if(key_pos == NULL) return 0;
 	value = strchr(key_pos, ':');
-	if(value == NULL || value >= section_end) return 0;
-	value = json_skip_ws(value + 1, section_end);
+	if(value == NULL || value >= end) return 0;
+	value = json_skip_ws(value + 1, end);
 	if(strncmp(value, "null", 4) == 0) return 0;
 	parsed = strtoul(value, &end_ptr, 10);
 	if(end_ptr == value) return 0;
@@ -172,32 +199,45 @@ static int json_u32_in_section(const char *json, const char *section, const char
 	return 1;
 }
 
-static int json_string_in_section(const char *json, const char *section, const char *key, char *out, size_t out_len)
+static int json_u32_in_section(const char *json, const char *section, const char *key, unsigned long *out)
 {
 	const char *section_end;
 	const char *section_start = json_find_section(json, section, &section_end);
+	if(section_start == NULL) return 0;
+	return json_u32_in_range(section_start, section_end, key, out);
+}
+
+static int json_string_in_range(const char *start, const char *end, const char *key, char *out, size_t out_len)
+{
 	const char *key_pos;
 	const char *value;
 	size_t i = 0;
 
 	if(out_len == 0) return 0;
 	out[0] = 0;
-	if(section_start == NULL) return 0;
-	key_pos = json_find_key(section_start, section_end, key);
+	key_pos = json_find_key(start, end, key);
 	if(key_pos == NULL) return 0;
 	value = strchr(key_pos, ':');
-	if(value == NULL || value >= section_end) return 0;
-	value = json_skip_ws(value + 1, section_end);
+	if(value == NULL || value >= end) return 0;
+	value = json_skip_ws(value + 1, end);
 	if(strncmp(value, "null", 4) == 0) return 0;
-	if(value >= section_end || *value != '"') return 0;
+	if(value >= end || *value != '"') return 0;
 	value++;
-	while(value < section_end && *value && *value != '"'){
+	while(value < end && *value && *value != '"'){
 		if(*value == '\\' && *(value + 1)) value++;
 		if(i + 1 < out_len) out[i++] = *value;
 		value++;
 	}
 	out[i] = 0;
 	return 1;
+}
+
+static int json_string_in_section(const char *json, const char *section, const char *key, char *out, size_t out_len)
+{
+	const char *section_end;
+	const char *section_start = json_find_section(json, section, &section_end);
+	if(section_start == NULL) return 0;
+	return json_string_in_range(section_start, section_end, key, out, out_len);
 }
 
 static int8_t clamp_i8(unsigned long value)
@@ -224,6 +264,57 @@ static int stream_quality_bucket(unsigned long raw, int8_t stream_type)
 	if(raw < 2500) return 2;
 	if(raw < 3500) return 3;
 	return 4;
+}
+
+static void copy_state_string(uint8_t *dst, size_t dst_len, const char *src)
+{
+	if(dst_len == 0) return;
+	memset(dst, 0, dst_len);
+	if(src == NULL) return;
+	strncpy((char*)dst, src, dst_len - 1);
+}
+
+static int json_find_network_interface(const char *json, const char *name, const char **iface_start, const char **iface_end)
+{
+	const char *network_start;
+	const char *network_end;
+	const char *interfaces_start;
+	const char *interfaces_end;
+
+	network_start = json_find_section(json, "network", &network_end);
+	if(network_start == NULL) return 0;
+	interfaces_start = json_find_section_range(network_start, network_end, "interfaces", &interfaces_end);
+	if(interfaces_start == NULL) return 0;
+	*iface_start = json_find_section_range(interfaces_start, interfaces_end, name, iface_end);
+	return *iface_start != NULL;
+}
+
+static int kvm_apply_rust_hwmon_eth_state(void)
+{
+	char json[RUST_HWMON_MAX_BYTES];
+	char value[64];
+	const char *eth_start;
+	const char *eth_end;
+	long state;
+
+	if(!load_rust_hwmon_snapshot(json, sizeof(json))) return 0;
+	if(!json_find_network_interface(json, "eth0", &eth_start, &eth_end)) return 0;
+	if(!json_i32_in_range(eth_start, eth_end, "route_state", &state)) return 0;
+	if(state < 0) state = 0;
+	if(state > 3) state = 3;
+	kvm_sys_state.eth_state = (int8_t)state;
+
+	if(json_string_in_range(eth_start, eth_end, "primary_ipv4", value, sizeof(value))){
+		copy_state_string(kvm_sys_state.eth_addr, sizeof(kvm_sys_state.eth_addr), value);
+	} else {
+		copy_state_string(kvm_sys_state.eth_addr, sizeof(kvm_sys_state.eth_addr), NULL);
+	}
+	if(json_string_in_range(eth_start, eth_end, "default_ipv4_gateway", value, sizeof(value))){
+		copy_state_string(kvm_sys_state.eth_route, sizeof(kvm_sys_state.eth_route), value);
+	} else {
+		copy_state_string(kvm_sys_state.eth_route, sizeof(kvm_sys_state.eth_route), NULL);
+	}
+	return 1;
 }
 
 int get_nic_state(const char* interface_name)
@@ -630,6 +721,9 @@ void kvm_update_hdmi_res(void)
 void kvm_update_eth_state(void)
 {	
 	static uint8_t nic_state = 0;
+
+	if(kvm_apply_rust_hwmon_eth_state()) return;
+
 	nic_state = get_nic_state("eth0");
 
 	if(nic_state == NIC_STATE_RUNNING){

@@ -217,14 +217,27 @@ Completed second shadow slice:
 4. This slice remains read-only shadow mode for network state. It does not ping,
    write Wi-Fi state files, restart services, or change C++ network behavior.
 
+Completed third slice:
+
+1. C++ now reads Ethernet state from the Rust network snapshot when
+   `/etc/kvm/rust_hwmon_enabled` exists and the snapshot is fresh and parseable.
+2. `eth0` `route_state`, primary IPv4 address, and default IPv4 gateway are
+   copied into the existing `kvm_sys_state` fields used by OLED/status output.
+3. When Rust Ethernet state is accepted, C++ returns before the legacy
+   NIC/IP/ping path, so the old once-per-second `ping -I eth0` route check is no
+   longer duplicated.
+4. If the feature flag is absent, the snapshot is stale, the `network.eth0`
+   section is missing, or parsing fails, C++ falls back to the legacy Ethernet
+   checks.
+
 Remaining steps:
 
-1. Let C++ read route-based Ethernet state from the Rust network snapshot under
-   the existing `/etc/kvm/rust_hwmon_enabled` flag.
-2. Stop duplicated Ethernet ping/route checks in C++ when Rust network state is
-   enabled.
-3. Decide whether C++ should keep Wi-Fi API-triggered reconnect handling until
+1. Decide whether C++ should keep Wi-Fi API-triggered reconnect handling until
    OLED AP provisioning has a Rust-backed replacement.
+2. Keep observing the Ethernet snapshot path on 133 while OLED/status output is
+   checked manually.
+3. After the feature-flagged path is promoted, remove the replaced legacy
+   Ethernet polling/ping code from C++.
 
 Validation on 133:
 
@@ -254,6 +267,18 @@ Validation on 133:
 - HTTP `/api/health` stayed OK, `kvm_system`, `NanoKVM-Server`, and
   `nanokvm-hwmon` stayed alive, and authenticated MJPEG returned about
   57.1 MiB in 8 seconds.
+- Installed `kvm_system` hash
+  `babd800f61789a12a6166d0cb3ca7224b6972865d7c24b1e19ab6451626545c0`.
+- With `/etc/kvm/rust_hwmon_enabled` present, the active network snapshot
+  reported `eth0` as routed, with primary IPv4 and default gateway copied from
+  the Rust snapshot.
+- A five-second process sample after restart showed no legacy
+  `ping -I eth0` route checks.
+- HTTP `/api/health` stayed OK, `kvm_system`, `NanoKVM-Server`, and
+  `nanokvm-hwmon` stayed alive, and authenticated MJPEG returned about
+  53.1 MiB in 8 seconds.
+- `dmesg` grep found no new `segfault`, `signal 11`, `panic`, `oops`,
+  `fail to allocate ion`, or `invalid buffer`.
 - Confirm no increase in SD-card writes from status polling.
 
 ### Phase 4: Move Safe Control Actions
