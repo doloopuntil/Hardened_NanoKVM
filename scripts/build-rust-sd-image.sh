@@ -113,6 +113,8 @@ fi
   printf 'rm /kvmapp/server/NanoKVM-Server.go.bak\n'
   printf 'rm /kvmapp/jpg_stream/jpg_stream\n'
   printf 'rm /kvmapp/jpg_stream/S95nanokvm\n'
+  printf 'rm /kvmapp/jpg_stream/.DS_Store\n'
+  printf 'rmdir /kvmapp/jpg_stream/dl_lib\n'
   printf 'rmdir /kvmapp/jpg_stream\n'
   printf 'rm /kvmapp/kvm_system/kvm_stream\n'
   printf 'rm /kvmapp/kvm_new_app\n'

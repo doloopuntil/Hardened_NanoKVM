@@ -10,11 +10,11 @@ implemented deeply enough for interactive device testing.
 
 Current published channels:
 
-- app update: `2.0.27 RC5`, tag `hardened-rust-rc5`;
-- current source/test build: `2.0.27`, smoke-tested on hardware;
-- raw system-update: `0.2.19-raw.1`, built from the RC5 `2.0.27` SD rootfs
+- app update: `2.0.28 RC6`, tag `hardened-rust-rc6`;
+- current source/test build: `2.0.28`, smoke-tested on hardware;
+- raw system-update: `0.2.20-raw.1`, built from the RC6 `2.0.28` SD rootfs
   with gzip-compressed raw payload staging and sysrq reboot after raw writes;
-- SD-card image: RC5 `2.0.27` / `0.2.19-raw.1`.
+- SD-card image: RC6 `2.0.28` / `0.2.20-raw.1`.
 
 ## Build
 

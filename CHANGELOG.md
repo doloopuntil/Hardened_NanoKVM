@@ -1,5 +1,34 @@
 # Changelog
 
+## Hardened NanoKVM 2.0.28 RC6 (2026-07-03)
+
+Full application, raw system-update, and SD-card release candidate with app
+`2.0.28`, raw system-update `0.2.20-raw.1`, and matching SD-card image.
+
+### Changed
+
+* Removed the web/API password reset path. Lost credentials now require
+  reflashing the SD card instead of resetting root/web access in place.
+* Continued the minimal-risk `kvm_system` migration by moving watchdog,
+  Ethernet state, network shadow state, and web Wi-Fi reconnect handling into
+  Rust while keeping low-level hardware/OLED helper code native.
+* Added mass-storage image validation for virtual-media uploads while keeping
+  ISO-only validation for CD-ROM mode.
+* Synced configured NTP time during service startup so syslog and local logs use
+  corrected time before the GUI is opened.
+* Improved H.264 WebRTC hotplug recovery by reacting to browser keyframe
+  requests and asking the capture path for a fresh keyframe.
+* Made USB HID wake-on-write opt-in through the Device settings toggle and
+  `/boot/usb.wakeup`; default images now suppress the repeated USB wakeup log
+  spam.
+
+### Verified
+
+* Rust backend tests, frontend build, linked RISC-V build, release package
+  validation, raw/rootfs validation, and metadata verification passed locally.
+* The WebRTC HDMI hotplug and USB wakeup changes were installed and
+  smoke-tested on NanoKVM hardware before the release build.
+
 ## Hardened NanoKVM 2.0.27 RC5 (2026-07-03)
 
 Full application, raw system-update, and SD-card release candidate with app
