@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Button, Input, Segmented } from 'antd';
 import { CheckIcon } from 'lucide-react';
@@ -6,6 +6,12 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/network.ts';
 import type { IPv6Mode } from '@/api/network.ts';
+
+import type {
+  NetworkSectionHandle,
+  NetworkSectionResult,
+  NetworkSectionStatus
+} from './types.ts';
 
 type IPv6Address = {
   interface: string;
@@ -32,6 +38,12 @@ type IPv6State = {
   config?: IPv6Config;
   status: string;
   message: string;
+};
+
+type IPv6Props = {
+  showFooter?: boolean;
+  disabled?: boolean;
+  onStatusChange?: (status: NetworkSectionStatus) => void;
 };
 
 function normalizeIPv6(value: string) {
@@ -141,7 +153,8 @@ const EditableInfoRow = ({
   );
 };
 
-export const IPv6 = () => {
+export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
+  ({ showFooter = true, disabled = false, onStatusChange }, ref) => {
   const { t } = useTranslation();
 
   const [mode, setMode] = useState<IPv6Mode>('disabled');
@@ -206,8 +219,9 @@ export const IPv6 = () => {
     }
   }
 
-  async function save() {
-    if (isSaving) return;
+  async function save(): Promise<NetworkSectionResult> {
+    if (isSaving) return { changed: false };
+    if (!hasChanges && !needsApply) return { changed: false };
 
     setMessage('');
     setError('');
@@ -218,7 +232,7 @@ export const IPv6 = () => {
 
     if (mode === 'dhcpv6' && !clientAvailable) {
       setError(t('settings.network.ipv6.clientMissing'));
-      return;
+      return { changed: false, error: true };
     }
 
     if (
@@ -228,7 +242,7 @@ export const IPv6 = () => {
         !isValidIPv6(normalizedRouter))
     ) {
       setError(t('settings.network.ipv6.invalidManual'));
-      return;
+      return { changed: false, error: true };
     }
 
     setIsSaving(true);
@@ -246,7 +260,7 @@ export const IPv6 = () => {
       );
       if (rsp.code !== 0) {
         setError(rsp.msg || t('settings.network.ipv6.saveFailed'));
-        return;
+        return { changed: true, error: true };
       }
 
       setOriginalMode(mode);
@@ -255,9 +269,11 @@ export const IPv6 = () => {
       setOriginalRouter(normalizedRouter);
       await getIPv6(false);
       setMessage(t('settings.network.ipv6.saved'));
+      return { changed: true };
     } catch (err) {
       console.log(err);
       setError(t('settings.network.ipv6.saveFailed'));
+      return { changed: true, error: true };
     } finally {
       setIsSaving(false);
     }
@@ -288,8 +304,38 @@ export const IPv6 = () => {
     error ||
     message ||
     (needsApply ? statusMessage : hasChanges ? t('settings.network.ipv6.unsaved') : '');
+  const statusKind = error ? 'error' : message ? 'success' : statusText ? 'warning' : '';
   const statusColor = error ? 'text-red-400' : message ? 'text-green-400' : 'text-yellow-400/80';
   const addressList = addresses.map(formatAddress).join(', ');
+  const statusSnapshot = useMemo<NetworkSectionStatus>(
+    () => ({
+      hasPending: hasChanges || needsApply,
+      hasInvalid: hasInvalidManual || (mode === 'dhcpv6' && !clientAvailable),
+      canApply: canSave,
+      isLoading,
+      isSaving,
+      statusText,
+      statusKind
+    }),
+    [
+      canSave,
+      clientAvailable,
+      hasChanges,
+      hasInvalidManual,
+      isLoading,
+      isSaving,
+      mode,
+      needsApply,
+      statusKind,
+      statusText
+    ]
+  );
+
+  useImperativeHandle(ref, () => ({ apply: save }));
+
+  useEffect(() => {
+    onStatusChange?.(statusSnapshot);
+  }, [onStatusChange, statusSnapshot]);
 
   return (
     <div className="flex flex-col space-y-5">
@@ -302,7 +348,7 @@ export const IPv6 = () => {
         </div>
 
         <Segmented
-          disabled={isLoading || isSaving}
+          disabled={disabled || isLoading || isSaving}
           value={mode}
           onChange={(val) => {
             setMode(val as IPv6Mode);
@@ -373,7 +419,7 @@ export const IPv6 = () => {
         </Panel>
       )}
 
-      {(hasChanges || statusText) && (
+      {showFooter && (hasChanges || statusText) && (
         <div className="flex items-center justify-between">
           <span className={`text-xs ${statusColor}`}>{statusText}</span>
 
@@ -382,7 +428,7 @@ export const IPv6 = () => {
             icon={message ? <CheckIcon size={14} /> : undefined}
             loading={isSaving}
             disabled={!canSave}
-            onClick={save}
+            onClick={() => void save()}
           >
             {t('settings.network.ipv6.apply')}
           </Button>
@@ -390,4 +436,7 @@ export const IPv6 = () => {
       )}
     </div>
   );
-};
+  }
+);
+
+IPv6.displayName = 'IPv6';

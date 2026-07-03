@@ -21,9 +21,9 @@ SD-card images. Install those through the web GUI updater instead.
 - Pick the target disk carefully. A wrong disk name can overwrite your computer
   drive.
 
-Current release note: the latest published full SD-card image is the RC4
-`2.0.26` image with matching raw system version `0.2.18-raw.1`. It includes the
-current Hardened app, raw-system update support, and the
+Current release note: the latest published full SD-card image remains the RC4
+`2.0.26` image with matching raw system version `0.2.18-raw.1`. It includes
+raw-system update support and the
 `Buildroot 2023.11.3 package backports` security-backport baseline.
 
 ## Windows: Balena Etcher
@@ -43,9 +43,9 @@ images and reduces the chance of selecting the wrong disk.
 10. Insert the card into NanoKVM and power the device.
 
 On a fresh Hardened image, open the device in a browser and complete the
-first-boot account setup. If you flashed an older beta SD image first, update
-the application to the latest app release through **Settings > Check for
-Updates**.
+first-boot account setup. After first boot, update the application to the latest
+app release through **Settings > Check for Updates** when a newer app is
+available.
 
 ## Linux
 

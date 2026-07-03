@@ -123,6 +123,7 @@ reject_path /kvmapp/backends/NanoKVM-Server.go
 reject_path /kvmapp/server/NanoKVM-Server.go
 reject_path /kvmapp/server/NanoKVM-Server.go.bak
 reject_path /etc/kvm/scripts/switch-backend-go.sh
+reject_path /etc/kvm/scripts/switch-backend-rust.sh
 
 version_file=$(dump_file /kvmapp/version version)
 version=$(trim_file "$version_file")

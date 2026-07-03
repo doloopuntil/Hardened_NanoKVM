@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Button, Input, Segmented } from 'antd';
 import { CheckIcon, PlusIcon, XIcon } from 'lucide-react';
@@ -7,7 +7,11 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/network.ts';
 import type { DNSMode } from '@/api/network.ts';
 
-import { IPv6 } from './ipv6.tsx';
+import type {
+  NetworkSectionHandle,
+  NetworkSectionResult,
+  NetworkSectionStatus
+} from './types.ts';
 
 type DNSState = {
   mode: DNSMode;
@@ -33,6 +37,12 @@ type NetworkConfig = {
 };
 
 const maxServers = 6;
+
+type DNSProps = {
+  showFooter?: boolean;
+  disabled?: boolean;
+  onStatusChange?: (status: NetworkSectionStatus) => void;
+};
 
 function formatInterface(info: DNSInfo) {
   if (!info.interface) return '';
@@ -287,7 +297,8 @@ const EditableServerRow = ({
   );
 };
 
-export const DNS = () => {
+export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
+  ({ showFooter = true, disabled = false, onStatusChange }, ref) => {
   const { t } = useTranslation();
 
   const [mode, setMode] = useState<DNSMode>('dhcp');
@@ -351,8 +362,9 @@ export const DNS = () => {
     }
   }
 
-  async function save() {
-    if (isSaving) return;
+  async function save(): Promise<NetworkSectionResult> {
+    if (isSaving) return { changed: false };
+    if (!hasChanges) return { changed: false };
 
     setMessage('');
     setError('');
@@ -360,12 +372,12 @@ export const DNS = () => {
     const normalized = normalizeServers(servers);
     if (mode === 'manual' && normalized.length === 0) {
       setError(t('settings.network.dns.invalid'));
-      return;
+      return { changed: false, error: true };
     }
 
     if (mode === 'manual' && normalized.some((server) => !isValidIP(server))) {
       setError(t('settings.network.dns.invalid'));
-      return;
+      return { changed: false, error: true };
     }
 
     const normalizedAddress = normalizeIPv4(address);
@@ -380,7 +392,7 @@ export const DNS = () => {
     const redirectURL = mode === 'manual' ? buildRedirectURL(normalizedAddress) : '';
     if (!hasValidManualNetwork) {
       setError(t('settings.network.dns.invalidNetwork'));
-      return;
+      return { changed: false, error: true };
     }
 
     setIsSaving(true);
@@ -406,7 +418,7 @@ export const DNS = () => {
       if (rsp.code !== 0) {
         if (redirectTimer) window.clearTimeout(redirectTimer);
         setError(rsp.msg || t('settings.network.dns.saveFailed'));
-        return;
+        return { changed: true, error: true };
       }
 
       setServers(normalized);
@@ -423,9 +435,11 @@ export const DNS = () => {
         if (redirectTimer) window.clearTimeout(redirectTimer);
         setMessage(t('settings.network.dns.redirecting'));
         window.setTimeout(() => window.location.assign(redirectURL), 800);
+        return { changed: true, redirecting: true };
       } else {
         await getDNS(false);
         setMessage(t('settings.network.dns.saved'));
+        return { changed: true };
       }
     } catch (err) {
       console.log(err);
@@ -434,9 +448,10 @@ export const DNS = () => {
           setMessage(t('settings.network.dns.redirecting'));
           window.setTimeout(() => window.location.assign(redirectURL), 1200);
         }
-        return;
+        return { changed: true, redirecting: true };
       }
       setError(t('settings.network.dns.saveFailed'));
+      return { changed: true, error: true };
     } finally {
       setIsSaving(false);
     }
@@ -490,13 +505,44 @@ export const DNS = () => {
         normalizedGateway !== originalGateway));
 
   const statusText = error || message || (hasChanges ? t('settings.network.dns.unsaved') : '');
+  const statusKind = error ? 'error' : message ? 'success' : hasChanges ? 'warning' : '';
   const statusColor = error ? 'text-red-400' : message ? 'text-green-400' : 'text-yellow-400/80';
   const serversDescription =
     mode === 'dhcp'
       ? t('settings.network.dns.dhcpServersDescription')
       : t('settings.network.dns.manualServersDescription');
 
-  const canAdd = !isLoading && !isSaving && servers.length < maxServers;
+  const canApply =
+    hasChanges && !isLoading && !isSaving && !hasInvalidServer && !hasInvalidNetwork && !isExceedMax;
+  const canAdd = !isLoading && !isSaving && !disabled && servers.length < maxServers;
+  const status = useMemo<NetworkSectionStatus>(
+    () => ({
+      hasPending: hasChanges,
+      hasInvalid: hasInvalidServer || hasInvalidNetwork || isExceedMax,
+      canApply,
+      isLoading,
+      isSaving,
+      statusText,
+      statusKind
+    }),
+    [
+      canApply,
+      hasChanges,
+      hasInvalidNetwork,
+      hasInvalidServer,
+      isExceedMax,
+      isLoading,
+      isSaving,
+      statusKind,
+      statusText
+    ]
+  );
+
+  useImperativeHandle(ref, () => ({ apply: save }));
+
+  useEffect(() => {
+    onStatusChange?.(status);
+  }, [onStatusChange, status]);
 
   return (
     <div className="flex flex-col space-y-8">
@@ -510,7 +556,7 @@ export const DNS = () => {
           </div>
 
           <Segmented
-            disabled={isLoading || isSaving}
+            disabled={disabled || isLoading || isSaving}
             value={mode}
             onChange={(val) => {
               setMode(val as DNSMode);
@@ -574,8 +620,6 @@ export const DNS = () => {
           )}
         </Panel>
       </div>
-
-      <IPv6 />
 
       <div className="flex flex-col space-y-5">
         <div className="flex flex-col space-y-1">
@@ -650,7 +694,7 @@ export const DNS = () => {
       </div>
 
       {/* Footer: status + save button */}
-      {(hasChanges || statusText) && (
+      {showFooter && (hasChanges || statusText) && (
         <div className="flex items-center justify-between">
           <span className={`text-xs ${statusColor}`}>{statusText}</span>
 
@@ -665,7 +709,7 @@ export const DNS = () => {
               hasInvalidNetwork ||
               isExceedMax
             }
-            onClick={save}
+            onClick={() => void save()}
           >
             {mode === 'manual' ? t('settings.network.dns.apply') : t('settings.network.dns.save')}
           </Button>
@@ -673,4 +717,7 @@ export const DNS = () => {
       )}
     </div>
   );
-};
+  }
+);
+
+DNS.displayName = 'DNS';

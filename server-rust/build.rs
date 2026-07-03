@@ -11,7 +11,7 @@ fn main() {
     }
 
     let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR"));
-    let lib_dir = manifest_dir.join("../server/dl_lib");
+    let lib_dir = manifest_dir.join("native/dl_lib");
     let sysroot_lib_dir = env::var_os("NANOKVM_SYSROOT_LIB")
         .map(PathBuf::from)
         .unwrap_or_else(|| manifest_dir.join("sysroot/lib"));

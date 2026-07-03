@@ -13,6 +13,7 @@ APP_VERSION="${APP_VERSION:-}"
 ARTIFACT_NAME="${ARTIFACT_NAME:-nanokvm-kvmapp-rust.tar.gz}"
 BASE_ROOTFS_IMAGE="${BASE_ROOTFS_IMAGE:-$BUILD_DIR/sd-image/rootfs.ext}"
 KVM_SYSTEM_SOURCE="${KVM_SYSTEM_SOURCE:-}"
+NATIVE_LIB_DIR="${NATIVE_LIB_DIR:-$ROOT_DIR/server-rust/native/dl_lib}"
 
 restore_kvm_system_helper() {
   dest="$KVMAPP_STAGE/kvm_system/kvm_system"
@@ -59,6 +60,11 @@ if [ ! -x "$RUST_BINARY" ]; then
   exit 1
 fi
 
+if [ ! -f "$NATIVE_LIB_DIR/libkvm.so" ]; then
+  echo "missing NanoKVM native runtime libraries: $NATIVE_LIB_DIR/libkvm.so" >&2
+  exit 1
+fi
+
 rm -rf "$STAGE_DIR"
 mkdir -p "$KVMAPP_STAGE/server" "$KVMAPP_STAGE/backends" "$OUT_DIR"
 cp -R "$ROOT_DIR/kvmapp/." "$KVMAPP_STAGE/"
@@ -79,10 +85,8 @@ rm -f "$KVMAPP_STAGE/backends/NanoKVM-Server.go" \
   "$KVMAPP_STAGE/server/NanoKVM-Server.go" \
   "$KVMAPP_STAGE/server/NanoKVM-Server.go.bak"
 
-if [ -d "$ROOT_DIR/server/dl_lib" ]; then
-  mkdir -p "$KVMAPP_STAGE/server/dl_lib"
-  cp -R "$ROOT_DIR/server/dl_lib/." "$KVMAPP_STAGE/server/dl_lib/"
-fi
+mkdir -p "$KVMAPP_STAGE/server/dl_lib"
+cp -R "$NATIVE_LIB_DIR/." "$KVMAPP_STAGE/server/dl_lib/"
 
 if [ -d "$WEB_DIST" ]; then
   mkdir -p "$KVMAPP_STAGE/server/web"
@@ -98,11 +102,12 @@ fi
   printf 'rust_target: %s\n' "${RUST_TARGET:-host}"
   printf 'web_dist: %s\n' "$WEB_DIST"
   printf 'app_version: %s\n' "$(cat "$KVMAPP_STAGE/version")"
+  printf 'native_lib_dir: %s\n' "$NATIVE_LIB_DIR"
   printf 'kvm_system_helper: %s\n' "$(wc -c < "$KVMAPP_STAGE/kvm_system/kvm_system" | tr -d ' ') bytes"
 } > "$STAGE_DIR/MANIFEST.txt"
 
-if find "$KVMAPP_STAGE" \( -name 'NanoKVM-Server.go' -o -name 'NanoKVM-Server.go.bak' \) | grep -q .; then
-  echo "legacy Go backend found in staged kvmapp" >&2
+if find "$KVMAPP_STAGE" \( -name 'NanoKVM-Server.go' -o -name 'NanoKVM-Server.go.bak' -o -name 'switch-backend-go.sh' -o -name 'switch-backend-rust.sh' \) | grep -q .; then
+  echo "legacy backend switch or Go backend found in staged kvmapp" >&2
   exit 1
 fi
 

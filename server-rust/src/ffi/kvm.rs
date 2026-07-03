@@ -158,14 +158,14 @@ impl KvmVision {
     }
 
     fn set_frame_detect(&self, frame: u8) {
-        // SAFETY: Direct binding matches server/include/kvm_vision.h.
+        // SAFETY: Direct binding matches server-rust/native/include/kvm_vision.h.
         unsafe {
             kvm_set_frame_detect(frame);
         }
     }
 
     fn set_h264_gop(&self, gop: u8) {
-        // SAFETY: Direct binding matches server/include/kvm_vision.h.
+        // SAFETY: Direct binding matches server-rust/native/include/kvm_vision.h.
         unsafe {
             kvm_set_h264_gop(gop);
         }
@@ -242,7 +242,7 @@ impl KvmVision {
         let path = find_libkvm_path()?;
         let lib = Library::open(&path)?;
 
-        // SAFETY: Symbol names and signatures match server/include/kvm_vision.h.
+        // SAFETY: Symbol names and signatures match server-rust/native/include/kvm_vision.h.
         let init = unsafe { lib.symbol::<KvmvInit>("kvmv_init")? };
         let read_img = unsafe { lib.symbol::<KvmvReadImg>("kvmv_read_img")? };
         let free_data = unsafe { lib.symbol::<FreeKvmvData>("free_kvmv_data")? };

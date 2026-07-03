@@ -18,25 +18,6 @@ RUN wget -O /tmp/host-tools.tar.gz https://sophon-file.sophon.cn/sophon-prod-s3/
     && export PATH=$PATH:/usr/local/host-tools/gcc/riscv64-linux-musl-x86_64/bin \
     && echo "Installed host-tools gcc" && riscv64-unknown-linux-musl-gcc -v
 
-FROM base_apt AS golang
-
-USER root
-RUN bash -c 'wget -O /tmp/go.tar.gz https://go.dev/dl/go1.25.0.linux-$([ `uname -m` == "x86_64" ] && echo "amd64" || uname -m).tar.gz' \
-    && tar -C /usr/local -zxvf /tmp/go.tar.gz \
-    && export PATH=$PATH:/usr/local/go/bin \
-    && echo "Installed golang" &&  go version
-
-COPY server /tmp/go_cache
-
-ENV PATH="$PATH:/usr/local/go/bin"
-
-RUN cd /tmp/go_cache \
-    && echo "Caching go dep" \
-    && go mod download \
-    && go mod tidy \
-    && cd / \
-    && rm -rf /tmp/go_cache
-
 FROM base_apt AS sdk
 
 RUN cd ~ \
@@ -55,11 +36,6 @@ RUN cd ~/MaixCDK \
 
 FROM base_apt
 
-# Install golang
-COPY --from=golang /usr/local/go /usr/local/go
-COPY --chown=$DOCKER_USER --from=golang /root/go /home/$DOCKER_USER/go
-ENV PATH="$PATH:/usr/local/go/bin"
-
 # Install host tools
 COPY --from=host_tools /usr/local/host-tools /usr/local/host-tools
 ENV PATH="$PATH:/usr/local/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
@@ -69,8 +45,7 @@ COPY --from=sdk /home/$DOCKER_USER/MaixCDK /home/$DOCKER_USER/MaixCDK
 COPY --chmod=+x docker/entrypoint /entrypoint
 
 RUN echo "Verify build tools" \
-    && echo "Installed host-tools gcc" && riscv64-unknown-linux-musl-gcc -v \
-    && echo "Installed golang" && go version
+    && echo "Installed host-tools gcc" && riscv64-unknown-linux-musl-gcc -v
 
 USER root
 RUN chmod 0755 /entrypoint \

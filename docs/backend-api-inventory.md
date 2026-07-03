@@ -1,15 +1,13 @@
 # NanoKVM Backend API Inventory
 
-This document maps the current Rust backend surface in `server-rust/`. It is a
-living compatibility checklist against the historical upstream Go
-`NanoKVM-Server` API shape. The Go backend is not shipped in current Hardened
-release artifacts.
+This document maps the current Rust backend surface in `server-rust/`.
 
 ## Runtime And Serving Model
 
 - Active backend binary on device: `/kvmapp/server/NanoKVM-Server`.
 - Rust backend source: `server-rust/`.
-- Legacy upstream Go source: `server/`, retained for reference only.
+- Native Rust backend runtime assets: `server-rust/native/`, packaged to
+  `/kvmapp/server/dl_lib` where needed.
 - Static frontend path: configured `paths.web_root`, normally
   `/kvmapp/server/web`.
 - Config file: `/etc/kvm/server.yaml`.
@@ -55,7 +53,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 |---|---|---|
 | GET | `/api/application/current-version` | Implemented as an unauthenticated lightweight endpoint for the login screen; reads only the local `/kvmapp/version` and does not query GitHub release metadata. |
 | GET | `/api/application/version` | Implemented; reads `/kvmapp/version` and validates signed Hardened GitHub release `latest.json` metadata. When Paranoid firewall mode is active, returns the current version with a blocked update message instead of opening outbound GitHub traffic. |
-| POST | `/api/application/update` | Implemented beta release path; verifies signed metadata, downloads the Hardened GitHub release archive, validates source URL, verifies sha512, safely extracts, rejects symlinks and legacy Go backend files, installs `/kvmapp`, and restarts service. Blocked while Paranoid firewall mode is active. |
+| POST | `/api/application/update` | Implemented release path; verifies signed metadata, downloads the Hardened GitHub release archive, validates source URL, verifies sha512, safely extracts, rejects symlinks and unexpected backend artifacts, installs `/kvmapp`, and restarts service. Blocked while Paranoid firewall mode is active. |
 | POST | `/api/application/update/offline` | Implemented for `nanokvm_*.tar.gz` and `hardened-nanokvm-kvmapp-*.tar.gz` with safe extraction. |
 | GET/POST | `/api/application/preview` | Implemented; selects stable latest metadata or preview tag metadata with stable fallback. |
 
@@ -225,9 +223,8 @@ start.
 
 ## Current Gaps
 
-- Full route-by-route parity against historical upstream behavior still needs
-  systematic regression testing, especially uncommon settings and exact error
-  semantics.
+- Less common settings and exact error semantics still need systematic
+  regression testing.
 - H.264 WebRTC needs longer browser/ICE validation.
 - `kvmapp` update metadata is signed; release publishing must upload
   `latest.json` and `latest.json.sig`.

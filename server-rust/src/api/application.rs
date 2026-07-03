@@ -680,6 +680,16 @@ fn verify_sha512(path: &Path, expected: &str) -> Result<()> {
 fn validate_update_tree_has_no_symlinks(root: &Path) -> Result<()> {
     let mut stack = vec![root.to_path_buf()];
     while let Some(path) = stack.pop() {
+        if matches!(
+            path.file_name().and_then(OsStr::to_str),
+            Some("switch-backend-go.sh" | "switch-backend-rust.sh")
+        ) {
+            let relative = path.strip_prefix(root).unwrap_or(&path);
+            return Err(AppError::BadRequest(format!(
+                "update archive contains forbidden backend switch script: {}",
+                relative.display()
+            )));
+        }
         let metadata = fs::symlink_metadata(&path)?;
         if metadata.file_type().is_symlink() {
             let relative = path.strip_prefix(root).unwrap_or(&path);
@@ -968,6 +978,27 @@ mod tests {
 
         let err = validate_update_root(root).unwrap_err();
         assert!(err.to_string().contains("legacy Go backend"));
+    }
+
+    #[test]
+    fn rejects_backend_switch_script_in_update_root() {
+        let dir = tempfile::tempdir().unwrap();
+        let root = dir.path();
+        fs::create_dir_all(root.join("server")).unwrap();
+        fs::create_dir_all(root.join("system/init.d")).unwrap();
+        fs::create_dir_all(root.join("backends")).unwrap();
+        fs::create_dir_all(root.join("system/scripts")).unwrap();
+        fs::write(root.join("server/NanoKVM-Server"), b"rust").unwrap();
+        fs::write(root.join("system/init.d/S95nanokvm"), b"init").unwrap();
+        fs::write(root.join("backends/NanoKVM-Server.rust"), b"rust").unwrap();
+        fs::write(
+            root.join("system/scripts/switch-backend-rust.sh"),
+            b"switch",
+        )
+        .unwrap();
+
+        let err = validate_update_root(root).unwrap_err();
+        assert!(err.to_string().contains("backend switch"));
     }
 
     #[test]

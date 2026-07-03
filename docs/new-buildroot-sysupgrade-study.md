@@ -53,10 +53,10 @@ by stock Buildroot:
 - NanoKVM service layout under `/kvmapp`, `/etc/kvm`, `/data`, and boot scripts.
 - GUI/backend assumptions about system identity, update status, and rollback.
 
-These are all solvable, but they need bring-up and hardware validation. Treating
-official Buildroot 2026.x as a direct replacement would likely produce an image
-that boots at best, but does not have working video, H.264, HID, or update
-recovery.
+These are all solvable, but they need porting work and hardware validation.
+Treating official Buildroot 2026.x as a direct replacement would likely produce
+an image that boots at best, but does not have working video, H.264, HID, or
+update recovery.
 
 ## Practical Tracks For This Branch
 

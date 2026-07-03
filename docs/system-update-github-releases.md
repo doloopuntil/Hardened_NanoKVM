@@ -97,10 +97,9 @@ security backports. The matching public key is bundled under
 real release-key custody process before this channel should carry real
 kernel/rootfs security-backport payloads.
 
-Older smoke release `hardened-system-0.1.0-dev.1` only installed a harmless
-test marker. Revoked raw release `hardened-system-0.1.0-raw.1` must not be used.
-Broken raw releases `0.2.5-raw.1` and `0.2.10-raw.1` are preserved only in
-the historical release archive and must not be installed on test devices.
+Only the current stable/preview raw metadata should be used for normal testing.
+Older lab raw artifacts must not be installed unless a specific recovery or
+regression test explicitly requires them.
 
 ## Bundle Layout
 

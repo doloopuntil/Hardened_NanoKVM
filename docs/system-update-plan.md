@@ -58,23 +58,16 @@ reserved-memory, and `libkvm.so` compatibility is understood and tested.
   the staging filesystem. This is for lab devices with SD-card recovery only
   and has no automatic rollback. Raw bundle tooling now rejects rootfs images
   that do not contain the Hardened NanoKVM `/kvmapp`, `/etc/kvm`, init script,
-  web assets, and Rust-only backend files, and do not contain legacy Go backend
-  files or switch scripts.
-- `hardened-system-0.1.0-raw.1` is a revoked experimental raw release. It was
-  built from the stock vendor SDK rootfs and must not be installed. Use a newer
-  raw release produced from a validated Hardened SD image.
-- The first signed rootfs-only smoke release,
-  `hardened-system-0.1.0-dev.1`, validated the non-destructive
-  check/download/install/status/confirm/rollback flow on `10.0.87.132`. It is
-  now historical. The current stable system channel points to lab raw release
-  `hardened-system-0.2.15-raw.1`, built from the beta `2.0.19` Hardened SD
+  web assets, and expected backend runtime files.
+- The current stable system channel points to lab raw release
+  `hardened-system-0.2.18-raw.1`, built from the RC4 `2.0.26` Hardened SD
   image. The GUI reports system update version, base image, Buildroot release,
   and security backport level separately so the raw channel version is not
-  confused with the underlying Buildroot base. This current raw line includes
+  confused with the underlying Buildroot base. The current raw line includes
   compressed raw payloads, setting preservation, idempotent data-partition init,
   first-boot root configuration restore, automatic post-boot confirmation, and
-  sysrq reboot after raw partition writes.
-  The bundled public key is installed from `kvmapp` to
+  sysrq reboot after raw partition writes. The bundled public key is installed
+  from `kvmapp` to
   `/etc/kvm/system-update-signing.pub.pem` on service start, but this is still
   not a production private-key custody process.
 
@@ -95,7 +88,7 @@ reserved-memory, and `libkvm.so` compatibility is understood and tested.
    - inspect the generated `upgrade.zip` with `make vendor-sdk-inspect`;
    - build a stock image first, without Hardened changes;
    - boot it on test hardware;
-   - verify video, HID, storage, network, SSH, web UI, and Rust-only backend startup;
+   - verify video, HID, storage, network, SSH, web UI, and backend startup;
    - only then apply selected security backports.
 
 3. Define a separate system-update bundle format:
@@ -202,7 +195,7 @@ Newer SDK and new Buildroot feasibility notes are documented in
 [new-buildroot-sysupgrade-study.md](new-buildroot-sysupgrade-study.md).
 The Buildroot 2023.11.2 security backport route is documented in
 [buildroot-2023-security-backport-plan.md](buildroot-2023-security-backport-plan.md).
-Live device layout observations are recorded in
+System-update layout and raw-write safety notes are recorded in
 [system-update-live-inventory.md](system-update-live-inventory.md).
 
 The Rust backend can download, verify, install, manually confirm boot-good, and
@@ -216,9 +209,7 @@ the previous files.
 ## Required Test Sequence
 
 1. Validate raw/system update tooling against a freshly built known-good
-   Hardened SD image from the sysupgrade branch before testing any SDK-derived
-   image. Do not use the old `1.0.1` baseline for this stage because it predates
-   the bundled system-update public key.
+   Hardened SD image before testing any SDK-derived image.
 2. Extract boot/rootfs from that known-good image, validate the rootfs, build a
    raw bundle, install it through GUI/API on sacrificial SD media, and confirm
    web, SSH, video, HID, and reboot behavior.

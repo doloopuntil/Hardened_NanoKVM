@@ -21,7 +21,8 @@ mkdir -p "$BACKUP_DIR"
 rm -f "$BACKUP_DIR/NanoKVM-Server.go" \
   "$DEST_DIR/NanoKVM-Server.go" \
   "$DEST_DIR/NanoKVM-Server.go.bak" \
-  /etc/kvm/scripts/switch-backend-go.sh 2>/dev/null || true
+  /etc/kvm/scripts/switch-backend-go.sh \
+  /etc/kvm/scripts/switch-backend-rust.sh 2>/dev/null || true
 
 cp "$SRC" "$DEST"
 chmod 0755 "$DEST"

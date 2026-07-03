@@ -14,8 +14,6 @@ ifneq ($(strip $(RUST_TARGET)),)
 RUST_BUILD_ARGS += --target $(RUST_TARGET)
 endif
 
-# Build commands
-GO_BUILD_CMD := cd /home/build/NanoKVM/server && go mod tidy && CGO_ENABLED=1 GOOS=linux GOARCH=riscv64 CC=riscv64-unknown-linux-musl-gcc CGO_CFLAGS="-mcpu=c906fdv -march=rv64imafdcv0p7xthead -mcmodel=medany -mabi=lp64d" go build
 SUPPORT_BUILD_CMD := . ./home/build/MaixCDK/bin/activate && cd /home/build/NanoKVM/support/sg2002 && ./build kvm_system && ./build kvm_system add_to_kvmapp
 
 SYSTEM_UPDATE_VERSION ?= 0.0.0-dev
@@ -35,10 +33,10 @@ VENDOR_SDK_INSPECTION ?= build/vendor-upgrade-inspection.json
 RAW_SYSTEM_UPDATE_BOOT ?= $(RAW_SYSTEM_UPDATE_IMAGE_DIR)/boot.vfat
 RAW_SYSTEM_UPDATE_ROOTFS ?= $(RAW_SYSTEM_UPDATE_IMAGE_DIR)/rootfs.sd
 
-.PHONY: help check-root builder-image rebuild-image check-image shell app rust-app web-app rust-kvmapp sd-image raw-system-update-images vendor-sdk vendor-sdk-stock vendor-sdk-inspect system-update-bundle raw-system-update-bundle system-update-metadata support all clean
+.PHONY: help check-root builder-image rebuild-image check-image shell rust-app web-app rust-kvmapp sd-image raw-system-update-images vendor-sdk vendor-sdk-stock vendor-sdk-inspect system-update-bundle raw-system-update-bundle system-update-metadata support all clean
 
 # Default target
-all: app support
+all: rust-kvmapp support
 
 # Help target
 help:
@@ -50,8 +48,7 @@ help:
 	@echo "  builder-image - Build Docker image if not exists"
 	@echo "  rebuild-image - Force rebuild Docker image"
 	@echo "  shell         - Enter interactive builder environment"
-	@echo "  app           - Build Go application server"
-	@echo "  rust-app      - Build Rust application server skeleton"
+	@echo "  rust-app      - Build Rust application server"
 	@echo "  web-app       - Build frontend into web/dist"
 	@echo "  rust-kvmapp   - Package Rust backend into build/kvmapp-rust"
 	@echo "  sd-image      - Build patched Hardened NanoKVM SD image from NANOKVM_BASE_IMAGE"
@@ -63,7 +60,7 @@ help:
 	@echo "  raw-system-update-bundle - Package experimental raw boot/rootfs images"
 	@echo "  system-update-metadata - Generate GitHub latest JSON for the system bundle"
 	@echo "  support       - Build hardware support libraries"
-	@echo "  all           - Build both app and support (default)"
+	@echo "  all           - Build Rust kvmapp and support (default)"
 	@echo "  clean         - Clean build artifacts"
 	@echo ""
 	@echo "Prerequisites:"
@@ -80,10 +77,7 @@ check-root:
 # Check if builder image exists and show versions
 check-image: check-root
 	@echo "Checking builder image..."
-	@echo "Golang version: " && \
-		docker run --rm -i $(IMAGE_NAME) go version && \
-		echo "" && \
-		echo "Host-tools version:" && \
+	@echo "Host-tools version:" && \
 		docker run --rm -i $(IMAGE_NAME) riscv64-unknown-linux-musl-gcc -v && \
 		echo ""
 
@@ -106,14 +100,9 @@ shell: check-root builder-image
 	@echo "Switching into builder..."
 	@$(DOCKER_RUN_BASE) -it $(IMAGE_NAME) /bin/bash -c ". ./home/build/MaixCDK/bin/activate && cd /home/build/NanoKVM ; exec bash"
 
-# Build Go application
-app: check-root builder-image
-	@echo "Building app..."
-	@$(DOCKER_RUN_BASE) -it $(IMAGE_NAME) /bin/bash -c '$(GO_BUILD_CMD)'
-
-# Build Rust application skeleton locally
+# Build Rust application locally
 rust-app:
-	@echo "Building Rust app skeleton..."
+	@echo "Building Rust app..."
 	@cargo build $(RUST_BUILD_ARGS)
 
 # Build frontend assets
@@ -173,10 +162,6 @@ support: check-root builder-image
 # Clean build artifacts
 clean:
 	@echo "Cleaning build artifacts..."
-	@if [ -f server/NanoKVM-Server ]; then \
-		rm -f server/NanoKVM-Server; \
-		echo "Removed server/NanoKVM-Server"; \
-	fi
 	@if [ -d support/sg2002/build ]; then \
 		rm -rf support/sg2002/build; \
 		echo "Removed support/sg2002/build"; \

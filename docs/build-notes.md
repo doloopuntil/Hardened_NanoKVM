@@ -40,10 +40,10 @@ libgcc_s.so or libgcc_s.so.1
 ```
 
 If the active checkout does not have `server-rust/sysroot/lib`, point the build
-at the known-good extracted NanoKVM sysroot explicitly:
+at an extracted NanoKVM sysroot explicitly:
 
 ```sh
-NANOKVM_SYSROOT_LIB=/home/w0w/Hardened_NanoKVM/server-rust/sysroot/lib \
+NANOKVM_SYSROOT_LIB=/path/to/nanokvm/sysroot/lib \
   server-rust/scripts/build-linked-libkvm.sh
 ```
 
@@ -98,7 +98,7 @@ uncompressed tar on the host:
 ```sh
 tar -C build/kvmapp-rust -cf build/artifacts/nanokvm-kvmapp-rust.tar kvmapp MANIFEST.txt
 sha256sum build/artifacts/nanokvm-kvmapp-rust.tar
-scp -O build/artifacts/nanokvm-kvmapp-rust.tar root@10.0.87.133:/tmp/
+scp -O build/artifacts/nanokvm-kvmapp-rust.tar root@nanokvm.local:/tmp/
 ```
 
 On the device:
@@ -153,8 +153,8 @@ Dynamic loading not supported
 From the host:
 
 ```sh
-curl -vk --connect-timeout 5 --max-time 8 https://10.0.87.133/api/health
-curl -v --connect-timeout 5 --max-time 8 http://10.0.87.133/api/health
+curl -vk --connect-timeout 5 --max-time 8 https://nanokvm.local/api/health
+curl -v --connect-timeout 5 --max-time 8 http://nanokvm.local/api/health
 ```
 
 Expected behavior:
@@ -223,4 +223,3 @@ scripts/validate-nanokvm-rootfs.sh <rootfs.sd>
 ```
 
 The validator must pass before signing or uploading any raw system update.
-`hardened-system-0.1.0-raw.1` failed this rule and is considered revoked.

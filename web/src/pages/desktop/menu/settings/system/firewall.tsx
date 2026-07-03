@@ -30,6 +30,7 @@ export const FirewallSettings = () => {
   const { t } = useTranslation();
 
   const [status, setStatus] = useState<FirewallStatus | null>(null);
+  const [requestedMode, setRequestedMode] = useState<FirewallMode | null>(null);
   const [rulesTab, setRulesTab] = useState<RulesTab>('ipv4');
   const [isLoading, setIsLoading] = useState(false);
   const [isApplying, setIsApplying] = useState(false);
@@ -40,6 +41,8 @@ export const FirewallSettings = () => {
   }, [status, rulesTab, t]);
 
   const effectiveMode = status?.effectiveMode || status?.config.mode || 'moderate';
+  const selectedMode = requestedMode || effectiveMode;
+  const hasModeChange = selectedMode !== effectiveMode;
   const isBaselineMode = effectiveMode === 'baseline';
   const isModerateMode = status?.moderateActive || effectiveMode === 'moderate';
   const isRestrictedMode = status?.restrictedActive || effectiveMode === 'restricted';
@@ -111,6 +114,7 @@ export const FirewallSettings = () => {
         return;
       }
       setStatus(rsp.data);
+      setRequestedMode(rsp.data.effectiveMode || rsp.data.config.mode || 'moderate');
     } catch (err) {
       console.log(err);
       message.error(t('settings.system.firewall.loadFailed'));
@@ -119,7 +123,17 @@ export const FirewallSettings = () => {
     }
   }
 
-  function requestMode(mode: FirewallMode) {
+  function selectMode(mode: FirewallMode) {
+    if (mode !== 'baseline' && mode !== 'moderate' && !status?.httpsEnabled) {
+      message.warning(t('settings.system.firewall.enableHttpsFirst'));
+      return;
+    }
+
+    setRequestedMode(mode);
+  }
+
+  function requestSelectedMode() {
+    const mode = selectedMode;
     if (mode === effectiveMode) return;
 
     if (mode === 'restricted') {
@@ -186,6 +200,7 @@ export const FirewallSettings = () => {
       }
 
       setStatus(nextStatus);
+      setRequestedMode(nextStatus.effectiveMode || nextStatus.config.mode || mode);
       message.success(t('settings.system.firewall.saved'));
     } catch (err) {
       console.log(err);
@@ -220,16 +235,6 @@ export const FirewallSettings = () => {
           showIcon
           message={t('settings.system.firewall.baseline.active')}
           description={t('settings.system.firewall.baseline.allows')}
-          action={
-            <Button
-              size="small"
-              loading={isApplying}
-              icon={<ShieldCheckIcon size={14} />}
-              onClick={() => requestMode('moderate')}
-            >
-              {t('settings.system.firewall.moderate.apply')}
-            </Button>
-          }
         />
       )}
 
@@ -248,16 +253,6 @@ export const FirewallSettings = () => {
           showIcon
           message={t('settings.system.firewall.restricted.active')}
           description={t('settings.system.firewall.restricted.allows')}
-          action={
-            <Button
-              size="small"
-              loading={isApplying}
-              icon={<ShieldCheckIcon size={14} />}
-              onClick={() => requestMode('moderate')}
-            >
-              {t('settings.system.firewall.moderate.apply')}
-            </Button>
-          }
         />
       )}
 
@@ -267,17 +262,6 @@ export const FirewallSettings = () => {
           showIcon
           message={t('settings.system.firewall.paranoid.active')}
           description={t('settings.system.firewall.paranoid.blocks')}
-          action={
-            <Button
-              danger
-              size="small"
-              loading={isApplying}
-              icon={<ShieldCheckIcon size={14} />}
-              onClick={() => requestMode('moderate')}
-            >
-              {t('settings.system.firewall.moderate.apply')}
-            </Button>
-          }
         />
       )}
 
@@ -309,12 +293,25 @@ export const FirewallSettings = () => {
             <ModeChoice
               key={option.mode}
               option={option}
-              active={option.mode === effectiveMode}
+              active={option.mode === selectedMode}
+              current={option.mode === effectiveMode}
               busy={isApplying || !status}
               currentLabel={t('settings.system.firewall.mode.current')}
-              onSelect={requestMode}
+              onSelect={selectMode}
             />
           ))}
+        </div>
+
+        <div className="flex justify-end">
+          <Button
+            type="primary"
+            icon={<ShieldCheckIcon size={14} />}
+            loading={isApplying}
+            disabled={!status || !hasModeChange}
+            onClick={requestSelectedMode}
+          >
+            {modeApplyLabel(t, selectedMode)}
+          </Button>
         </div>
 
         <div className="grid grid-cols-2 gap-3 pt-1 text-xs text-neutral-400">
@@ -370,17 +367,19 @@ export const FirewallSettings = () => {
 function ModeChoice({
   option,
   active,
+  current,
   busy,
   currentLabel,
   onSelect
 }: {
   option: ModeOption;
   active: boolean;
+  current: boolean;
   busy: boolean;
   currentLabel: string;
   onSelect: (mode: FirewallMode) => void;
 }) {
-  const disabled = busy || option.disabled || active;
+  const disabled = busy || Boolean(option.disabled);
 
   return (
     <button
@@ -393,7 +392,7 @@ function ModeChoice({
       <span className="min-w-0 flex-1 space-y-2 text-left">
         <span className="flex min-w-0 items-center justify-between gap-2">
           <span className="truncate text-sm font-medium text-neutral-100">{option.title}</span>
-          {active && (
+          {current && (
             <Tag className="m-0 shrink-0" color={modeColor(option.mode)}>
               {currentLabel}
             </Tag>
@@ -468,6 +467,19 @@ function modeText(t: TFunction, mode: FirewallMode) {
       return t('settings.system.firewall.mode.restricted');
     case 'paranoid':
       return t('settings.system.firewall.mode.paranoid');
+  }
+}
+
+function modeApplyLabel(t: TFunction, mode: FirewallMode) {
+  switch (mode) {
+    case 'baseline':
+      return t('settings.system.firewall.baseline.apply');
+    case 'moderate':
+      return t('settings.system.firewall.moderate.apply');
+    case 'restricted':
+      return t('settings.system.firewall.restricted.enable');
+    case 'paranoid':
+      return t('settings.system.firewall.paranoid.enable');
   }
 }
 

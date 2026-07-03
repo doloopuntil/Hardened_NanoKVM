@@ -1,19 +1,17 @@
 # Rust Backend Status
 
 The Rust backend lives in `server-rust/`. It is the shipped Hardened backend and
-replaces the legacy privileged Go `NanoKVM-Server` process while keeping the
-existing NanoKVM runtime:
+runs as `NanoKVM-Server` while keeping the existing NanoKVM runtime:
 `kvm_system`, `libkvm.so`, USB gadget scripts, the Maix multimedia stack, and
 the React frontend.
 
-The backend is tested on real NanoKVM hardware. Compatibility testing against
-historical upstream behavior is still ongoing, but the main browser workflows
-are implemented deeply enough for interactive device testing.
+The backend is tested on real NanoKVM hardware. The main browser workflows are
+implemented deeply enough for interactive device testing.
 
 Current published channels:
 
-- app update: `2.0.26 RC4`, tag `hardened-rust-rc4`;
-- current source/test build: `2.0.26`, installed and smoke-tested on hardware;
+- app update: `2.0.27 RC5`, tag `hardened-rust-rc5`;
+- current source/test build: `2.0.27`, smoke-tested on hardware;
 - raw system-update: `0.2.18-raw.1`, built from the RC4 `2.0.26` SD rootfs
   with gzip-compressed raw payload staging and sysrq reboot after raw writes;
 - SD-card image: RC4 `2.0.26` / `0.2.18-raw.1`.
@@ -34,7 +32,8 @@ make web-app
 For a video-enabled NanoKVM RISC-V binary, use the linked `libkvm` build. Copy
 the NanoKVM runtime libraries into `server-rust/sysroot/lib` or point
 `NANOKVM_SYSROOT_LIB` at a directory containing `libc.so` and `libgcc_s.so.1`,
-then run:
+then run. The NanoKVM native runtime libraries used for linking and packaging
+are kept in `server-rust/native/dl_lib`.
 
 ```sh
 rustup target add riscv64gc-unknown-linux-musl
@@ -87,8 +86,8 @@ The generated image installs:
 - Rust as the active `/kvmapp/server/NanoKVM-Server`.
 - Rust backend backup at `/kvmapp/backends/NanoKVM-Server.rust`.
 - `/etc/kvm/backend` compatibility marker with initial value `rust`.
-- Release validation rejects legacy Go backend files such as
-  `/kvmapp/backends/NanoKVM-Server.go` and `/etc/kvm/scripts/switch-backend-go.sh`.
+- Release validation rejects stale backend artifacts and unexpected runtime
+  files.
 
 For end-user flashing instructions, see
 [`docs/sd-card-flashing.md`](sd-card-flashing.md).
@@ -99,7 +98,7 @@ For end-user flashing instructions, see
 - Static frontend serving from configured `paths.web_root`.
 - Existing `code/msg/data` API response envelope.
 - Auth setup, login, logout, account, password check/change.
-- Argon2id password hashing for new writes and legacy Go bcrypt verification.
+- Argon2id password hashing for new writes and existing bcrypt verification.
 - Generated per-device session secret at `/etc/kvm/session_secret`.
 - Session cookies compatible with the current React auth guard.
 - CSRF token binding, Origin checks, security headers, login lockout, and
@@ -167,7 +166,8 @@ For end-user flashing instructions, see
   stay disabled by default and require an explicit warning confirmation before
   `/api/system-update/install` can apply a destructive staged bundle.
 - First-boot web setup for SD-card flashes without `/etc/kvm/pwd`.
-- Rust-only release artifacts without the legacy Go backend switch.
+- Rust-only release artifacts with package validation for the expected runtime
+  layout.
 - SD-card release artifacts are published alongside GUI-installable `kvmapp`
   update archives.
 
@@ -191,8 +191,8 @@ For end-user flashing instructions, see
 
 ## Known Issues And Remaining Work
 
-- Full API compatibility still needs route-by-route validation against historical
-  upstream behavior.
+- Less common settings and exact error semantics still need route-by-route
+  validation.
 - H.264 WebRTC needs more browser/ICE stress testing across reconnects and
   browser variants.
 - Video setting changes need more route-by-route stress testing. The current
@@ -220,5 +220,5 @@ scp scripts/install-rust-backend.sh root@nanokvm:/tmp/install-rust-backend.sh
 ssh root@nanokvm 'sh /tmp/install-rust-backend.sh /tmp/NanoKVM-Server.rust'
 ```
 
-The manual installer also removes any legacy Go backend backup left by older
-test builds.
+The manual installer also removes stale backend backups and development helper
+scripts left by older test builds.

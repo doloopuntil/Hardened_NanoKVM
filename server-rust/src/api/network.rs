@@ -38,8 +38,7 @@ const ETC_RESOLV_FILE: &str = "/etc/resolv.conf";
 const DHCP_RESOLV_FILE: &str = "/etc/resolv.conf.dhcp";
 const TMP_RESOLV_FILE: &str = "/tmp/resolv.conf";
 const UDHCPC_HOOK_FILE: &str = "/usr/share/udhcpc/default.script.d/99-nanokvm-dns";
-const UDHCPC_DNS_HOOK: &str =
-    include_str!("../../../server/service/network/scripts/99-nanokvm-dns");
+const UDHCPC_DNS_HOOK: &str = include_str!("../../assets/99-nanokvm-dns");
 const MAX_DNS_SERVERS: usize = 6;
 const DEFAULT_ETH_INTERFACE: &str = "eth0";
 const IPV6_MODE_DISABLED: &str = "disabled";
