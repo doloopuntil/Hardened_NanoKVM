@@ -66,14 +66,14 @@ export const Hostname = () => {
 
   return (
     <div className="space-y-1">
-      <div className="flex w-full items-center justify-between">
-        <span>{t('settings.about.hostname')}</span>
+      <div className="flex w-full min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <span className="shrink-0">{t('settings.about.hostname')}</span>
 
         {editState === 'editing' ? (
-          <div className="flex items-center space-x-1">
+          <div className="flex min-w-0 items-center space-x-1">
             <Input
               disabled={isLoading}
-              style={{ width: 150 }}
+              className="min-w-0 flex-1 sm:w-[150px] sm:flex-none"
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
@@ -81,10 +81,10 @@ export const Hostname = () => {
             <Button size="small" icon={<CloseOutlined />} onClick={() => setEditState('')} />
           </div>
         ) : (
-          <div className="flex items-center space-x-2">
-            <span>{hostname}</span>
+          <div className="flex min-w-0 items-center space-x-2">
+            <span className="min-w-0 break-all">{hostname}</span>
             <div
-              className="size-[16px] cursor-pointer text-neutral-500 hover:text-blue-500"
+              className="size-[16px] shrink-0 cursor-pointer text-neutral-500 hover:text-blue-500"
               onClick={showInput}
             >
               <ClipboardPenIcon size={16} />
@@ -94,7 +94,7 @@ export const Hostname = () => {
       </div>
 
       {editState === 'edited' && (
-        <div className="flex w-full justify-end text-xs text-green-500">
+        <div className="flex w-full justify-start text-xs text-green-500 sm:justify-end">
           {t('settings.about.hostnameUpdated')}
         </div>
       )}

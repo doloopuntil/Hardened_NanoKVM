@@ -4,11 +4,12 @@ import clsx from 'clsx';
 import { useAtomValue } from 'jotai';
 import { GripVerticalIcon } from 'lucide-react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import { useMediaQuery } from 'react-responsive';
 
+import { HARDENED_LOGO_SRC, HARDENED_NAME, HARDENED_SHORT_NAME } from '@/lib/hardened.ts';
 import { menuDisabledItemsAtom } from '@/jotai/settings.ts';
 import { useMenuBounds } from '@/hooks/useMenuBounds.ts';
 import { useMenuVisibility } from '@/hooks/useMenuVisibility.ts';
-import { HARDENED_LOGO_SRC, HARDENED_NAME, HARDENED_SHORT_NAME } from '@/lib/hardened.ts';
 
 import { DownloadImage } from './download.tsx';
 import { Fullscreen } from './fullscreen';
@@ -26,6 +27,7 @@ import { Wol } from './wol';
 
 export const Menu = () => {
   const nodeRef = useRef<HTMLDivElement | null>(null);
+  const isBigScreen = useMediaQuery({ minWidth: 640 });
 
   const menuDisabledItems = useAtomValue(menuDisabledItemsAtom);
 
@@ -39,8 +41,11 @@ export const Menu = () => {
   } = useMenuVisibility();
 
   const menuBounds = useMenuBounds(nodeRef, isMenuExpanded);
+  const showExpandedMenu = isBigScreen ? isMenuExpanded : true;
+  const shouldAutoHide = isBigScreen && isMenuHidden;
 
   function onDragStop(_e: DraggableEvent, data: DraggableData) {
+    if (!isBigScreen) return;
     if (data.x === 0 && data.y === 0) return;
     handleMoved();
   }
@@ -53,6 +58,7 @@ export const Menu = () => {
     <Draggable
       nodeRef={nodeRef}
       bounds={menuBounds}
+      disabled={!isBigScreen}
       handle="strong"
       positionOffset={{ x: '-50%', y: '0%' }}
       onStop={onDragStop}
@@ -68,7 +74,7 @@ export const Menu = () => {
         onBlur={() => handleHovered(false)}
       >
         {/* Trigger area for auto-show when hidden */}
-        {isMenuExpanded && (
+        {isBigScreen && isMenuExpanded && (
           <div className="absolute -top-[10px] left-0 right-0 h-[46px] w-full bg-transparent" />
         )}
 
@@ -76,17 +82,17 @@ export const Menu = () => {
         <div className="sticky top-[10px] flex w-full justify-center">
           <div
             className={clsx(
-              'h-[36px] items-center rounded bg-neutral-800/80 pl-1 pr-2 transition-all duration-300',
-              isMenuExpanded ? 'flex' : 'hidden',
-              isMenuHidden ? '-translate-y-[110%] opacity-80' : 'translate-y-0 opacity-100'
+              'h-[36px] max-w-[calc(100vw-12px)] items-center overflow-x-auto rounded bg-neutral-800/80 pl-1 pr-2 transition-all duration-300',
+              showExpandedMenu ? 'flex' : 'hidden',
+              shouldAutoHide ? '-translate-y-[110%] opacity-80' : 'translate-y-0 opacity-100'
             )}
           >
-            <strong>
+            <strong className={isBigScreen ? '' : 'hidden'}>
               <div className="flex h-[30px] cursor-move select-none items-center justify-center pl-1 text-neutral-500">
                 <GripVerticalIcon size={18} />
               </div>
             </strong>
-            <Divider type="vertical" />
+            {isBigScreen && <Divider type="vertical" />}
 
             <div
               className="flex h-[30px] w-[32px] select-none items-center justify-center overflow-hidden rounded bg-white px-0.5 sm:w-[98px]"
@@ -131,12 +137,12 @@ export const Menu = () => {
 
             <Settings />
             {isEnabled('fullscreen') && <Fullscreen />}
-            {isEnabled('collapse') && <Collapse toggleMenu={setIsMenuExpanded} />}
+            {isBigScreen && isEnabled('collapse') && <Collapse toggleMenu={setIsMenuExpanded} />}
           </div>
         </div>
 
         {/* Menubar expand button */}
-        {!isMenuExpanded && <Expand toggleMenu={setIsMenuExpanded} />}
+        {isBigScreen && !isMenuExpanded && <Expand toggleMenu={setIsMenuExpanded} />}
       </div>
     </Draggable>
   );

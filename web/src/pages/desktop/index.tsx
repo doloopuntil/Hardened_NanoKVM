@@ -73,7 +73,7 @@ export const Desktop = () => {
   }
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-neutral-950">
+    <div className="h-[100dvh] w-screen overflow-hidden bg-neutral-950">
       <Head title={t('head.desktop')} />
 
       {isBigScreen && <Notification />}

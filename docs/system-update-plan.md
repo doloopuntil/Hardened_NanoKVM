@@ -60,7 +60,7 @@ reserved-memory, and `libkvm.so` compatibility is understood and tested.
   that do not contain the Hardened NanoKVM `/kvmapp`, `/etc/kvm`, init script,
   web assets, and expected backend runtime files.
 - The current stable system channel points to lab raw release
-  `hardened-system-0.2.20-raw.1`, built from the RC6 `2.0.28` Hardened SD
+  `hardened-system-0.2.21-raw.1`, built from the RC7 `2.0.29` Hardened SD
   image. The GUI reports system update version, base image, Buildroot release,
   and security backport level separately so the raw channel version is not
   confused with the underlying Buildroot base. The current raw line includes

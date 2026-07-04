@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { Alert, Button, Divider, Modal, Segmented, Spin, Tag, message } from 'antd';
+import { Alert, Button, Divider, message, Modal, Segmented, Spin, Tag } from 'antd';
 import type { TFunction } from 'i18next';
 import {
   LockKeyholeIcon,
@@ -209,13 +209,9 @@ export const FirewallSettings = () => {
   }
 
   return (
-    <div className="flex flex-col space-y-6">
+    <div className="flex min-w-0 flex-col space-y-6">
       {!status?.httpsEnabled && (
-        <Alert
-          type="warning"
-          showIcon
-          message={t('settings.system.firewall.httpsRequired')}
-        />
+        <Alert type="warning" showIcon message={t('settings.system.firewall.httpsRequired')} />
       )}
 
       {status && isBaselineMode && (
@@ -254,18 +250,20 @@ export const FirewallSettings = () => {
         />
       )}
 
-      <div className="space-y-4 rounded-md bg-neutral-800/50 p-4">
-        <div className="flex items-start justify-between gap-4">
-          <div className="space-y-1">
+      <div className="min-w-0 space-y-4 overflow-hidden rounded-md bg-neutral-800/50 p-4">
+        <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+          <div className="min-w-0 space-y-1">
             <div className="font-semibold text-neutral-100">
               {t('settings.system.firewall.mode.title')}
             </div>
-            <div className="text-xs leading-snug text-neutral-500">
+            <div className="break-words text-xs leading-snug text-neutral-500">
               {t('settings.system.firewall.mode.description')}
             </div>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
-            <Tag color={modeColor(effectiveMode)}>{modeText(t, effectiveMode)}</Tag>
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
+            <Tag className="m-0 max-w-full whitespace-normal" color={modeColor(effectiveMode)}>
+              {modeText(t, effectiveMode)}
+            </Tag>
             <Button
               size="small"
               icon={<RefreshCwIcon size={14} />}
@@ -291,7 +289,7 @@ export const FirewallSettings = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-3 pt-1 text-xs text-neutral-400">
+        <div className="grid grid-cols-1 gap-3 pt-1 text-xs text-neutral-400 sm:grid-cols-2">
           <StatusLine
             label={t('settings.system.firewall.backend')}
             value={status?.backend.preferred || '-'}
@@ -317,13 +315,14 @@ export const FirewallSettings = () => {
       <Divider className="opacity-50" />
 
       <div className="space-y-3">
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2 text-base">
             <ShieldIcon size={16} />
             <span>{t('settings.system.firewall.rules.title')}</span>
           </div>
           <Segmented
             size="small"
+            className="max-w-full overflow-x-auto"
             value={rulesTab}
             options={[
               { value: 'ipv4', label: 'IPv4' },
@@ -333,7 +332,7 @@ export const FirewallSettings = () => {
             onChange={(value) => setRulesTab(value as RulesTab)}
           />
         </div>
-        <pre className="min-h-[260px] max-h-[360px] overflow-auto rounded bg-black/50 p-3 font-mono text-xs leading-relaxed text-neutral-200">
+        <pre className="max-h-[360px] min-h-[260px] overflow-auto rounded bg-black/50 p-3 font-mono text-xs leading-relaxed text-neutral-200">
           {selectedRules}
         </pre>
       </div>
@@ -366,19 +365,25 @@ function ModeChoice({
       onClick={() => onSelect(option.mode)}
     >
       <span className={modeIconClass(active, option.danger)}>{option.icon}</span>
-      <span className="min-w-0 flex-1 space-y-2 text-left">
+      <span className="min-w-0 flex-1 space-y-2 overflow-hidden text-left">
         <span className="flex min-w-0 items-center justify-between gap-2">
           <span className="truncate text-sm font-medium text-neutral-100">{option.title}</span>
           {current && (
-            <Tag className="m-0 shrink-0" color={modeColor(option.mode)}>
+            <Tag className="m-0 max-w-[55%] shrink-0 truncate" color={modeColor(option.mode)}>
               {currentLabel}
             </Tag>
           )}
         </span>
-        <span className="block text-xs leading-snug text-neutral-400">{option.description}</span>
-        <span className="flex flex-wrap gap-1">
+        <span className="block break-words text-xs leading-snug text-neutral-400">
+          {option.description}
+        </span>
+        <span className="flex min-w-0 flex-wrap gap-1">
           {option.tags.map((tag) => (
-            <Tag key={tag} className="m-0" color={tagColor(option.mode, option.danger)}>
+            <Tag
+              key={tag}
+              className="m-0 max-w-full whitespace-normal break-words leading-snug"
+              color={tagColor(option.mode, option.danger)}
+            >
               {tag}
             </Tag>
           ))}
@@ -390,7 +395,7 @@ function ModeChoice({
 
 function modeButtonClass(active: boolean, disabled: boolean, danger?: boolean) {
   const base =
-    'flex min-w-0 items-start gap-3 rounded-md border p-3 text-left transition-colors';
+    'flex w-full min-w-0 items-start gap-3 overflow-hidden rounded-md border p-3 text-left transition-colors';
   if (disabled && !active) {
     return `${base} cursor-not-allowed border-neutral-800 bg-neutral-900/35 opacity-60`;
   }
@@ -423,7 +428,7 @@ function tagColor(mode: FirewallMode, danger?: boolean) {
 function StatusLine({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex min-w-0 justify-between gap-3">
-      <span>{label}</span>
+      <span className="min-w-0 break-words">{label}</span>
       <span className="truncate text-right text-neutral-200">{value}</span>
     </div>
   );

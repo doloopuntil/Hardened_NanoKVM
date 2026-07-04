@@ -27,9 +27,7 @@ export const Tls = () => {
       title: t('settings.network.tls.rebootTitle'),
       content: (
         <div className="space-y-2">
-          <p>
-            {t('settings.network.tls.rebootDesc', { seconds: REDIRECT_DELAY_SECONDS })}
-          </p>
+          <p>{t('settings.network.tls.rebootDesc', { seconds: REDIRECT_DELAY_SECONDS })}</p>
           <p className="break-all font-mono text-xs text-neutral-400">{target}</p>
         </div>
       ),
@@ -74,8 +72,8 @@ export const Tls = () => {
   }
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-col space-y-1">
+    <div className="flex min-w-0 items-center justify-between gap-3">
+      <div className="flex min-w-0 flex-col space-y-1">
         <div className="flex items-center space-x-2">
           <span>HTTPS</span>
 
@@ -88,10 +86,17 @@ export const Tls = () => {
             <CircleAlertIcon className="text-neutral-500" size={14} />
           </Tooltip>
         </div>
-        <span className="text-xs text-neutral-500">{t('settings.network.tls.description')}</span>
+        <span className="break-words text-xs text-neutral-500">
+          {t('settings.network.tls.description')}
+        </span>
       </div>
 
-      <Switch checked={isEnabled} loading={isLoading} onChange={requestUpdate} />
+      <Switch
+        className="shrink-0"
+        checked={isEnabled}
+        loading={isLoading}
+        onChange={requestUpdate}
+      />
     </div>
   );
 };

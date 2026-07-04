@@ -45,16 +45,16 @@ export const WebTitle = () => {
   }
 
   return (
-    <div className="mt-8 flex items-center justify-between space-x-5">
-      <div className="flex flex-col">
+    <div className="mt-8 flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
+      <div className="flex min-w-0 flex-col">
         <span>{t('settings.appearance.webTitle')}</span>
         <span className="text-xs text-neutral-500">{t('settings.appearance.webTitleDesc')}</span>
       </div>
 
-      <div>
+      <div className="w-full sm:w-auto">
         <Input
           disabled={isLoading}
-          style={{ width: 180 }}
+          className="w-full sm:w-[180px]"
           value={webTitle}
           onChange={(e) => setWebTitle(e.target.value)}
           onPressEnter={submit}

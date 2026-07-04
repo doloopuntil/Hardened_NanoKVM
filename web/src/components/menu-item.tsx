@@ -27,6 +27,13 @@ export const MenuItem = ({
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+  const popoverContent = isBigScreen ? (
+    content
+  ) : (
+    <div className="max-h-[calc(100dvh-72px)] w-[min(360px,calc(100vw-16px))] overflow-y-auto">
+      {content}
+    </div>
+  );
 
   function togglePopover(open: boolean) {
     setIsTooltipOpen(false);
@@ -49,19 +56,20 @@ export const MenuItem = ({
 
   return (
     <Popover
-      content={content}
+      content={popoverContent}
       arrow={false}
       trigger="click"
       placement={isBigScreen ? 'bottomLeft' : 'bottom'}
       open={isPopoverOpen}
       onOpenChange={togglePopover}
       fresh={!!fresh}
+      overlayStyle={isBigScreen ? undefined : { maxWidth: 'calc(100vw - 8px)' }}
     >
       <Tooltip
-        title={title}
+        title={isBigScreen ? title : undefined}
         mouseEnterDelay={0.6}
         placement="bottom"
-        open={isTooltipOpen}
+        open={isBigScreen ? isTooltipOpen : false}
         onOpenChange={toggleTooltip}
       >
         <div

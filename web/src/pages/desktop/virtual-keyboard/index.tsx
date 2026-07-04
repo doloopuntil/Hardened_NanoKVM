@@ -1,9 +1,11 @@
+import type { ComponentType } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { AppleOutlined, WindowsOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { XIcon } from 'lucide-react';
-import Keyboard, { KeyboardButtonTheme } from 'react-simple-keyboard';
+import type { KeyboardButtonTheme } from 'react-simple-keyboard';
+import * as SimpleKeyboard from 'react-simple-keyboard';
 import { Drawer } from 'vaul';
 
 import 'react-simple-keyboard/build/css/index.css';
@@ -25,6 +27,18 @@ import {
   modifierKeys,
   specialKeyMap
 } from './virtual-keys.ts';
+
+const SimpleKeyboardModule = SimpleKeyboard as Record<string, any>;
+const SimpleKeyboardDefault = SimpleKeyboardModule.default as Record<string, any> | undefined;
+const SimpleKeyboardComponent = [
+  SimpleKeyboardModule.KeyboardReact,
+  SimpleKeyboardModule.ReactSimpleKeyboard,
+  SimpleKeyboardDefault?.KeyboardReact,
+  SimpleKeyboardDefault?.ReactSimpleKeyboard,
+  SimpleKeyboardDefault?.default,
+  SimpleKeyboardModule['module.exports']?.KeyboardReact,
+  SimpleKeyboardModule['module.exports']?.default
+].find((candidate) => typeof candidate === 'function') as ComponentType<any>;
 
 export const VirtualKeyboard = () => {
   const isBigScreen = useMediaQuery({ minWidth: 850 });
@@ -222,26 +236,141 @@ export const VirtualKeyboard = () => {
     return theme;
   }
 
+  function getButtonLabel(key: string) {
+    return keyboardOptions.display[key as keyof typeof keyboardOptions.display] || key;
+  }
+
+  function getMobileButtonClass(key: string) {
+    const specialWidth = new Map([
+      ['{space}', 'min-w-[132px]'],
+      ['{backspace}', 'min-w-[92px]'],
+      ['{capslock}', 'min-w-[78px]'],
+      ['{shiftleft}', 'min-w-[84px]'],
+      ['{shiftright}', 'min-w-[84px]'],
+      ['{controlleft}', 'min-w-[68px]'],
+      ['{controlright}', 'min-w-[68px]'],
+      ['{altleft}', 'min-w-[58px]'],
+      ['{altright}', 'min-w-[58px]'],
+      ['{enter}', 'min-w-[76px]'],
+      ['{tab}', 'min-w-[64px]'],
+      ['{winleft}', 'min-w-[58px]'],
+      ['{winright}', 'min-w-[58px]'],
+      ['{menu}', 'min-w-[58px]']
+    ]);
+
+    return specialWidth.get(key) || 'min-w-[42px]';
+  }
+
+  function handleMobilePointerUp(key: string) {
+    if (!modifierKeys.includes(key)) {
+      onKeyReleased(key);
+    }
+  }
+
+  const mobileRows =
+    keyboardOptions.layout[keyboardLayout as keyof typeof keyboardOptions.layout] ||
+    keyboardOptions.layout.default;
+
+  if (!isBigScreen) {
+    if (!isKeyboardOpen) return null;
+
+    return (
+      <div className="fixed inset-x-0 bottom-0 z-[1200] max-h-[68dvh] overflow-hidden rounded-t bg-white text-neutral-900 shadow-2xl">
+        <div className="keyboard-header flex items-center justify-between gap-3 px-3 py-2">
+          <div className="flex min-w-0 items-center gap-2">
+            <select
+              className="h-8 rounded border border-neutral-300 bg-white px-2 text-sm"
+              value={keyboardLanguage}
+              onChange={(event) => selectLanguage(event.target.value)}
+            >
+              {languages.map((language) => (
+                <option key={language.value} value={language.value}>
+                  {language.label}
+                </option>
+              ))}
+            </select>
+
+            {keyboardLanguage === 'en' && (
+              <div className="flex overflow-hidden rounded border border-neutral-300 text-sm">
+                {systems.map((system) => (
+                  <button
+                    key={system.value}
+                    type="button"
+                    className={clsx(
+                      'flex h-8 min-w-10 items-center justify-center px-3',
+                      keyboardSystem === system.value ? 'bg-neutral-800 text-white' : 'bg-white'
+                    )}
+                    onClick={() => selectSystem(system.value)}
+                  >
+                    {system.icon}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <button
+            type="button"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded text-neutral-600 hover:bg-neutral-200"
+            onClick={() => setIsKeyboardOpen(false)}
+          >
+            <XIcon size={18} />
+          </button>
+        </div>
+
+        <div className="h-px bg-neutral-300" />
+
+        <div className="max-h-[calc(68dvh-49px)] overflow-auto bg-neutral-200 px-2 py-2">
+          <div className="flex min-w-max flex-col gap-1.5">
+            {mobileRows.map((row) => (
+              <div key={row} className="flex gap-1.5">
+                {row.split(' ').map((key) => (
+                  <button
+                    key={`${row}-${key}`}
+                    type="button"
+                    className={clsx(
+                      'flex h-10 select-none items-center justify-center rounded bg-white px-2 text-center text-sm shadow-sm active:bg-blue-100',
+                      getMobileButtonClass(key),
+                      activeModifierKeys.includes(key) && 'bg-blue-600 text-white'
+                    )}
+                    onPointerDown={(event) => {
+                      event.preventDefault();
+                      onKeyPress(key);
+                    }}
+                    onPointerUp={() => handleMobilePointerUp(key)}
+                    onPointerCancel={() => handleMobilePointerUp(key)}
+                    onPointerLeave={() => handleMobilePointerUp(key)}
+                    dangerouslySetInnerHTML={{ __html: getButtonLabel(key) }}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Drawer.Root open={isKeyboardOpen} onOpenChange={setIsKeyboardOpen} modal={false}>
       <Drawer.Portal>
         <Drawer.Content
           className={clsx(
-            'fixed bottom-0 left-0 right-0 z-[999] mx-auto overflow-hidden rounded bg-white outline-none',
-            isBigScreen ? 'w-[820px]' : 'w-[650px]'
+            'max-w-screen fixed bottom-0 left-0 right-0 z-[999] mx-auto overflow-hidden bg-white outline-none',
+            isBigScreen ? 'w-[820px] rounded' : 'w-screen rounded-t'
           )}
         >
           {/* header */}
-          <div className="flex items-center justify-between px-3 py-1">
+          <div className="keyboard-header flex items-center justify-between gap-3 px-3 py-1">
             <ConfigProvider
               theme={{
                 algorithm: theme.defaultAlgorithm
               }}
             >
-              <div className="flex items-center space-x-5">
+              <div className="flex min-w-0 items-center gap-2 sm:gap-5">
                 <Select
                   size="small"
-                  style={{ minWidth: 90 }}
+                  className="min-w-[90px]"
                   defaultValue={keyboardLanguage}
                   options={languages}
                   onChange={selectLanguage}
@@ -258,7 +387,7 @@ export const VirtualKeyboard = () => {
               </div>
             </ConfigProvider>
 
-            <div className="flex w-[100px] items-center justify-end">
+            <div className="flex shrink-0 items-center justify-end sm:w-[100px]">
               <div
                 className="flex h-[20px] w-[20px] cursor-pointer items-center justify-center rounded text-neutral-600 hover:bg-neutral-300 hover:text-white"
                 onClick={() => setIsKeyboardOpen(false)}
@@ -272,9 +401,9 @@ export const VirtualKeyboard = () => {
 
           <div data-vaul-no-drag className="keyboardContainer w-full">
             {/* main keyboard */}
-            <Keyboard
+            <SimpleKeyboardComponent
               buttonTheme={getButtonTheme()}
-              keyboardRef={(r) => (keyboardRef.current = r)}
+              keyboardRef={(r: any) => (keyboardRef.current = r)}
               onKeyPress={onKeyPress}
               onKeyReleased={onKeyReleased}
               layoutName={keyboardLayout}
@@ -284,13 +413,13 @@ export const VirtualKeyboard = () => {
             {/* control keyboard */}
             {isBigScreen && (
               <div className="controlArrows">
-                <Keyboard
+                <SimpleKeyboardComponent
                   onKeyPress={onKeyPress}
                   onKeyReleased={onKeyReleased}
                   {...keyboardControlPadOptions}
                 />
 
-                <Keyboard
+                <SimpleKeyboardComponent
                   onKeyPress={onKeyPress}
                   onKeyReleased={onKeyReleased}
                   {...keyboardArrowsOptions}

@@ -1,8 +1,8 @@
-import { Popover } from 'antd';
 import { CheckIcon, SquareKanbanIcon } from 'lucide-react';
 
 import { updateScreen } from '@/api/vm.ts';
 import { setGop as setCookie } from '@/lib/localstorage';
+import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 
 type GopProps = {
   gop: number;
@@ -46,12 +46,5 @@ export const Gop = ({ gop, setGop }: GopProps) => {
     </>
   );
 
-  return (
-    <Popover content={content} placement="rightTop" arrow={false} align={{ offset: [14, 0] }}>
-      <div className="flex h-[30px] cursor-pointer items-center space-x-2 rounded px-3 text-neutral-300 hover:bg-neutral-700/70">
-        <SquareKanbanIcon size={18} />
-        <span className="select-none text-sm">GOP</span>
-      </div>
-    </Popover>
-  );
+  return <MenuSubmenu icon={<SquareKanbanIcon size={18} />} label="GOP" content={content} />;
 };

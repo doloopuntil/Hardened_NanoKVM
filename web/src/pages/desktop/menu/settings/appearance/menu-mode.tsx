@@ -24,15 +24,23 @@ export const MenuMode = () => {
   }
 
   return (
-    <div className="mt-5 flex w-full items-center justify-between">
-      <div className="flex flex-col">
+    <div className="mt-5 flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex min-w-0 flex-col">
         <span className="text-neutral-400">{t('settings.appearance.menuBar.mode')}</span>
         <span className="text-xs text-neutral-500">
           {t('settings.appearance.menuBar.modeDesc')}
         </span>
       </div>
 
-      <Segmented value={menuDisplayMode} options={options} onChange={handleChange} />
+      <div className="w-full min-w-0 overflow-x-auto sm:w-auto">
+        <Segmented
+          block
+          className="min-w-full sm:min-w-0"
+          value={menuDisplayMode}
+          options={options}
+          onChange={handleChange}
+        />
+      </div>
     </div>
   );
 };

@@ -29,7 +29,9 @@ export const Screen = () => {
 
   useEffect(() => {
     updateScreen('type', videoMode === 'mjpeg' ? 0 : 1);
-    updateScreen('resolution', resolution!.height);
+    if (resolution) {
+      updateScreen('resolution', resolution.height);
+    }
     updateQuality();
     updateFps();
     updateGop();

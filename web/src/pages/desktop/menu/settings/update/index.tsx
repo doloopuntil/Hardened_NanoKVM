@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import semver from 'semver';
 
 import * as api from '@/api/application.ts';
-import * as firewallApi from '@/api/system-firewall.ts';
 import type {
   SystemBootHealth,
   SystemLatest,
@@ -20,6 +19,7 @@ import type {
   SystemUpdateProgress,
   SystemVersion
 } from '@/api/application.ts';
+import * as firewallApi from '@/api/system-firewall.ts';
 import type { FirewallStatus } from '@/api/system-firewall.ts';
 
 import { Offline } from './offline.tsx';
@@ -309,11 +309,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       content: systemStaged.destructive ? (
         <div className="space-y-3">
           <div>{t('settings.update.system.rawInstallConfirmDesc')}</div>
-          <Alert
-            type="error"
-            showIcon
-            message={t('settings.update.system.rawInstallWarning')}
-          />
+          <Alert type="error" showIcon message={t('settings.update.system.rawInstallWarning')} />
         </div>
       ) : (
         t('settings.update.system.installConfirmDesc')
@@ -456,9 +452,11 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     if (!value) return null;
 
     return (
-      <div className="flex justify-between gap-6 text-xs text-neutral-500">
+      <div className="flex flex-col gap-1 text-xs text-neutral-500 sm:flex-row sm:justify-between sm:gap-6">
         <span>{label}</span>
-        <span className="max-w-[60%] break-words text-right text-neutral-300">{value}</span>
+        <span className="break-words text-left text-neutral-300 sm:max-w-[60%] sm:text-right">
+          {value}
+        </span>
       </div>
     );
   }
@@ -560,7 +558,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
         <Divider className="opacity-50" />
         <div className="space-y-4">
           <div className="text-sm text-neutral-300">{t('settings.update.system.title')}</div>
-          <div className="flex items-center justify-between gap-6 rounded border border-neutral-800 px-3 py-3">
+          <div className="flex flex-col items-start gap-3 rounded border border-neutral-800 px-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
             <div className="min-w-0 space-y-1">
               <div className="text-sm text-neutral-300">
                 {t('settings.update.system.rawEnable')}
@@ -780,9 +778,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
               icon={<CloudSyncOutlined />}
               title={systemCurrent?.version || t('settings.update.system.title')}
               subTitle={
-                canDownloadLatestSystemUpdate
-                  ? t('settings.update.system.available')
-                  : systemErrMsg
+                canDownloadLatestSystemUpdate ? t('settings.update.system.available') : systemErrMsg
               }
               extra={[
                 <Button key="refresh" onClick={refreshFirewallStatus}>
@@ -822,7 +818,10 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             <div className="space-y-2 px-2 pb-2">
               {versionLine(t('settings.update.system.systemVersion'), systemCurrent.version)}
               {versionLine(t('settings.update.system.baseImage'), systemCurrent.baseVersion)}
-              {versionLine(t('settings.update.system.buildrootRelease'), systemCurrent.rootfsVersion)}
+              {versionLine(
+                t('settings.update.system.buildrootRelease'),
+                systemCurrent.rootfsVersion
+              )}
               {systemCurrent.securityPatchLevel &&
                 versionLine(
                   t('settings.update.system.securityPatchLevel'),
