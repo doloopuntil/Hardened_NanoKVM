@@ -21,10 +21,11 @@ SD-card images. Install those through the web GUI updater instead.
 - Pick the target disk carefully. A wrong disk name can overwrite your computer
   drive.
 
-Current release note: the latest published full SD-card image is the RC6
-`2.0.28` image with matching raw system version `0.2.20-raw.1`. It includes
-raw-system update support and the
-`Buildroot 2023.11.3 package backports` security-backport baseline.
+Current release note: the latest published full SD-card image is the RC7
+`2.0.29` image with matching raw system version `0.2.21-raw.1`. It includes
+raw-system update support, the Hardened mobile view for phone screens, and the
+`Buildroot 2023.11.3 package backports` security-backport baseline. The RC7
+payload was smoke-tested on a NanoKVM Cube.
 
 ## Windows: Balena Etcher
 

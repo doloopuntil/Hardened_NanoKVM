@@ -1,5 +1,34 @@
 # Changelog
 
+## Hardened NanoKVM 2.0.29 RC7 (2026-07-04)
+
+Full application, raw system-update, and SD-card release candidate with app
+`2.0.29`, raw system-update `0.2.21-raw.1`, and matching SD-card image.
+
+### Changed
+
+* Added a mobile-first web UI view for narrow phone screens. This is a
+  Hardened fork addition and is not present in the original NanoKVM project.
+* Reworked mobile settings navigation, System subtabs, menu submenus, and
+  toolbar/menu containment so controls remain reachable on Android-class
+  browser widths.
+* Fixed the virtual keyboard menu crash by hardening the
+  `react-simple-keyboard` import path and added a compact mobile keyboard
+  panel for phone use.
+* Added mobile KVM screen fitting improvements: automatic fit scaling, lower
+  manual scale steps down to 10%, and safer MJPEG/WebRTC/H.264 layout bounds.
+* Kept the RC6 security baseline: no in-place password reset path, local-use
+  firewall defaults, signed app/system metadata, raw-system update guardrails,
+  startup NTP sync, mass-storage image validation, and opt-in USB HID
+  wake-on-write.
+
+### Verified
+
+* Rust backend tests, frontend build, linked RISC-V build, release package
+  validation, raw/rootfs validation, and metadata verification passed locally.
+* The mobile UI fixes and RC7 app payload were installed and smoke-tested on a
+  NanoKVM Cube test device.
+
 ## Hardened NanoKVM 2.0.28 RC6 (2026-07-03)
 
 Full application, raw system-update, and SD-card release candidate with app
