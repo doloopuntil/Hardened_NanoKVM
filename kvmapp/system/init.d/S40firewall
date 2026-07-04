@@ -3,7 +3,6 @@
 CONFIG_FILE=/etc/kvm/firewall.json
 SERVER_CONFIG=/etc/kvm/server.yaml
 SYSLOG_CONFIG=/etc/kvm/syslog.json
-WEBRTC_UDP_RANGE=49152:65535
 LOCAL_IPV4_CIDRS="10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 169.254.0.0/16"
 LOCAL_IPV4_LOOPBACK_CIDRS="127.0.0.0/8"
 LOCAL_IPV6_CIDRS="fc00::/7 fe80::/10"
@@ -64,13 +63,6 @@ allow_local_ipv4_tcp_port() {
     done
 }
 
-allow_local_ipv4_udp_range() {
-    range="$1"
-    for cidr in $(local_ipv4_admin_cidrs); do
-        iptables -A INPUT -s "$cidr" -p udp --dport "$range" -j ACCEPT
-    done
-}
-
 allow_local_ipv4_new() {
     for cidr in $(local_ipv4_admin_cidrs); do
         iptables -A INPUT -s "$cidr" -m state --state NEW -j ACCEPT
@@ -81,13 +73,6 @@ allow_local_ipv6_tcp_port() {
     port="$1"
     for cidr in $(local_ipv6_admin_cidrs); do
         ip6tables -A INPUT -s "$cidr" -p tcp --dport "$port" -m state --state NEW -j ACCEPT
-    done
-}
-
-allow_local_ipv6_udp_range() {
-    range="$1"
-    for cidr in $(local_ipv6_admin_cidrs); do
-        ip6tables -A INPUT -s "$cidr" -p udp --dport "$range" -j ACCEPT
     done
 }
 
@@ -216,10 +201,6 @@ apply_restricted_ipv4() {
     iptables -A OUTPUT -p tcp --dport 53 -m state --state NEW -j ACCEPT
     iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
     iptables -A OUTPUT -p udp --dport "$log_port" -j ACCEPT
-    iptables -A OUTPUT -p udp --dport 3478 -j ACCEPT
-    iptables -A OUTPUT -p udp --dport 19302 -j ACCEPT
-    allow_local_ipv4_udp_range "$WEBRTC_UDP_RANGE"
-    iptables -A OUTPUT -p udp --sport "$WEBRTC_UDP_RANGE" -j ACCEPT
     iptables -A INPUT -p udp --sport 67 --dport 68 -j ACCEPT 2>/dev/null || true
     iptables -A OUTPUT -p udp --sport 68 --dport 67 -j ACCEPT 2>/dev/null || true
     iptables -P INPUT DROP
@@ -243,10 +224,6 @@ apply_restricted_ipv6() {
     ip6tables -A OUTPUT -p tcp --dport 53 -m state --state NEW -j ACCEPT
     ip6tables -A OUTPUT -p udp --dport 123 -j ACCEPT
     ip6tables -A OUTPUT -p udp --dport "$log_port" -j ACCEPT
-    ip6tables -A OUTPUT -p udp --dport 3478 -j ACCEPT
-    ip6tables -A OUTPUT -p udp --dport 19302 -j ACCEPT
-    allow_local_ipv6_udp_range "$WEBRTC_UDP_RANGE"
-    ip6tables -A OUTPUT -p udp --sport "$WEBRTC_UDP_RANGE" -j ACCEPT
     ip6tables -A INPUT -p udp --sport 547 --dport 546 -j ACCEPT 2>/dev/null || true
     ip6tables -A OUTPUT -p udp --sport 546 --dport 547 -j ACCEPT 2>/dev/null || true
     allow_ipv6_control

@@ -13,6 +13,7 @@ import { Head } from '@/components/head.tsx';
 import { CaptureStatusOverlay, useCaptureStatus } from './capture-status';
 import { Keyboard } from './keyboard';
 import { Menu } from './menu';
+import { MobileLocalKeyboard } from './mobile-local-keyboard';
 import { Mouse } from './mouse';
 import { Notification } from './notification.tsx';
 import { Sidebar as PicoclawSidebar } from './picoclaw';
@@ -88,7 +89,10 @@ export const Desktop = () => {
               onResize={handleSplitterResize}
             >
               <Splitter.Panel min="45%">
-                <div className="relative h-full min-h-0 w-full min-w-0 overflow-hidden bg-black">
+                <div
+                  id="kvm-pointer-surface"
+                  className="relative h-full min-h-0 w-full min-w-0 overflow-hidden bg-black"
+                >
                   <Screen />
                   <CaptureStatusOverlay status={captureStatus} />
                 </div>
@@ -106,6 +110,7 @@ export const Desktop = () => {
           <ActionOverlay />
           <Mouse />
           <Keyboard />
+          <MobileLocalKeyboard />
         </div>
       )}
 

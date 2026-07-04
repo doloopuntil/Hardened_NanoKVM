@@ -108,12 +108,12 @@ For end-user flashing instructions, see
   session-lock routes.
 - Managed firewall modes: Baseline compatibility, Moderate default local-only
   access, Restricted local-only service allowlist, and Paranoid local-only HTTPS
-  with online updates intentionally blocked.
+  with online updates intentionally blocked. Restricted and Paranoid block
+  H.264 WebRTC; use H.264 Direct or MJPEG in those modes.
 - MJPEG stream and frame-detect endpoints through `libkvm`.
-- H.264 Direct and H.264 WebRTC routes are enabled. Direct streaming is the
+- H.264 Direct and H.264 WebRTC routes are implemented. Direct streaming is the
   preferred low-CPU mode and has been verified on hardware. WebRTC websocket
-  signaling is verified; full browser media validation still needs manual
-  browser testing.
+  signaling is available only when the effective firewall mode permits it.
 - MJPEG and H.264 Direct use shared fanout producers, so multiple viewers do
   not multiply native capture reads. New browser sessions default to H.264
   Direct when HTTPS and WebCodecs are available, otherwise to H.264.
@@ -123,9 +123,13 @@ For end-user flashing instructions, see
   are removed from `/kvmapp/server`, and port 443 is explicitly allowed for
   HTTPS.
 - Keyboard and mouse HID websocket, queued HID writes, paste, shortcuts, HID
-  mode/reset, and mouse jiggler.
+  mode/reset, mouse jiggler, mobile TouchSync pointer mode, and relative
+  pointer sensitivity controls.
 - Storage image listing, browser ISO upload, mount, unmount, delete, and CD-ROM
-  mode with path validation.
+  mode with path validation. Runtime media changes now eject and insert the
+  mass-storage LUN; switching between CD-ROM and mass-storage mode also
+  reconnects the USB gadget so BIOS/boot menus rescan the device type. An
+  explicit reconnect endpoint remains available as a compatibility fallback.
 - Guarded remote ISO download by URL. It is disabled by default, controlled by
   Settings > Appearance, validates URL shape, filename, size, destination, and
   ISO9660 signature, and writes only under the configured image directory.
@@ -193,12 +197,14 @@ For end-user flashing instructions, see
 
 - Less common settings and exact error semantics still need route-by-route
   validation.
-- H.264 WebRTC needs more browser/ICE stress testing across reconnects and
-  browser variants.
+- H.264 WebRTC remains available for Baseline/Moderate testing only; Restricted
+  and Paranoid intentionally disable it.
 - Video setting changes need more route-by-route stress testing. The current
   app preserves the selected MJPEG/H.264 Direct/H.264 WebRTC mode across page
-  loads, and protocol changes intentionally reboot the device instead of
-  partially restarting the video stack.
+  loads where that mode is allowed. Restricted/Paranoid switch away from H.264
+  WebRTC because the backend route and firewall policy block it. Protocol
+  changes intentionally reboot the device instead of partially restarting the
+  video stack.
 - First-boot/account setup needs continued product testing on fresh SD-card
   flashes.
 - Remote ISO download needs a final production policy before it should be

@@ -56,6 +56,20 @@ export function useScreenFit(
     };
   }, [isBigScreen, resolution?.height, resolution?.width]);
 
+  useEffect(() => {
+    if (isBigScreen || !containerRef.current) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      container.scrollLeft = Math.max(0, (container.scrollWidth - container.clientWidth) / 2);
+      container.scrollTop = Math.max(0, (container.scrollHeight - container.clientHeight) / 2);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [fitScale, isBigScreen, resolution?.height, resolution?.width, videoScale]);
+
   const mediaStyle = useMemo<CSSProperties>(() => {
     const scale = (isBigScreen ? 1 : fitScale) * videoScale;
 
@@ -64,6 +78,14 @@ export function useScreenFit(
         ...fallbackStyle,
         transform: `scale(${videoScale})`,
         transformOrigin: 'center'
+      };
+    }
+
+    if (!isBigScreen) {
+      return {
+        width: Math.max(1, Math.round(resolution.width * scale)),
+        height: Math.max(1, Math.round(resolution.height * scale)),
+        objectFit: 'cover'
       };
     }
 

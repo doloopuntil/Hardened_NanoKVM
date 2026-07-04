@@ -468,17 +468,17 @@ const translations: Record<string, string> = {
     'Paranoid-tila on poissa käytöstä, kunnes HTTPS on otettu käyttöön kohdassa Asetukset > Järjestelmä > Verkko.',
   'settings.system.firewall.mode.title': 'Palomuuritila',
   'settings.system.firewall.mode.description':
-    'Palomuuripalvelua hallitaan aina. Baseline säilyttää nykyisen NanoKVM-käytön; Restricted sallii HTTPS:n, SSH:n, NTP:n, syslogin, päivitykset ja WebRTC:n; Paranoid sallii vain HTTPS-käytön.',
+    'Valitse, miten saapuva ylläpitokäytön portit näkyvät. Moderate on oletuksena paikallinen profiili; Restricted pitää HTTPS/SSH-yhteydet paikallisina ja estää WebRTC:n; Baseline on avoin yhteensopivuusprofiili.',
   'settings.system.firewall.mode.baseline': 'Hallittu baseline',
   'settings.system.firewall.mode.restricted': 'Rajoitettu',
   'settings.system.firewall.mode.paranoid': 'Paranoid',
   'settings.system.firewall.restricted.enable': 'Ota Restricted käyttöön',
   'settings.system.firewall.restricted.active': 'Restricted-palomuuri on aktiivinen',
   'settings.system.firewall.restricted.allows':
-    'Sallittu liikenne: HTTPS, SSH, DNS, NTP, etä-syslog, verkkopäivitykset, WebRTC/ICE UDP, DHCP, muodostetut yhteydet ja välttämätön IPv6-ohjausliikenne.',
+    'Sallittu liikenne: HTTPS ja SSH vain private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- tai IPv6 loopback-lähdealueilta; lähtevä DNS, NTP, etä-syslog ja verkkopäivitykset; DHCP, muodostetut yhteydet ja välttämätön IPv6-ohjausliikenne. WebRTC/ICE UDP estetään.',
   'settings.system.firewall.restricted.confirmTitle': 'Otetaanko Restricted-palomuuri käyttöön?',
   'settings.system.firewall.restricted.confirmDesc':
-    'Sallittu liikenne rajoitetaan HTTPS:ään, SSH:hen, DNS:ään, NTP:hen, etä-syslogiin, verkkopäivityksiin, WebRTC/ICE UDP:hen, DHCP:hen, muodostettuihin yhteyksiin ja välttämättömään IPv6-ohjausliikenteeseen. Muu sisään- ja ulospäin kulkeva liikenne estetään.',
+    'Saapuva ylläpitokäyttö rajataan HTTPS:lle ja SSH:lle private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- tai IPv6 loopback-lähdealueisiin. Julkisia lähdealueita ei sallita. Lähtevä DNS, NTP, etä-syslog, verkkopäivitykset, DHCP, muodostetut yhteydet ja välttämätön IPv6-ohjausliikenne pysyvät käytettävissä. WebRTC/ICE UDP ja muu sisään-/ulospäin kulkeva liikenne estetään.',
   'settings.system.firewall.paranoid.enable': 'Ota Paranoid käyttöön',
   'settings.system.firewall.paranoid.active': 'Paranoid-palomuuri on aktiivinen',
   'settings.system.firewall.paranoid.blocks':

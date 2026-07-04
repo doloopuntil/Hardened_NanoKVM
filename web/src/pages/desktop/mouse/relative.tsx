@@ -5,9 +5,15 @@ import { useTranslation } from 'react-i18next';
 
 import { MouseReportRelative } from '@/lib/mouse.ts';
 import { client, MessageEvent } from '@/lib/websocket.ts';
-import { scrollDirectionAtom, scrollIntervalAtom } from '@/jotai/mouse.ts';
+import { pointerSensitivityAtom, scrollDirectionAtom, scrollIntervalAtom } from '@/jotai/mouse.ts';
 import { resolutionAtom } from '@/jotai/screen.ts';
 
+import {
+  getResolutionMovementScale,
+  hasAccumulatedMovement,
+  RELATIVE_DRAIN_INTERVAL_MS,
+  takeAccumulatedMovement
+} from './movement-scale.ts';
 import { MouseRelativeEvent } from './types.ts';
 
 export const Relative = () => {
@@ -17,23 +23,27 @@ export const Relative = () => {
   const resolution = useAtomValue(resolutionAtom);
   const scrollDirection = useAtomValue(scrollDirectionAtom);
   const scrollInterval = useAtomValue(scrollIntervalAtom);
+  const pointerSensitivity = useAtomValue(pointerSensitivityAtom);
 
   const mouseRef = useRef(new MouseReportRelative());
   const isLockedRef = useRef(false);
   const lastScrollTimeRef = useRef(0);
+  const moveAccumulatorRef = useRef({ x: 0, y: 0 });
+  const drainTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const screen = document.getElementById('screen');
     if (!screen) return;
+    const target = document.getElementById('kvm-pointer-surface') ?? screen;
 
     showMessage();
 
-    screen.addEventListener('click', handleMouseClick);
-    screen.addEventListener('mousedown', handleMouseDown);
-    screen.addEventListener('mouseup', handleMouseUp);
-    screen.addEventListener('mousemove', handleMouseMove);
-    screen.addEventListener('wheel', handleMouseWheel, { passive: false });
-    screen.addEventListener('contextmenu', disableEvent);
+    target.addEventListener('click', handleMouseClick);
+    target.addEventListener('mousedown', handleMouseDown);
+    target.addEventListener('mouseup', handleMouseUp);
+    target.addEventListener('mousemove', handleMouseMove);
+    target.addEventListener('wheel', handleMouseWheel, { passive: false });
+    target.addEventListener('contextmenu', disableEvent);
     document.addEventListener('pointerlockchange', handlePointerLockChange);
 
     // Mouse click event
@@ -41,7 +51,7 @@ export const Relative = () => {
       disableEvent(event);
 
       if (!isLockedRef.current) {
-        screen?.requestPointerLock();
+        target.requestPointerLock();
       }
     }
 
@@ -65,10 +75,13 @@ export const Relative = () => {
       const y = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
       if (x === 0 && y === 0) return;
 
-      const deltaX = Math.abs(x * window.devicePixelRatio) < 10 ? x * 2 : x;
-      const deltaY = Math.abs(y * window.devicePixelRatio) < 10 ? y * 2 : y;
+      const baseDeltaX = Math.abs(x * window.devicePixelRatio) < 10 ? x * 2 : x;
+      const baseDeltaY = Math.abs(y * window.devicePixelRatio) < 10 ? y * 2 : y;
+      const movementScale = getResolutionMovementScale(resolution);
+      const deltaX = baseDeltaX * pointerSensitivity * movementScale;
+      const deltaY = baseDeltaY * pointerSensitivity * movementScale;
 
-      handleMouseEvent({ type: 'move', deltaX, deltaY });
+      queueRelativeMove(deltaX, deltaY);
     }
 
     // Mouse wheel event
@@ -90,19 +103,46 @@ export const Relative = () => {
     }
 
     function handlePointerLockChange() {
-      isLockedRef.current = document.pointerLockElement === screen;
+      isLockedRef.current = document.pointerLockElement === target;
+    }
+
+    function queueRelativeMove(deltaX: number, deltaY: number) {
+      const move = takeAccumulatedMovement(moveAccumulatorRef.current, deltaX, deltaY);
+      if (move) {
+        handleMouseEvent({ type: 'move', deltaX: move.x, deltaY: move.y });
+      }
+      scheduleMovementDrain();
+    }
+
+    function scheduleMovementDrain() {
+      if (drainTimerRef.current !== null || !hasAccumulatedMovement(moveAccumulatorRef.current)) {
+        return;
+      }
+
+      drainTimerRef.current = setTimeout(() => {
+        drainTimerRef.current = null;
+        const move = takeAccumulatedMovement(moveAccumulatorRef.current, 0, 0);
+        if (move) {
+          handleMouseEvent({ type: 'move', deltaX: move.x, deltaY: move.y });
+        }
+        scheduleMovementDrain();
+      }, RELATIVE_DRAIN_INTERVAL_MS);
     }
 
     return () => {
-      screen.removeEventListener('click', handleMouseClick);
-      screen.removeEventListener('mousemove', handleMouseMove);
-      screen.removeEventListener('mousedown', handleMouseDown);
-      screen.removeEventListener('mouseup', handleMouseUp);
-      screen.removeEventListener('wheel', handleMouseWheel);
-      screen.removeEventListener('contextmenu', disableEvent);
+      if (drainTimerRef.current !== null) {
+        clearTimeout(drainTimerRef.current);
+        drainTimerRef.current = null;
+      }
+      target.removeEventListener('click', handleMouseClick);
+      target.removeEventListener('mousemove', handleMouseMove);
+      target.removeEventListener('mousedown', handleMouseDown);
+      target.removeEventListener('mouseup', handleMouseUp);
+      target.removeEventListener('wheel', handleMouseWheel);
+      target.removeEventListener('contextmenu', disableEvent);
       document.removeEventListener('pointerlockchange', handlePointerLockChange);
     };
-  }, [resolution, scrollDirection, scrollInterval]);
+  }, [resolution, scrollDirection, scrollInterval, pointerSensitivity]);
 
   // Mouse handler
   function handleMouseEvent(event: MouseRelativeEvent) {
@@ -122,13 +162,17 @@ export const Relative = () => {
         report = mouse.buildReport(0, 0, event.deltaY);
         break;
       case 'move':
-        report = mouse.buildReport(event.deltaX, event.deltaY);
-        break;
+        sendReport(mouse.buildReport(event.deltaX, event.deltaY));
+        return;
       default:
         report = mouse.buildReport(0, 0);
         break;
     }
 
+    sendReport(report);
+  }
+
+  function sendReport(report: Uint8Array) {
     const data = new Uint8Array([MessageEvent.Mouse, ...report]);
     client.send(data);
   }

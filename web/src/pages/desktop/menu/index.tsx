@@ -15,6 +15,7 @@ import { DownloadImage } from './download.tsx';
 import { Fullscreen } from './fullscreen';
 import { Image } from './image';
 import { Keyboard } from './keyboard';
+import { LocalKeyboardButton } from './local-keyboard-button';
 import { Mouse } from './mouse';
 import { Collapse, Expand } from './operations';
 import { Picoclaw } from './picoclaw';
@@ -107,6 +108,7 @@ export const Menu = () => {
             <Divider type="vertical" />
 
             <Screen />
+            <LocalKeyboardButton />
             <Keyboard />
             <Mouse />
             <Divider type="vertical" />

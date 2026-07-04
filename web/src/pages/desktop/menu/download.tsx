@@ -1,9 +1,9 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Button, Divider, Input } from 'antd';
+import { Button, Divider, Input, notification } from 'antd';
 import type { InputRef } from 'antd';
 import clsx from 'clsx';
 import { useSetAtom } from 'jotai';
-import { DownloadIcon } from 'lucide-react';
+import { DownloadIcon, XCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { downloadImage, imageEnabled, statusImage } from '@/api/download.ts';
@@ -13,6 +13,10 @@ import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
 
 type TransferKind = 'local' | 'remote';
+type TransferStatus = '' | 'idle' | 'in_progress' | 'complete' | 'failed' | 'canceled';
+type AbortReason = 'cancel' | 'stall';
+
+const TRANSFER_STALL_TIMEOUT_MS = 90_000;
 
 function isAllowedLocalImage(file: File | null) {
   if (!file) return false;
@@ -22,31 +26,46 @@ function isAllowedLocalImage(file: File | null) {
 
 export const DownloadImage = () => {
   const { t } = useTranslation();
+  const [notify, contextHolder] = notification.useNotification();
   const setIsKeyboardEnable = useSetAtom(isKeyboardEnableAtom);
 
   const [input, setInput] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState<TransferStatus>('');
   const [log, setLog] = useState('');
   const [diskEnabled, setDiskEnabled] = useState(false);
   const [remoteEnabled, setRemoteEnabled] = useState(false);
   const [popoverKey, setPopoverKey] = useState(0);
+  const [activeTransfer, setActiveTransfer] = useState<TransferKind | null>(null);
 
   const inputRef = useRef<InputRef>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const statusRef = useRef('');
+  const statusRef = useRef<TransferStatus>('');
   const activeTransferRef = useRef<TransferKind | null>(null);
+  const uploadXhrRef = useRef<XMLHttpRequest | null>(null);
+  const abortReasonRef = useRef<AbortReason | null>(null);
+  const lastProgressMarkerRef = useRef('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   const intervalId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+  const stallTimeoutId = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     checkDiskEnabled();
+    return () => {
+      stopStatusPolling();
+      stopStallWatchdog();
+    };
   }, []);
 
-  function setDownloadStatus(nextStatus: string) {
+  function setDownloadStatus(nextStatus: TransferStatus) {
     statusRef.current = nextStatus;
     setStatus(nextStatus);
+  }
+
+  function setActiveTransferKind(nextTransfer: TransferKind | null) {
+    activeTransferRef.current = nextTransfer;
+    setActiveTransfer(nextTransfer);
   }
 
   function stopStatusPolling() {
@@ -60,6 +79,33 @@ export const DownloadImage = () => {
     if (intervalId.current) return;
 
     intervalId.current = setInterval(getDownloadStatus, 2500);
+  }
+
+  function stopStallWatchdog() {
+    if (!stallTimeoutId.current) return;
+
+    clearTimeout(stallTimeoutId.current);
+    stallTimeoutId.current = undefined;
+  }
+
+  function resetStallWatchdog() {
+    stopStallWatchdog();
+    if (statusRef.current !== 'in_progress') return;
+
+    stallTimeoutId.current = setTimeout(() => {
+      if (statusRef.current !== 'in_progress') return;
+
+      abortReasonRef.current = 'stall';
+      uploadXhrRef.current?.abort();
+      failTransfer(t('download.stalled'));
+    }, TRANSFER_STALL_TIMEOUT_MS);
+  }
+
+  function noteProgress(marker: string) {
+    if (!marker || marker === lastProgressMarkerRef.current) return;
+
+    lastProgressMarkerRef.current = marker;
+    resetStallWatchdog();
   }
 
   function clearFileInput() {
@@ -89,16 +135,19 @@ export const DownloadImage = () => {
       setIsKeyboardEnable(false);
       setPopoverKey((prevKey) => prevKey + 1); // Force re-render
     } else {
-      setInput('');
-      setDownloadStatus('');
-      setLog('');
-      setSelectedFile(null);
+      if (statusRef.current !== 'in_progress') {
+        setInput('');
+        setDownloadStatus('');
+        setLog('');
+        setSelectedFile(null);
+        setActiveTransferKind(null);
+        stopStatusPolling();
+        stopStallWatchdog();
+        clearFileInput();
+      }
       setIsDragging(false);
-      activeTransferRef.current = null;
-      clearFileInput();
 
       setIsKeyboardEnable(true);
-      stopStatusPolling();
     }
   }
 
@@ -119,12 +168,9 @@ export const DownloadImage = () => {
       const nextStatus = rsp.data.status;
       if (nextStatus === 'in_progress') {
         setDownloadStatus(nextStatus);
-        // Check if rsp has a percentage value
-        if (rsp.data.percentage) {
-          setLog('Downloading (' + rsp.data.percentage + ')' + ': ' + rsp.data.file);
-        } else {
-          setLog('Downloading' + ': ' + rsp.data.file);
-        }
+        const transfer = activeTransferRef.current ?? 'remote';
+        setLog(formatTransferLog(transfer, rsp.data.file, rsp.data.percentage));
+        noteProgress(`${rsp.data.file};${rsp.data.percentage}`);
         if (activeTransferRef.current === 'remote') {
           setInput(rsp.data.file);
         }
@@ -132,18 +178,16 @@ export const DownloadImage = () => {
       }
 
       if (nextStatus === 'failed') {
-        setDownloadStatus(nextStatus);
-        setLog('Failed');
-        activeTransferRef.current = null;
-        stopStatusPolling();
+        failTransfer(t('download.failed'));
         return;
       }
 
       if (nextStatus === 'idle') {
         const previousStatus = statusRef.current;
         const previousTransfer = activeTransferRef.current;
-        activeTransferRef.current = null;
+        setActiveTransferKind(null);
         stopStatusPolling();
+        stopStallWatchdog();
 
         if (previousStatus === 'complete') {
           return;
@@ -153,6 +197,15 @@ export const DownloadImage = () => {
           setInput('');
           setDownloadStatus('complete');
           setLog(t('download.complete'));
+          notifyImageListChanged();
+          return;
+        }
+
+        if (previousStatus === 'in_progress' && previousTransfer === 'local') {
+          setDownloadStatus('complete');
+          setLog(t('download.uploadComplete'));
+          setSelectedFile(null);
+          clearFileInput();
           notifyImageListChanged();
           return;
         }
@@ -172,17 +225,17 @@ export const DownloadImage = () => {
       return;
     }
 
-    activeTransferRef.current = 'remote';
+    setActiveTransferKind('remote');
+    lastProgressMarkerRef.current = '';
     setDownloadStatus('in_progress');
-    setLog('Downloading: ' + targetUrl);
+    setLog(formatTransferLog('remote', targetUrl));
+    noteProgress(targetUrl);
     // start the getDownloadStatus to tick every 5 seconds
 
     downloadImage(targetUrl)
       .then((rsp) => {
         if (rsp.code !== 0) {
-          activeTransferRef.current = null;
-          setDownloadStatus('failed');
-          setLog(rsp.msg || t('download.remoteFailed'));
+          failTransfer(rsp.msg || t('download.remoteFailed'));
           return;
         }
         getDownloadStatus();
@@ -190,10 +243,7 @@ export const DownloadImage = () => {
         startStatusPolling();
       })
       .catch(() => {
-        stopStatusPolling(); // Clear the interval when the download is complete or fails
-        activeTransferRef.current = null;
-        setDownloadStatus('failed');
-        setLog('Failed');
+        failTransfer(t('download.remoteFailed'));
       });
   }
 
@@ -208,11 +258,12 @@ export const DownloadImage = () => {
     setDownloadStatus('idle');
     setLog('');
     setSelectedFile(file);
-    activeTransferRef.current = null;
+    setActiveTransferKind(null);
     stopStatusPolling();
+    stopStallWatchdog();
   }
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0] ?? null;
     selectLocalFile(file);
   }
@@ -226,42 +277,138 @@ export const DownloadImage = () => {
       return;
     }
 
-    activeTransferRef.current = 'local';
+    setActiveTransferKind('local');
+    lastProgressMarkerRef.current = '';
     setDownloadStatus('in_progress');
-    setLog('Uploading: ' + file.name);
+    setLog(formatTransferLog('local', file.name));
+    noteProgress(file.name);
 
     const formData = new FormData();
     formData.append('file', file);
-
-    const csrfToken = getCsrfToken();
+    startStatusPolling();
+    resetStallWatchdog();
 
     try {
-      const uploadRequest = fetch('/api/download/file', {
-        method: 'POST',
-        headers: csrfToken ? { 'x-csrf-token': csrfToken } : undefined,
-        body: formData
-      });
-      startStatusPolling();
-      const response = await uploadRequest;
-      const body = await response.json().catch(() => null);
-
-      if (!response.ok || body?.code !== 0) {
-        throw new Error(body?.msg || 'Failed');
-      }
+      await uploadFileWithProgress(file, formData);
 
       stopStatusPolling();
-      activeTransferRef.current = null;
+      stopStallWatchdog();
+      setActiveTransferKind(null);
       setDownloadStatus('complete');
-      setLog(t('download.complete'));
+      setLog(t('download.uploadComplete'));
       setSelectedFile(null);
       clearFileInput();
       notifyImageListChanged();
     } catch (error) {
-      stopStatusPolling(); // Clear the interval when the download is complete or fails
-      activeTransferRef.current = null;
-      setDownloadStatus('failed');
-      setLog(error instanceof Error && error.message ? error.message : 'Failed');
+      if (isAbortError(error)) {
+        if (abortReasonRef.current === 'stall') {
+          abortReasonRef.current = null;
+          return;
+        }
+        abortReasonRef.current = null;
+        finishCanceled();
+        return;
+      }
+
+      failTransfer(error instanceof Error && error.message ? error.message : t('download.failed'));
     }
+  }
+
+  function uploadFileWithProgress(file: File, formData: FormData) {
+    const csrfToken = getCsrfToken();
+
+    return new Promise<void>((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      uploadXhrRef.current = xhr;
+      xhr.open('POST', '/api/download/file');
+      xhr.withCredentials = true;
+      if (csrfToken) {
+        xhr.setRequestHeader('x-csrf-token', csrfToken);
+      }
+
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable && event.total > 0) {
+          const percentage = `${((event.loaded / event.total) * 100).toFixed(2)}%`;
+          setLog(formatTransferLog('local', file.name, percentage));
+          noteProgress(`${event.loaded}/${event.total}`);
+        } else {
+          setLog(formatTransferLog('local', file.name));
+          noteProgress(`${event.loaded}`);
+        }
+      };
+
+      xhr.onload = () => {
+        uploadXhrRef.current = null;
+        const body = parseJson(xhr.responseText);
+        if (xhr.status >= 200 && xhr.status < 300 && body?.code === 0) {
+          resolve();
+          return;
+        }
+        reject(new Error(body?.msg || t('download.uploadFailed')));
+      };
+
+      xhr.onerror = () => {
+        uploadXhrRef.current = null;
+        reject(new Error(t('download.uploadFailed')));
+      };
+      xhr.ontimeout = () => {
+        uploadXhrRef.current = null;
+        reject(new Error(t('download.stalled')));
+      };
+      xhr.onabort = () => {
+        uploadXhrRef.current = null;
+        reject(new DOMException('upload canceled', 'AbortError'));
+      };
+
+      xhr.send(formData);
+    });
+  }
+
+  function cancelTransfer() {
+    if (statusRef.current !== 'in_progress' || activeTransferRef.current !== 'local') return;
+
+    abortReasonRef.current = 'cancel';
+    uploadXhrRef.current?.abort();
+  }
+
+  function failTransfer(message: string) {
+    stopStatusPolling();
+    stopStallWatchdog();
+    setActiveTransferKind(null);
+    uploadXhrRef.current = null;
+    setDownloadStatus('failed');
+    setLog(message);
+    notify.error({
+      message: t('download.failed'),
+      description: message,
+      duration: 10
+    });
+  }
+
+  function finishCanceled() {
+    stopStatusPolling();
+    stopStallWatchdog();
+    setActiveTransferKind(null);
+    setDownloadStatus('canceled');
+    setLog(t('download.canceled'));
+  }
+
+  function formatTransferLog(transfer: TransferKind, file: string, percentage?: string) {
+    const label = transfer === 'local' ? t('download.uploading') : t('download.downloading');
+    const progress = percentage ? ` (${percentage})` : '';
+    return `${label}${progress}: ${file}`;
+  }
+
+  function parseJson(raw: string): { code?: number; msg?: string } | null {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+
+  function isAbortError(error: unknown) {
+    return error instanceof DOMException && error.name === 'AbortError';
   }
 
   const content = (
@@ -357,6 +504,11 @@ export const DownloadImage = () => {
               >
                 {t('download.ok')}
               </Button>
+              {status === 'in_progress' && activeTransfer === 'local' && (
+                <Button danger icon={<XCircleIcon size={14} />} onClick={cancelTransfer}>
+                  {t('download.cancel')}
+                </Button>
+              )}
             </div>
           </div>
         </>
@@ -377,11 +529,14 @@ export const DownloadImage = () => {
   );
 
   return (
-    <MenuItem
-      title={t('download.title')}
-      icon={<DownloadIcon size={18} />}
-      content={content}
-      onOpenChange={handleOpenChange}
-    />
+    <>
+      {contextHolder}
+      <MenuItem
+        title={t('download.title')}
+        icon={<DownloadIcon size={18} />}
+        content={content}
+        onOpenChange={handleOpenChange}
+      />
+    </>
   );
 };

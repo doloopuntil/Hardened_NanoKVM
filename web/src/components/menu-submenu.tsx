@@ -26,6 +26,7 @@ export const MenuSubmenu = ({ icon, label, content, open, onOpenChange }: MenuSu
 
   const trigger = (
     <div
+      data-menu-keep-open
       className="flex min-h-[30px] cursor-pointer items-center rounded px-3 py-1 text-neutral-300 hover:bg-neutral-700/70"
       onClick={isBigScreen ? undefined : () => setOpen(!isOpen)}
     >

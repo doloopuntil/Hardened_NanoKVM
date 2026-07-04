@@ -45,7 +45,8 @@ export const Mjpeg = () => {
   return (
     <div
       ref={containerRef}
-      className="flex h-full min-h-0 w-full min-w-0 items-center justify-center overflow-hidden bg-black"
+      data-kvm-screen-scroll
+      className="flex h-full min-h-0 w-full min-w-0 items-center justify-center overflow-auto overscroll-contain bg-black"
     >
       <img
         id="screen"

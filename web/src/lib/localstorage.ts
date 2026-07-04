@@ -10,6 +10,8 @@ const GOP_KEY = 'nano-kvm-gop';
 const FRAME_DETECT_KEY = 'nano-kvm-frame-detect';
 const MOUSE_STYLE_KEY = 'nano-kvm-mouse-style';
 const MOUSE_MODE_KEY = 'nano-kvm-mouse-mode';
+const MOBILE_POINTER_MODE_KEY = 'nano-kvm-mobile-pointer-mode';
+const POINTER_SENSITIVITY_KEY = 'nano-kvm-pointer-sensitivity';
 const MOUSE_SCROLL_DIRECTION_KEY = 'nano-kvm-mouse-scroll-direction';
 const MOUSE_SCROLL_INTERVAL_KEY = 'nano-kvm-mouse-scroll-interval';
 const SKIP_UPDATE_KEY = 'nano-kvm-check-update';
@@ -157,6 +159,29 @@ export function getMouseMode() {
 
 export function setMouseMode(mouse: string) {
   localStorage.setItem(MOUSE_MODE_KEY, mouse);
+}
+
+export function getMobilePointerMode() {
+  return localStorage.getItem(MOBILE_POINTER_MODE_KEY);
+}
+
+export function setMobilePointerMode(mode: string) {
+  localStorage.setItem(MOBILE_POINTER_MODE_KEY, mode);
+}
+
+export function getPointerSensitivity(): number | null {
+  const sensitivity = localStorage.getItem(POINTER_SENSITIVITY_KEY);
+  if (!sensitivity) return null;
+
+  const value = Number(sensitivity);
+  if (!Number.isFinite(value)) return null;
+
+  return Math.max(0.25, Math.min(2, value));
+}
+
+export function setPointerSensitivity(sensitivity: number): void {
+  const value = Math.max(0.25, Math.min(2, sensitivity));
+  localStorage.setItem(POINTER_SENSITIVITY_KEY, String(value));
 }
 
 export function getMouseScrollDirection(): number | null {

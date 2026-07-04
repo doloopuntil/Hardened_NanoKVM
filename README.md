@@ -64,16 +64,18 @@ the security, update, and administration model substantially:
 - **System settings in GUI:** added System Log, remote UDP syslog forwarding,
   local tmpfs log viewing, Time/NTP/timezone controls, and Firewall controls.
 - **Mobile view:** narrow phone screens get a mobile-focused settings/menu/KVM
-  view with reachable submenus, mobile virtual keyboard controls, and automatic
-  KVM screen fitting. This mobile view is a Hardened fork addition and is not
-  present in the original NanoKVM project.
+  view with reachable submenus, native mobile keyboard controls, the separate
+  on-screen HID keyboard, TouchSync pointer control, and automatic KVM screen
+  fitting. This mobile view is a Hardened fork addition and is not present in
+  the original NanoKVM project.
 - **Managed firewall modes:** Moderate is the default local-only profile:
   baseline services remain reachable, but new inbound connections are accepted
   only from private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local,
   and IPv6 loopback source ranges. Baseline remains available as an open
-  compatibility profile. Restricted keeps HTTPS/SSH/WebRTC access local-only
-  while preserving needed outbound DNS/NTP/syslog/update traffic; Paranoid
-  leaves only local-only HTTPS and blocks online updates intentionally.
+  compatibility profile. Restricted keeps HTTPS/SSH access local-only while
+  preserving needed outbound DNS/NTP/syslog/update traffic; H.264 WebRTC is
+  disabled in both Restricted and Paranoid. Paranoid leaves only local-only
+  HTTPS and blocks online updates intentionally.
 - **HTTPS/firewall recovery:** disabling HTTPS forces firewall mode back to
   Moderate so HTTP access is not stranded behind HTTPS-only rules while still
   keeping public source ranges blocked.
@@ -87,7 +89,8 @@ the security, update, and administration model substantially:
 - **Lower video CPU load path:** H.264 Direct is the preferred low-CPU mode when
   HTTPS and WebCodecs are available; MJPEG remains as fallback.
 - **Input reliability fixes:** queued HID writes, paste support, shortcut
-  handling, HID reset/recovery, and mouse jiggler support in the Rust path.
+  handling, HID reset/recovery, mouse jiggler support, mobile TouchSync pointer
+  mode, and relative pointer sensitivity controls in the Rust path.
 - **Device fixes from testing:** wrong-password errors, resolution changes,
   OLED timers of 5 minutes and higher, browser auth-state recovery after
   protocol/IP changes, and update reboot/restore edge cases were fixed.
@@ -107,10 +110,10 @@ NanoKVM device and harden one subsystem at a time.
 | Web UI | Existing React UI is retained with Hardened branding and System settings pages. |
 | HTTPS | Implemented in Rust with HTTP-to-HTTPS redirect and existing cert config support. |
 | Authentication | First-boot web account setup, Rust sessions, CSRF protection, Origin checks, rate limiting, security headers, Argon2id for new passwords, legacy bcrypt verification. |
-| Video | H.264 Direct is the preferred low-CPU mode and is verified on hardware. MJPEG remains available as a fallback. H.264 WebRTC is enabled; websocket signaling is verified and browser media validation is ongoing. |
+| Video | H.264 Direct is the preferred low-CPU mode and is verified on hardware. MJPEG remains available as a fallback. H.264 WebRTC is available in Baseline/Moderate modes, but is disabled by Restricted/Paranoid firewall policy. |
 | HID | Keyboard/mouse websocket, queued HID writes, paste, shortcuts, HID mode, reset, and mouse jiggler are implemented. |
 | Device settings | Hostname, web title, GPIO/ATX, OLED, HDMI, SSH, mDNS, swap, memory limit, TLS toggle, reboot, scripts, and autostart have Rust endpoints. |
-| Storage | ISO listing, upload, mount, delete, and CD-ROM mode are implemented with path validation. Remote ISO download exists behind a disabled-by-default safety toggle and validates URL, filename, size, destination, and ISO format. Completed downloads now reset the picker state and refresh the virtual-media image list without logout. |
+| Storage | ISO/IMG listing, upload, mount, delete, and CD-ROM/mass-storage mode are implemented with path validation. Mount changes use LUN eject/insert; switching between CD-ROM and mass-storage mode also reconnects the USB gadget so BIOS/boot menus rescan the device type. A confirmed USB reconnect fallback remains available when a host does not notice media changes. Remote ISO download exists behind a disabled-by-default safety toggle and validates URL, filename, size, destination, and ISO format. Completed downloads now reset the picker state and refresh the virtual-media image list without logout. |
 | Network | WOL, full wired DHCP/manual IP/DNS settings, explicit IPv6 Disabled/SLAAC/DHCPv6/Manual controls, Wi-Fi status/connect/AP verification, and Tailscale lifecycle endpoints are implemented. |
 | Updates | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current published app channel: `2.0.29 RC7`. |
 | SD image | Latest published SD image is the RC7 `2.0.29` / `0.2.21-raw.1` image, built by patching a trusted NanoKVM Rev1.4.2/vendor SDK base image with Hardened `kvmapp`. The RC7 payload was smoke-tested on a NanoKVM Cube. `make vendor-sdk` bootstraps the pinned Sipeed SDK for future reproducible base-system builds. |
@@ -313,8 +316,9 @@ When the Rust backend is active,
 - Full API parity is not complete. Some routes are implemented for compatibility
   but still need deeper behavior and edge-case testing.
 - H.264 WebRTC needs more browser/ICE stress testing across reconnects and
-  browser variants. H.264 Direct has been verified against the Rust backend on
-  hardware.
+  browser variants in Baseline/Moderate firewall modes. Restricted/Paranoid
+  intentionally disable it. H.264 Direct has been verified against the Rust
+  backend on hardware.
 - Online update checks read Hardened release metadata from
   `github.com/woffko/Hardened_NanoKVM` and install versioned release archives
   after signed metadata and payload hash verification.

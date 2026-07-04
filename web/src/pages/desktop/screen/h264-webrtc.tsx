@@ -235,7 +235,8 @@ export const H264Webrtc = () => {
     <div className="relative h-full min-h-0 w-full min-w-0 overflow-hidden">
       <div
         ref={containerRef}
-        className="flex h-full min-h-0 w-full min-w-0 items-center justify-center overflow-hidden"
+        data-kvm-screen-scroll
+        className="flex h-full min-h-0 w-full min-w-0 items-center justify-center overflow-auto overscroll-contain"
       >
         <video
           id="screen"

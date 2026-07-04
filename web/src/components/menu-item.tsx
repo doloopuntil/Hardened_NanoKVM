@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { MouseEvent, ReactNode, useState } from 'react';
 import { Popover, Tooltip } from 'antd';
 import { useSetAtom } from 'jotai';
 import { useMediaQuery } from 'react-responsive';
@@ -30,7 +30,10 @@ export const MenuItem = ({
   const popoverContent = isBigScreen ? (
     content
   ) : (
-    <div className="max-h-[calc(100dvh-72px)] w-[min(360px,calc(100vw-16px))] overflow-y-auto">
+    <div
+      className="max-h-[calc(100dvh-72px)] w-[min(360px,calc(100vw-16px))] overflow-y-auto"
+      onClickCapture={closeMobilePopoverAfterSelection}
+    >
       {content}
     </div>
   );
@@ -52,6 +55,32 @@ export const MenuItem = ({
       return;
     }
     setIsTooltipOpen(open);
+  }
+
+  function closeMobilePopoverAfterSelection(event: MouseEvent<HTMLDivElement>) {
+    if (isBigScreen) return;
+
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (
+      target.closest(
+        [
+          '[data-menu-keep-open]',
+          '.ant-slider',
+          '.ant-switch',
+          '.ant-select',
+          '.ant-input',
+          'button',
+          'input',
+          'textarea',
+          'select'
+        ].join(',')
+      )
+    ) {
+      return;
+    }
+
+    window.setTimeout(() => togglePopover(false), 0);
   }
 
   return (

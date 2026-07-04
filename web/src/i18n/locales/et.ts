@@ -467,17 +467,17 @@ const translations: Record<string, string> = {
     'Paranoid režiim on keelatud, kuni HTTPS on lubatud menüüs Seaded > Süsteem > Võrk.',
   'settings.system.firewall.mode.title': 'Tulemüüri režiim',
   'settings.system.firewall.mode.description':
-    'Tulemüüri teenust hallatakse alati. Baseline säilitab tavapärase NanoKVM ligipääsu; Restricted lubab HTTPS, SSH, NTP, syslogi, uuendused ja WebRTC; Paranoid lubab ainult HTTPS ligipääsu.',
+    'Vali, kuidas sissetulev haldusligipääs avatakse. Moderate on vaikimisi ainult kohalik profiil; Restricted hoiab HTTPS/SSH ainult kohaliku ja blokeerib WebRTC; Baseline on avatud ühilduvusprofiil.',
   'settings.system.firewall.mode.baseline': 'Hallatud baseline',
   'settings.system.firewall.mode.restricted': 'Piiratud',
   'settings.system.firewall.mode.paranoid': 'Paranoid',
   'settings.system.firewall.restricted.enable': 'Luba Restricted',
   'settings.system.firewall.restricted.active': 'Restricted tulemüüri režiim on aktiivne',
   'settings.system.firewall.restricted.allows':
-    'Lubatud liiklus: HTTPS, SSH, DNS, NTP, kaug-syslog, online-uuendused, WebRTC/ICE UDP, DHCP, olemasolevad ühendused ja hädavajalik IPv6 juhtliiklus.',
+    'Lubatud liiklus: HTTPS ja SSH ainult private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local või IPv6 loopback lähtevahemikest; väljaminev DNS, NTP, kaug-syslog ja online-uuendused; DHCP, olemasolevad ühendused ja hädavajalik IPv6 juhtliiklus. WebRTC/ICE UDP blokeeritakse.',
   'settings.system.firewall.restricted.confirmTitle': 'Kas lubada Restricted tulemüüri režiim?',
   'settings.system.firewall.restricted.confirmDesc':
-    'Lubatud liiklus piirdub HTTPS, SSH, DNS, NTP, kaug-syslogi, online-uuenduste, WebRTC/ICE UDP, DHCP, olemasolevate ühenduste ja hädavajaliku IPv6 juhtliiklusega. Muu sisse- ja väljaminev liiklus blokeeritakse.',
+    'Sissetulev haldusligipääs piiratakse HTTPS-i ja SSH jaoks private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local või IPv6 loopback lähtevahemikega. Avalikud lähtevahemikud pole lubatud. Väljaminev DNS, NTP, kaug-syslog, online-uuendused, DHCP, olemasolevad ühendused ja hädavajalik IPv6 juhtliiklus jäävad kättesaadavaks. WebRTC/ICE UDP ja muu sisse-/väljaminev liiklus blokeeritakse.',
   'settings.system.firewall.paranoid.enable': 'Luba Paranoid',
   'settings.system.firewall.paranoid.active': 'Paranoid tulemüüri režiim on aktiivne',
   'settings.system.firewall.paranoid.blocks':

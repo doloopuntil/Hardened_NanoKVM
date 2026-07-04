@@ -39,6 +39,8 @@ const EXT_SUPERBLOCK_MAGIC_OFFSET: usize = 1024 + 56;
 const BTRFS_SUPERBLOCK_MAGIC_OFFSET: usize = 0x10040;
 const BTRFS_MAGIC: &[u8; 8] = b"_BHRfS_M";
 const REMOTE_DOWNLOAD_TIMEOUT: Duration = Duration::from_secs(2 * 60 * 60);
+const UPLOAD_STATUS_STALE_TIMEOUT: Duration = Duration::from_secs(2 * 60);
+const REMOTE_STATUS_STALE_TIMEOUT: Duration = Duration::from_secs((2 * 60 * 60) + (5 * 60));
 
 #[derive(Debug, Deserialize)]
 pub struct DownloadImageReq {
@@ -94,16 +96,9 @@ pub async fn set_remote_image_download_enabled(
 }
 
 pub async fn status_image() -> Result<impl IntoResponse> {
-    let Ok(content) = fs::read_to_string(SENTINEL_PATH) else {
-        return Ok(Json(ApiResponse::ok(StatusImageRsp::idle())));
-    };
-
-    let mut parts = content.splitn(2, ';');
-    Ok(Json(ApiResponse::ok(StatusImageRsp {
-        status: "in_progress".to_string(),
-        file: parts.next().unwrap_or_default().to_string(),
-        percentage: parts.next().unwrap_or_default().to_string(),
-    })))
+    Ok(Json(ApiResponse::ok(read_status_image(Path::new(
+        SENTINEL_PATH,
+    ))?)))
 }
 
 pub async fn download_image(
@@ -328,6 +323,64 @@ impl StatusImageRsp {
             percentage: String::new(),
         }
     }
+
+    fn in_progress(file: String, percentage: String) -> Self {
+        Self {
+            status: "in_progress".to_string(),
+            file,
+            percentage,
+        }
+    }
+
+    fn failed(file: String, percentage: String) -> Self {
+        Self {
+            status: "failed".to_string(),
+            file,
+            percentage,
+        }
+    }
+}
+
+fn read_status_image(path: &Path) -> Result<StatusImageRsp> {
+    let content = match fs::read_to_string(path) {
+        Ok(content) => content,
+        Err(err) if err.kind() == ErrorKind::NotFound => return Ok(StatusImageRsp::idle()),
+        Err(err) => return Err(err.into()),
+    };
+
+    let mut parts = content.splitn(2, ';');
+    let file = parts.next().unwrap_or_default().to_string();
+    let percentage = parts.next().unwrap_or_default().to_string();
+
+    if status_sentinel_is_stale(path, &file)? {
+        let _ = fs::remove_file(path);
+        return Ok(StatusImageRsp::failed(file, percentage));
+    }
+
+    Ok(StatusImageRsp::in_progress(file, percentage))
+}
+
+fn status_sentinel_is_stale(path: &Path, label: &str) -> Result<bool> {
+    let modified = fs::metadata(path)?.modified()?;
+    let Some(age) = modified.elapsed().ok() else {
+        return Ok(false);
+    };
+
+    Ok(status_label_is_stale(label, age))
+}
+
+fn status_label_is_stale(label: &str, age: Duration) -> bool {
+    let timeout = if is_remote_status_label(label) {
+        REMOTE_STATUS_STALE_TIMEOUT
+    } else {
+        UPLOAD_STATUS_STALE_TIMEOUT
+    };
+
+    age > timeout
+}
+
+fn is_remote_status_label(label: &str) -> bool {
+    label.starts_with("http://") || label.starts_with("https://")
 }
 
 struct DownloadGuard;
@@ -662,6 +715,30 @@ mod tests {
         ] {
             assert!(validate_remote_iso_url(url).is_err(), "{url}");
         }
+    }
+
+    #[test]
+    fn stale_status_detects_orphaned_upload_marker() {
+        assert!(!status_label_is_stale(
+            "debian.iso",
+            UPLOAD_STATUS_STALE_TIMEOUT - Duration::from_secs(1)
+        ));
+        assert!(status_label_is_stale(
+            "debian.iso",
+            UPLOAD_STATUS_STALE_TIMEOUT + Duration::from_secs(1)
+        ));
+    }
+
+    #[test]
+    fn stale_status_allows_long_remote_download_marker() {
+        assert!(!status_label_is_stale(
+            "https://example.com/debian.iso",
+            UPLOAD_STATUS_STALE_TIMEOUT + Duration::from_secs(1)
+        ));
+        assert!(status_label_is_stale(
+            "https://example.com/debian.iso",
+            REMOTE_STATUS_STALE_TIMEOUT + Duration::from_secs(1)
+        ));
     }
 
     #[test]
