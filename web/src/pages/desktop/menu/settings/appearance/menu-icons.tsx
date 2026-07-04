@@ -142,8 +142,8 @@ export const MenuIcons = () => {
 
   return (
     <>
-      <div className="mt-8 flex flex-col space-y-5">
-        <div className="flex flex-col">
+      <div className="mt-8 flex min-w-0 flex-col space-y-5">
+        <div className="flex min-w-0 flex-col">
           <span className="text-neutral-400">{t('settings.appearance.menuBar.icons')}</span>
           <span className="text-xs text-neutral-500">
             {t('settings.appearance.menuBar.iconsDesc')}
@@ -152,15 +152,16 @@ export const MenuIcons = () => {
 
         <div className="mt-5 flex flex-col space-y-5">
           {items.map((item) => (
-            <div key={item.key} className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 text-neutral-400">
-                {item.icon}
-                <span className="text-neutral-300">
+            <div key={item.key} className="flex min-w-0 items-center justify-between gap-4">
+              <div className="flex min-w-0 items-center space-x-2 text-neutral-400">
+                <div className="shrink-0">{item.icon}</div>
+                <span className="min-w-0 break-words text-neutral-300">
                   {item.label ? t(item.label) : t(`${item.key}.title`)}
                 </span>
               </div>
 
               <Switch
+                className="shrink-0"
                 checked={itemChecked(item.key)}
                 loading={itemLoading(item.key)}
                 onChange={() => updateItems(item.key)}

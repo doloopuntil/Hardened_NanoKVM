@@ -1,19 +1,15 @@
 import { ReactElement, useEffect } from 'react';
-import { Popover } from 'antd';
 import { useAtom } from 'jotai';
 import { CheckIcon, PercentIcon, ScalingIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as storage from '@/lib/localstorage.ts';
 import { videoScaleAtom } from '@/jotai/screen.ts';
+import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 
-const ScaleList = [
-  { label: '200', value: 2 },
-  { label: '150', value: 1.5 },
-  { label: '100', value: 1 },
-  { label: '75', value: 0.75 },
-  { label: '50', value: 0.5 }
-];
+const ScaleList = [200, 150, 125, ...Array.from({ length: 19 }, (_, index) => 100 - index * 5)]
+  .filter((percent) => percent >= 10)
+  .map((percent) => ({ label: String(percent), value: percent / 100 }));
 
 export const Scale = (): ReactElement => {
   const { t } = useTranslation();
@@ -53,13 +49,6 @@ export const Scale = (): ReactElement => {
   );
 
   return (
-    <Popover content={content} placement="rightTop" arrow={false} align={{ offset: [13, 0] }}>
-      <div className="flex h-[30px] cursor-pointer items-center space-x-1 rounded px-3 text-neutral-300 hover:bg-neutral-700/50">
-        <div className="flex h-[14px] w-[20px] items-end">
-          <ScalingIcon size={16} />
-        </div>
-        <span>{t('screen.scale')}</span>
-      </div>
-    </Popover>
+    <MenuSubmenu icon={<ScalingIcon size={16} />} label={t('screen.scale')} content={content} />
   );
 };

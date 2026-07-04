@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Divider, Popover } from 'antd';
+import { Divider } from 'antd';
 import { CommandIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/hid.ts';
+import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { Recorder } from './recorder.tsx';
@@ -45,7 +46,7 @@ export const Shortcuts = () => {
         return;
       }
 
-      setCustomShortcuts(rsp.data.shortcuts);
+      setCustomShortcuts(Array.isArray(rsp.data?.shortcuts) ? rsp.data.shortcuts : []);
     } catch (err) {
       console.log(err);
     }
@@ -93,7 +94,7 @@ export const Shortcuts = () => {
   }
 
   const content = (
-    <ScrollArea className="max-w-[400px] [&>[data-radix-scroll-area-viewport]]:max-h-[350px]">
+    <ScrollArea className="max-w-[min(400px,calc(100vw-48px))] [&>[data-radix-scroll-area-viewport]]:max-h-[350px]">
       {/* custom shortcuts */}
       {customShortcuts.length > 0 && (
         <>
@@ -122,19 +123,12 @@ export const Shortcuts = () => {
   );
 
   return (
-    <Popover
+    <MenuSubmenu
+      icon={<CommandIcon size={18} />}
+      label={t('keyboard.shortcut.title')}
       content={content}
-      trigger="hover"
-      placement="rightTop"
-      align={{ offset: [14, 0] }}
       open={isOpen}
       onOpenChange={handleOpenChange}
-      arrow={false}
-    >
-      <div className="flex cursor-pointer select-none items-center space-x-2 rounded py-1 pl-2 pr-5 hover:bg-neutral-700/70">
-        <CommandIcon size={18} />
-        <span>{t('keyboard.shortcut.title')}</span>
-      </div>
-    </Popover>
+    />
   );
 };

@@ -9,6 +9,7 @@ import { mouseStyleAtom } from '@/jotai/mouse';
 import { resolutionAtom, videoScaleAtom } from '@/jotai/screen.ts';
 
 import DirectWorker from './direct.worker.ts?worker';
+import { useScreenFit } from './use-screen-fit.ts';
 
 export const H264Direct = () => {
   const resolution = useAtomValue(resolutionAtom);
@@ -17,6 +18,11 @@ export const H264Direct = () => {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const workerRef = useRef<Worker | null>(null);
+  const { containerRef, mediaStyle } = useScreenFit(resolution, videoScale, {
+    maxWidth: '100%',
+    maxHeight: '100%',
+    objectFit: 'scale-down'
+  });
 
   useEffect(() => {
     const scale = storage.getVideoScale();
@@ -69,18 +75,15 @@ export const H264Direct = () => {
   }, []);
 
   return (
-    <div className="flex h-full min-h-0 w-full min-w-0 items-center justify-center overflow-hidden">
+    <div
+      ref={containerRef}
+      className="flex h-full min-h-0 w-full min-w-0 items-center justify-center overflow-hidden"
+    >
       <canvas
         id="screen"
         ref={canvasRef}
         className={clsx('block select-none', mouseStyle)}
-        style={{
-          transform: `scale(${videoScale})`,
-          transformOrigin: 'center',
-          ...(resolution?.width
-            ? { width: resolution.width, height: resolution.height, objectFit: 'cover' }
-            : { maxWidth: '100%', maxHeight: '100%', objectFit: 'scale-down' })
-        }}
+        style={mediaStyle}
       ></canvas>
     </div>
   );

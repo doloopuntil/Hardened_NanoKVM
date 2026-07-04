@@ -9,6 +9,8 @@ import { getBaseUrl } from '@/lib/service.ts';
 import { mouseStyleAtom } from '@/jotai/mouse.ts';
 import { resolutionAtom, videoScaleAtom } from '@/jotai/screen.ts';
 
+import { useScreenFit } from './use-screen-fit.ts';
+
 export const Mjpeg = () => {
   const resolution = useAtomValue(resolutionAtom);
   const mouseStyle = useAtomValue(mouseStyleAtom);
@@ -17,6 +19,11 @@ export const Mjpeg = () => {
   const [streamNonce, setStreamNonce] = useState(0);
   const streamURL = `${getBaseUrl('http')}/api/stream/mjpeg`;
   const streamSrc = hasError ? undefined : `${streamURL}?v=${streamNonce}`;
+  const { containerRef, mediaStyle } = useScreenFit(resolution, videoScale, {
+    maxWidth: '100%',
+    maxHeight: '100%',
+    objectFit: 'scale-down'
+  });
 
   useEffect(() => {
     // stop frame detect for a while
@@ -36,16 +43,15 @@ export const Mjpeg = () => {
   }, [setVideoScale]);
 
   return (
-    <div className="flex h-full min-h-0 w-full min-w-0 items-center justify-center overflow-hidden bg-black">
+    <div
+      ref={containerRef}
+      className="flex h-full min-h-0 w-full min-w-0 items-center justify-center overflow-hidden bg-black"
+    >
       <img
         id="screen"
         className={clsx('block select-none', mouseStyle)}
         style={{
-          transform: `scale(${videoScale})`,
-          transformOrigin: 'center',
-          ...(resolution?.width
-            ? { width: resolution.width, height: resolution.height, objectFit: 'cover' }
-            : { maxHeight: '100%', objectFit: 'scale-down' }),
+          ...mediaStyle,
           visibility: hasError ? 'hidden' : 'visible'
         }}
         src={streamSrc}

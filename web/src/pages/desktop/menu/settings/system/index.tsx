@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Network } from '../network';
 import { SystemLog } from '../system-log';
-
 import type { SystemActionHandle, SystemActionState } from './action';
 import { idleSystemActionState } from './action';
 import { FirewallSettings } from './firewall';
@@ -55,12 +54,12 @@ export const System = () => {
 
   return (
     <>
-      <div className="sticky top-14 z-20 -mx-1 mb-6 border-b border-neutral-700/70 bg-neutral-900/95 px-1 pb-3 pt-1 shadow-[0_10px_20px_rgba(0,0,0,0.25)] backdrop-blur before:absolute before:bottom-full before:left-0 before:right-0 before:h-14 before:bg-neutral-900/95 before:content-['']">
+      <div className="sticky top-0 z-20 -mx-1 mb-6 min-w-0 border-b border-neutral-700/70 bg-neutral-900/95 px-1 pb-3 pt-1 shadow-[0_10px_20px_rgba(0,0,0,0.25)] backdrop-blur before:absolute before:bottom-full before:left-0 before:right-0 before:hidden before:h-14 before:bg-neutral-900/95 before:content-[''] sm:top-14 sm:before:block">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-base">{t('settings.system.title')}</div>
-          <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
+          <div className="min-w-0 text-base">{t('settings.system.title')}</div>
+          <div className="flex min-w-0 flex-col items-stretch gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
             {actionState.statusText && (
-              <span className={`max-w-[220px] truncate text-xs ${actionStatusColor}`}>
+              <span className={`min-w-0 truncate text-xs sm:max-w-[220px] ${actionStatusColor}`}>
                 {actionState.statusText}
               </span>
             )}
@@ -76,45 +75,41 @@ export const System = () => {
                 {t('settings.system.saveChanges')}
               </Button>
             )}
-            <Segmented
-              size="small"
-              className="max-w-full overflow-x-auto"
-              value={section}
-              options={[
-                { value: 'network', label: t('settings.network.title') },
-                { value: 'time', label: t('settings.system.sections.time') },
-                { value: 'firewall', label: t('settings.system.sections.firewall') },
-                { value: 'systemLog', label: t('settings.system.sections.systemLog') }
-              ]}
-              onChange={(value) => setSection(value as SystemSection)}
-            />
+            <div className="min-w-0 max-w-full overflow-x-auto">
+              <Segmented
+                size="small"
+                className="min-w-max"
+                value={section}
+                options={[
+                  { value: 'network', label: t('settings.network.title') },
+                  { value: 'time', label: t('settings.system.sections.time') },
+                  { value: 'firewall', label: t('settings.system.sections.firewall') },
+                  { value: 'systemLog', label: t('settings.system.sections.systemLog') }
+                ]}
+                onChange={(value) => setSection(value as SystemSection)}
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      {section === 'network' && (
-        <Network
-          ref={networkRef}
-          showTitle={false}
-          onActionStateChange={updateActionState}
-        />
-      )}
-      {section === 'time' && (
-        <TimeSettings
-          ref={timeRef}
-          showFooter={false}
-          onActionStateChange={updateActionState}
-        />
-      )}
-      {section === 'firewall' && <FirewallSettings />}
-      {section === 'systemLog' && (
-        <SystemLog
-          ref={systemLogRef}
-          showTitle={false}
-          showFooter={false}
-          onActionStateChange={updateActionState}
-        />
-      )}
+      <div className="min-w-0 overflow-x-hidden">
+        {section === 'network' && (
+          <Network ref={networkRef} showTitle={false} onActionStateChange={updateActionState} />
+        )}
+        {section === 'time' && (
+          <TimeSettings ref={timeRef} showFooter={false} onActionStateChange={updateActionState} />
+        )}
+        {section === 'firewall' && <FirewallSettings />}
+        {section === 'systemLog' && (
+          <SystemLog
+            ref={systemLogRef}
+            showTitle={false}
+            showFooter={false}
+            onActionStateChange={updateActionState}
+          />
+        )}
+      </div>
     </>
   );
 };
