@@ -6,17 +6,29 @@ Last updated: 2026-07-05
 
 - Local repo: `/home/w0w/Hardened_NanoKVM-new-buildroot`
 - GitHub repo: `woffko/Hardened_NanoKVM`
-- Active branch: `feature/rust-kvm-system-migration`
+- Active release branch: `feature/rust-kvm-system-migration`; GitHub default
+  branch `main` includes RC8 through merge commit `43cff37` plus any later
+  handoff-only documentation commits.
 - Current source/test app version: `2.0.31`
-- Current release target: full RC8 on tag `hardened-rust-rc8`, with app
-  `2.0.31`, raw/system `0.2.22-raw.1`, and companion raw tag
-  `hardened-system-0.2.22-raw.1`.
-- Current raw/system channel target: stable and preview metadata should point
-  to `0.2.22-raw.1` after the RC8 publish.
-- Latest full release build/test: RC8 app archive, raw bundle, and SD image are
-  built from the release commit after this handoff update; Rust tests, web
-  build, linked RISC-V build, metadata signature verification, rootfs
-  validation, xz integrity, and checksums must pass locally before publishing.
+- Current published app release: `2.0.31 RC8` on tag `hardened-rust-rc8`.
+- Current published raw/system channel: `0.2.22-raw.1` on companion tag
+  `hardened-system-0.2.22-raw.1`; stable and preview channel metadata both
+  point there.
+- Latest full release build/test: RC8 app archive, raw bundle, and SD image were
+  built from release commit `0a6f993`; Rust tests, web build, linked RISC-V
+  build, metadata signature verification, rootfs validation, xz integrity, and
+  checksums passed locally. Live GitHub `latest.json` and
+  `hardened-system-stable/system-latest.json` signatures were downloaded and
+  verified after publish.
+- RC8 key artifact SHA256:
+  - app archive `hardened-nanokvm-kvmapp-2.0.31.tar.gz`:
+    `a32f66ad937bcc043a5687c34c0ec355436ed3034f887411e8893055fa01c671`;
+  - raw system archive `hardened-nanokvm-system-0.2.22-raw.1.tar.gz`:
+    `9a03dcd518923780d17c6055646dc031b0a00e607d49129d8997088c68ddb71c`;
+  - compressed SD image
+    `Hardened_NanoKVM_RC8_2_0_31_buildroot_2023_11_2_security_backports_Rev1_4_2_rust.img.xz`:
+    `6b9d42cb713301a683c682eaf5146900969b8b062c4100cb3db7e2d6401f2b23`.
+- GitHub Pages was updated for RC8 on `gh-pages` commit `b651d8a`.
 - Latest app-only release before RC8: RC7.1 / `2.0.30` packaged the post-RC7
   mobile KVM pinch-to-zoom and touch-drag panning fixes only; RC8 folds those
   fixes plus tablet/forced-mobile layout work into the full raw/SD baseline.
