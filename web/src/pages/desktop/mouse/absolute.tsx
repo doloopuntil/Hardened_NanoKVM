@@ -8,6 +8,7 @@ import { scrollDirectionAtom, scrollIntervalAtom } from '@/jotai/mouse.ts';
 import { resolutionAtom } from '@/jotai/screen.ts';
 
 import { emitMobileCursorAbsolute, emitMobileCursorHide } from './mobile-cursor-events.ts';
+import { clientPointToScreenRatio, getScreenGeometry } from './screen-geometry.ts';
 import { MouseAbsoluteEvent } from './types.ts';
 
 enum MouseButton {
@@ -305,7 +306,7 @@ export const Absolute = () => {
 
     // get mouse coordinate
     function getCoordinate(event: any) {
-      const { x, y } = getCorrectedCoords(event.clientX, event.clientY);
+      const { x, y } = clientPointToScreenRatio(mouseTarget, event.clientX, event.clientY);
 
       const finalX = Math.max(0, Math.min(1, x));
       const finalY = Math.max(0, Math.min(1, y));
@@ -317,9 +318,15 @@ export const Absolute = () => {
     }
 
     function getRelativeTouchCoordinate(touch: Touch) {
-      const rect = screenElement.getBoundingClientRect();
-      const deltaX = rect.width > 0 ? (touch.clientX - lastTouchPosRef.current.x) / rect.width : 0;
-      const deltaY = rect.height > 0 ? (touch.clientY - lastTouchPosRef.current.y) / rect.height : 0;
+      const geometry = getScreenGeometry(screenElement);
+      const deltaX =
+        geometry && geometry.contentWidth > 0
+          ? (touch.clientX - lastTouchPosRef.current.x) / geometry.contentWidth
+          : 0;
+      const deltaY =
+        geometry && geometry.contentHeight > 0
+          ? (touch.clientY - lastTouchPosRef.current.y) / geometry.contentHeight
+          : 0;
       lastTouchPosRef.current = { x: touch.clientX, y: touch.clientY };
 
       const currentX = lastPosRef.current.x / HID_ABSOLUTE_MAX;
@@ -344,38 +351,6 @@ export const Absolute = () => {
       const y = Math.round(HID_ABSOLUTE_MAX * finalY);
 
       return { x, y, xRatio: finalX, yRatio: finalY };
-    }
-
-    function getCorrectedCoords(clientX: number, clientY: number) {
-      const rect = mouseTarget.getBoundingClientRect();
-
-      const mediaSize = getMediaSize(mouseTarget);
-      if (!mediaSize) {
-        const x = (clientX - rect.left) / rect.width;
-        const y = (clientY - rect.top) / rect.height;
-        return { x, y };
-      }
-
-      const mediaRatio = mediaSize.width / mediaSize.height;
-      const elementRatio = rect.width / rect.height;
-
-      let renderedWidth = rect.width;
-      let renderedHeight = rect.height;
-      let offsetX = 0;
-      let offsetY = 0;
-
-      if (mediaRatio > elementRatio) {
-        renderedHeight = rect.width / mediaRatio;
-        offsetY = (rect.height - renderedHeight) / 2;
-      } else {
-        renderedWidth = rect.height * mediaRatio;
-        offsetX = (rect.width - renderedWidth) / 2;
-      }
-
-      const x = (clientX - rect.left - offsetX) / renderedWidth;
-      const y = (clientY - rect.top - offsetY) / renderedHeight;
-
-      return { x, y };
     }
 
     return () => {
@@ -447,20 +422,4 @@ export const Absolute = () => {
 
 function uniqueElements(elements: Array<HTMLElement | null>): HTMLElement[] {
   return Array.from(new Set(elements.filter((element): element is HTMLElement => Boolean(element))));
-}
-
-function getMediaSize(screen: Element) {
-  if (screen instanceof HTMLVideoElement && screen.videoWidth > 0 && screen.videoHeight > 0) {
-    return { width: screen.videoWidth, height: screen.videoHeight };
-  }
-
-  if (screen instanceof HTMLImageElement && screen.naturalWidth > 0 && screen.naturalHeight > 0) {
-    return { width: screen.naturalWidth, height: screen.naturalHeight };
-  }
-
-  if (screen instanceof HTMLCanvasElement && screen.width > 0 && screen.height > 0) {
-    return { width: screen.width, height: screen.height };
-  }
-
-  return null;
 }

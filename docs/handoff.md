@@ -121,6 +121,18 @@ Last updated: 2026-07-04
     `7b9693effff8d6f5dfd5686a14071e29cc0c4cbd51ce967efb97776988037312`;
     HTTPS `/` returned bundle `/assets/index-CckPm-xR.js`, the downloaded
     `index.html` matched the hash, and `/api/health` returned OK.
+  - Follow-up TouchSync geometry deploy on 133: fixed horizontal cursor
+    divergence seen in 640x480 by using one shared screen media-geometry helper
+    for desktop absolute mouse, mobile TouchSync deltas, and the mobile cursor
+    overlay. Root cause was that `#screen` can be rendered with CSS
+    `object-fit: cover` while the old mouse math assumed `contain`; with a
+    16:9 HDMI input and a 4:3 480-mode element this over-scaled X. Web-only
+    build installed from `/data/nanokvm-web-touchsync-geometry.tar` into both
+    `/tmp/server/web` and `/kvmapp/server/web`; new web `index.html` SHA-256 is
+    `fb5b88faf0790aa30fa3f559802b26679b956687d32f7d10e56a587316f2ec4d`,
+    HTTPS `/` serves `/assets/index-s28CgdKb.js`, and `/api/health` returned
+    OK. User still needs to confirm cursor behavior manually on Android and
+    desktop in 640x480.
 - Auth/session note: web login issues an in-memory server session and a
   `nano-kvm-token` HttpOnly cookie with `Max-Age` equal to the configured
   session lock duration. Closing a browser tab/window does not necessarily log
