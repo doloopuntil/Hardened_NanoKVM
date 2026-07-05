@@ -133,6 +133,20 @@ Last updated: 2026-07-04
     HTTPS `/` serves `/assets/index-s28CgdKb.js`, and `/api/health` returned
     OK. User still needs to confirm cursor behavior manually on Android and
     desktop in 640x480.
+  - Follow-up 480-mode absolute HID calibration deploy on 133: the geometry
+    fix above did not change the observed horizontal divergence, so absolute
+    mouse state now keeps a logical `0..1` cursor position separately from the
+    HID report coordinate. For selected 640x480 / height 480 mode only, X is
+    scaled to `75%` of the HID absolute range before writing `/dev/hidg2`; Y
+    and other resolutions are unchanged. This is intended to match the host
+    behavior where the remote cursor reaches the right edge before the local
+    cursor in 480 mode. Web-only build installed from
+    `/data/nanokvm-web-absolute-xcal-480.tar` into both `/tmp/server/web` and
+    `/kvmapp/server/web`; new web `index.html` SHA-256 is
+    `12bb284de3b4dc7d4f8cff028c247bc2c9e671b4d7dcf808b90e8eb4c669eae9`,
+    HTTPS `/` serves `/assets/index-BiRiFl65.js`, and `/api/health` returned
+    OK. Device was in `res=480` after install; user still needs to confirm
+    whether the `0.75` X-scale is correct or needs fine tuning.
 - Auth/session note: web login issues an in-memory server session and a
   `nano-kvm-token` HttpOnly cookie with `Max-Age` equal to the configured
   session lock duration. Closing a browser tab/window does not necessarily log
