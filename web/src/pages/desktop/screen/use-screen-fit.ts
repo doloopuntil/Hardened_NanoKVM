@@ -1,7 +1,7 @@
 import type { CSSProperties, RefObject } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
 
+import { useIsDesktopLayout } from '@/hooks/useResponsiveLayout.ts';
 import type { Resolution } from '@/types';
 
 type ScreenFit = {
@@ -18,12 +18,12 @@ export function useScreenFit(
   fallbackStyle: CSSProperties
 ): ScreenFit {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isBigScreen = useMediaQuery({ minWidth: 850 });
+  const isDesktopLayout = useIsDesktopLayout();
   const [fitScale, setFitScale] = useState(1);
 
   useEffect(() => {
     function updateFitScale() {
-      if (isBigScreen || !containerRef.current) {
+      if (isDesktopLayout || !containerRef.current) {
         setFitScale(1);
         return;
       }
@@ -60,10 +60,10 @@ export function useScreenFit(
       observer.disconnect();
       window.removeEventListener('orientationchange', updateFitScale);
     };
-  }, [isBigScreen, resolution?.height, resolution?.width]);
+  }, [isDesktopLayout, resolution?.height, resolution?.width]);
 
   useEffect(() => {
-    if (isBigScreen || !containerRef.current) return;
+    if (isDesktopLayout || !containerRef.current) return;
 
     const frame = window.requestAnimationFrame(() => {
       const container = containerRef.current;
@@ -74,16 +74,16 @@ export function useScreenFit(
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [fitScale, isBigScreen, resolution?.height, resolution?.width, videoScale]);
+  }, [fitScale, isDesktopLayout, resolution?.height, resolution?.width, videoScale]);
 
   const mediaStyle = useMemo<CSSProperties>(() => {
-    const scale = (isBigScreen ? 1 : fitScale) * videoScale;
+    const scale = (isDesktopLayout ? 1 : fitScale) * videoScale;
     const width = resolution?.width && resolution.width > 0 ? resolution.width : FALLBACK_SCREEN_WIDTH;
     const height =
       resolution?.height && resolution.height > 0 ? resolution.height : FALLBACK_SCREEN_HEIGHT;
 
     if (!resolution?.width || !resolution?.height) {
-      if (!isBigScreen) {
+      if (!isDesktopLayout) {
         return {
           ...fallbackStyle,
           width: Math.max(1, Math.round(width * scale)),
@@ -106,7 +106,7 @@ export function useScreenFit(
       };
     }
 
-    if (!isBigScreen) {
+    if (!isDesktopLayout) {
       return {
         width: Math.max(1, Math.round(resolution.width * scale)),
         height: Math.max(1, Math.round(resolution.height * scale)),
@@ -121,7 +121,7 @@ export function useScreenFit(
       transform: `scale(${scale})`,
       transformOrigin: 'center'
     };
-  }, [fallbackStyle, fitScale, isBigScreen, resolution?.height, resolution?.width, videoScale]);
+  }, [fallbackStyle, fitScale, isDesktopLayout, resolution?.height, resolution?.width, videoScale]);
 
   return { containerRef, mediaStyle };
 }

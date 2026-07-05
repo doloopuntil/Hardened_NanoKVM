@@ -7,27 +7,28 @@ Last updated: 2026-07-05
 - Local repo: `/home/w0w/Hardened_NanoKVM-new-buildroot`
 - GitHub repo: `woffko/Hardened_NanoKVM`
 - Active branch: `feature/rust-kvm-system-migration`
-- Current source/test app version: `2.0.30`
-- Current published app release: `2.0.30 RC7.1` on tag `hardened-rust-rc7.1`.
-- Current published raw/system channel: `0.2.21-raw.1` on companion tag
-  `hardened-system-0.2.21-raw.1`; stable and preview channel metadata both
-  point there.
-- Latest full release build/test: RC7 app archive, raw bundle, and SD image were
-  built from commit `6961b9e`; Rust tests, web build, linked RISC-V build,
-  metadata signature verification, rootfs validation, xz integrity, and
-  checksums passed locally. GitHub Pages was updated on `gh-pages` commit
-  `2819290`.
-- Latest app-only release: RC7.1 / `2.0.30` packages the post-RC7 mobile KVM
-  pinch-to-zoom and touch-drag panning fixes only; raw/system metadata and SD
-  images remain on RC7 `0.2.21-raw.1`.
-- Latest local hardware test: RC7 app payload and mobile UI fixes were
-  installed and smoke-tested on NanoKVM Cube (`10.0.87.133`); final full RC7
-  image was not raw-installed on hardware before publishing.
-- GitHub Releases cleanup after RC7: visible releases were reduced to RC7,
-  RC6, their raw-system companion releases, and the app/system stable/preview
-  channel releases. Older beta/RC release entries were deleted; git tags were
-  left intact.
-- Post-RC7 mobile UI work:
+- Current source/test app version: `2.0.31`
+- Current release target: full RC8 on tag `hardened-rust-rc8`, with app
+  `2.0.31`, raw/system `0.2.22-raw.1`, and companion raw tag
+  `hardened-system-0.2.22-raw.1`.
+- Current raw/system channel target: stable and preview metadata should point
+  to `0.2.22-raw.1` after the RC8 publish.
+- Latest full release build/test: RC8 app archive, raw bundle, and SD image are
+  built from the release commit after this handoff update; Rust tests, web
+  build, linked RISC-V build, metadata signature verification, rootfs
+  validation, xz integrity, and checksums must pass locally before publishing.
+- Latest app-only release before RC8: RC7.1 / `2.0.30` packaged the post-RC7
+  mobile KVM pinch-to-zoom and touch-drag panning fixes only; RC8 folds those
+  fixes plus tablet/forced-mobile layout work into the full raw/SD baseline.
+- Latest local hardware test: RC7 app payload and post-RC7 mobile UI fixes were
+  installed and smoke-tested on NanoKVM Cube (`10.0.87.133`); final full RC8
+  image has not been raw-installed on hardware before publishing unless noted
+  later in this file.
+- GitHub Releases cleanup after RC8: keep RC8, RC7.1/RC7, RC6, their
+  raw-system companion releases, and the app/system stable/preview channel
+  releases unless a separate cleanup is requested. Older beta/RC release
+  entries can remain deleted; git tags should be left intact.
+- Post-RC7 and RC8 mobile UI work:
   - mobile top bar has a dedicated local-device keyboard button; it focuses a
     hidden textarea so Android/mobile browsers show their native soft keyboard;
   - the previous HID on-screen keyboard remains available as a separate
@@ -135,6 +136,34 @@ Last updated: 2026-07-05
     `7b9693effff8d6f5dfd5686a14071e29cc0c4cbd51ce967efb97776988037312`;
     HTTPS `/` returned bundle `/assets/index-CckPm-xR.js`, the downloaded
     `index.html` matched the hash, and `/api/health` returned OK.
+  - Follow-up tablet/touch-layout deploy on 133: frontend breakpoints were
+    unified through `useIsTouchLayout`, so narrow screens and touch tablets up
+    to 1366px use the same mobile/touch behavior for the top menu, submenus,
+    local mobile keyboard button, TouchSync mouse menu/runtime, virtual
+    keyboard layout, settings modal, Picoclaw overlay, and mobile screen
+    fitting. Web-only build installed from
+    `/data/nanokvm-web-tablet-touch-layout.tar` into both `/tmp/server/web` and
+    `/kvmapp/server/web`; no GitHub release was created. New web `index.html`
+    SHA-256 is
+    `9e949699e69dd1372811248e91e477fd9d0cc17c448bf888d24c8ef67cdd4d54`;
+    `/assets/index-DFmBMgXs.js` and `/assets/desktop-CaqnkAsx.js` returned
+    HTTP 200, `/api/health` returned OK, and NanoKVM server/kvm_system
+    processes stayed running.
+  - Follow-up force-mobile-layout deploy on 133: Appearance > Display now has
+    a local `Interface layout` selector with `Auto` and `Mobile view`. The
+    value is stored in browser localStorage as `nano-kvm-layout-mode` and feeds
+    the shared `useIsTouchLayout` hook through `layoutModeAtom`, so changing it
+    immediately switches menus, settings, TouchSync, keyboard layout, and
+    screen fitting on that browser. New strings were added to English/Russian
+    base locales and localized through `locale-extras` for the other supported
+    UI languages. Web-only build installed from
+    `/data/nanokvm-web-force-mobile-layout.tar` into both `/tmp/server/web` and
+    `/kvmapp/server/web`; no GitHub release was created. New web `index.html`
+    SHA-256 is
+    `fa368e16c745dca33af33227849366a08c5e5a03f7466088bedf21a6df65beff`;
+    `/assets/index-Brs7kxcs.js` and `/assets/desktop-D0PIJqXX.js` returned
+    HTTP 200, `/api/health` returned OK, and NanoKVM server/kvm_system
+    processes stayed running.
 - Auth/session note: web login issues an in-memory server session and a
   `nano-kvm-token` HttpOnly cookie with `Max-Age` equal to the configured
   session lock duration. Closing a browser tab/window does not necessarily log

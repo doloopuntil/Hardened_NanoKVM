@@ -2,9 +2,9 @@ import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { KeyboardIcon, SmartphoneIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useMediaQuery } from 'react-responsive';
 
 import { isLocalKeyboardOpenAtom } from '@/jotai/keyboard.ts';
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 import {
   blurMobileLocalKeyboard,
   focusMobileLocalKeyboard
@@ -12,10 +12,10 @@ import {
 
 export const LocalKeyboard = () => {
   const { t } = useTranslation();
-  const isMobile = useMediaQuery({ maxWidth: 849 });
+  const isTouchLayout = useIsTouchLayout();
   const [isLocalKeyboardOpen, setIsLocalKeyboardOpen] = useAtom(isLocalKeyboardOpenAtom);
 
-  if (!isMobile) {
+  if (!isTouchLayout) {
     return null;
   }
 

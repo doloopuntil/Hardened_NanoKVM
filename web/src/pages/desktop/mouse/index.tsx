@@ -1,17 +1,17 @@
 import { useAtomValue } from 'jotai';
-import { useMediaQuery } from 'react-responsive';
 
 import { mouseModeAtom } from '@/jotai/mouse.ts';
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 
 import { Absolute } from './absolute.tsx';
 import { MobileCursorOverlay } from './mobile-cursor-overlay.tsx';
 import { Relative } from './relative.tsx';
 
 export const Mouse = () => {
-  const isMobile = useMediaQuery({ maxWidth: 849 });
+  const isTouchLayout = useIsTouchLayout();
   const mouseMode = useAtomValue(mouseModeAtom);
 
-  if (isMobile) {
+  if (isTouchLayout) {
     return (
       <>
         <Absolute />

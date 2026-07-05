@@ -8,24 +8,26 @@ GitHub Releases after their historical notes are kept in `CHANGELOG.md`.
 
 | Tag | Purpose | Notes |
 | --- | --- | --- |
-| `hardened-rust-rc7.1` | Current app-only RC | App `2.0.30` for the RC7 system baseline. Adds mobile KVM pinch-to-zoom and touch-drag panning for scaled video surfaces. Tested on NanoKVM Cube. |
-| `hardened-rust-rc7` | Current full raw/SD RC | App `2.0.29` with matching raw system `0.2.21-raw.1` and SD-card image. Adds the Hardened mobile view for phone screens, mobile settings/menu handling, mobile keyboard handling, and automatic KVM screen fitting. Smoke-tested on NanoKVM Cube. |
+| `hardened-rust-rc8` | Current full raw/SD RC | App `2.0.31` with matching raw system `0.2.22-raw.1` and SD-card image. Extends the Hardened mobile view to touch tablets, adds forced Mobile view, keeps TouchSync as the mobile default, and carries the RC7/RC7.1 mobile KVM fixes into a full baseline. Tested on NanoKVM Cube. |
+| `hardened-rust-rc7.1` | Previous app-only RC | App `2.0.30` for the RC7 system baseline. Adds mobile KVM pinch-to-zoom and touch-drag panning for scaled video surfaces. Tested on NanoKVM Cube. |
+| `hardened-rust-rc7` | Previous full raw/SD RC | App `2.0.29` with matching raw system `0.2.21-raw.1` and SD-card image. Adds the Hardened mobile view for phone screens, mobile settings/menu handling, mobile keyboard handling, and automatic KVM screen fitting. Smoke-tested on NanoKVM Cube. |
 | `hardened-rust-preview` | App preview channel | Mutable channel release that carries preview `latest.json` metadata. Keep while preview application updates are supported. |
 
 ## Current Raw/System Channel
 
 | Tag | Purpose | Notes |
 | --- | --- | --- |
-| `hardened-system-0.2.21-raw.1` | Current raw-system target | Raw system-update bundle and release notes trusted by deployed devices. |
+| `hardened-system-0.2.22-raw.1` | Current raw-system target | Raw system-update bundle and release notes trusted by deployed devices. |
 | `hardened-system-stable` | Raw stable channel | Mutable channel release that carries stable `system-latest.json` metadata. |
 | `hardened-system-preview` | Raw preview channel | Mutable channel release that carries preview `system-latest.json` metadata. |
+| `hardened-system-0.2.21-raw.1` | Previous raw-system target | Companion raw-system release for RC7. |
 | `hardened-rust-rc6` | Previous full raw/SD RC | App `2.0.28` with matching raw system `0.2.20-raw.1` and SD-card image. Includes removal of password reset, Rust-side watchdog/network state migration, mass-storage image validation, startup NTP sync, WebRTC keyframe recovery, and opt-in USB HID wake-on-write. |
 | `hardened-system-0.2.20-raw.1` | Previous raw-system target | Companion raw-system release for RC6. |
 
 ## Historical Releases
 
 Older RC and beta releases are described in `CHANGELOG.md`. They no longer need
-separate visible GitHub Release entries once RC7 and the channel metadata are
+separate visible GitHub Release entries once RC8 and the channel metadata are
 published, because deployed devices follow the current app release plus
 `hardened-system-stable`/`hardened-system-preview` metadata.
 

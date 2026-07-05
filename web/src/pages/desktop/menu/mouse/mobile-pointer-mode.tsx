@@ -1,12 +1,13 @@
 import { MousePointer2Icon, TabletSmartphoneIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useMediaQuery } from 'react-responsive';
+
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 
 export const MobilePointerMode = () => {
   const { t } = useTranslation();
-  const isMobile = useMediaQuery({ maxWidth: 849 });
+  const isTouchLayout = useIsTouchLayout();
 
-  if (!isMobile) {
+  if (!isTouchLayout) {
     return null;
   }
 

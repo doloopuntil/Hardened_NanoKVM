@@ -72,21 +72,23 @@ Production stable/preview channel metadata must use
 
 ## Current Published System Releases
 
-The current `hardened-system-stable` channel points to the RC7 raw payload
-`0.2.21-raw.1`, published on companion tag
-`hardened-system-0.2.21-raw.1`. The full `hardened-rust-rc7` release also
+The current `hardened-system-stable` channel points to the RC8 raw payload
+`0.2.22-raw.1`, published on companion tag
+`hardened-system-0.2.22-raw.1`. The full `hardened-rust-rc8` release also
 carries the matching raw bundle and SD-card image, but deployed device-side URL
 validation trusts raw downloads and release notes from `hardened-system-*`
-tags. The raw payload was built from the RC7 `2.0.29` Hardened SD image and
+tags. The raw payload was built from the RC8 `2.0.31` Hardened SD image and
 contains gzip-compressed boot/rootfs partition images plus matching channel
-metadata. RC7 keeps the tested raw-update baseline and adds the Hardened mobile
-view for phone screens: mobile settings navigation, menu submenus, mobile
-virtual keyboard handling, and automatic KVM screen fitting. The payload was
-smoke-tested on a NanoKVM Cube.
+metadata. RC8 keeps the tested raw-update baseline and carries the Hardened
+mobile view for phones and touch tablets: mobile settings navigation, menu
+submenus, native mobile keyboard controls, separate on-screen HID keyboard,
+TouchSync pointer control, automatic KVM screen fitting, pinch-to-zoom,
+touch-drag panning, and a forced Mobile view option. The mobile/tablet UI path
+was smoke-tested on a NanoKVM Cube.
 
 The current metadata intentionally separates several version fields:
 
-- system update version: `0.2.21-raw.1`;
+- system update version: `0.2.22-raw.1`;
 - base image: `2026-06-29-12-08-d88d58.img`;
 - Buildroot release: `2023.11.2`;
 - security backport level: `Buildroot 2023.11.3 package backports`.

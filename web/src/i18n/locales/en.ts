@@ -343,6 +343,10 @@ const en = {
         languageDesc: 'Select the language for the interface',
         webTitle: 'Web Title',
         webTitleDesc: 'Customize the web page title',
+        layoutMode: 'Interface layout',
+        layoutModeDesc: 'Use the mobile/touch layout in this browser',
+        layoutAuto: 'Auto',
+        layoutMobile: 'Mobile view',
         menuBar: {
           title: 'Menu Bar',
           mode: 'Display Mode',

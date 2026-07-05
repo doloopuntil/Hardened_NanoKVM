@@ -85,6 +85,169 @@ const firewallModerateLocalizedExtras: Record<string, TranslationMap> = {
   }
 };
 
+const layoutModeFallbackExtras: TranslationMap = {
+  'settings.appearance.layoutMode': 'Interface layout',
+  'settings.appearance.layoutModeDesc': 'Use the mobile/touch layout in this browser',
+  'settings.appearance.layoutAuto': 'Auto',
+  'settings.appearance.layoutMobile': 'Mobile view'
+};
+
+const layoutModeLocalizedExtras: Record<string, TranslationMap> = {
+  ca: {
+    'settings.appearance.layoutMode': 'Disseny de la interfície',
+    'settings.appearance.layoutModeDesc':
+      'Utilitza el disseny mòbil/tàctil en aquest navegador',
+    'settings.appearance.layoutAuto': 'Automàtic',
+    'settings.appearance.layoutMobile': 'Vista mòbil'
+  },
+  cz: {
+    'settings.appearance.layoutMode': 'Rozvržení rozhraní',
+    'settings.appearance.layoutModeDesc':
+      'Použít v tomto prohlížeči mobilní/dotykové rozvržení',
+    'settings.appearance.layoutAuto': 'Automaticky',
+    'settings.appearance.layoutMobile': 'Mobilní zobrazení'
+  },
+  da: {
+    'settings.appearance.layoutMode': 'Grænsefladelayout',
+    'settings.appearance.layoutModeDesc': 'Brug mobil-/touchlayout i denne browser',
+    'settings.appearance.layoutAuto': 'Automatisk',
+    'settings.appearance.layoutMobile': 'Mobilvisning'
+  },
+  de: {
+    'settings.appearance.layoutMode': 'Oberflächenlayout',
+    'settings.appearance.layoutModeDesc': 'Mobil-/Touch-Layout in diesem Browser verwenden',
+    'settings.appearance.layoutAuto': 'Automatisch',
+    'settings.appearance.layoutMobile': 'Mobile Ansicht'
+  },
+  es: {
+    'settings.appearance.layoutMode': 'Diseño de la interfaz',
+    'settings.appearance.layoutModeDesc': 'Usar el diseño móvil/táctil en este navegador',
+    'settings.appearance.layoutAuto': 'Automático',
+    'settings.appearance.layoutMobile': 'Vista móvil'
+  },
+  et: {
+    'settings.appearance.layoutMode': 'Liidese paigutus',
+    'settings.appearance.layoutModeDesc': 'Kasuta selles brauseris mobiili-/puutepaigutust',
+    'settings.appearance.layoutAuto': 'Automaatne',
+    'settings.appearance.layoutMobile': 'Mobiilivaade'
+  },
+  fi: {
+    'settings.appearance.layoutMode': 'Käyttöliittymän asettelu',
+    'settings.appearance.layoutModeDesc': 'Käytä tässä selaimessa mobiili-/kosketusasettelua',
+    'settings.appearance.layoutAuto': 'Automaattinen',
+    'settings.appearance.layoutMobile': 'Mobiilinäkymä'
+  },
+  fr: {
+    'settings.appearance.layoutMode': "Disposition de l'interface",
+    'settings.appearance.layoutModeDesc':
+      'Utiliser la disposition mobile/tactile dans ce navigateur',
+    'settings.appearance.layoutAuto': 'Auto',
+    'settings.appearance.layoutMobile': 'Vue mobile'
+  },
+  hu: {
+    'settings.appearance.layoutMode': 'Felület elrendezése',
+    'settings.appearance.layoutModeDesc':
+      'Mobil/érintéses elrendezés használata ebben a böngészőben',
+    'settings.appearance.layoutAuto': 'Automatikus',
+    'settings.appearance.layoutMobile': 'Mobilnézet'
+  },
+  id: {
+    'settings.appearance.layoutMode': 'Tata letak antarmuka',
+    'settings.appearance.layoutModeDesc':
+      'Gunakan tata letak mobile/sentuh di browser ini',
+    'settings.appearance.layoutAuto': 'Otomatis',
+    'settings.appearance.layoutMobile': 'Tampilan mobile'
+  },
+  it: {
+    'settings.appearance.layoutMode': "Layout dell'interfaccia",
+    'settings.appearance.layoutModeDesc': 'Usa il layout mobile/touch in questo browser',
+    'settings.appearance.layoutAuto': 'Automatico',
+    'settings.appearance.layoutMobile': 'Vista mobile'
+  },
+  ja: {
+    'settings.appearance.layoutMode': 'インターフェースのレイアウト',
+    'settings.appearance.layoutModeDesc':
+      'このブラウザーでモバイル/タッチ用レイアウトを使用します',
+    'settings.appearance.layoutAuto': '自動',
+    'settings.appearance.layoutMobile': 'モバイル表示'
+  },
+  ko: {
+    'settings.appearance.layoutMode': '인터페이스 레이아웃',
+    'settings.appearance.layoutModeDesc': '이 브라우저에서 모바일/터치 레이아웃 사용',
+    'settings.appearance.layoutAuto': '자동',
+    'settings.appearance.layoutMobile': '모바일 보기'
+  },
+  nb: {
+    'settings.appearance.layoutMode': 'Grensesnittoppsett',
+    'settings.appearance.layoutModeDesc': 'Bruk mobil-/berøringsoppsett i denne nettleseren',
+    'settings.appearance.layoutAuto': 'Automatisk',
+    'settings.appearance.layoutMobile': 'Mobilvisning'
+  },
+  nl: {
+    'settings.appearance.layoutMode': 'Interface-indeling',
+    'settings.appearance.layoutModeDesc': 'Gebruik de mobiele/touch-indeling in deze browser',
+    'settings.appearance.layoutAuto': 'Automatisch',
+    'settings.appearance.layoutMobile': 'Mobiele weergave'
+  },
+  pl: {
+    'settings.appearance.layoutMode': 'Układ interfejsu',
+    'settings.appearance.layoutModeDesc':
+      'Użyj układu mobilnego/dotykowego w tej przeglądarce',
+    'settings.appearance.layoutAuto': 'Automatycznie',
+    'settings.appearance.layoutMobile': 'Widok mobilny'
+  },
+  pt_br: {
+    'settings.appearance.layoutMode': 'Layout da interface',
+    'settings.appearance.layoutModeDesc': 'Usar o layout móvel/touch neste navegador',
+    'settings.appearance.layoutAuto': 'Automático',
+    'settings.appearance.layoutMobile': 'Visualização móvel'
+  },
+  se: {
+    'settings.appearance.layoutMode': 'Gränssnittslayout',
+    'settings.appearance.layoutModeDesc': 'Använd mobil-/touchlayout i den här webbläsaren',
+    'settings.appearance.layoutAuto': 'Automatiskt',
+    'settings.appearance.layoutMobile': 'Mobilvy'
+  },
+  th: {
+    'settings.appearance.layoutMode': 'เลย์เอาต์อินเทอร์เฟซ',
+    'settings.appearance.layoutModeDesc': 'ใช้เลย์เอาต์มือถือ/สัมผัสในเบราว์เซอร์นี้',
+    'settings.appearance.layoutAuto': 'อัตโนมัติ',
+    'settings.appearance.layoutMobile': 'มุมมองมือถือ'
+  },
+  tr: {
+    'settings.appearance.layoutMode': 'Arayüz yerleşimi',
+    'settings.appearance.layoutModeDesc': 'Bu tarayıcıda mobil/dokunmatik yerleşimi kullan',
+    'settings.appearance.layoutAuto': 'Otomatik',
+    'settings.appearance.layoutMobile': 'Mobil görünüm'
+  },
+  uk: {
+    'settings.appearance.layoutMode': 'Компонування інтерфейсу',
+    'settings.appearance.layoutModeDesc':
+      'Використовувати мобільний/сенсорний інтерфейс у цьому браузері',
+    'settings.appearance.layoutAuto': 'Авто',
+    'settings.appearance.layoutMobile': 'Мобільний вигляд'
+  },
+  vi: {
+    'settings.appearance.layoutMode': 'Bố cục giao diện',
+    'settings.appearance.layoutModeDesc':
+      'Dùng bố cục di động/cảm ứng trong trình duyệt này',
+    'settings.appearance.layoutAuto': 'Tự động',
+    'settings.appearance.layoutMobile': 'Giao diện di động'
+  },
+  zh: {
+    'settings.appearance.layoutMode': '界面布局',
+    'settings.appearance.layoutModeDesc': '在此浏览器中使用移动/触控布局',
+    'settings.appearance.layoutAuto': '自动',
+    'settings.appearance.layoutMobile': '移动视图'
+  },
+  zh_tw: {
+    'settings.appearance.layoutMode': '介面佈局',
+    'settings.appearance.layoutModeDesc': '在此瀏覽器中使用行動/觸控佈局',
+    'settings.appearance.layoutAuto': '自動',
+    'settings.appearance.layoutMobile': '行動檢視'
+  }
+};
+
 const downloadExtras: Record<string, TranslationMap> = {
   en: { 'download.NoISO': 'No image' },
   ru: { 'download.NoISO': 'Нет образа' },
@@ -6873,6 +7036,10 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
     key === 'en' || key === 'ru'
       ? {}
       : mobileControlLocalizedExtras[key] || mobileControlFallbackExtras;
+  const layoutModeExtras =
+    key === 'en' || key === 'ru'
+      ? {}
+      : layoutModeLocalizedExtras[key] || layoutModeFallbackExtras;
   const virtualMediaExtras =
     key === 'en' || key === 'ru'
       ? {}
@@ -6893,6 +7060,7 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
     ...(systemActionExtras[key] || {}),
     ...usbWakeupExtras,
     ...mobileControlExtras,
+    ...layoutModeExtras,
     ...virtualMediaExtras,
     ...(networkExtras[key] || {}),
     ...(hardenedCommonExtras[key] || {}),

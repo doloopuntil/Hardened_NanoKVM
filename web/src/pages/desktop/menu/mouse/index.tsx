@@ -3,7 +3,6 @@ import { Divider } from 'antd';
 import { useSetAtom } from 'jotai';
 import { MouseIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useMediaQuery } from 'react-responsive';
 
 import * as ls from '@/lib/localstorage';
 import {
@@ -14,6 +13,7 @@ import {
   scrollIntervalAtom
 } from '@/jotai/mouse';
 import { MenuItem } from '@/components/menu-item.tsx';
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 
 import { Cursor } from './cursor.tsx';
 import { Direction } from './direction.tsx';
@@ -26,7 +26,7 @@ import { Speed } from './speed.tsx';
 
 export const Mouse = () => {
   const { t } = useTranslation();
-  const isMobile = useMediaQuery({ maxWidth: 849 });
+  const isTouchLayout = useIsTouchLayout();
 
   const setMouseStyle = useSetAtom(mouseStyleAtom);
   const setMouseMode = useSetAtom(mouseModeAtom);
@@ -89,7 +89,7 @@ export const Mouse = () => {
     <MenuItem
       title={t('mouse.title')}
       icon={<MouseIcon size={18} />}
-      content={isMobile ? mobileContent : desktopContent}
+      content={isTouchLayout ? mobileContent : desktopContent}
     />
   );
 };

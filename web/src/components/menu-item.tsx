@@ -1,9 +1,9 @@
 import { MouseEvent, ReactNode, useState } from 'react';
 import { Popover, Tooltip } from 'antd';
 import { useSetAtom } from 'jotai';
-import { useMediaQuery } from 'react-responsive';
 
 import { submenuOpenCountAtom } from '@/jotai/settings.ts';
+import { useIsDesktopLayout } from '@/hooks/useResponsiveLayout.ts';
 
 type MenuItemProps = {
   title: string;
@@ -22,12 +22,12 @@ export const MenuItem = ({
   fresh,
   onOpenChange
 }: MenuItemProps) => {
-  const isBigScreen = useMediaQuery({ minWidth: 640 });
+  const isDesktopLayout = useIsDesktopLayout();
   const setSubmenuOpenCount = useSetAtom(submenuOpenCountAtom);
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
-  const popoverContent = isBigScreen ? (
+  const popoverContent = isDesktopLayout ? (
     content
   ) : (
     <div
@@ -58,7 +58,7 @@ export const MenuItem = ({
   }
 
   function closeMobilePopoverAfterSelection(event: MouseEvent<HTMLDivElement>) {
-    if (isBigScreen) return;
+    if (isDesktopLayout) return;
 
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
@@ -88,17 +88,17 @@ export const MenuItem = ({
       content={popoverContent}
       arrow={false}
       trigger="click"
-      placement={isBigScreen ? 'bottomLeft' : 'bottom'}
+      placement={isDesktopLayout ? 'bottomLeft' : 'bottom'}
       open={isPopoverOpen}
       onOpenChange={togglePopover}
       fresh={!!fresh}
-      overlayStyle={isBigScreen ? undefined : { maxWidth: 'calc(100vw - 8px)' }}
+      overlayStyle={isDesktopLayout ? undefined : { maxWidth: 'calc(100vw - 8px)' }}
     >
       <Tooltip
-        title={isBigScreen ? title : undefined}
+        title={isDesktopLayout ? title : undefined}
         mouseEnterDelay={0.6}
         placement="bottom"
-        open={isBigScreen ? isTooltipOpen : false}
+        open={isDesktopLayout ? isTooltipOpen : false}
         onOpenChange={toggleTooltip}
       >
         <div

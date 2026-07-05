@@ -10,11 +10,11 @@ implemented deeply enough for interactive device testing.
 
 Current published channels:
 
-- app update: `2.0.30 RC7.1`, tag `hardened-rust-rc7.1`;
-- current source/test build: `2.0.30`, smoke-tested on NanoKVM Cube hardware;
-- raw system-update: `0.2.21-raw.1`, built from the RC7 `2.0.29` SD rootfs
+- app update: `2.0.31 RC8`, tag `hardened-rust-rc8`;
+- current source/test build: `2.0.31`, smoke-tested on NanoKVM Cube hardware;
+- raw system-update: `0.2.22-raw.1`, built from the RC8 `2.0.31` SD rootfs
   with gzip-compressed raw payload staging and sysrq reboot after raw writes;
-- SD-card image: RC7 `2.0.29` / `0.2.21-raw.1`.
+- SD-card image: RC8 `2.0.31` / `0.2.22-raw.1`.
 
 ## Build
 

@@ -352,6 +352,10 @@ const ru = {
         languageDesc: 'Выбор языка интерфейса',
         webTitle: 'Заголовок страницы',
         webTitleDesc: 'Изменить заголовок страницы',
+        layoutMode: 'Режим интерфейса',
+        layoutModeDesc: 'Использовать мобильный/touch-интерфейс в этом браузере',
+        layoutAuto: 'Авто',
+        layoutMobile: 'Мобильный вид',
         menuBar: {
           title: 'Строка меню',
           mode: 'Режим отображения',

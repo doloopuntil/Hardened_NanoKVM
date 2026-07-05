@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
-import { useMediaQuery } from 'react-responsive';
 
 import { MouseReportAbsolute } from '@/lib/mouse.ts';
 import * as storage from '@/lib/localstorage.ts';
 import { client, MessageEvent } from '@/lib/websocket.ts';
 import { scrollDirectionAtom, scrollIntervalAtom } from '@/jotai/mouse.ts';
 import { resolutionAtom, videoScaleAtom } from '@/jotai/screen.ts';
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 
 import { emitMobileCursorAbsolute, emitMobileCursorHide } from './mobile-cursor-events.ts';
 import { MouseAbsoluteEvent } from './types.ts';
@@ -25,7 +25,7 @@ const MIN_TOUCH_ZOOM = 0.1;
 const MAX_TOUCH_ZOOM = 4;
 
 export const Absolute = () => {
-  const isMobile = useMediaQuery({ maxWidth: 849 });
+  const isTouchLayout = useIsTouchLayout();
   const resolution = useAtomValue(resolutionAtom);
   const [videoScale, setVideoScale] = useAtom(videoScaleAtom);
   const scrollDirection = useAtomValue(scrollDirectionAtom);
@@ -72,7 +72,7 @@ export const Absolute = () => {
 
     lastResolutionKeyRef.current = resolutionKey;
 
-    if (!isMobile) {
+    if (!isTouchLayout) {
       return;
     }
 
@@ -93,7 +93,7 @@ export const Absolute = () => {
 
     handleMouseEvent({ type: 'move', x: HID_ABSOLUTE_CENTER, y: HID_ABSOLUTE_CENTER });
     emitMobileCursorAbsolute(0.5, 0.5);
-  }, [isMobile, resolution?.height, resolution?.width]);
+  }, [isTouchLayout, resolution?.height, resolution?.width]);
 
   useEffect(() => {
     const screen = document.getElementById('screen') as HTMLElement | null;
