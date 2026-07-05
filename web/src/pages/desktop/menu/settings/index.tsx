@@ -12,7 +12,6 @@ import {
   UserRoundIcon
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useMediaQuery } from 'react-responsive';
 import semver from 'semver';
 
 import * as api from '@/api/application.ts';
@@ -21,6 +20,7 @@ import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { submenuOpenCountAtom } from '@/jotai/settings.ts';
 import { Tailscale as TailscaleIcon } from '@/components/icons/tailscale';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 
 import { About } from './about';
 import { Account } from './account';
@@ -37,7 +37,7 @@ export const Settings = () => {
   const [isLocked, setIsLocked] = useState(false);
   const [currentTab, setCurrentTab] = useState('about');
   const scrollViewportRef = useRef<HTMLDivElement>(null);
-  const isMobile = useMediaQuery({ maxWidth: 639 });
+  const isTouchLayout = useIsTouchLayout();
 
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
   const setIsKeyboardEnable = useSetAtom(isKeyboardEnableAtom);
@@ -120,10 +120,10 @@ export const Settings = () => {
   return (
     <>
       <Tooltip
-        title={isMobile ? undefined : t('settings.title')}
+        title={isTouchLayout ? undefined : t('settings.title')}
         placement="bottom"
         mouseEnterDelay={0.6}
-        open={isMobile ? false : undefined}
+        open={isTouchLayout ? false : undefined}
       >
         <div
           className="flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded hover:bg-neutral-700/80"
@@ -139,53 +139,55 @@ export const Settings = () => {
 
       <Modal
         open={isModalOpen}
-        width={isMobile ? '100vw' : '80%'}
-        centered={!isMobile}
+        width={isTouchLayout ? '100vw' : '80%'}
+        centered={!isTouchLayout}
         footer={null}
         destroyOnHidden={true}
         onCancel={closeModal}
-        className={isMobile ? 'settings-modal-mobile' : undefined}
+        className={isTouchLayout ? 'settings-modal-mobile' : undefined}
         style={
-          isMobile
+          isTouchLayout
             ? { maxWidth: 'none', margin: 0, paddingBottom: 0, top: 0 }
             : { maxWidth: '1080px' }
         }
         styles={{
           content: {
             padding: 0,
-            ...(isMobile ? { height: '100dvh', overflow: 'hidden', borderRadius: 0 } : {})
+            ...(isTouchLayout ? { height: '100dvh', overflow: 'hidden', borderRadius: 0 } : {})
           },
-          body: isMobile ? { height: '100%' } : undefined
+          body: isTouchLayout ? { height: '100%' } : undefined
         }}
       >
         <div
           className={clsx(
             'outline outline-1 outline-neutral-700',
-            isMobile
+            isTouchLayout
               ? 'flex h-[100dvh] w-full max-w-[100vw] flex-col overflow-hidden rounded-none'
               : 'flex h-[80vh] max-h-[700px] rounded-lg'
           )}
         >
           <div
             className={clsx(
-              isMobile
+              isTouchLayout
                 ? 'shrink-0 border-b border-neutral-700 bg-neutral-900/95 pt-[env(safe-area-inset-top)]'
                 : 'flex h-full max-w-[260px] flex-col space-y-0.5 rounded-l-lg bg-neutral-800/90 px-1 sm:w-1/5 md:w-1/4 md:px-2'
             )}
           >
             <div
               className={clsx(
-                isMobile
+                isTouchLayout
                   ? 'flex min-h-11 items-center px-3 pr-12 text-base'
                   : 'hidden px-3 pt-10 text-xl sm:block'
               )}
             >
               {t('settings.title')}
             </div>
-            {!isMobile && <div className="h-10 sm:h-5" />}
+            {!isTouchLayout && <div className="h-10 sm:h-5" />}
             <div
               className={clsx(
-                isMobile ? 'settings-mobile-tabs flex gap-1 overflow-x-auto px-2 pb-2' : 'contents'
+                isTouchLayout
+                  ? 'settings-mobile-tabs flex gap-1 overflow-x-auto px-2 pb-2'
+                  : 'contents'
               )}
             >
               {tabs.map((tab) => (
@@ -193,7 +195,7 @@ export const Settings = () => {
                   key={tab.id}
                   className={clsx(
                     'cursor-pointer select-none rounded-lg',
-                    isMobile
+                    isTouchLayout
                       ? 'flex min-w-[72px] flex-col items-center justify-center px-2 py-2'
                       : 'flex items-center space-x-2 p-2 sm:px-3',
                     currentTab === tab.id ? 'bg-neutral-700/50' : 'hover:bg-neutral-700/50'
@@ -208,7 +210,7 @@ export const Settings = () => {
                     <Badge dot color="blue" offset={[6, 3]}>
                       <span
                         className={clsx(
-                          isMobile
+                          isTouchLayout
                             ? 'mt-1 block max-w-[68px] truncate text-[11px] leading-tight'
                             : 'hidden truncate text-sm sm:block'
                         )}
@@ -219,7 +221,7 @@ export const Settings = () => {
                   ) : (
                     <span
                       className={clsx(
-                        isMobile
+                        isTouchLayout
                           ? 'mt-1 block max-w-[68px] truncate text-[11px] leading-tight'
                           : 'hidden truncate text-sm sm:block'
                       )}
@@ -236,15 +238,17 @@ export const Settings = () => {
             viewportRef={scrollViewportRef}
             className={clsx(
               'w-full max-w-full overflow-x-hidden bg-neutral-900/50 [&_[data-slot=scroll-area-scrollbar]]:w-1.5 [&_[data-slot=scroll-area-scrollbar]]:p-0 [&_[data-slot=scroll-area-thumb]]:bg-neutral-500/30',
-              isMobile ? 'min-h-0 flex-1 rounded-none pl-3 pr-8' : 'h-full rounded-r-lg px-3'
+              isTouchLayout ? 'min-h-0 flex-1 rounded-none pl-3 pr-8' : 'h-full rounded-r-lg px-3'
             )}
           >
             <div className="flex h-full w-full min-w-0 justify-center">
               <div
                 className={clsx(
                   'min-w-0',
-                  isMobile ? 'w-full max-w-[calc(100vw-44px)]' : 'w-full max-w-[600px]',
-                  isMobile ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4' : 'pb-10 pt-14'
+                  isTouchLayout ? 'w-full max-w-[calc(100vw-44px)]' : 'w-full max-w-[600px]',
+                  isTouchLayout
+                    ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4'
+                    : 'pb-10 pt-14'
                 )}
               >
                 <>{tabs.find((tab) => tab.id === currentTab)?.component}</>

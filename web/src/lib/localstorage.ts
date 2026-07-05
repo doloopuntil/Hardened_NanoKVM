@@ -10,6 +10,8 @@ const GOP_KEY = 'nano-kvm-gop';
 const FRAME_DETECT_KEY = 'nano-kvm-frame-detect';
 const MOUSE_STYLE_KEY = 'nano-kvm-mouse-style';
 const MOUSE_MODE_KEY = 'nano-kvm-mouse-mode';
+const MOBILE_POINTER_MODE_KEY = 'nano-kvm-mobile-pointer-mode';
+const POINTER_SENSITIVITY_KEY = 'nano-kvm-pointer-sensitivity';
 const MOUSE_SCROLL_DIRECTION_KEY = 'nano-kvm-mouse-scroll-direction';
 const MOUSE_SCROLL_INTERVAL_KEY = 'nano-kvm-mouse-scroll-interval';
 const SKIP_UPDATE_KEY = 'nano-kvm-check-update';
@@ -18,6 +20,7 @@ const KEYBOARD_LANGUAGE_KEY = 'nano-kvm-keyboard-language';
 const SKIP_MODIFY_PASSWORD_KEY = 'nano-kvm-skip-modify-password';
 const MENU_DISABLED_ITEMS_KEY = 'nano-kvm-menu-disabled-items';
 const MENU_AUTO_HIDE_KEY = 'nano-kvm-menu-auto-hide';
+const LAYOUT_MODE_KEY = 'nano-kvm-layout-mode';
 const POWER_CONFIRM_KEY = 'nano-kvm-power-confirm';
 
 type ItemWithExpiry = {
@@ -26,6 +29,9 @@ type ItemWithExpiry = {
 };
 
 const menuDisplayModes = ['off', 'auto', 'always'];
+const layoutModes = ['auto', 'mobile'] as const;
+
+export type LayoutMode = (typeof layoutModes)[number];
 
 function normalizeMenuDisplayMode(value: string | null): string | null {
   if (!value) return null;
@@ -159,6 +165,29 @@ export function setMouseMode(mouse: string) {
   localStorage.setItem(MOUSE_MODE_KEY, mouse);
 }
 
+export function getMobilePointerMode() {
+  return localStorage.getItem(MOBILE_POINTER_MODE_KEY);
+}
+
+export function setMobilePointerMode(mode: string) {
+  localStorage.setItem(MOBILE_POINTER_MODE_KEY, mode);
+}
+
+export function getPointerSensitivity(): number | null {
+  const sensitivity = localStorage.getItem(POINTER_SENSITIVITY_KEY);
+  if (!sensitivity) return null;
+
+  const value = Number(sensitivity);
+  if (!Number.isFinite(value)) return null;
+
+  return Math.max(0.25, Math.min(2, value));
+}
+
+export function setPointerSensitivity(sensitivity: number): void {
+  const value = Math.max(0.25, Math.min(2, sensitivity));
+  localStorage.setItem(POINTER_SENSITIVITY_KEY, String(value));
+}
+
 export function getMouseScrollDirection(): number | null {
   const direction = localStorage.getItem(MOUSE_SCROLL_DIRECTION_KEY);
   if (direction && Number(direction)) {
@@ -240,6 +269,21 @@ export function getMenuDisplayMode(): string {
 
 export function setMenuDisplayMode(mode: string) {
   localStorage.setItem(MENU_AUTO_HIDE_KEY, mode);
+}
+
+export function getLayoutMode(): LayoutMode {
+  const value = localStorage.getItem(LAYOUT_MODE_KEY);
+  if (layoutModes.includes(value as LayoutMode)) {
+    return value as LayoutMode;
+  }
+  if (value) {
+    localStorage.removeItem(LAYOUT_MODE_KEY);
+  }
+  return 'auto';
+}
+
+export function setLayoutMode(mode: LayoutMode) {
+  localStorage.setItem(LAYOUT_MODE_KEY, mode);
 }
 
 export function getPowerConfirm() {

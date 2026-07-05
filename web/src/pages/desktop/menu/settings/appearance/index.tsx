@@ -1,6 +1,7 @@
 import { Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 
+import { LayoutMode } from './layout-mode.tsx';
 import { Language } from './language.tsx';
 import { MenuIcons } from './menu-icons.tsx';
 import { MenuMode } from './menu-mode.tsx';
@@ -17,6 +18,7 @@ export const Appearance = () => {
       <div className="text-neutral-400">{t('settings.appearance.display')}</div>
       <Language />
       <WebTitle />
+      <LayoutMode />
 
       <Divider className="opacity-50" style={{ margin: '32px 0' }} />
 

@@ -89,7 +89,12 @@ export const Image = () => {
 
           <Divider style={{ margin: '24px 0 0 0' }} />
 
-          <Images isOpen={isModalOpen} cdrom={mode === 'cd-rom'} setIsMounted={setIsMounted} />
+          <Images
+            isOpen={isModalOpen}
+            cdrom={mode === 'cd-rom'}
+            setCdrom={(nextCdrom) => setMode(nextCdrom ? 'cd-rom' : 'mass-storage')}
+            setIsMounted={setIsMounted}
+          />
         </div>
       </Modal>
     </>

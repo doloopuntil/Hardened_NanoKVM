@@ -212,6 +212,10 @@ pub fn write_absolute_mouse_report(report: &[u8]) -> io::Result<()> {
     HID.write_absolute_mouse(report)
 }
 
+pub fn close_cached_hid_devices() -> io::Result<()> {
+    HID.close_all()
+}
+
 pub fn broadcast_event(kind: &str, data: &str) {
     if let Some(message) = ws_event_message(kind, data) {
         let _ = WS_EVENTS.send(message);
@@ -433,7 +437,15 @@ fn is_reopen_retryable_hid_error(err: &io::Error) -> bool {
 }
 
 fn should_try_hid_recovery(err: &io::Error) -> bool {
-    is_reopen_retryable_hid_error(err) && !usb_udc_is_configured().unwrap_or(true)
+    is_hid_endpoint_gone_error(err)
+        || (is_reopen_retryable_hid_error(err) && !usb_udc_is_configured().unwrap_or(true))
+}
+
+fn is_hid_endpoint_gone_error(err: &io::Error) -> bool {
+    matches!(
+        err.raw_os_error(),
+        Some(nix::libc::ENODEV) | Some(nix::libc::ENXIO)
+    )
 }
 
 fn close_hid_slot(slot: &Mutex<Option<File>>) -> io::Result<()> {

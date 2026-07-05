@@ -19,6 +19,10 @@ export function mountImage(file?: string, cdrom?: boolean) {
   return http.post('/api/storage/image/mount', data);
 }
 
+export function reconnectUsbGadget() {
+  return http.post('/api/storage/usb/reconnect');
+}
+
 // get CD-ROM flag
 export function getCdRom() {
   return http.get('/api/storage/cdrom');

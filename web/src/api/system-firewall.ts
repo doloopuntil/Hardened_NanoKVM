@@ -10,6 +10,7 @@ export type FirewallStatus = {
   moderateActive: boolean;
   restrictedActive: boolean;
   paranoidActive: boolean;
+  webrtcBlocked: boolean;
   paranoidAvailable: boolean;
   confirmationRequired: boolean;
   httpsEnabled: boolean;

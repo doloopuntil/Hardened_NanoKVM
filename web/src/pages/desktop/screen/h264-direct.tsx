@@ -77,12 +77,13 @@ export const H264Direct = () => {
   return (
     <div
       ref={containerRef}
-      className="flex h-full min-h-0 w-full min-w-0 items-center justify-center overflow-hidden"
+      data-kvm-screen-scroll
+      className="flex h-full min-h-0 w-full min-w-0 items-start justify-start overflow-auto overscroll-contain bg-black"
     >
       <canvas
         id="screen"
         ref={canvasRef}
-        className={clsx('block select-none', mouseStyle)}
+        className={clsx('m-auto block select-none', mouseStyle)}
         style={mediaStyle}
       ></canvas>
     </div>

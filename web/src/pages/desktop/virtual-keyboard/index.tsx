@@ -12,12 +12,12 @@ import 'react-simple-keyboard/build/css/index.css';
 import '@/assets/styles/keyboard.css';
 
 import { ConfigProvider, Segmented, Select, theme } from 'antd';
-import { useMediaQuery } from 'react-responsive';
 
 import { getKeycode, getModifierBit } from '@/lib/keymap.ts';
 import * as storage from '@/lib/localstorage.ts';
 import { client, MessageEvent } from '@/lib/websocket.ts';
 import { isKeyboardOpenAtom } from '@/jotai/keyboard.ts';
+import { useIsDesktopLayout } from '@/hooks/useResponsiveLayout.ts';
 
 import {
   doubleKeys,
@@ -41,7 +41,7 @@ const SimpleKeyboardComponent = [
 ].find((candidate) => typeof candidate === 'function') as ComponentType<any>;
 
 export const VirtualKeyboard = () => {
-  const isBigScreen = useMediaQuery({ minWidth: 850 });
+  const isDesktopLayout = useIsDesktopLayout();
 
   const [isKeyboardOpen, setIsKeyboardOpen] = useAtom(isKeyboardOpenAtom);
 
@@ -271,7 +271,7 @@ export const VirtualKeyboard = () => {
     keyboardOptions.layout[keyboardLayout as keyof typeof keyboardOptions.layout] ||
     keyboardOptions.layout.default;
 
-  if (!isBigScreen) {
+  if (!isDesktopLayout) {
     if (!isKeyboardOpen) return null;
 
     return (
@@ -357,7 +357,7 @@ export const VirtualKeyboard = () => {
         <Drawer.Content
           className={clsx(
             'max-w-screen fixed bottom-0 left-0 right-0 z-[999] mx-auto overflow-hidden bg-white outline-none',
-            isBigScreen ? 'w-[820px] rounded' : 'w-screen rounded-t'
+            isDesktopLayout ? 'w-[820px] rounded' : 'w-screen rounded-t'
           )}
         >
           {/* header */}
@@ -411,7 +411,7 @@ export const VirtualKeyboard = () => {
             />
 
             {/* control keyboard */}
-            {isBigScreen && (
+            {isDesktopLayout && (
               <div className="controlArrows">
                 <SimpleKeyboardComponent
                   onKeyPress={onKeyPress}

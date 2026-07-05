@@ -55,9 +55,12 @@ use webrtc::{
 
 use crate::{
     AppError, Result,
-    api::stream::{
-        CAPTURE_MODE_H264, current_h264_screen, h264_frame_duration, is_h264_capture_active,
-        read_h264_capture_frame, request_h264_keyframe, update_capture_status,
+    api::{
+        stream::{
+            CAPTURE_MODE_H264, current_h264_screen, h264_frame_duration, is_h264_capture_active,
+            read_h264_capture_frame, request_h264_keyframe, update_capture_status,
+        },
+        system_firewall,
     },
     config::Config,
     state::AppState,
@@ -77,6 +80,12 @@ pub async fn h264_webrtc_stream(
     headers: HeaderMap,
     ws: WebSocketUpgrade,
 ) -> Result<impl IntoResponse> {
+    if system_firewall::webrtc_blocked_by_firewall() {
+        return Err(AppError::Forbidden(
+            system_firewall::webrtc_blocked_message().to_string(),
+        ));
+    }
+
     if !validate_ws_origin(&headers, &state.config) {
         return Err(AppError::Forbidden("invalid websocket origin".to_string()));
     }

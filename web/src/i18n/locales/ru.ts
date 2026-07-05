@@ -76,6 +76,8 @@ const ru = {
       video: 'Видеорежим',
       videoDirectTips:
         'Включите HTTPS в "Настройки > Система > Сеть", чтобы использовать этот режим',
+      videoWebrtcBlockedByFirewall:
+        'H.264 WebRTC отключен в режимах Restricted и Paranoid Firewall',
       resolution: 'Разрешение',
       auto: 'Автоматическое',
       autoTips:
@@ -108,7 +110,8 @@ const ru = {
       tips: 'Поддерживаются только стандартные буквы и символы клавиатуры',
       placeholder: 'Текст для ввода',
       submit: 'Вставить',
-      virtual: 'Клавиатура',
+      local: 'Клавиатура телефона',
+      virtual: 'Экранная клавиатура',
       readClipboard: 'Чтение из буфера обмена',
       clipboardPermissionDenied:
         'Разрешение на доступ к буферу обмена отклонено. Пожалуйста, разрешите доступ к буферу обмена в вашем браузере.',
@@ -173,8 +176,23 @@ const ru = {
       scrollUp: 'Прокрутите вверх',
       scrollDown: 'Прокрутите вниз',
       speed: 'Скорость прокрутки',
+      sensitivity: 'Скорость указателя',
+      sensitivityDesc:
+        'Используется для относительного режима на десктопе. Меньшие значения уменьшают расхождение из-за ускорения мыши на хосте.',
       fast: 'Быстро',
       slow: 'Медленно',
+      mobile: {
+        title: 'Мобильная мышь',
+        touchSync: 'TouchSync',
+        touchSyncDesc:
+          'Двигайте курсор в любой области KVM. Позиция сохраняется между касаниями и синхронизируется через абсолютный HID.',
+        trackpad: 'Трекпад',
+        trackpadDesc:
+          'Двигайте одним пальцем для перемещения удаленного курсора. Касание - левый клик, долгое нажатие или касание двумя пальцами - правый клик.',
+        direct: 'Прямое касание',
+        directDesc:
+          'Касайтесь позиции на удаленном экране напрямую. Перетаскивание удерживает левую кнопку.'
+      },
       requestPointer: 'Используется относительный режим. Нажмите на рабочий стол для захвата мыши.',
       resetHid: 'Перезагрузить HID-подсистему',
       hidOnly: {
@@ -198,6 +216,11 @@ const ru = {
       unmountFailed: 'Не удалось размонтировать',
       unmountDesc:
         'В некоторых системах перед размонтированием образа необходимо вручную извлечь образ с удаленного хоста.',
+      usbReconnect: 'Переподключить USB',
+      usbReconnectConfirm:
+        'Переподключайте USB-gadget только если удаленный хост не увидел смену носителя. Клавиатура и мышь могут кратко отключиться.',
+      usbReconnectSuccess: 'USB переподключен',
+      usbReconnectFailed: 'Не удалось переподключить USB',
       refresh: 'Обновить список образов',
       attention: 'Внимание',
       deleteConfirm: 'Вы уверены, что хотите удалить это изображение?',
@@ -275,6 +298,14 @@ const ru = {
       inputfile: 'Пожалуйста, введите файл изображения',
       NoISO: 'Нет ISO',
       complete: 'Скачивание завершено',
+      uploadComplete: 'Загрузка завершена',
+      downloading: 'Скачивание',
+      uploading: 'Загрузка',
+      failed: 'Передача не удалась',
+      uploadFailed: 'Загрузка не удалась',
+      stalled: 'Передача зависла. Проверьте соединение и повторите попытку.',
+      canceled: 'Загрузка отменена',
+      cancel: 'Отмена',
       remoteDisabled: 'Удаленное скачивание ISO отключено в Настройки > Внешний вид.',
       remoteFailed: 'Не удалось скачать удаленный ISO'
     },
@@ -321,6 +352,10 @@ const ru = {
         languageDesc: 'Выбор языка интерфейса',
         webTitle: 'Заголовок страницы',
         webTitleDesc: 'Изменить заголовок страницы',
+        layoutMode: 'Режим интерфейса',
+        layoutModeDesc: 'Использовать мобильный/touch-интерфейс в этом браузере',
+        layoutAuto: 'Авто',
+        layoutMobile: 'Мобильный вид',
         menuBar: {
           title: 'Строка меню',
           mode: 'Режим отображения',
@@ -564,7 +599,7 @@ const ru = {
               'Дефолтный профиль. Сохраняет сервисы baseline, но принимает новые входящие соединения только из private, ULA, link-local или loopback диапазонов.',
             restricted: 'Restricted',
             restrictedDesc:
-              'Локальные административные порты плюс исходящие сервисы для обновлений, DNS, NTP, syslog и WebRTC.',
+              'Локальные административные HTTPS/SSH порты плюс исходящие сервисы для обновлений, DNS, NTP и syslog. WebRTC отключен.',
             paranoid: 'Paranoid',
             paranoidDesc:
               'Только локальный HTTPS-доступ. Блокирует SSH, HTTP, онлайн-обновления и другие исходящие сетевые функции.',
@@ -587,10 +622,10 @@ const ru = {
             enable: 'Включить Restricted',
             active: 'Restricted Firewall mode активен',
             allows:
-              'Разрешенный трафик: HTTPS, SSH и WebRTC/ICE UDP только из private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local или IPv6 loopback source ranges; исходящие DNS, NTP, удаленный syslog и онлайн-обновления; DHCP, established-соединения и минимальный IPv6 control traffic.',
+              'Разрешенный трафик: HTTPS и SSH только из private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local или IPv6 loopback source ranges; исходящие DNS, NTP, удаленный syslog и онлайн-обновления; DHCP, established-соединения и минимальный IPv6 control traffic. WebRTC/ICE UDP блокируется.',
             confirmTitle: 'Включить Restricted Firewall mode?',
             confirmDesc:
-              'Входящий административный доступ будет ограничен private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local или IPv6 loopback source ranges для HTTPS, SSH и WebRTC/ICE UDP. Публичные source ranges не разрешаются. Исходящие DNS, NTP, удаленный syslog, онлайн-обновления, DHCP, established-соединения и минимальный IPv6 control traffic останутся доступны. Остальной входящий/исходящий трафик будет заблокирован.'
+              'Входящий административный доступ будет ограничен private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local или IPv6 loopback source ranges для HTTPS и SSH. Публичные source ranges не разрешаются. Исходящие DNS, NTP, удаленный syslog, онлайн-обновления, DHCP, established-соединения и минимальный IPv6 control traffic останутся доступны. WebRTC/ICE UDP и прочий входящий/исходящий трафик будут заблокированы.'
           },
           paranoid: {
             enable: 'Включить Paranoid',

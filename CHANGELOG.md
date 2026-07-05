@@ -1,5 +1,39 @@
 # Changelog
 
+## Hardened NanoKVM 2.0.31 RC8 (2026-07-05)
+
+Full application, raw system-update, and SD-card release candidate with app
+`2.0.31`, raw system-update `0.2.22-raw.1`, and matching SD-card image.
+
+### Changed
+
+* Extends the Hardened mobile view from narrow phones to touch tablets and adds
+  an explicit Appearance setting to force Mobile view on browsers that are not
+  detected correctly by viewport size alone.
+* Keeps TouchSync as the default mobile pointer mode: the whole KVM surface,
+  including letterbox/pillarbox space, can be used as a touchpad while a local
+  cursor overlay shows the controlled pointer position.
+* Keeps the separate local-device keyboard button for Android/mobile soft
+  keyboards and the separate on-screen HID keyboard menu item.
+* Carries the RC7/RC7.1 mobile KVM improvements into a full raw/SD baseline:
+  automatic fit scaling, pinch-to-zoom for the video surface, touch-drag
+  panning of scaled video, mobile settings/menu containment, virtual-media
+  visibility fixes, and CD-ROM/mass-storage mount safety fixes.
+* Keeps the RC6/RC7 security baseline: no in-place password reset path,
+  local-use firewall defaults, signed app/system metadata, raw-system update
+  guardrails, startup NTP sync, mass-storage image validation, WebRTC
+  restrictions in Restricted/Paranoid firewall modes, and opt-in USB HID
+  wake-on-write.
+
+### Verified
+
+* The post-RC7 mobile/tablet UI builds were installed and smoke-tested on a
+  NanoKVM Cube test device before the RC8 release build.
+* Release validation for RC8 covers Rust backend tests, frontend production
+  build, linked RISC-V build, app/rootfs package validation, raw/rootfs
+  validation, metadata signature verification, checksums, and SD image xz
+  integrity.
+
 ## Hardened NanoKVM 2.0.29 RC7 (2026-07-04)
 
 Full application, raw system-update, and SD-card release candidate with app

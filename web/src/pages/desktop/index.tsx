@@ -2,17 +2,18 @@ import { useEffect, useState } from 'react';
 import { Splitter } from 'antd';
 import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import { useMediaQuery } from 'react-responsive';
 
 import * as storage from '@/lib/localstorage.ts';
 import { client } from '@/lib/websocket.ts';
 import { picoclawChatOpenAtom } from '@/jotai/picoclaw.ts';
 import { resolutionAtom, videoModeAtom } from '@/jotai/screen.ts';
 import { Head } from '@/components/head.tsx';
+import { useIsDesktopLayout } from '@/hooks/useResponsiveLayout.ts';
 
 import { CaptureStatusOverlay, useCaptureStatus } from './capture-status';
 import { Keyboard } from './keyboard';
 import { Menu } from './menu';
+import { MobileLocalKeyboard } from './mobile-local-keyboard';
 import { Mouse } from './mouse';
 import { Notification } from './notification.tsx';
 import { Sidebar as PicoclawSidebar } from './picoclaw';
@@ -43,7 +44,7 @@ function getVideoMode() {
 
 export const Desktop = () => {
   const { t } = useTranslation();
-  const isBigScreen = useMediaQuery({ minWidth: 850 });
+  const isDesktopLayout = useIsDesktopLayout();
   const [activeVideoMode] = useState(getVideoMode);
   const [picoclawSidebarWidth, setPicoclawSidebarWidth] = useState(420);
   const captureStatus = useCaptureStatus(activeVideoMode);
@@ -76,7 +77,7 @@ export const Desktop = () => {
     <div className="h-[100dvh] w-screen overflow-hidden bg-neutral-950">
       <Head title={t('head.desktop')} />
 
-      {isBigScreen && <Notification />}
+      {isDesktopLayout && <Notification />}
 
       {videoMode && resolution && (
         <div className="relative flex h-full min-h-0 w-full min-w-0">
@@ -88,28 +89,32 @@ export const Desktop = () => {
               onResize={handleSplitterResize}
             >
               <Splitter.Panel min="45%">
-                <div className="relative h-full min-h-0 w-full min-w-0 overflow-hidden bg-black">
+                <div
+                  id="kvm-pointer-surface"
+                  className="relative h-full min-h-0 w-full min-w-0 overflow-hidden bg-black"
+                >
                   <Screen />
                   <CaptureStatusOverlay status={captureStatus} />
                 </div>
               </Splitter.Panel>
               <Splitter.Panel
-                size={isBigScreen && isPicoclawChatOpen ? picoclawSidebarWidth : 0}
-                min={isBigScreen && isPicoclawChatOpen ? 340 : 0}
+                size={isDesktopLayout && isPicoclawChatOpen ? picoclawSidebarWidth : 0}
+                min={isDesktopLayout && isPicoclawChatOpen ? 340 : 0}
                 max="45%"
-                resizable={isBigScreen && isPicoclawChatOpen}
+                resizable={isDesktopLayout && isPicoclawChatOpen}
               >
-                {isBigScreen && isPicoclawChatOpen ? <PicoclawSidebar /> : null}
+                {isDesktopLayout && isPicoclawChatOpen ? <PicoclawSidebar /> : null}
               </Splitter.Panel>
             </Splitter>
           </div>
           <ActionOverlay />
           <Mouse />
           <Keyboard />
+          <MobileLocalKeyboard />
         </div>
       )}
 
-      {!isBigScreen && isPicoclawChatOpen ? (
+      {!isDesktopLayout && isPicoclawChatOpen ? (
         <div className="fixed inset-x-0 bottom-0 top-14 z-[980] overflow-hidden bg-[#0d0d0f] shadow-2xl">
           <PicoclawSidebar />
         </div>

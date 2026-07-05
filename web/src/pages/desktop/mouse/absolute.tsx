@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
-import { useAtomValue } from 'jotai';
-import { useMediaQuery } from 'react-responsive';
+import { useAtom, useAtomValue } from 'jotai';
 
 import { MouseReportAbsolute } from '@/lib/mouse.ts';
+import * as storage from '@/lib/localstorage.ts';
 import { client, MessageEvent } from '@/lib/websocket.ts';
 import { scrollDirectionAtom, scrollIntervalAtom } from '@/jotai/mouse.ts';
-import { resolutionAtom } from '@/jotai/screen.ts';
+import { resolutionAtom, videoScaleAtom } from '@/jotai/screen.ts';
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 
+import { emitMobileCursorAbsolute, emitMobileCursorHide } from './mobile-cursor-events.ts';
 import { MouseAbsoluteEvent } from './types.ts';
 
 enum MouseButton {
@@ -17,49 +19,117 @@ enum MouseButton {
   Forward = 4
 }
 
-export const Absolute = () => {
-  const isBigScreen = useMediaQuery({ minWidth: 650 });
+const HID_ABSOLUTE_MAX = 0x7fff;
+const HID_ABSOLUTE_CENTER = Math.round(HID_ABSOLUTE_MAX / 2);
+const MIN_TOUCH_ZOOM = 0.1;
+const MAX_TOUCH_ZOOM = 4;
 
+export const Absolute = () => {
+  const isTouchLayout = useIsTouchLayout();
   const resolution = useAtomValue(resolutionAtom);
+  const [videoScale, setVideoScale] = useAtom(videoScaleAtom);
   const scrollDirection = useAtomValue(scrollDirectionAtom);
   const scrollInterval = useAtomValue(scrollIntervalAtom);
 
   const mouseRef = useRef(new MouseReportAbsolute());
-  const lastPosRef = useRef({ x: 0.5, y: 0.5 });
+  const lastPosRef = useRef({ x: HID_ABSOLUTE_CENTER, y: HID_ABSOLUTE_CENTER });
+  const lastResolutionKeyRef = useRef<string | null>(null);
   const lastScrollTimeRef = useRef(0);
+  const currentVideoScaleRef = useRef(videoScale);
 
   // For touch events
   const touchStartTimeRef = useRef(0);
   const lastTouchYRef = useRef(0);
+  const pinchDistanceRef = useRef<number | null>(null);
+  const pinchScaleRef = useRef(videoScale);
   const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isLongPressRef = useRef(false);
   const hasMoveRef = useRef(false);
   const isDraggingRef = useRef(false);
   const pressedButtonRef = useRef<MouseButton | null>(null);
   const touchStartPosRef = useRef({ x: 0, y: 0 });
+  const lastTouchPosRef = useRef({ x: 0, y: 0 });
 
   const TAP_THRESHOLD = 8;
   const DRAG_THRESHOLD = 10;
   const VELOCITY_THRESHOLD = 0.3;
 
   useEffect(() => {
-    const screen = document.getElementById('screen') as HTMLVideoElement | null;
-    if (!screen) return;
-    const target = screen;
+    currentVideoScaleRef.current = videoScale;
+  }, [videoScale]);
 
-    target.addEventListener('mousedown', handleMouseDown);
-    target.addEventListener('mouseup', handleMouseUp);
-    target.addEventListener('mousemove', handleMouseMove);
-    target.addEventListener('wheel', handleWheel);
-    target.addEventListener('click', disableEvent);
-    target.addEventListener('contextmenu', disableEvent);
+  useEffect(() => {
+    const resolutionKey = `${resolution?.width ?? 0}x${resolution?.height ?? 0}`;
 
-    if (isBigScreen) {
-      target.addEventListener('touchstart', handleTouchStart);
-      target.addEventListener('touchmove', handleTouchMove);
-      target.addEventListener('touchend', handleTouchEnd);
-      target.addEventListener('touchcancel', handleTouchCancel);
+    if (lastResolutionKeyRef.current === null) {
+      lastResolutionKeyRef.current = resolutionKey;
+      return;
     }
+
+    if (lastResolutionKeyRef.current === resolutionKey) {
+      return;
+    }
+
+    lastResolutionKeyRef.current = resolutionKey;
+
+    if (!isTouchLayout) {
+      return;
+    }
+
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+
+    if (pressedButtonRef.current !== null) {
+      handleMouseEvent({ type: 'mouseup', button: pressedButtonRef.current });
+    }
+
+    isLongPressRef.current = false;
+    hasMoveRef.current = false;
+    isDraggingRef.current = false;
+    pressedButtonRef.current = null;
+    lastPosRef.current = { x: HID_ABSOLUTE_CENTER, y: HID_ABSOLUTE_CENTER };
+
+    handleMouseEvent({ type: 'move', x: HID_ABSOLUTE_CENTER, y: HID_ABSOLUTE_CENTER });
+    emitMobileCursorAbsolute(0.5, 0.5);
+  }, [isTouchLayout, resolution?.height, resolution?.width]);
+
+  useEffect(() => {
+    const screen = document.getElementById('screen') as HTMLElement | null;
+    if (!screen) return;
+    const screenElement = screen;
+    const pointerSurface = document.getElementById('kvm-pointer-surface') as HTMLElement | null;
+    const scrollContainer = screenElement.closest('[data-kvm-screen-scroll]') as HTMLElement | null;
+    const mouseTarget = screenElement;
+    const touchTarget = pointerSurface ?? screen;
+    const gestureElements = uniqueElements([touchTarget, screen, scrollContainer]);
+    const previousGestureStyles = gestureElements.map((element) => ({
+      element,
+      touchAction: element.style.touchAction,
+      overscrollBehavior: element.style.overscrollBehavior,
+      userSelect: element.style.userSelect,
+      webkitUserSelect: element.style.webkitUserSelect
+    }));
+    const touchOptions: AddEventListenerOptions = { passive: false };
+
+    for (const element of gestureElements) {
+      element.style.touchAction = 'none';
+      element.style.overscrollBehavior = 'contain';
+      element.style.userSelect = 'none';
+      element.style.webkitUserSelect = 'none';
+    }
+
+    mouseTarget.addEventListener('mousedown', handleMouseDown);
+    mouseTarget.addEventListener('mouseup', handleMouseUp);
+    mouseTarget.addEventListener('mousemove', handleMouseMove);
+    mouseTarget.addEventListener('wheel', handleWheel);
+    mouseTarget.addEventListener('click', disableEvent);
+    mouseTarget.addEventListener('contextmenu', disableEvent);
+    touchTarget.addEventListener('touchstart', handleTouchStart, touchOptions);
+    touchTarget.addEventListener('touchmove', handleTouchMove, touchOptions);
+    touchTarget.addEventListener('touchend', handleTouchEnd, touchOptions);
+    touchTarget.addEventListener('touchcancel', handleTouchCancel, touchOptions);
 
     // Mouse down event
     function handleMouseDown(e: MouseEvent) {
@@ -116,15 +186,18 @@ export const Absolute = () => {
       isDraggingRef.current = false;
       pressedButtonRef.current = null;
       touchStartPosRef.current = { x: touch.clientX, y: touch.clientY };
+      lastTouchPosRef.current = { x: touch.clientX, y: touch.clientY };
 
       if (longPressTimerRef.current) {
         clearTimeout(longPressTimerRef.current);
       }
 
-      const { x, y } = getCoordinate(touch);
-      handleMouseEvent({ type: 'move', x, y });
+      emitCurrentMobileCursorPosition();
 
       if (e.touches.length > 1) {
+        hasMoveRef.current = true;
+        isDraggingRef.current = false;
+        startPinchZoom(e.touches);
         return;
       }
 
@@ -149,18 +222,12 @@ export const Absolute = () => {
       }
       const touch = e.touches[0];
 
-      // Handle two-finger scroll first
       if (e.touches.length > 1) {
-        const currentTime = Date.now();
-        if (currentTime - lastScrollTimeRef.current < scrollInterval) {
-          return;
-        }
-
-        const deltaY = (touch.clientY - lastTouchYRef.current > 0 ? 1 : -1) * scrollDirection;
-        handleMouseEvent({ type: 'wheel', deltaY });
-
-        lastTouchYRef.current = touch.clientY;
-        lastScrollTimeRef.current = currentTime;
+        emitMobileCursorHide(0);
+        hasMoveRef.current = true;
+        isDraggingRef.current = false;
+        clearLongPress();
+        updatePinchZoom(e.touches);
         return;
       }
 
@@ -184,11 +251,7 @@ export const Absolute = () => {
           longPressTimerRef.current = null;
         }
 
-        if (pressedButtonRef.current === null) {
-          isDraggingRef.current = true;
-          pressedButtonRef.current = MouseButton.Left;
-          handleMouseEvent({ type: 'mousedown', button: MouseButton.Left });
-        }
+        isDraggingRef.current = true;
       }
 
       if (distance > TAP_THRESHOLD && !hasMoveRef.current) {
@@ -196,7 +259,8 @@ export const Absolute = () => {
       }
 
       if (isDraggingRef.current || isLongPressRef.current) {
-        const { x, y } = getCoordinate(touch);
+        const { x, y, xRatio, yRatio } = getRelativeTouchCoordinate(touch);
+        emitMobileCursorAbsolute(xRatio, yRatio);
         handleMouseEvent({ type: 'move', x, y });
       }
     }
@@ -204,6 +268,30 @@ export const Absolute = () => {
     // Mouse touch end event
     function handleTouchEnd(e: TouchEvent) {
       disableEvent(e);
+
+      if (pinchDistanceRef.current !== null) {
+        clearPinchZoom();
+        clearLongPress();
+
+        if (e.touches.length > 0) {
+          const touch = e.touches[0];
+          hasMoveRef.current = true;
+          isDraggingRef.current = false;
+          touchStartTimeRef.current = Date.now();
+          touchStartPosRef.current = { x: touch.clientX, y: touch.clientY };
+          lastTouchPosRef.current = { x: touch.clientX, y: touch.clientY };
+          lastTouchYRef.current = touch.clientY;
+          emitCurrentMobileCursorPosition();
+          return;
+        }
+
+        isLongPressRef.current = false;
+        hasMoveRef.current = false;
+        isDraggingRef.current = false;
+        pressedButtonRef.current = null;
+        emitMobileCursorHide();
+        return;
+      }
 
       if (longPressTimerRef.current) {
         clearTimeout(longPressTimerRef.current);
@@ -223,11 +311,14 @@ export const Absolute = () => {
       hasMoveRef.current = false;
       isDraggingRef.current = false;
       pressedButtonRef.current = null;
+      emitMobileCursorHide();
     }
 
     // Mouse touch cancel event
     function handleTouchCancel(e: any) {
       disableEvent(e);
+
+      clearPinchZoom();
 
       if (longPressTimerRef.current) {
         clearTimeout(longPressTimerRef.current);
@@ -242,6 +333,7 @@ export const Absolute = () => {
       hasMoveRef.current = false;
       isDraggingRef.current = false;
       pressedButtonRef.current = null;
+      emitMobileCursorHide(0);
     }
 
     // get mouse coordinate
@@ -251,16 +343,141 @@ export const Absolute = () => {
       const finalX = Math.max(0, Math.min(1, x));
       const finalY = Math.max(0, Math.min(1, y));
 
-      const hexX = Math.floor(0x7fff * finalX) + 0x0001;
-      const hexY = Math.floor(0x7fff * finalY) + 0x0001;
+      const hexX = Math.round(HID_ABSOLUTE_MAX * finalX);
+      const hexY = Math.round(HID_ABSOLUTE_MAX * finalY);
 
-      return { x: hexX, y: hexY };
+      return { x: hexX, y: hexY, xRatio: finalX, yRatio: finalY };
+    }
+
+    function getRelativeTouchCoordinate(touch: Touch) {
+      const rect = screenElement.getBoundingClientRect();
+      const clientDeltaX = touch.clientX - lastTouchPosRef.current.x;
+      const clientDeltaY = touch.clientY - lastTouchPosRef.current.y;
+      const deltaX = rect.width > 0 ? clientDeltaX / rect.width : 0;
+      const deltaY = rect.height > 0 ? clientDeltaY / rect.height : 0;
+      panViewportByTouchDelta(clientDeltaX, clientDeltaY);
+      lastTouchPosRef.current = { x: touch.clientX, y: touch.clientY };
+
+      const currentX = lastPosRef.current.x / HID_ABSOLUTE_MAX;
+      const currentY = lastPosRef.current.y / HID_ABSOLUTE_MAX;
+      const finalX = Math.max(0, Math.min(1, currentX + deltaX));
+      const finalY = Math.max(0, Math.min(1, currentY + deltaY));
+
+      return ratioToCoordinate(finalX, finalY);
+    }
+
+    function emitCurrentMobileCursorPosition() {
+      emitMobileCursorAbsolute(
+        lastPosRef.current.x / HID_ABSOLUTE_MAX,
+        lastPosRef.current.y / HID_ABSOLUTE_MAX
+      );
+    }
+
+    function ratioToCoordinate(xRatio: number, yRatio: number) {
+      const finalX = Math.max(0, Math.min(1, xRatio));
+      const finalY = Math.max(0, Math.min(1, yRatio));
+      const x = Math.round(HID_ABSOLUTE_MAX * finalX);
+      const y = Math.round(HID_ABSOLUTE_MAX * finalY);
+
+      return { x, y, xRatio: finalX, yRatio: finalY };
+    }
+
+    function panViewportByTouchDelta(deltaX: number, deltaY: number) {
+      if (!scrollContainer) return;
+      if (deltaX === 0 && deltaY === 0) return;
+
+      scrollContainer.scrollLeft += deltaX;
+      scrollContainer.scrollTop += deltaY;
+    }
+
+    function startPinchZoom(touches: TouchList) {
+      clearLongPress();
+      emitMobileCursorHide(0);
+
+      const metrics = getPinchMetrics(touches);
+      if (!metrics) return;
+
+      pinchDistanceRef.current = metrics.distance;
+      pinchScaleRef.current = currentVideoScaleRef.current;
+    }
+
+    function updatePinchZoom(touches: TouchList) {
+      const metrics = getPinchMetrics(touches);
+      if (!metrics) return;
+
+      if (pinchDistanceRef.current === null || pinchDistanceRef.current <= 0) {
+        startPinchZoom(touches);
+        return;
+      }
+
+      const nextScale = clamp(
+        pinchScaleRef.current * (metrics.distance / pinchDistanceRef.current),
+        MIN_TOUCH_ZOOM,
+        MAX_TOUCH_ZOOM
+      );
+
+      if (Math.abs(nextScale - currentVideoScaleRef.current) < 0.01) {
+        return;
+      }
+
+      setZoomAtPoint(nextScale, metrics.centerX, metrics.centerY);
+    }
+
+    function clearPinchZoom() {
+      pinchDistanceRef.current = null;
+      pinchScaleRef.current = currentVideoScaleRef.current;
+    }
+
+    function clearLongPress() {
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+        longPressTimerRef.current = null;
+      }
+    }
+
+    function setZoomAtPoint(nextScale: number, clientX: number, clientY: number) {
+      const previousScale = currentVideoScaleRef.current || 1;
+      const roundedScale = Math.round(nextScale * 100) / 100;
+
+      let nextScrollLeft: number | null = null;
+      let nextScrollTop: number | null = null;
+
+      if (scrollContainer && previousScale > 0) {
+        const rect = scrollContainer.getBoundingClientRect();
+        const localX = clientX - rect.left;
+        const localY = clientY - rect.top;
+        const ratio = roundedScale / previousScale;
+
+        nextScrollLeft = (scrollContainer.scrollLeft + localX) * ratio - localX;
+        nextScrollTop = (scrollContainer.scrollTop + localY) * ratio - localY;
+      }
+
+      currentVideoScaleRef.current = roundedScale;
+      setVideoScale(roundedScale);
+      storage.setVideoScale(roundedScale);
+
+      if (scrollContainer && nextScrollLeft !== null && nextScrollTop !== null) {
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            scrollContainer.scrollLeft = clamp(
+              nextScrollLeft,
+              0,
+              Math.max(0, scrollContainer.scrollWidth - scrollContainer.clientWidth)
+            );
+            scrollContainer.scrollTop = clamp(
+              nextScrollTop,
+              0,
+              Math.max(0, scrollContainer.scrollHeight - scrollContainer.clientHeight)
+            );
+          });
+        });
+      }
     }
 
     function getCorrectedCoords(clientX: number, clientY: number) {
-      const rect = target.getBoundingClientRect();
+      const rect = mouseTarget.getBoundingClientRect();
 
-      const mediaSize = getMediaSize(target);
+      const mediaSize = getMediaSize(mouseTarget);
       if (!mediaSize) {
         const x = (clientX - rect.left) / rect.width;
         const y = (clientY - rect.top) / rect.height;
@@ -290,22 +507,28 @@ export const Absolute = () => {
     }
 
     return () => {
-      target.removeEventListener('mousemove', handleMouseMove);
-      target.removeEventListener('mousedown', handleMouseDown);
-      target.removeEventListener('mouseup', handleMouseUp);
-      target.removeEventListener('wheel', handleWheel);
-      target.removeEventListener('click', disableEvent);
-      target.removeEventListener('contextmenu', disableEvent);
-      target.removeEventListener('touchstart', handleTouchStart);
-      target.removeEventListener('touchmove', handleTouchMove);
-      target.removeEventListener('touchend', handleTouchEnd);
-      target.removeEventListener('touchcancel', handleTouchCancel);
+      mouseTarget.removeEventListener('mousemove', handleMouseMove);
+      mouseTarget.removeEventListener('mousedown', handleMouseDown);
+      mouseTarget.removeEventListener('mouseup', handleMouseUp);
+      mouseTarget.removeEventListener('wheel', handleWheel);
+      mouseTarget.removeEventListener('click', disableEvent);
+      mouseTarget.removeEventListener('contextmenu', disableEvent);
+      touchTarget.removeEventListener('touchstart', handleTouchStart);
+      touchTarget.removeEventListener('touchmove', handleTouchMove);
+      touchTarget.removeEventListener('touchend', handleTouchEnd);
+      touchTarget.removeEventListener('touchcancel', handleTouchCancel);
+      for (const style of previousGestureStyles) {
+        style.element.style.touchAction = style.touchAction;
+        style.element.style.overscrollBehavior = style.overscrollBehavior;
+        style.element.style.userSelect = style.userSelect;
+        style.element.style.webkitUserSelect = style.webkitUserSelect;
+      }
 
       if (longPressTimerRef.current) {
         clearTimeout(longPressTimerRef.current);
       }
     };
-  }, [isBigScreen, resolution, scrollDirection, scrollInterval]);
+  }, [resolution, scrollDirection, scrollInterval, setVideoScale]);
 
   // Mouse event handler
   function handleMouseEvent(event: MouseAbsoluteEvent) {
@@ -350,6 +573,10 @@ export const Absolute = () => {
   return <></>;
 };
 
+function uniqueElements(elements: Array<HTMLElement | null>): HTMLElement[] {
+  return Array.from(new Set(elements.filter((element): element is HTMLElement => Boolean(element))));
+}
+
 function getMediaSize(screen: Element) {
   if (screen instanceof HTMLVideoElement && screen.videoWidth > 0 && screen.videoHeight > 0) {
     return { width: screen.videoWidth, height: screen.videoHeight };
@@ -364,4 +591,29 @@ function getMediaSize(screen: Element) {
   }
 
   return null;
+}
+
+function getPinchMetrics(touches: TouchList):
+  | {
+      distance: number;
+      centerX: number;
+      centerY: number;
+    }
+  | null {
+  if (touches.length < 2) return null;
+
+  const first = touches[0];
+  const second = touches[1];
+  const deltaX = second.clientX - first.clientX;
+  const deltaY = second.clientY - first.clientY;
+
+  return {
+    distance: Math.hypot(deltaX, deltaY),
+    centerX: (first.clientX + second.clientX) / 2,
+    centerY: (first.clientY + second.clientY) / 2
+  };
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
 }

@@ -1,5 +1,7 @@
 import { atom } from 'jotai';
 
+import { getLayoutMode, type LayoutMode } from '@/lib/localstorage.ts';
+
 // menu bar disabled items
 export const menuDisabledItemsAtom = atom<string[]>([]);
 
@@ -11,3 +13,6 @@ export const webTitleAtom = atom('');
 
 // menu display mode: 'off' | 'auto' | 'always'
 export const menuDisplayModeAtom = atom<string>('auto');
+
+// responsive layout mode: 'auto' | 'mobile'
+export const layoutModeAtom = atom<LayoutMode>(getLayoutMode());

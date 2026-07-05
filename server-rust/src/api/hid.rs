@@ -3,7 +3,7 @@ use rand_core::{OsRng, RngCore};
 use serde::{Deserialize, Serialize};
 use std::{
     fs, io,
-    os::unix::fs::{PermissionsExt, symlink},
+    os::unix::fs::PermissionsExt,
     path::{Path, PathBuf},
     sync::{LazyLock, RwLock},
     thread,
@@ -27,8 +27,6 @@ const USB_DEV_SCRIPT: &str = "/etc/init.d/S03usbdev";
 const USB_WAKEUP_ENABLE_FILE: &str = "/boot/usb.wakeup";
 const USB_WAKEUP_DISABLE_FILE: &str = "/boot/usb.notwakeup";
 const USB_HID_FUNCTION_DIR: &str = "/sys/kernel/config/usb_gadget/g0/functions";
-const USB_CONFIG_DIR: &str = "/sys/kernel/config/usb_gadget/g0/configs/c.1";
-const USB_UDC_FILE: &str = "/sys/kernel/config/usb_gadget/g0/UDC";
 const MODE_NORMAL: &str = "normal";
 const MODE_HID_ONLY: &str = "hid-only";
 const MAX_SHORTCUT_KEYS: usize = 6;
@@ -614,7 +612,14 @@ fn write_usb_wakeup_config(enabled: bool) -> Result<()> {
 fn apply_usb_wakeup_live(enabled: bool) -> Result<()> {
     match write_hid_wakeup_attrs(enabled) {
         Ok(()) => Ok(()),
-        Err(err) if is_resource_busy(&err) => apply_usb_wakeup_with_relink(enabled),
+        Err(err) if is_resource_busy(&err) => {
+            tracing::warn!(
+                enabled,
+                error = %err,
+                "USB wakeup config saved but live wakeup_on_write update was deferred; avoiding unsafe HID configfs relink"
+            );
+            Ok(())
+        }
         Err(err) => Err(err),
     }
 }
@@ -630,65 +635,6 @@ fn write_hid_wakeup_attrs(enabled: bool) -> Result<()> {
         }
     }
 
-    Ok(())
-}
-
-fn apply_usb_wakeup_with_relink(enabled: bool) -> Result<()> {
-    let current_udc = fs::read_to_string(USB_UDC_FILE)
-        .unwrap_or_default()
-        .trim()
-        .to_string();
-    let functions = hid_function_paths()?;
-    if functions.is_empty() {
-        return Ok(());
-    }
-
-    fs::write(USB_UDC_FILE, b"\n")?;
-
-    let mut links = Vec::new();
-    let mut setup_result = Ok(());
-    for function in &functions {
-        let Some(name) = function.file_name() else {
-            continue;
-        };
-        let link = Path::new(USB_CONFIG_DIR).join(name);
-        let was_linked = fs::symlink_metadata(&link).is_ok();
-        if was_linked {
-            if let Err(err) = remove_file_if_exists_path(&link) {
-                setup_result = Err(err);
-                links.push((function.clone(), link, was_linked));
-                break;
-            }
-        }
-        links.push((function.clone(), link, was_linked));
-    }
-
-    let write_result = if setup_result.is_ok() {
-        write_hid_wakeup_attrs(enabled)
-    } else {
-        setup_result
-    };
-    let relink_result = restore_hid_links(&links);
-    let udc_result = if current_udc.is_empty() {
-        Ok(())
-    } else {
-        fs::write(USB_UDC_FILE, format!("{current_udc}\n")).map_err(AppError::from)
-    };
-
-    write_result?;
-    relink_result?;
-    udc_result
-}
-
-fn restore_hid_links(links: &[(PathBuf, PathBuf, bool)]) -> Result<()> {
-    for (function, link, was_linked) in links {
-        if !was_linked {
-            continue;
-        }
-        if fs::symlink_metadata(link).is_err() {
-            symlink(function, link)?;
-        }
-    }
     Ok(())
 }
 

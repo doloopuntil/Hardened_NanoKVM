@@ -1,9 +1,9 @@
-import { ReactNode, useState } from 'react';
+import { MouseEvent, ReactNode, useState } from 'react';
 import { Popover, Tooltip } from 'antd';
 import { useSetAtom } from 'jotai';
-import { useMediaQuery } from 'react-responsive';
 
 import { submenuOpenCountAtom } from '@/jotai/settings.ts';
+import { useIsDesktopLayout } from '@/hooks/useResponsiveLayout.ts';
 
 type MenuItemProps = {
   title: string;
@@ -22,15 +22,18 @@ export const MenuItem = ({
   fresh,
   onOpenChange
 }: MenuItemProps) => {
-  const isBigScreen = useMediaQuery({ minWidth: 640 });
+  const isDesktopLayout = useIsDesktopLayout();
   const setSubmenuOpenCount = useSetAtom(submenuOpenCountAtom);
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
-  const popoverContent = isBigScreen ? (
+  const popoverContent = isDesktopLayout ? (
     content
   ) : (
-    <div className="max-h-[calc(100dvh-72px)] w-[min(360px,calc(100vw-16px))] overflow-y-auto">
+    <div
+      className="max-h-[calc(100dvh-72px)] w-[min(360px,calc(100vw-16px))] overflow-y-auto"
+      onClickCapture={closeMobilePopoverAfterSelection}
+    >
       {content}
     </div>
   );
@@ -54,22 +57,48 @@ export const MenuItem = ({
     setIsTooltipOpen(open);
   }
 
+  function closeMobilePopoverAfterSelection(event: MouseEvent<HTMLDivElement>) {
+    if (isDesktopLayout) return;
+
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (
+      target.closest(
+        [
+          '[data-menu-keep-open]',
+          '.ant-slider',
+          '.ant-switch',
+          '.ant-select',
+          '.ant-input',
+          'button',
+          'input',
+          'textarea',
+          'select'
+        ].join(',')
+      )
+    ) {
+      return;
+    }
+
+    window.setTimeout(() => togglePopover(false), 0);
+  }
+
   return (
     <Popover
       content={popoverContent}
       arrow={false}
       trigger="click"
-      placement={isBigScreen ? 'bottomLeft' : 'bottom'}
+      placement={isDesktopLayout ? 'bottomLeft' : 'bottom'}
       open={isPopoverOpen}
       onOpenChange={togglePopover}
       fresh={!!fresh}
-      overlayStyle={isBigScreen ? undefined : { maxWidth: 'calc(100vw - 8px)' }}
+      overlayStyle={isDesktopLayout ? undefined : { maxWidth: 'calc(100vw - 8px)' }}
     >
       <Tooltip
-        title={isBigScreen ? title : undefined}
+        title={isDesktopLayout ? title : undefined}
         mouseEnterDelay={0.6}
         placement="bottom"
-        open={isBigScreen ? isTooltipOpen : false}
+        open={isDesktopLayout ? isTooltipOpen : false}
         onOpenChange={toggleTooltip}
       >
         <div

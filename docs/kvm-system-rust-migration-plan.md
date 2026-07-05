@@ -369,6 +369,14 @@ Completed C++ hardening:
   `hid.GS2` configfs paths instead of passing a glob to `access()`.
 - Fixed OLED IP-change detection so unexpected address types and empty IPs do
   not use uninitialized pointers or stale comparison state.
+- Do not use live USB HID configfs relink as a web/API fallback. A live UDC
+  detach plus HID unlink/relink test on 133 produced a kernel oops in
+  `module_put`; future HID topology changes must be boot-time/reboot-time only.
+- Virtual-media mount/unmount should use removable-LUN eject/insert and update
+  `ro`/`cdrom`/`inquiry_string` before writing the new backing file. Reconnect
+  the USB gadget automatically only when the media type changes between CD-ROM
+  and mass storage; otherwise keep full reconnect as a confirmed compatibility
+  fallback.
 
 Validation on 133:
 
@@ -417,7 +425,7 @@ Run after each functional slice:
 - OLED displays IP/status/resolution and responds to button input.
 - `/tmp/kvm_system.log`, `/tmp/nanokvm-server.log`, and system update logs have
   no new crash loops.
-- `dmesg` has no new USB/video/I2C errors.
+- `dmesg` has no new USB/configfs/video/I2C errors.
 - SD write activity remains low during idle observation.
 
 ## Rollback

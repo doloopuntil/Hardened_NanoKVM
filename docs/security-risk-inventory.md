@@ -16,8 +16,9 @@ work for the Hardened Rust backend.
 | Archive extraction | No tar traversal, no symlink overwrite, bounded install paths. | Implemented for application, offline, and system-update archives. |
 | Update integrity | Signed metadata plus archive hashes before install. | Implemented for application and system-update metadata with detached signatures. |
 | Shell commands | Privileged commands must use allowlisted argv-only wrappers with timeout and bounded output. | Implemented in `system/command.rs`; continued audit is required for new routes. |
-| Storage paths | Image operations must remain inside resolved `/data` inventory. | Implemented for upload, delete, mount, and CD-ROM mode. |
+| Storage paths | Image operations must remain inside resolved `/data` inventory and reject unsupported media types. | Implemented for upload, delete, and mount. ISO media can be mounted as CD-ROM or mass storage for hybrid images; IMG media is limited to mass storage. |
 | Remote ISO download | Disabled by default; validate protocol, redirects, filename, destination, size, and ISO signature. | Implemented. Final production allowlist policy is still open. |
+| Firewall/WebRTC boundary | Restrictive firewall modes must not expose WebRTC/ICE UDP. | Implemented. Restricted and Paranoid block H.264 WebRTC in firewall rules, backend route guard, and UI mode selection. |
 | System updates | Signed bundles, staging, backup, rollback, boot health confirmation, and lab-only raw partition flashing guard. | Implemented for current lab raw channel. Production key custody and real kernel/rootfs payload validation are still pending. |
 | Privilege model | Prefer narrow wrappers now; split privileged helper later. | Current backend remains root-compatible for device control. |
 
@@ -28,6 +29,14 @@ helper:
 
 - HID device writes: `/dev/hidg0`, `/dev/hidg1`, `/dev/hidg2`.
 - USB mass-storage gadget sysfs writes under `/sys/kernel/config/usb_gadget/...`.
+  Normal virtual-media changes should be limited to removable-LUN eject/insert
+  and flag updates. USB gadget reconnect is allowed when switching the media
+  type between CD-ROM and mass storage because many BIOS/boot menus cache the
+  previous LUN type; otherwise it remains an explicit compatibility fallback.
+- USB HID configfs topology changes must not be performed live from the web
+  backend. A live UDC detach plus HID unlink/relink test on device 133 caused a
+  kernel oops; only direct attribute writes or reboot-time config changes are
+  acceptable.
 - GPIO/ATX writes under hardware-specific device paths.
 - Network writes under `/etc/kvm`, DNS hooks, Wi-Fi files, and service restarts.
 - Application update promotion under `/kvmapp`.

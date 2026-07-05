@@ -71,6 +71,8 @@ const en = {
       title: 'Screen',
       video: 'Video Mode',
       videoDirectTips: 'Enable HTTPS in "Settings > System > Network" to use this mode',
+      videoWebrtcBlockedByFirewall:
+        'H.264 WebRTC is disabled in Restricted and Paranoid Firewall modes',
       resolution: 'Resolution',
       auto: 'Automatic',
       autoTips:
@@ -103,7 +105,8 @@ const en = {
       tips: 'Only standard keyboard letters and symbols are supported',
       placeholder: 'Please input',
       submit: 'Submit',
-      virtual: 'Keyboard',
+      local: 'Mobile keyboard',
+      virtual: 'On-screen keyboard',
       readClipboard: 'Read from Clipboard',
       clipboardPermissionDenied:
         'Clipboard permission denied. Please allow clipboard access in your browser.',
@@ -167,8 +170,21 @@ const en = {
       scrollUp: 'Scroll up',
       scrollDown: 'Scroll down',
       speed: 'Wheel speed',
+      sensitivity: 'Pointer speed',
+      sensitivityDesc: 'Use this for desktop relative mode. Lower values reduce drift from host mouse acceleration.',
       fast: 'Fast',
       slow: 'Slow',
+      mobile: {
+        title: 'Mobile pointer',
+        touchSync: 'TouchSync',
+        touchSyncDesc:
+          'Move anywhere on the KVM area. The remote cursor keeps its position between touches and stays synchronized with absolute HID.',
+        trackpad: 'Trackpad',
+        trackpadDesc:
+          'Move one finger to move the remote pointer. Tap to click, long press or two-finger tap for right click.',
+        direct: 'Direct touch',
+        directDesc: 'Touch the remote screen position directly. Drag to hold the left button.'
+      },
       requestPointer: 'Using relative mode. Please click desktop to get mouse pointer.',
       resetHid: 'Reset HID',
       hidOnly: {
@@ -192,6 +208,11 @@ const en = {
       unmountFailed: 'Unmount failed',
       unmountDesc:
         'On some systems, you need to manually eject from the remote host before unmounting the image.',
+      usbReconnect: 'USB reconnect',
+      usbReconnectConfirm:
+        'Reconnect the USB gadget only if the remote host did not notice the media change. Keyboard and mouse may briefly disconnect.',
+      usbReconnectSuccess: 'USB reconnected',
+      usbReconnectFailed: 'USB reconnect failed',
       refresh: 'Refresh the image list',
       attention: 'Attention',
       deleteConfirm: 'Are you sure you want to delete this image?',
@@ -269,6 +290,14 @@ const en = {
       inputfile: 'Please enter the image File',
       NoISO: 'No ISO',
       complete: 'Download complete',
+      uploadComplete: 'Upload complete',
+      downloading: 'Downloading',
+      uploading: 'Uploading',
+      failed: 'Transfer failed',
+      uploadFailed: 'Upload failed',
+      stalled: 'Transfer stalled. Check the connection and retry.',
+      canceled: 'Upload canceled',
+      cancel: 'Cancel',
       remoteDisabled: 'Remote ISO download is disabled in Settings > Appearance.',
       remoteFailed: 'Remote ISO download failed'
     },
@@ -314,6 +343,10 @@ const en = {
         languageDesc: 'Select the language for the interface',
         webTitle: 'Web Title',
         webTitleDesc: 'Customize the web page title',
+        layoutMode: 'Interface layout',
+        layoutModeDesc: 'Use the mobile/touch layout in this browser',
+        layoutAuto: 'Auto',
+        layoutMobile: 'Mobile view',
         menuBar: {
           title: 'Menu Bar',
           mode: 'Display Mode',
@@ -555,7 +588,7 @@ const en = {
               'Default profile. Keeps baseline services, but accepts new inbound connections only from private, ULA, link-local, or loopback ranges.',
             restricted: 'Restricted',
             restrictedDesc:
-              'Local-only admin ports plus the outbound services needed for updates, DNS, NTP, syslog, and WebRTC.',
+              'Local-only HTTPS/SSH admin ports plus outbound services for updates, DNS, NTP, and syslog. WebRTC is disabled.',
             paranoid: 'Paranoid',
             paranoidDesc:
               'Local-only HTTPS access. Blocks SSH, HTTP, online updates, and other outbound network features.',
@@ -578,10 +611,10 @@ const en = {
             enable: 'Enable Restricted',
             active: 'Restricted Firewall mode is active',
             allows:
-              'Allowed traffic: HTTPS, SSH, and WebRTC/ICE UDP only from private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, or IPv6 loopback source ranges; outbound DNS, NTP, remote syslog, and online updates; DHCP, established connections, and essential IPv6 control traffic.',
+              'Allowed traffic: HTTPS and SSH only from private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, or IPv6 loopback source ranges; outbound DNS, NTP, remote syslog, and online updates; DHCP, established connections, and essential IPv6 control traffic. WebRTC/ICE UDP is blocked.',
             confirmTitle: 'Enable Restricted Firewall mode?',
             confirmDesc:
-              'Inbound admin access will be limited to private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, or IPv6 loopback source ranges for HTTPS, SSH, and WebRTC/ICE UDP. Public source ranges are not allowed. Outbound DNS, NTP, remote syslog, online updates, DHCP, established connections, and essential IPv6 control traffic remain available. Other inbound/outbound traffic will be blocked.'
+              'Inbound admin access will be limited to private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, or IPv6 loopback source ranges for HTTPS and SSH. Public source ranges are not allowed. Outbound DNS, NTP, remote syslog, online updates, DHCP, established connections, and essential IPv6 control traffic remain available. WebRTC/ICE UDP and other inbound/outbound traffic will be blocked.'
           },
           paranoid: {
             enable: 'Enable Paranoid',

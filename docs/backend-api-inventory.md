@@ -88,8 +88,8 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 
 | Method | Path | Rust Status |
 |---|---|---|
-| GET | `/api/system/firewall` | Implemented in app `2.0.20`; reports persisted firewall mode, effective mode, HTTPS readiness, backend tool availability, local-source policy state, and current `iptables-save`, `ip6tables-save`, and `nft list ruleset` output. |
-| POST | `/api/system/firewall` | Implemented; accepts `baseline`, `moderate`, `restricted`, or `paranoid`, persists `/etc/kvm/firewall.json`, and restarts managed `S40firewall`. Moderate is the default profile and keeps baseline services reachable only from private IPv4, IPv4 link-local, IPv6 ULA, and IPv6 link-local sources. Restricted and Paranoid modes require HTTPS configuration and a successful local HTTPS health check before rules are applied. |
+| GET | `/api/system/firewall` | Implemented in app `2.0.20`; reports persisted firewall mode, effective mode, HTTPS readiness, backend tool availability, local-source policy state, whether H.264 WebRTC is blocked by firewall policy, and current `iptables-save`, `ip6tables-save`, and `nft list ruleset` output. |
+| POST | `/api/system/firewall` | Implemented; accepts `baseline`, `moderate`, `restricted`, or `paranoid`, persists `/etc/kvm/firewall.json`, and restarts managed `S40firewall`. Moderate is the default profile and keeps baseline services reachable only from private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, and IPv6 loopback sources. Restricted allows local-only HTTPS/SSH plus needed outbound DNS/NTP/syslog/update traffic; H.264 WebRTC UDP is not opened. Restricted and Paranoid modes require HTTPS configuration and a successful local HTTPS health check before rules are applied. |
 | POST | `/api/system/firewall/confirm` | Implemented; clears the pending restricted-mode confirmation marker after the GUI remains reachable. A short rollback task restores moderate/previous mode if Restricted or Paranoid is enabled but not confirmed. |
 
 ### VM, Device, And Settings
@@ -133,7 +133,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | POST | `/api/stream/mjpeg/detect` | Implemented. |
 | POST | `/api/stream/mjpeg/detect/stop` | Implemented. |
 | GET | `/api/stream/h264/direct` | Implemented NanoKVM-compatible direct H.264 binary frame WebSocket. |
-| GET | `/api/stream/h264` | Implemented H.264 WebRTC signaling and RTP sample streaming; needs more browser/ICE soak testing. |
+| GET | `/api/stream/h264` | Implemented H.264 WebRTC signaling and RTP sample streaming for Baseline/Moderate firewall modes; returns forbidden while Restricted or Paranoid firewall mode is effective. |
 | GET | `/api/hid/shortcuts` | Implemented. |
 | POST/DELETE | `/api/hid/shortcut` | Implemented. |
 | GET/POST | `/api/hid/shortcut/leader-key` | Implemented. |
@@ -147,7 +147,8 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 |---|---|---|
 | GET | `/api/storage/image` | Implemented. |
 | GET | `/api/storage/image/mounted` | Implemented. |
-| POST | `/api/storage/image/mount` | Implemented with `/data` path validation. |
+| POST | `/api/storage/image/mount` | Implemented with `/data` path validation, ISO/CD-ROM and IMG/mass-storage mode validation, LUN eject/insert media changes, and USB reconnect when the media type changes. |
+| POST | `/api/storage/usb/reconnect` | Implemented as an explicit fallback for hosts that do not notice virtual-media changes. |
 | GET | `/api/storage/cdrom` | Implemented. |
 | POST | `/api/storage/image/delete` | Implemented with containment checks. |
 | GET | `/api/download/image/enabled` | Implemented. |
@@ -190,7 +191,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 |---|---|---|
 | `/api/ws` | HID keyboard/mouse control and capture status | Authenticated session, Origin validation, bounded message size, queued HID writes. |
 | `/api/vm/terminal` | PTY shell | Disabled by default, controlled by Terminal menu toggle, authenticated session, Origin validation. |
-| `/api/stream/h264` | WebRTC H.264 signaling | Authenticated session, Origin validation, slow-client handling. |
+| `/api/stream/h264` | WebRTC H.264 signaling | Authenticated session, Origin validation, slow-client handling, and firewall-mode block in Restricted/Paranoid. |
 | `/api/stream/h264/direct` | Direct H.264 stream | Authenticated session, Origin validation, shared producer/fanout. |
 | `/api/picoclaw/gateway/ws` | PicoClaw runtime gateway | Authenticated session, session lock, upstream timeout/message limits. |
 
@@ -225,7 +226,8 @@ start.
 
 - Less common settings and exact error semantics still need systematic
   regression testing.
-- H.264 WebRTC needs longer browser/ICE validation.
+- H.264 WebRTC needs longer browser/ICE validation in Baseline/Moderate modes
+  only; Restricted/Paranoid intentionally disable it.
 - `kvmapp` update metadata is signed; release publishing must upload
   `latest.json` and `latest.json.sig`.
 - System-update API/GUI exists, including signed metadata enforcement and

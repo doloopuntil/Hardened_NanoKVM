@@ -23,6 +23,8 @@ const MODE_MODERATE: &str = "moderate";
 const MODE_RESTRICTED: &str = "restricted";
 const MODE_PARANOID: &str = "paranoid";
 const PARANOID_BLOCKED_MESSAGE: &str = "online updates are blocked by Paranoid Firewall mode";
+const WEBRTC_BLOCKED_MESSAGE: &str =
+    "H.264 WebRTC is disabled in Restricted and Paranoid Firewall modes";
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase", default)]
@@ -52,6 +54,7 @@ pub struct FirewallStatusRsp {
     moderate_active: bool,
     restricted_active: bool,
     paranoid_active: bool,
+    webrtc_blocked: bool,
     paranoid_available: bool,
     confirmation_required: bool,
     https_enabled: bool,
@@ -101,6 +104,16 @@ pub fn paranoid_mode_enabled() -> bool {
 
 pub fn paranoid_blocked_message() -> &'static str {
     PARANOID_BLOCKED_MESSAGE
+}
+
+pub fn webrtc_blocked_by_firewall() -> bool {
+    effective_mode()
+        .map(|mode| matches!(mode.as_str(), MODE_RESTRICTED | MODE_PARANOID))
+        .unwrap_or(false)
+}
+
+pub fn webrtc_blocked_message() -> &'static str {
+    WEBRTC_BLOCKED_MESSAGE
 }
 
 pub async fn force_moderate_mode() -> Result<()> {
@@ -159,6 +172,7 @@ async fn build_status() -> Result<FirewallStatusRsp> {
     let moderate_active = effective_mode == MODE_MODERATE;
     let restricted_active = effective_mode == MODE_RESTRICTED;
     let paranoid_active = effective_mode == MODE_PARANOID;
+    let webrtc_blocked = restricted_active || paranoid_active;
     let confirmation_required = Path::new(PENDING_FILE).exists();
 
     let message = if mode_requires_https(&config.mode) && !https_enabled {
@@ -175,6 +189,7 @@ async fn build_status() -> Result<FirewallStatusRsp> {
         moderate_active,
         restricted_active,
         paranoid_active,
+        webrtc_blocked,
         paranoid_available: https_enabled,
         confirmation_required,
         https_enabled,

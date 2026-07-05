@@ -29,14 +29,14 @@ a drop-in `NanoKVM-Server` and continues to use the existing `kvm_system`,
 runtime libraries used by the Rust backend live under `server-rust/native/`.
 
 The web UI currently brands this fork as **Hardened NanoKVM**. The current
-published GitHub application release is **2.0.29 RC7**.
+published GitHub application release is **2.0.31 RC8**.
 
 The current published application release is available from the `woffko` fork at
-[`hardened-rust-rc7`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-rust-rc7).
+[`hardened-rust-rc8`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-rust-rc8).
 
-The latest raw system-update and SD-card artifacts are the **0.2.21-raw.1**
-RC7 builds. The system-update channel metadata points to the companion
-`hardened-system-0.2.21-raw.1` tag because deployed devices trust raw-system
+The latest raw system-update and SD-card artifacts are the **0.2.22-raw.1**
+RC8 builds. The system-update channel metadata points to the companion
+`hardened-system-0.2.22-raw.1` tag because deployed devices trust raw-system
 downloads from `hardened-system-*` release URLs. Those artifacts use
 the Buildroot `2023.11.2` base label with the `Buildroot 2023.11.3 package
 backports` security-backport baseline.
@@ -63,17 +63,22 @@ the security, update, and administration model substantially:
   boot-watchdog rollback support.
 - **System settings in GUI:** added System Log, remote UDP syslog forwarding,
   local tmpfs log viewing, Time/NTP/timezone controls, and Firewall controls.
-- **Mobile view:** narrow phone screens get a mobile-focused settings/menu/KVM
-  view with reachable submenus, mobile virtual keyboard controls, and automatic
-  KVM screen fitting. This mobile view is a Hardened fork addition and is not
-  present in the original NanoKVM project.
+- **Mobile view:** narrow phone screens and touch tablets get a mobile-focused
+  settings/menu/KVM view with reachable submenus, native mobile keyboard
+  controls, the separate on-screen HID keyboard, TouchSync pointer control,
+  automatic KVM screen fitting, pinch-to-zoom for the video surface, and
+  touch-drag panning of the scaled KVM viewport. Appearance settings can also
+  force Mobile view when a browser is not detected correctly. This mobile view
+  is a Hardened fork addition and is not present in the original NanoKVM
+  project.
 - **Managed firewall modes:** Moderate is the default local-only profile:
   baseline services remain reachable, but new inbound connections are accepted
   only from private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local,
   and IPv6 loopback source ranges. Baseline remains available as an open
-  compatibility profile. Restricted keeps HTTPS/SSH/WebRTC access local-only
-  while preserving needed outbound DNS/NTP/syslog/update traffic; Paranoid
-  leaves only local-only HTTPS and blocks online updates intentionally.
+  compatibility profile. Restricted keeps HTTPS/SSH access local-only while
+  preserving needed outbound DNS/NTP/syslog/update traffic; H.264 WebRTC is
+  disabled in both Restricted and Paranoid. Paranoid leaves only local-only
+  HTTPS and blocks online updates intentionally.
 - **HTTPS/firewall recovery:** disabling HTTPS forces firewall mode back to
   Moderate so HTTP access is not stranded behind HTTPS-only rules while still
   keeping public source ranges blocked.
@@ -87,7 +92,8 @@ the security, update, and administration model substantially:
 - **Lower video CPU load path:** H.264 Direct is the preferred low-CPU mode when
   HTTPS and WebCodecs are available; MJPEG remains as fallback.
 - **Input reliability fixes:** queued HID writes, paste support, shortcut
-  handling, HID reset/recovery, and mouse jiggler support in the Rust path.
+  handling, HID reset/recovery, mouse jiggler support, mobile TouchSync pointer
+  mode, and relative pointer sensitivity controls in the Rust path.
 - **Device fixes from testing:** wrong-password errors, resolution changes,
   OLED timers of 5 minutes and higher, browser auth-state recovery after
   protocol/IP changes, and update reboot/restore edge cases were fixed.
@@ -107,14 +113,14 @@ NanoKVM device and harden one subsystem at a time.
 | Web UI | Existing React UI is retained with Hardened branding and System settings pages. |
 | HTTPS | Implemented in Rust with HTTP-to-HTTPS redirect and existing cert config support. |
 | Authentication | First-boot web account setup, Rust sessions, CSRF protection, Origin checks, rate limiting, security headers, Argon2id for new passwords, legacy bcrypt verification. |
-| Video | H.264 Direct is the preferred low-CPU mode and is verified on hardware. MJPEG remains available as a fallback. H.264 WebRTC is enabled; websocket signaling is verified and browser media validation is ongoing. |
+| Video | H.264 Direct is the preferred low-CPU mode and is verified on hardware. MJPEG remains available as a fallback. H.264 WebRTC is available in Baseline/Moderate modes, but is disabled by Restricted/Paranoid firewall policy. |
 | HID | Keyboard/mouse websocket, queued HID writes, paste, shortcuts, HID mode, reset, and mouse jiggler are implemented. |
 | Device settings | Hostname, web title, GPIO/ATX, OLED, HDMI, SSH, mDNS, swap, memory limit, TLS toggle, reboot, scripts, and autostart have Rust endpoints. |
-| Storage | ISO listing, upload, mount, delete, and CD-ROM mode are implemented with path validation. Remote ISO download exists behind a disabled-by-default safety toggle and validates URL, filename, size, destination, and ISO format. Completed downloads now reset the picker state and refresh the virtual-media image list without logout. |
+| Storage | ISO/IMG listing, upload, mount, delete, and CD-ROM/mass-storage mode are implemented with path validation. Mount changes use LUN eject/insert; switching between CD-ROM and mass-storage mode also reconnects the USB gadget so BIOS/boot menus rescan the device type. A confirmed USB reconnect fallback remains available when a host does not notice media changes. Remote ISO download exists behind a disabled-by-default safety toggle and validates URL, filename, size, destination, and ISO format. Completed downloads now reset the picker state and refresh the virtual-media image list without logout. |
 | Network | WOL, full wired DHCP/manual IP/DNS settings, explicit IPv6 Disabled/SLAAC/DHCPv6/Manual controls, Wi-Fi status/connect/AP verification, and Tailscale lifecycle endpoints are implemented. |
-| Updates | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current published app channel: `2.0.29 RC7`. |
-| SD image | Latest published SD image is the RC7 `2.0.29` / `0.2.21-raw.1` image, built by patching a trusted NanoKVM Rev1.4.2/vendor SDK base image with Hardened `kvmapp`. The RC7 payload was smoke-tested on a NanoKVM Cube. `make vendor-sdk` bootstraps the pinned Sipeed SDK for future reproducible base-system builds. |
-| System updates | Separate GitHub channel metadata, signed metadata enforcement, staging download/verify, guarded raw install, first-boot root configuration restore, automatic boot-good confirmation, manual rollback, and boot-watchdog rollback are implemented. Current raw channel: `0.2.21-raw.1`, built from the RC7 `2.0.29` SD rootfs. Raw full-rootfs updates are lab-only; current raw payloads are stored gzip-compressed and streamed to the SD-card block devices during install. The current raw/SD image reports Buildroot `2023.11.2` with security backport level `Buildroot 2023.11.3 package backports`; deeper kernel/rootfs security payloads are still pending. |
+| Updates | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current published app channel: `2.0.31 RC8`. |
+| SD image | Latest published SD image is the RC8 `2.0.31` / `0.2.22-raw.1` image, built by patching a trusted NanoKVM Rev1.4.2/vendor SDK base image with Hardened `kvmapp`. The RC8 mobile/tablet UI path was smoke-tested on a NanoKVM Cube. `make vendor-sdk` bootstraps the pinned Sipeed SDK for future reproducible base-system builds. |
+| System updates | Separate GitHub channel metadata, signed metadata enforcement, staging download/verify, guarded raw install, first-boot root configuration restore, automatic boot-good confirmation, manual rollback, and boot-watchdog rollback are implemented. Current raw channel: `0.2.22-raw.1`, built from the RC8 `2.0.31` SD rootfs. Raw full-rootfs updates are lab-only; current raw payloads are stored gzip-compressed and streamed to the SD-card block devices during install. The current raw/SD image reports Buildroot `2023.11.2` with security backport level `Buildroot 2023.11.3 package backports`; deeper kernel/rootfs security payloads are still pending. |
 
 ## How Updates Work
 
@@ -147,7 +153,7 @@ https://github.com/woffko/Hardened_NanoKVM/releases/latest/download/latest.json
 ```
 
 The metadata points to a versioned app archive such as
-`hardened-nanokvm-kvmapp-2.0.29.tar.gz` on the `hardened-rust-rc7` release tag.
+`hardened-nanokvm-kvmapp-2.0.31.tar.gz` on the `hardened-rust-rc8` release tag.
 The device verifies signed metadata and the archive sha512 before
 installing. The preview toggle uses the `hardened-rust-preview` channel
 metadata, but it still installs the versioned archive named by that metadata.
@@ -184,7 +190,7 @@ https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-sta
 ```
 
 That channel metadata points to a versioned raw-system tag such as
-`hardened-system-0.2.21-raw.1`, which contains:
+`hardened-system-0.2.22-raw.1`, which contains:
 
 - `hardened-nanokvm-system-<version>.tar.gz`;
 - `system-latest.json` and signature files;
@@ -206,22 +212,25 @@ state.
 
 The channels can intentionally move independently:
 
-- Application stable/latest: `2.0.29 RC7`, tag `hardened-rust-rc7`.
+- Application stable/latest: `2.0.31 RC8`, tag `hardened-rust-rc8`.
 - Application preview: `hardened-rust-preview`, when populated, points to a
   versioned application archive independently from the stable latest release.
-- Raw system stable: `0.2.21-raw.1`, published on companion tag
-  `hardened-system-0.2.21-raw.1` and advertised through the
-  `hardened-system-stable` channel metadata. The `hardened-rust-rc7` release
+- Raw system stable: `0.2.22-raw.1`, published on companion tag
+  `hardened-system-0.2.22-raw.1` and advertised through the
+  `hardened-system-stable` channel metadata. The `hardened-rust-rc8` release
   carries the matching raw bundle and SD-card image.
 - Raw system preview: `hardened-system-preview`, currently points to the same
   raw metadata as stable.
-- Latest published SD image: RC7 `2.0.29`, matching raw system
-  `0.2.21-raw.1`.
+- Latest published SD image: RC8 `2.0.31`, matching raw system
+  `0.2.22-raw.1`.
 
-The RC7 `2.0.29` application, raw system update, and SD image were rebuilt
-together and smoke-tested on a NanoKVM Cube. RC7 adds the Hardened mobile view,
-including mobile settings navigation, mobile menu submenus, mobile virtual
-keyboard handling, and automatic KVM screen fitting for narrow phone screens.
+The RC8 `2.0.31` application, raw system update, and SD image were rebuilt
+together after the RC7/RC7.1 mobile UI work. RC8 adds the Hardened mobile view
+for phones and touch tablets, native mobile keyboard controls, a separate
+on-screen HID keyboard, TouchSync pointer control, automatic screen fitting,
+pinch-to-zoom, touch-drag panning, and an Appearance option to force Mobile view
+when browser detection is wrong. The mobile view is a Hardened fork addition and
+is not present in the original NanoKVM project.
 The raw rootfs also keeps the RC6 security baseline: no web/API password reset
 path, Rust-side `kvm_system` watchdog/network responsibilities, USB
 mass-storage image validation for virtual media, startup NTP sync, H.264 WebRTC
@@ -313,8 +322,9 @@ When the Rust backend is active,
 - Full API parity is not complete. Some routes are implemented for compatibility
   but still need deeper behavior and edge-case testing.
 - H.264 WebRTC needs more browser/ICE stress testing across reconnects and
-  browser variants. H.264 Direct has been verified against the Rust backend on
-  hardware.
+  browser variants in Baseline/Moderate firewall modes. Restricted/Paranoid
+  intentionally disable it. H.264 Direct has been verified against the Rust
+  backend on hardware.
 - Online update checks read Hardened release metadata from
   `github.com/woffko/Hardened_NanoKVM` and install versioned release archives
   after signed metadata and payload hash verification.

@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Modal, notification, Typography } from 'antd';
+import { Button, Modal, notification, Popconfirm, Typography } from 'antd';
 import clsx from 'clsx';
 import {
   ArrowBigDownDashIcon,
   ArrowBigUpDashIcon,
+  CableIcon,
   LoaderCircleIcon,
   PackageIcon,
   PackageSearchIcon,
@@ -18,10 +19,11 @@ import { client } from '@/lib/websocket.ts';
 type ImagesProps = {
   isOpen: boolean;
   cdrom: boolean;
+  setCdrom: (cdrom: boolean) => void;
   setIsMounted: (isMounted: boolean) => void;
 };
 
-export const Images = ({ isOpen, cdrom, setIsMounted }: ImagesProps) => {
+export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) => {
   const { t } = useTranslation();
   const [notify, contextHolder] = notification.useNotification();
 
@@ -32,6 +34,7 @@ export const Images = ({ isOpen, cdrom, setIsMounted }: ImagesProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [deletingImage, setDeletingImage] = useState('');
+  const [isReconnecting, setIsReconnecting] = useState(false);
   const isLoadingRef = useRef(false);
 
   // get mounted image
@@ -99,18 +102,21 @@ export const Images = ({ isOpen, cdrom, setIsMounted }: ImagesProps) => {
 
     const isMounted = mountedImage === image;
     const filename = isMounted ? '' : image;
+    const imageCdrom = isImageCdrom(image) && cdrom;
+    const nextCdrom = isMounted ? false : imageCdrom;
 
     api
-      .mountImage(filename, cdrom)
+      .mountImage(filename, nextCdrom)
       .then((rsp) => {
         if (rsp.code !== 0) {
           console.log(rsp.msg);
-          openNotification(isMounted);
+          openNotification(isMounted, rsp.msg);
           return;
         }
 
         setMountedImage(filename);
         setIsMounted(!!filename);
+        setCdrom(nextCdrom);
       })
       .finally(() => {
         setMountingImage('');
@@ -157,14 +163,44 @@ export const Images = ({ isOpen, cdrom, setIsMounted }: ImagesProps) => {
       });
   }
 
+  function reconnectUsbGadget() {
+    if (isReconnecting) return;
+
+    setIsReconnecting(true);
+    client.close();
+
+    api
+      .reconnectUsbGadget()
+      .then((rsp) => {
+        if (rsp.code !== 0) {
+          notify.open({
+            message: t('image.usbReconnectFailed'),
+            description: rsp.msg || t('image.mountDesc'),
+            duration: 10
+          });
+          return;
+        }
+
+        notify.success({
+          message: t('image.usbReconnectSuccess'),
+          duration: 5
+        });
+        getMountedImage();
+      })
+      .finally(() => {
+        setIsReconnecting(false);
+        client.connect();
+      });
+  }
+
   // show mount/unmount failed notification
-  function openNotification(isMounted: boolean) {
+  function openNotification(isMounted: boolean, apiMessage?: string) {
     const message = isMounted ? 'image.unmountFailed' : 'image.mountFailed';
     const description = isMounted ? 'image.unmountDesc' : 'image.mountDesc';
 
     notify.open({
       message: t(message),
-      description: t(description),
+      description: apiMessage || t(description),
       duration: 10
     });
   }
@@ -210,6 +246,16 @@ export const Images = ({ isOpen, cdrom, setIsMounted }: ImagesProps) => {
             </div>
 
             <div className="flex-1 truncate">{image.replace(/^.*[\\/]/, '')}</div>
+            <div
+              className={clsx(
+                'rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none',
+                isImageCdrom(image)
+                  ? 'border-blue-500/50 bg-blue-500/10 text-blue-300'
+                  : 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300'
+              )}
+            >
+              {isImageCdrom(image) ? 'ISO' : 'IMG'}
+            </div>
 
             <div className="flex h-[24px] w-[24px] items-center justify-center rounded">
               {mountedImage === image ? (
@@ -238,6 +284,30 @@ export const Images = ({ isOpen, cdrom, setIsMounted }: ImagesProps) => {
         ))}
       </div>
 
+      <div className="mt-3 flex justify-end border-t border-neutral-700/70 pt-3">
+        <Popconfirm
+          title={t('image.usbReconnect')}
+          description={t('image.usbReconnectConfirm')}
+          okText={t('image.okBtn')}
+          cancelText={t('image.cancelBtn')}
+          onConfirm={reconnectUsbGadget}
+        >
+          <Button
+            size="small"
+            icon={
+              isReconnecting ? (
+                <LoaderCircleIcon className="animate-spin" size={14} />
+              ) : (
+                <CableIcon size={14} />
+              )
+            }
+            loading={isReconnecting}
+          >
+            {t('image.usbReconnect')}
+          </Button>
+        </Popconfirm>
+      </div>
+
       <Modal
         title={t('image.attention')}
         open={isModalOpen}
@@ -262,3 +332,7 @@ export const Images = ({ isOpen, cdrom, setIsMounted }: ImagesProps) => {
     </>
   );
 };
+
+function isImageCdrom(image: string): boolean {
+  return image.toLowerCase().endsWith('.iso');
+}

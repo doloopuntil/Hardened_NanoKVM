@@ -2,7 +2,8 @@ import { ReactNode, useState } from 'react';
 import { Popover } from 'antd';
 import clsx from 'clsx';
 import { ChevronRightIcon } from 'lucide-react';
-import { useMediaQuery } from 'react-responsive';
+
+import { useIsDesktopLayout } from '@/hooks/useResponsiveLayout.ts';
 
 type MenuSubmenuProps = {
   icon: ReactNode;
@@ -13,7 +14,7 @@ type MenuSubmenuProps = {
 };
 
 export const MenuSubmenu = ({ icon, label, content, open, onOpenChange }: MenuSubmenuProps) => {
-  const isBigScreen = useMediaQuery({ minWidth: 640 });
+  const isDesktopLayout = useIsDesktopLayout();
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = open ?? internalOpen;
 
@@ -26,12 +27,13 @@ export const MenuSubmenu = ({ icon, label, content, open, onOpenChange }: MenuSu
 
   const trigger = (
     <div
+      data-menu-keep-open
       className="flex min-h-[30px] cursor-pointer items-center rounded px-3 py-1 text-neutral-300 hover:bg-neutral-700/70"
-      onClick={isBigScreen ? undefined : () => setOpen(!isOpen)}
+      onClick={isDesktopLayout ? undefined : () => setOpen(!isOpen)}
     >
       <div className="mr-2 flex h-[18px] w-[18px] shrink-0 items-center justify-center">{icon}</div>
       <span className="min-w-0 flex-1 select-none text-sm">{label}</span>
-      {!isBigScreen && (
+      {!isDesktopLayout && (
         <ChevronRightIcon
           size={16}
           className={clsx('ml-2 shrink-0 transition-transform', isOpen && 'rotate-90')}
@@ -40,7 +42,7 @@ export const MenuSubmenu = ({ icon, label, content, open, onOpenChange }: MenuSu
     </div>
   );
 
-  if (isBigScreen) {
+  if (isDesktopLayout) {
     return (
       <Popover
         content={content}

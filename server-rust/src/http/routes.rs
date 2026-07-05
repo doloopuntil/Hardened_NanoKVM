@@ -154,6 +154,10 @@ pub fn build(state: AppState) -> Router {
             get(storage::get_mounted_image),
         )
         .route("/api/storage/image/mount", post(storage::mount_image))
+        .route(
+            "/api/storage/usb/reconnect",
+            post(storage::reconnect_usb_gadget),
+        )
         .route("/api/storage/cdrom", get(storage::get_cdrom))
         .route("/api/storage/image/delete", post(storage::delete_image))
         .route("/api/network/wol", post(network::wake_on_lan))
