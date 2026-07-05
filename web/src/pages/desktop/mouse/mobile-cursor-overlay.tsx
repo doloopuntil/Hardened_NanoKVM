@@ -5,7 +5,6 @@ import {
   MOBILE_CURSOR_EVENT,
   type MobileCursorEventDetail
 } from './mobile-cursor-events.ts';
-import { screenRatioToClientPoint } from './screen-geometry.ts';
 
 type CursorState = {
   x: number;
@@ -163,7 +162,13 @@ function getScreenPoint(xRatio: number, yRatio: number): { x: number; y: number 
   const screen = document.getElementById('screen');
   if (!screen) return null;
 
-  return screenRatioToClientPoint(screen, xRatio, yRatio);
+  const rect = screen.getBoundingClientRect();
+  if (rect.width <= 0 || rect.height <= 0) return null;
+
+  return {
+    x: rect.left + rect.width * clamp01(xRatio),
+    y: rect.top + rect.height * clamp01(yRatio)
+  };
 }
 
 function clamp01(value: number): number {

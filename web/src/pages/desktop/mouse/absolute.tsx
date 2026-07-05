@@ -8,7 +8,6 @@ import { scrollDirectionAtom, scrollIntervalAtom } from '@/jotai/mouse.ts';
 import { resolutionAtom } from '@/jotai/screen.ts';
 
 import { emitMobileCursorAbsolute, emitMobileCursorHide } from './mobile-cursor-events.ts';
-import { clientPointToScreenRatio, getScreenGeometry } from './screen-geometry.ts';
 import { MouseAbsoluteEvent } from './types.ts';
 
 enum MouseButton {
@@ -20,8 +19,7 @@ enum MouseButton {
 }
 
 const HID_ABSOLUTE_MAX = 0x7fff;
-const LOGICAL_CURSOR_CENTER = 0.5;
-const HID_X_SCALE_480 = 0.75;
+const HID_ABSOLUTE_CENTER = Math.round(HID_ABSOLUTE_MAX / 2);
 
 export const Absolute = () => {
   const isMobile = useMediaQuery({ maxWidth: 849 });
@@ -30,7 +28,7 @@ export const Absolute = () => {
   const scrollInterval = useAtomValue(scrollIntervalAtom);
 
   const mouseRef = useRef(new MouseReportAbsolute());
-  const lastPosRef = useRef({ x: LOGICAL_CURSOR_CENTER, y: LOGICAL_CURSOR_CENTER });
+  const lastPosRef = useRef({ x: HID_ABSOLUTE_CENTER, y: HID_ABSOLUTE_CENTER });
   const lastResolutionKeyRef = useRef<string | null>(null);
   const lastScrollTimeRef = useRef(0);
 
@@ -80,10 +78,10 @@ export const Absolute = () => {
     hasMoveRef.current = false;
     isDraggingRef.current = false;
     pressedButtonRef.current = null;
-    lastPosRef.current = { x: LOGICAL_CURSOR_CENTER, y: LOGICAL_CURSOR_CENTER };
+    lastPosRef.current = { x: HID_ABSOLUTE_CENTER, y: HID_ABSOLUTE_CENTER };
 
-    handleMouseEvent({ type: 'move', x: LOGICAL_CURSOR_CENTER, y: LOGICAL_CURSOR_CENTER });
-    emitMobileCursorAbsolute(LOGICAL_CURSOR_CENTER, LOGICAL_CURSOR_CENTER);
+    handleMouseEvent({ type: 'move', x: HID_ABSOLUTE_CENTER, y: HID_ABSOLUTE_CENTER });
+    emitMobileCursorAbsolute(0.5, 0.5);
   }, [isMobile, resolution?.height, resolution?.width]);
 
   useEffect(() => {
@@ -307,28 +305,25 @@ export const Absolute = () => {
 
     // get mouse coordinate
     function getCoordinate(event: any) {
-      const { x, y } = clientPointToScreenRatio(mouseTarget, event.clientX, event.clientY);
+      const { x, y } = getCorrectedCoords(event.clientX, event.clientY);
 
       const finalX = Math.max(0, Math.min(1, x));
       const finalY = Math.max(0, Math.min(1, y));
 
-      return { x: finalX, y: finalY, xRatio: finalX, yRatio: finalY };
+      const hexX = Math.round(HID_ABSOLUTE_MAX * finalX);
+      const hexY = Math.round(HID_ABSOLUTE_MAX * finalY);
+
+      return { x: hexX, y: hexY, xRatio: finalX, yRatio: finalY };
     }
 
     function getRelativeTouchCoordinate(touch: Touch) {
-      const geometry = getScreenGeometry(screenElement);
-      const deltaX =
-        geometry && geometry.contentWidth > 0
-          ? (touch.clientX - lastTouchPosRef.current.x) / geometry.contentWidth
-          : 0;
-      const deltaY =
-        geometry && geometry.contentHeight > 0
-          ? (touch.clientY - lastTouchPosRef.current.y) / geometry.contentHeight
-          : 0;
+      const rect = screenElement.getBoundingClientRect();
+      const deltaX = rect.width > 0 ? (touch.clientX - lastTouchPosRef.current.x) / rect.width : 0;
+      const deltaY = rect.height > 0 ? (touch.clientY - lastTouchPosRef.current.y) / rect.height : 0;
       lastTouchPosRef.current = { x: touch.clientX, y: touch.clientY };
 
-      const currentX = lastPosRef.current.x;
-      const currentY = lastPosRef.current.y;
+      const currentX = lastPosRef.current.x / HID_ABSOLUTE_MAX;
+      const currentY = lastPosRef.current.y / HID_ABSOLUTE_MAX;
       const finalX = Math.max(0, Math.min(1, currentX + deltaX));
       const finalY = Math.max(0, Math.min(1, currentY + deltaY));
 
@@ -336,13 +331,51 @@ export const Absolute = () => {
     }
 
     function emitCurrentMobileCursorPosition() {
-      emitMobileCursorAbsolute(lastPosRef.current.x, lastPosRef.current.y);
+      emitMobileCursorAbsolute(
+        lastPosRef.current.x / HID_ABSOLUTE_MAX,
+        lastPosRef.current.y / HID_ABSOLUTE_MAX
+      );
     }
 
     function ratioToCoordinate(xRatio: number, yRatio: number) {
       const finalX = Math.max(0, Math.min(1, xRatio));
       const finalY = Math.max(0, Math.min(1, yRatio));
-      return { x: finalX, y: finalY, xRatio: finalX, yRatio: finalY };
+      const x = Math.round(HID_ABSOLUTE_MAX * finalX);
+      const y = Math.round(HID_ABSOLUTE_MAX * finalY);
+
+      return { x, y, xRatio: finalX, yRatio: finalY };
+    }
+
+    function getCorrectedCoords(clientX: number, clientY: number) {
+      const rect = mouseTarget.getBoundingClientRect();
+
+      const mediaSize = getMediaSize(mouseTarget);
+      if (!mediaSize) {
+        const x = (clientX - rect.left) / rect.width;
+        const y = (clientY - rect.top) / rect.height;
+        return { x, y };
+      }
+
+      const mediaRatio = mediaSize.width / mediaSize.height;
+      const elementRatio = rect.width / rect.height;
+
+      let renderedWidth = rect.width;
+      let renderedHeight = rect.height;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (mediaRatio > elementRatio) {
+        renderedHeight = rect.width / mediaRatio;
+        offsetY = (rect.height - renderedHeight) / 2;
+      } else {
+        renderedWidth = rect.height * mediaRatio;
+        offsetX = (rect.width - renderedWidth) / 2;
+      }
+
+      const x = (clientX - rect.left - offsetX) / renderedWidth;
+      const y = (clientY - rect.top - offsetY) / renderedHeight;
+
+      return { x, y };
     }
 
     return () => {
@@ -373,27 +406,25 @@ export const Absolute = () => {
   function handleMouseEvent(event: MouseAbsoluteEvent) {
     let report: Uint8Array;
     const mouse = mouseRef.current;
-    const lastHidPos = logicalToHidCoordinate(lastPosRef.current.x, lastPosRef.current.y, resolution);
 
     switch (event.type) {
       case 'mousedown':
         mouse.buttonDown(event.button);
-        report = mouse.buildButtonReport(lastHidPos.x, lastHidPos.y);
+        report = mouse.buildButtonReport(lastPosRef.current.x, lastPosRef.current.y);
         break;
       case 'mouseup':
         mouse.buttonUp(event.button);
-        report = mouse.buildButtonReport(lastHidPos.x, lastHidPos.y);
+        report = mouse.buildButtonReport(lastPosRef.current.x, lastPosRef.current.y);
         break;
       case 'wheel':
-        report = mouse.buildReport(lastHidPos.x, lastHidPos.y, event.deltaY);
+        report = mouse.buildReport(lastPosRef.current.x, lastPosRef.current.y, event.deltaY);
         break;
       case 'move':
-        lastPosRef.current = { x: clamp01(event.x), y: clamp01(event.y) };
-        const hidPos = logicalToHidCoordinate(lastPosRef.current.x, lastPosRef.current.y, resolution);
-        report = mouse.buildReport(hidPos.x, hidPos.y);
+        report = mouse.buildReport(event.x, event.y);
+        lastPosRef.current = { x: event.x, y: event.y };
         break;
       default:
-        report = mouse.buildReport(lastHidPos.x, lastHidPos.y);
+        report = mouse.buildReport(lastPosRef.current.x, lastPosRef.current.y);
         break;
     }
 
@@ -418,25 +449,18 @@ function uniqueElements(elements: Array<HTMLElement | null>): HTMLElement[] {
   return Array.from(new Set(elements.filter((element): element is HTMLElement => Boolean(element))));
 }
 
-function logicalToHidCoordinate(
-  xRatio: number,
-  yRatio: number,
-  resolution: { width?: number; height?: number } | null
-): { x: number; y: number } {
-  return {
-    x: Math.round(HID_ABSOLUTE_MAX * clamp01(xRatio) * getHidXScale(resolution)),
-    y: Math.round(HID_ABSOLUTE_MAX * clamp01(yRatio))
-  };
-}
-
-function getHidXScale(resolution: { width?: number; height?: number } | null): number {
-  if (resolution?.height === 480 || resolution?.width === 640) {
-    return HID_X_SCALE_480;
+function getMediaSize(screen: Element) {
+  if (screen instanceof HTMLVideoElement && screen.videoWidth > 0 && screen.videoHeight > 0) {
+    return { width: screen.videoWidth, height: screen.videoHeight };
   }
 
-  return 1;
-}
+  if (screen instanceof HTMLImageElement && screen.naturalWidth > 0 && screen.naturalHeight > 0) {
+    return { width: screen.naturalWidth, height: screen.naturalHeight };
+  }
 
-function clamp01(value: number): number {
-  return Math.max(0, Math.min(1, value));
+  if (screen instanceof HTMLCanvasElement && screen.width > 0 && screen.height > 0) {
+    return { width: screen.width, height: screen.height };
+  }
+
+  return null;
 }

@@ -49,6 +49,14 @@ Last updated: 2026-07-04
     surface. This is not the Android system cursor, which Chrome does not
     expose for touch input; it is a web overlay below menus/keyboards so touch
     position is visible while controlling the remote cursor.
+  - Do not calibrate absolute HID coordinates to compensate for the 640x480
+    menu mode. That setting is a NanoKVM capture/encoder resolution and can
+    crop/zoom a higher-resolution HDMI input rather than changing the remote
+    host desktop resolution. Cursor divergence in that state is a viewport
+    mismatch, not a TouchSync scaling bug. The temporary object-fit geometry
+    helper and the `0.75` 480-mode X calibration were reverted; use native
+    remote-host resolution changes or relative mouse mode if a cropped capture
+    mode is required.
   - virtual CD/DVD/mass-storage mount changes now eject and insert the
     removable mass-storage LUN, allow `.iso` images in either CD-ROM or mass
     storage mode for hybrid ISO media, keep `.img` limited to mass-storage mode,
@@ -121,32 +129,6 @@ Last updated: 2026-07-04
     `7b9693effff8d6f5dfd5686a14071e29cc0c4cbd51ce967efb97776988037312`;
     HTTPS `/` returned bundle `/assets/index-CckPm-xR.js`, the downloaded
     `index.html` matched the hash, and `/api/health` returned OK.
-  - Follow-up TouchSync geometry deploy on 133: fixed horizontal cursor
-    divergence seen in 640x480 by using one shared screen media-geometry helper
-    for desktop absolute mouse, mobile TouchSync deltas, and the mobile cursor
-    overlay. Root cause was that `#screen` can be rendered with CSS
-    `object-fit: cover` while the old mouse math assumed `contain`; with a
-    16:9 HDMI input and a 4:3 480-mode element this over-scaled X. Web-only
-    build installed from `/data/nanokvm-web-touchsync-geometry.tar` into both
-    `/tmp/server/web` and `/kvmapp/server/web`; new web `index.html` SHA-256 is
-    `fb5b88faf0790aa30fa3f559802b26679b956687d32f7d10e56a587316f2ec4d`,
-    HTTPS `/` serves `/assets/index-s28CgdKb.js`, and `/api/health` returned
-    OK. User still needs to confirm cursor behavior manually on Android and
-    desktop in 640x480.
-  - Follow-up 480-mode absolute HID calibration deploy on 133: the geometry
-    fix above did not change the observed horizontal divergence, so absolute
-    mouse state now keeps a logical `0..1` cursor position separately from the
-    HID report coordinate. For selected 640x480 / height 480 mode only, X is
-    scaled to `75%` of the HID absolute range before writing `/dev/hidg2`; Y
-    and other resolutions are unchanged. This is intended to match the host
-    behavior where the remote cursor reaches the right edge before the local
-    cursor in 480 mode. Web-only build installed from
-    `/data/nanokvm-web-absolute-xcal-480.tar` into both `/tmp/server/web` and
-    `/kvmapp/server/web`; new web `index.html` SHA-256 is
-    `12bb284de3b4dc7d4f8cff028c247bc2c9e671b4d7dcf808b90e8eb4c669eae9`,
-    HTTPS `/` serves `/assets/index-BiRiFl65.js`, and `/api/health` returned
-    OK. Device was in `res=480` after install; user still needs to confirm
-    whether the `0.75` X-scale is correct or needs fine tuning.
 - Auth/session note: web login issues an in-memory server session and a
   `nano-kvm-token` HttpOnly cookie with `Max-Age` equal to the configured
   session lock duration. Closing a browser tab/window does not necessarily log
