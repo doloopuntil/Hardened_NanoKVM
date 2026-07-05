@@ -8,6 +8,7 @@ GitHub Releases after their historical notes are kept in `CHANGELOG.md`.
 
 | Tag | Purpose | Notes |
 | --- | --- | --- |
+| `hardened-rust-rc7.1` | Current app-only RC | App `2.0.30` for the RC7 system baseline. Adds mobile KVM pinch-to-zoom and touch-drag panning for scaled video surfaces. Tested on NanoKVM Cube. |
 | `hardened-rust-rc7` | Current full raw/SD RC | App `2.0.29` with matching raw system `0.2.21-raw.1` and SD-card image. Adds the Hardened mobile view for phone screens, mobile settings/menu handling, mobile keyboard handling, and automatic KVM screen fitting. Smoke-tested on NanoKVM Cube. |
 | `hardened-rust-preview` | App preview channel | Mutable channel release that carries preview `latest.json` metadata. Keep while preview application updates are supported. |
 

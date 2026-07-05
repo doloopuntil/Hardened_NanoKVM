@@ -9,6 +9,9 @@ type ScreenFit = {
   mediaStyle: CSSProperties;
 };
 
+const FALLBACK_SCREEN_WIDTH = 1920;
+const FALLBACK_SCREEN_HEIGHT = 1080;
+
 export function useScreenFit(
   resolution: Resolution | null,
   videoScale: number,
@@ -20,17 +23,20 @@ export function useScreenFit(
 
   useEffect(() => {
     function updateFitScale() {
-      if (isBigScreen || !resolution?.width || !resolution?.height || !containerRef.current) {
+      if (isBigScreen || !containerRef.current) {
         setFitScale(1);
         return;
       }
 
+      const width = resolution?.width && resolution.width > 0 ? resolution.width : FALLBACK_SCREEN_WIDTH;
+      const height =
+        resolution?.height && resolution.height > 0 ? resolution.height : FALLBACK_SCREEN_HEIGHT;
       const rect = containerRef.current.getBoundingClientRect();
       if (rect.width <= 0 || rect.height <= 0) {
         return;
       }
 
-      const nextScale = Math.min(rect.width / resolution.width, rect.height / resolution.height, 1);
+      const nextScale = Math.min(rect.width / width, rect.height / height, 1);
       setFitScale(Math.max(0.05, nextScale));
     }
 
@@ -72,11 +78,30 @@ export function useScreenFit(
 
   const mediaStyle = useMemo<CSSProperties>(() => {
     const scale = (isBigScreen ? 1 : fitScale) * videoScale;
+    const width = resolution?.width && resolution.width > 0 ? resolution.width : FALLBACK_SCREEN_WIDTH;
+    const height =
+      resolution?.height && resolution.height > 0 ? resolution.height : FALLBACK_SCREEN_HEIGHT;
 
     if (!resolution?.width || !resolution?.height) {
+      if (!isBigScreen) {
+        return {
+          ...fallbackStyle,
+          width: Math.max(1, Math.round(width * scale)),
+          height: Math.max(1, Math.round(height * scale)),
+          maxWidth: undefined,
+          maxHeight: undefined,
+          objectFit: 'cover'
+        };
+      }
+
       return {
         ...fallbackStyle,
-        transform: `scale(${videoScale})`,
+        width,
+        height,
+        maxWidth: undefined,
+        maxHeight: undefined,
+        objectFit: 'cover',
+        transform: `scale(${scale})`,
         transformOrigin: 'center'
       };
     }

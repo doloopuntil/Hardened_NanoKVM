@@ -46,11 +46,11 @@ export const Mjpeg = () => {
     <div
       ref={containerRef}
       data-kvm-screen-scroll
-      className="flex h-full min-h-0 w-full min-w-0 items-center justify-center overflow-auto overscroll-contain bg-black"
+      className="flex h-full min-h-0 w-full min-w-0 items-start justify-start overflow-auto overscroll-contain bg-black"
     >
       <img
         id="screen"
-        className={clsx('block select-none', mouseStyle)}
+        className={clsx('m-auto block select-none', mouseStyle)}
         style={{
           ...mediaStyle,
           visibility: hasError ? 'hidden' : 'visible'

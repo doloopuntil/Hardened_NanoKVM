@@ -1,22 +1,25 @@
 # Hardened NanoKVM Handoff
 
-Last updated: 2026-07-04
+Last updated: 2026-07-05
 
 ## Repository State
 
 - Local repo: `/home/w0w/Hardened_NanoKVM-new-buildroot`
 - GitHub repo: `woffko/Hardened_NanoKVM`
 - Active branch: `feature/rust-kvm-system-migration`
-- Current source/test app version: `2.0.29`
-- Current published app release: `2.0.29 RC7` on tag `hardened-rust-rc7`.
+- Current source/test app version: `2.0.30`
+- Current published app release: `2.0.30 RC7.1` on tag `hardened-rust-rc7.1`.
 - Current published raw/system channel: `0.2.21-raw.1` on companion tag
   `hardened-system-0.2.21-raw.1`; stable and preview channel metadata both
   point there.
-- Latest release build/test: RC7 app archive, raw bundle, and SD image were
+- Latest full release build/test: RC7 app archive, raw bundle, and SD image were
   built from commit `6961b9e`; Rust tests, web build, linked RISC-V build,
   metadata signature verification, rootfs validation, xz integrity, and
   checksums passed locally. GitHub Pages was updated on `gh-pages` commit
   `2819290`.
+- Latest app-only release: RC7.1 / `2.0.30` packages the post-RC7 mobile KVM
+  pinch-to-zoom and touch-drag panning fixes only; raw/system metadata and SD
+  images remain on RC7 `0.2.21-raw.1`.
 - Latest local hardware test: RC7 app payload and mobile UI fixes were
   installed and smoke-tested on NanoKVM Cube (`10.0.87.133`); final full RC7
   image was not raw-installed on hardware before publishing.
@@ -24,7 +27,7 @@ Last updated: 2026-07-04
   RC6, their raw-system companion releases, and the app/system stable/preview
   channel releases. Older beta/RC release entries were deleted; git tags were
   left intact.
-- Current uncommitted mobile UI work after RC7:
+- Post-RC7 mobile UI work:
   - mobile top bar has a dedicated local-device keyboard button; it focuses a
     hidden textarea so Android/mobile browsers show their native soft keyboard;
   - the previous HID on-screen keyboard remains available as a separate
@@ -49,6 +52,9 @@ Last updated: 2026-07-04
     surface. This is not the Android system cursor, which Chrome does not
     expose for touch input; it is a web overlay below menus/keyboards so touch
     position is visible while controlling the remote cursor.
+  - mobile KVM pinch gestures now change only the KVM video scale rather than
+    browser page zoom, and one-finger TouchSync drag also pans the scaled video
+    viewport so zoomed screens remain reachable on narrow phones.
   - Do not calibrate absolute HID coordinates to compensate for the 640x480
     menu mode. That setting is a NanoKVM capture/encoder resolution and can
     crop/zoom a higher-resolution HDMI input rather than changing the remote
