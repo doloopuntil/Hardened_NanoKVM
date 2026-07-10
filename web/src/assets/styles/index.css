@@ -45,11 +45,17 @@ body {
   display: none;
 }
 
+.settings-segmented-wrap-labels .ant-segmented-item-label,
 .settings-modal-mobile .ant-segmented-item-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
   min-height: 2rem;
   overflow: visible;
   text-overflow: clip;
   white-space: normal;
+  text-align: center;
   line-height: 1.2;
 }
 

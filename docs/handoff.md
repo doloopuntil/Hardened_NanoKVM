@@ -106,6 +106,14 @@ Last updated: 2026-07-10
     only console noise was the expected pre-login `401 Unauthorized`, and
     failed requests were navigation aborts from the login transition. Report and
     screenshots were written under `/tmp/nanokvm-playwright-device`.
+    Follow-up after visual review: the initial fix removed ellipsis but left
+    AntD segmented labels top-aligned. Added flex centering for
+    `settings-segmented-wrap-labels` and redeployed web-only builds to
+    `10.0.87.133` and `10.0.87.132`; new installed `index.html` SHA-256 on both
+    devices is
+    `4b2fed17e59fa4938f0a12936413f22223c72f74817fb1375ef752690d61467d`.
+    Repeat Playwright screenshots confirmed centered `Auto`, `Mobile view`,
+    `Auto hide`, and `Always visible` labels on phone and tablet layouts.
   - Device 133 hotfix deploy after RC7: RISC-V backend SHA-256
     `bb6f0465cbbd8eb057189fbad556b2d9d6ea684371048ba0d7ec193d73ea8af4`
     and web `index.html` SHA-256

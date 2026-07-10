@@ -32,7 +32,7 @@ export const LayoutMode = () => {
       <div className="w-full min-w-0 overflow-x-auto sm:w-auto sm:min-w-[260px]">
         <Segmented
           block
-          className="min-w-full [&_.ant-segmented-item-label]:h-auto [&_.ant-segmented-item-label]:min-h-8 [&_.ant-segmented-item-label]:whitespace-normal [&_.ant-segmented-item-label]:leading-tight"
+          className="settings-segmented-wrap-labels min-w-full"
           value={layoutMode}
           options={options}
           onChange={(value) => handleChange(value as LayoutModeValue)}
