@@ -32,10 +32,10 @@ export const MenuMode = () => {
         </span>
       </div>
 
-      <div className="w-full min-w-0 overflow-x-auto sm:w-auto">
+      <div className="w-full min-w-0 overflow-x-auto sm:w-auto sm:min-w-[300px]">
         <Segmented
           block
-          className="min-w-full sm:min-w-0"
+          className="min-w-full [&_.ant-segmented-item-label]:h-auto [&_.ant-segmented-item-label]:min-h-8 [&_.ant-segmented-item-label]:whitespace-normal [&_.ant-segmented-item-label]:leading-tight"
           value={menuDisplayMode}
           options={options}
           onChange={handleChange}

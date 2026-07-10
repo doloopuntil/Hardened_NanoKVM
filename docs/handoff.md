@@ -1,6 +1,6 @@
 # Hardened NanoKVM Handoff
 
-Last updated: 2026-07-05
+Last updated: 2026-07-10
 
 ## Repository State
 
@@ -91,6 +91,21 @@ Last updated: 2026-07-05
     reported complete locale key coverage with no fresh English fallback leaks,
     all flattened locale values are strings, `npm run build` in `web` passed,
     and `cargo check --manifest-path server-rust/Cargo.toml` passed.
+  - Post-RC8 Settings mobile/tablet Playwright pass (2026-07-10):
+    fixed clipped AntD segmented labels in Appearance (`Mobile view` and
+    `Always visible`) by allowing mobile Settings segmented labels to wrap and
+    giving the two Appearance segmented controls stable minimum widths.
+    Built `web/dist`, deployed web-only archive to both NanoKVM devices
+    `10.0.87.133` and `10.0.87.132` using an uncompressed tar, and installed it
+    into `/kvmapp/server/web` plus `/tmp/server/web`. Installed
+    `index.html` SHA-256 on both devices:
+    `ecaf85d0ebe5768b9b2dac8c9563cbac294673555f16a80e06d4d6e5bfe06cc2`.
+    `/api/health` stayed OK with Rust backend on both devices. Playwright
+    against real HTTPS devices passed phone `393x873` and tablet `1024x768`
+    Settings Appearance/System/Firewall smoke checks with no page errors; the
+    only console noise was the expected pre-login `401 Unauthorized`, and
+    failed requests were navigation aborts from the login transition. Report and
+    screenshots were written under `/tmp/nanokvm-playwright-device`.
   - Device 133 hotfix deploy after RC7: RISC-V backend SHA-256
     `bb6f0465cbbd8eb057189fbad556b2d9d6ea684371048ba0d7ec193d73ea8af4`
     and web `index.html` SHA-256

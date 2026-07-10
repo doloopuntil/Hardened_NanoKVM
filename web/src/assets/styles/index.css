@@ -46,8 +46,11 @@ body {
 }
 
 .settings-modal-mobile .ant-segmented-item-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  min-height: 2rem;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  line-height: 1.2;
 }
 
 .settings-modal-mobile [data-slot='scroll-area-viewport'] {
