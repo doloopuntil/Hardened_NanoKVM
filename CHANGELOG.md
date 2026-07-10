@@ -1,5 +1,31 @@
 # Changelog
 
+## Hardened NanoKVM 2.0.32 RC9 (2026-07-10)
+
+Full application, raw system-update, and SD-card release candidate with app
+`2.0.32`, raw system-update `0.2.23-raw.1`, and matching SD-card image.
+
+### Changed
+
+* Carries the RC8 mobile/tablet baseline forward into a full raw/SD build from
+  current `main`.
+* Fixes mobile/tablet Settings segmented controls in Appearance so `Auto`,
+  `Mobile view`, `Auto hide`, and `Always visible` labels wrap cleanly and stay
+  vertically centered.
+* Keeps Hardened mobile view as a fork addition not present in the original
+  NanoKVM project: native mobile keyboard control, separate on-screen HID
+  keyboard, TouchSync pointer control, automatic KVM screen fitting,
+  pinch-to-zoom, and touch-drag panning.
+
+### Verified
+
+* The post-RC8 Settings mobile/tablet fix was installed and checked on NanoKVM
+  Cube devices `10.0.87.133` and `10.0.87.132`.
+* Release validation for RC9 covers Rust backend tests, frontend production
+  build, linked RISC-V build, app/rootfs package validation, raw/rootfs
+  validation, metadata signature verification, checksums, and SD image xz
+  integrity.
+
 ## Hardened NanoKVM 2.0.31 RC8 (2026-07-05)
 
 Full application, raw system-update, and SD-card release candidate with app

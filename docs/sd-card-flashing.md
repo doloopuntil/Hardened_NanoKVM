@@ -21,12 +21,13 @@ SD-card images. Install those through the web GUI updater instead.
 - Pick the target disk carefully. A wrong disk name can overwrite your computer
   drive.
 
-Current release note: the latest published full SD-card image is the RC8
-`2.0.31` image with matching raw system version `0.2.22-raw.1`. It includes
+Current release note: the latest published full SD-card image is the RC9
+`2.0.32` image with matching raw system version `0.2.23-raw.1`. It includes
 raw-system update support, the Hardened mobile view for phones and touch
 tablets, forced Mobile view, TouchSync pointer control, mobile keyboard
-handling, and the `Buildroot 2023.11.3 package backports` security-backport
-baseline. The RC8 mobile/tablet UI path was smoke-tested on a NanoKVM Cube.
+handling, post-RC8 mobile Settings fixes, and the `Buildroot 2023.11.3 package
+backports` security-backport baseline. The RC9 mobile/tablet UI path was
+smoke-tested on NanoKVM Cube devices.
 
 ## Windows: Balena Etcher
 
