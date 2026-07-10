@@ -33,8 +33,7 @@ Last updated: 2026-07-10
   - compressed SD image
     `Hardened_NanoKVM_RC9_2_0_32_buildroot_2023_11_2_security_backports_Rev1_4_2_rust.img.xz`:
     `52b5b65886d977c1360b7d788169f6559f7e42d6794bc30d444469121c576b83`.
-- GitHub Pages was last updated for RC8 on `gh-pages` commit `b651d8a`; update
-  it separately if the public landing page must mention RC9.
+- GitHub Pages was updated for RC9 on `gh-pages` commit `ad91ef6`.
 - Latest app-only release before RC9: RC7.1 / `2.0.30` packaged the post-RC7
   mobile KVM pinch-to-zoom and touch-drag panning fixes only; RC8 folded those
   fixes plus tablet/forced-mobile layout work into the full raw/SD baseline,
