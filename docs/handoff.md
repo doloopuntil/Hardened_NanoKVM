@@ -63,6 +63,22 @@ Last updated: 2026-07-11
   Appearance segmented controls had matching `left`/`width`, and no page errors
   were reported. Screenshots and report are under
   `/tmp/nanokvm-fit-align-check`.
+- RC9.1 app-only GitHub release (2026-07-11): published
+  `hardened-rust-rc9.1` as the latest application release, target commit
+  `6c744ce59f46b7c378b320a2ef04269e0f557050`, and updated
+  `hardened-rust-preview` metadata to the same app payload. No raw/system
+  release, SD image, or system channel metadata was changed. Artifacts:
+  - `hardened-nanokvm-kvmapp-2.0.33.tar.gz`:
+    `953a5ef8cc7c393b2a9e7bb570c0fd128e8133f8da11df016fb7e14bb801fc1c`;
+  - `latest.json`:
+    `f530817993ef825165a7a9d3a1c14388579a8ff27c85259d4b85e9a908ea9ed1`;
+  - `latest.json.sig`:
+    `eac9b0b624c69f6401a26a59830cb3a320a32f793fb5220d43a11af638ebada5`.
+  Remote verification downloaded
+  `https://github.com/woffko/Hardened_NanoKVM/releases/latest/download/latest.json`
+  and
+  `https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-rust-preview/latest.json`;
+  both signatures verified OK with `kvmapp/system/keys/system-update-signing.pub.pem`.
 - GitHub Releases cleanup after RC9: keep RC9, RC8, RC7.1/RC7, RC6, their
   raw-system companion releases, and the app/system stable/preview channel
   releases unless a separate cleanup is requested. Older beta/RC release
