@@ -1,3 +1,7 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 /**
  * 待解决的问题:
  * // 分辨率跟随输出
@@ -10,6 +14,11 @@
  * // free 错内存时会炸的问题
  */
 #include "kvm_vision.h"
+
+#include <atomic>
+#include <cctype>
+#include <cerrno>
+#include <cstdarg>
 
 #define default_venc_chn        1
 
@@ -50,6 +59,21 @@
 
 pthread_mutex_t vi_mutex;
 
+enum class kvmv_lifecycle_state_t : uint8_t {
+    stopped,
+    running,
+    stopping,
+};
+
+static pthread_mutex_t lifecycle_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_t vi_detection_thread;
+static pthread_t watchdog_thread;
+static bool vi_detection_thread_started = false;
+static bool watchdog_thread_started = false;
+static bool vi_mutex_initialized = false;
+static std::atomic<bool> stop_threads{false};
+static kvmv_lifecycle_state_t lifecycle_state = kvmv_lifecycle_state_t::stopped;
+
 static char NanoKVM_edit[] = {
 	0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x00,0x41,0x0C,0x33,0xC2,0x66,0xBA,0x00,0x00,
 	0x2B,0x1F,0x01,0x04,0xA5,0x50,0x22,0x78,0x3B,0xCC,0xE5,0xAB,0x51,0x48,0xA6,0x26,
@@ -67,8 +91,8 @@ using namespace maix::peripheral;
 i2c::I2C LT6911_i2c(4, i2c::Mode::MASTER);
 
 typedef struct {
-	uint16_t vi_width = default_vi_width;
-	uint16_t vi_height = default_vi_height;
+	std::atomic<uint16_t> vi_width{default_vi_width};
+	std::atomic<uint16_t> vi_height{default_vi_height};
 	uint16_t vpss_width = default_vpss_width;
 	uint16_t vpss_height = default_vpss_height;
 	uint8_t venc_type;
@@ -78,20 +102,18 @@ typedef struct {
 	uint8_t frame_detact = 0;
 	uint8_t display;
     uint8_t reinit_flag = 1;
-    uint8_t reopen_cam_flag = 0;
-    uint8_t hdmi_cable_state = 0;
-    uint8_t try_exit_thread = 0;
-    uint8_t thread_is_running = 0;
+    std::atomic<uint8_t> reopen_cam_flag{0};
+    std::atomic<uint8_t> hdmi_cable_state{0};
     uint8_t Auto_res = 0;
     uint8_t hdmi_version = 0;
     uint8_t hw_version = 0;
-    uint8_t hdmi_stop_flag = 0;
-    uint8_t hdmi_reading_flag = 0;
+    std::atomic<uint8_t> hdmi_stop_flag{0};
+    std::atomic<uint8_t> hdmi_reading_flag{0};
     uint8_t hdmi_mode = 0;
-    uint8_t hdmi_res_type = 0;
-    uint8_t hdmi_res_err = 0;
+    std::atomic<uint8_t> hdmi_res_type{0};
+    std::atomic<uint8_t> hdmi_res_err{0};
     uint8_t hdmi_try_rounds = 0;
-    uint8_t vi_detect_state = 0;
+    std::atomic<uint8_t> vi_detect_state{0};
     uint8_t venc_auto_recyc = 0;
 } kvmv_cfg_t;
 
@@ -121,8 +143,54 @@ uint8_t debug_en = 0;
 void debug(const char *format, ...)
 {
     if(debug_en){
-        printf(format);
+        va_list args;
+        va_start(args, format);
+        vprintf(format, args);
+        va_end(args);
     }
+}
+
+static bool restart_camera_from_worker()
+{
+    if (stop_threads.load(std::memory_order_acquire)) {
+        return false;
+    }
+
+    int lock_res = pthread_mutex_lock(&vi_mutex);
+    if (lock_res != 0) {
+        fprintf(stderr, "[kvmv] failed to lock camera mutex: %s\n", strerror(lock_res));
+        return false;
+    }
+
+    bool restarted = false;
+    if (!stop_threads.load(std::memory_order_acquire)) {
+        cam->restart(default_vpss_width, default_vpss_height, image::FMT_YVU420SP);
+        restarted = true;
+    }
+
+    pthread_mutex_unlock(&vi_mutex);
+    return restarted;
+}
+
+static bool join_worker_until(pthread_t thread, bool *started,
+                              const struct timespec *deadline, const char *name)
+{
+    if (!*started) {
+        return true;
+    }
+
+    int join_res;
+    do {
+        join_res = pthread_timedjoin_np(thread, NULL, deadline);
+    } while (join_res == EINTR);
+
+    if (join_res == 0) {
+        *started = false;
+        return true;
+    }
+
+    fprintf(stderr, "[kvmv] timed join of %s failed: %s\n", name, strerror(join_res));
+    return false;
 }
 
 uint8_t to_roll(int8_t _input)
@@ -137,6 +205,41 @@ int maxmin_data(int _max, int _min, int _data)
 	if(_data > _max) return _max;
 	if(_data < _min) return _min;
 	return _data;
+}
+
+static bool read_uint16_file(const char *path, uint16_t *value)
+{
+    if (!path || !value) {
+        return false;
+    }
+
+    FILE *fp = fopen(path, "r");
+    if (!fp) {
+        return false;
+    }
+
+    char buffer[35] = {0};
+    bool ok = fgets(buffer, sizeof(buffer), fp) != NULL;
+    if (ok && strchr(buffer, '\n') == NULL && !feof(fp)) {
+        ok = false;
+    }
+    fclose(fp);
+    if (!ok) {
+        return false;
+    }
+
+    errno = 0;
+    char *end = NULL;
+    unsigned long parsed = strtoul(buffer, &end, 10);
+    while (end && std::isspace(static_cast<unsigned char>(*end))) {
+        ++end;
+    }
+    if (errno != 0 || end == buffer || !end || *end != '\0' || parsed > UINT16_MAX) {
+        return false;
+    }
+
+    *value = static_cast<uint16_t>(parsed);
+    return true;
 }
 
 kvmv_data_t* get_save_buffer()
@@ -177,14 +280,13 @@ uint16_t hdmi_unsupported_res_list[][2] = {
 };
 
 /* return 0 : normal res;
-/* return 1 : new res;
+ * return 1 : new res;
  * return 2 : unsupport res;
  * return 3 : unknow res;
  */
 uint8_t check_res(uint16_t _width, uint16_t _height)
 {
     uint8_t i;
-    uint8_t ret;
 
     for(i = 0; i < sizeof(hdmi_res_list)/4; i++){
         if(_width == hdmi_res_list[i][0] && _height == hdmi_res_list[i][1]) return NORMAL_RES;
@@ -218,10 +320,13 @@ uint8_t get_vi_state()
 {
 	char VI_State[10]={0};
 	char cmd[100] = "cat /proc/cvitek/vi_dbg | grep -A 17 VIDevFPS | awk '{print $3}'";
-	uint8_t FPS[2];
-	uint8_t VIWHGTLSCnt[4];
+	uint8_t FPS[2] = {0};
+	uint8_t VIWHGTLSCnt[4] = {0};
 	FILE* fp = popen( cmd, "r" );
     uint8_t ret = 0;
+	if (!fp) {
+		return ret;
+	}
 
 	if (fgets(VI_State, sizeof(VI_State), fp) != NULL){
 		FPS[0] = atoi(VI_State);
@@ -233,6 +338,9 @@ uint8_t get_vi_state()
 	if (fgets(VI_State, sizeof(VI_State), fp) != NULL){
 		FPS[1] = atoi(VI_State);
 		// debug("VIFPS = %d\n", FPS[1]);
+	} else {
+		pclose(fp);
+		return ret;
 	}
 	if (FPS[0] == 0){
 		ret = 2;	// HDMI not OK;
@@ -245,15 +353,18 @@ uint8_t get_vi_state()
         // Ignore other information
         uint8_t count = 0;
         for(count = 0; count < 13; count ++){
-            fgets(VI_State, sizeof(VI_State), fp);
+			if (fgets(VI_State, sizeof(VI_State), fp) == NULL) {
+				pclose(fp);
+				return 7;
+			}
         }
         // Check if the resolution might be set incorrectly
         for(count = 0; count < 4; count ++){
-            if (fgets(VI_State, sizeof(VI_State), fp) != NULL){
-                // debug("VI_State = %s", VI_State);
-                VIWHGTLSCnt[count] = atoi(VI_State);
-                // printf("count = %d, val = %d\n", count, atoi(VI_State));
-            }
+			if (fgets(VI_State, sizeof(VI_State), fp) == NULL) {
+				pclose(fp);
+				return 7;
+			}
+			VIWHGTLSCnt[count] = atoi(VI_State);
         }
 
         if(VIWHGTLSCnt[0] != 0) ret = 3;      // The vi width setting value is too small
@@ -268,7 +379,7 @@ uint8_t get_vi_state()
 
 int set_hdmi_mode(uint8_t _hdmi_mode)
 {
-    if(_hdmi_mode >= 0 && _hdmi_mode <= 2){
+    if(_hdmi_mode <= 2){
         char Cmd[100]={0};
         sprintf(Cmd, "echo %d > %s", _hdmi_mode, hdmi_mode_path);
         system(Cmd);
@@ -282,17 +393,13 @@ int set_hdmi_mode(uint8_t _hdmi_mode)
 int get_hdmi_mode(void)
 {
     if(access(hdmi_mode_path, F_OK) == 0){
-        // exist
-        FILE *fp;
-        int file_size;
-        uint8_t tmp8;
-        uint8_t RW_Data[2];
-
-        fp = fopen(hdmi_mode_path, "r");
-        fread(RW_Data, sizeof(char), 1, fp);
-        fclose(fp);
-        RW_Data[2] = 0;
-        tmp8 = atoi((char*)RW_Data);
+        uint16_t parsed_mode = 0;
+        uint8_t tmp8 = 0;
+        if (read_uint16_file(hdmi_mode_path, &parsed_mode) && parsed_mode <= 2) {
+            tmp8 = static_cast<uint8_t>(parsed_mode);
+		} else {
+			tmp8 = 3;
+        }
         if(tmp8 > 2) {
             tmp8 = 0;
 	        char Cmd[100]={0};
@@ -334,37 +441,13 @@ int vision_update_watchdog()
 
 int get_manual_resolution(void)
 {
-    uint8_t RW_Data[35];
-    FILE *fp;
-    int file_size;
-    uint16_t tmp_width, tmp_height;
+    uint16_t tmp_width = default_vi_width;
+    uint16_t tmp_height = default_vi_height;
     int res = 0;
 
     // get res
-    if(access("/kvmapp/kvm/width", F_OK) == 0){
-        fp = fopen("/kvmapp/kvm/width", "r");
-        fseek(fp, 0, SEEK_END);
-        file_size = ftell(fp);
-        fseek(fp, 0, SEEK_SET);
-        fread(RW_Data, sizeof(char), file_size, fp);
-        fclose(fp);
-        RW_Data[file_size] = 0;
-        tmp_width = atoi((char*)RW_Data);
-    } else {
-        tmp_width = 1920;
-    }
-    if(access("/kvmapp/kvm/height", F_OK) == 0){
-        fp = fopen("/kvmapp/kvm/height", "r");
-        fseek(fp, 0, SEEK_END);
-        file_size = ftell(fp);
-        fseek(fp, 0, SEEK_SET);
-        fread(RW_Data, sizeof(char), file_size, fp);
-        fclose(fp);
-        RW_Data[file_size] = 0;
-        tmp_height = atoi((char*)RW_Data);
-    } else {
-        tmp_height = 1080;
-    }
+    read_uint16_file(vi_width_path, &tmp_width);
+    read_uint16_file(vi_height_path, &tmp_height);
 
     // res min limit
     if(tmp_width < vi_min_width){
@@ -396,12 +479,14 @@ int get_manual_resolution(void)
     // res change ?
     if(kvmv_cfg.vi_width != tmp_width){
         kvmv_cfg.vi_width = tmp_width;
-        printf("[kvmk] get new width = %d\n", kvmv_cfg.vi_width);
+        printf("[kvmk] get new width = %d\n",
+			kvmv_cfg.vi_width.load(std::memory_order_relaxed));
         res = 1;
     }
     if(kvmv_cfg.vi_height != tmp_height){
         kvmv_cfg.vi_height = tmp_height;
-        printf("[kvmk] get new height = %d\n", kvmv_cfg.vi_height);
+        printf("[kvmk] get new height = %d\n",
+			kvmv_cfg.vi_height.load(std::memory_order_relaxed));
         res = 1;
     }
     return res;
@@ -414,11 +499,16 @@ uint8_t auto_try_res()
     uint8_t auto_trying_times = 0;
 
     for (auto_trying_times = 0; auto_trying_times < sizeof(hdmi_res_list)/4; auto_trying_times++){
+        if (stop_threads.load(std::memory_order_acquire)) {
+            return 0;
+        }
         err_code = get_vi_state();
         switch(err_code){
         case 0:
             // shouldn't be possible to run here
-            cam->restart(default_vpss_width, default_vpss_height, image::FMT_YVU420SP);
+            if (!restart_camera_from_worker()) {
+                return 0;
+            }
             printf("[kvmv] VI not init\n");
             break;
         case 1:
@@ -428,8 +518,8 @@ uint8_t auto_try_res()
         case 2:
             // HDMI not detected or resolution not supported; interval checks will continue
             printf("[kvmv] Cannot obtain HDMI input\n");
-            auto_trying_times--;
-            break;
+            time::sleep_ms(250);
+            return 2;
         case 3: // width too small
         case 4: // width too large
         case 5: // height too small
@@ -445,7 +535,9 @@ uint8_t auto_try_res()
             kvmv_cfg.vi_width = hdmi_res_list[auto_trying_times][0];
             kvmv_cfg.vi_height = hdmi_res_list[auto_trying_times][1];
             printf("[kvmv] restart cam...\n");
-            cam->restart(default_vpss_width, default_vpss_height, image::FMT_YVU420SP);
+            if (!restart_camera_from_worker()) {
+                return 0;
+            }
             time::sleep_ms(50);
             break;
         case 7: // Unknown reason
@@ -465,28 +557,28 @@ uint8_t auto_try_res()
 */
 uint8_t chack_ion()
 {
-    // cat /sys/kernel/debug/ion/cvi_carveout_heap_dump/summary | grep "usage rate:" | awk -F '[:%]' '{print $2}'
-	uint8_t RW_Data[10];
-    uint8_t ATOI_Data[3] = {0};
-    uint8_t ion_usage_rate;
+    // Parse only a confirmed numeric usage rate; ambiguous failures must not reboot.
+	char output[64] = {0};
     char Cmd[150]={0};
-    // sprintf( Cmd, "cat /sys/kernel/debug/ion/cvi_carveout_heap_dump/summary | grep \"usage rate:\" | awk -F '[:%]' '{print $2}'");
-    sprintf( Cmd, "cat /sys/kernel/debug/ion/cvi_carveout_heap_dump/summary | grep \"usage rate:\" | awk '{print $2}'");
+	snprintf(Cmd, sizeof(Cmd),
+		"cat /sys/kernel/debug/ion/cvi_carveout_heap_dump/summary | "
+		"grep \"usage rate:\" | awk -F '[:%%]' '{print $2}'");
     FILE* fp = popen( Cmd, "r" );
-    if ( NULL == fp )
-    {
-        pclose(fp);
+    if (fp == NULL) {
         return 0;
     }
-    fgets((char*)RW_Data, 8, fp);
+	bool got_output = fgets(output, sizeof(output), fp) != NULL;
     pclose(fp);
-    RW_Data[8] = 0;
-    if (RW_Data[6] == '&') return 1;
-    else {
-        ATOI_Data[0] = RW_Data[5];
-        ATOI_Data[1] = RW_Data[6];
-    }
-    ion_usage_rate = atoi((char*)ATOI_Data);
+    if (!got_output) {
+		return 0;
+	}
+
+	errno = 0;
+	char *end = NULL;
+	long ion_usage_rate = strtol(output, &end, 10);
+	if (errno != 0 || end == output || ion_usage_rate < 0 || ion_usage_rate > 100) {
+		return 0;
+	}
 
     if(ion_usage_rate >= 95) return 1;
     else return 2;
@@ -533,6 +625,24 @@ void lt6911_disable()
 	LT6911_i2c.writeto(LT6911_ADDR, buf, 2);
 }
 
+static bool lt6911_read_bytes(uint8_t *buffer, int length)
+{
+	if (!buffer || length <= 0) {
+		return false;
+	}
+
+	maix::Bytes *data = LT6911_i2c.readfrom(LT6911_ADDR, length);
+	if (!data || !data->data) {
+		delete data;
+		debug("[hdmi] LT6911 I2C read failed, length=%d\n", length);
+		return false;
+	}
+
+	memcpy(buffer, data->data, static_cast<size_t>(length));
+	delete data;
+	return true;
+}
+
 void lt6911_get_hdmi_errer()
 {
 	uint8_t buf[6];
@@ -550,16 +660,13 @@ void lt6911_get_hdmi_errer()
 	buf[0] = 0x24;
 	LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
 
-	maix::Bytes *dat = LT6911_i2c.readfrom(LT6911_ADDR, 6);
+	if (!lt6911_read_bytes(buf, 6)) {
+		return;
+	}
 
 	buf[0] = 0x20;
 	buf[1] = 0x07;
 	LT6911_i2c.writeto(LT6911_ADDR, buf, 2);
-
-	for(int i = 0; i < 6; i++){
-		buf[i] = (uint8_t)dat->data[i];
-	}
-	delete dat;
 
 	debug("hdmi_errer_code = %x, %x, %x, %x, %x, %x\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5]);
 }
@@ -587,17 +694,16 @@ uint8_t lt6911_get_hdmi_res()
         // Vactive
         buf[0] = 0x96;
         LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-        maix::Bytes *dat0 = LT6911_i2c.readfrom(LT6911_ADDR, 2);
+        if (!lt6911_read_bytes(&revbuf[0], 2)) {
+			return 0;
+		}
 
         // Hactive
         buf[0] = 0x8b;
         LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-        maix::Bytes *dat1 = LT6911_i2c.readfrom(LT6911_ADDR, 2);
-
-        revbuf[0] = (uint8_t)dat0->data[0];
-        revbuf[1] = (uint8_t)dat0->data[1];
-        revbuf[2] = (uint8_t)dat1->data[0];
-        revbuf[3] = (uint8_t)dat1->data[1];
+        if (!lt6911_read_bytes(&revbuf[2], 2)) {
+			return 0;
+		}
 
         Vactive = (revbuf[0] << 8)|revbuf[1];
         Hactive = (revbuf[2] << 8)|revbuf[3];
@@ -605,9 +711,6 @@ uint8_t lt6911_get_hdmi_res()
 
         debug("[hdmi]HDMI res modification event\n");
         debug("[hdmi]new res: %d * %d\n", Hactive, Vactive);
-
-        delete dat0;
-        delete dat1;
 
         if (Vactive != 0 && Hactive != 0){
             return 1;
@@ -629,10 +732,9 @@ uint8_t lt6911_get_hdmi_res()
         // HDMI signal disappear/stable
         buf[0] = 0xA3;
         LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-        maix::Bytes *dat0 = LT6911_i2c.readfrom(LT6911_ADDR, 1);
-
-        revbuf[0] = (uint8_t)dat0->data[0];
-        delete dat0;
+        if (!lt6911_read_bytes(&revbuf[0], 1)) {
+			return 0;
+		}
 
         debug("[hdmi]HDMI-UXC res modification event\n");
 
@@ -648,26 +750,22 @@ uint8_t lt6911_get_hdmi_res()
         // Hactive
         buf[0] = 0x8c;
         LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-        maix::Bytes *dat0 = LT6911_i2c.readfrom(LT6911_ADDR, 2);
+        if (!lt6911_read_bytes(&revbuf[0], 2)) {
+			return 0;
+		}
 
         // Vactive
         buf[0] = 0x8e;
         LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-        maix::Bytes *dat1 = LT6911_i2c.readfrom(LT6911_ADDR, 2);
-
-        revbuf[0] = (uint8_t)dat0->data[0];
-        revbuf[1] = (uint8_t)dat0->data[1];
-        revbuf[2] = (uint8_t)dat1->data[0];
-        revbuf[3] = (uint8_t)dat1->data[1];
+        if (!lt6911_read_bytes(&revbuf[2], 2)) {
+			return 0;
+		}
 
         Hactive = ((revbuf[0] << 8)|revbuf[1]) * 2;
         Vactive = (revbuf[2] << 8)|revbuf[3];
 
         debug("[hdmi]HDMI-D res modification event\n");
         debug("[hdmi]new res: %d * %d\n", Hactive, Vactive);
-
-        delete dat0;
-        delete dat1;
 
         if(Hactive != 0 || Vactive != 0) return 1;
         else return 0;
@@ -699,11 +797,9 @@ void lt6911_get_hdmi_clk()
 
 	buf[0] = 0xb1;
 	LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-	maix::Bytes *dat0 = LT6911_i2c.readfrom(LT6911_ADDR, 3);
-
-	revbuf[0] = (uint8_t)dat0->data[0];
-	revbuf[1] = (uint8_t)dat0->data[1];
-	revbuf[2] = (uint8_t)dat0->data[2];
+	if (!lt6911_read_bytes(revbuf, 3)) {
+		return;
+	}
 	revbuf[0] &= 0x07;
 
 	clk = revbuf[0];
@@ -714,7 +810,6 @@ void lt6911_get_hdmi_clk()
 
 	debug("[hdmi]HDMI CLK = %d\n", clk);
 
-	delete dat0;
 }
 
 uint8_t lt6911_get_csi_res(uint16_t *p_width, uint16_t *p_height)
@@ -736,20 +831,16 @@ uint8_t lt6911_get_csi_res(uint16_t *p_width, uint16_t *p_height)
         // Vactive
         buf[0] = 0x06;
         LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-        maix::Bytes *dat0 = LT6911_i2c.readfrom(LT6911_ADDR, 2);
+        if (!lt6911_read_bytes(&revbuf[0], 2)) {
+			return UNKNOWN_RES;
+		}
 
         // Hactive
         buf[0] = 0x38;
         LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-        maix::Bytes *dat1 = LT6911_i2c.readfrom(LT6911_ADDR, 2);
-
-        revbuf[0] = (uint8_t)dat0->data[0];
-        revbuf[1] = (uint8_t)dat0->data[1];
-        revbuf[2] = (uint8_t)dat1->data[0];
-        revbuf[3] = (uint8_t)dat1->data[1];
-
-        delete dat0;
-        delete dat1;
+        if (!lt6911_read_bytes(&revbuf[2], 2)) {
+			return UNKNOWN_RES;
+		}
 
         Vactive = (revbuf[0] << 8)|revbuf[1];
         Hactive = (revbuf[2] << 8)|revbuf[3];
@@ -763,20 +854,16 @@ uint8_t lt6911_get_csi_res(uint16_t *p_width, uint16_t *p_height)
         // Vactive
         buf[0] = 0xF0;
         LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-        maix::Bytes *dat0 = LT6911_i2c.readfrom(LT6911_ADDR, 2);
+        if (!lt6911_read_bytes(&revbuf[0], 2)) {
+			return UNKNOWN_RES;
+		}
 
         // Hactive
         buf[0] = 0xEA;
         LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-        maix::Bytes *dat1 = LT6911_i2c.readfrom(LT6911_ADDR, 2);
-
-        revbuf[0] = (uint8_t)dat0->data[0];
-        revbuf[1] = (uint8_t)dat0->data[1];
-        revbuf[2] = (uint8_t)dat1->data[0];
-        revbuf[3] = (uint8_t)dat1->data[1];
-
-        delete dat0;
-        delete dat1;
+        if (!lt6911_read_bytes(&revbuf[2], 2)) {
+			return UNKNOWN_RES;
+		}
 
         Vactive = (revbuf[0] << 8)|revbuf[1];
         Hactive = (revbuf[2] << 8)|revbuf[3];
@@ -790,20 +877,16 @@ uint8_t lt6911_get_csi_res(uint16_t *p_width, uint16_t *p_height)
         // Vactive
         buf[0] = 0x8e;
         LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-        maix::Bytes *dat0 = LT6911_i2c.readfrom(LT6911_ADDR, 2);
+        if (!lt6911_read_bytes(&revbuf[0], 2)) {
+			return UNKNOWN_RES;
+		}
 
         // Hactive
         buf[0] = 0x8c;
         LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
-        maix::Bytes *dat1 = LT6911_i2c.readfrom(LT6911_ADDR, 2);
-
-        revbuf[0] = (uint8_t)dat0->data[0];
-        revbuf[1] = (uint8_t)dat0->data[1];
-        revbuf[2] = (uint8_t)dat1->data[0];
-        revbuf[3] = (uint8_t)dat1->data[1];
-
-        delete dat0;
-        delete dat1;
+        if (!lt6911_read_bytes(&revbuf[2], 2)) {
+			return UNKNOWN_RES;
+		}
 
         Vactive = (revbuf[0] << 8)|revbuf[1];
         Hactive = ((revbuf[2] << 8)|revbuf[3]) * 2;
@@ -845,6 +928,16 @@ uint8_t lt6911_get_csi_res(uint16_t *p_width, uint16_t *p_height)
 	return res_type;
 }
 
+static uint8_t refresh_csi_resolution()
+{
+	uint16_t width = kvmv_cfg.vi_width.load(std::memory_order_relaxed);
+	uint16_t height = kvmv_cfg.vi_height.load(std::memory_order_relaxed);
+	uint8_t result = lt6911_get_csi_res(&width, &height);
+	kvmv_cfg.vi_width.store(width, std::memory_order_release);
+	kvmv_cfg.vi_height.store(height, std::memory_order_release);
+	return result;
+}
+
 void lt6911_write_reg(uint8_t reg, uint8_t val)
 {
 	uint8_t buf[2];
@@ -859,13 +952,9 @@ void lt6911_read_reg(uint8_t reg)
 	buf[0] = reg;
 	LT6911_i2c.writeto(LT6911_ADDR, buf, 1);
 
-	maix::Bytes *dat = LT6911_i2c.readfrom(LT6911_ADDR, 16);
-
-	for(int i = 0; i < 16; i++){
-		buf[i] = (uint8_t)dat->data[i];
+	if (!lt6911_read_bytes(buf, 16)) {
+		return;
 	}
-
-	delete dat;
 
 	debug("[hdmi]%3x %3x %3x %3x %3x %3x %3x %3x |%3x %3x %3x %3x %3x %3x %3x %3x \n", \
 			buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], buf[7], \
@@ -878,11 +967,9 @@ uint8_t lt6911_read_one_reg(uint8_t reg)
 	ret = reg;
 	LT6911_i2c.writeto(LT6911_ADDR, &ret, 1);
 
-	maix::Bytes *dat = LT6911_i2c.readfrom(LT6911_ADDR, 1);
-
-	ret = (uint8_t)dat->data[0];
-
-	delete dat;
+	if (!lt6911_read_bytes(&ret, 1)) {
+		return 0;
+	}
 	return ret;
 }
 
@@ -947,7 +1034,7 @@ void lt6911_write_edid(void)
 
 void lt6911_read_edid(void)
 {
-	uint8_t i, j;
+	uint8_t i;
 	lt6911_enable();
 
 	// to 80
@@ -1010,7 +1097,7 @@ void lt6911_read_edid(void)
 
 void lt6911_read_fw(void)
 {
-	uint32_t i, j;
+	uint32_t i;
 	uint8_t buf[3];
 	lt6911_enable();
 
@@ -1079,11 +1166,14 @@ void lt6911_read_fw(void)
 
 void* watchdog_sf_feed(void * arg)
 {
-    while(true)
+    while(!stop_threads.load(std::memory_order_acquire))
     {
-        if(kvmv_cfg.try_exit_thread == 1)
+        for (int i = 0; i < 5 && !stop_threads.load(std::memory_order_acquire); ++i) {
+            time::sleep_ms(100);
+        }
+        if (stop_threads.load(std::memory_order_acquire)) {
             break;
-        time::sleep_ms(500);
+        }
         if (watchdog_sf_is_open()){
             if (chack_ion() == 1){
                 debug("[kvmv] Ion memory is full reboot now!\n");
@@ -1093,6 +1183,7 @@ void* watchdog_sf_feed(void * arg)
             vision_update_watchdog();
         }
     }
+    return NULL;
 }
 
 void get_hdmi_version()
@@ -1102,7 +1193,12 @@ void get_hdmi_version()
     system("/kvmapp/system/init.d/S15kvmhwd get_hdmi_version");
 	if(access("/etc/kvm/hdmi_version", F_OK) == 0){
         fp = fopen("/etc/kvm/hdmi_version", "r");
-        fread(RW_Data, sizeof(char), 2, fp);
+		if (!fp) {
+			kvmv_cfg.hdmi_version = 0;
+			return;
+		}
+		memset(RW_Data, 0, sizeof(RW_Data));
+		fread(RW_Data, sizeof(char), sizeof(RW_Data), fp);
         fclose(fp);
         if(RW_Data[0] == 'u'){
             // 6911uxc
@@ -1137,14 +1233,11 @@ void* vi_subsystem_detection(void * arg)
 	uint64_t __attribute__((unused)) int_time;
 
 	FILE *fp;
-	uint8_t RW_Data[2];
-    uint8_t file_size;
+	uint8_t RW_Data[3] = {0};
     uint8_t tmp8;
     uint8_t rising_times = 0;
     uint8_t falling_times = 0;
-	uint8_t cam_need_restart = 0;
     uint8_t auto_change_mode = 0;
-    kvmv_cfg.thread_is_running = 1;
 	if(access("/proc/lt_int", F_OK) != 0){
 		time::sleep_ms(10);
 		debug("[hdmi]/proc/lt_int not ok\n");
@@ -1154,11 +1247,8 @@ void* vi_subsystem_detection(void * arg)
 
     // while(!app::need_exit())
     uint8_t while_count_detect_res = 0;
-    while(true)
+    while(!stop_threads.load(std::memory_order_acquire))
     {
-        if(kvmv_cfg.try_exit_thread == 1)
-            break;
-
         uint8_t get_new_hdmi_mode = get_hdmi_mode();
         uint8_t try_res;
         uint8_t err_code;
@@ -1184,7 +1274,8 @@ void* vi_subsystem_detection(void * arg)
                 // fseek(fp, 0, SEEK_END);
                 // file_size = ftell(fp);
                 // fseek(fp, 0, SEEK_SET);
-                fread(RW_Data, sizeof(char), 2, fp);
+				memset(RW_Data, 0, sizeof(RW_Data));
+                fread(RW_Data, sizeof(char), sizeof(RW_Data) - 1, fp);
                 tmp8 = atoi((char*)RW_Data);
                 // debug("[hdmi]UXC tmp8 = %d\n", tmp8);
                 if(tmp8 != 0){
@@ -1204,7 +1295,7 @@ void* vi_subsystem_detection(void * arg)
                                     // hdmi get res
                                     debug("[hdmi] C HDMI cable insertion!\n");
                                     kvmv_cfg.hdmi_cable_state = 1;
-                                    kvmv_cfg.hdmi_res_type = lt6911_get_csi_res(&kvmv_cfg.vi_width, &kvmv_cfg.vi_height);
+                                    kvmv_cfg.hdmi_res_type = refresh_csi_resolution();
                                     if (kvmv_cfg.hdmi_res_type == NEW_RES) kvmv_cfg.reopen_cam_flag = 1;
                                     else if (kvmv_cfg.hdmi_res_type == UNKNOWN_RES){
                                         /* Move HDMI resolution modification directly
@@ -1229,7 +1320,7 @@ void* vi_subsystem_detection(void * arg)
                                     // hdmi get res
                                     debug("[hdmi] UXC HDMI cable insertion!\n");
                                     kvmv_cfg.hdmi_cable_state = 1;
-                                    kvmv_cfg.hdmi_res_type = lt6911_get_csi_res(&kvmv_cfg.vi_width, &kvmv_cfg.vi_height);
+                                    kvmv_cfg.hdmi_res_type = refresh_csi_resolution();
                                     if (kvmv_cfg.hdmi_res_type == NEW_RES) kvmv_cfg.reopen_cam_flag = 1;
                                     else if (kvmv_cfg.hdmi_res_type == UNKNOWN_RES){
                                         /* Move HDMI resolution modification directly
@@ -1254,7 +1345,7 @@ void* vi_subsystem_detection(void * arg)
                                     // hdmi get res
                                     debug("[hdmi] D HDMI cable insertion!\n");
                                     kvmv_cfg.hdmi_cable_state = 1;
-                                    kvmv_cfg.hdmi_res_type = lt6911_get_csi_res(&kvmv_cfg.vi_width, &kvmv_cfg.vi_height);
+                                    kvmv_cfg.hdmi_res_type = refresh_csi_resolution();
                                     if (kvmv_cfg.hdmi_res_type == NEW_RES) kvmv_cfg.reopen_cam_flag = 1;
                                     else if (kvmv_cfg.hdmi_res_type == UNKNOWN_RES){
                                         /* Move HDMI resolution modification directly
@@ -1337,7 +1428,9 @@ void* vi_subsystem_detection(void * arg)
                     // detect_res
                     if (get_manual_resolution()) {
                         debug("[kvmv] restart cam...\n");
-                        cam->restart(default_vpss_width, default_vpss_height, image::FMT_YVU420SP);
+                        if (!restart_camera_from_worker()) {
+                            break;
+                        }
                     }
 
                     // dbg info
@@ -1386,55 +1479,38 @@ void* vi_subsystem_detection(void * arg)
 
 		time::sleep_ms(10);
     }
-    kvmv_cfg.thread_is_running = 0;
+    return NULL;
 }
 
 int sync_vi_res()
 {
     int res = 0;
-    uint8_t RW_Data[35];
-    FILE *fp;
-    int file_size;
-    uint16_t tmp16;
+    uint16_t tmp16 = 0;
 
     // vi_width:
-    if (access(vi_width_path, F_OK) != 0){
+    if (!read_uint16_file(vi_width_path, &tmp16)){
         kvmv_cfg.vi_width = default_vi_width;
         kvmv_cfg.vi_height = default_vi_height;
         res = -1;
         return res;
     } else {
-        fp = fopen(vi_width_path, "r");
-        fseek(fp, 0, SEEK_END);
-        file_size = ftell(fp);
-        fseek(fp, 0, SEEK_SET);
-        fread(RW_Data, sizeof(char), file_size, fp);
-        fclose(fp);
-        RW_Data[file_size] = 0;
-        tmp16 = atoi((char*)RW_Data);
         if(tmp16 != kvmv_cfg.vi_width){
             kvmv_cfg.vi_width = tmp16;
-            debug("[hdmi] Get new HDMI width = %d\r\n", kvmv_cfg.vi_width);
+            debug("[hdmi] Get new HDMI width = %d\r\n",
+				kvmv_cfg.vi_width.load(std::memory_order_relaxed));
             res = 1;
         }
     }
     // vi_height:
-    if (access(vi_height_path, F_OK) != 0){
+    if (!read_uint16_file(vi_height_path, &tmp16)){
         kvmv_cfg.vi_height = default_vi_height;
         res = -1;
         return res;
     } else {
-        fp = fopen(vi_height_path, "r");
-        fseek(fp, 0, SEEK_END);
-        file_size = ftell(fp);
-        fseek(fp, 0, SEEK_SET);
-        fread(RW_Data, sizeof(char), file_size, fp);
-        fclose(fp);
-        RW_Data[file_size] = 0;
-        tmp16 = atoi((char*)RW_Data);
         if(tmp16 != kvmv_cfg.vi_height){
             kvmv_cfg.vi_height = tmp16;
-            debug("[hdmi] Get new HDMI height = %d\r\n", kvmv_cfg.vi_height);
+            debug("[hdmi] Get new HDMI height = %d\r\n",
+				kvmv_cfg.vi_height.load(std::memory_order_relaxed));
             res = 1;
         }
     }
@@ -1446,18 +1522,23 @@ uint8_t frame_changed(image::Image *raw)
     static int raw_size = 0;
     static uint8_t Farame_sample[Farame_sample_size] = {0};
     uint8_t ret = 0;
-    uint8_t sample_byte;
+    if (!raw || !raw->data() || raw->data_size() <= 0) {
+		return 1;
+	}
     if(raw->data_size() != raw_size){
         raw_size = raw->data_size();
         ret = 1;
     }
-    int Detection_Pixel_Interval = raw_size/(Farame_sample_size*1.5);
-    for(int i = 0; i < Farame_sample_size; i ++){
-        // printf("[kvmv] i = %d\n", i);
-        if(i >= raw_size){
-            ret = 0;
-        }
-        sample_byte = *(uint8_t*)(raw->data()+(i*Detection_Pixel_Interval));
+	size_t current_size = static_cast<size_t>(raw_size);
+	size_t sample_count = current_size < Farame_sample_size ? current_size : Farame_sample_size;
+	size_t interval = current_size / sample_count;
+	const uint8_t *raw_data = static_cast<const uint8_t *>(raw->data());
+	for(size_t i = 0; i < sample_count; i ++){
+		size_t offset = i * interval;
+		if (offset >= current_size) {
+			offset = current_size - 1;
+		}
+		uint8_t sample_byte = raw_data[offset];
         if(sample_byte != Farame_sample[i]){
             Farame_sample[i] = sample_byte;
             ret = 1;
@@ -1466,12 +1547,22 @@ uint8_t frame_changed(image::Image *raw)
     return ret;
 }
 
-void jpg_dump(kvmv_data_t* dump_to, image::Image *raw)
+int jpg_dump(kvmv_data_t* dump_to, image::Image *raw)
 {
-    dump_to->p_img_data = (uint8_t *)malloc(raw->data_size());
-    dump_to->img_data_size = raw->data_size();
+    if (!dump_to || !raw || !raw->data() || raw->data_size() <= 0) {
+		return -1;
+	}
+
+	size_t data_size = static_cast<size_t>(raw->data_size());
+	uint8_t *output = static_cast<uint8_t *>(malloc(data_size));
+	if (!output) {
+		return -1;
+	}
+	memcpy(output, raw->data(), data_size);
+	dump_to->p_img_data = output;
+    dump_to->img_data_size = static_cast<uint32_t>(data_size);
     dump_to->img_data_type = VENC_MJPEG;
-    memcpy(dump_to->p_img_data, (uint8_t *)raw->data(), raw->data_size());
+	return 0;
 }
 
 uint8_t kvmvenc_gop = default_h264_gop;
@@ -1507,12 +1598,26 @@ void init_venc_h264(uint16_t _width, uint16_t _height, uint16_t _qlty)
 
 int h264_stream_dump(kvmv_data_t* dump_to, mmf_stream_t* dump_from)
 {
-    static int8_t I_Frame_index = -1;
+    if (!dump_to || !dump_from) {
+		return IMG_VENC_ERROR;
+	}
     // debug("[kvmv]dump_from->count = %d\n", dump_from->count);
     if (dump_from->count == 3) {
+		size_t total_size = 0;
+		for (int i = 0; i < 3; ++i) {
+			if (!dump_from->data[i] || dump_from->data_size[i] <= 0 ||
+				total_size > UINT32_MAX - static_cast<size_t>(dump_from->data_size[i])) {
+				return IMG_VENC_ERROR;
+			}
+			total_size += static_cast<size_t>(dump_from->data_size[i]);
+		}
+		uint8_t *output = static_cast<uint8_t *>(malloc(total_size));
+		if (!output) {
+			return IMG_VENC_ERROR;
+		}
 
-        dump_to->p_img_data = (uint8_t *)malloc(dump_from->data_size[0]+dump_from->data_size[1]+dump_from->data_size[2]);
-        dump_to->img_data_size = dump_from->data_size[0]+dump_from->data_size[1]+dump_from->data_size[2];
+		dump_to->p_img_data = output;
+		dump_to->img_data_size = static_cast<uint32_t>(total_size);
         dump_to->img_data_type = IMG_H264_TYPE_IF;
         memcpy(dump_to->p_img_data, dump_from->data[0], dump_from->data_size[0]);
         memcpy(dump_to->p_img_data+dump_from->data_size[0], dump_from->data[1], dump_from->data_size[1]);
@@ -1526,9 +1631,15 @@ int h264_stream_dump(kvmv_data_t* dump_to, mmf_stream_t* dump_from)
 
     } else if (dump_from->count == 1) {
         // debug("[kvmv]dump P-Frame\r\n");
-        I_Frame_index = -1;
-        dump_to->p_img_data = (uint8_t *)malloc(dump_from->data_size[0]);
-        dump_to->img_data_size = dump_from->data_size[0];
+		if (!dump_from->data[0] || dump_from->data_size[0] <= 0) {
+			return IMG_VENC_ERROR;
+		}
+		uint8_t *output = static_cast<uint8_t *>(malloc(dump_from->data_size[0]));
+		if (!output) {
+			return IMG_VENC_ERROR;
+		}
+		dump_to->p_img_data = output;
+		dump_to->img_data_size = static_cast<uint32_t>(dump_from->data_size[0]);
         dump_to->img_data_type = IMG_H264_TYPE_PF;
         memcpy(dump_to->p_img_data, dump_from->data[0], dump_from->data_size[0]);
         return IMG_H264_TYPE_PF;
@@ -1621,36 +1732,65 @@ int8_t raw_to_h264(image::Image *raw, kvmv_data_t* ret_stream, uint16_t _qlty)
 
 void kvmv_init(uint8_t _debug_info_en)
 {
-    pthread_t thread;
-    pthread_mutex_init(&vi_mutex, NULL);
+    pthread_mutex_lock(&lifecycle_mutex);
+    if (lifecycle_state != kvmv_lifecycle_state_t::stopped) {
+        pthread_mutex_unlock(&lifecycle_mutex);
+        return;
+    }
+
     if(_debug_info_en == 0) debug_en = 0;
     else                    debug_en = 1;
 
+    if (!vi_mutex_initialized) {
+        int mutex_res = pthread_mutex_init(&vi_mutex, NULL);
+        if (mutex_res != 0) {
+            fprintf(stderr, "[kvmv] failed to initialize camera mutex: %s\n", strerror(mutex_res));
+            pthread_mutex_unlock(&lifecycle_mutex);
+            return;
+        }
+        vi_mutex_initialized = true;
+    }
+
+    stop_threads.store(false, std::memory_order_release);
+    vi_detection_thread_started = false;
+    watchdog_thread_started = false;
+
     // debug("[kvmv]kvmv_init - 1\r\n");
 
+    pthread_mutex_lock(&vi_mutex);
     cam->hmirror(1);
     cam->vflip(1);
-    cam->restart(default_vpss_width, default_vpss_height, image::FMT_YVU420SP);
+    /* The global camera is already open.  Recreating it here immediately
+     * tears down a freshly started ISP/VI stack and is unreliable with a
+     * cleanly rebuilt vendor MMF library.  Real input-resolution changes are
+     * still handled by restart_camera_from_worker(). */
     for(int i = 0; i < kvmv_data_buffer_size; i++){
         kvmv_data_buffer[i].p_img_data = NULL;
+        kvmv_data_buffer[i].img_data_size = 0;
     }
+    kvmv_data_buffer_index = 0;
+    pthread_mutex_unlock(&vi_mutex);
 
-    kvmv_cfg.try_exit_thread = 0;
     // debug("[kvmv]kvmv_init - 2\r\n");
 
-    if(kvmv_cfg.thread_is_running == 1){
-        debug("[kvmv]thread is running!\r\n");
+    int thread_res = pthread_create(&vi_detection_thread, NULL, vi_subsystem_detection, NULL);
+    if (thread_res != 0) {
+        fprintf(stderr, "[kvmv] create vi_subsystem_detection thread failed: %s\n",
+                strerror(thread_res));
     } else {
-        if (0 != pthread_create(&thread, NULL, vi_subsystem_detection, NULL)) {
-            debug("[kvmv]create vi_subsystem_detection thread failed!\r\n");
-            // return -1;
-        }
-
-        if (0 != pthread_create(&thread, NULL, watchdog_sf_feed, NULL)) {
-            debug("[kvmv]create watchdog_sf_feed thread failed!\r\n");
-            // return -1;
-        }
+        vi_detection_thread_started = true;
     }
+
+    thread_res = pthread_create(&watchdog_thread, NULL, watchdog_sf_feed, NULL);
+    if (thread_res != 0) {
+        fprintf(stderr, "[kvmv] create watchdog_sf_feed thread failed: %s\n",
+                strerror(thread_res));
+    } else {
+        watchdog_thread_started = true;
+    }
+
+    lifecycle_state = kvmv_lifecycle_state_t::running;
+    pthread_mutex_unlock(&lifecycle_mutex);
     // debug("[kvmv]kvmv_init - 3\r\n");
 }
 
@@ -1830,6 +1970,14 @@ int kvmv_read_img(uint16_t _width, uint16_t _height, uint8_t _type, uint16_t _ql
 
         if(kvmv_cfg.venc_type == VENC_MJPEG){
             image::Image *jpg = img->to_jpeg(maxmin_data(99, 51, (int)_qlty));
+			if (!jpg || !jpg->data() || jpg->data_size() == 0) {
+				delete jpg;
+				delete img;
+				*_pp_kvm_data = NULL;
+				*_p_kvmv_data_size = 0;
+				pthread_mutex_unlock(&vi_mutex);
+				return IMG_VENC_ERROR;
+			}
             kvmv_data_t* p_kvmv_data = get_save_buffer();
             if(p_kvmv_data == NULL){
                 // buffer full
@@ -1840,7 +1988,14 @@ int kvmv_read_img(uint16_t _width, uint16_t _height, uint8_t _type, uint16_t _ql
                 pthread_mutex_unlock(&vi_mutex);
                 return IMG_BUFFER_FULL;
             }
-            jpg_dump(p_kvmv_data, jpg);
+			if (jpg_dump(p_kvmv_data, jpg) != 0) {
+				delete jpg;
+				delete img;
+				*_pp_kvm_data = NULL;
+				*_p_kvmv_data_size = 0;
+				pthread_mutex_unlock(&vi_mutex);
+				return IMG_VENC_ERROR;
+			}
             delete jpg;
 			delete img;
             *_pp_kvm_data = p_kvmv_data->p_img_data;
@@ -1861,8 +2016,13 @@ int kvmv_read_img(uint16_t _width, uint16_t _height, uint8_t _type, uint16_t _ql
             ret = raw_to_h264(img, p_kvmv_data, maxmin_data(10000, 500, (int)_qlty));
             // debug("[kvmv]venc raw_to_h264: %d \r\n", (int)(time::time_ms() - start_time));
 			delete img;
-            *_pp_kvm_data = p_kvmv_data->p_img_data;
-            *_p_kvmv_data_size = p_kvmv_data->img_data_size;
+			if (ret < 0 || !p_kvmv_data->p_img_data || p_kvmv_data->img_data_size == 0) {
+				*_pp_kvm_data = NULL;
+				*_p_kvmv_data_size = 0;
+			} else {
+				*_pp_kvm_data = p_kvmv_data->p_img_data;
+				*_p_kvmv_data_size = p_kvmv_data->img_data_size;
+			}
             pthread_mutex_unlock(&vi_mutex);
             return ret;
         }
@@ -1896,21 +2056,60 @@ int free_kvmv_data(uint8_t ** _pp_kvm_data)
 
 void free_all_kvmv_data()
 {
-    for(int i = 0; i <= kvmv_data_buffer_size; i++){
+    for(int i = 0; i < kvmv_data_buffer_size; i++){
         if(kvmv_data_buffer[i].p_img_data != NULL){
             free(kvmv_data_buffer[i].p_img_data);
             kvmv_data_buffer[i].p_img_data = NULL;
         }
+        kvmv_data_buffer[i].img_data_size = 0;
     }
 }
 
 void kvmv_deinit()
 {
-    pthread_mutex_destroy(&vi_mutex);
-    kvmv_cfg.try_exit_thread = 1;
+    pthread_mutex_lock(&lifecycle_mutex);
+    if (lifecycle_state != kvmv_lifecycle_state_t::running) {
+        pthread_mutex_unlock(&lifecycle_mutex);
+        return;
+    }
+    lifecycle_state = kvmv_lifecycle_state_t::stopping;
+    stop_threads.store(true, std::memory_order_release);
+    pthread_mutex_unlock(&lifecycle_mutex);
+
+    struct timespec deadline;
+    clock_gettime(CLOCK_REALTIME, &deadline);
+    // Leave time inside Rust's four-second outer shutdown deadline for MMF cleanup.
+    deadline.tv_sec += 2;
+
+    bool detection_stopped = join_worker_until(
+        vi_detection_thread, &vi_detection_thread_started, &deadline,
+        "vi_subsystem_detection");
+    bool watchdog_stopped = join_worker_until(
+        watchdog_thread, &watchdog_thread_started, &deadline,
+        "watchdog_sf_feed");
+
+    pthread_mutex_lock(&lifecycle_mutex);
+    if (!detection_stopped || !watchdog_stopped) {
+        fprintf(stderr, "[kvmv] worker shutdown incomplete; leaving camera/MMF state intact\n");
+        pthread_mutex_unlock(&lifecycle_mutex);
+        return;
+    }
+
+    pthread_mutex_lock(&vi_mutex);
     cam->close();
     mmf_deinit();
     free_all_kvmv_data();
+    pthread_mutex_unlock(&vi_mutex);
+
+    int mutex_res = pthread_mutex_destroy(&vi_mutex);
+    if (mutex_res == 0) {
+        vi_mutex_initialized = false;
+    } else {
+        fprintf(stderr, "[kvmv] failed to destroy camera mutex: %s\n", strerror(mutex_res));
+    }
+
+    lifecycle_state = kvmv_lifecycle_state_t::stopped;
+    pthread_mutex_unlock(&lifecycle_mutex);
 }
 
 uint8_t kvmv_hdmi_control(uint8_t _en)
@@ -1921,7 +2120,11 @@ uint8_t kvmv_hdmi_control(uint8_t _en)
 	    uint8_t RW_Data[2];
         if(access("/etc/kvm/hw", F_OK) == 0){
             fp = fopen("/etc/kvm/hw", "r");
-            fread(RW_Data, sizeof(char), 1, fp);
+			if (!fp) {
+				return -1;
+			}
+			memset(RW_Data, 0, sizeof(RW_Data));
+			fread(RW_Data, sizeof(char), 1, fp);
             fclose(fp);
             switch(RW_Data[0]){
                 case 'a':

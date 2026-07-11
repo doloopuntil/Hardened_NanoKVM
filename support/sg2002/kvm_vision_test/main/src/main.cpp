@@ -27,9 +27,9 @@ int main(int argc, char* argv[])
 		printf("NOT_GET_IMG ...\n");
 		time::sleep_ms(1000);
 #else
-		uint8_t* p_kvmv_img_data;
-		uint32_t kvmv_img_data_size;
-		int ret;
+		uint8_t* p_kvmv_img_data = NULL;
+		uint32_t kvmv_img_data_size = 0;
+		int ret = IMG_NOT_EXIST;
 
 		printf("KVM-Vison Get Fream ...\n");
 		
@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
 			ret = kvmv_read_img(0, 0, 0, 60, &p_kvmv_img_data, &kvmv_img_data_size);
 		} else {
 			get_fream_count = 0;
+			continue;
 		}
 		
 		// printf("kvmv_read_img(): %d \r\n", (int)(time::time_ms() - start_time));
@@ -53,7 +54,7 @@ int main(int argc, char* argv[])
 
 		// send...
 		// if(ret >= 0){
-			free_kvmv_data(&p_kvmv_img_data);
+			if (p_kvmv_img_data) free_kvmv_data(&p_kvmv_img_data);
 		// }
 #endif
 	}

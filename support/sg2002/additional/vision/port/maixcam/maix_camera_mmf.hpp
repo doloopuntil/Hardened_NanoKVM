@@ -17,6 +17,7 @@
 #include "maix_camera_base.hpp"
 #include "kvm_mmf.hpp"
 #include <signal.h>
+#include <unistd.h>
 
 static void try_deinit_mmf()
 {
@@ -29,21 +30,9 @@ static void try_deinit_mmf()
 
 static void signal_handle(int signal)
 {
-    const char *signal_msg = NULL;
-    switch (signal) {
-    case SIGILL: signal_msg = "SIGILL"; break;
-    case SIGTRAP: signal_msg = "SIGTRAP"; break;
-    case SIGABRT: signal_msg = "SIGABRT"; break;
-    case SIGBUS: signal_msg = "SIGBUS"; break;
-    case SIGFPE: signal_msg = "SIGFPE"; break;
-    case SIGKILL: signal_msg = "SIGKILL"; break;
-    case SIGSEGV: signal_msg = "SIGSEGV"; break;
-    default: signal_msg = "UNKNOWN"; break;
-    }
-
-    maix::log::error("Trigger signal, code:%s(%d)!\r\n", signal_msg, signal);
-    try_deinit_mmf();
-    exit(1);
+	static const char message[] = "fatal signal in native vision backend\n";
+	(void)write(STDERR_FILENO, message, sizeof(message) - 1);
+	_exit(128 + signal);
 }
 
 // FIXME: move this function to port/maix_vision_maixcam.cpp ?
@@ -54,7 +43,6 @@ static __attribute__((constructor)) void maix_vision_register_signal(void)
     signal(SIGABRT, signal_handle);
     signal(SIGBUS, signal_handle);
     signal(SIGFPE, signal_handle);
-    signal(SIGKILL, signal_handle);
     signal(SIGSEGV, signal_handle);
 
     maix::util::register_exit_function(try_deinit_mmf);
@@ -101,11 +89,11 @@ namespace maix::camera
             }
         }
 
-        ~CameraCviMmf()
+        ~CameraCviMmf() noexcept
         {
             mmf_del_vi_channel(this->ch);
             if (0 != mmf_vi_deinit()) {
-                err::check_raise(err::ERR_RUNTIME, "mmf vi init failed");
+				log::error("mmf vi deinit failed");
             }
             mmf_try_deinit(true);
         }

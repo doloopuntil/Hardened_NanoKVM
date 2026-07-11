@@ -10,9 +10,9 @@ implemented deeply enough for interactive device testing.
 
 Current published channels:
 
-- app update: `2.0.33 RC9.1`, tag `hardened-rust-rc9.1`;
-- current source/test build: `2.0.33`; RC9.1 is an app-only update with
-  browser-window KVM auto-fit and Appearance control alignment fixes;
+- app update: `2.0.34 RC10`, tag `hardened-rust-rc10`;
+- current source/test build: `2.0.34`; RC10 is an app-only native hardening
+  update for the RC9 system baseline;
 - raw system-update: `0.2.23-raw.1`, built from the RC9 `2.0.32` SD rootfs
   with gzip-compressed raw payload staging and sysrq reboot after raw writes;
 - SD-card image: RC9 `2.0.32` / `0.2.23-raw.1`.

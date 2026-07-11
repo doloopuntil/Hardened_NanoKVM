@@ -412,6 +412,8 @@ int get_ping_allow_state(void)
 int get_ip_addr(ip_addr_t ip_type)
 {
 	switch (ip_type){
+		case NULL_IP:
+			return 0;
 		case ETH_IP: // eth_addr
 			return copy_interface_ip("eth0", kvm_sys_state.eth_addr, sizeof(kvm_sys_state.eth_addr));
 		case WiFi_IP: // wifi_addr
@@ -680,6 +682,17 @@ void kvm_update_eth_state(void)
 	}
 }
 
+static void persist_wifi_state_if_changed(int8_t state)
+{
+	static int8_t persisted_state = INT8_MIN;
+	if (persisted_state == state) return;
+
+	FILE *fp = fopen("/kvmapp/kvm/wifi_state", "w");
+	if (!fp) return;
+	bool written = fprintf(fp, "%d\n", state) > 0;
+	if (fclose(fp) == 0 && written) persisted_state = state;
+}
+
 void kvm_update_wifi_state(void)
 {	
 	// No WiFi module (check for existence?) -> Module exists & not connected (check if connected) ->
@@ -699,7 +712,7 @@ void kvm_update_wifi_state(void)
 			// break;	// Start checking the connection directly.
 		case 0:
 		// WiFi is available but not connected.
-			system("echo 0 > /kvmapp/kvm/wifi_state");
+			persist_wifi_state_if_changed(0);
 			if (get_ip_addr(WiFi_IP) && get_ip_addr(WiFi_ROUTE)){
 				// IP+Route has been acquired
 				if(kvm_sys_state.ping_allow){
@@ -715,7 +728,7 @@ void kvm_update_wifi_state(void)
 			break;
 		case 1:
 		// Connected to the network & continuously checking if it can ping successfully.
-			system("echo 1 > /kvmapp/kvm/wifi_state");
+			persist_wifi_state_if_changed(1);
 			get_ip_addr(WiFi_IP);
 			if(kvm_sys_state.ping_allow){
 				if (kvm_sys_state.wifi_route[0] != 0){

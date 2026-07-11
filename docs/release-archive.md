@@ -8,7 +8,8 @@ GitHub Releases after their historical notes are kept in `CHANGELOG.md`.
 
 | Tag | Purpose | Notes |
 | --- | --- | --- |
-| `hardened-rust-rc9.1` | Current app-only RC | App `2.0.33` for the RC9 system baseline. Adds post-RC9 browser-window auto-fit for the KVM screen and aligns Appearance segmented controls. Tested on NanoKVM Cube devices `10.0.87.133` and `10.0.87.132`. |
+| `hardened-rust-rc10` | Current app-only RC | App `2.0.34` for the RC9 system baseline. Remediates the native C/C++ audit, fixes MaixCDK sensor-enum compatibility for clean LT6911 builds, and packages rebuilt `libkvm`, `libkvm_mmf`, and `kvm_system`. Reboot, MJPEG, H.264 Direct, and controlled stop/start passed on `10.0.87.133`. |
+| `hardened-rust-rc9.1` | Previous app-only RC | App `2.0.33` for the RC9 system baseline. Adds post-RC9 browser-window auto-fit for the KVM screen and aligns Appearance segmented controls. Tested on NanoKVM Cube devices `10.0.87.133` and `10.0.87.132`. |
 | `hardened-rust-rc9` | Current full raw/SD RC | App `2.0.32` with matching raw system `0.2.23-raw.1` and SD-card image. Carries the RC8 mobile/tablet baseline plus post-RC8 mobile Settings segmented-control fixes. Tested on NanoKVM Cube devices. |
 | `hardened-rust-rc8` | Previous full raw/SD RC | App `2.0.31` with matching raw system `0.2.22-raw.1` and SD-card image. Extends the Hardened mobile view to touch tablets, adds forced Mobile view, keeps TouchSync as the mobile default, and carries the RC7/RC7.1 mobile KVM fixes into a full baseline. Tested on NanoKVM Cube. |
 | `hardened-rust-rc7.1` | Previous app-only RC | App `2.0.30` for the RC7 system baseline. Adds mobile KVM pinch-to-zoom and touch-drag panning for scaled video surfaces. Tested on NanoKVM Cube. |

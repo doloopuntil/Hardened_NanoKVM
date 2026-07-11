@@ -162,12 +162,14 @@ namespace maix::peripheral::i2c
         if (_mode != i2c::Mode::MASTER)
         {
             log::error("Only for master mode");
+            delete data;
             return nullptr;
         }
 
         if (0 != ioctl(_fd, I2C_SLAVE, addr))
         {
             // log::error("set slave address failed");
+            delete data;
             return nullptr;
         }
 

@@ -88,6 +88,7 @@ static const char *snsr_type_name[SAMPLE_SNS_TYPE_BUTT] = {
 	"BYD_BF2253L_MIPI_1200P_30FPS_10BIT",
 	"CVSENS_CV4001_MIPI_4M_1440P_25FPS_12BIT",
 	"GCORE_GC02M1_MIPI_2M_30FPS_10BIT",
+	"GCORE_GC030A_MIPI_480P_30FPS_10BIT",
 	"GCORE_GC0312_MIPI_480P_20FPS_8BIT",
 	"GCORE_GC0329_MIPI_480P_10FPS_8BIT",
 	"GCORE_GC1054_MIPI_1M_30FPS_10BIT",
@@ -219,6 +220,9 @@ static const char *snsr_type_name[SAMPLE_SNS_TYPE_BUTT] = {
 	"VIVO_MCS369Q_4M_30FPS_12BIT",
 	"VIVO_MM308M2_2M_25FPS_8BIT",
 	"LONTIUM_LT6911_2M_60FPS_8BIT",
+	"GCORE_GC4653_MIPI_720P_60FPS_10BIT",
+	"GCORE_OV2685_MIPI_1600x1200_30FPS_10BIT",
+	"OV_OS04A10_MIPI_4M_720P90_12BIT",
 	/* ------ LINEAR END ------*/
 
 	/* ------ WDR 2TO1 BEGIN ------*/
@@ -1816,6 +1820,10 @@ static int parse_lane_id(CVI_S16 *LaneId, const char *value)
 				SAMPLE_PRT("lane_id parse error, is the format correct?\n");
 				return -1;
 			}
+			if ((size_t)(k - offset) >= sizeof(buf)) {
+				SAMPLE_PRT("lane_id token is too long\n");
+				return -1;
+			}
 			memset(buf, 0, sizeof(buf));
 			memcpy(buf, &value[offset], k - offset);
 			buf[k-offset] = '\0';
@@ -1845,6 +1853,10 @@ static int parse_pn_swap(CVI_S8 *PNSwap, const char *value)
 		if (value[k] == ',' || value[k] == '\0') {
 			if (k == offset) {
 				SAMPLE_PRT("lane_id parse error, is the format correct?\n");
+				return -1;
+			}
+			if ((size_t)(k - offset) >= sizeof(buf)) {
+				SAMPLE_PRT("pn_swap token is too long\n");
 				return -1;
 			}
 			memset(buf, 0, sizeof(buf));

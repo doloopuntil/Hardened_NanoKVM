@@ -15,13 +15,12 @@ available in:
 - Local checkout: `/home/w0w/Hardened_NanoKVM-new-buildroot`.
 - GitHub repository: `woffko/Hardened_NanoKVM`.
 - GitHub default branch: `main`.
-- Local working branch before this documentation update: `rc8-main-sync`,
-  tracking `origin/main` at `e21e8a3` (`Record RC9.1 app release`).
+- Local release branch: `rc8-main-sync`, tracking `origin/main`.
 - `feature/rust-kvm-system-migration` is historical. Its validated work is in
   `main`; do not continue release work from that branch.
-- Current source/application version: `2.0.33` (`kvmapp/version`).
-- Current latest application release: `2.0.33 RC9.1`, tag
-  `hardened-rust-rc9.1`.
+- Current source/application version: `2.0.34` (`kvmapp/version`).
+- Current latest application release: `2.0.34 RC10`, tag
+  `hardened-rust-rc10`.
 - Current full raw/SD baseline: RC9 app `2.0.32`, raw system
   `0.2.23-raw.1`, tags `hardened-rust-rc9` and
   `hardened-system-0.2.23-raw.1`.
@@ -34,11 +33,11 @@ Current release artifacts and SHA-256 values:
 
 | Artifact                                              | SHA-256                                                            |
 | ----------------------------------------------------- | ------------------------------------------------------------------ |
-| `hardened-nanokvm-kvmapp-2.0.33.tar.gz`               | `953a5ef8cc7c393b2a9e7bb570c0fd128e8133f8da11df016fb7e14bb801fc1c` |
+| `hardened-nanokvm-kvmapp-2.0.34.tar.gz`               | Recorded after RC10 publication.                                   |
 | RC9 raw `hardened-nanokvm-system-0.2.23-raw.1.tar.gz` | `d7d50d279619f5a964c7367a3cd506385a423c1751c79220e6dc03ab5ca4b458` |
 | RC9 SD image `.img.xz`                                | `52b5b65886d977c1360b7d788169f6559f7e42d6794bc30d444469121c576b83` |
 
-RC9.1 was app-only. It did not change raw/system metadata or the SD image.
+RC10 is app-only. It does not change raw/system metadata or the SD image.
 
 ## Current Architecture
 
@@ -71,12 +70,13 @@ RC9.1 was app-only. It did not change raw/system metadata or the SD image.
 
 ## Native C/C++ Audit
 
-The 2026-07-11 review found unresolved native defects in the production video
-path and retained helper. The complete finding list, code references, audit
-limits, and recommended repair order are in
+The 2026-07-11 review found native defects in the production video path and
+retained helper. The current working tree addresses the complete finding list;
+the original findings, code references, repair summary, and remaining hardware
+coverage are in
 [`native-code-audit.md`](native-code-audit.md).
 
-Highest-priority findings:
+Highest-priority findings (now addressed in the working tree):
 
 1. HDMI detection can run `cam->restart()` concurrently with frame reads,
    deleting the camera implementation while it is in use.
@@ -94,14 +94,19 @@ Highest-priority findings:
 10. Retained `kvm_system` has shared-state races, button/OLED bugs, QR leaks,
     and an every-poll Wi-Fi status write that causes unnecessary SD activity.
 
-Audit status:
+Remediation status:
 
-- no native source fix has been made yet;
-- no native binary was deployed during the audit;
-- target RISC-V warning compilation was run for `kvm_system`;
-- native MMF/video issues were confirmed by source/lifetime analysis and still
-  require hardware fault/stress testing;
-- use `10.0.87.133` for fixes and validation, one slice at a time.
+- all 26 recorded findings have source fixes in the current working tree;
+- native libraries and `kvm_system` rebuild successfully with the target
+  RISC-V toolchain, and the linked Rust package passes all 153 tests;
+- the rebuilt libraries were deployed to `10.0.87.133` and passed full reboot,
+  authenticated MJPEG, H.264 Direct, and controlled backend stop/start tests;
+- a stale vendor sensor-name table was also synchronized with the current
+  MaixCDK enum; without that compatibility fix, a clean rebuild selects the
+  wrong numeric sensor ID for LT6911 even though the log prints its name;
+- HDMI hotplug/resolution-change stress, physical OLED/button coverage, and a
+  long-running dmesg/syslog soak remain before a release;
+- `10.0.87.132` was not used.
 
 ## Test Devices
 
@@ -200,8 +205,9 @@ scripts/validate-nanokvm-rootfs.sh <rootfs>
 - Repeated backend restarts have previously left CVI/ION/VB resources allocated
   and caused `already inited`, `fail to allocate ion memory`, and invalid-buffer
   errors.
-- A linked Rust shutdown path calls `kvmv_deinit()`, but the audit now shows
-  that native deinit itself is unsafe until its threads/lifecycle are fixed.
+- The linked Rust shutdown path calls `kvmv_deinit()`. The current native
+  implementation stops and joins its workers before camera/MMF teardown; a
+  controlled stop/start passed on `10.0.87.133`.
 - Keep remote syslog enabled during native work so evidence survives a device
   hang/reboot.
 
@@ -326,25 +332,19 @@ scripts/validate-nanokvm-rootfs.sh <rootfs>
 - `/api/health` returned the Rust backend on both devices during that check.
 - Those web-only checks reported application version `2.0.32` on-device; do
   not assume RC9.1 was installed on either device without rechecking.
-- The new native C/C++ audit has not yet been converted into fixes or tested on
-  hardware.
+- The native C/C++ audit findings have source fixes. Rebuilt native libraries
+  passed full reboot, MJPEG, H.264 Direct, and controlled backend stop/start on
+  `10.0.87.133`; `10.0.87.132` was not used for native testing.
 
 ## Immediate Next Work
 
-1. Fix native lifecycle first: stop/join libkvm threads, make restart/read/deinit
-   mutually exclusive, and add bounded shutdown waits.
-2. Fix VENC stream ownership/error cleanup and the NV21 stride-row bug.
-3. Fix definite native bounds/null/allocation bugs before broader refactoring.
-4. Build linked Rust/native artifacts and test each native slice on 133 with
-   remote syslog and repeated HDMI hotplug/resolution/mode-switch cycles.
-5. After video lifecycle is stable, fix retained `kvm_system` races, OLED/button
-   bugs, QR leaks, and repeated Wi-Fi SD writes.
-6. Validate positive Wi-Fi reconnect and OLED AP provisioning on a device with
+1. Stress repeated HDMI hotplug and resolution changes on 133.
+2. Exercise physical OLED/button behavior and Wi-Fi provisioning hardware.
+3. Run a long dmesg/syslog soak and fault-injection coverage for vendor errors.
+4. Validate positive Wi-Fi reconnect and OLED AP provisioning on a device with
    `wlan0`; 133 cannot currently validate that path.
-7. Recheck Tailscale login and perform a real peer connection only after the
+5. Recheck Tailscale login and perform a real peer connection only after the
    selected test device is logged into a tailnet.
-8. Do not publish another release until native fixes pass the 133 checklist and
-   the user explicitly requests a release.
 
 ## Documentation Map
 

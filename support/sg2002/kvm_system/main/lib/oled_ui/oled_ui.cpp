@@ -8,8 +8,7 @@ extern kvm_oled_state_t kvm_oled_state;
 
 void kvm_init_cube_ui(void)
 {
-	uint8_t temp;
-	char* str_temp = "192.168.1.243";
+	uint8_t temp = 0;
 
 	OLED_Clear();
 	// OLED_Revolve();
@@ -67,8 +66,6 @@ void kvm_init_ui(void)
 void qrcode_to_oled(QRCode *qr)
 {
 	char *p_oled_data;
-	uint16_t count = 0;
-	uint8_t bit;
 	uint8_t begin_x = 2;
 	uint8_t begin_y = 2;
 	p_oled_data = (char *)malloc( 132 * sizeof(char));
@@ -106,6 +103,7 @@ int qrencode(char *string)
 	qrAddData(p, (const qr_byte_t*)string, strlen(string));
 	if (!qrFinalize(p)) {
 		printf("finalize error\n");
+		qrDestroy(p);
 		return -1;
 	}
 
@@ -120,20 +118,7 @@ int qrencode(char *string)
 			OLED_ShowStringTurn(3, 1, "WiKi", 8);
 		}
 	}
-	int size = 0;
-	// width = height = qr_vertable[version] * mag + sep * mag * 2
-	qr_byte_t * buffer = qrSymbolToBMP(p, 5, 5, &size);
-	if (buffer == NULL) {
-		printf("error %s", qrGetErrorInfo(p));
-		return -1;
-	}
-	// output qrcode to file
-	// ofstream f("/etc/kvm/wifi_config.bmp");
-	// if (f.fail()) {
-	// 	return -1;
-	// }
-	// f.write((const char *)buffer, size);
-	// f.close();
+	qrDestroy(p);
 	return 0;
 }
 
@@ -208,7 +193,7 @@ uint8_t kvm_state_is_changed()
 void kvm_eth_state_disp(ip_addr_t _ip_type, uint8_t first_disp)
 {
 	static ip_addr_t _ip_type_old = NULL_IP;
-	uint8_t temp;
+	uint8_t temp = 0;
 	// printf("[kvmd]eth_state = %d\n", kvm_sys_state.eth_state);
 	if(	(kvm_oled_state.eth_state != kvm_sys_state.eth_state) || 
 		(_ip_type_old != _ip_type) || 
@@ -238,6 +223,7 @@ void kvm_eth_state_disp(ip_addr_t _ip_type, uint8_t first_disp)
 				break;
 			case  2:
 				OLED_Show_Network_Error(1);
+				break;
 			case  3:
 				OLED_Show_Network_Error(0);
 				OLED_ShowKVMState(ETH_STATE, 	1);

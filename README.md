@@ -29,10 +29,10 @@ a drop-in `NanoKVM-Server` and continues to use the existing `kvm_system`,
 runtime libraries used by the Rust backend live under `server-rust/native/`.
 
 The web UI currently brands this fork as **Hardened NanoKVM**. The current
-published GitHub application release is **2.0.33 RC9.1**.
+published GitHub application release is **2.0.34 RC10**.
 
 The current published application release is available from the `woffko` fork at
-[`hardened-rust-rc9.1`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-rust-rc9.1).
+[`hardened-rust-rc10`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-rust-rc10).
 
 The latest raw system-update and SD-card artifacts are the **0.2.23-raw.1**
 RC9 builds. The system-update channel metadata points to the companion
@@ -114,12 +114,12 @@ NanoKVM device and harden one subsystem at a time.
 | HTTPS                 | Implemented in Rust with HTTP-to-HTTPS redirect and existing cert config support.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | Authentication        | First-boot web account setup, Rust sessions, CSRF protection, Origin checks, rate limiting, security headers, Argon2id for new passwords, legacy bcrypt verification.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | Video                 | H.264 Direct is the preferred low-CPU mode and is verified on hardware. MJPEG remains available as a fallback. H.264 WebRTC is available in Baseline/Moderate modes, but is disabled by Restricted/Paranoid firewall policy.                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| Native video boundary | Rust still calls `libkvm` and the CVI/MMF C/C++ stack. A 2026-07-11 audit found unresolved lifecycle races, VENC cleanup errors, bounds bugs, and unchecked hardware failures; native remediation on test device 133 is the next high-priority engineering task.                                                                                                                                                                                                                                                                                                                                                                                                      |
+| Native video boundary | Rust still calls `libkvm` and the CVI/MMF C/C++ stack. RC10 remediates the 2026-07-11 native audit findings, including lifecycle races, VENC ownership/rollback, bounds and parser bugs, MMF mapping lifetime, signal safety, and retained helper defects. Rebuilt libraries passed MJPEG, H.264 Direct, reboot, and controlled stop/start testing on device 133.                                                                                                                                                                                                                                                                                    |
 | HID                   | Keyboard/mouse websocket, queued HID writes, paste, shortcuts, HID mode, reset, and mouse jiggler are implemented.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | Device settings       | Hostname, web title, GPIO/ATX, OLED, HDMI, SSH, mDNS, swap, memory limit, TLS toggle, reboot, scripts, and autostart have Rust endpoints.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | Storage               | ISO/IMG listing, upload, mount, delete, and CD-ROM/mass-storage mode are implemented with path validation. Mount changes use LUN eject/insert; switching between CD-ROM and mass-storage mode also reconnects the USB gadget so BIOS/boot menus rescan the device type. A confirmed USB reconnect fallback remains available when a host does not notice media changes. Remote ISO download exists behind a disabled-by-default safety toggle and validates URL, filename, size, destination, and ISO format. Completed downloads now reset the picker state and refresh the virtual-media image list without logout.                                                 |
 | Network               | WOL, full wired DHCP/manual IP/DNS settings, explicit IPv6 Disabled/SLAAC/DHCPv6/Manual controls, Wi-Fi status/connect/AP verification, and Tailscale lifecycle endpoints are implemented.                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| Updates               | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current published app channel: `2.0.33 RC9.1`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| Updates               | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current published app channel: `2.0.34 RC10`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | SD image              | Latest published SD image is the RC9 `2.0.32` / `0.2.23-raw.1` image, built by patching a trusted NanoKVM Rev1.4.2/vendor SDK base image with Hardened `kvmapp`. The RC9 mobile/tablet UI path was smoke-tested on NanoKVM Cube devices. `make vendor-sdk` bootstraps the pinned Sipeed SDK for future reproducible base-system builds.                                                                                                                                                                                                                                                                                                                               |
 | System updates        | Separate GitHub channel metadata, signed metadata enforcement, staging download/verify, guarded raw install, first-boot root configuration restore, automatic boot-good confirmation, manual rollback, and boot-watchdog rollback are implemented. Current raw channel: `0.2.23-raw.1`, built from the RC9 `2.0.32` SD rootfs. Raw full-rootfs updates are lab-only; current raw payloads are stored gzip-compressed and streamed to the SD-card block devices during install. The current raw/SD image reports Buildroot `2023.11.2` with security backport level `Buildroot 2023.11.3 package backports`; deeper kernel/rootfs security payloads are still pending. |
 
@@ -154,7 +154,7 @@ https://github.com/woffko/Hardened_NanoKVM/releases/latest/download/latest.json
 ```
 
 The metadata points to a versioned app archive such as
-`hardened-nanokvm-kvmapp-2.0.33.tar.gz` on the `hardened-rust-rc9.1` release tag.
+`hardened-nanokvm-kvmapp-2.0.34.tar.gz` on the `hardened-rust-rc10` release tag.
 The device verifies signed metadata and the archive sha512 before
 installing. The preview toggle uses the `hardened-rust-preview` channel
 metadata, but it still installs the versioned archive named by that metadata.
@@ -213,7 +213,7 @@ state.
 
 The channels can intentionally move independently:
 
-- Application stable/latest: `2.0.33 RC9.1`, tag `hardened-rust-rc9.1`.
+- Application stable/latest: `2.0.34 RC10`, tag `hardened-rust-rc10`.
 - Application preview: `hardened-rust-preview`, when populated, points to a
   versioned application archive independently from the stable latest release.
 - Raw system stable: `0.2.23-raw.1`, published on companion tag
@@ -325,10 +325,11 @@ When the Rust backend is active,
 
 ## Still Not Finished
 
-- The native `libkvm`/CVI-MMF path still needs lifecycle and memory-safety
-  remediation. The current audit and prioritized code references are in
-  [docs/native-code-audit.md](docs/native-code-audit.md); no fixes from that
-  audit are included in RC9.1.
+- The native `libkvm`/CVI-MMF audit findings are remediated in RC10. The
+  original findings and completed hardware checks are recorded in
+  [docs/native-code-audit.md](docs/native-code-audit.md). Repeated HDMI
+  hotplug/resolution stress, physical OLED/button coverage, and a long-running
+  dmesg/syslog soak remain release follow-up work.
 - Full API parity is not complete. Some routes are implemented for compatibility
   but still need deeper behavior and edge-case testing.
 - H.264 WebRTC needs more browser/ICE stress testing across reconnects and

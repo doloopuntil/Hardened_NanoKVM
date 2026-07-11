@@ -21,11 +21,6 @@ restore_kvm_system_helper() {
   dest="$KVMAPP_STAGE/kvm_system/kvm_system"
   tmp="$STAGE_DIR/kvm_system.orig"
 
-  if [ -s "$dest" ]; then
-    chmod 0755 "$dest"
-    return
-  fi
-
   mkdir -p "$KVMAPP_STAGE/kvm_system"
 
   if [ -n "$KVM_SYSTEM_SOURCE" ] && [ -s "$KVM_SYSTEM_SOURCE" ]; then
@@ -36,6 +31,11 @@ restore_kvm_system_helper() {
 
   if [ -s "$KVM_SYSTEM_BUILD_SOURCE" ]; then
     cp "$KVM_SYSTEM_BUILD_SOURCE" "$dest"
+    chmod 0755 "$dest"
+    return
+  fi
+
+  if [ -s "$dest" ]; then
     chmod 0755 "$dest"
     return
   fi

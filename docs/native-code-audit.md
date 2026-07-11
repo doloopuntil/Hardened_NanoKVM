@@ -20,10 +20,10 @@ The Rust FFI mutex serializes calls made by Rust, but it does not serialize the
 internal `libkvm` detection/watchdog threads against frame reads. The findings
 below are therefore relevant to the shipped Rust backend.
 
-This checkpoint is an audit only. None of the findings below were fixed or
-deployed as part of the review. Native fixes must be tested on device
-`10.0.87.133`; do not use `10.0.87.132` for native/video experiments unless the
-user explicitly requests it.
+The numbered list below preserves the original audit findings. All 26 findings
+now have source fixes in the current working tree. The rebuilt native libraries
+were tested on `10.0.87.133`; `10.0.87.132` was not used. Remaining release
+coverage is listed under **Remediation Verification**.
 
 ## Priority 0: Crash, Corruption, Or Device-Wedge Risk
 
@@ -212,6 +212,37 @@ user explicitly requests it.
 - `cppcheck` and `clang-tidy` were not installed in the review environment.
 - No native binaries were rebuilt, no device was modified, and no hardware
   runtime test was performed for this audit.
+
+The statements above describe the audit checkpoint before remediation.
+
+## Remediation Verification
+
+Completed on 2026-07-11:
+
+- rebuilt `libkvm.so`, `libkvm_mmf.so`, `kvm_system`, and the EDID utility with
+  the target RISC-V toolchain;
+- synchronized the vendored sensor-name table with the active MaixCDK
+  `SAMPLE_SNS_TYPE_E`; this fixed a clean-build LT6911 numeric-ID mismatch that
+  prevented VI initialization;
+- passed all Rust tests: 145 library, 6 hwmon, and 2 server tests;
+- built the statically linked RISC-V Rust backend and final application archive;
+- deployed the final native libraries to `10.0.87.133`, verified their hashes,
+  and performed a full reboot;
+- authenticated MJPEG returned a valid multipart JPEG stream (16,011,661 bytes
+  sampled, JPEG marker `ff d8 ff`);
+- H.264 Direct completed the WebSocket upgrade and returned SPS/PPS/IDR data
+  (1,617,945 bytes sampled; first native frame 144,175 bytes);
+- controlled backend stop/start replaced PID 766 with PID 1117, reinitialized
+  VI/VPSS, and returned stable HTTPS health afterward.
+
+Final tested native hashes:
+
+- `libkvm.so`: `8ebe4ba3ce537bd95b1ca819e20d43aa623442e5972cc29a4328f8b66a740bde`;
+- `libkvm_mmf.so`: `be269c595b454930abeb9bb05eb67ec708894eb2df1650c4d99ee1162e1e3f2d`.
+
+Still required before release: repeated HDMI hotplug and resolution changes,
+physical OLED/button behavior, fault injection for vendor failure paths, and a
+long-running dmesg/syslog soak.
 
 ## Recommended Repair Order
 

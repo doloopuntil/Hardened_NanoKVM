@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/param.h>
+#include <sys/mman.h>
 #include "math.h"
 #include <inttypes.h>
 
@@ -55,6 +56,7 @@ typedef struct {
 	uint8_t is_inited;
 	uint8_t is_used;
 	uint8_t is_running;
+	uint8_t stream_acquired;
 	uint8_t use_vpss;
 	VIDEO_FRAME_INFO_S *capture_frame;
 	VENC_STREAM_S capture_stream;
@@ -115,6 +117,7 @@ typedef struct {
 	int enc_jpg_frame_h;
 	int enc_jpg_frame_fmt;
 	int enc_jpg_running;
+	int enc_jpg_stream_acquired;
 	int enc_jpg_quality;
 	VIDEO_FRAME_INFO_S *enc_jpg_frame;
 	int enc_jpg_input_pool_id;
@@ -291,7 +294,8 @@ static int _free_leak_memory_of_ion(void)
     }
 
     while (fgets(line, MAX_LINE_LENGTH, fp) != NULL) {
-        if (sscanf(line, "%*d %s %s %*d %s", alloc_buf_size_str, phy_addr_str, buffer_name) == 3) {
+		if (sscanf(line, "%*d %19s %19s %*d %19s",
+			alloc_buf_size_str, phy_addr_str, buffer_name) == 3) {
 			printf("[ION] %s  %s  %s\r\n", alloc_buf_size_str, phy_addr_str, buffer_name);
 			// FIXME: release jpeg_ion
 			if (strcmp(buffer_name, "VI_DMA_BUF")
@@ -302,18 +306,29 @@ static int _free_leak_memory_of_ion(void)
 				.dmabuf_fd = (uint32_t)-1,
 			};
 
-            alloc_buf_size = atoi(alloc_buf_size_str);
-            phy_addr = (unsigned int)strtol(phy_addr_str, NULL, 16);
+			errno = 0;
+			char *size_end = NULL;
+			char *addr_end = NULL;
+			unsigned long parsed_size = strtoul(alloc_buf_size_str, &size_end, 10);
+			unsigned long long parsed_addr = strtoull(phy_addr_str, &addr_end, 16);
+			if (errno != 0 || size_end == alloc_buf_size_str || *size_end != '\0' ||
+				addr_end == phy_addr_str || *addr_end != '\0' || parsed_size > INT32_MAX) {
+				printf("[ION] invalid allocation record, skipping\r\n");
+				continue;
+			}
+			alloc_buf_size = static_cast<int>(parsed_size);
+			phy_addr = static_cast<uint64_t>(parsed_addr);
 
 			ion_data.size = alloc_buf_size;
 			ion_data.addr_p = phy_addr;
 			memset(ion_data.name, 0, sizeof(ion_data.name));
-			strcpy((char *)ion_data.name, buffer_name);
+			snprintf((char *)ion_data.name, sizeof(ion_data.name), "%s", buffer_name);
 
             printf("alloc_buf_size(%s): %d, phy_addr(%s): %#lx, buffer_name: %s\n",
 						alloc_buf_size_str, alloc_buf_size, phy_addr_str, phy_addr, buffer_name);
 
-			printf("ion_data.size:%d, ion_data.addr_p:%#x, ion_data.name:%s\r\n", ion_data.size, (int)ion_data.addr_p, ion_data.name);
+			printf("ion_data.size:%d, ion_data.addr_p:%#" PRIx64 ", ion_data.name:%s\r\n",
+				ion_data.size, static_cast<uint64_t>(ion_data.addr_p), ion_data.name);
 
 			int res = ionFree(&ion_data);
 			if (res) {
@@ -339,6 +354,7 @@ static int _free_leak_memory_of_vb(void) {
 	int blk_cnt = 0;
 	int blk_size = 0;
 	int free_cnt = 0;
+	bool saw_pool_record = false;
 
     fp = fopen("/proc/cvitek/vb", "r");
     if (fp == NULL) {
@@ -357,10 +373,10 @@ static int _free_leak_memory_of_vb(void) {
         } else if (strstr(line, "BlkCnt    : ")) {
             sscanf(line, "%*s    : %d", &blk_cnt);
         } else if (strstr(line, "Free      :")) {
-            sscanf(line, "%*s      : %d", &free_cnt);
-
-			CVI_SYS_Exit();
-			CVI_VB_Exit();
+			if (sscanf(line, "%*s      : %d", &free_cnt) != 1) {
+				continue;
+			}
+			saw_pool_record = true;
 
 			if (free_cnt != blk_cnt) {
 				printf("relese PoolId: %d, PhysAddr: 0x%lx, BlkSize: %d, BlkCnt: %d Free: %d\n",
@@ -378,6 +394,14 @@ static int _free_leak_memory_of_vb(void) {
     }
 
     fclose(fp);
+
+	/* Keep VB available for all handle/release calls, then reset it once before
+	 * the next SAMPLE_COMM_SYS_Init().  An uninitialized VB report contains no
+	 * pool records and must not trigger a second, unmatched subsystem exit. */
+	if (saw_pool_record) {
+		CVI_SYS_Exit();
+		CVI_VB_Exit();
+	}
 
 	return 0;
 }
@@ -439,6 +463,13 @@ static VIDEO_FRAME_INFO_S *_mmf_alloc_frame(int id, SIZE_S stSize, PIXEL_FORMAT_
 	pstVFrame->u32Stride[0] = stVbCfg.u32MainStride;
 	pstVFrame->u32Length[0] = stVbCfg.u32MainYSize;
 	pstVFrame->pu8VirAddr[0] = (CVI_U8 *)CVI_SYS_MmapCache(pstVFrame->u64PhyAddr[0], stVbCfg.u32VBSize);
+	if (pstVFrame->pu8VirAddr[0] == NULL ||
+		pstVFrame->pu8VirAddr[0] == reinterpret_cast<CVI_U8 *>(MAP_FAILED)) {
+		SAMPLE_PRT("Failed to map VIDEO_FRAME_INFO_S buffer\n");
+		CVI_VB_ReleaseBlock(blk);
+		free(pstVideoFrame);
+		return NULL;
+	}
 
 	if (stVbCfg.plane_num > 1) {
 		pstVFrame->u64PhyAddr[1] = ALIGN(pstVFrame->u64PhyAddr[0] + stVbCfg.u32MainYSize, stVbCfg.u16AddrAlign);
@@ -464,15 +495,17 @@ static VIDEO_FRAME_INFO_S *_mmf_alloc_frame(int id, SIZE_S stSize, PIXEL_FORMAT_
 
 static CVI_S32 _mmf_free_frame(VIDEO_FRAME_INFO_S *pstVideoFrame)
 {
+	if (!pstVideoFrame) {
+		return CVI_FAILURE;
+	}
 	VIDEO_FRAME_S *pstVFrame = &pstVideoFrame->stVFrame;
 	VB_BLK blk;
 
-	if (pstVFrame->pu8VirAddr[0])
-		CVI_SYS_Munmap((CVI_VOID *)pstVFrame->pu8VirAddr[0], pstVFrame->u32Length[0]);
-	if (pstVFrame->pu8VirAddr[1])
-		CVI_SYS_Munmap((CVI_VOID *)pstVFrame->pu8VirAddr[1], pstVFrame->u32Length[1]);
-	if (pstVFrame->pu8VirAddr[2])
-		CVI_SYS_Munmap((CVI_VOID *)pstVFrame->pu8VirAddr[2], pstVFrame->u32Length[2]);
+	size_t mapped_size = static_cast<size_t>(pstVFrame->u32Length[0]) +
+		pstVFrame->u32Length[1] + pstVFrame->u32Length[2];
+	if (pstVFrame->pu8VirAddr[0] && mapped_size > 0) {
+		CVI_SYS_Munmap((CVI_VOID *)pstVFrame->pu8VirAddr[0], mapped_size);
+	}
 
 	blk = CVI_VB_PhysAddr2Handle(pstVFrame->u64PhyAddr[0]);
 	if (blk != VB_INVALID_HANDLE) {
@@ -1261,6 +1294,10 @@ int mmf_vi_deinit(void)
 static int _mmf_add_vi_channel(int ch, int width, int height, int format) {
 	uint32_t pool_size_out = 0;
 	int pool_id = -1;
+	if (ch < 0 || ch >= MMF_VI_MAX_CHN) {
+		printf("[%d] invalid ch %d\n", __LINE__, ch);
+		return -1;
+	}
 
 	if (!priv.mmf_used_cnt) {
 		printf("%s: maix multi-media or vi not inited\n", __func__);
@@ -1418,12 +1455,11 @@ int mmf_vi_aligned_width(int ch) {
 }
 
 int mmf_vi_frame_pop(int ch, void **data, int *len, int *width, int *height, int *format) {
-	if (!priv.vi_chn_is_inited[ch]) {
-        // printf("vi ch %d not open\n", ch);
-        return -1;
-    }
     if (ch < 0 || ch >= MMF_VI_MAX_CHN) {
         printf("[%d] invalid ch %d\n", __LINE__, ch);
+        return -1;
+    }
+	if (!priv.vi_chn_is_inited[ch]) {
         return -1;
     }
     if (data == NULL || len == NULL || width == NULL || height == NULL || format == NULL) {
@@ -1439,6 +1475,11 @@ int mmf_vi_frame_pop(int ch, void **data, int *len, int *width, int *height, int
 				        + frame->stVFrame.u32Length[2];
         CVI_VOID *vir_addr;
         vir_addr = CVI_SYS_MmapCache(frame->stVFrame.u64PhyAddr[0], image_size);
+		if (vir_addr == NULL || vir_addr == MAP_FAILED) {
+			printf("CVI_SYS_MmapCache failed for vi ch %d\n", ch);
+			CVI_VPSS_ReleaseChnFrame(0, ch, frame);
+			return -1;
+		}
         CVI_SYS_IonInvalidateCache(frame->stVFrame.u64PhyAddr[0], vir_addr, image_size);
 
 		frame->stVFrame.pu8VirAddr[0] = (CVI_U8 *)vir_addr;		// save virtual address for munmap
@@ -1458,11 +1499,18 @@ int mmf_vi_frame_pop(int ch, void **data, int *len, int *width, int *height, int
 }
 
 void mmf_vi_frame_free(int ch) {
+	if (ch < 0 || ch >= MMF_VI_MAX_CHN || !priv.vi_chn_is_inited[ch]) {
+		printf("[%d] invalid or closed ch %d\n", __LINE__, ch);
+		return;
+	}
 	VIDEO_FRAME_INFO_S *frame = &priv.vi_frame[ch];
 	int image_size = frame->stVFrame.u32Length[0]
                         + frame->stVFrame.u32Length[1]
 				        + frame->stVFrame.u32Length[2];
-	CVI_SYS_Munmap(frame->stVFrame.pu8VirAddr[0], image_size);
+	if (frame->stVFrame.pu8VirAddr[0] && image_size > 0) {
+		CVI_SYS_Munmap(frame->stVFrame.pu8VirAddr[0], image_size);
+		frame->stVFrame.pu8VirAddr[0] = NULL;
+	}
 	if (CVI_VPSS_ReleaseChnFrame(0, ch, frame) != 0) {
 		SAMPLE_PRT("CVI_VI_ReleaseChnFrame NG\n");
 	}
@@ -1667,6 +1715,7 @@ int mmf_enc_jpg_init(int ch, int w, int h, int format, int quality)
 	priv.enc_jpg_quality = quality;
 	priv.enc_jpg_is_init = 1;
 	priv.enc_jpg_running = 0;
+	priv.enc_jpg_stream_acquired = 0;
 
 	return s32Ret;
 }
@@ -1920,38 +1969,55 @@ int mmf_enc_jpg_push(int ch, uint8_t *data, int w, int h, int format)
 int mmf_enc_jpg_pop(int ch, uint8_t **data, int *size)
 {
 	CVI_S32 s32Ret = CVI_SUCCESS;
-	if (!priv.enc_jpg_running) {
-		return s32Ret;
-	}
-
-	priv.enc_jpeg_frame.pstPack = (VENC_PACK_S *)malloc(sizeof(VENC_PACK_S) * 1);
-	if (!priv.enc_jpeg_frame.pstPack) {
-		printf("Malloc failed!\r\n");
+	if (!priv.enc_jpg_running || priv.enc_jpg_stream_acquired ||
+		priv.enc_jpeg_frame.pstPack) {
 		return -1;
 	}
 
 	VENC_CHN_STATUS_S stStatus;
+	memset(&stStatus, 0, sizeof(stStatus));
 	s32Ret = CVI_VENC_QueryStatus(ch, &stStatus);
-	if (s32Ret != CVI_SUCCESS) {
-		printf("CVI_VENC_QueryStatus failed with %#x\n", s32Ret);
-		return s32Ret;
+	if (s32Ret != CVI_SUCCESS || stStatus.u32CurPacks == 0 ||
+		stStatus.u32CurPacks > 8) {
+		printf("CVI_VENC_QueryStatus failed or invalid pack count: ret=%#x count=%u\n",
+			s32Ret, stStatus.u32CurPacks);
+		priv.enc_jpg_running = 0;
+		return s32Ret == CVI_SUCCESS ? -1 : s32Ret;
 	}
 
-	if (stStatus.u32CurPacks > 0) {
-		s32Ret = CVI_VENC_GetStream(ch, &priv.enc_jpeg_frame, 1000);
-		if (s32Ret != CVI_SUCCESS) {
-			printf("CVI_VENC_GetStream failed with %#x\n", s32Ret);
-			return s32Ret;
-		}
-	} else {
-		printf("CVI_VENC_QueryStatus find not pack\r\n");
+	priv.enc_jpeg_frame.pstPack = (VENC_PACK_S *)calloc(
+		stStatus.u32CurPacks, sizeof(VENC_PACK_S));
+	if (!priv.enc_jpeg_frame.pstPack) {
+		printf("Calloc failed!\r\n");
+		priv.enc_jpg_running = 0;
+		return -1;
+	}
+	priv.enc_jpeg_frame.u32PackCount = stStatus.u32CurPacks;
+
+	s32Ret = CVI_VENC_GetStream(ch, &priv.enc_jpeg_frame, 1000);
+	if (s32Ret != CVI_SUCCESS) {
+		printf("CVI_VENC_GetStream failed with %#x\n", s32Ret);
+		free(priv.enc_jpeg_frame.pstPack);
+		priv.enc_jpeg_frame.pstPack = NULL;
+		priv.enc_jpeg_frame.u32PackCount = 0;
+		priv.enc_jpg_running = 0;
+		return s32Ret;
+	}
+	priv.enc_jpg_stream_acquired = 1;
+	if (priv.enc_jpeg_frame.u32PackCount < 1 ||
+		priv.enc_jpeg_frame.pstPack[0].u32Offset >
+			priv.enc_jpeg_frame.pstPack[0].u32Len) {
+		printf("invalid JPEG pack metadata\n");
+		mmf_enc_jpg_free(ch);
 		return -1;
 	}
 
 	if (data)
-		*data = priv.enc_jpeg_frame.pstPack[0].pu8Addr;
+		*data = priv.enc_jpeg_frame.pstPack[0].pu8Addr +
+			priv.enc_jpeg_frame.pstPack[0].u32Offset;
 	if (size)
-		*size = priv.enc_jpeg_frame.pstPack[0].u32Len;
+		*size = priv.enc_jpeg_frame.pstPack[0].u32Len -
+			priv.enc_jpeg_frame.pstPack[0].u32Offset;
 
 	return s32Ret;
 }
@@ -1959,20 +2025,20 @@ int mmf_enc_jpg_pop(int ch, uint8_t **data, int *size)
 int mmf_enc_jpg_free(int ch)
 {
 	CVI_S32 s32Ret = CVI_SUCCESS;
-	if (!priv.enc_jpg_running) {
-		return s32Ret;
-	}
-
-	s32Ret = CVI_VENC_ReleaseStream(ch, &priv.enc_jpeg_frame);
-	if (s32Ret != CVI_SUCCESS) {
-		printf("CVI_VENC_ReleaseStream failed with %#x\n", s32Ret);
-		return s32Ret;
+	if (priv.enc_jpg_stream_acquired) {
+		s32Ret = CVI_VENC_ReleaseStream(ch, &priv.enc_jpeg_frame);
+		if (s32Ret != CVI_SUCCESS) {
+			printf("CVI_VENC_ReleaseStream failed with %#x\n", s32Ret);
+			return s32Ret;
+		}
+		priv.enc_jpg_stream_acquired = 0;
 	}
 
 	if (priv.enc_jpeg_frame.pstPack) {
 		free(priv.enc_jpeg_frame.pstPack);
 		priv.enc_jpeg_frame.pstPack = NULL;
 	}
+	priv.enc_jpeg_frame.u32PackCount = 0;
 
 	priv.enc_jpg_running = 0;
 	return s32Ret;
@@ -1997,7 +2063,7 @@ int mmf_invert_format_to_mmf(int maix_format) {
 
 void mmf_set_vi_hmirror(int ch, bool en)
 {
-	if (ch > MMF_VI_MAX_CHN) {
+	if (ch < 0 || ch >= MMF_VI_MAX_CHN) {
 		printf("invalid ch, must be [0, %d)\r\n", ch);
 		return;
 	}
@@ -2007,7 +2073,7 @@ void mmf_set_vi_hmirror(int ch, bool en)
 
 void mmf_get_vi_hmirror(int ch, bool *en)
 {
-	if (ch > MMF_VI_MAX_CHN) {
+	if (ch < 0 || ch >= MMF_VI_MAX_CHN || en == NULL) {
 		printf("invalid ch, must be [0, %d)\r\n", ch);
 		return;
 	}
@@ -2017,7 +2083,7 @@ void mmf_get_vi_hmirror(int ch, bool *en)
 
 void mmf_set_vi_vflip(int ch, bool en)
 {
-	if (ch > MMF_VI_MAX_CHN) {
+	if (ch < 0 || ch >= MMF_VI_MAX_CHN) {
 		printf("invalid ch, must be [0, %d)\r\n", ch);
 		return;
 	}
@@ -2027,7 +2093,7 @@ void mmf_set_vi_vflip(int ch, bool en)
 
 void mmf_get_vi_vflip(int ch, bool *en)
 {
-	if (ch > MMF_VI_MAX_CHN) {
+	if (ch < 0 || ch >= MMF_VI_MAX_CHN || en == NULL) {
 		printf("invalid ch, must be [0, %d)\r\n", ch);
 		return;
 	}
@@ -2037,10 +2103,38 @@ void mmf_get_vi_vflip(int ch, bool *en)
 
 int mmf_add_venc_channel(int ch, mmf_venc_cfg_t *cfg) {
 	CVI_S32 s32Ret = CVI_SUCCESS;
-	if (ch >= MMF_VENC_MAX_CHN || priv.venc[ch].is_used) {
+	if (ch < 0 || ch >= MMF_VENC_MAX_CHN || cfg == NULL || priv.venc[ch].is_used) {
 		printf("Invalid venc ch:%d\r\n", ch);
 		return -1;
 	}
+
+	venc_info_t *info = &priv.venc[ch];
+	memset(info, 0, sizeof(*info));
+	bool channel_created = false;
+	bool receiving_frames = false;
+	int pool_id = -1;
+	VIDEO_FRAME_INFO_S *capture_frame = NULL;
+
+	auto rollback = [&]() {
+		if (capture_frame) {
+			_mmf_free_frame(capture_frame);
+			capture_frame = NULL;
+		}
+		if (pool_id >= 0) {
+			_destroy_vb_pool(pool_id);
+			pool_id = -1;
+		}
+		if (receiving_frames) {
+			CVI_VENC_StopRecvFrame(ch);
+			receiving_frames = false;
+		}
+		if (channel_created) {
+			CVI_VENC_ResetChn(ch);
+			CVI_VENC_DestroyChn(ch);
+			channel_created = false;
+		}
+		memset(info, 0, sizeof(*info));
+	};
 
 	switch (cfg->type) {
 	case 2:
@@ -2070,19 +2164,25 @@ int mmf_add_venc_channel(int ch, mmf_venc_cfg_t *cfg) {
 			printf("CVI_VENC_CreateChn [%d] failed with %d\n", ch, s32Ret);
 			return s32Ret;
 		}
+		channel_created = true;
 
 		VENC_RECV_PIC_PARAM_S stRecvParam;
+		memset(&stRecvParam, 0, sizeof(stRecvParam));
 		stRecvParam.s32RecvPicNum = -1;
 		s32Ret = CVI_VENC_StartRecvFrame(ch, &stRecvParam);
 		if (s32Ret != CVI_SUCCESS) {
 			printf("CVI_VENC_StartRecvPic failed with %d\n", s32Ret);
-			return CVI_FAILURE;
+			rollback();
+			return s32Ret;
 		}
+		receiving_frames = true;
 
 		VENC_RC_PARAM_S stRcParam;
+		memset(&stRcParam, 0, sizeof(stRcParam));
 		s32Ret = CVI_VENC_GetRcParam(ch, &stRcParam);
 		if (s32Ret != CVI_SUCCESS) {
 			printf("CVI_VENC_GetRcParam failed with %d\n", s32Ret);
+			rollback();
 			return s32Ret;
 		}
 		stRcParam.s32FirstFrameStartQp = 35;
@@ -2096,49 +2196,58 @@ int mmf_add_venc_channel(int ch, mmf_venc_cfg_t *cfg) {
 		s32Ret = CVI_VENC_SetRcParam(ch, &stRcParam);
 		if (s32Ret != CVI_SUCCESS) {
 			printf("CVI_VENC_SetRcParam failed with %d\n", s32Ret);
+			rollback();
 			return s32Ret;
 		}
 
 		VENC_FRAMELOST_S stFL;
+		memset(&stFL, 0, sizeof(stFL));
 		s32Ret = CVI_VENC_GetFrameLostStrategy(ch, &stFL);
 		if (s32Ret != CVI_SUCCESS) {
 			printf("CVI_VENC_GetFrameLostStrategy failed with %d\n", s32Ret);
+			rollback();
 			return s32Ret;
 		}
 		stFL.enFrmLostMode = FRMLOST_PSKIP;
 		s32Ret = CVI_VENC_SetFrameLostStrategy(ch, &stFL);
 		if (s32Ret != CVI_SUCCESS) {
 			printf("CVI_VENC_SetFrameLostStrategy failed with %d\n", s32Ret);
+			rollback();
 			return s32Ret;
 		}
 
 		break;
 	}
-	default: printf("Only support h264 encode! type:%d\r\n", cfg->type);
+	default:
+		printf("Only support h264 encode! type:%d\r\n", cfg->type);
+		rollback();
 		return -1;
 	}
 
 	char name[20];
 	snprintf(name, 20, "venc%.1d", ch);
 	uint32_t size = VDEC_GetPicBufferSize((PAYLOAD_TYPE_E)cfg->type, cfg->w, cfg->h, (PIXEL_FORMAT_E)cfg->fmt, DATA_BITWIDTH_8, COMPRESS_MODE_NONE);
-	int pool_id = _create_vb_pool(name, MMF_MOD_VENC, size, 1);
+	pool_id = _create_vb_pool(name, MMF_MOD_VENC, size, 1);
 	if (pool_id < 0) {
 		printf("[%s][%d]_create_vb_pool failed, id %d\n", __func__, __LINE__, pool_id);
+		rollback();
 		return CVI_FAILURE;
 	}
 
-	venc_info_t *info = (venc_info_t *)&priv.venc[ch];
+	capture_frame = (VIDEO_FRAME_INFO_S *)_mmf_alloc_frame(
+		pool_id, (SIZE_S){(CVI_U32)cfg->w, (CVI_U32)cfg->h},
+		(PIXEL_FORMAT_E)cfg->fmt);
+	if (!capture_frame) {
+		printf("Alloc frame failed!\r\n");
+		rollback();
+		return -1;
+	}
+
 	info->ch = ch;
 	info->type = cfg->type;
 	info->pool_id = pool_id;
+	info->capture_frame = capture_frame;
 	memcpy(&info->cfg, cfg, sizeof(mmf_venc_cfg_t));
-	info->capture_frame = (VIDEO_FRAME_INFO_S *)_mmf_alloc_frame(info->pool_id, (SIZE_S){(CVI_U32)cfg->w, (CVI_U32)cfg->h}, (PIXEL_FORMAT_E)cfg->fmt);
-	if (!info->capture_frame) {
-		printf("Alloc frame failed!\r\n");
-		CVI_VENC_DestroyChn(ch);
-		_destroy_vb_pool(pool_id);
-		return -1;
-	}
 	info->is_used = 1;
 	info->is_inited = 1;
 	priv.h265_or_h264_is_used = 1;
@@ -2147,12 +2256,16 @@ int mmf_add_venc_channel(int ch, mmf_venc_cfg_t *cfg) {
 }
 
 int mmf_del_venc_channel(int ch) {
+	if (ch < 0 || ch >= MMF_VENC_MAX_CHN) {
+		printf("Invalid venc ch:%d\r\n", ch);
+		return -1;
+	}
 	if (!priv.venc[ch].is_inited) {
 		return 0;
 	}
 
-	mmf_stream_t stream;
-	if (!mmf_venc_pop(ch, &stream)) {
+	venc_info_t *info = &priv.venc[ch];
+	if (info->stream_acquired) {
 		mmf_venc_free(ch);
 	}
 
@@ -2172,18 +2285,25 @@ int mmf_del_venc_channel(int ch) {
 		printf("CVI_VENC_DestroyChn [%d] failed with %d\n", ch, s32Ret);
 	}
 
-	if (priv.venc[ch].capture_frame) {
-		_mmf_free_frame(priv.venc[ch].capture_frame);
-		priv.venc[ch].capture_frame = NULL;
+	if (info->capture_stream.pstPack) {
+		free(info->capture_stream.pstPack);
+		info->capture_stream.pstPack = NULL;
+		info->capture_stream.u32PackCount = 0;
+	}
+	info->stream_acquired = 0;
+	info->is_running = 0;
+
+	if (info->capture_frame) {
+		_mmf_free_frame(info->capture_frame);
+		info->capture_frame = NULL;
 	}
 
-	_destroy_vb_pool(priv.venc[ch].pool_id);
+	_destroy_vb_pool(info->pool_id);
 
-	if (priv.venc[ch].type == 2 || priv.venc[ch].type == 1) {
+	if (info->type == 2 || info->type == 1) {
 		priv.h265_or_h264_is_used = 0;
 	}
-	priv.venc[ch].is_inited = 0;
-	priv.venc[ch].is_used = 0;
+	memset(info, 0, sizeof(*info));
 
 	return 0;
 }
@@ -2198,13 +2318,18 @@ int mmf_del_venc_channel_all() {
 int mmf_venc_push(int ch, uint8_t *data, int w, int h, int format) {
 	int res = 0;
 	CVI_S32 s32Ret = CVI_SUCCESS;
-	if (ch >= MMF_VENC_MAX_CHN || data == NULL
+	if (ch < 0 || ch >= MMF_VENC_MAX_CHN || data == NULL
 		|| (format != PIXEL_FORMAT_NV21 && format != PIXEL_FORMAT_RGB_888)) {
 		printf("Invalid param. ch:%d data:%p format:%d\r\n", ch, data, format);
 		return -1;
 	}
 
 	venc_info_t *info = (venc_info_t *)&priv.venc[ch];
+	if (!info->is_inited || info->is_running || info->stream_acquired ||
+		w != info->cfg.w || h != info->cfg.h) {
+		printf("Invalid venc state or frame size. ch:%d size:%dx%d\r\n", ch, w, h);
+		return -1;
+	}
 	VIDEO_FRAME_INFO_S *frame_info = (VIDEO_FRAME_INFO_S *)info->capture_frame;
 	if (frame_info == NULL) {
 		printf("frame info is null!\r\n");
@@ -2214,9 +2339,14 @@ int mmf_venc_push(int ch, uint8_t *data, int w, int h, int format) {
 	switch (format) {
 		case PIXEL_FORMAT_NV21:
 		{
+			if (frame_info->stVFrame.u32Stride[0] < (CVI_U32)w) {
+				printf("Invalid venc stride:%u width:%d\r\n",
+					frame_info->stVFrame.u32Stride[0], w);
+				return -1;
+			}
 			if (frame_info->stVFrame.u32Stride[0] != (CVI_U32)w) {
 				for (int h0 = 0; h0 < h * 3 / 2; h0 ++) {
-					memcpy((uint8_t *)frame_info->stVFrame.pu8VirAddr[0] + frame_info->stVFrame.u32Stride[0] * h,
+					memcpy((uint8_t *)frame_info->stVFrame.pu8VirAddr[0] + frame_info->stVFrame.u32Stride[0] * h0,
 							((uint8_t *)data) + w * h0, w);
 				}
 			} else {
@@ -2236,22 +2366,26 @@ int mmf_venc_push(int ch, uint8_t *data, int w, int h, int format) {
 	}
 
 	info->is_running = 1;
+	info->stream_acquired = 0;
 
 	return res;
 }
 
 int mmf_venc_pop(int ch, mmf_stream_t *stream) {
 	CVI_S32 s32Ret = CVI_SUCCESS;
-	if (ch >= MMF_VENC_MAX_CHN || !priv.venc[ch].is_inited) {
+	if (ch < 0 || ch >= MMF_VENC_MAX_CHN || stream == NULL ||
+		!priv.venc[ch].is_inited) {
 		printf("Invalid venc ch:%d\r\n", ch);
 		return -1;
 	}
 
 	venc_info_t *info = (venc_info_t *)&priv.venc[ch];
 	VENC_STREAM_S *venc_stream = (VENC_STREAM_S *)&priv.venc[ch].capture_stream;
-	if (!info->is_running) {
-		return s32Ret;
+	if (!info->is_running || info->stream_acquired || venc_stream->pstPack) {
+		printf("Invalid venc stream state. ch:%d\r\n", ch);
+		return -1;
 	}
+	memset(stream, 0, sizeof(*stream));
 
 	int fd = CVI_VENC_GetFd(ch);
 	if (fd < 0) {
@@ -2267,53 +2401,65 @@ int mmf_venc_pop(int ch, mmf_stream_t *stream) {
 	timeoutVal.tv_usec = 80*1000;
 	s32Ret = select(fd + 1, &readFds, NULL, NULL, &timeoutVal);
 	if (s32Ret < 0) {
-		if (errno == EINTR) {
-			printf("VencChn(%d) select failed!\n", ch);
-			return -1;
-		}
+		printf("VencChn(%d) select failed: %s\n", ch, strerror(errno));
+		return -1;
 	} else if (s32Ret == 0) {
 		printf("VencChn(%d) select timeout!\n", ch);
 		return -1;
 	}
 
-	venc_stream->pstPack = (VENC_PACK_S *)malloc(sizeof(VENC_PACK_S) * 8);
-	if (!venc_stream->pstPack) {
-		printf("Malloc failed!\r\n");
-		return -1;
-	}
-
-
 	VENC_CHN_STATUS_S stStatus;
+	memset(&stStatus, 0, sizeof(stStatus));
 	s32Ret = CVI_VENC_QueryStatus(ch, &stStatus);
 	if (s32Ret != CVI_SUCCESS) {
 		printf("CVI_VENC_QueryStatus failed with %#x\n", s32Ret);
 		return s32Ret;
 	}
 
-	if (stStatus.u32CurPacks > 0) {
-		s32Ret = CVI_VENC_GetStream(ch, venc_stream, 1000);
-		if (s32Ret != CVI_SUCCESS) {
-			printf("CVI_VENC_GetStream failed with %#x\n", s32Ret);
-			free(venc_stream->pstPack);
-			return s32Ret;
-		}
-	} else {
+	if (stStatus.u32CurPacks == 0) {
 		printf("CVI_VENC_QueryStatus find not pack\r\n");
-		free(venc_stream->pstPack);
+		return -1;
+	}
+	if (stStatus.u32CurPacks > 8) {
+		printf("pack count is too large! cnt:%u\r\n", stStatus.u32CurPacks);
 		return -1;
 	}
 
-	if (stream) {
-		stream->count = venc_stream->u32PackCount;
-		if (stream->count > 8) {
-			printf("pack count is too large! cnt:%d\r\n", stream->count);
-			free(venc_stream->pstPack);
+	venc_stream->pstPack = (VENC_PACK_S *)calloc(
+		stStatus.u32CurPacks, sizeof(VENC_PACK_S));
+	if (!venc_stream->pstPack) {
+		printf("Calloc failed!\r\n");
+		return -1;
+	}
+	venc_stream->u32PackCount = stStatus.u32CurPacks;
+
+	s32Ret = CVI_VENC_GetStream(ch, venc_stream, 1000);
+	if (s32Ret != CVI_SUCCESS) {
+		printf("CVI_VENC_GetStream failed with %#x\n", s32Ret);
+		free(venc_stream->pstPack);
+		venc_stream->pstPack = NULL;
+		venc_stream->u32PackCount = 0;
+		return s32Ret;
+	}
+	info->stream_acquired = 1;
+
+	stream->count = venc_stream->u32PackCount;
+	if (stream->count < 1 || stream->count > 8) {
+		printf("invalid returned pack count! cnt:%d\r\n", stream->count);
+		mmf_venc_free(ch);
+		memset(stream, 0, sizeof(*stream));
+		return -1;
+	}
+	for (int i = 0; i < stream->count; i++) {
+		if (venc_stream->pstPack[i].u32Offset > venc_stream->pstPack[i].u32Len) {
+			printf("invalid pack offset. pack:%d offset:%u len:%u\r\n", i,
+				venc_stream->pstPack[i].u32Offset, venc_stream->pstPack[i].u32Len);
+			mmf_venc_free(ch);
+			memset(stream, 0, sizeof(*stream));
 			return -1;
 		}
-		for (int i = 0; i < stream->count; i++) {
-			stream->data[i] = venc_stream->pstPack[i].pu8Addr + venc_stream->pstPack[i].u32Offset;
-			stream->data_size[i] = venc_stream->pstPack[i].u32Len - venc_stream->pstPack[i].u32Offset;
-		}
+		stream->data[i] = venc_stream->pstPack[i].pu8Addr + venc_stream->pstPack[i].u32Offset;
+		stream->data_size[i] = venc_stream->pstPack[i].u32Len - venc_stream->pstPack[i].u32Offset;
 	}
 
 	return 0;
@@ -2321,32 +2467,28 @@ int mmf_venc_pop(int ch, mmf_stream_t *stream) {
 
 int mmf_venc_free(int ch) {
 	CVI_S32 s32Ret = CVI_SUCCESS;
-	if (ch >= MMF_VENC_MAX_CHN || !priv.venc[ch].is_inited) {
+	if (ch < 0 || ch >= MMF_VENC_MAX_CHN || !priv.venc[ch].is_inited) {
 		printf("Invalid venc ch:%d\r\n", ch);
 		return -1;
 	}
 
 	venc_info_t *info = (venc_info_t *)&priv.venc[ch];
 	VENC_STREAM_S *venc_stream = (VENC_STREAM_S *)&priv.venc[ch].capture_stream;
-	if (!info->is_running) {
-		return s32Ret;
-	}
-
-	s32Ret = CVI_VENC_ReleaseStream(ch, venc_stream);
-	if (s32Ret != CVI_SUCCESS) {
-		printf("CVI_VENC_ReleaseStream failed with %#x\n", s32Ret);
-		return s32Ret;
+	if (info->stream_acquired) {
+		s32Ret = CVI_VENC_ReleaseStream(ch, venc_stream);
+		if (s32Ret != CVI_SUCCESS) {
+			printf("CVI_VENC_ReleaseStream failed with %#x\n", s32Ret);
+			return s32Ret;
+		}
+		info->stream_acquired = 0;
 	}
 
 	if (venc_stream->pstPack) {
 		free(venc_stream->pstPack);
 		venc_stream->pstPack = NULL;
 	}
+	venc_stream->u32PackCount = 0;
 
 	info->is_running = 0;
 	return s32Ret;
 }
-
-
-
- 

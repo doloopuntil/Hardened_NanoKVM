@@ -32,6 +32,17 @@ int get_edid_from_file(const char *filename, uint8_t *edid_data, uint16_t *edid_
     }
 
     *edid_size = fread(edid_data, 1, EDID_BUFFER_SIZE, file);
+    int extra_byte = fgetc(file);
+    if (ferror(file)) {
+        perror("Failed to read EDID file");
+        fclose(file);
+        return -1;
+    }
+    if (extra_byte != EOF) {
+        fprintf(stderr, "EDID file is larger than %d bytes\n", EDID_BUFFER_SIZE);
+        fclose(file);
+        return -1;
+    }
     fclose(file);
 
     return 0;
@@ -102,13 +113,13 @@ int i2c_write_byte(uint8_t offset, uint8_t reg, uint8_t data)
 
     // if offset is changed, write it first
     if (offset != old_offset) {
-        old_offset = offset;
         reg_buf[0] = LT6911_REG_OFFSET; // Set the offset register
         reg_buf[1] = offset;    // Set the register to read
         if (write(client, reg_buf, 2) != 2) {
             perror("Failed to write offset to the i2c bus");
             return -1;
         }
+        old_offset = offset;
     }
 
     // write the data to the i2c bus
@@ -134,13 +145,13 @@ int i2c_write_bytes(uint8_t offset, uint8_t reg, const uint8_t *data, size_t len
 
     // if offset is changed, write it first
     if (offset != old_offset) {
-        old_offset = offset;
         reg_buf[0] = LT6911_REG_OFFSET; // Set the offset register
         reg_buf[1] = offset;    // Set the register to read
         if (write(client, reg_buf, 2) != 2) {
             perror("Failed to write offset to the i2c bus");
             return -1;
         }
+        old_offset = offset;
     }
 
     // write the data to the i2c bus
@@ -150,7 +161,7 @@ int i2c_write_bytes(uint8_t offset, uint8_t reg, const uint8_t *data, size_t len
     }
 
     // write to the I2C bus
-    if (write(client, reg_buf, 1 + len) != 1 + len) {
+    if (write(client, reg_buf, 1 + len) != (ssize_t)(1 + len)) {
         perror("Failed to write to the i2c bus");
         return -1;
     }
@@ -166,13 +177,13 @@ int i2c_read_byte(uint8_t offset, uint8_t reg, uint8_t *data)
 
     // if offset is changed, write it first
     if (offset != old_offset) {
-        old_offset = offset;
         reg_buf[0] = LT6911_REG_OFFSET; // Set the offset register
         reg_buf[1] = offset;    // Set the register to read
         if (write(client, reg_buf, 2) != 2) {
             perror("Failed to write offset to the i2c bus");
             return -1;
         }
+        old_offset = offset;
     }
 
     // write the register address to read
@@ -203,13 +214,13 @@ int i2c_read_bytes(uint8_t offset, uint8_t reg, uint8_t *data, size_t len)
 
     // 如果偏移量改变，先写入偏移量
     if (offset != old_offset) {
-        old_offset = offset;
         reg_buf[0] = LT6911_REG_OFFSET; // 设置偏移寄存器
         reg_buf[1] = offset; // 设置偏移值
         if (write(client, reg_buf, 2) != 2) {
             perror("Failed to write offset to the i2c bus");
             return -1;
         }
+        old_offset = offset;
     }
 
     // 写入要读取的寄存器地址
@@ -220,7 +231,7 @@ int i2c_read_bytes(uint8_t offset, uint8_t reg, uint8_t *data, size_t len)
     }
 
     // 从 I2C 总线读取数据
-    if (read(client, data, len) != len) {
+    if (read(client, data, len) != (ssize_t)len) {
         perror("Failed to read from the i2c bus");
         return -1;
     }
@@ -253,7 +264,6 @@ int lt6911_disable(void) {
 int lt6911uxc_edid_write(uint8_t *edid_data, uint16_t edid_size)
 {
     uint8_t i;
-    int ret;
     uint8_t chip_data[16] = {0};
     uint8_t wr_count = edid_size / LT6911UXC_WR_SIZE + 1;
     uint8_t version_str[32] = {0};
@@ -337,8 +347,6 @@ int lt6911uxc_edid_write(uint8_t *edid_data, uint16_t edid_size)
 int lt6911uxc_edid_read(uint8_t *edid_data, uint16_t edid_size)
 {
     uint8_t i;
-    int ret;
-    uint8_t chip_data[16] = {0};
     uint8_t wr_count = edid_size / LT6911UXC_WR_SIZE;
 
     // Read EDID data from LT6911UXC
@@ -367,10 +375,8 @@ int lt6911uxc_edid_read(uint8_t *edid_data, uint16_t edid_size)
 int lt6911c_edid_write(uint8_t *edid_data, uint16_t edid_size)
 {
     uint8_t i;
-    int ret;
     uint8_t chip_data[16] = {0};
     uint8_t wr_count = edid_size / LT6911C_WR_SIZE;
-    uint8_t version_str[32] = {0};
 
     fprintf(stdout, "Writing EDID....\n");
 
@@ -458,8 +464,6 @@ int lt6911c_edid_write(uint8_t *edid_data, uint16_t edid_size)
 int lt6911c_edid_read(uint8_t *edid_data, uint16_t edid_size)
 {
     uint8_t i;
-    int ret;
-    uint8_t chip_data[16] = {0};
     uint8_t wr_count = edid_size / LT6911C_WR_SIZE;
 
     // Read EDID data from LT6911UXC
@@ -807,7 +811,6 @@ int get_user_confirmation() {
 
 int main(int argc, char *argv[]) {
 
-    uint8_t counter = 0;
 
     // Check version
     chip_version_t chip_version = CHIP_UNKNOWN;
