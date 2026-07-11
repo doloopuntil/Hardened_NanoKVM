@@ -29,10 +29,10 @@ a drop-in `NanoKVM-Server` and continues to use the existing `kvm_system`,
 runtime libraries used by the Rust backend live under `server-rust/native/`.
 
 The web UI currently brands this fork as **Hardened NanoKVM**. The current
-published GitHub application release is **2.0.32 RC9**.
+published GitHub application release is **2.0.33 RC9.1**.
 
 The current published application release is available from the `woffko` fork at
-[`hardened-rust-rc9`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-rust-rc9).
+[`hardened-rust-rc9.1`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-rust-rc9.1).
 
 The latest raw system-update and SD-card artifacts are the **0.2.23-raw.1**
 RC9 builds. The system-update channel metadata points to the companion
@@ -118,7 +118,7 @@ NanoKVM device and harden one subsystem at a time.
 | Device settings | Hostname, web title, GPIO/ATX, OLED, HDMI, SSH, mDNS, swap, memory limit, TLS toggle, reboot, scripts, and autostart have Rust endpoints. |
 | Storage | ISO/IMG listing, upload, mount, delete, and CD-ROM/mass-storage mode are implemented with path validation. Mount changes use LUN eject/insert; switching between CD-ROM and mass-storage mode also reconnects the USB gadget so BIOS/boot menus rescan the device type. A confirmed USB reconnect fallback remains available when a host does not notice media changes. Remote ISO download exists behind a disabled-by-default safety toggle and validates URL, filename, size, destination, and ISO format. Completed downloads now reset the picker state and refresh the virtual-media image list without logout. |
 | Network | WOL, full wired DHCP/manual IP/DNS settings, explicit IPv6 Disabled/SLAAC/DHCPv6/Manual controls, Wi-Fi status/connect/AP verification, and Tailscale lifecycle endpoints are implemented. |
-| Updates | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current published app channel: `2.0.32 RC9`. |
+| Updates | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current published app channel: `2.0.33 RC9.1`. |
 | SD image | Latest published SD image is the RC9 `2.0.32` / `0.2.23-raw.1` image, built by patching a trusted NanoKVM Rev1.4.2/vendor SDK base image with Hardened `kvmapp`. The RC9 mobile/tablet UI path was smoke-tested on NanoKVM Cube devices. `make vendor-sdk` bootstraps the pinned Sipeed SDK for future reproducible base-system builds. |
 | System updates | Separate GitHub channel metadata, signed metadata enforcement, staging download/verify, guarded raw install, first-boot root configuration restore, automatic boot-good confirmation, manual rollback, and boot-watchdog rollback are implemented. Current raw channel: `0.2.23-raw.1`, built from the RC9 `2.0.32` SD rootfs. Raw full-rootfs updates are lab-only; current raw payloads are stored gzip-compressed and streamed to the SD-card block devices during install. The current raw/SD image reports Buildroot `2023.11.2` with security backport level `Buildroot 2023.11.3 package backports`; deeper kernel/rootfs security payloads are still pending. |
 
@@ -153,7 +153,7 @@ https://github.com/woffko/Hardened_NanoKVM/releases/latest/download/latest.json
 ```
 
 The metadata points to a versioned app archive such as
-`hardened-nanokvm-kvmapp-2.0.32.tar.gz` on the `hardened-rust-rc9` release tag.
+`hardened-nanokvm-kvmapp-2.0.33.tar.gz` on the `hardened-rust-rc9.1` release tag.
 The device verifies signed metadata and the archive sha512 before
 installing. The preview toggle uses the `hardened-rust-preview` channel
 metadata, but it still installs the versioned archive named by that metadata.
@@ -212,7 +212,7 @@ state.
 
 The channels can intentionally move independently:
 
-- Application stable/latest: `2.0.32 RC9`, tag `hardened-rust-rc9`.
+- Application stable/latest: `2.0.33 RC9.1`, tag `hardened-rust-rc9.1`.
 - Application preview: `hardened-rust-preview`, when populated, points to a
   versioned application archive independently from the stable latest release.
 - Raw system stable: `0.2.23-raw.1`, published on companion tag

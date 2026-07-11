@@ -8,8 +8,9 @@ Last updated: 2026-07-11
 - GitHub repo: `woffko/Hardened_NanoKVM`
 - Active release branch: `feature/rust-kvm-system-migration`; GitHub default
   branch `main` now includes RC9 release commit `ec68dd4`.
-- Current source/test app version: `2.0.32`
-- Current published app release: `2.0.32 RC9` on tag `hardened-rust-rc9`.
+- Current source/test app version: `2.0.33`
+- Current published app release: `2.0.33 RC9.1` on tag
+  `hardened-rust-rc9.1`.
 - Current published raw/system channel: `0.2.23-raw.1` on companion tag
   `hardened-system-0.2.23-raw.1`; stable and preview channel metadata both
   point there.
@@ -34,10 +35,9 @@ Last updated: 2026-07-11
     `Hardened_NanoKVM_RC9_2_0_32_buildroot_2023_11_2_security_backports_Rev1_4_2_rust.img.xz`:
     `52b5b65886d977c1360b7d788169f6559f7e42d6794bc30d444469121c576b83`.
 - GitHub Pages was updated for RC9 on `gh-pages` commit `ad91ef6`.
-- Latest app-only release before RC9: RC7.1 / `2.0.30` packaged the post-RC7
-  mobile KVM pinch-to-zoom and touch-drag panning fixes only; RC8 folded those
-  fixes plus tablet/forced-mobile layout work into the full raw/SD baseline,
-  and RC9 carries the post-RC8 Settings segmented-control fixes.
+- Latest app-only release: RC9.1 / `2.0.33` packages the post-RC9 browser
+  window auto-fit and Appearance segmented-control alignment fixes only. RC9
+  remains the latest full raw/SD baseline.
 - Latest local hardware test: post-RC8 Settings mobile/tablet web builds were
   installed and checked on NanoKVM Cube devices `10.0.87.133` and
   `10.0.87.132`; final full RC9 image has not been raw-installed on hardware
