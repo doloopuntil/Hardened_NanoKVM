@@ -33,11 +33,20 @@ Current release artifacts and SHA-256 values:
 
 | Artifact                                              | SHA-256                                                            |
 | ----------------------------------------------------- | ------------------------------------------------------------------ |
-| `hardened-nanokvm-kvmapp-2.0.34.tar.gz`               | Recorded after RC10 publication.                                   |
+| `hardened-nanokvm-kvmapp-2.0.34.tar.gz`               | `1d3d6d9c3bbed437ea2e035c955045ba19750d75dbab10971a86cb314bde6fa7` |
 | RC9 raw `hardened-nanokvm-system-0.2.23-raw.1.tar.gz` | `d7d50d279619f5a964c7367a3cd506385a423c1751c79220e6dc03ab5ca4b458` |
 | RC9 SD image `.img.xz`                                | `52b5b65886d977c1360b7d788169f6559f7e42d6794bc30d444469121c576b83` |
 
 RC10 is app-only. It does not change raw/system metadata or the SD image.
+GitHub tag `hardened-rust-rc10` was published from
+`26a2986d3080cb95557f06fde437c1de6189f491` as the latest release; its
+signed application metadata has SHA-256
+`d12c6aa8da087deaed3a9865d984afc6f140b9e9d12856427a89c614050a62f3` and
+the detached signature has SHA-256
+`f5913ae509672fd16c62468be71c251c8d08ff38978b2116a3434aed6a06c500`.
+The mutable `hardened-rust-preview` channel points to those same verified
+metadata bytes. Both public GitHub channels were downloaded after publication,
+matched the release build, and verified with the bundled signing public key.
 
 ## Current Architecture
 
