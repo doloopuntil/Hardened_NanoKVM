@@ -589,8 +589,8 @@ Image contents confirmation:
     `/kvmapp/system/keys/system-update-signing.pub.pem`.
 - `scripts/validate-nanokvm-rootfs.sh` passed before publishing and reported:
   `kvmapp version: 1.0.5`, `backend: rust`.
-- Legacy Go backend files are rejected by the package/rootfs validators and
-  should not be present in this build.
+- Legacy alternate-backend files are rejected by the package/rootfs validators
+  and should not be present in this build.
 
 Post-write device state:
 
@@ -2351,7 +2351,8 @@ Verification:
   - app version: `2.0.20`;
   - bundled `kvm_system` helper: `384456 bytes`.
 - Archive listing contains `NanoKVM-Server`, `NanoKVM-Server.rust`,
-  `S95nanokvm`, and `S40firewall`; no legacy Go backend files were present.
+  `S95nanokvm`, and `S40firewall`; no legacy alternate-backend files were
+  present.
 - `latest.json.sig` verified with
   `/home/w0w/Hardened_NanoKVM/build/release/system-update-signing-test.pub.pem`.
 

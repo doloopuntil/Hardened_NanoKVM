@@ -51,6 +51,52 @@ Do not run `make rust-kvmapp` unless `RUST_TARGET` is explicitly set. Without
 that environment variable it can package an x86-64 host binary that installs
 successfully but fails on the device with `Exec format error`.
 
+## Rebuild Native libkvm Or kvm_system
+
+Native video changes are not rebuilt by Cargo. Before using the SG2002 helper,
+update its hard-coded paths in `support/sg2002/build` for the active checkout:
+
+```sh
+export MAIXCDK_PATH=~/MaixCDK
+export NanoKVM_PATH=/home/w0w/Hardened_NanoKVM-new-buildroot
+```
+
+The script currently defines those values internally, so edit the two exports
+or invoke it from a checkout available at its configured `NanoKVM_PATH`.
+
+Rebuild the video libraries through MaixCDK:
+
+```sh
+cd support/sg2002
+./build update_lib
+./build kvm_vision
+```
+
+`./build update_lib` currently exits with status `1` after printing success;
+verify the copied component files instead of treating that status alone as a
+copy failure. The generated libraries are expected under:
+
+```text
+support/sg2002/kvm_vision_test/dist/kvm_vision_test_release/dl_lib/
+```
+
+Copy the reviewed output into `server-rust/native/dl_lib/` before running the
+linked Rust build and packaging. `scripts/package-rust-kvmapp.sh` packages that
+directory as `/kvmapp/server/dl_lib`.
+
+For retained `kvm_system` changes, use the existing generated MaixCDK build:
+
+```sh
+make -C support/sg2002/kvm_system/build -j16
+```
+
+The package script consumes
+`support/sg2002/kvm_system/build/kvm_system` by default. Never let packaging
+silently reuse an older native helper or old `libkvm` after changing source.
+
+Review [`native-code-audit.md`](native-code-audit.md) before modifying either
+native component. Device 133 is the required native test target.
+
 ## Build And Package Kvmapp
 
 From the repository root:

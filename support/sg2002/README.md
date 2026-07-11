@@ -1,6 +1,7 @@
 # NanoKVM Support Instructions
 
 ## Environment Preparation
+
 1. NanoKVM-Lite/Full/PCIe is based on the SG2002 as the main control chip. The projects in the support section are compiled under the [MaixCDK](https://github.com/sipeed/MaixCDK) framework. Before compiling, please ensure that the `MaixCDK` environment is correctly configured. For configuration instructions, click [here](https://github.com/sipeed/MaixCDK/blob/main/docs/doc_zh/README.md).
 
 ## kvm_system Compilation Instructions
@@ -16,7 +17,7 @@
 
 ## kvm_vision Compilation Instructions
 
-> `kvm_vision` refers to the image acquisition and encoding subsystem of NanoKVM, compiled with MaixCDK to produce dynamic libraries for Go calls. Use `kvm_vision_test` to compile and test the dynamic library.
+> `kvm_vision` refers to the image acquisition and encoding subsystem of NanoKVM. MaixCDK builds the native dynamic libraries consumed through the NanoKVM server C ABI. Use `kvm_vision_test` to compile and test the dynamic library.
 
 1. Before compiling, please ensure that the above-mentioned `MaixCDK` environment is correctly configured.
 2. Modify the paths of `MAIXCDK_PATH` and `NanoKVM_PATH` in `./build`.

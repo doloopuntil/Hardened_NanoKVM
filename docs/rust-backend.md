@@ -10,8 +10,9 @@ implemented deeply enough for interactive device testing.
 
 Current published channels:
 
-- app update: `2.0.32 RC9`, tag `hardened-rust-rc9`;
-- current source/test build: `2.0.32`, smoke-tested on NanoKVM Cube hardware;
+- app update: `2.0.33 RC9.1`, tag `hardened-rust-rc9.1`;
+- current source/test build: `2.0.33`; RC9.1 is an app-only update with
+  browser-window KVM auto-fit and Appearance control alignment fixes;
 - raw system-update: `0.2.23-raw.1`, built from the RC9 `2.0.32` SD rootfs
   with gzip-compressed raw payload staging and sysrq reboot after raw writes;
 - SD-card image: RC9 `2.0.32` / `0.2.23-raw.1`.
@@ -195,6 +196,12 @@ For end-user flashing instructions, see
 
 ## Known Issues And Remaining Work
 
+- Rust still depends on native `libkvm`/CVI-MMF code for video. The 2026-07-11
+  audit found unresolved camera restart/deinit races, VENC error-lifetime bugs,
+  definite native bounds errors, unchecked I2C/encoder failures, and retained
+  `kvm_system` reliability issues. Treat native video lifecycle remediation on
+  device 133 as the highest-priority backend work; see
+  [`docs/native-code-audit.md`](native-code-audit.md).
 - Less common settings and exact error semantics still need route-by-route
   validation.
 - H.264 WebRTC remains available for Baseline/Moderate testing only; Restricted

@@ -5,22 +5,23 @@ work for the Hardened Rust backend.
 
 ## Required Security Controls
 
-| Area | Requirement | Current Status |
-|---|---|---|
-| First boot auth | No default production credential; require first-account setup when `/etc/kvm/pwd` is missing. | Implemented. `security.allow_default_admin=false` by default; isolated lab devices can opt into explicit seeded credentials. |
-| Password storage | Argon2id for new writes, unique salt, no plaintext. | Implemented in `auth/password.rs`; existing bcrypt password files are still accepted for migration. |
-| Session revocation | Opaque sessions, logout revokes the active session, password change revokes user sessions. | Implemented in memory. Persistent session policy remains a product decision. |
-| CSRF | State-changing browser endpoints require CSRF binding plus Origin/Referer checks. | Implemented for protected POST/PUT/PATCH/DELETE routes. |
-| WebSocket Origin | WebSockets must reject unexpected Origins. | Implemented for HID, H.264 Direct, H.264 WebRTC, and terminal sockets. |
-| Login brute force | Lockout enabled by default per IP and username. | Implemented; default is 5 failures and 10 minute lockout. |
-| Archive extraction | No tar traversal, no symlink overwrite, bounded install paths. | Implemented for application, offline, and system-update archives. |
-| Update integrity | Signed metadata plus archive hashes before install. | Implemented for application and system-update metadata with detached signatures. |
-| Shell commands | Privileged commands must use allowlisted argv-only wrappers with timeout and bounded output. | Implemented in `system/command.rs`; continued audit is required for new routes. |
-| Storage paths | Image operations must remain inside resolved `/data` inventory and reject unsupported media types. | Implemented for upload, delete, and mount. ISO media can be mounted as CD-ROM or mass storage for hybrid images; IMG media is limited to mass storage. |
-| Remote ISO download | Disabled by default; validate protocol, redirects, filename, destination, size, and ISO signature. | Implemented. Final production allowlist policy is still open. |
-| Firewall/WebRTC boundary | Restrictive firewall modes must not expose WebRTC/ICE UDP. | Implemented. Restricted and Paranoid block H.264 WebRTC in firewall rules, backend route guard, and UI mode selection. |
-| System updates | Signed bundles, staging, backup, rollback, boot health confirmation, and lab-only raw partition flashing guard. | Implemented for current lab raw channel. Production key custody and real kernel/rootfs payload validation are still pending. |
-| Privilege model | Prefer narrow wrappers now; split privileged helper later. | Current backend remains root-compatible for device control. |
+| Area                     | Requirement                                                                                                     | Current Status                                                                                                                                                                           |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| First boot auth          | No default production credential; require first-account setup when `/etc/kvm/pwd` is missing.                   | Implemented. `security.allow_default_admin=false` by default; isolated lab devices can opt into explicit seeded credentials.                                                             |
+| Password storage         | Argon2id for new writes, unique salt, no plaintext.                                                             | Implemented in `auth/password.rs`; existing bcrypt password files are still accepted for migration.                                                                                      |
+| Session revocation       | Opaque sessions, logout revokes the active session, password change revokes user sessions.                      | Implemented in memory. Persistent session policy remains a product decision.                                                                                                             |
+| CSRF                     | State-changing browser endpoints require CSRF binding plus Origin/Referer checks.                               | Implemented for protected POST/PUT/PATCH/DELETE routes.                                                                                                                                  |
+| WebSocket Origin         | WebSockets must reject unexpected Origins.                                                                      | Implemented for HID, H.264 Direct, H.264 WebRTC, and terminal sockets.                                                                                                                   |
+| Login brute force        | Lockout enabled by default per IP and username.                                                                 | Implemented; default is 5 failures and 10 minute lockout.                                                                                                                                |
+| Archive extraction       | No tar traversal, no symlink overwrite, bounded install paths.                                                  | Implemented for application, offline, and system-update archives.                                                                                                                        |
+| Update integrity         | Signed metadata plus archive hashes before install.                                                             | Implemented for application and system-update metadata with detached signatures.                                                                                                         |
+| Shell commands           | Privileged commands must use allowlisted argv-only wrappers with timeout and bounded output.                    | Implemented in `system/command.rs`; continued audit is required for new routes.                                                                                                          |
+| Storage paths            | Image operations must remain inside resolved `/data` inventory and reject unsupported media types.              | Implemented for upload, delete, and mount. ISO media can be mounted as CD-ROM or mass storage for hybrid images; IMG media is limited to mass storage.                                   |
+| Remote ISO download      | Disabled by default; validate protocol, redirects, filename, destination, size, and ISO signature.              | Implemented. Final production allowlist policy is still open.                                                                                                                            |
+| Firewall/WebRTC boundary | Restrictive firewall modes must not expose WebRTC/ICE UDP.                                                      | Implemented. Restricted and Paranoid block H.264 WebRTC in firewall rules, backend route guard, and UI mode selection.                                                                   |
+| System updates           | Signed bundles, staging, backup, rollback, boot health confirmation, and lab-only raw partition flashing guard. | Implemented for current lab raw channel. Production key custody and real kernel/rootfs payload validation are still pending.                                                             |
+| Native video lifecycle   | Native capture restart/read/deinit and encoder resources must have one synchronized owner with bounded cleanup. | Open, high priority. The 2026-07-11 audit found camera restart/deinit races, VENC lifetime errors, bounds bugs, and unchecked hardware failures in the Rust backend's native dependency. |
+| Privilege model          | Prefer narrow wrappers now; split privileged helper later.                                                      | Current backend remains root-compatible for device control.                                                                                                                              |
 
 ## Root-Required Operations
 
@@ -72,7 +73,9 @@ Known exceptions:
 - `server-rust/src/api/system_update.rs` runs a staged, generated loader from
   the signed system-update cache after path validation.
 - Native SG2002 C/C++ support code contains fixed `system(...)` calls for
-  hardware initialization and factory-compatible control paths.
+  hardware initialization and factory-compatible control paths. Its unresolved
+  memory/thread/resource risks are tracked in
+  [`native-code-audit.md`](native-code-audit.md).
 
 ## File And Archive Risk Inventory
 
@@ -91,13 +94,16 @@ Known exceptions:
 
 ## Follow-Up For Hardening
 
-1. Keep `security.allow_default_admin=false` for production use and rely on
+1. Fix and device-test the Priority 0 native lifecycle, VENC, bounds, and I2C
+   findings in [`native-code-audit.md`](native-code-audit.md) before the next
+   release.
+2. Keep `security.allow_default_admin=false` for production use and rely on
    first-boot setup for fresh SD-card flashes.
-2. Keep remote ISO download disabled by default until final allowlist/content
+3. Keep remote ISO download disabled by default until final allowlist/content
    policy is accepted.
-3. Test real kernel/rootfs security-backport payloads through the implemented
+4. Test real kernel/rootfs security-backport payloads through the implemented
    system-update path before publishing them outside lab devices.
-4. Define production release-key custody and rotation for application and
+5. Define production release-key custody and rotation for application and
    system-update metadata signing.
-5. Split root-required operations into a smaller privileged helper when the
+6. Split root-required operations into a smaller privileged helper when the
    Rust backend behavior is stable enough.

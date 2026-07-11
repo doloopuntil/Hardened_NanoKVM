@@ -1,8 +1,27 @@
 # kvm_system Rust Migration Plan
 
+Last updated: 2026-07-11
+
 This plan moves only the parts of `kvm_system` that are already duplicated by the
 Rust backend or init scripts, then migrates the remaining hardware-facing code in
 small reversible slices. The target validation device is 133.
+
+## Current Status
+
+- The validated migration work is in GitHub `main`. The old
+  `feature/rust-kvm-system-migration` branch is historical and is not the
+  current release branch.
+- Rust owns the web backend, authenticated Wi-Fi reconnect, runtime/update
+  control, passive hwmon normalization, and Ethernet snapshot state.
+- `S95nanokvm` enables Rust hwmon snapshot consumption by default. C++ passive
+  reads remain compatibility fallback for missing/stale snapshots.
+- C++ intentionally remains for OLED drawing, button input, OLED/AP Wi-Fi
+  provisioning, and hardware-specific paths. The native video/MMF boundary also
+  remains C/C++ and is called by the Rust backend through `libkvm`.
+- A new native audit found concrete crash, memory-lifetime, bounds, and resource
+  cleanup defects. The next work is targeted native remediation on device 133,
+  not broad responsibility migration. See
+  [`native-code-audit.md`](native-code-audit.md).
 
 ## Goals
 
@@ -13,11 +32,12 @@ small reversible slices. The target validation device is 133.
 - Keep C/C++ code for hardware-facing areas when rewriting it would add risk
   without closing a concrete security, reliability, or maintenance problem.
 - Use the legacy implementation only as a temporary fallback for the specific
-  slices being replaced by Rust while the migration branch is tested on 133.
+  slices being replaced by Rust during intermediate validation on 133.
 - Before release, remove only the C/C++ code paths, packaging hooks, and runtime
   ownership for responsibilities that Rust has taken over and validated.
-- Push each validated slice to `feature/rust-kvm-system-migration` so the branch
-  remains reviewable and deployable.
+- Develop each new native remediation slice on a focused branch, validate it on
+  133, and merge/push it to `main` only after review. Do not revive the old
+  migration branch as a release branch.
 
 ## Non-Goals
 
@@ -30,19 +50,19 @@ small reversible slices. The target validation device is 133.
 
 ## Current Responsibilities
 
-| Area | Current owner | Existing overlap |
-| --- | --- | --- |
-| Boot/app migration markers `kvm_new_app` and `kvm_new_img` | `S95nanokvm` | `S95nanokvm`, `S01fs`, Rust app/system update code |
-| Init script installation | `S95nanokvm::install_boot_scripts` | Rust startup repair |
-| `/kvmapp/kvm/*` stream state defaults | `S95nanokvm::ensure_kvm_state_files` | Rust stream API |
-| Rust server runtime staging/restart | `S95nanokvm::start_server_runtime`, `restart-server` | Rust app update restart hook |
-| DNS bootstrap | Rust network API and `S01fs` preserved config restore | `S95nanokvm` clears old marker |
-| Wi-Fi API-triggered reconnect | `system_ctrl.cpp` | Rust network API writes the request files, `S30wifi` performs the actual service change |
-| Wi-Fi AP provisioning via OLED/button | `system_ctrl.cpp`, OLED UI | No complete Rust replacement yet |
-| OLED existence and display | `oled_ctrl.cpp`, `oled_ui.cpp` | Rust VM API only reads/writes OLED settings |
-| Button handling | `main.cpp` | No Rust replacement yet |
-| Passive status polling | `system_state.cpp`, optionally Rust `nanokvm-hwmon` snapshot | Partial overlap with Rust network/stream APIs |
-| HDMI/LT6911 resolution probing | `hdmi.cpp` | No complete Rust replacement yet |
+| Area                                                       | Current owner                                         | Existing overlap                                                         |
+| ---------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------ |
+| Boot/app migration markers `kvm_new_app` and `kvm_new_img` | `S95nanokvm`                                          | `S95nanokvm`, `S01fs`, Rust app/system update code                       |
+| Init script installation                                   | `S95nanokvm::install_boot_scripts`                    | Rust startup repair                                                      |
+| `/kvmapp/kvm/*` stream state defaults                      | `S95nanokvm::ensure_kvm_state_files`                  | Rust stream API                                                          |
+| Rust server runtime staging/restart                        | `S95nanokvm::start_server_runtime`, `restart-server`  | Rust app update restart hook                                             |
+| DNS bootstrap                                              | Rust network API and `S01fs` preserved config restore | `S95nanokvm` clears old marker                                           |
+| Wi-Fi API-triggered reconnect                              | Rust network API plus `S30wifi`                       | C++ remains only for the no-auth/OLED AP provisioning compatibility flow |
+| Wi-Fi AP provisioning via OLED/button                      | `system_ctrl.cpp`, OLED UI                            | No complete Rust replacement yet                                         |
+| OLED existence and display                                 | `oled_ctrl.cpp`, `oled_ui.cpp`                        | Rust VM API only reads/writes OLED settings                              |
+| Button handling                                            | `main.cpp`                                            | No Rust replacement yet                                                  |
+| Passive status polling                                     | Rust `nanokvm-hwmon` snapshot by default              | C++ direct readers remain stale/missing-snapshot fallback                |
+| HDMI/LT6911 resolution probing                             | Native `libkvm`/C++ hardware code                     | No Rust replacement; current priority is lifecycle and error hardening   |
 
 ## Migration Strategy
 
@@ -79,11 +99,12 @@ Completed slices:
 5. Legacy `soph_mipi_rx.ko` compatibility repair moved to `S95nanokvm`, gated by
    the old `kvm_new_app` marker and executed before runtime starts.
 
-Remaining slices:
+At that phase, the remaining slices were:
 
 1. Decide whether API-triggered Wi-Fi reconnect should stay in the OLED helper
-   until the Rust hardware monitor exists. Current low-risk choice is to leave it
-   in C++ because it shares state with the OLED Wi-Fi provisioning flow.
+   until the Rust hardware monitor exists. The low-risk choice at that phase was
+   to leave it in C++ because it shared state with the OLED Wi-Fi provisioning
+   flow; the normal authenticated reconnect path was moved to Rust later.
 2. Add Rust shadow hardware monitor for passive state observation only.
 3. After shadow validation, move passive polling/state normalization out of C++
    while keeping OLED/button/I2C rendering and control in C++.
@@ -230,14 +251,14 @@ Completed third slice:
    section is missing, or parsing fails, C++ falls back to the legacy Ethernet
    checks.
 
-Remaining steps:
+Remaining compatibility/validation steps after the completed cutover:
 
-1. Decide whether C++ should keep Wi-Fi API-triggered reconnect handling until
-   OLED AP provisioning has a Rust-backed replacement.
+1. Keep the normal authenticated Wi-Fi reconnect in Rust. Retain only the C++
+   no-auth/OLED AP compatibility flow until that UI is deliberately replaced.
 2. Keep observing the Ethernet snapshot path on 133 while OLED/status output is
    checked manually.
-3. After the feature-flagged path is promoted, remove the replaced legacy
-   Ethernet polling/ping code from C++.
+3. The hwmon path is now default-on. Remove additional legacy polling only when
+   stale-snapshot recovery remains safe and the replacement is tested.
 
 Validation on 133:
 
@@ -356,6 +377,10 @@ Decision:
   LT6911/I2C HDMI handling in C/C++ for now.
 - Do not rewrite these paths only for language uniformity. Revisit them only if
   a concrete crash, security problem, or maintenance blocker appears.
+- The 2026-07-11 audit did find concrete defects. Apply narrowly scoped native
+  lifecycle, bounds, and resource fixes first; reassess a Rust rewrite only
+  where a safe native fix would leave duplicate ownership or remain difficult
+  to validate.
 
 Completed C++ hardening:
 
@@ -434,8 +459,9 @@ Run after each functional slice:
   until the Rust helper passes the 133 checklist.
 - During branch testing, gate Rust replacement behavior with files under
   `/etc/kvm`.
-- If video or OLED regresses on 133, revert only the latest slice on
-  `feature/rust-kvm-system-migration` and keep prior validated commits.
+- If video or OLED regresses on 133, revert only the latest focused fix and keep
+  prior validated `main` behavior. Do not roll back through the historical
+  migration branch.
 - After release, rollback is a normal app/system downgrade to the previous
   release. The shipped image should not contain duplicate ownership for the same
   responsibility.

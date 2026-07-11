@@ -107,20 +107,21 @@ This fork is usable for active device testing, but it is not a finished firmware
 release. The current development flow is to run the Rust backend on a real
 NanoKVM device and harden one subsystem at a time.
 
-| Area | Status |
-| --- | --- |
-| Rust backend | Runs on the device as a replacement `NanoKVM-Server`. |
-| Web UI | Existing React UI is retained with Hardened branding and System settings pages. |
-| HTTPS | Implemented in Rust with HTTP-to-HTTPS redirect and existing cert config support. |
-| Authentication | First-boot web account setup, Rust sessions, CSRF protection, Origin checks, rate limiting, security headers, Argon2id for new passwords, legacy bcrypt verification. |
-| Video | H.264 Direct is the preferred low-CPU mode and is verified on hardware. MJPEG remains available as a fallback. H.264 WebRTC is available in Baseline/Moderate modes, but is disabled by Restricted/Paranoid firewall policy. |
-| HID | Keyboard/mouse websocket, queued HID writes, paste, shortcuts, HID mode, reset, and mouse jiggler are implemented. |
-| Device settings | Hostname, web title, GPIO/ATX, OLED, HDMI, SSH, mDNS, swap, memory limit, TLS toggle, reboot, scripts, and autostart have Rust endpoints. |
-| Storage | ISO/IMG listing, upload, mount, delete, and CD-ROM/mass-storage mode are implemented with path validation. Mount changes use LUN eject/insert; switching between CD-ROM and mass-storage mode also reconnects the USB gadget so BIOS/boot menus rescan the device type. A confirmed USB reconnect fallback remains available when a host does not notice media changes. Remote ISO download exists behind a disabled-by-default safety toggle and validates URL, filename, size, destination, and ISO format. Completed downloads now reset the picker state and refresh the virtual-media image list without logout. |
-| Network | WOL, full wired DHCP/manual IP/DNS settings, explicit IPv6 Disabled/SLAAC/DHCPv6/Manual controls, Wi-Fi status/connect/AP verification, and Tailscale lifecycle endpoints are implemented. |
-| Updates | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current published app channel: `2.0.33 RC9.1`. |
-| SD image | Latest published SD image is the RC9 `2.0.32` / `0.2.23-raw.1` image, built by patching a trusted NanoKVM Rev1.4.2/vendor SDK base image with Hardened `kvmapp`. The RC9 mobile/tablet UI path was smoke-tested on NanoKVM Cube devices. `make vendor-sdk` bootstraps the pinned Sipeed SDK for future reproducible base-system builds. |
-| System updates | Separate GitHub channel metadata, signed metadata enforcement, staging download/verify, guarded raw install, first-boot root configuration restore, automatic boot-good confirmation, manual rollback, and boot-watchdog rollback are implemented. Current raw channel: `0.2.23-raw.1`, built from the RC9 `2.0.32` SD rootfs. Raw full-rootfs updates are lab-only; current raw payloads are stored gzip-compressed and streamed to the SD-card block devices during install. The current raw/SD image reports Buildroot `2023.11.2` with security backport level `Buildroot 2023.11.3 package backports`; deeper kernel/rootfs security payloads are still pending. |
+| Area                  | Status                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Rust backend          | Runs on the device as a replacement `NanoKVM-Server`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Web UI                | Existing React UI is retained with Hardened branding and System settings pages.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| HTTPS                 | Implemented in Rust with HTTP-to-HTTPS redirect and existing cert config support.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Authentication        | First-boot web account setup, Rust sessions, CSRF protection, Origin checks, rate limiting, security headers, Argon2id for new passwords, legacy bcrypt verification.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Video                 | H.264 Direct is the preferred low-CPU mode and is verified on hardware. MJPEG remains available as a fallback. H.264 WebRTC is available in Baseline/Moderate modes, but is disabled by Restricted/Paranoid firewall policy.                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Native video boundary | Rust still calls `libkvm` and the CVI/MMF C/C++ stack. A 2026-07-11 audit found unresolved lifecycle races, VENC cleanup errors, bounds bugs, and unchecked hardware failures; native remediation on test device 133 is the next high-priority engineering task.                                                                                                                                                                                                                                                                                                                                                                                                      |
+| HID                   | Keyboard/mouse websocket, queued HID writes, paste, shortcuts, HID mode, reset, and mouse jiggler are implemented.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| Device settings       | Hostname, web title, GPIO/ATX, OLED, HDMI, SSH, mDNS, swap, memory limit, TLS toggle, reboot, scripts, and autostart have Rust endpoints.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| Storage               | ISO/IMG listing, upload, mount, delete, and CD-ROM/mass-storage mode are implemented with path validation. Mount changes use LUN eject/insert; switching between CD-ROM and mass-storage mode also reconnects the USB gadget so BIOS/boot menus rescan the device type. A confirmed USB reconnect fallback remains available when a host does not notice media changes. Remote ISO download exists behind a disabled-by-default safety toggle and validates URL, filename, size, destination, and ISO format. Completed downloads now reset the picker state and refresh the virtual-media image list without logout.                                                 |
+| Network               | WOL, full wired DHCP/manual IP/DNS settings, explicit IPv6 Disabled/SLAAC/DHCPv6/Manual controls, Wi-Fi status/connect/AP verification, and Tailscale lifecycle endpoints are implemented.                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| Updates               | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current published app channel: `2.0.33 RC9.1`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| SD image              | Latest published SD image is the RC9 `2.0.32` / `0.2.23-raw.1` image, built by patching a trusted NanoKVM Rev1.4.2/vendor SDK base image with Hardened `kvmapp`. The RC9 mobile/tablet UI path was smoke-tested on NanoKVM Cube devices. `make vendor-sdk` bootstraps the pinned Sipeed SDK for future reproducible base-system builds.                                                                                                                                                                                                                                                                                                                               |
+| System updates        | Separate GitHub channel metadata, signed metadata enforcement, staging download/verify, guarded raw install, first-boot root configuration restore, automatic boot-good confirmation, manual rollback, and boot-watchdog rollback are implemented. Current raw channel: `0.2.23-raw.1`, built from the RC9 `2.0.32` SD rootfs. Raw full-rootfs updates are lab-only; current raw payloads are stored gzip-compressed and streamed to the SD-card block devices during install. The current raw/SD image reports Buildroot `2023.11.2` with security backport level `Buildroot 2023.11.3 package backports`; deeper kernel/rootfs security payloads are still pending. |
 
 ## How Updates Work
 
@@ -315,11 +316,19 @@ When the Rust backend is active,
 `GET /api/health` returns:
 
 ```json
-{"code":0,"msg":"success","data":{"backend":"rust","phase":"skeleton","status":"ok"}}
+{
+  "code": 0,
+  "msg": "success",
+  "data": { "backend": "rust", "phase": "skeleton", "status": "ok" }
+}
 ```
 
 ## Still Not Finished
 
+- The native `libkvm`/CVI-MMF path still needs lifecycle and memory-safety
+  remediation. The current audit and prioritized code references are in
+  [docs/native-code-audit.md](docs/native-code-audit.md); no fixes from that
+  audit are included in RC9.1.
 - Full API parity is not complete. Some routes are implemented for compatibility
   but still need deeper behavior and edge-case testing.
 - H.264 WebRTC needs more browser/ICE stress testing across reconnects and
@@ -371,33 +380,33 @@ Choose the NanoKVM model that best fits your deployment:
 
 ## 🛠️ Technical Specifications
 
-| Feature            | NanoKVM-Pro                           | NanoKVM (Cube/PCIe)               | GxxKVM                             | JxxKVM                              |
-| ------------------ | ------------------------------------- | --------------------------------- | ---------------------------------- | ----------------------------------- |
-| Core               | AX630C 2xA53 1.2G                     | SG2002 1xC906 1.0G                | RV1126 4xA7 1.5G                   | RV1106 1xA7 1.2G                    |
-| Memory & Storage   | 1G LPDDR4X + 32G eMMC                 | 256M DDR3 + 32G microSD           | 1G DDR3 + 8G eMMC                  | 256M DDR3 + 16G eMMC                |
-| System             | NanoKVM / PiKVM                       | NanoKVM                           | GxxKVM                             | JxxKVM                              |
-| Resolution         | 4K@30fps / 2K@60fps                   | 1080P@60fps                       | 4K@30fps / 2K@60fps                | 1080P@60fps                         |
-| HDMI Loopout       | 4K loopout                            | —                                 | —                                  | —                                   |
-| Video Encoding     | MJPEG / H.264 / H.265                 | MJPEG / H.264                     | MJPEG / H.264                      | MJPEG / H.264                       |
-| Audio Transmit     | ✓                                     | —                                 | ✓                                  | —                                   |
-| UEFI / BIOS        | ✓                                     | ✓                                 | ✓                                  | ✓                                   |
-| Emulated USB Keyboard & Mouse | ✓                          | ✓                                 | ✓                                  | ✓                                   |
-| Emulated USB ISO   | ✓                                     | ✓                                 | ✓                                  | ✓                                   |
-| IPMI               | ✓                                     | ✓                                 | ✓                                  | —                                   |
-| Wake-on-LAN        | ✓                                     | ✓                                 | ✓                                  | ✓                                   |
-| Web Terminal       | ✓                                     | ✓                                 | ✓                                  | ✓                                   |
-| Serial Terminal    | 2 channels                            | 2 channels                        | —                                  | 1 channel                           |
-| Custom Scripts     | ✓                                     | ✓                                 | —                                  | —                                   |
-| Storage            | 32G eMMC 300MB/s                      | 32G MicroSD 12MB/s                | 8G eMMC 120MB/s                    | 8G eMMC 60MB/s                      |
-| Ethernet           | 1000M                                 | 100M                              | 1000M                              | 100M                                |
-| PoE                | Optional                              | Optional                          | —                                  | —                                   |
-| Wi-Fi              | Optional Wi-Fi 6                      | Optional Wi-Fi 6                  | —                                  | —                                   |
-| ATX Power Control  | ✓                                     | ✓                                 | Extra $15                          | Extra $10                           |
-| Display            | 1.47" 320x172 LCD / 0.96" 128x64 OLED | 0.96" 128x64 OLED                 | —                                  | 1.68" 280x240                       |
-| More Features      | Sync LED Strip / Smart Assistant      | —                                 | —                                  | —                                   |
-| Power Consumption  | 0.6A@5V                               | 0.2A@5V                           | 0.4A@5V                            | 0.2A@5V                             |
-| Power Input        | USB-C or PoE                          | USB-C                             | USB-C                              | USB-C                               |
-| Dimensions         | 65x65x26mm                            | 40x36x36mm                        | 80x60x17.5mm                       | 60x43x(24~31)mm                     |
+| Feature                       | NanoKVM-Pro                           | NanoKVM (Cube/PCIe)     | GxxKVM              | JxxKVM               |
+| ----------------------------- | ------------------------------------- | ----------------------- | ------------------- | -------------------- |
+| Core                          | AX630C 2xA53 1.2G                     | SG2002 1xC906 1.0G      | RV1126 4xA7 1.5G    | RV1106 1xA7 1.2G     |
+| Memory & Storage              | 1G LPDDR4X + 32G eMMC                 | 256M DDR3 + 32G microSD | 1G DDR3 + 8G eMMC   | 256M DDR3 + 16G eMMC |
+| System                        | NanoKVM / PiKVM                       | NanoKVM                 | GxxKVM              | JxxKVM               |
+| Resolution                    | 4K@30fps / 2K@60fps                   | 1080P@60fps             | 4K@30fps / 2K@60fps | 1080P@60fps          |
+| HDMI Loopout                  | 4K loopout                            | —                       | —                   | —                    |
+| Video Encoding                | MJPEG / H.264 / H.265                 | MJPEG / H.264           | MJPEG / H.264       | MJPEG / H.264        |
+| Audio Transmit                | ✓                                     | —                       | ✓                   | —                    |
+| UEFI / BIOS                   | ✓                                     | ✓                       | ✓                   | ✓                    |
+| Emulated USB Keyboard & Mouse | ✓                                     | ✓                       | ✓                   | ✓                    |
+| Emulated USB ISO              | ✓                                     | ✓                       | ✓                   | ✓                    |
+| IPMI                          | ✓                                     | ✓                       | ✓                   | —                    |
+| Wake-on-LAN                   | ✓                                     | ✓                       | ✓                   | ✓                    |
+| Web Terminal                  | ✓                                     | ✓                       | ✓                   | ✓                    |
+| Serial Terminal               | 2 channels                            | 2 channels              | —                   | 1 channel            |
+| Custom Scripts                | ✓                                     | ✓                       | —                   | —                    |
+| Storage                       | 32G eMMC 300MB/s                      | 32G MicroSD 12MB/s      | 8G eMMC 120MB/s     | 8G eMMC 60MB/s       |
+| Ethernet                      | 1000M                                 | 100M                    | 1000M               | 100M                 |
+| PoE                           | Optional                              | Optional                | —                   | —                    |
+| Wi-Fi                         | Optional Wi-Fi 6                      | Optional Wi-Fi 6        | —                   | —                    |
+| ATX Power Control             | ✓                                     | ✓                       | Extra $15           | Extra $10            |
+| Display                       | 1.47" 320x172 LCD / 0.96" 128x64 OLED | 0.96" 128x64 OLED       | —                   | 1.68" 280x240        |
+| More Features                 | Sync LED Strip / Smart Assistant      | —                       | —                   | —                    |
+| Power Consumption             | 0.6A@5V                               | 0.2A@5V                 | 0.4A@5V             | 0.2A@5V              |
+| Power Input                   | USB-C or PoE                          | USB-C                   | USB-C               | USB-C                |
+| Dimensions                    | 65x65x26mm                            | 40x36x36mm              | 80x60x17.5mm        | 60x43x(24~31)mm      |
 
 ## 📂 Project Structure
 
@@ -430,6 +439,9 @@ Start with the guide that matches the part of NanoKVM you want to work on:
 - **New Buildroot study:** Track feasibility of newer SDK/newer Buildroot sysupgrade images in [docs/new-buildroot-sysupgrade-study.md](docs/new-buildroot-sysupgrade-study.md).
 - **Buildroot 2023 security backports:** Evaluate critical userspace backports for the proven vendor SDK baseline in [docs/buildroot-2023-security-backport-plan.md](docs/buildroot-2023-security-backport-plan.md).
 - **Security status:** Review hardening scope and remaining risk in [docs/security-risk-inventory.md](docs/security-risk-inventory.md).
+- **Native code audit:** Review current C/C++ crash, resource-lifetime, and
+  retained-helper findings in
+  [docs/native-code-audit.md](docs/native-code-audit.md).
 - **Frontend UI:** Develop, lint, and build the React interface in [web/README.md](web/README.md).
 
 > Backend compilation and runtime validation require the target toolchain or a NanoKVM device. See the module-specific guides above for the latest development workflow.
