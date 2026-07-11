@@ -1,7 +1,6 @@
 import type { CSSProperties, RefObject } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { useIsDesktopLayout } from '@/hooks/useResponsiveLayout.ts';
 import type { Resolution } from '@/types';
 
 type ScreenFit = {
@@ -18,13 +17,11 @@ export function useScreenFit(
   fallbackStyle: CSSProperties
 ): ScreenFit {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isDesktopLayout = useIsDesktopLayout();
   const [fitScale, setFitScale] = useState(1);
 
   useEffect(() => {
     function updateFitScale() {
-      if (isDesktopLayout || !containerRef.current) {
-        setFitScale(1);
+      if (!containerRef.current) {
         return;
       }
 
@@ -60,10 +57,10 @@ export function useScreenFit(
       observer.disconnect();
       window.removeEventListener('orientationchange', updateFitScale);
     };
-  }, [isDesktopLayout, resolution?.height, resolution?.width]);
+  }, [resolution?.height, resolution?.width]);
 
   useEffect(() => {
-    if (isDesktopLayout || !containerRef.current) return;
+    if (!containerRef.current) return;
 
     const frame = window.requestAnimationFrame(() => {
       const container = containerRef.current;
@@ -74,54 +71,31 @@ export function useScreenFit(
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [fitScale, isDesktopLayout, resolution?.height, resolution?.width, videoScale]);
+  }, [fitScale, resolution?.height, resolution?.width, videoScale]);
 
   const mediaStyle = useMemo<CSSProperties>(() => {
-    const scale = (isDesktopLayout ? 1 : fitScale) * videoScale;
+    const scale = fitScale * videoScale;
     const width = resolution?.width && resolution.width > 0 ? resolution.width : FALLBACK_SCREEN_WIDTH;
     const height =
       resolution?.height && resolution.height > 0 ? resolution.height : FALLBACK_SCREEN_HEIGHT;
 
     if (!resolution?.width || !resolution?.height) {
-      if (!isDesktopLayout) {
-        return {
-          ...fallbackStyle,
-          width: Math.max(1, Math.round(width * scale)),
-          height: Math.max(1, Math.round(height * scale)),
-          maxWidth: undefined,
-          maxHeight: undefined,
-          objectFit: 'cover'
-        };
-      }
-
       return {
         ...fallbackStyle,
-        width,
-        height,
+        width: Math.max(1, Math.round(width * scale)),
+        height: Math.max(1, Math.round(height * scale)),
         maxWidth: undefined,
         maxHeight: undefined,
-        objectFit: 'cover',
-        transform: `scale(${scale})`,
-        transformOrigin: 'center'
-      };
-    }
-
-    if (!isDesktopLayout) {
-      return {
-        width: Math.max(1, Math.round(resolution.width * scale)),
-        height: Math.max(1, Math.round(resolution.height * scale)),
         objectFit: 'cover'
       };
     }
 
     return {
-      width: resolution.width,
-      height: resolution.height,
-      objectFit: 'cover',
-      transform: `scale(${scale})`,
-      transformOrigin: 'center'
+      width: Math.max(1, Math.round(resolution.width * scale)),
+      height: Math.max(1, Math.round(resolution.height * scale)),
+      objectFit: 'cover'
     };
-  }, [fallbackStyle, fitScale, isDesktopLayout, resolution?.height, resolution?.width, videoScale]);
+  }, [fallbackStyle, fitScale, resolution?.height, resolution?.width, videoScale]);
 
   return { containerRef, mediaStyle };
 }

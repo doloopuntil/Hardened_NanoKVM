@@ -1,6 +1,6 @@
 # Hardened NanoKVM Handoff
 
-Last updated: 2026-07-10
+Last updated: 2026-07-11
 
 ## Repository State
 
@@ -42,6 +42,27 @@ Last updated: 2026-07-10
   installed and checked on NanoKVM Cube devices `10.0.87.133` and
   `10.0.87.132`; final full RC9 image has not been raw-installed on hardware
   before publishing unless noted later in this file.
+- Post-RC9 web fit/alignment check on `10.0.87.133` and `10.0.87.132`
+  (2026-07-11): the Appearance page `Interface layout` and `Display Mode`
+  segmented controls now use matching fixed desktop widths and full-width mobile
+  layout, so their right edges and label centers line up. KVM screen fitting now
+  applies to desktop/tablet/browser windows too: at `100%` scale, the rendered
+  `#screen` is sized to fit inside `[data-kvm-screen-scroll]`, while higher
+  manual scale values still produce scrollable/pannable content. Built
+  `web/dist`, packaged
+  `build/artifacts/hardened-nanokvm-kvmapp-2.0.32-fit-align.tar.gz`
+  (`sha256=76220e9169ff9f236680f91447d39dff625b8732734b592fb6c911d120ea37ba`),
+  and installed it on both devices through the authenticated offline app-update
+  API because SSH password auth was not accepted during this session. Installed
+  HTTPS `index.html` SHA-256 on both devices:
+  `1f5de8f50923ac0750a021ff1c696559eac5c3bd9b361af81dbc8b887333876f`;
+  `/api/health` returned Rust backend OK and `/api/application/current-version`
+  returned `2.0.32` on both. Playwright device check
+  `/tmp/nanokvm-fit-align-check.mjs` passed desktop `1200x800` and phone
+  `393x873` on both devices: screen width/height fit the container, both
+  Appearance segmented controls had matching `left`/`width`, and no page errors
+  were reported. Screenshots and report are under
+  `/tmp/nanokvm-fit-align-check`.
 - GitHub Releases cleanup after RC9: keep RC9, RC8, RC7.1/RC7, RC6, their
   raw-system companion releases, and the app/system stable/preview channel
   releases unless a separate cleanup is requested. Older beta/RC release

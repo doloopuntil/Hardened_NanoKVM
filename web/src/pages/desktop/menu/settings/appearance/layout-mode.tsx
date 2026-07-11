@@ -29,7 +29,7 @@ export const LayoutMode = () => {
         <span className="text-xs text-neutral-500">{t('settings.appearance.layoutModeDesc')}</span>
       </div>
 
-      <div className="w-full min-w-0 overflow-x-auto sm:w-auto sm:min-w-[260px]">
+      <div className="w-full min-w-0 overflow-x-auto sm:w-[340px] sm:flex-none">
         <Segmented
           block
           className="settings-segmented-wrap-labels min-w-full"
