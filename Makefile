@@ -33,7 +33,7 @@ VENDOR_SDK_INSPECTION ?= build/vendor-upgrade-inspection.json
 RAW_SYSTEM_UPDATE_BOOT ?= $(RAW_SYSTEM_UPDATE_IMAGE_DIR)/boot.vfat
 RAW_SYSTEM_UPDATE_ROOTFS ?= $(RAW_SYSTEM_UPDATE_IMAGE_DIR)/rootfs.sd
 
-.PHONY: help check-root builder-image rebuild-image check-image shell rust-app web-app rust-kvmapp sd-image raw-system-update-images vendor-sdk vendor-sdk-stock vendor-sdk-inspect system-update-bundle raw-system-update-bundle system-update-metadata support all clean
+.PHONY: help check-root builder-image rebuild-image check-image shell rust-app web-app rust-kvmapp sd-image raw-system-update-images vendor-sdk vendor-sdk-stock vendor-sdk-inspect latest-buildroot-bootstrap latest-buildroot-config-probe system-update-bundle raw-system-update-bundle system-update-metadata support all clean
 
 # Default target
 all: rust-kvmapp support
@@ -56,6 +56,8 @@ help:
 	@echo "  vendor-sdk    - Bootstrap the pinned Sipeed LicheeRV Nano vendor SDK checkout"
 	@echo "  vendor-sdk-stock - Build the stock SDK image with a Buildroot-safe PATH"
 	@echo "  vendor-sdk-inspect - Validate vendor upgrade.zip and write JSON inspection"
+	@echo "  latest-buildroot-bootstrap - Fetch the isolated upstream Buildroot 2026.05.1 port probe"
+	@echo "  latest-buildroot-config-probe - Convert the vendor Buildroot config without building or flashing"
 	@echo "  system-update-bundle   - Package a staged system-update payload"
 	@echo "  raw-system-update-bundle - Package experimental raw boot/rootfs images"
 	@echo "  system-update-metadata - Generate GitHub latest JSON for the system bundle"
@@ -140,6 +142,14 @@ vendor-sdk-stock:
 # is a reproducible input for deciding future system-update bundle contents.
 vendor-sdk-inspect:
 	@scripts/inspect-vendor-upgrade.py "$(VENDOR_SDK_UPGRADE)" "$(VENDOR_SDK_INSPECTION)"
+
+# Experimental official-Buildroot port probe. It never changes the vendor SDK,
+# produces no release artifact, and must not be used to flash a device.
+latest-buildroot-bootstrap:
+	@scripts/bootstrap-latest-buildroot-probe.sh
+
+latest-buildroot-config-probe: latest-buildroot-bootstrap
+	@scripts/probe-latest-buildroot-config.sh
 
 # Package a staged system-update payload.
 # Expected payload layout:

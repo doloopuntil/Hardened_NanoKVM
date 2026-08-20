@@ -16,6 +16,9 @@ available in:
 - GitHub repository: `woffko/Hardened_NanoKVM`.
 - GitHub default branch: `main`.
 - Local release branch: `rc8-main-sync`, tracking `origin/main`.
+- `latestbuilroot` is an experimental Buildroot `2026.05.1` board-port branch.
+  It must not publish or install a system image until the gates in
+  [`latest-buildroot-port.md`](latest-buildroot-port.md) have passed.
 - `feature/rust-kvm-system-migration` is historical. Its validated work is in
   `main`; do not continue release work from that branch.
 - Current source/application version: `2.0.34` (`kvmapp/version`).
@@ -25,9 +28,10 @@ available in:
   `0.2.23-raw.1`, tags `hardened-rust-rc9` and
   `hardened-system-0.2.23-raw.1`.
 - GitHub Pages RC9 update: `gh-pages` commit `ad91ef6`.
-- GitHub CLI is authenticated as `woffko`. The current PAT can manage normal
-  repository/release operations but the Dependabot alerts API still returns
-  HTTP 403. `Cargo.lock` contains the patched `anyhow 1.0.103`.
+- GitHub CLI is authenticated as `woffko`. A 2026-08-20 API check confirmed
+  Dependabot alert read access; the default branch had nine open web dependency
+  alerts (four high and five moderate). `Cargo.lock` contains the patched
+  `anyhow 1.0.103`.
 
 Current release artifacts and SHA-256 values:
 
