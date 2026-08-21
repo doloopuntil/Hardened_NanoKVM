@@ -6,6 +6,14 @@ metadata from the GitHub latest-release endpoint.
 System updates use their own channel metadata so that a kernel/rootfs release
 does not become the GitHub `latest` release and break the application updater.
 
+The combined RC11 release is an explicit exception: tag
+`hardened-system-0.3.0-raw.10` carries both app `2.0.40` metadata and raw/SD
+assets, and is GitHub latest so the application updater can discover it. The tag
+still uses the exact `hardened-system-<version>` form required by deployed
+system URL validation. Existing installations must install app `2.0.40` first;
+only then should `hardened-system-preview` advertise the raw update. The stable
+system channel is not moved by this candidate.
+
 ## Release Channels
 
 Use fixed GitHub release tags as update channels:
@@ -71,6 +79,11 @@ Production stable/preview channel metadata must use
 `signature_key_id`.
 
 ## Current Published System Releases
+
+The current preview candidate is combined RC11, app `2.0.40` plus system
+`0.3.0-raw.10`, on tag `hardened-system-0.3.0-raw.10`. It migrates userspace to
+Buildroot `2026.05.1` while retaining vendor kernel `5.10.4-tag-`. The previous
+stable channel remains on `0.2.23-raw.1` until a separate promotion decision.
 
 The current `hardened-system-stable` channel points to the RC9 raw payload
 `0.2.23-raw.1`, published on companion tag

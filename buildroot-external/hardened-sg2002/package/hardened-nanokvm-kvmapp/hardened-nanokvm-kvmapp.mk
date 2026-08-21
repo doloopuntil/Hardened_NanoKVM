@@ -1,0 +1,48 @@
+################################################################################
+#
+# hardened-nanokvm-kvmapp
+#
+################################################################################
+
+HARDENED_NANOKVM_KVMAPP_VERSION = 2.0.40
+NANOKVM_KVMAPP_SOURCE_DIR ?= \
+	$(abspath $(BR2_EXTERNAL_HARDENED_SG2002_PATH)/../../build/kvmapp-rust/kvmapp)
+HARDENED_NANOKVM_KVMAPP_SITE = $(NANOKVM_KVMAPP_SOURCE_DIR)
+HARDENED_NANOKVM_KVMAPP_SITE_METHOD = local
+HARDENED_NANOKVM_KVMAPP_LICENSE = GPL-3.0-only, PROPRIETARY
+HARDENED_NANOKVM_KVMAPP_REDISTRIBUTE = NO
+HARDENED_NANOKVM_KVMAPP_DEPENDENCIES = \
+	avahi \
+	dnsmasq \
+	hostapd \
+	openssh \
+	wpa_supplicant
+
+define HARDENED_NANOKVM_KVMAPP_INSTALL_TARGET_CMDS
+	test "$$(cat $(@D)/version)" = "$(HARDENED_NANOKVM_KVMAPP_VERSION)"
+	$(INSTALL) -d $(TARGET_DIR)/kvmapp $(TARGET_DIR)/etc/kvm \
+		$(TARGET_DIR)/etc/init.d $(TARGET_DIR)/mnt/data
+	cp -a $(@D)/. $(TARGET_DIR)/kvmapp/
+	printf 'rust\n' > $(TARGET_DIR)/etc/kvm/backend
+	chmod 0644 $(TARGET_DIR)/etc/kvm/backend
+	for name in S00kmod S01fs S01syslogd S02klogd S03usbdev S15kvmhwd \
+		S30eth S30wifi S40firewall S49ntp S50avahi-daemon S50sshd \
+		S80dnsmasq S95nanokvm; do \
+		script="$(@D)/system/init.d/$$name"; \
+		[ -f "$$script" ] || continue; \
+		$(INSTALL) -m 0755 "$$script" "$(TARGET_DIR)/etc/init.d/$$name"; \
+	done
+	rm -f $(TARGET_DIR)/etc/init.d/S02udisk \
+		$(TARGET_DIR)/etc/init.d/S04backlight \
+		$(TARGET_DIR)/etc/init.d/S05tp \
+		$(TARGET_DIR)/etc/init.d/S40bluetoothd \
+		$(TARGET_DIR)/etc/init.d/S50ssdpd
+	cp -a $(@D)/system/mnt-data/. $(TARGET_DIR)/mnt/data/
+	if [ -f $(TARGET_DIR)/mnt/data/sensor_cfg.ini.LT ]; then \
+		cp $(TARGET_DIR)/mnt/data/sensor_cfg.ini.LT $(TARGET_DIR)/mnt/data/sensor_cfg.ini; \
+	fi
+	grep -qE '^[[:space:]]*[^#]+[[:space:]]+/data[[:space:]]+' $(TARGET_DIR)/etc/fstab || \
+		printf '/dev/mmcblk0p3\t/data\texfat\tdefaults\t0\t0\n' >> $(TARGET_DIR)/etc/fstab
+endef
+
+$(eval $(generic-package))

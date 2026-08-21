@@ -128,6 +128,13 @@ enum H264FailureRecovery {
     DisableAndRestart,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum H264DirectProducerAction {
+    Capture,
+    WaitForH264Mode,
+    StopDisabled,
+}
+
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CaptureStatus {
@@ -532,11 +539,13 @@ async fn run_h264_direct_producer() {
             fps = screen.fps;
             interval = frame_interval(fps);
         }
-        if screen.mode != StreamMode::H264 || h264_capture_disabled() {
-            if h264_capture_disabled() {
+        match h264_direct_producer_action(screen.mode, h264_capture_disabled()) {
+            H264DirectProducerAction::StopDisabled => {
                 update_capture_status(CAPTURE_MODE_DIRECT, -8);
+                return;
             }
-            return;
+            H264DirectProducerAction::WaitForH264Mode => continue,
+            H264DirectProducerAction::Capture => {}
         }
         if !H264_DIRECT_FIRST_READ_LOGGED.swap(true, Ordering::Relaxed) {
             info!(
@@ -573,6 +582,22 @@ async fn run_h264_direct_producer() {
         H264_DIRECT_FANOUT.send(H264DirectFrame {
             packet: Bytes::from(packet),
         });
+    }
+}
+
+fn h264_direct_producer_action(
+    mode: StreamMode,
+    capture_disabled: bool,
+) -> H264DirectProducerAction {
+    if capture_disabled {
+        H264DirectProducerAction::StopDisabled
+    } else if mode == StreamMode::H264 {
+        H264DirectProducerAction::Capture
+    } else {
+        /* Another client can temporarily select MJPEG while this Direct
+         * websocket remains open.  Keep its producer alive so it resumes on
+         * the same socket when H.264 is selected again. */
+        H264DirectProducerAction::WaitForH264Mode
     }
 }
 
@@ -911,7 +936,10 @@ fn h264_direct_packet(is_keyframe: bool, timestamp_micros: u64, data: &[u8]) -> 
 
 #[cfg(test)]
 mod tests {
-    use super::{Screen, StreamMode, h264_direct_packet, normalize_screen};
+    use super::{
+        H264DirectProducerAction, Screen, StreamMode, h264_direct_packet,
+        h264_direct_producer_action, normalize_screen,
+    };
 
     #[test]
     fn default_screen_matches_go_auto_resolution_when_unconfigured() {
@@ -966,5 +994,21 @@ mod tests {
             &[0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01]
         );
         assert_eq!(&packet[9..], &[0xaa, 0xbb]);
+    }
+
+    #[test]
+    fn h264_direct_waits_for_global_mode_and_resumes_on_same_socket() {
+        assert_eq!(
+            h264_direct_producer_action(StreamMode::Mjpeg, false),
+            H264DirectProducerAction::WaitForH264Mode
+        );
+        assert_eq!(
+            h264_direct_producer_action(StreamMode::H264, false),
+            H264DirectProducerAction::Capture
+        );
+        assert_eq!(
+            h264_direct_producer_action(StreamMode::H264, true),
+            H264DirectProducerAction::StopDisabled
+        );
     }
 }

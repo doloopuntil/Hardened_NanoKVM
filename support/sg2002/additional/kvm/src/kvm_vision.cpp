@@ -2097,7 +2097,11 @@ void kvmv_deinit()
 
     pthread_mutex_lock(&vi_mutex);
     cam->close();
-    mmf_deinit();
+    /* Camera and the optional JPEG encoder each hold an MMF reference.  A
+     * process-level shutdown must release the complete vendor stack rather
+     * than decrementing only one reference and leaving VB/VENC initialized
+     * for the next backend process. */
+    mmf_try_deinit(true);
     free_all_kvmv_data();
     pthread_mutex_unlock(&vi_mutex);
 

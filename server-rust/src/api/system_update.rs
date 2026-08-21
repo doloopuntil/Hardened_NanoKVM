@@ -1514,6 +1514,7 @@ RAW_PRESERVE_DIR=\"$PROGRESS_DIR/preserve\"\n\
 BOOT_PRESERVE_DIR=\"$RAW_PRESERVE_DIR/boot\"\n\
 BOOT_TMP_MOUNT=/tmp/hardened-boot-preserve-mount\n\
 ROOT_PRESERVE_DIR=\"$RAW_PRESERVE_DIR/root\"\n\
+ROOT_RESTORE_DONE=\"$PROGRESS_DIR/root-restore-done\"\n\
 ROOT_TMP_MOUNT=/tmp/hardened-root-preserve-mount\n\
 kmsg() {{\n\
   [ -w /dev/kmsg ] && $BB printf 'hardened-system-update: %s\\n' \"$1\" > /dev/kmsg || true\n\
@@ -1702,9 +1703,12 @@ drop_unsafe_preserved_kvm_state() {{\n\
 preserve_root_config() {{\n\
   progress writing 'preserving rootfs configuration'\n\
   log 'preserving rootfs configuration files'\n\
+  $BB rm -f \"$ROOT_RESTORE_DONE\" >/dev/null 2>&1 || true\n\
   $BB rm -rf \"$ROOT_PRESERVE_DIR\" \"$ROOT_TMP_MOUNT\" >/dev/null 2>&1 || true\n\
   for PATH_NAME in \\\n\
     /etc/kvm \\\n\
+    /etc/default/syslogd \\\n\
+    /etc/default/klogd \\\n\
     /etc/ssh \\\n\
     /etc/dropbear \\\n\
     /etc/passwd \\\n\
@@ -1740,6 +1744,8 @@ restore_root_config() {{\n\
   if $BB mount -t ext4 \"$ROOT_DEVICE\" \"$ROOT_TMP_MOUNT\" >> \"$LOG\" 2>&1; then\n\
     for REL in \\\n\
       etc/kvm \\\n\
+      etc/default/syslogd \\\n\
+      etc/default/klogd \\\n\
       etc/ssh \\\n\
       etc/dropbear \\\n\
       etc/passwd \\\n\
@@ -3660,6 +3666,8 @@ mod tests {
         assert!(script.contains("RAW_PRESERVE_DIR=\"$PROGRESS_DIR/preserve\""));
         assert!(script.contains("BOOT_PRESERVE_DIR=\"$RAW_PRESERVE_DIR/boot\""));
         assert!(script.contains("ROOT_PRESERVE_DIR=\"$RAW_PRESERVE_DIR/root\""));
+        assert!(script.contains("ROOT_RESTORE_DONE=\"$PROGRESS_DIR/root-restore-done\""));
+        assert!(script.contains("$BB rm -f \"$ROOT_RESTORE_DONE\""));
         assert!(!script.contains("BOOT_PRESERVE_DIR=/tmp/hardened-boot-preserve"));
         assert!(!script.contains("ROOT_PRESERVE_DIR=/tmp/hardened-root-preserve"));
         assert!(
@@ -3672,6 +3680,10 @@ mod tests {
         assert!(script.contains("eth.nodhcp"));
         assert!(script.contains("eth.ipv6.mode"));
         assert!(script.contains("/etc/kvm"));
+        assert!(script.contains("/etc/default/syslogd"));
+        assert!(script.contains("/etc/default/klogd"));
+        assert!(script.contains("etc/default/syslogd"));
+        assert!(script.contains("etc/default/klogd"));
         assert!(script.contains("/etc/passwd"));
         assert!(script.contains("/etc/shadow"));
         assert!(script.contains("/etc/ssh"));

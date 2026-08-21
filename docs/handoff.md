@@ -1,6 +1,6 @@
 # Hardened NanoKVM Developer Handoff
 
-Last updated: 2026-07-11
+Last updated: 2026-08-21
 
 This document is the current takeover guide. Detailed chronological release and
 device-recovery history was intentionally removed from the handoff and remains
@@ -15,15 +15,26 @@ available in:
 - Local checkout: `/home/w0w/Hardened_NanoKVM-new-buildroot`.
 - GitHub repository: `woffko/Hardened_NanoKVM`.
 - GitHub default branch: `main`.
-- Local release branch: `rc8-main-sync`, tracking `origin/main`.
+- Current checkout branch: `latestbuilroot`, based at `9ba0ae5` with the
+  Buildroot port still intentionally uncommitted. `rc8-main-sync`, tracking
+  `origin/main`, remains the release baseline branch.
 - `latestbuilroot` is an experimental Buildroot `2026.05.1` board-port branch.
-  It must not publish or install a system image until the gates in
-  [`latest-buildroot-port.md`](latest-buildroot-port.md) have passed.
+  Signed lab images may be installed only on an explicitly authorized,
+  recoverable test-only device. Do not publish them or install them elsewhere
+  until the gates in [`latest-buildroot-port.md`](latest-buildroot-port.md)
+  have passed.
 - `feature/rust-kvm-system-migration` is historical. Its validated work is in
   `main`; do not continue release work from that branch.
-- Current source/application version: `2.0.34` (`kvmapp/version`).
-- Current latest application release: `2.0.34 RC10`, tag
-  `hardened-rust-rc10`.
+- Current source/application version: `2.0.40` (`kvmapp/version`), prepared as
+  combined RC11 with system `0.3.0-raw.10`.
+- Current installed test state: signed system `0.3.0-raw.10` with app `2.0.40`
+  on `10.0.87.133`; unpublished. Installation, the complete automated suite,
+  the same-WebSocket H.264 regression, five reboot cycles, and the final
+  30-minute stream/log endurance pass.
+- Current combined release target: app `2.0.40 RC11` plus system
+  `0.3.0-raw.10`, tag `hardened-system-0.3.0-raw.10`. Existing devices must
+  install app first and raw second; the manual SD image already includes app
+  `2.0.40`.
 - Current full raw/SD baseline: RC9 app `2.0.32`, raw system
   `0.2.23-raw.1`, tags `hardened-rust-rc9` and
   `hardened-system-0.2.23-raw.1`.
@@ -51,6 +62,18 @@ the detached signature has SHA-256
 The mutable `hardened-rust-preview` channel points to those same verified
 metadata bytes. Both public GitHub channels were downloaded after publication,
 matched the release build, and verified with the bundled signing public key.
+
+Current unpublished raw.10 lab artifacts:
+
+| Artifact | SHA-256 |
+| --- | --- |
+| application archive `2.0.40` | `22dacfdb7627f0914cae201e53d353d96d12b9aa7d01d8f4c4ff9f68c9857ba3` |
+| Buildroot rootfs ext4 | `0076f77cc71e788bdfb5ee584bdf19e66e14ce57b90d13a0631caa84f0295816` |
+| Buildroot rootfs tar | `3be6fea121e8156da42071def3cd07a7f090ab6a7d23f261d83aff5fbffda1cf` |
+| signed raw update | `bc01de0bc47de1a07fd931a7a50ecfbaf2b0848fa5588b386990daae0ec0314a` |
+| full SD image | `7150f0c8a6b6aae82a09b68e1896189727e321175e0ca74aaf67311aa65e1333` |
+| metadata | `966f494430b9d64f8018de5c01435f27cc5ce158e59fbf9b61aabbad1f4a9666` |
+| detached signature | `a05877a9787966727586a8c81cc359931dc9985d1c01527233dbae8bd3ac2afd` |
 
 ## Current Architecture
 
@@ -111,14 +134,16 @@ Remediation status:
 
 - all 26 recorded findings have source fixes in the current working tree;
 - native libraries and `kvm_system` rebuild successfully with the target
-  RISC-V toolchain, and the linked Rust package passes all 153 tests;
+  RISC-V toolchain, and the current linked Rust package passes all 154 tests;
 - the rebuilt libraries were deployed to `10.0.87.133` and passed full reboot,
   authenticated MJPEG, H.264 Direct, and controlled backend stop/start tests;
 - a stale vendor sensor-name table was also synchronized with the current
   MaixCDK enum; without that compatibility fix, a clean rebuild selects the
   wrong numeric sensor ID for LT6911 even though the log prints its name;
 - HDMI hotplug/resolution-change stress, physical OLED/button coverage, and a
-  long-running dmesg/syslog soak remain before a release;
+  physical HDMI cable hotplug/source-mode changes and physical OLED/button
+  coverage remain before a release; the automated 30-minute raw.7 video and
+  dmesg/local-syslog endurance passed;
 - `10.0.87.132` was not used.
 
 ## Test Devices
@@ -127,9 +152,12 @@ Remediation status:
 
 - Model used for validation: NanoKVM Cube.
 - Hostname: `secondary`.
-- Static network: `10.0.87.133/24`, gateway and DNS `10.0.87.5`.
-- Web login used in current lab: `admin` / `admin1234`.
-- SSH login used in recent lab checks: `root` / `admin1234`.
+- Static network: `10.0.87.133/24`, gateway `10.0.87.5`; manual DNS is
+  preserved from legacy `/boot/resolv.conf` and currently contains six unique
+  servers recorded by the raw.9 network audit.
+- Web and SSH test credentials are stored only in the encrypted Project Memory
+  test asset. Stage its password field as one-time Longrun stdin; never place
+  the value in commands, logs, docs, prompts, or source.
 - HTTPS uses a local/self-signed certificate; automation must ignore the
   certificate warning explicitly.
 - This is the required target for native C/C++, HDMI, MMF, virtual-media, OLED,
@@ -137,6 +165,24 @@ Remediation status:
 - Read-only check on 2026-07-11: HTTPS health reported the Rust backend, app
   version was `2.0.32`, SSH login succeeded, and installed system version was
   `0.2.19-raw.1` on base `2026-06-29-12-08-d88d58.img`.
+- Current automated-test state on 2026-08-21: signed system `0.3.0-raw.10`,
+  Buildroot `2026.05.1`, app `2.0.40`, vendor kernel `5.10.4-tag-`, HTTPS and
+  SSH working, source-built media trio loaded, and remote syslog active. The
+  complete suite, same-WebSocket H.264 mode-resume test, controlled runtime
+  restart, watchdog recovery, five reboot cycles, and 30-minute video/log
+  endurance passed. Physical HDMI cable unplug/replug was previously confirmed
+  on raw.9 with the same native stack; source-mode switching was unavailable on
+  the current source. This candidate is not published.
+- Vendor-kernel Phase 1 is locally reconstructed but not deployed: the
+  24-layer official/Milk-V/Sipeed source stack, clean Image/vmlinux, 3 DTBs,
+  all 57 modules, and `boot.sd` are independently reproducible; all covered
+  packaged hashes match the accepted `5.10.4-tag-` bytes. The next kernel gate
+  is a recoverable-media boot of this unchanged baseline. Do not start the
+  `5.10.265` merge or install a kernel by raw update before that gate. Details:
+  [`vendor-kernel-5.10-security-plan.md`](vendor-kernel-5.10-security-plan.md).
+  The prepared but unwritten recoverable baseline image has SHA-256
+  `2bfb0b2000786a6860f069b235fe6026fc8e77f7132f0f72e284e725246cb92e`
+  under `build/latestbuildroot/recoverable-kernel-baseline-sd-v2/`.
 - The user may install an older/full app update while development is in
   progress. Before every test, verify `/kvmapp/version`, `/api/health`, the
   running backend path, and deployed file hashes. Re-deploy the current test
@@ -147,8 +193,9 @@ Remediation status:
 - Model used for validation: NanoKVM Cube.
 - Hostname: `primary`.
 - Static network: `10.0.87.132/24`, gateway and DNS `10.0.87.5`.
-- Web login used in current lab: `admin` / `admin1234`.
-- SSH login used in recent lab checks: `root` / `admin1234`.
+- Web and SSH test credentials are not recorded in this repository. Use an
+  explicitly authorized encrypted test asset when this comparison device is
+  brought back into scope.
 - It was used for release/UI comparison and raw-update work. Do not use it for
   native video/MMF experiments unless the user explicitly requests it.
 - Read-only check on 2026-07-11: HTTPS health reported the Rust backend, app
@@ -219,8 +266,10 @@ scripts/validate-nanokvm-rootfs.sh <rootfs>
   and caused `already inited`, `fail to allocate ion memory`, and invalid-buffer
   errors.
 - The linked Rust shutdown path calls `kvmv_deinit()`. The current native
-  implementation stops and joins its workers before camera/MMF teardown; a
-  controlled stop/start passed on `10.0.87.133`.
+  implementation stops and joins its workers, closes the camera, and forces
+  complete MMF teardown so an active JPEG reference cannot leave VB/VENC
+  initialized. The raw.9 controlled restart and full suite passed with zero
+  expanded dmesg alerts on `10.0.87.133`.
 - Keep remote syslog enabled during native work so evidence survives a device
   hang/reboot.
 
@@ -230,8 +279,10 @@ scripts/validate-nanokvm-rootfs.sh <rootfs>
 - Rust backend log: `/tmp/nanokvm-server.log`.
 - `kvm_system` test log when redirected: `/tmp/kvm_system.log`.
 - Raw update log: `/data/hardened-system-raw-update.log`.
-- Remote syslog receiver previously configured by the user:
-  `10.0.77.177:514` over UDP.
+- Remote syslog receiver explicitly authorized and active on the test device:
+  `10.0.77.177:514` over UDP. Raw.8 and raw.9 transitions proved that the API
+  config, generated syslogd/klogd defaults, and live daemon arguments survive
+  raw updates while local tmpfs logging remains enabled.
 - System Log API:
   - unified local stream: `/api/system-log/messages?kind=system`;
   - backend debug stream: `kind=backend`;
@@ -365,6 +416,8 @@ scripts/validate-nanokvm-rootfs.sh <rootfs>
 - Changelog: [`../CHANGELOG.md`](../CHANGELOG.md)
 - Rust backend status/build: [`rust-backend.md`](rust-backend.md)
 - Native audit: [`native-code-audit.md`](native-code-audit.md)
+- Raw.9 physical/recovery/release acceptance:
+  [`raw9-physical-acceptance-checklist.md`](raw9-physical-acceptance-checklist.md)
 - Security inventory: [`security-risk-inventory.md`](security-risk-inventory.md)
 - API inventory: [`backend-api-inventory.md`](backend-api-inventory.md)
 - Migration strategy/history: [`kvm-system-rust-migration-plan.md`](kvm-system-rust-migration-plan.md)

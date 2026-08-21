@@ -33,7 +33,7 @@ VENDOR_SDK_INSPECTION ?= build/vendor-upgrade-inspection.json
 RAW_SYSTEM_UPDATE_BOOT ?= $(RAW_SYSTEM_UPDATE_IMAGE_DIR)/boot.vfat
 RAW_SYSTEM_UPDATE_ROOTFS ?= $(RAW_SYSTEM_UPDATE_IMAGE_DIR)/rootfs.sd
 
-.PHONY: help check-root builder-image rebuild-image check-image shell rust-app web-app rust-kvmapp sd-image raw-system-update-images vendor-sdk vendor-sdk-stock vendor-sdk-inspect latest-buildroot-bootstrap latest-buildroot-config-probe system-update-bundle raw-system-update-bundle system-update-metadata support all clean
+.PHONY: help check-root builder-image rebuild-image check-image shell rust-app web-app rust-kvmapp sd-image raw-system-update-images vendor-sdk vendor-sdk-stock vendor-sdk-inspect latest-buildroot-bootstrap latest-buildroot-config-probe latest-buildroot-sg2002-configure latest-buildroot-sg2002-rootfs latest-buildroot-sg2002-sd-image latest-buildroot-sg2002-raw-update system-update-bundle raw-system-update-bundle system-update-metadata support all clean
 
 # Default target
 all: rust-kvmapp support
@@ -58,6 +58,10 @@ help:
 	@echo "  vendor-sdk-inspect - Validate vendor upgrade.zip and write JSON inspection"
 	@echo "  latest-buildroot-bootstrap - Fetch the isolated upstream Buildroot 2026.05.1 port probe"
 	@echo "  latest-buildroot-config-probe - Convert the vendor Buildroot config without building or flashing"
+	@echo "  latest-buildroot-sg2002-configure - Configure the tracked SG2002 BR2_EXTERNAL port skeleton"
+	@echo "  latest-buildroot-sg2002-rootfs - Build the SG2002 Buildroot 2026.05.1 rootfs candidate"
+	@echo "  latest-buildroot-sg2002-sd-image - Assemble a validated recoverable-media SG2002 boot candidate"
+	@echo "  latest-buildroot-sg2002-raw-update - Build and sign the validated SG2002 raw-update candidate"
 	@echo "  system-update-bundle   - Package a staged system-update payload"
 	@echo "  raw-system-update-bundle - Package experimental raw boot/rootfs images"
 	@echo "  system-update-metadata - Generate GitHub latest JSON for the system bundle"
@@ -150,6 +154,18 @@ latest-buildroot-bootstrap:
 
 latest-buildroot-config-probe: latest-buildroot-bootstrap
 	@scripts/probe-latest-buildroot-config.sh
+
+latest-buildroot-sg2002-configure: latest-buildroot-bootstrap
+	@scripts/configure-latest-buildroot-sg2002.sh
+
+latest-buildroot-sg2002-rootfs:
+	@scripts/build-latest-buildroot-sg2002-rootfs.sh
+
+latest-buildroot-sg2002-sd-image:
+	@scripts/assemble-latest-buildroot-sg2002-sd-image.sh
+
+latest-buildroot-sg2002-raw-update:
+	@scripts/package-latest-buildroot-sg2002-raw-update.sh
 
 # Package a staged system-update payload.
 # Expected payload layout:

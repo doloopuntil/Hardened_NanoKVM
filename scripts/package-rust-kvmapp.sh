@@ -16,6 +16,7 @@ BASE_ROOTFS_IMAGE="${BASE_ROOTFS_IMAGE:-$BUILD_DIR/sd-image/rootfs.ext}"
 KVM_SYSTEM_SOURCE="${KVM_SYSTEM_SOURCE:-}"
 KVM_SYSTEM_BUILD_SOURCE="${KVM_SYSTEM_BUILD_SOURCE:-$ROOT_DIR/support/sg2002/kvm_system/build/kvm_system}"
 NATIVE_LIB_DIR="${NATIVE_LIB_DIR:-$ROOT_DIR/server-rust/native/dl_lib}"
+EXTRA_NATIVE_LIB_DIR="${EXTRA_NATIVE_LIB_DIR:-}"
 
 restore_kvm_system_helper() {
   dest="$KVMAPP_STAGE/kvm_system/kvm_system"
@@ -103,6 +104,11 @@ rm -f "$KVMAPP_STAGE/kvm_system/kvm_stream" \
   "$KVMAPP_STAGE/kvm_new_img"
 restore_kvm_system_helper
 
+if readelf -d "$KVMAPP_STAGE/kvm_system/kvm_system" 2>/dev/null | grep -Eq '\((RPATH|RUNPATH)\)'; then
+  echo "kvm_system must not contain RPATH/RUNPATH; Buildroot target sanitization corrupts this vendor v0p7 ELF" >&2
+  exit 1
+fi
+
 if [ -n "$APP_VERSION" ]; then
   printf '%s\n' "$APP_VERSION" > "$KVMAPP_STAGE/version"
 elif [ ! -f "$KVMAPP_STAGE/version" ]; then
@@ -122,6 +128,23 @@ rm -f "$KVMAPP_STAGE/backends/NanoKVM-Server.go" \
 
 mkdir -p "$KVMAPP_STAGE/server/dl_lib"
 cp -R "$NATIVE_LIB_DIR/." "$KVMAPP_STAGE/server/dl_lib/"
+if [ -n "$EXTRA_NATIVE_LIB_DIR" ]; then
+  [ -d "$EXTRA_NATIVE_LIB_DIR" ] || {
+    echo "missing extra native runtime directory: $EXTRA_NATIVE_LIB_DIR" >&2
+    exit 1
+  }
+  cp -R "$EXTRA_NATIVE_LIB_DIR/." "$KVMAPP_STAGE/server/dl_lib/"
+  ln -sf libopencv_video.so.4.9.0 "$KVMAPP_STAGE/server/dl_lib/libopencv_video.so.409"
+  ln -sf libopencv_dnn.so.4.9.0 "$KVMAPP_STAGE/server/dl_lib/libopencv_dnn.so.409"
+  ln -sf libopencv_calib3d.so.4.9.0 "$KVMAPP_STAGE/server/dl_lib/libopencv_calib3d.so.409"
+  ln -sf libopencv_features2d.so.4.9.0 "$KVMAPP_STAGE/server/dl_lib/libopencv_features2d.so.409"
+  ln -sf libopencv_flann.so.4.9.0 "$KVMAPP_STAGE/server/dl_lib/libopencv_flann.so.409"
+  ln -sf libprotobuf.so.32.0.12 "$KVMAPP_STAGE/server/dl_lib/libprotobuf.so.32"
+  ln -sf libstdc++.so.6.0.28 "$KVMAPP_STAGE/server/dl_lib/libstdc++.so.6"
+  ln -sf libgomp.so.1.0.0 "$KVMAPP_STAGE/server/dl_lib/libgomp.so.1"
+  ln -sf libatomic.so.1.2.0 "$KVMAPP_STAGE/server/dl_lib/libatomic.so.1"
+  ln -sf libz.so.1.3 "$KVMAPP_STAGE/server/dl_lib/libz.so.1"
+fi
 
 if [ -d "$WEB_DIST" ]; then
   mkdir -p "$KVMAPP_STAGE/server/web"
@@ -139,6 +162,7 @@ fi
   printf 'web_dist: %s\n' "$WEB_DIST"
   printf 'app_version: %s\n' "$(cat "$KVMAPP_STAGE/version")"
   printf 'native_lib_dir: %s\n' "$NATIVE_LIB_DIR"
+  printf 'extra_native_lib_dir: %s\n' "${EXTRA_NATIVE_LIB_DIR:-none}"
   printf 'kvm_system_helper: %s\n' "$(wc -c < "$KVMAPP_STAGE/kvm_system/kvm_system" | tr -d ' ') bytes"
 } > "$STAGE_DIR/MANIFEST.txt"
 
@@ -148,7 +172,14 @@ if find "$KVMAPP_STAGE" \( -name 'NanoKVM-Server.go' -o -name 'NanoKVM-Server.go
 fi
 
 ARCHIVE="$OUT_DIR/$ARTIFACT_NAME"
-tar -C "$STAGE_DIR" -czf "$ARCHIVE" kvmapp MANIFEST.txt
+tar -C "$STAGE_DIR" --dereference --hard-dereference -czf "$ARCHIVE" kvmapp MANIFEST.txt
+if tar -tzvf "$ARCHIVE" | awk '
+  substr($1, 1, 1) != "-" && substr($1, 1, 1) != "d" { bad = 1 }
+  END { exit bad ? 0 : 1 }
+'; then
+  echo "application archive contains an entry type rejected by the hardened updater" >&2
+  exit 1
+fi
 sha256sum "$ARCHIVE" > "$ARCHIVE.sha256"
 
 echo "$ARCHIVE"

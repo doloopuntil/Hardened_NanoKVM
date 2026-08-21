@@ -10,12 +10,12 @@ implemented deeply enough for interactive device testing.
 
 Current published channels:
 
-- app update: `2.0.34 RC10`, tag `hardened-rust-rc10`;
-- current source/test build: `2.0.34`; RC10 is an app-only native hardening
-  update for the RC9 system baseline;
-- raw system-update: `0.2.23-raw.1`, built from the RC9 `2.0.32` SD rootfs
-  with gzip-compressed raw payload staging and sysrq reboot after raw writes;
-- SD-card image: RC9 `2.0.32` / `0.2.23-raw.1`.
+- combined app update: `2.0.40 RC11`, tag
+  `hardened-system-0.3.0-raw.10`;
+- raw system-update: preview `0.3.0-raw.10`, containing app `2.0.40` and the
+  Buildroot `2026.05.1` userspace. Existing devices update app first, then raw;
+- SD-card image: app `2.0.40` / system `0.3.0-raw.10`; a manual flash already
+  contains the matching application.
 
 ## Build
 
@@ -60,10 +60,11 @@ build/artifacts/nanokvm-kvmapp-rust.tar.gz
 
 ## SD Image
 
-The repository still does not ship a verified full boot/rootfs image from SDK
-sources. `make vendor-sdk` bootstraps the pinned Sipeed/LicheeRV Nano SDK for
-stock-image reproduction work, while the `sd-image` target patches a trusted
-NanoKVM base image with the current Rust `kvmapp` package:
+The current Buildroot port produces a verified full boot/rootfs image while
+retaining the proven vendor boot/kernel boundary. `make vendor-sdk` bootstraps
+the pinned Sipeed/LicheeRV Nano SDK for provenance work, while the historical
+`sd-image` target patches a trusted NanoKVM base image with the current Rust
+`kvmapp` package:
 
 ```sh
 make web-app

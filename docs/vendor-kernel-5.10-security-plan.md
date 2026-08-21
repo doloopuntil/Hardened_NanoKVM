@@ -1,0 +1,290 @@
+# SG2002 Vendor Kernel 5.10 Security Port Plan
+
+Status date: 2026-08-21.
+
+This plan covers the running SG2002 kernel and its modules. Buildroot
+`2026.05.1` updates userspace, but its `5.10.258` userspace headers do not
+modify or secure the retained vendor kernel. The lab device still runs
+`5.10.4-tag-`.
+
+The target for the first current-kernel experiment is upstream longterm
+`5.10.265`, published by kernel.org on 2026-08-19. A successful source merge or
+build is not release evidence: the resulting kernel, device trees, and every
+module must pass the complete recoverable-media and device acceptance matrix.
+
+## Verified Provenance
+
+The reproducible audit is:
+
+```sh
+scripts/audit-vendor-kernel-5.10.sh
+```
+
+It writes its local evidence under
+`build/latestbuildroot/kernel-5.10-security-audit/report/` and verifies the
+official kernel archives before comparing source trees.
+
+Current evidence:
+
+- official Linux `5.10.4` archive SHA-256:
+  `904e396c26e9992a16cd1cc989460171536bed7739bf36049f6eb020ee5d56ec`;
+- T-Head source commit `b1313fe517ca3703119dcc99ef3bbf75ab42bcfb`,
+  identified by its `Linux 5.10.4` commit, is content-identical to the official
+  `5.10.4` source for the audit inventory;
+- Milk-V commit `5c7dd7acc3624737c37e5db9390f5d24db6e9457` explicitly records importing
+  that T-Head commit before the CVITEK port history;
+- the pinned Sipeed SDK checkout is
+  `d88d58feca49ef15f4cc7bd1f27dbf17dc25f85e`, but it is shallow and its
+  initial `linux_5.10` commit is a source snapshot rather than the original
+  patch history;
+- official Linux `5.10.265` archive SHA-256:
+  `d10cb9169e49da3d5f7154a01e450012486565fa9442e23d660b0581a3f92645`;
+- the current vendor source differs from official `5.10.4` in 2,155 source
+  paths: 1,867 additions, 282 modifications, and 6 deletions;
+- upstream stable changes 15,410 paths between `5.10.4` and `5.10.265`;
+- 140 exact paths are touched by both the vendor delta and the stable series.
+
+The largest vendor additions are real source, not generated build output:
+`arch/riscv` includes the vendor RISC-V vector 0.7 software implementation,
+and `drivers/net` includes vendor wireless drivers. The audit deliberately
+excludes the generated top-level `linux_5.10/build/` directory.
+
+The 140 exact overlaps include high-risk runtime paths:
+
+- 32 RISC-V architecture files;
+- 25 USB files, including DWC2, configfs gadget, HID, mass storage, UVC, and
+  UDC core paths;
+- 9 MMC files;
+- 7 network-core paths;
+- 4 kernel-core paths;
+- 3 I2C paths;
+- 2 media/UVC paths.
+
+This proves that replacing the tree or applying one opaque aggregate patch is
+not a safe update procedure.
+
+Phase 1 source provenance is now reconstructed beyond the original inventory:
+
+- an isolated, non-shallow Sipeed `NanoKVM` history mirror contains 207 commits
+  and 18 commits touching `linux_5.10`; pinned SDK commit `d88d58f` is an
+  ancestor of the current branch, and its kernel subtree stops changing at
+  Sipeed merge commit `8a20f93b`;
+- an isolated, non-shallow official Milk-V `develop` history mirror contains
+  384 commits and the exact import commit `5c7dd7a`, followed by the CVITEK and
+  Milk-V kernel history;
+- Milk-V `303ec5da` (`linux: version release v4.1.5`) is the nearest recorded
+  source state to the first Sipeed snapshot, with a 147-path import gap;
+- [`reconstruct-vendor-kernel-5.10-patch-stack.sh`](../scripts/reconstruct-vendor-kernel-5.10-patch-stack.sh)
+  produces 24 reviewable binary-safe layers: 7 official/Milk-V layers and 17
+  Sipeed layers including the import gap;
+- every layer is checked against its source snapshot with `git write-tree`.
+  The final reconstructed tree
+  `a5854bd362b88c59d34bd4db9ff9ea876c6aebd4` exactly matches the pinned
+  Sipeed `linux_5.10` subtree;
+- patch-stack evidence is under
+  `build/latestbuildroot/kernel-patch-stack-5.10.4-v2/report/`. All 24 patch
+  checksums, manifest continuity, and the clean final worktree were verified.
+
+The existing clean baseline build is also byte-exact for the covered outputs:
+`Image`, `vmlinux`, 24/24 in-tree modules, and 3/3 CVITEK DTBs have zero
+mismatches against the retained vendor output. Evidence is under
+`build/latestbuildroot/kernel-baseline-5.10.4-v2/report/`.
+
+Module provenance and external-module baseline reconstruction are now complete:
+
+- [`audit-vendor-module-provenance.sh`](../scripts/audit-vendor-module-provenance.sh)
+  inventories all 57 modules in the accepted raw.10 rootfs, including hashes,
+  vermagic, license, dependencies, matching build outputs, and Kbuild `.mod`
+  source-object lists;
+- 24 modules are exact clean in-tree baseline outputs after the pinned
+  `strip --strip-unneeded` packaging transform;
+- 3 media modules are independently source-built and hardware-accepted;
+- the remaining 30 modules map to concrete SDK build outputs and all source
+  object lists resolve;
+- [`rebuild-vendor-external-modules-5.10-baseline.sh`](../scripts/rebuild-vendor-external-modules-5.10-baseline.sh)
+  rebuilds those 30 modules from an isolated source copy with the pinned board
+  config, clean kernel baseline, and Xuantie toolchain. All 30 packaged SHA-256
+  values match the accepted raw.10 bytes, while kernel baseline sentinels remain
+  unchanged;
+- evidence is under
+  `build/latestbuildroot/module-provenance-raw10-v5/report/` and
+  `build/latestbuildroot/external-modules-5.10.4-v3/report/`.
+
+The vendor boot FIT is now independently reproducible as well:
+
+- [`rebuild-vendor-boot-sd-5.10-baseline.sh`](../scripts/rebuild-vendor-boot-sd-5.10-baseline.sh)
+  assembles the clean Image, clean board DTB, source-generated ramdisk, generated
+  single-board ITS, and vendor `mkimage` output without copying accepted FIT
+  payloads into the result;
+- the current source-generated cpio has the same 25-entry ordering, modes,
+  ownership, device metadata, links, and payloads as the accepted FIT ramdisk;
+  only historical mtimes differed and are restored explicitly for the baseline;
+- deterministic gzip and FIT creation reproduce boot.sd SHA-256
+  `42ada02eee96aa18ea374497b5022951539addd7aadbd2b3331aa54b16915652`
+  byte-for-byte;
+- evidence is under `build/latestbuildroot/boot-sd-5.10.4-v3/report/`.
+
+A recoverable-media candidate has been assembled locally without writing any
+block device. It embeds the byte-exact reconstructed boot.sd, pinned fip.bin,
+and accepted raw.10 rootfs. All three were extracted from the completed image
+and compared with their inputs. The image is:
+
+`build/latestbuildroot/recoverable-kernel-baseline-sd-v2/assembly/images/hardened-sg2002-port.img`
+
+with SHA-256
+`2bfb0b2000786a6860f069b235fe6026fc8e77f7132f0f72e284e725246cb92e`.
+This is preparation evidence only, not permission to write an unidentified or
+accepted device card.
+
+The clean build also surfaced vendor-source warnings to triage separately:
+GT9xx logs a `size_t` with `%d` instead of `%zu`; AIC8800 has a const-correctness
+prototype mismatch and C90 declaration warning; RTL8733 DFS has misleading
+indentation around independent diagnostics. These are not silently patched into
+the accepted baseline because the current Cube lacks the corresponding Wi-Fi
+and touchscreen hardware for validation.
+
+## Current Kernel Configuration Findings
+
+The inventory reads the final built `.config`, not only the board defconfig.
+
+Already enabled:
+
+- strong stack protector;
+- seccomp and seccomp filters;
+- loadable modules;
+- user namespaces.
+
+Disabled or absent:
+
+- the security/LSM framework and restricted `dmesg`;
+- `HARDENED_USERCOPY`;
+- slab freelist randomisation and hardening;
+- init-on-allocation and init-on-free defaults;
+- strict kernel/module RWX and KASLR support;
+- module signatures;
+- BPF syscall/JIT, which is a useful attack-surface reduction;
+- `/dev/kmem`, while `/dev/mem` remains enabled;
+- `DEBUG_FS` remains enabled.
+
+These switches must not all be flipped in one commit. Vendor media, USB, and
+out-of-tree modules may depend on memory-layout, debugfs, `/dev/mem`, or old
+usercopy behaviour. Each hardening group needs its own build and hardware
+acceptance evidence.
+
+## Remaining Inputs Before A Release Kernel Exists
+
+1. Explicit identification of sacrificial SD media. The local candidate and
+   known-good recovery inputs exist, but no block device has been authorized or
+   written. Kernel candidates must not first be installed through a raw update.
+2. A recorded boot acceptance run using the byte-exact reconstructed baseline,
+   followed by the complete raw.10 hardware matrix. Component reproduction is
+   not boot evidence.
+3. Redistribution terms for every retained boot, firmware, and runtime input.
+
+## Implementation Plan
+
+### Phase 1: Reproduce The Existing Kernel
+
+Status: source history reconstruction, the 24-layer patch stack, the byte-exact
+kernel/in-tree-module/DTB rebuild, complete 57-module provenance, and the
+30/30 byte-exact external-module rebuild are complete. The independent
+`boot.sd` rebuild is also byte-exact. Recoverable-media boot acceptance remains;
+Phase 2 must not start before it passes.
+
+1. Create an isolated local kernel repository at official `v5.10.4`.
+2. Import the CVITEK/Milk-V history as ordered commits where available.
+3. Add the Sipeed changes after its snapshot as a second ordered layer.
+4. Put any remaining snapshot-only difference in a named, reviewable synthetic
+   commit; retain the full name-status and diffstat evidence.
+5. Apply the exact NanoKVM board defconfig and the pinned vendor toolchain.
+6. Rebuild kernel, DTS, and every module from a clean output directory.
+7. Compare version, config, DTB structure, exported symbols, module vermagic,
+   module inventory, and boot-image layout with the known-good vendor output.
+8. Boot this still-`5.10.4` reconstruction from recoverable SD media and run
+   the normal device gates. No stable merge starts until this baseline passes.
+
+This phase separates build-system or provenance problems from changes caused
+by the stable series.
+
+### Phase 2: Merge Upstream Stable 5.10.265
+
+1. Branch the passing reconstructed vendor kernel.
+2. Merge the signed upstream `v5.10.265` tag, preserving upstream commit
+   identity and the vendor patch layers. Do not use version-string-only CVE
+   claims or copy a prebuilt kernel.
+3. Resolve conflicts in bounded groups and commit each group separately:
+
+   - RISC-V entry, MM, signal, module, cache, and vector 0.7 compatibility;
+   - MMC/SD boot and data I/O;
+   - DWC2 and USB core;
+   - configfs gadget, HID, mass storage, UVC, and UDC lifecycle;
+   - Ethernet/network core;
+   - media, I2C, sensor, framebuffer, and watchdog;
+   - remaining kernel, filesystem, crypto, and security paths.
+
+4. For every conflict group, inspect the complete upstream stable history for
+   that file. Choosing either the old vendor file or the new upstream file as a
+   whole is not an acceptable resolution.
+5. Build after every group. Run static module/config/DTB checks after every
+   build and boot at least after RISC-V/MMC, USB, network, and media groups.
+6. Rebuild all modules and `boot.sd` together. Never combine a new kernel with
+   modules from `5.10.4-tag-`.
+
+### Phase 3: Configuration Hardening
+
+Configuration changes remain separate from the stable merge so failures are
+attributable. Suggested batches are:
+
+1. enable restricted `dmesg` and audit required debugfs use;
+2. disable user namespaces if no runtime consumer is found;
+3. enable slab freelist randomisation/hardening;
+4. enable init-on-allocation, then init-on-free after performance measurement;
+5. enable `HARDENED_USERCOPY` and exercise every vendor driver path;
+6. attempt strict kernel/module RWX only after confirming architecture and
+   linker support;
+7. introduce module signing only when every required module is reproducibly
+   rebuilt and production key custody is defined;
+8. remove `/dev/mem` and debugfs only after tracing actual vendor consumers.
+
+Each batch needs a config diff, boot evidence, performance/temperature sample,
+kernel-log review, and rollback result.
+
+### Phase 4: Recoverable-Media Acceptance
+
+For every candidate selected for device testing:
+
+- verify signed source/tag and all source/archive hashes;
+- build from a clean tree and record compiler/binutils/config/DTB/module hashes;
+- verify root, boot, and data partitions before and after boot;
+- run at least ten cold or software reboot cycles with no oops, BUG, panic,
+  hung-task, lockdep, RCU, USB, MMC, or filesystem alerts;
+- test HTTPS, SSH, update checks, hostname/config restoration, and rollback;
+- soak MJPEG and H.264 at all accepted resolutions and exercise HDMI reset,
+  cable hotplug, and source mode changes;
+- verify HID keyboard, mouse, paste, and host-visible reports;
+- test the boot-created USB topology, RNDIS, removable media mount/eject, and
+  host reboot/BIOS enumeration without live HID configfs relinking;
+- test SD read/write integrity and power loss only on sacrificial media;
+- verify I2C, LT6911, OLED/button, LEDs, sensor/hwmon, and watchdog behaviour;
+- actuate GPIO/ATX only with explicit authorization for the attached host.
+
+### Phase 5: Raw-Update And Release Gates
+
+Only after the same kernel boots and passes from recovery media:
+
+1. package a signed lab raw update with exact kernel/module/DTB provenance;
+2. prove raw update, boot-good, rollback, and five additional reboot cycles;
+3. repeat native, browser, video, USB, peripheral, and watchdog audits;
+4. perform a clean independent rebuild from a reviewed committed source tree;
+5. resolve vendor binary redistribution rights and credential-history cleanup;
+6. publish only after explicit authorization.
+
+## Current Decision
+
+The userspace port remains a successful lab candidate, but it is not a fully
+security-current base system while `5.10.4-tag-` remains installed. The next
+kernel action is to finish Phase 1 around the already reconstructed source:
+boot the unchanged, byte-exact `5.10.4-tag-` baseline from sacrificial media and
+repeat the hardware matrix. Directly flashing
+`5.10.265` or enabling every hardening option at once would destroy the ability
+to diagnose failures and is not an acceptable release path.

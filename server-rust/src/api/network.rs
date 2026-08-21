@@ -652,8 +652,8 @@ async fn set_manual_network(req: &SetDnsReq) -> Result<()> {
     write_static_network_config(&config)?;
     restart_ethernet().await?;
 
-    // S30eth writes the gateway as a resolver after applying static Ethernet.
-    // Restore the explicitly selected DNS servers after the link comes back.
+    // Preserve compatibility with older S30eth scripts that wrote a gateway
+    // resolver during restart, then restore the explicitly selected servers.
     render_resolv_conf(ETC_RESOLV_FILE, &normalized_dns)?;
     Ok(())
 }

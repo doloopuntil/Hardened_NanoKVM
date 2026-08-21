@@ -4,6 +4,8 @@ RESERVE_INET="192.168.90.1/22"
 ETH_MAC_FILE="/boot/eth.mac"
 IPV6_MODE_FILE="/boot/eth.ipv6.mode"
 IPV6_CONFIG_FILE="/boot/eth.ipv6"
+BOOT_RESOLV_FILE="${BOOT_RESOLV_FILE:-/boot/resolv.conf}"
+ETC_RESOLV_FILE="${ETC_RESOLV_FILE:-/etc/resolv.conf}"
 UDHCPC6_PID_FILE="/run/udhcpc6.eth0.pid"
 UDHCPC6_SCRIPT="/kvmapp/system/network/udhcpc6.script"
 
@@ -227,6 +229,32 @@ EOF
     echo "$(( (gwnum>>24)&255 )).$(( (gwnum>>16)&255 )).$(( (gwnum>>8)&255 )).$(( gwnum&255 ))"
 }
 
+render_static_dns() {
+    fallback_server="$1"
+    tmp="${ETC_RESOLV_FILE}.tmp.$$"
+
+    if [ -s "$BOOT_RESOLV_FILE" ]; then
+        awk '
+            $1 == "nameserver" {
+                if (!seen[$2]++) print "nameserver " $2
+                next
+            }
+            { print }
+        ' "$BOOT_RESOLV_FILE" > "$tmp" || {
+            rm -f "$tmp"
+            return 1
+        }
+    else
+        printf 'nameserver %s\n' "$fallback_server" > "$tmp" || {
+            rm -f "$tmp"
+            return 1
+        }
+    fi
+
+    chmod 0644 "$tmp" 2>/dev/null || true
+    mv "$tmp" "$ETC_RESOLV_FILE"
+}
+
 start() {
     ensure_eth_mac
     ip -4 addr flush dev eth0
@@ -258,7 +286,7 @@ start() {
             arping -Dqc2 -Ieth0 "$addr" || continue
             ip a add "$inet" brd + dev eth0
             ip r add default via "$gw" dev eth0
-            echo -e "nameserver $gw" >> /etc/resolv.conf
+            render_static_dns "$gw"
             break
         done < /boot/eth.nodhcp
 
@@ -284,6 +312,10 @@ stop() {
     fi
     stop_dhcpv6
 }
+
+if [ "${S30ETH_TEST_ONLY:-}" = "1" ]; then
+    return 0 2>/dev/null || exit 0
+fi
 
 case "$1" in
     start) start ;;

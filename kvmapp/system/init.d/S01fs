@@ -110,6 +110,8 @@ then
                 [ -f /etc/kvm/server.yaml ] && chmod 0644 /etc/kvm/server.yaml
                 [ -f /etc/kvm/backend ] && chmod 0644 /etc/kvm/backend
                 [ -f /etc/kvm/update-nanokvm.py ] && chmod 0755 /etc/kvm/update-nanokvm.py
+                [ -f /etc/default/syslogd ] && chmod 0644 /etc/default/syslogd
+                [ -f /etc/default/klogd ] && chmod 0644 /etc/default/klogd
 
                 if [ -d /etc/ssh ]
                 then
@@ -125,6 +127,15 @@ then
                 [ -x /etc/init.d/S98tailscaled ] && chmod 0755 /etc/init.d/S98tailscaled
         }
 
+        apply_restored_runtime_state() {
+                restored_hostname="$(head -n 1 /etc/hostname 2>/dev/null | tr -d '\r\n')"
+                if [ -n "$restored_hostname" ]
+                then
+                        hostname "$restored_hostname" >> "$RAW_RESTORE_LOG" 2>&1 || \
+                                log_data "failed to apply restored hostname"
+                fi
+        }
+
         restore_raw_root_config() {
                 [ -f "$RAW_UPDATE_MARKER" ] || return 0
                 [ -d "$RAW_RESTORE_ROOT" ] || return 0
@@ -133,6 +144,8 @@ then
                 log_data "restoring preserved root configuration after raw system update boot"
                 for rel in \
                         etc/kvm \
+                        etc/default/syslogd \
+                        etc/default/klogd \
                         etc/ssh \
                         etc/dropbear \
                         etc/passwd \
@@ -158,6 +171,7 @@ then
                         restore_preserved_path "$rel"
                 done
                 fix_restored_permissions
+                apply_restored_runtime_state
                 date '+%Y-%m-%d %H:%M:%S' > "$RAW_RESTORE_DONE" 2>/dev/null || true
                 log_data "preserved root configuration restore finished"
         }

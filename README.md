@@ -29,17 +29,15 @@ a drop-in `NanoKVM-Server` and continues to use the existing `kvm_system`,
 runtime libraries used by the Rust backend live under `server-rust/native/`.
 
 The web UI currently brands this fork as **Hardened NanoKVM**. The current
-published GitHub application release is **2.0.34 RC10**.
+combined GitHub release is **2.0.40 RC11** with system `0.3.0-raw.10`.
 
-The current published application release is available from the `woffko` fork at
-[`hardened-rust-rc10`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-rust-rc10).
+The combined application/raw/SD release is available from the `woffko` fork at
+[`hardened-system-0.3.0-raw.10`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.10).
 
-The latest raw system-update and SD-card artifacts are the **0.2.23-raw.1**
-RC9 builds. The system-update channel metadata points to the companion
-`hardened-system-0.2.23-raw.1` tag because deployed devices trust raw-system
-downloads from `hardened-system-*` release URLs. Those artifacts use
-the Buildroot `2023.11.2` base label with the `Buildroot 2023.11.3 package
-backports` security-backport baseline.
+The latest preview raw system-update and SD-card artifacts are the
+**0.3.0-raw.10** Buildroot `2026.05.1` builds. Existing devices must install app
+`2.0.40` first and only then start the raw update. A manually flashed SD image
+already contains the matching app.
 
 ## Current Highlights
 
@@ -119,9 +117,9 @@ NanoKVM device and harden one subsystem at a time.
 | Device settings       | Hostname, web title, GPIO/ATX, OLED, HDMI, SSH, mDNS, swap, memory limit, TLS toggle, reboot, scripts, and autostart have Rust endpoints.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | Storage               | ISO/IMG listing, upload, mount, delete, and CD-ROM/mass-storage mode are implemented with path validation. Mount changes use LUN eject/insert; switching between CD-ROM and mass-storage mode also reconnects the USB gadget so BIOS/boot menus rescan the device type. A confirmed USB reconnect fallback remains available when a host does not notice media changes. Remote ISO download exists behind a disabled-by-default safety toggle and validates URL, filename, size, destination, and ISO format. Completed downloads now reset the picker state and refresh the virtual-media image list without logout.                                                 |
 | Network               | WOL, full wired DHCP/manual IP/DNS settings, explicit IPv6 Disabled/SLAAC/DHCPv6/Manual controls, Wi-Fi status/connect/AP verification, and Tailscale lifecycle endpoints are implemented.                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| Updates               | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current published app channel: `2.0.34 RC10`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| SD image              | Latest published SD image is the RC9 `2.0.32` / `0.2.23-raw.1` image, built by patching a trusted NanoKVM Rev1.4.2/vendor SDK base image with Hardened `kvmapp`. The RC9 mobile/tablet UI path was smoke-tested on NanoKVM Cube devices. `make vendor-sdk` bootstraps the pinned Sipeed SDK for future reproducible base-system builds.                                                                                                                                                                                                                                                                                                                               |
-| System updates        | Separate GitHub channel metadata, signed metadata enforcement, staging download/verify, guarded raw install, first-boot root configuration restore, automatic boot-good confirmation, manual rollback, and boot-watchdog rollback are implemented. Current raw channel: `0.2.23-raw.1`, built from the RC9 `2.0.32` SD rootfs. Raw full-rootfs updates are lab-only; current raw payloads are stored gzip-compressed and streamed to the SD-card block devices during install. The current raw/SD image reports Buildroot `2023.11.2` with security backport level `Buildroot 2023.11.3 package backports`; deeper kernel/rootfs security payloads are still pending. |
+| Updates               | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current combined app channel: `2.0.40 RC11`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| SD image              | Current preview SD image is app `2.0.40` / system `0.3.0-raw.10`, built from the tracked Buildroot `2026.05.1` external board port while retaining the proven vendor boot/kernel boundary. It passed automated device acceptance and a SanDisk High Endurance recovery-card boot.                                                                                                                                                                                                                                                                                                                               |
+| System updates        | Separate GitHub channel metadata, signed metadata enforcement, staging download/verify, guarded raw install, first-boot root configuration restore, automatic boot-good confirmation, manual rollback, and boot-watchdog rollback are implemented. Current preview raw channel: `0.3.0-raw.10`. Existing devices must update app to `2.0.40` before invoking raw update; the full SD image already includes it. Payloads remain gzip-compressed and stream directly to the SD partitions. The userspace is Buildroot `2026.05.1`; the retained vendor kernel is still `5.10.4-tag-`. |
 
 ## How Updates Work
 
@@ -154,7 +152,8 @@ https://github.com/woffko/Hardened_NanoKVM/releases/latest/download/latest.json
 ```
 
 The metadata points to a versioned app archive such as
-`hardened-nanokvm-kvmapp-2.0.34.tar.gz` on the `hardened-rust-rc10` release tag.
+`hardened-nanokvm-kvmapp-2.0.40.tar.gz` on the combined
+`hardened-system-0.3.0-raw.10` release tag.
 The device verifies signed metadata and the archive sha512 before
 installing. The preview toggle uses the `hardened-rust-preview` channel
 metadata, but it still installs the versioned archive named by that metadata.
@@ -213,17 +212,17 @@ state.
 
 The channels can intentionally move independently:
 
-- Application stable/latest: `2.0.34 RC10`, tag `hardened-rust-rc10`.
+- Application stable/latest: `2.0.40 RC11`, combined tag
+  `hardened-system-0.3.0-raw.10`.
 - Application preview: `hardened-rust-preview`, when populated, points to a
   versioned application archive independently from the stable latest release.
-- Raw system stable: `0.2.23-raw.1`, published on companion tag
+- Raw system stable remains `0.2.23-raw.1`, published on companion tag
   `hardened-system-0.2.23-raw.1` and advertised through the
   `hardened-system-stable` channel metadata. The `hardened-rust-rc9` release
   carries the matching raw bundle and SD-card image.
-- Raw system preview: `hardened-system-preview`, currently points to the same
-  raw metadata as stable.
-- Latest published SD image: RC9 `2.0.32`, matching raw system
-  `0.2.23-raw.1`.
+- Raw system preview: `hardened-system-preview`, points to `0.3.0-raw.10` on
+  the combined RC11 release after app-first rollout.
+- Latest preview SD image: app `2.0.40`, matching raw system `0.3.0-raw.10`.
 
 The RC9 `2.0.32` application, raw system update, and SD image were rebuilt
 together after the RC8 mobile/tablet follow-up work. RC9 keeps the Hardened
@@ -325,11 +324,12 @@ When the Rust backend is active,
 
 ## Still Not Finished
 
-- The native `libkvm`/CVI-MMF audit findings are remediated in RC10. The
+- The native `libkvm`/CVI-MMF audit findings are remediated in RC10/RC11. The
   original findings and completed hardware checks are recorded in
   [docs/native-code-audit.md](docs/native-code-audit.md). Repeated HDMI
   hotplug/resolution stress, physical OLED/button coverage, and a long-running
-  dmesg/syslog soak remain release follow-up work.
+  dmesg/syslog endurance passed; visible OLED/button and remaining physical
+  source/host interactions remain follow-up work.
 - Full API parity is not complete. Some routes are implemented for compatibility
   but still need deeper behavior and edge-case testing.
 - H.264 WebRTC needs more browser/ICE stress testing across reconnects and
@@ -339,11 +339,10 @@ When the Rust backend is active,
 - Online update checks read Hardened release metadata from
   `github.com/woffko/Hardened_NanoKVM` and install versioned release archives
   after signed metadata and payload hash verification.
-- GUI system updates for kernel/rootfs security backports can stage, verify,
-  install, confirm boot-good, manually roll back system bundles, and
-  automatically roll back a pending update after a bad boot. Real kernel/rootfs
-  payloads are still pending. Current raw full-rootfs releases are built from
-  validated Hardened SD images.
+- GUI system updates can stage, verify, install, and confirm boot-good. The
+  `0.3.0-raw.10` preview carries the Buildroot `2026.05.1` userspace port while
+  retaining vendor kernel `5.10.4-tag-`; the future `5.10.265` kernel merge is
+  still pending recoverable-media validation.
 - Remote ISO download remains disabled by default and needs a final production
   policy before it should be treated as generally safe.
 - First-boot/account setup is implemented for Rust/Hardened images. Existing
