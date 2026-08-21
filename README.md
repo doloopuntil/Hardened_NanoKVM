@@ -39,6 +39,72 @@ The latest preview raw system-update and SD-card artifacts are the
 `2.0.40` first and only then start the raw update. A manually flashed SD image
 already contains the matching app.
 
+## Installing System 0.3.0-raw.10
+
+> [!IMPORTANT]
+> App `2.0.40` is the normal GitHub latest application release, but system
+> `0.3.0-raw.10` is still published through the **system preview** channel.
+> GitHub latest, application latest, system stable, and system preview are
+> separate channel decisions. The system stable channel intentionally remains
+> on `0.2.23-raw.1` while Buildroot `2026.05.1` compatibility feedback is
+> collected.
+
+### Upgrade an existing installation
+
+Keep a working recovery SD card or a full image backup and provide continuous
+power before beginning. Then use this exact order:
+
+1. Open **Settings > Check for Updates**.
+2. Install the application update first. Wait for the backend to restart, log
+   in again if necessary, and confirm that **Application Update** reports
+   `2.0.40` as the current version.
+3. At the top of the same page, enable **Preview Updates**. This is one shared
+   preview switch: it controls both application-preview metadata and
+   system-preview metadata.
+4. In the **System Update** section, press **Refresh**. In app `2.0.40`, changing
+   the Preview Updates switch refreshes the application check but does not
+   immediately refresh the already displayed system result. Until **Refresh**
+   is pressed, the screen can continue to show the stable target
+   `0.2.23-raw.1` even though preview mode is enabled.
+5. Confirm that the offered transition ends at `0.3.0-raw.10` and that the
+   latest target is `sg2002-licheervnano-sd`. Do not install an unexpected
+   version or target.
+6. Enable **Allow raw system updates**. This is separate from Preview Updates:
+   Preview selects the channel, while Allow raw system updates authorizes the
+   destructive boot/rootfs write.
+7. Select **Download and Verify** and wait for the signed archive to finish
+   downloading and staging. Do not start installation if verification fails.
+8. Install the staged update. Keep power connected and do not reboot or close
+   the update flow while it writes `/dev/mmcblk0p2` and `/dev/mmcblk0p1`. The
+   device reboots automatically after the raw writes.
+9. Allow the first boot and configuration restore to finish. After the web UI
+   returns, verify app `2.0.40`, system `0.3.0-raw.10`, Buildroot `2026.05.1`,
+   target `sg2002-licheervnano-sd`, and retained kernel `5.10.4-tag-`.
+10. Disable **Allow raw system updates** again unless another explicitly
+    planned raw update is being staged.
+
+If the System Update card still offers `0.2.23-raw.1`, first confirm that
+**Preview Updates** remains enabled and then press the System Update
+**Refresh** button. Updating app to `2.0.40` alone does not promote the system
+stable channel and therefore does not make raw.10 appear without preview mode.
+
+### Flash the complete SD image instead
+
+The RC11 `.img.xz` asset already contains app `2.0.40` and system
+`0.3.0-raw.10`, so a separately installed app update or Preview Updates toggle
+is not required for a clean manual flash. Download the image and
+`SHA256SUMS` from the
+[`hardened-system-0.3.0-raw.10`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.10)
+release, verify the checksum, and write it to a recoverable SD card of at least
+16 GiB. Keep the original card unchanged until the new card has booted, obtained
+network configuration, and passed the required hardware checks. See
+[docs/sd-card-flashing.md](docs/sd-card-flashing.md) for platform-specific
+flashing instructions.
+
+Raw partition updates do not provide automatic recovery when the device cannot
+boot. The RC11 system is a Buildroot userspace migration; it retains vendor
+kernel `5.10.4-tag-` and is not the future Linux `5.10.265` security merge.
+
 ## Current Highlights
 
 Hardened NanoKVM keeps the upstream hardware stack and web UI shape, but changes
@@ -188,6 +254,16 @@ System update metadata is published through a stable channel release:
 ```text
 https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-stable/system-latest.json
 ```
+
+When **Preview Updates** is enabled, the backend also reads the independently
+signed system preview channel and chooses the newer valid system version:
+
+```text
+https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-preview/system-latest.json
+```
+
+The Preview Updates switch is shared with application updates, but it does not
+replace the separate **Allow raw system updates** safety switch.
 
 That channel metadata points to a versioned raw-system tag such as
 `hardened-system-0.2.23-raw.1`, which contains:
