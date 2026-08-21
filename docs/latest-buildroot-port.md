@@ -518,7 +518,7 @@ errors (29 pre-existing warnings). The offline RustSec database reports no
 vulnerabilities; `spin 0.9.8` remains the single allowed yanked-package warning.
 The production dependency audit reports no known pnpm vulnerabilities.
 
-Raw.10 artifacts:
+Pre-publication raw.10 lab artifacts:
 
 - application archive:
   `22dacfdb7627f0914cae201e53d353d96d12b9aa7d01d8f4c4ff9f68c9857ba3`;
@@ -562,10 +562,29 @@ Across 37 cycles it received 5,510 MJPEG frames (1,852,365,205 bytes) and
 modules, remote syslog, and zero dmesg/local-syslog alerts were identical at
 the beginning and end.
 
-Raw.10 remains unpublished. Remaining release gates are the deferred visible
-mouse test, host reboot/BIOS behavior, OLED/button and separately authorized
-ATX behavior, sacrificial-media recovery and power-loss testing, vendor
-redistribution permission, reviewed commits, and a clean independent rebuild.
+Raw.10 was published on 2026-08-21 as combined RC11 with app `2.0.40` on tag
+`hardened-system-0.3.0-raw.10`, targeting release commit `3cca4d8`. The final
+published app archive SHA-256 is
+`85e6aa195ccf7274203462a0488c9e251c567a523519fd50d4973eb60ddd65d5`;
+the raw archive is
+`e4d19f42305de9a3666ef7afb0a15000a857b742cfa58800037884c201c693db`;
+and the compressed/uncompressed SD-image hashes are
+`96e44ee8eb482ba2609348164b8c80ac1b94a1c1152db328331fba799d5e0632`
+and
+`2bfb0b2000786a6860f069b235fe6026fc8e77f7132f0f72e284e725246cb92e`.
+The final raw payload uses normalized rootfs SHA-256
+`400c7caf9a0b6096a82c53d5159970c57e57813adbc284c0a1c77ce853bb3110`
+and compressed SHA-256
+`a8b24b938e52db9a82f577c916ad9b7bb35b4fc2628aa18fac843633e284211d`.
+
+All 16 assets were downloaded from GitHub after publication and passed
+`SHA256SUMS`; both application and system metadata signatures verified. App
+latest/preview now advertise `2.0.40`, system preview advertises
+`0.3.0-raw.10`, and system stable intentionally remains `0.2.23-raw.1`.
+Deferred visible mouse, host reboot/BIOS, OLED/button, separately authorized
+ATX, and controlled power-loss coverage remain documented follow-up limits;
+RC11 does not claim those gates passed. Vendor components with `NOASSERTION`
+metadata remain explicitly documented in the release and input manifest.
 
 ## Inputs Already Available
 

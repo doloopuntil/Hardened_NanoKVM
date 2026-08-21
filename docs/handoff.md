@@ -15,27 +15,27 @@ available in:
 - Local checkout: `/home/w0w/Hardened_NanoKVM-new-buildroot`.
 - GitHub repository: `woffko/Hardened_NanoKVM`.
 - GitHub default branch: `main`.
-- Current checkout branch: `latestbuilroot`, based at `9ba0ae5` with the
-  Buildroot port still intentionally uncommitted. `rc8-main-sync`, tracking
-  `origin/main`, remains the release baseline branch.
-- `latestbuilroot` is an experimental Buildroot `2026.05.1` board-port branch.
-  Signed lab images may be installed only on an explicitly authorized,
-  recoverable test-only device. Do not publish them or install them elsewhere
-  until the gates in [`latest-buildroot-port.md`](latest-buildroot-port.md)
-  have passed.
+- Current checkout branch: `latestbuilroot`, pushed at
+  `3cca4d8fb3a82ddd3f9cbc45af4ce1ec282b6adc`. The combined RC11 release tag
+  targets this commit. `rc8-main-sync`, tracking `origin/main`, remains the
+  previous release-baseline branch.
+- `latestbuilroot` is the experimental Buildroot `2026.05.1` board-port branch
+  used for RC11. Raw/SD artifacts are published as preview only; the stable
+  system channel remains on RC9. Keep recovery media and the restrictions in
+  [`latest-buildroot-port.md`](latest-buildroot-port.md) in scope.
 - `feature/rust-kvm-system-migration` is historical. Its validated work is in
   `main`; do not continue release work from that branch.
-- Current source/application version: `2.0.40` (`kvmapp/version`), prepared as
+- Current source/application version: `2.0.40` (`kvmapp/version`), published as
   combined RC11 with system `0.3.0-raw.10`.
 - Current installed test state: signed system `0.3.0-raw.10` with app `2.0.40`
-  on `10.0.87.133`; unpublished. Installation, the complete automated suite,
-  the same-WebSocket H.264 regression, five reboot cycles, and the final
-  30-minute stream/log endurance pass.
-- Current combined release target: app `2.0.40 RC11` plus system
-  `0.3.0-raw.10`, tag `hardened-system-0.3.0-raw.10`. Existing devices must
-  install app first and raw second; the manual SD image already includes app
-  `2.0.40`.
-- Current full raw/SD baseline: RC9 app `2.0.32`, raw system
+  on `10.0.87.133`. Installation, the complete automated suite, the
+  same-WebSocket H.264 regression, five reboot cycles, and the final 30-minute
+  stream/log endurance pass.
+- Current combined release: app `2.0.40 RC11` plus system `0.3.0-raw.10`, tag
+  [`hardened-system-0.3.0-raw.10`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.10),
+  published from `3cca4d8` on 2026-08-21. Existing devices must install app
+  first and raw second; the manual SD image already includes app `2.0.40`.
+- Current stable raw/SD baseline: RC9 app `2.0.32`, raw system
   `0.2.23-raw.1`, tags `hardened-rust-rc9` and
   `hardened-system-0.2.23-raw.1`.
 - GitHub Pages RC9 update: `gh-pages` commit `ad91ef6`.
@@ -44,26 +44,31 @@ available in:
   alerts (four high and five moderate). `Cargo.lock` contains the patched
   `anyhow 1.0.103`.
 
-Current release artifacts and SHA-256 values:
+Current combined RC11 release artifacts and SHA-256 values:
 
-| Artifact                                              | SHA-256                                                            |
-| ----------------------------------------------------- | ------------------------------------------------------------------ |
-| `hardened-nanokvm-kvmapp-2.0.34.tar.gz`               | `1d3d6d9c3bbed437ea2e035c955045ba19750d75dbab10971a86cb314bde6fa7` |
-| RC9 raw `hardened-nanokvm-system-0.2.23-raw.1.tar.gz` | `d7d50d279619f5a964c7367a3cd506385a423c1751c79220e6dc03ab5ca4b458` |
-| RC9 SD image `.img.xz`                                | `52b5b65886d977c1360b7d788169f6559f7e42d6794bc30d444469121c576b83` |
+| Artifact | SHA-256 |
+| --- | --- |
+| `hardened-nanokvm-kvmapp-2.0.40.tar.gz` | `85e6aa195ccf7274203462a0488c9e251c567a523519fd50d4973eb60ddd65d5` |
+| `hardened-nanokvm-system-0.3.0-raw.10.tar.gz` | `e4d19f42305de9a3666ef7afb0a15000a857b742cfa58800037884c201c693db` |
+| Buildroot `2026.05.1` SD image `.img.xz` | `96e44ee8eb482ba2609348164b8c80ac1b94a1c1152db328331fba799d5e0632` |
+| uncompressed SD image | `2bfb0b2000786a6860f069b235fe6026fc8e77f7132f0f72e284e725246cb92e` |
+| application metadata | `0ea6a80aae1072898118908ff523e4708809223198f20684363661ba9b07dbe6` |
+| application detached signature | `d41d76509ce8e850309c79d9a0ce11e7bdeedc6488c2e6897672693841e80069` |
+| system metadata | `9048e06c4b5cfb0689b57bac9606e09a70ea00b0d50defc38a19e92a0c18940a` |
+| system detached signature | `3c0cb60003f9a0c201da0bbe473178220fc3a7ffafb8757c9f705fb7028c1a31` |
 
-RC10 is app-only. It does not change raw/system metadata or the SD image.
+RC10 was app-only. It did not change raw/system metadata or the SD image.
 GitHub tag `hardened-rust-rc10` was published from
 `26a2986d3080cb95557f06fde437c1de6189f491` as the latest release; its
 signed application metadata has SHA-256
 `d12c6aa8da087deaed3a9865d984afc6f140b9e9d12856427a89c614050a62f3` and
 the detached signature has SHA-256
 `f5913ae509672fd16c62468be71c251c8d08ff38978b2116a3434aed6a06c500`.
-The mutable `hardened-rust-preview` channel points to those same verified
-metadata bytes. Both public GitHub channels were downloaded after publication,
-matched the release build, and verified with the bundled signing public key.
+Those hashes remain historical RC10 evidence. The mutable
+`hardened-rust-preview` channel now points to the verified RC11 `2.0.40`
+metadata.
 
-Current unpublished raw.10 lab artifacts:
+Pre-publication raw.10 lab artifacts retained for comparison:
 
 | Artifact | SHA-256 |
 | --- | --- |
@@ -74,6 +79,15 @@ Current unpublished raw.10 lab artifacts:
 | full SD image | `7150f0c8a6b6aae82a09b68e1896189727e321175e0ca74aaf67311aa65e1333` |
 | metadata | `966f494430b9d64f8018de5c01435f27cc5ce158e59fbf9b61aabbad1f4a9666` |
 | detached signature | `a05877a9787966727586a8c81cc359931dc9985d1c01527233dbae8bd3ac2afd` |
+
+The published RC11 artifacts were rebuilt/repackaged from the accepted payload
+and release commit, so their outer archive and metadata hashes intentionally
+differ from these lab hashes. All 16 GitHub assets were downloaded after
+publication, matched `SHA256SUMS`, and both application/system metadata pairs
+verified with the bundled public key. GitHub latest and
+`hardened-rust-preview` advertise app `2.0.40`; `hardened-system-preview`
+advertises raw `0.3.0-raw.10`; `hardened-system-stable` remains on
+`0.2.23-raw.1`.
 
 ## Current Architecture
 
@@ -140,10 +154,9 @@ Remediation status:
 - a stale vendor sensor-name table was also synchronized with the current
   MaixCDK enum; without that compatibility fix, a clean rebuild selects the
   wrong numeric sensor ID for LT6911 even though the log prints its name;
-- HDMI hotplug/resolution-change stress, physical OLED/button coverage, and a
-  physical HDMI cable hotplug/source-mode changes and physical OLED/button
-  coverage remain before a release; the automated 30-minute raw.7 video and
-  dmesg/local-syslog endurance passed;
+- HDMI source-mode changes and physical OLED/button coverage remain post-RC11
+  follow-up limits; physical HDMI cable hotplug and the automated 30-minute
+  video/dmesg/local-syslog endurance passed;
 - `10.0.87.132` was not used.
 
 ## Test Devices
@@ -172,15 +185,18 @@ Remediation status:
   restart, watchdog recovery, five reboot cycles, and 30-minute video/log
   endurance passed. Physical HDMI cable unplug/replug was previously confirmed
   on raw.9 with the same native stack; source-mode switching was unavailable on
-  the current source. This candidate is not published.
-- Vendor-kernel Phase 1 is locally reconstructed but not deployed: the
+  the current source. The accepted candidate is the basis of published RC11;
+  the system channel remains preview-only.
+- Vendor-kernel Phase 1 is reconstructed and accepted on recoverable media: the
   24-layer official/Milk-V/Sipeed source stack, clean Image/vmlinux, 3 DTBs,
   all 57 modules, and `boot.sd` are independently reproducible; all covered
-  packaged hashes match the accepted `5.10.4-tag-` bytes. The next kernel gate
-  is a recoverable-media boot of this unchanged baseline. Do not start the
-  `5.10.265` merge or install a kernel by raw update before that gate. Details:
+  packaged hashes match the accepted `5.10.4-tag-` bytes. The unchanged
+  baseline image was written to a SanDisk High Endurance card, booted, and
+  obtained its router-assigned address. Any future `5.10.265` merge must still
+  begin on recoverable media and must not be installed first by raw update.
+  Details:
   [`vendor-kernel-5.10-security-plan.md`](vendor-kernel-5.10-security-plan.md).
-  The prepared but unwritten recoverable baseline image has SHA-256
+  The accepted recoverable baseline image has SHA-256
   `2bfb0b2000786a6860f069b235fe6026fc8e77f7132f0f72e284e725246cb92e`
   under `build/latestbuildroot/recoverable-kernel-baseline-sd-v2/`.
 - The user may install an older/full app update while development is in
