@@ -48,6 +48,7 @@ reject_text 'clients-max=' "$AVAHI_CONFIG"
 require_line 'rlimit-nofile=256' "$AVAHI_CONFIG"
 
 test ! -e "$ROOT/kvmapp/system/init.d/S80dnsmasq"
+test -f "$ROOT/kvmapp/system/keys/update-keys/README.md"
 test -f "$PATCH_ROOT/libopenssl/3.6.3/0001-CVE-2026-54876-fix-OCSP-response-leak.patch"
 test -f "$PATCH_ROOT/busybox/1.38.0/0012-CVE-2026-38753-fix-awk-sub-use-after-free.patch"
 test -f "$PATCH_ROOT/busybox/1.38.0/0013-CVE-2026-38755-limit-ash-function-recursion.patch"
@@ -60,6 +61,8 @@ done
 grep -Fq 'patch -d "$SOURCE" -p1 --forward --batch -F 0' "$PREPARE"
 grep -Fq 'rm -f "$KVMAPP_STAGE/server/dl_lib/libz.so"' "$PACKAGE_SCRIPT"
 reject_text 'ln -sf libz.so.1.3' "$VENDOR_MK"
+grep -Fq 'SYSTEM_UPDATE_KEY_POLICY=/etc/kvm/update-key-policy' \
+	"$ROOT/kvmapp/system/init.d/S95nanokvm"
 
 if [ -d "$ROOT/build/kvmapp-rust/kvmapp/server/dl_lib" ]; then
 	test ! -e "$ROOT/build/kvmapp-rust/kvmapp/server/dl_lib/libz.so"

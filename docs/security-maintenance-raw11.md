@@ -18,6 +18,11 @@ high-risk track in [`vendor-kernel-5.10-security-plan.md`](vendor-kernel-5.10-se
   media, device, rollback, and signing gates pass.
 - Do not create a production private key as part of the build. Release signing
   requires an independently provisioned key and an explicit publication step.
+- Key rotation is two-stage: app `2.0.41` first installs the new public key;
+  raw.11 metadata is signed by that key and the signed system payload may then
+  install `/etc/kvm/update-key-policy` containing only the production key ID.
+  Once that policy exists, the legacy dev key is rejected even if its public
+  key file remains for rollback compatibility.
 
 The format-2 implementation and tests are committed as `d5f480f`.
 
