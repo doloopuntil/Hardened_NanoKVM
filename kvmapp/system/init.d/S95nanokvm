@@ -47,7 +47,7 @@ MIPI_RX_MODULE=/mnt/system/ko/soph_mipi_rx.ko
 MIPI_RX_BUNDLED_MODULE=/kvmapp/system/ko/soph_mipi_rx.ko
 MIPI_RX_LEGACY_MD5=086ed01749188975afaa40fb569374f8
 MIPI_RX_CURRENT_MD5=69be7eeded3777f750480a5dd5a1aa26
-BOOT_INIT_SCRIPTS="S00kmod S01fs S01syslogd S02klogd S03usbdev S15kvmhwd S30eth S30wifi S40firewall S49ntp S50avahi-daemon S50sshd S80dnsmasq S95nanokvm"
+BOOT_INIT_SCRIPTS="S00kmod S01fs S01syslogd S02klogd S03usbdev S15kvmhwd S30eth S30wifi S40firewall S49ntp S50avahi-daemon S50sshd S95nanokvm"
 OPTIONAL_BOOT_INIT_SCRIPTS="S98tailscaled"
 
 runtime_log() {

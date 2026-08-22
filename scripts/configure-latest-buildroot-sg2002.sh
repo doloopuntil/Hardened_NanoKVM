@@ -4,14 +4,14 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILDROOT_VERSION="${BUILDROOT_VERSION:-2026.05.1}"
 PROBE_ROOT="${LATEST_BUILDROOT_PROBE_ROOT:-$ROOT/build/latestbuildroot}"
-UPSTREAM_DIR="${LATEST_BUILDROOT_SOURCE_DIR:-$PROBE_ROOT/buildroot-${BUILDROOT_VERSION}}"
+UPSTREAM_DIR="${LATEST_BUILDROOT_SOURCE_DIR:-$PROBE_ROOT/buildroot-${BUILDROOT_VERSION}-raw11-security}"
 EXTERNAL_DIR="${HARDENED_SG2002_EXTERNAL_DIR:-$ROOT/buildroot-external/hardened-sg2002}"
-OUTPUT_DIR="${HARDENED_SG2002_BUILDROOT_OUTPUT_DIR:-$PROBE_ROOT/sg2002-config-${BUILDROOT_VERSION}}"
+OUTPUT_DIR="${HARDENED_SG2002_BUILDROOT_OUTPUT_DIR:-$PROBE_ROOT/sg2002-config-${BUILDROOT_VERSION}-raw11}"
 DEFCONFIG="${HARDENED_SG2002_DEFCONFIG:-hardened_sg2002_licheervnano_defconfig}"
 
 [ -f "$UPSTREAM_DIR/Makefile" ] || {
   echo "missing Buildroot probe source: $UPSTREAM_DIR" >&2
-  echo "run: make latest-buildroot-bootstrap" >&2
+  echo "run: make latest-buildroot-security-source" >&2
   exit 1
 }
 

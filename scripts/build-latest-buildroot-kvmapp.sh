@@ -28,6 +28,9 @@ fi
 test -f "$STAGE_DIR/kvmapp/server/web/index.html"
 test -e "$STAGE_DIR/kvmapp/server/dl_lib/libopencv_video.so.409"
 test -e "$STAGE_DIR/kvmapp/server/dl_lib/libprotobuf.so.32"
+test ! -e "$STAGE_DIR/kvmapp/server/dl_lib/libz.so"
+test ! -e "$STAGE_DIR/kvmapp/server/dl_lib/libz.so.1"
+test ! -e "$STAGE_DIR/kvmapp/server/dl_lib/libz.so.1.3"
 sh -n "$STAGE_DIR/kvmapp/system/init.d/S01fs"
 sh -n "$STAGE_DIR/kvmapp/system/init.d/S95nanokvm"
 

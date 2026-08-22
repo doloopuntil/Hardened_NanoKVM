@@ -35,8 +35,9 @@ external tree rather than an untracked local SDK edit. It currently provides:
 - a generated, non-redistributable vendor runtime package containing only
   `/mnt/system` and the SHA-256-pinned OpenCV/protobuf closure missing from the
   application payload, plus the two SHA-256-pinned vendor musl loader names
-  and matching private GCC/OpenMP/zlib runtime required by the current
-  backend/helper binaries;
+  and matching private GCC/OpenMP runtime required by the current
+  backend/helper binaries. The older vendor zlib is deliberately excluded;
+  the backend resolves Buildroot's maintained system zlib instead;
 - `manifest/vendor-inputs.json`, which records the vendor inputs, immutable
   revisions, archive hashes, intended install paths, and unresolved license or
   BSP status.
@@ -60,6 +61,18 @@ HARDENED_SG2002_VENDOR_SDK_DIR=/path/to/LicheeRV-Nano-Build \
   make latest-buildroot-sg2002-rootfs
 ```
 
+The security-maintenance source is prepared from the hash-pinned upstream
+archive plus the tracked recipe patch series before configuring:
+
+```sh
+make latest-buildroot-security-source
+make latest-buildroot-sg2002-configure
+make test-latest-buildroot-security-policy
+```
+
+The preparation step refuses a changed archive, changed patches, an unknown
+existing source directory, or any patch application requiring fuzz.
+
 The result is a Buildroot ext4 rootfs input, not a NanoKVM SD image. It must
 not be installed on a device. The target runs in a sanitised Linux-only `PATH`
 because Buildroot rejects WSL path entries that contain spaces.
@@ -77,7 +90,8 @@ reproduces the vendor MBR layout: a 16 MiB FAT boot partition
 with `fip.bin` and `boot.sd`, followed by the 1.5 GiB Buildroot rootfs
 partition. Validation requires the Hardened payload, vendor module/media
 runtime, complete native dependency closure, runtime services, and Buildroot
-`2026.05.1`; it also rejects Python and FFmpeg. The resulting image is still
+`2026.05.1`; it also rejects Python, FFmpeg, dnsmasq, an unlocked root account,
+and a private app-local zlib. The resulting image is still
 restricted to an explicitly authorized recoverable-media boot test and is not
 a raw-update or release authorization.
 
@@ -92,8 +106,9 @@ SYSTEM_UPDATE_SIGNING_KEY=/path/to/release-key.pem \
 The packager refuses unsigned output and existing output directories. It
 strictly validates the rootfs before and after partition extraction, creates a
 gzip-streamable raw bundle, signs `system-latest.json`, and verifies the
-signature against the public key bundled in the application. It does not
-publish or install the resulting `0.3.0-raw.1` preview artifacts.
+signature against the selected public key bundled in the application. Format-2
+metadata for raw.11 requires app `2.0.41` or newer. It does not publish or
+install the resulting `0.3.0-raw.11` preview artifacts.
 
 ## Reproducible Probe
 

@@ -28,7 +28,9 @@ define HARDENED_SG2002_VENDOR_RUNTIME_INSTALL_TARGET_CMDS
 	ln -sf libstdc++.so.6.0.28 $(TARGET_DIR)/kvmapp/server/dl_lib/libstdc++.so.6
 	ln -sf libgomp.so.1.0.0 $(TARGET_DIR)/kvmapp/server/dl_lib/libgomp.so.1
 	ln -sf libatomic.so.1.2.0 $(TARGET_DIR)/kvmapp/server/dl_lib/libatomic.so.1
-	ln -sf libz.so.1.3 $(TARGET_DIR)/kvmapp/server/dl_lib/libz.so.1
+	rm -f $(TARGET_DIR)/kvmapp/server/dl_lib/libz.so \
+		$(TARGET_DIR)/kvmapp/server/dl_lib/libz.so.1 \
+		$(TARGET_DIR)/kvmapp/server/dl_lib/libz.so.1.3
 endef
 
 $(eval $(generic-package))

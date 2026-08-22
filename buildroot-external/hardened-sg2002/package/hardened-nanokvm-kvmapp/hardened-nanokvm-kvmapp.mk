@@ -13,7 +13,6 @@ HARDENED_NANOKVM_KVMAPP_LICENSE = GPL-3.0-only, PROPRIETARY
 HARDENED_NANOKVM_KVMAPP_REDISTRIBUTE = NO
 HARDENED_NANOKVM_KVMAPP_DEPENDENCIES = \
 	avahi \
-	dnsmasq \
 	hostapd \
 	openssh \
 	wpa_supplicant
@@ -27,7 +26,7 @@ define HARDENED_NANOKVM_KVMAPP_INSTALL_TARGET_CMDS
 	chmod 0644 $(TARGET_DIR)/etc/kvm/backend
 	for name in S00kmod S01fs S01syslogd S02klogd S03usbdev S15kvmhwd \
 		S30eth S30wifi S40firewall S49ntp S50avahi-daemon S50sshd \
-		S80dnsmasq S95nanokvm; do \
+		S95nanokvm; do \
 		script="$(@D)/system/init.d/$$name"; \
 		[ -f "$$script" ] || continue; \
 		$(INSTALL) -m 0755 "$$script" "$(TARGET_DIR)/etc/init.d/$$name"; \

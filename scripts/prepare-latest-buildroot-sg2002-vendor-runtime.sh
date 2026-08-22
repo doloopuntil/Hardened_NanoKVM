@@ -85,8 +85,6 @@ extract_library /usr/lib/libgomp.so.1.0.0 \
 	libgomp.so.1.0.0 986f21b24574f0e58672c865b34d9eba102ba45c05f18a608bf612816b84c901
 extract_library /usr/lib/libatomic.so.1.2.0 \
 	libatomic.so.1.2.0 2421e827d033c3a055b973e6fbcf5a78fe987b50dd21e82a422a3728f4d3da3d
-extract_library /usr/lib/libz.so.1.3 \
-	libz.so.1.3 80eca40fca0cd60a08115aa4e3acc98f036476b1fd937a2b8abd1ca589554ede
 extract_library /lib/libc.so \
 	libc.so fbc494806cad67edbf4584221bdc481593fa04b317d9405cf3418aad9a9500c4
 extract_file /lib/ld-musl-riscv64xthead.so.1 \

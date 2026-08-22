@@ -143,8 +143,13 @@ if [ -n "$EXTRA_NATIVE_LIB_DIR" ]; then
   ln -sf libstdc++.so.6.0.28 "$KVMAPP_STAGE/server/dl_lib/libstdc++.so.6"
   ln -sf libgomp.so.1.0.0 "$KVMAPP_STAGE/server/dl_lib/libgomp.so.1"
   ln -sf libatomic.so.1.2.0 "$KVMAPP_STAGE/server/dl_lib/libatomic.so.1"
-  ln -sf libz.so.1.3 "$KVMAPP_STAGE/server/dl_lib/libz.so.1"
 fi
+
+# zlib is provided and maintained by Buildroot. Never shadow it with the
+# older vendor copy in the application's private RPATH directory.
+rm -f "$KVMAPP_STAGE/server/dl_lib/libz.so" \
+  "$KVMAPP_STAGE/server/dl_lib/libz.so.1" \
+  "$KVMAPP_STAGE/server/dl_lib/libz.so.1.3"
 
 if [ -d "$WEB_DIST" ]; then
   mkdir -p "$KVMAPP_STAGE/server/web"

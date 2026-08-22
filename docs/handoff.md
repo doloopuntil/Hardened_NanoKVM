@@ -1,6 +1,6 @@
 # Hardened NanoKVM Developer Handoff
 
-Last updated: 2026-08-21
+Last updated: 2026-08-22
 
 This document is the current takeover guide. Detailed chronological release and
 device-recovery history was intentionally removed from the handoff and remains
@@ -9,16 +9,19 @@ available in:
 - [`release-archive.md`](release-archive.md);
 - [`current-sysupgrade-build-trace.md`](current-sysupgrade-build-trace.md);
 - [`kvm-system-rust-migration-plan.md`](kvm-system-rust-migration-plan.md).
+- [`security-maintenance-raw11.md`](security-maintenance-raw11.md).
 
 ## Repository And GitHub State
 
 - Local checkout: `/home/w0w/Hardened_NanoKVM-new-buildroot`.
 - GitHub repository: `woffko/Hardened_NanoKVM`.
 - GitHub default branch: `main`.
-- Current checkout branch: `latestbuilroot`, pushed at
-  `3cca4d8fb3a82ddd3f9cbc45af4ce1ec282b6adc`. The combined RC11 release tag
-  targets this commit. `rc8-main-sync`, tracking `origin/main`, remains the
-  previous release-baseline branch.
+- Current maintenance branch: `security/raw11-userspace`, based on
+  `latestbuilroot` commit `5288195deb62873e642c0d86b5e432683fd51bdf`.
+  Commit `d5f480f` adds application `2.0.41` and guarded system-update metadata
+  format 2. The raw.11 userspace hardening is active local work and is not yet
+  published. `rc8-main-sync`, tracking `origin/main`, remains the previous
+  release-baseline branch.
 - `latestbuilroot` is the experimental Buildroot `2026.05.1` board-port branch
   used for RC11. Raw/SD artifacts are published as preview only; the stable
   system channel remains on RC9. Keep recovery media and the restrictions in
@@ -27,6 +30,10 @@ available in:
   `main`; do not continue release work from that branch.
 - Current source/application version: `2.0.40` (`kvmapp/version`), published as
   combined RC11 with system `0.3.0-raw.10`.
+- Planned maintenance versions are app `2.0.41` followed by system
+  `0.3.0-raw.11`; format-2 system metadata enforces that ordering. Treat these
+  as unpublished until the build, independent reproducibility, device, signing,
+  and publication gates in `security-maintenance-raw11.md` are complete.
 - Current installed test state: signed system `0.3.0-raw.10` with app `2.0.40`
   on `10.0.87.133`. Installation, the complete automated suite, the
   same-WebSocket H.264 regression, five reboot cycles, and the final 30-minute

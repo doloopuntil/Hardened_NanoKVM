@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILDROOT_VERSION="${BUILDROOT_VERSION:-2026.05.1}"
-UPSTREAM_DIR="${LATEST_BUILDROOT_SOURCE_DIR:-$ROOT/build/latestbuildroot/buildroot-${BUILDROOT_VERSION}}"
+UPSTREAM_DIR="${LATEST_BUILDROOT_SOURCE_DIR:-$ROOT/build/latestbuildroot/buildroot-${BUILDROOT_VERSION}-raw11-security}"
 OUTPUT_DIR="${HARDENED_SG2002_BUILDROOT_OUTPUT_DIR:-$ROOT/build/latestbuildroot/sg2002-config-${BUILDROOT_VERSION}-raw11}"
 HOST_DEPS_ROOT="${BUILDROOT_PORT_HOST_DEPS:-$ROOT/build/host-deps}"
 USER_HOME="${HOME:-/home/w0w}"

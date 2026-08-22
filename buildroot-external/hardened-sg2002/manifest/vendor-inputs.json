@@ -81,7 +81,7 @@
     },
     {
       "name": "sg2002-vendor-runtime",
-      "source": "pinned vendor rootfs /mnt/system plus fourteen SHA-256-pinned runtime files",
+      "source": "pinned vendor rootfs /mnt/system plus thirteen SHA-256-pinned runtime files",
       "role": "kernel modules, MMF/tuning assets, and libkvm OpenCV/protobuf dependency closure",
       "license": "NOASSERTION; staged binary inputs have no repository-level redistribution grant",
       "runtime_files": {
@@ -95,7 +95,6 @@
         "libgcc_s.so.1": "4b483b84f730b5e127ee8441cc143d5d90f1a31f0bfb999f94ef834eefa3da8c",
         "libgomp.so.1.0.0": "986f21b24574f0e58672c865b34d9eba102ba45c05f18a608bf612816b84c901",
         "libatomic.so.1.2.0": "2421e827d033c3a055b973e6fbcf5a78fe987b50dd21e82a422a3728f4d3da3d",
-        "libz.so.1.3": "80eca40fca0cd60a08115aa4e3acc98f036476b1fd937a2b8abd1ca589554ede",
         "libc.so": "fbc494806cad67edbf4584221bdc481593fa04b317d9405cf3418aad9a9500c4",
         "ld-musl-riscv64xthead.so.1": "e966ce689d386af715ec2ca558a90661731cd875192af91749b52475629cb7d2",
         "ld-musl-riscv64v0p7_xthead.so.1": "8e4f81c0280b2337abea47bf151259f6fa3bf3261578dee8bba30f83c60fe7e8"

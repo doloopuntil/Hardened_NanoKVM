@@ -1,0 +1,70 @@
+#!/bin/sh
+set -eu
+
+ROOT="$(CDPATH= cd -- "$(dirname "$0")/.." && pwd)"
+DEFCONFIG="$ROOT/buildroot-external/hardened-sg2002/configs/hardened_sg2002_licheervnano_defconfig"
+PATCH_ROOT="$ROOT/buildroot-external/hardened-sg2002/board/sg2002/patches"
+PREPARE="$ROOT/scripts/prepare-buildroot-2026.05.1-security-source.sh"
+VENDOR_MK="$ROOT/buildroot-external/hardened-sg2002/package/hardened-sg2002-vendor-runtime/hardened-sg2002-vendor-runtime.mk"
+PACKAGE_SCRIPT="$ROOT/scripts/package-rust-kvmapp.sh"
+AVAHI_CONFIG="$ROOT/buildroot-external/hardened-sg2002/board/sg2002/overlay/etc/avahi/avahi-daemon.conf"
+
+require_line() {
+	line=$1
+	file=$2
+	grep -Fqx "$line" "$file" || {
+		echo "missing required policy line in $file: $line" >&2
+		exit 1
+	}
+}
+
+reject_text() {
+	text=$1
+	file=$2
+	if grep -Fq "$text" "$file"; then
+		echo "forbidden policy text in $file: $text" >&2
+		exit 1
+	fi
+}
+
+verify_prepare_hash() {
+	file=$1
+	hash="$(sha256sum "$file" | awk '{print $1}')"
+	grep -Fq "$hash" "$PREPARE" || {
+		echo "prepare script does not pin $file at $hash" >&2
+		exit 1
+	}
+}
+
+require_line 'BR2_REPRODUCIBLE=y' "$DEFCONFIG"
+require_line 'BR2_TARGET_GENERIC_ROOT_PASSWD="*"' "$DEFCONFIG"
+require_line '# BR2_PACKAGE_LIBOPENSSL_ENABLE_QUIC is not set' "$DEFCONFIG"
+require_line '# BR2_PACKAGE_HOSTAPD_DRIVER_HOSTAP is not set' "$DEFCONFIG"
+require_line 'BR2_PACKAGE_HOSTAPD_DRIVER_NL80211=y' "$DEFCONFIG"
+require_line '# BR2_PACKAGE_HOSTAPD_ACS is not set' "$DEFCONFIG"
+require_line '# BR2_PACKAGE_HOSTAPD_VLAN is not set' "$DEFCONFIG"
+reject_text 'BR2_PACKAGE_DNSMASQ=' "$DEFCONFIG"
+reject_text 'clients-max=' "$AVAHI_CONFIG"
+require_line 'rlimit-nofile=256' "$AVAHI_CONFIG"
+
+test ! -e "$ROOT/kvmapp/system/init.d/S80dnsmasq"
+test -f "$PATCH_ROOT/libopenssl/3.6.3/0001-CVE-2026-54876-fix-OCSP-response-leak.patch"
+test -f "$PATCH_ROOT/busybox/1.38.0/0012-CVE-2026-38753-fix-awk-sub-use-after-free.patch"
+test -f "$PATCH_ROOT/busybox/1.38.0/0013-CVE-2026-38755-limit-ash-function-recursion.patch"
+test -f "$PATCH_ROOT/busybox/1.38.0/0014-CVE-2026-38754-clear-stale-ifs-regions.patch"
+
+for patch in "$ROOT"/buildroot-external/hardened-sg2002/buildroot-patches/2026.05.1/*.patch; do
+	verify_prepare_hash "$patch"
+done
+
+grep -Fq 'patch -d "$SOURCE" -p1 --forward --batch -F 0' "$PREPARE"
+grep -Fq 'rm -f "$KVMAPP_STAGE/server/dl_lib/libz.so"' "$PACKAGE_SCRIPT"
+reject_text 'ln -sf libz.so.1.3' "$VENDOR_MK"
+
+if [ -d "$ROOT/build/kvmapp-rust/kvmapp/server/dl_lib" ]; then
+	test ! -e "$ROOT/build/kvmapp-rust/kvmapp/server/dl_lib/libz.so"
+	test ! -e "$ROOT/build/kvmapp-rust/kvmapp/server/dl_lib/libz.so.1"
+	test ! -e "$ROOT/build/kvmapp-rust/kvmapp/server/dl_lib/libz.so.1.3"
+fi
+
+printf 'latest Buildroot raw.11 security policy: PASS\n'

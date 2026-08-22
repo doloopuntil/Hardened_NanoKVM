@@ -118,9 +118,14 @@ require_private_map libstdc++ libstdc++.so.6.0.28 libstdc++.so.6
 require_private_map libgcc libgcc_s.so.1
 require_private_map libgomp libgomp.so.1.0.0 libgomp.so.1
 require_private_map libatomic libatomic.so.1.2.0 libatomic.so.1
-require_private_map libz libz.so.1.3 libz.so.1
 require_private_map opencv-video libopencv_video.so.4.9.0 libopencv_video.so.409
 require_private_map protobuf libprotobuf.so.32.0.12 libprotobuf.so.32
+if ! grep -q '/usr/lib/libz.so.1.3.2' "/proc/$BACKEND_PID/maps"; then
+  printf 'MISSING_SYSTEM_MAP=libz\n'
+fi
+if grep -q '/\(tmp/server\|kvmapp/server\)/dl_lib/libz.so' "/proc/$BACKEND_PID/maps"; then
+  printf 'PRIVATE_ZLIB_MAP=present\n'
+fi
 if grep -Eiq 'not found|Error loading shared library' /tmp/nanokvm-server.log; then
   printf 'SERVER_LOADER_ERRORS=present\\n'
 else
@@ -148,6 +153,9 @@ printf 'KVM_SYSTEM_LOG_END\\n'
   const text = output.toString('utf8');
   fs.writeFileSync(reportPath, text, { mode: 0o600 });
   if (text.includes('MISSING_PRIVATE_MAP=')) throw new Error('native private map closure is incomplete');
+  if (text.includes('MISSING_SYSTEM_MAP=') || text.includes('PRIVATE_ZLIB_MAP=present')) {
+    throw new Error('backend is not using the Buildroot system zlib');
+  }
   if (!text.includes('SERVER_LOADER_ERRORS=none')) throw new Error('server loader errors are present');
   if (!text.includes('DMESG_ALERTS=0')) throw new Error('kernel alerts detected');
   if (!/^KVM_SYSTEM_PID=[0-9]+$/m.test(text)) throw new Error('kvm_system process is not running');

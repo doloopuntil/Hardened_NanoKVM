@@ -89,16 +89,15 @@ for path in \
 	/kvmapp/server/dl_lib/libgcc_s.so.1 \
 	/kvmapp/server/dl_lib/libgomp.so.1 \
 	/kvmapp/server/dl_lib/libatomic.so.1 \
-	/kvmapp/server/dl_lib/libz.so.1 \
 	/kvmapp/server/dl_lib/libc.so \
 	/usr/lib/libgomp.so.1 \
 	/usr/lib/libatomic.so.1 \
 	/usr/lib/libstdc++.so.6 \
 	/usr/lib/libgcc_s.so.1 \
 	/usr/lib/libz.so.1 \
+	/usr/lib/libz.so.1.3.2 \
 	/usr/sbin/sshd \
 	/usr/sbin/avahi-daemon \
-	/usr/sbin/dnsmasq \
 	/usr/sbin/hostapd \
 	/usr/sbin/wpa_supplicant \
 	/usr/sbin/wpa_passphrase \
@@ -116,6 +115,27 @@ reject_path /usr/bin/python
 reject_path /usr/bin/python3
 reject_path /usr/bin/ffmpeg
 reject_path /usr/bin/ffprobe
+reject_path /usr/sbin/dnsmasq
+reject_path /etc/init.d/S80dnsmasq
+reject_path /kvmapp/system/init.d/S80dnsmasq
+reject_path /kvmapp/server/dl_lib/libz.so
+reject_path /kvmapp/server/dl_lib/libz.so.1
+reject_path /kvmapp/server/dl_lib/libz.so.1.3
+
+SHADOW_FILE="$TMP_DIR/shadow"
+debugfs -R "dump /etc/shadow $SHADOW_FILE" "$IMAGE" >/dev/null 2>&1 || \
+	die "could not read /etc/shadow"
+grep -q '^root:\*:' "$SHADOW_FILE" || \
+	die "clean image root account is not locked"
+
+AVAHI_CONFIG="$TMP_DIR/avahi-daemon.conf"
+debugfs -R "dump /etc/avahi/avahi-daemon.conf $AVAHI_CONFIG" "$IMAGE" >/dev/null 2>&1 || \
+	die "could not read Avahi configuration"
+if grep -q '^clients-max=' "$AVAHI_CONFIG"; then
+	die "Avahi clients-max is invalid when D-Bus support is disabled"
+fi
+grep -qx 'enable-wide-area=no' "$AVAHI_CONFIG" || die "Avahi wide-area mode is enabled"
+grep -qx 'rlimit-nofile=256' "$AVAHI_CONFIG" || die "Avahi file descriptors are not bounded"
 
 verify_sha256 /kvmapp/server/dl_lib/libopencv_video.so.4.9.0 \
 	4bda8c165e9e53090cdc783a826c8c61a81ccff3a022bef5f7243a95596f52c7 opencv-video
@@ -129,6 +149,11 @@ verify_sha256 /kvmapp/server/dl_lib/libopencv_flann.so.4.9.0 \
 	1dadc13c42828b3fef7b3c20026b3a0263fcbcd882bfb904105de0bea1a0c991 opencv-flann
 verify_sha256 /kvmapp/server/dl_lib/libprotobuf.so.32.0.12 \
 	096d35f5f085b74d6654d30bdfa91c69398093fc47548979d5c8ed4e5caebd27 protobuf
+SYSTEM_ZLIB="$TMP_DIR/system-libz.so.1.3.2"
+debugfs -R "dump /usr/lib/libz.so.1.3.2 $SYSTEM_ZLIB" "$IMAGE" >/dev/null 2>&1 || \
+	die "could not extract Buildroot system zlib"
+"$ROOT/scripts/verify-zlib-runtime-abi.sh" "$SYSTEM_ZLIB" "$TMP_DIR/protobuf" || \
+	die "Buildroot system zlib does not satisfy the vendor protobuf ABI"
 verify_sha256 /kvmapp/server/dl_lib/libstdc++.so.6.0.28 \
 	9ebc8352014fbb7499194fdca56eb496c51c119b50d08d7b70b96058d3c5be17 libstdcpp
 verify_sha256 /kvmapp/server/dl_lib/libgcc_s.so.1 \
@@ -137,8 +162,6 @@ verify_sha256 /kvmapp/server/dl_lib/libgomp.so.1.0.0 \
 	986f21b24574f0e58672c865b34d9eba102ba45c05f18a608bf612816b84c901 libgomp
 verify_sha256 /kvmapp/server/dl_lib/libatomic.so.1.2.0 \
 	2421e827d033c3a055b973e6fbcf5a78fe987b50dd21e82a422a3728f4d3da3d libatomic
-verify_sha256 /kvmapp/server/dl_lib/libz.so.1.3 \
-	80eca40fca0cd60a08115aa4e3acc98f036476b1fd937a2b8abd1ca589554ede libz
 verify_sha256 /kvmapp/server/dl_lib/libkvm.so \
 	387f1c7f54fb67ecc0eafa961946eef7972022a92ad443fb68c3d88ef6d2f24f libkvm
 verify_sha256 /kvmapp/server/dl_lib/libkvm_mmf.so \
