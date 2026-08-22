@@ -12,14 +12,14 @@ const { request } = require('/home/w0w/.local/share/playwright/node_modules/play
 const ROOT = path.resolve(__dirname, '..');
 const TARGET_IP = '10.0.87.133';
 const BASE_URL = `https://${TARGET_IP}`;
-const SYSTEM_VERSION = '0.3.0-raw.9';
-const SOURCE_APP_VERSION = '2.0.39';
-const APP_VERSION = '2.0.40';
-const ARCHIVE_SHA256 = '22dacfdb7627f0914cae201e53d353d96d12b9aa7d01d8f4c4ff9f68c9857ba3';
-const BACKEND_SHA256 = 'bf6af66c99cfc5d1b526d41eb9400cc87a99160c9cbf7a6e1eedae32bb247192';
-const LIBKVM_SHA256 = '1c06382599fdb3b1ccdcc279f13c01760ddc77d79bfbf2fe1cd96bcdc1e64b20';
-const LIBKVM_MMF_SHA256 = 'be269c595b454930abeb9bb05eb67ec708894eb2df1650c4d99ee1162e1e3f2d';
-const REMOTE_SYSLOG = '10.0.77.177:514';
+const SYSTEM_VERSION = process.env.EXPECTED_SOURCE_SYSTEM_VERSION || '';
+const SOURCE_APP_VERSION = process.env.EXPECTED_SOURCE_APP_VERSION || '';
+const APP_VERSION = process.env.EXPECTED_APP_VERSION || '';
+const ARCHIVE_SHA256 = process.env.EXPECTED_APP_ARCHIVE_SHA256 || '';
+const BACKEND_SHA256 = process.env.EXPECTED_BACKEND_SHA256 || '';
+const LIBKVM_SHA256 = process.env.EXPECTED_LIBKVM_SHA256 || '';
+const LIBKVM_MMF_SHA256 = process.env.EXPECTED_LIBKVM_MMF_SHA256 || '';
+const REMOTE_SYSLOG = process.env.EXPECTED_REMOTE_SYSLOG || '';
 const EXPECTED_ED25519 = 'SHA256:IZackVzmTMVDUGZJ8YsaqK7eUe1nGy+aVRKlVMxnqs4';
 const APP_ARCHIVE = path.join(ROOT, 'build/artifacts/nanokvm-kvmapp-rust.tar.gz');
 const SSHPASS = path.join(ROOT, 'build/host-deps/sshpass/usr/bin/sshpass');
@@ -155,6 +155,26 @@ async function main() {
   }
   fs.mkdirSync(resultDir, { recursive: true, mode: 0o700 });
   fs.writeFileSync(reportPath, '', { mode: 0o600 });
+  for (const [name, value] of Object.entries({
+    EXPECTED_SOURCE_SYSTEM_VERSION: SYSTEM_VERSION,
+    EXPECTED_SOURCE_APP_VERSION: SOURCE_APP_VERSION,
+    EXPECTED_APP_VERSION: APP_VERSION,
+    EXPECTED_APP_ARCHIVE_SHA256: ARCHIVE_SHA256,
+    EXPECTED_BACKEND_SHA256: BACKEND_SHA256,
+    EXPECTED_LIBKVM_SHA256: LIBKVM_SHA256,
+    EXPECTED_LIBKVM_MMF_SHA256: LIBKVM_MMF_SHA256,
+    EXPECTED_REMOTE_SYSLOG: REMOTE_SYSLOG,
+  })) {
+    if (!value) fail(`${name} is required`);
+  }
+  for (const [name, value] of Object.entries({
+    EXPECTED_APP_ARCHIVE_SHA256: ARCHIVE_SHA256,
+    EXPECTED_BACKEND_SHA256: BACKEND_SHA256,
+    EXPECTED_LIBKVM_SHA256: LIBKVM_SHA256,
+    EXPECTED_LIBKVM_MMF_SHA256: LIBKVM_MMF_SHA256,
+  })) {
+    if (!/^[a-f0-9]{64}$/.test(value)) fail(`${name} must be a lowercase SHA-256`);
+  }
   const password = await readSecret();
   if (!password) fail('secret stdin was empty');
   if ((await hashFile(APP_ARCHIVE)) !== ARCHIVE_SHA256) fail('app archive hash mismatch');
@@ -179,7 +199,7 @@ async function main() {
     headers: { 'x-csrf-token': csrfToken },
     multipart: {
       file: {
-        name: `hardened-nanokvm-kvmapp-${APP_VERSION}-nativefix.tar.gz`,
+        name: `hardened-nanokvm-kvmapp-${APP_VERSION}.tar.gz`,
         mimeType: 'application/gzip',
         buffer: fs.readFileSync(APP_ARCHIVE),
       },
