@@ -7,7 +7,7 @@ BR2_GCC_ENABLE_OPENMP=y
 BR2_DOWNLOAD_FORCE_CHECK_HASHES=y
 BR2_REPRODUCIBLE=y
 BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_HARDENED_SG2002_PATH)/board/sg2002/patches"
-BR2_STRIP_EXCLUDE_FILES="kvm_system soph_vcodec.ko soph_jpeg.ko soph_vc_driver.ko"
+BR2_STRIP_EXCLUDE_FILES="NanoKVM-Server nanokvm-hwmon kvm_system soph_vcodec.ko soph_jpeg.ko soph_vc_driver.ko"
 BR2_TARGET_GENERIC_HOSTNAME="hardened-sg2002-port"
 BR2_TARGET_GENERIC_ISSUE="Hardened NanoKVM SG2002 Buildroot port probe"
 # BR2_TARGET_ENABLE_ROOT_LOGIN is not set

@@ -113,6 +113,8 @@ Completed locally:
 - frontend `2.0.41` build;
 - application staging proof that an existing vendor-runtime directory cannot
   reintroduce `libz.so.1.3`;
+- exact SHA identity for the Rust server and hwmon between the app archive
+  staging and Buildroot rootfs; Buildroot is forbidden from re-stripping them;
 - static ABI proof that Buildroot zlib `1.3.2` exports every zlib symbol needed
   by the vendor protobuf closure;
 - two independent full Buildroot outputs with byte-identical ext4 and tar

@@ -68,8 +68,23 @@ verify_sha256() {
 		die "unexpected SHA-256 for $path: $actual"
 }
 
+verify_matches_staged() {
+	image_path="$1"
+	staged_path="$2"
+	name="$3"
+	[ -f "$staged_path" ] || die "staged provenance input is missing: $staged_path"
+	dest="$TMP_DIR/$name"
+	debugfs -R "dump $image_path $dest" "$IMAGE" >/dev/null 2>&1 || \
+		die "could not extract $image_path for provenance comparison"
+	expected="$(sha256sum "$staged_path" | awk '{print $1}')"
+	actual="$(sha256sum "$dest" | awk '{print $1}')"
+	[ "$actual" = "$expected" ] || \
+		die "Buildroot modified $image_path: expected $expected, got $actual"
+}
+
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/nanokvm-latest-buildroot-validate.XXXXXX")"
 trap 'rm -rf "$TMP_DIR"' EXIT INT TERM
+STAGED_KVMAPP_DIR="${STAGED_KVMAPP_DIR:-$ROOT/build/kvmapp-rust/kvmapp}"
 
 for path in \
 	/mnt/system/ko/soph_sys.ko \
@@ -173,6 +188,12 @@ verify_sha256 /kvmapp/server/dl_lib/libgomp.so.1.0.0 \
 	986f21b24574f0e58672c865b34d9eba102ba45c05f18a608bf612816b84c901 libgomp
 verify_sha256 /kvmapp/server/dl_lib/libatomic.so.1.2.0 \
 	2421e827d033c3a055b973e6fbcf5a78fe987b50dd21e82a422a3728f4d3da3d libatomic
+verify_matches_staged /kvmapp/server/NanoKVM-Server \
+	"$STAGED_KVMAPP_DIR/server/NanoKVM-Server" backend-server
+verify_matches_staged /kvmapp/backends/NanoKVM-Server.rust \
+	"$STAGED_KVMAPP_DIR/backends/NanoKVM-Server.rust" backend-rust-copy
+verify_matches_staged /kvmapp/hwmon/nanokvm-hwmon \
+	"$STAGED_KVMAPP_DIR/hwmon/nanokvm-hwmon" hwmon
 verify_sha256 /kvmapp/server/dl_lib/libkvm.so \
 	387f1c7f54fb67ecc0eafa961946eef7972022a92ad443fb68c3d88ef6d2f24f libkvm
 verify_sha256 /kvmapp/server/dl_lib/libkvm_mmf.so \
@@ -203,7 +224,7 @@ grep -qx 'redistribution=disabled-pending-license-grant' "$MEDIA_PROVENANCE" || 
 KVM_SYSTEM="$TMP_DIR/kvm_system"
 debugfs -R "dump /kvmapp/kvm_system/kvm_system $KVM_SYSTEM" "$IMAGE" >/dev/null 2>&1 || \
 	die "could not extract /kvmapp/kvm_system/kvm_system"
-STAGED_KVM_SYSTEM="${STAGED_KVM_SYSTEM:-$ROOT/build/kvmapp-rust/kvmapp/kvm_system/kvm_system}"
+STAGED_KVM_SYSTEM="${STAGED_KVM_SYSTEM:-$STAGED_KVMAPP_DIR/kvm_system/kvm_system}"
 [ -f "$STAGED_KVM_SYSTEM" ] || die "staged kvm_system is unavailable for provenance validation"
 expected_kvm_system_sha256="$(sha256sum "$STAGED_KVM_SYSTEM" | awk '{print $1}')"
 actual_kvm_system_sha256="$(sha256sum "$KVM_SYSTEM" | awk '{print $1}')"
