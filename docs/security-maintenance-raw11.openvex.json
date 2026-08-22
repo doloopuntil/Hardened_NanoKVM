@@ -1,0 +1,72 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "urn:uuid:18972b68-b38e-5a5f-975d-435965f3539f",
+  "author": "Hardened NanoKVM project",
+  "role": "Document Creator",
+  "timestamp": "2026-08-22T11:20:00Z",
+  "version": 1,
+  "tooling": "Buildroot pkg-stats, Syft 1.51.0, Grype 0.117.0 and manual source/config verification",
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2026-38753"
+      },
+      "products": [
+        {
+          "@id": "pkg:generic/busybox@1.38.0"
+        }
+      ],
+      "status": "fixed",
+      "action_statement": "Patched by 0012-CVE-2026-38753-fix-awk-sub-use-after-free.patch and verified in the compiled source tree."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-38754"
+      },
+      "products": [
+        {
+          "@id": "pkg:generic/busybox@1.38.0"
+        }
+      ],
+      "status": "fixed",
+      "action_statement": "Patched by 0014-CVE-2026-38754-clear-stale-ifs-regions.patch and verified in the compiled source tree."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-38755"
+      },
+      "products": [
+        {
+          "@id": "pkg:generic/busybox@1.38.0"
+        }
+      ],
+      "status": "fixed",
+      "action_statement": "Patched by 0013-CVE-2026-38755-limit-ash-function-recursion.patch and verified in the compiled source tree."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-54876"
+      },
+      "products": [
+        {
+          "@id": "pkg:generic/openssl@3.6.3"
+        }
+      ],
+      "status": "fixed",
+      "action_statement": "Patched by upstream OpenSSL 3.6 branch commit 155b5fe0f93365e6df1c56ee3606b121080c6c12."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-14456"
+      },
+      "products": [
+        {
+          "@id": "pkg:generic/openssl@3.6.3"
+        }
+      ],
+      "status": "not_affected",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "OpenSSL was configured with no-quic; the QUIC client/server engine and OSSL_QUIC methods are absent from libssl."
+    }
+  ]
+}

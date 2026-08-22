@@ -30,17 +30,17 @@ The format-2 implementation and tests are committed as `d5f480f`.
 
 | Finding | raw.11 action | Evidence state |
 | --- | --- | --- |
-| OpenSSH 10.3p1 | Backport the official Buildroot 2026.08-rc1 recipe for 10.5p1. | Recipe/hash patch is tracked; tarball download, patch stage, build, and runtime SSH tests are pending. |
+| OpenSSH 10.3p1 | Backport the official Buildroot 2026.08-rc1 recipe for 10.5p1. | Official tarball SHA-256 verified; extract/patch/full build pass and rootfs contains 10.5p1. Runtime SSH tests remain. |
 | util-linux CVE-2026-13595 | Do not add a duplicate patch. | The exact Buildroot 2026.05.1 util-linux 2.41.5 source already contains upstream commit `c0186f14fbdb02f64c8e0ba701ce727ea764ff4c`; the raw CPE result is a false positive for this source. |
-| BusyBox CVE-2026-38753/38754/38755 | Backport the three upstream mailing-list fixes. | All three patches pass Buildroot's real 1.38.0 extract/patch stage. Compile and rootfs tests remain. |
-| OpenSSL CVE-2026-54876 | Backport upstream 3.6-branch commit `155b5fe0f93365e6df1c56ee3606b121080c6c12`. | The patch passes Buildroot's real 3.6.3 extract/patch stage. OpenSSL 3.6.4 is not used because no release tarball exists at this status date. |
+| BusyBox CVE-2026-38753/38754/38755 | Backport the three upstream mailing-list fixes. | All three patches pass extract/patch/full build; the patched source sites are verified and OpenVEX marks the version-only scanner matches fixed. |
+| OpenSSL CVE-2026-54876 | Backport upstream 3.6-branch commit `155b5fe0f93365e6df1c56ee3606b121080c6c12`. | Patch passes extract/patch/full build and the owning-reference cleanup is present in the compiled source; OpenVEX marks the version-only match fixed. OpenSSL 3.6.4 is not used because no release tarball exists at this status date. |
 | OpenSSL CVE-2026-14456 | Remove the affected unused QUIC surface. | `BR2_PACKAGE_LIBOPENSSL_ENABLE_QUIC` is disabled; final `.config` confirms it. |
 | vendor zlib 1.3 | Stop packaging the private copy and use Buildroot zlib 1.3.2. | Staging/package/rootfs validators reject private `libz*`. The accepted system zlib satisfies all six symbols required by vendor protobuf; runtime loader-map and hardware tests remain. |
-| dnsmasq 2.92rel2 | Remove the unused package and init script. | Defconfig, packaged init tree, and rootfs validator reject dnsmasq; final rootfs inspection remains. |
-| hostapd 2.11 / CVE-2026-58374 | Update to 2.12 and remove compile-time 802.11be/MLO support. | Strict no-fuzz recipe patches and minimal nl80211 defconfig are tracked; tarball/build/AP tests remain. |
+| dnsmasq 2.92rel2 | Remove the unused package and init script. | Defconfig and both independently built rootfs images contain neither binary nor init script. |
+| hostapd 2.11 / CVE-2026-58374 | Update to 2.12 and remove compile-time 802.11be/MLO support. | Official tarball SHA-256, extract/patch/full build pass; final hostapd config contains nl80211 but no 11be/ACS/VLAN/legacy hostap. Runtime AP test remains. |
 | Avahi CVE-2025-59529 | Restrict the local simple-protocol socket to root and bound daemon resources. | Overlay sets `RLIMIT_NOFILE`, no reflector/wide-area publishing; init chmods the socket to `0600`. `clients-max` is deliberately absent because this no-D-Bus build rejects that D-Bus-only setting. This is a threat-model mitigation, not an upstream code fix; verify daemon startup and socket permissions after boot. |
-| empty clean-image root password | Lock root until first web provisioning. | Defconfig disables `BR2_TARGET_ENABLE_ROOT_LOGIN`, making Buildroot write the literal `*` lock marker; rootfs validator checks `/etc/shadow`. First-login web/SSH synchronization remains a device gate. |
-| non-reproducible userspace | Enable Buildroot reproducible mode, pin ext4 UUID/hash seed, and remove build-host metadata leaks before comparing independent builds. | Defconfig uses deterministic UUID/hash seed `23df1b1c-cbf0-5e1c-b42b-de68dec5ad95`; the post-build sanitizer removes internal `.files-list*` snapshots and path-bearing GDB helpers. Final byte comparison remains. |
+| empty clean-image root password | Lock root until first web provisioning. | Defconfig disables `BR2_TARGET_ENABLE_ROOT_LOGIN`; both rootfs validators confirm literal `root:*:`. First-login web/SSH synchronization remains a device gate. |
+| non-reproducible userspace | Enable Buildroot reproducible mode, pin ext4 UUID/hash seed, and remove build-host metadata leaks before comparing independent builds. | Two independent output trees produced byte-identical ext4 (`d8b4533a...`) and tar (`ec7cacd9...`) at sanitizer commit `85172cd`; final candidate regeneration remains after the evidence commit. |
 
 The Buildroot VEX entries live in `buildroot-external/hardened-sg2002/external.mk`.
 They cover only the three patched BusyBox findings, the already-fixed exact
@@ -67,6 +67,17 @@ Static policy gate:
 ```sh
 make test-latest-buildroot-security-policy
 ```
+
+Generated security evidence gate:
+
+```sh
+scripts/verify-raw11-security-evidence.sh \
+  build/latestbuildroot/sg2002-config-2026.05.1-raw11-repro1/pkg-stats.json \
+  build/latestbuildroot/security-audit-0.3.0-raw.11-20260822/evidence/rootfs-grype-vex.json
+```
+
+The machine-readable scanner dispositions are tracked in
+[`security-maintenance-raw11.openvex.json`](security-maintenance-raw11.openvex.json).
 
 ## Required Execution Order
 
@@ -103,13 +114,18 @@ Completed locally:
 - application staging proof that an existing vendor-runtime directory cannot
   reintroduce `libz.so.1.3`;
 - static ABI proof that Buildroot zlib `1.3.2` exports every zlib symbol needed
-  by the vendor protobuf closure.
+  by the vendor protobuf closure;
+- two independent full Buildroot outputs with byte-identical ext4 and tar
+  images after removing Buildroot host-path leaks;
+- fresh NVD feed commit `168485e7e7437b149a9662300684aa84cf16cb85`:
+  47 target entries, one residual CVE, zero unsure; the residual is Avahi
+  `CVE-2025-59529`;
+- Syft `1.51.0`/Grype `0.117.0` scan with database built
+  `2026-08-21T06:17:24Z`: five raw version matches, zero unsuppressed and five
+  VEX-filtered after verified BusyBox/OpenSSL dispositions.
 
 Pending or blocked:
 
-- external download permission for the OpenSSH 10.5p1 and hostapd 2.12
-  tarballs;
-- Longrun permission for the release cross-build and full Buildroot builds;
 - production system-update signing key custody;
 - hardware acceptance and explicit publication authorization;
 - the separate vendor-kernel remediation track.
