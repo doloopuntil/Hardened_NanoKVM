@@ -87,6 +87,11 @@ HARDENED_SG2002_VENDOR_SDK_DIR=/path/to/LicheeRV-Nano-Build \
   make latest-buildroot-sg2002-sd-image
 ```
 
+When the full SDK checkout is intentionally absent, pass the three already
+verified boot inputs directly as `HARDENED_SG2002_FIP_IMAGE`,
+`HARDENED_SG2002_BOOT_IMAGE`, and `HARDENED_SG2002_LOGO_IMAGE`. The assembler
+still copies and hashes them into a new output; it never writes block devices.
+
 The assembler first runs `validate-latest-buildroot-sg2002-rootfs.sh`, then
 reproduces the vendor MBR layout: a 16 MiB FAT boot partition
 with `fip.bin` and `boot.sd`, followed by the 1.5 GiB Buildroot rootfs

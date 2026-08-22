@@ -4,12 +4,15 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILDROOT_VERSION="${BUILDROOT_VERSION:-2026.05.1}"
 PROBE_ROOT="${LATEST_BUILDROOT_PROBE_ROOT:-$ROOT/build/latestbuildroot}"
-CONFIG_OUTPUT_DIR="${HARDENED_SG2002_BUILDROOT_OUTPUT_DIR:-$PROBE_ROOT/sg2002-config-${BUILDROOT_VERSION}}"
+CONFIG_OUTPUT_DIR="${HARDENED_SG2002_BUILDROOT_OUTPUT_DIR:-$PROBE_ROOT/sg2002-config-${BUILDROOT_VERSION}-raw11}"
 VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT/build/vendor/LicheeRV-Nano-Build}"
 VENDOR_OUTPUT_DIR="${HARDENED_SG2002_VENDOR_OUTPUT_DIR:-$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd}"
 EXTERNAL_DIR="${HARDENED_SG2002_EXTERNAL_DIR:-$ROOT/buildroot-external/hardened-sg2002}"
-OUTPUT_DIR="${HARDENED_SG2002_SD_OUTPUT_DIR:-$PROBE_ROOT/sg2002-sd-image-${BUILDROOT_VERSION}}"
+OUTPUT_DIR="${HARDENED_SG2002_SD_OUTPUT_DIR:-$PROBE_ROOT/sg2002-sd-image-${BUILDROOT_VERSION}-raw11}"
 ROOTFS_IMAGE="${HARDENED_SG2002_ROOTFS_IMAGE:-$CONFIG_OUTPUT_DIR/images/rootfs.ext2}"
+FIP_IMAGE="${HARDENED_SG2002_FIP_IMAGE:-$VENDOR_OUTPUT_DIR/fip.bin}"
+BOOT_IMAGE="${HARDENED_SG2002_BOOT_IMAGE:-$VENDOR_OUTPUT_DIR/rawimages/boot.sd}"
+LOGO_IMAGE="${HARDENED_SG2002_LOGO_IMAGE:-$VENDOR_SDK_DIR/build/tools/common/sd_tools/logo.jpeg}"
 GENIMAGE="$CONFIG_OUTPUT_DIR/host/bin/genimage"
 HOST_DEPS_ROOT="${BUILDROOT_PORT_HOST_DEPS:-$ROOT/build/host-deps}"
 USER_HOME="${HOME:-/home/w0w}"
@@ -25,9 +28,9 @@ require_file() {
 
 require_file "$ROOTFS_IMAGE"
 require_file "$GENIMAGE"
-require_file "$VENDOR_OUTPUT_DIR/fip.bin"
-require_file "$VENDOR_OUTPUT_DIR/rawimages/boot.sd"
-require_file "$VENDOR_SDK_DIR/build/tools/common/sd_tools/logo.jpeg"
+require_file "$FIP_IMAGE"
+require_file "$BOOT_IMAGE"
+require_file "$LOGO_IMAGE"
 require_file "$EXTERNAL_DIR/board/sg2002/genimage.cfg"
 
 for tool in mkdosfs mcopy; do
@@ -48,10 +51,10 @@ if [ -e "$OUTPUT_DIR" ]; then
 fi
 
 mkdir -p "$OUTPUT_DIR/root" "$OUTPUT_DIR/tmp" "$OUTPUT_DIR/input/rawimages" "$OUTPUT_DIR/images"
-cp "$VENDOR_OUTPUT_DIR/fip.bin" "$OUTPUT_DIR/input/fip.bin"
-cp "$VENDOR_OUTPUT_DIR/rawimages/boot.sd" "$OUTPUT_DIR/input/rawimages/boot.sd"
+cp "$FIP_IMAGE" "$OUTPUT_DIR/input/fip.bin"
+cp "$BOOT_IMAGE" "$OUTPUT_DIR/input/rawimages/boot.sd"
 cp "$ROOTFS_IMAGE" "$OUTPUT_DIR/input/rootfs.sd"
-cp "$VENDOR_SDK_DIR/build/tools/common/sd_tools/logo.jpeg" "$OUTPUT_DIR/input/logo.jpeg"
+cp "$LOGO_IMAGE" "$OUTPUT_DIR/input/logo.jpeg"
 
 touch "$OUTPUT_DIR/input/usb.dev" "$OUTPUT_DIR/input/usb.disk0" \
 	"$OUTPUT_DIR/input/usb.rndis0" "$OUTPUT_DIR/input/wifi.sta" \

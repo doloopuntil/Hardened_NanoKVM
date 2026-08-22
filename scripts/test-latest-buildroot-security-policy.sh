@@ -78,6 +78,12 @@ reject_text 'ln -sf libz.so.1.3' "$VENDOR_MK"
 grep -Fq 'vendor-runtime-source-media-v1' "$VENDOR_MK"
 grep -Fq 'vendor-runtime-source-media-v1' \
 	"$ROOT/scripts/build-latest-buildroot-sg2002-rootfs.sh"
+grep -Fq 'HARDENED_SG2002_FIP_IMAGE' \
+	"$ROOT/scripts/assemble-latest-buildroot-sg2002-sd-image.sh"
+grep -Fq 'HARDENED_SG2002_BOOT_IMAGE' \
+	"$ROOT/scripts/assemble-latest-buildroot-sg2002-sd-image.sh"
+grep -Fq 'HARDENED_SG2002_LOGO_IMAGE' \
+	"$ROOT/scripts/assemble-latest-buildroot-sg2002-sd-image.sh"
 grep -Fq 'SYSTEM_UPDATE_KEY_POLICY=/etc/kvm/update-key-policy' \
 	"$ROOT/kvmapp/system/init.d/S95nanokvm"
 
