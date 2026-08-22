@@ -253,7 +253,12 @@ step "authenticating to the local device API"
 api_login
 status_json="$(api_get /api/system-update/status)"
 [[ "$(printf '%s' "$status_json" | "$JQ" -r '.code')" == "0" ]] || fail "system update status API failed"
-[[ "$(printf '%s' "$status_json" | "$JQ" -r '.data.staged.version // empty')" == "$VERSION" ]] || fail "backend did not accept the staged update"
+if [[ "$(printf '%s' "$status_json" | "$JQ" -r '.data.staged.version // empty')" != "$VERSION" ]]; then
+	status_error="$(printf '%s' "$status_json" | "$JQ" -r '.data.error // "none"')"
+	step "staged_status_error=$status_error"
+	unset status_error
+	fail "backend did not accept the staged update"
+fi
 [[ "$(printf '%s' "$status_json" | "$JQ" -r '.data.staged.destructive // false')" == "true" ]] || fail "staged update is not marked destructive"
 unset status_json
 
