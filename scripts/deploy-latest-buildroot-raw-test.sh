@@ -197,7 +197,7 @@ printf "APP_VERSION=%s\n" "$(cat /kvmapp/version 2>/dev/null || true)"
 printf "BACKEND_PID=%s\n" "$(pidof NanoKVM-Server 2>/dev/null || true)"
 printf "PUBLIC_KEY=%s\n" "$([ -f /etc/kvm/system-update-signing.pub.pem ] && echo present || echo missing)"
 printf "BUSYBOX=%s\n" "$([ -x /bin/busybox ] && echo present || echo missing)"
-printf "MUSL_LOADER=%s\n" "$(find /lib -maxdepth 1 -name '\''ld-musl-riscv64*.so.1'\'' -type f 2>/dev/null | head -n 1)"
+printf "MUSL_LOADER=%s\n" "$(for loader in /lib/ld-musl-riscv64*.so.1; do [ -e "$loader" ] && [ -x "$loader" ] && { printf "%s\n" "$loader"; break; }; done)"
 ' >"$WORK/preflight.txt"
 
 [[ "$(field UID)" == "0" ]] || fail "remote SSH user is not root"
