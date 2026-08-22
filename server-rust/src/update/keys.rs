@@ -9,6 +9,7 @@ use std::{
 use crate::{AppError, Result};
 
 pub const LEGACY_UPDATE_KEY_ID: &str = "hardened-system-dev";
+pub const LEGACY_TEST_UPDATE_KEY_ID: &str = "hardened-system-test";
 const UPDATE_KEYRING_DIR: &str = "update-keys";
 const UPDATE_KEY_POLICY_FILE: &str = "update-key-policy";
 const UPDATE_PUBLIC_KEY_SUFFIX: &str = ".pub.pem";
@@ -23,7 +24,7 @@ pub fn resolve_update_public_key(configured_key: &Path, key_id: &str) -> Result<
     })?;
     enforce_update_key_policy(parent, key_id)?;
 
-    if key_id == LEGACY_UPDATE_KEY_ID {
+    if matches!(key_id, LEGACY_UPDATE_KEY_ID | LEGACY_TEST_UPDATE_KEY_ID) {
         return require_public_key(configured_key.to_path_buf(), key_id);
     }
 
@@ -135,6 +136,10 @@ mod tests {
             configured
         );
         assert_eq!(
+            resolve_update_public_key(&configured, LEGACY_TEST_UPDATE_KEY_ID).unwrap(),
+            configured
+        );
+        assert_eq!(
             resolve_update_public_key(&configured, "hardened-system-prod-2026").unwrap(),
             production
         );
@@ -172,6 +177,7 @@ mod tests {
             production
         );
         assert!(resolve_update_public_key(&configured, LEGACY_UPDATE_KEY_ID).is_err());
+        assert!(resolve_update_public_key(&configured, LEGACY_TEST_UPDATE_KEY_ID).is_err());
     }
 
     #[test]
