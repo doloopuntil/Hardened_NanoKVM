@@ -18,9 +18,16 @@ IMAGE="$1"
 EXPECTED_BUILDROOT_VERSION="${EXPECTED_BUILDROOT_VERSION:-2026.05.1}"
 EXPECTED_KVMAPP_VERSION="${EXPECTED_KVMAPP_VERSION:-2.0.41}"
 EXPECTED_SYSTEM_VERSION="${EXPECTED_SYSTEM_VERSION:-0.3.0-raw.11}"
+EXPECTED_ROOTFS_UUID="${EXPECTED_ROOTFS_UUID:-23df1b1c-cbf0-5e1c-b42b-de68dec5ad95}"
 
 [ -f "$IMAGE" ] || die "rootfs image does not exist: $IMAGE"
 command -v debugfs >/dev/null 2>&1 || die "debugfs is required"
+
+ROOTFS_STATS="$(LC_ALL=C debugfs -R stats "$IMAGE" 2>&1 || true)"
+printf '%s\n' "$ROOTFS_STATS" | grep -Eq "^Filesystem UUID:[[:space:]]+$EXPECTED_ROOTFS_UUID$" || \
+	die "unexpected rootfs UUID; reproducibility identity is not pinned"
+printf '%s\n' "$ROOTFS_STATS" | grep -Eq "^Directory Hash Seed:[[:space:]]+$EXPECTED_ROOTFS_UUID$" || \
+	die "unexpected ext4 directory hash seed; reproducibility identity is not pinned"
 
 EXPECTED_BACKEND=rust \
 EXPECTED_KVMAPP_VERSION="$EXPECTED_KVMAPP_VERSION" \
