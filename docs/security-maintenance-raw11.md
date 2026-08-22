@@ -40,7 +40,7 @@ The format-2 implementation and tests are committed as `d5f480f`.
 | hostapd 2.11 / CVE-2026-58374 | Update to 2.12 and remove compile-time 802.11be/MLO support. | Official tarball SHA-256, extract/patch/full build pass; final hostapd config contains nl80211 but no 11be/ACS/VLAN/legacy hostap. Runtime AP test remains. |
 | Avahi CVE-2025-59529 | Restrict the local simple-protocol socket to root and bound daemon resources. | Overlay sets `RLIMIT_NOFILE`, no reflector/wide-area publishing; init chmods the socket to `0600`. `clients-max` is deliberately absent because this no-D-Bus build rejects that D-Bus-only setting. This is a threat-model mitigation, not an upstream code fix; verify daemon startup and socket permissions after boot. |
 | empty clean-image root password | Lock root until first web provisioning. | Defconfig disables `BR2_TARGET_ENABLE_ROOT_LOGIN`; both rootfs validators confirm literal `root:*:`. First-login web/SSH synchronization remains a device gate. |
-| non-reproducible userspace | Enable Buildroot reproducible mode, pin ext4 UUID/hash seed, and remove build-host metadata leaks before comparing independent builds. | Two independent output trees produced byte-identical ext4 (`d8b4533a...`) and tar (`ec7cacd9...`) at sanitizer commit `85172cd`; final candidate regeneration remains after the evidence commit. |
+| non-reproducible userspace | Enable Buildroot reproducible mode, pin ext4 UUID/hash seed, and remove build-host metadata leaks before comparing independent builds. | Final independent outputs `repro3` and `repro4` from runtime commit `066770e` are byte-identical: ext4 `7a8e4bbd...`, tar `8c6275e1...`. |
 
 The Buildroot VEX entries live in `buildroot-external/hardened-sg2002/external.mk`.
 They cover only the three patched BusyBox findings, the already-fixed exact
@@ -111,6 +111,11 @@ Completed locally:
 - raw.11 defconfig generation and policy inspection;
 - BusyBox and OpenSSL real source patch stages;
 - frontend `2.0.41` build;
+- application `2.0.41` preserves verification of the already-published
+  `hardened-system-test` raw.10 channel while retaining the separate keyring
+  and post-rotation key-policy enforcement; the original candidate exposed
+  this compatibility failure during the five-reboot gate and commit `3a808ce`
+  fixes it;
 - application staging proof that an existing vendor-runtime directory cannot
   reintroduce `libz.so.1.3`;
 - exact SHA identity for the Rust server and hwmon between the app archive
@@ -120,17 +125,42 @@ Completed locally:
   library search location;
 - static ABI proof that Buildroot zlib `1.3.2` exports every zlib symbol needed
   by the vendor protobuf closure;
-- two independent full Buildroot outputs with byte-identical ext4 and tar
-  images after removing Buildroot host-path leaks;
-- fresh NVD feed commit `168485e7e7437b149a9662300684aa84cf16cb85`:
+- two independent final Buildroot outputs from runtime commit `066770e` with
+  byte-identical ext4 and tar images after removing Buildroot host-path leaks:
+  ext4 `7a8e4bbd75060d98bf0710c04e0b385402c764999484fb90841b2cdd56192f02`
+  and tar `8c6275e15f343a90b34ce2ae64cb0a15afcab252cea83fd148103568d6a4c811`;
+- fresh NVD feed synchronized at `2026-08-22T14:00:20Z`:
   47 target entries, one residual CVE, zero unsure; the residual is Avahi
   `CVE-2025-59529`;
 - Syft `1.51.0`/Grype `0.117.0` scan with database built
   `2026-08-21T06:17:24Z`: five raw version matches, zero unsuppressed and five
-  VEX-filtered after verified BusyBox/OpenSSL dispositions.
+  VEX-filtered after verified BusyBox/OpenSSL dispositions; final SBOM, raw
+  Grype and VEX-filtered Grype SHA-256 values are respectively
+  `03ace9d93715a0fee251047697d6a93a4d9052065efa4dccdeeb7cb3e726e5dd`,
+  `a209588c965aff5d857e4ebb9a2aaf2086eaf286b42421f8e0dc6ad73c14da76`
+  and `7b184b06268c43911c43f8bccc6348f2543a21db42a582fe614105d7ca77956e`;
+- app `2.0.41` archive
+  `75b293875d613d4f4908c17d2cf15de2bcfc3e38acdd8da7e5b34e0eb9be62dc`
+  is installed on the test device over raw.10; online update checking, native
+  identity, browser, network, remote syslog, same-WebSocket H.264, video, safe
+  USB, peripherals, watchdog recovery, five reboots and final postflight pass;
+- recoverable SD image
+  `125d8766840ff9ca9f84a63455163e45a0b2df11b7105e54c588c7eca52e82d7`
+  has the expected two-partition layout; its extracted rootfs, `fip.bin` and
+  `boot.sd` are byte-identical to the accepted inputs. It has not yet been
+  written to or booted from physical recovery media;
+- unsigned raw.11 bundle
+  `c1b8cfad21bc519dba71065d228dd3f2bd057ba5522c12735e5645f8c594ccd3`
+  has a validated format-2 manifest requiring app `2.0.41`; it is deliberately
+  not installable without production metadata/signatures;
+- final Buildroot `legal-info` target manifest is
+  `cc18e25a89f99b6d75bd0b5e23abcb7cd43dca9377b3569c9f3aa4d0fcfa0764`.
+  The AIC firmware, vendor payload portion of kvmapp, codec firmware and SG2002
+  vendor runtime remain `PROPRIETARY` without redistributable license files.
 
 Pending or blocked:
 
+- physical recovery-SD boot and the complete raw.11 hardware/rollback matrix;
 - production system-update signing key custody;
-- hardware acceptance and explicit publication authorization;
+- redistribution permission or replacement of the four proprietary inputs;
 - the separate vendor-kernel remediation track.

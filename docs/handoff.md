@@ -19,25 +19,27 @@ available in:
 - Current maintenance branch: `security/raw11-userspace`, based on
   `latestbuilroot` commit `5288195deb62873e642c0d86b5e432683fd51bdf`.
   Commit `d5f480f` adds application `2.0.41` and guarded system-update metadata
-  format 2. The raw.11 userspace hardening is active local work and is not yet
-  published. `rc8-main-sync`, tracking `origin/main`, remains the previous
-  release-baseline branch.
+  format 2. Runtime candidate commit `066770e` includes the final raw.10
+  update-key compatibility gate and fix. The raw.11 userspace hardening is
+  active local work and is not yet published. `rc8-main-sync`, tracking
+  `origin/main`, remains the previous release-baseline branch.
 - `latestbuilroot` is the experimental Buildroot `2026.05.1` board-port branch
   used for RC11. Raw/SD artifacts are published as preview only; the stable
   system channel remains on RC9. Keep recovery media and the restrictions in
   [`latest-buildroot-port.md`](latest-buildroot-port.md) in scope.
 - `feature/rust-kvm-system-migration` is historical. Its validated work is in
   `main`; do not continue release work from that branch.
-- Current source/application version: `2.0.40` (`kvmapp/version`), published as
-  combined RC11 with system `0.3.0-raw.10`.
+- Current source/application version: `2.0.41` (`kvmapp/version`); published
+  RC11 remains app `2.0.40` with system `0.3.0-raw.10`.
 - Planned maintenance versions are app `2.0.41` followed by system
   `0.3.0-raw.11`; format-2 system metadata enforces that ordering. Treat these
   as unpublished until the build, independent reproducibility, device, signing,
   and publication gates in `security-maintenance-raw11.md` are complete.
-- Current installed test state: signed system `0.3.0-raw.10` with app `2.0.40`
-  on `10.0.87.133`. Installation, the complete automated suite, the
-  same-WebSocket H.264 regression, five reboot cycles, and the final 30-minute
-  stream/log endurance pass.
+- Current installed test state: signed system `0.3.0-raw.10` with unpublished
+  app `2.0.41` from runtime commit `066770e` on `10.0.87.133`. The app-first
+  install, online raw.10 update check, complete automated suite,
+  same-WebSocket H.264 regression, five reboot cycles and final postflight
+  pass. System raw.11 has not been installed.
 - Current combined release: app `2.0.40 RC11` plus system `0.3.0-raw.10`, tag
   [`hardened-system-0.3.0-raw.10`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.10),
   published from `3cca4d8` on 2026-08-21. Existing devices must install app
@@ -50,6 +52,19 @@ available in:
   Dependabot alert read access; the default branch had nine open web dependency
   alerts (four high and five moderate). `Cargo.lock` contains the patched
   `anyhow 1.0.103`.
+
+Unpublished raw.11 physical-gate inputs from runtime commit `066770e`:
+
+| Purpose | Local path | SHA-256 |
+| --- | --- | --- |
+| app `2.0.41` archive already installed on the test device | `build/artifacts/nanokvm-kvmapp-rust.tar.gz` | `75b293875d613d4f4908c17d2cf15de2bcfc3e38acdd8da7e5b34e0eb9be62dc` |
+| recovery SD image to write to a separate card | `build/latestbuildroot/sg2002-sd-image-2026.05.1-raw11-final-066770e/images/hardened-sg2002-port.img` | `125d8766840ff9ca9f84a63455163e45a0b2df11b7105e54c588c7eca52e82d7` |
+| unsigned, non-installable raw.11 bundle | `build/latestbuildroot/raw-system-update-0.3.0-raw.11-secure-preflight/unsigned-artifacts-066770e/hardened-nanokvm-system-0.3.0-raw.11.tar.gz` | `c1b8cfad21bc519dba71065d228dd3f2bd057ba5522c12735e5645f8c594ccd3` |
+
+Write only the recovery SD image to sacrificial media. Do not attempt to feed
+the unsigned bundle to the updater. The next gate is booting the test NanoKVM
+from that card and running the complete raw.11 acceptance matrix before any
+signed raw update is created.
 
 Current combined RC11 release artifacts and SHA-256 values:
 
@@ -185,15 +200,17 @@ Remediation status:
 - Read-only check on 2026-07-11: HTTPS health reported the Rust backend, app
   version was `2.0.32`, SSH login succeeded, and installed system version was
   `0.2.19-raw.1` on base `2026-06-29-12-08-d88d58.img`.
-- Current automated-test state on 2026-08-21: signed system `0.3.0-raw.10`,
-  Buildroot `2026.05.1`, app `2.0.40`, vendor kernel `5.10.4-tag-`, HTTPS and
-  SSH working, source-built media trio loaded, and remote syslog active. The
-  complete suite, same-WebSocket H.264 mode-resume test, controlled runtime
-  restart, watchdog recovery, five reboot cycles, and 30-minute video/log
-  endurance passed. Physical HDMI cable unplug/replug was previously confirmed
-  on raw.9 with the same native stack; source-mode switching was unavailable on
-  the current source. The accepted candidate is the basis of published RC11;
-  the system channel remains preview-only.
+- Current automated-test state on 2026-08-22: signed system `0.3.0-raw.10`,
+  Buildroot `2026.05.1`, unpublished app `2.0.41`, vendor kernel
+  `5.10.4-tag-`, HTTPS and SSH working, source-built media trio loaded, remote
+  syslog active and the published raw.10 update check compatible. The complete
+  suite, same-WebSocket H.264 mode-resume test, controlled runtime restart,
+  watchdog recovery and five reboot cycles pass with backend `f1e3772a...`.
+  The separate 30-minute video/log endurance last passed on the accepted app
+  `2.0.40` raw.10 baseline. Physical HDMI cable unplug/replug was previously
+  confirmed on raw.9 with the same native stack; source-mode switching was
+  unavailable on the current source. Published RC11 remains app `2.0.40`; the
+  system channel remains preview-only.
 - Vendor-kernel Phase 1 is reconstructed and accepted on recoverable media: the
   24-layer official/Milk-V/Sipeed source stack, clean Image/vmlinux, 3 DTBs,
   all 57 modules, and `boot.sd` are independently reproducible; all covered
