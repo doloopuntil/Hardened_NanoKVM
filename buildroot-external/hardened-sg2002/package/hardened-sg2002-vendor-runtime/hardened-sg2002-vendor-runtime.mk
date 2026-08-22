@@ -17,6 +17,10 @@ define HARDENED_SG2002_VENDOR_RUNTIME_INSTALL_TARGET_CMDS
 	$(INSTALL) -d $(TARGET_DIR)/mnt/system $(TARGET_DIR)/kvmapp/server/dl_lib $(TARGET_DIR)/lib
 	cp -a $(@D)/system/. $(TARGET_DIR)/mnt/system/
 	cp -a $(@D)/kvmapp-dl-lib/. $(TARGET_DIR)/kvmapp/server/dl_lib/
+	$(INSTALL) -m 0755 $(NANOKVM_KVMAPP_SOURCE_DIR)/server/dl_lib/libkvm.so \
+		$(TARGET_DIR)/kvmapp/server/dl_lib/libkvm.so
+	$(INSTALL) -m 0755 $(NANOKVM_KVMAPP_SOURCE_DIR)/server/dl_lib/libkvm_mmf.so \
+		$(TARGET_DIR)/kvmapp/server/dl_lib/libkvm_mmf.so
 	$(INSTALL) -m 0755 $(@D)/loaders/ld-musl-riscv64xthead.so.1 $(TARGET_DIR)/lib/
 	$(INSTALL) -m 0755 $(@D)/loaders/ld-musl-riscv64v0p7_xthead.so.1 $(TARGET_DIR)/lib/
 	ln -sf libopencv_video.so.4.9.0 $(TARGET_DIR)/kvmapp/server/dl_lib/libopencv_video.so.409

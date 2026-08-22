@@ -38,7 +38,7 @@ verify_prepare_hash() {
 }
 
 require_line 'BR2_REPRODUCIBLE=y' "$DEFCONFIG"
-require_line 'BR2_STRIP_EXCLUDE_FILES="NanoKVM-Server nanokvm-hwmon kvm_system soph_vcodec.ko soph_jpeg.ko soph_vc_driver.ko"' "$DEFCONFIG"
+require_line 'BR2_STRIP_EXCLUDE_FILES="NanoKVM-Server nanokvm-hwmon kvm_system libkvm.so libkvm_mmf.so soph_vcodec.ko soph_jpeg.ko soph_vc_driver.ko"' "$DEFCONFIG"
 require_line '# BR2_TARGET_ENABLE_ROOT_LOGIN is not set' "$DEFCONFIG"
 reject_text 'BR2_TARGET_GENERIC_ROOT_PASSWD=' "$DEFCONFIG"
 require_line 'BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_HARDENED_SG2002_PATH)/board/sg2002/post-build.sh"' "$DEFCONFIG"
@@ -75,6 +75,8 @@ done
 grep -Fq 'patch -d "$SOURCE" -p1 --forward --batch -F 0' "$PREPARE"
 grep -Fq 'rm -f "$KVMAPP_STAGE/server/dl_lib/libz.so"' "$PACKAGE_SCRIPT"
 reject_text 'ln -sf libz.so.1.3' "$VENDOR_MK"
+grep -Fq '$(NANOKVM_KVMAPP_SOURCE_DIR)/server/dl_lib/libkvm.so' "$VENDOR_MK"
+grep -Fq '$(NANOKVM_KVMAPP_SOURCE_DIR)/server/dl_lib/libkvm_mmf.so' "$VENDOR_MK"
 grep -Fq 'vendor-runtime-source-media-v1' "$VENDOR_MK"
 grep -Fq 'vendor-runtime-source-media-v1' \
 	"$ROOT/scripts/build-latest-buildroot-sg2002-rootfs.sh"

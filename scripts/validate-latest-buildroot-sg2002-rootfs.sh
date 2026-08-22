@@ -194,10 +194,10 @@ verify_matches_staged /kvmapp/backends/NanoKVM-Server.rust \
 	"$STAGED_KVMAPP_DIR/backends/NanoKVM-Server.rust" backend-rust-copy
 verify_matches_staged /kvmapp/hwmon/nanokvm-hwmon \
 	"$STAGED_KVMAPP_DIR/hwmon/nanokvm-hwmon" hwmon
-verify_sha256 /kvmapp/server/dl_lib/libkvm.so \
-	387f1c7f54fb67ecc0eafa961946eef7972022a92ad443fb68c3d88ef6d2f24f libkvm
-verify_sha256 /kvmapp/server/dl_lib/libkvm_mmf.so \
-	be269c595b454930abeb9bb05eb67ec708894eb2df1650c4d99ee1162e1e3f2d libkvm-mmf
+verify_matches_staged /kvmapp/server/dl_lib/libkvm.so \
+	"$STAGED_KVMAPP_DIR/server/dl_lib/libkvm.so" libkvm
+verify_matches_staged /kvmapp/server/dl_lib/libkvm_mmf.so \
+	"$STAGED_KVMAPP_DIR/server/dl_lib/libkvm_mmf.so" libkvm-mmf
 verify_sha256 /kvmapp/server/dl_lib/libc.so \
 	fbc494806cad67edbf4584221bdc481593fa04b317d9405cf3418aad9a9500c4 vendor-libc
 verify_sha256 /lib/ld-musl-riscv64xthead.so.1 \
