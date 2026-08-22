@@ -45,6 +45,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   const [systemRollback, setSystemRollback] = useState<SystemRollbackInfo | null>(null);
   const [systemProgress, setSystemProgress] = useState<SystemUpdateProgress | null>(null);
   const [systemErrMsg, setSystemErrMsg] = useState('');
+  const [systemAppUpdateRequired, setSystemAppUpdateRequired] = useState(false);
   const [systemRawEnabled, setSystemRawEnabled] = useState(false);
   const [systemRawUpdating, setSystemRawUpdating] = useState(false);
   const [firewallStatus, setFirewallStatus] = useState<FirewallStatus | null>(null);
@@ -135,6 +136,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     if (systemStatus === 'loading') return;
     setSystemStatus('loading');
     setSystemErrMsg('');
+    setSystemAppUpdateRequired(false);
 
     api
       .checkSystemUpdate()
@@ -147,13 +149,19 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
 
         setSystemCurrent(rsp.data.current);
         setSystemLatest(rsp.data.latest || null);
+        setSystemAppUpdateRequired(!!rsp.data.appUpdateRequired);
 
         if (rsp.data.error) {
           setSystemStatus('failed');
           setSystemErrMsg(
-            rsp.data.error.includes('Paranoid Firewall')
-              ? t('settings.update.paranoidBlocked')
-              : t('settings.update.system.queryFailed')
+            rsp.data.appUpdateRequired && rsp.data.latest?.requiredAppVersion
+              ? t('settings.update.system.appUpdateRequired', {
+                  version: rsp.data.latest.requiredAppVersion,
+                  defaultValue: `Update the application to ${rsp.data.latest.requiredAppVersion} before installing this system update.`
+                })
+              : rsp.data.error.includes('Paranoid Firewall')
+                ? t('settings.update.paranoidBlocked')
+                : t('settings.update.system.queryFailed')
           );
           return;
         }
@@ -166,6 +174,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
         }
       })
       .catch(() => {
+        setSystemAppUpdateRequired(false);
         setSystemStatus('failed');
         setSystemErrMsg(t('settings.update.system.queryFailed'));
       })
@@ -302,7 +311,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   }
 
   function confirmInstallSystemUpdate() {
-    if (!systemStaged || systemStatus === 'installing') return;
+    if (!systemStaged || systemStatus === 'installing' || !stagedAppRequirementMet) return;
 
     Modal.confirm({
       title: t('settings.update.system.installConfirmTitle'),
@@ -479,9 +488,13 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   }
 
   const isStagedLatest = stagedMatchesLatest(systemStaged, systemLatest);
+  const stagedAppRequirementMet =
+    !systemStaged?.requiredAppVersion ||
+    (!!currentVersion && isVersionAtLeast(currentVersion, systemStaged.requiredAppVersion));
   const canDownloadLatestSystemUpdate =
     !!systemLatest &&
     !onlineUpdatesBlocked &&
+    !systemAppUpdateRequired &&
     (!systemStaged || !isStagedLatest) &&
     systemStatus !== 'downloading';
   const showSystemProgress =
@@ -492,7 +505,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       <div className="text-base">{t('settings.update.title')}</div>
       <Divider className="opacity-50" />
 
-      <Preview checkForUpdates={checkForUpdates} />
+      <Preview refreshUpdates={refreshFirewallStatus} />
       <Offline
         status={status}
         setStatus={setStatus}
@@ -654,7 +667,9 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                   key="install"
                   type="primary"
                   danger
-                  disabled={systemStaged.destructive && !systemRawEnabled}
+                  disabled={
+                    !stagedAppRequirementMet || (systemStaged.destructive && !systemRawEnabled)
+                  }
                   onClick={confirmInstallSystemUpdate}
                 >
                   {t('settings.update.system.install')}
@@ -794,7 +809,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                     {t('settings.update.system.downloadVerify')}
                   </Button>
                 ) : null,
-                systemStaged && isStagedLatest ? (
+                systemStaged && isStagedLatest && stagedAppRequirementMet ? (
                   <Button
                     key="install"
                     type="primary"
@@ -831,8 +846,22 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
               {versionLine(t('settings.update.system.target'), systemCurrent.target)}
               {systemLatest &&
                 versionLine(t('settings.update.system.latestTarget'), systemLatest.target)}
+              {systemLatest?.requiredAppVersion &&
+                versionLine(
+                  t('settings.update.system.requiredAppVersion', {
+                    defaultValue: 'Required application version'
+                  }),
+                  systemLatest.requiredAppVersion
+                )}
               {systemStaged &&
                 versionLine(t('settings.update.system.stagedVersion'), systemStaged.version)}
+              {systemStaged?.requiredAppVersion &&
+                versionLine(
+                  t('settings.update.system.requiredAppVersion', {
+                    defaultValue: 'Required application version'
+                  }),
+                  systemStaged.requiredAppVersion
+                )}
               {systemStaged?.securityPatchLevel &&
                 versionLine(
                   t('settings.update.system.stagedSecurityPatchLevel'),

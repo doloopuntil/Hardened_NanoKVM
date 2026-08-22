@@ -38,7 +38,7 @@ for tool in mkdosfs mcopy; do
 done
 
 EXPECTED_BUILDROOT_VERSION="$BUILDROOT_VERSION" \
-	EXPECTED_KVMAPP_VERSION="${EXPECTED_KVMAPP_VERSION:-2.0.40}" \
+EXPECTED_KVMAPP_VERSION="${EXPECTED_KVMAPP_VERSION:-2.0.41}" \
 	"$ROOT/scripts/validate-latest-buildroot-sg2002-rootfs.sh" "$ROOTFS_IMAGE"
 
 if [ -e "$OUTPUT_DIR" ]; then

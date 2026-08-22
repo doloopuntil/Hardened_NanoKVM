@@ -27,6 +27,7 @@ export type SystemLatest = {
   url: string;
   releaseNotesUrl: string;
   securityPatchLevel?: string | null;
+  requiredAppVersion?: string | null;
 };
 
 export type SystemStagedUpdate = {
@@ -40,6 +41,7 @@ export type SystemStagedUpdate = {
   baseVersion: string;
   kernelVersion: string;
   securityPatchLevel?: string | null;
+  requiredAppVersion?: string | null;
   requiredFreeBytes: number;
   requiresReboot: boolean;
   fileCount: number;

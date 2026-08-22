@@ -749,6 +749,7 @@ const en = {
         cancel: 'Cancel',
         preview: 'Preview Updates',
         previewDesc: 'Get early access to new features and improvements',
+        previewChannels: 'Controls both application and system preview channels',
         previewTip:
           'Please be aware that preview releases may contain bugs or incomplete functionality!',
         application: {
@@ -757,6 +758,9 @@ const en = {
         system: {
           title: 'System Update',
           queryFailed: 'Get system version failed',
+          appUpdateRequired:
+            'Update the application to {{version}} before installing this system update.',
+          requiredAppVersion: 'Required application version',
           downloadFailed: 'Download or verification failed',
           rawEnable: 'Allow raw system updates',
           rawEnableDesc:

@@ -23,7 +23,7 @@ use crate::{
     error::ApiResponse,
     state::AppState,
     system::command::{AllowedCommand, CommandOutput, run_allowed},
-    update::archive::extract_tar_gz_safe,
+    update::{archive::extract_tar_gz_safe, keys::resolve_update_public_key},
 };
 
 const APP_DIR: &str = "/kvmapp";
@@ -222,7 +222,7 @@ fn newer_release(left: LatestRelease, right: LatestRelease) -> LatestRelease {
     }
 }
 
-fn compare_application_versions(left: &str, right: &str) -> Option<std::cmp::Ordering> {
+pub(crate) fn compare_application_versions(left: &str, right: &str) -> Option<std::cmp::Ordering> {
     let left = parse_application_version(left)?;
     let right = parse_application_version(right)?;
     Some(left.cmp(&right))
@@ -495,17 +495,14 @@ async fn enforce_app_metadata_signature(
             "unsupported application update metadata signature algorithm".to_string(),
         ));
     }
-    if !config.paths.system_update_public_key.is_file() {
-        return Err(AppError::Config(format!(
-            "application update public key is not configured: {}",
-            config.paths.system_update_public_key.display()
-        )));
-    }
+    let public_key = resolve_update_public_key(
+        &config.paths.system_update_public_key,
+        &latest.signature_key_id,
+    )?;
 
     let signature_url = metadata_signature_url(metadata_url)?;
     let signature = fetch_app_metadata_signature(&signature_url).await?;
-    verify_app_metadata_signature(metadata, &signature, &config.paths.system_update_public_key)
-        .await
+    verify_app_metadata_signature(metadata, &signature, &public_key).await
 }
 
 fn app_metadata_is_unsigned(latest: &LatestRelease) -> bool {
@@ -896,7 +893,7 @@ fn read_trimmed(path: &str) -> Option<String> {
         .filter(|value| !value.is_empty())
 }
 
-fn current_app_version() -> String {
+pub(crate) fn current_app_version() -> String {
     read_trimmed(APP_VERSION_FILE).unwrap_or_else(|| DEFAULT_APP_VERSION.to_string())
 }
 

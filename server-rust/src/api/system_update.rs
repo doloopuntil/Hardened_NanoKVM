@@ -20,13 +20,13 @@ use tokio::task;
 
 use crate::{
     AppError, Result,
-    api::application::is_preview_enabled,
+    api::application::{compare_application_versions, current_app_version, is_preview_enabled},
     api::system_firewall,
     config::Config,
     error::ApiResponse,
     state::AppState,
     system::command::{AllowedCommand, CommandOutput, run_allowed},
-    update::archive::extract_tar_gz_safe,
+    update::{archive::extract_tar_gz_safe, keys::resolve_update_public_key},
 };
 
 const SYSTEM_VERSION_FILE: &str = "/etc/kvm/system-version.json";
@@ -45,6 +45,10 @@ const GITHUB_SYSTEM_CHANNEL_PREFIX: &str =
     "https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-";
 const SYSTEM_UPDATE_SIGNATURE_ALGORITHM: &str = "sha256-rsa-pkcs1-v1_5";
 const SYSTEM_UPDATE_UNSIGNED_ALGORITHM: &str = "unsigned";
+const SYSTEM_UPDATE_METADATA_FORMAT_V1: u32 = 1;
+const SYSTEM_UPDATE_METADATA_FORMAT_V2: u32 = 2;
+const SYSTEM_UPDATE_MANIFEST_FORMAT_V1: &str = "hardened-nanokvm-system-update-v1";
+const SYSTEM_UPDATE_MANIFEST_FORMAT_V2: &str = "hardened-nanokvm-system-update-v2";
 const MAX_SYSTEM_UPDATE_BYTES: u64 = 2 * 1024 * 1024 * 1024;
 const MAX_SYSTEM_UPDATE_PAYLOAD_BYTES: u64 = 2 * 1024 * 1024 * 1024;
 const METADATA_TIMEOUT: Duration = Duration::from_secs(45);
@@ -102,6 +106,8 @@ pub struct SystemLatest {
     pub release_notes_url: String,
     #[serde(default, alias = "security_patch_level")]
     pub security_patch_level: Option<String>,
+    #[serde(default, alias = "required_app_version")]
+    pub required_app_version: Option<String>,
     #[serde(alias = "signature_algorithm")]
     pub signature_algorithm: String,
     #[serde(alias = "signature_key_id")]
@@ -120,6 +126,7 @@ pub struct SystemCheckRsp {
     pub current: SystemVersion,
     pub latest: Option<SystemLatest>,
     pub update_available: bool,
+    pub app_update_required: bool,
     pub error: Option<String>,
 }
 
@@ -137,6 +144,8 @@ pub struct SystemStagedUpdate {
     pub kernel_version: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub security_patch_level: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub required_app_version: Option<String>,
     pub required_free_bytes: u64,
     pub requires_reboot: bool,
     pub file_count: usize,
@@ -269,6 +278,8 @@ struct SystemManifest {
     kernel_version: String,
     #[serde(default)]
     security_patch_level: Option<String>,
+    #[serde(default)]
+    required_app_version: Option<String>,
     source_commit: String,
     created_utc: String,
     required_free_bytes: u64,
@@ -397,18 +408,22 @@ pub async fn check(State(state): State<AppState>) -> Result<impl IntoResponse> {
             current,
             latest: None,
             update_available: false,
+            app_update_required: false,
             error: Some(system_firewall::paranoid_blocked_message().to_string()),
         })));
     }
 
     match get_latest_system(is_preview_enabled(), &state.config).await {
         Ok(latest) => {
-            let update_available = system_update_is_newer(&current, &latest);
+            let app_requirement_error = application_requirement_error(&latest);
+            let update_available =
+                app_requirement_error.is_none() && system_update_is_newer(&current, &latest);
             Ok(Json(ApiResponse::ok(SystemCheckRsp {
                 current,
                 latest: Some(latest),
                 update_available,
-                error: None,
+                app_update_required: app_requirement_error.is_some(),
+                error: app_requirement_error,
             })))
         }
         Err(err) => {
@@ -417,6 +432,7 @@ pub async fn check(State(state): State<AppState>) -> Result<impl IntoResponse> {
                 current,
                 latest: None,
                 update_available: false,
+                app_update_required: false,
                 error: Some(err.to_string()),
             })))
         }
@@ -486,6 +502,7 @@ pub async fn download(State(state): State<AppState>) -> Result<impl IntoResponse
     let guard = acquire_update_lock()?;
     let current = read_current_system_version();
     let latest = get_latest_system(is_preview_enabled(), &state.config).await?;
+    enforce_required_application_version(&latest)?;
 
     if latest.target != current.target {
         return Err(AppError::BadRequest(format!(
@@ -797,17 +814,14 @@ async fn enforce_system_metadata_signature(
             "unsupported system update metadata signature algorithm".to_string(),
         ));
     }
-    if !config.paths.system_update_public_key.is_file() {
-        return Err(AppError::Config(format!(
-            "system update public key is not configured: {}",
-            config.paths.system_update_public_key.display()
-        )));
-    }
+    let public_key = resolve_update_public_key(
+        &config.paths.system_update_public_key,
+        &latest.signature_key_id,
+    )?;
 
     let signature_url = metadata_signature_url(metadata_url)?;
     let signature = fetch_system_metadata_signature(&signature_url).await?;
-    verify_system_metadata_signature(metadata, &signature, &config.paths.system_update_public_key)
-        .await
+    verify_system_metadata_signature(metadata, &signature, &public_key).await
 }
 
 async fn fetch_system_metadata_signature(url: &str) -> Result<Vec<u8>> {
@@ -1068,11 +1082,28 @@ fn validate_latest_system(latest: &SystemLatest) -> Result<()> {
             "invalid system update kind".to_string(),
         ));
     }
-    if latest.format != 1 {
-        return Err(AppError::BadRequest(format!(
-            "unsupported system update format: {}",
-            latest.format
-        )));
+    match latest.format {
+        SYSTEM_UPDATE_METADATA_FORMAT_V1 => {
+            if latest.required_app_version.is_some() {
+                return Err(AppError::BadRequest(
+                    "system update metadata v1 cannot require an application version".to_string(),
+                ));
+            }
+        }
+        SYSTEM_UPDATE_METADATA_FORMAT_V2 => {
+            let required = latest.required_app_version.as_deref().ok_or_else(|| {
+                AppError::BadRequest(
+                    "system update metadata v2 requires required_app_version".to_string(),
+                )
+            })?;
+            validate_application_version("required_app_version", required)?;
+        }
+        _ => {
+            return Err(AppError::BadRequest(format!(
+                "unsupported system update format: {}",
+                latest.format
+            )));
+        }
     }
     validate_token("version", &latest.version)?;
     validate_token("target", &latest.target)?;
@@ -1110,6 +1141,39 @@ fn validate_latest_system(latest: &SystemLatest) -> Result<()> {
         ));
     }
 
+    Ok(())
+}
+
+fn validate_application_version(name: &str, version: &str) -> Result<()> {
+    validate_token(name, version)?;
+    if compare_application_versions(version, version).is_none() {
+        return Err(AppError::BadRequest(format!("{name} must be semver x.y.z")));
+    }
+    Ok(())
+}
+
+fn application_requirement_error(latest: &SystemLatest) -> Option<String> {
+    let current = current_app_version();
+    application_requirement_error_for(&current, latest)
+}
+
+fn application_requirement_error_for(current: &str, latest: &SystemLatest) -> Option<String> {
+    let required = latest.required_app_version.as_deref()?;
+    match compare_application_versions(current, required) {
+        Some(Ordering::Less) => Some(format!(
+            "application update required: current {current}, required {required}"
+        )),
+        Some(_) => None,
+        None => Some(format!(
+            "cannot compare application versions: current {current}, required {required}"
+        )),
+    }
+}
+
+fn enforce_required_application_version(latest: &SystemLatest) -> Result<()> {
+    if let Some(error) = application_requirement_error(latest) {
+        return Err(AppError::BadRequest(error));
+    }
     Ok(())
 }
 
@@ -1173,6 +1237,7 @@ fn install_staged_update(stage_dir: &Path, config: &Config) -> Result<SystemPend
     let record = read_stage_record(stage_dir)?
         .ok_or_else(|| AppError::BadRequest("no staged system update".to_string()))?;
     validate_latest_system(&record.latest)?;
+    enforce_required_application_version(&record.latest)?;
 
     let archive = stage_dir.join(&record.latest.name);
     if !archive.is_file() {
@@ -2241,7 +2306,16 @@ fn validate_system_manifest(
 }
 
 fn validate_manifest_shape(manifest: &SystemManifest, latest: &SystemLatest) -> Result<()> {
-    if manifest.format != "hardened-nanokvm-system-update-v1" {
+    let expected_format = match latest.format {
+        SYSTEM_UPDATE_METADATA_FORMAT_V1 => SYSTEM_UPDATE_MANIFEST_FORMAT_V1,
+        SYSTEM_UPDATE_METADATA_FORMAT_V2 => SYSTEM_UPDATE_MANIFEST_FORMAT_V2,
+        _ => {
+            return Err(AppError::BadRequest(
+                "unsupported system update metadata format".to_string(),
+            ));
+        }
+    };
+    if manifest.format != expected_format {
         return Err(AppError::BadRequest(
             "unsupported system update manifest format".to_string(),
         ));
@@ -2254,6 +2328,11 @@ fn validate_manifest_shape(manifest: &SystemManifest, latest: &SystemLatest) -> 
     if manifest.target != latest.target {
         return Err(AppError::BadRequest(
             "system update manifest target mismatch".to_string(),
+        ));
+    }
+    if manifest.required_app_version != latest.required_app_version {
+        return Err(AppError::BadRequest(
+            "system update manifest required application version mismatch".to_string(),
         ));
     }
     validate_token("manifest version", &manifest.version)?;
@@ -2464,6 +2543,7 @@ fn staged_summary(record: &SystemStageRecord) -> SystemStagedUpdate {
         base_version: record.manifest.base_version.clone(),
         kernel_version: record.manifest.kernel_version.clone(),
         security_patch_level: non_empty(record.manifest.security_patch_level.clone()),
+        required_app_version: record.latest.required_app_version.clone(),
         required_free_bytes: record.manifest.required_free_bytes,
         requires_reboot: record.manifest.requires_reboot,
         file_count: record.manifest.files.len() + image_count,
@@ -3381,6 +3461,7 @@ mod tests {
             url: "https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-0.1.0/hardened-nanokvm-system-0.1.0.tar.gz".to_string(),
             release_notes_url: "https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.1.0".to_string(),
             security_patch_level: None,
+            required_app_version: None,
             signature_algorithm: SYSTEM_UPDATE_SIGNATURE_ALGORITHM.to_string(),
             signature_key_id: "hardened-system-test".to_string(),
         }
@@ -3394,6 +3475,7 @@ mod tests {
             base_version: "2025-02-17-19-08-3649fe.img".to_string(),
             kernel_version: "5.10.4-tag-".to_string(),
             security_patch_level: None,
+            required_app_version: None,
             source_commit: "abcdef1".to_string(),
             created_utc: "2026-06-28T00:00:00Z".to_string(),
             required_free_bytes: 67_108_864,
@@ -3416,6 +3498,7 @@ mod tests {
             base_version: "2025-02-17-19-08-3649fe.img".to_string(),
             kernel_version: "5.10.4-tag-hardened.1".to_string(),
             security_patch_level: None,
+            required_app_version: None,
             source_commit: "abcdef1".to_string(),
             created_utc: "2026-06-28T00:00:00Z".to_string(),
             required_free_bytes: 2_147_483_648,
@@ -3459,6 +3542,59 @@ mod tests {
     }
 
     #[test]
+    fn validates_system_metadata_v2_with_required_application_version() {
+        let mut latest = valid_latest();
+        latest.format = SYSTEM_UPDATE_METADATA_FORMAT_V2;
+        latest.required_app_version = Some("2.0.41".to_string());
+        let mut manifest = valid_raw_manifest();
+        latest.version = manifest.version.clone();
+        latest.name = format!("hardened-nanokvm-system-{}.tar.gz", latest.version);
+        latest.url = format!(
+            "https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-{0}/hardened-nanokvm-system-{0}.tar.gz",
+            latest.version
+        );
+        latest.release_notes_url = format!(
+            "https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-{}",
+            latest.version
+        );
+        manifest.format = SYSTEM_UPDATE_MANIFEST_FORMAT_V2.to_string();
+        manifest.required_app_version = latest.required_app_version.clone();
+
+        validate_latest_system(&latest).unwrap();
+        validate_manifest_shape(&manifest, &latest).unwrap();
+        assert!(application_requirement_error_for("2.0.40", &latest).is_some());
+        assert!(application_requirement_error_for("2.0.41", &latest).is_none());
+        assert!(application_requirement_error_for("2.1.0", &latest).is_none());
+    }
+
+    #[test]
+    fn rejects_ambiguous_or_invalid_required_application_versions() {
+        let mut latest = valid_latest();
+        latest.format = SYSTEM_UPDATE_METADATA_FORMAT_V2;
+        assert!(validate_latest_system(&latest).is_err());
+
+        latest.required_app_version = Some("2.0".to_string());
+        assert!(validate_latest_system(&latest).is_err());
+
+        latest.format = SYSTEM_UPDATE_METADATA_FORMAT_V1;
+        latest.required_app_version = Some("2.0.41".to_string());
+        assert!(validate_latest_system(&latest).is_err());
+    }
+
+    #[test]
+    fn rejects_manifest_required_application_version_mismatch() {
+        let mut latest = valid_latest();
+        latest.format = SYSTEM_UPDATE_METADATA_FORMAT_V2;
+        latest.required_app_version = Some("2.0.41".to_string());
+        let mut manifest = valid_raw_manifest();
+        latest.version = manifest.version.clone();
+        manifest.format = SYSTEM_UPDATE_MANIFEST_FORMAT_V2.to_string();
+        manifest.required_app_version = Some("2.0.42".to_string());
+
+        assert!(validate_manifest_shape(&manifest, &latest).is_err());
+    }
+
+    #[test]
     fn rejects_untrusted_system_update_url() {
         let latest = SystemLatest {
             kind: "hardened-nanokvm-system-update".to_string(),
@@ -3475,6 +3611,7 @@ mod tests {
                 "https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.1.0"
                     .to_string(),
             security_patch_level: None,
+            required_app_version: None,
             signature_algorithm: SYSTEM_UPDATE_SIGNATURE_ALGORITHM.to_string(),
             signature_key_id: "hardened-system-test".to_string(),
         };
@@ -3853,6 +3990,7 @@ mod tests {
             base_version: "2025-02-17-19-08-3649fe.img".to_string(),
             kernel_version: "5.10.4-tag-hardened.1".to_string(),
             security_patch_level: None,
+            required_app_version: None,
             source_commit: "abcdef1".to_string(),
             created_utc: "2026-06-28T00:00:00Z".to_string(),
             required_free_bytes: 2_147_483_648,
@@ -3897,6 +4035,7 @@ mod tests {
             base_version: "2025-02-17-19-08-3649fe.img".to_string(),
             kernel_version: "5.10.4-tag-hardened.1".to_string(),
             security_patch_level: None,
+            required_app_version: None,
             source_commit: "abcdef1".to_string(),
             created_utc: "2026-06-28T00:00:00Z".to_string(),
             required_free_bytes: 805_306_368,
@@ -3938,6 +4077,7 @@ mod tests {
             base_version: "2025-02-17-19-08-3649fe.img".to_string(),
             kernel_version: "5.10.4-tag-hardened.1".to_string(),
             security_patch_level: None,
+            required_app_version: None,
             source_commit: "abcdef1".to_string(),
             created_utc: "2026-06-28T00:00:00Z".to_string(),
             required_free_bytes: 2_147_483_648,

@@ -33,7 +33,7 @@ VENDOR_SDK_INSPECTION ?= build/vendor-upgrade-inspection.json
 RAW_SYSTEM_UPDATE_BOOT ?= $(RAW_SYSTEM_UPDATE_IMAGE_DIR)/boot.vfat
 RAW_SYSTEM_UPDATE_ROOTFS ?= $(RAW_SYSTEM_UPDATE_IMAGE_DIR)/rootfs.sd
 
-.PHONY: help check-root builder-image rebuild-image check-image shell rust-app web-app rust-kvmapp sd-image raw-system-update-images vendor-sdk vendor-sdk-stock vendor-sdk-inspect latest-buildroot-bootstrap latest-buildroot-config-probe latest-buildroot-sg2002-configure latest-buildroot-sg2002-rootfs latest-buildroot-sg2002-sd-image latest-buildroot-sg2002-raw-update system-update-bundle raw-system-update-bundle system-update-metadata support all clean
+.PHONY: help check-root builder-image rebuild-image check-image shell rust-app web-app rust-kvmapp sd-image raw-system-update-images vendor-sdk vendor-sdk-stock vendor-sdk-inspect latest-buildroot-bootstrap latest-buildroot-config-probe latest-buildroot-sg2002-configure latest-buildroot-sg2002-rootfs latest-buildroot-sg2002-sd-image latest-buildroot-sg2002-raw-update system-update-bundle raw-system-update-bundle system-update-metadata test-system-update-v2 support all clean
 
 # Default target
 all: rust-kvmapp support
@@ -65,6 +65,7 @@ help:
 	@echo "  system-update-bundle   - Package a staged system-update payload"
 	@echo "  raw-system-update-bundle - Package experimental raw boot/rootfs images"
 	@echo "  system-update-metadata - Generate GitHub latest JSON for the system bundle"
+	@echo "  test-system-update-v2 - Test metadata/manifest v2 and minimum-app enforcement artifacts"
 	@echo "  support       - Build hardware support libraries"
 	@echo "  all           - Build Rust kvmapp and support (default)"
 	@echo "  clean         - Clean build artifacts"
@@ -179,6 +180,9 @@ raw-system-update-bundle: raw-system-update-images
 
 system-update-metadata:
 	@scripts/create-system-update-metadata.sh "$(SYSTEM_UPDATE_VERSION)" "$(SYSTEM_UPDATE_TAG)" "$(SYSTEM_UPDATE_OUT)/hardened-nanokvm-system-$(SYSTEM_UPDATE_VERSION).tar.gz" "$(SYSTEM_UPDATE_OUT)/system-latest.json"
+
+test-system-update-v2:
+	@scripts/test-system-update-v2.sh
 
 # Build hardware support libraries
 support: check-root builder-image
