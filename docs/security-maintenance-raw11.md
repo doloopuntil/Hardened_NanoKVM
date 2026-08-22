@@ -42,6 +42,13 @@ The format-2 implementation and tests are committed as `d5f480f`.
 | empty clean-image root password | Lock root until first web provisioning. | Defconfig disables `BR2_TARGET_ENABLE_ROOT_LOGIN`, making Buildroot write the literal `*` lock marker; rootfs validator checks `/etc/shadow`. First-login web/SSH synchronization remains a device gate. |
 | non-reproducible userspace | Enable Buildroot reproducible mode, pin ext4 UUID/hash seed, and remove build-host metadata leaks before comparing independent builds. | Defconfig uses deterministic UUID/hash seed `23df1b1c-cbf0-5e1c-b42b-de68dec5ad95`; the post-build sanitizer removes internal `.files-list*` snapshots and path-bearing GDB helpers. Final byte comparison remains. |
 
+The Buildroot VEX entries live in `buildroot-external/hardened-sg2002/external.mk`.
+They cover only the three patched BusyBox findings, the already-fixed exact
+util-linux source, three non-applicable OpenSSH product/configuration matches,
+and the AArch64-only GCC match. Avahi `CVE-2025-59529` deliberately remains in
+pkg-stats because raw.11 mitigates its reachable local socket but does not
+backport an upstream code fix.
+
 ## Build Inputs And Guardrails
 
 `scripts/prepare-buildroot-2026.05.1-security-source.sh` starts only from the
