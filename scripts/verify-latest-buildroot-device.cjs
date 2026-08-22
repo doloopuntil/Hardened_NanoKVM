@@ -226,6 +226,7 @@ async function main() {
   const repairPasswords = process.argv.includes('--repair-passwords');
   const repairSshPolicy = process.argv.includes('--repair-ssh-policy');
   const diagnoseSshPolicyOnly = process.argv.includes('--diagnose-ssh-policy-only');
+  const disableRawAfterVerify = process.env.DISABLE_RAW_UPDATES_AFTER_VERIFY === '1';
   fs.mkdirSync(resultDir, { recursive: true, mode: 0o700 });
   fs.writeFileSync(reportPath, '', { mode: 0o600 });
   const password = await readSecret();
@@ -513,6 +514,24 @@ sshd -T | grep -E '^(permitrootlogin|passwordauthentication|kbdinteractiveauthen
       || fields.get('TMP_SERVER_DL_LIB') !== 'absent'
     ) {
       fail('postflight native library provenance mismatch');
+    }
+    if (disableRawAfterVerify) {
+      const disabled = await api(
+        context,
+        csrfToken,
+        '/api/system-update/raw-enabled',
+        'POST',
+        { enabled: false },
+      );
+      if (disabled.status >= 400 || disabled.json?.code !== 0) {
+        fail(`failed to disable raw updates: ${disabled.json?.msg ?? disabled.status}`);
+      }
+      const rawAfter = requireApiOk(
+        await api(context, csrfToken, '/api/system-update/raw-enabled'),
+        'raw update flag after disable',
+      );
+      if (rawAfter.enabled !== false) fail('raw updates remained enabled after disable');
+      step('raw_updates_disabled_after_verify=yes');
     }
     step('SUCCESS: candidate boot and core runtime verified');
   } finally {
