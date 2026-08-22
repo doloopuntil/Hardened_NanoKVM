@@ -10,6 +10,7 @@ EXPECTED_HOSTNAME="secondary"
 EXPECTED_ROOTFS_BYTES=1610612736
 EXPECTED_BOOT_BYTES=16777216
 EXPECTED_REQUIRED_FREE_BYTES=671088640
+EXPECTED_ED25519="SHA256:IZackVzmTMVDUGZJ8YsaqK7eUe1nGy+aVRKlVMxnqs4"
 
 PROFILE="${1:-}"
 shift || true
@@ -55,6 +56,7 @@ RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
 RESULT_DIR="$ROOT/build/latestbuildroot/device-tests/$VERSION-$TARGET_IP-$RUN_ID"
 REPORT="$RESULT_DIR/report.txt"
 WORK="$RESULT_DIR/work"
+KNOWN_HOSTS="$RESULT_DIR/known_hosts"
 
 if [[ "${1:-}" != "--confirm-device" || "${2:-}" != "$TARGET_IP" ]]; then
 	printf 'refusing destructive deployment: pass --confirm-device %s\n' "$TARGET_IP" >&2
@@ -90,12 +92,19 @@ for path in "$ARCHIVE" "$METADATA" "$SIGNATURE" "$PUBLIC_KEY" "$SSHPASS" "$JQ"; 
 done
 [[ -x "$SSHPASS" ]] || fail "sshpass is not executable"
 
+step "pinning the physically confirmed SSH host key"
+/usr/bin/ssh-keyscan -T 5 -t ed25519 "$TARGET_IP" >"$KNOWN_HOSTS" 2>/dev/null || fail "SSH host key scan failed"
+fingerprints="$(/usr/bin/ssh-keygen -lf "$KNOWN_HOSTS")"
+[[ "$fingerprints" == *"$EXPECTED_ED25519 $TARGET_IP (ED25519)"* ]] || fail "unexpected SSH host fingerprint"
+unset fingerprints
+
 SSH_OPTIONS=(
 	-o ConnectTimeout=10
 	-o ConnectionAttempts=1
 	-o PreferredAuthentications=password,keyboard-interactive
 	-o PubkeyAuthentication=no
 	-o StrictHostKeyChecking=yes
+	-o "UserKnownHostsFile=$KNOWN_HOSTS"
 )
 
 with_password() {
