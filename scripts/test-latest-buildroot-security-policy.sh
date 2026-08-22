@@ -8,6 +8,7 @@ PREPARE="$ROOT/scripts/prepare-buildroot-2026.05.1-security-source.sh"
 VENDOR_MK="$ROOT/buildroot-external/hardened-sg2002/package/hardened-sg2002-vendor-runtime/hardened-sg2002-vendor-runtime.mk"
 PACKAGE_SCRIPT="$ROOT/scripts/package-rust-kvmapp.sh"
 AVAHI_CONFIG="$ROOT/buildroot-external/hardened-sg2002/board/sg2002/overlay/etc/avahi/avahi-daemon.conf"
+POST_BUILD="$ROOT/buildroot-external/hardened-sg2002/board/sg2002/post-build.sh"
 
 require_line() {
 	line=$1
@@ -39,6 +40,7 @@ verify_prepare_hash() {
 require_line 'BR2_REPRODUCIBLE=y' "$DEFCONFIG"
 require_line '# BR2_TARGET_ENABLE_ROOT_LOGIN is not set' "$DEFCONFIG"
 reject_text 'BR2_TARGET_GENERIC_ROOT_PASSWD=' "$DEFCONFIG"
+require_line 'BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_HARDENED_SG2002_PATH)/board/sg2002/post-build.sh"' "$DEFCONFIG"
 require_line '# BR2_PACKAGE_LIBOPENSSL_ENABLE_QUIC is not set' "$DEFCONFIG"
 require_line '# BR2_PACKAGE_HOSTAPD_DRIVER_HOSTAP is not set' "$DEFCONFIG"
 require_line 'BR2_PACKAGE_HOSTAPD_DRIVER_NL80211=y' "$DEFCONFIG"
@@ -50,6 +52,9 @@ reject_text 'clients-max=' "$AVAHI_CONFIG"
 require_line 'rlimit-nofile=256' "$AVAHI_CONFIG"
 
 test ! -e "$ROOT/kvmapp/system/init.d/S80dnsmasq"
+test -x "$POST_BUILD"
+grep -Fq -- "-name '.files-list*'" "$POST_BUILD"
+grep -Fq -- "-name '*-gdb.py'" "$POST_BUILD"
 test -f "$ROOT/kvmapp/system/keys/update-keys/README.md"
 test -f "$PATCH_ROOT/libopenssl/3.6.3/0001-CVE-2026-54876-fix-OCSP-response-leak.patch"
 test -f "$PATCH_ROOT/busybox/1.38.0/0012-CVE-2026-38753-fix-awk-sub-use-after-free.patch"

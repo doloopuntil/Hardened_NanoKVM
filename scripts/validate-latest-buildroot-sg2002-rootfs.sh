@@ -128,6 +128,10 @@ reject_path /kvmapp/system/init.d/S80dnsmasq
 reject_path /kvmapp/server/dl_lib/libz.so
 reject_path /kvmapp/server/dl_lib/libz.so.1
 reject_path /kvmapp/server/dl_lib/libz.so.1.3
+reject_path /kvmapp/.files-list.before
+reject_path /usr/lib/firmware/aic8800_sdio/.files-list.before
+reject_path /usr/share/fw_vcodec/.files-list.before
+reject_path /usr/lib/libstdc++.so.6.0.33-gdb.py
 
 SHADOW_FILE="$TMP_DIR/shadow"
 debugfs -R "dump /etc/shadow $SHADOW_FILE" "$IMAGE" >/dev/null 2>&1 || \

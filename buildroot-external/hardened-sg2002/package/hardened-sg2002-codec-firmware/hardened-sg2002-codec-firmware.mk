@@ -13,6 +13,7 @@ HARDENED_SG2002_CODEC_FIRMWARE_REDISTRIBUTE = NO
 define HARDENED_SG2002_CODEC_FIRMWARE_INSTALL_TARGET_CMDS
 	$(INSTALL) -d $(TARGET_DIR)/usr/share/fw_vcodec
 	cp -a $(@D)/. $(TARGET_DIR)/usr/share/fw_vcodec/
+	rm -f $(TARGET_DIR)/usr/share/fw_vcodec/.files-list*
 endef
 
 $(eval $(generic-package))

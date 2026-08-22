@@ -22,6 +22,7 @@ define HARDENED_NANOKVM_KVMAPP_INSTALL_TARGET_CMDS
 	$(INSTALL) -d $(TARGET_DIR)/kvmapp $(TARGET_DIR)/etc/kvm \
 		$(TARGET_DIR)/etc/init.d $(TARGET_DIR)/mnt/data
 	cp -a $(@D)/. $(TARGET_DIR)/kvmapp/
+	rm -f $(TARGET_DIR)/kvmapp/.files-list*
 	printf 'rust\n' > $(TARGET_DIR)/etc/kvm/backend
 	chmod 0644 $(TARGET_DIR)/etc/kvm/backend
 	for name in S00kmod S01fs S01syslogd S02klogd S03usbdev S15kvmhwd \

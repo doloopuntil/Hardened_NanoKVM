@@ -13,6 +13,7 @@ HARDENED_AIC8800_SDIO_FIRMWARE_REDISTRIBUTE = NO
 define HARDENED_AIC8800_SDIO_FIRMWARE_INSTALL_TARGET_CMDS
 	$(INSTALL) -d $(TARGET_DIR)/usr/lib/firmware/aic8800_sdio
 	cp -a $(@D)/. $(TARGET_DIR)/usr/lib/firmware/aic8800_sdio/
+	rm -f $(TARGET_DIR)/usr/lib/firmware/aic8800_sdio/.files-list*
 endef
 
 $(eval $(generic-package))

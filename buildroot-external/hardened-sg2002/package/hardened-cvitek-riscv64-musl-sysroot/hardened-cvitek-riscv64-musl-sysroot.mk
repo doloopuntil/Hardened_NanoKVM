@@ -12,6 +12,7 @@ HARDENED_CVITEK_RISCV64_MUSL_SYSROOT_REDISTRIBUTE = NO
 
 define HARDENED_CVITEK_RISCV64_MUSL_SYSROOT_INSTALL_TARGET_CMDS
 	cp -a $(@D)/. $(TARGET_DIR)/
+	rm -f $(TARGET_DIR)/.files-list*
 endef
 
 $(eval $(generic-package))
