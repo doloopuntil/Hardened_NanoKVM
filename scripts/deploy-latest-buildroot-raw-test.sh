@@ -13,6 +13,8 @@ EXPECTED_REQUIRED_FREE_BYTES=671088640
 
 PROFILE="${1:-}"
 shift || true
+EXPECTED_SOURCE_SYSTEM_VERSION=""
+EXPECTED_SOURCE_APP_VERSION=""
 case "$PROFILE" in
 	published-0.2.23)
 		VERSION="0.2.23-raw.1"
@@ -26,8 +28,16 @@ case "$PROFILE" in
 		EXPECTED_ARCHIVE_SHA256="6f551a605ae6e06e1df39f81d349f81e9f8bc34d8b738e5bac56ec328e3e21d0"
 		ARTIFACT_DIR="$ROOT/build/latestbuildroot/raw-system-update-$VERSION/artifacts"
 		;;
+	raw11-lab)
+		VERSION="0.3.0-raw.11"
+		EXPECTED_SOURCE_SYSTEM_VERSION="0.3.0-raw.10"
+		EXPECTED_SOURCE_APP_VERSION="2.0.41"
+		EXPECTED_APP_VERSION="2.0.41"
+		EXPECTED_ARCHIVE_SHA256="c1b8cfad21bc519dba71065d228dd3f2bd057ba5522c12735e5645f8c594ccd3"
+		ARTIFACT_DIR="$ROOT/build/latestbuildroot/raw-system-update-$VERSION-secure-preflight/signed-lab-066770e"
+		;;
 	*)
-		printf 'usage: %s {published-0.2.23|latest-0.3.0} --confirm-device %s\n' "$0" "$TARGET_IP" >&2
+		printf 'usage: %s {published-0.2.23|latest-0.3.0|raw11-lab} --confirm-device %s\n' "$0" "$TARGET_IP" >&2
 		exit 2
 		;;
 esac
@@ -183,6 +193,8 @@ printf "MUSL_LOADER=%s\n" "$(find /lib -maxdepth 1 -name '\''ld-musl-riscv64*.so
 
 [[ "$(field UID)" == "0" ]] || fail "remote SSH user is not root"
 [[ "$(field HOSTNAME)" == "$EXPECTED_HOSTNAME" ]] || fail "unexpected target hostname"
+[[ -z "$EXPECTED_SOURCE_SYSTEM_VERSION" || "$(field SYSTEM_VERSION)" == "$EXPECTED_SOURCE_SYSTEM_VERSION" ]] || fail "unexpected source system version"
+[[ -z "$EXPECTED_SOURCE_APP_VERSION" || "$(field APP_VERSION)" == "$EXPECTED_SOURCE_APP_VERSION" ]] || fail "unexpected source application version"
 [[ "$(field DATA_MOUNT)" == /dev/mmcblk0p3:* ]] || fail "/data is not mounted from mmcblk0p3"
 [[ "$(field BOOT_MOUNT)" == /dev/mmcblk0p1:* ]] || fail "/boot is not mounted from mmcblk0p1"
 [[ "$(field P1_SECTORS)" =~ ^[0-9]+$ && "$(field P1_SECTORS)" -ge 32768 ]] || fail "boot partition is too small"
