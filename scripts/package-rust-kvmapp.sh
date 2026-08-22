@@ -151,6 +151,13 @@ rm -f "$KVMAPP_STAGE/server/dl_lib/libz.so" \
   "$KVMAPP_STAGE/server/dl_lib/libz.so.1" \
   "$KVMAPP_STAGE/server/dl_lib/libz.so.1.3"
 
+for library in libkvm.so libkvm_mmf.so; do
+  if readelf -d "$KVMAPP_STAGE/server/dl_lib/$library" 2>/dev/null | grep -Eq '\((RPATH|RUNPATH)\)'; then
+    echo "$library must not contain a build-host RPATH/RUNPATH" >&2
+    exit 1
+  fi
+done
+
 if [ -d "$WEB_DIST" ]; then
   mkdir -p "$KVMAPP_STAGE/server/web"
   cp -R "$WEB_DIST/." "$KVMAPP_STAGE/server/web/"

@@ -9,6 +9,7 @@ VENDOR_MK="$ROOT/buildroot-external/hardened-sg2002/package/hardened-sg2002-vend
 PACKAGE_SCRIPT="$ROOT/scripts/package-rust-kvmapp.sh"
 AVAHI_CONFIG="$ROOT/buildroot-external/hardened-sg2002/board/sg2002/overlay/etc/avahi/avahi-daemon.conf"
 POST_BUILD="$ROOT/buildroot-external/hardened-sg2002/board/sg2002/post-build.sh"
+KVM_CMAKE="$ROOT/support/sg2002/additional/kvm/CMakeLists.txt"
 
 require_line() {
 	line=$1
@@ -74,6 +75,8 @@ done
 
 grep -Fq 'patch -d "$SOURCE" -p1 --forward --batch -F 0' "$PREPARE"
 grep -Fq 'rm -f "$KVMAPP_STAGE/server/dl_lib/libz.so"' "$PACKAGE_SCRIPT"
+grep -Fq 'must not contain a build-host RPATH/RUNPATH' "$PACKAGE_SCRIPT"
+grep -Fq 'set_target_properties(kvm PROPERTIES SKIP_BUILD_RPATH TRUE)' "$KVM_CMAKE"
 reject_text 'ln -sf libz.so.1.3' "$VENDOR_MK"
 grep -Fq '$(NANOKVM_KVMAPP_SOURCE_DIR)/server/dl_lib/libkvm.so' "$VENDOR_MK"
 grep -Fq '$(NANOKVM_KVMAPP_SOURCE_DIR)/server/dl_lib/libkvm_mmf.so' "$VENDOR_MK"
