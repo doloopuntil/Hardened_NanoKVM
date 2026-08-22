@@ -62,6 +62,9 @@ done
 grep -Fq 'patch -d "$SOURCE" -p1 --forward --batch -F 0' "$PREPARE"
 grep -Fq 'rm -f "$KVMAPP_STAGE/server/dl_lib/libz.so"' "$PACKAGE_SCRIPT"
 reject_text 'ln -sf libz.so.1.3' "$VENDOR_MK"
+grep -Fq 'vendor-runtime-source-media-v1' "$VENDOR_MK"
+grep -Fq 'vendor-runtime-source-media-v1' \
+	"$ROOT/scripts/build-latest-buildroot-sg2002-rootfs.sh"
 grep -Fq 'SYSTEM_UPDATE_KEY_POLICY=/etc/kvm/update-key-policy' \
 	"$ROOT/kvmapp/system/init.d/S95nanokvm"
 

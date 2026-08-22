@@ -82,7 +82,7 @@
     {
       "name": "sg2002-vendor-runtime",
       "source": "pinned vendor rootfs /mnt/system plus thirteen SHA-256-pinned runtime files",
-      "role": "kernel modules, MMF/tuning assets, and libkvm OpenCV/protobuf dependency closure",
+      "role": "MMF/tuning assets, hardware-accepted source-built media modules, and libkvm OpenCV/protobuf dependency closure",
       "license": "NOASSERTION; staged binary inputs have no repository-level redistribution grant",
       "runtime_files": {
         "libopencv_video.so.4.9.0": "4bda8c165e9e53090cdc783a826c8c61a81ccff3a022bef5f7243a95596f52c7",

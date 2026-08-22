@@ -37,7 +37,9 @@ external tree rather than an untracked local SDK edit. It currently provides:
   application payload, plus the two SHA-256-pinned vendor musl loader names
   and matching private GCC/OpenMP runtime required by the current
   backend/helper binaries. The older vendor zlib is deliberately excluded;
-  the backend resolves Buildroot's maintained system zlib instead;
+  the backend resolves Buildroot's maintained system zlib instead. The three
+  media modules come from the hardware-accepted source-built staging
+  `vendor-runtime-source-media-v1`, not the older extracted vendor binaries;
 - `manifest/vendor-inputs.json`, which records the vendor inputs, immutable
   revisions, archive hashes, intended install paths, and unresolved license or
   BSP status.

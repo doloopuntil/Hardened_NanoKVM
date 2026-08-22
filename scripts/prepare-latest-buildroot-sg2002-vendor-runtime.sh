@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT/build/vendor/LicheeRV-Nano-Build}"
 VENDOR_OUTPUT_DIR="${HARDENED_SG2002_VENDOR_OUTPUT_DIR:-$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd}"
 VENDOR_ROOTFS="${HARDENED_SG2002_VENDOR_ROOTFS:-$VENDOR_OUTPUT_DIR/rawimages/rootfs.sd}"
-OUTPUT_DIR="${NANOKVM_VENDOR_RUNTIME_SOURCE_DIR:-$ROOT/build/latestbuildroot/vendor-runtime}"
+OUTPUT_DIR="${NANOKVM_VENDOR_RUNTIME_SOURCE_DIR:-$ROOT/build/latestbuildroot/vendor-runtime-source-media-v1}"
 SOURCE_MEDIA_DIR="${SOURCE_BUILT_MEDIA_MODULE_DIR:-$ROOT/build/latestbuildroot/source-built-media-modules-5.10.4-v2}"
 
 require_file() {
