@@ -219,6 +219,9 @@ async function main() {
   } catch {}
   context = await waitCycle(context, 'clean_reboot');
   csrfToken = await login(context, password);
+  const updateCheck = await api(context, csrfToken, '/api/system-update/check');
+  if (updateCheck.error) fail(`post-reboot system update check failed: ${updateCheck.error}`);
+  step('online_system_update_check=ok');
 
   const state = await ssh(password, `set -eu
 printf 'SYSTEM=%s\\n' "$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\\([^"]*\\)".*/\\1/p' /etc/kvm/system-version.json | head -n 1)"
