@@ -206,8 +206,8 @@ printf 'APP=%s\\n' "$(cat /kvmapp/version)"
 printf 'BACKEND_DISK=%s\\n' "$(sha256sum /kvmapp/server/NanoKVM-Server | awk '{print $1}')"
 printf 'BACKEND_RUNTIME=%s\\n' "$(sha256sum /tmp/server/NanoKVM-Server | awk '{print $1}')"
 printf 'LIBKVM_DISK=%s\\n' "$(sha256sum /kvmapp/server/dl_lib/libkvm.so | awk '{print $1}')"
-printf 'LIBKVM_RUNTIME=%s\\n' "$(sha256sum /tmp/server/dl_lib/libkvm.so | awk '{print $1}')"
-printf 'LIBKVM_MMF=%s\\n' "$(sha256sum /tmp/server/dl_lib/libkvm_mmf.so | awk '{print $1}')"
+printf 'LIBKVM_MMF_DISK=%s\\n' "$(sha256sum /kvmapp/server/dl_lib/libkvm_mmf.so | awk '{print $1}')"
+printf 'TMP_SERVER_DL_LIB=%s\\n' "$([ -e /tmp/server/dl_lib ] && echo present || echo absent)"
 SYSLOG_PID="$(cat /var/run/syslogd.pid 2>/dev/null || true)"
 printf 'REMOTE_SYSLOG=%s\\n' "$(tr '\\0' ' ' < "/proc/$SYSLOG_PID/cmdline" | grep -Fq -- '-R ${REMOTE_SYSLOG}' && echo active || echo missing)"
 PATTERN='oops|panic|segfault|BUG:|module_put|fail to allocate ion|Invalid buffer|already inited|Unknown symbol|disagrees about version|invalid module format|VPSS.*(fail|error)|VENC.*(fail|error)'
@@ -220,8 +220,8 @@ printf 'DMESG_ALERT_LINES_END\\n'
   for (const expected of [
     `SYSTEM=${SYSTEM_VERSION}`, `APP=${APP_VERSION}`,
     `BACKEND_DISK=${BACKEND_SHA256}`, `BACKEND_RUNTIME=${BACKEND_SHA256}`,
-    `LIBKVM_DISK=${LIBKVM_SHA256}`, `LIBKVM_RUNTIME=${LIBKVM_SHA256}`,
-    `LIBKVM_MMF=${LIBKVM_MMF_SHA256}`, 'REMOTE_SYSLOG=active', 'DMESG_ALERTS=0',
+    `LIBKVM_DISK=${LIBKVM_SHA256}`, `LIBKVM_MMF_DISK=${LIBKVM_MMF_SHA256}`,
+    'TMP_SERVER_DL_LIB=absent', 'REMOTE_SYSLOG=active', 'DMESG_ALERTS=0',
   ]) {
     if (!state.includes(expected)) fail(`post-reboot missing ${expected}`);
   }

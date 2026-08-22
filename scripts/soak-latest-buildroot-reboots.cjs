@@ -196,8 +196,8 @@ printf 'BACKEND_PID=%s\\n' "$BACKEND_PID"
 printf 'BACKEND_DISK_SHA=%s\\n' "$(sha256sum /kvmapp/server/NanoKVM-Server | awk '{print $1}')"
 printf 'BACKEND_RUNTIME_SHA=%s\\n' "$(sha256sum /tmp/server/NanoKVM-Server | awk '{print $1}')"
 printf 'LIBKVM_DISK_SHA=%s\\n' "$(sha256sum /kvmapp/server/dl_lib/libkvm.so | awk '{print $1}')"
-printf 'LIBKVM_RUNTIME_SHA=%s\\n' "$(sha256sum /tmp/server/dl_lib/libkvm.so | awk '{print $1}')"
-printf 'LIBKVM_MMF_SHA=%s\\n' "$(sha256sum /tmp/server/dl_lib/libkvm_mmf.so | awk '{print $1}')"
+printf 'LIBKVM_MMF_DISK_SHA=%s\\n' "$(sha256sum /kvmapp/server/dl_lib/libkvm_mmf.so | awk '{print $1}')"
+printf 'TMP_SERVER_DL_LIB=%s\\n' "$([ -e /tmp/server/dl_lib ] && echo present || echo absent)"
 printf 'KVM_SYSTEM_PID=%s\\n' "$KVM_PID"
 printf 'KVM_SYSTEM_PID_FILE=%s\\n' "$(cat /tmp/kvm-system.pid 2>/dev/null || true)"
 printf 'KVM_SYSTEM_PROCESS_COUNT=%s\\n' "$KVM_PROCESS_COUNT"
@@ -215,7 +215,7 @@ printf 'MODULE_VC_DRIVER=%s\\n' "$(grep -q '^soph_vc_driver ' /proc/modules && e
 printf 'DNS_TOTAL=%s\\n' "$(awk '$1 == \"nameserver\" { count++ } END { print count + 0 }' /etc/resolv.conf)"
 printf 'DNS_UNIQUE=%s\\n' "$(awk '$1 == \"nameserver\" { seen[$2]=1 } END { for (item in seen) count++; print count + 0 }' /etc/resolv.conf)"
 /lib/ld-musl-riscv64v0p7_xthead.so.1 --library-path \
-  /tmp/server/dl_lib:/kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd \
+  /kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd \
   --list /tmp/kvm_system/kvm_system >/tmp/hardened-kvm-system-reboot-soak.txt 2>&1
 printf 'KVM_SYSTEM_LIST_RC=0\\n'
 printf 'KVM_SYSTEM_LOG_ERRORS=%s\\n' "$(grep -Eic 'Error loading|Error relocating|unsupported relocation' /tmp/kvm_system.log 2>/dev/null || true)"
@@ -232,8 +232,8 @@ printf 'DMESG_ALERTS=%s\\n' "$(dmesg 2>/dev/null | grep -Eic 'oops|panic|segfaul
     `KVM_SYSTEM_DISK_SHA=${EXPECTED_KVM_SYSTEM_SHA256}`,
     `KVM_SYSTEM_RUNTIME_SHA=${EXPECTED_KVM_SYSTEM_SHA256}`,
     `LIBKVM_DISK_SHA=${EXPECTED_LIBKVM_SHA256}`,
-    `LIBKVM_RUNTIME_SHA=${EXPECTED_LIBKVM_SHA256}`,
-    `LIBKVM_MMF_SHA=${EXPECTED_LIBKVM_MMF_SHA256}`,
+    `LIBKVM_MMF_DISK_SHA=${EXPECTED_LIBKVM_MMF_SHA256}`,
+    'TMP_SERVER_DL_LIB=absent',
     `S30ETH_SHA=${EXPECTED_S30ETH_SHA256}`, `KVMAPP_S30ETH_SHA=${EXPECTED_S30ETH_SHA256}`,
     `SOPH_VCODEC_SHA=${EXPECTED_SOPH_VCODEC_SHA256}`,
     `SOPH_JPEG_SHA=${EXPECTED_SOPH_JPEG_SHA256}`,

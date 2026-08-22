@@ -42,8 +42,9 @@ server-rust/scripts/build-linked-libkvm.sh
 ```
 
 That script builds with feature `linked-libkvm`, uses the NanoKVM dynamic loader
-`/lib/ld-musl-riscv64xthead.so.1`, and sets RPATH to `$ORIGIN/dl_lib`,
-`/tmp/server/dl_lib`, and `/kvmapp/server/dl_lib`.
+`/lib/ld-musl-riscv64xthead.so.1`, and sets RUNPATH only to the root-owned
+`/kvmapp/server/dl_lib`. S95 may stage the executable itself in a root-created
+`/tmp/server`, but never copies or loads shared libraries from `/tmp`.
 
 Package a deployable `kvmapp` layout with:
 

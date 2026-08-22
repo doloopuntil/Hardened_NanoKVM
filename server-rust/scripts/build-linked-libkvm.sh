@@ -43,8 +43,6 @@ export RUSTFLAGS="-Z unstable-options \
 -C link-arg=$CRT/crtend.o \
 -C link-arg=$CRT/crtn.o \
 -C link-arg=--dynamic-linker=/lib/ld-musl-riscv64xthead.so.1 \
--C link-arg=--rpath=\$ORIGIN/dl_lib \
--C link-arg=--rpath=/tmp/server/dl_lib \
 -C link-arg=--rpath=/kvmapp/server/dl_lib"
 
 cargo build \

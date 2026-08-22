@@ -120,7 +120,7 @@ PROBE=/tmp/hardened-kvm-v0p7-probe
 LOADER=/lib/ld-musl-riscv64v0p7_xthead.so.1
 INSTALLED_HELPER=/tmp/kvm_system/kvm_system
 HELPER=/tmp/hardened-v0p7-kvm_system
-CURRENT=/tmp/server/dl_lib:/kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd
+CURRENT=/kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd
 chmod 0755 "$HELPER"
 rm -rf "$PROBE"
 mkdir -p "$PROBE/dl_lib"

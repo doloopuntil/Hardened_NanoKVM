@@ -12,10 +12,9 @@ WATCHDOG_PID_FILE=/tmp/nanokvm-watchdog.pid
 H264_SAFE_MODE_FILE=/etc/kvm/h264_safe_mode
 SERVER_SOURCE_DIR=/kvmapp/server
 SERVER_RUNTIME_DIR=/tmp/server
-SERVER_RUNTIME_NEW_DIR=/tmp/server.new
 SERVER_LOG=/tmp/nanokvm-server.log
 SERVER_PID_FILE=/tmp/nanokvm-server.pid
-NANOKVM_NATIVE_LIBRARY_PATH=/tmp/server/dl_lib:/kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd
+NANOKVM_NATIVE_LIBRARY_PATH=/kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd
 NANOKVM_XTHEAD_LOADER=/lib/ld-musl-riscv64xthead.so.1
 NANOKVM_V0P7_LOADER=/lib/ld-musl-riscv64v0p7_xthead.so.1
 KVM_SYSTEM_SOURCE_DIR=/kvmapp/kvm_system
@@ -434,15 +433,17 @@ start_server_runtime() {
     server_bin="$SERVER_SOURCE_DIR/NanoKVM-Server"
     tmp_free="$(tmp_available_kb)"
 
-    rm -rf "$SERVER_RUNTIME_NEW_DIR" 2>/dev/null
     if [ -z "$tmp_free" ] || [ "$tmp_free" -gt 20480 ]; then
-        if cp -r "$SERVER_SOURCE_DIR" "$SERVER_RUNTIME_NEW_DIR" 2>/tmp/nanokvm-server-copy.err && [ -x "$SERVER_RUNTIME_NEW_DIR/NanoKVM-Server" ]; then
+        runtime_new="$(mktemp -d /tmp/nanokvm-server.XXXXXX 2>/dev/null || true)"
+        if [ -n "$runtime_new" ] && \
+           install -m 0755 "$server_bin" "$runtime_new/NanoKVM-Server" \
+               2>/tmp/nanokvm-server-copy.err; then
             rm -rf "$SERVER_RUNTIME_DIR" 2>/dev/null
-            mv "$SERVER_RUNTIME_NEW_DIR" "$SERVER_RUNTIME_DIR"
+            mv "$runtime_new" "$SERVER_RUNTIME_DIR"
             server_bin="$SERVER_RUNTIME_DIR/NanoKVM-Server"
         else
             runtime_log "failed to stage NanoKVM-Server in /tmp; running from $SERVER_SOURCE_DIR"
-            rm -rf "$SERVER_RUNTIME_NEW_DIR" 2>/dev/null
+            [ -z "$runtime_new" ] || rm -rf "$runtime_new" 2>/dev/null
         fi
     else
         runtime_log "/tmp has only ${tmp_free} KiB free; running NanoKVM-Server from $SERVER_SOURCE_DIR"

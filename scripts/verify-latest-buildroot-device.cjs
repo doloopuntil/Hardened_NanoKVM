@@ -308,8 +308,8 @@ printf 'KVM_SYSTEM_PID=%s\\n' "$KVM_SYSTEM_PID"
 printf 'BACKEND_DISK_SHA=%s\\n' "$(sha256sum /kvmapp/server/NanoKVM-Server 2>/dev/null | awk '{print $1}')"
 printf 'BACKEND_RUNTIME_SHA=%s\\n' "$(sha256sum /tmp/server/NanoKVM-Server 2>/dev/null | awk '{print $1}')"
 printf 'LIBKVM_DISK_SHA=%s\\n' "$(sha256sum /kvmapp/server/dl_lib/libkvm.so 2>/dev/null | awk '{print $1}')"
-printf 'LIBKVM_RUNTIME_SHA=%s\\n' "$(sha256sum /tmp/server/dl_lib/libkvm.so 2>/dev/null | awk '{print $1}')"
-printf 'LIBKVM_MMF_SHA=%s\\n' "$(sha256sum /tmp/server/dl_lib/libkvm_mmf.so 2>/dev/null | awk '{print $1}')"
+printf 'LIBKVM_MMF_DISK_SHA=%s\\n' "$(sha256sum /kvmapp/server/dl_lib/libkvm_mmf.so 2>/dev/null | awk '{print $1}')"
+printf 'TMP_SERVER_DL_LIB=%s\\n' "$([ -e /tmp/server/dl_lib ] && echo present || echo absent)"
 printf 'WEB_INDEX=%s\\n' "$([ -f /kvmapp/server/web/index.html ] && echo present || echo missing)"
 printf 'RESTORE_DONE=%s\\n' "$([ -f /data/.hardened-kvmcache/system-update/root-restore-done ] && echo present || echo missing)"
 printf 'RAW_MARKER=%s\\n' "$([ -f /data/hardened-system-raw-update-pending.json ] && echo present || echo cleared)"
@@ -454,7 +454,7 @@ sshd -T | grep -E '^(permitrootlogin|passwordauthentication|kbdinteractiveauthen
       'CURL_BIN', 'CA_BUNDLE', 'OPENSSL_BIN', 'DEFAULT_GATEWAY', 'GATEWAY_PING',
       'GITHUB_DNS', 'CRITICAL_MODULES', 'DMESG_ALERTS',
       'BACKEND_DISK_SHA', 'BACKEND_RUNTIME_SHA', 'LIBKVM_DISK_SHA',
-      'LIBKVM_RUNTIME_SHA', 'LIBKVM_MMF_SHA',
+      'LIBKVM_MMF_DISK_SHA', 'TMP_SERVER_DL_LIB',
     ]) {
       step(`${name.toLowerCase()}=${fields.get(name) ?? ''}`);
     }
@@ -502,8 +502,8 @@ sshd -T | grep -E '^(permitrootlogin|passwordauthentication|kbdinteractiveauthen
     }
     if (
       fields.get('LIBKVM_DISK_SHA') !== EXPECTED_LIBKVM_SHA256
-      || fields.get('LIBKVM_RUNTIME_SHA') !== EXPECTED_LIBKVM_SHA256
-      || fields.get('LIBKVM_MMF_SHA') !== EXPECTED_LIBKVM_MMF_SHA256
+      || fields.get('LIBKVM_MMF_DISK_SHA') !== EXPECTED_LIBKVM_MMF_SHA256
+      || fields.get('TMP_SERVER_DL_LIB') !== 'absent'
     ) {
       fail('postflight native library provenance mismatch');
     }

@@ -62,7 +62,7 @@ async function main() {
   fs.writeFileSync(knownHostsPath, keys, { mode: 0o600 });
 
   const command = `set -u
-LIBPATH=/tmp/server/dl_lib:/kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd
+LIBPATH=/kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd
 BACKEND_PID="$(cat /tmp/nanokvm-server.pid)"
 kill -0 "$BACKEND_PID"
 KVM_PID=''
@@ -110,7 +110,7 @@ require_private_map() {
   logical="$1"
   shift
   for name in "$@"; do
-    grep -q "/tmp/server/dl_lib/$name" "/proc/$BACKEND_PID/maps" && return 0
+    grep -q "/kvmapp/server/dl_lib/$name" "/proc/$BACKEND_PID/maps" && return 0
   done
   printf 'MISSING_PRIVATE_MAP=%s\\n' "$logical"
 }
@@ -123,7 +123,7 @@ require_private_map protobuf libprotobuf.so.32.0.12 libprotobuf.so.32
 if ! grep -q '/usr/lib/libz.so.1.3.2' "/proc/$BACKEND_PID/maps"; then
   printf 'MISSING_SYSTEM_MAP=libz\n'
 fi
-if grep -q '/\(tmp/server\|kvmapp/server\)/dl_lib/libz.so' "/proc/$BACKEND_PID/maps"; then
+if grep -q '/kvmapp/server/dl_lib/libz.so' "/proc/$BACKEND_PID/maps"; then
   printf 'PRIVATE_ZLIB_MAP=present\n'
 fi
 if grep -Eiq 'not found|Error loading shared library' /tmp/nanokvm-server.log; then

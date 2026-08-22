@@ -114,7 +114,10 @@ Completed locally:
 - application staging proof that an existing vendor-runtime directory cannot
   reintroduce `libz.so.1.3`;
 - exact SHA identity for the Rust server and hwmon between the app archive
-  staging and Buildroot rootfs; Buildroot is forbidden from re-stripping them;
+  staging and Buildroot rootfs; Buildroot is forbidden from re-stripping them,
+  and post-build restores the single reviewed root-owned `/kvmapp` RUNPATH
+  after Buildroot's generic target RPATH sanitizer; `/tmp` is not a dynamic
+  library search location;
 - static ABI proof that Buildroot zlib `1.3.2` exports every zlib symbol needed
   by the vendor protobuf closure;
 - two independent full Buildroot outputs with byte-identical ext4 and tar

@@ -472,8 +472,8 @@ printf 'BOOT_GOOD=%s\\n' "$([ -e /etc/kvm/system-update-boot-good.json ] && echo
 printf 'KVM_SYSTEM_DISK_SHA=%s\\n' "$(sha256sum /kvmapp/kvm_system/kvm_system | awk '{print $1}')"
 printf 'KVM_SYSTEM_RUNTIME_SHA=%s\\n' "$(sha256sum /tmp/kvm_system/kvm_system | awk '{print $1}')"
 printf 'LIBKVM_DISK_SHA=%s\\n' "$(sha256sum /kvmapp/server/dl_lib/libkvm.so | awk '{print $1}')"
-printf 'LIBKVM_RUNTIME_SHA=%s\\n' "$(sha256sum /tmp/server/dl_lib/libkvm.so | awk '{print $1}')"
-printf 'LIBKVM_MMF_SHA=%s\\n' "$(sha256sum /tmp/server/dl_lib/libkvm_mmf.so | awk '{print $1}')"
+printf 'LIBKVM_MMF_DISK_SHA=%s\\n' "$(sha256sum /kvmapp/server/dl_lib/libkvm_mmf.so | awk '{print $1}')"
+printf 'TMP_SERVER_DL_LIB=%s\\n' "$([ -e /tmp/server/dl_lib ] && echo present || echo absent)"
 printf 'S30ETH_SHA=%s\\n' "$(sha256sum /etc/init.d/S30eth | awk '{print $1}')"
 printf 'KVMAPP_S30ETH_SHA=%s\\n' "$(sha256sum /kvmapp/system/init.d/S30eth | awk '{print $1}')"
 printf 'SOPH_VCODEC_SHA=%s\\n' "$(sha256sum /mnt/system/ko/soph_vcodec.ko | awk '{print $1}')"
@@ -512,7 +512,7 @@ else
   printf 'KVM_SYSTEM_THREADS=0\\n'
 fi
 /lib/ld-musl-riscv64v0p7_xthead.so.1 --library-path \
-  /tmp/server/dl_lib:/kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd \
+  /kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd \
   --list /tmp/kvm_system/kvm_system >/tmp/hardened-kvm-system-postflight.txt 2>&1
 printf 'KVM_SYSTEM_LIST_RC=0\\n'
 	printf 'KVM_SYSTEM_LOG_ERRORS=%s\\n' "$(grep -Eic 'Error loading|Error relocating|unsupported relocation' /tmp/kvm_system.log 2>/dev/null || true)"
@@ -527,8 +527,8 @@ printf 'KVM_SYSTEM_LIST_RC=0\\n'
     'RAW_MARKER=cleared', 'BOOT_GOOD=present',
     `KVM_SYSTEM_DISK_SHA=${KVM_SYSTEM_SHA256}`,
 	`KVM_SYSTEM_RUNTIME_SHA=${KVM_SYSTEM_SHA256}`,
-	`LIBKVM_DISK_SHA=${LIBKVM_SHA256}`, `LIBKVM_RUNTIME_SHA=${LIBKVM_SHA256}`,
-	`LIBKVM_MMF_SHA=${LIBKVM_MMF_SHA256}`,
+	`LIBKVM_DISK_SHA=${LIBKVM_SHA256}`, `LIBKVM_MMF_DISK_SHA=${LIBKVM_MMF_SHA256}`,
+	'TMP_SERVER_DL_LIB=absent',
 	`S30ETH_SHA=${S30ETH_SHA256}`, `KVMAPP_S30ETH_SHA=${S30ETH_SHA256}`,
 	`SOPH_VCODEC_SHA=${SOPH_VCODEC_SHA256}`, `SOPH_JPEG_SHA=${SOPH_JPEG_SHA256}`,
 	`SOPH_VC_DRIVER_SHA=${SOPH_VC_DRIVER_SHA256}`,
