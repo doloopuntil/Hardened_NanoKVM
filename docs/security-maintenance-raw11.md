@@ -39,7 +39,7 @@ The format-2 implementation and tests are committed as `d5f480f`.
 | dnsmasq 2.92rel2 | Remove the unused package and init script. | Defconfig, packaged init tree, and rootfs validator reject dnsmasq; final rootfs inspection remains. |
 | hostapd 2.11 / CVE-2026-58374 | Update to 2.12 and remove compile-time 802.11be/MLO support. | Strict no-fuzz recipe patches and minimal nl80211 defconfig are tracked; tarball/build/AP tests remain. |
 | Avahi CVE-2025-59529 | Restrict the local simple-protocol socket to root and bound daemon resources. | Overlay sets `RLIMIT_NOFILE`, no reflector/wide-area publishing; init chmods the socket to `0600`. `clients-max` is deliberately absent because this no-D-Bus build rejects that D-Bus-only setting. This is a threat-model mitigation, not an upstream code fix; verify daemon startup and socket permissions after boot. |
-| empty clean-image root password | Lock root until first web provisioning. | Defconfig uses `BR2_TARGET_GENERIC_ROOT_PASSWD="*"`; rootfs validator checks `/etc/shadow`. First-login web/SSH synchronization remains a device gate. |
+| empty clean-image root password | Lock root until first web provisioning. | Defconfig disables `BR2_TARGET_ENABLE_ROOT_LOGIN`, making Buildroot write the literal `*` lock marker; rootfs validator checks `/etc/shadow`. First-login web/SSH synchronization remains a device gate. |
 | non-reproducible userspace | Enable Buildroot reproducible mode and compare independent builds. | Defconfig is enabled; two clean full builds and hash comparison remain. |
 
 ## Build Inputs And Guardrails

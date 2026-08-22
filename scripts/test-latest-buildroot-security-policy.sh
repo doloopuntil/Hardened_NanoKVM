@@ -37,7 +37,8 @@ verify_prepare_hash() {
 }
 
 require_line 'BR2_REPRODUCIBLE=y' "$DEFCONFIG"
-require_line 'BR2_TARGET_GENERIC_ROOT_PASSWD="*"' "$DEFCONFIG"
+require_line '# BR2_TARGET_ENABLE_ROOT_LOGIN is not set' "$DEFCONFIG"
+reject_text 'BR2_TARGET_GENERIC_ROOT_PASSWD=' "$DEFCONFIG"
 require_line '# BR2_PACKAGE_LIBOPENSSL_ENABLE_QUIC is not set' "$DEFCONFIG"
 require_line '# BR2_PACKAGE_HOSTAPD_DRIVER_HOSTAP is not set' "$DEFCONFIG"
 require_line 'BR2_PACKAGE_HOSTAPD_DRIVER_NL80211=y' "$DEFCONFIG"
