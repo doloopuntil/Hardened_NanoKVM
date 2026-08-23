@@ -109,11 +109,16 @@ make -j"$JOBS" -C "$KERNEL_SOURCE" O="$OUTPUT_DIR" Image modules dtbs
 
 CVITEK_DTB_DIR="$OUTPUT_DIR/arch/riscv/boot/dts/cvitek"
 CVITEK_DTS_DIR="$KERNEL_SOURCE/arch/riscv/boot/dts/cvitek"
+DEFAULT_DTS_DIR="$VENDOR_SDK_DIR/build/boards/default/dts/sg200x"
 DTC_INCLUDE_DIR="$KERNEL_SOURCE/scripts/dtc/include-prefixes"
 DTC="$OUTPUT_DIR/scripts/dtc/dtc"
 require_file "$DTC"
+require_dir "$DEFAULT_DTS_DIR"
 mkdir -p "$CVITEK_DTB_DIR"
 : > "$REPORT_DIR/board-dts-sha256.txt"
+find "$DEFAULT_DTS_DIR" -maxdepth 1 -type f -name '*.dtsi' -print0 | \
+	LC_ALL=C sort -z | xargs -0 sha256sum \
+	> "$REPORT_DIR/default-board-dtsi-sha256.txt"
 
 for board in sg2000_duo_sd sg2002_duo_sd sg2002_licheervnano_sd
 do
@@ -123,11 +128,11 @@ do
 	require_file "$board_dts"
 	sha256sum "$board_dts" >> "$REPORT_DIR/board-dts-sha256.txt"
 	"$HOST_CPP" -E -nostdinc \
-		-I"$CVITEK_DTS_DIR" -I"$DTC_INCLUDE_DIR" \
+		-I"$DEFAULT_DTS_DIR" -I"$CVITEK_DTS_DIR" -I"$DTC_INCLUDE_DIR" \
 		-undef -D__DTS__ -x assembler-with-cpp \
 		-o "$preprocessed" "$board_dts"
 	"$DTC" -O dtb -o "$board_dtb" -b 0 \
-		-i"$CVITEK_DTS_DIR" -i"$DTC_INCLUDE_DIR" \
+		-i"$DEFAULT_DTS_DIR" -i"$CVITEK_DTS_DIR" -i"$DTC_INCLUDE_DIR" \
 		-Wno-interrupt_provider -Wno-unit_address_vs_reg \
 		-Wno-unit_address_format -Wno-avoid_unnecessary_addr_size \
 		-Wno-alias_paths -Wno-graph_child_address \
