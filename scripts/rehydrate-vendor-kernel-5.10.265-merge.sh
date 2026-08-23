@@ -56,7 +56,7 @@ die() {
 	exit 1
 }
 
-for command in git mkdir sort cmp wc
+for command in git mkdir sort cmp wc tar
 do
 	command -v "$command" >/dev/null 2>&1 || die "required command is missing: $command"
 done
@@ -77,17 +77,13 @@ git -C "$VENDOR_SDK_DIR" rev-parse --git-dir >/dev/null 2>&1 || \
 	die "v5.10.265 commit does not match the pin"
 
 mkdir -p "$OUTPUT_DIR" "$REPORT_DIR"
-git -C "$STABLE_REPO" fetch --no-tags "$VENDOR_SDK_DIR" "$VENDOR_SDK_COMMIT"
-fetched_vendor_commit="$(git -C "$STABLE_REPO" rev-parse FETCH_HEAD)"
-fetched_vendor_tree="$(git -C "$STABLE_REPO" rev-parse "$fetched_vendor_commit:linux_5.10")"
-[ "$fetched_vendor_tree" = "$VENDOR_KERNEL_TREE" ] || die "fetched vendor tree mismatch"
-
 git -C "$STABLE_REPO" worktree add -b vendor-exact-on-v5.10.4 "$REPO" 'v5.10.4^{}'
 git -C "$REPO" config user.name "Hardened NanoKVM kernel port"
 git -C "$REPO" config user.email "noreply@local"
-git -C "$REPO" read-tree --reset "$VENDOR_KERNEL_TREE"
-git -C "$REPO" checkout-index -a -f
-git -C "$REPO" clean -fdx
+git -C "$REPO" rm -r -q -- .
+git -C "$VENDOR_SDK_DIR" archive "$VENDOR_SDK_COMMIT:linux_5.10" | \
+	tar -xf - -C "$REPO"
+git -C "$REPO" add -A
 [ "$(git -C "$REPO" write-tree)" = "$VENDOR_KERNEL_TREE" ] || \
 	die "vendor worktree does not match the pinned tree"
 git -C "$REPO" commit -m "Import exact SG2002 vendor kernel on Linux v5.10.4"
