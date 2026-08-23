@@ -6,13 +6,14 @@ STABLE_REPO="${KERNEL_5_10_STABLE_REPO:-$ROOT_DIR/build/latestbuildroot/kernel-s
 VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT_DIR/build/vendor/LicheeRV-Nano-Build}"
 OUTPUT_DIR="${KERNEL_5_10_265_REHYDRATE_DIR:-$ROOT_DIR/build/latestbuildroot/kernel-5.10.265-v1}"
 REPO="$OUTPUT_DIR/repo"
-RESOLVE_REPO="$OUTPUT_DIR/resolve"
 REPORT_DIR="$OUTPUT_DIR/rehydrate-report"
+PATCH_DIR="$ROOT_DIR/support/sg2002/kernel/5.10.265/patches"
 
 VENDOR_SDK_COMMIT="d88d58feca49ef15f4cc7bd1f27dbf17dc25f85e"
 VENDOR_KERNEL_TREE="a5854bd362b88c59d34bd4db9ff9ea876c6aebd4"
 STABLE_5_10_4_COMMIT="b1313fe517ca3703119dcc99ef3bbf75ab42bcfb"
 STABLE_5_10_265_COMMIT="2a3da1f4966798b0b48ce302944ad356b2c98b5d"
+FINAL_SOURCE_TREE="d53dfbde34f1de6b4565e686009b688c04b8913d"
 
 runtime_conflicts=(
 	arch/riscv/Kconfig
@@ -56,7 +57,7 @@ die() {
 	exit 1
 }
 
-for command in git mkdir sort cmp wc tar
+for command in git mkdir sort cmp wc tar find sha256sum awk
 do
 	command -v "$command" >/dev/null 2>&1 || die "required command is missing: $command"
 done
@@ -65,7 +66,14 @@ git -C "$STABLE_REPO" rev-parse --git-dir >/dev/null 2>&1 || \
 	die "stable Git repository is missing: $STABLE_REPO"
 git -C "$VENDOR_SDK_DIR" rev-parse --git-dir >/dev/null 2>&1 || \
 	die "vendor SDK Git repository is missing: $VENDOR_SDK_DIR"
+[ -d "$PATCH_DIR" ] || die "kernel resolution patch directory is missing: $PATCH_DIR"
 [ ! -e "$OUTPUT_DIR" ] || die "refusing to reuse rehydration output: $OUTPUT_DIR"
+
+mapfile -t resolution_patches < <(
+	find "$PATCH_DIR" -maxdepth 1 -type f -name '*.patch' -print | LC_ALL=C sort
+)
+[ "${#resolution_patches[@]}" -eq 9 ] || \
+	die "expected exactly nine tracked kernel resolution patches"
 
 [ "$(git -C "$VENDOR_SDK_DIR" rev-parse HEAD)" = "$VENDOR_SDK_COMMIT" ] || \
 	die "vendor SDK commit does not match the pin"
@@ -77,7 +85,8 @@ git -C "$VENDOR_SDK_DIR" rev-parse --git-dir >/dev/null 2>&1 || \
 	die "v5.10.265 commit does not match the pin"
 
 mkdir -p "$OUTPUT_DIR" "$REPORT_DIR"
-git -C "$STABLE_REPO" worktree add -b vendor-exact-on-v5.10.4 "$REPO" 'v5.10.4^{}'
+git -C "$STABLE_REPO" worktree prune
+git -C "$STABLE_REPO" worktree add --detach "$REPO" 'v5.10.4^{}'
 git -C "$REPO" config user.name "Hardened NanoKVM kernel port"
 git -C "$REPO" config user.email "noreply@local"
 git -C "$REPO" rm -r -q -- .
@@ -88,11 +97,6 @@ git -C "$REPO" add -A
 	die "vendor worktree does not match the pinned tree"
 git -C "$REPO" commit -m "Import exact SG2002 vendor kernel on Linux v5.10.4"
 vendor_commit="$(git -C "$REPO" rev-parse HEAD)"
-
-git -C "$STABLE_REPO" worktree add -b kernel-5.10.265-resolution-v1 \
-	"$RESOLVE_REPO" "$vendor_commit"
-git -C "$RESOLVE_REPO" config user.name "Hardened NanoKVM kernel port"
-git -C "$RESOLVE_REPO" config user.email "noreply@local"
 
 expected_conflicts="$REPORT_DIR/expected-conflicts.txt"
 actual_conflicts="$REPORT_DIR/actual-conflicts.txt"
@@ -120,7 +124,13 @@ git -C "$REPO" commit \
 	-m "Create the signed-stable merge parent while retaining the vendor side only for the 29 runtime conflicts and the stable side for two BPF selftest conflicts. Reviewed subsystem resolutions are applied as follow-up commits."
 initial_merge_commit="$(git -C "$REPO" rev-parse HEAD)"
 
-start_expected_conflict_merge "$RESOLVE_REPO"
+git -C "$REPO" am --committer-date-is-author-date "${resolution_patches[@]}"
+final_source_commit="$(git -C "$REPO" rev-parse HEAD)"
+final_source_tree="$(git -C "$REPO" rev-parse HEAD^{tree})"
+[ "$final_source_tree" = "$FINAL_SOURCE_TREE" ] || \
+	die "rehydrated final source tree does not match the accepted tree"
+[ -z "$(git -C "$REPO" status --short)" ] || \
+	die "rehydrated final source worktree is not clean"
 
 printf '%s\n' "$VENDOR_SDK_COMMIT" > "$REPORT_DIR/vendor-sdk-commit.txt"
 printf '%s\n' "$VENDOR_KERNEL_TREE" > "$REPORT_DIR/vendor-kernel-tree.txt"
@@ -128,10 +138,15 @@ printf '%s\n' "$vendor_commit" > "$REPORT_DIR/vendor-import-commit.txt"
 printf '%s\n' "$STABLE_5_10_4_COMMIT" > "$REPORT_DIR/stable-5.10.4-commit.txt"
 printf '%s\n' "$STABLE_5_10_265_COMMIT" > "$REPORT_DIR/stable-5.10.265-commit.txt"
 printf '%s\n' "$initial_merge_commit" > "$REPORT_DIR/initial-merge-commit.txt"
+printf '%s\n' "$final_source_commit" > "$REPORT_DIR/final-source-commit.txt"
+printf '%s\n' "$final_source_tree" > "$REPORT_DIR/final-source-tree.txt"
+sha256sum "${resolution_patches[@]}" > "$REPORT_DIR/resolution-patches-sha256.txt"
 
 cat <<EOF
 vendor tree rehydrated: $VENDOR_KERNEL_TREE
 initial stable merge: $initial_merge_commit
-review worktree: $RESOLVE_REPO
-conflicts awaiting tracked resolution replay: $(wc -l < "$actual_conflicts")
+reviewed conflict inventory: $(wc -l < "$actual_conflicts")
+tracked resolution patches: ${#resolution_patches[@]}
+final source commit: $final_source_commit
+final source tree: $final_source_tree
 EOF
