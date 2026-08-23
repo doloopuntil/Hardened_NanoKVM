@@ -158,8 +158,15 @@ Completed locally:
   `3fcbc569ec414702dde116b3ed8690a37b1274cf4ab9b500bfeaad70c82e9756`
   has the expected two-partition layout; its extracted rootfs, `fip.bin` and
   `boot.sd` are byte-identical to the accepted inputs. Its verified `.xz` has
-  SHA-256 `5155e6fa13d962fe0fd732f572cfa31d5e5dd936edab703bc60169ee5ae3157d`.
-  It has not yet been written to or booted from physical recovery media;
+  SHA-256 `5155e6fa13d962fe0fd732f572cfa31d5e5dd936edab703bc60169ee5ae3157d`;
+- the image was written and clean-booted twice on a second NanoKVM. Each boot
+  generated a fresh local MAC/DHCP lease as designed. The accepted repeat boot
+  at `10.0.87.60` passed first-account creation, HTTP/API and root SSH login,
+  p2 expansion, p3 exFAT creation/mount, update-state cleanup, Avahi daemon,
+  network/gateway, module, exact native provenance and zero-dmesg-alert gates.
+  Additional HDMI/video/HID repetition on the second unit was waived by the
+  user because the same final runtime already passed the complete matrix on
+  `10.0.87.133`;
 - unsigned raw.11 bundle
   `4a66e0393a665e6884aa17c64268cdfd1a37e97e6e11e738143dcf62f0cd9601`
   has a validated format-2 manifest requiring app `2.0.41`; it is deliberately
@@ -175,7 +182,7 @@ Completed locally:
 
 Pending or blocked:
 
-- physical recovery-SD boot and explicit rollback/failure-path testing;
+- explicit rollback/failure-path testing;
 - production system-update signing key custody;
 - redistribution permission or replacement of the four proprietary inputs;
 - the separate vendor-kernel remediation track.

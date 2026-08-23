@@ -42,6 +42,13 @@ available in:
   configuration/SSH identity were preserved. The complete automated suite,
   same-WebSocket H.264 regression, five reboot cycles, final 30-minute
   MJPEG/H.264 endurance and post-endurance core check pass.
+- Physical recovery-card repeatability is accepted on a second NanoKVM. Two
+  clean writes booted far enough to generate a new MAC, expand p2 and create
+  p3; the accepted second boot used `10.0.87.60` / `02:4b:c9:fb:cc:5d` and
+  passed first-account, HTTP/API, root SSH, storage/mount, network, Avahi,
+  module, native-provenance and dmesg gates. The user waived repeating the
+  HDMI/video/HID matrix on that unit; the full final-runtime matrix remains
+  proven on `.133`.
 - Current combined release: app `2.0.40 RC11` plus system `0.3.0-raw.10`, tag
   [`hardened-system-0.3.0-raw.10`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.10),
   published from `3cca4d8` on 2026-08-21. Existing devices must install app
@@ -67,8 +74,8 @@ Unpublished accepted raw.11 lab artifacts from runtime commit `4ab8c4e`:
 
 Write only the recovery SD image to sacrificial media. Do not attempt to feed
 the unsigned bundle to the updater. In-place raw.11 hardware acceptance is
-complete; physical recovery-card boot and explicit rollback/failure-path tests
-remain before production signing or publication.
+complete and physical recovery-card boot is repeatable. Explicit
+rollback/failure-path tests remain before production signing or publication.
 
 Current combined RC11 release artifacts and SHA-256 values:
 
