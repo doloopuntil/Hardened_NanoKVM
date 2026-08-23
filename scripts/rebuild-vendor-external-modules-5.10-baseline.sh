@@ -19,6 +19,7 @@ PROVENANCE_MANIFEST="$MODULE_PROVENANCE_DIR/report/module-provenance.tsv"
 REFERENCE_OSDRV_PATH="$VENDOR_SDK_DIR/osdrv"
 REFERENCE_SOURCE_DATE_EPOCH="1782670640"
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-}"
+CANDIDATE_PATCH="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/vendor-osdrv-linux-5.10.265-compat.patch"
 
 require_command() {
 	command -v "$1" >/dev/null 2>&1 || {
@@ -27,7 +28,7 @@ require_command() {
 	}
 }
 
-for command in make modinfo rsync sha256sum sort
+for command in make modinfo patch rsync sha256sum sort
 do
 	require_command "$command"
 done
@@ -64,6 +65,10 @@ if [ -n "$EXPECTED_KERNEL_RELEASE" ] && \
 fi
 if [ -n "$EXPECTED_KERNEL_RELEASE" ]; then
 	build_mode=candidate
+	[ -f "$CANDIDATE_PATCH" ] || {
+		echo "missing external-module candidate patch: $CANDIDATE_PATCH" >&2
+		exit 1
+	}
 else
 	build_mode=byte-exact-baseline
 fi
@@ -85,6 +90,14 @@ rsync -a \
 	--exclude='Module.symvers' \
 	--exclude='modules.order' \
 	"$VENDOR_SDK_DIR/osdrv/" "$SOURCE_DIR/"
+
+if [ "$build_mode" = candidate ]; then
+	patch --directory="$SOURCE_DIR" --strip=1 --forward --fuzz=0 --dry-run \
+		--input="$CANDIDATE_PATCH"
+	patch --directory="$SOURCE_DIR" --strip=1 --forward --fuzz=0 \
+		--input="$CANDIDATE_PATCH"
+	sha256sum "$CANDIDATE_PATCH" > "$REPORT_DIR/candidate-patch-sha256.txt"
+fi
 
 sha256sum \
 	"$KERNEL_BASELINE_DIR/.config" \
