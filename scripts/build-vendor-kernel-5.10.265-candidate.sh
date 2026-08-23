@@ -27,7 +27,7 @@ require_dir() {
 	}
 }
 
-for command in git make sha256sum sort cmp sed find xargs diff wc
+for command in git make sha256sum sort cmp sed find xargs diff wc tail
 do
 	command -v "$command" >/dev/null 2>&1 || {
 		echo "required command is missing: $command" >&2
@@ -81,6 +81,9 @@ fi
 # The accepted vendor build ran from a source snapshot without Git metadata.
 # Disable automatic SCM suffixes in the candidate output config and retain the
 # explicit LOCALVERSION=-tag- contract without mutating the reviewed source.
+if [ -n "$(tail -c 1 "$OUTPUT_DIR/.config")" ]; then
+	printf '\n' >> "$OUTPUT_DIR/.config"
+fi
 "$KERNEL_SOURCE/scripts/config" --file "$OUTPUT_DIR/.config" \
 	--disable LOCALVERSION_AUTO
 
