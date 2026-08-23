@@ -53,12 +53,14 @@ sha256sum "$KERNEL_DIR/Module.symvers" "$KERNEL_DIR/arch/riscv/boot/Image" \
 
 MINIMAL_VCODEC_KERNEL_DIR="$KERNEL_DIR" \
 MINIMAL_VCODEC_OUTPUT_DIR="$MINIMAL_DIR" \
+MINIMAL_VCODEC_KCFLAGS="-fmacro-prefix-map=$MINIMAL_DIR/work=/usr/src/vendor-vcodec" \
 	"$ROOT_DIR/scripts/build-minimal-vendor-vcodec-compat.sh"
 
 SOPHGO_MEDIA_KERNEL_DIR="$KERNEL_DIR" \
 SOPHGO_MEDIA_OUTPUT_DIR="$CURRENT_DIR" \
 SOPHGO_MEDIA_KERNEL_COMPAT_PATCH="$SOPHGO_COMPAT_PATCH" \
 SOPHGO_MEDIA_EXPECTED_JPEG_SRCVERSION="$EXPECTED_JPEG_SRCVERSION" \
+SOPHGO_MEDIA_KCFLAGS="-fmacro-prefix-map=$CURRENT_DIR/osdrv=/usr/src/sophgo-osdrv" \
 	"$ROOT_DIR/scripts/build-sophgo-media-module-replacements.sh"
 
 HISTORICAL_VC_KERNEL_DIR="$KERNEL_DIR" \
@@ -66,6 +68,7 @@ HISTORICAL_VC_VCODEC_DIR="$MINIMAL_DIR/work/osdrv/interdrv/v2/vcodec" \
 HISTORICAL_VC_JPEG_DIR="$CURRENT_DIR/osdrv/interdrv/jpeg" \
 HISTORICAL_VC_KERNEL_COMPAT_PATCH="$HISTORICAL_COMPAT_PATCH" \
 HISTORICAL_VC_OUTPUT_DIR="$HISTORICAL_DIR" \
+HISTORICAL_VC_KCFLAGS="-fmacro-prefix-map=$HISTORICAL_DIR/osdrv=/usr/src/sophgo-osdrv-v2" \
 	"$ROOT_DIR/scripts/build-historical-sophgo-vc-driver.sh"
 
 cp "$MINIMAL_DIR/artifacts/soph_vcodec.ko" "$ARTIFACT_DIR/"

@@ -13,6 +13,7 @@ REPORT_DIR="$OUTPUT_DIR/report"
 PATCH_FILE="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-legacy-module-names.patch"
 KERNEL_COMPAT_PATCH="${SOPHGO_MEDIA_KERNEL_COMPAT_PATCH:-}"
 EXPECTED_JPEG_SRCVERSION="${SOPHGO_MEDIA_EXPECTED_JPEG_SRCVERSION:-625882D05A26BB4B2FD9A6E}"
+EXTRA_KCFLAGS="${SOPHGO_MEDIA_KCFLAGS:-}"
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
 OLD_OSDRV="$VENDOR_SDK_DIR/osdrv/interdrv/v2"
 OLD_MODULE_DIR="$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rootfs/mnt/system/ko"
@@ -93,6 +94,7 @@ build_module() {
         KERNEL_DIR="$KERNEL_DIR" \
         ARCH="$ARCH" \
         CROSS_COMPILE="$CROSS_COMPILE" \
+        KCFLAGS="$EXTRA_KCFLAGS" \
         CVIARCH="$CVIARCH" \
         CVIARCH_L="$CVIARCH_L" \
         SDK_VER="$SDK_VER" \

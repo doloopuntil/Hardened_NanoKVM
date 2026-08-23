@@ -14,6 +14,7 @@ PATCH_FILE="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/pat
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
 OLD_MODULE="$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rootfs/mnt/system/ko/soph_vcodec.ko"
 OLD_SYMVERS="$VENDOR_SDK_DIR/osdrv/interdrv/v2/vcodec/Module.symvers"
+EXTRA_KCFLAGS="${MINIMAL_VCODEC_KCFLAGS:-}"
 
 require_file() {
     if [ ! -f "$1" ]; then
@@ -80,6 +81,7 @@ make -C "$MODULE_DIR" \
     ARCH="$ARCH" \
     CROSS_COMPILE="$CROSS_COMPILE" \
     CHIP_CODE="$CHIP_CODE" \
+    KCFLAGS="$EXTRA_KCFLAGS" \
     all
 
 NEW_MODULE="$MODULE_DIR/soph_vcodec.ko"

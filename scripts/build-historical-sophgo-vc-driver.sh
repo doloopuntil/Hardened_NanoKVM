@@ -17,6 +17,7 @@ KERNEL_COMPAT_PATCH="${HISTORICAL_VC_KERNEL_COMPAT_PATCH:-}"
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
 OLD_OSDRV="$VENDOR_SDK_DIR/osdrv/interdrv/v2"
 OLD_MODULE="$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rootfs/mnt/system/ko/soph_vc_driver.ko"
+EXTRA_KCFLAGS="${HISTORICAL_VC_KCFLAGS:-}"
 
 require_file() {
     if [ ! -f "$1" ]; then
@@ -79,6 +80,7 @@ make -C "$MODULE_DIR" \
     KERNEL_DIR="$KERNEL_DIR" \
     ARCH=riscv \
     CROSS_COMPILE=riscv64-unknown-linux-musl- \
+    KCFLAGS="$EXTRA_KCFLAGS" \
     CVIARCH_L=cv181x \
     SDK_VER=musl_riscv64 \
     all
