@@ -172,6 +172,17 @@ media_modules=3
 redistribution=disabled-pending-license-grant
 EOF
 
+cat > "$OUTPUT_DIR/system/ko/hardened-source-media-provenance.txt" <<EOF
+kernel_release=$kernel_release
+sophgo_current_commit=aa542c41df94f7bc656cb740f6622a5dca7dc403
+sophgo_vc_commit=5ed7cc28daf7194885d87df2aa534a27a1956c70
+soph_vcodec_sha256=$(sha256sum "$OUTPUT_DIR/system/ko/soph_vcodec.ko" | awk '{print $1}')
+soph_jpeg_sha256=$(sha256sum "$OUTPUT_DIR/system/ko/soph_jpeg.ko" | awk '{print $1}')
+soph_vc_driver_sha256=$(sha256sum "$OUTPUT_DIR/system/ko/soph_vc_driver.ko" | awk '{print $1}')
+device_acceptance=pending-recovery-sd
+redistribution=disabled-pending-license-grant
+EOF
+
 find "$OUTPUT_DIR" -type f -exec touch -d '@0' {} +
 find "$OUTPUT_DIR" -type d -exec touch -d '@0' {} +
 sha256sum "$MANIFEST" "$REPLACED_LIST" "$REPORT_DIR/depmod.stderr" \

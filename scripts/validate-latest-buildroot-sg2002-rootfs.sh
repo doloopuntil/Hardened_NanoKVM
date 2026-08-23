@@ -19,6 +19,11 @@ EXPECTED_BUILDROOT_VERSION="${EXPECTED_BUILDROOT_VERSION:-2026.05.1}"
 EXPECTED_KVMAPP_VERSION="${EXPECTED_KVMAPP_VERSION:-2.0.41}"
 EXPECTED_SYSTEM_VERSION="${EXPECTED_SYSTEM_VERSION:-0.3.0-raw.11}"
 EXPECTED_ROOTFS_UUID="${EXPECTED_ROOTFS_UUID:-23df1b1c-cbf0-5e1c-b42b-de68dec5ad95}"
+EXPECTED_SOPH_VCODEC_SHA256="${EXPECTED_SOPH_VCODEC_SHA256:-0f0927cd796275f2241e8914b3efa57b124b8cc2aabc087ee899a56346a5c2be}"
+EXPECTED_SOPH_JPEG_SHA256="${EXPECTED_SOPH_JPEG_SHA256:-eacf2af2c75c23816af129843912f5072c9cb81d44434d563ceb449ee2899666}"
+EXPECTED_SOPH_VC_DRIVER_SHA256="${EXPECTED_SOPH_VC_DRIVER_SHA256:-cc543c2a1b25c63c0372d7a687643605b1d07a5624403e3cf7d74b52ecadecf5}"
+EXPECTED_MEDIA_DEVICE_ACCEPTANCE="${EXPECTED_MEDIA_DEVICE_ACCEPTANCE:-10.0.87.133-20260821T032009Z}"
+EXPECTED_RUNTIME_KERNEL_RELEASE="${EXPECTED_RUNTIME_KERNEL_RELEASE:-}"
 
 [ -f "$IMAGE" ] || die "rootfs image does not exist: $IMAGE"
 command -v debugfs >/dev/null 2>&1 || die "debugfs is required"
@@ -205,21 +210,31 @@ verify_sha256 /lib/ld-musl-riscv64xthead.so.1 \
 verify_sha256 /lib/ld-musl-riscv64v0p7_xthead.so.1 \
 	8e4f81c0280b2337abea47bf151259f6fa3bf3261578dee8bba30f83c60fe7e8 v0p7-loader
 verify_sha256 /mnt/system/ko/soph_vcodec.ko \
-	0f0927cd796275f2241e8914b3efa57b124b8cc2aabc087ee899a56346a5c2be soph-vcodec
+	"$EXPECTED_SOPH_VCODEC_SHA256" soph-vcodec
 verify_sha256 /mnt/system/ko/soph_jpeg.ko \
-	eacf2af2c75c23816af129843912f5072c9cb81d44434d563ceb449ee2899666 soph-jpeg
+	"$EXPECTED_SOPH_JPEG_SHA256" soph-jpeg
 verify_sha256 /mnt/system/ko/soph_vc_driver.ko \
-	cc543c2a1b25c63c0372d7a687643605b1d07a5624403e3cf7d74b52ecadecf5 soph-vc-driver
+	"$EXPECTED_SOPH_VC_DRIVER_SHA256" soph-vc-driver
 
 MEDIA_PROVENANCE="$TMP_DIR/source-media-provenance.txt"
 debugfs -R "dump /mnt/system/ko/hardened-source-media-provenance.txt $MEDIA_PROVENANCE" \
 	"$IMAGE" >/dev/null 2>&1 || die "could not extract source-built media provenance"
 grep -qx 'sophgo_vc_commit=5ed7cc28daf7194885d87df2aa534a27a1956c70' "$MEDIA_PROVENANCE" || \
 	die "source-built VC provenance is incorrect"
-grep -qx 'device_acceptance=10.0.87.133-20260821T032009Z' "$MEDIA_PROVENANCE" || \
+grep -qx "device_acceptance=$EXPECTED_MEDIA_DEVICE_ACCEPTANCE" "$MEDIA_PROVENANCE" || \
 	die "source-built media device acceptance provenance is missing"
 grep -qx 'redistribution=disabled-pending-license-grant' "$MEDIA_PROVENANCE" || \
 	die "source-built media redistribution restriction is missing"
+
+if [ -n "$EXPECTED_RUNTIME_KERNEL_RELEASE" ]; then
+	KERNEL_PROVENANCE="$TMP_DIR/kernel-provenance.txt"
+	debugfs -R "dump /mnt/system/ko/hardened-kernel-5.10.265-provenance.txt $KERNEL_PROVENANCE" \
+		"$IMAGE" >/dev/null 2>&1 || die "could not extract kernel provenance"
+	grep -qx "kernel_release=$EXPECTED_RUNTIME_KERNEL_RELEASE" "$KERNEL_PROVENANCE" || \
+		die "runtime kernel provenance release is incorrect"
+	grep -qx 'redistribution=disabled-pending-license-grant' "$KERNEL_PROVENANCE" || \
+		die "runtime kernel redistribution restriction is missing"
+fi
 
 KVM_SYSTEM="$TMP_DIR/kvm_system"
 debugfs -R "dump /kvmapp/kvm_system/kvm_system $KVM_SYSTEM" "$IMAGE" >/dev/null 2>&1 || \
