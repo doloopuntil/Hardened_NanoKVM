@@ -2,13 +2,14 @@
 set -euo pipefail
 
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
-VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-/home/w0w/Hardened_NanoKVM/build/vendor/LicheeRV-Nano-Build}"
+VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT_DIR/build/vendor/LicheeRV-Nano-Build}"
 KERNEL_BASELINE_DIR="${KERNEL_BASELINE_OUTPUT_DIR:-$ROOT_DIR/build/latestbuildroot/kernel-baseline-5.10.4-v2}"
 MODULE_PROVENANCE_DIR="${MODULE_PROVENANCE_DIR:-$ROOT_DIR/build/latestbuildroot/module-provenance-raw10-v5}"
 RUNTIME_MODULE_DIR="${VENDOR_MODULE_SOURCE_DIR:-$ROOT_DIR/build/latestbuildroot/vendor-runtime-source-media-v1/system/ko}"
 OUTPUT_DIR="${EXTERNAL_MODULE_BASELINE_OUTPUT_DIR:-$ROOT_DIR/build/latestbuildroot/external-modules-5.10.4-v3}"
 SOURCE_DIR="$OUTPUT_DIR/osdrv"
 BUILD_CONFIG_DIR="$OUTPUT_DIR/build-config"
+BUILD_CONFIG_REFERENCE="${HARDENED_SG2002_BUILD_CONFIG:-$ROOT_DIR/support/sg2002/kernel/5.10.265/reference/vendor-sdk-build.config}"
 INSTALL_DIR="$OUTPUT_DIR/install"
 ARTIFACT_DIR="$OUTPUT_DIR/artifacts"
 REPORT_DIR="$OUTPUT_DIR/report"
@@ -35,7 +36,7 @@ done
 
 for path in \
 	"$VENDOR_SDK_DIR/osdrv" \
-	"$VENDOR_SDK_DIR/build/.config" \
+	"$BUILD_CONFIG_REFERENCE" \
 	"$KERNEL_BASELINE_DIR/.config" \
 	"$KERNEL_BASELINE_DIR/Module.symvers" \
 	"$KERNEL_BASELINE_DIR/include/generated/utsrelease.h" \
@@ -79,7 +80,8 @@ if [ -e "$OUTPUT_DIR" ]; then
 fi
 
 mkdir -p "$SOURCE_DIR" "$BUILD_CONFIG_DIR" "$INSTALL_DIR/3rd" "$ARTIFACT_DIR" "$REPORT_DIR"
-cp "$VENDOR_SDK_DIR/build/.config" "$BUILD_CONFIG_DIR/.config"
+cp "$BUILD_CONFIG_REFERENCE" "$BUILD_CONFIG_DIR/.config"
+sha256sum "$BUILD_CONFIG_REFERENCE" > "$REPORT_DIR/build-config-sha256.txt"
 
 rsync -a \
 	--exclude='*.o' \
