@@ -16,8 +16,10 @@ available in:
 - Local checkout: `/home/w0w/Hardened_NanoKVM-new-buildroot`.
 - GitHub repository: `woffko/Hardened_NanoKVM`.
 - GitHub default branch: `main`.
-- Current maintenance branch: `security/raw11-userspace`, based on
-  `latestbuilroot` commit `5288195deb62873e642c0d86b5e432683fd51bdf`.
+- Current maintenance branch: `security/kernel-5.10.265`, currently at outer
+  commit `5d0f7bfba61225eca8e2c37788b3ac99058c5900`. It continues the accepted
+  `security/raw11-userspace` work based on `latestbuilroot` commit
+  `5288195deb62873e642c0d86b5e432683fd51bdf`.
   Commit `d5f480f` adds application `2.0.41` and guarded system-update metadata
   format 2. Runtime candidate commit `4ab8c4e` includes raw.10 update-key
   compatibility, explicit app-owned native-library packaging and RPATH-free
@@ -237,21 +239,42 @@ Remediation status:
   The accepted recoverable baseline image has SHA-256
   `2bfb0b2000786a6860f069b235fe6026fc8e77f7132f0f72e284e725246cb92e`
   under `build/latestbuildroot/recoverable-kernel-baseline-sd-v2/`.
-- Vendor-kernel Phase 2 now has a reproducible Linux `5.10.265-tag-` recovery
-  candidate. Two independent clean pipelines match exactly through kernel,
-  57 modules, Buildroot rootfs, FIT, full SD image and `.img.xz`. The image to
-  write is
-  `build/latestbuildroot/kernel-5.10.265-repro-a/recovery-final/assembly/images/hardened-sg2002-port.img.xz`
-  with SHA-256
-  `7c43134764360161df2df731ad2647551cc42745f9760482cdabd2eac5bb3a9a`.
-  It is recovery-media only; physical boot acceptance is still pending. See
+- Vendor-kernel Phase 2 is complete through the kernel/device recovery boot
+  gate on the dedicated `.48` unit described below. The initial stable merge's
+  silent boot failure was a duplicate RISC-V `of_clk_init(NULL)` call; fixed
+  source commit `479872f533fbcec3220fa0924b360e6d33e742c7` and outer guard
+  `5d0f7bf` prevent recurrence. Two new independent clean pipelines match
+  exactly through kernel, 57 modules, Buildroot rootfs, FIT, full SD image and
+  `.img.xz`. See
   [`kernel-5.10.265-recovery-candidate.md`](kernel-5.10.265-recovery-candidate.md).
 - The user may install an older/full app update while development is in
   progress. Before every test, verify `/kvmapp/version`, `/api/health`, the
   running backend path, and deployed file hashes. Re-deploy the current test
   build if the device was updated.
 
-### Secondary device: `10.0.87.132`
+### Recovery kernel test device: `10.0.87.48`
+
+- Model used for validation: NanoKVM Cube.
+- Router-assigned address during the accepted run: `10.0.87.48`.
+- Web and SSH use the same encrypted Project Memory test asset as `.133`;
+  never place its value in commands, logs, docs, prompts or source.
+- Current accepted runtime: Linux `5.10.265-tag-`, system `0.3.0-raw.11`, app
+  `2.0.41`, Buildroot `2026.05.1`.
+- SSH, HTTP/API, network, root/boot/data mounts, 57-module inventory and kernel
+  log gates pass. The user waived repeating the physical HDMI/HID/button
+  matrix on this device.
+- Hardware-tested recovery image SHA-256:
+  `8d9b9e4e5e38c3309c8a8b0f3597747f53431dcabb314ca5fae7c0b4e425ccb5`.
+- The hardware-tested kernel, `vmlinux`, DTB and FIT are byte-identical to the
+  final fixed reproducible run A. The exact final SD container has not been
+  written separately; its audited rootfs differences are non-semantic build
+  padding/timestamps/provenance and are documented in the candidate guide.
+- Final reproducible image, recovery-media only:
+  `build/latestbuildroot/kernel-5.10.265-fixed-repro-a/recovery/assembly/images/hardened-sg2002-port.img.xz`,
+  SHA-256
+  `223d1231a4eca31000098cd6601473cbe300c8c605122b6ddd755941168df761`.
+
+### Legacy comparison device: `10.0.87.132`
 
 - Model used for validation: NanoKVM Cube.
 - Hostname: `primary`.

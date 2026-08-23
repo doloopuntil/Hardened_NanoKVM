@@ -4,19 +4,21 @@ Status date: 2026-08-23.
 
 This plan covers the running SG2002 kernel and its modules. Buildroot
 `2026.05.1` updates userspace, but its `5.10.258` userspace headers do not
-modify or secure the retained vendor kernel. The lab device still runs
-`5.10.4-tag-`.
+modify or secure the retained vendor kernel. The main raw-update device at
+`10.0.87.133` still runs `5.10.4-tag-`; the recovery-SD test device at
+`10.0.87.48` now boots the fixed `5.10.265-tag-` candidate.
 
 The target for the first current-kernel experiment is upstream longterm
 `5.10.265`, published by kernel.org on 2026-08-19. A successful source merge or
 build is not release evidence: the resulting kernel, device trees, and every
 module must pass the complete recoverable-media and device acceptance matrix.
 
-Phase 2 is now locally complete through the recovery-image boundary. The
-signed stable tag is merged, every conflict is resolved in bounded commits,
-all 57 runtime modules are rebuilt, and two independent full pipelines are
-byte-exact through the compressed SD image. The remaining Phase 2 gate is the
-physical recovery-SD boot. Exact artifacts and hashes are recorded in
+Phase 2 now passes the source, build, reproducibility and kernel/device boot
+gates. The signed stable tag is merged, every conflict is resolved in bounded
+commits, all 57 runtime modules are rebuilt, and two independent full
+pipelines are byte-exact through the compressed SD image. The fixed kernel/FIT
+booted on recovery media at `10.0.87.48`; exact artifacts, hashes, regression
+root cause and the precise final-container evidence boundary are recorded in
 [`kernel-5.10.265-recovery-candidate.md`](kernel-5.10.265-recovery-candidate.md).
 
 ## Verified Provenance
@@ -180,14 +182,18 @@ acceptance evidence.
 
 ## Remaining Inputs Before A Release Kernel Exists
 
-1. Explicit re-identification and writing of sacrificial SD media for the
-   reproducible 5.10.265 candidate. It must not first be installed through a
-   raw update.
-2. A recorded boot acceptance run. The user waived repeating the secondary
-   physical HDMI/HID/button matrix, but boot, modules, storage, network,
-   SSH/API, reboot and kernel-log gates remain required.
-3. Redistribution terms for every retained boot, firmware, and runtime input.
-4. Production signing-key custody before any release publication.
+1. If the exact fixed-run-A SD artifact is to be published, write that exact
+   container to re-identified sacrificial media once. The kernel/FIT boot gate
+   already passes; this is an exact-container release check, not permission to
+   install it first through a raw update.
+2. Complete Phase 3 configuration hardening as bounded candidates. Do not
+   combine user namespaces, LSM, usercopy, slab, init-on-alloc/free, RWX,
+   debugfs and `/dev/mem` changes into one untraceable build.
+3. Build and accept a rollback-capable lab raw update only after the chosen
+   hardened configuration passes recovery media.
+4. Resolve redistribution terms for every retained boot, firmware and runtime
+   input.
+5. Define production signing-key custody before any release publication.
 
 ## Implementation Plan
 
@@ -196,8 +202,8 @@ acceptance evidence.
 Status: source history reconstruction, the 24-layer patch stack, the byte-exact
 kernel/in-tree-module/DTB rebuild, complete 57-module provenance, and the
 30/30 byte-exact external-module rebuild are complete. The independent
-`boot.sd` rebuild is also byte-exact. Recoverable-media boot acceptance remains;
-Phase 2 must not start before it passes.
+`boot.sd` rebuild is also byte-exact. The unchanged baseline recovery image
+booted on the secondary device before Phase 2 hardware boundary testing.
 
 1. Create an isolated local kernel repository at official `v5.10.4`.
 2. Import the CVITEK/Milk-V history as ordered commits where available.
@@ -217,7 +223,12 @@ by the stable series.
 ### Phase 2: Merge Upstream Stable 5.10.265
 
 Status: local source, build, module, FIT, rootfs, SD assembly and exact
-reproducibility gates pass; physical recovery boot remains.
+reproducibility gates pass. The initial clean merge exposed a semantic duplicate
+of `of_clk_init(NULL)` from vendor and stable histories; the fixed source commit
+`479872f533fbcec3220fa0924b360e6d33e742c7` removes the duplicate and a build
+guard enforces one include/one call. Its byte-identical kernel/FIT booted on
+recovery media at `10.0.87.48` with modules, storage, network, SSH/API and
+kernel-log gates passing.
 
 1. Branch the passing reconstructed vendor kernel.
 2. Merge the signed upstream `v5.10.265` tag, preserving upstream commit
@@ -292,10 +303,14 @@ Only after the same kernel boots and passes from recovery media:
 
 ## Current Decision
 
-The userspace port remains a successful lab candidate, but it is not a fully
-security-current base system while `5.10.4-tag-` remains installed. The next
-kernel action is to finish Phase 1 around the already reconstructed source:
-boot the unchanged, byte-exact `5.10.4-tag-` baseline from sacrificial media and
-repeat the hardware matrix. Directly flashing
-`5.10.265` or enabling every hardening option at once would destroy the ability
-to diagnose failures and is not an acceptable release path.
+The Buildroot userspace port and fixed `5.10.265-tag-` kernel are successful lab
+candidates, and Phase 2's kernel/device boot gate is complete. This is not yet a
+release kernel: the main raw-update device still runs `5.10.4-tag-`, Phase 3
+configuration hardening has not started, and raw-update rollback, production
+signing and redistribution gates remain.
+
+The next kernel action is the first bounded Phase 3 configuration batch,
+starting with restricted dmesg and a debugfs-consumer audit. Each subsequent
+batch keeps its own config diff, recoverable-media boot, runtime regression and
+rollback evidence. Enabling every hardening option at once would destroy
+failure attribution and remains unacceptable.
