@@ -28,7 +28,7 @@ require_dir() {
 	}
 }
 
-for command in git make sha256sum sort cmp sed find xargs diff wc tail
+for command in git make sha256sum sort cmp sed find xargs diff wc tail awk
 do
 	command -v "$command" >/dev/null 2>&1 || {
 		echo "required command is missing: $command" >&2
@@ -51,6 +51,19 @@ require_file "${TOOLCHAIN_PREFIX}ld"
 require_file "$KERNEL_SOURCE/scripts/config"
 require_file "$HOST_CPP"
 
+RISCV_TIME_SOURCE="$KERNEL_SOURCE/arch/riscv/kernel/time.c"
+require_file "$RISCV_TIME_SOURCE"
+of_clk_include_count="$(awk '$0 == "#include <linux/of_clk.h>" { count++ } END { print count + 0 }' \
+	"$RISCV_TIME_SOURCE")"
+of_clk_init_count="$(awk 'index($0, "of_clk_init(NULL);") { count++ } END { print count + 0 }' \
+	"$RISCV_TIME_SOURCE")"
+if [ "$of_clk_include_count" -ne 1 ] || [ "$of_clk_init_count" -ne 1 ]; then
+	echo "RISC-V time_init must initialize device-tree clocks exactly once" >&2
+	echo "of_clk include count: $of_clk_include_count" >&2
+	echo "of_clk_init count: $of_clk_init_count" >&2
+	exit 1
+fi
+
 if [ -n "$(git -C "$KERNEL_SOURCE" status --short)" ]; then
 	echo "kernel candidate source is not clean" >&2
 	exit 1
@@ -63,6 +76,9 @@ merge_commit="$(git -C "$KERNEL_SOURCE" rev-list --merges --first-parent -n1 HEA
 stable_parent="$(git -C "$KERNEL_SOURCE" rev-parse "$merge_commit^2")"
 
 mkdir -p "$OUTPUT_DIR" "$REPORT_DIR"
+printf 'of_clk_include_count=%s\nof_clk_init_count=%s\n' \
+	"$of_clk_include_count" "$of_clk_init_count" \
+	> "$REPORT_DIR/riscv-time-init-audit.txt"
 if [ -f "$REPORT_DIR/source-commit.txt" ]; then
 	read -r recorded_commit < "$REPORT_DIR/source-commit.txt"
 	if [ "$recorded_commit" != "$source_commit" ]; then
