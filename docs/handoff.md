@@ -16,9 +16,10 @@ available in:
 - Local checkout: `/home/w0w/Hardened_NanoKVM-new-buildroot`.
 - GitHub repository: `woffko/Hardened_NanoKVM`.
 - GitHub default branch: `main`.
-- Current maintenance branch: `security/kernel-5.10.265`, currently at outer
-  commit `5d0f7bfba61225eca8e2c37788b3ac99058c5900`. It continues the accepted
-  `security/raw11-userspace` work based on `latestbuilroot` commit
+- Current maintenance branch: `security/kernel-5.10.265`. The current Phase 3
+  reproducibility artifacts were built from outer commit
+  `ebdaa1cae40b75aa9cc4f0987dedb4e0d700abf0`. The branch continues the
+  accepted `security/raw11-userspace` work based on `latestbuilroot` commit
   `5288195deb62873e642c0d86b5e432683fd51bdf`.
   Commit `d5f480f` adds application `2.0.41` and guarded system-update metadata
   format 2. Runtime candidate commit `4ab8c4e` includes raw.10 update-key
@@ -241,12 +242,19 @@ Remediation status:
   under `build/latestbuildroot/recoverable-kernel-baseline-sd-v2/`.
 - Vendor-kernel Phase 2 is complete through the kernel/device recovery boot
   gate on the dedicated `.48` unit described below. The initial stable merge's
-  silent boot failure was a duplicate RISC-V `of_clk_init(NULL)` call; fixed
-  source commit `479872f533fbcec3220fa0924b360e6d33e742c7` and outer guard
-  `5d0f7bf` prevent recurrence. Two new independent clean pipelines match
+  silent boot failure was a duplicate RISC-V `of_clk_init(NULL)` call; accepted
+  source tree `d53dfbde34f1de6b4565e686009b688c04b8913d`, the tracked resolution
+  patch series and the outer clock-init guard prevent recurrence. Two
+  independent clean pipelines match
   exactly through kernel, 57 modules, Buildroot rootfs, FIT, full SD image and
   `.img.xz`. See
   [`kernel-5.10.265-recovery-candidate.md`](kernel-5.10.265-recovery-candidate.md).
+- Vendor-kernel Phase 3 batch 1 enables only restricted unprivileged dmesg.
+  Two complete clean pipelines from `ebdaa1c` match through the compressed SD
+  image. The candidate xz SHA-256 is
+  `cfd6ec4c1a7e70b28b5d91ea1fd3be4214b5bb9e807e36e8ebfbe867c69a6303`.
+  Build/reproducibility pass; recovery-device boot is pending. See
+  [`kernel-5.10.265-phase3-dmesg-restrict.md`](kernel-5.10.265-phase3-dmesg-restrict.md).
 - The user may install an older/full app update while development is in
   progress. Before every test, verify `/kvmapp/version`, `/api/health`, the
   running backend path, and deployed file hashes. Re-deploy the current test
@@ -260,6 +268,8 @@ Remediation status:
   never place its value in commands, logs, docs, prompts or source.
 - Current accepted runtime: Linux `5.10.265-tag-`, system `0.3.0-raw.11`, app
   `2.0.41`, Buildroot `2026.05.1`.
+- The currently booted image is the accepted Phase 2 candidate. Phase 3 batch 1
+  has not yet been written to this device's recovery card.
 - SSH, HTTP/API, network, root/boot/data mounts, 57-module inventory and kernel
   log gates pass. The user waived repeating the physical HDMI/HID/button
   matrix on this device.

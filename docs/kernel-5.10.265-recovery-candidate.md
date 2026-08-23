@@ -14,11 +14,16 @@ not be installed first through the web updater.
   `2a3da1f4966798b0b48ce302944ad356b2c98b5d`;
 - exact vendor tree reconstructed on official `v5.10.4` before the merge;
 - provisional merge commit: `8f420f24ebaec78462732c409ffb70ac1bc77c24`;
-- fixed candidate source commit:
+- historical fixed candidate source commit:
   `479872f533fbcec3220fa0924b360e6d33e742c7`;
 - fixed source tree:
   `d53dfbde34f1de6b4565e686009b688c04b8913d`;
 - kernel release contract: `5.10.265-tag-`.
+
+The canonical durable identity is the source tree, not the historical local
+commit ID. The tracked rehydration recipe and nine-patch series independently
+recreate tree `d53dfbde34f1de6b4565e686009b688c04b8913d`; regenerated commit IDs may
+differ because the original nested build repository was not publication state.
 
 The first merged candidate built successfully but stopped before console and
 initramfs. Hardware boundary testing established that the vendor merge on
