@@ -11,6 +11,7 @@ TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
 TOOLCHAIN_PREFIX="$TOOLCHAIN_BIN/riscv64-unknown-linux-musl-"
 REPORT_DIR="$OUTPUT_DIR/report"
 JOBS="${KERNEL_BUILD_JOBS:-16}"
+EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
 
 require_file() {
 	[ -f "$1" ] || {
@@ -46,6 +47,7 @@ require_dir "$BASELINE_DIR"
 require_file "$BOARD_DEFCONFIG"
 require_file "${TOOLCHAIN_PREFIX}gcc"
 require_file "${TOOLCHAIN_PREFIX}ld"
+require_file "$KERNEL_SOURCE/scripts/config"
 
 if [ -n "$(git -C "$KERNEL_SOURCE" status --short)" ]; then
 	echo "kernel candidate source is not clean" >&2
@@ -76,6 +78,12 @@ else
 	cp "$BOARD_DEFCONFIG" "$OUTPUT_DIR/.config"
 fi
 
+# The accepted vendor build ran from a source snapshot without Git metadata.
+# Disable automatic SCM suffixes in the candidate output config and retain the
+# explicit LOCALVERSION=-tag- contract without mutating the reviewed source.
+"$KERNEL_SOURCE/scripts/config" --file "$OUTPUT_DIR/.config" \
+	--disable LOCALVERSION_AUTO
+
 export PATH="$TOOLCHAIN_BIN:/usr/bin:/bin"
 export ARCH=riscv
 export CROSS_COMPILE="$TOOLCHAIN_PREFIX"
@@ -95,7 +103,7 @@ make -C "$KERNEL_SOURCE" O="$OUTPUT_DIR" olddefconfig
 make -j"$JOBS" -C "$KERNEL_SOURCE" O="$OUTPUT_DIR" Image modules dtbs
 
 kernel_release="$(make -s -C "$KERNEL_SOURCE" O="$OUTPUT_DIR" kernelrelease)"
-if [ "$kernel_release" != "5.10.265-tag-" ]; then
+if [ "$kernel_release" != "$EXPECTED_KERNEL_RELEASE" ]; then
 	echo "unexpected kernel release: $kernel_release" >&2
 	exit 1
 fi
