@@ -6,6 +6,9 @@ RUN_ROOT="${KERNEL_5_10_265_REPRO_ROOT:-}"
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
 export HARDENED_SG2002_VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT_DIR/build/vendor/LicheeRV-Nano-Build}"
 export HARDENED_SG2002_TOOLCHAIN_BIN="${HARDENED_SG2002_TOOLCHAIN_BIN:-$HARDENED_SG2002_VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin}"
+export REFERENCE_BOOT_SD="${REFERENCE_BOOT_SD:-$ROOT_DIR/build/latestbuildroot/recoverable-kernel-baseline-sd-v2/assembly/input/rawimages/boot.sd}"
+export VENDOR_RAMDISK_WORKSPACE="${VENDOR_RAMDISK_WORKSPACE:-$ROOT_DIR/build/latestbuildroot/kernel-5.10.265-fixed-repro-a/boot/workspace}"
+export KERNEL_5_10_265_FIP_IMAGE="${KERNEL_5_10_265_FIP_IMAGE:-$ROOT_DIR/build/latestbuildroot/recoverable-kernel-baseline-sd-v2/assembly/input/fip.bin}"
 
 [ -n "$RUN_ROOT" ] || {
 	echo "KERNEL_5_10_265_REPRO_ROOT is required" >&2
@@ -41,6 +44,7 @@ EXPECTED_KERNEL_RELEASE="$EXPECTED_KERNEL_RELEASE" \
 
 KERNEL_5_10_265_OUTPUT_DIR="$RUN_ROOT/kernel" \
 MEDIA_MODULE_5_10_265_OUTPUT_DIR="$RUN_ROOT/media" \
+MEDIA_MODULE_5_10_265_EXTERNAL_BUILD_DIR="$RUN_ROOT/external" \
 EXPECTED_KERNEL_RELEASE="$EXPECTED_KERNEL_RELEASE" \
 	"$ROOT_DIR/scripts/build-sg2002-media-modules-5.10.265-candidate.sh"
 
