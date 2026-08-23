@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
-VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-/home/w0w/Hardened_NanoKVM/build/vendor/LicheeRV-Nano-Build}"
+VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT_DIR/build/vendor/LicheeRV-Nano-Build}"
 VENDOR_COMMIT="d88d58feca49ef15f4cc7bd1f27dbf17dc25f85e"
 KERNEL_DIR="${MINIMAL_VCODEC_KERNEL_DIR:-$ROOT_DIR/build/latestbuildroot/kernel-baseline-5.10.4-v2}"
 OUTPUT_DIR="${MINIMAL_VCODEC_OUTPUT_DIR:-$ROOT_DIR/build/latestbuildroot/minimal-vendor-vcodec-5.10.4-v2}"
@@ -12,8 +12,7 @@ REPORT_DIR="$OUTPUT_DIR/report"
 SOURCE_ARCHIVE="$OUTPUT_DIR/vendor-vcodec-source.tar"
 PATCH_FILE="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/vendor-vcodec-open-vc-compat.patch"
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
-OLD_MODULE="$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rootfs/mnt/system/ko/soph_vcodec.ko"
-OLD_SYMVERS="$VENDOR_SDK_DIR/osdrv/interdrv/v2/vcodec/Module.symvers"
+EXPECTED_EXPORTS="${MINIMAL_VCODEC_EXPECTED_EXPORTS:-$ROOT_DIR/support/sg2002/kernel/5.10.265/manifests/soph-vcodec-exports.txt}"
 EXTRA_KCFLAGS="${MINIMAL_VCODEC_KCFLAGS:-}"
 
 require_file() {
@@ -30,7 +29,7 @@ require_dir() {
     fi
 }
 
-for command_name in comm git make modinfo patch sha256sum sort tar; do
+for command_name in git make modinfo patch sha256sum sort tar awk cmp; do
     if ! command -v "$command_name" >/dev/null 2>&1; then
         echo "required command is missing: $command_name" >&2
         exit 1
@@ -40,10 +39,10 @@ done
 require_dir "$VENDOR_SDK_DIR/.git"
 require_dir "$KERNEL_DIR"
 require_file "$PATCH_FILE"
-require_file "$OLD_MODULE"
-require_file "$OLD_SYMVERS"
+require_file "$EXPECTED_EXPORTS"
 require_file "$KERNEL_DIR/include/generated/utsrelease.h"
 require_file "$TOOLCHAIN_BIN/riscv64-unknown-linux-musl-gcc"
+require_file "$TOOLCHAIN_BIN/riscv64-unknown-linux-musl-nm"
 
 if [ -e "$OUTPUT_DIR" ]; then
     echo "refusing to reuse minimal vcodec output: $OUTPUT_DIR" >&2
@@ -100,34 +99,16 @@ case "$(modinfo -F vermagic "$NEW_MODULE")" in
     *) echo "minimal vcodec vermagic mismatch" >&2; exit 1 ;;
 esac
 
-awk '{print $2}' "$OLD_SYMVERS" | sort -u >"$REPORT_DIR/old-exports.txt"
-awk '{print $2}' "$NEW_SYMVERS" | sort -u >"$REPORT_DIR/new-exports.txt"
-comm -23 "$REPORT_DIR/old-exports.txt" "$REPORT_DIR/new-exports.txt" \
-    >"$REPORT_DIR/missing-old-exports.txt"
-comm -13 "$REPORT_DIR/old-exports.txt" "$REPORT_DIR/new-exports.txt" \
-    >"$REPORT_DIR/new-only-exports.txt"
-
-if [ -s "$REPORT_DIR/missing-old-exports.txt" ]; then
-    echo "minimal vcodec dropped existing exports" >&2
-    exit 1
-fi
-
-cat >"$REPORT_DIR/expected-new-exports.txt" <<'EOF'
-vcodec_is_locked
-vcodec_lock
-vcodec_trylock
-vcodec_unlock
-vpu_set_common_memory
-EOF
-if ! cmp -s "$REPORT_DIR/expected-new-exports.txt" "$REPORT_DIR/new-only-exports.txt"; then
-    echo "minimal vcodec export delta is unexpected" >&2
+"$TOOLCHAIN_BIN/riscv64-unknown-linux-musl-nm" "$NEW_MODULE" | \
+    awk '$3 ~ /^__ksymtab_/ {name=$3; sub(/^__ksymtab_/, "", name); print name}' | \
+    LC_ALL=C sort -u >"$REPORT_DIR/new-exports.txt"
+if ! cmp -s "$EXPECTED_EXPORTS" "$REPORT_DIR/new-exports.txt"; then
+    echo "minimal vcodec export inventory is unexpected" >&2
     exit 1
 fi
 
 sha256sum "$PATCH_FILE" >"$REPORT_DIR/patch-sha256.txt"
-sha256sum "$OLD_MODULE" "$ARTIFACT_DIR/soph_vcodec.ko" \
-    >"$REPORT_DIR/module-sha256.txt"
-modinfo "$OLD_MODULE" >"$REPORT_DIR/old-modinfo.txt"
+sha256sum "$ARTIFACT_DIR/soph_vcodec.ko" >"$REPORT_DIR/module-sha256.txt"
 modinfo "$ARTIFACT_DIR/soph_vcodec.ko" >"$REPORT_DIR/new-modinfo.txt"
 
 cat >"$REPORT_DIR/summary.md" <<EOF
@@ -136,7 +117,7 @@ cat >"$REPORT_DIR/summary.md" <<EOF
 - vendor SDK commit: \`$VENDOR_COMMIT\`
 - target kernel release: \`$kernel_release\`
 - base: the device-proven Sipeed \`soph_vcodec\` source
-- retained exports: **$(wc -l < "$REPORT_DIR/old-exports.txt")**
+- retained exports: **19**
 - added exports: **5**
 - dropped exports: **0**
 - added API: \`vcodec_lock\`, \`vcodec_unlock\`, \`vcodec_trylock\`,

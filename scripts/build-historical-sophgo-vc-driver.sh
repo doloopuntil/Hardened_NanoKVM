@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
-VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-/home/w0w/Hardened_NanoKVM/build/vendor/LicheeRV-Nano-Build}"
+VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT_DIR/build/vendor/LicheeRV-Nano-Build}"
 SOURCE_REPO="${SOPHGO_OSDRV_SOURCE_DIR:-$ROOT_DIR/build/latestbuildroot/sophgo-osdrv-aa542c41df94f7bc656cb740f6622a5dca7dc403}"
 SOURCE_COMMIT="5ed7cc28daf7194885d87df2aa534a27a1956c70"
 KERNEL_DIR="${HISTORICAL_VC_KERNEL_DIR:-$ROOT_DIR/build/latestbuildroot/kernel-baseline-5.10.4-v2}"
@@ -15,8 +15,9 @@ REPORT_DIR="$OUTPUT_DIR/report"
 PATCH_FILE="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-v2-vc-legacy-module-name.patch"
 KERNEL_COMPAT_PATCH="${HISTORICAL_VC_KERNEL_COMPAT_PATCH:-}"
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
-OLD_OSDRV="$VENDOR_SDK_DIR/osdrv/interdrv/v2"
-OLD_MODULE="$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rootfs/mnt/system/ko/soph_vc_driver.ko"
+BASE_SYMVERS="${HISTORICAL_VC_BASE_SYMVERS:-$VENDOR_SDK_DIR/osdrv/interdrv/v2/base/Module.symvers}"
+SYS_SYMVERS="${HISTORICAL_VC_SYS_SYMVERS:-$VENDOR_SDK_DIR/osdrv/interdrv/v2/sys/Module.symvers}"
+OLD_MODULE="${HISTORICAL_VC_REFERENCE_MODULE:-$ROOT_DIR/build/latestbuildroot/vendor-runtime-source-media-v1/system/ko/soph_vc_driver.ko}"
 EXTRA_KCFLAGS="${HISTORICAL_VC_KCFLAGS:-}"
 
 require_file() {
@@ -48,8 +49,8 @@ if [ -n "$KERNEL_COMPAT_PATCH" ]; then
 fi
 require_file "$MINIMAL_VCODEC_DIR/Module.symvers"
 require_file "$SOURCE_JPEG_DIR/Module.symvers"
-require_file "$OLD_OSDRV/base/Module.symvers"
-require_file "$OLD_OSDRV/sys/Module.symvers"
+require_file "$BASE_SYMVERS"
+require_file "$SYS_SYMVERS"
 require_file "$OLD_MODULE"
 require_file "$TOOLCHAIN_BIN/riscv64-unknown-linux-musl-gcc"
 
@@ -68,8 +69,8 @@ if [ -n "$KERNEL_COMPAT_PATCH" ]; then
 fi
 
 INTERDRV="$WORKTREE_DIR/interdrv/v2"
-cp "$OLD_OSDRV/base/Module.symvers" "$INTERDRV/base/Module.symvers"
-cp "$OLD_OSDRV/sys/Module.symvers" "$INTERDRV/sys/Module.symvers"
+cp "$BASE_SYMVERS" "$INTERDRV/base/Module.symvers"
+cp "$SYS_SYMVERS" "$INTERDRV/sys/Module.symvers"
 cp "$MINIMAL_VCODEC_DIR/Module.symvers" "$INTERDRV/vcodec/Module.symvers"
 cp "$SOURCE_JPEG_DIR/Module.symvers" "$INTERDRV/jpeg/Module.symvers"
 

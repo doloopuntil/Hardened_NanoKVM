@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
-VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-/home/w0w/Hardened_NanoKVM/build/vendor/LicheeRV-Nano-Build}"
+VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT_DIR/build/vendor/LicheeRV-Nano-Build}"
 OSDRV_COMMIT="aa542c41df94f7bc656cb740f6622a5dca7dc403"
 SOURCE_REPO="${SOPHGO_OSDRV_SOURCE_DIR:-$ROOT_DIR/build/latestbuildroot/sophgo-osdrv-$OSDRV_COMMIT}"
 KERNEL_DIR="${SOPHGO_MEDIA_KERNEL_DIR:-$ROOT_DIR/build/latestbuildroot/kernel-baseline-5.10.4-v2}"
@@ -15,8 +15,8 @@ KERNEL_COMPAT_PATCH="${SOPHGO_MEDIA_KERNEL_COMPAT_PATCH:-}"
 EXPECTED_JPEG_SRCVERSION="${SOPHGO_MEDIA_EXPECTED_JPEG_SRCVERSION:-625882D05A26BB4B2FD9A6E}"
 EXTRA_KCFLAGS="${SOPHGO_MEDIA_KCFLAGS:-}"
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
-OLD_OSDRV="$VENDOR_SDK_DIR/osdrv/interdrv/v2"
-OLD_MODULE_DIR="$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rootfs/mnt/system/ko"
+BASE_SYMVERS="${SOPHGO_MEDIA_BASE_SYMVERS:-$VENDOR_SDK_DIR/osdrv/interdrv/v2/base/Module.symvers}"
+SYS_SYMVERS="${SOPHGO_MEDIA_SYS_SYMVERS:-$VENDOR_SDK_DIR/osdrv/interdrv/v2/sys/Module.symvers}"
 
 require_file() {
     if [ ! -f "$1" ]; then
@@ -46,11 +46,8 @@ if [ -n "$KERNEL_COMPAT_PATCH" ]; then
     require_file "$KERNEL_COMPAT_PATCH"
 fi
 require_file "$KERNEL_DIR/include/generated/utsrelease.h"
-require_file "$OLD_OSDRV/base/Module.symvers"
-require_file "$OLD_OSDRV/sys/Module.symvers"
-require_file "$OLD_MODULE_DIR/soph_vcodec.ko"
-require_file "$OLD_MODULE_DIR/soph_jpeg.ko"
-require_file "$OLD_MODULE_DIR/soph_vc_driver.ko"
+require_file "$BASE_SYMVERS"
+require_file "$SYS_SYMVERS"
 require_file "$TOOLCHAIN_BIN/riscv64-unknown-linux-musl-gcc"
 
 if [ -e "$OUTPUT_DIR" ]; then
@@ -77,8 +74,8 @@ if [ -n "$KERNEL_COMPAT_PATCH" ]; then
     git -C "$WORKTREE_DIR" apply "$KERNEL_COMPAT_PATCH"
 fi
 
-cp "$OLD_OSDRV/base/Module.symvers" "$WORKTREE_DIR/interdrv/base/Module.symvers"
-cp "$OLD_OSDRV/sys/Module.symvers" "$WORKTREE_DIR/interdrv/sys/Module.symvers"
+cp "$BASE_SYMVERS" "$WORKTREE_DIR/interdrv/base/Module.symvers"
+cp "$SYS_SYMVERS" "$WORKTREE_DIR/interdrv/sys/Module.symvers"
 
 export PATH="$TOOLCHAIN_BIN:/usr/sbin:/usr/bin:/sbin:/bin"
 export ARCH=riscv

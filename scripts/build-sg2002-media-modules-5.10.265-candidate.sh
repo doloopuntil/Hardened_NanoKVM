@@ -9,6 +9,9 @@ CURRENT_DIR="$OUTPUT_DIR/sophgo-current"
 HISTORICAL_DIR="$OUTPUT_DIR/historical-vc"
 ARTIFACT_DIR="$OUTPUT_DIR/artifacts"
 REPORT_DIR="$OUTPUT_DIR/report"
+EXTERNAL_BUILD_DIR="${MEDIA_MODULE_5_10_265_EXTERNAL_BUILD_DIR:-$ROOT_DIR/build/latestbuildroot/external-modules-5.10.265-v3}"
+BASE_SYMVERS="$EXTERNAL_BUILD_DIR/osdrv/interdrv/v2/base/Module.symvers"
+SYS_SYMVERS="$EXTERNAL_BUILD_DIR/osdrv/interdrv/v2/sys/Module.symvers"
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
 SOPHGO_COMPAT_PATCH="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-linux-5.10.265-compat.patch"
 HISTORICAL_COMPAT_PATCH="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-v2-linux-5.10.265-compat.patch"
@@ -34,6 +37,8 @@ require_file "$KERNEL_DIR/Module.symvers"
 require_file "$KERNEL_DIR/arch/riscv/boot/Image"
 require_file "$SOPHGO_COMPAT_PATCH"
 require_file "$HISTORICAL_COMPAT_PATCH"
+require_file "$BASE_SYMVERS"
+require_file "$SYS_SYMVERS"
 
 kernel_release="$(sed -n 's/^#define UTS_RELEASE "\(.*\)"$/\1/p' \
 	"$KERNEL_DIR/include/generated/utsrelease.h")"
@@ -59,6 +64,8 @@ MINIMAL_VCODEC_KCFLAGS="-fmacro-prefix-map=$MINIMAL_DIR/work=/usr/src/vendor-vco
 SOPHGO_MEDIA_KERNEL_DIR="$KERNEL_DIR" \
 SOPHGO_MEDIA_OUTPUT_DIR="$CURRENT_DIR" \
 SOPHGO_MEDIA_KERNEL_COMPAT_PATCH="$SOPHGO_COMPAT_PATCH" \
+SOPHGO_MEDIA_BASE_SYMVERS="$BASE_SYMVERS" \
+SOPHGO_MEDIA_SYS_SYMVERS="$SYS_SYMVERS" \
 SOPHGO_MEDIA_EXPECTED_JPEG_SRCVERSION="$EXPECTED_JPEG_SRCVERSION" \
 SOPHGO_MEDIA_KCFLAGS="-fmacro-prefix-map=$CURRENT_DIR/osdrv=/usr/src/sophgo-osdrv" \
 	"$ROOT_DIR/scripts/build-sophgo-media-module-replacements.sh"
@@ -67,6 +74,8 @@ HISTORICAL_VC_KERNEL_DIR="$KERNEL_DIR" \
 HISTORICAL_VC_VCODEC_DIR="$MINIMAL_DIR/work/osdrv/interdrv/v2/vcodec" \
 HISTORICAL_VC_JPEG_DIR="$CURRENT_DIR/osdrv/interdrv/jpeg" \
 HISTORICAL_VC_KERNEL_COMPAT_PATCH="$HISTORICAL_COMPAT_PATCH" \
+HISTORICAL_VC_BASE_SYMVERS="$BASE_SYMVERS" \
+HISTORICAL_VC_SYS_SYMVERS="$SYS_SYMVERS" \
 HISTORICAL_VC_OUTPUT_DIR="$HISTORICAL_DIR" \
 HISTORICAL_VC_KCFLAGS="-fmacro-prefix-map=$HISTORICAL_DIR/osdrv=/usr/src/sophgo-osdrv-v2" \
 	"$ROOT_DIR/scripts/build-historical-sophgo-vc-driver.sh"
