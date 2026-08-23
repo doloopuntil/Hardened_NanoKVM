@@ -13,6 +13,7 @@ WORKTREE_DIR="$OUTPUT_DIR/osdrv"
 ARTIFACT_DIR="$OUTPUT_DIR/artifacts"
 REPORT_DIR="$OUTPUT_DIR/report"
 PATCH_FILE="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-v2-vc-legacy-module-name.patch"
+KERNEL_COMPAT_PATCH="${HISTORICAL_VC_KERNEL_COMPAT_PATCH:-}"
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
 OLD_OSDRV="$VENDOR_SDK_DIR/osdrv/interdrv/v2"
 OLD_MODULE="$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rootfs/mnt/system/ko/soph_vc_driver.ko"
@@ -41,6 +42,9 @@ done
 require_dir "$SOURCE_REPO"
 require_dir "$KERNEL_DIR"
 require_file "$PATCH_FILE"
+if [ -n "$KERNEL_COMPAT_PATCH" ]; then
+    require_file "$KERNEL_COMPAT_PATCH"
+fi
 require_file "$MINIMAL_VCODEC_DIR/Module.symvers"
 require_file "$SOURCE_JPEG_DIR/Module.symvers"
 require_file "$OLD_OSDRV/base/Module.symvers"
@@ -57,6 +61,10 @@ mkdir -p "$OUTPUT_DIR" "$ARTIFACT_DIR" "$REPORT_DIR"
 git -C "$SOURCE_REPO" worktree add --detach "$WORKTREE_DIR" "$SOURCE_COMMIT"
 git -C "$WORKTREE_DIR" apply --check "$PATCH_FILE"
 git -C "$WORKTREE_DIR" apply "$PATCH_FILE"
+if [ -n "$KERNEL_COMPAT_PATCH" ]; then
+    git -C "$WORKTREE_DIR" apply --check "$KERNEL_COMPAT_PATCH"
+    git -C "$WORKTREE_DIR" apply "$KERNEL_COMPAT_PATCH"
+fi
 
 INTERDRV="$WORKTREE_DIR/interdrv/v2"
 cp "$OLD_OSDRV/base/Module.symvers" "$INTERDRV/base/Module.symvers"
@@ -107,6 +115,9 @@ if [ -s "$REPORT_DIR/missing-old-params.txt" ]; then
 fi
 
 sha256sum "$PATCH_FILE" >"$REPORT_DIR/patch-sha256.txt"
+if [ -n "$KERNEL_COMPAT_PATCH" ]; then
+    sha256sum "$KERNEL_COMPAT_PATCH" >>"$REPORT_DIR/patch-sha256.txt"
+fi
 sha256sum "$OLD_MODULE" "$ARTIFACT_DIR/soph_vc_driver.ko" \
     >"$REPORT_DIR/module-sha256.txt"
 modinfo "$ARTIFACT_DIR/soph_vc_driver.ko" >"$REPORT_DIR/modinfo.txt"

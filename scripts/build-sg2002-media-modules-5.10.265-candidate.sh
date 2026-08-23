@@ -11,6 +11,7 @@ ARTIFACT_DIR="$OUTPUT_DIR/artifacts"
 REPORT_DIR="$OUTPUT_DIR/report"
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
 SOPHGO_COMPAT_PATCH="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-linux-5.10.265-compat.patch"
+HISTORICAL_COMPAT_PATCH="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-v2-linux-5.10.265-compat.patch"
 EXPECTED_JPEG_SRCVERSION="${EXPECTED_JPEG_SRCVERSION:-EBFE55AAD3BE9DD11AF3F51}"
 
 require_file() {
@@ -32,6 +33,7 @@ require_file "$KERNEL_DIR/include/generated/utsrelease.h"
 require_file "$KERNEL_DIR/Module.symvers"
 require_file "$KERNEL_DIR/arch/riscv/boot/Image"
 require_file "$SOPHGO_COMPAT_PATCH"
+require_file "$HISTORICAL_COMPAT_PATCH"
 
 kernel_release="$(sed -n 's/^#define UTS_RELEASE "\(.*\)"$/\1/p' \
 	"$KERNEL_DIR/include/generated/utsrelease.h")"
@@ -62,6 +64,7 @@ SOPHGO_MEDIA_EXPECTED_JPEG_SRCVERSION="$EXPECTED_JPEG_SRCVERSION" \
 HISTORICAL_VC_KERNEL_DIR="$KERNEL_DIR" \
 HISTORICAL_VC_VCODEC_DIR="$MINIMAL_DIR/work/osdrv/interdrv/v2/vcodec" \
 HISTORICAL_VC_JPEG_DIR="$CURRENT_DIR/osdrv/interdrv/jpeg" \
+HISTORICAL_VC_KERNEL_COMPAT_PATCH="$HISTORICAL_COMPAT_PATCH" \
 HISTORICAL_VC_OUTPUT_DIR="$HISTORICAL_DIR" \
 	"$ROOT_DIR/scripts/build-historical-sophgo-vc-driver.sh"
 
