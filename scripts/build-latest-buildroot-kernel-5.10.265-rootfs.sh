@@ -3,7 +3,6 @@ set -euo pipefail
 
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 BUILDROOT_SOURCE="${LATEST_BUILDROOT_SOURCE_DIR:-$ROOT_DIR/build/latestbuildroot/buildroot-2026.05.1-raw11-security}"
-REFERENCE_CONFIG_DIR="${REFERENCE_BUILDROOT_OUTPUT_DIR:-$ROOT_DIR/build/latestbuildroot/sg2002-config-2026.05.1-raw11-repro6}"
 VENDOR_RUNTIME_DIR="${KERNEL_5_10_265_VENDOR_RUNTIME_DIR:-$ROOT_DIR/build/latestbuildroot/vendor-runtime-source-kernel-5.10.265-v2}"
 KVMAPP_DIR="${NANOKVM_KVMAPP_SOURCE_DIR:-$ROOT_DIR/build/kvmapp-rust/kvmapp}"
 OUTPUT_DIR="${KERNEL_5_10_265_BUILDROOT_OUTPUT_DIR:-$ROOT_DIR/build/latestbuildroot/sg2002-config-2026.05.1-kernel-5.10.265-v1}"
@@ -33,7 +32,6 @@ do
 done
 
 require_file "$BUILDROOT_SOURCE/Makefile"
-require_file "$REFERENCE_CONFIG_DIR/.config"
 require_dir "$VENDOR_RUNTIME_DIR/system/ko"
 require_file "$KVMAPP_DIR/server/NanoKVM-Server"
 
@@ -42,7 +40,10 @@ if [ -e "$OUTPUT_DIR" ] || [ -e "$REPORT_DIR" ]; then
 	exit 1
 fi
 mkdir -p "$OUTPUT_DIR" "$REPORT_DIR"
-cp "$REFERENCE_CONFIG_DIR/.config" "$OUTPUT_DIR/.config"
+
+LATEST_BUILDROOT_SOURCE_DIR="$BUILDROOT_SOURCE" \
+HARDENED_SG2002_BUILDROOT_OUTPUT_DIR="$OUTPUT_DIR" \
+	"$ROOT_DIR/scripts/configure-latest-buildroot-sg2002.sh"
 
 LATEST_BUILDROOT_SOURCE_DIR="$BUILDROOT_SOURCE" \
 HARDENED_SG2002_BUILDROOT_OUTPUT_DIR="$OUTPUT_DIR" \
