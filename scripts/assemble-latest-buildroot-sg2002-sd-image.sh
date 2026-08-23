@@ -33,6 +33,7 @@ require_file "$FIP_IMAGE"
 require_file "$BOOT_IMAGE"
 require_file "$LOGO_IMAGE"
 require_file "$EXTERNAL_DIR/board/sg2002/genimage.cfg"
+require_file "$ROOT/scripts/mcopy-preserve-time.sh"
 
 for tool in mkdosfs mcopy; do
 	PATH="$CLEAN_PATH" command -v "$tool" >/dev/null 2>&1 || {
@@ -40,6 +41,7 @@ for tool in mkdosfs mcopy; do
 		exit 1
 	}
 done
+MCOPY_REAL="$(PATH="$CLEAN_PATH" command -v mcopy)"
 
 EXPECTED_BUILDROOT_VERSION="$BUILDROOT_VERSION" \
 EXPECTED_KVMAPP_VERSION="${EXPECTED_KVMAPP_VERSION:-2.0.41}" \
@@ -63,7 +65,8 @@ touch "$OUTPUT_DIR/input/usb.dev" "$OUTPUT_DIR/input/usb.disk0" \
 printf 'hardened-sg2002-port-%s.img\n' "$BUILDROOT_VERSION" > "$OUTPUT_DIR/input/ver"
 find "$OUTPUT_DIR/input" -print0 | xargs -0 -r touch -hd "@$ASSEMBLY_EPOCH"
 
-env PATH="$CLEAN_PATH" "$GENIMAGE" \
+env PATH="$CLEAN_PATH" HARDENED_MCOPY_REAL="$MCOPY_REAL" "$GENIMAGE" \
+	--mcopy "$ROOT/scripts/mcopy-preserve-time.sh" \
 	--rootpath "$OUTPUT_DIR/root" \
 	--tmppath "$OUTPUT_DIR/tmp" \
 	--inputpath "$OUTPUT_DIR/input" \
