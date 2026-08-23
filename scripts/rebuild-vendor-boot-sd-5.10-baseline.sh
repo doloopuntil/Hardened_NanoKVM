@@ -12,6 +12,8 @@ OUTPUT_DIR="${BOOT_SD_BASELINE_OUTPUT_DIR:-$ROOT_DIR/build/latestbuildroot/boot-
 WORKSPACE="$OUTPUT_DIR/workspace"
 REPORT_DIR="$OUTPUT_DIR/report"
 FIT_EPOCH="1782723554"
+BOOT_SD_BUILD_MODE="${BOOT_SD_BUILD_MODE:-byte-exact-baseline}"
+EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-}"
 
 require_command() {
 	command -v "$1" >/dev/null 2>&1 || {
@@ -40,12 +42,36 @@ do
 	}
 done
 
+case "$BOOT_SD_BUILD_MODE" in
+	byte-exact-baseline) ;;
+	candidate)
+		[ -n "$EXPECTED_KERNEL_RELEASE" ] || {
+			echo "EXPECTED_KERNEL_RELEASE is required in candidate mode" >&2
+			exit 1
+		}
+		[ -f "$KERNEL_BASELINE_DIR/include/generated/utsrelease.h" ] || {
+			echo "candidate kernel release header is missing" >&2
+			exit 1
+		}
+		kernel_release="$(sed -n 's/^#define UTS_RELEASE "\(.*\)"$/\1/p' \
+			"$KERNEL_BASELINE_DIR/include/generated/utsrelease.h")"
+		[ "$kernel_release" = "$EXPECTED_KERNEL_RELEASE" ] || {
+			echo "unexpected boot candidate kernel release: $kernel_release" >&2
+			exit 1
+		}
+		;;
+	*)
+		echo "unsupported BOOT_SD_BUILD_MODE: $BOOT_SD_BUILD_MODE" >&2
+		exit 1
+		;;
+esac
+
 if [ -e "$OUTPUT_DIR" ]; then
 	echo "refusing to overwrite boot.sd baseline output: $OUTPUT_DIR" >&2
 	exit 1
 fi
 
-mkdir -p "$WORKSPACE" "$REPORT_DIR" "$OUTPUT_DIR/reference"
+mkdir -p "$WORKSPACE" "$REPORT_DIR" "$OUTPUT_DIR/reference" "$OUTPUT_DIR/candidate"
 
 dumpimage -T flat_dt -p 0 -o "$OUTPUT_DIR/reference/Image" "$REFERENCE_BOOT_SD" >/dev/null
 dumpimage -T flat_dt -p 1 -o "$OUTPUT_DIR/reference/boot.cpio.gz" "$REFERENCE_BOOT_SD" >/dev/null
@@ -141,10 +167,37 @@ sed -i \
 		"$MKIMAGE" -f multi.its -k "$KEY_DIR" -r boot.itb
 )
 
-cmp -s "$WORKSPACE/boot.itb" "$REFERENCE_BOOT_SD" || {
-	echo "reconstructed boot.itb differs from accepted boot.sd" >&2
+dumpimage -T flat_dt -p 0 -o "$OUTPUT_DIR/candidate/Image" \
+	"$WORKSPACE/boot.itb" >/dev/null
+dumpimage -T flat_dt -p 1 -o "$OUTPUT_DIR/candidate/boot.cpio.gz" \
+	"$WORKSPACE/boot.itb" >/dev/null
+dumpimage -T flat_dt -p 2 -o "$OUTPUT_DIR/candidate/sg2002_licheervnano_sd.dtb" \
+	"$WORKSPACE/boot.itb" >/dev/null
+cmp -s "$OUTPUT_DIR/candidate/Image" "$WORKSPACE/Image" || {
+	echo "candidate FIT kernel payload differs from selected Image" >&2
 	exit 2
 }
+cmp -s "$OUTPUT_DIR/candidate/boot.cpio.gz" "$WORKSPACE/boot.cpio.gz" || {
+	echo "candidate FIT ramdisk payload differs from reconstructed ramdisk" >&2
+	exit 2
+}
+cmp -s "$OUTPUT_DIR/candidate/sg2002_licheervnano_sd.dtb" \
+	"$WORKSPACE/sg2002_licheervnano_sd.dtb" || {
+	echo "candidate FIT DTB payload differs from selected board DTB" >&2
+	exit 2
+}
+
+if [ "$BOOT_SD_BUILD_MODE" = byte-exact-baseline ]; then
+	cmp -s "$WORKSPACE/boot.itb" "$REFERENCE_BOOT_SD" || {
+		echo "reconstructed boot.itb differs from accepted boot.sd" >&2
+		exit 2
+	}
+else
+	if cmp -s "$WORKSPACE/boot.itb" "$REFERENCE_BOOT_SD"; then
+		echo "5.10.265 candidate FIT unexpectedly equals 5.10.4 baseline" >&2
+		exit 2
+	fi
+fi
 
 sha256sum \
 	"$WORKSPACE/Image" \
@@ -155,10 +208,10 @@ sha256sum \
 	"$WORKSPACE/boot.itb" > "$REPORT_DIR/SHA256SUMS"
 
 cat > "$REPORT_DIR/summary.md" <<EOF
-# Vendor boot.sd byte-exact baseline rebuild
+# Vendor boot.sd $BOOT_SD_BUILD_MODE rebuild
 
-- clean kernel Image: **match**
-- clean board DTB: **match**
+- selected kernel Image embedded and extracted: **match**
+- selected board DTB embedded and extracted: **match**
 - source-generated ramdisk entries and payloads: **match**
 - historical cpio/gzip metadata normalization: **match**
 - FIT creation epoch: \`$FIT_EPOCH\`
@@ -166,7 +219,8 @@ cat > "$REPORT_DIR/summary.md" <<EOF
   \`$(sha256sum "$WORKSPACE/boot.itb" | awk '{print $1}')\`
 - accepted boot.sd SHA-256:
   \`$(sha256sum "$REFERENCE_BOOT_SD" | awk '{print $1}')\`
-- byte-exact boot.sd result: **match**
+- build mode: **$BOOT_SD_BUILD_MODE**
+- baseline byte identity required: **$([ "$BOOT_SD_BUILD_MODE" = byte-exact-baseline ] && printf yes || printf no)**
 
 The accepted ramdisk and the current source-generated cpio contain identical
 entry ordering, metadata other than mtime, and payload bytes. Historical mtimes
