@@ -28,3 +28,10 @@ diff --git a/interdrv/v2/rgn/common/rgn_common.h b/interdrv/v2/rgn/common/rgn_co
 +#ifndef MAX
  #define MAX(a, b) (((a) > (b))?(a):(b))
 +#endif
+diff --git a/interdrv/v2/dwa/common/dwa_platform.c b/interdrv/v2/dwa/common/dwa_platform.c
+--- a/interdrv/v2/dwa/common/dwa_platform.c
++++ b/interdrv/v2/dwa/common/dwa_platform.c
+@@ -96,1 +96,2 @@
+-	ksize = max(max(in_size, out_size), drv_size);
++	ksize = max_t(unsigned int, max_t(unsigned int, in_size, out_size),
++		      drv_size);
