@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
-VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-/home/w0w/Hardened_NanoKVM/build/vendor/LicheeRV-Nano-Build}"
+VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT_DIR/build/vendor/LicheeRV-Nano-Build}"
 BUILDROOT_OUTPUT_DIR="${KERNEL_5_10_265_BUILDROOT_OUTPUT_DIR:-$ROOT_DIR/build/latestbuildroot/sg2002-config-2026.05.1-kernel-5.10.265-v2}"
 VENDOR_RUNTIME_DIR="${KERNEL_5_10_265_VENDOR_RUNTIME_DIR:-$ROOT_DIR/build/latestbuildroot/vendor-runtime-source-kernel-5.10.265-v2}"
 BOOT_SD="${KERNEL_5_10_265_BOOT_SD:-$ROOT_DIR/build/latestbuildroot/boot-sd-5.10.265-v1/workspace/boot.itb}"
@@ -11,7 +11,7 @@ ASSEMBLY_DIR="$OUTPUT_DIR/assembly"
 EXTRACT_DIR="$OUTPUT_DIR/extracted"
 REPORT_DIR="$OUTPUT_DIR/report"
 ROOTFS_IMAGE="$BUILDROOT_OUTPUT_DIR/images/rootfs.ext2"
-FIP_IMAGE="$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/fip.bin"
+FIP_IMAGE="${KERNEL_5_10_265_FIP_IMAGE:-$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/fip.bin}"
 MCOPY="${MCOPY:-$ROOT_DIR/build/host-deps/usr/bin/mcopy}"
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
 
