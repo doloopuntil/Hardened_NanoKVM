@@ -9,6 +9,7 @@ OUTPUT_DIR="${KERNEL_5_10_265_OUTPUT_DIR:-$ROOT_DIR/build/latestbuildroot/kernel
 BOARD_DEFCONFIG="$VENDOR_SDK_DIR/build/boards/sg200x/sg2002_licheervnano_sd/linux/sg2002_licheervnano_sd_defconfig"
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
 TOOLCHAIN_PREFIX="$TOOLCHAIN_BIN/riscv64-unknown-linux-musl-"
+HOST_CPP="${HOST_CPP:-/usr/bin/gcc}"
 REPORT_DIR="$OUTPUT_DIR/report"
 JOBS="${KERNEL_BUILD_JOBS:-16}"
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
@@ -48,6 +49,7 @@ require_file "$BOARD_DEFCONFIG"
 require_file "${TOOLCHAIN_PREFIX}gcc"
 require_file "${TOOLCHAIN_PREFIX}ld"
 require_file "$KERNEL_SOURCE/scripts/config"
+require_file "$HOST_CPP"
 
 if [ -n "$(git -C "$KERNEL_SOURCE" status --short)" ]; then
 	echo "kernel candidate source is not clean" >&2
@@ -104,6 +106,34 @@ sha256sum "${TOOLCHAIN_PREFIX}gcc" "${TOOLCHAIN_PREFIX}ld" \
 
 make -C "$KERNEL_SOURCE" O="$OUTPUT_DIR" olddefconfig
 make -j"$JOBS" -C "$KERNEL_SOURCE" O="$OUTPUT_DIR" Image modules dtbs
+
+CVITEK_DTB_DIR="$OUTPUT_DIR/arch/riscv/boot/dts/cvitek"
+CVITEK_DTS_DIR="$KERNEL_SOURCE/arch/riscv/boot/dts/cvitek"
+DTC_INCLUDE_DIR="$KERNEL_SOURCE/scripts/dtc/include-prefixes"
+DTC="$OUTPUT_DIR/scripts/dtc/dtc"
+require_file "$DTC"
+mkdir -p "$CVITEK_DTB_DIR"
+: > "$REPORT_DIR/board-dts-sha256.txt"
+
+for board in sg2000_duo_sd sg2002_duo_sd sg2002_licheervnano_sd
+do
+	board_dts="$VENDOR_SDK_DIR/build/boards/sg200x/$board/dts_riscv/$board.dts"
+	preprocessed="$CVITEK_DTB_DIR/.$board.dtb.dts.tmp"
+	board_dtb="$CVITEK_DTB_DIR/$board.dtb"
+	require_file "$board_dts"
+	sha256sum "$board_dts" >> "$REPORT_DIR/board-dts-sha256.txt"
+	"$HOST_CPP" -E -nostdinc \
+		-I"$CVITEK_DTS_DIR" -I"$DTC_INCLUDE_DIR" \
+		-undef -D__DTS__ -x assembler-with-cpp \
+		-o "$preprocessed" "$board_dts"
+	"$DTC" -O dtb -o "$board_dtb" -b 0 \
+		-i"$CVITEK_DTS_DIR" -i"$DTC_INCLUDE_DIR" \
+		-Wno-interrupt_provider -Wno-unit_address_vs_reg \
+		-Wno-unit_address_format -Wno-avoid_unnecessary_addr_size \
+		-Wno-alias_paths -Wno-graph_child_address \
+		-Wno-simple_bus_reg -Wno-unique_unit_address \
+		-Wno-pci_device_reg "$preprocessed"
+done
 
 kernel_release="$(make -s -C "$KERNEL_SOURCE" O="$OUTPUT_DIR" kernelrelease)"
 if [ "$kernel_release" != "$EXPECTED_KERNEL_RELEASE" ]; then
