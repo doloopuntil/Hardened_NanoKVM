@@ -75,7 +75,9 @@ Unpublished accepted raw.11 lab artifacts from runtime commit `4ab8c4e`:
 Write only the recovery SD image to sacrificial media. Do not attempt to feed
 the unsigned bundle to the updater. In-place raw.11 hardware acceptance is
 complete and physical recovery-card boot is repeatable. Explicit
-rollback/failure-path tests remain before production signing or publication.
+metadata/manifest/signature failure tests pass; raw partition rollback is the
+now-proven manual SD rewrite path, not an automatic partition rollback.
+Production signing and redistribution remain before publication.
 
 Current combined RC11 release artifacts and SHA-256 values:
 

@@ -175,6 +175,12 @@ Completed locally:
   `66bf914285d0faac8781e5244c8b0a0991524335dc605e40f0f42fc866312e04`
   and `d007241a4ae17e46135e40dd08bd2128d1bb314981002143aff9d7e353c0d983`;
   it is lab evidence only and is not a production release;
+- metadata-v2, manifest, minimum-app and detached-signature negative/positive
+  tests pass. Raw partition updates intentionally have no automatic partition
+  rollback; their rollback path is full SD recovery. Two clean rewrites and
+  accepted boots of the final image prove that manual recovery path. Deliberate
+  power-loss corruption is outside this accepted gate unless separately
+  authorized;
 - final Buildroot `legal-info` target manifest is
   `cc18e25a89f99b6d75bd0b5e23abcb7cd43dca9377b3569c9f3aa4d0fcfa0764`.
   The AIC firmware, vendor payload portion of kvmapp, codec firmware and SG2002
@@ -182,7 +188,6 @@ Completed locally:
 
 Pending or blocked:
 
-- explicit rollback/failure-path testing;
 - production system-update signing key custody;
 - redistribution permission or replacement of the four proprietary inputs;
 - the separate vendor-kernel remediation track.
