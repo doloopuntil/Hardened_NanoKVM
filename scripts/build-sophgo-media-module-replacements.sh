@@ -11,6 +11,7 @@ WORKTREE_DIR="$OUTPUT_DIR/osdrv"
 ARTIFACT_DIR="$OUTPUT_DIR/artifacts"
 REPORT_DIR="$OUTPUT_DIR/report"
 PATCH_FILE="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-legacy-module-names.patch"
+KERNEL_COMPAT_PATCH="${SOPHGO_MEDIA_KERNEL_COMPAT_PATCH:-}"
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
 OLD_OSDRV="$VENDOR_SDK_DIR/osdrv/interdrv/v2"
 OLD_MODULE_DIR="$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rootfs/mnt/system/ko"
@@ -39,6 +40,9 @@ done
 require_dir "$SOURCE_REPO"
 require_dir "$KERNEL_DIR"
 require_file "$PATCH_FILE"
+if [ -n "$KERNEL_COMPAT_PATCH" ]; then
+    require_file "$KERNEL_COMPAT_PATCH"
+fi
 require_file "$KERNEL_DIR/include/generated/utsrelease.h"
 require_file "$OLD_OSDRV/base/Module.symvers"
 require_file "$OLD_OSDRV/sys/Module.symvers"
@@ -66,6 +70,10 @@ mkdir -p "$OUTPUT_DIR" "$ARTIFACT_DIR" "$REPORT_DIR"
 git -C "$SOURCE_REPO" worktree add --detach "$WORKTREE_DIR" "$OSDRV_COMMIT"
 git -C "$WORKTREE_DIR" apply --check "$PATCH_FILE"
 git -C "$WORKTREE_DIR" apply "$PATCH_FILE"
+if [ -n "$KERNEL_COMPAT_PATCH" ]; then
+    git -C "$WORKTREE_DIR" apply --check "$KERNEL_COMPAT_PATCH"
+    git -C "$WORKTREE_DIR" apply "$KERNEL_COMPAT_PATCH"
+fi
 
 cp "$OLD_OSDRV/base/Module.symvers" "$WORKTREE_DIR/interdrv/base/Module.symvers"
 cp "$OLD_OSDRV/sys/Module.symvers" "$WORKTREE_DIR/interdrv/sys/Module.symvers"
@@ -138,6 +146,9 @@ for module in soph_vcodec.ko soph_jpeg.ko soph_vc_driver.ko; do
 done
 
 sha256sum "$PATCH_FILE" >"$REPORT_DIR/patch-sha256.txt"
+if [ -n "$KERNEL_COMPAT_PATCH" ]; then
+    sha256sum "$KERNEL_COMPAT_PATCH" >>"$REPORT_DIR/patch-sha256.txt"
+fi
 sha256sum "$ARTIFACT_DIR"/*.ko >"$REPORT_DIR/module-sha256.txt"
 "$TOOLCHAIN_BIN/riscv64-unknown-linux-musl-gcc" --version \
     >"$REPORT_DIR/compiler-version.txt"

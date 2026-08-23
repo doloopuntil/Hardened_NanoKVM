@@ -10,6 +10,7 @@ HISTORICAL_DIR="$OUTPUT_DIR/historical-vc"
 ARTIFACT_DIR="$OUTPUT_DIR/artifacts"
 REPORT_DIR="$OUTPUT_DIR/report"
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
+SOPHGO_COMPAT_PATCH="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-linux-5.10.265-compat.patch"
 
 require_file() {
 	[ -f "$1" ] || {
@@ -29,6 +30,7 @@ done
 require_file "$KERNEL_DIR/include/generated/utsrelease.h"
 require_file "$KERNEL_DIR/Module.symvers"
 require_file "$KERNEL_DIR/arch/riscv/boot/Image"
+require_file "$SOPHGO_COMPAT_PATCH"
 
 kernel_release="$(sed -n 's/^#define UTS_RELEASE "\(.*\)"$/\1/p' \
 	"$KERNEL_DIR/include/generated/utsrelease.h")"
@@ -52,6 +54,7 @@ MINIMAL_VCODEC_OUTPUT_DIR="$MINIMAL_DIR" \
 
 SOPHGO_MEDIA_KERNEL_DIR="$KERNEL_DIR" \
 SOPHGO_MEDIA_OUTPUT_DIR="$CURRENT_DIR" \
+SOPHGO_MEDIA_KERNEL_COMPAT_PATCH="$SOPHGO_COMPAT_PATCH" \
 	"$ROOT_DIR/scripts/build-sophgo-media-module-replacements.sh"
 
 HISTORICAL_VC_KERNEL_DIR="$KERNEL_DIR" \

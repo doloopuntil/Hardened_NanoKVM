@@ -1,0 +1,9 @@
+diff --git a/interdrv/jpeg/jmm.h b/interdrv/jpeg/jmm.h
+--- a/interdrv/jpeg/jmm.h
++++ b/interdrv/jpeg/jmm.h
+@@ -142,3 +142,5 @@
+ #define VMEM_HEIGHT(_tree) (_tree == NULL ? -1 : _tree->height)
++#ifndef MAX
+ #define MAX(_a, _b) (_a >= _b ? _a : _b)
++#endif
+ 
