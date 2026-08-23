@@ -4,8 +4,9 @@ set -euo pipefail
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-/home/w0w/Hardened_NanoKVM/build/vendor/LicheeRV-Nano-Build}"
 KERNEL_SOURCE="${KERNEL_5_10_265_SOURCE_DIR:-$ROOT_DIR/build/latestbuildroot/kernel-5.10.265-v1/repo}"
-BASELINE_DIR="${KERNEL_5_10_4_BASELINE_DIR:-$ROOT_DIR/build/latestbuildroot/kernel-baseline-5.10.4-v2}"
 OUTPUT_DIR="${KERNEL_5_10_265_OUTPUT_DIR:-$ROOT_DIR/build/latestbuildroot/kernel-5.10.265-v1/output}"
+EXPECTED_MODULE_MANIFEST="${KERNEL_5_10_265_MODULE_MANIFEST:-$ROOT_DIR/support/sg2002/kernel/5.10.265/manifests/in-tree-modules.txt}"
+EXPECTED_DTB_MANIFEST="${KERNEL_5_10_265_DTB_MANIFEST:-$ROOT_DIR/support/sg2002/kernel/5.10.265/manifests/cvitek-dtbs.txt}"
 BOARD_DEFCONFIG="$VENDOR_SDK_DIR/build/boards/sg200x/sg2002_licheervnano_sd/linux/sg2002_licheervnano_sd_defconfig"
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
 TOOLCHAIN_PREFIX="$TOOLCHAIN_BIN/riscv64-unknown-linux-musl-"
@@ -13,6 +14,7 @@ HOST_CPP="${HOST_CPP:-/usr/bin/gcc}"
 REPORT_DIR="$OUTPUT_DIR/report"
 JOBS="${KERNEL_BUILD_JOBS:-16}"
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
+CONFIG_FRAGMENT="${KERNEL_5_10_265_CONFIG_FRAGMENT:-}"
 
 require_file() {
 	[ -f "$1" ] || {
@@ -28,7 +30,7 @@ require_dir() {
 	}
 }
 
-for command in git make sha256sum sort cmp sed find xargs diff wc tail awk
+for command in git make sha256sum sort cmp sed find xargs diff wc tail awk readlink cp
 do
 	command -v "$command" >/dev/null 2>&1 || {
 		echo "required command is missing: $command" >&2
@@ -44,12 +46,25 @@ case "$JOBS" in
 esac
 
 require_dir "$KERNEL_SOURCE"
-require_dir "$BASELINE_DIR"
 require_file "$BOARD_DEFCONFIG"
+require_file "$EXPECTED_MODULE_MANIFEST"
+require_file "$EXPECTED_DTB_MANIFEST"
 require_file "${TOOLCHAIN_PREFIX}gcc"
 require_file "${TOOLCHAIN_PREFIX}ld"
 require_file "$KERNEL_SOURCE/scripts/config"
 require_file "$HOST_CPP"
+
+if [ -n "$CONFIG_FRAGMENT" ]; then
+	case "$CONFIG_FRAGMENT" in
+	/*) ;;
+	*) CONFIG_FRAGMENT="$ROOT_DIR/$CONFIG_FRAGMENT" ;;
+	esac
+	require_file "$CONFIG_FRAGMENT"
+	CONFIG_FRAGMENT="$(readlink -f "$CONFIG_FRAGMENT")"
+	config_fragment_sha256="$(sha256sum "$CONFIG_FRAGMENT" | awk '{print $1}')"
+else
+	config_fragment_sha256="none"
+fi
 
 RISCV_TIME_SOURCE="$KERNEL_SOURCE/arch/riscv/kernel/time.c"
 require_file "$RISCV_TIME_SOURCE"
@@ -79,6 +94,7 @@ mkdir -p "$OUTPUT_DIR" "$REPORT_DIR"
 printf 'of_clk_include_count=%s\nof_clk_init_count=%s\n' \
 	"$of_clk_include_count" "$of_clk_init_count" \
 	> "$REPORT_DIR/riscv-time-init-audit.txt"
+new_output=false
 if [ -f "$REPORT_DIR/source-commit.txt" ]; then
 	read -r recorded_commit < "$REPORT_DIR/source-commit.txt"
 	if [ "$recorded_commit" != "$source_commit" ]; then
@@ -87,6 +103,7 @@ if [ -f "$REPORT_DIR/source-commit.txt" ]; then
 		exit 1
 	fi
 else
+	new_output=true
 	if [ -e "$OUTPUT_DIR/.config" ]; then
 		echo "unattributed kernel output already contains .config: $OUTPUT_DIR" >&2
 		exit 1
@@ -94,6 +111,20 @@ else
 	printf '%s\n' "$source_commit" > "$REPORT_DIR/source-commit.txt"
 	printf '%s\n' "$source_tree" > "$REPORT_DIR/source-tree.txt"
 	cp "$BOARD_DEFCONFIG" "$OUTPUT_DIR/.config"
+fi
+
+if [ -f "$REPORT_DIR/config-fragment-sha256.txt" ]; then
+	read -r recorded_fragment_sha256 < "$REPORT_DIR/config-fragment-sha256.txt"
+	[ "$recorded_fragment_sha256" = "$config_fragment_sha256" ] || {
+		echo "refusing to reuse output with a different config fragment" >&2
+		exit 1
+	}
+else
+	[ "$new_output" = true ] || {
+		echo "refusing to attribute an existing output to an unrecorded config fragment" >&2
+		exit 1
+	}
+	printf '%s\n' "$config_fragment_sha256" > "$REPORT_DIR/config-fragment-sha256.txt"
 fi
 
 # The accepted vendor build ran from a source snapshot without Git metadata.
@@ -121,6 +152,39 @@ sha256sum "${TOOLCHAIN_PREFIX}gcc" "${TOOLCHAIN_PREFIX}ld" \
 	> "$REPORT_DIR/toolchain-sha256.txt"
 
 make -C "$KERNEL_SOURCE" O="$OUTPUT_DIR" olddefconfig
+
+if [ "$new_output" = true ]; then
+	cp "$OUTPUT_DIR/.config" "$REPORT_DIR/config-before-fragment.config"
+	if [ -n "$CONFIG_FRAGMENT" ]; then
+		KCONFIG_CONFIG="$OUTPUT_DIR/.config" \
+			"$KERNEL_SOURCE/scripts/kconfig/merge_config.sh" \
+			-m -O "$OUTPUT_DIR" "$OUTPUT_DIR/.config" "$CONFIG_FRAGMENT"
+		make -C "$KERNEL_SOURCE" O="$OUTPUT_DIR" olddefconfig
+	fi
+fi
+
+if [ -n "$CONFIG_FRAGMENT" ]; then
+	while IFS= read -r requested || [ -n "$requested" ]
+	do
+		case "$requested" in
+		''|'#'*)
+			case "$requested" in
+			'# CONFIG_'*' is not set') ;;
+			*) continue ;;
+			esac
+			;;
+		CONFIG_[A-Za-z0-9_]*=*) ;;
+		*)
+			echo "invalid kernel config fragment line: $requested" >&2
+			exit 1
+			;;
+		esac
+		grep -Fqx "$requested" "$OUTPUT_DIR/.config" || {
+			echo "kernel config fragment request was not retained: $requested" >&2
+			exit 1
+		}
+	done < "$CONFIG_FRAGMENT"
+fi
 make -j"$JOBS" -C "$KERNEL_SOURCE" O="$OUTPUT_DIR" Image modules dtbs
 
 CVITEK_DTB_DIR="$OUTPUT_DIR/arch/riscv/boot/dts/cvitek"
@@ -193,8 +257,7 @@ do
 	require_file "$path"
 done
 
-find "$BASELINE_DIR" -type f -name '*.ko' -printf '%P\n' | LC_ALL=C sort \
-	> "$REPORT_DIR/expected-in-tree-modules.txt"
+cp "$EXPECTED_MODULE_MANIFEST" "$REPORT_DIR/expected-in-tree-modules.txt"
 find "$OUTPUT_DIR" -type f -name '*.ko' -printf '%P\n' | LC_ALL=C sort \
 	> "$REPORT_DIR/built-in-tree-modules.txt"
 cmp -s "$REPORT_DIR/expected-in-tree-modules.txt" \
@@ -205,8 +268,7 @@ cmp -s "$REPORT_DIR/expected-in-tree-modules.txt" \
 	exit 1
 }
 
-find "$BASELINE_DIR/arch/riscv/boot/dts/cvitek" -maxdepth 1 -type f \
-	-name '*.dtb' -printf '%f\n' | LC_ALL=C sort > "$REPORT_DIR/expected-dtbs.txt"
+cp "$EXPECTED_DTB_MANIFEST" "$REPORT_DIR/expected-dtbs.txt"
 find "$OUTPUT_DIR/arch/riscv/boot/dts/cvitek" -maxdepth 1 -type f \
 	-name '*.dtb' -printf '%f\n' | LC_ALL=C sort > "$REPORT_DIR/built-dtbs.txt"
 cmp -s "$REPORT_DIR/expected-dtbs.txt" "$REPORT_DIR/built-dtbs.txt" || {
@@ -224,8 +286,9 @@ sha256sum \
 	> "$REPORT_DIR/core-sha256.txt"
 find "$OUTPUT_DIR" -type f -name '*.ko' -print0 | LC_ALL=C sort -z | \
 	xargs -0 sha256sum > "$REPORT_DIR/in-tree-module-sha256.txt"
-diff -u "$BASELINE_DIR/.config" "$OUTPUT_DIR/.config" \
-	> "$REPORT_DIR/config-vs-5.10.4.diff" || true
+require_file "$REPORT_DIR/config-before-fragment.config"
+diff -u "$REPORT_DIR/config-before-fragment.config" "$OUTPUT_DIR/.config" \
+	> "$REPORT_DIR/config-hardening.diff" || true
 
 if [ -n "$(git -C "$KERNEL_SOURCE" status --short)" ]; then
 	echo "kernel build modified the clean source worktree" >&2
@@ -237,6 +300,7 @@ cat > "$REPORT_DIR/summary.md" <<EOF
 
 - source commit: \`$source_commit\`
 - source tree: \`$source_tree\`
+- config fragment SHA-256: \`$config_fragment_sha256\`
 - kernel release: \`$kernel_release\`
 - signed stable parent: \`$stable_parent\`
 - in-tree module inventory: **$(wc -l < "$REPORT_DIR/built-in-tree-modules.txt")/$(wc -l < "$REPORT_DIR/expected-in-tree-modules.txt") match**

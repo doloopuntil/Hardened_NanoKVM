@@ -4,6 +4,8 @@ set -euo pipefail
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 RUN_ROOT="${KERNEL_5_10_265_REPRO_ROOT:-}"
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
+export HARDENED_SG2002_VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT_DIR/build/vendor/LicheeRV-Nano-Build}"
+export HARDENED_SG2002_TOOLCHAIN_BIN="${HARDENED_SG2002_TOOLCHAIN_BIN:-$HARDENED_SG2002_VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin}"
 
 [ -n "$RUN_ROOT" ] || {
 	echo "KERNEL_5_10_265_REPRO_ROOT is required" >&2
