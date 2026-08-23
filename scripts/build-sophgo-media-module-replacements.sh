@@ -12,6 +12,7 @@ ARTIFACT_DIR="$OUTPUT_DIR/artifacts"
 REPORT_DIR="$OUTPUT_DIR/report"
 PATCH_FILE="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-legacy-module-names.patch"
 KERNEL_COMPAT_PATCH="${SOPHGO_MEDIA_KERNEL_COMPAT_PATCH:-}"
+EXPECTED_JPEG_SRCVERSION="${SOPHGO_MEDIA_EXPECTED_JPEG_SRCVERSION:-625882D05A26BB4B2FD9A6E}"
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
 OLD_OSDRV="$VENDOR_SDK_DIR/osdrv/interdrv/v2"
 OLD_MODULE_DIR="$VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rootfs/mnt/system/ko"
@@ -132,7 +133,7 @@ assert_modinfo name soph_jpeg.ko soph_jpeg
 assert_modinfo name soph_vc_driver.ko soph_vc_driver
 assert_modinfo depends soph_jpeg.ko soph_vcodec
 assert_modinfo depends soph_vc_driver.ko soph_jpeg,soph_vcodec,soph_base,soph_sys
-assert_modinfo srcversion soph_jpeg.ko 625882D05A26BB4B2FD9A6E
+assert_modinfo srcversion soph_jpeg.ko "$EXPECTED_JPEG_SRCVERSION"
 
 for module in soph_vcodec.ko soph_jpeg.ko soph_vc_driver.ko; do
     vermagic="$(modinfo -F vermagic "$ARTIFACT_DIR/$module")"
@@ -168,8 +169,7 @@ cat >"$REPORT_DIR/summary.md" <<EOF
 - compatibility patch: \`$PATCH_FILE\`
 - source-built modules: \`soph_vcodec.ko\`, \`soph_jpeg.ko\`,
   \`soph_vc_driver.ko\`
-- JPEG source version matches the retained prebuilt module:
-  \`625882D05A26BB4B2FD9A6E\`
+- JPEG source version: \`$EXPECTED_JPEG_SRCVERSION\`
 - modpost completed with the retained \`soph_base\` and \`soph_sys\` symbol
   contracts and no unresolved symbols.
 

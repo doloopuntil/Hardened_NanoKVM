@@ -11,6 +11,7 @@ ARTIFACT_DIR="$OUTPUT_DIR/artifacts"
 REPORT_DIR="$OUTPUT_DIR/report"
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
 SOPHGO_COMPAT_PATCH="$ROOT_DIR/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-linux-5.10.265-compat.patch"
+EXPECTED_JPEG_SRCVERSION="${EXPECTED_JPEG_SRCVERSION:-EBFE55AAD3BE9DD11AF3F51}"
 
 require_file() {
 	[ -f "$1" ] || {
@@ -55,6 +56,7 @@ MINIMAL_VCODEC_OUTPUT_DIR="$MINIMAL_DIR" \
 SOPHGO_MEDIA_KERNEL_DIR="$KERNEL_DIR" \
 SOPHGO_MEDIA_OUTPUT_DIR="$CURRENT_DIR" \
 SOPHGO_MEDIA_KERNEL_COMPAT_PATCH="$SOPHGO_COMPAT_PATCH" \
+SOPHGO_MEDIA_EXPECTED_JPEG_SRCVERSION="$EXPECTED_JPEG_SRCVERSION" \
 	"$ROOT_DIR/scripts/build-sophgo-media-module-replacements.sh"
 
 HISTORICAL_VC_KERNEL_DIR="$KERNEL_DIR" \
@@ -83,6 +85,7 @@ assert_modinfo name soph_jpeg.ko soph_jpeg
 assert_modinfo name soph_vc_driver.ko soph_vc_driver
 assert_modinfo depends soph_jpeg.ko soph_vcodec
 assert_modinfo depends soph_vc_driver.ko soph_jpeg,soph_vcodec,soph_base,soph_sys
+assert_modinfo srcversion soph_jpeg.ko "$EXPECTED_JPEG_SRCVERSION"
 
 for module in soph_vcodec.ko soph_jpeg.ko soph_vc_driver.ko
 do
