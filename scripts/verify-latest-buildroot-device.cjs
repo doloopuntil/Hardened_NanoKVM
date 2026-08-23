@@ -9,7 +9,7 @@ const CryptoJS = require('../web/node_modules/crypto-js');
 const { request } = require('/home/w0w/.local/share/playwright/node_modules/playwright');
 
 const ROOT = path.resolve(__dirname, '..');
-const TARGET_IP = '10.0.87.133';
+const TARGET_IP = process.env.TARGET_IP || '10.0.87.133';
 const EXPECTED_SYSTEM = process.env.EXPECTED_SYSTEM_VERSION || '0.3.0-raw.10';
 const EXPECTED_APP = process.env.EXPECTED_APP_VERSION || '2.0.40';
 const EXPECTED_BACKEND_SHA256 = process.env.EXPECTED_BACKEND_SHA256
@@ -26,7 +26,11 @@ const EXPECTED_SOPH_JPEG_SHA256 = process.env.EXPECTED_SOPH_JPEG_SHA256
   || 'eacf2af2c75c23816af129843912f5072c9cb81d44434d563ceb449ee2899666';
 const EXPECTED_SOPH_VC_DRIVER_SHA256 = process.env.EXPECTED_SOPH_VC_DRIVER_SHA256
   || 'cc543c2a1b25c63c0372d7a687643605b1d07a5624403e3cf7d74b52ecadecf5';
-const EXPECTED_ED25519 = 'SHA256:IZackVzmTMVDUGZJ8YsaqK7eUe1nGy+aVRKlVMxnqs4';
+const EXPECTED_ED25519 = process.env.EXPECTED_ED25519
+  || 'SHA256:IZackVzmTMVDUGZJ8YsaqK7eUe1nGy+aVRKlVMxnqs4';
+const RECOVERY_FIRST_BOOT = process.env.RECOVERY_FIRST_BOOT === '1';
+const EXPECTED_ETH_MAC = (process.env.EXPECTED_ETH_MAC || '').toLowerCase();
+const EXPECTED_CONFIG_PROTO = process.env.EXPECTED_CONFIG_PROTO || '';
 const SSHPASS = path.join(ROOT, 'build/host-deps/sshpass/usr/bin/sshpass');
 const runId = new Date().toISOString().replace(/[-:]/g, '').replace(/\..*$/, 'Z');
 const resultDir = path.join(ROOT, 'build/latestbuildroot/device-tests', `postflight-${EXPECTED_SYSTEM}-${TARGET_IP}-${runId}`);
@@ -282,6 +286,10 @@ sshd -T 2>/dev/null | grep -E '^(permitrootlogin|passwordauthentication|kbdinter
       await api(context, csrfToken, '/api/system-update/raw-enabled'),
       'raw update flag',
     );
+    const setup = requireApiOk(
+      await api(context, csrfToken, '/api/auth/setup'),
+      'first-account setup state',
+    );
     requireApiOk(await api(context, csrfToken, '/api/vm/hdmi'), 'HDMI API');
 
     const updateCheck = await api(context, csrfToken, '/api/system-update/check');
@@ -299,6 +307,12 @@ printf 'OS_PRETTY=%s\\n' "$(sed -n 's/^PRETTY_NAME=//p' /etc/os-release | tr -d 
 printf 'ROOT_MOUNT=%s\\n' "$(awk '$2 == "/" { print $1 ":" $3 ":" $4 }' /proc/mounts)"
 printf 'BOOT_MOUNT=%s\\n' "$(awk '$2 == "/boot" { print $1 ":" $3 ":" $4 }' /proc/mounts)"
 printf 'DATA_MOUNT=%s\\n' "$(awk '$2 == "/data" { print $1 ":" $3 ":" $4 }' /proc/mounts)"
+printf 'ETH_MAC=%s\\n' "$(cat /sys/class/net/eth0/address 2>/dev/null || true)"
+printf 'P1_SECTORS=%s\\n' "$(cat /sys/class/block/mmcblk0p1/size 2>/dev/null || true)"
+printf 'P2_SECTORS=%s\\n' "$(cat /sys/class/block/mmcblk0p2/size 2>/dev/null || true)"
+printf 'P3_SECTORS=%s\\n' "$(cat /sys/class/block/mmcblk0p3/size 2>/dev/null || true)"
+printf 'AVAHI_STATUS=%s\\n' "$(/usr/sbin/avahi-daemon -c >/dev/null 2>&1 && echo running || echo stopped)"
+printf 'AVAHI_SOCKET_MODE=%s\\n' "$([ -S /run/avahi-daemon/socket ] && stat -c '%a' /run/avahi-daemon/socket || echo absent)"
 BACKEND_PID=''
 if [ -r /tmp/nanokvm-server.pid ]; then
   CANDIDATE_PID="$(cat /tmp/nanokvm-server.pid 2>/dev/null || true)"
@@ -451,9 +465,12 @@ sshd -T | grep -E '^(permitrootlogin|passwordauthentication|kbdinteractiveauthen
     step(`pending=${status.pending ? 'yes' : 'no'}`);
     step(`boot_health=${status.bootHealth?.healthy === true ? 'healthy' : 'not-healthy-or-cleared'}`);
     step(`raw_enabled=${raw.enabled}`);
+    step(`setup_required=${setup.required}`);
     step(`update_check_error=${updateCheckError || 'none'}`);
     for (const name of [
       'HOSTNAME', 'ROOT_MOUNT', 'BOOT_MOUNT', 'DATA_MOUNT', 'RESTORE_DONE',
+      'ETH_MAC', 'P1_SECTORS', 'P2_SECTORS', 'P3_SECTORS', 'AVAHI_STATUS',
+      'AVAHI_SOCKET_MODE',
       'RAW_MARKER', 'BOOT_GOOD', 'CONFIG_PROTO', 'DNS_CONFIG', 'DNS_TOTAL', 'DNS_UNIQUE',
       'S30ETH_SHA', 'KVMAPP_S30ETH_SHA', 'SOPH_VCODEC_SHA', 'SOPH_JPEG_SHA',
       'SOPH_VC_DRIVER_SHA', 'PRESERVE_ROOT',
@@ -480,11 +497,44 @@ sshd -T | grep -E '^(permitrootlogin|passwordauthentication|kbdinteractiveauthen
       fail('postflight SSH or runtime process check failed');
     }
     if (fields.get('WEB_INDEX') !== 'present') fail('postflight web root is missing');
-    if (fields.get('RESTORE_DONE') !== 'present') {
-      fail('postflight preserved root configuration was not restored');
-    }
-    if (fields.get('RAW_MARKER') !== 'cleared' || fields.get('BOOT_GOOD') !== 'present') {
-      fail('postflight boot-good confirmation is incomplete');
+    if (RECOVERY_FIRST_BOOT) {
+      if (setup.required !== false) fail('recovery first-account setup is incomplete');
+      if (status.pending || raw.enabled !== false) fail('recovery update state is not clean');
+      if (fields.get('RESTORE_DONE') !== 'missing' || fields.get('RAW_MARKER') !== 'cleared') {
+        fail('recovery image unexpectedly contains raw-update restore state');
+      }
+      if (!fields.get('ROOT_MOUNT')?.startsWith('/dev/mmcblk0p2:ext4:')) {
+        fail('recovery rootfs mount mismatch');
+      }
+      if (!fields.get('BOOT_MOUNT')?.startsWith('/dev/mmcblk0p1:vfat:')) {
+        fail('recovery boot mount mismatch');
+      }
+      if (!fields.get('DATA_MOUNT')?.startsWith('/dev/mmcblk0p3:exfat:')) {
+        fail('recovery data mount mismatch');
+      }
+      if (!EXPECTED_ETH_MAC || fields.get('ETH_MAC')?.toLowerCase() !== EXPECTED_ETH_MAC) {
+        fail('recovery Ethernet MAC mismatch');
+      }
+      const effectiveProto = fields.get('CONFIG_PROTO') || new URL(baseURL).protocol.slice(0, -1);
+      if (EXPECTED_CONFIG_PROTO && effectiveProto !== EXPECTED_CONFIG_PROTO) {
+        fail('recovery HTTP/HTTPS mode mismatch');
+      }
+      if (fields.get('P1_SECTORS') !== '32768') fail('recovery boot partition size mismatch');
+      if (Number(fields.get('P2_SECTORS') || 0) < 15_967_232) {
+        fail('recovery rootfs partition was not expanded');
+      }
+      if (Number(fields.get('P3_SECTORS') || 0) <= 0) fail('recovery data partition is missing');
+      if (fields.get('AVAHI_STATUS') !== 'running') fail('recovery Avahi daemon is not running');
+      if (!['600', 'absent'].includes(fields.get('AVAHI_SOCKET_MODE'))) {
+        fail('recovery Avahi socket mode mismatch');
+      }
+    } else {
+      if (fields.get('RESTORE_DONE') !== 'present') {
+        fail('postflight preserved root configuration was not restored');
+      }
+      if (fields.get('RAW_MARKER') !== 'cleared' || fields.get('BOOT_GOOD') !== 'present') {
+        fail('postflight boot-good confirmation is incomplete');
+      }
     }
     if (fields.get('CRITICAL_MODULES') !== 'ok') {
       fail('postflight critical media modules are not all loaded');
