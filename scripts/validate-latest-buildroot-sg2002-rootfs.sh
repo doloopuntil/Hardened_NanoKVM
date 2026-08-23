@@ -24,6 +24,8 @@ EXPECTED_SOPH_JPEG_SHA256="${EXPECTED_SOPH_JPEG_SHA256:-eacf2af2c75c23816af12984
 EXPECTED_SOPH_VC_DRIVER_SHA256="${EXPECTED_SOPH_VC_DRIVER_SHA256:-cc543c2a1b25c63c0372d7a687643605b1d07a5624403e3cf7d74b52ecadecf5}"
 EXPECTED_MEDIA_DEVICE_ACCEPTANCE="${EXPECTED_MEDIA_DEVICE_ACCEPTANCE:-10.0.87.133-20260821T032009Z}"
 EXPECTED_RUNTIME_KERNEL_RELEASE="${EXPECTED_RUNTIME_KERNEL_RELEASE:-}"
+EXPECTED_SYSTEM_KERNEL_VERSION="${EXPECTED_SYSTEM_KERNEL_VERSION:-}"
+EXPECTED_SYSTEM_SECURITY_PATCH_LEVEL="${EXPECTED_SYSTEM_SECURITY_PATCH_LEVEL:-}"
 
 [ -f "$IMAGE" ] || die "rootfs image does not exist: $IMAGE"
 command -v debugfs >/dev/null 2>&1 || die "debugfs is required"
@@ -90,6 +92,18 @@ verify_matches_staged() {
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/nanokvm-latest-buildroot-validate.XXXXXX")"
 trap 'rm -rf "$TMP_DIR"' EXIT INT TERM
 STAGED_KVMAPP_DIR="${STAGED_KVMAPP_DIR:-$ROOT/build/kvmapp-rust/kvmapp}"
+
+if [ -n "$EXPECTED_SYSTEM_KERNEL_VERSION" ] || [ -n "$EXPECTED_SYSTEM_SECURITY_PATCH_LEVEL" ]; then
+	[ -n "$EXPECTED_SYSTEM_KERNEL_VERSION" ] && [ -n "$EXPECTED_SYSTEM_SECURITY_PATCH_LEVEL" ] || \
+		die "system kernel and security metadata expectations must be set together"
+	SYSTEM_VERSION_JSON="$TMP_DIR/system-version.json"
+	debugfs -R "dump /etc/kvm/system-version.json $SYSTEM_VERSION_JSON" \
+		"$IMAGE" >/dev/null 2>&1 || die "could not extract system version metadata"
+	grep -Fq "\"kernel_version\": \"$EXPECTED_SYSTEM_KERNEL_VERSION\"" \
+		"$SYSTEM_VERSION_JSON" || die "system metadata kernel version is incorrect"
+	grep -Fq "\"security_patch_level\": \"$EXPECTED_SYSTEM_SECURITY_PATCH_LEVEL\"" \
+		"$SYSTEM_VERSION_JSON" || die "system security patch metadata is incorrect"
+fi
 
 for path in \
 	/mnt/system/ko/soph_sys.ko \
