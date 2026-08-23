@@ -18,6 +18,7 @@ HOST_DEPS_ROOT="${BUILDROOT_PORT_HOST_DEPS:-$ROOT/build/host-deps}"
 USER_HOME="${HOME:-/home/w0w}"
 HOST_DEPS_PATH="$HOST_DEPS_ROOT/usr/sbin:$HOST_DEPS_ROOT/usr/bin"
 CLEAN_PATH="${BUILDROOT_PORT_CLEAN_PATH:-$HOST_DEPS_PATH:$USER_HOME/.local/bin:$USER_HOME/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin}"
+ASSEMBLY_EPOCH="${HARDENED_SG2002_ASSEMBLY_EPOCH:-1782723554}"
 
 require_file() {
 	[ -f "$1" ] || {
@@ -60,6 +61,7 @@ touch "$OUTPUT_DIR/input/usb.dev" "$OUTPUT_DIR/input/usb.disk0" \
 	"$OUTPUT_DIR/input/usb.rndis0" "$OUTPUT_DIR/input/wifi.sta" \
 	"$OUTPUT_DIR/input/gt9xx"
 printf 'hardened-sg2002-port-%s.img\n' "$BUILDROOT_VERSION" > "$OUTPUT_DIR/input/ver"
+find "$OUTPUT_DIR/input" -print0 | xargs -0 -r touch -hd "@$ASSEMBLY_EPOCH"
 
 env PATH="$CLEAN_PATH" "$GENIMAGE" \
 	--rootpath "$OUTPUT_DIR/root" \
