@@ -237,6 +237,15 @@ Remediation status:
   The accepted recoverable baseline image has SHA-256
   `2bfb0b2000786a6860f069b235fe6026fc8e77f7132f0f72e284e725246cb92e`
   under `build/latestbuildroot/recoverable-kernel-baseline-sd-v2/`.
+- Vendor-kernel Phase 2 now has a reproducible Linux `5.10.265-tag-` recovery
+  candidate. Two independent clean pipelines match exactly through kernel,
+  57 modules, Buildroot rootfs, FIT, full SD image and `.img.xz`. The image to
+  write is
+  `build/latestbuildroot/kernel-5.10.265-repro-a/recovery-final/assembly/images/hardened-sg2002-port.img.xz`
+  with SHA-256
+  `7c43134764360161df2df731ad2647551cc42745f9760482cdabd2eac5bb3a9a`.
+  It is recovery-media only; physical boot acceptance is still pending. See
+  [`kernel-5.10.265-recovery-candidate.md`](kernel-5.10.265-recovery-candidate.md).
 - The user may install an older/full app update while development is in
   progress. Before every test, verify `/kvmapp/version`, `/api/health`, the
   running backend path, and deployed file hashes. Re-deploy the current test

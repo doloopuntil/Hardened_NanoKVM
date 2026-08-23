@@ -1,6 +1,6 @@
 # SG2002 Vendor Kernel 5.10 Security Port Plan
 
-Status date: 2026-08-21.
+Status date: 2026-08-23.
 
 This plan covers the running SG2002 kernel and its modules. Buildroot
 `2026.05.1` updates userspace, but its `5.10.258` userspace headers do not
@@ -11,6 +11,13 @@ The target for the first current-kernel experiment is upstream longterm
 `5.10.265`, published by kernel.org on 2026-08-19. A successful source merge or
 build is not release evidence: the resulting kernel, device trees, and every
 module must pass the complete recoverable-media and device acceptance matrix.
+
+Phase 2 is now locally complete through the recovery-image boundary. The
+signed stable tag is merged, every conflict is resolved in bounded commits,
+all 57 runtime modules are rebuilt, and two independent full pipelines are
+byte-exact through the compressed SD image. The remaining Phase 2 gate is the
+physical recovery-SD boot. Exact artifacts and hashes are recorded in
+[`kernel-5.10.265-recovery-candidate.md`](kernel-5.10.265-recovery-candidate.md).
 
 ## Verified Provenance
 
@@ -173,13 +180,14 @@ acceptance evidence.
 
 ## Remaining Inputs Before A Release Kernel Exists
 
-1. Explicit identification of sacrificial SD media. The local candidate and
-   known-good recovery inputs exist, but no block device has been authorized or
-   written. Kernel candidates must not first be installed through a raw update.
-2. A recorded boot acceptance run using the byte-exact reconstructed baseline,
-   followed by the complete raw.10 hardware matrix. Component reproduction is
-   not boot evidence.
+1. Explicit re-identification and writing of sacrificial SD media for the
+   reproducible 5.10.265 candidate. It must not first be installed through a
+   raw update.
+2. A recorded boot acceptance run. The user waived repeating the secondary
+   physical HDMI/HID/button matrix, but boot, modules, storage, network,
+   SSH/API, reboot and kernel-log gates remain required.
 3. Redistribution terms for every retained boot, firmware, and runtime input.
+4. Production signing-key custody before any release publication.
 
 ## Implementation Plan
 
@@ -207,6 +215,9 @@ This phase separates build-system or provenance problems from changes caused
 by the stable series.
 
 ### Phase 2: Merge Upstream Stable 5.10.265
+
+Status: local source, build, module, FIT, rootfs, SD assembly and exact
+reproducibility gates pass; physical recovery boot remains.
 
 1. Branch the passing reconstructed vendor kernel.
 2. Merge the signed upstream `v5.10.265` tag, preserving upstream commit
