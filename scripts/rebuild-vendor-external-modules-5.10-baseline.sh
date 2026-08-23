@@ -18,6 +18,7 @@ STRIP="${TOOLCHAIN_PREFIX}strip"
 PROVENANCE_MANIFEST="$MODULE_PROVENANCE_DIR/report/module-provenance.tsv"
 REFERENCE_OSDRV_PATH="$VENDOR_SDK_DIR/osdrv"
 REFERENCE_SOURCE_DATE_EPOCH="1782670640"
+EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-}"
 
 require_command() {
 	command -v "$1" >/dev/null 2>&1 || {
@@ -36,6 +37,7 @@ for path in \
 	"$VENDOR_SDK_DIR/build/.config" \
 	"$KERNEL_BASELINE_DIR/.config" \
 	"$KERNEL_BASELINE_DIR/Module.symvers" \
+	"$KERNEL_BASELINE_DIR/include/generated/utsrelease.h" \
 	"$KERNEL_BASELINE_DIR/arch/riscv/boot/Image" \
 	"$KERNEL_BASELINE_DIR/vmlinux" \
 	"$RUNTIME_MODULE_DIR" \
@@ -48,6 +50,23 @@ do
 		exit 1
 	}
 done
+
+kernel_release="$(sed -n 's/^#define UTS_RELEASE "\(.*\)"$/\1/p' \
+	"$KERNEL_BASELINE_DIR/include/generated/utsrelease.h")"
+[ -n "$kernel_release" ] || {
+	echo "cannot read kernel release from candidate output" >&2
+	exit 1
+}
+if [ -n "$EXPECTED_KERNEL_RELEASE" ] && \
+	[ "$kernel_release" != "$EXPECTED_KERNEL_RELEASE" ]; then
+	echo "unexpected external-module kernel release: $kernel_release" >&2
+	exit 1
+fi
+if [ -n "$EXPECTED_KERNEL_RELEASE" ]; then
+	build_mode=candidate
+else
+	build_mode=byte-exact-baseline
+fi
 
 if [ -e "$OUTPUT_DIR" ]; then
 	echo "refusing to overwrite external-module baseline output: $OUTPUT_DIR" >&2
@@ -131,6 +150,7 @@ printf 'module\taccepted_sha256\tbuilt_sha256\tpackaged_sha256\tvermagic\tsrcver
 total=0
 matches=0
 mismatches=0
+vermagic_failures=0
 while IFS= read -r relative
 do
 	total=$((total + 1))
@@ -153,9 +173,20 @@ do
 		status=match
 		matches=$((matches + 1))
 	else
-		status=mismatch
+		if [ "$build_mode" = candidate ]; then
+			status=candidate-changed
+		else
+			status=mismatch
+		fi
 		mismatches=$((mismatches + 1))
 	fi
+	case "$vermagic" in
+		"$kernel_release "*) ;;
+		*)
+			status=vermagic-mismatch
+			vermagic_failures=$((vermagic_failures + 1))
+			;;
+	esac
 	printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
 		"$relative" "$accepted_sha256" "$built_sha256" "$packaged_sha256" \
 		"$vermagic" "$srcversion" "$status" >> "$MANIFEST"
@@ -165,17 +196,20 @@ find "$ARTIFACT_DIR" -type f -exec touch -d '@0' {} +
 sha256sum "$MANIFEST" > "$REPORT_DIR/SHA256SUMS"
 
 cat > "$REPORT_DIR/summary.md" <<EOF
-# Vendor external-module clean baseline rebuild
+# Vendor external-module $build_mode rebuild
 
 - pinned kernel baseline: \`$KERNEL_BASELINE_DIR\`
 - isolated osdrv source: \`$SOURCE_DIR\`
 - expected/rebuilt retained modules: **$total/$total**
+- target kernel release: **$kernel_release**
+- build mode: **$build_mode**
 - packaged byte matches: **$matches**
 - packaged mismatches: **$mismatches**
+- vermagic failures: **$vermagic_failures**
 - kernel baseline input mutation: **none**
 
 The build uses the pinned board config, Xuantie GCC/binutils, SG200X/MARS
-middleware settings, and the clean byte-exact kernel output. Every candidate is
+middleware settings, and the selected clean kernel output. Every module is
 normalized with the same pinned \`strip --strip-unneeded\` packaging transform
 before comparison with the accepted raw.10 module. The original osdrv source
 prefix and compile-time macros are reproduced with \`-fmacro-prefix-map\` and
@@ -184,8 +218,12 @@ the recorded source-date epoch; this changes only build metadata embedded by
 EOF
 
 cat "$REPORT_DIR/summary.md"
-if [ "$mismatches" -ne 0 ]; then
+if [ "$vermagic_failures" -ne 0 ]; then
+	echo "external-module rebuild produced $vermagic_failures vermagic failures" >&2
+	exit 2
+fi
+if [ "$build_mode" = byte-exact-baseline ] && [ "$mismatches" -ne 0 ]; then
 	echo "external-module rebuild produced $mismatches mismatches" >&2
 	exit 2
 fi
-printf 'external-module baseline report: %s\n' "$REPORT_DIR/summary.md"
+printf 'external-module report: %s\n' "$REPORT_DIR/summary.md"
