@@ -1,6 +1,6 @@
 # Hardened NanoKVM Developer Handoff
 
-Last updated: 2026-08-23
+Last updated: 2026-08-24
 
 This document is the current takeover guide. Detailed chronological release and
 device-recovery history was intentionally removed from the handoff and remains
@@ -16,9 +16,10 @@ available in:
 - Local checkout: `/home/w0w/Hardened_NanoKVM-new-buildroot`.
 - GitHub repository: `woffko/Hardened_NanoKVM`.
 - GitHub default branch: `main`.
-- Current maintenance branch: `security/kernel-5.10.265`. The current Phase 3
+- Current maintenance branch: `security/kernel-5.10.265`. Phase 3 batch 1
   reproducibility artifacts were built from outer commit
-  `ebdaa1cae40b75aa9cc4f0987dedb4e0d700abf0`. The branch continues the
+  `ebdaa1cae40b75aa9cc4f0987dedb4e0d700abf0`; batch 2 artifacts were built
+  from `473baf95a0cb60f46b1ed0b21d7215b590c1ab7f`. The branch continues the
   accepted `security/raw11-userspace` work based on `latestbuilroot` commit
   `5288195deb62873e642c0d86b5e432683fd51bdf`.
   Commit `d5f480f` adds application `2.0.41` and guarded system-update metadata
@@ -257,6 +258,14 @@ Remediation status:
   pass on `.47`, with 57 modules and zero kernel alerts after the final boot.
   Batch 1 is accepted. See
   [`kernel-5.10.265-phase3-dmesg-restrict.md`](kernel-5.10.265-phase3-dmesg-restrict.md).
+- Vendor-kernel Phase 3 batch 2 retains restricted dmesg and disables user
+  namespaces after source, rootfs and live-process consumer audits found no
+  consumer. Two complete clean pipelines from `473baf9` match exactly through
+  the compressed recovery image. Its SHA-256 is
+  `b48376723aa30358809eb32600dfe85b0660b31a67b2a5ff7f0ab23afc4320bc`.
+  Build/reproducibility pass; recovery-device boot and ten reboot cycles are
+  pending. Do not begin slab hardening before that gate. See
+  [`kernel-5.10.265-phase3-userns-disable.md`](kernel-5.10.265-phase3-userns-disable.md).
 - The user may install an older/full app update while development is in
   progress. Before every test, verify `/kvmapp/version`, `/api/health`, the
   running backend path, and deployed file hashes. Re-deploy the current test
@@ -272,6 +281,10 @@ Remediation status:
   never place its value in commands, logs, docs, prompts or source.
 - Current accepted runtime: Phase 3 batch 1, Linux `5.10.265-tag-`, system
   `0.3.0-raw.11`, app `2.0.41`, Buildroot `2026.05.1`.
+- The next candidate is Phase 3 batch 2. Write only
+  `build/latestbuildroot/kernel-5.10.265-phase3-userns-repro-a/recovery/assembly/images/hardened-sg2002-port.img.xz`
+  to the re-identified recovery card. Expected SHA-256:
+  `b48376723aa30358809eb32600dfe85b0660b31a67b2a5ff7f0ab23afc4320bc`.
 - `kernel.dmesg_restrict=1`; root dmesg works and a dropped `nobody` context is
   denied. Initial validation and ten software reboot cycles pass. Every reboot
   produced a new kernel `boot_id`; the final check reported 57 modules and zero

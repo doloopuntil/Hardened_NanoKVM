@@ -20,7 +20,12 @@ const RESULT_DIR = process.env.DEVICE_TEST_RESULT_DIR || path.join(
 );
 const REPORT = path.join(RESULT_DIR, 'report.txt');
 const KNOWN_HOSTS = path.join(RESULT_DIR, 'known_hosts');
-const DEVICE_SCRIPT = path.join(ROOT, 'scripts/verify-kernel-dmesg-restriction-device.sh');
+const DEVICE_SCRIPT = path.resolve(
+  ROOT,
+  process.env.DEVICE_VERIFIER_SCRIPT || 'scripts/verify-kernel-dmesg-restriction-device.sh',
+);
+const EXPECTED_SUCCESS = process.env.DEVICE_VERIFIER_SUCCESS
+  || 'SUCCESS: Phase 3 dmesg restriction device gate passed';
 
 function fail(message) {
   throw new Error(message);
@@ -146,7 +151,7 @@ async function verifyDevice(password, cycle) {
       try {
         const result = await ssh(password, ['sh', '-s'], { input: script });
         const output = result.stdout.toString('utf8');
-        if (output.includes('SUCCESS: Phase 3 dmesg restriction device gate passed')) {
+        if (output.includes(EXPECTED_SUCCESS)) {
           fs.writeFileSync(
             path.join(RESULT_DIR, `cycle-${cycle}.txt`),
             output,
