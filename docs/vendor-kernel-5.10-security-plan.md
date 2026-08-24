@@ -273,8 +273,8 @@ compressed recovery SD image. Recovery boot at `10.0.87.41`, exact running
 config/module/provenance identity, the user-namespace boundary and ten
 reboot/log cycles pass. A physical boot of the prior batch-1 rollback image at
 `10.0.87.56` also passes its exact config/module/provenance and runtime gates.
-Restoring batch 2 and rerunning its final identity gate remain pending, so batch
-2 is not yet fully accepted. Evidence and the exact image path are in
+Batch 2 was restored at `10.0.87.48` and its strengthened identity/runtime gate
+passed again. Batch 2 is accepted. Evidence and the exact image path are in
 [`kernel-5.10.265-phase3-userns-disable.md`](kernel-5.10.265-phase3-userns-disable.md).
 
 1. enable restricted `dmesg` and audit required debugfs use;
@@ -329,9 +329,10 @@ gates. This is not yet a release kernel: the main raw-update device still runs
 `5.10.4-tag-`, Phase 3 remains recovery-media only, and raw-update rollback,
 production signing and redistribution gates remain.
 
-The next kernel action is to restore the exact batch-2 recovery image and rerun
-its strengthened identity/runtime gate once. The known-good batch-1 physical
-rollback boot already passes. Do not begin slab hardening until restoration
-passes. Each subsequent batch keeps its own config diff, recoverable-media
-boot, runtime regression and rollback evidence. Enabling every hardening option
-at once would destroy failure attribution and remains unacceptable.
+The next kernel action is a separate slab-freelist randomisation/hardening
+batch. First record a repeatable batch-2 performance/temperature baseline, then
+change only the two slab-freelist options and repeat clean A/B, recovery-media,
+runtime, reboot and rollback gates. Each subsequent batch keeps its own config
+diff, recoverable-media boot, runtime regression and rollback evidence.
+Enabling every hardening option at once would destroy failure attribution and
+remains unacceptable.

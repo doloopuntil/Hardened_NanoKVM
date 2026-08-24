@@ -3,9 +3,8 @@
 Status date: 2026-08-24.
 
 Status: consumer audit, build, exact reproducibility, recovery-device runtime,
-ten-reboot acceptance and physical rollback boot pass. Restoration of the
-batch-2 image and its final identity gate remain pending, so the batch is not
-yet fully accepted. This is a recovery-SD lab candidate, not a raw update or
+ten-reboot acceptance, physical rollback and batch-2 restoration pass. Batch 2
+is accepted. It remains a recovery-SD lab candidate, not a raw update or
 release artifact.
 
 ## Scope
@@ -158,7 +157,7 @@ Physical HDMI/HID/button repetition is waived by the user for this recovery
 device. Exact boot, config identity, API/SSH, module, storage, network, dmesg
 and reboot/log gates were not waived and pass.
 
-## Rollback Evidence And Pending Restoration
+## Rollback And Restoration Evidence
 
 The known-good batch-1 recovery image was booted at its new DHCP address
 `10.0.87.56`. The strengthened batch-1 verifier proved:
@@ -181,7 +180,22 @@ Report SHA-256:
 Rollback ED25519 fingerprint:
 `SHA256:5Kst9LJW5pn5IvYKI6P3KLBPhg1JZfL/4Vme+pHvTn0`.
 
-The physical rollback boot passes. Before batch 2 is marked accepted or slab
-hardening begins, restore the batch-2 card/image and rerun the strengthened
-batch-2 identity gate once. Repeating its ten-reboot soak is not required for
-this restoration check.
+The physical rollback boot passes. The exact batch-2 image was then restored
+and booted at `10.0.87.48`. Its strengthened verifier again matched the reviewed
+config, 57-module aggregate and provenance hashes; `CONFIG_USER_NS=n`, the
+dmesg boundary, mounts, Ethernet, HTTP/SSH and zero-alert gates all passed.
+
+Restoration report:
+
+`build/latestbuildroot/device-tests/phase3-userns-disabled-10.0.87.48-restored-final/report.txt`
+
+Report SHA-256:
+`c5514e8b5b888a4724705497e15557caaed272112ab2f381087ad621751ee746`.
+
+Restored ED25519 fingerprint:
+`SHA256:0px0D2doKXIUSwC1WElRTMWRVeZxlIyqadYyLx5NYQ4`.
+
+The final restoration sample recorded 52.835 C after module hashing and a
+133.55-second uptime. Batch 2 is accepted. Batch 3 may begin as a separate
+slab-freelist hardening candidate with its own config diff, reproducibility,
+performance, recovery, reboot and rollback evidence.
