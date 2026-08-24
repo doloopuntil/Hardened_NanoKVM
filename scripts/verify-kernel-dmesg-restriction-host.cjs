@@ -8,7 +8,10 @@ const { spawn } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
 const TARGET_IP = process.env.TARGET_IP || '';
-const SSHPASS = process.env.SSHPASS || '/home/w0w/.local/bin/sshpass';
+const SSHPASS = process.env.SSHPASS || path.join(
+  ROOT,
+  'build/host-deps/sshpass/usr/bin/sshpass',
+);
 const RESULT_DIR = process.env.DEVICE_TEST_RESULT_DIR || path.join(
   ROOT,
   'build/latestbuildroot/device-tests',
