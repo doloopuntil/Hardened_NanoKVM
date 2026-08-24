@@ -263,44 +263,46 @@ Remediation status:
   consumer. Two complete clean pipelines from `473baf9` match exactly through
   the compressed recovery image. Its SHA-256 is
   `b48376723aa30358809eb32600dfe85b0660b31a67b2a5ff7f0ab23afc4320bc`.
-  Build/reproducibility pass; recovery-device boot and ten reboot cycles are
-  pending. Do not begin slab hardening before that gate. See
+  Recovery boot at `.41`, exact running config/module/provenance identity and
+  ten reboot cycles pass with zero kernel alerts. A physical boot of the prior
+  batch-1 rollback image remains pending; do not begin slab hardening before
+  that gate. See
   [`kernel-5.10.265-phase3-userns-disable.md`](kernel-5.10.265-phase3-userns-disable.md).
 - The user may install an older/full app update while development is in
   progress. Before every test, verify `/kvmapp/version`, `/api/health`, the
   running backend path, and deployed file hashes. Re-deploy the current test
   build if the device was updated.
 
-### Recovery kernel test device: `10.0.87.47`
+### Recovery kernel test device: `10.0.87.41`
 
 - Model used for validation: NanoKVM Cube.
-- Router-assigned address for the accepted Phase 3 run: `10.0.87.47`.
-  The preceding Phase 2 run used `.48`; do not treat that old DHCP address as
-  current device identity.
+- Current router-assigned address for the Phase 3 batch-2 run: `10.0.87.41`.
+  Batch 1 used `.47` and Phase 2 used `.48`; neither old DHCP address identifies
+  the currently booted recovery image.
 - Web and SSH use the same encrypted Project Memory test asset as `.133`;
   never place its value in commands, logs, docs, prompts or source.
-- Current accepted runtime: Phase 3 batch 1, Linux `5.10.265-tag-`, system
-  `0.3.0-raw.11`, app `2.0.41`, Buildroot `2026.05.1`.
-- The next candidate is Phase 3 batch 2. Write only
-  `build/latestbuildroot/kernel-5.10.265-phase3-userns-repro-a/recovery/assembly/images/hardened-sg2002-port.img.xz`
-  to the re-identified recovery card. Expected SHA-256:
-  `b48376723aa30358809eb32600dfe85b0660b31a67b2a5ff7f0ab23afc4320bc`.
-- `kernel.dmesg_restrict=1`; root dmesg works and a dropped `nobody` context is
-  denied. Initial validation and ten software reboot cycles pass. Every reboot
-  produced a new kernel `boot_id`; the final check reported 57 modules and zero
-  kernel alerts.
-- Current accepted ED25519 fingerprint:
-  `SHA256:RxHM/IaSx9m10zBMkVIAjqnl4EtHdPbzui/qhCT5HCo`.
+- Current booted candidate: Phase 3 batch 2, Linux `5.10.265-tag-`, system
+  `0.3.0-raw.11`, app `2.0.41`, Buildroot `2026.05.1`. Batch 1 remains the last
+  fully accepted configuration until its rollback image is booted once more.
+- Running config SHA-256 is `e8e82ff139f0bd1e46d1467505b2b4a3b1bc59d2af54fa52c983e3da3320ae63`;
+  `CONFIG_USER_NS=n`, its proc surfaces are absent, and
+  `kernel.dmesg_restrict=1` retains the root/unprivileged boundary.
+- Initial verification, ten software reboot cycles and a strengthened
+  post-soak identity check pass. All eleven boot IDs are unique, all ten
+  offline intervals were observed, 57 modules match the reviewed aggregate,
+  and the final kernel alert count is zero.
+- Current ED25519 fingerprint:
+  `SHA256:4nn8ukwRiC2urzBqG8VJhM/jx6jqz3MLZMbPdBmvoW8`.
 - SSH, HTTP/API, network, root/boot/data mounts, 57-module inventory and kernel
   log gates pass. The user waived repeating the physical HDMI/HID/button
   matrix on this device.
-- Hardware-tested recovery image SHA-256:
+- Phase-2 hardware-tested recovery image SHA-256:
   `8d9b9e4e5e38c3309c8a8b0f3597747f53431dcabb314ca5fae7c0b4e425ccb5`.
 - The hardware-tested kernel, `vmlinux`, DTB and FIT are byte-identical to the
   final fixed reproducible run A. The exact final SD container has not been
   written separately; its audited rootfs differences are non-semantic build
   padding/timestamps/provenance and are documented in the candidate guide.
-- Final reproducible image, recovery-media only:
+- Phase-2 final reproducible image, recovery-media only:
   `build/latestbuildroot/kernel-5.10.265-fixed-repro-a/recovery/assembly/images/hardened-sg2002-port.img.xz`,
   SHA-256
   `223d1231a4eca31000098cd6601473cbe300c8c605122b6ddd755941168df761`.

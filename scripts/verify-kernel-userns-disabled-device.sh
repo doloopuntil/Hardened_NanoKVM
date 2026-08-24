@@ -4,6 +4,9 @@ set -eu
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
 EXPECTED_SYSTEM_VERSION="${EXPECTED_SYSTEM_VERSION:-0.3.0-raw.11}"
 EXPECTED_APP_VERSION="${EXPECTED_APP_VERSION:-2.0.41}"
+EXPECTED_CONFIG_SHA256="${EXPECTED_CONFIG_SHA256:-e8e82ff139f0bd1e46d1467505b2b4a3b1bc59d2af54fa52c983e3da3320ae63}"
+EXPECTED_PROVENANCE_SHA256="${EXPECTED_PROVENANCE_SHA256:-5158d92465e17ebdea692f3e2569a7efefc829881f4f01e9503627e76b730886}"
+EXPECTED_MODULE_SET_SHA256="${EXPECTED_MODULE_SET_SHA256:-bcc0f878699001f5e06249598ad6744d157d26cd89cb345e769eeff38cdcc961}"
 DMESG_ALERT_PATTERN='oops|panic|segfault|BUG:|Unknown symbol|disagrees about version|invalid module format|hung task|rcu.*stall'
 
 fail() {
@@ -20,6 +23,9 @@ system_version="$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1
 [ "$system_version" = "$EXPECTED_SYSTEM_VERSION" ] || fail "unexpected system version"
 
 [ -r /proc/config.gz ] || fail "running kernel config is unavailable"
+config_sha256="$(zcat /proc/config.gz | sha256sum | awk '{print $1}')"
+[ "$config_sha256" = "$EXPECTED_CONFIG_SHA256" ] || \
+	fail "running kernel config hash does not match the reviewed candidate"
 zcat /proc/config.gz | grep -qx 'CONFIG_NAMESPACES=y' || \
 	fail "base namespace support is unexpectedly disabled"
 zcat /proc/config.gz | grep -qx 'CONFIG_NET_NS=y' || \
@@ -69,6 +75,23 @@ grep -Eqi 'not permitted|permission denied' "$unprivileged_error" || \
 
 module_count="$(find /mnt/system/ko -type f -name '*.ko' | wc -l)"
 [ "$module_count" -eq 57 ] || fail "packaged runtime module inventory is not 57"
+module_set_sha256="$(
+	(
+		cd /mnt/system/ko
+		find . -type f -name '*.ko' | LC_ALL=C sort |
+			while IFS= read -r module
+			do
+				sha256sum "$module"
+			done
+	) | sha256sum | awk '{print $1}'
+)"
+[ "$module_set_sha256" = "$EXPECTED_MODULE_SET_SHA256" ] || \
+	fail "runtime module set hash does not match the reviewed candidate"
+provenance=/mnt/system/ko/hardened-kernel-5.10.265-provenance.txt
+[ -f "$provenance" ] || fail "kernel provenance file is missing"
+provenance_sha256="$(sha256sum "$provenance" | awk '{print $1}')"
+[ "$provenance_sha256" = "$EXPECTED_PROVENANCE_SHA256" ] || \
+	fail "kernel provenance hash does not match the reviewed candidate"
 for module in soph_sys soph_base soph_vi soph_vcodec soph_jpeg soph_vc_driver
 do
 	grep -q "^$module " /proc/modules || fail "required module is not loaded: $module"
@@ -94,6 +117,7 @@ do
 done
 
 printf 'KERNEL=%s\n' "$(uname -r)"
+printf 'CONFIG_SHA256=%s\n' "$config_sha256"
 printf 'USER_NS=disabled\n'
 printf 'USERNS_PROC_SURFACES=%s\n' "$userns_proc_surfaces"
 printf 'USERNS_HELPERS=%s\n' "$userns_helpers"
@@ -103,6 +127,8 @@ printf 'DMESG_RESTRICT=%s\n' "$(cat /proc/sys/kernel/dmesg_restrict)"
 printf 'ROOT_DMESG=ok\n'
 printf 'UNPRIVILEGED_DMESG=denied\n'
 printf 'MODULES=%s\n' "$module_count"
+printf 'MODULE_SET_SHA256=%s\n' "$module_set_sha256"
+printf 'PROVENANCE_SHA256=%s\n' "$provenance_sha256"
 printf 'DMESG_ALERTS=%s\n' "$dmesg_alerts"
 printf 'UPTIME_SECONDS=%s\n' "$(cut -d' ' -f1 /proc/uptime)"
 printf 'LOADAVG=%s\n' "$(cat /proc/loadavg)"

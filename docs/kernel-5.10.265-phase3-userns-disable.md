@@ -2,9 +2,10 @@
 
 Status date: 2026-08-24.
 
-Status: consumer audit, build and exact reproducibility pass. Recovery-device
-acceptance is pending. This is a recovery-SD lab candidate, not a raw update or
-release artifact.
+Status: consumer audit, build, exact reproducibility, recovery-device runtime
+and ten-reboot acceptance pass. A physical rollback boot remains pending, so
+the batch is not yet fully accepted. This is a recovery-SD lab candidate, not a
+raw update or release artifact.
 
 ## Scope
 
@@ -107,27 +108,59 @@ Image to write to re-identified sacrificial recovery media:
 
 Compressed size: 33,780,832 bytes. Uncompressed size: 1,627,390,464 bytes.
 
-## Pending Recovery-Device Acceptance
+## Recovery-Device Evidence
 
-The image must be written to the recovery card and booted before this batch can
-be accepted. Do not install it first through the web raw updater.
+The exact run-A image was written to recovery media and booted on the test
+NanoKVM at its new router-assigned address `10.0.87.41`. It was not installed
+through the web raw updater.
 
-The initial gate uses
-`scripts/verify-kernel-userns-disabled-device.sh` through the existing guarded
-host runner. It must prove:
+Initial and strengthened post-soak gates prove:
 
 - Linux `5.10.265-tag-`, system `0.3.0-raw.11`, app `2.0.41`;
-- the running config has `CONFIG_USER_NS=n`, keeps network namespaces and keeps
-  the accepted dmesg restriction;
-- user-namespace proc interfaces and user-namespace helper programs are absent;
-- root dmesg works while a dropped `nobody` context is denied;
-- all 57 modules, critical media modules, writable mounts and Ethernet pass;
-- kernel alerts are zero and uptime/load/available temperature samples are
-  recorded.
+- running config SHA-256
+  `e8e82ff139f0bd1e46d1467505b2b4a3b1bc59d2af54fa52c983e3da3320ae63`;
+- `CONFIG_USER_NS=n`, network namespaces retained, user-namespace proc
+  interfaces `0`, and namespace helper programs `0`;
+- `kernel.dmesg_restrict=1`, root dmesg allowed and dropped-`nobody` dmesg
+  denied;
+- all 57 modules and critical media modules present, with deterministic module
+  set SHA-256
+  `bcc0f878699001f5e06249598ad6744d157d26cd89cb345e769eeff38cdcc961`;
+- kernel provenance SHA-256
+  `5158d92465e17ebdea692f3e2569a7efefc829881f4f01e9503627e76b730886`;
+- root, boot and data mounts writable, Ethernet and HTTP/SSH healthy, and
+  kernel alert count `0`.
 
-After the initial gate, the same verifier must pass after ten software reboot
-cycles with distinct boot IDs and an observed offline interval. The prior
-batch-1 recovery image remains the rollback medium until the batch-2 boot and
-rewrite/rollback boundary are accepted. Physical HDMI/HID/button repetition is
-waived by the user for this recovery device, but exact boot, config, API/SSH,
-module, storage, network, dmesg and reboot/log gates are not waived.
+Ten software reboot cycles then passed. All ten observed an offline interval,
+all eleven recorded boot IDs were unique, and the complete config/dmesg/module/
+mount/network/log verifier passed after every boot. Cycle temperatures ranged
+from 40.949 C through 41.998 C. The strengthened final identity check recorded
+45.843 C and HTTP health returned again after the final reboot.
+
+Evidence:
+
+- initial report:
+  `build/latestbuildroot/device-tests/phase3-userns-disabled-10.0.87.41-initial/report.txt`,
+  SHA-256 `4b6e44e6d3ef3e74eef940db3d09cef5a3dadb5970f1bed720e07c956c7e6499`;
+- reboot report:
+  `build/latestbuildroot/device-tests/phase3-userns-disabled-10.0.87.41-reboots-10/report.txt`,
+  SHA-256 `ae94f70733d6f8d1564c3ba903c2e2e0eca7517698df24e867f3c7bbed0793e1`;
+- final reboot-cycle report SHA-256:
+  `29bcabab1462f8cd5c77ccb5f5a48dc811dfadfa307b7a0a59f377ce5b2897a4`;
+- strengthened post-soak report:
+  `build/latestbuildroot/device-tests/phase3-userns-disabled-10.0.87.41-final-v2/report.txt`,
+  SHA-256 `a8bab0680df3d9c084aa452c0c59fd9a006dd55a468632319b4c6af1d7132ceb`;
+- accepted ED25519 host-key fingerprint:
+  `SHA256:4nn8ukwRiC2urzBqG8VJhM/jx6jqz3MLZMbPdBmvoW8`.
+
+Physical HDMI/HID/button repetition is waived by the user for this recovery
+device. Exact boot, config identity, API/SSH, module, storage, network, dmesg
+and reboot/log gates were not waived and pass.
+
+## Pending Rollback Boundary
+
+The prior batch-1 recovery image remains the rollback artifact. Before batch 2
+is marked accepted or slab hardening begins, boot that known-good image from a
+separate card or rewrite the sacrificial card with it, rerun the batch-1 gate,
+then restore the batch-2 card/image. This is the remaining physical action; the
+batch-2 build and runtime gates themselves pass.
