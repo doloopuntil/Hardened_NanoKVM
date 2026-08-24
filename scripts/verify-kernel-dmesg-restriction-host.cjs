@@ -19,7 +19,12 @@ const RESULT_DIR = process.env.DEVICE_TEST_RESULT_DIR || path.join(
 );
 const REPORT = path.join(RESULT_DIR, 'report.txt');
 const KNOWN_HOSTS = path.join(RESULT_DIR, 'known_hosts');
-const DEVICE_SCRIPT = path.join(ROOT, 'scripts/verify-kernel-dmesg-restriction-device.sh');
+const DEVICE_SCRIPT = path.resolve(
+  ROOT,
+  process.env.DEVICE_VERIFIER_SCRIPT || 'scripts/verify-kernel-dmesg-restriction-device.sh',
+);
+const EXPECTED_SUCCESS = process.env.DEVICE_VERIFIER_SUCCESS
+  || 'SUCCESS: Phase 3 dmesg restriction device gate passed';
 
 function fail(message) {
   throw new Error(message);
@@ -124,6 +129,9 @@ async function main() {
     ],
     { input: remoteScript, secret: password },
   );
+  if (!verification.stdout.toString('utf8').includes(EXPECTED_SUCCESS)) {
+    fail('device verifier did not report the expected success marker');
+  }
 
   const report = [
     `TARGET_IP=${TARGET_IP}`,
