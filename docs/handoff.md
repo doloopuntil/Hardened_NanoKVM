@@ -270,6 +270,11 @@ Remediation status:
   gate again. Batch 2 is accepted; batch 3 may begin as a separate
   slab-freelist hardening candidate. See
   [`kernel-5.10.265-phase3-userns-disable.md`](kernel-5.10.265-phase3-userns-disable.md).
+- Vendor-kernel Phase 3 batch 3 adds only SLUB freelist randomisation and
+  pointer hardening. A fresh Kconfig proof has no cascaded change. Two batch-2
+  baseline runs at `.48` recorded medians of 680 ms and 650 ms with zero kernel
+  alerts; fixed candidate limits and remaining gates are documented in
+  [`kernel-5.10.265-phase3-slab-freelist.md`](kernel-5.10.265-phase3-slab-freelist.md).
 - The user may install an older/full app update while development is in
   progress. Before every test, verify `/kvmapp/version`, `/api/health`, the
   running backend path, and deployed file hashes. Re-deploy the current test

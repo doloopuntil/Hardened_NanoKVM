@@ -277,6 +277,13 @@ Batch 2 was restored at `10.0.87.48` and its strengthened identity/runtime gate
 passed again. Batch 2 is accepted. Evidence and the exact image path are in
 [`kernel-5.10.265-phase3-userns-disable.md`](kernel-5.10.265-phase3-userns-disable.md).
 
+Batch 3 is scoped to `CONFIG_SLAB_FREELIST_RANDOM=y` and
+`CONFIG_SLAB_FREELIST_HARDENED=y`. Its exact Kconfig proof has no cascaded
+change, and two accepted-batch-2 tmpfs/VFS baseline runs establish fixed timing,
+temperature and zero-alert comparison limits before candidate construction.
+Clean A/B builds remain pending. See
+[`kernel-5.10.265-phase3-slab-freelist.md`](kernel-5.10.265-phase3-slab-freelist.md).
+
 1. enable restricted `dmesg` and audit required debugfs use;
 2. disable user namespaces if no runtime consumer is found;
 3. enable slab freelist randomisation/hardening;
