@@ -2,10 +2,11 @@
 
 Status date: 2026-08-24.
 
-Status: consumer audit, build, exact reproducibility, recovery-device runtime
-and ten-reboot acceptance pass. A physical rollback boot remains pending, so
-the batch is not yet fully accepted. This is a recovery-SD lab candidate, not a
-raw update or release artifact.
+Status: consumer audit, build, exact reproducibility, recovery-device runtime,
+ten-reboot acceptance and physical rollback boot pass. Restoration of the
+batch-2 image and its final identity gate remain pending, so the batch is not
+yet fully accepted. This is a recovery-SD lab candidate, not a raw update or
+release artifact.
 
 ## Scope
 
@@ -157,10 +158,30 @@ Physical HDMI/HID/button repetition is waived by the user for this recovery
 device. Exact boot, config identity, API/SSH, module, storage, network, dmesg
 and reboot/log gates were not waived and pass.
 
-## Pending Rollback Boundary
+## Rollback Evidence And Pending Restoration
 
-The prior batch-1 recovery image remains the rollback artifact. Before batch 2
-is marked accepted or slab hardening begins, boot that known-good image from a
-separate card or rewrite the sacrificial card with it, rerun the batch-1 gate,
-then restore the batch-2 card/image. This is the remaining physical action; the
-batch-2 build and runtime gates themselves pass.
+The known-good batch-1 recovery image was booted at its new DHCP address
+`10.0.87.56`. The strengthened batch-1 verifier proved:
+
+- running batch-1 config SHA-256
+  `8a6670b40bf9a5239a3549995d538f1d22b173c9b46c719ae0025801529db8d6`;
+- Linux `5.10.265-tag-`, `CONFIG_USER_NS=y` and
+  `CONFIG_SECURITY_DMESG_RESTRICT=y`;
+- the same reviewed 57-module aggregate and kernel provenance hashes;
+- root/unprivileged dmesg boundary, writable mounts, Ethernet, HTTP/SSH and
+  zero kernel alerts.
+
+Rollback report:
+
+`build/latestbuildroot/device-tests/phase3-userns-disabled-rollback-batch1-10.0.87.56/report.txt`
+
+Report SHA-256:
+`1497cddae42f2e3340809d1eb4604f6e48d9661fcbcc75f0af7800246446e46e`.
+
+Rollback ED25519 fingerprint:
+`SHA256:5Kst9LJW5pn5IvYKI6P3KLBPhg1JZfL/4Vme+pHvTn0`.
+
+The physical rollback boot passes. Before batch 2 is marked accepted or slab
+hardening begins, restore the batch-2 card/image and rerun the strengthened
+batch-2 identity gate once. Repeating its ten-reboot soak is not required for
+this restoration check.

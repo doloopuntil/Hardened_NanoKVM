@@ -271,9 +271,10 @@ cumulative generated-config diff contains exactly those two options, and two
 complete clean pipelines from `473baf9` are byte-identical through the
 compressed recovery SD image. Recovery boot at `10.0.87.41`, exact running
 config/module/provenance identity, the user-namespace boundary and ten
-reboot/log cycles pass. A physical boot of the prior batch-1 rollback image
-remains pending, so batch 2 is not yet fully accepted. Evidence and the exact
-image path are in
+reboot/log cycles pass. A physical boot of the prior batch-1 rollback image at
+`10.0.87.56` also passes its exact config/module/provenance and runtime gates.
+Restoring batch 2 and rerunning its final identity gate remain pending, so batch
+2 is not yet fully accepted. Evidence and the exact image path are in
 [`kernel-5.10.265-phase3-userns-disable.md`](kernel-5.10.265-phase3-userns-disable.md).
 
 1. enable restricted `dmesg` and audit required debugfs use;
@@ -328,9 +329,9 @@ gates. This is not yet a release kernel: the main raw-update device still runs
 `5.10.4-tag-`, Phase 3 remains recovery-media only, and raw-update rollback,
 production signing and redistribution gates remain.
 
-The next kernel action is to boot the known-good batch-1 recovery image and
-rerun its gate, then restore batch 2. That proves the remaining physical
-rollback boundary. Do not begin slab hardening until this passes. Each
-subsequent batch keeps its own config diff, recoverable-media boot, runtime
-regression and rollback evidence. Enabling every hardening option at once would
-destroy failure attribution and remains unacceptable.
+The next kernel action is to restore the exact batch-2 recovery image and rerun
+its strengthened identity/runtime gate once. The known-good batch-1 physical
+rollback boot already passes. Do not begin slab hardening until restoration
+passes. Each subsequent batch keeps its own config diff, recoverable-media
+boot, runtime regression and rollback evidence. Enabling every hardening option
+at once would destroy failure attribution and remains unacceptable.

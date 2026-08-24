@@ -264,35 +264,36 @@ Remediation status:
   the compressed recovery image. Its SHA-256 is
   `b48376723aa30358809eb32600dfe85b0660b31a67b2a5ff7f0ab23afc4320bc`.
   Recovery boot at `.41`, exact running config/module/provenance identity and
-  ten reboot cycles pass with zero kernel alerts. A physical boot of the prior
-  batch-1 rollback image remains pending; do not begin slab hardening before
-  that gate. See
+  ten reboot cycles pass with zero kernel alerts. The prior batch-1 image was
+  then booted at `.56` and passed its exact rollback identity/runtime gate.
+  Restoring batch 2 and rerunning its final identity gate remain pending; do not
+  begin slab hardening before that gate. See
   [`kernel-5.10.265-phase3-userns-disable.md`](kernel-5.10.265-phase3-userns-disable.md).
 - The user may install an older/full app update while development is in
   progress. Before every test, verify `/kvmapp/version`, `/api/health`, the
   running backend path, and deployed file hashes. Re-deploy the current test
   build if the device was updated.
 
-### Recovery kernel test device: `10.0.87.41`
+### Recovery kernel test device: `10.0.87.56`
 
 - Model used for validation: NanoKVM Cube.
-- Current router-assigned address for the Phase 3 batch-2 run: `10.0.87.41`.
-  Batch 1 used `.47` and Phase 2 used `.48`; neither old DHCP address identifies
-  the currently booted recovery image.
+- Current router-assigned address for the Phase 3 rollback run: `10.0.87.56`.
+  The batch-2 run used `.41`, its earlier batch-1 acceptance used `.47`, and
+  Phase 2 used `.48`; DHCP addresses follow the currently written recovery
+  image rather than a durable device identity.
 - Web and SSH use the same encrypted Project Memory test asset as `.133`;
   never place its value in commands, logs, docs, prompts or source.
-- Current booted candidate: Phase 3 batch 2, Linux `5.10.265-tag-`, system
-  `0.3.0-raw.11`, app `2.0.41`, Buildroot `2026.05.1`. Batch 1 remains the last
-  fully accepted configuration until its rollback image is booted once more.
-- Running config SHA-256 is `e8e82ff139f0bd1e46d1467505b2b4a3b1bc59d2af54fa52c983e3da3320ae63`;
-  `CONFIG_USER_NS=n`, its proc surfaces are absent, and
-  `kernel.dmesg_restrict=1` retains the root/unprivileged boundary.
-- Initial verification, ten software reboot cycles and a strengthened
-  post-soak identity check pass. All eleven boot IDs are unique, all ten
-  offline intervals were observed, 57 modules match the reviewed aggregate,
-  and the final kernel alert count is zero.
-- Current ED25519 fingerprint:
-  `SHA256:4nn8ukwRiC2urzBqG8VJhM/jx6jqz3MLZMbPdBmvoW8`.
+- Current booted image: accepted Phase 3 batch 1, used to prove batch-2
+  rollback. Its exact config/module/provenance identity, HTTP/SSH, dmesg,
+  mounts, network and zero-alert gates pass. Current ED25519 fingerprint:
+  `SHA256:5Kst9LJW5pn5IvYKI6P3KLBPhg1JZfL/4Vme+pHvTn0`.
+- Batch 2 previously passed at `.41`: config SHA-256
+  `e8e82ff139f0bd1e46d1467505b2b4a3b1bc59d2af54fa52c983e3da3320ae63`,
+  `CONFIG_USER_NS=n`, no user-namespace proc surfaces, exact 57-module
+  aggregate/provenance, ten reboots and zero final alerts. Its ED25519
+  fingerprint was `SHA256:4nn8ukwRiC2urzBqG8VJhM/jx6jqz3MLZMbPdBmvoW8`.
+- Restore the exact batch-2 recovery card/image and rerun its strengthened gate
+  once before accepting batch 2. The ten-reboot soak need not be repeated.
 - SSH, HTTP/API, network, root/boot/data mounts, 57-module inventory and kernel
   log gates pass. The user waived repeating the physical HDMI/HID/button
   matrix on this device.
