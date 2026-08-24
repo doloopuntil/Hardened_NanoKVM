@@ -281,7 +281,9 @@ Batch 3 is scoped to `CONFIG_SLAB_FREELIST_RANDOM=y` and
 `CONFIG_SLAB_FREELIST_HARDENED=y`. Its exact Kconfig proof has no cascaded
 change, and two accepted-batch-2 tmpfs/VFS baseline runs establish fixed timing,
 temperature and zero-alert comparison limits before candidate construction.
-Clean A/B builds remain pending. See
+Two clean full pipelines from `97407be` are byte-identical through the
+compressed recovery image; config delta and all build invariants pass.
+Recovery-device runtime and performance acceptance remain pending. See
 [`kernel-5.10.265-phase3-slab-freelist.md`](kernel-5.10.265-phase3-slab-freelist.md).
 
 1. enable restricted `dmesg` and audit required debugfs use;
@@ -336,10 +338,9 @@ gates. This is not yet a release kernel: the main raw-update device still runs
 `5.10.4-tag-`, Phase 3 remains recovery-media only, and raw-update rollback,
 production signing and redistribution gates remain.
 
-The next kernel action is a separate slab-freelist randomisation/hardening
-batch. First record a repeatable batch-2 performance/temperature baseline, then
-change only the two slab-freelist options and repeat clean A/B, recovery-media,
-runtime, reboot and rollback gates. Each subsequent batch keeps its own config
-diff, recoverable-media boot, runtime regression and rollback evidence.
-Enabling every hardening option at once would destroy failure attribution and
-remains unacceptable.
+The next kernel action is to write the exact reproducible batch-3 image to
+recovery media and run its identity/runtime and two predeclared performance
+gates. If those pass, continue with reboot and rollback acceptance. Each
+subsequent batch keeps its own config diff, recoverable-media boot, runtime
+regression and rollback evidence. Enabling every hardening option at once would
+destroy failure attribution and remains unacceptable.
