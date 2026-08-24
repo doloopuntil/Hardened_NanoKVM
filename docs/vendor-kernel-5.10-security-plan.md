@@ -260,9 +260,9 @@ attributable. Suggested batches are:
 Status: batch 1 (`CONFIG_SECURITY_DMESG_RESTRICT=y`) has an exact one-option
 config diff and two complete byte-identical clean pipelines through the
 compressed recovery SD image. The debugfs audit found active CVITEK ION/MMF
-consumers, so debugfs remains enabled. Batch 1 awaits its recovery-device boot,
-privilege-boundary check and reboot/log acceptance. Evidence and the image path
-are in
+consumers, so debugfs remains enabled. Recovery-device boot, the root versus
+unprivileged dmesg boundary, and ten reboot/log cycles pass on `10.0.87.47`.
+Batch 1 is accepted. Evidence and the image path are in
 [`kernel-5.10.265-phase3-dmesg-restrict.md`](kernel-5.10.265-phase3-dmesg-restrict.md).
 
 1. enable restricted `dmesg` and audit required debugfs use;
@@ -314,13 +314,12 @@ Only after the same kernel boots and passes from recovery media:
 The Buildroot userspace port and fixed `5.10.265-tag-` kernel are successful lab
 candidates, and Phase 2's kernel/device boot gate is complete. This is not yet a
 release kernel: the main raw-update device still runs `5.10.4-tag-`, Phase 3
-batch 1 has not passed its device gate, and raw-update rollback, production
-signing and redistribution gates remain.
+batch 1 is recovery-media only, and raw-update rollback, production signing and
+redistribution gates remain.
 
-The next kernel action is to write and boot the documented batch-1 recovery
-image, prove root/unprivileged dmesg behavior, then complete the required
-reboot/log checks. Only after that result may the user-namespace consumer audit
-advance toward batch 2. Each subsequent batch keeps its own config diff,
+The next kernel action is a read-only user-namespace consumer audit for batch
+2. Disabling `CONFIG_USER_NS` is allowed only if source and live-process checks
+show no consumer. Each subsequent batch keeps its own config diff,
 recoverable-media boot, runtime regression and rollback evidence. Enabling
 every hardening option at once would destroy failure attribution and remains
 unacceptable.

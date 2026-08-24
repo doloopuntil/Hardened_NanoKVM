@@ -253,23 +253,31 @@ Remediation status:
   Two complete clean pipelines from `ebdaa1c` match through the compressed SD
   image. The candidate xz SHA-256 is
   `cfd6ec4c1a7e70b28b5d91ea1fd3be4214b5bb9e807e36e8ebfbe867c69a6303`.
-  Build/reproducibility pass; recovery-device boot is pending. See
+  Recovery boot, the root/unprivileged dmesg boundary and ten reboot cycles
+  pass on `.47`, with 57 modules and zero kernel alerts after the final boot.
+  Batch 1 is accepted. See
   [`kernel-5.10.265-phase3-dmesg-restrict.md`](kernel-5.10.265-phase3-dmesg-restrict.md).
 - The user may install an older/full app update while development is in
   progress. Before every test, verify `/kvmapp/version`, `/api/health`, the
   running backend path, and deployed file hashes. Re-deploy the current test
   build if the device was updated.
 
-### Recovery kernel test device: `10.0.87.48`
+### Recovery kernel test device: `10.0.87.47`
 
 - Model used for validation: NanoKVM Cube.
-- Router-assigned address during the accepted run: `10.0.87.48`.
+- Router-assigned address for the accepted Phase 3 run: `10.0.87.47`.
+  The preceding Phase 2 run used `.48`; do not treat that old DHCP address as
+  current device identity.
 - Web and SSH use the same encrypted Project Memory test asset as `.133`;
   never place its value in commands, logs, docs, prompts or source.
-- Current accepted runtime: Linux `5.10.265-tag-`, system `0.3.0-raw.11`, app
-  `2.0.41`, Buildroot `2026.05.1`.
-- The currently booted image is the accepted Phase 2 candidate. Phase 3 batch 1
-  has not yet been written to this device's recovery card.
+- Current accepted runtime: Phase 3 batch 1, Linux `5.10.265-tag-`, system
+  `0.3.0-raw.11`, app `2.0.41`, Buildroot `2026.05.1`.
+- `kernel.dmesg_restrict=1`; root dmesg works and a dropped `nobody` context is
+  denied. Initial validation and ten software reboot cycles pass. Every reboot
+  produced a new kernel `boot_id`; the final check reported 57 modules and zero
+  kernel alerts.
+- Current accepted ED25519 fingerprint:
+  `SHA256:RxHM/IaSx9m10zBMkVIAjqnl4EtHdPbzui/qhCT5HCo`.
 - SSH, HTTP/API, network, root/boot/data mounts, 57-module inventory and kernel
   log gates pass. The user waived repeating the physical HDMI/HID/button
   matrix on this device.

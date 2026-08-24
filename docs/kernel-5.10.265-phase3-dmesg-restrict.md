@@ -2,8 +2,8 @@
 
 Status date: 2026-08-24.
 
-Status: build and exact reproducibility pass; recovery-device boot is pending.
-This is a recovery-SD candidate, not a raw update.
+Status: build, exact reproducibility and recovery-device acceptance pass. This
+remains a recovery-SD lab candidate, not a raw update or release artifact.
 
 ## Scope
 
@@ -88,26 +88,44 @@ Image to write to re-identified sacrificial recovery media:
 
 Compressed size: 33,789,284 bytes. Uncompressed size: 1,627,390,464 bytes.
 
-## Required Device Gate
+## Device Acceptance
 
-1. Write the documented xz image to the recovery SD card and safely eject it.
-2. Boot only the recovery test NanoKVM; do not create or install a raw update.
-3. Record its router-assigned address.
-4. Run `scripts/verify-kernel-dmesg-restriction-device.sh` over authorized root
-   SSH and also verify HTTP/API reachability.
-5. Complete ten software reboot cycles. Re-run the verifier after the final
-   boot and confirm no new kernel, MMC, USB or filesystem alert.
-6. Required result:
-   - `kernel.dmesg_restrict=1`;
-   - root `dmesg` succeeds;
-   - an explicitly dropped `nobody` context receives a permission error;
-   - 57 modules are packaged and critical media modules are loaded;
-   - root, boot and data mounts, Ethernet, SSH and HTTP/API work;
-   - no kernel alert line is present.
+The exact run-A image was written to recovery media and booted on the test
+NanoKVM at router-assigned address `10.0.87.47`.
 
-The user previously waived repeating the physical HDMI/HID/button matrix on
-the recovery unit. Exact recovery boot and the dmesg privilege boundary are
-not waived.
+Initial gate:
 
-No subsequent Phase 3 hardening batch starts until this candidate passes or is
-rolled back on recovery media.
+- Linux `5.10.265-tag-`, system `0.3.0-raw.11`, app `2.0.41`;
+- HTTP health and root SSH: pass;
+- `kernel.dmesg_restrict=1`;
+- root `dmesg`: pass;
+- explicitly dropped `nobody` context: permission denied;
+- packaged modules: `57`; critical media modules loaded;
+- root, boot and data mounts read-write; Ethernet present;
+- kernel alert lines: `0`.
+
+The device then completed ten software reboot cycles. Every cycle observed the
+device offline, returned with a distinct kernel `boot_id`, passed HTTP/SSH and
+re-ran the complete dmesg/module/mount/log verifier. The final cycle still
+reported `DMESG_RESTRICT=1`, unprivileged dmesg denied, `MODULES=57`, and
+`DMESG_ALERTS=0`.
+
+Evidence:
+
+- initial report:
+  `build/latestbuildroot/device-tests/phase3-dmesg-10.0.87.47-initial-v2/report.txt`,
+  SHA-256 `93dc93fe38423442185b59a60687aa3993cedb5351165ff9be845a316862b516`;
+- reboot report:
+  `build/latestbuildroot/device-tests/phase3-dmesg-10.0.87.47-reboots-10/report.txt`,
+  SHA-256 `446bc63099b931ef66b20b595d72e81f56c283449fe474f2df29666cbe1b3be4`;
+- final cycle report SHA-256:
+  `628b688835d556b18ee85de65f5d25a4d3b56e51528f5a2fee2898702cd0ac64`;
+- accepted ED25519 host-key fingerprint:
+  `SHA256:RxHM/IaSx9m10zBMkVIAjqnl4EtHdPbzui/qhCT5HCo`.
+
+The user waived repeating the physical HDMI/HID/button matrix on the recovery
+unit. Exact recovery boot, the dmesg privilege boundary and reboot/log gates
+were not waived and all passed.
+
+Batch 1 is accepted. Batch 2 may begin with a read-only user-namespace consumer
+audit; any resulting config change remains a separate recovery candidate.
