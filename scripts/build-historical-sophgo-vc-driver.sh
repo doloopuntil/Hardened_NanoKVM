@@ -60,6 +60,7 @@ if [ -e "$OUTPUT_DIR" ]; then
 fi
 
 mkdir -p "$OUTPUT_DIR" "$ARTIFACT_DIR" "$REPORT_DIR"
+git -C "$SOURCE_REPO" worktree prune --expire now
 git -C "$SOURCE_REPO" worktree add --detach "$WORKTREE_DIR" "$SOURCE_COMMIT"
 git -C "$WORKTREE_DIR" apply --check "$PATCH_FILE"
 git -C "$WORKTREE_DIR" apply "$PATCH_FILE"
