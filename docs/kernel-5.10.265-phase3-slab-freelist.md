@@ -4,9 +4,10 @@ Status date: 2026-08-24.
 
 Status: the combined two-option candidate is rejected after a reproducible
 pre-rootfs boot failure. The randomisation-only probe passes exact runtime
-identity, performance and ten reboot cycles. A hardened-only probe remains
-before deciding whether pointer hardening is independently usable. This is a
-recovery-SD development batch, not a raw update or release artifact.
+identity, performance and ten reboot cycles. The hardened-only probe also fails
+before network return, so pointer hardening is rejected and randomisation is the
+only selected option. This is a recovery-SD development batch, not a raw update
+or release artifact.
 
 ## Scope
 
@@ -211,10 +212,39 @@ final kernel alerts. Reboot report SHA-256:
 final cycle SHA-256:
 `f3d271fd841688396334d4ed9cc0849c7081594377394106cf7d1b9776c3561e`.
 
-This proves `SLAB_FREELIST_RANDOM` is hardware-compatible. Because the combined
-candidate differs only by enabling `SLAB_FREELIST_HARDENED`, that option or its
-interaction with randomisation causes the rejected boot. A hardened-only probe
-is still required to distinguish those cases.
+This proves `SLAB_FREELIST_RANDOM` is hardware-compatible.
+
+## Hardened-Only Probe
+
+The hardened-only kernel/modules/DTBs were built without another full Buildroot
+tree. Its config SHA-256 is
+`a2d4da7c5326c230c7cbe1b1f41dd09b5c96e1656253f7d65a25a542aab1ef52`,
+kernel Image SHA-256 is
+`f0023a2d5f082d50f93d1c063205e3c0476cf05bd713c1d84ef6a5440f957f57`,
+and deterministic FIT SHA-256 is
+`c357a0d6e5d446243d8b3232c26da65146f2fc1f6f3fc9103665cce7fcf1dafe`.
+The FIT has the same 11,687,904-byte length, the ramdisk and DTB match, and all
+24 in-tree modules are byte-identical to random-only.
+
+While random-only was running, the hardened-only FIT was uploaded to tmpfs.
+The guarded installer verified the exact running config and old/new FIT hashes,
+copied the random-only FIT to
+`/data/hardened-kernel-probes/random-only-before-hardened.sd`, installed the new
+FIT and verified it before reboot. Install report SHA-256:
+`40f6715df1339abd5ea05f8b01c9d6138e312085f8aeb1f2fbdb527427cc3cde`.
+
+After the reboot request, the device went offline and did not return within 120
+seconds. Safe boot report:
+
+`build/latestbuildroot/device-tests/phase3-slab-hardened-only-10.0.87.41-boot/report.txt`
+
+Report SHA-256:
+`9d894b2d6a00320f6483e650887d015374a3db5bdae85da82f03fbb3efec326a`.
+
+Hardened-only therefore fails independently; the combined failure is not an
+interaction. `CONFIG_SLAB_FREELIST_HARDENED` is rejected on this SG2002 vendor
+kernel. Exact panic attribution would require serial output, but is not needed
+to decide that the option cannot enter an accepted recovery image.
 
 ## Candidate Performance Gate
 
@@ -235,8 +265,7 @@ reviewed alongside timing.
 
 ## Remaining Gates
 
-1. Build and hardware-test the hardened-only probe to distinguish independent
-   pointer-hardening failure from an option interaction.
-2. Select only a hardware-booting option set and repeat two clean full builds.
-3. Complete physical rollback to accepted batch 2 and final restoration before
-   accepting the selected batch.
+1. Physically restore the saved random-only FIT and verify exact runtime identity.
+2. Repeat two clean full builds with only freelist randomisation selected.
+3. Complete physical rollback to accepted batch 2 and final random-only
+   restoration before accepting the selected batch.

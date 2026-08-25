@@ -342,11 +342,10 @@ gates. This is not yet a release kernel: the main raw-update device still runs
 production signing and redistribution gates remain.
 
 The randomisation-only probe passes exact runtime identity, the predeclared
-performance limits and ten reboot cycles. The next kernel action is a
-hardened-only probe to distinguish independent pointer-hardening failure from
-an interaction between the options. Only a
-hardware-booting option set may return to full reproducibility, performance,
-reboot and rollback acceptance. Each
+performance limits and ten reboot cycles. Hardened-only independently fails to
+return after reboot, so `CONFIG_SLAB_FREELIST_HARDENED` is rejected. The next
+kernel action is to restore random-only, run two clean selected-option builds,
+then complete rollback/restoration acceptance. Each
 subsequent batch keeps its own config diff, recoverable-media boot, runtime
 regression and rollback evidence. Enabling every hardening option at once would
 destroy failure attribution and remains unacceptable.
