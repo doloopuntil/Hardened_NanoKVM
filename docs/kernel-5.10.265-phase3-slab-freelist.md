@@ -4,8 +4,9 @@ Status date: 2026-08-24.
 
 Status: accepted-batch-2 performance baseline, bounded Kconfig proof, two clean
 candidate builds and exact reproducibility pass. Recovery-device acceptance is
-pending. This is a recovery-SD development batch, not a raw update or release
-artifact.
+blocked by an early boot failure before the rootfs mount. The two slab options
+are being isolated before any further acceptance attempt. This is a recovery-SD
+development batch, not a raw update or release artifact.
 
 ## Scope
 
@@ -122,6 +123,40 @@ Compressed size: 33,774,280 bytes. Uncompressed size: 1,627,390,464 bytes.
 This is recovery media only; do not install it first through the web raw
 updater.
 
+## First Recovery Boot Failure
+
+The exact batch-3 image was written to the 63,864,569,856-byte test card. The
+activity LED ran, but the device never appeared on the network. Read-only card
+inspection proves:
+
+- `fip.bin` SHA-256 is the expected
+  `53cf1fd848acd1058ae635a8c6d09d568006b3ea5828ebfac2fe386d4ab8214c`;
+- `boot.sd` SHA-256 is the expected batch-3 FIT
+  `55773c88bd8a71ca4430d7e5f8655b509416d39b306d04779cb073696d580400`;
+- `eth.mac` and `hostname.prefix` were never created, `logo.jpeg` remained, and
+  partition 2 was not expanded;
+- a UAC read-only extraction of partition 2 produced SHA-256
+  `45cf283da11dbbc96f1f209271a83d46761b75c637acf368566a0a4dcb0e25e1`,
+  byte-identical to the reviewed run-A rootfs;
+- `e2fsck -fn` passes, the ext4 state is clean, last mount time is unavailable
+  and mount count is zero.
+
+The initramfs mounts partition 2 read-write before `switch_root`; therefore the
+boot did not reach a successful rootfs mount. No persistent log exists on p2.
+The evidence does not yet distinguish an early kernel failure from entry into
+the initramfs mass-storage recovery path. Serial output or a persistent early
+marker would expose the exact last line.
+
+To attribute the regression without weakening the accepted batches, two
+tracked diagnostic fragments split the new options:
+
+- `phase3-03a-slab-freelist-random-only.config`;
+- `phase3-03b-slab-freelist-hardened-only.config`.
+
+Each probe keeps the accepted dmesg and user-namespace settings. A probe boot is
+diagnostic evidence only; any option retained for acceptance still requires
+two clean full pipelines and the complete batch gates.
+
 ## Candidate Performance Gate
 
 The criterion is fixed before candidate construction:
@@ -141,8 +176,10 @@ reviewed alongside timing.
 
 ## Remaining Gates
 
-1. Boot the exact recovery image and verify running config/module/provenance
-   identity, HTTP/SSH, mounts, network, dmesg and kernel logs.
-2. Run the two candidate benchmarks and compare them with the fixed baseline.
-3. Complete ten reboot cycles, physical rollback to accepted batch 2 and final
-   batch-3 restoration before acceptance.
+1. Build and hardware-test randomisation-only, then hardened-only if needed, to
+   identify the option that causes the pre-rootfs failure.
+2. Select only a hardware-booting option set and repeat two clean full builds.
+3. Verify running config/module/provenance identity and run the two predeclared
+   performance benchmarks.
+4. Complete ten reboot cycles, physical rollback to accepted batch 2 and final
+   restoration before acceptance.
