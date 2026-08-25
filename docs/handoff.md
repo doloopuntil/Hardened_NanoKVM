@@ -282,7 +282,8 @@ Remediation status:
   performance runs and ten reboot cycles at `.41`; pointer hardening remained
   disabled. Hardened-only independently failed to return after reboot and is
   rejected. The random-only FIT backup is under `/data/hardened-kernel-probes/`;
-  physical restoration is the current gate.
+  physical restoration at `.41` passes. The canonical batch-3 fragment now
+  selects only randomisation; final clean A/B and batch-2 rollback are next.
   Fixed limits, evidence and remaining gates are documented in
   [`kernel-5.10.265-phase3-slab-freelist.md`](kernel-5.10.265-phase3-slab-freelist.md).
 - Generated-build cleanup on 2026-08-25 removed 187,901,444,096 bytes of old
@@ -294,12 +295,12 @@ Remediation status:
   running backend path, and deployed file hashes. Re-deploy the current test
   build if the device was updated.
 
-### Recovery kernel test device: last good `10.0.87.41`
+### Recovery kernel test device: current `10.0.87.41`
 
 - Model used for validation: NanoKVM Cube.
-- Last reachable address was `10.0.87.41` under the hardware-good random-only
-  slab probe. The device is currently offline after the hardened-only boot
-  test; restore the saved random-only FIT before further network testing. The
+- Current address is `10.0.87.41` under the restored hardware-good random-only
+  slab probe. Hardened-only failed offline, then the exact random-only FIT was
+  restored and its identity/runtime gate passed. The
   restored batch-2 image used `.48`, the rollback image used `.56`,
   earlier batch-1 acceptance used `.47`, and Phase 2 also once used `.48`.
   DHCP addresses are not durable device or image identities; verify host key

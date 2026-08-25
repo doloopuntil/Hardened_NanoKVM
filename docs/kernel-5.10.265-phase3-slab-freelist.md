@@ -1,26 +1,26 @@
 # Linux 5.10.265 Phase 3 Batch 3: SLUB Freelist Hardening
 
-Status date: 2026-08-24.
+Status date: 2026-08-25.
 
 Status: the combined two-option candidate is rejected after a reproducible
 pre-rootfs boot failure. The randomisation-only probe passes exact runtime
 identity, performance and ten reboot cycles. The hardened-only probe also fails
 before network return, so pointer hardening is rejected and randomisation is the
-only selected option. This is a recovery-SD development batch, not a raw update
-or release artifact.
+only selected option. Physical random-only restoration passes. Final selected
+A/B reproducibility and batch-2 rollback remain. This is a recovery-SD
+development batch, not a raw update or release artifact.
 
 ## Scope
 
-This cumulative fragment retains the two accepted earlier batches and adds
-exactly two SLUB hardening options:
+The selected cumulative fragment retains the two accepted earlier batches and
+adds only SLUB freelist randomisation:
 
 ```diff
  CONFIG_SECURITY_DMESG_RESTRICT=y
  # CONFIG_USER_NS is not set
 -# CONFIG_SLAB_FREELIST_RANDOM is not set
--# CONFIG_SLAB_FREELIST_HARDENED is not set
 +CONFIG_SLAB_FREELIST_RANDOM=y
-+CONFIG_SLAB_FREELIST_HARDENED=y
+ # CONFIG_SLAB_FREELIST_HARDENED is not set
 ```
 
 Tracked fragment:
@@ -28,17 +28,21 @@ Tracked fragment:
 `support/sg2002/kernel/5.10.265/configs/phase3-03-slab-freelist.config`
 
 Fragment SHA-256:
+`7e0840de3edd508847eab6b157006ef65fb8ae3ff9c1018e6b8453ac616e0181`.
+
+The rejected combined fragment is retained separately as
+`phase3-03-rejected-combined-slab-freelist.config`, SHA-256
 `44ded040c6a41973572a17206b938834d470a8b9f3e055faabf50fbef72099ef`.
 
 The exact Linux 5.10.265 Kconfig requires `SLAB || SLUB`; this target already
 uses `CONFIG_SLUB=y`. A fresh olddefconfig/merge/olddefconfig proof produced
 final config SHA-256
-`388f5ad008bd3193317f8a1ac20648462f430c889c142366dbf0af2c59792ccb`.
-The cumulative diff contains only the four lines shown by the two accepted
+`43ff885267b771646b2e02b6b05e72bbc1d07c1c68070849464c053d38480e2c`.
+The cumulative diff contains only the three lines shown by the two accepted
 batches and this batch. `CONFIG_SLAB_MERGE_DEFAULT=y` remains unchanged and
 `CONFIG_SHUFFLE_PAGE_ALLOCATOR` remains disabled; there is no hidden Kconfig
-cascade. The proof includes the vendor defconfig newline guard used by the full
-builder and is byte-identical to both completed build configs.
+cascade. The proof includes the vendor defconfig newline guard and is
+byte-identical to the hardware-good random-only full probe config.
 
 Freelist randomisation changes object order when new slab pages are populated.
 Freelist hardening obfuscates stored SLUB freelist pointers with per-cache
@@ -246,6 +250,15 @@ interaction. `CONFIG_SLAB_FREELIST_HARDENED` is rejected on this SG2002 vendor
 kernel. Exact panic attribution would require serial output, but is not needed
 to decide that the option cannot enter an accepted recovery image.
 
+The random-only FIT was physically restored after that negative test. The exact
+config/module/provenance, inherited security boundary, mounts, Ethernet,
+HTTP/SSH and zero-alert gate passed again at `10.0.87.41`. Restoration report:
+
+`build/latestbuildroot/device-tests/phase3-slab-random-only-10.0.87.41-restored-final/report.txt`
+
+Report SHA-256:
+`3f64761a28b77ff268c64564bc28704c60d6960ed5a1f776c090c6293f998ffa`.
+
 ## Candidate Performance Gate
 
 The criterion is fixed before candidate construction:
@@ -265,7 +278,6 @@ reviewed alongside timing.
 
 ## Remaining Gates
 
-1. Physically restore the saved random-only FIT and verify exact runtime identity.
-2. Repeat two clean full builds with only freelist randomisation selected.
-3. Complete physical rollback to accepted batch 2 and final random-only
+1. Repeat two clean full builds with only freelist randomisation selected.
+2. Complete physical rollback to accepted batch 2 and final random-only
    restoration before accepting the selected batch.
