@@ -72,7 +72,7 @@ Generated security evidence gate:
 
 ```sh
 scripts/verify-raw11-security-evidence.sh \
-  build/latestbuildroot/sg2002-config-2026.05.1-raw11-repro1/pkg-stats.json \
+  build/latestbuildroot/sg2002-config-2026.05.1-raw11-repro6/pkg-stats.json \
   build/latestbuildroot/security-audit-0.3.0-raw.11-20260822/evidence/rootfs-grype-vex.json
 ```
 

@@ -278,9 +278,15 @@ Remediation status:
   `7294ac12a5d9719c03abf03c1d1516752ae2ac136ed76399c2185e8637c887c9`.
   Its first recovery boot stopped before p2 was ever mounted or network state
   created; exact boot files and pristine rootfs rule out a write/rootfs defect.
-  Randomisation-only and hardened-only probes are the current attribution step.
+  Randomisation-only then passed exact runtime identity, both predeclared
+  performance runs and ten reboot cycles at `.41`; pointer hardening remained
+  disabled. A hardened-only probe is the current attribution step.
   Fixed limits, evidence and remaining gates are documented in
   [`kernel-5.10.265-phase3-slab-freelist.md`](kernel-5.10.265-phase3-slab-freelist.md).
+- Generated-build cleanup on 2026-08-25 removed 187,901,444,096 bytes of old
+  standalone Buildroot outputs, duplicate B pipelines and superseded probes.
+  Accepted/current A trees, reproducibility reports, source worktrees, caches
+  and device reports were retained.
 - The user may install an older/full app update while development is in
   progress. Before every test, verify `/kvmapp/version`, `/api/health`, the
   running backend path, and deployed file hashes. Re-deploy the current test

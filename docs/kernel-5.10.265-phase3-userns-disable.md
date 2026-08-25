@@ -65,7 +65,8 @@ Both complete clean runs were built from outer project commit
 `473baf95a0cb60f46b1ed0b21d7215b590c1ab7f`:
 
 - `build/latestbuildroot/kernel-5.10.265-phase3-userns-repro-a`;
-- `build/latestbuildroot/kernel-5.10.265-phase3-userns-repro-b`.
+- `build/latestbuildroot/kernel-5.10.265-phase3-userns-repro-b` (completed and
+  verified; build tree removed on 2026-08-25 after report retention).
 
 Both use source commit `83c188ecdc1556b14573705e9c0a32cd5853d865`,
 whose required source tree is

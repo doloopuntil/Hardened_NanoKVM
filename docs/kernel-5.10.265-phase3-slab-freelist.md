@@ -2,11 +2,11 @@
 
 Status date: 2026-08-24.
 
-Status: accepted-batch-2 performance baseline, bounded Kconfig proof, two clean
-candidate builds and exact reproducibility pass. Recovery-device acceptance is
-blocked by an early boot failure before the rootfs mount. The two slab options
-are being isolated before any further acceptance attempt. This is a recovery-SD
-development batch, not a raw update or release artifact.
+Status: the combined two-option candidate is rejected after a reproducible
+pre-rootfs boot failure. The randomisation-only probe passes exact runtime
+identity, performance and ten reboot cycles. A hardened-only probe remains
+before deciding whether pointer hardening is independently usable. This is a
+recovery-SD development batch, not a raw update or release artifact.
 
 ## Scope
 
@@ -77,7 +77,9 @@ Both complete clean runs were built from outer project commit
 `97407be90066c0159b23a8603024eaa154c64dff`:
 
 - `build/latestbuildroot/kernel-5.10.265-phase3-slab-repro-a`;
-- `build/latestbuildroot/kernel-5.10.265-phase3-slab-repro-b`.
+- `build/latestbuildroot/kernel-5.10.265-phase3-slab-repro-b` (completed and
+  verified; rejected-candidate B tree removed on 2026-08-25 after report
+  retention).
 
 Both use source tree `d53dfbde34f1de6b4565e686009b688c04b8913d`
 and fragment SHA-256
@@ -157,6 +159,63 @@ Each probe keeps the accepted dmesg and user-namespace settings. A probe boot is
 diagnostic evidence only; any option retained for acceptance still requires
 two clean full pipelines and the complete batch gates.
 
+## Randomisation-Only Probe
+
+The full randomisation-only pipeline was built from outer commit
+`734c14e0e87059773ae7d7a93f9a0d61a5f50239` with fragment SHA-256
+`7a41c071e685cac3e7b08151e771ff015bdce6d3f9f4dd2194f08292fbb3016c`.
+Its cumulative config enables restricted dmesg and SLUB freelist
+randomisation, disables user namespaces, and leaves
+`CONFIG_SLAB_FREELIST_HARDENED` unset.
+
+| Artifact | SHA-256 |
+| --- | --- |
+| final `.config` | `43ff885267b771646b2e02b6b05e72bbc1d07c1c68070849464c053d38480e2c` |
+| kernel `Image` | `46f050d67c152224c792230e043a40d0c1eb689c9d8da53cdc6d856a13eb0659` |
+| `vmlinux` | `7647f89938d6ac8a0fea1689bf06702969d4dd8e049b0cfd085c04bad0c59efd` |
+| candidate FIT | `8db3f5ce480f0b5f8ef9184429b6f4b7ecf16625b0516dd4b17cd9680d7adf35` |
+| full SD image | `bb170a306c5a3fda2894218a982bb9cf8145bc799b4721b82760c52f6cdf87f4` |
+| compressed SD image | `d34eeda431798868c8e986cba11389d42a1d2b09a523fa5c267b8e6a0fc405f9` |
+
+The FIT has the same 11,687,904-byte length as the failed combined candidate,
+and all 57 module files are byte-identical. Replacing only `boot.sd` on the
+test card therefore isolates the built-in kernel option without introducing a
+module or rootfs change. The on-card FIT SHA-256 was verified before boot.
+
+At `10.0.87.41`, the exact running config, 57-module aggregate, provenance,
+HTTP/SSH, writable mounts, Ethernet, inherited user-namespace/dmesg boundaries
+and zero-alert log gate pass. Evidence:
+
+`build/latestbuildroot/device-tests/phase3-slab-random-only-10.0.87.41-initial/report.txt`
+
+Report SHA-256:
+`293f0661be62f115974f0c6271ea2e6a0e8f72f73489d4b58ceaa80724616391`.
+
+Performance versus the predeclared accepted-batch-2 baseline:
+
+| Run | Median | Maximum | Temperature delta | Alerts |
+| --- | ---: | ---: | ---: | ---: |
+| A | 670 ms | 740 ms | +0.699 C | 0 |
+| B | 690 ms | 760 ms | +0.349 C | 0 |
+
+The mean-of-medians is 680 ms, 2.26 percent above the 665 ms baseline and well
+below the 764.75 ms limit. Report SHA-256 values are
+`e1f9405696bdf1bd60891040d9d83d25c17c614426f0f5f3a81cd420d7674517`
+and
+`5776bd9c951f0a3613117de16bc88366a260b402b4e5dd9aa1dcab29052fb3bb`.
+
+Ten software reboot cycles pass with ten observed offline intervals, eleven
+unique boot IDs, exact config/module/provenance checks after every boot and zero
+final kernel alerts. Reboot report SHA-256:
+`b06aa4d30e6aed61fe035ca064e415b2056ec1f2f83fcfa86940c9f18cffe344`;
+final cycle SHA-256:
+`f3d271fd841688396334d4ed9cc0849c7081594377394106cf7d1b9776c3561e`.
+
+This proves `SLAB_FREELIST_RANDOM` is hardware-compatible. Because the combined
+candidate differs only by enabling `SLAB_FREELIST_HARDENED`, that option or its
+interaction with randomisation causes the rejected boot. A hardened-only probe
+is still required to distinguish those cases.
+
 ## Candidate Performance Gate
 
 The criterion is fixed before candidate construction:
@@ -176,10 +235,8 @@ reviewed alongside timing.
 
 ## Remaining Gates
 
-1. Build and hardware-test randomisation-only, then hardened-only if needed, to
-   identify the option that causes the pre-rootfs failure.
+1. Build and hardware-test the hardened-only probe to distinguish independent
+   pointer-hardening failure from an option interaction.
 2. Select only a hardware-booting option set and repeat two clean full builds.
-3. Verify running config/module/provenance identity and run the two predeclared
-   performance benchmarks.
-4. Complete ten reboot cycles, physical rollback to accepted batch 2 and final
-   restoration before acceptance.
+3. Complete physical rollback to accepted batch 2 and final restoration before
+   accepting the selected batch.

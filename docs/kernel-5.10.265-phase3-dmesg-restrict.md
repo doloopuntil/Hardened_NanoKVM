@@ -49,7 +49,8 @@ Both complete runs were built from outer project commit
 `ebdaa1cae40b75aa9cc4f0987dedb4e0d700abf0`:
 
 - `build/latestbuildroot/kernel-5.10.265-phase3-repro-a`;
-- `build/latestbuildroot/kernel-5.10.265-phase3-repro-b`.
+- `build/latestbuildroot/kernel-5.10.265-phase3-repro-b` (completed and verified;
+  build tree removed on 2026-08-25 after the independent report was retained).
 
 Exact A/B matches:
 

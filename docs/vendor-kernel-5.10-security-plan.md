@@ -341,8 +341,10 @@ gates. This is not yet a release kernel: the main raw-update device still runs
 `5.10.4-tag-`, Phase 3 remains recovery-media only, and raw-update rollback,
 production signing and redistribution gates remain.
 
-The next kernel action is a randomisation-only recovery probe, followed by a
-hardened-only probe if needed, to attribute the pre-rootfs boot failure. Only a
+The randomisation-only probe passes exact runtime identity, the predeclared
+performance limits and ten reboot cycles. The next kernel action is a
+hardened-only probe to distinguish independent pointer-hardening failure from
+an interaction between the options. Only a
 hardware-booting option set may return to full reproducibility, performance,
 reboot and rollback acceptance. Each
 subsequent batch keeps its own config diff, recoverable-media boot, runtime
