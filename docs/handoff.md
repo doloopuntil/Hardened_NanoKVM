@@ -283,7 +283,11 @@ Remediation status:
   disabled. Hardened-only independently failed to return after reboot and is
   rejected. The random-only FIT backup is under `/data/hardened-kernel-probes/`;
   physical restoration at `.41` passes. The canonical batch-3 fragment now
-  selects only randomisation; final clean A/B and batch-2 rollback are next.
+  selects only randomisation. Two final clean full pipelines from `06c8106`
+  match exactly through the compressed recovery image; selected A xz SHA-256
+  is `ad80ce703a46ec13c2388d3003b0c603091e81f579aedef93ab39670cccfebdb`.
+  The remaining gate is a full-image batch-2 rollback followed by a full-image
+  final selected A boot and exact runtime verification.
   Fixed limits, evidence and remaining gates are documented in
   [`kernel-5.10.265-phase3-slab-freelist.md`](kernel-5.10.265-phase3-slab-freelist.md).
 - Generated-build cleanup on 2026-08-25 removed 187,901,444,096 bytes of old
@@ -307,8 +311,11 @@ Remediation status:
   and running hashes every time.
 - Web and SSH use the same encrypted Project Memory test asset as `.133`;
   never place its value in commands, logs, docs, prompts or source.
-- Current booted and accepted image: Phase 3 batch 2. Config SHA-256
-  `e8e82ff139f0bd1e46d1467505b2b4a3b1bc59d2af54fa52c983e3da3320ae63`,
+- Current booted test kernel is the restored hardware-good random-only probe;
+  its config SHA-256 is
+  `43ff885267b771646b2e02b6b05e72bbc1d07c1c68070849464c053d38480e2c`.
+  The accepted rollback anchor remains Phase 3 batch 2, config SHA-256
+  `e8e82ff139f0bd1e46d1467505b2b4a3b1bc59d2af54fa52c983e3da3320ae63`;
   `CONFIG_USER_NS=n`, no user-namespace proc surfaces, exact 57-module
   aggregate/provenance, ten reboots, physical batch-1 rollback, restoration and
   zero final alerts all pass. Current ED25519 fingerprint:

@@ -343,10 +343,13 @@ production signing and redistribution gates remain.
 
 The randomisation-only probe passes exact runtime identity, the predeclared
 performance limits and ten reboot cycles. Hardened-only independently fails to
-return after reboot, so `CONFIG_SLAB_FREELIST_HARDENED` is rejected. The next
-kernel action is two clean builds from the canonical randomisation-only
-fragment, then batch-2 rollback and final random-only restoration. Physical
-random-only restoration after the negative hardened test already passes. Each
-subsequent batch keeps its own config diff, recoverable-media boot, runtime
-regression and rollback evidence. Enabling every hardening option at once would
-destroy failure attribution and remains unacceptable.
+return after reboot, so `CONFIG_SLAB_FREELIST_HARDENED` is rejected. Two clean
+final builds from the canonical randomisation-only fragment at `06c8106` are
+byte-exact through the compressed recovery image. The remaining kernel action
+is a full-image batch-2 rollback followed by a full-image final selected A boot
+and exact random-only restoration gate. Physical random-only FIT restoration
+after the negative hardened test already passes, but it does not substitute for
+testing the final Buildroot filesystem and SD container. Each subsequent batch
+keeps its own config diff, recoverable-media boot, runtime regression and
+rollback evidence. Enabling every hardening option at once would destroy
+failure attribution and remains unacceptable.

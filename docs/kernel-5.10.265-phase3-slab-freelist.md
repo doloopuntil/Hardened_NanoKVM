@@ -6,9 +6,10 @@ Status: the combined two-option candidate is rejected after a reproducible
 pre-rootfs boot failure. The randomisation-only probe passes exact runtime
 identity, performance and ten reboot cycles. The hardened-only probe also fails
 before network return, so pointer hardening is rejected and randomisation is the
-only selected option. Physical random-only restoration passes. Final selected
-A/B reproducibility and batch-2 rollback remain. This is a recovery-SD
-development batch, not a raw update or release artifact.
+only selected option. Physical random-only restoration passes. Two final clean
+selected pipelines are byte-exact; batch-2 rollback and a boot of the final
+selected full recovery image remain. This is a recovery-SD development batch,
+not a raw update or release artifact.
 
 ## Scope
 
@@ -259,6 +260,45 @@ HTTP/SSH and zero-alert gate passed again at `10.0.87.41`. Restoration report:
 Report SHA-256:
 `3f64761a28b77ff268c64564bc28704c60d6960ed5a1f776c090c6293f998ffa`.
 
+## Final Selected Reproducibility
+
+Two clean complete pipelines from outer commit
+`06c8106c2ddf5f569e7c2244e561de6533f8de00` use the canonical tracked
+randomisation-only fragment. The strict verifier reports exact identity for
+the kernel config, Image, vmlinux, symbols, three DTBs, 24 in-tree modules, 30
+external modules, three media modules, staged runtime, Buildroot ext4 and tar
+rootfs, FIT, full SD image, compressed image and extracted payloads.
+
+Retained A root:
+
+`build/latestbuildroot/kernel-5.10.265-phase3-slab-selected-a`
+
+The disposable B root was removed after retaining the verifier report:
+
+`build/latestbuildroot/repro-reports/kernel-5.10.265-phase3-slab-selected/summary.md`
+
+Report SHA-256:
+`bb5415d64b83ed7d14ae184d9f1394b509370deae6949f7b8da82001dd8a1c80`.
+
+| Final selected A artifact | SHA-256 |
+| --- | --- |
+| final `.config` | `43ff885267b771646b2e02b6b05e72bbc1d07c1c68070849464c053d38480e2c` |
+| kernel `Image` | `46f050d67c152224c792230e043a40d0c1eb689c9d8da53cdc6d856a13eb0659` |
+| `boot.itb` / `boot.sd` | `8db3f5ce480f0b5f8ef9184429b6f4b7ecf16625b0516dd4b17cd9680d7adf35` |
+| Buildroot `rootfs.ext2` | `fbcc6ebb8fcba6ffed69dc757aedea6dab10fdff09278b66785fd9c8d7de26a6` |
+| full recovery SD image | `da56ed08eb9ae1472a2e04b97df9230b40717860bd36e40cad53be5d31a4f03c` |
+| compressed recovery SD image | `ad80ce703a46ec13c2388d3003b0c603091e81f579aedef93ab39670cccfebdb` |
+
+The config, kernel Image and FIT are byte-identical to the hardware-good
+random-only probe. The final Buildroot filesystem is deliberately treated as a
+new device-test input: comparison with the older probe found the same 898-file
+and symlink inventories but 27 regular-file byte differences. They include the
+outer-commit value in `os-release` and empty Buildroot post-processing RUNPATH
+padding affected by the different output-directory length. Final A and B use
+equal-length isolated roots and are byte-exact. A physical boot of the complete
+final image is therefore still required; swapping only `boot.sd` would not
+cover this gate.
+
 ## Candidate Performance Gate
 
 The criterion is fixed before candidate construction:
@@ -278,6 +318,7 @@ reviewed alongside timing.
 
 ## Remaining Gates
 
-1. Repeat two clean full builds with only freelist randomisation selected.
-2. Complete physical rollback to accepted batch 2 and final random-only
-   restoration before accepting the selected batch.
+1. Boot the accepted batch-2 full recovery image and pass its exact device
+   identity/runtime gate.
+2. Boot the final selected A full recovery image and pass the random-only exact
+   device identity/runtime gate before accepting the selected batch.
