@@ -305,6 +305,12 @@ Remediation status:
   is not claimed as new evidence. Init-on-free remains a later separate
   decision outside the next RC. See
   [`kernel-5.10.265-phase3-init-on-alloc.md`](kernel-5.10.265-phase3-init-on-alloc.md).
+- RC12 preparation is pinned to app `2.0.41`, system `0.3.0-raw.12`, kernel
+  `5.10.265-tag-`, format-2 system metadata and
+  `required_app_version=2.0.41`. The release scripts bind the full build commit,
+  system manifest, signed metadata, SD image and publication commit separately.
+  Release notes contain `RELEASE_BLOCKED_PENDING_FULL_IMAGE_BOOT`, and both
+  preparation and publication refuse to proceed while that marker remains.
 - Generated-build cleanup on 2026-08-25 removed 187,901,444,096 bytes of old
   standalone Buildroot outputs, duplicate B pipelines and superseded probes.
   Accepted/current A trees, reproducibility reports, source worktrees, caches

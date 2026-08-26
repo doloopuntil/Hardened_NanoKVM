@@ -8,6 +8,8 @@ KVMAPP_DIR="${NANOKVM_KVMAPP_SOURCE_DIR:-$ROOT_DIR/build/kvmapp-rust/kvmapp}"
 OUTPUT_DIR="${KERNEL_5_10_265_BUILDROOT_OUTPUT_DIR:-$ROOT_DIR/build/latestbuildroot/sg2002-config-2026.05.1-kernel-5.10.265-v1}"
 REPORT_DIR="${KERNEL_5_10_265_ROOTFS_REPORT_DIR:-$ROOT_DIR/build/latestbuildroot/rootfs-kernel-5.10.265-v1-report}"
 EXPECTED_KERNEL_RELEASE="${EXPECTED_KERNEL_RELEASE:-5.10.265-tag-}"
+EXPECTED_SYSTEM_VERSION="${EXPECTED_SYSTEM_VERSION:-0.3.0-raw.11}"
+EXPECTED_KVMAPP_VERSION="${EXPECTED_KVMAPP_VERSION:-2.0.41}"
 EXPECTED_SECURITY_PATCH_LEVEL="${EXPECTED_SECURITY_PATCH_LEVEL:-Buildroot 2026.05.1 security maintenance; Linux 5.10.265 stable with SG2002 vendor port}"
 
 require_file() {
@@ -50,6 +52,7 @@ LATEST_BUILDROOT_SOURCE_DIR="$BUILDROOT_SOURCE" \
 HARDENED_SG2002_BUILDROOT_OUTPUT_DIR="$OUTPUT_DIR" \
 NANOKVM_VENDOR_RUNTIME_SOURCE_DIR="$VENDOR_RUNTIME_DIR" \
 NANOKVM_KVMAPP_SOURCE_DIR="$KVMAPP_DIR" \
+HARDENED_SG2002_RUNTIME_SYSTEM_VERSION="$EXPECTED_SYSTEM_VERSION" \
 HARDENED_SG2002_RUNTIME_KERNEL_VERSION="$EXPECTED_KERNEL_RELEASE" \
 HARDENED_SG2002_RUNTIME_SECURITY_PATCH_LEVEL="$EXPECTED_SECURITY_PATCH_LEVEL" \
 	"$ROOT_DIR/scripts/build-latest-buildroot-sg2002-rootfs.sh"
@@ -66,6 +69,8 @@ EXPECTED_SOPH_JPEG_SHA256="$expected_jpeg" \
 EXPECTED_SOPH_VC_DRIVER_SHA256="$expected_vc" \
 EXPECTED_MEDIA_DEVICE_ACCEPTANCE=pending-recovery-sd \
 EXPECTED_RUNTIME_KERNEL_RELEASE="$EXPECTED_KERNEL_RELEASE" \
+EXPECTED_KVMAPP_VERSION="$EXPECTED_KVMAPP_VERSION" \
+EXPECTED_SYSTEM_VERSION="$EXPECTED_SYSTEM_VERSION" \
 EXPECTED_SYSTEM_KERNEL_VERSION="$EXPECTED_KERNEL_RELEASE" \
 EXPECTED_SYSTEM_SECURITY_PATCH_LEVEL="$EXPECTED_SECURITY_PATCH_LEVEL" \
 STAGED_KVMAPP_DIR="$KVMAPP_DIR" \
@@ -106,12 +111,12 @@ sha256sum "$ROOTFS_IMAGE" "$OUTPUT_DIR/images/rootfs.tar" \
 cat > "$REPORT_DIR/summary.md" <<EOF
 # Buildroot 2026.05.1 rootfs with Linux 5.10.265 modules
 
-- userspace system version: **0.3.0-raw.11**
-- application version: **2.0.41**
+- userspace system version: **$EXPECTED_SYSTEM_VERSION**
+- application version: **$EXPECTED_KVMAPP_VERSION**
 - runtime kernel release contract: **$EXPECTED_KERNEL_RELEASE**
 - packaged module inventory: **57/57**
 - modules byte-identical to reviewed staging: **57/57**
-- existing raw.11 rootfs validation: **pass**
+- selected rootfs validation: **pass**
 - media acceptance marker: **pending-recovery-sd**
 
 This rootfs is intended only for the recovery-SD kernel candidate. It is not a

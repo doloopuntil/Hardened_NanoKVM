@@ -178,7 +178,18 @@ else
 fi
 
 CREATED_UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
-SOURCE_COMMIT=$(git -C "$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)" rev-parse --short HEAD 2>/dev/null || printf unknown)
+PROJECT_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+SOURCE_COMMIT_OVERRIDE=${SYSTEM_UPDATE_SOURCE_COMMIT:-}
+if [ -n "$SOURCE_COMMIT_OVERRIDE" ]; then
+  case "$SOURCE_COMMIT_OVERRIDE" in
+    *[!0-9a-fA-F]*) die "invalid system update source commit" ;;
+  esac
+  git -C "$PROJECT_ROOT" cat-file -e "$SOURCE_COMMIT_OVERRIDE^{commit}" 2>/dev/null || \
+    die "system update source commit does not exist"
+  SOURCE_COMMIT=$(git -C "$PROJECT_ROOT" rev-parse --short "$SOURCE_COMMIT_OVERRIDE^{commit}")
+else
+  SOURCE_COMMIT=$(git -C "$PROJECT_ROOT" rev-parse --short HEAD 2>/dev/null || printf unknown)
+fi
 MANIFEST="$STAGE_DIR/manifest.json"
 
 {
