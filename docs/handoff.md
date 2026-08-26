@@ -286,9 +286,13 @@ Remediation status:
   selects only randomisation. Two final clean full pipelines from `06c8106`
   match exactly through the compressed recovery image; selected A xz SHA-256
   is `ad80ce703a46ec13c2388d3003b0c603091e81f579aedef93ab39670cccfebdb`.
-  The remaining gate is a full-image batch-2 rollback followed by a full-image
-  final selected A boot and exact runtime verification.
-  Fixed limits, evidence and remaining gates are documented in
+  The batch-2 rollback and full-image final selected A boot now pass. The final
+  image at `.45` matches rootfs commit `06c8106`, exact kernel/config/modules
+  and provenance, expanded p2/p3 layout, two post-expansion software boots and
+  zero kernel alerts. Batch 3 is accepted with randomisation enabled and
+  pointer hardening rejected. The next separate kernel batch is
+  init-on-allocation.
+  Fixed limits, evidence and the accepted result are documented in
   [`kernel-5.10.265-phase3-slab-freelist.md`](kernel-5.10.265-phase3-slab-freelist.md).
 - Generated-build cleanup on 2026-08-25 removed 187,901,444,096 bytes of old
   standalone Buildroot outputs, duplicate B pipelines and superseded probes.
@@ -299,27 +303,30 @@ Remediation status:
   running backend path, and deployed file hashes. Re-deploy the current test
   build if the device was updated.
 
-### Recovery kernel test device: current `10.0.87.41`
+### Recovery kernel test device: current `10.0.87.45`
 
 - Model used for validation: NanoKVM Cube.
-- Current address is `10.0.87.41` under the restored hardware-good random-only
-  slab probe. Hardened-only failed offline, then the exact random-only FIT was
-  restored and its identity/runtime gate passed. The
+- Current address is `10.0.87.45` under the accepted full final selected
+  random-only image. Its rootfs commit marker is `06c8106`; exact selected
+  kernel/rootfs identity and two post-expansion software boots pass. Before
+  that final image, the accepted batch-2 rollback FIT booted at `.41` and
+  passed its exact gate. Hardened-only failed offline, then the exact
+  random-only FIT was restored and passed. The
   restored batch-2 image used `.48`, the rollback image used `.56`,
   earlier batch-1 acceptance used `.47`, and Phase 2 also once used `.48`.
   DHCP addresses are not durable device or image identities; verify host key
   and running hashes every time.
 - Web and SSH use the same encrypted Project Memory test asset as `.133`;
   never place its value in commands, logs, docs, prompts or source.
-- Current booted test kernel is the restored hardware-good random-only probe;
-  its config SHA-256 is
+- Current booted and accepted recovery kernel is the final selected
+  random-only image; its config SHA-256 is
   `43ff885267b771646b2e02b6b05e72bbc1d07c1c68070849464c053d38480e2c`.
   The accepted rollback anchor remains Phase 3 batch 2, config SHA-256
   `e8e82ff139f0bd1e46d1467505b2b4a3b1bc59d2af54fa52c983e3da3320ae63`;
   `CONFIG_USER_NS=n`, no user-namespace proc surfaces, exact 57-module
   aggregate/provenance, ten reboots, physical batch-1 rollback, restoration and
-  zero final alerts all pass. Current ED25519 fingerprint:
-  `SHA256:0px0D2doKXIUSwC1WElRTMWRVeZxlIyqadYyLx5NYQ4`.
+  zero final alerts all pass. Current `.45` ED25519 fingerprint:
+  `SHA256:KmtR7ZUL7fnhJ1pKuee58UMwIr4weHfATnQwg+9pn4g`.
 - The batch-1 rollback boot at `.56` used ED25519 fingerprint
   `SHA256:5Kst9LJW5pn5IvYKI6P3KLBPhg1JZfL/4Vme+pHvTn0` and passed its exact
   config/module/provenance and functional gates before batch 2 was restored.

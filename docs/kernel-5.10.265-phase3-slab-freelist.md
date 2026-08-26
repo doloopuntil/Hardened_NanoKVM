@@ -1,15 +1,16 @@
 # Linux 5.10.265 Phase 3 Batch 3: SLUB Freelist Hardening
 
-Status date: 2026-08-25.
+Status date: 2026-08-26.
 
 Status: the combined two-option candidate is rejected after a reproducible
 pre-rootfs boot failure. The randomisation-only probe passes exact runtime
 identity, performance and ten reboot cycles. The hardened-only probe also fails
 before network return, so pointer hardening is rejected and randomisation is the
-only selected option. Physical random-only restoration passes. Two final clean
-selected pipelines are byte-exact; batch-2 rollback and a boot of the final
-selected full recovery image remain. This is a recovery-SD development batch,
-not a raw update or release artifact.
+only selected option. Physical random-only restoration, final clean selected
+A/B reproducibility, batch-2 rollback and the complete final selected recovery
+image all pass. The final image also passes exact rootfs identity and two
+post-expansion software reboots. Batch 3 is accepted as recovery-media kernel
+hardening. It is not a raw update or release artifact.
 
 ## Scope
 
@@ -296,8 +297,58 @@ and symlink inventories but 27 regular-file byte differences. They include the
 outer-commit value in `os-release` and empty Buildroot post-processing RUNPATH
 padding affected by the different output-directory length. Final A and B use
 equal-length isolated roots and are byte-exact. A physical boot of the complete
-final image is therefore still required; swapping only `boot.sd` would not
-cover this gate.
+final image was therefore required and is recorded below; swapping only
+`boot.sd` would not have covered this gate.
+
+## Final Physical Acceptance
+
+The accepted batch-2 FIT was restored on the physical recovery card before the
+final selected image. Its exact config, 57-module aggregate, provenance,
+security boundary, mounts, Ethernet, HTTP/SSH and zero-alert gate pass at
+`10.0.87.41`:
+
+`build/latestbuildroot/device-tests/phase3-slab-batch2-rollback-10.0.87.41-final/report.txt`
+
+Report SHA-256:
+`88c22a0d2c3e8369390eac0139b714692feb6fb5b840b4fd0c369ad411a5f05a`.
+
+The full final selected A image was then written and booted at `10.0.87.45`.
+The strengthened verifier from `bb6cc60` proves the selected kernel identity
+and distinguishes the final rootfs from the older probe through:
+
+- rootfs outer commit marker `06c8106`;
+- `os-release` SHA-256
+  `690b1a7f114896c3bc08e7ccd71e8490fcd9a9e095263e9f623ba7fa1feb2f8b`;
+- selected `curl`, `udevd` and `libcurl` hashes;
+- expanded p2 plus the boot-created p3 data partition;
+- exact 57-module aggregate and provenance;
+- zero kernel alerts.
+
+Initial full-image report:
+
+`build/latestbuildroot/device-tests/phase3-slab-selected-final-full-image-10.0.87.45/report.txt`
+
+SHA-256:
+`0766895c65be2694a218baa50a3e33ea5e8086ea04cb65473c46a638eef85b5c`.
+
+Two subsequent software boots have distinct boot IDs and pass the same exact
+kernel/rootfs gate. The final current-boot report is:
+
+`build/latestbuildroot/device-tests/phase3-slab-selected-final-full-image-10.0.87.45-third-reboot-confirmed/report.txt`
+
+SHA-256:
+`c60fd585c4a377f648160d7ee6f46de3d6df0473a4fa699c02f617e0e0b70956`.
+
+An external WSL HTTP monitor observed delayed reachability during these boots.
+Device-local evidence separates that host/network observation from device
+startup: on the final boot, `kvm_system` started at 9 seconds and the Rust
+backend at 10 seconds, with no local watchdog health failure. The diagnostic
+report is:
+
+`build/latestbuildroot/device-tests/phase3-slab-selected-final-full-image-10.0.87.45-third-reboot-delay/report.txt`
+
+SHA-256:
+`063715730f4f27d85eb62a902c60ef0616623e76fb2ff51bf26a136f60ad3303`.
 
 ## Candidate Performance Gate
 
@@ -316,9 +367,9 @@ These are lab attribution limits, not general hardware performance claims.
 Load-average and allocator-cache noise are retained in each report and must be
 reviewed alongside timing.
 
-## Remaining Gates
+## Batch Result
 
-1. Boot the accepted batch-2 full recovery image and pass its exact device
-   identity/runtime gate.
-2. Boot the final selected A full recovery image and pass the random-only exact
-   device identity/runtime gate before accepting the selected batch.
+Batch 3 is accepted with `CONFIG_SLAB_FREELIST_RANDOM=y` and
+`CONFIG_SLAB_FREELIST_HARDENED=n`. The next configuration-hardening work is a
+separate init-on-allocation batch with its own config proof, clean A/B,
+performance sample, recovery boot and rollback evidence.

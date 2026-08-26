@@ -1,12 +1,13 @@
 # SG2002 Vendor Kernel 5.10 Security Port Plan
 
-Status date: 2026-08-23.
+Status date: 2026-08-26.
 
 This plan covers the running SG2002 kernel and its modules. Buildroot
 `2026.05.1` updates userspace, but its `5.10.258` userspace headers do not
 modify or secure the retained vendor kernel. The main raw-update device at
 `10.0.87.133` still runs `5.10.4-tag-`; the recovery-SD test device at
-`10.0.87.48` now boots the fixed `5.10.265-tag-` candidate.
+`10.0.87.45` now boots the accepted Phase 3 batch-3 `5.10.265-tag-` selected
+image.
 
 The target for the first current-kernel experiment is upstream longterm
 `5.10.265`, published by kernel.org on 2026-08-19. A successful source merge or
@@ -285,8 +286,13 @@ Two clean full pipelines from `97407be` are byte-identical through the
 compressed recovery image; config delta and all build invariants pass.
 The first exact recovery boot stopped before partition 2 was ever mounted and
 before network identity was created. Boot files and the pristine rootfs match
-run A exactly. Randomisation-only and hardened-only probes now isolate the two
-new options before another full acceptance attempt. See
+run A exactly. Randomisation-only and hardened-only probes isolate the two new
+options. Randomisation independently passes exact identity, performance and
+ten reboot cycles; pointer hardening independently fails before network return
+and is rejected. Two canonical random-only builds from `06c8106` match through
+the compressed image. Physical batch-2 rollback, the complete final selected
+image, exact `06c8106` rootfs identity and two post-expansion software boots
+pass with zero kernel alerts. Batch 3 is accepted. See
 [`kernel-5.10.265-phase3-slab-freelist.md`](kernel-5.10.265-phase3-slab-freelist.md).
 
 1. enable restricted `dmesg` and audit required debugfs use;
@@ -336,20 +342,21 @@ Only after the same kernel boots and passes from recovery media:
 ## Current Decision
 
 The Buildroot userspace port and fixed `5.10.265-tag-` kernel are successful lab
-candidates, and Phase 2 plus Phase 3 batch 1 pass their kernel/device recovery
-gates. This is not yet a release kernel: the main raw-update device still runs
-`5.10.4-tag-`, Phase 3 remains recovery-media only, and raw-update rollback,
-production signing and redistribution gates remain.
+candidates. Phase 2 and Phase 3 batches 1, 2 and selected batch 3 pass their
+kernel/device recovery gates. This is not yet a release kernel: the main
+raw-update device still runs `5.10.4-tag-`, later configuration-hardening
+batches remain recovery-media only, and raw-update rollback, production
+signing and redistribution gates remain.
 
 The randomisation-only probe passes exact runtime identity, the predeclared
 performance limits and ten reboot cycles. Hardened-only independently fails to
 return after reboot, so `CONFIG_SLAB_FREELIST_HARDENED` is rejected. Two clean
 final builds from the canonical randomisation-only fragment at `06c8106` are
-byte-exact through the compressed recovery image. The remaining kernel action
-is a full-image batch-2 rollback followed by a full-image final selected A boot
-and exact random-only restoration gate. Physical random-only FIT restoration
-after the negative hardened test already passes, but it does not substitute for
-testing the final Buildroot filesystem and SD container. Each subsequent batch
-keeps its own config diff, recoverable-media boot, runtime regression and
-rollback evidence. Enabling every hardening option at once would destroy
-failure attribution and remains unacceptable.
+byte-exact through the compressed recovery image. Physical batch-2 rollback,
+the complete final selected image, exact final-rootfs identity and two
+post-expansion software boots pass. Batch 3 is accepted. The next independent
+kernel action is init-on-allocation, followed only after its measurements by a
+separate init-on-free decision. Each subsequent batch keeps its own config
+diff, recoverable-media boot, runtime regression and rollback evidence.
+Enabling every hardening option at once would destroy failure attribution and
+remains unacceptable.
