@@ -201,9 +201,48 @@ again passed with zero alerts. The test device is left on accepted batch 3.
 | rollback install report | `187a65a60ae55775640a374f5a6ad24054c2522f6d94722768c72960adb3894c` |
 | rollback boot report | `b0f8e041afa22bd123d1d36944d4604968afa4160a27883a34b892626750606e` |
 
+## Final RC12 Reproducibility Candidate
+
+After the kernel-only gates passed, two new clean end-to-end pipelines built
+the final release versions from commit
+`34cb2cb4bba5e61731ba35f40f428c05a54c4120`: app `2.0.41`, system
+`0.3.0-raw.12`, Buildroot `2026.05.1` and kernel `5.10.265-tag-`.
+
+The pipelines are byte-exact for the kernel, all 57 modules, runtime staging,
+both Buildroot rootfs formats, FIT, full partitioned image, compressed image and
+extracted payloads. The retained strict report is:
+
+`build/latestbuildroot/repro-reports/kernel-5.10.265-rc12-release/summary.md`
+
+Its SHA-256 is
+`c8094a36ebc1cd011608db901e96b59209181a62a51c0c3cc7df66a4d10073e2`.
+Pipeline B was deleted only after this exact proof; selected A and the report
+remain retained.
+
+| Selected RC12 A artifact | SHA-256 |
+| --- | --- |
+| kernel config | `845714bfa1ab3d03ef356eb9896ad0198460aa9cd2a6d0cdb0021a5d639a9a6d` |
+| kernel Image | `e1ce391f36161e8dd466fd99214b7f55fdb0e128d613f1d45c9a8e7b6cd9789e` |
+| vmlinux | `81204650095fab65355387941761f101c44a14515c1ed13b33d7164741d5bd9c` |
+| Module.symvers | `8b07a7d16d77964c2882f4bdd4c90aa18545759369709862e1abd1f98b1a536d` |
+| boot FIT / boot.sd | `a296fd70af3a965d105512b67254db9d7d08998b14632bfea194e2208e02b9aa` |
+| Buildroot rootfs.ext2 | `a5254238d690cd963b2b0f663977211634c424d78fb5e30fa095d815ab5d7701` |
+| Buildroot rootfs.tar | `1145a4900cc22594fab6deaedf6a17ef714666872f19de83b5548fde258d90a2` |
+| full SD image | `3d5e199c314de0f5f195aa26fe61aa26788566076b86bff749fe013fef960ad3` |
+| compressed SD image | `23df0435fb81d762fcc55483e7159cb7022e150dd03935d42f480671e1d3e546` |
+
+The compressed 33,779,072-byte image to write to a recovery card is:
+
+`build/latestbuildroot/kernel-5.10.265-rc12-release-a/recovery/assembly/images/hardened-sg2002-port.img.xz`
+
+Direct extraction from the selected rootfs proves system `0.3.0-raw.12`, app
+`2.0.41`, kernel metadata `5.10.265-tag-`, the selected security-maintenance
+label and Buildroot commit marker `34cb2cb`. Physical boot remains the final
+gate.
+
 ## Remaining Gates
 
-1. Boot and accept the complete selected A recovery image, then freeze the
-   kernel scope for the next RC.
+1. Boot and accept the complete final RC12 selected A recovery image, then
+   freeze the kernel scope.
 2. Decide on init-on-free only as a new batch after batch 4 is accepted. It is
    explicitly outside the current release scope.

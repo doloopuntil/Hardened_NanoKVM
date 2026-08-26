@@ -311,6 +311,13 @@ Remediation status:
   system manifest, signed metadata, SD image and publication commit separately.
   Release notes contain `RELEASE_BLOCKED_PENDING_FULL_IMAGE_BOOT`, and both
   preparation and publication refuse to proceed while that marker remains.
+- Final RC12 pipelines A/B from build commit `34cb2cb` are byte-exact through
+  the compressed full SD image. Selected A `.img.xz` is 33,779,072 bytes with
+  SHA-256 `23df0435fb81d762fcc55483e7159cb7022e150dd03935d42f480671e1d3e546` at
+  `build/latestbuildroot/kernel-5.10.265-rc12-release-a/recovery/assembly/images/hardened-sg2002-port.img.xz`.
+  Duplicate B was removed after the retained strict comparison. Physical boot
+  of selected A is now the only remaining kernel-acceptance blocker before
+  scope freeze; raw packaging, signing and release verification follow it.
 - Generated-build cleanup on 2026-08-25 removed 187,901,444,096 bytes of old
   standalone Buildroot outputs, duplicate B pipelines and superseded probes.
   Accepted/current A trees, reproducibility reports, source worktrees, caches
