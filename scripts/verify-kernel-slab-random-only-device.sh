@@ -7,6 +7,11 @@ EXPECTED_APP_VERSION="${EXPECTED_APP_VERSION:-2.0.41}"
 EXPECTED_CONFIG_SHA256="${EXPECTED_CONFIG_SHA256:-43ff885267b771646b2e02b6b05e72bbc1d07c1c68070849464c053d38480e2c}"
 EXPECTED_PROVENANCE_SHA256="${EXPECTED_PROVENANCE_SHA256:-5158d92465e17ebdea692f3e2569a7efefc829881f4f01e9503627e76b730886}"
 EXPECTED_MODULE_SET_SHA256="${EXPECTED_MODULE_SET_SHA256:-bcc0f878699001f5e06249598ad6744d157d26cd89cb345e769eeff38cdcc961}"
+EXPECTED_ROOTFS_COMMIT="${EXPECTED_ROOTFS_COMMIT:-}"
+EXPECTED_OS_RELEASE_SHA256="${EXPECTED_OS_RELEASE_SHA256:-}"
+EXPECTED_CURL_SHA256="${EXPECTED_CURL_SHA256:-}"
+EXPECTED_UDEVD_SHA256="${EXPECTED_UDEVD_SHA256:-}"
+EXPECTED_LIBCURL_SHA256="${EXPECTED_LIBCURL_SHA256:-}"
 DMESG_ALERT_PATTERN='oops|panic|segfault|BUG:|Unknown symbol|disagrees about version|invalid module format|hung task|rcu.*stall'
 
 fail() {
@@ -21,6 +26,31 @@ fail() {
 system_version="$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' \
 	/etc/kvm/system-version.json | head -n 1)"
 [ "$system_version" = "$EXPECTED_SYSTEM_VERSION" ] || fail "unexpected system version"
+
+os_release_sha256="$(sha256sum /usr/lib/os-release | awk '{print $1}')"
+curl_sha256="$(sha256sum /usr/bin/curl | awk '{print $1}')"
+udevd_sha256="$(sha256sum /usr/sbin/udevd | awk '{print $1}')"
+libcurl_sha256="$(sha256sum /usr/lib/libcurl.so.4.8.0 | awk '{print $1}')"
+if [ -n "$EXPECTED_ROOTFS_COMMIT" ]; then
+	grep -qx "VERSION=-g$EXPECTED_ROOTFS_COMMIT" /usr/lib/os-release || \
+		fail "rootfs outer commit marker does not match the reviewed image"
+fi
+if [ -n "$EXPECTED_OS_RELEASE_SHA256" ]; then
+	[ "$os_release_sha256" = "$EXPECTED_OS_RELEASE_SHA256" ] || \
+		fail "os-release hash does not match the reviewed image"
+fi
+if [ -n "$EXPECTED_CURL_SHA256" ]; then
+	[ "$curl_sha256" = "$EXPECTED_CURL_SHA256" ] || \
+		fail "curl hash does not match the reviewed image"
+fi
+if [ -n "$EXPECTED_UDEVD_SHA256" ]; then
+	[ "$udevd_sha256" = "$EXPECTED_UDEVD_SHA256" ] || \
+		fail "udevd hash does not match the reviewed image"
+fi
+if [ -n "$EXPECTED_LIBCURL_SHA256" ]; then
+	[ "$libcurl_sha256" = "$EXPECTED_LIBCURL_SHA256" ] || \
+		fail "libcurl hash does not match the reviewed image"
+fi
 
 [ -r /proc/config.gz ] || fail "running kernel config is unavailable"
 config_sha256="$(zcat /proc/config.gz | sha256sum | awk '{print $1}')"
@@ -99,6 +129,13 @@ printf 'UNPRIVILEGED_DMESG=denied\n'
 printf 'MODULES=%s\n' "$module_count"
 printf 'MODULE_SET_SHA256=%s\n' "$module_set_sha256"
 printf 'PROVENANCE_SHA256=%s\n' "$provenance_sha256"
+if [ -n "$EXPECTED_ROOTFS_COMMIT" ]; then
+	printf 'ROOTFS_COMMIT=%s\n' "$EXPECTED_ROOTFS_COMMIT"
+	printf 'OS_RELEASE_SHA256=%s\n' "$os_release_sha256"
+	printf 'CURL_SHA256=%s\n' "$curl_sha256"
+	printf 'UDEVD_SHA256=%s\n' "$udevd_sha256"
+	printf 'LIBCURL_SHA256=%s\n' "$libcurl_sha256"
+fi
 printf 'DMESG_ALERTS=%s\n' "$dmesg_alerts"
 printf 'TEMPERATURE=%s\n' "$temperature"
 printf 'SUCCESS: Phase 3 slab random-only device gate passed\n'
