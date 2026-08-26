@@ -297,9 +297,13 @@ Remediation status:
 - Phase 3 batch 4 enables only init-on-allocation. Its exact cross-toolchain
   Kconfig proof is one line, accepted batch-3 baseline medians are 670/670 ms,
   and the predeclared candidate limit is 770.5 ms. Two clean full pipelines from
-  `f97d12d` are byte-exact through the compressed recovery image; device
-  runtime, reboot, complete-image and rollback gates remain. Init-on-free
-  remains a later separate decision. See
+  `f97d12d` are byte-exact through the compressed recovery image. Candidate
+  medians are 680/700 ms; exact identity, functional runtime, ten reboots and
+  exact rollback to batch 3 pass with zero alerts. `.45` is left on batch 3.
+  Only the complete selected A recovery-image boot remains before kernel-scope
+  freeze. HDMI/Wi-Fi/HID physical-matrix repetition was explicitly waived and
+  is not claimed as new evidence. Init-on-free remains a later separate
+  decision outside the next RC. See
   [`kernel-5.10.265-phase3-init-on-alloc.md`](kernel-5.10.265-phase3-init-on-alloc.md).
 - Generated-build cleanup on 2026-08-25 removed 187,901,444,096 bytes of old
   standalone Buildroot outputs, duplicate B pipelines and superseded probes.

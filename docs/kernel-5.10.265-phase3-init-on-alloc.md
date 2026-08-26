@@ -4,9 +4,10 @@ Status date: 2026-08-26.
 
 Status: configuration proof, source risk audit, accepted batch-3 baseline and
 two clean full batch-4 pipelines are complete. The pipelines are byte-exact
-through the compressed recovery image. No batch-4 artifact has been installed;
-device acceptance and rollback remain open. This batch enables
-init-on-allocation only; init-on-free remains a separate later decision.
+through the compressed recovery image. The guarded FIT probe, exact identity,
+performance, functional runtime, ten-reboot and batch-3 rollback gates pass.
+The complete selected A recovery image has not yet been booted. This batch
+enables init-on-allocation only; init-on-free remains a separate later decision.
 
 ## Scope
 
@@ -138,14 +139,71 @@ construction, the batch-4 limits are fixed as follows:
 
 These are bounded lab attribution limits, not general performance claims.
 
+## Device Acceptance Evidence
+
+The guarded FIT-only probe ran on recoverable test device `10.0.87.45`. Before
+the switch, the accepted batch-3 FIT, config, 57-module aggregate, provenance,
+rootfs identity and zero-alert state were reverified. The candidate FIT
+`a296fd70af3a965d105512b67254db9d7d08998b14632bfea194e2208e02b9aa`
+was installed only after an exact batch-3 backup was written and rehashed.
+
+The first candidate boot had boot ID
+`74e34698-51ee-4dd5-ae22-063a37f7a496`. It matched config
+`845714bfa1ab3d03ef356eb9896ad0198460aa9cd2a6d0cdb0021a5d639a9a6d`
+and reported exactly:
+
+`mem auto-init: stack:off, heap alloc:on, heap free:off`
+
+The 57-module aggregate, provenance, rootfs commit `06c8106`, selected
+userspace hashes, mount/network state and zero kernel-alert condition all
+matched the reviewed image.
+
+Candidate performance results:
+
+| Run | Minimum | Median | Maximum | Total | Temperature delta | Alerts |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| A | 660 ms | 680 ms | 720 ms | 4,760 ms | +0.350 C | 0 |
+| B | 700 ms | 700 ms | 770 ms | 4,980 ms | +0.350 C | 0 |
+
+The candidate mean-of-medians is 690 ms, 2.99 percent above the 670 ms
+baseline and below the fixed 770.5 ms limit. Both individual medians and both
+temperature deltas also pass their predeclared limits.
+
+The functional runtime gate passed with the native `kvm_system` and Rust server
+alive, Ethernet carrier/address present, USB gadget bound with three HID,
+mass-storage and RNDIS functions, required media device nodes and modules
+present, a verified `/data` write/read, and zero kernel alerts. Browser login,
+desktop rendering, health and the MJPEG HTTP protocol passed. No frame was
+expected during this run because the device reported `HDMI active=false`,
+`VIFPS=0` and `now_fps=0`; the user had explicitly deferred the separate
+physical HDMI/Wi-Fi/HID matrix. This is recorded as a physical-matrix waiver,
+not as positive frame or Wi-Fi evidence.
+
+Ten consecutive software reboots produced ten distinct new boot IDs. Every
+boot passed the exact candidate config, banner, module, provenance, rootfs and
+zero-alert verifier. The saved batch-3 FIT was then restored and booted as boot
+ID `df0154e9-b8c1-4131-a63d-e81fd8d6dfe5`; config reverted to
+`43ff885267b771646b2e02b6b05e72bbc1d07c1c68070849464c053d38480e2c`,
+heap allocation initialization reverted to off, and the full exact verifier
+again passed with zero alerts. The test device is left on accepted batch 3.
+
+| Evidence | SHA-256 |
+| --- | --- |
+| preflight report | `6a2aac1923cdff7969c6ee4b258916bc76fe0972bbd4fb101f2acdf8d1a0ae77` |
+| candidate install report | `5afa7091d09ee5abd48c27fc8da1091df1e3a204897f38c22a7e8b2b7748a766` |
+| initial exact candidate report | `b6a6c8884bf570ba84943cf4767ee0b3804a6df91868c7b91f5c51072b047744` |
+| candidate benchmark A | `7ed78e5ba84fda3012e2dda054091a7d4ee3a501075d1a62ca90a0697361c20a` |
+| candidate benchmark B | `db5a961862622ce28d661e85f382fa34e30578da18ce58289023f4f38ec99ad5` |
+| functional runtime report | `51edf08cc32103eda0c4ff7fa5a1a8fc98b4bcf6173ddda915cb489b238f6ba2` |
+| browser diagnostic report | `db47f525f9e7e7409ba94b113b2c1dfb1d0254ec11dafae17ceea25d7e8acfe3` |
+| capture-state report | `22139558e3ba547dc30a746545e8936521cae9f545b176153de8c45770fa7030` |
+| ten-reboot report | `701621e8abd1a86dabdb3f016e0ccb316696bcfd9c05276a568a28c521a54442` |
+| rollback install report | `187a65a60ae55775640a374f5a6ad24054c2522f6d94722768c72960adb3894c` |
+| rollback boot report | `b0f8e041afa22bd123d1d36944d4604968afa4160a27883a34b892626750606e` |
+
 ## Remaining Gates
 
-1. Boot the selected candidate through the guarded recoverable-media procedure
-   and verify the dmesg banner reports heap
-   allocation initialization on and heap free initialization off.
-2. Run exact identity, both predeclared performance runs, media/video, Wi-Fi,
-   Ethernet, storage, USB and kernel-log gates.
-3. Complete reboot cycles and physical rollback to accepted batch 3.
-4. Boot and accept the complete selected A recovery image, then freeze the
+1. Boot and accept the complete selected A recovery image, then freeze the
    kernel scope for the next RC.
-5. Decide on init-on-free only as a new batch after batch 4 is accepted.
+2. Decide on init-on-free only as a new batch after batch 4 is accepted. It is
+   explicitly outside the current release scope.

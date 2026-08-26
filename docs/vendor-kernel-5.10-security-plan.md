@@ -313,9 +313,13 @@ Batch 4 now has a tracked cumulative init-on-allocation-only fragment, an exact
 one-line cross-toolchain Kconfig proof and two accepted batch-3 baseline runs
 with 670/670 ms medians and zero alerts. Its fixed candidate
 mean-of-medians limit is 770.5 ms. Two clean full candidate pipelines from
-`f97d12d` are byte-exact through the compressed recovery image; device runtime,
-reboot, complete-image and rollback gates remain. Init-on-free remains
-explicitly outside this batch. See
+`f97d12d` are byte-exact through the compressed recovery image. The candidate
+medians are 680/700 ms, exact identity and functional runtime pass, ten reboot
+cycles pass, and exact rollback to batch 3 passes with zero alerts. The device
+is left on batch 3. The complete selected A recovery-image boot remains;
+HDMI/Wi-Fi/HID physical-matrix repetition was explicitly waived by the user and
+is not claimed as new positive evidence. Init-on-free remains explicitly
+outside this batch. See
 [`kernel-5.10.265-phase3-init-on-alloc.md`](kernel-5.10.265-phase3-init-on-alloc.md).
 
 ### Phase 4: Recoverable-Media Acceptance
@@ -364,8 +368,10 @@ final builds from the canonical randomisation-only fragment at `06c8106` are
 byte-exact through the compressed recovery image. Physical batch-2 rollback,
 the complete final selected image, exact final-rootfs identity and two
 post-expansion software boots pass. Batch 3 is accepted. The next independent
-kernel action is init-on-allocation, followed only after its measurements by a
-separate init-on-free decision. Each subsequent batch keeps its own config
-diff, recoverable-media boot, runtime regression and rollback evidence.
-Enabling every hardening option at once would destroy failure attribution and
-remains unacceptable.
+kernel action, init-on-allocation, now passes reproducibility, exact runtime,
+performance, ten-reboot and batch-3 rollback gates. Its complete selected A
+recovery-image boot is the last batch-4 gate before the kernel scope is frozen
+for the next RC. Init-on-free remains a later separate decision outside that
+RC. Each subsequent batch keeps its own config diff, recoverable-media boot,
+runtime regression and rollback evidence. Enabling every hardening option at
+once would destroy failure attribution and remains unacceptable.
