@@ -12,6 +12,8 @@ EXPECTED_OS_RELEASE_SHA256="${EXPECTED_OS_RELEASE_SHA256:-}"
 EXPECTED_CURL_SHA256="${EXPECTED_CURL_SHA256:-}"
 EXPECTED_UDEVD_SHA256="${EXPECTED_UDEVD_SHA256:-}"
 EXPECTED_LIBCURL_SHA256="${EXPECTED_LIBCURL_SHA256:-}"
+EXPECTED_INIT_ON_ALLOC="${EXPECTED_INIT_ON_ALLOC:-off}"
+EXPECTED_INIT_ON_FREE="${EXPECTED_INIT_ON_FREE:-off}"
 DMESG_ALERT_PATTERN='oops|panic|segfault|BUG:|Unknown symbol|disagrees about version|invalid module format|hung task|rcu.*stall'
 
 fail() {
@@ -20,6 +22,8 @@ fail() {
 }
 
 [ "$(id -u)" = 0 ] || fail "device verifier must run as root"
+case "$EXPECTED_INIT_ON_ALLOC" in on|off) ;; *) fail "invalid expected init-on-allocation state" ;; esac
+case "$EXPECTED_INIT_ON_FREE" in on|off) ;; *) fail "invalid expected init-on-free state" ;; esac
 [ "$(uname -r)" = "$EXPECTED_KERNEL_RELEASE" ] || fail "unexpected kernel release"
 [ "$(cat /kvmapp/version)" = "$EXPECTED_APP_VERSION" ] || fail "unexpected app version"
 
@@ -55,7 +59,7 @@ fi
 [ -r /proc/config.gz ] || fail "running kernel config is unavailable"
 config_sha256="$(zcat /proc/config.gz | sha256sum | awk '{print $1}')"
 [ "$config_sha256" = "$EXPECTED_CONFIG_SHA256" ] || \
-	fail "running kernel config hash does not match the random-only probe"
+	fail "running kernel config hash does not match the reviewed candidate"
 zcat /proc/config.gz | grep -qx 'CONFIG_SLUB=y' || fail "running kernel is not using SLUB"
 zcat /proc/config.gz | grep -qx 'CONFIG_SLAB_FREELIST_RANDOM=y' || \
 	fail "slab freelist randomisation is missing"
@@ -65,6 +69,36 @@ zcat /proc/config.gz | grep -qx '# CONFIG_USER_NS is not set' || \
 	fail "accepted user-namespace restriction is missing"
 zcat /proc/config.gz | grep -qx 'CONFIG_SECURITY_DMESG_RESTRICT=y' || \
 	fail "accepted dmesg restriction is missing"
+case "$EXPECTED_INIT_ON_ALLOC" in
+	on)
+		zcat /proc/config.gz | grep -qx 'CONFIG_INIT_ON_ALLOC_DEFAULT_ON=y' || \
+			fail "init-on-allocation is missing"
+		;;
+	off)
+		zcat /proc/config.gz | grep -qx '# CONFIG_INIT_ON_ALLOC_DEFAULT_ON is not set' || \
+			fail "init-on-allocation is unexpectedly enabled"
+		;;
+esac
+case "$EXPECTED_INIT_ON_FREE" in
+	on)
+		zcat /proc/config.gz | grep -qx 'CONFIG_INIT_ON_FREE_DEFAULT_ON=y' || \
+			fail "init-on-free is missing"
+		;;
+	off)
+		zcat /proc/config.gz | grep -qx '# CONFIG_INIT_ON_FREE_DEFAULT_ON is not set' || \
+			fail "init-on-free is unexpectedly enabled"
+		;;
+esac
+case "$EXPECTED_INIT_ON_ALLOC: $(cat /proc/cmdline) " in
+	on:*' init_on_alloc=0 '*) fail "kernel command line disables init-on-allocation" ;;
+	off:*' init_on_alloc=1 '*) fail "kernel command line enables init-on-allocation" ;;
+esac
+case "$EXPECTED_INIT_ON_FREE: $(cat /proc/cmdline) " in
+	on:*' init_on_free=0 '*) fail "kernel command line disables init-on-free" ;;
+	off:*' init_on_free=1 '*) fail "kernel command line enables init-on-free" ;;
+esac
+auto_init_banner="mem auto-init: stack:off, heap alloc:$EXPECTED_INIT_ON_ALLOC, heap free:$EXPECTED_INIT_ON_FREE"
+dmesg | grep -Fq "$auto_init_banner" || fail "kernel memory auto-init banner does not match the reviewed candidate"
 
 userns_proc_surfaces=0
 for surface in /proc/self/ns/user /proc/self/uid_map /proc/self/gid_map /proc/self/projid_map /proc/self/setgroups
@@ -121,6 +155,9 @@ printf 'KERNEL=%s\n' "$(uname -r)"
 printf 'CONFIG_SHA256=%s\n' "$config_sha256"
 printf 'SLAB_FREELIST_RANDOM=yes\n'
 printf 'SLAB_FREELIST_HARDENED=no\n'
+printf 'INIT_ON_ALLOC=%s\n' "$EXPECTED_INIT_ON_ALLOC"
+printf 'INIT_ON_FREE=%s\n' "$EXPECTED_INIT_ON_FREE"
+printf 'MEM_AUTO_INIT_BANNER=%s\n' "$auto_init_banner"
 printf 'USER_NS=disabled\n'
 printf 'USERNS_PROC_SURFACES=%s\n' "$userns_proc_surfaces"
 printf 'USERNS_HELPERS=%s\n' "$userns_helpers"

@@ -2,10 +2,11 @@
 
 Status date: 2026-08-26.
 
-Status: configuration proof, source risk audit and accepted batch-3 baseline
-are complete. No batch-4 kernel or recovery image has been built or installed.
-This batch enables init-on-allocation only; init-on-free remains a separate
-later decision.
+Status: configuration proof, source risk audit, accepted batch-3 baseline and
+two clean full batch-4 pipelines are complete. The pipelines are byte-exact
+through the compressed recovery image. No batch-4 artifact has been installed;
+device acceptance and rollback remain open. This batch enables
+init-on-allocation only; init-on-free remains a separate later decision.
 
 ## Scope
 
@@ -65,6 +66,41 @@ remaining media, DMA and atomic hot paths still require physical runtime and
 performance evidence. Source inspection does not prove proprietary userspace
 or firmware timing compatibility.
 
+## Build And Reproducibility Evidence
+
+Two clean full candidate pipelines were built from outer project commit
+`f97d12dfb7ee0bf54c58650f861dc2cddd1b3ffe`. The strict comparison proves exact
+identity for the kernel Image, vmlinux, config, symbols, three DTBs, 24 in-tree
+modules, 30 external modules, three media modules, staged runtime payload,
+Buildroot ext4 and tar rootfs, FIT, full SD image, compressed image and extracted
+payloads.
+
+The retained comparison report is:
+
+`build/latestbuildroot/repro-reports/kernel-5.10.265-phase3-init-on-alloc/summary.md`
+
+Its SHA-256 is
+`2618bc706db095b3b29f2a30ec616aeab16654cdf3abbf75c11476c36f4de602`.
+The duplicate B pipeline was removed only after this proof; selected pipeline A
+and the report remain retained.
+
+| Selected A artifact | SHA-256 |
+| --- | --- |
+| kernel config | `845714bfa1ab3d03ef356eb9896ad0198460aa9cd2a6d0cdb0021a5d639a9a6d` |
+| kernel Image | `e1ce391f36161e8dd466fd99214b7f55fdb0e128d613f1d45c9a8e7b6cd9789e` |
+| vmlinux | `81204650095fab65355387941761f101c44a14515c1ed13b33d7164741d5bd9c` |
+| Module.symvers | `8b07a7d16d77964c2882f4bdd4c90aa18545759369709862e1abd1f98b1a536d` |
+| boot FIT / boot.sd | `a296fd70af3a965d105512b67254db9d7d08998b14632bfea194e2208e02b9aa` |
+| Buildroot rootfs.ext2 | `ca586a4afa1b00a6606a674fc8195aad7dd2cd065a80c2288c531b13326f7f36` |
+| Buildroot rootfs.tar | `363276f7f07a9da2a61d8aec17f3b1f5b5d0f49255bcb7b75f8cc40c80ff64e7` |
+| full SD image | `e4df3145ff2eec567d993c53ab6536b80cdda930b23eb0eebd91754abdd26a0f` |
+| compressed SD image | `c0a1e76ab79d8b854687c1ff813ef31009a0b3a3cc5417f97a984edcdd78fa9b` |
+
+All 57 loadable modules and the external-source provenance are byte-identical
+to accepted batch 3. The rootfs contract is unchanged, so a guarded FIT-only
+device probe can attribute any change to this kernel candidate. Final
+acceptance still requires a boot of the complete selected recovery image.
+
 ## Accepted Batch-3 Baseline
 
 Two fresh baseline runs used the accepted final selected image at
@@ -104,13 +140,12 @@ These are bounded lab attribution limits, not general performance claims.
 
 ## Remaining Gates
 
-1. Commit the cumulative fragment and this pre-build evidence.
-2. Produce two clean full candidate pipelines from that same commit.
-3. Prove exact kernel, 57-module, Buildroot rootfs, FIT and recovery-image
-   reproducibility.
-4. Boot only from recoverable media and verify the dmesg banner reports heap
+1. Boot the selected candidate through the guarded recoverable-media procedure
+   and verify the dmesg banner reports heap
    allocation initialization on and heap free initialization off.
-5. Run exact identity, both predeclared performance runs, media/video, Wi-Fi,
+2. Run exact identity, both predeclared performance runs, media/video, Wi-Fi,
    Ethernet, storage, USB and kernel-log gates.
-6. Complete reboot cycles and physical rollback to accepted batch 3.
-7. Decide on init-on-free only as a new batch after batch 4 is accepted.
+3. Complete reboot cycles and physical rollback to accepted batch 3.
+4. Boot and accept the complete selected A recovery image, then freeze the
+   kernel scope for the next RC.
+5. Decide on init-on-free only as a new batch after batch 4 is accepted.

@@ -294,10 +294,12 @@ Remediation status:
   init-on-allocation.
   Fixed limits, evidence and the accepted result are documented in
   [`kernel-5.10.265-phase3-slab-freelist.md`](kernel-5.10.265-phase3-slab-freelist.md).
-- Phase 3 batch 4 is prepared but not built. Its tracked fragment enables only
-  init-on-allocation; exact cross-toolchain Kconfig proof is one line, accepted
-  batch-3 baseline medians are 670/670 ms, and the predeclared candidate limit
-  is 770.5 ms. Init-on-free remains a later separate decision. See
+- Phase 3 batch 4 enables only init-on-allocation. Its exact cross-toolchain
+  Kconfig proof is one line, accepted batch-3 baseline medians are 670/670 ms,
+  and the predeclared candidate limit is 770.5 ms. Two clean full pipelines from
+  `f97d12d` are byte-exact through the compressed recovery image; device
+  runtime, reboot, complete-image and rollback gates remain. Init-on-free
+  remains a later separate decision. See
   [`kernel-5.10.265-phase3-init-on-alloc.md`](kernel-5.10.265-phase3-init-on-alloc.md).
 - Generated-build cleanup on 2026-08-25 removed 187,901,444,096 bytes of old
   standalone Buildroot outputs, duplicate B pipelines and superseded probes.
