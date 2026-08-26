@@ -309,6 +309,13 @@ pass with zero kernel alerts. Batch 3 is accepted. See
 Each batch needs a config diff, boot evidence, performance/temperature sample,
 kernel-log review, and rollback result.
 
+Batch 4 now has a tracked cumulative init-on-allocation-only fragment, an exact
+one-line cross-toolchain Kconfig proof and two accepted batch-3 baseline runs
+with 670/670 ms medians and zero alerts. Its fixed candidate
+mean-of-medians limit is 770.5 ms. No batch-4 kernel or image has been built;
+init-on-free remains explicitly outside this batch. See
+[`kernel-5.10.265-phase3-init-on-alloc.md`](kernel-5.10.265-phase3-init-on-alloc.md).
+
 ### Phase 4: Recoverable-Media Acceptance
 
 For every candidate selected for device testing:
