@@ -7,6 +7,7 @@ SECURITY_PATCH_LEVEL="${RC12_SECURITY_PATCH_LEVEL:-Buildroot 2026.05.1 security 
 SD_IMAGE="$RC12_RUN_ROOT/recovery/assembly/images/hardened-sg2002-port.img"
 BUILD_COMMIT_FILE="$RC12_RUN_ROOT/_reports/outer-commit.txt"
 RAW_OUTPUT_ROOT="${RC12_RAW_OUTPUT_ROOT:-$ROOT_DIR/build/latestbuildroot/raw-system-update-0.3.0-raw.12}"
+VENDOR_RUNTIME_DIR="$RC12_RUN_ROOT/runtime"
 
 [ -f "$SD_IMAGE" ] || {
 	echo "missing accepted RC12 SD image: $SD_IMAGE" >&2
@@ -18,6 +19,16 @@ RAW_OUTPUT_ROOT="${RC12_RAW_OUTPUT_ROOT:-$ROOT_DIR/build/latestbuildroot/raw-sys
 }
 BUILD_COMMIT="$(cat "$BUILD_COMMIT_FILE")"
 git -C "$ROOT_DIR" cat-file -e "$BUILD_COMMIT^{commit}"
+for module in soph_vcodec.ko soph_jpeg.ko soph_vc_driver.ko
+do
+	[ -f "$VENDOR_RUNTIME_DIR/system/ko/$module" ] || {
+		echo "missing selected RC12 media module: $module" >&2
+		exit 1
+	}
+done
+expected_vcodec="$(sha256sum "$VENDOR_RUNTIME_DIR/system/ko/soph_vcodec.ko" | awk '{print $1}')"
+expected_jpeg="$(sha256sum "$VENDOR_RUNTIME_DIR/system/ko/soph_jpeg.ko" | awk '{print $1}')"
+expected_vc="$(sha256sum "$VENDOR_RUNTIME_DIR/system/ko/soph_vc_driver.ko" | awk '{print $1}')"
 
 HARDENED_SG2002_SYSTEM_VERSION=0.3.0-raw.12 \
 HARDENED_SG2002_SYSTEM_TAG=hardened-system-0.3.0-raw.12 \
@@ -31,4 +42,9 @@ HARDENED_SG2002_RAW_UPDATE_OUT="$RAW_OUTPUT_ROOT/artifacts" \
 EXPECTED_KVMAPP_VERSION=2.0.41 \
 SYSTEM_UPDATE_REQUIRED_APP_VERSION=2.0.41 \
 	SYSTEM_UPDATE_SOURCE_COMMIT="$BUILD_COMMIT" \
+	EXPECTED_SOPH_VCODEC_SHA256="$expected_vcodec" \
+	EXPECTED_SOPH_JPEG_SHA256="$expected_jpeg" \
+	EXPECTED_SOPH_VC_DRIVER_SHA256="$expected_vc" \
+	EXPECTED_MEDIA_DEVICE_ACCEPTANCE=pending-recovery-sd \
+	EXPECTED_RUNTIME_KERNEL_RELEASE=5.10.265-tag- \
 	exec "$ROOT_DIR/scripts/package-latest-buildroot-sg2002-raw-update.sh"
