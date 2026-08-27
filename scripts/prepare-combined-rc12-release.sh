@@ -72,8 +72,8 @@ BUILD_COMMIT_SHORT="$(git -C "$ROOT_DIR" rev-parse --short "$BUILD_COMMIT^{commi
 	echo "combined tag must satisfy the deployed system URL validator" >&2
 	exit 1
 }
-grep -Fq 'RELEASE_BLOCKED_PENDING_FULL_IMAGE_BOOT' "$NOTES_INPUT" && {
-	echo "release notes still contain the full-image boot blocker" >&2
+grep -Eq 'RELEASE_BLOCKED_[A-Z0-9_]+' "$NOTES_INPUT" && {
+	echo "release notes still contain a fail-closed release blocker" >&2
 	exit 1
 }
 

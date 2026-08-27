@@ -333,6 +333,13 @@ Remediation status:
   The current trusted private signing key is not configured or enrolled; do not
   generate a replacement because deployed devices trust the existing public
   key.
+- Public RC12 binary publication is fail-closed on two external gates. The
+  release notes now contain
+  `RELEASE_BLOCKED_PENDING_SIGNING_AND_REDISTRIBUTION`; both preparation and
+  publication reject any `RELEASE_BLOCKED_*` marker. Completion requires the
+  existing private key matching the deployed public key and a documented
+  redistribution grant for all retained inputs currently marked
+  `NOASSERTION` or `redistribution=disabled-pending-license-grant`.
 - Generated-build cleanup on 2026-08-25 removed 187,901,444,096 bytes of old
   standalone Buildroot outputs, duplicate B pipelines and superseded probes.
   Accepted/current A trees, reproducibility reports, source worktrees, caches

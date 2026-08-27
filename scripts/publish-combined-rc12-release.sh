@@ -49,8 +49,8 @@ git -C "$ROOT_DIR" merge-base --is-ancestor \
 	echo "release build commit is not an ancestor of the release commit" >&2
 	exit 1
 }
-grep -Fq 'RELEASE_BLOCKED_PENDING_FULL_IMAGE_BOOT' "$RELEASE_DIR/RELEASE_NOTES.md" && {
-	echo "release notes still contain the full-image boot blocker" >&2
+grep -Eq 'RELEASE_BLOCKED_[A-Z0-9_]+' "$RELEASE_DIR/RELEASE_NOTES.md" && {
+	echo "release notes still contain a fail-closed release blocker" >&2
 	exit 1
 }
 
