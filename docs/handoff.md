@@ -320,6 +320,19 @@ Remediation status:
   partitions, two post-expansion reboot cycles and final runtime all pass with
   zero kernel alerts. The device is left on RC12. The kernel scope is frozen;
   raw packaging, signing and release verification are next.
+- The isolated unsigned raw.12 preflight passes
+  `scripts/verify-rc12-raw-bundle.sh`. Its 57,134,321-byte archive SHA-256 is
+  `85f5a52be375456eef0acdc618a77219fc0de7d42675d05bc30ee82ec3969b1e`;
+  the decompressed rootfs and boot payloads remain byte-exact to selected A at
+  `a5254238d690cd963b2b0f663977211634c424d78fb5e30fa095d815ab5d7701`
+  and `0d74f6acbd21499a181636afbcb3fc3d221734d3093df95cc42532c5f567864b`.
+  Format 2 and
+  `required_app_version=2.0.41` pass. This preflight is explicitly unsigned and
+  cannot be installed or published. The retained report SHA-256 is
+  `5fa4a27dbdc93e2c429af0dd4d945d2adb6d659e1e50d9c9363b90fc17fe6358`.
+  The current trusted private signing key is not configured or enrolled; do not
+  generate a replacement because deployed devices trust the existing public
+  key.
 - Generated-build cleanup on 2026-08-25 removed 187,901,444,096 bytes of old
   standalone Buildroot outputs, duplicate B pipelines and superseded probes.
   Accepted/current A trees, reproducibility reports, source worktrees, caches

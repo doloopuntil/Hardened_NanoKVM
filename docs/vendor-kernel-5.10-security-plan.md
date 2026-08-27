@@ -377,3 +377,9 @@ separate decision outside RC12. Each subsequent batch keeps its own config
 diff, recoverable-media boot, runtime regression and rollback evidence.
 Enabling every hardening option at once would destroy failure attribution and
 remains unacceptable.
+
+The RC12 raw preflight now preserves the physically accepted rootfs and boot
+partition bytes exactly and passes the format-2/app-first manifest verifier.
+It remains deliberately unsigned. Publication still requires the private key
+matching the already-deployed update public key; generating a new uncoordinated
+key is not an acceptable substitute.
