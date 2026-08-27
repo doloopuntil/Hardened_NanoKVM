@@ -9,6 +9,8 @@ BUILD_COMMIT_FILE="$RC12_RUN_ROOT/_reports/outer-commit.txt"
 RAW_OUTPUT_ROOT="${RC12_RAW_OUTPUT_ROOT:-$ROOT_DIR/build/latestbuildroot/raw-system-update-0.3.0-raw.12-bridge}"
 VENDOR_RUNTIME_DIR="$RC12_RUN_ROOT/runtime"
 PRODUCTION_PUBLIC_KEY="${SYSTEM_UPDATE_PUBLIC_KEY:-$ROOT_DIR/kvmapp/system/keys/update-keys/hardened-system-prod-2026q3.pub.pem}"
+KVMAPP_DIR="${NANOKVM_KVMAPP_SOURCE_DIR:-$ROOT_DIR/build/key-transition-2.0.42-bootstrap/app-a/stage/kvmapp}"
+EXPECTED_SERVER_SHA256=fd116fc459a1961cfc16fd0c7077a8f4c5e24d8f32d8745fd3b9744217083d6d
 
 [ -f "$SD_IMAGE" ] || {
 	echo "missing accepted RC12 SD image: $SD_IMAGE" >&2
@@ -16,6 +18,14 @@ PRODUCTION_PUBLIC_KEY="${SYSTEM_UPDATE_PUBLIC_KEY:-$ROOT_DIR/kvmapp/system/keys/
 }
 [ -f "$BUILD_COMMIT_FILE" ] || {
 	echo "missing RC12 build commit evidence: $BUILD_COMMIT_FILE" >&2
+	exit 1
+}
+[ -f "$KVMAPP_DIR/server/NanoKVM-Server" ] || {
+	echo "missing accepted RC12 bridge server" >&2
+	exit 1
+}
+[ "$(sha256sum "$KVMAPP_DIR/server/NanoKVM-Server" | awk '{print $1}')" = "$EXPECTED_SERVER_SHA256" ] || {
+	echo "RC12 raw packaging bridge server hash mismatch" >&2
 	exit 1
 }
 BUILD_COMMIT="$(cat "$BUILD_COMMIT_FILE")"
@@ -52,4 +62,5 @@ EXPECTED_RUNTIME_KERNEL_RELEASE=5.10.265-tag- \
 	EXPECTED_UPDATE_KEY_ID=hardened-system-prod-2026q3 \
 	EXPECTED_UPDATE_PUBLIC_KEY_DER_SHA256=97ddb5600accf0e431c74f82b03acf249668bf75fe0de2e41724c91720516f75 \
 	SYSTEM_UPDATE_PUBLIC_KEY="$PRODUCTION_PUBLIC_KEY" \
+	NANOKVM_KVMAPP_SOURCE_DIR="$KVMAPP_DIR" \
 	exec "$ROOT_DIR/scripts/package-latest-buildroot-sg2002-raw-update.sh"
