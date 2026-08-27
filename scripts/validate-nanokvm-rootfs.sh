@@ -22,10 +22,13 @@ fi
 IMAGE="$1"
 EXPECTED_BACKEND="${EXPECTED_BACKEND:-rust}"
 EXPECTED_KVMAPP_VERSION="${EXPECTED_KVMAPP_VERSION:-}"
+EXPECTED_UPDATE_KEY_ID="${EXPECTED_UPDATE_KEY_ID:-}"
+EXPECTED_UPDATE_PUBLIC_KEY_DER_SHA256="${EXPECTED_UPDATE_PUBLIC_KEY_DER_SHA256:-}"
 BOOT_INIT_SCRIPTS="S00kmod S01fs S03usbdev S15kvmhwd S30eth S30wifi S50avahi-daemon S50sshd S95nanokvm"
 
 [ -f "$IMAGE" ] || die "rootfs image does not exist: $IMAGE"
 command -v debugfs >/dev/null 2>&1 || die "debugfs is required"
+command -v openssl >/dev/null 2>&1 || die "openssl is required"
 
 case "$EXPECTED_BACKEND" in
   rust | any) ;;
@@ -109,6 +112,13 @@ require_regular /kvmapp/backends/NanoKVM-Server.rust
 require_regular /kvmapp/hwmon/nanokvm-hwmon
 require_regular /kvmapp/kvm_system/kvm_system
 require_regular /kvmapp/system/keys/system-update-signing.pub.pem
+if [ -n "$EXPECTED_UPDATE_KEY_ID" ]; then
+  [ -n "$EXPECTED_UPDATE_PUBLIC_KEY_DER_SHA256" ] || \
+    die "EXPECTED_UPDATE_PUBLIC_KEY_DER_SHA256 is required with EXPECTED_UPDATE_KEY_ID"
+  require_dir /kvmapp/system/keys/update-keys
+  require_regular "/kvmapp/system/keys/update-keys/$EXPECTED_UPDATE_KEY_ID.pub.pem"
+  require_regular /kvmapp/system/keys/update-key-policy
+fi
 require_regular /kvmapp/system/mnt-data/sensor_cfg.ini.LT
 require_regular /kvmapp/server/web/index.html
 require_regular /etc/kvm/backend
@@ -141,6 +151,24 @@ version=$(trim_file "$version_file")
 
 if [ -n "$EXPECTED_KVMAPP_VERSION" ] && [ "$version" != "$EXPECTED_KVMAPP_VERSION" ]; then
   die "unexpected /kvmapp/version: $version, expected $EXPECTED_KVMAPP_VERSION"
+fi
+
+if [ -n "$EXPECTED_UPDATE_KEY_ID" ]; then
+  update_public_key=$(dump_file "/kvmapp/system/keys/update-keys/$EXPECTED_UPDATE_KEY_ID.pub.pem" update-public-key)
+  update_public_key_fingerprint="$(openssl pkey -pubin -in "$update_public_key" -outform DER 2>/dev/null | sha256sum | awk '{print $1}')"
+  [ "$update_public_key_fingerprint" = "$EXPECTED_UPDATE_PUBLIC_KEY_DER_SHA256" ] || \
+    die "unexpected production update public key fingerprint"
+  update_key_policy=$(dump_file /kvmapp/system/keys/update-key-policy update-key-policy)
+  normalized_policy="$TMP_DIR/update-key-policy.normalized"
+  sed -e 's/[[:space:]]*$//' -e '/^[[:space:]]*#/d' -e '/^[[:space:]]*$/d' \
+    "$update_key_policy" | LC_ALL=C sort > "$normalized_policy"
+  cat > "$TMP_DIR/update-key-policy.expected" <<EOF
+hardened-system-dev
+hardened-system-prod-2026q3
+hardened-system-test
+EOF
+  cmp -s "$normalized_policy" "$TMP_DIR/update-key-policy.expected" || \
+    die "unexpected RC12 update key policy"
 fi
 
 backend_file=$(dump_file /etc/kvm/backend backend)

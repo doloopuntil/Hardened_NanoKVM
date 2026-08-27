@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 REPO="${GITHUB_REPOSITORY:-woffko/Hardened_NanoKVM}"
 RELEASE_TAG="${RELEASE_TAG:-hardened-system-0.3.0-raw.12}"
-RELEASE_TITLE="${RELEASE_TITLE:-Hardened NanoKVM 2.0.41 RC12 + System 0.3.0 Raw 12}"
+RELEASE_TITLE="${RELEASE_TITLE:-Hardened NanoKVM 2.0.42 RC12 + System 0.3.0 Raw 12}"
 RELEASE_COMMIT="${RELEASE_COMMIT:-}"
 RELEASE_DIR="${COMBINED_RELEASE_OUTPUT_DIR:-$ROOT_DIR/build/release/combined-rc12}"
 PUBLIC_KEY="${UPDATE_PUBLIC_KEY:-$ROOT_DIR/kvmapp/system/keys/system-update-signing.pub.pem}"

@@ -64,6 +64,16 @@ reject_text '/tmp/server/dl_lib' "$ROOT/kvmapp/system/init.d/S95nanokvm"
 require_line 'NANOKVM_NATIVE_LIBRARY_PATH=/kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd' \
 	"$ROOT/kvmapp/system/init.d/S95nanokvm"
 test -f "$ROOT/kvmapp/system/keys/update-keys/README.md"
+test -f "$ROOT/kvmapp/system/keys/update-keys/hardened-system-prod-2026q3.pub.pem"
+test -f "$ROOT/kvmapp/system/keys/update-key-policy"
+test "$(openssl pkey -pubin \
+	-in "$ROOT/kvmapp/system/keys/update-keys/hardened-system-prod-2026q3.pub.pem" \
+	-outform DER | sha256sum | awk '{print $1}')" = \
+	97ddb5600accf0e431c74f82b03acf249668bf75fe0de2e41724c91720516f75
+for key_id in hardened-system-dev hardened-system-test hardened-system-prod-2026q3; do
+	grep -qx "$key_id" "$ROOT/kvmapp/system/keys/update-key-policy"
+done
+! find "$ROOT/kvmapp" -type f -exec grep -Il -m 1 -- 'BEGIN .*PRIVATE KEY' {} + | grep -q .
 test -f "$PATCH_ROOT/libopenssl/3.6.3/0001-CVE-2026-54876-fix-OCSP-response-leak.patch"
 test -f "$PATCH_ROOT/busybox/1.38.0/0012-CVE-2026-38753-fix-awk-sub-use-after-free.patch"
 test -f "$PATCH_ROOT/busybox/1.38.0/0013-CVE-2026-38755-limit-ash-function-recursion.patch"

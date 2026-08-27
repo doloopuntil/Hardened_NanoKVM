@@ -34,8 +34,8 @@ available in:
   [`latest-buildroot-port.md`](latest-buildroot-port.md) in scope.
 - `feature/rust-kvm-system-migration` is historical. Its validated work is in
   `main`; do not continue release work from that branch.
-- Current source/application version: `2.0.41` (`kvmapp/version`); published
-  RC11 remains app `2.0.40` with system `0.3.0-raw.10`.
+- Current source/application version is bridge app `2.0.42` (`kvmapp/version`);
+  published RC11 remains app `2.0.40` with system `0.3.0-raw.10`.
 - Planned maintenance versions are app `2.0.41` followed by system
   `0.3.0-raw.11`; format-2 system metadata enforces that ordering. Treat these
   as unpublished until the build, independent reproducibility, device, signing,
@@ -305,9 +305,14 @@ Remediation status:
   is not claimed as new evidence. Init-on-free remains a later separate
   decision outside the next RC. See
   [`kernel-5.10.265-phase3-init-on-alloc.md`](kernel-5.10.265-phase3-init-on-alloc.md).
-- RC12 preparation is pinned to app `2.0.41`, system `0.3.0-raw.12`, kernel
+- The previous app `2.0.41` RC12 candidate and its accepted full image are now
+  superseded for publication by the required signing-key transition. Their
+  kernel evidence remains valid, but app/rootfs/raw/full-image hashes must be
+  rebuilt and reaccepted.
+- RC12 preparation is now pinned to bridge app `2.0.42`, system
+  `0.3.0-raw.12`, kernel
   `5.10.265-tag-`, format-2 system metadata and
-  `required_app_version=2.0.41`. The release scripts bind the full build commit,
+  `required_app_version=2.0.42`. The release scripts bind the full build commit,
   system manifest, signed metadata, SD image and publication commit separately.
   Preparation and publication refuse to proceed if the reviewed full-image
   blocker marker is present.
@@ -333,9 +338,16 @@ Remediation status:
   The current trusted private signing key is not configured or enrolled; do not
   generate a replacement because deployed devices trust the existing public
   key.
-- RC12 online-update publication is fail-closed on the remaining signing gate.
-  The release notes contain `RELEASE_BLOCKED_PENDING_SIGNING_KEY`; both
-  preparation and publication reject any `RELEASE_BLOCKED_*` marker. The
+- A new RSA-4096 production key was created outside the repository with key ID
+  `hardened-system-prod-2026q3`; its public DER SHA-256 is
+  `97ddb5600accf0e431c74f82b03acf249668bf75fe0de2e41724c91720516f75`.
+  App `2.0.42` retains the legacy key, adds the production keyring entry and a
+  policy allowing both historical IDs plus the production ID. The release
+  notes contain `RELEASE_BLOCKED_PENDING_KEY_BACKUPS_AND_REVALIDATION`; both
+  preparation and publication reject any `RELEASE_BLOCKED_*` marker. Two
+  independent encrypted backups and the complete bridge/RC12 acceptance matrix
+  remain. See [`key-transition-2026q3.md`](key-transition-2026q3.md).
+  The
   project owner explicitly decided that retained `NOASSERTION` and
   `redistribution=disabled-pending-license-grant` provenance is a disclosed
   limitation of this experimental RC, not a publication blocker or a claim

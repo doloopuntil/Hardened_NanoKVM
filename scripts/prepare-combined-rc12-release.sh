@@ -3,14 +3,14 @@ set -euo pipefail
 
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 RELEASE_TAG="${RELEASE_TAG:-hardened-system-0.3.0-raw.12}"
-APP_VERSION="${APP_VERSION:-2.0.41}"
+APP_VERSION="${APP_VERSION:-2.0.42}"
 SYSTEM_VERSION="${SYSTEM_VERSION:-0.3.0-raw.12}"
 EXPECTED_KERNEL_VERSION="${EXPECTED_KERNEL_VERSION:-5.10.265-tag-}"
 APP_INPUT="${APP_RELEASE_INPUT:-$ROOT_DIR/build/artifacts/nanokvm-kvmapp-rust.tar.gz}"
 SYSTEM_INPUT_DIR="${SYSTEM_RELEASE_INPUT_DIR:-$ROOT_DIR/build/latestbuildroot/raw-system-update-$SYSTEM_VERSION/artifacts}"
 SD_INPUT="${SD_RELEASE_INPUT:-$ROOT_DIR/build/latestbuildroot/kernel-5.10.265-rc12-release-a/recovery/assembly/images/hardened-sg2002-port.img}"
 BUILD_COMMIT_FILE="${RC12_BUILD_COMMIT_FILE:-$ROOT_DIR/build/latestbuildroot/kernel-5.10.265-rc12-release-a/_reports/outer-commit.txt}"
-NOTES_INPUT="${RELEASE_NOTES_INPUT:-$ROOT_DIR/docs/releases/rc12-2.0.41-raw.12.md}"
+NOTES_INPUT="${RELEASE_NOTES_INPUT:-$ROOT_DIR/docs/releases/rc12-2.0.42-raw.12.md}"
 OUTPUT_DIR="${COMBINED_RELEASE_OUTPUT_DIR:-$ROOT_DIR/build/release/combined-rc12}"
 SIGNING_KEY="${APP_UPDATE_SIGNING_KEY:-${SYSTEM_UPDATE_SIGNING_KEY:-}}"
 PUBLIC_KEY="${UPDATE_PUBLIC_KEY:-$ROOT_DIR/kvmapp/system/keys/system-update-signing.pub.pem}"
@@ -19,7 +19,7 @@ SOURCE_COMMIT="$(git -C "$ROOT_DIR" rev-parse HEAD)"
 
 APP_NAME="hardened-nanokvm-kvmapp-$APP_VERSION.tar.gz"
 SYSTEM_NAME="hardened-nanokvm-system-$SYSTEM_VERSION.tar.gz"
-SD_NAME="Hardened_NanoKVM_2.0.41_RC12_System_0.3.0-raw.12_Buildroot-2026.05.1.img.xz"
+SD_NAME="Hardened_NanoKVM_2.0.42_RC12_System_0.3.0-raw.12_Buildroot-2026.05.1.img.xz"
 
 [ -n "$SIGNING_KEY" ] || {
 	echo "APP_UPDATE_SIGNING_KEY or SYSTEM_UPDATE_SIGNING_KEY is required" >&2
@@ -105,7 +105,7 @@ unset manifest
 )
 
 APP_UPDATE_SIGNING_KEY="$SIGNING_KEY" \
-APP_UPDATE_SIGNATURE_KEY_ID=hardened-system-dev \
+APP_UPDATE_SIGNATURE_KEY_ID=hardened-system-prod-2026q3 \
 	"$ROOT_DIR/scripts/create-update-metadata.sh" \
 	"$APP_VERSION" "$RELEASE_TAG" "$OUTPUT_DIR/$APP_NAME" "$OUTPUT_DIR/latest.json"
 
@@ -115,7 +115,7 @@ SECURITY_PATCH_LEVEL="$SECURITY_PATCH_LEVEL" \
 SYSTEM_UPDATE_FORMAT=2 \
 SYSTEM_UPDATE_REQUIRED_APP_VERSION="$APP_VERSION" \
 SYSTEM_UPDATE_SIGNING_KEY="$SIGNING_KEY" \
-SYSTEM_UPDATE_SIGNATURE_KEY_ID=hardened-system-dev \
+SYSTEM_UPDATE_SIGNATURE_KEY_ID=hardened-system-prod-2026q3 \
 	"$ROOT_DIR/scripts/create-system-update-metadata.sh" \
 	"$SYSTEM_VERSION" "$RELEASE_TAG" "$OUTPUT_DIR/$SYSTEM_NAME" "$OUTPUT_DIR/system-latest.json"
 

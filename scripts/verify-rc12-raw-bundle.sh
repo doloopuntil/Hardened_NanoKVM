@@ -35,7 +35,7 @@ tar -xOf "$ARCHIVE" manifest.json > "$tmp/manifest.json"
 [ "$(jq -r .version "$tmp/manifest.json")" = 0.3.0-raw.12 ] || fail "manifest version"
 [ "$(jq -r .target "$tmp/manifest.json")" = sg2002-licheervnano-sd ] || fail "manifest target"
 [ "$(jq -r .kernel_version "$tmp/manifest.json")" = 5.10.265-tag- ] || fail "manifest kernel"
-[ "$(jq -r .required_app_version "$tmp/manifest.json")" = 2.0.41 ] || fail "manifest app requirement"
+[ "$(jq -r .required_app_version "$tmp/manifest.json")" = 2.0.42 ] || fail "manifest app requirement"
 [ "$(jq -r .source_commit "$tmp/manifest.json")" = 34cb2cb ] || fail "manifest source commit"
 jq -e '.operations | index("manual-recovery-only") != null' "$tmp/manifest.json" >/dev/null || \
 	fail "manual recovery marker"
@@ -64,7 +64,7 @@ archive_size="$(wc -c < "$ARCHIVE" | tr -d ' ')"
 [ "$(jq -r .channel "$METADATA")" = preview ] || fail "metadata channel"
 [ "$(jq -r .version "$METADATA")" = 0.3.0-raw.12 ] || fail "metadata version"
 [ "$(jq -r .target "$METADATA")" = sg2002-licheervnano-sd ] || fail "metadata target"
-[ "$(jq -r .required_app_version "$METADATA")" = 2.0.41 ] || fail "metadata app requirement"
+[ "$(jq -r .required_app_version "$METADATA")" = 2.0.42 ] || fail "metadata app requirement"
 [ "$(jq -r .sha256 "$METADATA")" = "$archive_sha" ] || fail "metadata archive hash"
 [ "$(jq -r .size "$METADATA")" = "$archive_size" ] || fail "metadata archive size"
 
@@ -79,6 +79,7 @@ case "$EXPECTED_SIGNATURE_MODE" in
 		[ -f "$SIGNATURE" ] || fail "signature is missing"
 		[ -f "$PUBLIC_KEY" ] || fail "public key is missing"
 		[ "$(jq -r .signature_algorithm "$METADATA")" = sha256-rsa-pkcs1-v1_5 ] || fail "signed algorithm"
+		[ "$(jq -r .signature_key_id "$METADATA")" = hardened-system-prod-2026q3 ] || fail "signed key id"
 		"$ROOT_DIR/scripts/verify-system-update-metadata.sh" \
 			"$METADATA" "$SIGNATURE" "$PUBLIC_KEY" >/dev/null
 		;;
@@ -91,6 +92,6 @@ printf 'ROOTFS_SHA256=%s\n' "$rootfs_sha"
 printf 'ROOTFS_SIZE=%s\n' "$rootfs_size"
 printf 'BOOT_SHA256=%s\n' "$boot_sha"
 printf 'BOOT_SIZE=%s\n' "$boot_size"
-printf 'METADATA_FORMAT=2\nREQUIRED_APP_VERSION=2.0.41\n'
+printf 'METADATA_FORMAT=2\nREQUIRED_APP_VERSION=2.0.42\n'
 printf 'SIGNATURE_MODE=%s\n' "$EXPECTED_SIGNATURE_MODE"
 printf 'SUCCESS: RC12 raw bundle gate passed\n'
