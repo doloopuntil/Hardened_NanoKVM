@@ -176,16 +176,28 @@ fi
 {
   printf 'artifact: kvmapp-rust\n'
   printf 'source: %s\n' "$(git -C "$ROOT_DIR" rev-parse --short HEAD 2>/dev/null || printf unknown)"
-  printf 'rust_binary: %s\n' "$RUST_BINARY"
-  printf 'hwmon_binary: %s\n' "$HWMON_BINARY"
+  printf 'rust_binary: kvmapp/server/NanoKVM-Server\n'
+  printf 'rust_binary_sha256: %s\n' "$(sha256sum "$KVMAPP_STAGE/server/NanoKVM-Server" | awk '{print $1}')"
+  printf 'hwmon_binary: kvmapp/hwmon/nanokvm-hwmon\n'
+  printf 'hwmon_binary_sha256: %s\n' "$(sha256sum "$KVMAPP_STAGE/hwmon/nanokvm-hwmon" | awk '{print $1}')"
   printf 'rust_target: %s\n' "${RUST_TARGET:-host}"
-  printf 'web_dist: %s\n' "$WEB_DIST"
+  printf 'web_dist: kvmapp/server/web\n'
   printf 'app_version: %s\n' "$(cat "$KVMAPP_STAGE/version")"
-  printf 'native_lib_dir: %s\n' "$NATIVE_LIB_DIR"
-  printf 'extra_native_lib_dir: %s\n' "${EXTRA_NATIVE_LIB_DIR:-none}"
-  printf 'kvm_system_helper: %s\n' "$(wc -c < "$KVMAPP_STAGE/kvm_system/kvm_system" | tr -d ' ') bytes"
+  printf 'native_lib_dir: kvmapp/server/dl_lib\n'
+  if [ -n "$EXTRA_NATIVE_LIB_DIR" ]; then
+    printf 'extra_native_libs: merged\n'
+  else
+    printf 'extra_native_libs: none\n'
+  fi
+  printf 'kvm_system_helper: kvmapp/kvm_system/kvm_system\n'
+  printf 'kvm_system_sha256: %s\n' "$(sha256sum "$KVMAPP_STAGE/kvm_system/kvm_system" | awk '{print $1}')"
   printf 'source_date_epoch: %s\n' "$SOURCE_DATE_EPOCH"
 } > "$STAGE_DIR/MANIFEST.txt"
+
+if grep -Fq "$ROOT_DIR" "$STAGE_DIR/MANIFEST.txt"; then
+  echo "application manifest leaks the build-host project path" >&2
+  exit 1
+fi
 
 if find "$KVMAPP_STAGE" \( -name 'NanoKVM-Server.go' -o -name 'NanoKVM-Server.go.bak' -o -name 'switch-backend-go.sh' -o -name 'switch-backend-rust.sh' -o -name 'jpg_stream' -o -name 'kvm_stream' -o -name 'kvm_new_app' -o -name 'kvm_new_img' \) | grep -q .; then
   echo "legacy backend switch, Go backend, or legacy app migration artifact found in staged kvmapp" >&2
