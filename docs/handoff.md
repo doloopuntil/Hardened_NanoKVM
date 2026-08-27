@@ -347,6 +347,13 @@ Remediation status:
   preparation and publication reject any `RELEASE_BLOCKED_*` marker. Two
   independent encrypted backups and the complete bridge/RC12 acceptance matrix
   remain. See [`key-transition-2026q3.md`](key-transition-2026q3.md).
+- Bridge app `2.0.42` pipelines A/B from source commit `42375b2` are byte-exact.
+  The selected 22,488,974-byte archive SHA-256 is
+  `e9c0bb08ce9904de55479151a1a1c4785a9db98b709cbd377ebe10ef2d91064b`
+  under `build/key-transition-2.0.42/app-a/out/`; duplicate B was removed after
+  comparison. Embedded legacy/production fingerprints and the three-ID policy
+  pass, with no private-key archive entry. Device installation remains blocked
+  until two independently recoverable encrypted key backups are verified.
   The
   project owner explicitly decided that retained `NOASSERTION` and
   `redistribution=disabled-pending-license-grant` provenance is a disclosed

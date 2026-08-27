@@ -2,7 +2,13 @@
 
 Status date: 2026-08-27.
 
-Status: implementation in progress. No transition or RC12 release is published.
+> TRANSITION_RELEASE_BLOCKED_PENDING_BACKUPS_AND_DEVICE_MATRIX
+>
+> Publication is prohibited until two independently recoverable encrypted
+> private-key backups and the complete bridge device matrix pass.
+
+Status: the production public trust set and reproducible bridge app are ready.
+No transition or RC12 release is published.
 
 ## Trust Set
 
@@ -17,6 +23,24 @@ The production private key is stored outside the repository. It must never be
 placed in Git, Project Memory, build archives, command arguments, logs or
 device images. Publication remains blocked until two independent encrypted
 backup copies are restored and fingerprint-checked.
+
+## Reproducible Bridge Artifact
+
+Two independent application pipelines from source commit `42375b2` produced
+the exact same 22,488,974-byte archive:
+
+`build/key-transition-2.0.42/app-a/out/hardened-nanokvm-kvmapp-2.0.42.tar.gz`
+
+SHA-256:
+`e9c0bb08ce9904de55479151a1a1c4785a9db98b709cbd377ebe10ef2d91064b`.
+
+The archive embeds app `2.0.42`, the unchanged legacy public fingerprint
+`2167216b8ccca472124a0f5bfc7889a3ab55772c221d8540e577243a1aa90926`,
+production fingerprint
+`97ddb5600accf0e431c74f82b03acf249668bf75fe0de2e41724c91720516f75`,
+the three-ID bridge policy and no private-key entry. The retained reproducibility
+report SHA-256 is
+`02589fa1890b5b6143acd2907b0b3b908e0a79237d63dcefbd9a07438d07858c`.
 
 ## Primary Migration: Authenticated Offline App Update
 
