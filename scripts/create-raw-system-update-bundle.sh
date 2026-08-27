@@ -6,6 +6,7 @@ usage() {
   echo "" >&2
   echo "environment:" >&2
   echo "  BASE_VERSION=<current base image marker>" >&2
+  echo "  ROOTFS_SYSTEM_BASE_VERSION=<optional human-readable rootfs base marker>" >&2
   echo "  KERNEL_VERSION=<kernel version after update>" >&2
   echo "  SECURITY_PATCH_LEVEL=<optional security patch/backport label>" >&2
   echo "  RAW_IMAGE_COMPRESSION=gzip|none (default: gzip)" >&2
@@ -76,7 +77,7 @@ patch_rootfs_image() {
     printf '{\n'
     printf '  "version": "%s",\n' "$VERSION"
     printf '  "target": "%s",\n' "$TARGET"
-    printf '  "base_version": "%s",\n' "$BASE_VERSION"
+    printf '  "base_version": "%s",\n' "$ROOTFS_BASE_VERSION"
     printf '  "kernel_version": "%s"' "$KERNEL_VERSION"
     if [ -n "$SECURITY_PATCH_LEVEL" ]; then
       printf ',\n  "security_patch_level": "%s"' "$SECURITY_PATCH_LEVEL"
@@ -144,6 +145,7 @@ validate_token "target" "$TARGET"
 "$ROOT_DIR/scripts/validate-nanokvm-rootfs.sh" "$ROOTFS_IMAGE" >/dev/null
 
 BASE_VERSION="${BASE_VERSION:-unknown}"
+ROOTFS_BASE_VERSION="${ROOTFS_SYSTEM_BASE_VERSION:-$BASE_VERSION}"
 KERNEL_VERSION="${KERNEL_VERSION:-unknown}"
 SECURITY_PATCH_LEVEL="${SECURITY_PATCH_LEVEL:-}"
 RAW_IMAGE_COMPRESSION="${RAW_IMAGE_COMPRESSION:-gzip}"
