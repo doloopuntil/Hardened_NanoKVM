@@ -1,6 +1,6 @@
 # Hardened NanoKVM Developer Handoff
 
-Last updated: 2026-08-24
+Last updated: 2026-08-27
 
 This document is the current takeover guide. Detailed chronological release and
 device-recovery history was intentionally removed from the handoff and remains
@@ -10,6 +10,7 @@ available in:
 - [`current-sysupgrade-build-trace.md`](current-sysupgrade-build-trace.md);
 - [`kvm-system-rust-migration-plan.md`](kvm-system-rust-migration-plan.md).
 - [`security-maintenance-raw11.md`](security-maintenance-raw11.md).
+- [`key-transition-2026q3.md`](key-transition-2026q3.md).
 
 ## Repository And GitHub State
 
@@ -25,9 +26,11 @@ available in:
   Commit `d5f480f` adds application `2.0.41` and guarded system-update metadata
   format 2. Runtime candidate commit `4ab8c4e` includes raw.10 update-key
   compatibility, explicit app-owned native-library packaging and RPATH-free
-  native artifacts. The raw.11 userspace hardening is active local work and is
-  not yet published. `rc8-main-sync`, tracking `origin/main`, remains the
-  previous release-baseline branch.
+  native artifacts. Commit `4d46c8b` makes the bridge server install bundled
+  public update trust on its first start; `ac12e2d` removes build-host paths
+  from the reproducible app manifest. The raw.11 userspace hardening and RC12
+  kernel work remain unpublished. `rc8-main-sync`, tracking `origin/main`,
+  remains the previous release-baseline branch.
 - `latestbuilroot` is the experimental Buildroot `2026.05.1` board-port branch
   used for RC11. Raw/SD artifacts are published as preview only; the stable
   system channel remains on RC9. Keep recovery media and the restrictions in
@@ -36,16 +39,17 @@ available in:
   `main`; do not continue release work from that branch.
 - Current source/application version is bridge app `2.0.42` (`kvmapp/version`);
   published RC11 remains app `2.0.40` with system `0.3.0-raw.10`.
-- Planned maintenance versions are app `2.0.41` followed by system
-  `0.3.0-raw.11`; format-2 system metadata enforces that ordering. Treat these
-  as unpublished until the build, independent reproducibility, device, signing,
-  and publication gates in `security-maintenance-raw11.md` are complete.
-- Current installed test state: test-key-signed system `0.3.0-raw.11` with
-  unpublished app `2.0.41` from runtime commit `4ab8c4e` on `10.0.87.133`.
-  Boot-good is confirmed, the raw marker is cleared, raw mode is disabled, and
-  configuration/SSH identity were preserved. The complete automated suite,
-  same-WebSocket H.264 regression, five reboot cycles, final 30-minute
-  MJPEG/H.264 endurance and post-endurance core check pass.
+- The production-key bridge plan is authoritative in
+  [`key-transition-2026q3.md`](key-transition-2026q3.md). Corrected app `2.0.42`
+  independently reproduces and passes the full immediate-trust, signature,
+  reboot, SSH and browser matrix from app `2.0.41`/raw.11 on `.133`, plus the
+  app `2.0.40` compatibility path on raw.12 on `.49`. The exact raw.10 physical
+  gate and one off-host encrypted-key backup remain transition-release blockers.
+- Current installed test state: `10.0.87.133` runs corrected bridge app
+  `2.0.42`, system `0.3.0-raw.11`, kernel `5.10.4-tag-`, dual trust and the
+  preserved SSH identity. `10.0.87.49` runs the same bridge app, system
+  `0.3.0-raw.12`, kernel `5.10.265-tag-` and dual trust. Both passed exact
+  post-reboot runtime and browser-account checks with zero kernel alerts.
 - Physical recovery-card repeatability is accepted on a second NanoKVM. Two
   clean writes booted far enough to generate a new MAC, expand p2 and create
   p3; the accepted second boot used `10.0.87.60` / `02:4b:c9:fb:cc:5d` and
@@ -95,6 +99,20 @@ Current combined RC11 release artifacts and SHA-256 values:
 | application detached signature | `d41d76509ce8e850309c79d9a0ce11e7bdeedc6488c2e6897672693841e80069` |
 | system metadata | `9048e06c4b5cfb0689b57bac9606e09a70ea00b0d50defc38a19e92a0c18940a` |
 | system detached signature | `3c0cb60003f9a0c201da0bbe473178220fc3a7ffafb8757c9f705fb7028c1a31` |
+
+Unpublished corrected bridge artifact:
+
+| Artifact | SHA-256 |
+| --- | --- |
+| app `2.0.42` bridge archive | `aa0cd78c1b2e9951f216826c44b4b7ff2fb211fc1980540366f8f5b1f7e0dd20` |
+| RISC-V Rust server | `fd116fc459a1961cfc16fd0c7077a8f4c5e24d8f32d8745fd3b9744217083d6d` |
+| reproducibility report | `065c636e8c9e05c9fcbbe13313b6ee3d728c605e7fc252b6ffa69215ea5381c2` |
+
+The retained pipeline-A archive is under
+`build/key-transition-2.0.42-bootstrap/app-a/out/`. The old bridge archive
+`e9c0bb08...` and all old RC12 rootfs/full-image hashes are superseded. Kernel,
+module and physical-device evidence remains valid, but RC12 must rebuild and
+repeat A/B, full-SD and signed-raw acceptance with the corrected app.
 
 RC10 was app-only. It did not change raw/system metadata or the SD image.
 GitHub tag `hardened-rust-rc10` was published from
@@ -152,8 +170,10 @@ advertises raw `0.3.0-raw.10`; `hardened-system-stable` remains on
   marker/snapshot is absent, stale, or malformed. Normal authenticated Wi-Fi
   reconnect is Rust/init-owned, but positive Wi-Fi and OLED AP provisioning
   still need validation on hardware with `wlan0`.
-- `S95nanokvm` owns runtime staging/start/stop, old app/image marker cleanup,
-  init compatibility repair, and delayed hwmon startup.
+- The Rust server installs validated bundled public update trust atomically on
+  its first start. `S95nanokvm` idempotently enforces the same trust state on
+  later starts and owns runtime staging/start/stop, old app/image marker
+  cleanup, init compatibility repair, and delayed hwmon startup.
 - In-place root/web password reset was removed. Lost credentials require SD
   reflash/recovery rather than a network reset endpoint.
 
@@ -217,15 +237,20 @@ Remediation status:
 - Read-only check on 2026-07-11: HTTPS health reported the Rust backend, app
   version was `2.0.32`, SSH login succeeded, and installed system version was
   `0.2.19-raw.1` on base `2026-06-29-12-08-d88d58.img`.
-- Current automated-test state on 2026-08-23: test-key-signed system
-  `0.3.0-raw.11`, Buildroot `2026.05.1`, unpublished app `2.0.41`, vendor
+- Current automated-test state on 2026-08-27: test-key-signed system
+  `0.3.0-raw.11`, Buildroot `2026.05.1`, corrected bridge app `2.0.42`, vendor
   kernel `5.10.4-tag-`, HTTPS and SSH working, source-built media trio loaded,
-  remote syslog active and online update checking clean. The complete suite,
+  production and legacy public update trust installed, remote syslog active and
+  online update checking clean. The corrected bridge was installed from a
+  clean app `2.0.41`/raw.11 state and passed immediate trust deployment,
+  production/historical signature checks, a full reboot and browser login.
+  Earlier complete-suite evidence includes the
   same-WebSocket H.264 mode-resume test, controlled runtime restart, watchdog
-  recovery and five reboot cycles pass with backend `f1e3772a...`, RPATH-free
+  recovery and five reboot cycles with backend `f1e3772a...`, RPATH-free
   `libkvm.so` `4f86642e...` and `libkvm_mmf.so` `c1b61ace...`. The final
   30-minute endurance passed 40 alternating MJPEG/H.264 cycles with zero new
-  dmesg/syslog alerts. Physical HDMI cable unplug/replug was previously
+  dmesg/syslog alerts. The current bridge server is `fd116fc4...`; the native
+  binaries are unchanged. Physical HDMI cable unplug/replug was previously
   confirmed on raw.9 with the same native stack; source-mode switching was
   unavailable on the current source. Published RC11 remains app `2.0.40`; the
   system channel remains preview-only.
@@ -316,50 +341,58 @@ Remediation status:
   system manifest, signed metadata, SD image and publication commit separately.
   Preparation and publication refuse to proceed if the reviewed full-image
   blocker marker is present.
-- Final RC12 pipelines A/B from build commit `34cb2cb` are byte-exact through
-  the compressed full SD image. Selected A `.img.xz` is 33,779,072 bytes with
+- Superseded RC12 pipelines A/B from build commit `34cb2cb` are byte-exact
+  through the compressed full SD image. Selected A `.img.xz` is 33,779,072 bytes with
   SHA-256 `23df0435fb81d762fcc55483e7159cb7022e150dd03935d42f480671e1d3e546` at
   `build/latestbuildroot/kernel-5.10.265-rc12-release-a/recovery/assembly/images/hardened-sg2002-port.img.xz`.
   Duplicate B was removed after the retained strict comparison. Physical boot
   of selected A now passes at `.49`: exact initial identity/runtime, expanded
   partitions, two post-expansion reboot cycles and final runtime all pass with
-  zero kernel alerts. The device is left on RC12. The kernel scope is frozen;
-  raw packaging, signing and release verification are next.
-- The isolated unsigned raw.12 preflight passes
+  zero kernel alerts. This remains valid kernel/device evidence, but the image
+  does not contain the corrected bridge server and must not be published. The
+  kernel scope is frozen; fresh app/rootfs/full-image A/B pipelines are next.
+- The superseded isolated unsigned raw.12 preflight passes
   `scripts/verify-rc12-raw-bundle.sh`. Its 57,134,321-byte archive SHA-256 is
   `85f5a52be375456eef0acdc618a77219fc0de7d42675d05bc30ee82ec3969b1e`;
   the decompressed rootfs and boot payloads remain byte-exact to selected A at
   `a5254238d690cd963b2b0f663977211634c424d78fb5e30fa095d815ab5d7701`
   and `0d74f6acbd21499a181636afbcb3fc3d221734d3093df95cc42532c5f567864b`.
   Format 2 and
-  `required_app_version=2.0.41` pass. This preflight is explicitly unsigned and
-  cannot be installed or published. The retained report SHA-256 is
+  `required_app_version=2.0.41` pass. This preflight is explicitly unsigned,
+  requires the wrong bridge version and cannot be installed or published. The retained report SHA-256 is
   `5fa4a27dbdc93e2c429af0dd4d945d2adb6d659e1e50d9c9363b90fc17fe6358`.
-  The current trusted private signing key is not configured or enrolled; do not
-  generate a replacement because deployed devices trust the existing public
-  key.
+  It is retained only as historical packaging evidence.
 - A new RSA-4096 production key was created outside the repository with key ID
   `hardened-system-prod-2026q3`; its public DER SHA-256 is
   `97ddb5600accf0e431c74f82b03acf249668bf75fe0de2e41724c91720516f75`.
   App `2.0.42` retains the legacy key, adds the production keyring entry and a
   policy allowing both historical IDs plus the production ID. The release
-  notes contain `RELEASE_BLOCKED_PENDING_KEY_BACKUPS_AND_REVALIDATION`; both
+  notes contain
+  `RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP_RAW10_GATE_AND_REVALIDATION`; both
   preparation and publication reject any `RELEASE_BLOCKED_*` marker. Two
-  independent encrypted backups and the complete bridge/RC12 acceptance matrix
-  remain. See [`key-transition-2026q3.md`](key-transition-2026q3.md).
-- Bridge app `2.0.42` pipelines A/B from source commit `42375b2` are byte-exact.
-  The selected 22,488,974-byte archive SHA-256 is
-  `e9c0bb08ce9904de55479151a1a1c4785a9db98b709cbd377ebe10ef2d91064b`
-  under `build/key-transition-2.0.42/app-a/out/`; duplicate B was removed after
-  comparison. Embedded legacy/production fingerprints and the three-ID policy
-  pass, with no private-key archive entry.
+  independent encrypted backups restore correctly; off-host placement of one
+  copy, the exact raw.10 gate and the rebuilt RC12 matrix remain. See
+  [`key-transition-2026q3.md`](key-transition-2026q3.md).
+- Corrected bridge app `2.0.42` pipelines A/B from source commit `ac12e2d` use
+  independent Cargo targets and are byte-exact through the server, manifest and
+  archive. The selected 22,495,269-byte archive SHA-256 is
+  `aa0cd78c1b2e9951f216826c44b4b7ff2fb211fc1980540366f8f5b1f7e0dd20`
+  under `build/key-transition-2.0.42-bootstrap/app-a/out/`. The server installs
+  the public trust set on its first start, fixing old-init-script transition
+  behavior. Embedded legacy/production fingerprints and the three-ID policy
+  pass, with no private-key archive entry. The old `e9c0bb08...` archive is
+  superseded.
 - Two independently salted AES-256 PKCS#8 backups now restore to the production
   fingerprint; one encrypted copy still needs off-host placement before
-  publication. `.133` successfully migrated from app `2.0.41`/raw.11 through
-  authenticated offline upload. Restart, exact trust set, legacy/new signature
-  matrix, reboot persistence, SSH identity, account login and native/Rust
-  runtime all pass with zero alerts. App `2.0.40` compatibility remains before
-  the bridge matrix is complete. Exact report hashes are in
+  publication. `.133` successfully migrated from a clean app `2.0.41`/raw.11
+  state, and `.49` successfully migrated from app `2.0.40` on raw.12.
+  Immediate trust bootstrap, exact legacy/new signature matrix, reboot
+  persistence, SSH identity, account login and native/Rust runtime all pass
+  with zero alerts. The raw.12 result proves app `2.0.40` compatibility but is
+  not substituted for the exact raw.10 gate. The published RC11 image is
+  downloaded and checksum/xz-verified under
+  `build/key-transition-2.0.42-bootstrap/raw10-gate/`; physical card boot and
+  bridge installation remain. Exact report hashes are in
   [`key-transition-2026q3.md`](key-transition-2026q3.md).
   The
   project owner explicitly decided that retained `NOASSERTION` and
