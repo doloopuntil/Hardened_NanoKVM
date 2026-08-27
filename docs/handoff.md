@@ -333,13 +333,19 @@ Remediation status:
   The current trusted private signing key is not configured or enrolled; do not
   generate a replacement because deployed devices trust the existing public
   key.
-- Public RC12 binary publication is fail-closed on two external gates. The
-  release notes now contain
-  `RELEASE_BLOCKED_PENDING_SIGNING_AND_REDISTRIBUTION`; both preparation and
-  publication reject any `RELEASE_BLOCKED_*` marker. Completion requires the
-  existing private key matching the deployed public key and a documented
-  redistribution grant for all retained inputs currently marked
-  `NOASSERTION` or `redistribution=disabled-pending-license-grant`.
+- RC12 online-update publication is fail-closed on the remaining signing gate.
+  The release notes contain `RELEASE_BLOCKED_PENDING_SIGNING_KEY`; both
+  preparation and publication reject any `RELEASE_BLOCKED_*` marker. The
+  project owner explicitly decided that retained `NOASSERTION` and
+  `redistribution=disabled-pending-license-grant` provenance is a disclosed
+  limitation of this experimental RC, not a publication blocker or a claim
+  that the missing license metadata has been resolved.
+- RC11 app/system and the raw.11 lab metadata all verify with the current
+  bundled public key. Longrun metadata proves they were signed from host path
+  `/home/w0w/Hardened_NanoKVM/build/release/system-update-signing-test.pem`;
+  cleanup removed that file. A fingerprint scan found no matching private key
+  in any NanoKVM project tree. `.133` contains the exact trusted public key but
+  no matching private key under `/etc`, `/kvmapp`, `/root` or `/data`.
 - Generated-build cleanup on 2026-08-25 removed 187,901,444,096 bytes of old
   standalone Buildroot outputs, duplicate B pipelines and superseded probes.
   Accepted/current A trees, reproducibility reports, source worktrees, caches

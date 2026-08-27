@@ -382,4 +382,7 @@ The RC12 raw preflight now preserves the physically accepted rootfs and boot
 partition bytes exactly and passes the format-2/app-first manifest verifier.
 It remains deliberately unsigned. Publication still requires the private key
 matching the already-deployed update public key; generating a new uncoordinated
-key is not an acceptable substitute.
+key is not an acceptable substitute for online update compatibility. By
+explicit project-owner decision, unresolved vendor `NOASSERTION` and
+redistribution provenance remains a disclosed experimental-release limitation
+rather than an RC12 blocker.
