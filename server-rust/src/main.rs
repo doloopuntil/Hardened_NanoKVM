@@ -11,6 +11,7 @@ use nanokvm_rust_server::{
         tls::{self, ClientAddr},
     },
     state::AppState,
+    update::keys::install_bundled_update_trust,
 };
 use std::{
     fs, io,
@@ -42,6 +43,7 @@ const BOOT_INIT_SCRIPTS: &[&str] = &[
     "S95nanokvm",
 ];
 const KVM_SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(4);
+const BUNDLED_UPDATE_TRUST_DIR: &str = "/kvmapp/system/keys";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -51,6 +53,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = Config::load()?;
     config.log_runtime_warnings();
     install_runtime_boot_scripts();
+    install_runtime_update_trust(&config);
     initialize_kvm();
     install_shutdown_signal_handler();
 
@@ -61,6 +64,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     Ok(())
+}
+
+fn install_runtime_update_trust(config: &Config) {
+    match install_bundled_update_trust(
+        Path::new(BUNDLED_UPDATE_TRUST_DIR),
+        &config.paths.system_update_public_key,
+    ) {
+        Ok(0) => {}
+        Ok(changed) => info!(changed, "installed bundled system update trust"),
+        Err(err) => warn!(error = %err, "failed to install bundled system update trust"),
+    }
 }
 
 fn install_shutdown_signal_handler() {
