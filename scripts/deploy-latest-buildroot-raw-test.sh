@@ -11,6 +11,8 @@ EXPECTED_ROOTFS_BYTES=1610612736
 EXPECTED_BOOT_BYTES=16777216
 EXPECTED_REQUIRED_FREE_BYTES=671088640
 EXPECTED_ED25519="SHA256:IZackVzmTMVDUGZJ8YsaqK7eUe1nGy+aVRKlVMxnqs4"
+PUBLIC_KEY="$ROOT/kvmapp/system/keys/system-update-signing.pub.pem"
+REMOTE_PUBLIC_KEY=/etc/kvm/system-update-signing.pub.pem
 
 PROFILE="${1:-}"
 shift || true
@@ -37,8 +39,18 @@ case "$PROFILE" in
 		EXPECTED_ARCHIVE_SHA256="c1b8cfad21bc519dba71065d228dd3f2bd057ba5522c12735e5645f8c594ccd3"
 		ARTIFACT_DIR="$ROOT/build/latestbuildroot/raw-system-update-$VERSION-secure-preflight/signed-lab-066770e"
 		;;
+	raw12-bridge)
+		VERSION="0.3.0-raw.12"
+		EXPECTED_SOURCE_SYSTEM_VERSION="0.3.0-raw.11"
+		EXPECTED_SOURCE_APP_VERSION="2.0.42"
+		EXPECTED_APP_VERSION="2.0.42"
+		EXPECTED_ARCHIVE_SHA256="cf6bbef5599197f4b5ed926f22bed12352f2fdc275eb8f32fc8344d3ed7eae96"
+		ARTIFACT_DIR="$ROOT/build/latestbuildroot/raw-system-update-$VERSION-bridge/artifacts"
+		PUBLIC_KEY="$ROOT/kvmapp/system/keys/update-keys/hardened-system-prod-2026q3.pub.pem"
+		REMOTE_PUBLIC_KEY=/etc/kvm/update-keys/hardened-system-prod-2026q3.pub.pem
+		;;
 	*)
-		printf 'usage: %s {published-0.2.23|latest-0.3.0|raw11-lab} --confirm-device %s\n' "$0" "$TARGET_IP" >&2
+		printf 'usage: %s {published-0.2.23|latest-0.3.0|raw11-lab|raw12-bridge} --confirm-device %s\n' "$0" "$TARGET_IP" >&2
 		exit 2
 		;;
 esac
@@ -46,7 +58,6 @@ esac
 ARCHIVE="$ARTIFACT_DIR/hardened-nanokvm-system-$VERSION.tar.gz"
 METADATA="$ARTIFACT_DIR/system-latest.json"
 SIGNATURE="$ARTIFACT_DIR/system-latest.json.sig"
-PUBLIC_KEY="$ROOT/kvmapp/system/keys/system-update-signing.pub.pem"
 SSHPASS="$ROOT/build/host-deps/sshpass/usr/bin/sshpass"
 JQ="/home/w0w/.local/bin/jq"
 REMOTE_STAGE="/data/.hardened-kvmcache/system-update"
@@ -210,6 +221,7 @@ printf "MUSL_LOADER=%s\n" "$(for loader in /lib/ld-musl-riscv64*.so.1; do [ -e "
 [[ "$(field P2_SECTORS)" =~ ^[0-9]+$ && "$(field P2_SECTORS)" -ge 3145728 ]] || fail "rootfs partition is too small"
 [[ "$(field DATA_FREE_KB)" =~ ^[0-9]+$ && "$(( $(field DATA_FREE_KB) * 1024 ))" -ge "$EXPECTED_REQUIRED_FREE_BYTES" ]] || fail "insufficient free space on /data"
 [[ "$(field PUBLIC_KEY)" == "present" ]] || fail "system update public key is missing"
+remote "test -f '$REMOTE_PUBLIC_KEY'" || fail "selected system update public key is missing"
 [[ "$(field BUSYBOX)" == "present" ]] || fail "busybox is missing"
 [[ -n "$(field MUSL_LOADER)" ]] || fail "musl loader is missing"
 
@@ -241,7 +253,7 @@ copy_to_remote "$METADATA" "$REMOTE_STAGE/system-latest.json.incoming"
 copy_to_remote "$SIGNATURE" "$REMOTE_STAGE/system-latest.json.sig.incoming"
 remote "set -eu
 test \"\$(sha256sum '$REMOTE_ARCHIVE.incoming' | awk '{print \$1}')\" = '$EXPECTED_ARCHIVE_SHA256'
-openssl dgst -sha256 -verify /etc/kvm/system-update-signing.pub.pem -signature '$REMOTE_STAGE/system-latest.json.sig.incoming' '$REMOTE_STAGE/system-latest.json.incoming' >/dev/null
+openssl dgst -sha256 -verify '$REMOTE_PUBLIC_KEY' -signature '$REMOTE_STAGE/system-latest.json.sig.incoming' '$REMOTE_STAGE/system-latest.json.incoming' >/dev/null
 mv '$REMOTE_ARCHIVE.incoming' '$REMOTE_ARCHIVE'
 mv '$REMOTE_STAGE/staged.json.incoming' '$REMOTE_STAGE/staged.json'
 mv '$REMOTE_STAGE/system-latest.json.incoming' '$REMOTE_STAGE/system-latest.json'
