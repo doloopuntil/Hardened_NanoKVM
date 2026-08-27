@@ -352,8 +352,15 @@ Remediation status:
   `e9c0bb08ce9904de55479151a1a1c4785a9db98b709cbd377ebe10ef2d91064b`
   under `build/key-transition-2.0.42/app-a/out/`; duplicate B was removed after
   comparison. Embedded legacy/production fingerprints and the three-ID policy
-  pass, with no private-key archive entry. Device installation remains blocked
-  until two independently recoverable encrypted key backups are verified.
+  pass, with no private-key archive entry.
+- Two independently salted AES-256 PKCS#8 backups now restore to the production
+  fingerprint; one encrypted copy still needs off-host placement before
+  publication. `.133` successfully migrated from app `2.0.41`/raw.11 through
+  authenticated offline upload. Restart, exact trust set, legacy/new signature
+  matrix, reboot persistence, SSH identity, account login and native/Rust
+  runtime all pass with zero alerts. App `2.0.40` compatibility remains before
+  the bridge matrix is complete. Exact report hashes are in
+  [`key-transition-2026q3.md`](key-transition-2026q3.md).
   The
   project owner explicitly decided that retained `NOASSERTION` and
   `redistribution=disabled-pending-license-grant` provenance is a disclosed
