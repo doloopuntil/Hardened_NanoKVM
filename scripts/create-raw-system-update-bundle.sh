@@ -54,13 +54,22 @@ json_image() {
 patch_rootfs_image() {
   rootfs="$1"
   fstab_file="$STAGE_DIR/rootfs-fstab"
+  current_version_file="$STAGE_DIR/system-version.current.json"
   version_file="$STAGE_DIR/system-version.json"
   debugfs_cmds="$STAGE_DIR/rootfs-patch.debugfs"
+  fstab_exists=1
+  version_exists=1
+  fstab_changed=0
 
   command -v debugfs >/dev/null 2>&1 || die "debugfs is required"
-  debugfs -R "dump /etc/fstab $fstab_file" "$rootfs" >/dev/null 2>&1 || : > "$fstab_file"
+  command -v cmp >/dev/null 2>&1 || die "cmp is required"
+  debugfs -R "dump /etc/fstab $fstab_file" "$rootfs" >/dev/null 2>&1 || {
+    fstab_exists=0
+    : > "$fstab_file"
+  }
   if ! grep -Eq '^[[:space:]]*[^#]+[[:space:]]+/data[[:space:]]+' "$fstab_file"; then
     printf '\n/dev/mmcblk0p3\t/data\texfat\tdefaults\t0\t0\n' >> "$fstab_file"
+    fstab_changed=1
   fi
 
   {
@@ -76,18 +85,42 @@ patch_rootfs_image() {
     printf '}\n'
   } > "$version_file"
 
+  debugfs -R "dump /etc/kvm/system-version.json $current_version_file" \
+    "$rootfs" >/dev/null 2>&1 || {
+    version_exists=0
+    : > "$current_version_file"
+  }
+  if cmp -s "$current_version_file" "$version_file"; then
+    version_changed=0
+  else
+    version_changed=1
+  fi
+
+  if [ "$fstab_changed" -eq 0 ] && [ "$version_changed" -eq 0 ]; then
+    echo "rootfs metadata is already exact; preserving input image bytes"
+    return
+  fi
+
   {
-    printf 'mkdir /etc/kvm\n'
-    printf 'rm /etc/fstab\n'
-    printf 'write %s /etc/fstab\n' "$fstab_file"
-    printf 'sif /etc/fstab mode 0100644\n'
-    printf 'sif /etc/fstab uid 0\n'
-    printf 'sif /etc/fstab gid 0\n'
-    printf 'rm /etc/kvm/system-version.json\n'
-    printf 'write %s /etc/kvm/system-version.json\n' "$version_file"
-    printf 'sif /etc/kvm/system-version.json mode 0100644\n'
-    printf 'sif /etc/kvm/system-version.json uid 0\n'
-    printf 'sif /etc/kvm/system-version.json gid 0\n'
+    if [ "$fstab_changed" -eq 1 ]; then
+      [ "$fstab_exists" -eq 0 ] || printf 'rm /etc/fstab\n'
+      printf 'write %s /etc/fstab\n' "$fstab_file"
+      printf 'sif /etc/fstab mode 0100644\n'
+      printf 'sif /etc/fstab uid 0\n'
+      printf 'sif /etc/fstab gid 0\n'
+    fi
+    if [ "$version_changed" -eq 1 ]; then
+      if [ "$version_exists" -eq 0 ]; then
+        debugfs -R 'stat /etc/kvm' "$rootfs" >/dev/null 2>&1 || \
+          printf 'mkdir /etc/kvm\n'
+      else
+        printf 'rm /etc/kvm/system-version.json\n'
+      fi
+      printf 'write %s /etc/kvm/system-version.json\n' "$version_file"
+      printf 'sif /etc/kvm/system-version.json mode 0100644\n'
+      printf 'sif /etc/kvm/system-version.json uid 0\n'
+      printf 'sif /etc/kvm/system-version.json gid 0\n'
+    fi
   } > "$debugfs_cmds"
 
   debugfs -w -f "$debugfs_cmds" "$rootfs" >/dev/null 2>&1
