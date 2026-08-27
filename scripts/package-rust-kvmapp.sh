@@ -17,6 +17,14 @@ KVM_SYSTEM_SOURCE="${KVM_SYSTEM_SOURCE:-}"
 KVM_SYSTEM_BUILD_SOURCE="${KVM_SYSTEM_BUILD_SOURCE:-$ROOT_DIR/support/sg2002/kvm_system/build/kvm_system}"
 NATIVE_LIB_DIR="${NATIVE_LIB_DIR:-$ROOT_DIR/server-rust/native/dl_lib}"
 EXTRA_NATIVE_LIB_DIR="${EXTRA_NATIVE_LIB_DIR:-}"
+SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH:-1782723554}"
+
+case "$SOURCE_DATE_EPOCH" in
+  '' | *[!0-9]*)
+    echo "SOURCE_DATE_EPOCH must be a non-negative integer" >&2
+    exit 1
+    ;;
+esac
 
 restore_kvm_system_helper() {
   dest="$KVMAPP_STAGE/kvm_system/kvm_system"
@@ -176,6 +184,7 @@ fi
   printf 'native_lib_dir: %s\n' "$NATIVE_LIB_DIR"
   printf 'extra_native_lib_dir: %s\n' "${EXTRA_NATIVE_LIB_DIR:-none}"
   printf 'kvm_system_helper: %s\n' "$(wc -c < "$KVMAPP_STAGE/kvm_system/kvm_system" | tr -d ' ') bytes"
+  printf 'source_date_epoch: %s\n' "$SOURCE_DATE_EPOCH"
 } > "$STAGE_DIR/MANIFEST.txt"
 
 if find "$KVMAPP_STAGE" \( -name 'NanoKVM-Server.go' -o -name 'NanoKVM-Server.go.bak' -o -name 'switch-backend-go.sh' -o -name 'switch-backend-rust.sh' -o -name 'jpg_stream' -o -name 'kvm_stream' -o -name 'kvm_new_app' -o -name 'kvm_new_img' \) | grep -q .; then
@@ -184,7 +193,17 @@ if find "$KVMAPP_STAGE" \( -name 'NanoKVM-Server.go' -o -name 'NanoKVM-Server.go
 fi
 
 ARCHIVE="$OUT_DIR/$ARTIFACT_NAME"
-tar -C "$STAGE_DIR" --dereference --hard-dereference -czf "$ARCHIVE" kvmapp MANIFEST.txt
+tar -C "$STAGE_DIR" \
+  --sort=name \
+  --format=gnu \
+  --mtime="@$SOURCE_DATE_EPOCH" \
+  --owner=0 \
+  --group=0 \
+  --numeric-owner \
+  --mode='u+rwX,go+rX,go-w' \
+  --dereference \
+  --hard-dereference \
+  -cf - kvmapp MANIFEST.txt | gzip -n -9 > "$ARCHIVE"
 if tar -tzvf "$ARCHIVE" | awk '
   substr($1, 1, 1) != "-" && substr($1, 1, 1) != "d" { bad = 1 }
   END { exit bad ? 0 : 1 }
