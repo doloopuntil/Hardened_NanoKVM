@@ -16,20 +16,25 @@ RAW_IMAGES_DIR="${HARDENED_SG2002_RAW_IMAGES_DIR:-$PROBE_ROOT/raw-system-update-
 OUTPUT_DIR="${HARDENED_SG2002_RAW_UPDATE_OUT:-$PROBE_ROOT/raw-system-update-${SYSTEM_VERSION}/artifacts}"
 SIGNING_KEY="${SYSTEM_UPDATE_SIGNING_KEY:-}"
 PUBLIC_KEY="${SYSTEM_UPDATE_PUBLIC_KEY:-$ROOT/kvmapp/system/keys/system-update-signing.pub.pem}"
+ALLOW_UNSIGNED="${ALLOW_UNSIGNED_SYSTEM_UPDATE:-0}"
 
 [ -f "$SD_IMAGE" ] || {
 	echo "missing SG2002 SD image: $SD_IMAGE" >&2
 	exit 1
 }
 
-[ -n "$SIGNING_KEY" ] || {
-	echo "SYSTEM_UPDATE_SIGNING_KEY is required for an installable raw update" >&2
-	exit 1
-}
-[ -f "$SIGNING_KEY" ] || {
-	echo "system update signing key does not exist: $SIGNING_KEY" >&2
-	exit 1
-}
+if [ -n "$SIGNING_KEY" ]; then
+	[ -f "$SIGNING_KEY" ] || {
+		echo "system update signing key does not exist: $SIGNING_KEY" >&2
+		exit 1
+	}
+else
+	[ "$ALLOW_UNSIGNED" = 1 ] || {
+		echo "SYSTEM_UPDATE_SIGNING_KEY is required for an installable raw update" >&2
+		exit 1
+	}
+	echo "building an explicitly unsigned preflight bundle; it is not installable or publishable" >&2
+fi
 [ -f "$PUBLIC_KEY" ] || {
 	echo "system update public key does not exist: $PUBLIC_KEY" >&2
 	exit 1
@@ -72,10 +77,22 @@ SYSTEM_UPDATE_SIGNING_KEY="$SIGNING_KEY" \
 	"$ROOT/scripts/create-system-update-metadata.sh" \
 	"$SYSTEM_VERSION" "$SYSTEM_TAG" "$ARCHIVE" "$METADATA"
 
-"$ROOT/scripts/verify-system-update-metadata.sh" \
-	"$METADATA" "$METADATA.sig" "$PUBLIC_KEY"
+if [ -n "$SIGNING_KEY" ]; then
+	"$ROOT/scripts/verify-system-update-metadata.sh" \
+		"$METADATA" "$METADATA.sig" "$PUBLIC_KEY"
+	sha256sum "$ARCHIVE" "$METADATA" "$METADATA.sig"
+else
+	grep -Fq '"signature_algorithm": "unsigned"' "$METADATA"
+	grep -Fq '"signature_key_id": "unsigned"' "$METADATA"
+	[ ! -e "$METADATA.sig" ] || {
+		echo "unsigned preflight unexpectedly produced a signature" >&2
+		exit 1
+	}
+	sha256sum "$ARCHIVE" "$METADATA"
+fi
 
-sha256sum "$ARCHIVE" "$METADATA" "$METADATA.sig"
 printf '%s\n' "$ARCHIVE"
 printf '%s\n' "$METADATA"
-printf '%s\n' "$METADATA.sig"
+if [ -n "$SIGNING_KEY" ]; then
+	printf '%s\n' "$METADATA.sig"
+fi
