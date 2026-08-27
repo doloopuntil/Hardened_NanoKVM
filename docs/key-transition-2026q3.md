@@ -126,6 +126,8 @@ Its GitHub digest and downloaded checksum both match
 `96e44ee8eb482ba2609348164b8c80ac1b94a1c1152db328331fba799d5e0632`,
 and `xz -t` passes. The exact gate remains open until this image boots on a
 recoverable card and the same corrected bridge archive passes from that state.
+The exact sequence and required non-secret report are in
+[`rc12-final-physical-gates.md`](rc12-final-physical-gates.md).
 
 ## Accepted RC12 Production-Key Chain
 

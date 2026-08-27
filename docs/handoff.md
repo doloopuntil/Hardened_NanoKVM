@@ -11,6 +11,7 @@ available in:
 - [`kvm-system-rust-migration-plan.md`](kvm-system-rust-migration-plan.md).
 - [`security-maintenance-raw11.md`](security-maintenance-raw11.md).
 - [`key-transition-2026q3.md`](key-transition-2026q3.md).
+- [`rc12-final-physical-gates.md`](rc12-final-physical-gates.md).
 
 ## Repository And GitHub State
 
