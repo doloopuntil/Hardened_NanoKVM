@@ -2,12 +2,13 @@
 set -euo pipefail
 
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
-RC12_RUN_ROOT="${RC12_RUN_ROOT:-$ROOT_DIR/build/latestbuildroot/kernel-5.10.265-rc12-release-a}"
+RC12_RUN_ROOT="${RC12_RUN_ROOT:-$ROOT_DIR/build/latestbuildroot/kernel-5.10.265-rc12-bridge-a}"
 SECURITY_PATCH_LEVEL="${RC12_SECURITY_PATCH_LEVEL:-Buildroot 2026.05.1 security maintenance Linux 5.10.265 SG2002 vendor port}"
 SD_IMAGE="$RC12_RUN_ROOT/recovery/assembly/images/hardened-sg2002-port.img"
 BUILD_COMMIT_FILE="$RC12_RUN_ROOT/_reports/outer-commit.txt"
-RAW_OUTPUT_ROOT="${RC12_RAW_OUTPUT_ROOT:-$ROOT_DIR/build/latestbuildroot/raw-system-update-0.3.0-raw.12}"
+RAW_OUTPUT_ROOT="${RC12_RAW_OUTPUT_ROOT:-$ROOT_DIR/build/latestbuildroot/raw-system-update-0.3.0-raw.12-bridge}"
 VENDOR_RUNTIME_DIR="$RC12_RUN_ROOT/runtime"
+PRODUCTION_PUBLIC_KEY="${SYSTEM_UPDATE_PUBLIC_KEY:-$ROOT_DIR/kvmapp/system/keys/update-keys/hardened-system-prod-2026q3.pub.pem}"
 
 [ -f "$SD_IMAGE" ] || {
 	echo "missing accepted RC12 SD image: $SD_IMAGE" >&2
@@ -50,4 +51,5 @@ SYSTEM_UPDATE_REQUIRED_APP_VERSION=2.0.42 \
 EXPECTED_RUNTIME_KERNEL_RELEASE=5.10.265-tag- \
 	EXPECTED_UPDATE_KEY_ID=hardened-system-prod-2026q3 \
 	EXPECTED_UPDATE_PUBLIC_KEY_DER_SHA256=97ddb5600accf0e431c74f82b03acf249668bf75fe0de2e41724c91720516f75 \
+	SYSTEM_UPDATE_PUBLIC_KEY="$PRODUCTION_PUBLIC_KEY" \
 	exec "$ROOT_DIR/scripts/package-latest-buildroot-sg2002-raw-update.sh"
