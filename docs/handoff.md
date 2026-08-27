@@ -46,8 +46,8 @@ available in:
   app `2.0.40` compatibility path on raw.12 on `.49`. The exact raw.10 physical
   gate and one off-host encrypted-key backup remain transition-release blockers.
 - Current installed test state: `10.0.87.133` runs corrected bridge app
-  `2.0.42`, system `0.3.0-raw.11`, kernel `5.10.4-tag-`, dual trust and the
-  preserved SSH identity. `10.0.87.49` runs the same bridge app, system
+  `2.0.42`, production-key-signed system `0.3.0-raw.12`, kernel
+  `5.10.265-tag-`, dual trust and the preserved SSH identity. `10.0.87.49` runs the same bridge app, system
   `0.3.0-raw.12`, kernel `5.10.265-tag-` and dual trust. Both passed exact
   post-reboot runtime and browser-account checks with zero kernel alerts.
 - Physical recovery-card repeatability is accepted on a second NanoKVM. Two
@@ -237,13 +237,16 @@ Remediation status:
 - Read-only check on 2026-07-11: HTTPS health reported the Rust backend, app
   version was `2.0.32`, SSH login succeeded, and installed system version was
   `0.2.19-raw.1` on base `2026-06-29-12-08-d88d58.img`.
-- Current automated-test state on 2026-08-27: test-key-signed system
-  `0.3.0-raw.11`, Buildroot `2026.05.1`, corrected bridge app `2.0.42`, vendor
-  kernel `5.10.4-tag-`, HTTPS and SSH working, source-built media trio loaded,
+- Current automated-test state on 2026-08-28: production-key-signed system
+  `0.3.0-raw.12`, Buildroot `2026.05.1`, corrected bridge app `2.0.42`, kernel
+  `5.10.265-tag-`, HTTPS and SSH working, source-built media trio loaded,
   production and legacy public update trust installed, remote syslog active and
   online update checking clean. The corrected bridge was installed from a
   clean app `2.0.41`/raw.11 state and passed immediate trust deployment,
   production/historical signature checks, a full reboot and browser login.
+  The exact production-signed raw.12 update then passed configuration restore,
+  boot-good confirmation, an additional exact reboot, the complete software
+  regression suite with five more reboots and a final exact freeze.
   Earlier complete-suite evidence includes the
   same-WebSocket H.264 mode-resume test, controlled runtime restart, watchdog
   recovery and five reboot cycles with backend `f1e3772a...`, RPATH-free
@@ -368,7 +371,7 @@ Remediation status:
   App `2.0.42` retains the legacy key, adds the production keyring entry and a
   policy allowing both historical IDs plus the production ID. The release
   notes contain
-  `RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP_RAW10_GATE_AND_REVALIDATION`; both
+  `RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP_RAW10_AND_FULL_SD_GATES`; both
   preparation and publication reject any `RELEASE_BLOCKED_*` marker. Two
   independent encrypted backups restore correctly; off-host placement of one
   copy, the exact raw.10 gate and the rebuilt RC12 matrix remain. See
@@ -382,6 +385,25 @@ Remediation status:
   behavior. Embedded legacy/production fingerprints and the three-ID policy
   pass, with no private-key archive entry. The old `e9c0bb08...` archive is
   superseded.
+- Superseding RC12 pipelines A/B from build commit `9567b5f` are exact through
+  kernel, 57 modules, runtime staging, Buildroot rootfs, FIT, full image,
+  compressed image and extracted payloads. The strict report SHA-256 is
+  `d201611d70a4922cc08a1d456bd14c2c2307d35104a6ae90ac42f00283d758c2`.
+  Selected rootfs is
+  `b840bd08f2c708b45b527d005719b6d5dc6a7b1ba66922b8e161b570a950c760`,
+  full image `2b4cf8c4f9f4507a212441957a24dc33e01cf8b3283c1488a3f564f882af2ee1`,
+  and 33,789,320-byte compressed image
+  `a6069020dd92c024793cbb84500887a766f07263f8a6241b9462e6e0ca95dae0`.
+  The duplicate B tree was removed after proof.
+- The installable signed raw.12 archive is
+  `cf6bbef5599197f4b5ed926f22bed12352f2fdc275eb8f32fc8344d3ed7eae96`, requires app `2.0.42`
+  and is signed by `hardened-system-prod-2026q3`; its exact verification report
+  is `d6627d560c68f57425ef6ad60b3adc47231c82bd6918330c1897e9ac0bf795b7`.
+  `.133` accepted the exact bundle from bridge/raw.11 using
+  the stock updater. Boot-good/config restoration, exact runtime, an additional
+  reboot, browser login, the 13-step regression suite with five reboots and a
+  final exact freeze all pass with zero kernel alerts. Full hashes are recorded
+  in the RC12 release notes and key-transition guide.
 - Two independently salted AES-256 PKCS#8 backups now restore to the production
   fingerprint; one encrypted copy still needs off-host placement before
   publication. `.133` successfully migrated from a clean app `2.0.41`/raw.11

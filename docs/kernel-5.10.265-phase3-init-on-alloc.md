@@ -277,6 +277,31 @@ RC12.
 | two-reboot exact report | `d0100e76e52018688b9d5b974ee2d994126ac966b889bde28024dc818de2f383` |
 | post-reboot functional runtime | `dea0ea5c6a201072a0ec3135cc1888624854ab6dce2085381d5226c4110d1864` |
 
+## Superseding Bridge RC12 Artifacts
+
+The app `2.0.41` rootfs/full-image hashes above are retained as kernel and
+device evidence but are superseded for publication by the production-key
+bridge. Two new clean pipelines from build commit `9567b5f` package corrected
+app `2.0.42` and are exact through the same kernel/module/runtime/rootfs/FIT,
+full-image and extracted-payload scope. Kernel config/Image/vmlinux/symbols and
+FIT remain byte-identical to the accepted kernel scope.
+
+| Selected bridge RC12 artifact | SHA-256 |
+| --- | --- |
+| Buildroot rootfs.ext2 | `b840bd08f2c708b45b527d005719b6d5dc6a7b1ba66922b8e161b570a950c760` |
+| full SD image | `2b4cf8c4f9f4507a212441957a24dc33e01cf8b3283c1488a3f564f882af2ee1` |
+| compressed SD image | `a6069020dd92c024793cbb84500887a766f07263f8a6241b9462e6e0ca95dae0` |
+| strict A/B report | `d201611d70a4922cc08a1d456bd14c2c2307d35104a6ae90ac42f00283d758c2` |
+
+The production-key-signed raw.12 archive
+(`cf6bbef5599197f4b5ed926f22bed12352f2fdc275eb8f32fc8344d3ed7eae96`)
+was installed on
+`.133` from the accepted bridge/raw.11 state. Exact identity, hardening,
+configuration restoration, boot-good, an additional reboot, browser login, the
+13-step regression suite with five more reboots and a final exact freeze all
+pass with zero kernel alerts. The new full SD image still requires its separate
+physical recovery-card acceptance and is not inferred from the raw update.
+
 ## Remaining Gates
 
 No kernel gate remains in the RC12 scope. Init-on-free, `HARDENED_USERCOPY`,

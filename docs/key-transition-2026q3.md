@@ -1,6 +1,6 @@
 # Update Key Transition 2026 Q3
 
-Status date: 2026-08-27.
+Status date: 2026-08-28.
 
 > TRANSITION_RELEASE_BLOCKED_PENDING_RAW10_PHYSICAL_GATE_AND_OFFHOST_BACKUP
 >
@@ -11,7 +11,9 @@ Status: the production trust set, independently restorable encrypted backups,
 the corrected reproducible bridge app, app `2.0.41`/raw.11 and app `2.0.40`
 compatibility paths are accepted. The latter ran on raw.12 and therefore does
 not replace the still-open exact raw.10 physical gate. The rebuilt RC12 matrix
-also remains. No transition or RC12 release is published.
+now passes A/B reproducibility, production signing and live signed-raw
+acceptance; its new full-SD physical gate remains. No transition or RC12
+release is published.
 
 ## Trust Set
 
@@ -124,6 +126,38 @@ Its GitHub digest and downloaded checksum both match
 `96e44ee8eb482ba2609348164b8c80ac1b94a1c1152db328331fba799d5e0632`,
 and `xz -t` passes. The exact gate remains open until this image boots on a
 recoverable card and the same corrected bridge archive passes from that state.
+
+## Accepted RC12 Production-Key Chain
+
+Two clean full pipelines from build commit `9567b5f` are exact through kernel,
+57 modules, runtime staging, Buildroot rootfs, FIT, full image, compressed image
+and extracted payloads. The retained A/B report SHA-256 is
+`d201611d70a4922cc08a1d456bd14c2c2307d35104a6ae90ac42f00283d758c2`.
+Selected rootfs SHA-256 is
+`b840bd08f2c708b45b527d005719b6d5dc6a7b1ba66922b8e161b570a950c760`;
+selected compressed-image SHA-256 is
+`a6069020dd92c024793cbb84500887a766f07263f8a6241b9462e6e0ca95dae0`.
+
+The installable raw.12 archive is signed by
+`hardened-system-prod-2026q3`, requires app `2.0.42`, and passes the exact
+payload/signature verifier. Archive SHA-256 is
+`cf6bbef5599197f4b5ed926f22bed12352f2fdc275eb8f32fc8344d3ed7eae96`;
+verification-report SHA-256 is
+`d6627d560c68f57425ef6ad60b3adc47231c82bd6918330c1897e9ac0bf795b7`.
+
+On `.133`, the stock updater accepted this exact signed bundle from the
+accepted bridge/raw.11 state, restored configuration, confirmed boot-good,
+cleared the pending marker and disabled raw mode. Exact runtime, an additional
+reboot, browser login, the complete 13-step software regression suite with
+five reboots, and a final exact freeze pass with zero kernel alerts. Deployment
+report SHA-256 is
+`c9f0cd2ca293a1929481296d1c82b1d5a2e26fdc00d5f9a60e56db440e2c6723`,
+regression report SHA-256 is
+`48d0a71eab8822f06efdf5dfedd379e832a5be7933f8c06a8ebffa6fda63e3e1`,
+and final exact report SHA-256 is
+`a4c7eb7a509046670982719fdadd8b59ab7539da89562bb58ed59085416db49d`.
+The new full image still needs
+its separate physical-card acceptance and is not inferred from the raw update.
 
 ## Primary Migration: Authenticated Offline App Update
 
