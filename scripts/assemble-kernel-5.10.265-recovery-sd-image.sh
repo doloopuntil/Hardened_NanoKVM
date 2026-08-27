@@ -5,6 +5,7 @@ ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT_DIR/build/vendor/LicheeRV-Nano-Build}"
 BUILDROOT_OUTPUT_DIR="${KERNEL_5_10_265_BUILDROOT_OUTPUT_DIR:-$ROOT_DIR/build/latestbuildroot/sg2002-config-2026.05.1-kernel-5.10.265-v2}"
 VENDOR_RUNTIME_DIR="${KERNEL_5_10_265_VENDOR_RUNTIME_DIR:-$ROOT_DIR/build/latestbuildroot/vendor-runtime-source-kernel-5.10.265-v2}"
+KVMAPP_DIR="${NANOKVM_KVMAPP_SOURCE_DIR:-$ROOT_DIR/build/kvmapp-rust/kvmapp}"
 BOOT_SD="${KERNEL_5_10_265_BOOT_SD:-$ROOT_DIR/build/latestbuildroot/boot-sd-5.10.265-v1/workspace/boot.itb}"
 OUTPUT_DIR="${KERNEL_5_10_265_RECOVERY_SD_DIR:-$ROOT_DIR/build/latestbuildroot/recovery-sd-kernel-5.10.265-v1}"
 ASSEMBLY_DIR="$OUTPUT_DIR/assembly"
@@ -37,6 +38,7 @@ require_file "$ROOTFS_IMAGE"
 require_file "$FIP_IMAGE"
 require_file "$BOOT_SD"
 require_file "$MCOPY"
+require_file "$KVMAPP_DIR/server/NanoKVM-Server"
 require_file "$VENDOR_RUNTIME_DIR/system/ko/soph_vcodec.ko"
 require_file "$VENDOR_RUNTIME_DIR/system/ko/soph_jpeg.ko"
 require_file "$VENDOR_RUNTIME_DIR/system/ko/soph_vc_driver.ko"
@@ -66,6 +68,7 @@ HARDENED_SG2002_FIP_IMAGE="$FIP_IMAGE" \
 HARDENED_SG2002_BOOT_IMAGE="$BOOT_SD" \
 HARDENED_SG2002_SD_OUTPUT_DIR="$ASSEMBLY_DIR" \
 EXPECTED_KVMAPP_VERSION="$EXPECTED_KVMAPP_VERSION" \
+STAGED_KVMAPP_DIR="$KVMAPP_DIR" \
 	"$ROOT_DIR/scripts/assemble-latest-buildroot-sg2002-sd-image.sh"
 
 IMAGE="$ASSEMBLY_DIR/images/hardened-sg2002-port.img"
