@@ -6,8 +6,13 @@ REPO="${GITHUB_REPOSITORY:-woffko/Hardened_NanoKVM}"
 RELEASE_TAG="${RELEASE_TAG:-hardened-system-0.3.0-raw.12}"
 RELEASE_TITLE="${RELEASE_TITLE:-Hardened NanoKVM 2.0.42 RC12 + System 0.3.0 Raw 12}"
 RELEASE_COMMIT="${RELEASE_COMMIT:-}"
-RELEASE_DIR="${COMBINED_RELEASE_OUTPUT_DIR:-$ROOT_DIR/build/release/combined-rc12}"
-PUBLIC_KEY="${UPDATE_PUBLIC_KEY:-$ROOT_DIR/kvmapp/system/keys/system-update-signing.pub.pem}"
+RELEASE_DIR="${COMBINED_RELEASE_OUTPUT_DIR:-$ROOT_DIR/build/release/combined-rc12-bridge}"
+PUBLIC_KEY="${UPDATE_PUBLIC_KEY:-$ROOT_DIR/kvmapp/system/keys/update-keys/hardened-system-prod-2026q3.pub.pem}"
+
+[ "${PUBLISH_COMBINED_RC12_RELEASE:-0}" = 1 ] || {
+	echo "set PUBLISH_COMBINED_RC12_RELEASE=1 for explicit publication" >&2
+	exit 1
+}
 
 [ -n "$RELEASE_COMMIT" ] || {
 	echo "RELEASE_COMMIT is required" >&2
@@ -20,6 +25,10 @@ git -C "$ROOT_DIR" cat-file -e "$RELEASE_COMMIT^{commit}"
 }
 [ -z "$(git -C "$ROOT_DIR" status --short)" ] || {
 	echo "release publication requires a clean worktree" >&2
+	exit 1
+}
+[ ! -e "$RELEASE_DIR/DRAFT_ONLY" ] || {
+	echo "combined RC12 assets are marked draft-only" >&2
 	exit 1
 }
 

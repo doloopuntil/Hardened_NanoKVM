@@ -16,6 +16,16 @@ SIGNING_KEY="${APP_UPDATE_SIGNING_KEY:-${SYSTEM_UPDATE_SIGNING_KEY:-}}"
 PUBLIC_KEY="${UPDATE_PUBLIC_KEY:-$ROOT_DIR/kvmapp/system/keys/update-keys/hardened-system-prod-2026q3.pub.pem}"
 SECURITY_PATCH_LEVEL="${SECURITY_PATCH_LEVEL:-Buildroot 2026.05.1 security maintenance Linux 5.10.265 SG2002 vendor port}"
 SOURCE_COMMIT="$(git -C "$ROOT_DIR" rev-parse HEAD)"
+DRAFT=0
+
+if [ "${1:-}" = --draft ]; then
+	DRAFT=1
+	shift
+fi
+[ "$#" -eq 0 ] || {
+	echo "usage: $0 [--draft]" >&2
+	exit 2
+}
 
 APP_NAME="hardened-nanokvm-kvmapp-$APP_VERSION.tar.gz"
 SYSTEM_NAME="hardened-nanokvm-system-$SYSTEM_VERSION.tar.gz"
@@ -72,10 +82,12 @@ BUILD_COMMIT_SHORT="$(git -C "$ROOT_DIR" rev-parse --short "$BUILD_COMMIT^{commi
 	echo "combined tag must satisfy the deployed system URL validator" >&2
 	exit 1
 }
-grep -Eq 'RELEASE_BLOCKED_[A-Z0-9_]+' "$NOTES_INPUT" && {
-	echo "release notes still contain a fail-closed release blocker" >&2
-	exit 1
-}
+if grep -Eq 'RELEASE_BLOCKED_[A-Z0-9_]+' "$NOTES_INPUT"; then
+	[ "$DRAFT" -eq 1 ] || {
+		echo "release notes still contain a fail-closed release blocker" >&2
+		exit 1
+	}
+fi
 
 if [ -e "$OUTPUT_DIR" ]; then
 	echo "refusing to overwrite combined release output: $OUTPUT_DIR" >&2
@@ -179,5 +191,8 @@ do
 done
 printf '%s\n' "$SOURCE_COMMIT" > "$OUTPUT_DIR/SOURCE_COMMIT"
 printf '%s\n' "$BUILD_COMMIT" > "$OUTPUT_DIR/BUILD_COMMIT"
+if [ "$DRAFT" -eq 1 ]; then
+	printf 'blocked combined RC12 draft; do not publish\n' > "$OUTPUT_DIR/DRAFT_ONLY"
+fi
 
 printf 'combined RC12 release ready: %s\n' "$OUTPUT_DIR"
