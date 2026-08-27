@@ -6,8 +6,10 @@ Status: configuration proof, source risk audit, accepted batch-3 baseline and
 two clean full batch-4 pipelines are complete. The pipelines are byte-exact
 through the compressed recovery image. The guarded FIT probe, exact identity,
 performance, functional runtime, ten-reboot and batch-3 rollback gates pass.
-The complete selected A recovery image has not yet been booted. This batch
-enables init-on-allocation only; init-on-free remains a separate later decision.
+The complete final RC12 selected A recovery image and two post-expansion boots
+also pass exact device verification. Batch 4 is accepted and the RC12 kernel
+scope is frozen. This batch enables init-on-allocation only; init-on-free
+remains a separate later decision.
 
 ## Scope
 
@@ -237,12 +239,46 @@ The compressed 33,779,072-byte image to write to a recovery card is:
 
 Direct extraction from the selected rootfs proves system `0.3.0-raw.12`, app
 `2.0.41`, kernel metadata `5.10.265-tag-`, the selected security-maintenance
-label and Buildroot commit marker `34cb2cb`. Physical boot remains the final
-gate.
+label and Buildroot commit marker `34cb2cb`.
+
+## Final RC12 Physical Acceptance
+
+The exact selected A image was written to a SanDisk High Endurance 64 GB card
+and booted on the test NanoKVM at `10.0.87.49`. The initial boot ID was
+`e1dae03e-aeac-4a5c-af43-11986557b554`. First-boot storage expansion produced
+the accepted 16 MiB p1, 7.61 GiB p2 and remaining-card p3 layout; `/`, `/boot`
+and `/data` were mounted read-write.
+
+The initial exact verifier passed the RC12 system metadata, FIT, kernel config,
+heap-init banner, 57-module aggregate, provenance, Buildroot commit and selected
+userspace hashes with zero kernel alerts. Functional runtime then passed with
+the native `kvm_system` and Rust server alive, Ethernet active, USB gadget bound
+with HID/RNDIS/mass-storage functions, media nodes/modules present and a
+verified `/data` write/read.
+
+Browser authentication, desktop rendering, health and two MJPEG `200`
+multipart responses passed. No video frame was claimed: hwmon and VI state
+proved the physical HDMI input was inactive (`active=false`, `VIDevFPS=0`,
+`VIFPS=0`, `now_fps=0`), consistent with the user-waived physical video matrix.
+
+Two post-expansion software reboots produced boot IDs
+`6677fac9-ae90-4519-b632-bed0704eedc1` and
+`e968faa0-ffe3-4047-981f-6853e22659b7`. Each boot retained the exact partition
+layout and passed RC12 identity with zero alerts. The final functional runtime
+gate also passed after the second reboot. The device is left running accepted
+RC12.
+
+| Final physical evidence | SHA-256 |
+| --- | --- |
+| initial full-image report | `4c9d4e03c60b95a06cb5beca6ea631e20bdfc5207213d2100ab13006c03d86e6` |
+| initial functional runtime | `4bac0868ae95fd92ed5026e30606a755d20c9bcefbee4ec7daa5d814dbbea68b` |
+| browser diagnostic | `83e830214e7201bbd96a5a642835923020f244ecfce9be0803c764050d1399e8` |
+| HDMI/capture state | `486bbd5ff533c04c23e74359858136411db60994ba483224dada6c32f0139b6f` |
+| two-reboot exact report | `d0100e76e52018688b9d5b974ee2d994126ac966b889bde28024dc818de2f383` |
+| post-reboot functional runtime | `dea0ea5c6a201072a0ec3135cc1888624854ab6dce2085381d5226c4110d1864` |
 
 ## Remaining Gates
 
-1. Boot and accept the complete final RC12 selected A recovery image, then
-   freeze the kernel scope.
-2. Decide on init-on-free only as a new batch after batch 4 is accepted. It is
-   explicitly outside the current release scope.
+No kernel gate remains in the RC12 scope. Init-on-free, `HARDENED_USERCOPY`,
+strict kernel/module RWX, module signing and `/dev/mem`/debugfs removal remain
+future independent batches and must not be folded into RC12.

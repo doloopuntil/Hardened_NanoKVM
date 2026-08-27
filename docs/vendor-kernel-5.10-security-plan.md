@@ -369,9 +369,11 @@ byte-exact through the compressed recovery image. Physical batch-2 rollback,
 the complete final selected image, exact final-rootfs identity and two
 post-expansion software boots pass. Batch 3 is accepted. The next independent
 kernel action, init-on-allocation, now passes reproducibility, exact runtime,
-performance, ten-reboot and batch-3 rollback gates. Its complete selected A
-recovery-image boot is the last batch-4 gate before the kernel scope is frozen
-for the next RC. Init-on-free remains a later separate decision outside that
-RC. Each subsequent batch keeps its own config diff, recoverable-media boot,
-runtime regression and rollback evidence. Enabling every hardening option at
-once would destroy failure attribution and remains unacceptable.
+performance, ten-reboot and batch-3 rollback gates. Its complete final RC12
+selected A image also passes initial physical boot, storage expansion, exact
+runtime, two post-expansion reboots and final runtime verification. Batch 4 is
+accepted and the RC12 kernel scope is frozen. Init-on-free remains a later
+separate decision outside RC12. Each subsequent batch keeps its own config
+diff, recoverable-media boot, runtime regression and rollback evidence.
+Enabling every hardening option at once would destroy failure attribution and
+remains unacceptable.
