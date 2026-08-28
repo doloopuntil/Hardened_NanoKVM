@@ -14,6 +14,30 @@ part of these gates and must not be claimed as newly tested.
 
 ## Gate A: Exact Raw.10 Bridge Source State
 
+Status: **PASS** on recoverable test hardware (2026-08-28).
+
+The published RC11 image booted as the exact app `2.0.40` / raw.10 source
+state. Authenticated Offline Update installed the selected bridge archive and
+preserved raw.10, kernel `5.10.4-tag-`, the Ethernet MAC, SSH host identity,
+account and backup app. Immediate checks proved the exact legacy and production
+public-key fingerprints, the three-ID policy, historical and production
+signature verification, both runtime processes and zero kernel alerts. A real
+reboot produced a distinct boot ID; the strict SSH postflight and authenticated
+browser login then passed again with app `2.0.42` and the Rust backend.
+
+The ignored local evidence files have these SHA-256 values:
+
+- SSH preflight: `a9d644be35b6983352570d0fc40a6128315d0e0c4feb516caa3615f7c38f9176`;
+- bridge upload: `9162b58fac237a55abfbfe7110ef2ae17b1af963fb90f3c9f569a629f93e2e5a`;
+- immediate postflight: `718a113bd8f20c580ebe82359106c0384dcbcca888b97881f4f984d2e1f14d15`;
+- signature matrix: `f6482d1f6684d878cf0a4b22d2c5ad6942864b9b64d815c2db00d83a2eefb320`;
+- reboot request: `b1342c3627686ebf74280e3df6e93f6adc6df1cab539146bfc6d11e849d00eef`;
+- strict post-reboot state: `f820e2b8a897df8a373f7dd98e1857799d6661550a19c838cf9e312ecb595b28`;
+- authenticated post-reboot browser check:
+  `4a0359de7f98d8d545ac5377fa318b74f5563df2fdef241e11ca3a5f688dbd3b`.
+
+The procedure below is retained for reproducibility.
+
 Write this downloaded published RC11 image with a trusted image writer:
 
 `build/key-transition-2.0.42-bootstrap/raw10-gate/Hardened_NanoKVM_2.0.40_RC11_System_0.3.0-raw.10_Buildroot-2026.05.1.img.xz`
