@@ -29,17 +29,17 @@ available in:
   compatibility, explicit app-owned native-library packaging and RPATH-free
   native artifacts. Commit `4d46c8b` makes the bridge server install bundled
   public update trust on its first start; `ac12e2d` removes build-host paths
-  from the reproducible app manifest. The raw.11 userspace hardening and RC12
-  kernel work remain unpublished. `rc8-main-sync`, tracking `origin/main`,
-  remains the previous release-baseline branch.
+  from the reproducible app manifest. RC12 was published from release commit
+  `8be6b4d` on `security/kernel-5.10.265`. `rc8-main-sync`, tracking
+  `origin/main`, remains the previous mainline release-baseline branch.
 - `latestbuilroot` is the experimental Buildroot `2026.05.1` board-port branch
   used for RC11. Raw/SD artifacts are published as preview only; the stable
   system channel remains on RC9. Keep recovery media and the restrictions in
   [`latest-buildroot-port.md`](latest-buildroot-port.md) in scope.
 - `feature/rust-kvm-system-migration` is historical. Its validated work is in
   `main`; do not continue release work from that branch.
-- Current source/application version is bridge app `2.0.42` (`kvmapp/version`);
-  published RC11 remains app `2.0.40` with system `0.3.0-raw.10`.
+- Current source and published RC12 application version is bridge app `2.0.42`
+  (`kvmapp/version`); the published RC12 system preview is `0.3.0-raw.12`.
 - The production-key bridge plan is authoritative in
   [`key-transition-2026q3.md`](key-transition-2026q3.md). Corrected app `2.0.42`
   independently reproduces and passes the full immediate-trust, signature,
@@ -59,14 +59,24 @@ available in:
   module, native-provenance and dmesg gates. The user waived repeating the
   HDMI/video/HID matrix on that unit; the full final-runtime matrix remains
   proven on `.133`.
-- Current combined release: app `2.0.40 RC11` plus system `0.3.0-raw.10`, tag
-  [`hardened-system-0.3.0-raw.10`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.10),
-  published from `3cca4d8` on 2026-08-21. Existing devices must install app
-  first and raw second; the manual SD image already includes app `2.0.40`.
+- Current combined release: app `2.0.42 RC12` plus system `0.3.0-raw.12`, tag
+  [`hardened-system-0.3.0-raw.12`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.12),
+  published from `8be6b4d` on 2026-08-28. Existing devices first install the
+  manual
+  [`2.0.42 key-transition prerelease`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-rust-2.0.42-key-transition),
+  then enable Preview and install raw.12; the RC12 SD image already includes
+  app `2.0.42`. All remote assets, both Preview channels and the GitHub latest
+  metadata redirect match the accepted local artifacts. The retained remote
+  acceptance report SHA-256 is
+  `d70e156c865c28c340d39c9ec085cfc73d66b20360bce533db8ef6644ca43c9d`.
 - Current stable raw/SD baseline: RC9 app `2.0.32`, raw system
   `0.2.23-raw.1`, tags `hardened-rust-rc9` and
   `hardened-system-0.2.23-raw.1`.
-- GitHub Pages RC9 update: `gh-pages` commit `ad91ef6`.
+- GitHub Pages RC12 update: `gh-pages` commit `0647548`. Live HTML is
+  byte-exact to the worktree and desktop/mobile Playwright acceptance passes;
+  report SHA-256 values are
+  `32ee8dcc36d467b6d90335032584b9fddc17dd30e3f377a05176660c2ea5dcdc`
+  and `bddbfe352f53f96af80f62c8b4d2329f6a33030556547e0f1de25897c181eda3`.
 - GitHub CLI is authenticated as `woffko`. A 2026-08-20 API check confirmed
   Dependabot alert read access; the default branch had nine open web dependency
   alerts (four high and five moderate). `Cargo.lock` contains the patched
@@ -87,9 +97,10 @@ the unsigned bundle to the updater. In-place raw.11 hardware acceptance is
 complete and physical recovery-card boot is repeatable. Explicit
 metadata/manifest/signature failure tests pass; raw partition rollback is the
 now-proven manual SD rewrite path, not an automatic partition rollback.
-Production signing and redistribution remain before publication.
+At that raw.11 checkpoint, production signing and redistribution remained; the
+subsequent RC12 release completed both.
 
-Current combined RC11 release artifacts and SHA-256 values:
+Historical combined RC11 release artifacts and SHA-256 values:
 
 | Artifact | SHA-256 |
 | --- | --- |
@@ -102,7 +113,7 @@ Current combined RC11 release artifacts and SHA-256 values:
 | system metadata | `9048e06c4b5cfb0689b57bac9606e09a70ea00b0d50defc38a19e92a0c18940a` |
 | system detached signature | `3c0cb60003f9a0c201da0bbe473178220fc3a7ffafb8757c9f705fb7028c1a31` |
 
-Unpublished corrected bridge artifact:
+Published corrected bridge artifact:
 
 | Artifact | SHA-256 |
 | --- | --- |
@@ -112,9 +123,9 @@ Unpublished corrected bridge artifact:
 
 The retained pipeline-A archive is under
 `build/key-transition-2.0.42-bootstrap/app-a/out/`. The old bridge archive
-`e9c0bb08...` and all old RC12 rootfs/full-image hashes are superseded. Kernel,
-module and physical-device evidence remains valid, but RC12 must rebuild and
-repeat A/B, full-SD and signed-raw acceptance with the corrected app.
+`e9c0bb08...` and all old RC12 rootfs/full-image hashes are superseded. RC12
+rebuilt and repeated A/B, full-SD, signed-raw and recovery acceptance with the
+corrected app.
 
 RC10 was app-only. It did not change raw/system metadata or the SD image.
 GitHub tag `hardened-rust-rc10` was published from
@@ -124,7 +135,7 @@ signed application metadata has SHA-256
 the detached signature has SHA-256
 `f5913ae509672fd16c62468be71c251c8d08ff38978b2116a3434aed6a06c500`.
 Those hashes remain historical RC10 evidence. The mutable
-`hardened-rust-preview` channel now points to the verified RC11 `2.0.40`
+`hardened-rust-preview` now points to production-signed RC12 app `2.0.42`
 metadata.
 
 Pre-publication raw.10 lab artifacts retained for comparison:
@@ -143,9 +154,9 @@ The published RC11 artifacts were rebuilt/repackaged from the accepted payload
 and release commit, so their outer archive and metadata hashes intentionally
 differ from these lab hashes. All 16 GitHub assets were downloaded after
 publication, matched `SHA256SUMS`, and both application/system metadata pairs
-verified with the bundled public key. GitHub latest and
-`hardened-rust-preview` advertise app `2.0.40`; `hardened-system-preview`
-advertises raw `0.3.0-raw.10`; `hardened-system-stable` remains on
+verified with the bundled public key. They remain historical RC11 evidence.
+GitHub latest and `hardened-rust-preview` now advertise app `2.0.42`;
+`hardened-system-preview` advertises raw `0.3.0-raw.12`; stable remains on
 `0.2.23-raw.1`.
 
 ## Current Architecture
@@ -257,8 +268,8 @@ Remediation status:
   dmesg/syslog alerts. The current bridge server is `fd116fc4...`; the native
   binaries are unchanged. Physical HDMI cable unplug/replug was previously
   confirmed on raw.9 with the same native stack; source-mode switching was
-  unavailable on the current source. Published RC11 remains app `2.0.40`; the
-  system channel remains preview-only.
+  unavailable on the current source. Published RC12 is app `2.0.42`; raw.12
+  remains on the system Preview channel and stable remains RC9.
 - Vendor-kernel Phase 1 is reconstructed and accepted on recoverable media: the
   24-layer official/Milk-V/Sipeed source stack, clean Image/vmlinux, 3 DTBs,
   all 57 modules, and `boot.sd` are independently reproducible; all covered

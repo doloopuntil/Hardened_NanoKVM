@@ -10,12 +10,13 @@ implemented deeply enough for interactive device testing.
 
 Current published channels:
 
-- combined app update: `2.0.40 RC11`, tag
-  `hardened-system-0.3.0-raw.10`;
-- raw system-update: preview `0.3.0-raw.10`, containing app `2.0.40` and the
-  Buildroot `2026.05.1` userspace. Existing devices update app first, then raw;
-- SD-card image: app `2.0.40` / system `0.3.0-raw.10`; a manual flash already
-  contains the matching application.
+- combined app update: `2.0.42 RC12`, tag
+  `hardened-system-0.3.0-raw.12`;
+- raw system-update: preview `0.3.0-raw.12`, Buildroot `2026.05.1`, Linux
+  `5.10.265-tag-`, and metadata format 2 requiring app `2.0.42`. Existing
+  devices install the manual `2.0.42` key-transition app first, then raw;
+- SD-card image: app `2.0.42` / system `0.3.0-raw.12`; a manual flash already
+  contains the matching application and production trust set.
 
 ## Build
 

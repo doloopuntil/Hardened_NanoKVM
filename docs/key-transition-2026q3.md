@@ -8,8 +8,13 @@ app `2.0.41`/raw.11 and app `2.0.40`/raw.12 compatibility paths are accepted.
 The rebuilt RC12 matrix passes A/B reproducibility, production signing and live
 signed-raw acceptance plus the new full-SD initial, expansion, runtime and
 two-reboot gate. Its physical raw.10 recovery and final RC12 return also pass.
-All pre-publication gates now pass; the transition and RC12 releases are ready
-for the guarded publication workflow.
+All gates pass. The manual transition prerelease
+`hardened-rust-2.0.42-key-transition` and combined latest release
+`hardened-system-0.3.0-raw.12` were published from commit `8be6b4d` on
+2026-08-28. Independent downloads prove exact assets, both production-signed
+Preview metadata channels and the GitHub latest metadata redirect. The retained
+remote acceptance report SHA-256 is
+`d70e156c865c28c340d39c9ec085cfc73d66b20360bce533db8ef6644ca43c9d`.
 
 ## Trust Set
 

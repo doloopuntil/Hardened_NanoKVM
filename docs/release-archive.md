@@ -8,7 +8,9 @@ GitHub Releases after their historical notes are kept in `CHANGELOG.md`.
 
 | Tag | Purpose | Notes |
 | --- | --- | --- |
-| `hardened-system-0.3.0-raw.10` | Current combined RC11 | One GitHub latest release carrying app `2.0.40`, raw system `0.3.0-raw.10`, and the Buildroot `2026.05.1` SD image. Existing devices must update app first and raw second. The system-prefixed tag is required by deployed raw URL validation. |
+| `hardened-system-0.3.0-raw.12` | Current combined RC12 | GitHub latest release carrying app `2.0.42`, production-signed raw system `0.3.0-raw.12`, and the Buildroot `2026.05.1` / Linux `5.10.265` SD image. Existing installations first use the manual key-transition prerelease; a fresh SD image already contains the bridge. |
+| `hardened-rust-2.0.42-key-transition` | Current manual app bridge | Prerelease carrying the exact app `2.0.42` Offline Update archive for existing devices that still trust only the unavailable legacy signing key. |
+| `hardened-system-0.3.0-raw.10` | Previous combined RC11 | App `2.0.40`, raw system `0.3.0-raw.10`, and the first Buildroot `2026.05.1` SD image. Retain as the verified pre-production-key recovery source. |
 | `hardened-rust-rc10` | Previous app-only RC | App `2.0.34` for the RC9 system baseline. Remediates the native C/C++ audit, fixes MaixCDK sensor-enum compatibility for clean LT6911 builds, and packages rebuilt `libkvm`, `libkvm_mmf`, and `kvm_system`. Reboot, MJPEG, H.264 Direct, and controlled stop/start passed on `10.0.87.133`. |
 | `hardened-rust-rc9.1` | Previous app-only RC | App `2.0.33` for the RC9 system baseline. Adds post-RC9 browser-window auto-fit for the KVM screen and aligns Appearance segmented controls. Tested on NanoKVM Cube devices `10.0.87.133` and `10.0.87.132`. |
 | `hardened-rust-rc9` | Stable fallback raw/SD RC | App `2.0.32` with matching raw system `0.2.23-raw.1` and SD-card image. Carries the RC8 mobile/tablet baseline plus post-RC8 mobile Settings segmented-control fixes. Tested on NanoKVM Cube devices. |
@@ -21,7 +23,8 @@ GitHub Releases after their historical notes are kept in `CHANGELOG.md`.
 
 | Tag | Purpose | Notes |
 | --- | --- | --- |
-| `hardened-system-0.3.0-raw.10` | Current preview raw-system target and combined RC11 | Raw/SD candidate paired with app `2.0.40`. Advertised by `hardened-system-preview`; stable remains on the previous baseline. |
+| `hardened-system-0.3.0-raw.12` | Current preview raw-system target and combined RC12 | Production-signed format-2 raw/SD candidate requiring app `2.0.42`. Advertised by `hardened-system-preview`; stable remains on the previous baseline. |
+| `hardened-system-0.3.0-raw.10` | Previous preview raw-system target and combined RC11 | Retained verified recovery source for app `2.0.40` and kernel `5.10.4-tag-`. |
 | `hardened-system-0.2.23-raw.1` | Current stable raw-system target | Raw system-update bundle and release notes trusted by deployed devices. |
 | `hardened-system-stable` | Raw stable channel | Mutable channel release that carries stable `system-latest.json` metadata. |
 | `hardened-system-preview` | Raw preview channel | Mutable channel release that carries preview `system-latest.json` metadata. |

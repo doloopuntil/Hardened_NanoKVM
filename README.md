@@ -29,44 +29,46 @@ a drop-in `NanoKVM-Server` and continues to use the existing `kvm_system`,
 runtime libraries used by the Rust backend live under `server-rust/native/`.
 
 The web UI currently brands this fork as **Hardened NanoKVM**. The current
-combined GitHub release is **2.0.40 RC11** with system `0.3.0-raw.10`.
+combined GitHub release is **2.0.42 RC12** with system `0.3.0-raw.12`.
 
 The combined application/raw/SD release is available from the `woffko` fork at
-[`hardened-system-0.3.0-raw.10`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.10).
+[`hardened-system-0.3.0-raw.12`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.12).
 
 The latest preview raw system-update and SD-card artifacts are the
-**0.3.0-raw.10** Buildroot `2026.05.1` builds. Existing devices must install app
-`2.0.40` first and only then start the raw update. A manually flashed SD image
-already contains the matching app.
+**0.3.0-raw.12** Buildroot `2026.05.1` / Linux `5.10.265-tag-` builds. Existing
+devices must manually install the app `2.0.42` trust bridge first and only then
+start the raw update. A manually flashed SD image already contains the matching
+app.
 
-## Installing System 0.3.0-raw.10
+## Installing System 0.3.0-raw.12
 
 > [!IMPORTANT]
-> App `2.0.40` is the normal GitHub latest application release, but system
-> `0.3.0-raw.10` is still published through the **system preview** channel.
-> GitHub latest, application latest, system stable, and system preview are
-> separate channel decisions. The system stable channel intentionally remains
-> on `0.2.23-raw.1` while Buildroot `2026.05.1` compatibility feedback is
-> collected.
+> Existing installations cannot receive the new production trust key through
+> the lost legacy signing key. Download app `2.0.42` from the manual
+> [`key-transition prerelease`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-rust-2.0.42-key-transition),
+> require SHA-256
+> `aa0cd78c1b2e9951f216826c44b4b7ff2fb211fc1980540366f8f5b1f7e0dd20`,
+> and install it through authenticated **Offline Update** before raw.12. The
+> system stable channel intentionally remains on `0.2.23-raw.1`; raw.12 is on
+> the **system preview** channel.
 
 ### Upgrade an existing installation
 
 Keep a working recovery SD card or a full image backup and provide continuous
 power before beginning. Then use this exact order:
 
-1. Open **Settings > Check for Updates**.
-2. Install the application update first. Wait for the backend to restart, log
-   in again if necessary, and confirm that **Application Update** reports
-   `2.0.40` as the current version.
+1. Download `hardened-nanokvm-kvmapp-2.0.42.tar.gz` from the exact transition
+   prerelease above and verify its SHA-256.
+2. Open **Settings > Update > Offline Update**, upload the complete archive,
+   wait for the backend to restart, log in again, and confirm application
+   `2.0.42`.
 3. At the top of the same page, enable **Preview Updates**. This is one shared
    preview switch: it controls both application-preview metadata and
    system-preview metadata.
-4. In the **System Update** section, press **Refresh**. In app `2.0.40`, changing
-   the Preview Updates switch refreshes the application check but does not
-   immediately refresh the already displayed system result. Until **Refresh**
-   is pressed, the screen can continue to show the stable target
-   `0.2.23-raw.1` even though preview mode is enabled.
-5. Confirm that the offered transition ends at `0.3.0-raw.10` and that the
+4. In the **System Update** section, press **Refresh**. Until it is pressed, the
+   screen can continue to show the stable target `0.2.23-raw.1` even though
+   preview mode is enabled.
+5. Confirm that the offered transition ends at `0.3.0-raw.12` and that the
    latest target is `sg2002-licheervnano-sd`. Do not install an unexpected
    version or target.
 6. Enable **Allow raw system updates**. This is separate from Preview Updates:
@@ -78,23 +80,23 @@ power before beginning. Then use this exact order:
    the update flow while it writes `/dev/mmcblk0p2` and `/dev/mmcblk0p1`. The
    device reboots automatically after the raw writes.
 9. Allow the first boot and configuration restore to finish. After the web UI
-   returns, verify app `2.0.40`, system `0.3.0-raw.10`, Buildroot `2026.05.1`,
-   target `sg2002-licheervnano-sd`, and retained kernel `5.10.4-tag-`.
+   returns, verify app `2.0.42`, system `0.3.0-raw.12`, Buildroot `2026.05.1`,
+   target `sg2002-licheervnano-sd`, and kernel `5.10.265-tag-`.
 10. Disable **Allow raw system updates** again unless another explicitly
     planned raw update is being staged.
 
 If the System Update card still offers `0.2.23-raw.1`, first confirm that
 **Preview Updates** remains enabled and then press the System Update
-**Refresh** button. Updating app to `2.0.40` alone does not promote the system
-stable channel and therefore does not make raw.10 appear without preview mode.
+**Refresh** button. Updating app to `2.0.42` alone does not promote the system
+stable channel and therefore does not make raw.12 appear without preview mode.
 
 ### Flash the complete SD image instead
 
-The RC11 `.img.xz` asset already contains app `2.0.40` and system
-`0.3.0-raw.10`, so a separately installed app update or Preview Updates toggle
+The RC12 `.img.xz` asset already contains app `2.0.42` and system
+`0.3.0-raw.12`, so a separately installed app update or Preview Updates toggle
 is not required for a clean manual flash. Download the image and
 `SHA256SUMS` from the
-[`hardened-system-0.3.0-raw.10`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.10)
+[`hardened-system-0.3.0-raw.12`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.12)
 release, verify the checksum, and write it to a recoverable SD card of at least
 16 GiB. Keep the original card unchanged until the new card has booted, obtained
 network configuration, and passed the required hardware checks. See
@@ -102,8 +104,9 @@ network configuration, and passed the required hardware checks. See
 flashing instructions.
 
 Raw partition updates do not provide automatic recovery when the device cannot
-boot. The RC11 system is a Buildroot userspace migration; it retains vendor
-kernel `5.10.4-tag-` and is not the future Linux `5.10.265` security merge.
+boot. RC12 updates both Buildroot userspace and the reviewed SG2002 port of
+Linux `5.10.265`; it does not claim that every retained vendor delta is free of
+all upstream CVEs.
 
 ## Current Highlights
 
@@ -183,9 +186,9 @@ NanoKVM device and harden one subsystem at a time.
 | Device settings       | Hostname, web title, GPIO/ATX, OLED, HDMI, SSH, mDNS, swap, memory limit, TLS toggle, reboot, scripts, and autostart have Rust endpoints.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | Storage               | ISO/IMG listing, upload, mount, delete, and CD-ROM/mass-storage mode are implemented with path validation. Mount changes use LUN eject/insert; switching between CD-ROM and mass-storage mode also reconnects the USB gadget so BIOS/boot menus rescan the device type. A confirmed USB reconnect fallback remains available when a host does not notice media changes. Remote ISO download exists behind a disabled-by-default safety toggle and validates URL, filename, size, destination, and ISO format. Completed downloads now reset the picker state and refresh the virtual-media image list without logout.                                                 |
 | Network               | WOL, full wired DHCP/manual IP/DNS settings, explicit IPv6 Disabled/SLAAC/DHCPv6/Manual controls, Wi-Fi status/connect/AP verification, and Tailscale lifecycle endpoints are implemented.                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| Updates               | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current combined app channel: `2.0.40 RC11`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| SD image              | Current preview SD image is app `2.0.40` / system `0.3.0-raw.10`, built from the tracked Buildroot `2026.05.1` external board port while retaining the proven vendor boot/kernel boundary. It passed automated device acceptance and a SanDisk High Endurance recovery-card boot.                                                                                                                                                                                                                                                                                                                               |
-| System updates        | Separate GitHub channel metadata, signed metadata enforcement, staging download/verify, guarded raw install, first-boot root configuration restore, automatic boot-good confirmation, manual rollback, and boot-watchdog rollback are implemented. Current preview raw channel: `0.3.0-raw.10`. Existing devices must update app to `2.0.40` before invoking raw update; the full SD image already includes it. Payloads remain gzip-compressed and stream directly to the SD partitions. The userspace is Buildroot `2026.05.1`; the retained vendor kernel is still `5.10.4-tag-`. |
+| Updates               | Online/offline `kvmapp` updates are implemented through GitHub Releases with signed `latest.json` metadata and sha512 archive verification. Current combined app channel: `2.0.42 RC12`; older installations use the authenticated manual transition prerelease first.                                                                                                                                                                                                                                                                                                                                                                                                       |
+| SD image              | Current preview SD image is app `2.0.42` / system `0.3.0-raw.12`, built from Buildroot `2026.05.1` and Linux `5.10.265-tag-`. It passed exact initial boot, partition expansion, authenticated browser/runtime, two reboot cycles, raw.10 recovery, and final RC12 return on recoverable media.                                                                                                                                                                                                                                                         |
+| System updates        | Separate GitHub channel metadata, production-signature enforcement, staging download/verify, guarded raw install, first-boot root configuration restore, automatic boot-good confirmation, manual rollback, and boot-watchdog rollback are implemented. Current preview raw channel: `0.3.0-raw.12`, metadata format 2 requires app `2.0.42`, and the full SD image already includes it. Payloads remain gzip-compressed and stream directly to the SD partitions. The userspace is Buildroot `2026.05.1`; the kernel is `5.10.265-tag-`. |
 
 ## How Updates Work
 
@@ -218,8 +221,8 @@ https://github.com/woffko/Hardened_NanoKVM/releases/latest/download/latest.json
 ```
 
 The metadata points to a versioned app archive such as
-`hardened-nanokvm-kvmapp-2.0.40.tar.gz` on the combined
-`hardened-system-0.3.0-raw.10` release tag.
+`hardened-nanokvm-kvmapp-2.0.42.tar.gz` on the combined
+`hardened-system-0.3.0-raw.12` release tag.
 The device verifies signed metadata and the archive sha512 before
 installing. The preview toggle uses the `hardened-rust-preview` channel
 metadata, but it still installs the versioned archive named by that metadata.
@@ -288,17 +291,17 @@ state.
 
 The channels can intentionally move independently:
 
-- Application stable/latest: `2.0.40 RC11`, combined tag
-  `hardened-system-0.3.0-raw.10`.
+- Application stable/latest: `2.0.42 RC12`, combined tag
+  `hardened-system-0.3.0-raw.12`.
 - Application preview: `hardened-rust-preview`, when populated, points to a
   versioned application archive independently from the stable latest release.
 - Raw system stable remains `0.2.23-raw.1`, published on companion tag
   `hardened-system-0.2.23-raw.1` and advertised through the
   `hardened-system-stable` channel metadata. The `hardened-rust-rc9` release
   carries the matching raw bundle and SD-card image.
-- Raw system preview: `hardened-system-preview`, points to `0.3.0-raw.10` on
-  the combined RC11 release after app-first rollout.
-- Latest preview SD image: app `2.0.40`, matching raw system `0.3.0-raw.10`.
+- Raw system preview: `hardened-system-preview`, points to `0.3.0-raw.12` on
+  the combined RC12 release and requires app `2.0.42`.
+- Latest preview SD image: app `2.0.42`, matching raw system `0.3.0-raw.12`.
 
 The RC9 `2.0.32` application, raw system update, and SD image were rebuilt
 together after the RC8 mobile/tablet follow-up work. RC9 keeps the Hardened
