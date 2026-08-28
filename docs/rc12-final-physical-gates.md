@@ -133,6 +133,18 @@ report.
 
 ## Gate C: Recovery Round Trip
 
+Status: **IN PROGRESS** (2026-08-28). The pristine published raw.10 recovery
+boot is accepted; final return to the already accepted RC12 card remains.
+
+The reset recovery card booted as exact app `2.0.40`, raw.10 and kernel
+`5.10.4-tag-`. It matched the embedded server, FIT and legacy-key hashes,
+contained no production key or policy, preserved expanded writable partitions,
+ran both services with zero kernel alerts, and passed authenticated browser
+login. The ignored exact-state and browser reports have SHA-256 values
+`9bd796f8c479b71b022ca06807f16bbf54f86ff8ddeb37631c0f60cf7acfd868`
+and
+`08f74dbffc4ad278179b7579e3599ac32f684cff43232e939ec5385cc5f15cb1`.
+
 Gate A installed bridge app `2.0.42` on its raw.10 test card, so that modified
 card is not an exact app `2.0.40` recovery source. Before Gate C, rewrite it
 with the published RC11/raw.10 image listed in Gate A, or use a separate

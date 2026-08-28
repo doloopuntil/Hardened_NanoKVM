@@ -398,6 +398,11 @@ Remediation status:
   and 33,789,320-byte compressed image
   `a6069020dd92c024793cbb84500887a766f07263f8a6241b9462e6e0ca95dae0`.
   The duplicate B tree was removed after proof.
+- The selected RC12 card now also passes its independent physical initial,
+  expansion, runtime, two-reboot and final checks. Gate C subsequently booted
+  a freshly rewritten published app `2.0.40`/raw.10 recovery card and passed
+  exact state plus authenticated browser login. The final physical return to
+  the accepted RC12 card remains.
 - The installable signed raw.12 archive is
   `cf6bbef5599197f4b5ed926f22bed12352f2fdc275eb8f32fc8344d3ed7eae96`, requires app `2.0.42`
   and is signed by `hardened-system-prod-2026q3`; its exact verification report
