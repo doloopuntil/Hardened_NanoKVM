@@ -133,8 +133,7 @@ report.
 
 ## Gate C: Recovery Round Trip
 
-Status: **IN PROGRESS** (2026-08-28). The pristine published raw.10 recovery
-boot is accepted; final return to the already accepted RC12 card remains.
+Status: **PASS** (2026-08-28).
 
 The reset recovery card booted as exact app `2.0.40`, raw.10 and kernel
 `5.10.4-tag-`. It matched the embedded server, FIT and legacy-key hashes,
@@ -144,6 +143,19 @@ login. The ignored exact-state and browser reports have SHA-256 values
 `9bd796f8c479b71b022ca06807f16bbf54f86ff8ddeb37631c0f60cf7acfd868`
 and
 `08f74dbffc4ad278179b7579e3599ac32f684cff43232e939ec5385cc5f15cb1`.
+
+The untouched accepted RC12 card then booted again with its original MAC and
+SSH identity. The boot ID differed from the raw.10 recovery boot, and selected
+FIT/config/modules/provenance, expanded writable partitions, USB/media/network
+runtime, `/data` write and authenticated browser login all passed with zero
+kernel alerts. The ignored final-return reports have SHA-256 values:
+
+- exact RC12 return:
+  `1adc682630e4a1e4a116de92588c24f95933b6ca12c8ec06a47125c566d467b0`;
+- functional runtime:
+  `6aab93409a451ed8139cafa306fb033ba386a5f416d20d4e88ccd4cef501e0bf`;
+- authenticated browser login:
+  `bf24ed92ef7d09d4c22de04e6d8523b65cb247615006dbf5da14b605416b732f`.
 
 Gate A installed bridge app `2.0.42` on its raw.10 test card, so that modified
 card is not an exact app `2.0.40` recovery source. Before Gate C, rewrite it

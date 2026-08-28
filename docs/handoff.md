@@ -373,11 +373,11 @@ Remediation status:
   App `2.0.42` retains the legacy key, adds the production keyring entry and a
   policy allowing both historical IDs plus the production ID. The release
   notes contain
-  `RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP_AND_RECOVERY_GATE`; both
+  `RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP`; both
   preparation and publication reject any `RELEASE_BLOCKED_*` marker. Two
   independent encrypted backups restore correctly; off-host placement of one
-  copy and the recovery round trip remain. Selected full-image initial,
-  expansion, runtime and two-reboot acceptance now pass. See
+  copy remains. Selected full-image initial, expansion, runtime, two-reboot and
+  physical recovery-round-trip acceptance now pass. See
   [`key-transition-2026q3.md`](key-transition-2026q3.md).
 - Corrected bridge app `2.0.42` pipelines A/B from source commit `ac12e2d` use
   independent Cargo targets and are byte-exact through the server, manifest and
@@ -401,8 +401,9 @@ Remediation status:
 - The selected RC12 card now also passes its independent physical initial,
   expansion, runtime, two-reboot and final checks. Gate C subsequently booted
   a freshly rewritten published app `2.0.40`/raw.10 recovery card and passed
-  exact state plus authenticated browser login. The final physical return to
-  the accepted RC12 card remains.
+  exact state plus authenticated browser login. Returning the untouched RC12
+  card preserved its MAC/SSH identity and passed final exact, runtime and
+  browser checks.
 - The installable signed raw.12 archive is
   `cf6bbef5599197f4b5ed926f22bed12352f2fdc275eb8f32fc8344d3ed7eae96`, requires app `2.0.42`
   and is signed by `hardened-system-prod-2026q3`; its exact verification report

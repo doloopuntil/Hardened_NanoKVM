@@ -12,8 +12,8 @@ the corrected reproducible bridge app, exact published app `2.0.40`/raw.10,
 app `2.0.41`/raw.11 and app `2.0.40`/raw.12 compatibility paths are accepted.
 The rebuilt RC12 matrix passes A/B reproducibility, production signing and live
 signed-raw acceptance plus the new full-SD initial, expansion, runtime and
-two-reboot gate. Its physical recovery round trip remains. No transition or
-RC12 release is published.
+two-reboot gate. Its physical raw.10 recovery and final RC12 return also pass.
+No transition or RC12 release is published.
 
 ## Trust Set
 
