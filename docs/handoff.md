@@ -72,15 +72,16 @@ available in:
 - Current stable raw/SD baseline: RC9 app `2.0.32`, raw system
   `0.2.23-raw.1`, tags `hardened-rust-rc9` and
   `hardened-system-0.2.23-raw.1`.
-- GitHub Pages RC12 update: `gh-pages` commit `0647548`. Live HTML is
+- GitHub Pages RC12 update: `gh-pages` commit `e4c8bfd`. Live HTML is
   byte-exact to the worktree and desktop/mobile Playwright acceptance passes;
   report SHA-256 values are
-  `32ee8dcc36d467b6d90335032584b9fddc17dd30e3f377a05176660c2ea5dcdc`
+  `4d1294ce76d20b8c1d85f53ef475879ea47b3bbc5f2953d0a9fdf4e038b2ee6b`
   and `bddbfe352f53f96af80f62c8b4d2329f6a33030556547e0f1de25897c181eda3`.
-- GitHub CLI is authenticated as `woffko`. A 2026-08-20 API check confirmed
-  Dependabot alert read access; the default branch had nine open web dependency
-  alerts (four high and five moderate). `Cargo.lock` contains the patched
-  `anyhow 1.0.103`.
+- GitHub CLI is authenticated as `woffko`. A 2026-08-28 API check found nine
+  open npm alerts on the default branch `web/pnpm-lock.yaml` (four high and five
+  medium). RC12 pins versions outside every reported vulnerable range, and
+  `corepack pnpm --dir web audit --prod --audit-level low` reports no known
+  vulnerabilities. `Cargo.lock` contains patched `anyhow 1.0.103`.
 
 Unpublished accepted raw.11 lab artifacts from runtime commit `4ab8c4e`:
 
