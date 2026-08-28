@@ -133,12 +133,17 @@ report.
 
 ## Gate C: Recovery Round Trip
 
-After Gate B, boot the verified raw.10 recovery card again. With two cards this
-is a card swap; with one card it requires rewriting the raw.10 image. Prove the
-device returns to the exact app `2.0.40` / raw.10 state. Then return to the RC12
-candidate card (or rewrite selected A), boot it, and run one final exact
-RC12/browser check. This is the physical recovery/rollback evidence for the
-new full image.
+Gate A installed bridge app `2.0.42` on its raw.10 test card, so that modified
+card is not an exact app `2.0.40` recovery source. Before Gate C, rewrite it
+with the published RC11/raw.10 image listed in Gate A, or use a separate
+pristine card already written and checksum-verified from that image. Do not
+overwrite the accepted RC12 card.
+
+Boot the reset raw.10 recovery card and prove the device returns to the exact
+app `2.0.40` / raw.10 state. Then return to the accepted RC12 card (or rewrite
+selected A only if no second card is available), boot it, and run one final
+exact RC12/runtime/browser check. This is the physical recovery/rollback
+evidence for the new full image.
 
 ## Gate D: Off-Host Encrypted Backup
 
