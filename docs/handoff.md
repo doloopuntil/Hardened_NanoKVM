@@ -1,6 +1,6 @@
 # Hardened NanoKVM Developer Handoff
 
-Last updated: 2026-08-27
+Last updated: 2026-08-28
 
 This document is the current takeover guide. Detailed chronological release and
 device-recovery history was intentionally removed from the handoff and remains
@@ -43,9 +43,10 @@ available in:
 - The production-key bridge plan is authoritative in
   [`key-transition-2026q3.md`](key-transition-2026q3.md). Corrected app `2.0.42`
   independently reproduces and passes the full immediate-trust, signature,
-  reboot, SSH and browser matrix from app `2.0.41`/raw.11 on `.133`, plus the
-  app `2.0.40` compatibility path on raw.12 on `.49`. The exact raw.10 physical
-  gate and one off-host encrypted-key backup remain transition-release blockers.
+  reboot, SSH and browser matrix from app `2.0.41`/raw.11, app `2.0.40` on
+  raw.12, and the exact published app `2.0.40`/raw.10 state on recoverable
+  media. Only one off-host encrypted-key backup remains a transition-release
+  blocker.
 - Current installed test state: `10.0.87.133` runs corrected bridge app
   `2.0.42`, production-key-signed system `0.3.0-raw.12`, kernel
   `5.10.265-tag-`, dual trust and the preserved SSH identity. `10.0.87.49` runs the same bridge app, system
@@ -372,10 +373,11 @@ Remediation status:
   App `2.0.42` retains the legacy key, adds the production keyring entry and a
   policy allowing both historical IDs plus the production ID. The release
   notes contain
-  `RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP_RAW10_AND_FULL_SD_GATES`; both
+  `RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP_FULL_SD_AND_RECOVERY_GATES`; both
   preparation and publication reject any `RELEASE_BLOCKED_*` marker. Two
   independent encrypted backups restore correctly; off-host placement of one
-  copy, the exact raw.10 gate and the rebuilt RC12 matrix remain. See
+  copy, selected full-image physical acceptance and the recovery round trip
+  remain. See
   [`key-transition-2026q3.md`](key-transition-2026q3.md).
 - Corrected bridge app `2.0.42` pipelines A/B from source commit `ac12e2d` use
   independent Cargo targets and are byte-exact through the server, manifest and
@@ -408,15 +410,12 @@ Remediation status:
 - Two independently salted AES-256 PKCS#8 backups now restore to the production
   fingerprint; one encrypted copy still needs off-host placement before
   publication. `.133` successfully migrated from a clean app `2.0.41`/raw.11
-  state, and `.49` successfully migrated from app `2.0.40` on raw.12.
-  Immediate trust bootstrap, exact legacy/new signature matrix, reboot
-  persistence, SSH identity, account login and native/Rust runtime all pass
-  with zero alerts. The raw.12 result proves app `2.0.40` compatibility but is
-  not substituted for the exact raw.10 gate. The published RC11 image is
-  downloaded and checksum/xz-verified under
-  `build/key-transition-2.0.42-bootstrap/raw10-gate/`; physical card boot and
-  bridge installation remain. Exact report hashes are in
-  [`key-transition-2026q3.md`](key-transition-2026q3.md).
+  state, `.49` successfully migrated from app `2.0.40` on raw.12, and the
+  downloaded published RC11 image booted as exact app `2.0.40`/raw.10 on
+  recoverable hardware. Immediate trust bootstrap, exact legacy/new signature
+  matrix, reboot persistence, SSH identity, account login and native/Rust
+  runtime all pass with zero alerts. Exact report hashes are in
+  [`rc12-final-physical-gates.md`](rc12-final-physical-gates.md).
   The
   project owner explicitly decided that retained `NOASSERTION` and
   `redistribution=disabled-pending-license-grant` provenance is a disclosed

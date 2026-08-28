@@ -2,18 +2,17 @@
 
 Status date: 2026-08-28.
 
-> TRANSITION_RELEASE_BLOCKED_PENDING_RAW10_PHYSICAL_GATE_AND_OFFHOST_BACKUP
+> TRANSITION_RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP
 >
-> Publication is prohibited until the exact app `2.0.40`/raw.10 physical gate
-> passes and one encrypted production-key backup is moved off-host.
+> Publication is prohibited until one encrypted production-key backup is moved
+> off-host.
 
 Status: the production trust set, independently restorable encrypted backups,
-the corrected reproducible bridge app, app `2.0.41`/raw.11 and app `2.0.40`
-compatibility paths are accepted. The latter ran on raw.12 and therefore does
-not replace the still-open exact raw.10 physical gate. The rebuilt RC12 matrix
-now passes A/B reproducibility, production signing and live signed-raw
-acceptance; its new full-SD physical gate remains. No transition or RC12
-release is published.
+the corrected reproducible bridge app, exact published app `2.0.40`/raw.10,
+app `2.0.41`/raw.11 and app `2.0.40`/raw.12 compatibility paths are accepted.
+The rebuilt RC12 matrix passes A/B reproducibility, production signing and live
+signed-raw acceptance; its new full-SD and recovery-round-trip physical gates
+remain. No transition or RC12 release is published.
 
 ## Trust Set
 
@@ -114,7 +113,7 @@ identity, system and both runtime processes with zero kernel alerts.
 | post-reboot trust/runtime | `46124270aaf4deaa5823127e908066bf2ef4cfaaa0bb52847601b2aea1930732` |
 | post-reboot web login | `19d415429dafff04eecd57555997fb78ff10bc21904d13f4a80768cc5aa1fc4e` |
 
-## Pending Exact Raw.10 Gate
+## Accepted Exact Published App 2.0.40 / Raw.10 Gate
 
 The normal system downloader correctly rejects downgrades and must not be
 bypassed. The published full RC11 image was therefore downloaded for a
@@ -124,9 +123,13 @@ physical recovery-card test:
 
 Its GitHub digest and downloaded checksum both match
 `96e44ee8eb482ba2609348164b8c80ac1b94a1c1152db328331fba799d5e0632`,
-and `xz -t` passes. The exact gate remains open until this image boots on a
-recoverable card and the same corrected bridge archive passes from that state.
-The exact sequence and required non-secret report are in
+and `xz -t` passes. The image booted on recoverable hardware with the exact app
+`2.0.40`, raw.10 and kernel `5.10.4-tag-` source state. The corrected bridge
+installed through authenticated Offline Update, established the exact dual
+trust and policy on its first start, passed historical and production
+signature checks, preserved the account, MAC, SSH identity, system and runtime,
+and passed a real reboot plus authenticated browser login as app `2.0.42`.
+Evidence hashes and the retained procedure are in
 [`rc12-final-physical-gates.md`](rc12-final-physical-gates.md).
 
 ## Accepted RC12 Production-Key Chain
