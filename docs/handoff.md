@@ -45,8 +45,8 @@ available in:
   independently reproduces and passes the full immediate-trust, signature,
   reboot, SSH and browser matrix from app `2.0.41`/raw.11, app `2.0.40` on
   raw.12, and the exact published app `2.0.40`/raw.10 state on recoverable
-  media. Only one off-host encrypted-key backup remains a transition-release
-  blocker.
+  media. A restore-verified encrypted backup was copied off-host and re-hashed;
+  all transition-release gates now pass.
 - Current installed test state: `10.0.87.133` runs corrected bridge app
   `2.0.42`, production-key-signed system `0.3.0-raw.12`, kernel
   `5.10.265-tag-`, dual trust and the preserved SSH identity. `10.0.87.49` runs the same bridge app, system
@@ -371,13 +371,11 @@ Remediation status:
   `hardened-system-prod-2026q3`; its public DER SHA-256 is
   `97ddb5600accf0e431c74f82b03acf249668bf75fe0de2e41724c91720516f75`.
   App `2.0.42` retains the legacy key, adds the production keyring entry and a
-  policy allowing both historical IDs plus the production ID. The release
-  notes contain
-  `RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP`; both
-  preparation and publication reject any `RELEASE_BLOCKED_*` marker. Two
-  independent encrypted backups restore correctly; off-host placement of one
-  copy remains. Selected full-image initial, expansion, runtime, two-reboot and
-  physical recovery-round-trip acceptance now pass. See
+  policy allowing both historical IDs plus the production ID. Preparation and
+  publication still reject any future `RELEASE_BLOCKED_*` marker. Two
+  independent encrypted backups restore correctly and an off-host ciphertext
+  copy re-hashes to the accepted value. Selected full-image initial, expansion,
+  runtime, two-reboot and physical recovery-round-trip acceptance pass. See
   [`key-transition-2026q3.md`](key-transition-2026q3.md).
 - Corrected bridge app `2.0.42` pipelines A/B from source commit `ac12e2d` use
   independent Cargo targets and are byte-exact through the server, manifest and
@@ -413,9 +411,9 @@ Remediation status:
   reboot, browser login, the 13-step regression suite with five reboots and a
   final exact freeze all pass with zero kernel alerts. Full hashes are recorded
   in the RC12 release notes and key-transition guide.
-- Two independently salted AES-256 PKCS#8 backups now restore to the production
-  fingerprint; one encrypted copy still needs off-host placement before
-  publication. `.133` successfully migrated from a clean app `2.0.41`/raw.11
+- Two independently salted AES-256 PKCS#8 backups restore to the production
+  fingerprint, and an off-host ciphertext copy matches an accepted backup
+  hash. `.133` successfully migrated from a clean app `2.0.41`/raw.11
   state, `.49` successfully migrated from app `2.0.40` on raw.12, and the
   downloaded published RC11 image booted as exact app `2.0.40`/raw.10 on
   recoverable hardware. Immediate trust bootstrap, exact legacy/new signature

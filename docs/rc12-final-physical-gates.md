@@ -171,6 +171,12 @@ evidence for the new full image.
 
 ## Gate D: Off-Host Encrypted Backup
 
+Status: **PASS** (2026-08-28). The user-reported destination ciphertext
+SHA-256 is
+`eaeba2ae41bdeb036670015c342fe0455e86fbcdb2f83ba8779f2656b6f22135`,
+which matches an independently restore-verified encrypted backup. The off-host
+storage location is intentionally not recorded.
+
 Copy one encrypted PKCS#8 backup to storage that is not on this Windows/WSL
 host. Do not copy the unencrypted production key. Re-hash the off-host copy and
 require one of these already restore-verified ciphertext SHA-256 values:

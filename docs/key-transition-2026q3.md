@@ -2,18 +2,14 @@
 
 Status date: 2026-08-28.
 
-> TRANSITION_RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP
->
-> Publication is prohibited until one encrypted production-key backup is moved
-> off-host.
-
 Status: the production trust set, independently restorable encrypted backups,
 the corrected reproducible bridge app, exact published app `2.0.40`/raw.10,
 app `2.0.41`/raw.11 and app `2.0.40`/raw.12 compatibility paths are accepted.
 The rebuilt RC12 matrix passes A/B reproducibility, production signing and live
 signed-raw acceptance plus the new full-SD initial, expansion, runtime and
 two-reboot gate. Its physical raw.10 recovery and final RC12 return also pass.
-No transition or RC12 release is published.
+All pre-publication gates now pass; the transition and RC12 releases are ready
+for the guarded publication workflow.
 
 ## Trust Set
 
@@ -34,7 +30,10 @@ encrypted ciphertext SHA-256 values are
 `889f5ca50f56b75231cf12821c62bcbcd5a5b39a325d60a7ff2c6b8e1c53c561`
 and `eaeba2ae41bdeb036670015c342fe0455e86fbcdb2f83ba8779f2656b6f22135`.
 Both encrypted copies were independently restored and fingerprint-checked. One
-encrypted copy must additionally be moved off-host before publication.
+encrypted copy was additionally moved off-host, and the user-reported
+destination ciphertext SHA-256 matched
+`eaeba2ae41bdeb036670015c342fe0455e86fbcdb2f83ba8779f2656b6f22135`.
+The storage location is intentionally not recorded.
 
 ## Corrected Reproducible Bridge Artifact
 
