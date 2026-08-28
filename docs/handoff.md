@@ -373,11 +373,11 @@ Remediation status:
   App `2.0.42` retains the legacy key, adds the production keyring entry and a
   policy allowing both historical IDs plus the production ID. The release
   notes contain
-  `RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP_FULL_SD_AND_RECOVERY_GATES`; both
+  `RELEASE_BLOCKED_PENDING_OFFHOST_BACKUP_AND_RECOVERY_GATE`; both
   preparation and publication reject any `RELEASE_BLOCKED_*` marker. Two
   independent encrypted backups restore correctly; off-host placement of one
-  copy, selected full-image physical acceptance and the recovery round trip
-  remain. See
+  copy and the recovery round trip remain. Selected full-image initial,
+  expansion, runtime and two-reboot acceptance now pass. See
   [`key-transition-2026q3.md`](key-transition-2026q3.md).
 - Corrected bridge app `2.0.42` pipelines A/B from source commit `ac12e2d` use
   independent Cargo targets and are byte-exact through the server, manifest and

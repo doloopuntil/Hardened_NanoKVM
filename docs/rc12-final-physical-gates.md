@@ -73,6 +73,42 @@ the exact and browser-account checks.
 
 ## Gate B: Superseding RC12 Full Image
 
+Status: **PASS** on recoverable test hardware (2026-08-28).
+
+The exact selected compressed image was written to a 64 GB recovery card and
+booted as app `2.0.42`, raw.12 and kernel `5.10.265-tag-`. Initial exact checks
+proved selected FIT/config/module/provenance/rootfs identity, dual trust, the
+expanded p2/p3 layout, writable `/`, `/boot` and `/data`, authenticated API and
+browser access, media/USB/network runtime and zero kernel alerts. Two
+post-expansion reboots produced three distinct boot IDs while preserving the
+MAC, SSH host key, partition sizes and exact system identity. Final exact,
+functional-runtime and browser checks passed again.
+
+The ignored local evidence files have these SHA-256 values:
+
+- initial exact/expansion report:
+  `6870203f507009dbeb223a0c47c6022009282006b9523999046ee83a66d856f4`;
+- initial authenticated comprehensive report:
+  `3745166d7ca28a83eac0b77fefe2ed42b7e6e33aebc6d18cccc14685050d369e`;
+- initial authenticated SSH state:
+  `42c17bce6e7a5322ab8d1d58351b43b68dc864dbfe3053d2e13d69034e2559b3`;
+- initial browser login:
+  `8dd2265dedfc2933488f8a0487cf2fe4f85eb6177a0b2340c981633f86d63a78`;
+- initial functional runtime:
+  `6cecfce1c34f5c360e186d819ca08cbf703dd5446c18f52af551b062c838fd50`;
+- two-reboot exact report:
+  `e8d01ecf5e20d068224b1edf52817c008a029a7cded35d3b06e26c0de424eabd`;
+- final functional runtime:
+  `5321e7739d1211bdf301bd365d7623de332862b49c630231d8469cebabc115dc`;
+- final authenticated comprehensive report:
+  `319a6a4235bd8decc766812038713154213d50620e853c77e56a3fa5c16497fa`;
+- final authenticated SSH state:
+  `21da32130315e332497ef86ad9357ad4d3d21c592afe96ec8726c779d2798877`;
+- final browser login:
+  `0b0094ad5324a0c8261716d10b355e6227063255fe4445c61ce50cd9ba9ef5df`.
+
+The procedure below is retained for reproducibility.
+
 Write selected pipeline A:
 
 `build/latestbuildroot/kernel-5.10.265-rc12-bridge-a/recovery/assembly/images/hardened-sg2002-port.img.xz`
