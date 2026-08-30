@@ -46,4 +46,3 @@ on the
 - [Build and deployment notes](build-notes.md)
 - [System-update implementation plan](system-update-plan.md)
 - [Vendor SDK build path](vendor-sdk-build.md)
-
