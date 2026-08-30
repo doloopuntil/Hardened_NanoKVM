@@ -34,6 +34,17 @@ combined GitHub release is **2.0.42 RC12** with system `0.3.0-raw.12`.
 The combined application/raw/SD release is available from the `woffko` fork at
 [`hardened-system-0.3.0-raw.12`](https://github.com/woffko/Hardened_NanoKVM/releases/tag/hardened-system-0.3.0-raw.12).
 
+> [!NOTE]
+> RC12 was released from [`security/kernel-5.10.265`](https://github.com/woffko/Hardened_NanoKVM/tree/security/kernel-5.10.265),
+> not from the older default-branch code baseline. Use the immutable release
+> tag or that maintenance branch when reviewing or rebuilding RC12 source.
+
+Detailed RC12 changes and limitations are in
+[the combined release notes](docs/releases/rc12-2.0.42-raw.12.md). Existing
+installations should also read the
+[manual key-transition notes](docs/releases/2.0.42-key-transition.md) before
+installing raw.12.
+
 The latest preview raw system-update and SD-card artifacts are the
 **0.3.0-raw.12** Buildroot `2026.05.1` / Linux `5.10.265-tag-` builds. Existing
 devices must manually install the app `2.0.42` trust bridge first and only then
@@ -508,12 +519,16 @@ Choose the NanoKVM model that best fits your deployment:
 
 Start with the guide that matches the part of NanoKVM you want to work on:
 
+- **Documentation index:** Start with [docs/README.md](docs/README.md) for current install, recovery, security, and development guides.
 - **System support modules:** Build and update the low-level hardware support components in [support/sg2002/README.md](support/sg2002/README.md).
 - **Hardened Rust backend:** Build, package, and test the Rust replacement in [docs/rust-backend.md](docs/rust-backend.md). Native runtime assets are kept in [server-rust/native/](server-rust/native/).
 - **System update plan:** Track planned GUI system updates for vendor-kernel security backports in [docs/system-update-plan.md](docs/system-update-plan.md).
 - **System update releases:** Package future kernel/rootfs update bundles for GitHub-hosted channels with [docs/system-update-github-releases.md](docs/system-update-github-releases.md).
 - **SD-card flashing:** Prepare recovery or first-boot media on Windows, Linux, macOS, and FreeBSD with [docs/sd-card-flashing.md](docs/sd-card-flashing.md).
 - **Release channels:** Current visible release/channel policy is documented in [docs/release-archive.md](docs/release-archive.md).
+- **RC12 release notes:** Review install order, exact artifacts, validation, and limitations in [docs/releases/rc12-2.0.42-raw.12.md](docs/releases/rc12-2.0.42-raw.12.md).
+- **Key transition:** Existing installations use the manual bridge described in [docs/releases/2.0.42-key-transition.md](docs/releases/2.0.42-key-transition.md); engineering details are in [docs/key-transition-2026q3.md](docs/key-transition-2026q3.md).
+- **Physical acceptance:** Exact raw.10 bridge, full-SD, recovery-round-trip, and off-host backup evidence is indexed in [docs/rc12-final-physical-gates.md](docs/rc12-final-physical-gates.md).
 - **Vendor SDK build path:** Bootstrap and validate the Sipeed/LicheeRV Nano SDK for future full base-system images in [docs/vendor-sdk-build.md](docs/vendor-sdk-build.md).
 - **New Buildroot study:** Track feasibility of newer SDK/newer Buildroot sysupgrade images in [docs/new-buildroot-sysupgrade-study.md](docs/new-buildroot-sysupgrade-study.md).
 - **Buildroot 2023 security backports:** Evaluate critical userspace backports for the proven vendor SDK baseline in [docs/buildroot-2023-security-backport-plan.md](docs/buildroot-2023-security-backport-plan.md).
