@@ -10,12 +10,13 @@ implemented deeply enough for interactive device testing.
 
 Current published channels:
 
-- app update: `2.0.34 RC10`, tag `hardened-rust-rc10`;
-- current source/test build: `2.0.34`; RC10 is an app-only native hardening
-  update for the RC9 system baseline;
-- raw system-update: `0.2.23-raw.1`, built from the RC9 `2.0.32` SD rootfs
-  with gzip-compressed raw payload staging and sysrq reboot after raw writes;
-- SD-card image: RC9 `2.0.32` / `0.2.23-raw.1`.
+- combined app update: `2.0.42 RC12`, tag
+  `hardened-system-0.3.0-raw.12`;
+- raw system-update: preview `0.3.0-raw.12`, Buildroot `2026.05.1`, Linux
+  `5.10.265-tag-`, and metadata format 2 requiring app `2.0.42`. Existing
+  devices install the manual `2.0.42` key-transition app first, then raw;
+- SD-card image: app `2.0.42` / system `0.3.0-raw.12`; a manual flash already
+  contains the matching application and production trust set.
 
 ## Build
 
@@ -42,8 +43,9 @@ server-rust/scripts/build-linked-libkvm.sh
 ```
 
 That script builds with feature `linked-libkvm`, uses the NanoKVM dynamic loader
-`/lib/ld-musl-riscv64xthead.so.1`, and sets RPATH to `$ORIGIN/dl_lib`,
-`/tmp/server/dl_lib`, and `/kvmapp/server/dl_lib`.
+`/lib/ld-musl-riscv64xthead.so.1`, and sets RUNPATH only to the root-owned
+`/kvmapp/server/dl_lib`. S95 may stage the executable itself in a root-created
+`/tmp/server`, but never copies or loads shared libraries from `/tmp`.
 
 Package a deployable `kvmapp` layout with:
 
@@ -60,10 +62,11 @@ build/artifacts/nanokvm-kvmapp-rust.tar.gz
 
 ## SD Image
 
-The repository still does not ship a verified full boot/rootfs image from SDK
-sources. `make vendor-sdk` bootstraps the pinned Sipeed/LicheeRV Nano SDK for
-stock-image reproduction work, while the `sd-image` target patches a trusted
-NanoKVM base image with the current Rust `kvmapp` package:
+The current Buildroot port produces a verified full boot/rootfs image while
+retaining the proven vendor boot/kernel boundary. `make vendor-sdk` bootstraps
+the pinned Sipeed/LicheeRV Nano SDK for provenance work, while the historical
+`sd-image` target patches a trusted NanoKVM base image with the current Rust
+`kvmapp` package:
 
 ```sh
 make web-app

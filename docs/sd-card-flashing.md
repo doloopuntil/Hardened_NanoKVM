@@ -21,13 +21,12 @@ SD-card images. Install those through the web GUI updater instead.
 - Pick the target disk carefully. A wrong disk name can overwrite your computer
   drive.
 
-Current release note: the latest published full SD-card image is the RC9
-`2.0.32` image with matching raw system version `0.2.23-raw.1`. It includes
-raw-system update support, the Hardened mobile view for phones and touch
-tablets, forced Mobile view, TouchSync pointer control, mobile keyboard
-handling, post-RC8 mobile Settings fixes, and the `Buildroot 2023.11.3 package
-backports` security-backport baseline. The RC9 mobile/tablet UI path was
-smoke-tested on NanoKVM Cube devices.
+Current release note: the latest published full SD-card image is RC12 app
+`2.0.42` with system `0.3.0-raw.12`, Buildroot `2026.05.1`, and Linux
+`5.10.265-tag-`. The exact image passed first-boot expansion, authenticated
+browser/runtime checks, two post-expansion reboots, a pristine raw.10 recovery
+boot, and final return to the accepted RC12 card. Keep the original card or a
+separate verified recovery card unchanged while testing it.
 
 ## Windows: Balena Etcher
 
