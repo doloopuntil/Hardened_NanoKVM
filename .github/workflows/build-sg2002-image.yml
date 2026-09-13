@@ -13,6 +13,9 @@ concurrency:
 env:
   BUILDROOT_VERSION: "2026.05.1"
   LICHEERV_NANO_SDK_SHA: d88d58feca49ef15f4cc7bd1f27dbf17dc25f85e
+  # Published app 2.0.42 bridge archive: docs/releases/rc12-2.0.42-raw.12.md
+  KVMAPP_2_0_42_ARCHIVE_URL: https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-0.3.0-raw.12/hardened-nanokvm-kvmapp-2.0.42.tar.gz
+  KVMAPP_2_0_42_ARCHIVE_SHA256: aa0cd78c1b2e9951f216826c44b4b7ff2fb211fc1980540366f8f5b1f7e0dd20
 
 jobs:
   # Isolated because it is the single most expensive, most fragile stage
@@ -132,6 +135,21 @@ jobs:
           cp "$TOOLCHAIN/sysroot/usr/lib64xthead/lp64d/libc.so" server-rust/sysroot/lib/
           cp "$TOOLCHAIN/riscv64-unknown-linux-musl/lib64xthead/lp64d/libgcc_s.so.1" server-rust/sysroot/lib/
 
+      # kvm_system is a retained, never-rebuilt RISC-V helper (its provenance
+      # is tracked across releases in docs/latest-buildroot-port.md); building
+      # it from source needs the separate MaixCDK vendor toolchain, which is
+      # out of scope here. Since this change doesn't touch native code, reuse
+      # the exact binary already accepted and published in app 2.0.42.
+      - name: Fetch published kvm_system helper (app 2.0.42)
+        run: |
+          curl --fail --location --retry 2 \
+            --output /tmp/kvmapp-2.0.42.tar.gz \
+            "$KVMAPP_2_0_42_ARCHIVE_URL"
+          echo "$KVMAPP_2_0_42_ARCHIVE_SHA256  /tmp/kvmapp-2.0.42.tar.gz" | sha256sum -c -
+          mkdir -p /tmp/kvmapp-2.0.42
+          tar -xzf /tmp/kvmapp-2.0.42.tar.gz -C /tmp/kvmapp-2.0.42
+          test -s /tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system
+
       - name: Build Hardened kvmapp bridge
         run: |
           cargo test --manifest-path server-rust/Cargo.toml
@@ -140,6 +158,7 @@ jobs:
           server-rust/scripts/build-linked-libkvm.sh
           RUST_TARGET=riscv64gc-unknown-linux-musl \
             APP_VERSION="$(cat kvmapp/version)" \
+            KVM_SYSTEM_SOURCE=/tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system \
             scripts/package-rust-kvmapp.sh
 
       # build-kernel-5.10.265-rc12-run.sh pins EXPECTED_KVMAPP_SERVER_SHA256
