@@ -1,0 +1,153 @@
+name: Patch nano/wg/picocom onto published raw.12 image
+
+# Manual only. This does NOT rebuild the SG2002 system from scratch --
+# see build-sg2002-image.yml for that (currently blocked: the vendor
+# runtime staging bundle it needs is proprietary and was never published
+# or captured in any script, only assembled once on a local machine).
+#
+# Instead: cross-compile just nano, wireguard-tools, and picocom with a
+# small standalone Buildroot toolchain build, then inject the resulting
+# static binaries directly into a copy of the already-published, working
+# raw.12 full SD image via debugfs -- the same technique
+# scripts/build-rust-sd-image.sh already uses for the kvmapp payload.
+on:
+  workflow_dispatch: {}
+
+env:
+  BUILDROOT_VERSION: "2026.05.1"
+  # Hardened_NanoKVM 2.0.42 RC12 + System 0.3.0-raw.12 full SD image,
+  # hash recorded in docs/releases/rc12-2.0.42-raw.12.md.
+  RAW12_IMAGE_URL: https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-0.3.0-raw.12/Hardened_NanoKVM_2.0.42_RC12_System_0.3.0-raw.12_Buildroot-2026.05.1.img.xz
+  RAW12_IMAGE_SHA256: a6069020dd92c024793cbb84500887a766f07263f8a6241b9462e6e0ca95dae0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android \
+            /opt/ghc /opt/hostedtoolcache/CodeQL "${AGENT_TOOLSDIRECTORY:-}" || true
+          sudo docker image prune -a -f || true
+          df -h
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential git wget curl unzip rsync bc cpio \
+            libncurses-dev python3 perl bison flex \
+            file e2fsprogs xz-utils util-linux
+
+      - name: Cache Buildroot source download
+        uses: actions/cache@v4
+        with:
+          path: build/downloads
+          key: buildroot-${{ env.BUILDROOT_VERSION }}
+
+      - name: Bootstrap plain Buildroot source
+        run: make latest-buildroot-bootstrap
+
+      # A minimal, standalone config: just the riscv64gc/musl toolchain
+      # (matching the real hardened_sg2002_licheervnano_defconfig's
+      # toolchain choice) plus the three missing packages, statically
+      # linked so nothing else needs to be injected onto the target
+      # (e.g. nano's ncurses dependency).
+      - name: Write minimal defconfig for the three CLI tools
+        run: |
+          cat > /tmp/cli-tools.defconfig <<'EOF'
+          BR2_riscv=y
+          BR2_RISCV_ISA_RVC=y
+          BR2_TOOLCHAIN_BUILDROOT_MUSL=y
+          BR2_STATIC_LIBS=y
+          BR2_PACKAGE_NANO=y
+          BR2_PACKAGE_WIREGUARD_TOOLS=y
+          BR2_PACKAGE_PICOCOM=y
+          EOF
+
+      - name: Configure Buildroot
+        run: |
+          make -C build/latestbuildroot/buildroot-${BUILDROOT_VERSION} \
+            O=${{ github.workspace }}/build/cli-tools \
+            BR2_DEFCONFIG=/tmp/cli-tools.defconfig defconfig
+
+      - name: Build nano, wireguard-tools, picocom
+        run: |
+          make -C build/latestbuildroot/buildroot-${BUILDROOT_VERSION} \
+            O=${{ github.workspace }}/build/cli-tools \
+            nano wireguard-tools picocom
+
+      - name: Verify built binaries
+        run: |
+          for bin in nano wg picocom; do
+            path="build/cli-tools/target/usr/bin/$bin"
+            [ -f "$path" ] || { echo "missing built binary: $path" >&2; exit 1; }
+            file "$path"
+          done
+
+      - name: Fetch and verify the published raw.12 full SD image
+        run: |
+          curl --fail --location --retry 2 \
+            --output /tmp/raw12.img.xz "$RAW12_IMAGE_URL"
+          echo "$RAW12_IMAGE_SHA256  /tmp/raw12.img.xz" | sha256sum -c -
+          xz -d -k /tmp/raw12.img.xz
+
+      # Partition layout confirmed locally: MBR partition 2 (type 0x83,
+      # start LBA 32769, 3145728 sectors) is the ext4 rootfs.
+      - name: Extract rootfs partition
+        run: |
+          read -r ROOTFS_START ROOTFS_SECTORS <<EOF
+          $(partx -g -o NR,START,SECTORS /tmp/raw12.img | awk '$1 == 2 { print $2, $3; exit }')
+          EOF
+          echo "ROOTFS_START=$ROOTFS_START" >> "$GITHUB_ENV"
+          echo "ROOTFS_SECTORS=$ROOTFS_SECTORS" >> "$GITHUB_ENV"
+          dd if=/tmp/raw12.img of=/tmp/rootfs.ext bs=512 skip="$ROOTFS_START" count="$ROOTFS_SECTORS" status=none
+
+      - name: Inject nano, wg, and picocom into the rootfs
+        run: |
+          cat > /tmp/inject.cmd <<EOF
+          rm /usr/bin/nano
+          write build/cli-tools/target/usr/bin/nano /usr/bin/nano
+          sif /usr/bin/nano mode 0100755
+          sif /usr/bin/nano uid 0
+          sif /usr/bin/nano gid 0
+          rm /usr/bin/wg
+          write build/cli-tools/target/usr/bin/wg /usr/bin/wg
+          sif /usr/bin/wg mode 0100755
+          sif /usr/bin/wg uid 0
+          sif /usr/bin/wg gid 0
+          rm /usr/bin/picocom
+          write build/cli-tools/target/usr/bin/picocom /usr/bin/picocom
+          sif /usr/bin/picocom mode 0100755
+          sif /usr/bin/picocom uid 0
+          sif /usr/bin/picocom gid 0
+          EOF
+          debugfs -w -f /tmp/inject.cmd /tmp/rootfs.ext >/dev/null
+
+      - name: Verify injected files
+        run: |
+          debugfs -R "stat /usr/bin/nano" /tmp/rootfs.ext 2>&1 | grep -q "Type: regular"
+          debugfs -R "stat /usr/bin/wg" /tmp/rootfs.ext 2>&1 | grep -q "Type: regular"
+          debugfs -R "stat /usr/bin/picocom" /tmp/rootfs.ext 2>&1 | grep -q "Type: regular"
+
+      - name: Write patched rootfs back into the image
+        run: |
+          dd if=/tmp/rootfs.ext of=/tmp/raw12.img bs=512 seek="$ROOTFS_START" conv=notrunc status=none
+          mkdir -p build/artifacts
+          mv /tmp/raw12.img "build/artifacts/Hardened_NanoKVM_2.0.42_RC12_raw.12_cli-tools-fix.img"
+          xz -T0 -9 -k "build/artifacts/Hardened_NanoKVM_2.0.42_RC12_raw.12_cli-tools-fix.img"
+          sha256sum build/artifacts/*.img build/artifacts/*.img.xz > build/artifacts/SHA256SUMS
+          cat build/artifacts/SHA256SUMS
+
+      - name: Upload patched image
+        uses: actions/upload-artifact@v4
+        with:
+          name: sg2002-raw12-cli-tools-patched-image
+          path: |
+            build/artifacts/*.img.xz
+            build/artifacts/SHA256SUMS
+          retention-days: 14
