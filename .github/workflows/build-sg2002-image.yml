@@ -121,6 +121,17 @@ jobs:
           mkdir -p "build/latestbuildroot/buildroot-${BUILDROOT_VERSION}/dl"
           make latest-buildroot-security-source
 
+      # build-linked-libkvm.sh needs a real NanoKVM riscv64xthead/lp64d musl
+      # libc.so + libgcc_s.so to link against. server-rust/sysroot/ is
+      # gitignored and never checked in; the pinned sophgo/host-tools
+      # toolchain (fetched by `make vendor-sdk`) bundles this same sysroot.
+      - name: Stage NanoKVM runtime sysroot for linked libkvm build
+        run: |
+          TOOLCHAIN="build/vendor/LicheeRV-Nano-Build/host-tools/gcc/riscv64-linux-musl-x86_64"
+          mkdir -p server-rust/sysroot/lib
+          cp "$TOOLCHAIN/sysroot/usr/lib64xthead/lp64d/libc.so" server-rust/sysroot/lib/
+          cp "$TOOLCHAIN/riscv64-unknown-linux-musl/lib64xthead/lp64d/libgcc_s.so.1" server-rust/sysroot/lib/
+
       - name: Build Hardened kvmapp bridge
         run: |
           cargo test --manifest-path server-rust/Cargo.toml
