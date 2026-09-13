@@ -38,7 +38,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             build-essential git wget curl unzip rsync bc cpio \
-            libncurses-dev python3 perl bison flex \
+            libncurses-dev python3 perl bison flex device-tree-compiler \
             dosfstools mtools file libssl-dev pkg-config e2fsprogs
 
       - name: Cache vendor SDK + stock build output
@@ -78,7 +78,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             build-essential git wget curl unzip rsync bc cpio \
-            libncurses-dev python3 perl bison flex \
+            libncurses-dev python3 perl bison flex device-tree-compiler \
             dosfstools mtools file libssl-dev pkg-config e2fsprogs
 
       - name: Install Rust riscv64gc-unknown-linux-musl target
