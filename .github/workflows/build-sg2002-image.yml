@@ -16,6 +16,10 @@ env:
   # Published app 2.0.42 bridge archive: docs/releases/rc12-2.0.42-raw.12.md
   KVMAPP_2_0_42_ARCHIVE_URL: https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-0.3.0-raw.12/hardened-nanokvm-kvmapp-2.0.42.tar.gz
   KVMAPP_2_0_42_ARCHIVE_SHA256: aa0cd78c1b2e9951f216826c44b4b7ff2fb211fc1980540366f8f5b1f7e0dd20
+  # Pinned in scripts/rehydrate-vendor-kernel-5.10.265-merge.sh, verified
+  # against the canonical git.kernel.org stable tree's peeled tag commits.
+  STABLE_5_10_4_COMMIT: b1313fe517ca3703119dcc99ef3bbf75ab42bcfb
+  STABLE_5_10_265_COMMIT: 2a3da1f4966798b0b48ce302944ad356b2c98b5d
 
 jobs:
   # Isolated because it is the single most expensive, most fragile stage
@@ -160,6 +164,44 @@ jobs:
             APP_VERSION="$(cat kvmapp/version)" \
             KVM_SYSTEM_SOURCE=/tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system \
             scripts/package-rust-kvmapp.sh
+
+      # build-vendor-kernel-5.10.265-candidate.sh expects a pre-existing git
+      # repo at build/latestbuildroot/kernel-5.10.265-v1/repo, reconstructed
+      # by merging the vendor's own Linux 5.10.4 snapshot with upstream
+      # v5.10.265 and applying the 9 tracked resolution patches. That needs
+      # real history from the upstream stable tree, not just the two tag
+      # tips, so this is a full (if narrowed to one branch) clone rather
+      # than a shallow one. Cache it: it's large but content-pinned/immutable.
+      - name: Cache Linux stable kernel history for rehydration
+        id: cache-stable-kernel
+        uses: actions/cache@v4
+        with:
+          path: build/latestbuildroot/kernel-stable-5.10-rehydrate
+          key: linux-stable-5.10-${{ env.STABLE_5_10_4_COMMIT }}-${{ env.STABLE_5_10_265_COMMIT }}
+
+      - name: Clone Linux stable kernel history
+        if: steps.cache-stable-kernel.outputs.cache-hit != 'true'
+        run: |
+          git clone --single-branch --branch linux-5.10.y \
+            https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git \
+            build/latestbuildroot/kernel-stable-5.10-rehydrate
+          actual_5_10_4="$(git -C build/latestbuildroot/kernel-stable-5.10-rehydrate rev-parse 'v5.10.4^{}')"
+          actual_5_10_265="$(git -C build/latestbuildroot/kernel-stable-5.10-rehydrate rev-parse 'v5.10.265^{}')"
+          [ "$actual_5_10_4" = "$STABLE_5_10_4_COMMIT" ] || {
+            echo "v5.10.4 commit mismatch: got $actual_5_10_4" >&2
+            exit 1
+          }
+          [ "$actual_5_10_265" = "$STABLE_5_10_265_COMMIT" ] || {
+            echo "v5.10.265 commit mismatch: got $actual_5_10_265" >&2
+            exit 1
+          }
+
+      # Fast/local given the stable repo above is already present; always
+      # run fresh rather than caching its output, since the result is a git
+      # worktree of that same stable clone and would break if the two
+      # caches ever became inconsistent with each other.
+      - name: Rehydrate the hardened 5.10.265 kernel source
+        run: scripts/rehydrate-vendor-kernel-5.10.265-merge.sh
 
       # build-kernel-5.10.265-rc12-run.sh pins EXPECTED_KVMAPP_SERVER_SHA256
       # to the hash of the originally published RC12 binary. A locally
