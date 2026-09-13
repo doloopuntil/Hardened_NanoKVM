@@ -106,9 +106,19 @@ jobs:
           path: build/downloads
           key: buildroot-${{ env.BUILDROOT_VERSION }}
 
+      # Buildroot only creates dl/ lazily once it starts downloading package
+      # sources, but prepare-buildroot-2026.05.1-security-source.sh requires
+      # a pre-existing shared dl/ dir to symlink into the patched tree.
+      - name: Cache shared Buildroot package download directory
+        uses: actions/cache@v4
+        with:
+          path: build/latestbuildroot/buildroot-${{ env.BUILDROOT_VERSION }}/dl
+          key: buildroot-dl-${{ env.BUILDROOT_VERSION }}
+
       - name: Bootstrap Buildroot + security-patched source
         run: |
           make latest-buildroot-bootstrap
+          mkdir -p "build/latestbuildroot/buildroot-${BUILDROOT_VERSION}/dl"
           make latest-buildroot-security-source
 
       - name: Build Hardened kvmapp bridge
