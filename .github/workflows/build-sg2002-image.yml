@@ -15,7 +15,49 @@ env:
   LICHEERV_NANO_SDK_SHA: d88d58feca49ef15f4cc7bd1f27dbf17dc25f85e
 
 jobs:
-  build:
+  # Isolated because it is the single most expensive, most fragile stage
+  # (docs/vendor-sdk-build.md: ~14 GiB, long compile) and rarely changes
+  # once cached. A failure or timeout in the second job should never force
+  # redoing this one.
+  vendor-sdk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android \
+            /opt/ghc /opt/hostedtoolcache/CodeQL "${AGENT_TOOLSDIRECTORY:-}" || true
+          sudo docker image prune -a -f || true
+          df -h
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential git wget curl unzip rsync bc cpio \
+            libncurses-dev python3 perl bison flex \
+            dosfstools mtools file libssl-dev pkg-config e2fsprogs
+
+      - name: Cache vendor SDK + stock build output
+        id: cache-vendor-sdk
+        uses: actions/cache@v4
+        with:
+          path: build/vendor
+          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}
+
+      - name: Bootstrap vendor SDK
+        if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
+        run: make vendor-sdk
+
+      - name: Build stock vendor SDK image
+        if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
+        run: make vendor-sdk-stock
+
+  build-image:
+    needs: vendor-sdk
     runs-on: ubuntu-latest
     # 360 minutes is the hard cap on GitHub-hosted runners. If this pipeline
     # doesn't fit, the only fix is a self-hosted runner, not a bigger number.
@@ -45,23 +87,18 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      # The vendor SDK bootstrap + stock build_all is the single most
-      # expensive stage (docs/vendor-sdk-build.md: ~14 GiB, long compile).
-      # Cache it by the pinned SDK SHA so only the first run pays for it.
-      - name: Cache vendor SDK + stock build output
+      - name: Restore vendor SDK + stock build output
         id: cache-vendor-sdk
         uses: actions/cache@v4
         with:
           path: build/vendor
           key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}
 
-      - name: Bootstrap vendor SDK
+      - name: Require vendor SDK cache
         if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
-        run: make vendor-sdk
-
-      - name: Build stock vendor SDK image
-        if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
-        run: make vendor-sdk-stock
+        run: |
+          echo "vendor SDK cache miss: the vendor-sdk job should have populated it" >&2
+          exit 1
 
       - name: Cache Buildroot source download
         uses: actions/cache@v4
