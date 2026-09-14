@@ -368,6 +368,22 @@ jobs:
           comm -13 /tmp/ko-before.txt /tmp/ko-after.txt || true
           [ "$(wc -l < /tmp/ko-after.txt)" -eq 57 ]
 
+      # build-latest-buildroot-kernel-5.10.265-rootfs.sh's own 57-module
+      # check uses `find ... -type f -name '*.ko'`, but our count above did
+      # not filter by -type f. If any of the 57 raw.12-extracted entries is
+      # a symlink (module aliases are a real, common thing), our count
+      # would include it while the official check would not -- explaining
+      # a 57-vs-not-57 mismatch a few steps later despite both counts
+      # running on the same filesystem. Check this directly instead of
+      # guessing again.
+      - name: Diagnose file types in the runtime module directory
+        run: |
+          KO_DIR="$RUN_ROOT/runtime/system/ko"
+          echo "=== find -type f -name '*.ko' count (matches the official check) ==="
+          find "$KO_DIR" -maxdepth 1 -type f -name '*.ko' | wc -l
+          echo "=== any non-regular-file *.ko entries (symlinks, etc.) ==="
+          find "$KO_DIR" -maxdepth 1 -name '*.ko' ! -type f -exec ls -la {} \;
+
       - name: Upload module-rebuild evidence
         if: always()
         uses: actions/upload-artifact@v4
