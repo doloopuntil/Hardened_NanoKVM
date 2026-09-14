@@ -341,15 +341,32 @@ jobs:
       # those from source too, hasn't been attempted yet.
       - name: Substitute freshly-built modules into the runtime staging dir
         run: |
+          KO_DIR="$RUN_ROOT/runtime/system/ko"
+          find "$KO_DIR" -maxdepth 1 -name '*.ko' -printf '%f\n' | LC_ALL=C sort > /tmp/ko-before.txt
+          echo "before: $(wc -l < /tmp/ko-before.txt) modules"
+
           find "$RUN_ROOT/external-modules/artifacts" -type f -name '*.ko' -print0 | \
             while IFS= read -r -d '' ko; do
-              cp "$ko" "$RUN_ROOT/runtime/system/ko/$(basename "$ko")"
+              name="$(basename "$ko")"
+              if ! grep -qx "$name" /tmp/ko-before.txt; then
+                echo "NEW (not replacing an existing raw.12 module): external-modules/artifacts/... -> $name" >&2
+              fi
+              cp "$ko" "$KO_DIR/$name"
             done
           find "$RUN_ROOT/kernel" -type f -name '*.ko' -print0 | \
             while IFS= read -r -d '' ko; do
-              cp "$ko" "$RUN_ROOT/runtime/system/ko/$(basename "$ko")"
+              name="$(basename "$ko")"
+              if ! grep -qx "$name" /tmp/ko-before.txt; then
+                echo "NEW (not replacing an existing raw.12 module): kernel/... -> $name ($ko)" >&2
+              fi
+              cp "$ko" "$KO_DIR/$name"
             done
-          [ "$(find "$RUN_ROOT/runtime/system/ko" -name '*.ko' | wc -l)" -eq 57 ]
+
+          find "$KO_DIR" -maxdepth 1 -name '*.ko' -printf '%f\n' | LC_ALL=C sort > /tmp/ko-after.txt
+          echo "after: $(wc -l < /tmp/ko-after.txt) modules"
+          echo "=== newly-appeared basenames (should be empty) ==="
+          comm -13 /tmp/ko-before.txt /tmp/ko-after.txt || true
+          [ "$(wc -l < /tmp/ko-after.txt)" -eq 57 ]
 
       - name: Upload module-rebuild evidence
         if: always()
