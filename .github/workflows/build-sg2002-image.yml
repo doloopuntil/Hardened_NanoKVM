@@ -266,11 +266,78 @@ jobs:
           debugfs -R "rdump /mnt/system $RUNTIME_DIR" "$ROOTFS" >/dev/null
           debugfs -R "rdump /kvmapp/server/dl_lib /tmp/runtime-scratch" "$ROOTFS" >/dev/null
           mv /tmp/runtime-scratch/dl_lib "$RUNTIME_DIR/kvmapp-dl-lib"
-          debugfs -R "dump /lib/ld-musl-riscv64xthead.so.1 $RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" "$ROOTFS" >/dev/null
-          debugfs -R "dump /lib/ld-musl-riscv64v0p7_xthead.so.1 $RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" "$ROOTFS" >/dev/null
           [ "$(find "$RUNTIME_DIR/system/ko" -name '*.ko' | wc -l)" -eq 57 ]
           test -s "$RUNTIME_DIR/kvmapp-dl-lib/libopencv_video.so.4.9.0"
-          test -s "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1"
+
+      # The two T-Head musl loaders are NOT actually vendor-runtime-only
+      # content -- they're part of the public sophgo/host-tools toolchain
+      # we already clone via `make vendor-sdk` (verified against the
+      # pinned host-tools commit via the GitHub API before writing this).
+      # Sourcing them here instead of from the published raw.12 rootfs
+      # removes one real dependency on that artifact.
+      - name: Source musl loaders from the public toolchain repo
+        run: |
+          TOOLCHAIN_SYSROOT_LIB="build/vendor/LicheeRV-Nano-Build/host-tools/gcc/riscv64-linux-musl-x86_64/sysroot/lib"
+          cp "$TOOLCHAIN_SYSROOT_LIB/ld-musl-riscv64xthead.so.1" "$RUN_ROOT/runtime/loaders/"
+          cp "$TOOLCHAIN_SYSROOT_LIB/ld-musl-riscv64v0p7_xthead.so.1" "$RUN_ROOT/runtime/loaders/"
+          test -s "$RUN_ROOT/runtime/loaders/ld-musl-riscv64xthead.so.1"
+
+      # EXPERIMENTAL, non-blocking: attempt to rebuild the 24 CVITEK osdrv
+      # external kernel modules from source (build/vendor/.../osdrv, already
+      # cloned by `make vendor-sdk`) instead of only reusing the prebuilt
+      # .ko files extracted from raw.12 above. This does NOT feed the actual
+      # image build -- it's a standalone check of whether that path works at
+      # all, kept separate so a wrong guess here can never break the working
+      # pipeline. continue-on-error is set deliberately.
+      #
+      # rebuild-vendor-external-modules-5.10-baseline.sh requires a
+      # module-provenance.tsv manifest naming which modules to rebuild, but
+      # only reads columns 1 (module name) and 2 (classification) -- the
+      # rest of the manifest schema is unused by this script. The 24 names
+      # below are inferred from the script's own 24-entry TARGETS array
+      # cross-referenced against support/sg2002/kernel/5.10.265/manifests/in-tree-modules.txt
+      # (the 24 in-tree modules) subtracted from the full 57-module raw.12
+      # inventory. This mapping is NOT verified against a real build yet --
+      # some TARGETS may produce more or fewer .ko files than guessed here,
+      # or under different relative paths than the bare basenames listed.
+      # RUNTIME_MODULE_DIR is pointed at the raw.12 extraction purely as a
+      # comparison baseline (candidate mode tolerates content mismatches;
+      # only the module-name inventory and vermagic are checked strictly),
+      # not as an unbuilt dependency of this experiment.
+      - name: 'EXPERIMENT: rebuild external CVITEK kernel modules from source'
+        id: module-rebuild-experiment
+        continue-on-error: true
+        run: |
+          MANIFEST_DIR=/tmp/module-provenance-experiment/report
+          mkdir -p "$MANIFEST_DIR"
+          {
+            printf 'module\tclassification\n'
+            for m in soph_sys soph_base soph_pwm soph_rtc soph_wdt soph_tpu \
+                     soph_mon soph_clock_cooling soph_saradc soph_wiegand \
+                     soph_vi soph_snsr_i2c soph_vpss soph_dwa soph_rgn \
+                     soph_vo soph_rtos_cmdqu soph_fast_image soph_ive \
+                     soph_fb soph_mipi_rx soph_mipi_tx cvi_wiegand_gpio
+            do
+              printf '%s.ko\tretained-vendor-module\n' "$m"
+            done
+          } > "$MANIFEST_DIR/module-provenance.tsv"
+          MODULE_PROVENANCE_DIR=/tmp/module-provenance-experiment \
+          VENDOR_MODULE_SOURCE_DIR="$RUN_ROOT/runtime/system/ko" \
+          KERNEL_BASELINE_OUTPUT_DIR="$RUN_ROOT/kernel" \
+          EXTERNAL_MODULE_BASELINE_OUTPUT_DIR="$RUN_ROOT/external-experiment" \
+          EXPECTED_KERNEL_RELEASE="$EXPECTED_KERNEL_RELEASE" \
+            scripts/rebuild-vendor-external-modules-5.10-baseline.sh
+
+      - name: Upload module-rebuild experiment evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: external-module-rebuild-experiment
+          path: |
+            build/rc12-run/external-experiment/report/**
+            /tmp/module-provenance-experiment/**
+          retention-days: 14
+          if-no-files-found: warn
 
       - name: Build the Buildroot rootfs with the hardened kernel modules
         run: |
