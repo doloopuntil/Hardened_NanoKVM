@@ -20,6 +20,10 @@ env:
   # against the canonical git.kernel.org stable tree's peeled tag commits.
   STABLE_5_10_4_COMMIT: b1313fe517ca3703119dcc99ef3bbf75ab42bcfb
   STABLE_5_10_265_COMMIT: 2a3da1f4966798b0b48ce302944ad356b2c98b5d
+  # Published raw.12 system-update archive (contains payload/images/rootfs.sd.gz),
+  # hash recorded in docs/releases/rc12-2.0.42-raw.12.md.
+  RAW12_SYSTEM_ARCHIVE_URL: https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-0.3.0-raw.12/hardened-nanokvm-system-0.3.0-raw.12.tar.gz
+  RAW12_SYSTEM_ARCHIVE_SHA256: cf6bbef5599197f4b5ed926f22bed12352f2fdc275eb8f32fc8344d3ed7eae96
 
 jobs:
   # Isolated because it is the single most expensive, most fragile stage
@@ -207,13 +211,88 @@ jobs:
       # to the hash of the originally published RC12 binary. A locally
       # rebuilt Rust binary is not expected to be byte-identical, so this
       # recomputes the check against what we actually just built.
-      - name: Run RC12 kernel + rootfs + recovery-SD pipeline
+      #
+      # This does NOT call the monolithic build-kernel-5.10.265-rc12-run.sh.
+      # That script's middle steps (rebuild-vendor-external-modules,
+      # build-sg2002-media-modules-candidate, prepare-kernel-vendor-runtime)
+      # only exist to rebuild-and-compare against
+      # vendor-runtime-source-media-v1 -- a staging bundle assembled once,
+      # locally, by the original maintainer (see hardened-sg2002-vendor-runtime.mk:
+      # LICENSE=PROPRIETARY, REDISTRIBUTE=NO) that no script reconstructs
+      # from scratch. We already have the kernel build (below) and the
+      # kvmapp build (above); the only missing piece is that staging bundle,
+      # which we source directly from the published, already-accepted
+      # raw.12 rootfs instead -- same source of truth, skipping the
+      # rebuild-and-compare middle steps that only exist to prove what the
+      # published rootfs already proves by construction.
+      - name: Set RC12 pipeline env
         run: |
-          EXPECTED_KVMAPP_SERVER_SHA256="$(sha256sum build/kvmapp-rust/kvmapp/server/NanoKVM-Server | awk '{print $1}')" \
-          KERNEL_5_10_265_REPRO_ROOT="${{ github.workspace }}/build/rc12-run" \
-          NANOKVM_KVMAPP_SOURCE_DIR="${{ github.workspace }}/build/kvmapp-rust/kvmapp" \
-          HARDENED_SG2002_VENDOR_SDK_DIR="${{ github.workspace }}/build/vendor/LicheeRV-Nano-Build" \
-            scripts/build-kernel-5.10.265-rc12-run.sh
+          {
+            echo "RUN_ROOT=${{ github.workspace }}/build/rc12-run"
+            echo "EXPECTED_SYSTEM_VERSION=0.3.0-raw.12"
+            echo "EXPECTED_KVMAPP_VERSION=2.0.42"
+            echo "EXPECTED_KERNEL_RELEASE=5.10.265-tag-"
+            echo "EXPECTED_SECURITY_PATCH_LEVEL=Buildroot 2026.05.1 security maintenance Linux 5.10.265 SG2002 vendor port"
+            echo "EXPECTED_KVMAPP_SERVER_SHA256=$(sha256sum build/kvmapp-rust/kvmapp/server/NanoKVM-Server | awk '{print $1}')"
+            echo "NANOKVM_KVMAPP_SOURCE_DIR=${{ github.workspace }}/build/kvmapp-rust/kvmapp"
+            echo "HARDENED_SG2002_VENDOR_SDK_DIR=${{ github.workspace }}/build/vendor/LicheeRV-Nano-Build"
+          } >> "$GITHUB_ENV"
+
+      - name: Build the hardened 5.10.265 kernel candidate
+        run: |
+          KERNEL_5_10_265_OUTPUT_DIR="$RUN_ROOT/kernel" \
+          KERNEL_5_10_265_CONFIG_FRAGMENT="support/sg2002/kernel/5.10.265/configs/phase3-04-init-on-alloc.config" \
+            scripts/build-vendor-kernel-5.10.265-candidate.sh
+
+      # Extract the vendor runtime staging bundle's three parts directly
+      # from the published raw.12 rootfs, matching exactly what
+      # hardened-sg2002-vendor-runtime.mk expects: system/ (modules + BSP
+      # userspace), kvmapp-dl-lib/ (OpenCV/protobuf/libstdc++ closure), and
+      # loaders/ (the two T-Head musl loaders).
+      - name: Fetch published raw.12 system archive
+        run: |
+          curl --fail --location --retry 2 \
+            --output /tmp/raw12-system.tar.gz "$RAW12_SYSTEM_ARCHIVE_URL"
+          echo "$RAW12_SYSTEM_ARCHIVE_SHA256  /tmp/raw12-system.tar.gz" | sha256sum -c -
+          mkdir -p /tmp/raw12-system
+          tar -xzf /tmp/raw12-system.tar.gz -C /tmp/raw12-system
+          gunzip -k /tmp/raw12-system/payload/images/rootfs.sd.gz
+
+      - name: Extract vendor runtime staging bundle from published rootfs
+        run: |
+          ROOTFS=/tmp/raw12-system/payload/images/rootfs.sd
+          RUNTIME_DIR="$RUN_ROOT/runtime"
+          mkdir -p "$RUNTIME_DIR" "$RUNTIME_DIR/loaders" /tmp/runtime-scratch
+          debugfs -R "rdump /mnt/system $RUNTIME_DIR" "$ROOTFS" >/dev/null
+          debugfs -R "rdump /kvmapp/server/dl_lib /tmp/runtime-scratch" "$ROOTFS" >/dev/null
+          mv /tmp/runtime-scratch/dl_lib "$RUNTIME_DIR/kvmapp-dl-lib"
+          debugfs -R "dump /lib/ld-musl-riscv64xthead.so.1 $RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" "$ROOTFS" >/dev/null
+          debugfs -R "dump /lib/ld-musl-riscv64v0p7_xthead.so.1 $RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" "$ROOTFS" >/dev/null
+          [ "$(find "$RUNTIME_DIR/system/ko" -name '*.ko' | wc -l)" -eq 57 ]
+          test -s "$RUNTIME_DIR/kvmapp-dl-lib/libopencv_video.so.4.9.0"
+          test -s "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1"
+
+      - name: Build the Buildroot rootfs with the hardened kernel modules
+        run: |
+          KERNEL_5_10_265_VENDOR_RUNTIME_DIR="$RUN_ROOT/runtime" \
+          KERNEL_5_10_265_BUILDROOT_OUTPUT_DIR="$RUN_ROOT/buildroot" \
+          KERNEL_5_10_265_ROOTFS_REPORT_DIR="$RUN_ROOT/_reports/rootfs" \
+            scripts/build-latest-buildroot-kernel-5.10.265-rootfs.sh
+
+      - name: Rebuild the vendor boot FIT image for the candidate kernel
+        run: |
+          KERNEL_BASELINE_OUTPUT_DIR="$RUN_ROOT/kernel" \
+          BOOT_SD_BASELINE_OUTPUT_DIR="$RUN_ROOT/boot" \
+          BOOT_SD_BUILD_MODE=candidate \
+            scripts/rebuild-vendor-boot-sd-5.10-baseline.sh
+
+      - name: Assemble the recovery-SD image
+        run: |
+          KERNEL_5_10_265_BUILDROOT_OUTPUT_DIR="$RUN_ROOT/buildroot" \
+          KERNEL_5_10_265_VENDOR_RUNTIME_DIR="$RUN_ROOT/runtime" \
+          KERNEL_5_10_265_BOOT_SD="$RUN_ROOT/boot/workspace/boot.itb" \
+          KERNEL_5_10_265_RECOVERY_SD_DIR="$RUN_ROOT/recovery" \
+            scripts/assemble-kernel-5.10.265-recovery-sd-image.sh
 
       - name: Upload recovery-SD image and reports
         if: always()
