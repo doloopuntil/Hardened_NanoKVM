@@ -68,6 +68,19 @@ subdirectory (`libcli.so`, `libini.so`) have, except exactly the
 suspect files above -- so the fallback never actually gets exercised for
 anything these binaries need.
 
+Compared the 22 overlapping libraries byte-for-byte on the same rootfs:
+16 are identical between `dl_lib` and `/mnt/system/usr/lib`, but 6
+(`libcvi_bin.so`, `libsys.so`, `libvdec.so`, `libvpu.so`, `libmisc.so`,
+`libosdc.so`) are the same name and size but substantively different
+content -- e.g. `libsys.so` differs in 38,510 of 60,472 bytes, far
+beyond a timestamp/build-id difference. So `/mnt/system/usr/lib` isn't
+simply "the same files copied twice"; it looks like a separate, older
+snapshot of the vendor SDK's own libraries that happens to share
+names/sizes with what got curated into `dl_lib`. Doesn't change the
+functional conclusion (`dl_lib` still wins the search-path race
+regardless of which build variant sits in the fallback), but it's a
+more accurate description than "duplicate."
+
 Checked for a `dlopen()`-style indirect reference (the one thing static
 `strings`/symbol analysis can miss) in `libkvm.so`, `libkvm_mmf.so`,
 `kvm_system`, and `nanokvm-hwmon`, plus every script under `/etc` and
