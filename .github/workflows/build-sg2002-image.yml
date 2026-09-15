@@ -336,13 +336,76 @@ jobs:
           EXPECTED_KERNEL_RELEASE="$EXPECTED_KERNEL_RELEASE" \
             scripts/rebuild-vendor-external-modules-5.10-baseline.sh
 
+      # Rebuild the 3 media kernel modules from source too, closing the
+      # last kernel-module gap (only OpenCV/protobuf userspace libraries
+      # remain genuinely sourced from raw.12 after this). This is a real
+      # three-stage chain, not one script:
+      #   1. soph_vcodec.ko: the vendor SDK's own osdrv/interdrv/v2/vcodec
+      #      (already cloned by `make vendor-sdk`) plus a tracked
+      #      compatibility patch.
+      #   2. soph_jpeg.ko: the public github.com/sophgo/osdrv repo at a
+      #      pinned "current" commit, depending on the base/sys
+      #      Module.symvers the external-module rebuild above already
+      #      produced.
+      #   3. soph_vc_driver.ko: an older commit of that same osdrv repo
+      #      (predates a kernel-level API change the current commit's VC
+      #      driver needs), depending on both stage 1's and stage 2's
+      #      Module.symvers.
+      # All 5 patches these need are already tracked under
+      # buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/.
+      - name: Fetch public sophgo/osdrv source (both pinned commits)
+        run: scripts/prepare-sophgo-osdrv-source.sh
+
+      - name: Rebuild soph_vcodec.ko from the vendor SDK's own source
+        run: |
+          MINIMAL_VCODEC_KERNEL_DIR="$RUN_ROOT/kernel" \
+          MINIMAL_VCODEC_OUTPUT_DIR="$RUN_ROOT/media/minimal-vcodec" \
+          MINIMAL_VCODEC_KCFLAGS="-fmacro-prefix-map=$RUN_ROOT/media/minimal-vcodec/work=/usr/src/vendor-vcodec" \
+            scripts/build-minimal-vendor-vcodec-compat.sh
+
+      - name: Rebuild soph_jpeg.ko from the public sophgo/osdrv source
+        run: |
+          SOPHGO_MEDIA_KERNEL_DIR="$RUN_ROOT/kernel" \
+          SOPHGO_MEDIA_OUTPUT_DIR="$RUN_ROOT/media/sophgo-current" \
+          SOPHGO_MEDIA_KERNEL_COMPAT_PATCH="buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-linux-5.10.265-compat.patch" \
+          SOPHGO_MEDIA_BASE_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/base/Module.symvers" \
+          SOPHGO_MEDIA_SYS_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/sys/Module.symvers" \
+          SOPHGO_MEDIA_KCFLAGS="-fmacro-prefix-map=$RUN_ROOT/media/sophgo-current/osdrv=/usr/src/sophgo-osdrv" \
+            scripts/build-sophgo-media-module-replacements.sh
+
+      # HISTORICAL_VC_REFERENCE_MODULE defaults to the unavailable
+      # vendor-runtime-source-media-v1 staging bundle; override it to our
+      # raw.12 extraction, which serves the same purpose here (a reference
+      # to diff module parameters against, not an unbuilt dependency).
+      - name: Rebuild soph_vc_driver.ko from an older sophgo/osdrv commit
+        run: |
+          HISTORICAL_VC_KERNEL_DIR="$RUN_ROOT/kernel" \
+          HISTORICAL_VC_VCODEC_DIR="$RUN_ROOT/media/minimal-vcodec/work/osdrv/interdrv/v2/vcodec" \
+          HISTORICAL_VC_JPEG_DIR="$RUN_ROOT/media/sophgo-current/osdrv/interdrv/jpeg" \
+          HISTORICAL_VC_KERNEL_COMPAT_PATCH="buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-v2-linux-5.10.265-compat.patch" \
+          HISTORICAL_VC_BASE_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/base/Module.symvers" \
+          HISTORICAL_VC_SYS_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/sys/Module.symvers" \
+          HISTORICAL_VC_OUTPUT_DIR="$RUN_ROOT/media/historical-vc" \
+          HISTORICAL_VC_KCFLAGS="-fmacro-prefix-map=$RUN_ROOT/media/historical-vc/osdrv=/usr/src/sophgo-osdrv-v2" \
+          HISTORICAL_VC_REFERENCE_MODULE="$RUN_ROOT/runtime/system/ko/soph_vc_driver.ko" \
+            scripts/build-historical-sophgo-vc-driver.sh
+
+      - name: Upload media-module rebuild evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: media-module-rebuild-report
+          path: |
+            build/rc12-run/media/*/report/**
+          retention-days: 14
+          if-no-files-found: warn
+
       # Replace the raw.12-extracted copies with what we actually just
-      # rebuilt from source, for both the 30 external modules above and the
-      # 24 in-tree modules our own kernel build (earlier step) already
-      # produces. Only the 3 media modules (soph_vcodec.ko, soph_jpeg.ko,
-      # soph_vc_driver.ko) remain sourced from raw.12 --
-      # build-sg2002-media-modules-5.10.265-candidate.sh, which would build
-      # those from source too, hasn't been attempted yet.
+      # rebuilt from source: the 30 external modules and 3 media modules
+      # above, plus the 24 in-tree modules our own kernel build (earlier
+      # step) already produces. That closes every kernel-module gap --
+      # only the OpenCV/protobuf userspace libraries in kvmapp-dl-lib/
+      # remain genuinely sourced from raw.12.
       #
       # A prior version of this step copied to $KO_DIR/$(basename), which
       # is wrong: the raw.12-extracted tree nests the WiFi/BT/touch modules
@@ -375,6 +438,9 @@ jobs:
             while IFS= read -r -d '' ko; do replace_by_basename "$ko"; done
           find "$RUN_ROOT/kernel" -type f -name '*.ko' -print0 | \
             while IFS= read -r -d '' ko; do replace_by_basename "$ko"; done
+          replace_by_basename "$RUN_ROOT/media/minimal-vcodec/artifacts/soph_vcodec.ko"
+          replace_by_basename "$RUN_ROOT/media/sophgo-current/artifacts/soph_jpeg.ko"
+          replace_by_basename "$RUN_ROOT/media/historical-vc/artifacts/soph_vc_driver.ko"
 
           find "$KO_DIR" -type f -name '*.ko' -printf '%P\n' | LC_ALL=C sort > /tmp/ko-after.txt
           echo "after: $(wc -l < /tmp/ko-after.txt) modules"
