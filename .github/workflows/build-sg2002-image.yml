@@ -440,12 +440,16 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
+      # MCOPY defaults to build/host-deps/usr/bin/mcopy, a fallback path for
+      # hosts without sudo (e.g. WSL) that unpack mtools manually. We
+      # install mtools via apt instead, so point it at that binary.
       - name: Assemble the recovery-SD image
         run: |
           KERNEL_5_10_265_BUILDROOT_OUTPUT_DIR="$RUN_ROOT/buildroot" \
           KERNEL_5_10_265_VENDOR_RUNTIME_DIR="$RUN_ROOT/runtime" \
           KERNEL_5_10_265_BOOT_SD="$RUN_ROOT/boot/workspace/boot.itb" \
           KERNEL_5_10_265_RECOVERY_SD_DIR="$RUN_ROOT/recovery" \
+          MCOPY="$(command -v mcopy)" \
             scripts/assemble-kernel-5.10.265-recovery-sd-image.sh
 
       - name: Upload recovery-SD image and reports
