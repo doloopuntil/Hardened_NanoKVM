@@ -405,6 +405,7 @@ jobs:
           SOPHGO_MEDIA_KERNEL_DIR="$RUN_ROOT/kernel" \
           SOPHGO_MEDIA_OUTPUT_DIR="$RUN_ROOT/media/sophgo-current" \
           SOPHGO_MEDIA_KERNEL_COMPAT_PATCH="${{ github.workspace }}/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-linux-5.10.265-compat.patch" \
+          SOPHGO_MEDIA_EXPECTED_JPEG_SRCVERSION="EBFE55AAD3BE9DD11AF3F51" \
           SOPHGO_MEDIA_BASE_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/base/Module.symvers" \
           SOPHGO_MEDIA_SYS_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/sys/Module.symvers" \
           SOPHGO_MEDIA_KCFLAGS="-fmacro-prefix-map=$RUN_ROOT/media/sophgo-current/osdrv=/usr/src/sophgo-osdrv" \
