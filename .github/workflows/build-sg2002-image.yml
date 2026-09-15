@@ -333,56 +333,50 @@ jobs:
             scripts/rebuild-vendor-external-modules-5.10-baseline.sh
 
       # Replace the raw.12-extracted copies with what we actually just
-      # rebuilt from source, by basename, for both the 30 external modules
-      # above and the 24 in-tree modules our own kernel build (earlier
-      # step) already produces. Only the 3 media modules (soph_vcodec.ko,
-      # soph_jpeg.ko, soph_vc_driver.ko) remain sourced from raw.12 --
+      # rebuilt from source, for both the 30 external modules above and the
+      # 24 in-tree modules our own kernel build (earlier step) already
+      # produces. Only the 3 media modules (soph_vcodec.ko, soph_jpeg.ko,
+      # soph_vc_driver.ko) remain sourced from raw.12 --
       # build-sg2002-media-modules-5.10.265-candidate.sh, which would build
       # those from source too, hasn't been attempted yet.
+      #
+      # A prior version of this step copied to $KO_DIR/$(basename), which
+      # is wrong: the raw.12-extracted tree nests the WiFi/BT/touch modules
+      # under a ko/3rd/ subdirectory rather than flat. That silently
+      # produced a second, duplicate flat copy alongside the original
+      # nested one instead of overwriting it (57 -> 65 modules, caught by
+      # build-latest-buildroot-kernel-5.10.265-rootfs.sh's own inventory
+      # check further downstream). Fixed by finding each module's actual
+      # existing path first and overwriting that -- the same
+      # find-by-basename approach prepare-kernel-5.10.265-vendor-runtime.sh
+      # already uses for exactly this reason.
       - name: Substitute freshly-built modules into the runtime staging dir
         run: |
           KO_DIR="$RUN_ROOT/runtime/system/ko"
-          find "$KO_DIR" -maxdepth 1 -name '*.ko' -printf '%f\n' | LC_ALL=C sort > /tmp/ko-before.txt
+          find "$KO_DIR" -type f -name '*.ko' -printf '%P\n' | LC_ALL=C sort > /tmp/ko-before.txt
           echo "before: $(wc -l < /tmp/ko-before.txt) modules"
 
+          replace_by_basename() {
+            src="$1"
+            name="$(basename "$src")"
+            mapfile -t destinations < <(find "$KO_DIR" -type f -name "$name" -printf '%P\n')
+            if [ "${#destinations[@]}" -ne 1 ]; then
+              echo "expected exactly one existing raw.12 module named $name, found ${#destinations[@]}" >&2
+              exit 1
+            fi
+            cp "$src" "$KO_DIR/${destinations[0]}"
+          }
+
           find "$RUN_ROOT/external-modules/artifacts" -type f -name '*.ko' -print0 | \
-            while IFS= read -r -d '' ko; do
-              name="$(basename "$ko")"
-              if ! grep -qx "$name" /tmp/ko-before.txt; then
-                echo "NEW (not replacing an existing raw.12 module): external-modules/artifacts/... -> $name" >&2
-              fi
-              cp "$ko" "$KO_DIR/$name"
-            done
+            while IFS= read -r -d '' ko; do replace_by_basename "$ko"; done
           find "$RUN_ROOT/kernel" -type f -name '*.ko' -print0 | \
-            while IFS= read -r -d '' ko; do
-              name="$(basename "$ko")"
-              if ! grep -qx "$name" /tmp/ko-before.txt; then
-                echo "NEW (not replacing an existing raw.12 module): kernel/... -> $name ($ko)" >&2
-              fi
-              cp "$ko" "$KO_DIR/$name"
-            done
+            while IFS= read -r -d '' ko; do replace_by_basename "$ko"; done
 
-          find "$KO_DIR" -maxdepth 1 -name '*.ko' -printf '%f\n' | LC_ALL=C sort > /tmp/ko-after.txt
+          find "$KO_DIR" -type f -name '*.ko' -printf '%P\n' | LC_ALL=C sort > /tmp/ko-after.txt
           echo "after: $(wc -l < /tmp/ko-after.txt) modules"
-          echo "=== newly-appeared basenames (should be empty) ==="
-          comm -13 /tmp/ko-before.txt /tmp/ko-after.txt || true
+          echo "=== changed relative paths (basename only, expected -- content changed at the same path) ==="
+          diff /tmp/ko-before.txt /tmp/ko-after.txt || true
           [ "$(wc -l < /tmp/ko-after.txt)" -eq 57 ]
-
-      # build-latest-buildroot-kernel-5.10.265-rootfs.sh's own 57-module
-      # check uses `find ... -type f -name '*.ko'`, but our count above did
-      # not filter by -type f. If any of the 57 raw.12-extracted entries is
-      # a symlink (module aliases are a real, common thing), our count
-      # would include it while the official check would not -- explaining
-      # a 57-vs-not-57 mismatch a few steps later despite both counts
-      # running on the same filesystem. Check this directly instead of
-      # guessing again.
-      - name: Diagnose file types in the runtime module directory
-        run: |
-          KO_DIR="$RUN_ROOT/runtime/system/ko"
-          echo "=== find -type f -name '*.ko' count (matches the official check) ==="
-          find "$KO_DIR" -maxdepth 1 -type f -name '*.ko' | wc -l
-          echo "=== any non-regular-file *.ko entries (symlinks, etc.) ==="
-          find "$KO_DIR" -maxdepth 1 -name '*.ko' ! -type f -exec ls -la {} \;
 
       - name: Upload module-rebuild evidence
         if: always()
