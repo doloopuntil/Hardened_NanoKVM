@@ -40,3 +40,47 @@ any OpenCV module.
 Not yet verified on real hardware -- this is static analysis (symbol-table
 comparison), not a device boot/video test. If HDMI capture or any vision
 feature breaks after this change, this is the first thing to revert.
+
+## /mnt/system/usr: likely-dead vendor SDK content, not yet acted on
+
+`/mnt/system/usr/bin` (CVITEK sample/test binaries: `sample_vcodec`,
+`sample_venc`, `sample_vdec`, `ive_stress`, `sensor_test`, `test_mmf`, etc.)
+and most of `/mnt/system/usr/lib` (the same CVI/ISP/audio libraries already
+present in `dl_lib`, plus `libov_ov2685.so`, `libraw_replay.so`,
+`libsample.so`, and 5 `libsns_*.so` sensor plugins for sensors this
+hardware doesn't have -- only the LT6911 HDMI bridge is real here) look
+like unpruned vendor SDK carry-forward, not load-bearing content.
+
+Provenance: same as the loaders and `auto.sh` above -- extracted wholesale
+via `debugfs rdump /mnt/system` from `make vendor-sdk-stock`'s own build
+output in `scripts/prepare-latest-buildroot-sg2002-vendor-runtime.sh`,
+frozen into the vendor-runtime staging bundle, carried forward unchanged
+since.
+
+`/etc/init.d/S95nanokvm` does wire `/mnt/system/usr/lib` and
+`/mnt/system/usr/lib/3rd` into the native library search path
+(`NANOKVM_NATIVE_LIBRARY_PATH`, passed to the musl loader's
+`--library-path` when launching the server, `kvm_system`, and
+`nanokvm-hwmon`) -- so it's not simply unreferenced, it's a deliberate
+fallback. But `/kvmapp/server/dl_lib` is checked first in that same path
+and already contains every file `/mnt/system/usr/lib` and its `3rd/`
+subdirectory (`libcli.so`, `libini.so`) have, except exactly the
+suspect files above -- so the fallback never actually gets exercised for
+anything these binaries need.
+
+Checked for a `dlopen()`-style indirect reference (the one thing static
+`strings`/symbol analysis can miss) in `libkvm.so`, `libkvm_mmf.so`,
+`kvm_system`, and `nanokvm-hwmon`, plus every script under `/etc` and
+`/kvmapp/system` and this repo's own tracked source
+(`server-rust`, `web`, `support/sg2002`, `scripts`): zero genuine hits.
+The one grep match (`support/sg2002/additional/sophgo-middleware/v2/sample/common/sample_common_sensor.c`)
+is a false positive -- a self-referential filename comment and header
+include, unrelated to the `/mnt/system/usr/bin` executables.
+
+**Not acted on.** This is circumstantial (absence of static references),
+weaker than the exhaustive symbol-table proof for the `libkvm.so` patch
+above, and a computed-path `dlopen()` can't be fully ruled out by static
+analysis. If this holds up, `/mnt/system/usr` could likely be dropped
+from `hardened-sg2002-vendor-runtime.mk` entirely -- but that needs a
+real device test (or at least sign-off) before touching the package
+recipe, same as the OpenCV change above still does.
