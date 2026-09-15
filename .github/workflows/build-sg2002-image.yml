@@ -404,7 +404,7 @@ jobs:
         run: |
           SOPHGO_MEDIA_KERNEL_DIR="$RUN_ROOT/kernel" \
           SOPHGO_MEDIA_OUTPUT_DIR="$RUN_ROOT/media/sophgo-current" \
-          SOPHGO_MEDIA_KERNEL_COMPAT_PATCH="buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-linux-5.10.265-compat.patch" \
+          SOPHGO_MEDIA_KERNEL_COMPAT_PATCH="${{ github.workspace }}/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-linux-5.10.265-compat.patch" \
           SOPHGO_MEDIA_BASE_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/base/Module.symvers" \
           SOPHGO_MEDIA_SYS_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/sys/Module.symvers" \
           SOPHGO_MEDIA_KCFLAGS="-fmacro-prefix-map=$RUN_ROOT/media/sophgo-current/osdrv=/usr/src/sophgo-osdrv" \
@@ -419,7 +419,7 @@ jobs:
           HISTORICAL_VC_KERNEL_DIR="$RUN_ROOT/kernel" \
           HISTORICAL_VC_VCODEC_DIR="$RUN_ROOT/media/minimal-vcodec/work/osdrv/interdrv/v2/vcodec" \
           HISTORICAL_VC_JPEG_DIR="$RUN_ROOT/media/sophgo-current/osdrv/interdrv/jpeg" \
-          HISTORICAL_VC_KERNEL_COMPAT_PATCH="buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-v2-linux-5.10.265-compat.patch" \
+          HISTORICAL_VC_KERNEL_COMPAT_PATCH="${{ github.workspace }}/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-v2-linux-5.10.265-compat.patch" \
           HISTORICAL_VC_BASE_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/base/Module.symvers" \
           HISTORICAL_VC_SYS_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/sys/Module.symvers" \
           HISTORICAL_VC_OUTPUT_DIR="$RUN_ROOT/media/historical-vc" \
