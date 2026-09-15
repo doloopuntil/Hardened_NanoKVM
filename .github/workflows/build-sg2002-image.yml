@@ -73,6 +73,17 @@ jobs:
     # 360 minutes is the hard cap on GitHub-hosted runners. If this pipeline
     # doesn't fit, the only fix is a self-hosted runner, not a bigger number.
     timeout-minutes: 360
+    env:
+      # Everything the RC12 pipeline scripts need except
+      # EXPECTED_KVMAPP_SERVER_SHA256, which can only be computed after the
+      # kvmapp bridge is actually built (see "Compute expected kvmapp hash").
+      RUN_ROOT: ${{ github.workspace }}/build/rc12-run
+      EXPECTED_SYSTEM_VERSION: 0.3.0-raw.12
+      EXPECTED_KVMAPP_VERSION: 2.0.42
+      EXPECTED_KERNEL_RELEASE: 5.10.265-tag-
+      EXPECTED_SECURITY_PATCH_LEVEL: Buildroot 2026.05.1 security maintenance Linux 5.10.265 SG2002 vendor port
+      NANOKVM_KVMAPP_SOURCE_DIR: ${{ github.workspace }}/build/kvmapp-rust/kvmapp
+      HARDENED_SG2002_VENDOR_SDK_DIR: ${{ github.workspace }}/build/vendor/LicheeRV-Nano-Build
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -212,33 +223,25 @@ jobs:
       # to the hash of the originally published RC12 binary. A locally
       # rebuilt Rust binary is not expected to be byte-identical, so this
       # recomputes the check against what we actually just built.
-      #
-      # This does NOT call the monolithic build-kernel-5.10.265-rc12-run.sh.
-      # That script's middle steps (rebuild-vendor-external-modules,
-      # build-sg2002-media-modules-candidate, prepare-kernel-vendor-runtime)
-      # only exist to rebuild-and-compare against
-      # vendor-runtime-source-media-v1 -- a staging bundle assembled once,
-      # locally, by the original maintainer (see hardened-sg2002-vendor-runtime.mk:
-      # LICENSE=PROPRIETARY, REDISTRIBUTE=NO) that no script reconstructs
-      # from scratch. We already have the kernel build (below) and the
-      # kvmapp build (above); the only missing piece is that staging bundle,
-      # which we source directly from the published, already-accepted
-      # raw.12 rootfs instead -- same source of truth, skipping the
-      # rebuild-and-compare middle steps that only exist to prove what the
-      # published rootfs already proves by construction.
-      - name: Set RC12 pipeline env
+      - name: Compute expected kvmapp hash
         run: |
-          {
-            echo "RUN_ROOT=${{ github.workspace }}/build/rc12-run"
-            echo "EXPECTED_SYSTEM_VERSION=0.3.0-raw.12"
-            echo "EXPECTED_KVMAPP_VERSION=2.0.42"
-            echo "EXPECTED_KERNEL_RELEASE=5.10.265-tag-"
-            echo "EXPECTED_SECURITY_PATCH_LEVEL=Buildroot 2026.05.1 security maintenance Linux 5.10.265 SG2002 vendor port"
-            echo "EXPECTED_KVMAPP_SERVER_SHA256=$(sha256sum build/kvmapp-rust/kvmapp/server/NanoKVM-Server | awk '{print $1}')"
-            echo "NANOKVM_KVMAPP_SOURCE_DIR=${{ github.workspace }}/build/kvmapp-rust/kvmapp"
-            echo "HARDENED_SG2002_VENDOR_SDK_DIR=${{ github.workspace }}/build/vendor/LicheeRV-Nano-Build"
-          } >> "$GITHUB_ENV"
+          echo "EXPECTED_KVMAPP_SERVER_SHA256=$(sha256sum build/kvmapp-rust/kvmapp/server/NanoKVM-Server | awk '{print $1}')" \
+            >> "$GITHUB_ENV"
 
+      # From here on this does NOT call the monolithic
+      # build-kernel-5.10.265-rc12-run.sh. That script's middle steps
+      # (rebuild-vendor-external-modules, build-sg2002-media-modules-candidate,
+      # prepare-kernel-vendor-runtime) only exist to rebuild-and-compare
+      # against vendor-runtime-source-media-v1 -- a staging bundle
+      # assembled once, locally, by the original maintainer (see
+      # hardened-sg2002-vendor-runtime.mk: LICENSE=PROPRIETARY,
+      # REDISTRIBUTE=NO) that no script reconstructs from scratch. We
+      # already have the kernel build (below) and the kvmapp build (above);
+      # the only missing piece is that staging bundle, which we source
+      # directly from the published, already-accepted raw.12 rootfs
+      # instead -- same source of truth, skipping the rebuild-and-compare
+      # middle steps that only exist to prove what the published rootfs
+      # already proves by construction.
       - name: Build the hardened 5.10.265 kernel candidate
         run: |
           KERNEL_5_10_265_OUTPUT_DIR="$RUN_ROOT/kernel" \
@@ -272,58 +275,42 @@ jobs:
           [ "$(find "$RUNTIME_DIR/system/ko" -name '*.ko' | wc -l)" -eq 57 ]
           test -s "$RUNTIME_DIR/kvmapp-dl-lib/libopencv_video.so.4.9.0"
           test -s "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1"
-
-      # A prior version of this workflow sourced the two loaders from the
-      # public sophgo/host-tools toolchain repo instead, reasoning that the
-      # same file name existing there made it safe. It does NOT: the actual
-      # bytes differ from what scripts/validate-latest-buildroot-sg2002-rootfs.sh
-      # pins (verified on a real run -- SHA-256 fdc8bd69... from the
-      # toolchain vs. the pinned e966ce68...), so the loaders genuinely do
-      # depend on the published rootfs specifically, not just its toolchain.
-      # Reverted above; kept as a documented dead end rather than silently
-      # dropped.
+          # (An earlier version of this step sourced the two loaders from
+          # the public sophgo/host-tools toolchain repo instead, on the
+          # theory that a same-named file there made it safe. It doesn't:
+          # verified on a real run that those bytes differ from what
+          # validate-latest-buildroot-sg2002-rootfs.sh pins, so the loaders
+          # genuinely depend on the published rootfs, not just its
+          # toolchain.)
 
       # Rebuild the 30 CVITEK osdrv external kernel modules from source
       # (build/vendor/.../osdrv, already cloned by `make vendor-sdk`)
       # instead of only reusing the prebuilt .ko files extracted from
-      # raw.12 above.
-      #
-      # rebuild-vendor-external-modules-5.10-baseline.sh requires a
-      # module-provenance.tsv manifest naming which modules to rebuild, but
-      # only reads columns 1 (module name) and 2 (classification) -- the
-      # rest of the manifest schema is unused by this script. This list was
-      # corrected against a real run's actual built-modules.txt (see
-      # external-module-rebuild-report artifact from that run): the
-      # osdrv build's "wireless"/"tp" targets also produce the WiFi
-      # (8733bs, aic8800_*), Bluetooth (btrtksdio), and touchscreen (gt9xx,
+      # raw.12 above. The module list is tracked in
+      # support/sg2002/kernel/5.10.265/manifests/external-modules.txt,
+      # verified against a real run's actual built-modules.txt: the osdrv
+      # build's "wireless"/"tp" targets also produce the WiFi (8733bs,
+      # aic8800_*), Bluetooth (btrtksdio), and touchscreen (gt9xx,
       # ts_gslX680) drivers under a 3rd/ subdirectory, alongside the 22
       # CVITEK "soph_*" peripheral modules and wiegand-gpio (also under
-      # 3rd/) at the top level -- 30 modules total, matching the
-      # "external replacements: 30" figure documented in
-      # prepare-kernel-5.10.265-vendor-runtime.sh's own summary output.
-      # RUNTIME_MODULE_DIR is pointed at the raw.12 extraction purely as a
-      # comparison baseline (candidate mode tolerates content mismatches;
-      # only the module-name inventory and vermagic are checked strictly).
+      # 3rd/) -- 30 modules total, matching the "external replacements: 30"
+      # figure documented in prepare-kernel-5.10.265-vendor-runtime.sh's own
+      # summary output.
+      #
+      # rebuild-vendor-external-modules-5.10-baseline.sh requires this as a
+      # module-provenance.tsv manifest but only reads columns 1 (module
+      # name) and 2 (classification). RUNTIME_MODULE_DIR is pointed at the
+      # raw.12 extraction purely as a comparison baseline (candidate mode
+      # tolerates content mismatches; only the module-name inventory and
+      # vermagic are checked strictly).
       - name: Rebuild external CVITEK kernel modules from source
         run: |
           MANIFEST_DIR=/tmp/module-provenance/report
           mkdir -p "$MANIFEST_DIR"
           {
             printf 'module\tclassification\n'
-            for m in soph_base soph_pwm soph_rtc soph_wdt soph_tpu soph_mon \
-                     soph_clock_cooling soph_saradc soph_wiegand soph_sys \
-                     soph_vi soph_snsr_i2c soph_vpss soph_dwa soph_rgn \
-                     soph_vo soph_rtos_cmdqu soph_fast_image soph_ive soph_fb \
-                     soph_mipi_rx soph_mipi_tx
-            do
-              printf '%s.ko\tretained-vendor-module\n' "$m"
-            done
-            for m in 3rd/cvi_wiegand_gpio 3rd/8733bs 3rd/aic8800_bsp \
-                     3rd/aic8800_btlpm 3rd/aic8800_fdrv 3rd/btrtksdio \
-                     3rd/gt9xx 3rd/ts_gslX680
-            do
-              printf '%s.ko\tretained-vendor-module\n' "$m"
-            done
+            sed 's/$/\tretained-vendor-module/' \
+              support/sg2002/kernel/5.10.265/manifests/external-modules.txt
           } > "$MANIFEST_DIR/module-provenance.tsv"
           MODULE_PROVENANCE_DIR=/tmp/module-provenance \
           VENDOR_MODULE_SOURCE_DIR="$RUN_ROOT/runtime/system/ko" \
@@ -403,33 +390,9 @@ jobs:
           BOOT_SD_BUILD_MODE=candidate \
             scripts/rebuild-vendor-boot-sd-5.10-baseline.sh
 
-      # The vendor's "accepted" boot.sd reference is itself built fresh by
-      # our own vendor-sdk-stock job on the same runner, not a pre-baked
-      # artifact -- so a plain gzip-version mismatch is a less likely
-      # explanation than it would first seem for the ramdisk gzip diff.
-      # Get real bytes instead of guessing further.
-      - name: Diagnose ramdisk gzip mismatch
-        if: failure()
-        run: |
-          set +e
-          REF="$RUN_ROOT/boot/reference/boot.cpio.gz"
-          CAND="$RUN_ROOT/boot/workspace/boot.cpio.gz"
-          for f in "$REF" "$CAND"; do
-            echo "=== $f ==="
-            ls -la "$f" 2>&1
-            sha256sum "$f" 2>&1
-            gzip -l "$f" 2>&1
-            echo "-- first 64 bytes --"
-            od -A x -t x1z "$f" 2>&1 | head -4
-          done
-          echo "=== decompressed cpio sizes/hashes (should already match per the python step) ==="
-          zcat "$REF" | wc -c
-          zcat "$REF" | sha256sum
-          zcat "$CAND" 2>/dev/null | wc -c
-          zcat "$CAND" 2>/dev/null | sha256sum
-          echo "=== gzip version ==="
-          gzip --version | head -2
-
+      # Kept generic (not the gzip-specific inline diagnostics used to
+      # track down the mtime bug fixed in rebuild-vendor-boot-sd-5.10-baseline.sh)
+      # as a safety net for whatever fails here next.
       - name: Upload boot rebuild workspace on failure
         if: failure()
         uses: actions/upload-artifact@v4
