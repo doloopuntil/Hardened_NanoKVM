@@ -146,8 +146,22 @@ if bytes(candidate_bytes) != reference_bytes:
 Path(sys.argv[3]).write_bytes(candidate_bytes)
 PY
 
-# The accepted gzip header records the cpio creation epoch and source basename.
-touch -d '@1782723553' "$WORKSPACE/boot.cpio"
+# The accepted gzip header records the cpio creation epoch and source
+# basename. That epoch is whatever wall-clock time the vendor SDK's own
+# build_all happened to run at when $REFERENCE_BOOT_SD was produced -- the
+# vendor's ramdisk-gzip step does not pin a deterministic timestamp, so a
+# freshly rebuilt reference (e.g. a clean `make vendor-sdk-stock` run) will
+# not embed the same epoch as a previous one. Read it back from the actual
+# reference at hand instead of assuming a fixed constant, so this check
+# verifies byte-for-byte reconstruction fidelity independent of when the
+# vendor SDK was built.
+reference_gzip_mtime="$(python3 -c '
+import struct, sys
+with open(sys.argv[1], "rb") as f:
+    header = f.read(10)
+print(struct.unpack("<I", header[4:8])[0])
+' "$OUTPUT_DIR/reference/boot.cpio.gz")"
+touch -d "@$reference_gzip_mtime" "$WORKSPACE/boot.cpio"
 gzip -9 -c "$WORKSPACE/boot.cpio" > "$WORKSPACE/boot.cpio.gz"
 cmp -s "$WORKSPACE/boot.cpio.gz" "$OUTPUT_DIR/reference/boot.cpio.gz" || {
 	echo "reconstructed ramdisk gzip differs from accepted FIT payload" >&2
