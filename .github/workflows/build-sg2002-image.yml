@@ -403,6 +403,43 @@ jobs:
           BOOT_SD_BUILD_MODE=candidate \
             scripts/rebuild-vendor-boot-sd-5.10-baseline.sh
 
+      # The vendor's "accepted" boot.sd reference is itself built fresh by
+      # our own vendor-sdk-stock job on the same runner, not a pre-baked
+      # artifact -- so a plain gzip-version mismatch is a less likely
+      # explanation than it would first seem for the ramdisk gzip diff.
+      # Get real bytes instead of guessing further.
+      - name: Diagnose ramdisk gzip mismatch
+        if: failure()
+        run: |
+          set +e
+          REF="$RUN_ROOT/boot/reference/boot.cpio.gz"
+          CAND="$RUN_ROOT/boot/workspace/boot.cpio.gz"
+          for f in "$REF" "$CAND"; do
+            echo "=== $f ==="
+            ls -la "$f" 2>&1
+            sha256sum "$f" 2>&1
+            gzip -l "$f" 2>&1
+            echo "-- first 64 bytes --"
+            od -A x -t x1z "$f" 2>&1 | head -4
+          done
+          echo "=== decompressed cpio sizes/hashes (should already match per the python step) ==="
+          zcat "$REF" | wc -c
+          zcat "$REF" | sha256sum
+          zcat "$CAND" 2>/dev/null | wc -c
+          zcat "$CAND" 2>/dev/null | sha256sum
+          echo "=== gzip version ==="
+          gzip --version | head -2
+
+      - name: Upload boot rebuild workspace on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boot-rebuild-diagnostics
+          path: |
+            build/rc12-run/boot/**
+          retention-days: 7
+          if-no-files-found: warn
+
       - name: Assemble the recovery-SD image
         run: |
           KERNEL_5_10_265_BUILDROOT_OUTPUT_DIR="$RUN_ROOT/buildroot" \
