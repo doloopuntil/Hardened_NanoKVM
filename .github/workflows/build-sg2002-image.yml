@@ -24,6 +24,17 @@ env:
   # hash recorded in docs/releases/rc12-2.0.42-raw.12.md.
   RAW12_SYSTEM_ARCHIVE_URL: https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-0.3.0-raw.12/hardened-nanokvm-system-0.3.0-raw.12.tar.gz
   RAW12_SYSTEM_ARCHIVE_SHA256: cf6bbef5599197f4b5ed926f22bed12352f2fdc275eb8f32fc8344d3ed7eae96
+  # Pinned commit of the real upstream (GPL-3.0, sipeed/NanoKVM). Now that
+  # libkvm.so no longer needs video/dnn/calib3d/features2d/flann/protobuf
+  # (server-rust/native/README.md), the remaining 4 OpenCV modules can come
+  # from here instead of the published raw.12 rootfs -- verified near-byte-
+  # identical (same MaixCDK toolchain build, ~80 bytes differ on core,
+  # clustered in one region, likely an embedded timestamp).
+  NANOKVM_UPSTREAM_COMMIT: bd070b2f5ce27d22618e8a1c8d2bdca543429882
+  NANOKVM_UPSTREAM_OPENCV_CORE_SHA256: fc4ffdd709d2241e7392bb0f6f7ade1a5b1dbbefe5b5551dd2f5ae5ec11ff566
+  NANOKVM_UPSTREAM_OPENCV_HIGHGUI_SHA256: 77ac57b3f652d3df598f89dcbebabb61a31a5794933d4fe703e2875fa83f261f
+  NANOKVM_UPSTREAM_OPENCV_IMGCODECS_SHA256: 4ffc0253a75c47374ba5400d5ba3687c072943c99f83774150b4b800f00029c0
+  NANOKVM_UPSTREAM_OPENCV_IMGPROC_SHA256: b01ee9a078c25fbe80aae6ebc5d3da52eebbbef2cb51362808d1d5fe139abff1
 
 jobs:
   # Isolated because it is the single most expensive, most fragile stage
@@ -290,7 +301,7 @@ jobs:
           debugfs -R "dump /lib/ld-musl-riscv64xthead.so.1 $RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" "$ROOTFS" >/dev/null
           debugfs -R "dump /lib/ld-musl-riscv64v0p7_xthead.so.1 $RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" "$ROOTFS" >/dev/null
           [ "$(find "$RUNTIME_DIR/system/ko" -name '*.ko' | wc -l)" -eq 57 ]
-          test -s "$RUNTIME_DIR/kvmapp-dl-lib/libopencv_video.so.4.9.0"
+          test -s "$RUNTIME_DIR/kvmapp-dl-lib/libopencv_core.so.409"
           test -s "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1"
           # (An earlier version of this step sourced the two loaders from
           # the public sophgo/host-tools toolchain repo instead, on the
@@ -299,6 +310,32 @@ jobs:
           # validate-latest-buildroot-sg2002-rootfs.sh pins, so the loaders
           # genuinely depend on the published rootfs, not just its
           # toolchain.)
+
+      # libkvm.so no longer declares NEEDED on libopencv_video.so.409
+      # (server-rust/native/README.md), so hardened-sg2002-vendor-runtime.mk
+      # now deletes video/dnn/calib3d/features2d/flann/protobuf at install
+      # time regardless of what's staged here. That leaves core/highgui/
+      # imgcodecs/imgproc as the only OpenCV modules actually shipped --
+      # source those from the real upstream (GPL-3.0 sipeed/NanoKVM, which
+      # commits them directly to git) instead of the raw.12 rootfs. Verified
+      # near-byte-identical to what raw.12 ships (same MaixCDK toolchain
+      # build); pinned hashes recorded when that was checked.
+      - name: Source OpenCV core/highgui/imgcodecs/imgproc from upstream
+        run: |
+          DL_LIB="$RUN_ROOT/runtime/kvmapp-dl-lib"
+          verify_and_replace() {
+            name="$1"
+            expected_sha256="$2"
+            curl --fail --location --retry 2 \
+              --output "/tmp/$name" \
+              "https://raw.githubusercontent.com/sipeed/NanoKVM/$NANOKVM_UPSTREAM_COMMIT/server/dl_lib/$name"
+            echo "$expected_sha256  /tmp/$name" | sha256sum -c -
+            cp "/tmp/$name" "$DL_LIB/$name"
+          }
+          verify_and_replace libopencv_core.so.409 "$NANOKVM_UPSTREAM_OPENCV_CORE_SHA256"
+          verify_and_replace libopencv_highgui.so.409 "$NANOKVM_UPSTREAM_OPENCV_HIGHGUI_SHA256"
+          verify_and_replace libopencv_imgcodecs.so.409 "$NANOKVM_UPSTREAM_OPENCV_IMGCODECS_SHA256"
+          verify_and_replace libopencv_imgproc.so.409 "$NANOKVM_UPSTREAM_OPENCV_IMGPROC_SHA256"
 
       # Rebuild the 30 CVITEK osdrv external kernel modules from source
       # (build/vendor/.../osdrv, already cloned by `make vendor-sdk`)
@@ -403,9 +440,13 @@ jobs:
       # Replace the raw.12-extracted copies with what we actually just
       # rebuilt from source: the 30 external modules and 3 media modules
       # above, plus the 24 in-tree modules our own kernel build (earlier
-      # step) already produces. That closes every kernel-module gap --
-      # only the OpenCV/protobuf userspace libraries in kvmapp-dl-lib/
-      # remain genuinely sourced from raw.12.
+      # step) already produces. That closes every kernel-module gap. Combined
+      # with sourcing core/highgui/imgcodecs/imgproc from upstream above and
+      # dropping the unused video/dnn/calib3d/features2d/flann/protobuf
+      # entirely, the only remaining raw.12-sourced content is the
+      # proprietary CVITEK ISP/audio/media middleware .so's (libcvi_*,
+      # libisp*, libae/af/awb, etc.) in kvmapp-dl-lib/ and system/ -- these
+      # have no known public source at all, unlike everything else here.
       #
       # A prior version of this step copied to $KO_DIR/$(basename), which
       # is wrong: the raw.12-extracted tree nests the WiFi/BT/touch modules
