@@ -132,17 +132,34 @@ jobs:
       # Buildroot only creates dl/ lazily once it starts downloading package
       # sources, but prepare-buildroot-2026.05.1-security-source.sh requires
       # a pre-existing shared dl/ dir to symlink into the patched tree.
+      #
+      # This is cached at a standalone path, not nested under
+      # build/latestbuildroot/buildroot-${VERSION}/ (the plain bootstrap
+      # tree's own location). Restoring a cache at that nested path would
+      # create the parent buildroot-${VERSION}/ directory as a side effect
+      # of placing dl/ inside it -- but with no Buildroot tree in it, which
+      # bootstrap-latest-buildroot-probe.sh (run by `make
+      # latest-buildroot-bootstrap` below) correctly refuses to extract
+      # into, seeing an existing-but-invalid probe source path. Hit this for
+      # real once this cache actually had content to restore: pointing
+      # prepare-buildroot-2026.05.1-security-source.sh at an independent
+      # location via its own BUILDROOT_SECURITY_DL_DIR override avoids the
+      # collision entirely, regardless of cache restore order.
       - name: Cache shared Buildroot package download directory
         uses: actions/cache@v4
         with:
-          path: build/latestbuildroot/buildroot-${{ env.BUILDROOT_VERSION }}/dl
-          key: buildroot-dl-${{ env.BUILDROOT_VERSION }}
+          path: build/buildroot-package-dl-cache
+          # v2: moved off the colliding nested path (see comment above) --
+          # bumped so this starts a clean cache entry at the new path
+          # rather than restoring old content saved under the old one.
+          key: buildroot-dl-v2-${{ env.BUILDROOT_VERSION }}
 
       - name: Bootstrap Buildroot + security-patched source
         run: |
+          mkdir -p build/buildroot-package-dl-cache
           make latest-buildroot-bootstrap
-          mkdir -p "build/latestbuildroot/buildroot-${BUILDROOT_VERSION}/dl"
-          make latest-buildroot-security-source
+          BUILDROOT_SECURITY_DL_DIR="${{ github.workspace }}/build/buildroot-package-dl-cache" \
+            make latest-buildroot-security-source
 
       # build-linked-libkvm.sh needs a real NanoKVM riscv64xthead/lp64d musl
       # libc.so + libgcc_s.so to link against. server-rust/sysroot/ is
