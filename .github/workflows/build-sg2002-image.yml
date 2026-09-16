@@ -276,11 +276,17 @@ jobs:
           KERNEL_5_10_265_CONFIG_FRAGMENT="support/sg2002/kernel/5.10.265/configs/phase3-04-init-on-alloc.config" \
             scripts/build-vendor-kernel-5.10.265-candidate.sh
 
-      # Extract the vendor runtime staging bundle's three parts directly
-      # from the published raw.12 rootfs, matching exactly what
-      # hardened-sg2002-vendor-runtime.mk expects: system/ (modules + BSP
-      # userspace), kvmapp-dl-lib/ (OpenCV/protobuf/libstdc++ closure), and
-      # loaders/ (the two T-Head musl loaders).
+      # Extract the vendor runtime staging bundle's remaining raw.12-only
+      # parts: system/ (modules + BSP userspace, incl. libsns_lt6911.so --
+      # server-rust/native/README.md), loaders/ (the two T-Head musl
+      # loaders), and exactly 5 real files for kvmapp-dl-lib/ -- libc.so and
+      # the 4 GCC runtime libs. Everything else that used to come from this
+      # wholesale dump (the ~32 CVI/ISP/audio middleware libraries) is byte-
+      # identical to what's already checked into server-rust/native/dl_lib
+      # (verified exhaustively; see server-rust/native/README.md) and
+      # installed by hardened-nanokvm-kvmapp before this package runs, so
+      # raw.12 no longer needs to supply it. The 4 OpenCV modules come from
+      # upstream in the next step, independent of this extraction.
       - name: Fetch published raw.12 system archive
         run: |
           curl --fail --location --retry 2 \
@@ -294,14 +300,15 @@ jobs:
         run: |
           ROOTFS=/tmp/raw12-system/payload/images/rootfs.sd
           RUNTIME_DIR="$RUN_ROOT/runtime"
-          mkdir -p "$RUNTIME_DIR" "$RUNTIME_DIR/loaders" /tmp/runtime-scratch
+          mkdir -p "$RUNTIME_DIR" "$RUNTIME_DIR/loaders" "$RUNTIME_DIR/kvmapp-dl-lib"
           debugfs -R "rdump /mnt/system $RUNTIME_DIR" "$ROOTFS" >/dev/null
-          debugfs -R "rdump /kvmapp/server/dl_lib /tmp/runtime-scratch" "$ROOTFS" >/dev/null
-          mv /tmp/runtime-scratch/dl_lib "$RUNTIME_DIR/kvmapp-dl-lib"
+          for lib in libc.so libstdc++.so.6.0.28 libgcc_s.so.1 libgomp.so.1.0.0 libatomic.so.1.2.0; do
+            debugfs -R "dump /kvmapp/server/dl_lib/$lib $RUNTIME_DIR/kvmapp-dl-lib/$lib" "$ROOTFS" >/dev/null
+            test -s "$RUNTIME_DIR/kvmapp-dl-lib/$lib"
+          done
           debugfs -R "dump /lib/ld-musl-riscv64xthead.so.1 $RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" "$ROOTFS" >/dev/null
           debugfs -R "dump /lib/ld-musl-riscv64v0p7_xthead.so.1 $RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" "$ROOTFS" >/dev/null
           [ "$(find "$RUNTIME_DIR/system/ko" -name '*.ko' | wc -l)" -eq 57 ]
-          test -s "$RUNTIME_DIR/kvmapp-dl-lib/libopencv_core.so.409"
           test -s "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1"
           # (An earlier version of this step sourced the two loaders from
           # the public sophgo/host-tools toolchain repo instead, on the
@@ -309,7 +316,11 @@ jobs:
           # verified on a real run that those bytes differ from what
           # validate-latest-buildroot-sg2002-rootfs.sh pins, so the loaders
           # genuinely depend on the published rootfs, not just its
-          # toolchain.)
+          # toolchain. The same repo's libc.so was checked too, for this
+          # narrowing: 8x the size and a different RISC-V arch attribute
+          # string (no T-Head xtheadc/zfh extensions declared the same
+          # way) -- a generic cross-toolchain libc, not the vendor's
+          # on-device runtime build. Same dead end, confirmed independently.)
 
       # Diagnostic only, never blocks the build: libsns_lt6911.so (the LT6911
       # HDMI-bridge sensor plugin kept in hardened-sg2002-vendor-runtime.mk,
@@ -507,12 +518,15 @@ jobs:
       # rebuilt from source: the 30 external modules and 3 media modules
       # above, plus the 24 in-tree modules our own kernel build (earlier
       # step) already produces. That closes every kernel-module gap. Combined
-      # with sourcing core/highgui/imgcodecs/imgproc from upstream above and
-      # dropping the unused video/dnn/calib3d/features2d/flann/protobuf
-      # entirely, the only remaining raw.12-sourced content is the
-      # proprietary CVITEK ISP/audio/media middleware .so's (libcvi_*,
-      # libisp*, libae/af/awb, etc.) in kvmapp-dl-lib/ and system/ -- these
-      # have no known public source at all, unlike everything else here.
+      # with sourcing core/highgui/imgcodecs/imgproc from upstream, dropping
+      # the unused video/dnn/calib3d/features2d/flann/protobuf entirely, the
+      # CVI/ISP/audio middleware now coming from server-rust/native/dl_lib
+      # (proven byte-identical to raw.12, no longer extracted from it), and
+      # /mnt/system/usr pruned to the one file with no other source, the
+      # only remaining raw.12-sourced content is: libc.so, the 4 GCC
+      # runtime libs, the 2 T-Head musl loaders, and libsns_lt6911.so --
+      # none of which have a verified public alternative (see
+      # server-rust/native/README.md).
       #
       # A prior version of this step copied to $KO_DIR/$(basename), which
       # is wrong: the raw.12-extracted tree nests the WiFi/BT/touch modules

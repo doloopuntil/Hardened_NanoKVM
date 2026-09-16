@@ -108,3 +108,41 @@ library search order) or has no reference anywhere in this repo's
 tracked source, same evidentiary basis as before. Not yet verified on
 real hardware; if HDMI capture breaks after this change, `libsns_lt6911.so`
 having no fallback path is the first thing to check.
+
+## dl_lib's CVI/ISP/audio middleware: no longer extracted from raw.12
+
+The ~32 CVI/ISP/audio middleware libraries checked into this directory
+(`libcvi_*`, `libisp*`, `libae`/`libaf`/`libawb`, `libaac*`, `libcli.so`,
+`libini.so`, `libmisc.so`, `libosdc.so`, `libsys.so`, `libtinyalsa.so`,
+`libvdec.so`/`libvenc.so`/`libvpu.so`, etc.) have been in git since the
+`RC5` commit, long before this fork started sourcing a build from the
+published raw.12 image. Diffed byte-for-byte against raw.12's own
+`/kvmapp/server/dl_lib`: every one of them is identical. The CI pipeline
+used to extract them wholesale from raw.12 anyway (redundant but
+harmless, since the bytes matched) via
+`hardened-sg2002-vendor-runtime.mk`'s `cp -a kvmapp-dl-lib/.` overlay,
+which ran *after* `hardened-nanokvm-kvmapp.mk` had already installed
+this directory's own content.
+
+`build-sg2002-image.yml`'s "Extract vendor runtime staging bundle" step
+no longer dumps `/kvmapp/server/dl_lib` wholesale -- it extracts only
+the 5 files this directory doesn't carry: `libc.so` and the 4 GCC
+runtime libs (`libstdc++.so.6.0.28`, `libgcc_s.so.1`, `libgomp.so.1.0.0`,
+`libatomic.so.1.2.0`). Final image content is unchanged (proven
+byte-identical either way); raw.12 is just no longer asked for content
+this repo already has verified in git.
+
+## libc.so: same dead end as the loaders
+
+Tried sourcing `libc.so` from the public `sophgo/host-tools` cross-toolchain
+repo (`gcc/riscv64-linux-musl-x86_64/sysroot/usr/lib64xthead/lp64d/libc.so`,
+the same sysroot `server-rust/scripts/build-linked-libkvm.sh` already uses
+for *linking*) instead of raw.12, the same way the two T-Head loaders were
+tried and rejected. Same result: it isn't the on-device runtime library.
+It's 8x the size of raw.12's copy (5.2 MB vs. 621 KB) and its RISC-V arch
+attribute string omits the T-Head extensions raw.12's copy declares
+(`xtheadc2p0`, `zfh1p0` present in host-tools' build but absent from
+raw.12's) -- a generic cross-toolchain libc built for linking against, not
+the vendor's XTheadVector-enabled runtime build. `libc.so` and the 2
+loaders remain the only pieces with no verified public alternative,
+alongside `libsns_lt6911.so`.
