@@ -132,17 +132,38 @@ runtime libs (`libstdc++.so.6.0.28`, `libgcc_s.so.1`, `libgomp.so.1.0.0`,
 byte-identical either way); raw.12 is just no longer asked for content
 this repo already has verified in git.
 
-## libc.so: same dead end as the loaders
+## libc.so: same dead end as the loaders, checked exhaustively
 
 Tried sourcing `libc.so` from the public `sophgo/host-tools` cross-toolchain
-repo (`gcc/riscv64-linux-musl-x86_64/sysroot/usr/lib64xthead/lp64d/libc.so`,
-the same sysroot `server-rust/scripts/build-linked-libkvm.sh` already uses
-for *linking*) instead of raw.12, the same way the two T-Head loaders were
-tried and rejected. Same result: it isn't the on-device runtime library.
-It's 8x the size of raw.12's copy (5.2 MB vs. 621 KB) and its RISC-V arch
-attribute string omits the T-Head extensions raw.12's copy declares
-(`xtheadc2p0`, `zfh1p0` present in host-tools' build but absent from
-raw.12's) -- a generic cross-toolchain libc built for linking against, not
-the vendor's XTheadVector-enabled runtime build. `libc.so` and the 2
-loaders remain the only pieces with no verified public alternative,
-alongside `libsns_lt6911.so`.
+repo instead of raw.12, the same way the two T-Head loaders were tried and
+rejected. That repo actually ships **4** ABI variant sysroots
+(`lib64`, `lib64xthead`, `lib64v0p7_xthead`, `lib64v_xthead`), so all 6
+`libc.so` candidates across every variant were checked, not just one.
+Every single one is ~7-8x the size of raw.12's copy (4.2-5.4 MB vs. 621 KB)
+-- a systematic, not variant-specific, mismatch. (An earlier pass of this
+check flagged a RISC-V arch-attribute difference too, on the `lib64xthead`
+variant specifically -- that was a red herring: `lib64v0p7_xthead`'s
+attribute string is an *exact* match for `libkvm.so`'s own, so ISA target
+isn't the blocker. The size gap is real regardless of variant.)
+
+## GCC runtime libs: promising lead, not yet confirmed
+
+Unlike `libc.so`, the 4 GCC runtime libs (`libstdc++.so.6.0.28`,
+`libgcc_s.so.1`, `libgomp.so.1.0.0`, `libatomic.so.1.2.0`) exist in
+`sophgo/host-tools` at the exact same version numbers as raw.12's copies,
+under `riscv64-unknown-linux-musl/lib64v0p7_xthead/lp64d/` -- and that
+variant's RISC-V arch attribute string matches `libkvm.so`'s own exactly.
+They're still larger than raw.12's copies (e.g. `libgcc_s.so.1`: 777 KB vs.
+88 KB), but host-tools' copies carry full `.debug_*` sections and a
+`.symtab` that a release strip would remove -- explaining the gap without
+implying a different build. Stripping locally to test this wasn't possible
+(this Mac's binutils can't relink RISC-V64 program headers), so this is
+unconfirmed, not closed. `hardened-sg2002-vendor-runtime.mk`'s
+dependency chain always had a working answer for this, though: `make
+vendor-sdk-stock` (the `sg2002_licheervnano_sd` defconfig, already built
+and cached by the `vendor-sdk` CI job) is the same real on-device build
+`prepare-latest-buildroot-sg2002-vendor-runtime.sh` originally sourced
+these files from. `build-sg2002-image.yml`'s diagnostic step checks all 8
+remaining raw.12-only files (`libc.so`, the 4 GCC runtime libs, the 2
+loaders, `libsns_lt6911.so`) against it directly -- the actual toolchain
+strip, not a guess about flags.
