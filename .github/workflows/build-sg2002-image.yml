@@ -276,17 +276,13 @@ jobs:
           KERNEL_5_10_265_CONFIG_FRAGMENT="support/sg2002/kernel/5.10.265/configs/phase3-04-init-on-alloc.config" \
             scripts/build-vendor-kernel-5.10.265-candidate.sh
 
-      # Extract the vendor runtime staging bundle's remaining raw.12-only
-      # parts: system/ (modules + BSP userspace, incl. libsns_lt6911.so --
-      # server-rust/native/README.md), loaders/ (the two T-Head musl
-      # loaders), and exactly 5 real files for kvmapp-dl-lib/ -- libc.so and
-      # the 4 GCC runtime libs. Everything else that used to come from this
-      # wholesale dump (the ~32 CVI/ISP/audio middleware libraries) is byte-
-      # identical to what's already checked into server-rust/native/dl_lib
-      # (verified exhaustively; see server-rust/native/README.md) and
-      # installed by hardened-nanokvm-kvmapp before this package runs, so
-      # raw.12 no longer needs to supply it. The 4 OpenCV modules come from
-      # upstream in the next step, independent of this extraction.
+      # Extract the vendor runtime staging bundle's one remaining raw.12-only
+      # part: system/ (modules + BSP userspace). The module content gets
+      # replaced by from-source rebuilds below; what's still genuinely
+      # needed from here is the module tree structure/basenames and
+      # libsns_lt6911.so (server-rust/native/README.md -- the LT6911 HDMI
+      # sensor plugin has no copy anywhere else, verified against both
+      # sipeed/NanoKVM's own base image and our own vendor-sdk-stock build).
       - name: Fetch published raw.12 system archive
         run: |
           curl --fail --location --retry 2 \
@@ -300,121 +296,76 @@ jobs:
         run: |
           ROOTFS=/tmp/raw12-system/payload/images/rootfs.sd
           RUNTIME_DIR="$RUN_ROOT/runtime"
-          mkdir -p "$RUNTIME_DIR" "$RUNTIME_DIR/loaders" "$RUNTIME_DIR/kvmapp-dl-lib"
+          mkdir -p "$RUNTIME_DIR"
           debugfs -R "rdump /mnt/system $RUNTIME_DIR" "$ROOTFS" >/dev/null
-          for lib in libc.so libstdc++.so.6.0.28 libgcc_s.so.1 libgomp.so.1.0.0 libatomic.so.1.2.0; do
-            debugfs -R "dump /kvmapp/server/dl_lib/$lib $RUNTIME_DIR/kvmapp-dl-lib/$lib" "$ROOTFS" >/dev/null
-            test -s "$RUNTIME_DIR/kvmapp-dl-lib/$lib"
-          done
-          debugfs -R "dump /lib/ld-musl-riscv64xthead.so.1 $RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" "$ROOTFS" >/dev/null
-          debugfs -R "dump /lib/ld-musl-riscv64v0p7_xthead.so.1 $RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" "$ROOTFS" >/dev/null
           [ "$(find "$RUNTIME_DIR/system/ko" -name '*.ko' | wc -l)" -eq 57 ]
-          test -s "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1"
-          # (An earlier version of this step sourced the two loaders from
-          # the public sophgo/host-tools toolchain repo instead, on the
-          # theory that a same-named file there made it safe. It doesn't:
-          # verified on a real run that those bytes differ from what
-          # validate-latest-buildroot-sg2002-rootfs.sh pins, so the loaders
-          # genuinely depend on the published rootfs, not just its
-          # toolchain. The same repo's libc.so was checked too, for this
-          # narrowing: 8x the size and a different RISC-V arch attribute
-          # string (no T-Head xtheadc/zfh extensions declared the same
-          # way) -- a generic cross-toolchain libc, not the vendor's
-          # on-device runtime build. Same dead end, confirmed independently.)
+          test -s "$RUNTIME_DIR/system/usr/lib/libsns_lt6911.so"
 
-      # Diagnostic only, never blocks the build. The 8 files with no
-      # verified public alternative (server-rust/native/README.md: libc.so,
-      # 4 GCC runtime libs, 2 T-Head loaders, libsns_lt6911.so) all trace,
-      # per prepare-latest-buildroot-sg2002-vendor-runtime.sh, to
-      # `make vendor-sdk-stock`'s own build output -- the vendor-sdk job
-      # (already cached above) building the real sg2002_licheervnano_sd
-      # defconfig. If our own from-scratch build of that produces
-      # byte-identical files, raw.12 is no longer needed for any of them.
-      # None of these would live under /kvmapp/ in a stock (no-app) image,
-      # so probe the plausible system-library locations instead of assuming
-      # one path.
-      - name: Diagnose remaining raw.12-only files against our own vendor-sdk-stock build
-        continue-on-error: true
+      # libc.so, the 4 GCC runtime libs, and the 2 T-Head loaders all come
+      # from our own from-scratch vendor-sdk-stock build now, not raw.12.
+      # Verified: make vendor-sdk-stock (the vendor-sdk job, already cached
+      # above) builds the real sg2002_licheervnano_sd defconfig, and its
+      # output's copies of all 7 files are byte-identical to raw.12's --
+      # confirmed by diffing every one against the pinned hashes below on a
+      # real run (server-rust/native/README.md). Only libsns_lt6911.so
+      # (extracted above) still has no source but raw.12: it's the one
+      # file here vendor-sdk-stock's own build does NOT reproduce, checked
+      # and confirmed genuinely different, not just unfound.
+      #
+      # An earlier attempt sourced the loaders and libc.so from the public
+      # sophgo/host-tools cross-toolchain repo instead: both are dead
+      # ends there (verified bytes differ, and for libc.so, ~7-8x the
+      # size across all 4 ABI variants it ships) -- that's a generic
+      # cross-toolchain build, not the vendor's on-device runtime build.
+      # vendor-sdk-stock's own rootfs.sd is not that generic toolchain;
+      # it's the actual NanoKVM device image, which is why it matches.
+      #
+      # None of these 7 files live under /kvmapp/ in a stock (no-app)
+      # image, so probe a few plausible system-library locations rather
+      # than assume one path -- but unlike the diagnostic that found
+      # these paths, this is real extraction: fail hard if any is missing.
+      - name: Source libc.so, GCC runtime, and T-Head loaders from our own vendor-sdk-stock build
         run: |
           STOCK_ROOTFS="$HARDENED_SG2002_VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rawimages/rootfs.sd"
-          REPORT_DIR="$RUN_ROOT/_reports/vendor-sdk-stock-diagnostic"
-          mkdir -p "$REPORT_DIR"
-          SUMMARY="## Remaining raw.12-only files vs. our own vendor-sdk-stock build"$'\n'
-          if [ ! -s "$STOCK_ROOTFS" ]; then
-            SUMMARY+="- stock vendor-sdk-stock rootfs.sd not found at \`$STOCK_ROOTFS\`"$'\n'
-            printf '%s\n' "$SUMMARY" >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
+          RUNTIME_DIR="$RUN_ROOT/runtime"
+          mkdir -p "$RUNTIME_DIR/loaders" "$RUNTIME_DIR/kvmapp-dl-lib"
+          test -s "$STOCK_ROOTFS"
 
-          check_one() {
-            name="$1"
-            raw12_copy="$2"
-            shift 2
-            candidates=("$@")
-            stock_copy="/tmp/stock-$name"
-            found_path=""
-            for candidate in "${candidates[@]}"; do
-              rm -f "$stock_copy"
-              if debugfs -R "dump $candidate $stock_copy" "$STOCK_ROOTFS" >/dev/null 2>&1 \
-                  && [ -s "$stock_copy" ]; then
-                found_path="$candidate"
-                break
+          extract_one() {
+            dest="$1"
+            shift
+            for candidate in "$@"; do
+              if debugfs -R "dump $candidate $dest" "$STOCK_ROOTFS" >/dev/null 2>&1 \
+                  && [ -s "$dest" ]; then
+                echo "$(basename "$dest") <- $candidate"
+                return 0
               fi
+              rm -f "$dest"
             done
-            if [ -z "$found_path" ]; then
-              SUMMARY+="- **$name**: not found in vendor-sdk-stock at any probed path"$'\n'
-              return
-            fi
-            stock_sha256="$(sha256sum "$stock_copy" | awk '{print $1}')"
-            stock_size="$(stat -c%s "$stock_copy")"
-            cp "$stock_copy" "$REPORT_DIR/stock-$name"
-            if [ -s "$raw12_copy" ]; then
-              raw12_sha256="$(sha256sum "$raw12_copy" | awk '{print $1}')"
-              raw12_size="$(stat -c%s "$raw12_copy")"
-              cp "$raw12_copy" "$REPORT_DIR/raw12-$name"
-              if [ "$stock_sha256" = "$raw12_sha256" ]; then
-                SUMMARY+="- **$name**: IDENTICAL at \`$found_path\` ($stock_size bytes) -- vendor-sdk-stock could replace raw.12"$'\n'
-              else
-                SUMMARY+="- **$name**: found at \`$found_path\` but DIFFERS (stock $stock_size B / raw.12 $raw12_size B, sha256 \`$stock_sha256\` vs \`$raw12_sha256\`)"$'\n'
-              fi
-            else
-              SUMMARY+="- **$name**: found at \`$found_path\` in vendor-sdk-stock ($stock_size bytes), no raw.12 copy staged to compare"$'\n'
-            fi
+            echo "::error::$(basename "$dest") not found in vendor-sdk-stock at any probed path" >&2
+            return 1
           }
 
-          check_one libc.so "$RUN_ROOT/runtime/kvmapp-dl-lib/libc.so" \
+          extract_one "$RUNTIME_DIR/kvmapp-dl-lib/libc.so" \
             /lib/libc.so /usr/lib/libc.so \
             /lib64xthead/lp64d/libc.so /lib64v0p7_xthead/lp64d/libc.so \
             /usr/lib64xthead/lp64d/libc.so /usr/lib64v0p7_xthead/lp64d/libc.so
-          check_one libstdc++.so.6.0.28 "$RUN_ROOT/runtime/kvmapp-dl-lib/libstdc++.so.6.0.28" \
+          extract_one "$RUNTIME_DIR/kvmapp-dl-lib/libstdc++.so.6.0.28" \
             /lib/libstdc++.so.6.0.28 /usr/lib/libstdc++.so.6.0.28 \
             /lib64xthead/lp64d/libstdc++.so.6.0.28 /lib64v0p7_xthead/lp64d/libstdc++.so.6.0.28
-          check_one libgcc_s.so.1 "$RUN_ROOT/runtime/kvmapp-dl-lib/libgcc_s.so.1" \
+          extract_one "$RUNTIME_DIR/kvmapp-dl-lib/libgcc_s.so.1" \
             /lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 \
             /lib64xthead/lp64d/libgcc_s.so.1 /lib64v0p7_xthead/lp64d/libgcc_s.so.1
-          check_one libgomp.so.1.0.0 "$RUN_ROOT/runtime/kvmapp-dl-lib/libgomp.so.1.0.0" \
+          extract_one "$RUNTIME_DIR/kvmapp-dl-lib/libgomp.so.1.0.0" \
             /lib/libgomp.so.1.0.0 /usr/lib/libgomp.so.1.0.0 \
             /lib64xthead/lp64d/libgomp.so.1.0.0 /lib64v0p7_xthead/lp64d/libgomp.so.1.0.0
-          check_one libatomic.so.1.2.0 "$RUN_ROOT/runtime/kvmapp-dl-lib/libatomic.so.1.2.0" \
+          extract_one "$RUNTIME_DIR/kvmapp-dl-lib/libatomic.so.1.2.0" \
             /lib/libatomic.so.1.2.0 /usr/lib/libatomic.so.1.2.0 \
             /lib64xthead/lp64d/libatomic.so.1.2.0 /lib64v0p7_xthead/lp64d/libatomic.so.1.2.0
-          check_one ld-musl-riscv64xthead.so.1 "$RUN_ROOT/runtime/loaders/ld-musl-riscv64xthead.so.1" \
+          extract_one "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" \
             /lib/ld-musl-riscv64xthead.so.1
-          check_one ld-musl-riscv64v0p7_xthead.so.1 "$RUN_ROOT/runtime/loaders/ld-musl-riscv64v0p7_xthead.so.1" \
+          extract_one "$RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" \
             /lib/ld-musl-riscv64v0p7_xthead.so.1
-          check_one libsns_lt6911.so "$RUN_ROOT/runtime/system/usr/lib/libsns_lt6911.so" \
-            /mnt/system/usr/lib/libsns_lt6911.so
-
-          printf '%s\n' "$SUMMARY" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Upload vendor-sdk-stock diagnostic evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: vendor-sdk-stock-provenance-diagnostic
-          path: build/rc12-run/_reports/vendor-sdk-stock-diagnostic/
-          if-no-files-found: ignore
-          retention-days: 30
 
       # libkvm.so no longer declares NEEDED on libopencv_video.so.409
       # (server-rust/native/README.md), so hardened-sg2002-vendor-runtime.mk
@@ -549,13 +500,12 @@ jobs:
       # step) already produces. That closes every kernel-module gap. Combined
       # with sourcing core/highgui/imgcodecs/imgproc from upstream, dropping
       # the unused video/dnn/calib3d/features2d/flann/protobuf entirely, the
-      # CVI/ISP/audio middleware now coming from server-rust/native/dl_lib
-      # (proven byte-identical to raw.12, no longer extracted from it), and
-      # /mnt/system/usr pruned to the one file with no other source, the
-      # only remaining raw.12-sourced content is: libc.so, the 4 GCC
-      # runtime libs, the 2 T-Head musl loaders, and libsns_lt6911.so --
-      # none of which have a verified public alternative (see
-      # server-rust/native/README.md).
+      # CVI/ISP/audio middleware now coming from server-rust/native/dl_lib,
+      # libc.so/GCC runtime/loaders now coming from our own vendor-sdk-stock
+      # build, and /mnt/system/usr pruned to one file, the only remaining
+      # raw.12-sourced content in the whole pipeline is libsns_lt6911.so --
+      # the one file with no verified public or from-scratch alternative
+      # (see server-rust/native/README.md).
       #
       # A prior version of this step copied to $KO_DIR/$(basename), which
       # is wrong: the raw.12-extracted tree nests the WiFi/BT/touch modules

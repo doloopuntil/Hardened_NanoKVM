@@ -125,45 +125,43 @@ which ran *after* `hardened-nanokvm-kvmapp.mk` had already installed
 this directory's own content.
 
 `build-sg2002-image.yml`'s "Extract vendor runtime staging bundle" step
-no longer dumps `/kvmapp/server/dl_lib` wholesale -- it extracts only
-the 5 files this directory doesn't carry: `libc.so` and the 4 GCC
-runtime libs (`libstdc++.so.6.0.28`, `libgcc_s.so.1`, `libgomp.so.1.0.0`,
-`libatomic.so.1.2.0`). Final image content is unchanged (proven
-byte-identical either way); raw.12 is just no longer asked for content
-this repo already has verified in git.
+no longer dumps `/kvmapp/server/dl_lib` wholesale -- the 5 files this
+directory doesn't carry (`libc.so` and the 4 GCC runtime libs) no longer
+come from raw.12 at all; see below. Final image content is unchanged
+(proven byte-identical either way); raw.12 is just no longer asked for
+content this repo already has verified in git.
 
-## libc.so: same dead end as the loaders, checked exhaustively
+## libc.so, GCC runtime, and the loaders: closed -- from our own build
 
-Tried sourcing `libc.so` from the public `sophgo/host-tools` cross-toolchain
-repo instead of raw.12, the same way the two T-Head loaders were tried and
-rejected. That repo actually ships **4** ABI variant sysroots
-(`lib64`, `lib64xthead`, `lib64v0p7_xthead`, `lib64v_xthead`), so all 6
-`libc.so` candidates across every variant were checked, not just one.
-Every single one is ~7-8x the size of raw.12's copy (4.2-5.4 MB vs. 621 KB)
--- a systematic, not variant-specific, mismatch. (An earlier pass of this
-check flagged a RISC-V arch-attribute difference too, on the `lib64xthead`
-variant specifically -- that was a red herring: `lib64v0p7_xthead`'s
-attribute string is an *exact* match for `libkvm.so`'s own, so ISA target
-isn't the blocker. The size gap is real regardless of variant.)
+Tried sourcing `libc.so` and the GCC runtime libs (`libstdc++.so.6.0.28`,
+`libgcc_s.so.1`, `libgomp.so.1.0.0`, `libatomic.so.1.2.0`) from the public
+`sophgo/host-tools` cross-toolchain repo instead of raw.12, the same way
+the two T-Head loaders were tried there and rejected. Same dead end for
+`libc.so`: that repo ships 4 ABI variant sysroots, and every one of the 6
+candidate `libc.so` files across all of them is ~7-8x the size of raw.12's
+copy (4.2-5.4 MB vs. 621 KB) -- a systematic mismatch, a generic
+cross-toolchain build meant for linking against, not the vendor's
+on-device runtime build. The GCC runtime libs were closer (matching
+version numbers, and the `lib64v0p7_xthead` variant's RISC-V arch
+attribute string is an exact match for `libkvm.so`'s own) but still
+larger than raw.12's copies, apparently just carrying debug sections a
+release strip would remove -- promising, but unconfirmed from that repo.
 
-## GCC runtime libs: promising lead, not yet confirmed
+The actual answer was `make vendor-sdk-stock` (the `sg2002_licheervnano_sd`
+defconfig, already built and cached by the `vendor-sdk` CI job) -- the
+same real on-device build `prepare-latest-buildroot-sg2002-vendor-runtime.sh`
+originally sourced this content from, not a generic toolchain package.
+Checked all 8 remaining raw.12-only files against it on a real run: **7 are
+byte-identical** -- `libc.so`, all 4 GCC runtime libs, and both T-Head
+loaders (`ld-musl-riscv64xthead.so.1`, `ld-musl-riscv64v0p7_xthead.so.1`).
+`build-sg2002-image.yml` now sources all 7 from vendor-sdk-stock's own
+`rootfs.sd` instead of raw.12, hard-failing if any isn't found (unlike the
+diagnostic that discovered these paths, this is production extraction).
 
-Unlike `libc.so`, the 4 GCC runtime libs (`libstdc++.so.6.0.28`,
-`libgcc_s.so.1`, `libgomp.so.1.0.0`, `libatomic.so.1.2.0`) exist in
-`sophgo/host-tools` at the exact same version numbers as raw.12's copies,
-under `riscv64-unknown-linux-musl/lib64v0p7_xthead/lp64d/` -- and that
-variant's RISC-V arch attribute string matches `libkvm.so`'s own exactly.
-They're still larger than raw.12's copies (e.g. `libgcc_s.so.1`: 777 KB vs.
-88 KB), but host-tools' copies carry full `.debug_*` sections and a
-`.symtab` that a release strip would remove -- explaining the gap without
-implying a different build. Stripping locally to test this wasn't possible
-(this Mac's binutils can't relink RISC-V64 program headers), so this is
-unconfirmed, not closed. `hardened-sg2002-vendor-runtime.mk`'s
-dependency chain always had a working answer for this, though: `make
-vendor-sdk-stock` (the `sg2002_licheervnano_sd` defconfig, already built
-and cached by the `vendor-sdk` CI job) is the same real on-device build
-`prepare-latest-buildroot-sg2002-vendor-runtime.sh` originally sourced
-these files from. `build-sg2002-image.yml`'s diagnostic step checks all 8
-remaining raw.12-only files (`libc.so`, the 4 GCC runtime libs, the 2
-loaders, `libsns_lt6911.so`) against it directly -- the actual toolchain
-strip, not a guess about flags.
+`libsns_lt6911.so` was the 8th file checked and is the only one that
+genuinely differs (2,100 of 14,568 bytes, same size) -- consistent with
+everything else found about it: it isn't part of the standard vendor SDK
+sensor catalog (`build/sensors/sensor_list.json`), so `vendor-sdk-stock`'s
+build doesn't reproduce whatever build/patch level produced raw.12's copy.
+It remains the **only** file in this entire pipeline still sourced from
+raw.12.
