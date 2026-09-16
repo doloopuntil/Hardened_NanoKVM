@@ -264,14 +264,13 @@ jobs:
           KERNEL_5_10_265_CONFIG_FRAGMENT="support/sg2002/kernel/5.10.265/configs/phase3-04-init-on-alloc.config" \
             scripts/build-vendor-kernel-5.10.265-candidate.sh
 
-      # Fetch the published raw.12 system archive for the one thing this
-      # pipeline still can't source any other way: /mnt/system (module tree
-      # structure/basenames, and libsns_lt6911.so -- server-rust/native/README.md,
-      # the LT6911 HDMI sensor plugin has no copy anywhere else, verified
-      # against both sipeed/NanoKVM's own base image and our own
-      # vendor-sdk-stock build). Module content itself gets replaced by
-      # from-source rebuilds below.
-      - name: Fetch published raw.12 system archive and extract /mnt/system
+      # Fetch the published raw.12 system archive for the one thing left that
+      # isn't itself file content: /mnt/system/ko's tree structure/basenames
+      # (8 of the 57 modules nest under a 3rd/ subdirectory; module content
+      # gets replaced entirely by from-source rebuilds below regardless).
+      # No file actually shipped in the final image still comes from here --
+      # see server-rust/native/README.md.
+      - name: Fetch published raw.12 system archive and extract /mnt/system/ko
         run: |
           curl --fail --location --retry 2 \
             --output /tmp/raw12-system.tar.gz "$RAW12_SYSTEM_ARCHIVE_URL"
@@ -285,18 +284,22 @@ jobs:
           mkdir -p "$RUNTIME_DIR"
           debugfs -R "rdump /mnt/system $RUNTIME_DIR" "$ROOTFS" >/dev/null
           [ "$(find "$RUNTIME_DIR/system/ko" -name '*.ko' | wc -l)" -eq 57 ]
-          test -s "$RUNTIME_DIR/system/usr/lib/libsns_lt6911.so"
 
-      # libc.so, the 4 GCC runtime libs, and the 2 T-Head loaders all come
-      # from our own from-scratch vendor-sdk-stock build now, not raw.12.
-      # Verified: make vendor-sdk-stock (the vendor-sdk job, already cached
-      # above) builds the real sg2002_licheervnano_sd defconfig, and its
-      # output's copies of all 7 files are byte-identical to raw.12's --
-      # confirmed by diffing every one against the pinned hashes below on a
-      # real run (server-rust/native/README.md). Only libsns_lt6911.so
-      # (extracted above) still has no source but raw.12: it's the one
-      # file here vendor-sdk-stock's own build does NOT reproduce, checked
-      # and confirmed genuinely different, not just unfound.
+      # libc.so, the 4 GCC runtime libs, the 2 T-Head loaders, and now
+      # libsns_lt6911.so (the LT6911 HDMI sensor plugin) all come from our
+      # own from-scratch vendor-sdk-stock build, not raw.12 -- the last raw.12
+      # file dependency in the whole pipeline, closed. Verified: make
+      # vendor-sdk-stock (the vendor-sdk job, already cached above) builds the
+      # real sg2002_licheervnano_sd defconfig, and its output's copies of the
+      # first 7 files are byte-identical to raw.12's. libsns_lt6911.so's
+      # bytes differ (2,100 of 14,568), but every string in it is identical
+      # except one: the compiler's embedded __FILE__ path, which is
+      # /home/w0w/Hardened_NanoKVM/... in raw.12 (the maintainer's own local
+      # build machine -- matching the hardcoded path already found in
+      # docs/build-notes.md) versus this runner's own workspace path here.
+      # Same source, same compiled logic and data, different build-path
+      # debug string that's never dereferenced as a real path -- see
+      # server-rust/native/README.md for the full byte-level trace.
       #
       # An earlier attempt sourced the loaders and libc.so from the public
       # sophgo/host-tools cross-toolchain repo instead: both are dead
@@ -306,15 +309,15 @@ jobs:
       # vendor-sdk-stock's own rootfs.sd is not that generic toolchain;
       # it's the actual NanoKVM device image, which is why it matches.
       #
-      # None of these 7 files live under /kvmapp/ in a stock (no-app)
-      # image, so probe a few plausible system-library locations rather
-      # than assume one path -- but unlike the diagnostic that found
-      # these paths, this is real extraction: fail hard if any is missing.
-      - name: Source libc.so, GCC runtime, and T-Head loaders from our own vendor-sdk-stock build
+      # None of these files live under /kvmapp/ in a stock (no-app) image,
+      # so probe a few plausible system-library locations rather than
+      # assume one path -- but unlike the diagnostic that found these
+      # paths, this is real extraction: fail hard if any is missing.
+      - name: Source the remaining runtime files from our own vendor-sdk-stock build
         run: |
           STOCK_ROOTFS="$HARDENED_SG2002_VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rawimages/rootfs.sd"
           RUNTIME_DIR="$RUN_ROOT/runtime"
-          mkdir -p "$RUNTIME_DIR/loaders" "$RUNTIME_DIR/kvmapp-dl-lib"
+          mkdir -p "$RUNTIME_DIR/loaders" "$RUNTIME_DIR/kvmapp-dl-lib" "$RUNTIME_DIR/system/usr/lib"
           test -s "$STOCK_ROOTFS"
 
           extract_one() {
@@ -352,6 +355,8 @@ jobs:
             /lib/ld-musl-riscv64xthead.so.1
           extract_one "$RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" \
             /lib/ld-musl-riscv64v0p7_xthead.so.1
+          extract_one "$RUNTIME_DIR/system/usr/lib/libsns_lt6911.so" \
+            /mnt/system/usr/lib/libsns_lt6911.so
 
       # libkvm.so no longer declares NEEDED on libopencv_video.so.409
       # (server-rust/native/README.md), so hardened-sg2002-vendor-runtime.mk
@@ -486,11 +491,10 @@ jobs:
       # with sourcing core/highgui/imgcodecs/imgproc from upstream, dropping
       # the unused video/dnn/calib3d/features2d/flann/protobuf entirely, the
       # CVI/ISP/audio middleware now coming from server-rust/native/dl_lib,
-      # libc.so/GCC runtime/loaders now coming from our own vendor-sdk-stock
-      # build, and /mnt/system/usr pruned to one file, the only remaining
-      # raw.12-sourced content in the whole pipeline is libsns_lt6911.so --
-      # the one file with no verified public or from-scratch alternative
-      # (see server-rust/native/README.md).
+      # and libc.so/GCC runtime/loaders/libsns_lt6911.so now coming from our
+      # own vendor-sdk-stock build, no file shipped in the final image still
+      # comes from raw.12 -- only this step's module-tree structure/basenames
+      # do (see server-rust/native/README.md).
       #
       # A prior version of this step copied to $KO_DIR/$(basename), which
       # is wrong: the raw.12-extracted tree nests the WiFi/BT/touch modules

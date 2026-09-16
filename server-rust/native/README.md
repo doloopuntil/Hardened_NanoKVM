@@ -100,14 +100,13 @@ does (HDMI capture), for no size benefit worth that risk.
 
 `hardened-sg2002-vendor-runtime.mk` now removes `/mnt/system/usr/bin`
 entirely and prunes `/mnt/system/usr/lib` (including the `3rd/`
-subdirectory) down to exactly `libsns_lt6911.so`. This is still
-circumstantial for that one retained file -- absence of a static
-reference doesn't rule out a computed-path `dlopen()` -- but everything
-*removed* is either proven redundant (shadowed by `dl_lib` in the
-library search order) or has no reference anywhere in this repo's
-tracked source, same evidentiary basis as before. Not yet verified on
-real hardware; if HDMI capture breaks after this change, `libsns_lt6911.so`
-having no fallback path is the first thing to check.
+subdirectory) down to exactly `libsns_lt6911.so`. Everything *removed* is
+either proven redundant (shadowed by `dl_lib` in the library search order)
+or has no reference anywhere in this repo's tracked source. The retained
+file's own provenance is now fully resolved too -- see "libc.so, GCC
+runtime, loaders, and libsns_lt6911.so" below; it no longer comes from
+raw.12 either. Not yet verified on real hardware; if HDMI capture breaks
+after this change, this is still the first thing to check.
 
 ## dl_lib's CVI/ISP/audio middleware: no longer extracted from raw.12
 
@@ -131,7 +130,7 @@ come from raw.12 at all; see below. Final image content is unchanged
 (proven byte-identical either way); raw.12 is just no longer asked for
 content this repo already has verified in git.
 
-## libc.so, GCC runtime, and the loaders: closed -- from our own build
+## libc.so, GCC runtime, loaders, and libsns_lt6911.so: closed -- from our own build
 
 Tried sourcing `libc.so` and the GCC runtime libs (`libstdc++.so.6.0.28`,
 `libgcc_s.so.1`, `libgomp.so.1.0.0`, `libatomic.so.1.2.0`) from the public
@@ -158,10 +157,43 @@ loaders (`ld-musl-riscv64xthead.so.1`, `ld-musl-riscv64v0p7_xthead.so.1`).
 `rootfs.sd` instead of raw.12, hard-failing if any isn't found (unlike the
 diagnostic that discovered these paths, this is production extraction).
 
-`libsns_lt6911.so` was the 8th file checked and is the only one that
-genuinely differs (2,100 of 14,568 bytes, same size) -- consistent with
-everything else found about it: it isn't part of the standard vendor SDK
-sensor catalog (`build/sensors/sensor_list.json`), so `vendor-sdk-stock`'s
-build doesn't reproduce whatever build/patch level produced raw.12's copy.
-It remains the **only** file in this entire pipeline still sourced from
-raw.12.
+`libsns_lt6911.so` was the 8th file checked, and its bytes differ (2,100 of
+14,568) -- but tracing exactly *why* closed it too. The source is real,
+checked-in C code at
+`middleware/v2/component/isp/sensor/cv182x/lontium_lt6911/` in the pinned
+`sipeed/LicheeRV-Nano-Build` commit (`sg200x` is a symlink to `cv182x`, so
+this is the exact catalog this hardware uses) -- an earlier full-tree
+search missed it because GitHub's tree API silently truncates large repos,
+the same failure mode later caught and fixed for the `sophgo/host-tools`
+`libc.so` search. It isn't in `build/sensors/sensor_list.json` because
+that's a curated picker list for user-selectable board sensors, not the
+full middleware catalog LT6911 is part of regardless (same as every other
+`libsns_*.so`).
+
+`make vendor-sdk-stock` already compiles this source as part of its normal
+build (that's how the diagnostic found a `libsns_lt6911.so` there to
+compare against in the first place). Diffing exactly where the two builds'
+bytes diverge: 91% of the difference sits in `.rodata`, but every string
+in it is character-for-character identical except one -- the compiler's
+`__FILE__`-embedded absolute source path. raw.12's copy has
+`/home/w0w/Hardened_NanoKVM/build/vendor/...`; `w0w` is the maintainer's
+own local username, matching the hardcoded path already found in
+`docs/build-notes.md` (`NanoKVM_PATH=/home/w0w/...`) and the old default
+toolchain path in `scripts/prepare-kernel-5.10.265-vendor-runtime.sh` --
+raw.12 was built on the maintainer's own machine, not any CI. This
+pipeline's build has `/home/runner/work/Hardened_NanoKVM/...` instead, the
+standard GitHub Actions runner path. The differing path length cascades:
+every later string in the section shifts by the delta, so a byte-offset
+`cmp` reports "91% different" for what is, in content, one string. The
+small `.text` diff (86 of 3,184 bytes) is the same shift rippling into
+immediate offsets that reference those strings' addresses. Same source,
+same compiled logic and data, different build-path debug string that's
+never dereferenced as a real path at runtime.
+
+`build-sg2002-image.yml` now sources all 8 files from `vendor-sdk-stock`'s
+own `rootfs.sd`. **No file shipped in the final image still comes from
+raw.12.** The one remaining raw.12 fetch left in the pipeline is purely
+structural: the `/mnt/system/ko` tree's basenames and `3rd/` nesting, used
+only to know where each freshly-rebuilt kernel module belongs -- module
+*content* has never come from raw.12 since the kernel-module rebuild work
+closed that gap earlier.

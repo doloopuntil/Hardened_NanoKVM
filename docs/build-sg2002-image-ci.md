@@ -67,32 +67,13 @@ system archive specifically (`RAW12_SYSTEM_ARCHIVE_URL`) -- not the separate
 | `/mnt/system/usr/bin` (49 CVITEK sample/test binaries) | Deleted entirely -- no static or `dlopen()` reference anywhere in tracked source | `server-rust/native/README.md` ("/mnt/system/usr") |
 | `/mnt/system/usr/lib` minus one file (32 files incl. `3rd/`) | Deleted entirely -- proven redundant against `dl_lib`'s search-path priority | same |
 | ~32 CVI/ISP/audio middleware libraries in `dl_lib` (`libcvi_*`, `libisp*`, `libae`/`af`/`awb`, `libaac*`, `libcli.so`, `libini.so`, etc.) | Already checked into `server-rust/native/dl_lib` since before this fork tracked raw.12 at all; diffed byte-for-byte against raw.12 and confirmed identical; the CI pipeline no longer extracts them from raw.12 | `server-rust/native/README.md` ("dl_lib's CVI/ISP/audio middleware") |
-| `libc.so` + 4 GCC runtime libs (`libstdc++.so.6.0.28`, `libgcc_s.so.1`, `libgomp.so.1.0.0`, `libatomic.so.1.2.0`) | Sourced from this pipeline's own `vendor-sdk-stock` build instead -- verified byte-identical on a real run | workflow step "Source libc.so, GCC runtime, and T-Head loaders from our own vendor-sdk-stock build"; `server-rust/native/README.md` |
+| `libc.so` + 4 GCC runtime libs (`libstdc++.so.6.0.28`, `libgcc_s.so.1`, `libgomp.so.1.0.0`, `libatomic.so.1.2.0`) | Sourced from this pipeline's own `vendor-sdk-stock` build instead -- verified byte-identical on a real run | workflow step "Source the remaining runtime files from our own vendor-sdk-stock build"; `server-rust/native/README.md` |
 | 2 T-Head musl loaders (`ld-musl-riscv64xthead.so.1`, `ld-musl-riscv64v0p7_xthead.so.1`) | Same as above -- byte-identical to `vendor-sdk-stock`'s own copies | same |
+| `libsns_lt6911.so` (LT6911 HDMI sensor plugin) | Sourced from `vendor-sdk-stock` too. Its bytes aren't identical, but the difference is fully traced: real checked-in C source exists in the pinned vendor SDK commit (`middleware/v2/component/isp/sensor/cv182x/lontium_lt6911/`, `sg200x` symlinked to `cv182x`) -- an earlier search missed it to a truncated GitHub API response. Every string in the compiled output is identical except the compiler's embedded `__FILE__` build path (raw.12 was built on the maintainer's own machine, `/home/w0w/...`; this pipeline builds in a GitHub Actions runner). Same source, same logic, different debug string, never dereferenced as a real path | `server-rust/native/README.md` ("libc.so, GCC runtime, loaders, and libsns_lt6911.so") |
 
-### Still raw.12-sourced: one file
-
-**`libsns_lt6911.so`** -- the sensor plugin for the LT6911 HDMI bridge, this
-device's one real sensor (every other `libsns_*.so` in the vendor tree is
-for a sensor this hardware doesn't have). Checked against every source this
-investigation found:
-
-- Not in `sipeed/LicheeRV-Nano-Build`'s public source at all -- not in
-  `build/sensors/sensor_list.json` (LT6911 is a bridge chip, not one of the
-  ~50 standard CVITEK-supported image sensors), not under `middleware` or
-  `osdrv`.
-- Present in Sipeed's own base SD-card image
-  (`sipeed/NanoKVM` release tag `NanoKVM`,
-  `20240702_NanoKVM_Rev1_0_0.img.xz`) at the same path and size, but **not**
-  byte-identical -- 1,889 of 14,568 bytes differ, a different vendor-SDK
-  build, not a drop-in replacement.
-- Present in this pipeline's own `vendor-sdk-stock` build, but also **not**
-  byte-identical -- 2,100 of 14,568 bytes differ.
-
-It's a proprietary blob with no public build path, present in every device
-image checked but never with matching bytes to raw.12's copy. If this work
-moves toward an upstream PR, this is the one deliberate, documented
-exception -- not an oversight.
+**No file shipped in the final image still comes from raw.12.** The
+kernel/rootfs closure work, the `dl_lib` middleware closure, and this last
+round together account for every file the pipeline ever pulled from it.
 
 ### Explicitly out of scope: `kvm_system`
 
@@ -143,6 +124,33 @@ cross-toolchain build (unstripped, wrong size), not the vendor's on-device
 runtime build, and that negative result is recorded in
 `server-rust/native/README.md` alongside the positive ones so it isn't
 re-attempted.
+
+## External dependency audit
+
+Closing raw.12 could have quietly traded one external dependency for
+another unnecessary one. Auditing every non-raw.12 external fetch this
+pipeline makes, against whether the already-cloned vendor SDK could have
+supplied the same content instead:
+
+| External source | What it provides | Redundant with the vendor SDK? |
+| --- | --- | --- |
+| `sophgo/host-tools` | The actual riscv64 cross-compiler toolchain, used to build the kernel and every kernel module | No -- this is the compiler itself; a prebuilt rootfs can't substitute for a toolchain. Confirmed by grepping every script that references it: all of them use `TOOLCHAIN_BIN=.../host-tools/gcc/riscv64-linux-musl-x86_64/bin` to invoke `gcc`/`ld`/`strip` directly. |
+| `sipeed/NanoKVM` upstream | 4 OpenCV modules (`core`/`highgui`/`imgcodecs`/`imgproc`) | No -- confirmed by reading `scripts/prepare-latest-buildroot-sg2002-vendor-runtime.sh`, the historical script that originally extracted content from `vendor-sdk-stock`'s own rootfs: its own OpenCV set is `video`/`dnn`/`calib3d`/`features2d`/`flann`/`protobuf` at `/usr/lib/` -- exactly the 6 modules already proven unused and deleted, not the 4 this pipeline needs. `vendor-sdk-stock` never had the right OpenCV variant. |
+| `sophgo/osdrv` (public, 2 pinned commits) | `soph_jpeg.ko` and `soph_vc_driver.ko` media modules | No -- already established when the kernel-module rebuild work closed this gap: the vendor SDK's own bundled `osdrv` predates compat fixes these two modules need. |
+| `git.kernel.org` stable tree | Real upstream Linux 5.10.265 fixes for the kernel rehydration | Not applicable -- the whole point is pulling genuine upstream fixes the vendor's own kernel snapshot doesn't have. |
+| `buildroot.org` | The Buildroot release tarball itself | Not applicable -- an unrelated upstream project, not vendor SDK content. |
+
+One narrower finding, not a new external dependency: `build-linked-libkvm.sh`
+links `libkvm.so` against `sophgo/host-tools`' own `libc.so`/`libgcc_s.so.1`
+sysroot copies (fetched early, before `vendor-sdk-stock`'s equivalents are
+extracted later in the same job) -- the same files independently confirmed
+elsewhere in this pipeline to *not* be the on-device runtime build. This has
+always worked in practice (linking only needs matching symbol tables, not
+byte-identical content), and doesn't add or remove an external repo either
+way since `host-tools` is fetched regardless for the compiler. It's a
+loose end worth tightening for consistency -- using `vendor-sdk-stock`'s
+now-verified copies for linking too -- but not yet done, since it would mean
+reordering when that extraction step runs.
 
 ## Related documents
 
