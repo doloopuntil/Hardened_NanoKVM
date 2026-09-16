@@ -394,8 +394,6 @@ jobs:
       - name: Substitute freshly-built modules into the runtime staging dir
         run: |
           KO_DIR="$RUN_ROOT/runtime/system/ko"
-          find "$KO_DIR" -type f -name '*.ko' -printf '%P\n' | LC_ALL=C sort > /tmp/ko-before.txt
-          echo "before: $(wc -l < /tmp/ko-before.txt) modules"
 
           replace_by_basename() {
             src="$1"
@@ -416,11 +414,7 @@ jobs:
           replace_by_basename "$RUN_ROOT/media/sophgo-current/artifacts/soph_jpeg.ko"
           replace_by_basename "$RUN_ROOT/media/historical-vc/artifacts/soph_vc_driver.ko"
 
-          find "$KO_DIR" -type f -name '*.ko' -printf '%P\n' | LC_ALL=C sort > /tmp/ko-after.txt
-          echo "after: $(wc -l < /tmp/ko-after.txt) modules"
-          echo "=== changed relative paths (basename only, expected -- content changed at the same path) ==="
-          diff /tmp/ko-before.txt /tmp/ko-after.txt || true
-          [ "$(wc -l < /tmp/ko-after.txt)" -eq 57 ]
+          [ "$(find "$KO_DIR" -name '*.ko' | wc -l)" -eq 57 ]
 
       # Generated fresh from values already known at this point in the build, rather than carried
       # forward from any prebuilt image. device_acceptance must be exactly pending-recovery-sd --
