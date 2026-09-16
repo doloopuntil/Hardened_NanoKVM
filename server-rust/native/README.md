@@ -41,7 +41,7 @@ Not yet verified on real hardware -- this is static analysis (symbol-table
 comparison), not a device boot/video test. If HDMI capture or any vision
 feature breaks after this change, this is the first thing to revert.
 
-## /mnt/system/usr: likely-dead vendor SDK content, not yet acted on
+## /mnt/system/usr: pruned to the one file dl_lib doesn't cover
 
 `/mnt/system/usr/bin` (CVITEK sample/test binaries: `sample_vcodec`,
 `sample_venc`, `sample_vdec`, `ive_stress`, `sensor_test`, `test_mmf`, etc.)
@@ -90,10 +90,21 @@ The one grep match (`support/sg2002/additional/sophgo-middleware/v2/sample/commo
 is a false positive -- a self-referential filename comment and header
 include, unrelated to the `/mnt/system/usr/bin` executables.
 
-**Not acted on.** This is circumstantial (absence of static references),
-weaker than the exhaustive symbol-table proof for the `libkvm.so` patch
-above, and a computed-path `dlopen()` can't be fully ruled out by static
-analysis. If this holds up, `/mnt/system/usr` could likely be dropped
-from `hardened-sg2002-vendor-runtime.mk` entirely -- but that needs a
-real device test (or at least sign-off) before touching the package
-recipe, same as the OpenCV change above still does.
+**Acted on, narrower than "drop it entirely."** Checking `dl_lib`'s actual
+file listing against `/mnt/system/usr/lib`'s turned up one exception to
+the above: `libsns_lt6911.so`, the sensor plugin for the LT6911 HDMI
+bridge -- this device's one real sensor -- has no copy anywhere in
+`dl_lib`, unlike every other file in `/mnt/system/usr/lib`. Deleting it
+along with the rest would have risked the one thing this device actually
+does (HDMI capture), for no size benefit worth that risk.
+
+`hardened-sg2002-vendor-runtime.mk` now removes `/mnt/system/usr/bin`
+entirely and prunes `/mnt/system/usr/lib` (including the `3rd/`
+subdirectory) down to exactly `libsns_lt6911.so`. This is still
+circumstantial for that one retained file -- absence of a static
+reference doesn't rule out a computed-path `dlopen()` -- but everything
+*removed* is either proven redundant (shadowed by `dl_lib` in the
+library search order) or has no reference anywhere in this repo's
+tracked source, same evidentiary basis as before. Not yet verified on
+real hardware; if HDMI capture breaks after this change, `libsns_lt6911.so`
+having no fallback path is the first thing to check.

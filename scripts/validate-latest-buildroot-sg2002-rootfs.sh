@@ -176,6 +176,19 @@ reject_path /kvmapp/.files-list.before
 reject_path /usr/lib/firmware/aic8800_sdio/.files-list.before
 reject_path /usr/share/fw_vcodec/.files-list.before
 reject_path /usr/lib/libstdc++.so.6.0.33-gdb.py
+# /mnt/system/usr is an unpruned vendor SDK carry-forward -- see
+# server-rust/native/README.md. usr/bin (CVITEK sample/test binaries) is
+# unused entirely; usr/lib is pruned down to exactly libsns_lt6911.so, the
+# one file there with no copy in dl_lib (the real LT6911 HDMI sensor plugin;
+# everything else was either byte-identical or same-name-different-build
+# duplicate of dl_lib content, or a genuinely dead sample/replay/sensor lib).
+reject_path /mnt/system/usr/bin
+USR_LIB_LISTING="$TMP_DIR/mnt-system-usr-lib-listing"
+debugfs -R "ls -l /mnt/system/usr/lib" "$IMAGE" >"$USR_LIB_LISTING" 2>&1 || \
+	die "could not list /mnt/system/usr/lib"
+USR_LIB_ENTRIES="$(awk '{print $NF}' "$USR_LIB_LISTING" | grep -vE '^\.\.?$' || true)"
+[ "$USR_LIB_ENTRIES" = "libsns_lt6911.so" ] || \
+	die "/mnt/system/usr/lib must contain only libsns_lt6911.so, found: $USR_LIB_ENTRIES"
 
 SHADOW_FILE="$TMP_DIR/shadow"
 debugfs -R "dump /etc/shadow $SHADOW_FILE" "$IMAGE" >/dev/null 2>&1 || \
