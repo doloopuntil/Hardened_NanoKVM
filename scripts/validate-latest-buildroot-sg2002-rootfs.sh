@@ -184,8 +184,10 @@ reject_path /usr/lib/libstdc++.so.6.0.33-gdb.py
 # duplicate of dl_lib content, or a genuinely dead sample/replay/sensor lib).
 reject_path /mnt/system/usr/bin
 USR_LIB_LISTING="$TMP_DIR/mnt-system-usr-lib-listing"
-debugfs -R "ls -l /mnt/system/usr/lib" "$IMAGE" >"$USR_LIB_LISTING" 2>&1 || \
-	die "could not list /mnt/system/usr/lib"
+debugfs -R "ls -l /mnt/system/usr/lib" "$IMAGE" >"$USR_LIB_LISTING" 2>"$TMP_DIR/mnt-system-usr-lib-listing.err"
+# debugfs's own startup banner goes to stderr, kept separate above --
+# merging it into $USR_LIB_LISTING previously fed its "(<date>)" version
+# string into this parse as a fake filename.
 USR_LIB_ENTRIES="$(awk '{print $NF}' "$USR_LIB_LISTING" | grep -vE '^\.\.?$' || true)"
 [ "$USR_LIB_ENTRIES" = "libsns_lt6911.so" ] || \
 	die "/mnt/system/usr/lib must contain only libsns_lt6911.so, found: $USR_LIB_ENTRIES"
