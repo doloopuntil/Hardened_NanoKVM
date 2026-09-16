@@ -52,9 +52,9 @@ already executing.
 ## raw.12 dependency status
 
 Everything below refers to the *published* `hardened-nanokvm-system-0.3.0-raw.12.tar.gz`
-system archive specifically (`RAW12_SYSTEM_ARCHIVE_URL`) -- not the separate
-`kvmapp` app-package archive, which retains one deliberate exception (see
-"Explicitly out of scope" below).
+system archive specifically -- not the separate `kvmapp` app-package
+archive, which retains one deliberate exception (see "Explicitly out of
+scope" below). **The pipeline no longer fetches this archive at all.**
 
 ### Closed
 
@@ -90,15 +90,29 @@ rebuilds `kvm_system` via MaixCDK as part of `make release-build`, but there
 is no standalone "rebuild kvm_system" workflow to reuse, and no CI in
 `woffko/Hardened_NanoKVM` to compare against either way.
 
-### One remaining structural thread (not a content dependency)
+### The module-tree structure: closed too, no image needed at all
 
-The kernel module *paths* -- not content, which is fully overwritten by the
-from-source rebuilds -- still come from raw.12's own `system/ko/` tree,
-purely so the pipeline knows where each rebuilt `.ko` belongs (8 of the 57
-nest under `3rd/`). Since the full manifest is already tracked in
-`support/sg2002/kernel/5.10.265/manifests/external-modules.txt`, this could
-be replaced with a static manifest instead of extracting the tree from
-raw.12 -- low effort, not yet done, flagged here rather than left silent.
+The kernel module *paths* (8 of 57 nest under `3rd/`) used to come from
+raw.12's own `system/ko/` tree, purely so the pipeline knew where each
+freshly-rebuilt `.ko` belonged -- module content itself was never sourced
+from raw.12 once the kernel-module rebuild work closed that gap. This
+turned out not to need any image at all:
+`support/sg2002/kernel/5.10.265/manifests/external-modules.txt` already
+encodes the full destination path for all 30 external modules (`3rd/`
+included), `in-tree-modules.txt` gives the other 24, and the 3 media
+module names are already known constants -- the complete structure,
+entirely from files already tracked in this repo. `build-sg2002-image.yml`
+now builds this as an empty-file skeleton straight from the manifests, no
+network fetch involved; `hardened-source-media-provenance.txt` is
+regenerated from already-pinned values the same way.
+
+**raw.12 is no longer fetched anywhere in this pipeline.** One
+diagnostic, not a structural or content dependency worth keeping, was
+removed while closing this: `build-historical-sophgo-vc-driver.sh` used
+to diff `soph_vc_driver.ko`'s module parameters against an "old"
+reference copy pulled from raw.12 -- a real comparison, since `modinfo`
+needs an actual valid module, not something a placeholder could satisfy.
+That comparison is gone rather than kept as a narrower exception.
 
 ## Verification methodology
 

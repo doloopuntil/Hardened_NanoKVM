@@ -191,9 +191,45 @@ same compiled logic and data, different build-path debug string that's
 never dereferenced as a real path at runtime.
 
 `build-sg2002-image.yml` now sources all 8 files from `vendor-sdk-stock`'s
-own `rootfs.sd`. **No file shipped in the final image still comes from
-raw.12.** The one remaining raw.12 fetch left in the pipeline is purely
-structural: the `/mnt/system/ko` tree's basenames and `3rd/` nesting, used
-only to know where each freshly-rebuilt kernel module belongs -- module
-*content* has never come from raw.12 since the kernel-module rebuild work
-closed that gap earlier.
+own `rootfs.sd`. No file shipped in the final image comes from raw.12.
+
+## The module-tree structure: also closed, needed no image at all
+
+The last raw.12 fetch in the pipeline was purely structural: the
+`/mnt/system/ko` tree's basenames and `3rd/` nesting (8 of 57 modules nest
+there), used only to know where each freshly-rebuilt kernel module belongs
+-- module *content* was never sourced from raw.12 once the kernel-module
+rebuild work closed that gap. Turns out this didn't need any image at all:
+`support/sg2002/kernel/5.10.265/manifests/external-modules.txt` already
+encodes the full destination path for all 30 external modules (`3rd/`
+prefixes included), `in-tree-modules.txt` gives the other 24 (all flat),
+and the 3 media module names are already known constants -- the complete
+57-module structure, entirely from files already tracked in this repo.
+`rebuild-vendor-external-modules-5.10-baseline.sh`'s own build output was
+already placing artifacts at these exact relative paths; nothing needed
+extracting them from somewhere else in the first place.
+
+`build-sg2002-image.yml` now builds this structure as an empty-file
+skeleton straight from the manifests, no network fetch involved.
+`hardened-source-media-provenance.txt` (a plain-text record: source
+commits, a device-acceptance marker, a redistribution note) is
+regenerated the same way, from values already pinned in the workflow,
+rather than copied forward.
+
+raw.12's `/mnt/system` also carried `auto.sh`, `sdk-release`, and (in
+older releases) `root/`. Checked and confirmed dead the same way `usr/bin`
+and most of `usr/lib` were: `auto.sh` is generic, unused vendor
+evaluation-board boilerplate (sets `LD_LIBRARY_PATH`/`PATH` for a boot
+flow nothing in this repo invokes) with zero references anywhere in
+tracked source; `sdk-release` is a static, unread version string;
+`root/` doesn't exist in raw.12 at all any more. None are reproduced.
+
+One narrower, genuine content dependency came up while closing this:
+`build-historical-sophgo-vc-driver.sh` used to diff `soph_vc_driver.ko`'s
+module parameters (`modinfo -F parm`) against an "old" reference copy
+pulled from raw.12 -- a real diagnostic, not a structural lookup, since
+`modinfo` needs an actual valid compiled module. That comparison has been
+removed rather than kept as a narrower exception, so this diagnostic no
+longer runs.
+
+**raw.12 is no longer fetched anywhere in this pipeline.**

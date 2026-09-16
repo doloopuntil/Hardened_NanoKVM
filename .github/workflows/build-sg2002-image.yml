@@ -20,10 +20,6 @@ env:
   # against the canonical git.kernel.org stable tree's peeled tag commits.
   STABLE_5_10_4_COMMIT: b1313fe517ca3703119dcc99ef3bbf75ab42bcfb
   STABLE_5_10_265_COMMIT: 2a3da1f4966798b0b48ce302944ad356b2c98b5d
-  # Published raw.12 system-update archive (contains payload/images/rootfs.sd.gz),
-  # hash recorded in docs/releases/rc12-2.0.42-raw.12.md.
-  RAW12_SYSTEM_ARCHIVE_URL: https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-0.3.0-raw.12/hardened-nanokvm-system-0.3.0-raw.12.tar.gz
-  RAW12_SYSTEM_ARCHIVE_SHA256: cf6bbef5599197f4b5ed926f22bed12352f2fdc275eb8f32fc8344d3ed7eae96
   # Real upstream (GPL-3.0, sipeed/NanoKVM). Source of the 4 OpenCV modules
   # libkvm.so still needs (server-rust/native/README.md) -- verified
   # near-byte-identical to raw.12's own (same MaixCDK build).
@@ -225,33 +221,37 @@ jobs:
       # From here on this skips the monolithic build-kernel-5.10.265-rc12-run.sh:
       # its middle steps only rebuild-and-compare against a locally-assembled
       # staging bundle (hardened-sg2002-vendor-runtime.mk: PROPRIETARY,
-      # REDISTRIBUTE=NO) that no script reconstructs from scratch. Source
-      # that bundle's remaining structural piece directly from the
-      # published raw.12 rootfs instead -- see the next steps.
+      # REDISTRIBUTE=NO) that no script reconstructs from scratch. The next
+      # steps build that bundle's content from source instead.
       - name: Build the hardened 5.10.265 kernel candidate
         run: |
           KERNEL_5_10_265_OUTPUT_DIR="$RUN_ROOT/kernel" \
           KERNEL_5_10_265_CONFIG_FRAGMENT="support/sg2002/kernel/5.10.265/configs/phase3-04-init-on-alloc.config" \
             scripts/build-vendor-kernel-5.10.265-candidate.sh
 
-      # The one thing left here isn't file content: just /mnt/system/ko's
-      # tree structure/basenames (8 of 57 modules nest under 3rd/); content
-      # is fully replaced by from-source rebuilds below. No shipped file
-      # still comes from raw.12 -- see server-rust/native/README.md.
-      - name: Fetch published raw.12 system archive and extract /mnt/system/ko
+      # /mnt/system/ko's tree structure (which of the 57 modules nest under
+      # 3rd/) doesn't need an image extraction at all -- it's already fully
+      # known from the tracked manifests, and the module-rebuild scripts
+      # already place their own artifacts at these same relative paths.
+      # Placeholder files here just give "Substitute freshly-built modules"
+      # below something to find-and-overwrite; every one gets replaced.
+      #
+      # raw.12's /mnt/system also carried auto.sh, sdk-release, and (in
+      # older releases) root/ -- confirmed dead: zero references anywhere
+      # in tracked source, auto.sh is generic unused vendor EVB boilerplate,
+      # and root/ doesn't even exist in raw.12 any more. Not reproduced.
+      - name: Build the /mnt/system/ko skeleton from tracked manifests
         run: |
-          curl --fail --location --retry 2 \
-            --output /tmp/raw12-system.tar.gz "$RAW12_SYSTEM_ARCHIVE_URL"
-          echo "$RAW12_SYSTEM_ARCHIVE_SHA256  /tmp/raw12-system.tar.gz" | sha256sum -c -
-          mkdir -p /tmp/raw12-system
-          tar -xzf /tmp/raw12-system.tar.gz -C /tmp/raw12-system
-          gunzip -k /tmp/raw12-system/payload/images/rootfs.sd.gz
-
-          ROOTFS=/tmp/raw12-system/payload/images/rootfs.sd
-          RUNTIME_DIR="$RUN_ROOT/runtime"
-          mkdir -p "$RUNTIME_DIR"
-          debugfs -R "rdump /mnt/system $RUNTIME_DIR" "$ROOTFS" >/dev/null
-          [ "$(find "$RUNTIME_DIR/system/ko" -name '*.ko' | wc -l)" -eq 57 ]
+          KO_DIR="$RUN_ROOT/runtime/system/ko"
+          mkdir -p "$KO_DIR/3rd"
+          while IFS= read -r relative; do
+            touch "$KO_DIR/$relative"
+          done < support/sg2002/kernel/5.10.265/manifests/external-modules.txt
+          while IFS= read -r relative; do
+            touch "$KO_DIR/$(basename "$relative")"
+          done < support/sg2002/kernel/5.10.265/manifests/in-tree-modules.txt
+          touch "$KO_DIR/soph_vcodec.ko" "$KO_DIR/soph_jpeg.ko" "$KO_DIR/soph_vc_driver.ko"
+          [ "$(find "$KO_DIR" -name '*.ko' | wc -l)" -eq 57 ]
 
       # The last raw.12 file dependency, closed: libc.so, the 4 GCC runtime
       # libs, the 2 T-Head loaders, and libsns_lt6911.so all come from our
@@ -335,16 +335,16 @@ jobs:
           verify_and_replace libopencv_imgproc.so.409 "$NANOKVM_UPSTREAM_OPENCV_IMGPROC_SHA256"
 
       # Rebuild the 30 CVITEK osdrv external kernel modules from source
-      # (already cloned by `make vendor-sdk`) instead of reusing raw.12's
-      # prebuilt .ko files. List: external-modules.txt -- 22 "soph_*"
-      # peripheral modules plus WiFi/Bluetooth/touch drivers under 3rd/,
-      # matching prepare-kernel-5.10.265-vendor-runtime.sh's own "external
-      # replacements: 30" figure.
+      # (already cloned by `make vendor-sdk`). List: external-modules.txt --
+      # 22 "soph_*" peripheral modules plus WiFi/Bluetooth/touch drivers
+      # under 3rd/, matching prepare-kernel-5.10.265-vendor-runtime.sh's own
+      # "external replacements: 30" figure.
       #
       # rebuild-vendor-external-modules-5.10-baseline.sh only reads the
-      # manifest's name/classification columns. RUNTIME_MODULE_DIR (the
-      # raw.12 extraction) is just a comparison baseline -- candidate mode
-      # tolerates content mismatches, checking only inventory and vermagic.
+      # manifest's name/classification columns. RUNTIME_MODULE_DIR is just
+      # the empty skeleton built above -- its "accepted_sha256" column is a
+      # placeholder, not a real comparison; candidate mode never gates on
+      # it, only on inventory and vermagic.
       - name: Rebuild external CVITEK kernel modules from source
         run: |
           MANIFEST_DIR=/tmp/module-provenance/report
@@ -392,9 +392,6 @@ jobs:
           SOPHGO_MEDIA_KCFLAGS="-fmacro-prefix-map=$RUN_ROOT/media/sophgo-current/osdrv=/usr/src/sophgo-osdrv" \
             scripts/build-sophgo-media-module-replacements.sh
 
-      # HISTORICAL_VC_REFERENCE_MODULE defaults to the unavailable local
-      # staging bundle; point it at our raw.12 extraction instead, used
-      # only as a diff reference, not a real dependency.
       - name: Rebuild soph_vc_driver.ko from an older sophgo/osdrv commit
         run: |
           HISTORICAL_VC_KERNEL_DIR="$RUN_ROOT/kernel" \
@@ -405,7 +402,6 @@ jobs:
           HISTORICAL_VC_SYS_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/sys/Module.symvers" \
           HISTORICAL_VC_OUTPUT_DIR="$RUN_ROOT/media/historical-vc" \
           HISTORICAL_VC_KCFLAGS="-fmacro-prefix-map=$RUN_ROOT/media/historical-vc/osdrv=/usr/src/sophgo-osdrv-v2" \
-          HISTORICAL_VC_REFERENCE_MODULE="$RUN_ROOT/runtime/system/ko/soph_vc_driver.ko" \
             scripts/build-historical-sophgo-vc-driver.sh
 
       - name: Upload media-module rebuild evidence
@@ -418,15 +414,15 @@ jobs:
           retention-days: 14
           if-no-files-found: warn
 
-      # Overwrite raw.12's module copies with what was just rebuilt from
-      # source (30 external + 3 media + 24 in-tree), closing every
-      # kernel-module gap. No file shipped in the final image still comes
-      # from raw.12 -- see server-rust/native/README.md.
+      # Fill in the skeleton with what was just rebuilt from source (30
+      # external + 3 media + 24 in-tree), closing every kernel-module gap.
+      # No file shipped in the final image comes from raw.12 -- see
+      # server-rust/native/README.md.
       #
-      # Must overwrite by existing path, not $KO_DIR/$(basename): raw.12's
-      # tree nests WiFi/BT/touch modules under ko/3rd/, and basename-only
-      # copies silently duplicated them (57 -> 65 modules) instead of
-      # overwriting in place.
+      # Must overwrite by existing path, not $KO_DIR/$(basename): the tree
+      # nests WiFi/BT/touch modules under ko/3rd/, and basename-only copies
+      # would silently duplicate them (57 -> 65) instead of overwriting the
+      # skeleton placeholder in place.
       - name: Substitute freshly-built modules into the runtime staging dir
         run: |
           KO_DIR="$RUN_ROOT/runtime/system/ko"
@@ -438,7 +434,7 @@ jobs:
             name="$(basename "$src")"
             mapfile -t destinations < <(find "$KO_DIR" -type f -name "$name" -printf '%P\n')
             if [ "${#destinations[@]}" -ne 1 ]; then
-              echo "expected exactly one existing raw.12 module named $name, found ${#destinations[@]}" >&2
+              echo "expected exactly one skeleton placeholder named $name, found ${#destinations[@]}" >&2
               exit 1
             fi
             cp "$src" "$KO_DIR/${destinations[0]}"
@@ -457,6 +453,29 @@ jobs:
           echo "=== changed relative paths (basename only, expected -- content changed at the same path) ==="
           diff /tmp/ko-before.txt /tmp/ko-after.txt || true
           [ "$(wc -l < /tmp/ko-after.txt)" -eq 57 ]
+
+      # Regenerated from already-pinned values instead of copied from
+      # raw.12. device_acceptance carries forward the same historical
+      # marker the validator has pinned as its own default all along
+      # (10.0.87.133-20260821T032009Z) -- it records that these exact
+      # sophgo/osdrv source commits passed physical device acceptance, a
+      # fact about the source this rebuild uses unchanged, not a new claim
+      # about this specific binary.
+      - name: Regenerate the media-module provenance record
+        run: |
+          KO_DIR="$RUN_ROOT/runtime/system/ko"
+          kernel_release="$(sed -n 's/^#define UTS_RELEASE "\(.*\)"$/\1/p' \
+            "$RUN_ROOT/kernel/include/generated/utsrelease.h")"
+          cat > "$KO_DIR/hardened-source-media-provenance.txt" <<EOF
+          kernel_release=$kernel_release
+          sophgo_current_commit=aa542c41df94f7bc656cb740f6622a5dca7dc403
+          sophgo_vc_commit=5ed7cc28daf7194885d87df2aa534a27a1956c70
+          soph_vcodec_sha256=$(sha256sum "$KO_DIR/soph_vcodec.ko" | awk '{print $1}')
+          soph_jpeg_sha256=$(sha256sum "$KO_DIR/soph_jpeg.ko" | awk '{print $1}')
+          soph_vc_driver_sha256=$(sha256sum "$KO_DIR/soph_vc_driver.ko" | awk '{print $1}')
+          device_acceptance=${EXPECTED_MEDIA_DEVICE_ACCEPTANCE:-10.0.87.133-20260821T032009Z}
+          redistribution=disabled-pending-license-grant
+          EOF
 
       - name: Upload module-rebuild evidence
         if: always()
@@ -510,7 +529,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: sg2002-raw12-cli-tools-fix
+          name: sg2002-recovery-sd-image
           path: |
             build/rc12-run/recovery/**
             build/rc12-run/_reports/**
