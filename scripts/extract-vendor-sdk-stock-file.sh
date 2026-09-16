@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Extracts one file from this pipeline's own vendor-sdk-stock rootfs.sd
-# (make vendor-sdk-stock, already built and cached by the vendor-sdk CI
-# job -- the real on-device NanoKVM image, not a generic toolchain
-# package). Tries each candidate path in order, stopping at the first
-# that exists: none of these files live under /kvmapp/ in a stock
-# (no-app) image, so the exact path varies. See server-rust/native/README.md.
+# Extracts one file from this pipeline's own vendor-sdk-stock rootfs.sd (make vendor-sdk-stock,
+# already built and cached by the vendor-sdk CI job -- the real on-device NanoKVM image, not a
+# generic toolchain package). Tries each candidate path in order, stopping at the first that
+# exists: none of these files live under /kvmapp/ in a stock (no-app) image, so the exact path
+# varies. See server-rust/native/README.md.
 
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 VENDOR_SDK_DIR="${HARDENED_SG2002_VENDOR_SDK_DIR:-$ROOT_DIR/build/vendor/LicheeRV-Nano-Build}"
