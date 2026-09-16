@@ -20,9 +20,9 @@ env:
   # against the canonical git.kernel.org stable tree's peeled tag commits.
   STABLE_5_10_4_COMMIT: b1313fe517ca3703119dcc99ef3bbf75ab42bcfb
   STABLE_5_10_265_COMMIT: 2a3da1f4966798b0b48ce302944ad356b2c98b5d
-  # Real upstream (GPL-3.0, sipeed/NanoKVM). Source of the 4 OpenCV modules
-  # libkvm.so still needs (server-rust/native/README.md) -- verified
-  # near-byte-identical to raw.12's own (same MaixCDK build).
+  # Real upstream (GPL-3.0, sipeed/NanoKVM): source for the 4 OpenCV
+  # modules libkvm.so needs (verified near-byte-identical; see
+  # server-rust/native/README.md).
   NANOKVM_UPSTREAM_COMMIT: bd070b2f5ce27d22618e8a1c8d2bdca543429882
   NANOKVM_UPSTREAM_OPENCV_CORE_SHA256: fc4ffdd709d2241e7392bb0f6f7ade1a5b1dbbefe5b5551dd2f5ae5ec11ff566
   NANOKVM_UPSTREAM_OPENCV_HIGHGUI_SHA256: 77ac57b3f652d3df598f89dcbebabb61a31a5794933d4fe703e2875fa83f261f
@@ -225,11 +225,10 @@ jobs:
       - name: Rehydrate the hardened 5.10.265 kernel source
         run: scripts/rehydrate-vendor-kernel-5.10.265-merge.sh
 
-      # From here on this skips the monolithic build-kernel-5.10.265-rc12-run.sh:
-      # its middle steps only rebuild-and-compare against a locally-assembled
-      # staging bundle (hardened-sg2002-vendor-runtime.mk: PROPRIETARY,
-      # REDISTRIBUTE=NO) that no script reconstructs from scratch. The next
-      # steps build that bundle's content from source instead.
+      # hardened-sg2002-vendor-runtime.mk declares its inputs
+      # PROPRIETARY/REDISTRIBUTE=NO, so the steps below build every one of
+      # those inputs from source or this pipeline's own vendor-sdk-stock
+      # build, rather than shipping an opaque prebuilt bundle.
       - name: Build the hardened 5.10.265 kernel candidate
         run: |
           KERNEL_5_10_265_OUTPUT_DIR="$RUN_ROOT/kernel" \
@@ -237,16 +236,16 @@ jobs:
             scripts/build-vendor-kernel-5.10.265-candidate.sh
 
       # /mnt/system/ko's tree structure (which of the 57 modules nest under
-      # 3rd/) doesn't need an image extraction at all -- it's already fully
-      # known from the tracked manifests, and the module-rebuild scripts
-      # already place their own artifacts at these same relative paths.
+      # 3rd/) is already fully known from the tracked manifests, and the
+      # module-rebuild scripts already place their own artifacts at these
+      # same relative paths -- no image to extract it from is needed.
       # Placeholder files here just give "Substitute freshly-built modules"
       # below something to find-and-overwrite; every one gets replaced.
       #
-      # raw.12's /mnt/system also carried auto.sh, sdk-release, and (in
-      # older releases) root/ -- confirmed dead: zero references anywhere
-      # in tracked source, auto.sh is generic unused vendor EVB boilerplate,
-      # and root/ doesn't even exist in raw.12 any more. Not reproduced.
+      # The vendor SDK's own /mnt/system also carries auto.sh and
+      # sdk-release: confirmed dead (zero references anywhere in tracked
+      # source, auto.sh is generic unused vendor EVB boilerplate) and not
+      # reproduced here.
       - name: Build the /mnt/system/ko skeleton from tracked manifests
         run: |
           KO_DIR="$RUN_ROOT/runtime/system/ko"
@@ -260,22 +259,18 @@ jobs:
           touch "$KO_DIR/soph_vcodec.ko" "$KO_DIR/soph_jpeg.ko" "$KO_DIR/soph_vc_driver.ko"
           [ "$(find "$KO_DIR" -name '*.ko' | wc -l)" -eq 57 ]
 
-      # The last raw.12 file dependency, closed: libc.so, the 4 GCC runtime
-      # libs, the 2 T-Head loaders, and libsns_lt6911.so all come from our
-      # own vendor-sdk-stock build (already cached above) instead. 7 of the
-      # 8 are byte-identical to raw.12's copies; libsns_lt6911.so's bytes
-      # differ only in a compiler-embedded __FILE__ debug path (raw.12 was
-      # built on the maintainer's own machine, this pipeline in a runner) --
-      # same source and logic, see server-rust/native/README.md for the
-      # byte-level trace. sophgo/host-tools was tried first for the
-      # loaders/libc.so and rejected (generic cross-toolchain build, wrong
-      # bytes); vendor-sdk-stock is the real device image instead.
+      # libc.so, the 4 GCC runtime libs, the 2 T-Head loaders, and
+      # libsns_lt6911.so all come from this pipeline's own vendor-sdk-stock
+      # build (already cached above) -- the real on-device image, not
+      # sophgo/host-tools' generic cross-toolchain sysroot (tried first and
+      # rejected; see server-rust/native/README.md for the full evidence
+      # trail on all 8 files).
       #
-      # None of these files live under /kvmapp/ in a stock image, so probe a
-      # few plausible paths rather than assume one -- and unlike the
-      # diagnostic that found them, fail hard here if any is missing.
-      # extract-vendor-sdk-stock-file.sh is the same helper the earlier
-      # sysroot-staging step uses, so linking and runtime never diverge.
+      # None of these files live under /kvmapp/ in a stock image, so probe
+      # a few plausible paths rather than assume one, and fail hard if any
+      # is missing. extract-vendor-sdk-stock-file.sh is the same helper the
+      # earlier sysroot-staging step uses, so linking and runtime never
+      # diverge.
       - name: Source the remaining runtime files from our own vendor-sdk-stock build
         run: |
           RUNTIME_DIR="$RUN_ROOT/runtime"
@@ -304,11 +299,11 @@ jobs:
           scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/system/usr/lib/libsns_lt6911.so" \
             /mnt/system/usr/lib/libsns_lt6911.so
 
-      # libkvm.so no longer needs video/dnn/calib3d/features2d/flann/protobuf
-      # (server-rust/native/README.md; deleted regardless of what's staged
-      # here). That leaves core/highgui/imgcodecs/imgproc -- source those
-      # from real upstream (GPL-3.0 sipeed/NanoKVM) instead of raw.12,
-      # verified near-byte-identical (same MaixCDK build).
+      # libkvm.so doesn't need video/dnn/calib3d/features2d/flann/protobuf
+      # (server-rust/native/README.md); those are deleted regardless of
+      # what's staged here. That leaves core/highgui/imgcodecs/imgproc --
+      # source those from real upstream (GPL-3.0 sipeed/NanoKVM), verified
+      # near-byte-identical (same MaixCDK build).
       - name: Source OpenCV core/highgui/imgcodecs/imgproc from upstream
         run: |
           DL_LIB="$RUN_ROOT/runtime/kvmapp-dl-lib"
@@ -329,8 +324,7 @@ jobs:
       # Rebuild the 30 CVITEK osdrv external kernel modules from source
       # (already cloned by `make vendor-sdk`). List: external-modules.txt --
       # 22 "soph_*" peripheral modules plus WiFi/Bluetooth/touch drivers
-      # under 3rd/, matching prepare-kernel-5.10.265-vendor-runtime.sh's own
-      # "external replacements: 30" figure.
+      # under 3rd/.
       #
       # rebuild-vendor-external-modules-5.10-baseline.sh only reads the
       # manifest's name/classification columns. RUNTIME_MODULE_DIR is just
@@ -407,9 +401,9 @@ jobs:
           if-no-files-found: warn
 
       # Fill in the skeleton with what was just rebuilt from source (30
-      # external + 3 media + 24 in-tree), closing every kernel-module gap.
-      # No file shipped in the final image comes from raw.12 -- see
-      # server-rust/native/README.md.
+      # external + 3 media + 24 in-tree) -- every module in the final image
+      # ships from source; see server-rust/native/README.md for the full
+      # provenance trail.
       #
       # Must overwrite by existing path, not $KO_DIR/$(basename): the tree
       # nests WiFi/BT/touch modules under ko/3rd/, and basename-only copies
@@ -446,18 +440,17 @@ jobs:
           diff /tmp/ko-before.txt /tmp/ko-after.txt || true
           [ "$(wc -l < /tmp/ko-after.txt)" -eq 57 ]
 
-      # Regenerated from already-pinned values instead of copied from
-      # raw.12. device_acceptance is pending-recovery-sd, not raw.12's own
-      # historical device/timestamp marker -- build-latest-buildroot-
-      # kernel-5.10.265-rootfs.sh overrides the validator's default to
-      # this exact literal when it calls the validator, and reusing
-      # raw.12's own device-acceptance value here would have been a false
-      # claim about this specific, not-yet-device-tested rebuild.
+      # Generated fresh from values already known at this point in the
+      # build, rather than carried forward from any prebuilt image.
+      # device_acceptance must be exactly pending-recovery-sd --
+      # build-latest-buildroot-kernel-5.10.265-rootfs.sh overrides the
+      # validator's own default to this literal when it calls it, since
+      # this specific rebuild hasn't been through physical device
+      # acceptance testing and shouldn't claim otherwise.
       #
       # hardened-kernel-5.10.265-provenance.txt is a second, separate file
       # the same wrapper's EXPECTED_RUNTIME_KERNEL_RELEASE override checks
-      # for (validate-latest-buildroot-sg2002-rootfs.sh) -- also previously
-      # carried forward from raw.12 wholesale, also regenerated here now.
+      # for (validate-latest-buildroot-sg2002-rootfs.sh).
       - name: Regenerate the kernel and media-module provenance records
         run: |
           KO_DIR="$RUN_ROOT/runtime/system/ko"
