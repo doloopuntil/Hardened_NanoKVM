@@ -85,9 +85,6 @@ jobs:
     # doesn't fit, the only fix is a self-hosted runner, not a bigger number.
     timeout-minutes: 360
     env:
-      # Everything the RC12 pipeline scripts need except
-      # EXPECTED_KVMAPP_SERVER_SHA256, which can only be computed after the
-      # kvmapp bridge is actually built (see "Compute expected kvmapp hash").
       RUN_ROOT: ${{ github.workspace }}/build/rc12-run
       EXPECTED_SYSTEM_VERSION: 0.3.0-raw.12
       EXPECTED_KVMAPP_VERSION: 2.0.42
@@ -247,15 +244,6 @@ jobs:
       - name: Rehydrate the hardened 5.10.265 kernel source
         run: scripts/rehydrate-vendor-kernel-5.10.265-merge.sh
 
-      # build-kernel-5.10.265-rc12-run.sh pins EXPECTED_KVMAPP_SERVER_SHA256
-      # to the hash of the originally published RC12 binary. A locally
-      # rebuilt Rust binary is not expected to be byte-identical, so this
-      # recomputes the check against what we actually just built.
-      - name: Compute expected kvmapp hash
-        run: |
-          echo "EXPECTED_KVMAPP_SERVER_SHA256=$(sha256sum build/kvmapp-rust/kvmapp/server/NanoKVM-Server | awk '{print $1}')" \
-            >> "$GITHUB_ENV"
-
       # From here on this does NOT call the monolithic
       # build-kernel-5.10.265-rc12-run.sh. That script's middle steps
       # (rebuild-vendor-external-modules, build-sg2002-media-modules-candidate,
@@ -276,14 +264,14 @@ jobs:
           KERNEL_5_10_265_CONFIG_FRAGMENT="support/sg2002/kernel/5.10.265/configs/phase3-04-init-on-alloc.config" \
             scripts/build-vendor-kernel-5.10.265-candidate.sh
 
-      # Extract the vendor runtime staging bundle's one remaining raw.12-only
-      # part: system/ (modules + BSP userspace). The module content gets
-      # replaced by from-source rebuilds below; what's still genuinely
-      # needed from here is the module tree structure/basenames and
-      # libsns_lt6911.so (server-rust/native/README.md -- the LT6911 HDMI
-      # sensor plugin has no copy anywhere else, verified against both
-      # sipeed/NanoKVM's own base image and our own vendor-sdk-stock build).
-      - name: Fetch published raw.12 system archive
+      # Fetch the published raw.12 system archive for the one thing this
+      # pipeline still can't source any other way: /mnt/system (module tree
+      # structure/basenames, and libsns_lt6911.so -- server-rust/native/README.md,
+      # the LT6911 HDMI sensor plugin has no copy anywhere else, verified
+      # against both sipeed/NanoKVM's own base image and our own
+      # vendor-sdk-stock build). Module content itself gets replaced by
+      # from-source rebuilds below.
+      - name: Fetch published raw.12 system archive and extract /mnt/system
         run: |
           curl --fail --location --retry 2 \
             --output /tmp/raw12-system.tar.gz "$RAW12_SYSTEM_ARCHIVE_URL"
@@ -292,8 +280,6 @@ jobs:
           tar -xzf /tmp/raw12-system.tar.gz -C /tmp/raw12-system
           gunzip -k /tmp/raw12-system/payload/images/rootfs.sd.gz
 
-      - name: Extract vendor runtime staging bundle from published rootfs
-        run: |
           ROOTFS=/tmp/raw12-system/payload/images/rootfs.sd
           RUNTIME_DIR="$RUN_ROOT/runtime"
           mkdir -p "$RUNTIME_DIR"
@@ -430,8 +416,7 @@ jobs:
             scripts/rebuild-vendor-external-modules-5.10-baseline.sh
 
       # Rebuild the 3 media kernel modules from source too, closing the
-      # last kernel-module gap (only OpenCV/protobuf userspace libraries
-      # remain genuinely sourced from raw.12 after this). This is a real
+      # last kernel-module gap. This is a real
       # three-stage chain, not one script:
       #   1. soph_vcodec.ko: the vendor SDK's own osdrv/interdrv/v2/vcodec
       #      (already cloned by `make vendor-sdk`) plus a tracked
