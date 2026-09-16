@@ -151,15 +151,22 @@ jobs:
             make latest-buildroot-security-source
 
       # build-linked-libkvm.sh links against a real NanoKVM musl
-      # libc.so/libgcc_s.so; server-rust/sysroot/ is gitignored, so stage it
-      # from the pinned sophgo/host-tools toolchain (fetched by `make
-      # vendor-sdk`), which bundles the same sysroot.
+      # libc.so/libgcc_s.so; server-rust/sysroot/ is gitignored, so stage
+      # it from our own vendor-sdk-stock build (already cached above) --
+      # not sophgo/host-tools' bundled sysroot, which is a generic
+      # cross-toolchain build confirmed elsewhere in this pipeline to not
+      # be the vendor's on-device runtime (server-rust/native/README.md).
+      # Using vendor-sdk-stock here too means linking and runtime both use
+      # the same verified files, not two different sources.
       - name: Stage NanoKVM runtime sysroot for linked libkvm build
         run: |
-          TOOLCHAIN="build/vendor/LicheeRV-Nano-Build/host-tools/gcc/riscv64-linux-musl-x86_64"
-          mkdir -p server-rust/sysroot/lib
-          cp "$TOOLCHAIN/sysroot/usr/lib64xthead/lp64d/libc.so" server-rust/sysroot/lib/
-          cp "$TOOLCHAIN/riscv64-unknown-linux-musl/lib64xthead/lp64d/libgcc_s.so.1" server-rust/sysroot/lib/
+          scripts/extract-vendor-sdk-stock-file.sh server-rust/sysroot/lib/libc.so \
+            /lib/libc.so /usr/lib/libc.so \
+            /lib64xthead/lp64d/libc.so /lib64v0p7_xthead/lp64d/libc.so \
+            /usr/lib64xthead/lp64d/libc.so /usr/lib64v0p7_xthead/lp64d/libc.so
+          scripts/extract-vendor-sdk-stock-file.sh server-rust/sysroot/lib/libgcc_s.so.1 \
+            /lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 \
+            /lib64xthead/lp64d/libgcc_s.so.1 /lib64v0p7_xthead/lp64d/libgcc_s.so.1
 
       # kvm_system is retained, never rebuilt here (needs the separate
       # MaixCDK toolchain, out of scope) -- reuse the exact binary already
@@ -267,49 +274,34 @@ jobs:
       # None of these files live under /kvmapp/ in a stock image, so probe a
       # few plausible paths rather than assume one -- and unlike the
       # diagnostic that found them, fail hard here if any is missing.
+      # extract-vendor-sdk-stock-file.sh is the same helper the earlier
+      # sysroot-staging step uses, so linking and runtime never diverge.
       - name: Source the remaining runtime files from our own vendor-sdk-stock build
         run: |
-          STOCK_ROOTFS="$HARDENED_SG2002_VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rawimages/rootfs.sd"
           RUNTIME_DIR="$RUN_ROOT/runtime"
           mkdir -p "$RUNTIME_DIR/loaders" "$RUNTIME_DIR/kvmapp-dl-lib" "$RUNTIME_DIR/system/usr/lib"
-          test -s "$STOCK_ROOTFS"
 
-          extract_one() {
-            dest="$1"
-            shift
-            for candidate in "$@"; do
-              if debugfs -R "dump $candidate $dest" "$STOCK_ROOTFS" >/dev/null 2>&1 \
-                  && [ -s "$dest" ]; then
-                echo "$(basename "$dest") <- $candidate"
-                return 0
-              fi
-              rm -f "$dest"
-            done
-            echo "::error::$(basename "$dest") not found in vendor-sdk-stock at any probed path" >&2
-            return 1
-          }
-
-          extract_one "$RUNTIME_DIR/kvmapp-dl-lib/libc.so" \
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libc.so" \
             /lib/libc.so /usr/lib/libc.so \
             /lib64xthead/lp64d/libc.so /lib64v0p7_xthead/lp64d/libc.so \
             /usr/lib64xthead/lp64d/libc.so /usr/lib64v0p7_xthead/lp64d/libc.so
-          extract_one "$RUNTIME_DIR/kvmapp-dl-lib/libstdc++.so.6.0.28" \
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libstdc++.so.6.0.28" \
             /lib/libstdc++.so.6.0.28 /usr/lib/libstdc++.so.6.0.28 \
             /lib64xthead/lp64d/libstdc++.so.6.0.28 /lib64v0p7_xthead/lp64d/libstdc++.so.6.0.28
-          extract_one "$RUNTIME_DIR/kvmapp-dl-lib/libgcc_s.so.1" \
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libgcc_s.so.1" \
             /lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 \
             /lib64xthead/lp64d/libgcc_s.so.1 /lib64v0p7_xthead/lp64d/libgcc_s.so.1
-          extract_one "$RUNTIME_DIR/kvmapp-dl-lib/libgomp.so.1.0.0" \
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libgomp.so.1.0.0" \
             /lib/libgomp.so.1.0.0 /usr/lib/libgomp.so.1.0.0 \
             /lib64xthead/lp64d/libgomp.so.1.0.0 /lib64v0p7_xthead/lp64d/libgomp.so.1.0.0
-          extract_one "$RUNTIME_DIR/kvmapp-dl-lib/libatomic.so.1.2.0" \
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libatomic.so.1.2.0" \
             /lib/libatomic.so.1.2.0 /usr/lib/libatomic.so.1.2.0 \
             /lib64xthead/lp64d/libatomic.so.1.2.0 /lib64v0p7_xthead/lp64d/libatomic.so.1.2.0
-          extract_one "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" \
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" \
             /lib/ld-musl-riscv64xthead.so.1
-          extract_one "$RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" \
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" \
             /lib/ld-musl-riscv64v0p7_xthead.so.1
-          extract_one "$RUNTIME_DIR/system/usr/lib/libsns_lt6911.so" \
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/system/usr/lib/libsns_lt6911.so" \
             /mnt/system/usr/lib/libsns_lt6911.so
 
       # libkvm.so no longer needs video/dnn/calib3d/features2d/flann/protobuf

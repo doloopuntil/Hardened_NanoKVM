@@ -154,17 +154,18 @@ supplied the same content instead:
 | `git.kernel.org` stable tree | Real upstream Linux 5.10.265 fixes for the kernel rehydration | Not applicable -- the whole point is pulling genuine upstream fixes the vendor's own kernel snapshot doesn't have. |
 | `buildroot.org` | The Buildroot release tarball itself | Not applicable -- an unrelated upstream project, not vendor SDK content. |
 
-One narrower finding, not a new external dependency: `build-linked-libkvm.sh`
-links `libkvm.so` against `sophgo/host-tools`' own `libc.so`/`libgcc_s.so.1`
-sysroot copies (fetched early, before `vendor-sdk-stock`'s equivalents are
-extracted later in the same job) -- the same files independently confirmed
-elsewhere in this pipeline to *not* be the on-device runtime build. This has
-always worked in practice (linking only needs matching symbol tables, not
-byte-identical content), and doesn't add or remove an external repo either
-way since `host-tools` is fetched regardless for the compiler. It's a
-loose end worth tightening for consistency -- using `vendor-sdk-stock`'s
-now-verified copies for linking too -- but not yet done, since it would mean
-reordering when that extraction step runs.
+One narrower finding, since fixed: `build-linked-libkvm.sh` used to link
+`libkvm.so` against `sophgo/host-tools`' own `libc.so`/`libgcc_s.so.1`
+sysroot copies -- the same files independently confirmed elsewhere in this
+pipeline to *not* be the on-device runtime build. It worked in practice
+(linking only needs matching symbol tables, not byte-identical content),
+but meant linking and runtime used two different sources for the same
+files. `vendor-sdk-stock`'s rootfs.sd is available from the start of the
+`build-image` job (the same cache restored early on), so no reordering was
+actually needed -- `scripts/extract-vendor-sdk-stock-file.sh` now extracts
+the sysroot copies the same way the runtime files are extracted later,
+and both steps share that one script instead of duplicating the
+probe-multiple-candidate-paths logic.
 
 ## Related documents
 
