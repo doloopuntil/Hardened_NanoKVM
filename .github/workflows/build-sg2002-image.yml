@@ -311,6 +311,71 @@ jobs:
           # genuinely depend on the published rootfs, not just its
           # toolchain.)
 
+      # Diagnostic only, never blocks the build: libsns_lt6911.so (the LT6911
+      # HDMI-bridge sensor plugin kept in hardened-sg2002-vendor-runtime.mk,
+      # server-rust/native/README.md) has no trace anywhere in the public
+      # sipeed/LicheeRV-Nano-Build source -- not in build/sensors/sensor_list.json,
+      # not under middleware/osdrv -- so its raw.12 provenance can't be
+      # verified from source. But make vendor-sdk-stock (the vendor-sdk job,
+      # already cached above) builds the real sg2002_licheervnano_sd
+      # defconfig, whose own documented baseline checklist requires working
+      # HDMI capture (docs/vendor-sdk-build.md) -- so our own from-scratch
+      # vendor SDK build plausibly ships this file too. If it does and
+      # matches, that closes this file's raw.12 dependency for good, the
+      # same way the OpenCV modules closed theirs.
+      - name: Diagnose libsns_lt6911.so against our own vendor-sdk-stock build
+        continue-on-error: true
+        run: |
+          STOCK_ROOTFS="$HARDENED_SG2002_VENDOR_SDK_DIR/install/soc_sg2002_licheervnano_sd/rawimages/rootfs.sd"
+          RAW12_COPY="$RUN_ROOT/runtime/system/usr/lib/libsns_lt6911.so"
+          SUMMARY="## libsns_lt6911.so provenance diagnostic"$'\n'
+          if [ ! -s "$STOCK_ROOTFS" ]; then
+            SUMMARY+="- stock vendor-sdk-stock rootfs.sd not found at \`$STOCK_ROOTFS\`"$'\n'
+            printf '%s\n' "$SUMMARY" >> "$GITHUB_STEP_SUMMARY"
+            echo "stock rootfs.sd missing, nothing to compare" >&2
+            exit 0
+          fi
+          STOCK_COPY=/tmp/stock-libsns_lt6911.so
+          if ! debugfs -R "dump /mnt/system/usr/lib/libsns_lt6911.so $STOCK_COPY" \
+              "$STOCK_ROOTFS" >/tmp/debugfs-lt6911.log 2>&1 || [ ! -s "$STOCK_COPY" ]; then
+            SUMMARY+="- \`vendor-sdk-stock\` does NOT ship \`/mnt/system/usr/lib/libsns_lt6911.so\`"$'\n'
+            SUMMARY+="- debugfs output: \`$(tail -n1 /tmp/debugfs-lt6911.log)\`"$'\n'
+            SUMMARY+="- raw.12 remains the only known source for this file"$'\n'
+            printf '%s\n' "$SUMMARY" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          STOCK_SHA256="$(sha256sum "$STOCK_COPY" | awk '{print $1}')"
+          STOCK_SIZE="$(stat -c%s "$STOCK_COPY")"
+          SUMMARY+="- \`vendor-sdk-stock\` DOES ship \`/mnt/system/usr/lib/libsns_lt6911.so\`"$'\n'
+          SUMMARY+="- stock: $STOCK_SIZE bytes, sha256 \`$STOCK_SHA256\`"$'\n'
+          if [ -s "$RAW12_COPY" ]; then
+            RAW12_SHA256="$(sha256sum "$RAW12_COPY" | awk '{print $1}')"
+            RAW12_SIZE="$(stat -c%s "$RAW12_COPY")"
+            SUMMARY+="- raw.12: $RAW12_SIZE bytes, sha256 \`$RAW12_SHA256\`"$'\n'
+            if [ "$STOCK_SHA256" = "$RAW12_SHA256" ]; then
+              SUMMARY+="- **IDENTICAL** -- vendor-sdk-stock could replace raw.12 as the source"$'\n'
+            else
+              SUMMARY+="- **DIFFERS** -- same name"
+              [ "$STOCK_SIZE" = "$RAW12_SIZE" ] && SUMMARY+=", same size" || SUMMARY+=", different size"
+              SUMMARY+=", different build; not a drop-in replacement without further review"$'\n'
+            fi
+          else
+            SUMMARY+="- raw.12 copy not found at \`$RAW12_COPY\` for comparison"$'\n'
+          fi
+          printf '%s\n' "$SUMMARY" >> "$GITHUB_STEP_SUMMARY"
+          mkdir -p "$RUN_ROOT/_reports/lt6911-diagnostic"
+          cp "$STOCK_COPY" "$RUN_ROOT/_reports/lt6911-diagnostic/stock-libsns_lt6911.so"
+          [ -s "$RAW12_COPY" ] && cp "$RAW12_COPY" "$RUN_ROOT/_reports/lt6911-diagnostic/raw12-libsns_lt6911.so"
+
+      - name: Upload libsns_lt6911.so diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lt6911-provenance-diagnostic
+          path: build/rc12-run/_reports/lt6911-diagnostic/
+          if-no-files-found: ignore
+          retention-days: 30
+
       # libkvm.so no longer declares NEEDED on libopencv_video.so.409
       # (server-rust/native/README.md), so hardened-sg2002-vendor-runtime.mk
       # now deletes video/dnn/calib3d/features2d/flann/protobuf at install
