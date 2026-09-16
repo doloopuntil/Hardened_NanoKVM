@@ -342,7 +342,9 @@ jobs:
       #      needs), needing both prior stages' Module.symvers.
       # Patches: buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/.
       - name: Fetch public sophgo/osdrv source (both pinned commits)
-        run: scripts/prepare-sophgo-osdrv-source.sh
+        run: |
+          SOPHGO_OSDRV_SOURCE_DIR="$RUN_ROOT/media/sophgo-osdrv-source" \
+            scripts/prepare-sophgo-osdrv-source.sh
 
       - name: Rebuild soph_vcodec.ko from the vendor SDK's own source
         run: |
@@ -353,6 +355,7 @@ jobs:
 
       - name: Rebuild soph_jpeg.ko from the public sophgo/osdrv source
         run: |
+          SOPHGO_OSDRV_SOURCE_DIR="$RUN_ROOT/media/sophgo-osdrv-source" \
           SOPHGO_MEDIA_KERNEL_DIR="$RUN_ROOT/kernel" \
           SOPHGO_MEDIA_OUTPUT_DIR="$RUN_ROOT/media/sophgo-current" \
           SOPHGO_MEDIA_KERNEL_COMPAT_PATCH="${{ github.workspace }}/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-linux-5.10.265-compat.patch" \
@@ -364,6 +367,7 @@ jobs:
 
       - name: Rebuild soph_vc_driver.ko from an older sophgo/osdrv commit
         run: |
+          SOPHGO_OSDRV_SOURCE_DIR="$RUN_ROOT/media/sophgo-osdrv-source" \
           HISTORICAL_VC_KERNEL_DIR="$RUN_ROOT/kernel" \
           HISTORICAL_VC_VCODEC_DIR="$RUN_ROOT/media/minimal-vcodec/work/osdrv/interdrv/v2/vcodec" \
           HISTORICAL_VC_JPEG_DIR="$RUN_ROOT/media/sophgo-current/osdrv/interdrv/jpeg" \
@@ -425,16 +429,23 @@ jobs:
       # hardened-kernel-5.10.265-provenance.txt is a second, separate file the same wrapper's
       # EXPECTED_RUNTIME_KERNEL_RELEASE override checks for
       # (validate-latest-buildroot-sg2002-rootfs.sh).
+      #
+      # sophgo_current_commit/sophgo_vc_commit are read back from
+      # prepare-sophgo-osdrv-source.sh's own report rather than repeated here as a second literal
+      # copy, so the two pins can't silently drift apart.
       - name: Regenerate the kernel and media-module provenance records
         run: |
           KO_DIR="$RUN_ROOT/runtime/system/ko"
           kernel_release="$(sed -n 's/^#define UTS_RELEASE "\(.*\)"$/\1/p' \
             "$RUN_ROOT/kernel/include/generated/utsrelease.h")"
           read -r kernel_source_commit < "$RUN_ROOT/kernel/report/source-commit.txt"
+          OSDRV_COMMITS="$RUN_ROOT/media/sophgo-osdrv-source-audit/commits.txt"
+          sophgo_current_commit="$(sed -n 's/^osdrv_commit=//p' "$OSDRV_COMMITS")"
+          sophgo_vc_commit="$(sed -n 's/^historical_vc_commit=//p' "$OSDRV_COMMITS")"
           cat > "$KO_DIR/hardened-source-media-provenance.txt" <<EOF
           kernel_release=$kernel_release
-          sophgo_current_commit=aa542c41df94f7bc656cb740f6622a5dca7dc403
-          sophgo_vc_commit=5ed7cc28daf7194885d87df2aa534a27a1956c70
+          sophgo_current_commit=$sophgo_current_commit
+          sophgo_vc_commit=$sophgo_vc_commit
           soph_vcodec_sha256=$(sha256sum "$KO_DIR/soph_vcodec.ko" | awk '{print $1}')
           soph_jpeg_sha256=$(sha256sum "$KO_DIR/soph_jpeg.ko" | awk '{print $1}')
           soph_vc_driver_sha256=$(sha256sum "$KO_DIR/soph_vc_driver.ko" | awk '{print $1}')

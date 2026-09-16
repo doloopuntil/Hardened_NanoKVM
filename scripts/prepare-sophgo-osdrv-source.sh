@@ -43,6 +43,10 @@ for required_path in \
 done
 
 mkdir -p "$REPORT_DIR"
+cat >"$REPORT_DIR/commits.txt" <<EOF
+osdrv_commit=$actual_commit
+historical_vc_commit=$HISTORICAL_VC_COMMIT
+EOF
 git -C "$OUTPUT_DIR" show -s --format=fuller HEAD >"$REPORT_DIR/commit.txt"
 git -C "$OUTPUT_DIR" status --short >"$REPORT_DIR/status.txt"
 git -C "$OUTPUT_DIR" ls-tree -r --full-tree HEAD \
