@@ -150,11 +150,11 @@ cmp -s "$REPORT_DIR/kernel-input-before.sha256" "$REPORT_DIR/kernel-input-after.
 
 EXPECTED_LIST="$REPORT_DIR/expected-modules.txt"
 BUILT_LIST="$REPORT_DIR/built-modules.txt"
-awk -F '\t' 'NR > 1 && $2 == "retained-vendor-module" {print $1}' \
+awk -F '\t' 'NR > 1 && $2 == "rebuilt-vendor-module" {print $1}' \
 	"$PROVENANCE_MANIFEST" | LC_ALL=C sort > "$EXPECTED_LIST"
 find "$INSTALL_DIR" -type f -name '*.ko' -printf '%P\n' | LC_ALL=C sort > "$BUILT_LIST"
 cmp -s "$EXPECTED_LIST" "$BUILT_LIST" || {
-	echo "rebuilt external-module inventory differs from accepted retained inventory" >&2
+	echo "rebuilt external-module inventory differs from expected inventory" >&2
 	diff -u "$EXPECTED_LIST" "$BUILT_LIST" >&2 || true
 	exit 1
 }
@@ -215,7 +215,7 @@ cat > "$REPORT_DIR/summary.md" <<EOF
 
 - pinned kernel baseline: \`$KERNEL_BASELINE_DIR\`
 - isolated osdrv source: \`$SOURCE_DIR\`
-- expected/rebuilt retained modules: **$total/$total**
+- expected/rebuilt modules: **$total/$total**
 - target kernel release: **$kernel_release**
 - build mode: **$build_mode**
 - packaged byte matches: **$matches**
