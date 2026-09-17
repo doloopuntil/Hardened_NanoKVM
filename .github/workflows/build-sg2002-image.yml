@@ -1,0 +1,507 @@
+name: Build SG2002 recovery-SD image
+
+# Manual only: this rebuilds the vendor SDK, a from-scratch Buildroot toolchain, the hardened
+# 5.10.265 kernel/modules, and the SG2002 rootfs. It is multi-hour and disk-heavy; do not run it on
+# every push.
+on:
+  workflow_dispatch: {}
+
+concurrency:
+  group: sg2002-image-build
+  cancel-in-progress: false
+
+env:
+  BUILDROOT_VERSION: "2026.05.1"
+  LICHEERV_NANO_SDK_SHA: d88d58feca49ef15f4cc7bd1f27dbf17dc25f85e
+  # Published app 2.0.42 bridge archive: docs/releases/rc12-2.0.42-raw.12.md
+  KVMAPP_2_0_42_ARCHIVE_URL: https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-0.3.0-raw.12/hardened-nanokvm-kvmapp-2.0.42.tar.gz
+  KVMAPP_2_0_42_ARCHIVE_SHA256: aa0cd78c1b2e9951f216826c44b4b7ff2fb211fc1980540366f8f5b1f7e0dd20
+  # Pinned in scripts/rehydrate-vendor-kernel-5.10.265-merge.sh, verified against the canonical
+  # git.kernel.org stable tree's peeled tag commits.
+  STABLE_5_10_4_COMMIT: b1313fe517ca3703119dcc99ef3bbf75ab42bcfb
+  STABLE_5_10_265_COMMIT: 2a3da1f4966798b0b48ce302944ad356b2c98b5d
+  # Real upstream (GPL-3.0, sipeed/NanoKVM): source for the 4 OpenCV modules libkvm.so needs
+  # (verified near-byte-identical; see server-rust/native/README.md).
+  NANOKVM_UPSTREAM_COMMIT: bd070b2f5ce27d22618e8a1c8d2bdca543429882
+  NANOKVM_UPSTREAM_OPENCV_CORE_SHA256: fc4ffdd709d2241e7392bb0f6f7ade1a5b1dbbefe5b5551dd2f5ae5ec11ff566
+  NANOKVM_UPSTREAM_OPENCV_HIGHGUI_SHA256: 77ac57b3f652d3df598f89dcbebabb61a31a5794933d4fe703e2875fa83f261f
+  NANOKVM_UPSTREAM_OPENCV_IMGCODECS_SHA256: 4ffc0253a75c47374ba5400d5ba3687c072943c99f83774150b4b800f00029c0
+  NANOKVM_UPSTREAM_OPENCV_IMGPROC_SHA256: b01ee9a078c25fbe80aae6ebc5d3da52eebbbef2cb51362808d1d5fe139abff1
+
+jobs:
+  # Isolated: the most expensive, most fragile stage (~14 GiB, long compile), rarely changes once
+  # cached -- a failure below should never force redoing this.
+  vendor-sdk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential git wget curl unzip rsync bc cpio \
+            libncurses-dev python3 perl bison flex device-tree-compiler \
+            dosfstools mtools file libssl-dev pkg-config e2fsprogs
+
+      - name: Cache vendor SDK + stock build output
+        id: cache-vendor-sdk
+        uses: actions/cache@v4
+        with:
+          path: build/vendor
+          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}
+
+      - name: Bootstrap vendor SDK
+        if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
+        run: make vendor-sdk
+
+      - name: Build stock vendor SDK image
+        if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
+        run: make vendor-sdk-stock
+
+  build-image:
+    needs: vendor-sdk
+    runs-on: ubuntu-latest
+    # 360 minutes is the hard cap on GitHub-hosted runners. If this pipeline doesn't fit, the only
+    # fix is a self-hosted runner, not a bigger number.
+    timeout-minutes: 360
+    env:
+      RUN_ROOT: ${{ github.workspace }}/build/rc12-run
+      EXPECTED_SYSTEM_VERSION: 0.3.0-raw.12
+      EXPECTED_KVMAPP_VERSION: 2.0.42
+      EXPECTED_KERNEL_RELEASE: 5.10.265-tag-
+      EXPECTED_SECURITY_PATCH_LEVEL: Buildroot 2026.05.1 security maintenance Linux 5.10.265 SG2002 vendor port
+      NANOKVM_KVMAPP_SOURCE_DIR: ${{ github.workspace }}/build/kvmapp-rust/kvmapp
+      HARDENED_SG2002_VENDOR_SDK_DIR: ${{ github.workspace }}/build/vendor/LicheeRV-Nano-Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential git wget curl unzip rsync bc cpio \
+            libncurses-dev python3 perl bison flex device-tree-compiler \
+            dosfstools mtools file libssl-dev pkg-config e2fsprogs \
+            u-boot-tools
+
+      - name: Install Rust riscv64gc-unknown-linux-musl target
+        run: rustup target add riscv64gc-unknown-linux-musl
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Restore vendor SDK + stock build output
+        id: cache-vendor-sdk
+        uses: actions/cache@v4
+        with:
+          path: build/vendor
+          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}
+
+      - name: Require vendor SDK cache
+        if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
+        run: |
+          echo "vendor SDK cache miss: the vendor-sdk job should have populated it" >&2
+          exit 1
+
+      - name: Cache Buildroot source download
+        uses: actions/cache@v4
+        with:
+          path: build/downloads
+          key: buildroot-${{ env.BUILDROOT_VERSION }}
+
+      # prepare-buildroot-2026.05.1-security-source.sh needs a pre-existing shared dl/ dir. Cached
+      # at a standalone path rather than nested under the plain bootstrap tree: restoring there
+      # first would leave an invalid, Buildroot-tree-less probe source that
+      # bootstrap-latest-buildroot-probe.sh then refuses to extract into. BUILDROOT_SECURITY_DL_DIR
+      # below points at this path independently, avoiding that collision regardless of cache restore
+      # order.
+      - name: Cache shared Buildroot package download directory
+        uses: actions/cache@v4
+        with:
+          path: build/buildroot-package-dl-cache
+          # v2: bumped after moving off the colliding nested path above.
+          key: buildroot-dl-v2-${{ env.BUILDROOT_VERSION }}
+
+      - name: Bootstrap Buildroot + security-patched source
+        run: |
+          mkdir -p build/buildroot-package-dl-cache
+          make latest-buildroot-bootstrap
+          BUILDROOT_SECURITY_DL_DIR="${{ github.workspace }}/build/buildroot-package-dl-cache" \
+            make latest-buildroot-security-source
+
+      # build-linked-libkvm.sh links against a real NanoKVM musl libc.so/libgcc_s.so;
+      # server-rust/sysroot/ is gitignored, so stage it from our own vendor-sdk-stock build (already
+      # cached above) -- not sophgo/host-tools' bundled sysroot, which is a generic cross-toolchain
+      # build confirmed elsewhere in this pipeline to not be the vendor's on-device runtime
+      # (server-rust/native/README.md). Using vendor-sdk-stock here too means linking and runtime
+      # both use the same verified files, not two different sources.
+      - name: Stage NanoKVM runtime sysroot for linked libkvm build
+        run: |
+          scripts/extract-vendor-sdk-stock-file.sh server-rust/sysroot/lib/libc.so \
+            /lib/libc.so /usr/lib/libc.so \
+            /lib64xthead/lp64d/libc.so /lib64v0p7_xthead/lp64d/libc.so \
+            /usr/lib64xthead/lp64d/libc.so /usr/lib64v0p7_xthead/lp64d/libc.so
+          scripts/extract-vendor-sdk-stock-file.sh server-rust/sysroot/lib/libgcc_s.so.1 \
+            /lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 \
+            /lib64xthead/lp64d/libgcc_s.so.1 /lib64v0p7_xthead/lp64d/libgcc_s.so.1
+
+      # kvm_system is retained, never rebuilt here (needs the separate MaixCDK toolchain, out of
+      # scope) -- reuse the exact binary already accepted and published in app 2.0.42. Provenance:
+      # docs/latest-buildroot-port.md.
+      - name: Fetch published kvm_system helper (app 2.0.42)
+        run: |
+          curl --fail --location --retry 2 \
+            --output /tmp/kvmapp-2.0.42.tar.gz \
+            "$KVMAPP_2_0_42_ARCHIVE_URL"
+          echo "$KVMAPP_2_0_42_ARCHIVE_SHA256  /tmp/kvmapp-2.0.42.tar.gz" | sha256sum -c -
+          mkdir -p /tmp/kvmapp-2.0.42
+          tar -xzf /tmp/kvmapp-2.0.42.tar.gz -C /tmp/kvmapp-2.0.42
+          test -s /tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system
+
+      - name: Build Hardened kvmapp bridge
+        run: |
+          cargo test --manifest-path server-rust/Cargo.toml
+          corepack pnpm --dir web install --frozen-lockfile
+          corepack pnpm --dir web build
+          server-rust/scripts/build-linked-libkvm.sh
+          RUST_TARGET=riscv64gc-unknown-linux-musl \
+            APP_VERSION="$(cat kvmapp/version)" \
+            KVM_SYSTEM_SOURCE=/tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system \
+            scripts/package-rust-kvmapp.sh
+
+      # Rehydrating the hardened kernel needs real history from the upstream stable tree (not just
+      # two tag tips) to merge the vendor's 5.10.4 snapshot with 5.10.265. Large but content-pinned;
+      # cache it.
+      - name: Cache Linux stable kernel history for rehydration
+        id: cache-stable-kernel
+        uses: actions/cache@v4
+        with:
+          path: build/latestbuildroot/kernel-stable-5.10-rehydrate
+          key: linux-stable-5.10-${{ env.STABLE_5_10_4_COMMIT }}-${{ env.STABLE_5_10_265_COMMIT }}
+
+      - name: Clone Linux stable kernel history
+        if: steps.cache-stable-kernel.outputs.cache-hit != 'true'
+        run: |
+          git clone --single-branch --branch linux-5.10.y \
+            https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git \
+            build/latestbuildroot/kernel-stable-5.10-rehydrate
+          actual_5_10_4="$(git -C build/latestbuildroot/kernel-stable-5.10-rehydrate rev-parse 'v5.10.4^{}')"
+          actual_5_10_265="$(git -C build/latestbuildroot/kernel-stable-5.10-rehydrate rev-parse 'v5.10.265^{}')"
+          [ "$actual_5_10_4" = "$STABLE_5_10_4_COMMIT" ] || {
+            echo "v5.10.4 commit mismatch: got $actual_5_10_4" >&2
+            exit 1
+          }
+          [ "$actual_5_10_265" = "$STABLE_5_10_265_COMMIT" ] || {
+            echo "v5.10.265 commit mismatch: got $actual_5_10_265" >&2
+            exit 1
+          }
+
+      # Fast/local given the clone above; never cached, since the result is a worktree of that same
+      # clone and would desync if cached separately.
+      - name: Rehydrate the hardened 5.10.265 kernel source
+        run: scripts/rehydrate-vendor-kernel-5.10.265-merge.sh
+
+      # hardened-sg2002-vendor-runtime.mk declares its inputs PROPRIETARY/REDISTRIBUTE=NO, so the
+      # steps below build every one of those inputs from source or this pipeline's own
+      # vendor-sdk-stock build, rather than shipping an opaque prebuilt bundle.
+      - name: Build the hardened 5.10.265 kernel candidate
+        run: |
+          KERNEL_5_10_265_OUTPUT_DIR="$RUN_ROOT/kernel" \
+          KERNEL_5_10_265_CONFIG_FRAGMENT="support/sg2002/kernel/5.10.265/configs/phase3-04-init-on-alloc.config" \
+            scripts/build-vendor-kernel-5.10.265-candidate.sh
+
+      # /mnt/system/ko's tree structure (which of the 57 modules nest under 3rd/) is already fully
+      # known from the tracked manifests, and the module-rebuild scripts already place their own
+      # artifacts at these same relative paths -- no image to extract it from is needed. Placeholder
+      # files here just give "Substitute freshly-built modules" below something to
+      # find-and-overwrite; every one gets replaced.
+      #
+      # The vendor SDK's own /mnt/system also carries auto.sh and sdk-release: confirmed dead (zero
+      # references anywhere in tracked source, auto.sh is generic unused vendor EVB boilerplate) and
+      # not reproduced here.
+      - name: Build the /mnt/system/ko skeleton from tracked manifests
+        run: |
+          KO_DIR="$RUN_ROOT/runtime/system/ko"
+          mkdir -p "$KO_DIR/3rd"
+          while IFS= read -r relative; do
+            touch "$KO_DIR/$relative"
+          done < support/sg2002/kernel/5.10.265/manifests/external-modules.txt
+          while IFS= read -r relative; do
+            touch "$KO_DIR/$(basename "$relative")"
+          done < support/sg2002/kernel/5.10.265/manifests/in-tree-modules.txt
+          touch "$KO_DIR/soph_vcodec.ko" "$KO_DIR/soph_jpeg.ko" "$KO_DIR/soph_vc_driver.ko"
+          [ "$(find "$KO_DIR" -name '*.ko' | wc -l)" -eq 57 ]
+
+      # libc.so, the 4 GCC runtime libs, the 2 T-Head loaders, and libsns_lt6911.so all come from
+      # this pipeline's own vendor-sdk-stock build (already cached above) -- the real on-device
+      # image, not sophgo/host-tools' generic cross-toolchain sysroot (tried first and rejected; see
+      # server-rust/native/README.md for the full evidence trail on all 8 files).
+      #
+      # None of these files live under /kvmapp/ in a stock image, so probe a few plausible paths
+      # rather than assume one, and fail hard if any is missing. extract-vendor-sdk-stock-file.sh is
+      # the same helper the earlier sysroot-staging step uses, so linking and runtime never diverge.
+      - name: Source the remaining runtime files from our own vendor-sdk-stock build
+        run: |
+          RUNTIME_DIR="$RUN_ROOT/runtime"
+          mkdir -p "$RUNTIME_DIR/loaders" "$RUNTIME_DIR/kvmapp-dl-lib" "$RUNTIME_DIR/system/usr/lib"
+
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libc.so" \
+            /lib/libc.so /usr/lib/libc.so \
+            /lib64xthead/lp64d/libc.so /lib64v0p7_xthead/lp64d/libc.so \
+            /usr/lib64xthead/lp64d/libc.so /usr/lib64v0p7_xthead/lp64d/libc.so
+          scripts/extract-vendor-sdk-stock-file.sh \
+            "$RUNTIME_DIR/kvmapp-dl-lib/libstdc++.so.6.0.28" \
+            /lib/libstdc++.so.6.0.28 /usr/lib/libstdc++.so.6.0.28 \
+            /lib64xthead/lp64d/libstdc++.so.6.0.28 /lib64v0p7_xthead/lp64d/libstdc++.so.6.0.28
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libgcc_s.so.1" \
+            /lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 \
+            /lib64xthead/lp64d/libgcc_s.so.1 /lib64v0p7_xthead/lp64d/libgcc_s.so.1
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libgomp.so.1.0.0" \
+            /lib/libgomp.so.1.0.0 /usr/lib/libgomp.so.1.0.0 \
+            /lib64xthead/lp64d/libgomp.so.1.0.0 /lib64v0p7_xthead/lp64d/libgomp.so.1.0.0
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libatomic.so.1.2.0" \
+            /lib/libatomic.so.1.2.0 /usr/lib/libatomic.so.1.2.0 \
+            /lib64xthead/lp64d/libatomic.so.1.2.0 /lib64v0p7_xthead/lp64d/libatomic.so.1.2.0
+          scripts/extract-vendor-sdk-stock-file.sh \
+            "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" /lib/ld-musl-riscv64xthead.so.1
+          scripts/extract-vendor-sdk-stock-file.sh \
+            "$RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" \
+            /lib/ld-musl-riscv64v0p7_xthead.so.1
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/system/usr/lib/libsns_lt6911.so" \
+            /mnt/system/usr/lib/libsns_lt6911.so
+
+      # libkvm.so doesn't need video/dnn/calib3d/features2d/flann/protobuf
+      # (server-rust/native/README.md); those are deleted regardless of what's staged here. That
+      # leaves core/highgui/imgcodecs/imgproc -- source those from real upstream (GPL-3.0
+      # sipeed/NanoKVM), verified near-byte-identical (same MaixCDK build).
+      - name: Source OpenCV core/highgui/imgcodecs/imgproc from upstream
+        run: |
+          DL_LIB="$RUN_ROOT/runtime/kvmapp-dl-lib"
+          verify_and_replace() {
+            name="$1"
+            expected_sha256="$2"
+            curl --fail --location --retry 2 \
+              --output "/tmp/$name" \
+              "https://raw.githubusercontent.com/sipeed/NanoKVM/$NANOKVM_UPSTREAM_COMMIT/server/dl_lib/$name"
+            echo "$expected_sha256  /tmp/$name" | sha256sum -c -
+            cp "/tmp/$name" "$DL_LIB/$name"
+          }
+          verify_and_replace libopencv_core.so.409 "$NANOKVM_UPSTREAM_OPENCV_CORE_SHA256"
+          verify_and_replace libopencv_highgui.so.409 "$NANOKVM_UPSTREAM_OPENCV_HIGHGUI_SHA256"
+          verify_and_replace libopencv_imgcodecs.so.409 "$NANOKVM_UPSTREAM_OPENCV_IMGCODECS_SHA256"
+          verify_and_replace libopencv_imgproc.so.409 "$NANOKVM_UPSTREAM_OPENCV_IMGPROC_SHA256"
+
+      # Rebuild the 30 CVITEK osdrv external kernel modules from source (already cloned by `make
+      # vendor-sdk`). List: external-modules.txt -- 22 "soph_*" peripheral modules plus
+      # WiFi/Bluetooth/touch drivers under 3rd/.
+      #
+      # rebuild-vendor-external-modules-5.10-baseline.sh only reads the manifest's
+      # name/classification columns. RUNTIME_MODULE_DIR is just the empty skeleton built above --
+      # its "accepted_sha256" column is a placeholder, not a real comparison; candidate mode never
+      # gates on it, only on inventory and vermagic.
+      - name: Rebuild external CVITEK kernel modules from source
+        run: |
+          MANIFEST_DIR=/tmp/module-provenance/report
+          mkdir -p "$MANIFEST_DIR"
+          {
+            printf 'module\tclassification\n'
+            sed 's/$/\trebuilt-vendor-module/' \
+              support/sg2002/kernel/5.10.265/manifests/external-modules.txt
+          } > "$MANIFEST_DIR/module-provenance.tsv"
+          MODULE_PROVENANCE_DIR=/tmp/module-provenance \
+          VENDOR_MODULE_SOURCE_DIR="$RUN_ROOT/runtime/system/ko" \
+          KERNEL_BASELINE_OUTPUT_DIR="$RUN_ROOT/kernel" \
+          EXTERNAL_MODULE_BASELINE_OUTPUT_DIR="$RUN_ROOT/external-modules" \
+          EXPECTED_KERNEL_RELEASE="$EXPECTED_KERNEL_RELEASE" \
+            scripts/rebuild-vendor-external-modules-5.10-baseline.sh
+
+      # Rebuild the 3 media kernel modules from source, closing the last kernel-module gap. A real
+      # three-stage chain:
+      #   1. soph_vcodec.ko: vendor SDK's own osdrv/interdrv/v2/vcodec plus a tracked compat patch.
+      #   2. soph_jpeg.ko: public sophgo/osdrv at a pinned "current" commit, needing stage 1's
+      #      base/sys Module.symvers.
+      #   3. soph_vc_driver.ko: an older osdrv commit (predates an API change the current one
+      #      needs), needing both prior stages' Module.symvers.
+      # Patches: buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/.
+      - name: Fetch public sophgo/osdrv source (both pinned commits)
+        run: |
+          SOPHGO_OSDRV_SOURCE_DIR="$RUN_ROOT/media/sophgo-osdrv-source" \
+            scripts/prepare-sophgo-osdrv-source.sh
+
+      - name: Rebuild soph_vcodec.ko from the vendor SDK's own source
+        run: |
+          MINIMAL_VCODEC_KERNEL_DIR="$RUN_ROOT/kernel" \
+          MINIMAL_VCODEC_OUTPUT_DIR="$RUN_ROOT/media/minimal-vcodec" \
+          MINIMAL_VCODEC_KCFLAGS="-fmacro-prefix-map=$RUN_ROOT/media/minimal-vcodec/work=/usr/src/vendor-vcodec" \
+            scripts/build-minimal-vendor-vcodec-compat.sh
+
+      - name: Rebuild soph_jpeg.ko from the public sophgo/osdrv source
+        run: |
+          SOPHGO_OSDRV_SOURCE_DIR="$RUN_ROOT/media/sophgo-osdrv-source" \
+          SOPHGO_MEDIA_KERNEL_DIR="$RUN_ROOT/kernel" \
+          SOPHGO_MEDIA_OUTPUT_DIR="$RUN_ROOT/media/sophgo-current" \
+          SOPHGO_MEDIA_KERNEL_COMPAT_PATCH="${{ github.workspace }}/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-linux-5.10.265-compat.patch" \
+          SOPHGO_MEDIA_EXPECTED_JPEG_SRCVERSION="EBFE55AAD3BE9DD11AF3F51" \
+          SOPHGO_MEDIA_BASE_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/base/Module.symvers" \
+          SOPHGO_MEDIA_SYS_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/sys/Module.symvers" \
+          SOPHGO_MEDIA_KCFLAGS="-fmacro-prefix-map=$RUN_ROOT/media/sophgo-current/osdrv=/usr/src/sophgo-osdrv" \
+            scripts/build-sophgo-media-module-replacements.sh
+
+      - name: Rebuild soph_vc_driver.ko from an older sophgo/osdrv commit
+        run: |
+          SOPHGO_OSDRV_SOURCE_DIR="$RUN_ROOT/media/sophgo-osdrv-source" \
+          HISTORICAL_VC_KERNEL_DIR="$RUN_ROOT/kernel" \
+          HISTORICAL_VC_VCODEC_DIR="$RUN_ROOT/media/minimal-vcodec/work/osdrv/interdrv/v2/vcodec" \
+          HISTORICAL_VC_JPEG_DIR="$RUN_ROOT/media/sophgo-current/osdrv/interdrv/jpeg" \
+          HISTORICAL_VC_KERNEL_COMPAT_PATCH="${{ github.workspace }}/buildroot-external/hardened-sg2002/board/sg2002/kernel/patches/sophgo-osdrv-v2-linux-5.10.265-compat.patch" \
+          HISTORICAL_VC_BASE_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/base/Module.symvers" \
+          HISTORICAL_VC_SYS_SYMVERS="$RUN_ROOT/external-modules/osdrv/interdrv/v2/sys/Module.symvers" \
+          HISTORICAL_VC_OUTPUT_DIR="$RUN_ROOT/media/historical-vc" \
+          HISTORICAL_VC_KCFLAGS="-fmacro-prefix-map=$RUN_ROOT/media/historical-vc/osdrv=/usr/src/sophgo-osdrv-v2" \
+            scripts/build-historical-sophgo-vc-driver.sh
+
+      - name: Upload media-module rebuild evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: media-module-rebuild-report
+          path: |
+            build/rc12-run/media/*/report/**
+          retention-days: 14
+          if-no-files-found: warn
+
+      # Fill in the skeleton with what was just rebuilt from source (30 external + 3 media + 24
+      # in-tree) -- every module in the final image ships from source; see
+      # server-rust/native/README.md for the full provenance trail.
+      #
+      # Must overwrite by existing path, not $KO_DIR/$(basename): the tree nests WiFi/BT/touch
+      # modules under ko/3rd/, and basename-only copies would silently duplicate them (57 -> 65)
+      # instead of overwriting the skeleton placeholder in place.
+      - name: Substitute freshly-built modules into the runtime staging dir
+        run: |
+          KO_DIR="$RUN_ROOT/runtime/system/ko"
+
+          replace_by_basename() {
+            src="$1"
+            name="$(basename "$src")"
+            mapfile -t destinations < <(find "$KO_DIR" -type f -name "$name" -printf '%P\n')
+            if [ "${#destinations[@]}" -ne 1 ]; then
+              echo "expected exactly one skeleton placeholder named $name, found ${#destinations[@]}" >&2
+              exit 1
+            fi
+            cp "$src" "$KO_DIR/${destinations[0]}"
+          }
+
+          find "$RUN_ROOT/external-modules/artifacts" -type f -name '*.ko' -print0 | \
+            while IFS= read -r -d '' ko; do replace_by_basename "$ko"; done
+          find "$RUN_ROOT/kernel" -type f -name '*.ko' -print0 | \
+            while IFS= read -r -d '' ko; do replace_by_basename "$ko"; done
+          replace_by_basename "$RUN_ROOT/media/minimal-vcodec/artifacts/soph_vcodec.ko"
+          replace_by_basename "$RUN_ROOT/media/sophgo-current/artifacts/soph_jpeg.ko"
+          replace_by_basename "$RUN_ROOT/media/historical-vc/artifacts/soph_vc_driver.ko"
+
+          [ "$(find "$KO_DIR" -name '*.ko' | wc -l)" -eq 57 ]
+
+      # Generated fresh from values already known at this point in the build, rather than carried
+      # forward from any prebuilt image. device_acceptance must be exactly pending-recovery-sd --
+      # build-latest-buildroot-kernel-5.10.265-rootfs.sh overrides the validator's own default to
+      # this literal when it calls it, since this specific rebuild hasn't been through physical
+      # device acceptance testing and shouldn't claim otherwise.
+      #
+      # hardened-kernel-5.10.265-provenance.txt is a second, separate file the same wrapper's
+      # EXPECTED_RUNTIME_KERNEL_RELEASE override checks for
+      # (validate-latest-buildroot-sg2002-rootfs.sh).
+      #
+      # sophgo_current_commit/sophgo_vc_commit are read back from
+      # prepare-sophgo-osdrv-source.sh's own report rather than repeated here as a second literal
+      # copy, so the two pins can't silently drift apart.
+      - name: Regenerate the kernel and media-module provenance records
+        run: |
+          KO_DIR="$RUN_ROOT/runtime/system/ko"
+          kernel_release="$(sed -n 's/^#define UTS_RELEASE "\(.*\)"$/\1/p' \
+            "$RUN_ROOT/kernel/include/generated/utsrelease.h")"
+          read -r kernel_source_commit < "$RUN_ROOT/kernel/report/source-commit.txt"
+          OSDRV_COMMITS="$RUN_ROOT/media/sophgo-osdrv-source-audit/commits.txt"
+          sophgo_current_commit="$(sed -n 's/^osdrv_commit=//p' "$OSDRV_COMMITS")"
+          sophgo_vc_commit="$(sed -n 's/^historical_vc_commit=//p' "$OSDRV_COMMITS")"
+          cat > "$KO_DIR/hardened-source-media-provenance.txt" <<EOF
+          kernel_release=$kernel_release
+          sophgo_current_commit=$sophgo_current_commit
+          sophgo_vc_commit=$sophgo_vc_commit
+          soph_vcodec_sha256=$(sha256sum "$KO_DIR/soph_vcodec.ko" | awk '{print $1}')
+          soph_jpeg_sha256=$(sha256sum "$KO_DIR/soph_jpeg.ko" | awk '{print $1}')
+          soph_vc_driver_sha256=$(sha256sum "$KO_DIR/soph_vc_driver.ko" | awk '{print $1}')
+          device_acceptance=pending-recovery-sd
+          redistribution=disabled-pending-license-grant
+          EOF
+          cat > "$KO_DIR/hardened-kernel-5.10.265-provenance.txt" <<EOF
+          kernel_release=$kernel_release
+          kernel_source_commit=$kernel_source_commit
+          in_tree_modules=24
+          external_modules=30
+          media_modules=3
+          redistribution=disabled-pending-license-grant
+          EOF
+
+      - name: Upload module-rebuild evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: external-module-rebuild-report
+          path: |
+            build/rc12-run/external-modules/report/**
+            /tmp/module-provenance/**
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Build the Buildroot rootfs with the hardened kernel modules
+        run: |
+          KERNEL_5_10_265_VENDOR_RUNTIME_DIR="$RUN_ROOT/runtime" \
+          KERNEL_5_10_265_BUILDROOT_OUTPUT_DIR="$RUN_ROOT/buildroot" \
+          KERNEL_5_10_265_ROOTFS_REPORT_DIR="$RUN_ROOT/_reports/rootfs" \
+            scripts/build-latest-buildroot-kernel-5.10.265-rootfs.sh
+
+      - name: Rebuild the vendor boot FIT image for the candidate kernel
+        run: |
+          KERNEL_BASELINE_OUTPUT_DIR="$RUN_ROOT/kernel" \
+          BOOT_SD_BASELINE_OUTPUT_DIR="$RUN_ROOT/boot" \
+          BOOT_SD_BUILD_MODE=candidate \
+            scripts/rebuild-vendor-boot-sd-5.10-baseline.sh
+
+      # Generic safety net, not gzip-specific diagnostics (that mtime bug is already fixed in
+      # rebuild-vendor-boot-sd-5.10-baseline.sh).
+      - name: Upload boot rebuild workspace on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boot-rebuild-diagnostics
+          path: |
+            build/rc12-run/boot/**
+          retention-days: 7
+          if-no-files-found: warn
+
+      # MCOPY's fallback default is for sudo-less hosts (e.g. WSL) that unpack mtools manually; we
+      # install it via apt, so point at that.
+      - name: Assemble the recovery-SD image
+        run: |
+          KERNEL_5_10_265_BUILDROOT_OUTPUT_DIR="$RUN_ROOT/buildroot" \
+          KERNEL_5_10_265_VENDOR_RUNTIME_DIR="$RUN_ROOT/runtime" \
+          KERNEL_5_10_265_BOOT_SD="$RUN_ROOT/boot/workspace/boot.itb" \
+          KERNEL_5_10_265_RECOVERY_SD_DIR="$RUN_ROOT/recovery" \
+          MCOPY="$(command -v mcopy)" \
+            scripts/assemble-kernel-5.10.265-recovery-sd-image.sh
+
+      - name: Upload recovery-SD image and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sg2002-recovery-sd-image
+          path: |
+            build/rc12-run/recovery/**
+            build/rc12-run/_reports/**
+          retention-days: 14
+          if-no-files-found: warn
