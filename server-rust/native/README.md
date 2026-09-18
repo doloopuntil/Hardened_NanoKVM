@@ -190,6 +190,19 @@ immediate offsets that reference those strings' addresses. Same source,
 same compiled logic and data, different build-path debug string that's
 never dereferenced as a real path at runtime.
 
+That was true when this file was first traced. It no longer is, deliberately:
+`lt6911_probe()`'s chip-ID read ran ~50us after PinMux -- far too soon for
+the chip to have completed its own boot sequence -- and logged a
+scary-looking (if already non-fatal; both its own failure paths were
+already dead code) error on every cold boot with a live HDMI source
+connected. `buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-retry.patch`
+retries the ID probe for ~100ms before concluding the chip genuinely isn't
+there, applied to the vendor SDK checkout before `make vendor-sdk-stock`
+builds it. `vendor-sdk-stock`'s `libsns_lt6911.so` is therefore no longer
+byte-identical to a truly unmodified vendor build -- deliberately, and only
+for this one file; every other file `vendor-sdk-stock` produces is
+untouched.
+
 `build-sg2002-image.yml` now sources all 8 files from `vendor-sdk-stock`'s
 own `rootfs.sd`. No file shipped in the final image comes from raw.12.
 
