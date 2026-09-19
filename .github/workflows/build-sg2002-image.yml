@@ -51,27 +51,29 @@ jobs:
         uses: actions/cache@v4
         with:
           path: build/vendor
-          # p1: bumped when buildroot-external/.../vendor-sdk-patches changes, so a cache from
-          # before a patch existed is never silently reused as if it were patched.
-          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}-p1
+          # p2 (EXPERIMENTAL branch): bumped from p1 because this branch's patch content differs
+          # from fix/raw12-missing-cli-tools-wip's -- same key would risk cross-branch cache
+          # contamination between the retry-only and retry+real-failure variants.
+          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}-p2
 
       - name: Bootstrap vendor SDK
         if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
         run: make vendor-sdk
 
-      # lt6911_sensor_ctl.c's own ID probe reads the chip's registers ~50us after PinMux, far too
-      # soon for the chip to have finished its own boot sequence, and logs a scary-looking (but
-      # already non-fatal -- both failure paths below it are already dead code) error every time.
-      # Patched to retry for ~100ms before concluding it's genuinely not there, instead of judging
-      # it from one immediate read. vendor-sdk-stock is no longer byte-identical to a truly
-      # unmodified vendor build because of this -- deliberately, and only for this one file.
+      # EXPERIMENTAL: lt6911_sensor_ctl.c's own ID probe reads the chip's registers ~50us after
+      # PinMux, far too soon for the chip to have finished its own boot sequence. This variant
+      # both retries for ~100ms AND uncomments the vendor's own dead-code failure returns, so a
+      # probe that still fails after retrying is treated as real -- untested on hardware yet; see
+      # fix/raw12-missing-cli-tools-wip for the retry-only variant this is compared against.
+      # vendor-sdk-stock is no longer byte-identical to a truly unmodified vendor build because of
+      # this -- deliberately, and only for this one file.
       - name: Apply tracked vendor SDK middleware patches
         if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
         run: |
           git -C build/vendor/LicheeRV-Nano-Build apply --check \
-            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-retry.patch"
+            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-retry-hard-fail.patch"
           git -C build/vendor/LicheeRV-Nano-Build apply \
-            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-retry.patch"
+            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-retry-hard-fail.patch"
 
       - name: Build stock vendor SDK image
         if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
@@ -115,7 +117,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: build/vendor
-          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}-p1
+          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}-p2
 
       - name: Require vendor SDK cache
         if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
