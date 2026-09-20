@@ -27,6 +27,18 @@ env:
   NANOKVM_UPSTREAM_OPENCV_HIGHGUI_SHA256: 77ac57b3f652d3df598f89dcbebabb61a31a5794933d4fe703e2875fa83f261f
   NANOKVM_UPSTREAM_OPENCV_IMGCODECS_SHA256: 4ffc0253a75c47374ba5400d5ba3687c072943c99f83774150b4b800f00029c0
   NANOKVM_UPSTREAM_OPENCV_IMGPROC_SHA256: b01ee9a078c25fbe80aae6ebc5d3da52eebbbef2cb51362808d1d5fe139abff1
+  # libkvm.so/libkvm_mmf.so build inputs. libkvm_mmf.so statically compiles in a whole separate,
+  # frozen copy of the LT6911 sensor driver -- the vendor-sdk-stock patch above never reaches the
+  # code that actually runs; see server-rust/native/README.md.
+  MAIXCDK_SHA: 5b0aa5b1a8c91d213433189cfab8c999775fa13a
+  SOPHGO_HOST_TOOLS_URL: https://sophon-file.sophon.cn/sophon-prod-s3/drive/23/03/07/16/host-tools.tar.gz
+  SOPHGO_HOST_TOOLS_SHA256: ff9a58e8e192b20ea42e1d729c42d2219523209706cb3f0cf134582f6c70f805
+  # woffko/Hardened_NanoKVM's own "Harden native video path for app 2.0.34 RC10" commit: the
+  # support/sg2002/additional/{kvm,kvm_mmf,vision,peripheral} source tree that produced their
+  # currently-published libkvm.so/libkvm_mmf.so. Used as the base instead of this fork's own
+  # (older, unaudited) copy of those files -- see docs/native-code-audit.md's "Remediation
+  # Verification" section, completed 2026-07-11.
+  HARDENED_NANOKVM_NATIVE_SRC_COMMIT: 26a2986d3080cb95557f06fde437c1de6189f491
 
 jobs:
   # Isolated: the most expensive, most fragile stage (~14 GiB, long compile), rarely changes once
@@ -77,8 +89,127 @@ jobs:
         if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
         run: make vendor-sdk-stock
 
+  # Isolated, independent of vendor-sdk: a completely separate toolchain (MaixCDK + Sophgo's RISC-V
+  # musl gcc), rebuilding libkvm.so/libkvm_mmf.so from source instead of reusing the prebuilt app
+  # 2.0.42 archive copies. libkvm_mmf.so statically compiles in its own frozen copy of the LT6911
+  # sensor driver (see server-rust/native/README.md) -- the vendor-sdk-stock patch above never
+  # reaches the code that actually runs; this is the job that does.
+  build-native-libkvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential cmake git wget curl python3 python3-venv python3-pip \
+            autoconf automake libtool patchelf file
+
+      - name: Cache built libkvm.so + libkvm_mmf.so
+        id: cache-native-libkvm
+        uses: actions/cache@v4
+        with:
+          path: build/native-libkvm
+          # p1: bumped when the LT6911 sensor-id-probe-retry patch changes, so a cache from before
+          # the patch existed (or with an older variant) is never silently reused as if current.
+          key: native-libkvm-${{ env.MAIXCDK_SHA }}-${{ env.HARDENED_NANOKVM_NATIVE_SRC_COMMIT }}-p1
+
+      - name: Install Sophgo RISC-V musl toolchain
+        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
+        run: |
+          curl --fail --location --retry 2 \
+            --output /tmp/host-tools.tar.gz "$SOPHGO_HOST_TOOLS_URL"
+          echo "$SOPHGO_HOST_TOOLS_SHA256  /tmp/host-tools.tar.gz" | sha256sum -c -
+          sudo tar -C /usr/local -xzf /tmp/host-tools.tar.gz
+          rm -f /tmp/host-tools.tar.gz
+          echo "/usr/local/host-tools/gcc/riscv64-linux-musl-x86_64/bin" >> "$GITHUB_PATH"
+
+      - name: Fetch MaixCDK
+        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p "$HOME/MaixCDK"
+          git -C "$HOME/MaixCDK" init -q
+          git -C "$HOME/MaixCDK" remote add origin https://github.com/sipeed/MaixCDK.git
+          git -C "$HOME/MaixCDK" fetch --depth 1 origin "$MAIXCDK_SHA"
+          git -C "$HOME/MaixCDK" checkout -q FETCH_HEAD
+          python3 -m venv "$HOME/MaixCDK"
+          "$HOME/MaixCDK/bin/pip" install -U -r "$HOME/MaixCDK/requirements.txt"
+          echo "$HOME/MaixCDK/bin" >> "$GITHUB_PATH"
+
+      # This is app-level source only (kvm/kvm_mmf/vision/peripheral + the sensor-name-table sync
+      # fix): the actual LT6911 driver source lives inside MaixCDK's own checkout above and is
+      # patched separately below. Fetched as a plain archive, not a git clone -- no history needed.
+      - name: Fetch upstream's native source tree (woffko/Hardened_NanoKVM)
+        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p "$HOME/NanoKVM"
+          curl --fail --location --retry 2 \
+            "https://github.com/woffko/Hardened_NanoKVM/archive/$HARDENED_NANOKVM_NATIVE_SRC_COMMIT.tar.gz" \
+            | tar -xz -C "$HOME/NanoKVM" --strip-components=1
+
+      # Same source, same dead code as vendor-sdk-stock's own copy (verified byte-for-byte
+      # identical against the pinned LicheeRV-Nano-Build commit) -- our existing retry patch
+      # applies unmodified. Deliberately the retry-only variant, not the uncommented-hard-fail one
+      # on experiment/lt6911-real-failure: this is the first build where this code will actually
+      # execute on real hardware, and the safer variant should be validated first.
+      - name: Apply the LT6911 sensor-id-probe-retry patch to MaixCDK's vendored copy
+        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
+        run: |
+          LT6911_FILE="$HOME/MaixCDK/components/3rd_party/sophgo-middleware/sophgo-middleware/v2/component/isp/sensor/sg200x/lontium_lt6911/lt6911_sensor_ctl.c"
+          git -C "$HOME/MaixCDK" apply --check \
+            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-retry.patch"
+          git -C "$HOME/MaixCDK" apply \
+            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-retry.patch"
+          grep -q LT6911_ID_PROBE_RETRIES "$LT6911_FILE"
+
+      # ./build's own first-time logic (no $MAIXCDK_PATH/components/kvm yet, always true on this
+      # fresh clone) copies support/sg2002/additional/{kvm,kvm_mmf,vision,peripheral bits} into
+      # MaixCDK and answers its interactive platform prompt with "2" (maixcam) via heredoc -- the
+      # exact sequence upstream's own docker/Dockerfile uses for `./build kvm_system`.
+      - name: Build libkvm.so + libkvm_mmf.so via MaixCDK
+        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
+        run: |
+          cd "$HOME/NanoKVM/support/sg2002"
+          ./build kvm_vision
+
+          DL_LIB="$HOME/NanoKVM/support/sg2002/kvm_vision_test/dist/kvm_vision_test_release/dl_lib"
+          test -s "$DL_LIB/libkvm.so"
+          test -s "$DL_LIB/libkvm_mmf.so"
+          file "$DL_LIB/libkvm.so" "$DL_LIB/libkvm_mmf.so"
+
+          mkdir -p "$GITHUB_WORKSPACE/build/native-libkvm"
+          cp "$DL_LIB/libkvm.so" "$DL_LIB/libkvm_mmf.so" "$GITHUB_WORKSPACE/build/native-libkvm/"
+
+      # Matches server-rust/native/README.md's "libkvm.so: removed video NEEDED entry" finding
+      # (symbol-table analysis found zero real call path into video/dnn/calib3d/features2d/flann;
+      # this fresh build is a different compile of the same MaixCDK link-everything convention, not
+      # a different call graph) -- but re-checked, not assumed, since this build's dependency set
+      # could legitimately differ. Skips cleanly if the NEEDED entry isn't there at all.
+      - name: Re-trim libkvm.so's unused OpenCV NEEDED entries
+        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
+        run: |
+          LIBKVM="$GITHUB_WORKSPACE/build/native-libkvm/libkvm.so"
+          if patchelf --print-needed "$LIBKVM" | grep -q '^libopencv_video\.so\.409$'; then
+            patchelf --remove-needed libopencv_video.so.409 "$LIBKVM"
+            echo "removed libopencv_video.so.409 NEEDED entry"
+          else
+            echo "libopencv_video.so.409 not NEEDED by this build; nothing to trim"
+          fi
+
+      - name: Upload native libkvm build for inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-libkvm-build
+          path: build/native-libkvm/**
+          retention-days: 14
+          if-no-files-found: warn
+
   build-image:
-    needs: vendor-sdk
+    needs: [vendor-sdk, build-native-libkvm]
     runs-on: ubuntu-latest
     # 360 minutes is the hard cap on GitHub-hosted runners. If this pipeline doesn't fit, the only
     # fix is a self-hosted runner, not a bigger number.
@@ -123,6 +254,19 @@ jobs:
           echo "vendor SDK cache miss: the vendor-sdk job should have populated it" >&2
           exit 1
 
+      - name: Restore native libkvm build
+        id: cache-native-libkvm
+        uses: actions/cache@v4
+        with:
+          path: build/native-libkvm
+          key: native-libkvm-${{ env.MAIXCDK_SHA }}-${{ env.HARDENED_NANOKVM_NATIVE_SRC_COMMIT }}-p1
+
+      - name: Require native libkvm cache
+        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
+        run: |
+          echo "native libkvm cache miss: the build-native-libkvm job should have populated it" >&2
+          exit 1
+
       - name: Cache Buildroot source download
         uses: actions/cache@v4
         with:
@@ -165,9 +309,10 @@ jobs:
             /lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 \
             /lib64xthead/lp64d/libgcc_s.so.1 /lib64v0p7_xthead/lp64d/libgcc_s.so.1
 
-      # kvm_system is retained, never rebuilt here (needs the separate MaixCDK toolchain, out of
-      # scope) -- reuse the exact binary already accepted and published in app 2.0.42. Provenance:
-      # docs/latest-buildroot-port.md.
+      # kvm_system is retained, never rebuilt here -- it has nothing to do with the LT6911 driver
+      # (confirmed: no reference to it anywhere in its own binary, static or dynamic) so there's no
+      # bug in it to fix by bringing MaixCDK into scope. Reuse the exact binary already accepted and
+      # published in app 2.0.42. Provenance: docs/latest-buildroot-port.md.
       - name: Fetch published kvm_system helper (app 2.0.42)
         run: |
           curl --fail --location --retry 2 \
@@ -177,6 +322,15 @@ jobs:
           mkdir -p /tmp/kvmapp-2.0.42
           tar -xzf /tmp/kvmapp-2.0.42.tar.gz -C /tmp/kvmapp-2.0.42
           test -s /tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system
+
+      # Overwrites the checked-in server-rust/native/dl_lib/ copies (which still carry app 2.0.42's
+      # libkvm_mmf.so, with the LT6911 probe's dead code intact) with the build-native-libkvm job's
+      # freshly-built ones for this run only -- git's own copies are left untouched. This is where
+      # the LT6911 patch actually reaches the code that runs.
+      - name: Use freshly-built libkvm.so + libkvm_mmf.so
+        run: |
+          cp build/native-libkvm/libkvm.so server-rust/native/dl_lib/libkvm.so
+          cp build/native-libkvm/libkvm_mmf.so server-rust/native/dl_lib/libkvm_mmf.so
 
       - name: Build Hardened kvmapp bridge
         run: |
