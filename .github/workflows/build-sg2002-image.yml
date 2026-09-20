@@ -51,10 +51,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: build/vendor
-          # p2 (EXPERIMENTAL branch): bumped from p1 because this branch's patch content differs
-          # from fix/raw12-missing-cli-tools-wip's -- same key would risk cross-branch cache
-          # contamination between the retry-only and retry+real-failure variants.
-          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}-p2
+          # p3 (EXPERIMENTAL branch): bumped again after widening the LT6911 retry window from
+          # ~100ms to ~10s -- a stale p2 cache would still have the too-short-margin patch baked in.
+          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}-p3
 
       - name: Bootstrap vendor SDK
         if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
@@ -62,11 +61,13 @@ jobs:
 
       # EXPERIMENTAL: lt6911_sensor_ctl.c's own ID probe reads the chip's registers ~50us after
       # PinMux, far too soon for the chip to have finished its own boot sequence. This variant
-      # both retries for ~100ms AND uncomments the vendor's own dead-code failure returns, so a
-      # probe that still fails after retrying is treated as real -- untested on hardware yet; see
-      # fix/raw12-missing-cli-tools-wip for the retry-only variant this is compared against.
-      # vendor-sdk-stock is no longer byte-identical to a truly unmodified vendor build because of
-      # this -- deliberately, and only for this one file.
+      # both retries (widened to ~10s after a real-hardware test: the chip was already firing HDMI
+      # hotplug interrupts 8 real seconds earlier, yet every I2C write in the probe still failed
+      # across the original ~100ms window) AND uncomments the vendor's own dead-code failure
+      # returns, so a probe that still fails after retrying is treated as real -- untested on
+      # hardware yet at this wider margin; see fix/raw12-missing-cli-tools-wip for the retry-only
+      # variant this is compared against. vendor-sdk-stock is no longer byte-identical to a truly
+      # unmodified vendor build because of this -- deliberately, and only for this one file.
       - name: Apply tracked vendor SDK middleware patches
         if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
         run: |
@@ -117,7 +118,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: build/vendor
-          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}-p2
+          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}-p3
 
       - name: Require vendor SDK cache
         if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'

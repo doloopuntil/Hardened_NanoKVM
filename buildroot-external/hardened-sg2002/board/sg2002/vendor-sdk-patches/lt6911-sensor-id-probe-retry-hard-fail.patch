@@ -1,16 +1,19 @@
 diff --git a/middleware/v2/component/isp/sensor/cv182x/lontium_lt6911/lt6911_sensor_ctl.c b/middleware/v2/component/isp/sensor/cv182x/lontium_lt6911/lt6911_sensor_ctl.c
-index 29ab3a9..3a4fc48 100644
+index 29ab3a9..c8eea27 100644
 --- a/middleware/v2/component/isp/sensor/cv182x/lontium_lt6911/lt6911_sensor_ctl.c
 +++ b/middleware/v2/component/isp/sensor/cv182x/lontium_lt6911/lt6911_sensor_ctl.c
-@@ -183,10 +183,17 @@ int lt6911_write(VI_PIPE ViPipe, int addr, int data)
+@@ -183,10 +183,20 @@ int lt6911_write(VI_PIPE ViPipe, int addr, int data)
  #define LT6911_CHIP_ID_ADDR_L	0xa001
  #define LT6911_CHIP_ID          0x1605
  
 +// The chip may still be completing its own internal boot/lock sequence this
-+// soon after PinMux; retry the ID probe for up to ~100ms before concluding
-+// it genuinely isn't there, instead of judging it from one immediate read.
-+#define LT6911_ID_PROBE_RETRIES 10
-+#define LT6911_ID_PROBE_RETRY_DELAY_US 10000
++// soon after PinMux. A 100ms window (10 x 10ms) wasn't enough on real hardware --
++// the chip was already firing HDMI hotplug interrupts 8 real seconds earlier, yet
++// every I2C write in the probe still failed across that whole window -- so retry
++// for up to ~10s before concluding it genuinely isn't there, instead of judging
++// it from one immediate read.
++#define LT6911_ID_PROBE_RETRIES 20
++#define LT6911_ID_PROBE_RETRY_DELAY_US 500000
 +
  int  lt6911_probe(VI_PIPE ViPipe)
  {
@@ -20,7 +23,7 @@ index 29ab3a9..3a4fc48 100644
  
  	// PinMUX
  	printf("###########   PinMux  #######################################################################\n");
-@@ -208,12 +215,18 @@ int  lt6911_probe(VI_PIPE ViPipe)
+@@ -208,12 +218,18 @@ int  lt6911_probe(VI_PIPE ViPipe)
  		return CVI_FAILURE;
  
  	printf("[lt6911_probe] -195 \n");
@@ -42,7 +45,7 @@ index 29ab3a9..3a4fc48 100644
  	}
  
  	printf("[lt6911_probe] -201 \n");
-@@ -221,7 +234,7 @@ int  lt6911_probe(VI_PIPE ViPipe)
+@@ -221,7 +237,7 @@ int  lt6911_probe(VI_PIPE ViPipe)
  	if ((((nVal & 0xFF) << 8) | (nVal2 & 0xFF)) != LT6911_CHIP_ID) {
  		CVI_TRACE_SNS(CVI_DBG_ERR, "Sensor ID Mismatch! Use the wrong sensor??\n");
  		printf("[lt6911_probe] jump return CVI_FAILURE -206 \n");
