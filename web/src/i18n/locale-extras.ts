@@ -3236,6 +3236,23 @@ const timeLogKeys = [
   'settings.systemLog.level.8'
 ] as const;
 
+// Two-factor auth is fork-only. English is supplied for every language rather
+// than inventing 28 translations; the mechanism already does this for other
+// hardened-only strings (see firewallModerateFallbackExtras).
+const totpFallbackExtras: TranslationMap = {
+  'auth.totp.title': 'Two-factor authentication',
+  'auth.totp.prompt': 'Enter the 6-digit code from your authenticator app.',
+  'auth.totp.backupPrompt': 'Enter one of your backup codes.',
+  'auth.totp.noEmptyCode': 'Enter a code',
+  'auth.totp.placeholderCode': '6-digit code',
+  'auth.totp.placeholderBackup': 'Backup code',
+  'auth.totp.verifyButtonText': 'Verify',
+  'auth.totp.useBackupCode': 'Use a backup code',
+  'auth.totp.useAuthenticator': 'Use authenticator code',
+  'auth.totp.cancel': 'Back',
+  'auth.totp.invalidCode': 'That code is not valid. Try again.'
+};
+
 function keyedExtras(keys: readonly string[], packs: Record<string, string[]>) {
   return Object.fromEntries(
     Object.entries(packs).map(([language, values]) => [
@@ -7071,7 +7088,8 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
     ...(firewallModerateLocalizedExtras[key] || {}),
     ...(timeLogExtras[key] || {}),
     ...firewallNoWebrtcExtras,
-    ...firewallNoWebrtcModeDescriptionExtras
+    ...firewallNoWebrtcModeDescriptionExtras,
+    ...totpFallbackExtras
   };
   if (!Object.keys(extras).length) return;
 
