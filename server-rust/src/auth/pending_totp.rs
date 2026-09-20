@@ -84,6 +84,63 @@ impl PendingTotpStore {
     }
 }
 
+/// How long an unconfirmed enrolment secret is held.
+pub const PENDING_ENROLMENT_TTL_SECS: u64 = 600;
+
+#[derive(Debug, Clone)]
+struct PendingEnrolment {
+    secret: String,
+    expires_at: Instant,
+}
+
+/// Secrets generated for enrolment but not yet confirmed with a code.
+///
+/// Held here rather than written to the account file so that an abandoned
+/// enrolment leaves nothing behind, and so a secret can never be active
+/// without the user having proven their authenticator produces matching codes.
+#[derive(Debug, Default)]
+pub struct PendingEnrolmentStore {
+    entries: RwLock<HashMap<String, PendingEnrolment>>,
+}
+
+impl PendingEnrolmentStore {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// Store a freshly generated secret, replacing any earlier attempt.
+    pub async fn put(&self, username: &str, secret: &str) {
+        let now = Instant::now();
+        let mut entries = self.entries.write().await;
+        entries.retain(|_, entry| entry.expires_at > now);
+        entries.insert(
+            username.to_string(),
+            PendingEnrolment {
+                secret: secret.to_string(),
+                expires_at: now + Duration::from_secs(PENDING_ENROLMENT_TTL_SECS),
+            },
+        );
+    }
+
+    pub async fn get(&self, username: &str) -> Option<String> {
+        let now = Instant::now();
+        let mut entries = self.entries.write().await;
+        entries.retain(|_, entry| entry.expires_at > now);
+        entries.get(username).map(|entry| entry.secret.clone())
+    }
+
+    pub async fn take(&self, username: &str) -> Option<String> {
+        let now = Instant::now();
+        let mut entries = self.entries.write().await;
+        entries.retain(|_, entry| entry.expires_at > now);
+        entries.remove(username).map(|entry| entry.secret)
+    }
+
+    pub async fn clear(&self, username: &str) {
+        self.entries.write().await.remove(username);
+    }
+}
+
 /// A ticket is only usable from the address that obtained it, so a leaked
 /// token is not enough on its own.
 fn matches(pending: &PendingLogin, source_ip: &str, now: Instant) -> bool {
@@ -151,6 +208,35 @@ mod tests {
         store.discard(&token).await;
 
         assert_eq!(store.consume(&token, "10.0.0.5").await, None);
+    }
+
+    #[tokio::test]
+    async fn enrolment_secret_is_taken_once() {
+        let store = PendingEnrolmentStore::new();
+        store.put("operator", "SECRET").await;
+
+        assert_eq!(store.get("operator").await.as_deref(), Some("SECRET"));
+        assert_eq!(store.take("operator").await.as_deref(), Some("SECRET"));
+        assert_eq!(store.get("operator").await, None);
+    }
+
+    #[tokio::test]
+    async fn restarting_enrolment_replaces_the_secret() {
+        let store = PendingEnrolmentStore::new();
+        store.put("operator", "FIRST").await;
+        store.put("operator", "SECOND").await;
+
+        assert_eq!(store.take("operator").await.as_deref(), Some("SECOND"));
+    }
+
+    #[tokio::test]
+    async fn abandoned_enrolment_can_be_cleared() {
+        let store = PendingEnrolmentStore::new();
+        store.put("operator", "SECRET").await;
+
+        store.clear("operator").await;
+
+        assert_eq!(store.get("operator").await, None);
     }
 
     #[tokio::test]
