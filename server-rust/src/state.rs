@@ -44,6 +44,7 @@ pub struct AppState {
     pub totp_replay: Arc<ReplayGuard>,
     pub login_limiter: Arc<RwLock<LoginRateLimiter>>,
     pub terminal_enabled: Arc<AtomicBool>,
+    pub require_totp: Arc<AtomicBool>,
     pub remote_image_download_enabled: Arc<AtomicBool>,
     pub session_lock_duration: Arc<AtomicU64>,
 }
@@ -63,6 +64,7 @@ impl AppState {
         );
 
         let terminal_enabled = config.security.allow_terminal;
+        let require_totp = config.security.require_totp;
         let remote_image_download_enabled = config.security.allow_remote_image_download;
         let session_lock_duration =
             normalize_session_lock_duration(config.security.access_token_duration);
@@ -77,6 +79,7 @@ impl AppState {
             totp_replay: Arc::new(ReplayGuard::new()),
             login_limiter: Arc::new(RwLock::new(login_limiter)),
             terminal_enabled: Arc::new(AtomicBool::new(terminal_enabled)),
+            require_totp: Arc::new(AtomicBool::new(require_totp)),
             remote_image_download_enabled: Arc::new(AtomicBool::new(remote_image_download_enabled)),
             session_lock_duration: Arc::new(AtomicU64::new(session_lock_duration)),
         })
@@ -88,6 +91,18 @@ impl AppState {
 
     pub fn terminal_enabled(&self) -> bool {
         self.terminal_enabled.load(Ordering::Acquire)
+    }
+
+    pub fn set_require_totp(&self, required: bool) {
+        self.require_totp.store(required, Ordering::Release);
+    }
+
+    /// Whether policy requires a second factor.
+    ///
+    /// Read from an atomic rather than `config`, because `config` is the
+    /// snapshot taken at startup and this is toggleable at runtime.
+    pub fn require_totp(&self) -> bool {
+        self.require_totp.load(Ordering::Acquire)
     }
 
     pub fn set_remote_image_download_enabled(&self, enabled: bool) {

@@ -32,6 +32,7 @@ pub fn build(state: AppState) -> Router {
         )
         .route("/api/auth/totp/enroll", post(account_totp::enroll))
         .route("/api/auth/totp/confirm", post(account_totp::confirm))
+        .route("/api/auth/totp/required", post(account_totp::set_required))
         .route(
             "/api/auth/totp/backup-codes",
             post(account_totp::regenerate_backup_codes),

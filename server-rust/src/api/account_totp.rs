@@ -14,6 +14,7 @@ use crate::{
         password::{BACKUP_CODE_COUNT, TotpConfig, generate_backup_codes},
         totp,
     },
+    config::Config,
     error::ApiResponse,
     http::middleware::CurrentSession,
     state::AppState,
@@ -33,6 +34,8 @@ pub struct TotpStatusRsp {
     clock_synced: bool,
     backup_codes_remaining: usize,
     enrolled_at: u64,
+    /// Whether configuration requires a second factor for this device.
+    required: bool,
 }
 
 #[derive(Debug, Serialize)]
@@ -59,6 +62,11 @@ pub struct TotpDisableReq {
     pub password: String,
 }
 
+#[derive(Debug, Deserialize)]
+pub struct SetRequiredReq {
+    pub required: bool,
+}
+
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BackupCodesRsp {
@@ -78,6 +86,7 @@ pub async fn get_status(
             .map(|totp| totp.backup_codes.len())
             .unwrap_or(0),
         enrolled_at: config.as_ref().map(|totp| totp.enrolled_at).unwrap_or(0),
+        required: state.require_totp(),
     })))
 }
 
@@ -186,6 +195,14 @@ pub async fn disable(
     Extension(CurrentSession(session)): Extension<CurrentSession>,
     Json(req): Json<TotpDisableReq>,
 ) -> Result<impl IntoResponse> {
+    // Refusing here would leave the UI unable to undo a setting it offers, so
+    // this only blocks while the policy flag is on -- the flag itself has to
+    // be cleared first.
+    if state.require_totp() {
+        return Err(AppError::Conflict(
+            "configuration requires two-factor auth; clear security.require_totp first".to_string(),
+        ));
+    }
     verify_password(&state, &session.username, &req.password)?;
 
     state.accounts.clear_totp(&session.username)?;
@@ -197,6 +214,31 @@ pub async fn disable(
         .await;
 
     audit::totp_disabled(&session.username);
+    Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+/// Turn the "a second factor is required" policy on or off.
+///
+/// Mirrors `ensure_https_mode_can_be_enabled` in
+/// [`crate::api::system_firewall`]: a setting whose prerequisite is not met is
+/// refused up front rather than accepted and left to fail later. Here the
+/// prerequisite is that the account can actually satisfy the requirement.
+pub async fn set_required(
+    State(state): State<AppState>,
+    Extension(CurrentSession(session)): Extension<CurrentSession>,
+    Json(req): Json<SetRequiredReq>,
+) -> Result<impl IntoResponse> {
+    if req.required && !state.accounts.totp_enabled(&session.username)? {
+        return Err(AppError::Conflict(
+            "enrol in two-factor auth before requiring it".to_string(),
+        ));
+    }
+
+    let mut config = Config::read()?;
+    config.security.require_totp = req.required;
+    config.write()?;
+    state.set_require_totp(req.required);
+
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 

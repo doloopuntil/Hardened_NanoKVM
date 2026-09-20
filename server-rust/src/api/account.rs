@@ -56,6 +56,10 @@ pub struct LoginRsp {
     /// No session is issued alongside it.
     #[serde(rename = "totpRequired", skip_serializing_if = "is_false")]
     pub totp_required: bool,
+    /// Set when policy requires a second factor that this account has not
+    /// enrolled yet. A session *is* issued, and the UI must force enrolment.
+    #[serde(rename = "totpEnrollmentRequired", skip_serializing_if = "is_false")]
+    pub totp_enrollment_required: bool,
 }
 
 fn is_zero(value: &u64) -> bool {
@@ -161,8 +165,20 @@ pub async fn login(
         ));
     }
 
+    // Policy wants a second factor but this account has none. Refusing would
+    // brick a headless device whose account file was reset or whose config was
+    // restored, so issue the session and make the UI force enrolment instead.
+    let enrollment_required = state.require_totp();
+    if enrollment_required {
+        tracing::warn!(
+            username = %req.username,
+            "security.require_totp is set but the account has no enrolment; \
+             allowing login to enrol"
+        );
+    }
+
     audit::login_success(&req.username, &source_ip);
-    issue_session_response(&state, &req.username).await
+    issue_session_response(&state, &req.username, enrollment_required).await
 }
 
 /// Second login step: exchange the pending ticket plus a code for a session.
@@ -239,7 +255,7 @@ pub async fn login_totp(
         .record_success(&source_ip, &limiter_key);
     audit::login_success(&username, &source_ip);
 
-    let (mut headers, body) = issue_session_response(&state, &username).await?;
+    let (mut headers, body) = issue_session_response(&state, &username, false).await?;
     headers.append(
         header::SET_COOKIE,
         expired_pending_totp_cookie(session_cookie_secure(&state.config.proto))?,
@@ -304,6 +320,7 @@ async fn verify_second_factor(
 async fn issue_session_response(
     state: &AppState,
     username: &str,
+    totp_enrollment_required: bool,
 ) -> Result<(HeaderMap, Json<ApiResponse<LoginRsp>>)> {
     let session_lock_duration = state.session_lock_duration();
     let session = state.sessions.issue(username, session_lock_duration).await;
@@ -323,6 +340,7 @@ async fn issue_session_response(
             csrf_token: session.csrf_token,
             expires_at: session.expires_at_unix,
             totp_required: false,
+            totp_enrollment_required,
         })),
     ))
 }
@@ -705,9 +723,11 @@ mod tests {
             csrf_token: "csrf".to_string(),
             expires_at: 42,
             totp_required: false,
+            totp_enrollment_required: true,
         })
         .unwrap();
         assert_eq!(issued["csrfToken"], serde_json::json!("csrf"));
+        assert_eq!(issued["totpEnrollmentRequired"], serde_json::json!(true));
         assert!(issued.get("totpRequired").is_none());
     }
 }
