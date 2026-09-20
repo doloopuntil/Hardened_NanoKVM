@@ -7,7 +7,11 @@ use tokio::sync::RwLock;
 
 use crate::{
     Result,
-    auth::{password::AccountStore, session::SessionStore, terminal_ticket::TerminalTicketStore},
+    auth::{
+        password::AccountStore, pending_totp::PendingTotpStore, session::SessionStore,
+        terminal_ticket::TerminalTicketStore,
+        totp::ReplayGuard,
+    },
     config::Config,
     security::rate_limit::LoginRateLimiter,
 };
@@ -33,6 +37,8 @@ pub struct AppState {
     pub accounts: Arc<AccountStore>,
     pub sessions: Arc<SessionStore>,
     pub terminal_tickets: Arc<TerminalTicketStore>,
+    pub pending_totp: Arc<PendingTotpStore>,
+    pub totp_replay: Arc<ReplayGuard>,
     pub login_limiter: Arc<RwLock<LoginRateLimiter>>,
     pub terminal_enabled: Arc<AtomicBool>,
     pub remote_image_download_enabled: Arc<AtomicBool>,
@@ -63,6 +69,8 @@ impl AppState {
             accounts: Arc::new(accounts),
             sessions: Arc::new(sessions),
             terminal_tickets: Arc::new(terminal_tickets),
+            pending_totp: Arc::new(PendingTotpStore::new()),
+            totp_replay: Arc::new(ReplayGuard::new()),
             login_limiter: Arc::new(RwLock::new(login_limiter)),
             terminal_enabled: Arc::new(AtomicBool::new(terminal_enabled)),
             remote_image_download_enabled: Arc::new(AtomicBool::new(remote_image_download_enabled)),

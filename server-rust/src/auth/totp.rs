@@ -116,6 +116,49 @@ pub fn otpauth_uri(issuer: &str, account: &str, secret: &str) -> String {
     )
 }
 
+/// Remembers the most recent step accepted for each account, so a code cannot
+/// be used twice inside its validity window.
+///
+/// Held in memory rather than in `/etc/kvm/pwd` on purpose: persisting it would
+/// mean a flash write on every single login. Sessions are in-memory already, so
+/// a reboot clears no more than it otherwise would, and replaying a captured
+/// code across a power cycle means beating a boot that takes far longer than
+/// the 30-second window.
+#[derive(Debug, Default)]
+pub struct ReplayGuard {
+    last_step: tokio::sync::RwLock<std::collections::HashMap<String, u64>>,
+}
+
+impl ReplayGuard {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// The last step spent by `username`, if any.
+    pub async fn last_step(&self, username: &str) -> Option<u64> {
+        self.last_step.read().await.get(username).copied()
+    }
+
+    /// Claim `step` for `username`, returning false if it has already been
+    /// used. Check and record happen under one lock, so two requests racing
+    /// with the same code cannot both succeed.
+    pub async fn try_use(&self, username: &str, step: u64) -> bool {
+        let mut guard = self.last_step.write().await;
+        match guard.get(username) {
+            Some(last) if *last >= step => false,
+            _ => {
+                guard.insert(username.to_string(), step);
+                true
+            }
+        }
+    }
+
+    /// Forget an account's replay state, on disenrolment.
+    pub async fn forget(&self, username: &str) {
+        self.last_step.write().await.remove(username);
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -259,6 +302,36 @@ mod tests {
         );
         assert_eq!(decode_secret(""), None);
         assert_eq!(decode_secret("not!base32"), None);
+    }
+
+    #[tokio::test]
+    async fn replay_guard_accepts_a_step_once() {
+        let guard = ReplayGuard::new();
+
+        assert!(guard.try_use("operator", 100).await);
+        assert!(!guard.try_use("operator", 100).await);
+        assert!(!guard.try_use("operator", 99).await, "older steps rejected");
+        assert!(guard.try_use("operator", 101).await);
+        assert_eq!(guard.last_step("operator").await, Some(101));
+    }
+
+    #[tokio::test]
+    async fn replay_guard_is_per_account() {
+        let guard = ReplayGuard::new();
+
+        assert!(guard.try_use("operator", 100).await);
+        assert!(guard.try_use("someone-else", 100).await);
+    }
+
+    #[tokio::test]
+    async fn replay_guard_forgets_on_request() {
+        let guard = ReplayGuard::new();
+        assert!(guard.try_use("operator", 100).await);
+
+        guard.forget("operator").await;
+
+        assert_eq!(guard.last_step("operator").await, None);
+        assert!(guard.try_use("operator", 100).await);
     }
 
     #[test]

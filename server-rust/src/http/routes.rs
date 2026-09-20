@@ -224,6 +224,8 @@ pub fn build(state: AppState) -> Router {
             get(application::get_current_version),
         )
         .route("/api/auth/login", post(account::login))
+        // Public because the caller holds a pending ticket, not a session.
+        .route("/api/auth/login/totp", post(account::login_totp))
         .route(
             "/api/auth/setup",
             get(account::get_setup_state).post(account::setup_first_account),
