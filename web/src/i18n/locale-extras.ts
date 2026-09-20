@@ -3250,7 +3250,41 @@ const totpFallbackExtras: TranslationMap = {
   'auth.totp.useBackupCode': 'Use a backup code',
   'auth.totp.useAuthenticator': 'Use authenticator code',
   'auth.totp.cancel': 'Back',
-  'auth.totp.invalidCode': 'That code is not valid. Try again.'
+  'auth.totp.invalidCode': 'That code is not valid. Try again.',
+  'settings.account.totp.title': 'Two-factor authentication',
+  'settings.account.totp.description':
+    'Require a time-based code from an authenticator app in addition to your password.',
+  'settings.account.totp.enabled': 'Enabled',
+  'settings.account.totp.disabled': 'Disabled',
+  'settings.account.totp.required': 'Required by policy',
+  'settings.account.totp.enable': 'Enable',
+  'settings.account.totp.disable': 'Disable',
+  'settings.account.totp.disableTitle': 'Disable two-factor authentication?',
+  'settings.account.totp.disableDescription':
+    'Your account will be protected by its password alone. Confirm with your password to continue.',
+  'settings.account.totp.disableFailed': 'Could not disable two-factor authentication',
+  'settings.account.totp.passwordPlaceholder': 'Current password',
+  'settings.account.totp.enrollFailed': 'Could not start enrolment',
+  'settings.account.totp.invalidCode': 'That code does not match. Try the next one.',
+  'settings.account.totp.scan': 'Scan this with your authenticator app.',
+  'settings.account.totp.manualEntry': 'Or enter this key manually:',
+  'settings.account.totp.codePlaceholder': 'Enter the 6-digit code to confirm',
+  'settings.account.totp.confirm': 'Confirm',
+  'settings.account.totp.cancel': 'Cancel',
+  'settings.account.totp.backupTitle': 'Save your backup codes now',
+  'settings.account.totp.backupDescription':
+    'Each code works once and will not be shown again. They are the only way back in if you lose your authenticator, and they keep working when the device clock is not synchronized.',
+  'settings.account.totp.copy': 'Copy',
+  'settings.account.totp.copied': 'Backup codes copied',
+  'settings.account.totp.savedThem': "I've saved them",
+  'settings.account.totp.remaining': '{{remaining}} backup codes remaining',
+  'settings.account.totp.clockUnsynced':
+    'The device clock is not synchronized yet. Synchronize time in Settings > System > Time before enrolling.',
+  'settings.account.totp.noBackupCodes':
+    'No backup codes remain. Disable and re-enable two-factor authentication to issue a new set.',
+  'settings.account.totp.requiredTitle': 'Two-factor authentication is required',
+  'settings.account.totp.requiredDescription':
+    'This device is configured to require a second factor, but your account has not enrolled one yet. Set it up now to continue.'
 };
 
 function keyedExtras(keys: readonly string[], packs: Record<string, string[]>) {

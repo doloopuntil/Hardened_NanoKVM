@@ -179,10 +179,18 @@ jobs:
           test -s /tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system
 
       - name: Build Hardened kvmapp bridge
+        env:
+          # Corepack otherwise prompts before fetching a pinned pnpm it has not
+          # cached, which would hang a non-interactive runner.
+          COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
         run: |
           cargo test --manifest-path server-rust/Cargo.toml
-          corepack pnpm --dir web install --frozen-lockfile
-          corepack pnpm --dir web build
+          # Run from web/ rather than passing --dir: corepack resolves the
+          # "packageManager" pin from the working directory upwards, and there
+          # is no package.json at the repository root. Invoked from here it
+          # would silently use whatever pnpm the runner's Node bundles, which
+          # is what --frozen-lockfile is meant to protect against.
+          (cd web && corepack pnpm install --frozen-lockfile && corepack pnpm build)
           server-rust/scripts/build-linked-libkvm.sh
           RUST_TARGET=riscv64gc-unknown-linux-musl \
             APP_VERSION="$(cat kvmapp/version)" \
