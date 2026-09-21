@@ -108,19 +108,7 @@ jobs:
             build-essential cmake git wget curl python3 python3-venv python3-pip \
             autoconf automake libtool patchelf patch file
 
-      - name: Cache built libkvm.so + libkvm_mmf.so
-        id: cache-native-libkvm
-        uses: actions/cache@v4
-        with:
-          path: build/native-libkvm
-          # p1: bumped when the LT6911 sensor-id-probe-retry patch changes, so a cache from before
-          # the patch existed (or with an older variant) is never silently reused as if current.
-          # p2: the p1 build succeeded but shipped a build-host RPATH in libkvm.so, since fixed --
-          # bumped so that broken cache entry is never reused.
-          key: native-libkvm-${{ env.MAIXCDK_SHA }}-${{ env.HARDENED_NANOKVM_NATIVE_SRC_COMMIT }}-p2
-
       - name: Install Sophgo RISC-V musl toolchain
-        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
         run: |
           curl --fail --location --retry 2 \
             --output /tmp/host-tools.tar.gz "$SOPHGO_HOST_TOOLS_URL"
@@ -130,7 +118,6 @@ jobs:
           echo "/usr/local/host-tools/gcc/riscv64-linux-musl-x86_64/bin" >> "$GITHUB_PATH"
 
       - name: Fetch MaixCDK
-        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
         run: |
           mkdir -p "$HOME/MaixCDK"
           git -C "$HOME/MaixCDK" init -q
@@ -145,7 +132,6 @@ jobs:
       # fix): the actual LT6911 driver source lives inside MaixCDK's own checkout above and is
       # patched separately below. Fetched as a plain archive, not a git clone -- no history needed.
       - name: Fetch upstream's native source tree (woffko/Hardened_NanoKVM)
-        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
         run: |
           mkdir -p "$HOME/NanoKVM"
           curl --fail --location --retry 2 \
@@ -162,7 +148,6 @@ jobs:
       # experiment/lt6911-real-failure: this is the first build where this code will actually
       # execute on real hardware, and the safer variant should be validated first.
       - name: Apply the LT6911 sensor-id-probe-retry patch to MaixCDK's vendored copy
-        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
         run: |
           LT6911_FILE="$HOME/MaixCDK/components/3rd_party/sophgo-middleware/sophgo-middleware/v2/component/isp/sensor/sg200x/lontium_lt6911/lt6911_sensor_ctl.c"
           patch --fuzz=0 --forward -p1 -o /tmp/lt6911_sensor_ctl.c.patched "$LT6911_FILE" \
@@ -175,7 +160,6 @@ jobs:
       # MaixCDK and answers its interactive platform prompt with "2" (maixcam) via heredoc -- the
       # exact sequence upstream's own docker/Dockerfile uses for `./build kvm_system`.
       - name: Build libkvm.so + libkvm_mmf.so via MaixCDK
-        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
         run: |
           cd "$HOME/NanoKVM/support/sg2002"
           ./build kvm_vision
@@ -195,7 +179,6 @@ jobs:
       # security check, not something to work around by disabling it), so strip it here instead,
       # the same way the previously-published binaries must have been prepared.
       - name: Strip build-host RPATH from libkvm.so + libkvm_mmf.so
-        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
         run: |
           for lib in libkvm.so libkvm_mmf.so; do
             LIB="$GITHUB_WORKSPACE/build/native-libkvm/$lib"
@@ -213,7 +196,6 @@ jobs:
       # a different call graph) -- but re-checked, not assumed, since this build's dependency set
       # could legitimately differ. Skips cleanly if the NEEDED entry isn't there at all.
       - name: Re-trim libkvm.so's unused OpenCV NEEDED entries
-        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
         run: |
           LIBKVM="$GITHUB_WORKSPACE/build/native-libkvm/libkvm.so"
           if patchelf --print-needed "$LIBKVM" | grep -q '^libopencv_video\.so\.409$'; then
@@ -223,7 +205,10 @@ jobs:
             echo "libopencv_video.so.409 not NEEDED by this build; nothing to trim"
           fi
 
-      - name: Upload native libkvm build for inspection
+      # The build-image job downloads this by name -- this is the actual handoff, not just a
+      # diagnostic copy (kept separate from actions/cache deliberately; see that job's download
+      # step for why).
+      - name: Upload native libkvm build
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -278,18 +263,17 @@ jobs:
           echo "vendor SDK cache miss: the vendor-sdk job should have populated it" >&2
           exit 1
 
-      - name: Restore native libkvm build
-        id: cache-native-libkvm
-        uses: actions/cache@v4
+      # Artifact download, not actions/cache: build/vendor's own cache above is a single ~10 GB
+      # entry, already right at the 10 GB per-repository cache budget -- any other cache write in
+      # the same run (even this small one) can trigger GitHub evicting it before this step gets to
+      # restore it (hit exactly this: the vendor SDK cache vanished between vendor-sdk's job saving
+      # it and this job restoring it, moments later, same run). Artifacts have a separate quota, so
+      # this handoff can't collide with it.
+      - name: Download native libkvm build
+        uses: actions/download-artifact@v4
         with:
+          name: native-libkvm-build
           path: build/native-libkvm
-          key: native-libkvm-${{ env.MAIXCDK_SHA }}-${{ env.HARDENED_NANOKVM_NATIVE_SRC_COMMIT }}-p2
-
-      - name: Require native libkvm cache
-        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
-        run: |
-          echo "native libkvm cache miss: the build-native-libkvm job should have populated it" >&2
-          exit 1
 
       - name: Cache Buildroot source download
         uses: actions/cache@v4
