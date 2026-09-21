@@ -115,7 +115,9 @@ jobs:
           path: build/native-libkvm
           # p1: bumped when the LT6911 sensor-id-probe-retry patch changes, so a cache from before
           # the patch existed (or with an older variant) is never silently reused as if current.
-          key: native-libkvm-${{ env.MAIXCDK_SHA }}-${{ env.HARDENED_NANOKVM_NATIVE_SRC_COMMIT }}-p1
+          # p2: the p1 build succeeded but shipped a build-host RPATH in libkvm.so, since fixed --
+          # bumped so that broken cache entry is never reused.
+          key: native-libkvm-${{ env.MAIXCDK_SHA }}-${{ env.HARDENED_NANOKVM_NATIVE_SRC_COMMIT }}-p2
 
       - name: Install Sophgo RISC-V musl toolchain
         if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
@@ -185,6 +187,25 @@ jobs:
 
           mkdir -p "$GITHUB_WORKSPACE/build/native-libkvm"
           cp "$DL_LIB/libkvm.so" "$DL_LIB/libkvm_mmf.so" "$GITHUB_WORKSPACE/build/native-libkvm/"
+
+      # MaixCDK's CMake build embeds a build-host RPATH (e.g.
+      # /home/runner/NanoKVM/support/sg2002/kvm_vision_test/build/kvm_mmf) into libkvm.so by
+      # default -- register_component(DYNAMIC) doesn't set CMAKE_SKIP_RPATH. scripts/package-
+      # rust-kvmapp.sh hard-fails on any RPATH/RUNPATH in these two libraries (a real portability/
+      # security check, not something to work around by disabling it), so strip it here instead,
+      # the same way the previously-published binaries must have been prepared.
+      - name: Strip build-host RPATH from libkvm.so + libkvm_mmf.so
+        if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
+        run: |
+          for lib in libkvm.so libkvm_mmf.so; do
+            LIB="$GITHUB_WORKSPACE/build/native-libkvm/$lib"
+            if patchelf --print-rpath "$LIB" | grep -q .; then
+              patchelf --remove-rpath "$LIB"
+              echo "removed RPATH from $lib"
+            else
+              echo "$lib has no RPATH; nothing to strip"
+            fi
+          done
 
       # Matches server-rust/native/README.md's "libkvm.so: removed video NEEDED entry" finding
       # (symbol-table analysis found zero real call path into video/dnn/calib3d/features2d/flann;
@@ -262,7 +283,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: build/native-libkvm
-          key: native-libkvm-${{ env.MAIXCDK_SHA }}-${{ env.HARDENED_NANOKVM_NATIVE_SRC_COMMIT }}-p1
+          key: native-libkvm-${{ env.MAIXCDK_SHA }}-${{ env.HARDENED_NANOKVM_NATIVE_SRC_COMMIT }}-p2
 
       - name: Require native libkvm cache
         if: steps.cache-native-libkvm.outputs.cache-hit != 'true'
