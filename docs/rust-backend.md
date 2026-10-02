@@ -274,9 +274,9 @@ disabling and reissuing backup codes. Without it a stolen session could bind
 its own authenticator, which would replace the secret, void the owner's backup
 codes and -- because enrolment revokes other sessions -- log the owner out.
 
-Note that `POST /api/auth/password` does not yet require the current password,
-so a stolen session can still change the password itself. That predates
-two-factor support and is the remaining gap in this model.
+`POST /api/auth/password` likewise requires the current password
+(`currentPassword`), so a stolen session cannot change the password and take
+over the account.
 
 ## Intentionally Disabled
 
