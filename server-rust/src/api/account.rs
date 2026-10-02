@@ -79,6 +79,8 @@ pub struct TotpLoginReq {
 #[derive(Debug, Deserialize)]
 pub struct ChangePasswordReq {
     pub username: String,
+    #[serde(rename = "currentPassword")]
+    pub current_password: String,
     pub password: String,
 }
 
@@ -364,6 +366,11 @@ pub async fn setup_first_account(
             "account already initialized".to_string(),
         ));
     }
+    // A stolen session alone must not be able to take over the account.
+    let current = decode_frontend_password(&req.current_password)?;
+    if !state.accounts.verify(&req.username, &current)? {
+        return Err(AppError::InvalidCredentials);
+    }
     let password = decode_frontend_password(&req.password)?;
     validate_account_credentials(&req.username, &password)?;
     change_root_password(&password).await?;
@@ -423,6 +430,11 @@ pub async fn change_password(
         return Err(AppError::Forbidden(
             "cannot change another account password".to_string(),
         ));
+    }
+    // A stolen session alone must not be able to take over the account.
+    let current = decode_frontend_password(&req.current_password)?;
+    if !state.accounts.verify(&req.username, &current)? {
+        return Err(AppError::InvalidCredentials);
     }
     let password = decode_frontend_password(&req.password)?;
     validate_account_credentials(&req.username, &password)?;
@@ -745,5 +757,37 @@ mod tests {
         assert_eq!(issued["csrfToken"], serde_json::json!("csrf"));
         assert_eq!(issued["totpEnrollmentRequired"], serde_json::json!(true));
         assert!(issued.get("totpRequired").is_none());
+    }
+
+    #[tokio::test]
+    async fn password_change_requires_the_current_password() {
+        let dir = tempfile::tempdir().unwrap();
+        let mut config = crate::config::Config::default();
+        config.paths.account_file = dir.path().canonicalize().unwrap().join("pwd");
+        let state = AppState::new(config).await.unwrap();
+        state
+            .accounts
+            .set_account("operator", "correct horse battery")
+            .unwrap();
+        let session = state.sessions.issue("operator", 900).await;
+
+        let refused = change_password(
+            State(state.clone()),
+            Extension(CurrentSession(session)),
+            Json(ChangePasswordReq {
+                username: "operator".to_string(),
+                current_password: "not the password".to_string(),
+                password: "a brand new password".to_string(),
+            }),
+        )
+        .await;
+
+        assert!(matches!(refused, Err(AppError::InvalidCredentials)));
+        assert!(
+            state
+                .accounts
+                .verify("operator", "correct horse battery")
+                .unwrap()
+        );
     }
 }

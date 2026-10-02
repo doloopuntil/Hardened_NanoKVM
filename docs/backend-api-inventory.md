@@ -46,7 +46,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | -------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
 | POST     | `/api/auth/logout`   | Implemented; revokes current session.                                                                          |
 | GET      | `/api/auth/account`  | Implemented.                                                                                                   |
-| GET/POST | `/api/auth/password` | Implemented; Argon2id writes, legacy verification, password-change session revocation, and root password sync. Existing TOTP enrolment is preserved across a password change. |
+| GET/POST | `/api/auth/password` | Implemented; requires the current password, Argon2id writes, legacy verification, password-change session revocation, and root password sync. Existing TOTP enrolment is preserved across a password change. |
 | GET/DELETE | `/api/auth/totp` | Implemented; GET reports enrolment state, clock-sync state, and remaining backup codes. DELETE disables the second factor and requires the account password. |
 | POST | `/api/auth/totp/enroll` | Implemented; requires the account password. Generates a secret held pending confirmation and returns it with an `otpauth://` URI. Refused while the device clock is unsynchronized. |
 | POST | `/api/auth/totp/confirm` | Implemented; verifies one code against the pending secret, activates it, and returns the backup codes once. |

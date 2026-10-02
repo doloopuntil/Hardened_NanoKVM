@@ -3240,6 +3240,9 @@ const timeLogKeys = [
 // than inventing 28 translations; the mechanism already does this for other
 // hardened-only strings (see firewallModerateFallbackExtras).
 const totpFallbackExtras: TranslationMap = {
+  'auth.placeholderCurrentPassword': 'Current password',
+  'auth.placeholderNewPassword': 'New password',
+  'auth.wrongCurrentPassword': 'Current password is incorrect',
   'auth.totp.title': 'Two-factor authentication',
   'auth.totp.prompt': 'Enter the 6-digit code from your authenticator app.',
   'auth.totp.backupPrompt': 'Enter one of your backup codes.',
