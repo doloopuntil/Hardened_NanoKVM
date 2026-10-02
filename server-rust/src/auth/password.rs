@@ -1,9 +1,4 @@
-use std::{
-    fs::{self, OpenOptions},
-    io::Write,
-    os::unix::fs::{OpenOptionsExt, PermissionsExt},
-    path::PathBuf,
-};
+use std::{fs, path::PathBuf};
 
 use argon2::{
     Argon2, PasswordHash, PasswordHasher, PasswordVerifier,
@@ -11,7 +6,7 @@ use argon2::{
 };
 use serde::{Deserialize, Serialize};
 
-use crate::{AppError, Result};
+use crate::{AppError, Result, fsutil::write_0600_atomic};
 
 pub const LEGACY_DEFAULT_USERNAME: &str = "admin";
 pub const LEGACY_DEFAULT_PASSWORD: &str = "admin";
@@ -69,7 +64,7 @@ impl AccountStore {
         };
         let data = serde_json::to_vec(&account)
             .map_err(|err| AppError::Internal(format!("account serialization failed: {err}")))?;
-        write_account_0600(&self.path, &data)
+        write_0600_atomic(&self.path, &data)
     }
 
     pub fn verify(&self, username: &str, password: &str) -> Result<bool> {
@@ -141,23 +136,6 @@ fn validate_password(password: &str) -> Result<()> {
     Ok(())
 }
 
-fn write_account_0600(path: &PathBuf, data: &[u8]) -> Result<()> {
-    if let Some(parent) = path.parent() {
-        fs::create_dir_all(parent)?;
-    }
-    let mut file = OpenOptions::new()
-        .create(true)
-        .truncate(true)
-        .write(true)
-        .mode(0o600)
-        .open(path)?;
-    file.write_all(data)?;
-    file.write_all(b"\n")?;
-    file.sync_all()?;
-    fs::set_permissions(path, fs::Permissions::from_mode(0o600))?;
-    Ok(())
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -180,7 +158,9 @@ mod tests {
     #[test]
     fn legacy_default_seed_allows_admin_admin() {
         let dir = tempfile::tempdir().unwrap();
-        let store = AccountStore::new(dir.path().join("pwd"));
+        // Canonicalized because macOS temp dirs sit under /var, itself a
+        // symlink, which the writer refuses to traverse.
+        let store = AccountStore::new(dir.path().canonicalize().unwrap().join("pwd"));
 
         assert!(store.seed_legacy_default_account().unwrap());
         assert!(!store.seed_legacy_default_account().unwrap());
