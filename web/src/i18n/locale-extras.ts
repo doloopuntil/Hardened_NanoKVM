@@ -3256,6 +3256,7 @@ const totpFallbackExtras: TranslationMap = {
     'Require a time-based code from an authenticator app in addition to your password.',
   'settings.account.totp.enabled': 'Enabled',
   'settings.account.totp.disabled': 'Disabled',
+  'settings.account.totp.required': 'Required by policy',
   'settings.account.totp.enable': 'Enable',
   'settings.account.totp.disable': 'Disable',
   'settings.account.totp.enableTitle': 'Set up two-factor authentication',
@@ -3292,6 +3293,13 @@ const totpFallbackExtras: TranslationMap = {
   'settings.account.totp.regenerateFailed': 'Could not issue new backup codes',
   'settings.account.totp.download': 'Download',
   'settings.account.totp.copyFailed': 'Could not copy. Select the codes and copy them manually.',
+  'settings.account.totp.requireTitle': 'Require two-factor authentication',
+  'settings.account.totp.requireDescription':
+    'While on, two-factor authentication cannot be disabled, and an account without it must set it up before using the device.',
+  'settings.account.totp.requireFailed': 'Could not change the requirement',
+  'settings.account.totp.requiredTitle': 'Two-factor authentication is required',
+  'settings.account.totp.requiredDescription':
+    'This device is configured to require a second factor, but your account has not enrolled one yet. Set it up now to continue.'
 };
 
 function keyedExtras(keys: readonly string[], packs: Record<string, string[]>) {

@@ -91,6 +91,14 @@ pub struct Security {
     pub allow_remote_image_download: bool,
     pub allow_auth_disable: bool,
     pub allow_default_admin: bool,
+    /// Require a TOTP second factor for web login.
+    ///
+    /// Enabling this through the API is refused until the account has
+    /// confirmed an enrolment. If it is set some other way -- a hand-edited
+    /// file, a restored config, a reset `/etc/kvm/pwd` -- login still succeeds
+    /// and forces enrolment instead, because refusing would leave a headless
+    /// device with no way back in.
+    pub require_totp: bool,
     pub allowed_origins: Vec<String>,
 }
 
@@ -188,6 +196,7 @@ impl Default for Security {
             allow_remote_image_download: false,
             allow_auth_disable: false,
             allow_default_admin: false,
+            require_totp: false,
             allowed_origins: Vec::new(),
         }
     }

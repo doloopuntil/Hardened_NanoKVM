@@ -369,7 +369,12 @@ Balena Etcher plus Linux, macOS, and FreeBSD command-line workflows.
   code before it activates, so a misconfigured authenticator cannot lock the
   account out. Enrolling, disabling and reissuing backup codes all require the
   account password. Enrolment issues nine single-use backup codes, displayed
-  once. SSH is unaffected and remains password-only. See
+  once. A `security.require_totp` flag, switched from the same page, can
+  require a second factor device-wide; it refuses to enable until the account
+  has enrolled. If the flag is set some other way, login still succeeds -- so a
+  headless device cannot lock itself out -- but the session is confined
+  server-side to the enrolment endpoints until a second factor is set up. SSH
+  is unaffected and remains password-only. See
   [`docs/rust-backend.md`](docs/rust-backend.md) for the clock, recovery, and
   replay-protection details.
 - Added browser auth-state recovery for IP/protocol changes: if the HttpOnly

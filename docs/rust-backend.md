@@ -242,6 +242,31 @@ a reboot clears no more than it otherwise would, and replaying a captured code
 across a power cycle means beating a boot that takes far longer than the
 30-second window.
 
+### `security.require_totp`
+
+Requires a second factor for web login. It is switched from **Settings >
+Account** once enrolled. Enabling it through
+`POST /api/auth/totp/required` is refused until the account has confirmed an
+enrolment, mirroring how `system_firewall` refuses restricted modes until HTTPS
+is on.
+
+If the flag is set some other way -- a hand-edited `server.yaml`, a restored
+config, a reset `/etc/kvm/pwd` -- **login still succeeds**, because refusing
+would leave a headless device with no way back in. But the session is
+**confined**: while the policy is on and the account is unenrolled, the
+`protected` middleware answers every route with `403 two-factor enrolment
+required` except the ones needed to enrol or leave -- `GET /api/auth/account`,
+`GET /api/auth/totp`, `POST /api/auth/totp/enroll`, `POST /api/auth/totp/confirm`
+and `POST /api/auth/logout`. The policy toggle is deliberately not among them,
+so a confined session cannot switch the policy off. The frontend turns that 403
+into a redirect to enrolment.
+
+The check runs per request rather than being stored on the session, so
+completing enrolment lifts the restriction for the session that did it, and
+clearing the policy lifts it immediately. When the policy is off it costs one
+atomic load; when on, it reads the account file, and an unreadable file counts
+as unenrolled so the policy fails closed.
+
 ### Changing the second factor
 
 Every change to the second factor requires the account password: enrolling,
