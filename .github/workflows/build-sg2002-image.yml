@@ -1,0 +1,145 @@
+name: Build SG2002 recovery-SD image
+
+# Manual only: this rebuilds the vendor SDK, a from-scratch Buildroot
+# toolchain, the hardened 5.10.265 kernel/modules, and the SG2002 rootfs.
+# It is multi-hour and disk-heavy; do not run it on every push.
+on:
+  workflow_dispatch: {}
+
+concurrency:
+  group: sg2002-image-build
+  cancel-in-progress: false
+
+env:
+  BUILDROOT_VERSION: "2026.05.1"
+  LICHEERV_NANO_SDK_SHA: d88d58feca49ef15f4cc7bd1f27dbf17dc25f85e
+
+jobs:
+  # Isolated because it is the single most expensive, most fragile stage
+  # (docs/vendor-sdk-build.md: ~14 GiB, long compile) and rarely changes
+  # once cached. A failure or timeout in the second job should never force
+  # redoing this one.
+  vendor-sdk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android \
+            /opt/ghc /opt/hostedtoolcache/CodeQL "${AGENT_TOOLSDIRECTORY:-}" || true
+          sudo docker image prune -a -f || true
+          df -h
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential git wget curl unzip rsync bc cpio \
+            libncurses-dev python3 perl bison flex \
+            dosfstools mtools file libssl-dev pkg-config e2fsprogs
+
+      - name: Cache vendor SDK + stock build output
+        id: cache-vendor-sdk
+        uses: actions/cache@v4
+        with:
+          path: build/vendor
+          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}
+
+      - name: Bootstrap vendor SDK
+        if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
+        run: make vendor-sdk
+
+      - name: Build stock vendor SDK image
+        if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
+        run: make vendor-sdk-stock
+
+  build-image:
+    needs: vendor-sdk
+    runs-on: ubuntu-latest
+    # 360 minutes is the hard cap on GitHub-hosted runners. If this pipeline
+    # doesn't fit, the only fix is a self-hosted runner, not a bigger number.
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android \
+            /opt/ghc /opt/hostedtoolcache/CodeQL "${AGENT_TOOLSDIRECTORY:-}" || true
+          sudo docker image prune -a -f || true
+          df -h
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential git wget curl unzip rsync bc cpio \
+            libncurses-dev python3 perl bison flex \
+            dosfstools mtools file libssl-dev pkg-config e2fsprogs
+
+      - name: Install Rust riscv64gc-unknown-linux-musl target
+        run: rustup target add riscv64gc-unknown-linux-musl
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Restore vendor SDK + stock build output
+        id: cache-vendor-sdk
+        uses: actions/cache@v4
+        with:
+          path: build/vendor
+          key: vendor-sdk-${{ env.LICHEERV_NANO_SDK_SHA }}
+
+      - name: Require vendor SDK cache
+        if: steps.cache-vendor-sdk.outputs.cache-hit != 'true'
+        run: |
+          echo "vendor SDK cache miss: the vendor-sdk job should have populated it" >&2
+          exit 1
+
+      - name: Cache Buildroot source download
+        uses: actions/cache@v4
+        with:
+          path: build/downloads
+          key: buildroot-${{ env.BUILDROOT_VERSION }}
+
+      - name: Bootstrap Buildroot + security-patched source
+        run: |
+          make latest-buildroot-bootstrap
+          make latest-buildroot-security-source
+
+      - name: Build Hardened kvmapp bridge
+        run: |
+          cargo test --manifest-path server-rust/Cargo.toml
+          corepack pnpm --dir web install --frozen-lockfile
+          corepack pnpm --dir web build
+          server-rust/scripts/build-linked-libkvm.sh
+          RUST_TARGET=riscv64gc-unknown-linux-musl \
+            APP_VERSION="$(cat kvmapp/version)" \
+            scripts/package-rust-kvmapp.sh
+
+      # build-kernel-5.10.265-rc12-run.sh pins EXPECTED_KVMAPP_SERVER_SHA256
+      # to the hash of the originally published RC12 binary. A locally
+      # rebuilt Rust binary is not expected to be byte-identical, so this
+      # recomputes the check against what we actually just built.
+      - name: Run RC12 kernel + rootfs + recovery-SD pipeline
+        run: |
+          EXPECTED_KVMAPP_SERVER_SHA256="$(sha256sum build/kvmapp-rust/kvmapp/server/NanoKVM-Server | awk '{print $1}')" \
+          KERNEL_5_10_265_REPRO_ROOT="${{ github.workspace }}/build/rc12-run" \
+          NANOKVM_KVMAPP_SOURCE_DIR="${{ github.workspace }}/build/kvmapp-rust/kvmapp" \
+          HARDENED_SG2002_VENDOR_SDK_DIR="${{ github.workspace }}/build/vendor/LicheeRV-Nano-Build" \
+            scripts/build-kernel-5.10.265-rc12-run.sh
+
+      - name: Upload recovery-SD image and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sg2002-raw12-cli-tools-fix
+          path: |
+            build/rc12-run/recovery/**
+            build/rc12-run/_reports/**
+          retention-days: 14
+          if-no-files-found: warn
