@@ -332,7 +332,7 @@ export const Login = (): ReactElement => {
             </Form.Item>
           )}
 
-          <div className="pb-1 text-red-500">{msg}</div>
+          {msg && <div className="mb-3 text-red-500">{msg}</div>}
 
           <Form.Item>
             <Button
