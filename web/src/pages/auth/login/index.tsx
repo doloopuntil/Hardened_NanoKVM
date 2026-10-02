@@ -99,7 +99,11 @@ export const Login = (): ReactElement => {
       setCsrfToken(rsp.data.csrfToken, rsp.data.expiresAt);
     }
 
-    navigate('/', { replace: true });
+    // Policy requires a second factor this account has not enrolled. Login is
+    // allowed through so the device cannot lock itself out, and enrolment is
+    // the first thing the user sees.
+    const target = rsp.data?.totpEnrollmentRequired ? '/auth/totp' : '/';
+    navigate(target, { replace: true });
     window.location.reload();
     return true;
   }

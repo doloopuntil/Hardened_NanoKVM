@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
-import { Alert, Button, Input, message, Modal, Spin, Tag, type InputRef } from 'antd';
+import { Alert, Button, Input, message, Modal, Spin, Switch, Tag, type InputRef } from 'antd';
 import { QRCodeSVG } from 'qrcode.react';
 import { useTranslation } from 'react-i18next';
 
@@ -38,9 +38,11 @@ async function copyText(text: string, container: HTMLElement): Promise<boolean> 
 type Props = {
   /** Blocks navigation away while an enrolment is half-finished. */
   setIsLocked?: (locked: boolean) => void;
+  /** Called once enrolment completes, for the forced-enrolment page. */
+  onEnrolled?: () => void;
 };
 
-export const TotpEnrollment = ({ setIsLocked }: Props) => {
+export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
   const { t } = useTranslation();
 
   const [status, setStatus] = useState<TotpStatus | null>(null);
@@ -56,6 +58,9 @@ export const TotpEnrollment = ({ setIsLocked }: Props) => {
   const [isDisabling, setIsDisabling] = useState(false);
   const [isStartingEnrolment, setIsStartingEnrolment] = useState(false);
   const [isRegenerating, setIsRegenerating] = useState(false);
+  const [isSavingRequired, setIsSavingRequired] = useState(false);
+  // Codes from a fresh enrolment: onEnrolled must wait until they are acknowledged.
+  const [enrolmentNeedsAck, setEnrolmentNeedsAck] = useState(false);
   const codesRef = useRef<HTMLDivElement>(null);
   const enrolPasswordRef = useRef<InputRef>(null);
   const regeneratePasswordRef = useRef<InputRef>(null);
@@ -127,6 +132,7 @@ export const TotpEnrollment = ({ setIsLocked }: Props) => {
         setOtpauthUri('');
         setSecret('');
         setCode('');
+        setEnrolmentNeedsAck(true);
         refresh();
       })
       .catch((err) => message.error(errorText(err, t('settings.account.totp.invalidCode'))))
@@ -178,6 +184,22 @@ export const TotpEnrollment = ({ setIsLocked }: Props) => {
       .finally(() => setIsBusy(false));
   }
 
+  function changeRequired(required: boolean) {
+    setIsSavingRequired(true);
+
+    api
+      .setRequired(required)
+      .then((rsp) => {
+        if (rsp.code !== 0) {
+          message.error(rsp.msg || t('settings.account.totp.requireFailed'));
+          return;
+        }
+        setStatus((current) => current && { ...current, required });
+      })
+      .catch((err) => message.error(errorText(err, t('settings.account.totp.requireFailed'))))
+      .finally(() => setIsSavingRequired(false));
+  }
+
   function copyBackupCodes() {
     copyText(backupCodes.join('\n'), codesRef.current ?? document.body).then((copied) =>
       copied
@@ -201,6 +223,10 @@ export const TotpEnrollment = ({ setIsLocked }: Props) => {
 
   function acknowledgeBackupCodes() {
     setBackupCodes([]);
+    if (enrolmentNeedsAck) {
+      setEnrolmentNeedsAck(false);
+      onEnrolled?.();
+    }
   }
 
   function errorText(err: any, fallback: string) {
@@ -287,6 +313,11 @@ export const TotpEnrollment = ({ setIsLocked }: Props) => {
             ) : (
               <Tag className="!me-0">{t('settings.account.totp.disabled')}</Tag>
             )}
+            {status?.required && !status.enabled && (
+              <Tag color="blue" className="!me-0">
+                {t('settings.account.totp.required')}
+              </Tag>
+            )}
           </div>
           <span className="text-xs text-neutral-500">
             {status?.enabled
@@ -304,7 +335,7 @@ export const TotpEnrollment = ({ setIsLocked }: Props) => {
             <Button onClick={() => setIsRegenerating(true)}>
               {t('settings.account.totp.regenerate')}
             </Button>
-            <Button danger onClick={() => setIsDisabling(true)}>
+            <Button danger disabled={status.required} onClick={() => setIsDisabling(true)}>
               {t('settings.account.totp.disable')}
             </Button>
           </div>
@@ -328,6 +359,18 @@ export const TotpEnrollment = ({ setIsLocked }: Props) => {
           showIcon
           message={t('settings.account.totp.clockUnsynced')}
         />
+      )}
+
+      {status?.enabled && (
+        <div className="mt-6 flex items-center justify-between gap-4">
+          <div className="flex min-w-0 flex-col space-y-1">
+            <span>{t('settings.account.totp.requireTitle')}</span>
+            <span className="text-xs text-neutral-500">
+              {t('settings.account.totp.requireDescription')}
+            </span>
+          </div>
+          <Switch checked={status.required} loading={isSavingRequired} onChange={changeRequired} />
+        </div>
       )}
 
       {status?.enabled && status.backupCodesRemaining === 0 && (

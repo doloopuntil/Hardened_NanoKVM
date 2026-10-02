@@ -6,6 +6,8 @@ export type TotpStatus = {
   clockSynced: boolean;
   backupCodesRemaining: number;
   enrolledAt: number;
+  /** Whether configuration requires a second factor on this device. */
+  required: boolean;
 };
 
 export type TotpEnrollment = {
@@ -35,6 +37,10 @@ export function disable(password: string) {
 
 export function regenerateBackupCodes(password: string) {
   return http.post('/api/auth/totp/backup-codes', { password });
+}
+
+export function setRequired(required: boolean) {
+  return http.post('/api/auth/totp/required', { required });
 }
 
 /** Second login step: exchange the pending ticket plus a code for a session. */
