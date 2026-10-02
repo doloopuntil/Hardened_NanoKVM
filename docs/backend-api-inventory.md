@@ -51,6 +51,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | POST | `/api/auth/totp/enroll` | Implemented; requires the account password. Generates a secret held pending confirmation and returns it with an `otpauth://` URI. Refused while the device clock is unsynchronized. |
 | POST | `/api/auth/totp/confirm` | Implemented; verifies one code against the pending secret, activates it, and returns the backup codes once. |
 | POST | `/api/auth/totp/backup-codes` | Implemented; reissues backup codes. Requires the account password. |
+| POST | `/api/auth/totp/required` | Implemented; toggles `security.require_totp`. Refuses to enable until the account has confirmed an enrolment. |
 
 ### Application Updates
 
