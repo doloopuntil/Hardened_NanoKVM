@@ -150,6 +150,13 @@ jobs:
           cp /tmp/lt6911_sensor_ctl.c.patched "$LT6911_FILE"
           ! grep -q "LT6911_CHIP_ID_ADDR_H)" "$LT6911_FILE"
 
+      # mmf_init(): skip stale-state release and /proc/cvitek/vb reads on a fresh boot.
+      - name: Apply tracked native source patches
+        run: |
+          cd "$HOME/NanoKVM"
+          patch -p1 --fuzz=0 < "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/native-patches/kvm-mmf-skip-empty-sys-release.patch"
+          grep -q "no stale sys state to release" support/sg2002/additional/kvm_mmf/src/kvm_mmf.cpp
+
       # ./build's own first-time logic (no $MAIXCDK_PATH/components/kvm yet, always true on this
       # fresh clone) copies support/sg2002/additional/{kvm,kvm_mmf,vision,peripheral bits} into
       # MaixCDK and answers its interactive platform prompt with "2" (maixcam) via heredoc -- the
