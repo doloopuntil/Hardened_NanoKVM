@@ -11,6 +11,7 @@ use nanokvm_rust_server::{
         tls::{self, ClientAddr},
     },
     state::AppState,
+    ws::hid as hid_ws,
 };
 use std::{
     fs, io,
@@ -52,6 +53,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     config.log_runtime_warnings();
     install_runtime_boot_scripts();
     initialize_kvm();
+    hid_ws::start_keyboard_led_reader();
     install_shutdown_signal_handler();
 
     if config.proto == "https" {
