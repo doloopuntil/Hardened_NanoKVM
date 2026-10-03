@@ -260,7 +260,11 @@ const nb = {
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Slipp filen her eller klikk for å velge',
       inputfile: 'Vennligst skriv inn bildefilen',
-      NoISO: 'Ingen ISO'
+      NoISO: 'Ingen ISO',
+      sha256: 'SHA-256 (valgfritt)',
+      sha256Placeholder: 'Skriv inn en SHA-256-kontrollsum på 64 tegn',
+      invalidSHA256: 'SHA-256 må være en heksadesimal streng på 64 tegn',
+      checksumFailed: 'Nedlasting mislyktes: SHA-256-verifisering mislyktes'
     },
     power: {
       title: 'På-knapp',

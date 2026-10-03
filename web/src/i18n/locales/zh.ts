@@ -248,7 +248,11 @@ const zh = {
       diskOff: '关闭虚拟U盘功能',
       uploadbox: '将文件拖放到此处或单击选择',
       inputfile: '请输入图片文件',
-      NoISO: '无 ISO'
+      NoISO: '无 ISO',
+      sha256: 'SHA-256（可选）',
+      sha256Placeholder: '请输入 64 位 SHA-256 校验和',
+      invalidSHA256: 'SHA-256 必须是 64 位十六进制字符串',
+      checksumFailed: '下载失败：SHA-256 校验失败'
     },
     power: {
       title: '电源',
