@@ -16,7 +16,7 @@ use std::{
 
 use crate::{AppError, Result};
 
-const HDMI_DISABLE_FILE: &str = "/etc/kvm/hdmi_disable";
+pub const HDMI_DISABLE_FILE: &str = "/etc/kvm/hdmi_disable";
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
 const DEFAULT_LIBKVM_PATHS: &[&str] = &["/kvmapp/server/dl_lib/libkvm.so"];
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]

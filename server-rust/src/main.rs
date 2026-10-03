@@ -6,6 +6,7 @@ use axum::{
 use nanokvm_rust_server::{
     config::Config,
     ffi::kvm,
+    hdmi_idle,
     http::{
         routes,
         tls::{self, ClientAddr},
@@ -55,6 +56,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     install_runtime_boot_scripts();
     install_runtime_update_trust(&config);
     initialize_kvm();
+    hdmi_idle::start();
     install_shutdown_signal_handler();
 
     if config.proto == "https" {
