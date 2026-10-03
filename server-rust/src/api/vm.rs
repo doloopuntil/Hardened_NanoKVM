@@ -33,7 +33,7 @@ use tracing::{debug, info, warn};
 
 use crate::{
     AppError, Result,
-    api::{stream, system_firewall},
+    api::{storage, stream, system_firewall},
     auth::compat_crypto::decode_frontend_password,
     config::Config,
     error::ApiResponse,
@@ -584,8 +584,14 @@ pub async fn get_virtual_device() -> Result<impl IntoResponse> {
     Ok(Json(ApiResponse::ok(VirtualDeviceRsp {
         network: Path::new(VIRTUAL_NETWORK_FLAG).exists(),
         media: false,
-        disk: Path::new(VIRTUAL_DISK_FLAG).exists(),
+        disk: disk_attached(),
     })))
+}
+
+/// Whether the virtual disk is enabled and /data is currently shared with the
+/// host. A disk that serves an image, or nothing at all, counts as off.
+fn disk_attached() -> bool {
+    Path::new(VIRTUAL_DISK_FLAG).exists() && storage::data_disk_attached()
 }
 
 pub async fn update_virtual_device(
@@ -597,19 +603,47 @@ pub async fn update_virtual_device(
         _ => return Err(AppError::BadRequest("invalid virtual device".to_string())),
     };
 
-    let exists = Path::new(flag).exists();
+    let is_disk = req.device == "disk";
+    let exists = if is_disk {
+        disk_attached()
+    } else {
+        Path::new(flag).exists()
+    };
+
+    if is_disk && !exists {
+        // The host writes the partition from now on. A mounted image is released
+        // by the restarted gadget, which attaches the raw partition again.
+        storage::ensure_no_transfer()?;
+        storage::set_data_writable(false).await?;
+    }
+
     run_usbdev("stop").await?;
     if exists {
         remove_dir_if_exists(config_dir)?;
         remove_file_if_exists(flag)?;
     } else {
-        fs::write(flag, b"")?;
+        // Keep the content: a non-empty flag names the disk to serve.
+        fs::OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(flag)?;
     }
     run_usbdev("start").await?;
 
-    Ok(Json(ApiResponse::ok(UpdateVirtualDeviceRsp {
-        on: Path::new(flag).exists(),
-    })))
+    // The disk is gone from the host, so the KVM writes /data itself again.
+    if is_disk
+        && !disk_attached()
+        && let Err(err) = storage::set_data_writable(true).await
+    {
+        warn!(error = %err, "failed to make /data writable after disabling the virtual disk");
+    }
+
+    let on = if is_disk {
+        disk_attached()
+    } else {
+        Path::new(flag).exists()
+    };
+    Ok(Json(ApiResponse::ok(UpdateVirtualDeviceRsp { on })))
 }
 
 pub async fn reboot() -> Result<impl IntoResponse> {
