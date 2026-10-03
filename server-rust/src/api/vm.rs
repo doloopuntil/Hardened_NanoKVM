@@ -38,6 +38,7 @@ use crate::{
     config::Config,
     error::ApiResponse,
     ffi::kvm,
+    hdmi_idle,
     http::{
         cookie::{session_cookie, session_cookie_secure},
         middleware::CurrentSession,
@@ -207,6 +208,13 @@ pub struct EnabledRsp {
 pub struct HdmiStateRsp {
     pub enabled: bool,
     pub signal: bool,
+    #[serde(rename = "idleTimeout")]
+    pub idle_timeout: u32,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct SetHdmiIdleTimeoutReq {
+    pub minutes: u32,
 }
 
 #[derive(Debug, Serialize)]
@@ -385,18 +393,28 @@ pub async fn get_hdmi_state() -> Result<impl IntoResponse> {
     Ok(Json(ApiResponse::ok(HdmiStateRsp {
         enabled,
         signal: enabled && kvm::hdmi_signal_active(),
+        idle_timeout: hdmi_idle::idle_timeout_minutes(),
     })))
+}
+
+pub async fn set_hdmi_idle_timeout(
+    Json(req): Json<SetHdmiIdleTimeoutReq>,
+) -> Result<impl IntoResponse> {
+    hdmi_idle::set_idle_timeout(req.minutes)?;
+    Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
 pub async fn enable_hdmi() -> Result<impl IntoResponse> {
     kvm::set_hdmi(true)?;
     persist_hdmi_enabled()?;
+    hdmi_idle::capture_enabled();
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
 pub async fn disable_hdmi() -> Result<impl IntoResponse> {
     kvm::set_hdmi(false)?;
     persist_hdmi_disabled()?;
+    hdmi_idle::capture_disabled();
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
@@ -405,6 +423,7 @@ pub async fn reset_hdmi() -> Result<impl IntoResponse> {
     time::sleep(Duration::from_secs(1)).await;
     kvm::set_hdmi(true)?;
     persist_hdmi_enabled()?;
+    hdmi_idle::capture_enabled();
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
