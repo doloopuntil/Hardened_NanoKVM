@@ -886,10 +886,15 @@ fn spawn_terminal_pty() -> std::io::Result<TerminalPty> {
 
 fn exec_terminal_shell() -> ! {
     let shell = b"/bin/sh\0";
+    let login_flag = b"-l\0";
+    let home = b"/root\0";
     unsafe {
+        // Best effort: a missing /root must not stop the shell from starting.
+        nix::libc::chdir(home.as_ptr().cast());
         nix::libc::execl(
             shell.as_ptr().cast(),
             shell.as_ptr().cast(),
+            login_flag.as_ptr().cast::<nix::libc::c_char>(),
             ptr::null::<nix::libc::c_char>(),
         );
         nix::libc::_exit(127);
