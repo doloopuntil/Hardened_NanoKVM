@@ -78,6 +78,10 @@ const ca = {
       frameDetectTip:
         "Calcula la diferència entre fotogrames. S'atura la transmissió si no hi ha canvis a la pantalla de l'amfitrió remot.",
       resetHdmi: 'Restablir HDMI',
+      webrtcConnectionFailed: {
+        title: 'Error de connexió WebRTC',
+        description: 'Comproveu la connexió de xarxa o canvieu el mode de vídeo.'
+      },
       captureStatus: {
         hdmiError: 'Error a la pantalla HDMI',
         unsupportedResolution: 'La resolució actual no és compatible',

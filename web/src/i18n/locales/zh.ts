@@ -74,6 +74,10 @@ const zh = {
       frameDetect: '帧差检测',
       frameDetectTip: '计算帧之间的差异，当检测到远程主机画面不变时，停止传输视频流',
       resetHdmi: '重置 HDMI',
+      webrtcConnectionFailed: {
+        title: 'WebRTC 连接失败',
+        description: '请检查网络连接或切换视频模式。'
+      },
       captureStatus: {
         hdmiError: 'HDMI 画面异常',
         unsupportedResolution: '当前分辨率不支持',

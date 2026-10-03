@@ -79,6 +79,10 @@ const tr = {
       frameDetectTip:
         'Gönderilen kareler arasındaki farkı hesaplar. Uzak ana bilgisayardan gönderilen yayında bir değişiklik yoksa görüntü yayınını durdurur.',
       resetHdmi: 'HDMI sıfırla',
+      webrtcConnectionFailed: {
+        title: 'WebRTC bağlantısı başarısız',
+        description: 'Ağ bağlantısını kontrol edin veya video modunu değiştirin.'
+      },
       captureStatus: {
         hdmiError: 'HDMI ekran hatası',
         unsupportedResolution: 'Geçerli çözünürlük desteklenmiyor',
