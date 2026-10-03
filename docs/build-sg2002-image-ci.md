@@ -27,24 +27,39 @@ each dependency.
 
 ## Pipeline shape
 
-Two jobs:
+Six jobs. Jobs hand each other files as workflow artifacts (tarred, since
+artifacts drop permissions and symlinks), so "re-run failed jobs" reuses
+everything that already succeeded.
 
-- **`vendor-sdk`** -- bootstraps the pinned `sipeed/LicheeRV-Nano-Build`
-  vendor SDK (`make vendor-sdk`) and builds its stock image
-  (`make vendor-sdk-stock`). Isolated because it's the single most
-  expensive, most fragile stage (~14 GiB, long compile) and rarely changes
-  once cached; a failure or timeout in the second job should never force
-  redoing this one. Its entire output (`build/vendor`, including the stock
-  build's `install/soc_sg2002_licheervnano_sd/rawimages/rootfs.sd`) is
-  cached under `actions/cache`, keyed on the pinned SDK commit.
-- **`build-image`** (`needs: vendor-sdk`) -- everything else: Buildroot
-  bootstrap, the `kvmapp` Rust bridge, the hardened kernel rebuild, all 57
-  kernel modules, rootfs assembly, boot FIT image, and the final recovery-SD
-  image. Restores the same vendor-SDK cache (hard failure if it's missing --
-  no silent redundant rebuild) plus separate caches for the Buildroot
-  release tarball and its package-download directory.
+- **`vendor-sdk-source`** -- the pinned `sipeed/LicheeRV-Nano-Build` SDK and
+  `sophgo/host-tools` checkouts (`make vendor-sdk`) plus the tracked
+  middleware patch. Takes minutes. The kernel and module jobs need nothing
+  the stock build produces, so they start from this artifact and run
+  alongside the stock build.
+- **`vendor-sdk`** (`needs: vendor-sdk-source`) -- builds the SDK's stock
+  image (`make vendor-sdk-stock`). Isolated because it's the single most
+  expensive, most fragile stage (~14 GiB, ~95 minutes). Its output
+  (`build/vendor`) is uploaded as the `vendor-sdk` artifact, which only
+  `build-image` consumes.
+- **`build-native-libkvm`** -- independent of the vendor SDK. Builds
+  `libkvm.so` and `libkvm_mmf.so` from `support/sg2002` with MaixCDK and
+  Sophgo's RISC-V musl toolchain; uploads `native-libkvm-build`.
+- **`build-kernel`** (`needs: vendor-sdk-source`) -- rehydrates the 5.10.265
+  kernel source and builds it. Uploads `kernel-build` (source plus build
+  tree, for the module builds) and `kernel-boot` (the `Image`, the DTB and
+  `utsrelease.h`, for the boot FIT).
+- **`build-modules`** (`needs: vendor-sdk-source, build-kernel`) -- builds the 30
+  external and 3 media kernel modules against that tree, substitutes them
+  and the 24 in-tree modules into the `/mnt/system/ko` skeleton, and writes
+  the provenance records. Uploads `kernel-modules`. The kernel tree must be
+  unpacked at the same absolute path it was built at, which holds because
+  every job uses the same workspace directory.
+- **`build-image`** (`needs: vendor-sdk, build-native-libkvm, build-kernel,
+  build-modules`) -- Buildroot bootstrap, the `kvmapp` Rust bridge, the
+  remaining runtime files, rootfs assembly, boot FIT image, and the final
+  recovery-SD image.
 
-Both jobs run in a `sg2002-image-build` concurrency group
+All jobs run in a `sg2002-image-build` concurrency group
 (`cancel-in-progress: false`): dispatches queue rather than race, and a
 new dispatch only ever cancels a run still waiting in that queue, never one
 already executing.
