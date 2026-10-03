@@ -60,18 +60,15 @@ unpatched probe timing. `/mnt/system/usr/lib/libsns_lt6911.so` is real and
 correctly patched, but nothing in the running process tree (`kvm_system`,
 `libkvm.so`, `libkvm_mmf.so`) loads it.
 
-`.github/workflows/build-sg2002-image.yml`'s `build-native-libkvm` job now
-rebuilds `libkvm.so`/`libkvm_mmf.so` from source via MaixCDK instead of
-reusing the prebuilt app 2.0.42 archive copies, applying the same LT6911
-patch to MaixCDK's checkout before building. It starts from
-`woffko/Hardened_NanoKVM`'s own current `support/sg2002/additional/`
-source tree (`HARDENED_NANOKVM_NATIVE_SRC_COMMIT`, their "Harden native
-video path for app 2.0.34 RC10" commit, 2026-07-11) rather than this
-fork's older copy of those files -- their rebuild fixed unrelated
-lifecycle/audit findings and a separate sensor-name-table `SAMPLE_SNS_TYPE_E`
-mismatch, but left this exact dead code in place too (checked: their
-currently-published `libkvm_mmf.so` still contains the same unpatched
-`read sensor id error.`/`Sensor ID Mismatch!` strings).
+`.github/workflows/build-sg2002-image.yml`'s `build-native-libkvm` job
+builds `libkvm.so`/`libkvm_mmf.so` from this repository's own
+`support/sg2002/additional/` sources via MaixCDK instead of reusing the
+prebuilt app 2.0.42 archive copies, applying the LT6911 patch to MaixCDK's
+checkout first. Those sources carry the native changes the image relies on
+(zero-copy capture, shared VI state, HDMI signal, the skipped stale-state
+release on a fresh boot), and the job checks for them before building.
+`woffko/Hardened_NanoKVM`'s own published `libkvm_mmf.so` still contains the
+same unpatched `read sensor id error.`/`Sensor ID Mismatch!` strings.
 
 Verified on real hardware in two rounds. First, a retry loop (confirmed
 genuinely executing via matching syslog line numbers, not a stale build)

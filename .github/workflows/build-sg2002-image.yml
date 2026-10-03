@@ -33,12 +33,6 @@ env:
   MAIXCDK_SHA: 5b0aa5b1a8c91d213433189cfab8c999775fa13a
   SOPHGO_HOST_TOOLS_URL: https://sophon-file.sophon.cn/sophon-prod-s3/drive/23/03/07/16/host-tools.tar.gz
   SOPHGO_HOST_TOOLS_SHA256: ff9a58e8e192b20ea42e1d729c42d2219523209706cb3f0cf134582f6c70f805
-  # woffko/Hardened_NanoKVM's own "Harden native video path for app 2.0.34 RC10" commit: the
-  # support/sg2002/additional/{kvm,kvm_mmf,vision,peripheral} source tree that produced their
-  # currently-published libkvm.so/libkvm_mmf.so. Used as the base instead of this fork's own
-  # (older, unaudited) copy of those files -- see docs/native-code-audit.md's "Remediation
-  # Verification" section, completed 2026-07-11.
-  HARDENED_NANOKVM_NATIVE_SRC_COMMIT: 26a2986d3080cb95557f06fde437c1de6189f491
 
 jobs:
   # Just the two pinned checkouts (SDK, host-tools) plus the tracked patch. The kernel and module
@@ -136,10 +130,10 @@ jobs:
           if-no-files-found: error
 
   # Isolated, independent of vendor-sdk: a completely separate toolchain (MaixCDK + Sophgo's RISC-V
-  # musl gcc), rebuilding libkvm.so/libkvm_mmf.so from source instead of reusing the prebuilt app
-  # 2.0.42 archive copies. libkvm_mmf.so statically compiles in its own frozen copy of the LT6911
-  # sensor driver (see server-rust/native/README.md) -- the vendor-sdk-stock patch above never
-  # reaches the code that actually runs; this is the job that does.
+  # musl gcc), building libkvm.so/libkvm_mmf.so from this repository's support/sg2002 sources.
+  # libkvm_mmf.so statically compiles in its own frozen copy of the LT6911 sensor driver (see
+  # server-rust/native/README.md) -- the vendor-sdk-stock patch above never reaches the code that
+  # actually runs; this is the job that does.
   build-native-libkvm:
     runs-on: ubuntu-latest
     timeout-minutes: 180
@@ -174,16 +168,6 @@ jobs:
           "$HOME/MaixCDK/bin/pip" install -U -r "$HOME/MaixCDK/requirements.txt"
           echo "$HOME/MaixCDK/bin" >> "$GITHUB_PATH"
 
-      # This is app-level source only (kvm/kvm_mmf/vision/peripheral + the sensor-name-table sync
-      # fix): the actual LT6911 driver source lives inside MaixCDK's own checkout above and is
-      # patched separately below. Fetched as a plain archive, not a git clone -- no history needed.
-      - name: Fetch upstream's native source tree (woffko/Hardened_NanoKVM)
-        run: |
-          mkdir -p "$HOME/NanoKVM"
-          curl --fail --location --retry 2 \
-            "https://github.com/woffko/Hardened_NanoKVM/archive/$HARDENED_NANOKVM_NATIVE_SRC_COMMIT.tar.gz" \
-            | tar -xz -C "$HOME/NanoKVM" --strip-components=1
-
       # Same source as vendor-sdk-stock's own copy, so the same patch applies. Embedded paths
       # differ between the two trees, so target the file directly with `patch` instead of `git
       # apply`.
@@ -195,23 +179,23 @@ jobs:
           cp /tmp/lt6911_sensor_ctl.c.patched "$LT6911_FILE"
           ! grep -q "LT6911_CHIP_ID_ADDR_H)" "$LT6911_FILE"
 
-      # mmf_init(): skip stale-state release and /proc/cvitek/vb reads on a fresh boot.
-      - name: Apply tracked native source patches
-        run: |
-          cd "$HOME/NanoKVM"
-          patch -p1 --fuzz=0 < "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/native-patches/kvm-mmf-skip-empty-sys-release.patch"
-          grep -q "no stale sys state to release" support/sg2002/additional/kvm_mmf/src/kvm_mmf.cpp
-
       # ./build's own first-time logic (no $MAIXCDK_PATH/components/kvm yet, always true on this
       # fresh clone) copies support/sg2002/additional/{kvm,kvm_mmf,vision,peripheral bits} into
       # MaixCDK and answers its interactive platform prompt with "2" (maixcam) via heredoc -- the
       # exact sequence upstream's own docker/Dockerfile uses for `./build kvm_system`.
       - name: Build libkvm.so + libkvm_mmf.so via MaixCDK
         run: |
-          cd "$HOME/NanoKVM/support/sg2002"
+          cd "$GITHUB_WORKSPACE/support/sg2002"
+
+          # The sources must carry the native changes this image relies on.
+          grep -q "no stale sys state to release" additional/kvm_mmf/src/kvm_mmf.cpp
+          grep -q "mmf_vi_frame_release" additional/kvm_mmf/src/kvm_mmf.cpp
+          grep -q "kvmv_hdmi_signal_active" additional/kvm/src/kvm_vision.cpp
+          grep -q "fresh_frame_count" additional/kvm/src/kvm_vision.cpp
+
           ./build kvm_vision
 
-          DL_LIB="$HOME/NanoKVM/support/sg2002/kvm_vision_test/dist/kvm_vision_test_release/dl_lib"
+          DL_LIB="$GITHUB_WORKSPACE/support/sg2002/kvm_vision_test/dist/kvm_vision_test_release/dl_lib"
           test -s "$DL_LIB/libkvm.so"
           test -s "$DL_LIB/libkvm_mmf.so"
           file "$DL_LIB/libkvm.so" "$DL_LIB/libkvm_mmf.so"
