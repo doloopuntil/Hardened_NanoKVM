@@ -261,7 +261,11 @@ const es = {
       diskOff: 'Desactivar el disco virtual',
       uploadbox: 'Suelte el archivo aquí o haga clic para seleccionar',
       inputfile: 'Por favor ingrese el archivo de imagen',
-      NoISO: 'Sin ISO'
+      NoISO: 'Sin ISO',
+      sha256: 'SHA-256 (opcional)',
+      sha256Placeholder: 'Introduzca una suma de comprobación SHA-256 de 64 caracteres',
+      invalidSHA256: 'SHA-256 debe ser una cadena hexadecimal de 64 caracteres',
+      checksumFailed: 'Descarga fallida: error en la verificación SHA-256'
     },
     power: {
       title: 'Encender / Apagar',

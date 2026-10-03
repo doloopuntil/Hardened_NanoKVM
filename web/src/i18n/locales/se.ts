@@ -257,7 +257,11 @@ const se = {
       diskOff: 'Stäng av den virtuella disken',
       uploadbox: 'Släpp filen här eller klicka för att välja',
       inputfile: 'Vänligen ange bildfilen',
-      NoISO: 'Ingen ISO'
+      NoISO: 'Ingen ISO',
+      sha256: 'SHA-256 (valfrie)',
+      sha256Placeholder: 'Skriv inn en SHA-256-kontrollsum på 64 tegn',
+      invalidSHA256: 'SHA-256 må være en heksadesimal streng på 64 tegn',
+      checksumFailed: 'Nedlasting mislyktes: SHA-256-verifisering mislyktes'
     },
     power: {
       title: 'Ström',
