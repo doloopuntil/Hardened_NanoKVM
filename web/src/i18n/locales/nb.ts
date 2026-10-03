@@ -79,6 +79,10 @@ const nb = {
       frameDetectTip:
         'Kalkuler forskjellen mellom bilder. Stopper overføring av video når det ikke oppdages forskjell på den eksterne vertens skjerm.',
       resetHdmi: 'Tilbakestill HDMI',
+      webrtcConnectionFailed: {
+        title: 'WebRTC-tilkobling mislyktes',
+        description: 'Kontroller nettverkstilkoblingen eller bytt videomodus.'
+      },
       captureStatus: {
         hdmiError: 'HDMI-skjermfeil',
         unsupportedResolution: 'Gjeldende oppløsning støttes ikke',

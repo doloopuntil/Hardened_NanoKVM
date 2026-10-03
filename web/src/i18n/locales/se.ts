@@ -76,6 +76,10 @@ const se = {
       frameDetectTip:
         'Beräkna skillnaden mellan ramar. Sluta skicka videoström när inga förändringar upptäcks på fjärrvärdens skärm.',
       resetHdmi: 'Återställ HDMI',
+      webrtcConnectionFailed: {
+        title: 'WebRTC-anslutningen misslyckades',
+        description: 'Kontrollera nätverksanslutningen eller byt videoläge.'
+      },
       captureStatus: {
         hdmiError: 'HDMI-skärmfel',
         unsupportedResolution: 'Den aktuella upplösningen stöds inte',

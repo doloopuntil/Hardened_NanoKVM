@@ -76,6 +76,10 @@ const th = {
       frameDetectTip:
         'ระบบจะคำนวณความแตกต่างระหว่างเฟรม และหยุดส่งสตรีมวิดีโอเมื่อไม่พบการเปลี่ยนแปลงบนหน้าจอของคอมพิวเตอร์ต้นทาง',
       resetHdmi: 'รีเช็ท HDMI',
+      webrtcConnectionFailed: {
+        title: 'การเชื่อมต่อ WebRTC ล้มเหลว',
+        description: 'โปรดตรวจสอบการเชื่อมต่อเครือข่ายหรือสลับโหมดวิดีโอ'
+      },
       captureStatus: {
         hdmiError: 'ข้อผิดพลาดหน้าจอ HDMI',
         unsupportedResolution: 'ไม่รองรับความละเอียดปัจจุบัน',

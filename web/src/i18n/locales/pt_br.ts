@@ -78,6 +78,10 @@ const pt_br = {
       frameDetectTip:
         'Calcular a diferença entre os quadros. Parar a transmissão de vídeo quando nenhuma alteração for detectada na tela do host remoto.',
       resetHdmi: 'Redefinir HDMI',
+      webrtcConnectionFailed: {
+        title: 'Falha na conexão WebRTC',
+        description: 'Verifique a conexão de rede ou alterne o modo de vídeo.'
+      },
       captureStatus: {
         hdmiError: 'Erro na imagem HDMI',
         unsupportedResolution: 'A resolução atual não é compatível',

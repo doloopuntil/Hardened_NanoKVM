@@ -80,6 +80,10 @@ const it = {
       frameDetectTip:
         'Calcola la differenza tra i frame. Interrompe la trasmissione del flusso video quando non vengono rilevate modifiche sullo schermo del dispositivo remoto.',
       resetHdmi: 'Reimposta HDMI',
+      webrtcConnectionFailed: {
+        title: 'Connessione WebRTC non riuscita',
+        description: 'Controlla la connessione di rete o cambia la modalità video.'
+      },
       captureStatus: {
         hdmiError: 'Errore schermata HDMI',
         unsupportedResolution: 'La risoluzione attuale non è supportata',

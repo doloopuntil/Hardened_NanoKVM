@@ -81,6 +81,10 @@ const fr = {
       frameDetectTip:
         "Calcule la différence entre les images. Arrête la transmission du flux vidéo lorsqu'aucun changement n'est détecté sur l'écran de l'hôte distant",
       resetHdmi: 'Réinitialiser le HDMI',
+      webrtcConnectionFailed: {
+        title: 'Échec de la connexion WebRTC',
+        description: 'Vérifiez la connexion réseau ou changez de mode vidéo.'
+      },
       captureStatus: {
         hdmiError: 'Erreur d’image HDMI',
         unsupportedResolution: 'La résolution actuelle n’est pas prise en charge',
