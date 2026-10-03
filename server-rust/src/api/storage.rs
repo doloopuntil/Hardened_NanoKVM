@@ -10,7 +10,14 @@ use std::{
 use tokio::{sync::Mutex, time};
 
 use crate::{
-    AppError, Result, error::ApiResponse, state::AppState, system::files::clean_relative_path,
+    AppError, Result,
+    api::download,
+    error::ApiResponse,
+    state::AppState,
+    system::{
+        command::{AllowedCommand, run_allowed},
+        files::clean_relative_path,
+    },
     ws::hid as hid_ws,
 };
 
@@ -22,9 +29,16 @@ const MOUNT_DEVICE: &str =
 const INQUIRY_STRING: &str =
     "/sys/kernel/config/usb_gadget/g0/functions/mass_storage.disk0/lun.0/inquiry_string";
 const RO_FLAG: &str = "/sys/kernel/config/usb_gadget/g0/functions/mass_storage.disk0/lun.0/ro";
+const USB_PRODUCT: &str = "/sys/kernel/config/usb_gadget/g0/strings/0x409/product";
+const USB_PRODUCT_DEFAULT: &str = "NanoKVM";
+// The SCSI inquiry product field holds 16 bytes, the USB product string 126.
+const INQUIRY_PRODUCT_SIZE: usize = 16;
+const USB_PRODUCT_SIZE: usize = 126;
 const UDC_FILE: &str = "/sys/kernel/config/usb_gadget/g0/UDC";
 const UDC_CLASS_DIR: &str = "/sys/class/udc";
 const MEDIA_SETTLE_DELAY: Duration = Duration::from_millis(100);
+const DATA_MOUNT: &str = "/data";
+const REMOUNT_TIMEOUT: Duration = Duration::from_secs(10);
 
 static STORAGE_GADGET_LOCK: LazyLock<Mutex<()>> = LazyLock::new(|| Mutex::new(()));
 
@@ -97,11 +111,23 @@ pub async fn mount_image(
         Some(image)
     };
 
-    let mode = mount_mode(image.is_some(), req.cdrom);
+    // The host owns the raw partition while the virtual disk serves it, so /data
+    // has to be read-only here before the host can write it.
+    if image.is_none() {
+        ensure_no_transfer()?;
+        set_data_writable(false).await?;
+    }
+
+    let mode = mount_mode(image.as_deref(), req.cdrom);
+    let previous_product = read_trimmed(USB_PRODUCT).ok();
+    // Detach first, so no image is ever served with stale flags.
     eject_lun().await?;
-    fs::write(RO_FLAG, mode.flag.as_bytes())?;
-    fs::write(CDROM_FLAG, mode.flag.as_bytes())?;
+    fs::write(RO_FLAG, mode.ro_flag.as_bytes())?;
+    fs::write(CDROM_FLAG, mode.cdrom_flag.as_bytes())?;
     fs::write(INQUIRY_STRING, mode.inquiry.as_bytes())?;
+    if let Err(err) = fs::write(USB_PRODUCT, mode.usb_product.as_bytes()) {
+        tracing::warn!(error = %err, "failed to set the USB product string");
+    }
 
     let mount_target = image
         .as_ref()
@@ -109,8 +135,15 @@ pub async fn mount_image(
         .unwrap_or_else(|| IMAGE_NONE.to_string());
     write_lun_file(mount_target.as_bytes())?;
     time::sleep(MEDIA_SETTLE_DELAY).await;
-    if previous_cdrom != mode.cdrom {
+    if previous_cdrom != mode.cdrom || previous_product.as_deref() != Some(&mode.usb_product) {
         reset_usb_gadget().await?;
+    }
+
+    // A served image is read-only for the host, so the KVM may write /data again.
+    if image.is_some()
+        && let Err(err) = set_data_writable(true).await
+    {
+        tracing::warn!(error = %err, "failed to make /data writable after mounting an image");
     }
 
     Ok(Json(ApiResponse::<()>::ok_empty()))
@@ -132,9 +165,95 @@ pub async fn delete_image(
             "cannot delete the currently mounted image".to_string(),
         ));
     }
+    ensure_writable(&state.config.paths.image_directory)?;
     fs::remove_file(image)?;
 
     Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+/// Whether the mass storage device serves the whole /data partition to the host.
+pub fn data_disk_attached() -> bool {
+    read_trimmed(MOUNT_DEVICE)
+        .map(|file| file == IMAGE_NONE)
+        .unwrap_or(false)
+}
+
+/// Fails with a clear message when `path` lives on a read-only filesystem, so
+/// writers do not fail halfway with an obscure write error.
+pub fn ensure_writable(path: &Path) -> Result<()> {
+    if !is_read_only_fs(path).unwrap_or(false) {
+        return Ok(());
+    }
+    let message = if data_disk_attached() {
+        "/data is read-only while the virtual disk is shared with the host; turn the virtual disk off first"
+    } else {
+        "/data is read-only"
+    };
+    Err(AppError::Conflict(message.to_string()))
+}
+
+/// Refuses to hand /data over while an image transfer still writes to it.
+pub fn ensure_no_transfer() -> Result<()> {
+    if download::transfer_in_progress() {
+        return Err(AppError::Conflict(
+            "an image transfer is running; wait for it to finish first".to_string(),
+        ));
+    }
+    Ok(())
+}
+
+/// Remounts /data read-write or read-only. Only one side may write the
+/// partition at a time: while the virtual disk shares it with the host as a
+/// writable disk, /data is read-only here.
+pub async fn set_data_writable(writable: bool) -> Result<()> {
+    let target = Path::new(DATA_MOUNT);
+    if is_read_only_fs(target)? != writable {
+        return Ok(());
+    }
+
+    let option = if writable { "remount,rw" } else { "remount,ro" };
+    let output = run_allowed(
+        AllowedCommand::Mount,
+        ["-o", option, DATA_MOUNT],
+        REMOUNT_TIMEOUT,
+    )
+    .await?;
+    if output.status != 0 {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        return Err(AppError::Internal(format!(
+            "remount {DATA_MOUNT} failed: {}",
+            stderr.trim()
+        )));
+    }
+
+    // Never hand a writable /data to the host.
+    if is_read_only_fs(target)? == writable {
+        return Err(AppError::Internal(format!(
+            "{DATA_MOUNT} mount did not change"
+        )));
+    }
+    Ok(())
+}
+
+/// Whether the filesystem holding `path` (or its nearest existing parent) is mounted read-only.
+fn is_read_only_fs(path: &Path) -> std::io::Result<bool> {
+    use std::{ffi::CString, os::unix::ffi::OsStrExt};
+
+    let mut probe = path;
+    while !probe.exists() {
+        match probe.parent() {
+            Some(parent) => probe = parent,
+            None => break,
+        }
+    }
+    let path = CString::new(probe.as_os_str().as_bytes())
+        .map_err(|_| std::io::Error::from(ErrorKind::InvalidInput))?;
+    // SAFETY: `path` is NUL-terminated and `stat` is a plain out-parameter.
+    let mut stat: nix::libc::statvfs = unsafe { std::mem::zeroed() };
+    if unsafe { nix::libc::statvfs(path.as_ptr(), &mut stat) } != 0 {
+        return Err(std::io::Error::last_os_error());
+    }
+    Ok(stat.f_flag & nix::libc::ST_RDONLY as nix::libc::c_ulong != 0)
 }
 
 fn collect_images(root: &Path, out: &mut Vec<String>) -> Result<()> {
@@ -208,17 +327,71 @@ fn mounted_image_matches(image: &Path) -> bool {
 
 struct MountMode {
     cdrom: bool,
-    flag: &'static str,
+    ro_flag: &'static str,
+    cdrom_flag: &'static str,
     inquiry: String,
+    usb_product: String,
 }
 
-fn mount_mode(has_image: bool, cdrom: bool) -> MountMode {
+/// Flags and names for the LUN. A mounted image is always read-only for the
+/// host, in CD-ROM and Mass Storage mode alike.
+fn mount_mode(image: Option<&Path>, cdrom: bool) -> MountMode {
+    let has_image = image.is_some();
     let cdrom = has_image && cdrom;
-    let flag = if cdrom { "1" } else { "0" };
+    let name = image.and_then(image_name);
+    let inquiry_product = match &name {
+        Some(name) => cut_name(&ascii_name(name), INQUIRY_PRODUCT_SIZE),
+        None => default_inquiry_product(cdrom).to_string(),
+    };
+    let usb_product = match &name {
+        Some(name) => cut_name(name, USB_PRODUCT_SIZE),
+        None => USB_PRODUCT_DEFAULT.to_string(),
+    };
     MountMode {
         cdrom,
-        flag,
-        inquiry: inquiry_data(cdrom),
+        ro_flag: if has_image { "1" } else { "0" },
+        cdrom_flag: if cdrom { "1" } else { "0" },
+        inquiry: inquiry_data(&inquiry_product),
+        usb_product,
+    }
+}
+
+/// File name without the extension; the host shows it for the medium and the device.
+fn image_name(path: &Path) -> Option<String> {
+    let name: String = path
+        .file_stem()?
+        .to_string_lossy()
+        .chars()
+        .filter(|c| !c.is_control())
+        .collect();
+    let name = name.trim();
+    (!name.is_empty()).then(|| name.to_string())
+}
+
+/// SCSI inquiry fields are ASCII.
+fn ascii_name(name: &str) -> String {
+    name.chars()
+        .map(|c| if c.is_ascii() { c } else { '_' })
+        .collect()
+}
+
+/// Cuts a name to at most `size` bytes without splitting a character.
+fn cut_name(name: &str, size: usize) -> String {
+    if name.len() <= size {
+        return name.to_string();
+    }
+    let mut end = size;
+    while !name.is_char_boundary(end) {
+        end -= 1;
+    }
+    name[..end].to_string()
+}
+
+fn default_inquiry_product(cdrom: bool) -> &'static str {
+    if cdrom {
+        "USB CD/DVD-ROM"
+    } else {
+        "USB Mass Storage"
     }
 }
 
@@ -235,12 +408,7 @@ fn validate_mount_mode(image: &Path, cdrom: bool) -> Result<()> {
     }
 }
 
-fn inquiry_data(cdrom: bool) -> String {
-    let product = if cdrom {
-        "USB CD/DVD-ROM"
-    } else {
-        "USB Mass Storage"
-    };
+fn inquiry_data(product: &str) -> String {
     format!("{:<8}{:<16}{:04x}", "NanoKVM", product, 0x0520)
 }
 
@@ -397,21 +565,68 @@ mod tests {
     }
 
     #[test]
+    fn writable_directory_passes_the_read_only_guard() {
+        let dir = tempdir().unwrap();
+        assert!(ensure_writable(dir.path()).is_ok());
+        // A path that does not exist yet is judged by its nearest existing parent.
+        assert!(ensure_writable(&dir.path().join("missing/cache")).is_ok());
+        assert!(!is_read_only_fs(dir.path()).unwrap());
+    }
+
+    #[test]
     fn mount_mode_sets_cdrom_only_for_images_requested_as_cdrom() {
-        let cdrom = mount_mode(true, true);
+        let cdrom = mount_mode(Some(Path::new("installer.iso")), true);
         assert!(cdrom.cdrom);
-        assert_eq!(cdrom.flag, "1");
-        assert!(cdrom.inquiry.contains("USB CD/DVD-ROM"));
+        assert_eq!(cdrom.cdrom_flag, "1");
 
-        let mass_storage = mount_mode(true, false);
+        let mass_storage = mount_mode(Some(Path::new("disk.img")), false);
         assert!(!mass_storage.cdrom);
-        assert_eq!(mass_storage.flag, "0");
-        assert!(mass_storage.inquiry.contains("USB Mass Storage"));
+        assert_eq!(mass_storage.cdrom_flag, "0");
 
-        let default_media = mount_mode(false, true);
+        let default_media = mount_mode(None, true);
         assert!(!default_media.cdrom);
-        assert_eq!(default_media.flag, "0");
+        assert_eq!(default_media.cdrom_flag, "0");
         assert!(default_media.inquiry.contains("USB Mass Storage"));
+        assert_eq!(default_media.usb_product, "NanoKVM");
+    }
+
+    #[test]
+    fn mounted_images_are_always_read_only() {
+        for (image, cdrom) in [
+            ("installer.iso", true),
+            ("installer.iso", false),
+            ("disk.img", false),
+        ] {
+            let mode = mount_mode(Some(Path::new(image)), cdrom);
+            assert_eq!(mode.ro_flag, "1", "{image} cdrom={cdrom}");
+        }
+        assert_eq!(mount_mode(None, false).ro_flag, "0");
+    }
+
+    #[test]
+    fn media_are_named_after_the_image() {
+        let mode = mount_mode(Some(Path::new("/data/Fedora-Workstation-Live.iso")), true);
+        assert!(mode.inquiry.contains("Fedora-Workstati"));
+        assert_eq!(mode.usb_product, "Fedora-Workstation-Live");
+    }
+
+    #[test]
+    fn inquiry_string_stays_28_bytes() {
+        for name in [
+            "a.iso",
+            "ünïcödé-dïsk-ïmägé-with-a-long-name.iso",
+            "x".repeat(40).as_str(),
+        ] {
+            let mode = mount_mode(Some(Path::new(name)), false);
+            assert_eq!(mode.inquiry.len(), 28, "{name}");
+        }
+    }
+
+    #[test]
+    fn cut_name_never_splits_a_character() {
+        assert_eq!(cut_name("abc", 16), "abc");
+        assert_eq!(cut_name("ääää", 3), "ä");
+        assert_eq!(cut_name("日本語", 4), "日");
     }
 
     #[test]
