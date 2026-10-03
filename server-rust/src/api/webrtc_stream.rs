@@ -63,6 +63,7 @@ use crate::{
         system_firewall,
     },
     config::Config,
+    hdmi_idle,
     state::AppState,
     ws::origin::validate_ws_origin,
 };
@@ -274,11 +275,13 @@ impl WebRtcManager {
     async fn add_client(&self, client: Arc<WebRtcClient>) {
         let mut clients = self.clients.lock().await;
         clients.insert(client.id, client);
+        hdmi_idle::report_viewers("webrtc", clients.len());
     }
 
     async fn remove_client(&self, client_id: u64) {
         let mut clients = self.clients.lock().await;
         clients.remove(&client_id);
+        hdmi_idle::report_viewers("webrtc", clients.len());
     }
 
     async fn clients(&self) -> Vec<Arc<WebRtcClient>> {

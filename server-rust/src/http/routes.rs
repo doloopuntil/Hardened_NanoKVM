@@ -91,6 +91,7 @@ pub fn build(state: AppState) -> Router {
         .route("/api/vm/hdmi/reset", post(vm::reset_hdmi))
         .route("/api/vm/hdmi/enable", post(vm::enable_hdmi))
         .route("/api/vm/hdmi/disable", post(vm::disable_hdmi))
+        .route("/api/vm/hdmi/timeout", post(vm::set_hdmi_idle_timeout))
         .route("/api/vm/ssh", get(vm::get_ssh_state))
         .route("/api/vm/ssh/enable", post(vm::enable_ssh))
         .route("/api/vm/ssh/disable", post(vm::disable_ssh))

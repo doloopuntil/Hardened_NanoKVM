@@ -29,6 +29,7 @@ use crate::{
     AppError, Result,
     error::ApiResponse,
     ffi::kvm,
+    hdmi_idle,
     state::AppState,
     ws::{hid as hid_ws, origin::validate_ws_origin},
 };
@@ -56,9 +57,10 @@ const H264_KEYFRAME_REQUEST_HOLD: Duration = Duration::from_millis(250);
 static SCREEN: LazyLock<Mutex<Screen>> = LazyLock::new(|| Mutex::new(Screen::default()));
 static LATEST_MJPEG_FRAME: LazyLock<Mutex<Option<LatestMjpegFrame>>> =
     LazyLock::new(|| Mutex::new(None));
-static MJPEG_FANOUT: LazyLock<StreamFanout<MjpegFrame>> = LazyLock::new(|| StreamFanout::new(4));
+static MJPEG_FANOUT: LazyLock<StreamFanout<MjpegFrame>> =
+    LazyLock::new(|| StreamFanout::new("mjpeg", 4));
 static H264_DIRECT_FANOUT: LazyLock<StreamFanout<H264DirectFrame>> =
-    LazyLock::new(|| StreamFanout::new(16));
+    LazyLock::new(|| StreamFanout::new("direct", 16));
 static MJPEG_FIRST_READ_LOGGED: AtomicBool = AtomicBool::new(false);
 static MJPEG_FIRST_SUCCESS_LOGGED: AtomicBool = AtomicBool::new(false);
 static MJPEG_FIRST_ERROR_LOGGED: AtomicBool = AtomicBool::new(false);
@@ -145,19 +147,22 @@ struct CaptureStatusStore {
 }
 
 struct StreamFanout<T> {
+    source: &'static str,
     clients: AtomicUsize,
     running: AtomicBool,
     tx: broadcast::Sender<T>,
 }
 
 struct ClientGuard {
+    source: &'static str,
     clients: &'static AtomicUsize,
 }
 
 impl<T: Clone> StreamFanout<T> {
-    fn new(capacity: usize) -> Self {
+    fn new(source: &'static str, capacity: usize) -> Self {
         let (tx, _) = broadcast::channel(capacity);
         Self {
+            source,
             clients: AtomicUsize::new(0),
             running: AtomicBool::new(false),
             tx,
@@ -165,8 +170,10 @@ impl<T: Clone> StreamFanout<T> {
     }
 
     fn add_client(&'static self) -> ClientGuard {
-        self.clients.fetch_add(1, Ordering::AcqRel);
+        let count = self.clients.fetch_add(1, Ordering::AcqRel) + 1;
+        hdmi_idle::report_viewers(self.source, count);
         ClientGuard {
+            source: self.source,
             clients: &self.clients,
         }
     }
@@ -186,7 +193,8 @@ impl<T: Clone> StreamFanout<T> {
 
 impl Drop for ClientGuard {
     fn drop(&mut self) {
-        self.clients.fetch_sub(1, Ordering::AcqRel);
+        let count = self.clients.fetch_sub(1, Ordering::AcqRel) - 1;
+        hdmi_idle::report_viewers(self.source, count);
     }
 }
 
