@@ -219,19 +219,15 @@ jobs:
           retention-days: 14
           if-no-files-found: warn
 
-  build-image:
-    needs: [vendor-sdk, build-native-libkvm]
+  # Split out of build-image: a failure in the modules or the image no longer rebuilds the kernel,
+  # and "re-run failed jobs" reuses these artifacts.
+  build-kernel:
+    needs: [vendor-sdk]
     runs-on: ubuntu-latest
-    # 360 minutes is the hard cap on GitHub-hosted runners. If this pipeline doesn't fit, the only
-    # fix is a self-hosted runner, not a bigger number.
-    timeout-minutes: 360
+    timeout-minutes: 180
     env:
       RUN_ROOT: ${{ github.workspace }}/build/rc12-run
-      EXPECTED_SYSTEM_VERSION: 0.3.0-raw.12
-      EXPECTED_KVMAPP_VERSION: 2.0.42
       EXPECTED_KERNEL_RELEASE: 5.10.265-tag-
-      EXPECTED_SECURITY_PATCH_LEVEL: Buildroot 2026.05.1 security maintenance Linux 5.10.265 SG2002 vendor port
-      NANOKVM_KVMAPP_SOURCE_DIR: ${{ github.workspace }}/build/kvmapp-rust/kvmapp
       HARDENED_SG2002_VENDOR_SDK_DIR: ${{ github.workspace }}/build/vendor/LicheeRV-Nano-Build
     steps:
       - name: Checkout
@@ -245,12 +241,6 @@ jobs:
             libncurses-dev python3 perl bison flex device-tree-compiler \
             dosfstools mtools file libssl-dev pkg-config e2fsprogs \
             u-boot-tools zstd
-
-      - name: Install Rust riscv64gc-unknown-linux-musl target
-        run: rustup target add riscv64gc-unknown-linux-musl
-
-      - name: Enable Corepack
-        run: corepack enable
 
       - name: Download vendor SDK
         uses: actions/download-artifact@v4
@@ -268,89 +258,6 @@ jobs:
             exit 1
           }
           df -h /
-
-      # Artifact, not actions/cache: cache entries can be evicted between jobs of the same run.
-      - name: Download native libkvm build
-        uses: actions/download-artifact@v4
-        with:
-          name: native-libkvm-build
-          path: build/native-libkvm
-
-      - name: Cache Buildroot source download
-        uses: actions/cache@v4
-        with:
-          path: build/downloads
-          key: buildroot-${{ env.BUILDROOT_VERSION }}
-
-      # prepare-buildroot-2026.05.1-security-source.sh needs a pre-existing shared dl/ dir. Cached
-      # at a standalone path rather than nested under the plain bootstrap tree: restoring there
-      # first would leave an invalid, Buildroot-tree-less probe source that
-      # bootstrap-latest-buildroot-probe.sh then refuses to extract into. BUILDROOT_SECURITY_DL_DIR
-      # below points at this path independently, avoiding that collision regardless of cache restore
-      # order.
-      - name: Cache shared Buildroot package download directory
-        uses: actions/cache@v4
-        with:
-          path: build/buildroot-package-dl-cache
-          # v2: bumped after moving off the colliding nested path above.
-          key: buildroot-dl-v2-${{ env.BUILDROOT_VERSION }}
-
-      - name: Bootstrap Buildroot + security-patched source
-        run: |
-          mkdir -p build/buildroot-package-dl-cache
-          make latest-buildroot-bootstrap
-          BUILDROOT_SECURITY_DL_DIR="${{ github.workspace }}/build/buildroot-package-dl-cache" \
-            make latest-buildroot-security-source
-
-      # build-linked-libkvm.sh links against a real NanoKVM musl libc.so/libgcc_s.so;
-      # server-rust/sysroot/ is gitignored, so stage it from our own vendor-sdk-stock build (already
-      # cached above) -- not sophgo/host-tools' bundled sysroot, which is a generic cross-toolchain
-      # build confirmed elsewhere in this pipeline to not be the vendor's on-device runtime
-      # (server-rust/native/README.md). Using vendor-sdk-stock here too means linking and runtime
-      # both use the same verified files, not two different sources.
-      - name: Stage NanoKVM runtime sysroot for linked libkvm build
-        run: |
-          scripts/extract-vendor-sdk-stock-file.sh server-rust/sysroot/lib/libc.so \
-            /lib/libc.so /usr/lib/libc.so \
-            /lib64xthead/lp64d/libc.so /lib64v0p7_xthead/lp64d/libc.so \
-            /usr/lib64xthead/lp64d/libc.so /usr/lib64v0p7_xthead/lp64d/libc.so
-          scripts/extract-vendor-sdk-stock-file.sh server-rust/sysroot/lib/libgcc_s.so.1 \
-            /lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 \
-            /lib64xthead/lp64d/libgcc_s.so.1 /lib64v0p7_xthead/lp64d/libgcc_s.so.1
-
-      # kvm_system is retained, never rebuilt here -- it has nothing to do with the LT6911 driver
-      # (confirmed: no reference to it anywhere in its own binary, static or dynamic) so there's no
-      # bug in it to fix by bringing MaixCDK into scope. Reuse the exact binary already accepted and
-      # published in app 2.0.42. Provenance: docs/latest-buildroot-port.md.
-      - name: Fetch published kvm_system helper (app 2.0.42)
-        run: |
-          curl --fail --location --retry 2 \
-            --output /tmp/kvmapp-2.0.42.tar.gz \
-            "$KVMAPP_2_0_42_ARCHIVE_URL"
-          echo "$KVMAPP_2_0_42_ARCHIVE_SHA256  /tmp/kvmapp-2.0.42.tar.gz" | sha256sum -c -
-          mkdir -p /tmp/kvmapp-2.0.42
-          tar -xzf /tmp/kvmapp-2.0.42.tar.gz -C /tmp/kvmapp-2.0.42
-          test -s /tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system
-
-      # Overwrites the checked-in server-rust/native/dl_lib/ copies (which still carry app 2.0.42's
-      # libkvm_mmf.so, with the LT6911 probe's dead code intact) with the build-native-libkvm job's
-      # freshly-built ones for this run only -- git's own copies are left untouched. This is where
-      # the LT6911 patch actually reaches the code that runs.
-      - name: Use freshly-built libkvm.so + libkvm_mmf.so
-        run: |
-          cp build/native-libkvm/libkvm.so server-rust/native/dl_lib/libkvm.so
-          cp build/native-libkvm/libkvm_mmf.so server-rust/native/dl_lib/libkvm_mmf.so
-
-      - name: Build Hardened kvmapp bridge
-        run: |
-          cargo test --manifest-path server-rust/Cargo.toml
-          corepack pnpm --dir web install --frozen-lockfile
-          corepack pnpm --dir web build
-          server-rust/scripts/build-linked-libkvm.sh
-          RUST_TARGET=riscv64gc-unknown-linux-musl \
-            APP_VERSION="$(cat kvmapp/version)" \
-            KVM_SYSTEM_SOURCE=/tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system \
-            scripts/package-rust-kvmapp.sh
 
       # Rehydrating the hardened kernel needs real history from the upstream stable tree (not just
       # two tag tips) to merge the vendor's 5.10.4 snapshot with 5.10.265. Large but content-pinned;
@@ -393,6 +300,97 @@ jobs:
           KERNEL_5_10_265_CONFIG_FRAGMENT="support/sg2002/kernel/5.10.265/configs/phase3-04-init-on-alloc.config" \
             scripts/build-vendor-kernel-5.10.265-candidate.sh
 
+      # Tarred because artifacts drop permissions, symlinks and sub-second mtimes. The module builds
+      # need both trees back at these same absolute paths.
+      - name: Package the kernel source and build tree for build-modules
+        run: |
+          mkdir -p "$RUNNER_TEMP/kernel-build"
+          tar --format=posix -I 'zstd -T0 -3' \
+            -cf "$RUNNER_TEMP/kernel-build/kernel-build.tar.zst" \
+            build/rc12-run/kernel build/latestbuildroot/kernel-5.10.265-v1
+          ls -l "$RUNNER_TEMP/kernel-build"
+          df -h /
+
+      - name: Upload kernel build tree
+        uses: actions/upload-artifact@v4
+        with:
+          name: kernel-build
+          path: ${{ runner.temp }}/kernel-build/kernel-build.tar.zst
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+
+      # The boot FIT only needs these three files.
+      - name: Package the boot inputs for build-image
+        run: |
+          mkdir -p "$RUNNER_TEMP/kernel-boot"
+          tar -I 'zstd -T0 -3' -cf "$RUNNER_TEMP/kernel-boot/kernel-boot.tar.zst" \
+            build/rc12-run/kernel/arch/riscv/boot/Image \
+            build/rc12-run/kernel/arch/riscv/boot/dts/cvitek/sg2002_licheervnano_sd.dtb \
+            build/rc12-run/kernel/include/generated/utsrelease.h
+
+      - name: Upload kernel boot inputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: kernel-boot
+          path: ${{ runner.temp }}/kernel-boot/kernel-boot.tar.zst
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+
+  # Split out of build-image for the same reason as build-kernel. Produces the finished
+  # /mnt/system/ko tree (57 modules plus provenance records).
+  build-modules:
+    needs: [vendor-sdk, build-kernel]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      RUN_ROOT: ${{ github.workspace }}/build/rc12-run
+      EXPECTED_KERNEL_RELEASE: 5.10.265-tag-
+      HARDENED_SG2002_VENDOR_SDK_DIR: ${{ github.workspace }}/build/vendor/LicheeRV-Nano-Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential git wget curl unzip rsync bc cpio \
+            libncurses-dev python3 perl bison flex device-tree-compiler \
+            dosfstools mtools file libssl-dev pkg-config e2fsprogs \
+            u-boot-tools zstd
+
+      - name: Download vendor SDK
+        uses: actions/download-artifact@v4
+        with:
+          name: vendor-sdk
+          path: ${{ runner.temp }}/vendor-sdk
+
+      - name: Unpack vendor SDK
+        run: |
+          mkdir -p build
+          tar -I zstd -xf "$RUNNER_TEMP/vendor-sdk/vendor-sdk.tar.zst" -C build
+          rm -f "$RUNNER_TEMP/vendor-sdk/vendor-sdk.tar.zst"
+          test -d "$HARDENED_SG2002_VENDOR_SDK_DIR" || {
+            echo "vendor SDK missing after unpack: $HARDENED_SG2002_VENDOR_SDK_DIR" >&2
+            exit 1
+          }
+          df -h /
+
+      - name: Download kernel build tree
+        uses: actions/download-artifact@v4
+        with:
+          name: kernel-build
+          path: ${{ runner.temp }}/kernel-build
+
+      - name: Unpack kernel build tree
+        run: |
+          tar -I zstd -xf "$RUNNER_TEMP/kernel-build/kernel-build.tar.zst" -C "$GITHUB_WORKSPACE"
+          rm -f "$RUNNER_TEMP/kernel-build/kernel-build.tar.zst"
+          test -f "$RUN_ROOT/kernel/include/generated/utsrelease.h"
+          df -h /
+
       # /mnt/system/ko's tree structure (which of the 57 modules nest under 3rd/) is already fully
       # known from the tracked manifests, and the module-rebuild scripts already place their own
       # artifacts at these same relative paths -- no image to extract it from is needed. Placeholder
@@ -414,65 +412,6 @@ jobs:
           done < support/sg2002/kernel/5.10.265/manifests/in-tree-modules.txt
           touch "$KO_DIR/soph_vcodec.ko" "$KO_DIR/soph_jpeg.ko" "$KO_DIR/soph_vc_driver.ko"
           [ "$(find "$KO_DIR" -name '*.ko' | wc -l)" -eq 57 ]
-
-      # libc.so, the 4 GCC runtime libs, the 2 T-Head loaders, and libsns_lt6911.so all come from
-      # this pipeline's own vendor-sdk-stock build (already cached above) -- the real on-device
-      # image, not sophgo/host-tools' generic cross-toolchain sysroot (tried first and rejected; see
-      # server-rust/native/README.md for the full evidence trail on all 8 files).
-      #
-      # None of these files live under /kvmapp/ in a stock image, so probe a few plausible paths
-      # rather than assume one, and fail hard if any is missing. extract-vendor-sdk-stock-file.sh is
-      # the same helper the earlier sysroot-staging step uses, so linking and runtime never diverge.
-      - name: Source the remaining runtime files from our own vendor-sdk-stock build
-        run: |
-          RUNTIME_DIR="$RUN_ROOT/runtime"
-          mkdir -p "$RUNTIME_DIR/loaders" "$RUNTIME_DIR/kvmapp-dl-lib" "$RUNTIME_DIR/system/usr/lib"
-
-          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libc.so" \
-            /lib/libc.so /usr/lib/libc.so \
-            /lib64xthead/lp64d/libc.so /lib64v0p7_xthead/lp64d/libc.so \
-            /usr/lib64xthead/lp64d/libc.so /usr/lib64v0p7_xthead/lp64d/libc.so
-          scripts/extract-vendor-sdk-stock-file.sh \
-            "$RUNTIME_DIR/kvmapp-dl-lib/libstdc++.so.6.0.28" \
-            /lib/libstdc++.so.6.0.28 /usr/lib/libstdc++.so.6.0.28 \
-            /lib64xthead/lp64d/libstdc++.so.6.0.28 /lib64v0p7_xthead/lp64d/libstdc++.so.6.0.28
-          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libgcc_s.so.1" \
-            /lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 \
-            /lib64xthead/lp64d/libgcc_s.so.1 /lib64v0p7_xthead/lp64d/libgcc_s.so.1
-          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libgomp.so.1.0.0" \
-            /lib/libgomp.so.1.0.0 /usr/lib/libgomp.so.1.0.0 \
-            /lib64xthead/lp64d/libgomp.so.1.0.0 /lib64v0p7_xthead/lp64d/libgomp.so.1.0.0
-          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libatomic.so.1.2.0" \
-            /lib/libatomic.so.1.2.0 /usr/lib/libatomic.so.1.2.0 \
-            /lib64xthead/lp64d/libatomic.so.1.2.0 /lib64v0p7_xthead/lp64d/libatomic.so.1.2.0
-          scripts/extract-vendor-sdk-stock-file.sh \
-            "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" /lib/ld-musl-riscv64xthead.so.1
-          scripts/extract-vendor-sdk-stock-file.sh \
-            "$RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" \
-            /lib/ld-musl-riscv64v0p7_xthead.so.1
-          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/system/usr/lib/libsns_lt6911.so" \
-            /mnt/system/usr/lib/libsns_lt6911.so
-
-      # libkvm.so doesn't need video/dnn/calib3d/features2d/flann/protobuf
-      # (server-rust/native/README.md); those are deleted regardless of what's staged here. That
-      # leaves core/highgui/imgcodecs/imgproc -- source those from real upstream (GPL-3.0
-      # sipeed/NanoKVM), verified near-byte-identical (same MaixCDK build).
-      - name: Source OpenCV core/highgui/imgcodecs/imgproc from upstream
-        run: |
-          DL_LIB="$RUN_ROOT/runtime/kvmapp-dl-lib"
-          verify_and_replace() {
-            name="$1"
-            expected_sha256="$2"
-            curl --fail --location --retry 2 \
-              --output "/tmp/$name" \
-              "https://raw.githubusercontent.com/sipeed/NanoKVM/$NANOKVM_UPSTREAM_COMMIT/server/dl_lib/$name"
-            echo "$expected_sha256  /tmp/$name" | sha256sum -c -
-            cp "/tmp/$name" "$DL_LIB/$name"
-          }
-          verify_and_replace libopencv_core.so.409 "$NANOKVM_UPSTREAM_OPENCV_CORE_SHA256"
-          verify_and_replace libopencv_highgui.so.409 "$NANOKVM_UPSTREAM_OPENCV_HIGHGUI_SHA256"
-          verify_and_replace libopencv_imgcodecs.so.409 "$NANOKVM_UPSTREAM_OPENCV_IMGCODECS_SHA256"
-          verify_and_replace libopencv_imgproc.so.409 "$NANOKVM_UPSTREAM_OPENCV_IMGPROC_SHA256"
 
       # Rebuild the 30 CVITEK osdrv external kernel modules from source (already cloned by `make
       # vendor-sdk`). List: external-modules.txt -- 22 "soph_*" peripheral modules plus
@@ -636,6 +575,233 @@ jobs:
             /tmp/module-provenance/**
           retention-days: 14
           if-no-files-found: warn
+
+      - name: Package the module tree for build-image
+        run: |
+          mkdir -p "$RUNNER_TEMP/kernel-modules"
+          tar -I 'zstd -T0 -3' -cf "$RUNNER_TEMP/kernel-modules/kernel-modules.tar.zst" \
+            build/rc12-run/runtime/system/ko
+
+      - name: Upload kernel modules
+        uses: actions/upload-artifact@v4
+        with:
+          name: kernel-modules
+          path: ${{ runner.temp }}/kernel-modules/kernel-modules.tar.zst
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+
+  build-image:
+    needs: [vendor-sdk, build-native-libkvm, build-kernel, build-modules]
+    runs-on: ubuntu-latest
+    # 360 minutes is the hard cap on GitHub-hosted runners. If this pipeline doesn't fit, the only
+    # fix is a self-hosted runner, not a bigger number.
+    timeout-minutes: 360
+    env:
+      RUN_ROOT: ${{ github.workspace }}/build/rc12-run
+      EXPECTED_SYSTEM_VERSION: 0.3.0-raw.12
+      EXPECTED_KVMAPP_VERSION: 2.0.42
+      EXPECTED_KERNEL_RELEASE: 5.10.265-tag-
+      EXPECTED_SECURITY_PATCH_LEVEL: Buildroot 2026.05.1 security maintenance Linux 5.10.265 SG2002 vendor port
+      NANOKVM_KVMAPP_SOURCE_DIR: ${{ github.workspace }}/build/kvmapp-rust/kvmapp
+      HARDENED_SG2002_VENDOR_SDK_DIR: ${{ github.workspace }}/build/vendor/LicheeRV-Nano-Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential git wget curl unzip rsync bc cpio \
+            libncurses-dev python3 perl bison flex device-tree-compiler \
+            dosfstools mtools file libssl-dev pkg-config e2fsprogs \
+            u-boot-tools zstd
+
+      - name: Install Rust riscv64gc-unknown-linux-musl target
+        run: rustup target add riscv64gc-unknown-linux-musl
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Download vendor SDK
+        uses: actions/download-artifact@v4
+        with:
+          name: vendor-sdk
+          path: ${{ runner.temp }}/vendor-sdk
+
+      - name: Unpack vendor SDK
+        run: |
+          mkdir -p build
+          tar -I zstd -xf "$RUNNER_TEMP/vendor-sdk/vendor-sdk.tar.zst" -C build
+          rm -f "$RUNNER_TEMP/vendor-sdk/vendor-sdk.tar.zst"
+          test -d "$HARDENED_SG2002_VENDOR_SDK_DIR" || {
+            echo "vendor SDK missing after unpack: $HARDENED_SG2002_VENDOR_SDK_DIR" >&2
+            exit 1
+          }
+          df -h /
+
+      # Artifact, not actions/cache: cache entries can be evicted between jobs of the same run.
+      - name: Download native libkvm build
+        uses: actions/download-artifact@v4
+        with:
+          name: native-libkvm-build
+          path: build/native-libkvm
+
+      - name: Cache Buildroot source download
+        uses: actions/cache@v4
+        with:
+          path: build/downloads
+          key: buildroot-${{ env.BUILDROOT_VERSION }}
+
+      # prepare-buildroot-2026.05.1-security-source.sh needs a pre-existing shared dl/ dir. Cached
+      # at a standalone path rather than nested under the plain bootstrap tree: restoring there
+      # first would leave an invalid, Buildroot-tree-less probe source that
+      # bootstrap-latest-buildroot-probe.sh then refuses to extract into. BUILDROOT_SECURITY_DL_DIR
+      # below points at this path independently, avoiding that collision regardless of cache restore
+      # order.
+      - name: Cache shared Buildroot package download directory
+        uses: actions/cache@v4
+        with:
+          path: build/buildroot-package-dl-cache
+          # v2: bumped after moving off the colliding nested path above.
+          key: buildroot-dl-v2-${{ env.BUILDROOT_VERSION }}
+
+      - name: Bootstrap Buildroot + security-patched source
+        run: |
+          mkdir -p build/buildroot-package-dl-cache
+          make latest-buildroot-bootstrap
+          BUILDROOT_SECURITY_DL_DIR="${{ github.workspace }}/build/buildroot-package-dl-cache" \
+            make latest-buildroot-security-source
+
+      # build-linked-libkvm.sh links against a real NanoKVM musl libc.so/libgcc_s.so;
+      # server-rust/sysroot/ is gitignored, so stage it from our own vendor-sdk-stock build (already
+      # cached above) -- not sophgo/host-tools' bundled sysroot, which is a generic cross-toolchain
+      # build confirmed elsewhere in this pipeline to not be the vendor's on-device runtime
+      # (server-rust/native/README.md). Using vendor-sdk-stock here too means linking and runtime
+      # both use the same verified files, not two different sources.
+      - name: Stage NanoKVM runtime sysroot for linked libkvm build
+        run: |
+          scripts/extract-vendor-sdk-stock-file.sh server-rust/sysroot/lib/libc.so \
+            /lib/libc.so /usr/lib/libc.so \
+            /lib64xthead/lp64d/libc.so /lib64v0p7_xthead/lp64d/libc.so \
+            /usr/lib64xthead/lp64d/libc.so /usr/lib64v0p7_xthead/lp64d/libc.so
+          scripts/extract-vendor-sdk-stock-file.sh server-rust/sysroot/lib/libgcc_s.so.1 \
+            /lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 \
+            /lib64xthead/lp64d/libgcc_s.so.1 /lib64v0p7_xthead/lp64d/libgcc_s.so.1
+
+      # kvm_system is retained, never rebuilt here -- it has nothing to do with the LT6911 driver
+      # (confirmed: no reference to it anywhere in its own binary, static or dynamic) so there's no
+      # bug in it to fix by bringing MaixCDK into scope. Reuse the exact binary already accepted and
+      # published in app 2.0.42. Provenance: docs/latest-buildroot-port.md.
+      - name: Fetch published kvm_system helper (app 2.0.42)
+        run: |
+          curl --fail --location --retry 2 \
+            --output /tmp/kvmapp-2.0.42.tar.gz \
+            "$KVMAPP_2_0_42_ARCHIVE_URL"
+          echo "$KVMAPP_2_0_42_ARCHIVE_SHA256  /tmp/kvmapp-2.0.42.tar.gz" | sha256sum -c -
+          mkdir -p /tmp/kvmapp-2.0.42
+          tar -xzf /tmp/kvmapp-2.0.42.tar.gz -C /tmp/kvmapp-2.0.42
+          test -s /tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system
+
+      # Overwrites the checked-in server-rust/native/dl_lib/ copies (which still carry app 2.0.42's
+      # libkvm_mmf.so, with the LT6911 probe's dead code intact) with the build-native-libkvm job's
+      # freshly-built ones for this run only -- git's own copies are left untouched. This is where
+      # the LT6911 patch actually reaches the code that runs.
+      - name: Use freshly-built libkvm.so + libkvm_mmf.so
+        run: |
+          cp build/native-libkvm/libkvm.so server-rust/native/dl_lib/libkvm.so
+          cp build/native-libkvm/libkvm_mmf.so server-rust/native/dl_lib/libkvm_mmf.so
+
+      - name: Build Hardened kvmapp bridge
+        run: |
+          cargo test --manifest-path server-rust/Cargo.toml
+          corepack pnpm --dir web install --frozen-lockfile
+          corepack pnpm --dir web build
+          server-rust/scripts/build-linked-libkvm.sh
+          RUST_TARGET=riscv64gc-unknown-linux-musl \
+            APP_VERSION="$(cat kvmapp/version)" \
+            KVM_SYSTEM_SOURCE=/tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system \
+            scripts/package-rust-kvmapp.sh
+
+      # libc.so, the 4 GCC runtime libs, the 2 T-Head loaders, and libsns_lt6911.so all come from
+      # this pipeline's own vendor-sdk-stock build (already cached above) -- the real on-device
+      # image, not sophgo/host-tools' generic cross-toolchain sysroot (tried first and rejected; see
+      # server-rust/native/README.md for the full evidence trail on all 8 files).
+      #
+      # None of these files live under /kvmapp/ in a stock image, so probe a few plausible paths
+      # rather than assume one, and fail hard if any is missing. extract-vendor-sdk-stock-file.sh is
+      # the same helper the earlier sysroot-staging step uses, so linking and runtime never diverge.
+      - name: Source the remaining runtime files from our own vendor-sdk-stock build
+        run: |
+          RUNTIME_DIR="$RUN_ROOT/runtime"
+          mkdir -p "$RUNTIME_DIR/loaders" "$RUNTIME_DIR/kvmapp-dl-lib" "$RUNTIME_DIR/system/usr/lib"
+
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libc.so" \
+            /lib/libc.so /usr/lib/libc.so \
+            /lib64xthead/lp64d/libc.so /lib64v0p7_xthead/lp64d/libc.so \
+            /usr/lib64xthead/lp64d/libc.so /usr/lib64v0p7_xthead/lp64d/libc.so
+          scripts/extract-vendor-sdk-stock-file.sh \
+            "$RUNTIME_DIR/kvmapp-dl-lib/libstdc++.so.6.0.28" \
+            /lib/libstdc++.so.6.0.28 /usr/lib/libstdc++.so.6.0.28 \
+            /lib64xthead/lp64d/libstdc++.so.6.0.28 /lib64v0p7_xthead/lp64d/libstdc++.so.6.0.28
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libgcc_s.so.1" \
+            /lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 \
+            /lib64xthead/lp64d/libgcc_s.so.1 /lib64v0p7_xthead/lp64d/libgcc_s.so.1
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libgomp.so.1.0.0" \
+            /lib/libgomp.so.1.0.0 /usr/lib/libgomp.so.1.0.0 \
+            /lib64xthead/lp64d/libgomp.so.1.0.0 /lib64v0p7_xthead/lp64d/libgomp.so.1.0.0
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/kvmapp-dl-lib/libatomic.so.1.2.0" \
+            /lib/libatomic.so.1.2.0 /usr/lib/libatomic.so.1.2.0 \
+            /lib64xthead/lp64d/libatomic.so.1.2.0 /lib64v0p7_xthead/lp64d/libatomic.so.1.2.0
+          scripts/extract-vendor-sdk-stock-file.sh \
+            "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" /lib/ld-musl-riscv64xthead.so.1
+          scripts/extract-vendor-sdk-stock-file.sh \
+            "$RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" \
+            /lib/ld-musl-riscv64v0p7_xthead.so.1
+          scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/system/usr/lib/libsns_lt6911.so" \
+            /mnt/system/usr/lib/libsns_lt6911.so
+
+      # libkvm.so doesn't need video/dnn/calib3d/features2d/flann/protobuf
+      # (server-rust/native/README.md); those are deleted regardless of what's staged here. That
+      # leaves core/highgui/imgcodecs/imgproc -- source those from real upstream (GPL-3.0
+      # sipeed/NanoKVM), verified near-byte-identical (same MaixCDK build).
+      - name: Source OpenCV core/highgui/imgcodecs/imgproc from upstream
+        run: |
+          DL_LIB="$RUN_ROOT/runtime/kvmapp-dl-lib"
+          verify_and_replace() {
+            name="$1"
+            expected_sha256="$2"
+            curl --fail --location --retry 2 \
+              --output "/tmp/$name" \
+              "https://raw.githubusercontent.com/sipeed/NanoKVM/$NANOKVM_UPSTREAM_COMMIT/server/dl_lib/$name"
+            echo "$expected_sha256  /tmp/$name" | sha256sum -c -
+            cp "/tmp/$name" "$DL_LIB/$name"
+          }
+          verify_and_replace libopencv_core.so.409 "$NANOKVM_UPSTREAM_OPENCV_CORE_SHA256"
+          verify_and_replace libopencv_highgui.so.409 "$NANOKVM_UPSTREAM_OPENCV_HIGHGUI_SHA256"
+          verify_and_replace libopencv_imgcodecs.so.409 "$NANOKVM_UPSTREAM_OPENCV_IMGCODECS_SHA256"
+          verify_and_replace libopencv_imgproc.so.409 "$NANOKVM_UPSTREAM_OPENCV_IMGPROC_SHA256"
+
+      - name: Download kernel boot inputs
+        uses: actions/download-artifact@v4
+        with:
+          name: kernel-boot
+          path: ${{ runner.temp }}/kernel-boot
+
+      - name: Download kernel modules
+        uses: actions/download-artifact@v4
+        with:
+          name: kernel-modules
+          path: ${{ runner.temp }}/kernel-modules
+
+      - name: Unpack kernel boot inputs and modules
+        run: |
+          for name in kernel-boot kernel-modules; do
+            tar -I zstd -xf "$RUNNER_TEMP/$name/$name.tar.zst" -C "$GITHUB_WORKSPACE"
+          done
+          test -f "$RUN_ROOT/kernel/arch/riscv/boot/Image"
+          [ "$(find "$RUN_ROOT/runtime/system/ko" -name '*.ko' | wc -l)" -eq 57 ]
 
       - name: Build the Buildroot rootfs with the hardened kernel modules
         run: |
