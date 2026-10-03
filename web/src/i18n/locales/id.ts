@@ -78,6 +78,10 @@ const id = {
       frameDetectTip:
         'Hitung selisih antar frame. Hentikan transmisi aliran video saat tidak ada perubahan yang terdeteksi di layar host jarak jauh.',
       resetHdmi: 'Atur ulang HDMI',
+      webrtcConnectionFailed: {
+        title: 'Koneksi WebRTC gagal',
+        description: 'Periksa koneksi jaringan atau ganti mode video.'
+      },
       captureStatus: {
         hdmiError: 'Kesalahan layar HDMI',
         unsupportedResolution: 'Resolusi saat ini tidak didukung',

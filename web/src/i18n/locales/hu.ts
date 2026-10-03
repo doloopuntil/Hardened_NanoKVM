@@ -80,6 +80,10 @@ const hu = {
       frameDetectTip:
         'Elemzi a képkockák közötti különbségeket. A videó stream küldése leáll, ha a távoli gép képernyőjén nem történik változás.',
       resetHdmi: 'HDMI visszaállítása',
+      webrtcConnectionFailed: {
+        title: 'A WebRTC-kapcsolat sikertelen',
+        description: 'Ellenőrizze a hálózati kapcsolatot, vagy váltson videómódot.'
+      },
       captureStatus: {
         hdmiError: 'HDMI-képernyőhiba',
         unsupportedResolution: 'A jelenlegi felbontás nem támogatott',

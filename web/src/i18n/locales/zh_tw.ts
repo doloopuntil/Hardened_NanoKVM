@@ -74,6 +74,10 @@ const zh_tw = {
       frameDetect: '影格檢測',
       frameDetectTip: '計算影格之間的差異。當遠端主機畫面未偵測到任何變更時，停止視訊傳輸串流。',
       resetHdmi: '重置 HDMI',
+      webrtcConnectionFailed: {
+        title: 'WebRTC 連線失敗',
+        description: '請檢查網路連線或切換影片模式。'
+      },
       captureStatus: {
         hdmiError: 'HDMI 畫面異常',
         unsupportedResolution: '目前解析度不支援',

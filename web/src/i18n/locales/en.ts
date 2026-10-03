@@ -88,6 +88,10 @@ const en = {
       frameDetectTip:
         "Calculate the difference between frames. Stop transmitting video stream when no changes are detected on the remote host's screen.",
       resetHdmi: 'Reset HDMI',
+      webrtcConnectionFailed: {
+        title: 'WebRTC connection failed',
+        description: 'Check the network connection or switch the video mode.'
+      },
       captureStatus: {
         hdmiError: 'HDMI screen error',
         unsupportedResolution: 'Current resolution is not supported',

@@ -81,6 +81,10 @@ const de = {
       frameDetectTip:
         'Berechnet den Unterschied zwischen den Einzelbildern. Beendet die Liveübertragung des Videostreams wenn keine Änderungen auf dem Bildschirm des Hosts festgestellt werden kann.',
       resetHdmi: 'HDMI zurücksetzen',
+      webrtcConnectionFailed: {
+        title: 'WebRTC-Verbindung fehlgeschlagen',
+        description: 'Überprüfen Sie die Netzwerkverbindung oder wechseln Sie den Videomodus.'
+      },
       captureStatus: {
         hdmiError: 'HDMI-Bildschirmfehler',
         unsupportedResolution: 'Die aktuelle Auflösung wird nicht unterstützt',

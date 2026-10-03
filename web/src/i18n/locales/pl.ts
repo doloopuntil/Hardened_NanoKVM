@@ -79,6 +79,10 @@ const pl = {
       frameDetectTip:
         'Obliczanie różnicy między klatkami. Zatrzymaj transmisję strumienia wideo, gdy na ekranie zdalnego hosta nie zostaną wykryte żadne zmiany.',
       resetHdmi: 'Resetuj HDMI',
+      webrtcConnectionFailed: {
+        title: 'Połączenie WebRTC nie powiodło się',
+        description: 'Sprawdź połączenie sieciowe lub zmień tryb wideo.'
+      },
       captureStatus: {
         hdmiError: 'Błąd obrazu HDMI',
         unsupportedResolution: 'Bieżąca rozdzielczość nie jest obsługiwana',

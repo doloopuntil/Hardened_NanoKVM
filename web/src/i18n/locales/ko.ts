@@ -77,6 +77,10 @@ const ko = {
       frameDetectTip:
         '프레임 간의 차이를 계산합니다. 원격 호스트 화면에 변경 사항이 감지되지 않으면 비디오 스트림 전송을 중지합니다.',
       resetHdmi: 'HDMI 초기화',
+      webrtcConnectionFailed: {
+        title: 'WebRTC 연결에 실패했습니다',
+        description: '네트워크 연결을 확인하거나 비디오 모드를 전환하세요.'
+      },
       captureStatus: {
         hdmiError: 'HDMI 화면 오류',
         unsupportedResolution: '현재 해상도는 지원되지 않습니다',

@@ -79,6 +79,10 @@ const cz = {
       frameDetectTip:
         'Vypočítá rozdíl mezi snímky. Přenos video streamu se zastaví, pokud nejsou detekovány změny na obrazovce vzdáleného hostitele.',
       resetHdmi: 'Resetovat HDMI',
+      webrtcConnectionFailed: {
+        title: 'Připojení WebRTC se nezdařilo',
+        description: 'Zkontrolujte síťové připojení nebo přepněte režim videa.'
+      },
       captureStatus: {
         hdmiError: 'Chyba obrazu HDMI',
         unsupportedResolution: 'Aktuální rozlišení není podporováno',
