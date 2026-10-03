@@ -262,7 +262,11 @@ const hu = {
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Dobja ide a fájlt, vagy kattintson a kiválasztáshoz',
       inputfile: 'Kérjük, írja be a képfájlt',
-      NoISO: 'Nincs ISO'
+      NoISO: 'Nincs ISO',
+      sha256: 'SHA-256 (opcionális)',
+      sha256Placeholder: 'Adjon meg egy 64 karakteres SHA-256 ellenőrzőösszeget',
+      invalidSHA256: 'A SHA-256 értékének 64 karakteres hexadecimális karakterláncnak kell lennie',
+      checksumFailed: 'Sikertelen letöltés: a SHA-256 ellenőrzése sikertelen'
     },
     power: {
       title: 'Bekapcsolás',

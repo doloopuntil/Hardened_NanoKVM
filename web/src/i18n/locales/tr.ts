@@ -259,7 +259,11 @@ const tr = {
       diskOff: 'Sanal diski kapat',
       uploadbox: 'Dosyayı buraya bırakın veya seçmek için tıklayın',
       inputfile: 'Lütfen resim dosyasını giriniz',
-      NoISO: 'ISO yok'
+      NoISO: 'ISO yok',
+      sha256: 'SHA-256 (isteğe bağlı)',
+      sha256Placeholder: '64 karakterlik SHA-256 sağlama toplamını girin',
+      invalidSHA256: 'SHA-256, 64 karakterlik bir onaltılık dize olmalıdır',
+      checksumFailed: 'İndirme başarısız: SHA-256 doğrulaması başarısız'
     },
     power: {
       title: 'Güç',

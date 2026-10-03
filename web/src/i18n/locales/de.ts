@@ -265,7 +265,11 @@ const de = {
       diskOff: 'Virtuelles Laufwerk ausschalten',
       uploadbox: 'Datei hier ablegen oder klicken zum Auswählen',
       inputfile: 'Bitte geben Sie die Datei für das Systemabbild an',
-      NoISO: 'Keine ISO'
+      NoISO: 'Keine ISO',
+      sha256: 'SHA-256 (optional)',
+      sha256Placeholder: 'Geben Sie eine 64-stellige SHA-256-Prüfsumme ein',
+      invalidSHA256: 'SHA-256 muss eine 64-stellige Hexadezimalzeichenfolge sein',
+      checksumFailed: 'Download fehlgeschlagen: SHA-256-Prüfung fehlgeschlagen'
     },
     power: {
       title: 'Power',

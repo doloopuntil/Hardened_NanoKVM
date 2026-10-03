@@ -307,7 +307,11 @@ const en = {
       canceled: 'Upload canceled',
       cancel: 'Cancel',
       remoteDisabled: 'Remote ISO download is disabled in Settings > Appearance.',
-      remoteFailed: 'Remote ISO download failed'
+      remoteFailed: 'Remote ISO download failed',
+      sha256: 'SHA-256 (optional)',
+      sha256Placeholder: 'Enter a 64-character SHA-256 checksum',
+      invalidSHA256: 'SHA-256 must be a 64-character hexadecimal string',
+      checksumFailed: 'Download failed: SHA-256 verification failed'
     },
     power: {
       title: 'Power',

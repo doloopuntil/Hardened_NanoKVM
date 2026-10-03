@@ -261,7 +261,11 @@ const pl = {
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Upuść plik tutaj lub kliknij, aby wybrać',
       inputfile: 'Proszę wprowadzić plik obrazu',
-      NoISO: 'Brak ISO'
+      NoISO: 'Brak ISO',
+      sha256: 'SHA-256 (opcjonalnie)',
+      sha256Placeholder: 'Wprowadź 64-znakową sumę kontrolną SHA-256',
+      invalidSHA256: 'SHA-256 musi być 64-znakowym ciągiem szesnastkowym',
+      checksumFailed: 'Pobieranie nie powiodło się: weryfikacja SHA-256 nie powiodła się'
     },
     power: {
       title: 'Zasilanie',

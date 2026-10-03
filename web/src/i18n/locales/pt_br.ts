@@ -260,7 +260,11 @@ const pt_br = {
       diskOff: 'Desligar o disco virtual',
       uploadbox: 'Solte o arquivo aqui ou clique para selecionar',
       inputfile: 'Por favor insira o arquivo de imagem',
-      NoISO: 'Sem ISO'
+      NoISO: 'Sem ISO',
+      sha256: 'SHA-256 (opcional)',
+      sha256Placeholder: 'Digite um checksum SHA-256 de 64 caracteres',
+      invalidSHA256: 'SHA-256 deve ser uma sequência hexadecimal de 64 caracteres',
+      checksumFailed: 'Falha no download: a verificação SHA-256 falhou'
     },
     power: {
       title: 'Energia',

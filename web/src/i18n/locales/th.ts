@@ -254,7 +254,11 @@ const th = {
       diskOff: 'ปิดดิสก์เสมือน',
       uploadbox: 'วางไฟล์ที่นี่หรือคลิกเพื่อเลือก',
       inputfile: 'กรุณากรอกไฟล์ภาพ',
-      NoISO: 'ไม่มี ISO'
+      NoISO: 'ไม่มี ISO',
+      sha256: 'SHA-256 (ไม่บังคับ)',
+      sha256Placeholder: 'ป้อน checksum SHA-256 64 ตัวอักษร',
+      invalidSHA256: 'SHA-256 ต้องเป็นสตริงเลขฐานสิบหก 64 ตัวอักษร',
+      checksumFailed: 'ดาวน์โหลดล้มเหลว: การตรวจสอบ SHA-256 ล้มเหลว'
     },
     power: {
       title: 'เปิด/ปิด',
