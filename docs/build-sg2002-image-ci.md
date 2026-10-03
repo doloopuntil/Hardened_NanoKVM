@@ -27,23 +27,28 @@ each dependency.
 
 ## Pipeline shape
 
-Five jobs. Jobs hand each other files as workflow artifacts (tarred, since
+Six jobs. Jobs hand each other files as workflow artifacts (tarred, since
 artifacts drop permissions and symlinks), so "re-run failed jobs" reuses
 everything that already succeeded.
 
-- **`vendor-sdk`** -- bootstraps the pinned `sipeed/LicheeRV-Nano-Build`
-  vendor SDK (`make vendor-sdk`) and builds its stock image
-  (`make vendor-sdk-stock`). Isolated because it's the single most
-  expensive, most fragile stage (~14 GiB, long compile). Its output
-  (`build/vendor`) is uploaded as the `vendor-sdk` artifact.
+- **`vendor-sdk-source`** -- the pinned `sipeed/LicheeRV-Nano-Build` SDK and
+  `sophgo/host-tools` checkouts (`make vendor-sdk`) plus the tracked
+  middleware patch. Takes minutes. The kernel and module jobs need nothing
+  the stock build produces, so they start from this artifact and run
+  alongside the stock build.
+- **`vendor-sdk`** (`needs: vendor-sdk-source`) -- builds the SDK's stock
+  image (`make vendor-sdk-stock`). Isolated because it's the single most
+  expensive, most fragile stage (~14 GiB, ~95 minutes). Its output
+  (`build/vendor`) is uploaded as the `vendor-sdk` artifact, which only
+  `build-image` consumes.
 - **`build-native-libkvm`** -- independent of the vendor SDK. Builds
   `libkvm.so` and `libkvm_mmf.so` from `support/sg2002` with MaixCDK and
   Sophgo's RISC-V musl toolchain; uploads `native-libkvm-build`.
-- **`build-kernel`** (`needs: vendor-sdk`) -- rehydrates the 5.10.265
+- **`build-kernel`** (`needs: vendor-sdk-source`) -- rehydrates the 5.10.265
   kernel source and builds it. Uploads `kernel-build` (source plus build
   tree, for the module builds) and `kernel-boot` (the `Image`, the DTB and
   `utsrelease.h`, for the boot FIT).
-- **`build-modules`** (`needs: vendor-sdk, build-kernel`) -- builds the 30
+- **`build-modules`** (`needs: vendor-sdk-source, build-kernel`) -- builds the 30
   external and 3 media kernel modules against that tree, substitutes them
   and the 24 in-tree modules into the `/mnt/system/ko` skeleton, and writes
   the provenance records. Uploads `kernel-modules`. The kernel tree must be
