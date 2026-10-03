@@ -84,16 +84,14 @@ jobs:
             patchelf --print-needed "$lib"
           done
 
-      # Link-time libc/libgcc_s for the server build, from the same toolchain the device uses.
+      # Link-time libc/libgcc_s for the server build: the plain xthead variant, which is what the
+      # device's ld-musl-riscv64xthead interpreter matches (not the v_ or v0p7_ ones).
       - name: Collect musl sysroot libraries
         run: |
+          SYSROOT=/usr/local/host-tools/gcc/riscv64-linux-musl-x86_64/sysroot
           mkdir -p "$GITHUB_WORKSPACE/build/sysroot-lib"
-          find /usr/local/host-tools -name 'libc.so' -o -name 'libgcc_s.so.1' | grep -E 'xthead.*lp64d' || true
-          LIBC=$(find /usr/local/host-tools -name libc.so | grep -E 'xthead.*lp64d' | head -n1)
-          LIBGCC=$(find /usr/local/host-tools -name libgcc_s.so.1 | grep -E 'xthead.*lp64d' | head -n1)
-          test -n "$LIBC" && test -n "$LIBGCC"
-          cp "$LIBC" "$GITHUB_WORKSPACE/build/sysroot-lib/libc.so"
-          cp "$LIBGCC" "$GITHUB_WORKSPACE/build/sysroot-lib/libgcc_s.so.1"
+          cp "$SYSROOT/usr/lib64xthead/lp64d/libc.so" "$GITHUB_WORKSPACE/build/sysroot-lib/libc.so"
+          cp "$SYSROOT/lib64xthead/lp64d/libgcc_s.so.1" "$GITHUB_WORKSPACE/build/sysroot-lib/libgcc_s.so.1"
 
       - uses: actions/upload-artifact@v4
         with:
