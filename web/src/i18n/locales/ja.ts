@@ -78,6 +78,10 @@ const ja = {
       frameDetectTip:
         'フレーム間の差異を計算し、リモートホストの画面が変更されない場合はビデオストリームの送信を停止します',
       resetHdmi: 'HDMI をリセット',
+      webrtcConnectionFailed: {
+        title: 'WebRTC 接続に失敗しました',
+        description: 'ネットワーク接続を確認するか、ビデオモードを切り替えてください。'
+      },
       captureStatus: {
         hdmiError: 'HDMI 画面エラー',
         unsupportedResolution: '現在の解像度はサポートされていません',

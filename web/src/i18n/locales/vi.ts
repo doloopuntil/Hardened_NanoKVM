@@ -78,6 +78,10 @@ const vi = {
       frameDetectTip:
         'Tính toán sự khác biệt giữa các khung hình. Dừng truyền video khi không có thay đổi trên màn hình máy chủ từ xa.',
       resetHdmi: 'Đặt lại HDMI',
+      webrtcConnectionFailed: {
+        title: 'Kết nối WebRTC thất bại',
+        description: 'Kiểm tra kết nối mạng hoặc chuyển đổi chế độ video.'
+      },
       captureStatus: {
         hdmiError: 'Lỗi màn hình HDMI',
         unsupportedResolution: 'Độ phân giải hiện tại không được hỗ trợ',

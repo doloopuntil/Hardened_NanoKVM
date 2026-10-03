@@ -78,6 +78,10 @@ const da = {
       frameDetectTip:
         'Beregner forskellen mellem hver frame. Stopper med at sende et video stream hvis der ikke registreres ændringer på fjerncomputerens skærm.',
       resetHdmi: 'Nulstil HDMI',
+      webrtcConnectionFailed: {
+        title: 'WebRTC-forbindelse mislykkedes',
+        description: 'Kontrollér netværksforbindelsen, eller skift videotilstand.'
+      },
       captureStatus: {
         hdmiError: 'Fejl i HDMI-billedet',
         unsupportedResolution: 'Den aktuelle opløsning understøttes ikke',

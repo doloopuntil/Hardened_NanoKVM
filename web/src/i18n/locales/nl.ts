@@ -80,6 +80,10 @@ const nl = {
       frameDetectTip:
         'Berekent het verschil tussen frames. Stopt met het verzenden van de videostream wanneer er geen veranderingen worden gedetecteerd op het scherm van de externe host.',
       resetHdmi: 'Reset HDMI',
+      webrtcConnectionFailed: {
+        title: 'WebRTC-verbinding mislukt',
+        description: 'Controleer de netwerkverbinding of wijzig de videomodus.'
+      },
       captureStatus: {
         hdmiError: 'HDMI-schermfout',
         unsupportedResolution: 'De huidige resolutie wordt niet ondersteund',
