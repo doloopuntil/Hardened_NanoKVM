@@ -95,6 +95,13 @@ pub async fn set_remote_image_download_enabled(
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
+/// Whether an image download or upload is running.
+pub fn transfer_in_progress() -> bool {
+    read_status_image(Path::new(SENTINEL_PATH))
+        .map(|status| status.status == "in_progress")
+        .unwrap_or(false)
+}
+
 pub async fn status_image() -> Result<impl IntoResponse> {
     Ok(Json(ApiResponse::ok(read_status_image(Path::new(
         SENTINEL_PATH,
@@ -112,6 +119,7 @@ pub async fn download_image(
         });
     }
 
+    crate::api::storage::ensure_writable(&state.config.paths.image_directory)?;
     let remote = validate_remote_iso_url(&req.file)?;
     let target = safe_upload_target(&state.config.paths.image_directory, &remote.filename)?;
     let guard = DownloadGuard::acquire(&remote.url)?;
@@ -146,6 +154,7 @@ pub async fn upload_image_file(
         return Err(AppError::BadRequest("upload is too large".to_string()));
     }
 
+    crate::api::storage::ensure_writable(&state.config.paths.image_directory)?;
     let guard = DownloadGuard::acquire("upload")?;
     let mut uploaded = false;
 
