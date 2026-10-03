@@ -35,9 +35,53 @@ env:
   SOPHGO_HOST_TOOLS_SHA256: ff9a58e8e192b20ea42e1d729c42d2219523209706cb3f0cf134582f6c70f805
 
 jobs:
+  # Just the two pinned checkouts (SDK, host-tools) plus the tracked patch. The kernel and module
+  # jobs need nothing the stock build produces, so they start from this and run alongside it.
+  vendor-sdk-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git zstd
+
+      - name: Bootstrap vendor SDK
+        run: make vendor-sdk
+
+      # lt6911_sensor_ctl.c's chip-ID I2C probe never succeeds on this board (confirmed on real
+      # hardware, 100% failure over a 10s retry window); HDMI works without it, so it's removed.
+      - name: Apply tracked vendor SDK middleware patches
+        run: |
+          git -C build/vendor/LicheeRV-Nano-Build apply --check \
+            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch"
+          git -C build/vendor/LicheeRV-Nano-Build apply \
+            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch"
+
+      # Tarred because artifacts drop file permissions and symlinks.
+      - name: Package vendor SDK source
+        run: |
+          mkdir -p "$RUNNER_TEMP/vendor-sdk-source"
+          tar -I 'zstd -T0 -3' -cf "$RUNNER_TEMP/vendor-sdk-source/vendor-sdk-source.tar.zst" \
+            -C build vendor
+          ls -l "$RUNNER_TEMP/vendor-sdk-source"
+
+      - name: Upload vendor SDK source
+        uses: actions/upload-artifact@v4
+        with:
+          name: vendor-sdk-source
+          path: ${{ runner.temp }}/vendor-sdk-source/vendor-sdk-source.tar.zst
+          compression-level: 0
+          retention-days: 2
+          if-no-files-found: error
+
   # Isolated: the most expensive, most fragile stage (~14 GiB, long compile), rarely changes once
   # cached -- a failure below should never force redoing this.
   vendor-sdk:
+    needs: [vendor-sdk-source]
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
@@ -52,17 +96,18 @@ jobs:
             libncurses-dev python3 perl bison flex device-tree-compiler \
             dosfstools mtools file libssl-dev pkg-config e2fsprogs zstd
 
-      - name: Bootstrap vendor SDK
-        run: make vendor-sdk
+      - name: Download vendor SDK source
+        uses: actions/download-artifact@v4
+        with:
+          name: vendor-sdk-source
+          path: ${{ runner.temp }}/vendor-sdk-source
 
-      # lt6911_sensor_ctl.c's chip-ID I2C probe never succeeds on this board (confirmed on real
-      # hardware, 100% failure over a 10s retry window); HDMI works without it, so it's removed.
-      - name: Apply tracked vendor SDK middleware patches
+      - name: Unpack vendor SDK source
         run: |
-          git -C build/vendor/LicheeRV-Nano-Build apply --check \
-            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch"
-          git -C build/vendor/LicheeRV-Nano-Build apply \
-            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch"
+          mkdir -p build
+          tar -I zstd -xf "$RUNNER_TEMP/vendor-sdk-source/vendor-sdk-source.tar.zst" -C build
+          rm -f "$RUNNER_TEMP/vendor-sdk-source/vendor-sdk-source.tar.zst"
+          test -d build/vendor/LicheeRV-Nano-Build/.git
 
       - name: Build stock vendor SDK image
         run: make vendor-sdk-stock
@@ -206,7 +251,7 @@ jobs:
   # Split out of build-image: a failure in the modules or the image no longer rebuilds the kernel,
   # and "re-run failed jobs" reuses these artifacts.
   build-kernel:
-    needs: [vendor-sdk]
+    needs: [vendor-sdk-source]
     runs-on: ubuntu-latest
     timeout-minutes: 180
     env:
@@ -226,17 +271,17 @@ jobs:
             dosfstools mtools file libssl-dev pkg-config e2fsprogs \
             u-boot-tools zstd
 
-      - name: Download vendor SDK
+      - name: Download vendor SDK source
         uses: actions/download-artifact@v4
         with:
-          name: vendor-sdk
-          path: ${{ runner.temp }}/vendor-sdk
+          name: vendor-sdk-source
+          path: ${{ runner.temp }}/vendor-sdk-source
 
-      - name: Unpack vendor SDK
+      - name: Unpack vendor SDK source
         run: |
           mkdir -p build
-          tar -I zstd -xf "$RUNNER_TEMP/vendor-sdk/vendor-sdk.tar.zst" -C build
-          rm -f "$RUNNER_TEMP/vendor-sdk/vendor-sdk.tar.zst"
+          tar -I zstd -xf "$RUNNER_TEMP/vendor-sdk-source/vendor-sdk-source.tar.zst" -C build
+          rm -f "$RUNNER_TEMP/vendor-sdk-source/vendor-sdk-source.tar.zst"
           test -d "$HARDENED_SG2002_VENDOR_SDK_DIR" || {
             echo "vendor SDK missing after unpack: $HARDENED_SG2002_VENDOR_SDK_DIR" >&2
             exit 1
@@ -325,7 +370,7 @@ jobs:
   # Split out of build-image for the same reason as build-kernel. Produces the finished
   # /mnt/system/ko tree (57 modules plus provenance records).
   build-modules:
-    needs: [vendor-sdk, build-kernel]
+    needs: [vendor-sdk-source, build-kernel]
     runs-on: ubuntu-latest
     timeout-minutes: 180
     env:
@@ -345,17 +390,17 @@ jobs:
             dosfstools mtools file libssl-dev pkg-config e2fsprogs \
             u-boot-tools zstd
 
-      - name: Download vendor SDK
+      - name: Download vendor SDK source
         uses: actions/download-artifact@v4
         with:
-          name: vendor-sdk
-          path: ${{ runner.temp }}/vendor-sdk
+          name: vendor-sdk-source
+          path: ${{ runner.temp }}/vendor-sdk-source
 
-      - name: Unpack vendor SDK
+      - name: Unpack vendor SDK source
         run: |
           mkdir -p build
-          tar -I zstd -xf "$RUNNER_TEMP/vendor-sdk/vendor-sdk.tar.zst" -C build
-          rm -f "$RUNNER_TEMP/vendor-sdk/vendor-sdk.tar.zst"
+          tar -I zstd -xf "$RUNNER_TEMP/vendor-sdk-source/vendor-sdk-source.tar.zst" -C build
+          rm -f "$RUNNER_TEMP/vendor-sdk-source/vendor-sdk-source.tar.zst"
           test -d "$HARDENED_SG2002_VENDOR_SDK_DIR" || {
             echo "vendor SDK missing after unpack: $HARDENED_SG2002_VENDOR_SDK_DIR" >&2
             exit 1
