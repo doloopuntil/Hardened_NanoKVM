@@ -254,7 +254,11 @@ const it = {
       disabled: "La partizione /data è RO, quindi non possiamo scaricare l'immagine",
       uploadbox: 'Rilascia il file qui o fai clic per selezionarlo',
       inputfile: 'Inserisci il file immagine',
-      NoISO: 'Nessuna ISO'
+      NoISO: 'Nessuna ISO',
+      sha256: 'SHA-256 (facoltativo)',
+      sha256Placeholder: 'Inserisci un checksum SHA-256 di 64 caratteri',
+      invalidSHA256: 'SHA-256 deve essere una stringa esadecimale di 64 caratteri',
+      checksumFailed: 'Download non riuscito: verifica SHA-256 non riuscita'
     },
     power: {
       title: 'Accensione',

@@ -253,7 +253,11 @@ const cz = {
       disabled: 'Oddíl /data je RO, takže obrázek nelze stáhnout',
       uploadbox: 'Přetáhněte soubor sem nebo kliknutím vyberte',
       inputfile: 'Zadejte soubor obrázku',
-      NoISO: 'Žádné ISO'
+      NoISO: 'Žádné ISO',
+      sha256: 'SHA-256 (volitelné)',
+      sha256Placeholder: 'Zadejte 64znakový kontrolní součet SHA-256',
+      invalidSHA256: 'SHA-256 musí být 64znakový hexadecimální řetězec',
+      checksumFailed: 'Stažení se nezdařilo: ověření SHA-256 selhalo'
     },
     power: {
       title: 'Napájení',
