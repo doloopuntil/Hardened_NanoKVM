@@ -1,0 +1,177 @@
+name: Test sipeed ports
+
+# Test-only workflow for the sipeed port branches: builds libkvm.so/libkvm_mmf.so from this
+# tree and a kvmapp bundle around them. No vendor SDK, kernel or rootfs. Copy the artifacts onto
+# a device that already runs the hardened image.
+on:
+  push:
+    branches: [test/sipeed-ports-main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: test-sipeed-ports-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MAIXCDK_SHA: 5b0aa5b1a8c91d213433189cfab8c999775fa13a
+  SOPHGO_HOST_TOOLS_URL: https://sophon-file.sophon.cn/sophon-prod-s3/drive/23/03/07/16/host-tools.tar.gz
+  SOPHGO_HOST_TOOLS_SHA256: ff9a58e8e192b20ea42e1d729c42d2219523209706cb3f0cf134582f6c70f805
+  KVMAPP_2_0_42_ARCHIVE_URL: https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-0.3.0-raw.12/hardened-nanokvm-kvmapp-2.0.42.tar.gz
+  KVMAPP_2_0_42_ARCHIVE_SHA256: aa0cd78c1b2e9951f216826c44b4b7ff2fb211fc1980540366f8f5b1f7e0dd20
+  # Newer Rust fails to link the device binary (R_RISCV_HI20 against 'main').
+  RUST_VERSION: "1.98.1"
+
+jobs:
+  native-libs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential cmake git curl python3 python3-venv python3-pip \
+            autoconf automake libtool patchelf patch file
+
+      - name: Install Sophgo RISC-V musl toolchain
+        run: |
+          curl --fail --location --retry 2 \
+            --output /tmp/host-tools.tar.gz "$SOPHGO_HOST_TOOLS_URL"
+          echo "$SOPHGO_HOST_TOOLS_SHA256  /tmp/host-tools.tar.gz" | sha256sum -c -
+          sudo tar -C /usr/local -xzf /tmp/host-tools.tar.gz
+          rm -f /tmp/host-tools.tar.gz
+          echo "/usr/local/host-tools/gcc/riscv64-linux-musl-x86_64/bin" >> "$GITHUB_PATH"
+
+      - name: Fetch MaixCDK
+        run: |
+          mkdir -p "$HOME/MaixCDK"
+          git -C "$HOME/MaixCDK" init -q
+          git -C "$HOME/MaixCDK" remote add origin https://github.com/sipeed/MaixCDK.git
+          git -C "$HOME/MaixCDK" fetch --depth 1 origin "$MAIXCDK_SHA"
+          git -C "$HOME/MaixCDK" checkout -q FETCH_HEAD
+          python3 -m venv "$HOME/MaixCDK"
+          "$HOME/MaixCDK/bin/pip" install -U -r "$HOME/MaixCDK/requirements.txt"
+          echo "$HOME/MaixCDK/bin" >> "$GITHUB_PATH"
+
+      # support/sg2002/build hardcodes ~/NanoKVM.
+      - name: Build libkvm.so + libkvm_mmf.so
+        run: |
+          ln -s "$GITHUB_WORKSPACE" "$HOME/NanoKVM"
+          cd "$HOME/NanoKVM/support/sg2002"
+          ./build kvm_vision
+
+          DL_LIB="$GITHUB_WORKSPACE/support/sg2002/kvm_vision_test/dist/kvm_vision_test_release/dl_lib"
+          test -s "$DL_LIB/libkvm.so"
+          test -s "$DL_LIB/libkvm_mmf.so"
+          mkdir -p "$GITHUB_WORKSPACE/build/native-libkvm"
+          cp "$DL_LIB/libkvm.so" "$DL_LIB/libkvm_mmf.so" "$GITHUB_WORKSPACE/build/native-libkvm/"
+
+      # package-rust-kvmapp.sh rejects any RPATH/RUNPATH in these libraries.
+      - name: Strip build-host RPATH and unused OpenCV video dependency
+        run: |
+          cd "$GITHUB_WORKSPACE/build/native-libkvm"
+          for lib in libkvm.so libkvm_mmf.so; do
+            patchelf --remove-rpath "$lib"
+          done
+          if patchelf --print-needed libkvm.so | grep -q '^libopencv_video\.so\.409$'; then
+            patchelf --remove-needed libopencv_video.so.409 libkvm.so
+          fi
+          for lib in libkvm.so libkvm_mmf.so; do
+            echo "== $lib"
+            file "$lib"
+            patchelf --print-needed "$lib"
+          done
+
+      # Link-time libc/libgcc_s for the server build, from the same toolchain the device uses.
+      - name: Collect musl sysroot libraries
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/build/sysroot-lib"
+          find /usr/local/host-tools -name 'libc.so' -o -name 'libgcc_s.so.1' | grep -E 'xthead.*lp64d' || true
+          LIBC=$(find /usr/local/host-tools -name libc.so | grep -E 'xthead.*lp64d' | head -n1)
+          LIBGCC=$(find /usr/local/host-tools -name libgcc_s.so.1 | grep -E 'xthead.*lp64d' | head -n1)
+          test -n "$LIBC" && test -n "$LIBGCC"
+          cp "$LIBC" "$GITHUB_WORKSPACE/build/sysroot-lib/libc.so"
+          cp "$LIBGCC" "$GITHUB_WORKSPACE/build/sysroot-lib/libgcc_s.so.1"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-libkvm
+          path: build/native-libkvm/*.so
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sysroot-lib
+          path: build/sysroot-lib/*
+          if-no-files-found: error
+
+      # Informational: CI never builds kvm_system, but the ports touch it.
+      - name: Compile-check kvm_system
+        continue-on-error: true
+        run: |
+          cd "$HOME/NanoKVM/support/sg2002"
+          ./build kvm_system
+
+  app:
+    needs: native-libs
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential clang lld pkg-config file
+
+      - name: Install pinned Rust with the riscv64 musl target
+        run: |
+          rustup toolchain install "$RUST_VERSION" --profile minimal
+          rustup default "$RUST_VERSION"
+          rustup target add riscv64gc-unknown-linux-musl
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: native-libkvm
+          path: build/native-libkvm
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: sysroot-lib
+          path: server-rust/sysroot/lib
+
+      - name: Fetch published kvm_system helper (app 2.0.42)
+        run: |
+          curl --fail --location --retry 2 \
+            --output /tmp/kvmapp-2.0.42.tar.gz "$KVMAPP_2_0_42_ARCHIVE_URL"
+          echo "$KVMAPP_2_0_42_ARCHIVE_SHA256  /tmp/kvmapp-2.0.42.tar.gz" | sha256sum -c -
+          mkdir -p /tmp/kvmapp-2.0.42
+          tar -xzf /tmp/kvmapp-2.0.42.tar.gz -C /tmp/kvmapp-2.0.42
+          test -s /tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system
+
+      - name: Use the freshly built libkvm.so + libkvm_mmf.so
+        run: |
+          cp build/native-libkvm/libkvm.so server-rust/native/dl_lib/libkvm.so
+          cp build/native-libkvm/libkvm_mmf.so server-rust/native/dl_lib/libkvm_mmf.so
+
+      - name: Build kvmapp bundle
+        run: |
+          cargo test --manifest-path server-rust/Cargo.toml
+          corepack pnpm --dir web install --frozen-lockfile
+          corepack pnpm --dir web build
+          server-rust/scripts/build-linked-libkvm.sh
+          RUST_TARGET=riscv64gc-unknown-linux-musl \
+            APP_VERSION="$(cat kvmapp/version)" \
+            KVM_SYSTEM_SOURCE=/tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system \
+            scripts/package-rust-kvmapp.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kvmapp-bundle
+          path: build/artifacts/*
+          if-no-files-found: error
