@@ -138,6 +138,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | POST/DELETE | `/api/hid/shortcut`             | Implemented.                                                                                                                                                                 |
 | GET/POST    | `/api/hid/shortcut/leader-key`  | Implemented.                                                                                                                                                                 |
 | GET/POST    | `/api/hid/mode`                 | Implemented.                                                                                                                                                                 |
+| GET         | `/api/hid/leds`                 | Implemented; host lock LEDs, pushed as `hid-led-status` on the websocket.                                                                                                    |
 | POST        | `/api/hid/reset`                | Implemented.                                                                                                                                                                 |
 | POST        | `/api/hid/paste`                | Implemented.                                                                                                                                                                 |
 
