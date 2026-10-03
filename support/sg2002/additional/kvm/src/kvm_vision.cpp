@@ -14,7 +14,8 @@
  * // free 错内存时会炸的问题
  */
 #include "kvm_vision.h"
-#include "internal/vi_state_shared.hpp"
+#include "vi_state_shared.hpp"
+#include "internal/vi_state_writer.hpp"
 
 #include <atomic>
 #include <cctype>
@@ -53,6 +54,7 @@
 #define watchdog_mode_path      "/etc/kvm/watchdog"
 #define watchdog_temp_path      "/tmp/watchdog"
 #define watchdog_file           "/tmp/nanokvm_wd"
+#define vi_state_publish_interval_ms 10000U
 
 #define LT6911_ADDR 	0x2B
 #define LT6911_READ 	0xFF
@@ -141,6 +143,8 @@ kvmv_data_t kvmv_data_buffer[kvmv_data_buffer_size];
 uint8_t kvmv_data_buffer_index = 0;
 
 uint8_t debug_en = 0;
+uint8_t last_vi_state_code = 0;
+uint32_t last_vi_state_refresh_ms = 0;
 void debug(const char *format, ...)
 {
     if(debug_en){
@@ -192,6 +196,15 @@ static bool join_worker_until(pthread_t thread, bool *started,
 
     fprintf(stderr, "[kvmv] timed join of %s failed: %s\n", name, strerror(join_res));
     return false;
+}
+
+uint8_t refresh_vi_state()
+{
+	// The driver read blocks for about a second; mark the deadline before it so
+	// that the publication cadence measures wall-clock time, not read time plus it.
+	last_vi_state_refresh_ms = vi_state_shared::monotonic_ms();
+    last_vi_state_code = vi_state_shared::refresh();
+    return last_vi_state_code;
 }
 
 uint8_t to_roll(int8_t _input)
@@ -433,7 +446,7 @@ uint8_t auto_try_res()
         if (stop_threads.load(std::memory_order_acquire)) {
             return 0;
         }
-        err_code = vi_state_shared::refresh();
+        err_code = refresh_vi_state();
         switch(err_code){
         case 0:
             // shouldn't be possible to run here
@@ -476,9 +489,9 @@ uint8_t auto_try_res()
             break;
         }
     }
-    if (vi_state_shared::refresh() == 1) return 1;
-    if (vi_state_shared::refresh() == 2) return 2;
-    else return 0;
+    err_code = refresh_vi_state();
+    if (err_code == 1 || err_code == 2) return err_code;
+    return 0;
 }
 
 /* return :
@@ -1176,21 +1189,31 @@ void* vi_subsystem_detection(void * arg)
 
     get_hdmi_version();
 
-    // while(!app::need_exit())
-    uint8_t while_count_detect_res = 0;
-    uint8_t while_count_publish_vi_state = 0;
+    // Refresh on elapsed time, not loop iterations whose work varies widely.
+    last_vi_state_refresh_ms = vi_state_shared::monotonic_ms() - vi_state_publish_interval_ms;
     while(!stop_threads.load(std::memory_order_acquire))
     {
         uint8_t get_new_hdmi_mode = get_hdmi_mode();
         uint8_t try_res;
         uint8_t err_code;
+        uint8_t vi_state_refreshed = 0;
+        uint8_t vi_state_due = vi_state_shared::monotonic_ms() - last_vi_state_refresh_ms >= vi_state_publish_interval_ms;
+        uint8_t manual_vi_init_now =
+            (kvmv_cfg.hdmi_mode == 2 &&
+             (get_new_hdmi_mode == 1 || kvmv_cfg.vi_detect_state == 0));
+        uint8_t defer_vi_state_refresh =
+            (kvmv_cfg.hdmi_mode == 1 &&
+             (kvmv_cfg.vi_detect_state == 1 || get_new_hdmi_mode == 1)) ||
+            (kvmv_cfg.hdmi_mode == 2 &&
+             (manual_vi_init_now || kvmv_cfg.vi_detect_state == 1));
+
+        if (vi_state_due && !defer_vi_state_refresh) {
+            refresh_vi_state();
+            vi_state_refreshed = 1;
+        }
 
         switch (kvmv_cfg.hdmi_mode){
         case 0:
-            while_count_publish_vi_state = (while_count_publish_vi_state + 1)%100;
-            if (while_count_publish_vi_state == 1) {
-                vi_state_shared::refresh();
-            }
             // Switching to Mode 0 requires restarting HDMI (effective only for PCIe version)
             // Handling of automatic detection situations
             if(get_new_hdmi_mode == 1){
@@ -1346,20 +1369,21 @@ void* vi_subsystem_detection(void * arg)
                 }
             } else if (kvmv_cfg.vi_detect_state == 2){
                 // Low-frequency detection of HDMI status, no log output
-                printf("[kvmv] kvmv_cfg.vi_detect_state == 2\n");
-                err_code = vi_state_shared::refresh();
-                if (err_code != 1) {
+                if (vi_state_refreshed && last_vi_state_code != 1) {
                     kvmv_cfg.vi_detect_state = 1;
                 }
-                time::sleep_ms(1000);
             } else {
                 kvmv_cfg.vi_detect_state = 1;
             }
             break;
         case 2:
             // Manually initialize VI.
-            while_count_detect_res = (while_count_detect_res + 1)%100;
-            if(while_count_detect_res == 1){
+            if (manual_vi_init_now) {
+                // Initialize immediately when entering manual mode instead of
+                // waiting for the next periodic state refresh.
+                kvmv_cfg.vi_detect_state = 1;
+            }
+            if(manual_vi_init_now || vi_state_due){
                 if (kvmv_cfg.vi_detect_state == 1){
                     // detect_res
                     if (get_manual_resolution()) {
@@ -1369,8 +1393,8 @@ void* vi_subsystem_detection(void * arg)
                         }
                     }
 
-                    // dbg info
-                    err_code = vi_state_shared::refresh();
+                    // Sample after a manual resolution change.
+                    err_code = refresh_vi_state();
                     switch(err_code){
                     case 0:
                         debug("[kvmv] VI not init\n");
@@ -1400,7 +1424,7 @@ void* vi_subsystem_detection(void * arg)
                     }
                 } else if (kvmv_cfg.vi_detect_state == 2){
                     // detection of HDMI status, no log output
-                    err_code = vi_state_shared::refresh();
+                    err_code = last_vi_state_code;
                     if (err_code != 1) kvmv_cfg.vi_detect_state = 1;
                 } else {
                     kvmv_cfg.vi_detect_state = 1;
