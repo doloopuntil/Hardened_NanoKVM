@@ -562,25 +562,24 @@ int kvm_update_passive_state_from_rust_hwmon(void)
 void kvm_update_hdmi_state()
 {
 	static uint8_t check_times = 4;
-	FILE *fp;
-	uint8_t RW_Data[10] = {0};
 	if(++check_times > 5){
 		check_times = 0;
-		fp = popen("cat /proc/cvitek/vi_dbg | grep VIFPS | awk '{print $3}'", "r");
+		FILE *fp = fopen("/proc/cvitek/vi_dbg", "r");
 		if (fp == NULL) {
 			return;
 		}
-		if(fgets((char*)RW_Data, sizeof(RW_Data), fp) == NULL){
-			pclose(fp);
-			return;
+
+		char line[256];
+		char field[32];
+		unsigned int value;
+		while (fgets(line, sizeof(line), fp) != NULL) {
+			if (sscanf(line, "%31s : %u", field, &value) == 2 &&
+				strcmp(field, "VIFPS") == 0) {
+				kvm_sys_state.hdmi_state = value == 0 ? 0 : 1;
+				break;
+			}
 		}
-		pclose(fp);
-		// printf("[kvmd]HDMI exist? %c\n", RW_Data[0]);
-		if (RW_Data[0] != '0'){
-			kvm_sys_state.hdmi_state = 1;
-		} else {
-			kvm_sys_state.hdmi_state = 0;
-		}
+		fclose(fp);
 	}
 }
 
