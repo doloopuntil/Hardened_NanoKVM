@@ -21,6 +21,7 @@
 #include <cctype>
 #include <cerrno>
 #include <cstdarg>
+#include <sys/stat.h>
 
 #define default_venc_chn        1
 
@@ -51,6 +52,7 @@
 #define vi_height_path          "/kvmapp/kvm/height"
 #define hdmi_mode_path          "/etc/kvm/hdmi_mode"
 #define hdmi_state_path         "/proc/lt_int"
+#define hdmi_signal_file_path   "/kvmapp/kvm/state"
 #define watchdog_mode_path      "/etc/kvm/watchdog"
 #define watchdog_temp_path      "/tmp/watchdog"
 #define watchdog_file           "/tmp/nanokvm_wd"
@@ -61,6 +63,7 @@
 #define LT6911_WRITE 	0x00
 
 pthread_mutex_t vi_mutex;
+pthread_mutex_t hdmi_signal_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 enum class kvmv_lifecycle_state_t : uint8_t {
     stopped,
@@ -100,7 +103,6 @@ typedef struct {
 	uint16_t vpss_height = default_vpss_height;
 	uint8_t venc_type;
 	uint16_t qlty;
-	uint8_t cam_state = 0;
 	uint8_t stream_stop;
 	uint8_t frame_detact = 0;
 	uint8_t display;
@@ -145,6 +147,83 @@ uint8_t kvmv_data_buffer_index = 0;
 uint8_t debug_en = 0;
 uint8_t last_vi_state_code = 0;
 uint32_t last_vi_state_refresh_ms = 0;
+uint8_t hdmi_capture_enabled = 0;
+uint8_t hdmi_signal_active = 0;
+
+void debug(const char *format, ...);
+
+static bool write_hdmi_signal_file(uint8_t active)
+{
+    char temp_path[] = "/kvmapp/kvm/.state.tmp.XXXXXX";
+    const char *state = active != 0 ? "1\n" : "0\n";
+    const size_t state_size = 2;
+    int fd = mkstemp(temp_path);
+    if(fd < 0){
+        debug("[hdmi] failed to create state file: %d\n", errno);
+        return false;
+    }
+
+    int failure = 0;
+    if(fchmod(fd, 0644) != 0){
+        failure = errno;
+    }
+
+    size_t written = 0;
+    while(failure == 0 && written < state_size){
+        ssize_t result = write(fd, state + written, state_size - written);
+        if(result > 0){
+            written += (size_t)result;
+        } else if(result < 0 && errno == EINTR){
+            continue;
+        } else {
+            failure = result < 0 ? errno : EIO;
+        }
+    }
+
+    if(failure == 0 && fsync(fd) != 0){
+        failure = errno;
+    }
+    if(close(fd) != 0 && failure == 0){
+        failure = errno;
+    }
+    if(failure == 0 && rename(temp_path, hdmi_signal_file_path) != 0){
+        failure = errno;
+    }
+    if(failure != 0){
+        unlink(temp_path);
+        debug("[hdmi] failed to publish state file: %d\n", failure);
+        return false;
+    }
+    return true;
+}
+
+static void set_hdmi_signal_state(uint8_t active)
+{
+    pthread_mutex_lock(&hdmi_signal_mutex);
+    uint8_t enabled = __atomic_load_n(&hdmi_capture_enabled, __ATOMIC_ACQUIRE);
+    uint8_t next = enabled != 0 && active != 0 ? 1 : 0;
+    uint8_t previous = __atomic_exchange_n(&hdmi_signal_active, next, __ATOMIC_ACQ_REL);
+    if(previous != next){
+        write_hdmi_signal_file(next);
+    }
+    pthread_mutex_unlock(&hdmi_signal_mutex);
+}
+
+static void set_hdmi_capture_enabled(uint8_t enabled)
+{
+    pthread_mutex_lock(&hdmi_signal_mutex);
+    __atomic_store_n(&hdmi_capture_enabled, enabled != 0 ? 1 : 0, __ATOMIC_RELEASE);
+    __atomic_store_n(&hdmi_signal_active, 0, __ATOMIC_RELEASE);
+    write_hdmi_signal_file(0);
+    pthread_mutex_unlock(&hdmi_signal_mutex);
+}
+
+static void set_hdmi_detection_state(uint8_t active)
+{
+    kvmv_cfg.hdmi_cable_state.store(active != 0 ? 1 : 0, std::memory_order_release);
+    set_hdmi_signal_state(active);
+}
+
 void debug(const char *format, ...)
 {
     if(debug_en){
@@ -202,8 +281,9 @@ uint8_t refresh_vi_state()
 {
 	// The driver read blocks for about a second; mark the deadline before it so
 	// that the publication cadence measures wall-clock time, not read time plus it.
-	last_vi_state_refresh_ms = vi_state_shared::monotonic_ms();
+    last_vi_state_refresh_ms = vi_state_shared::monotonic_ms();
     last_vi_state_code = vi_state_shared::refresh();
+    set_hdmi_detection_state(last_vi_state_code == 1 || last_vi_state_code >= 3);
     return last_vi_state_code;
 }
 
@@ -1253,7 +1333,7 @@ void* vi_subsystem_detection(void * arg)
                                 if(lt6911_get_hdmi_res()){
                                     // hdmi get res
                                     debug("[hdmi] C HDMI cable insertion!\n");
-                                    kvmv_cfg.hdmi_cable_state = 1;
+                                    set_hdmi_detection_state(1);
                                     kvmv_cfg.hdmi_res_type = refresh_csi_resolution();
                                     if (kvmv_cfg.hdmi_res_type == NEW_RES) kvmv_cfg.reopen_cam_flag = 1;
                                     else if (kvmv_cfg.hdmi_res_type == UNKNOWN_RES){
@@ -1265,7 +1345,7 @@ void* vi_subsystem_detection(void * arg)
                                 } else {
                                     // HDMI res = 0*0/x*0
                                     debug("[hdmi] C HDMI cable unplugged!\n");
-                                    kvmv_cfg.hdmi_cable_state = 0;
+                                    set_hdmi_detection_state(0);
                                 }
                                 lt6911_disable();
                             }
@@ -1278,7 +1358,7 @@ void* vi_subsystem_detection(void * arg)
                                 if(lt6911_get_hdmi_res()){
                                     // hdmi get res
                                     debug("[hdmi] UXC HDMI cable insertion!\n");
-                                    kvmv_cfg.hdmi_cable_state = 1;
+                                    set_hdmi_detection_state(1);
                                     kvmv_cfg.hdmi_res_type = refresh_csi_resolution();
                                     if (kvmv_cfg.hdmi_res_type == NEW_RES) kvmv_cfg.reopen_cam_flag = 1;
                                     else if (kvmv_cfg.hdmi_res_type == UNKNOWN_RES){
@@ -1290,7 +1370,7 @@ void* vi_subsystem_detection(void * arg)
                                 } else {
                                     // HDMI res = 0*0/x*0
                                     debug("[hdmi] UXC HDMI cable unplugged!\n");
-                                    kvmv_cfg.hdmi_cable_state = 0;
+                                    set_hdmi_detection_state(0);
                                 }
                                 lt6911_disable();
                             }
@@ -1303,7 +1383,7 @@ void* vi_subsystem_detection(void * arg)
                                 if(lt6911_get_hdmi_res()){
                                     // hdmi get res
                                     debug("[hdmi] D HDMI cable insertion!\n");
-                                    kvmv_cfg.hdmi_cable_state = 1;
+                                    set_hdmi_detection_state(1);
                                     kvmv_cfg.hdmi_res_type = refresh_csi_resolution();
                                     if (kvmv_cfg.hdmi_res_type == NEW_RES) kvmv_cfg.reopen_cam_flag = 1;
                                     else if (kvmv_cfg.hdmi_res_type == UNKNOWN_RES){
@@ -1315,7 +1395,7 @@ void* vi_subsystem_detection(void * arg)
                                 } else {
                                     // HDMI res = 0*0/x*0
                                     debug("[hdmi] D HDMI cable unplugged!\n");
-                                    kvmv_cfg.hdmi_cable_state = 0;
+                                    set_hdmi_detection_state(0);
                                 }
                                 lt6911_disable();
                             }
@@ -1756,7 +1836,7 @@ void kvmv_init(uint8_t _debug_info_en)
 
 uint8_t check_kvmv(uint8_t _try_num)
 {
-    if(kvmv_cfg.hdmi_cable_state == 0){
+    if(kvmv_cfg.hdmi_cable_state.load(std::memory_order_acquire) == 0){
         debug("[kvmv]HDMI Cable not exist!\n");
         return 0;
     }
@@ -1893,17 +1973,8 @@ int kvmv_read_img(uint16_t _width, uint16_t _height, uint8_t _type, uint16_t _ql
                     }
                 }
             }
-			if(kvmv_cfg.cam_state == 0) {
-				kvmv_cfg.cam_state = 1;
-                kvmv_cfg.hdmi_cable_state = 1;
-				system("echo 1 > /kvmapp/kvm/state");
-			}
         } else {
-			if(kvmv_cfg.cam_state == 1) {
-				kvmv_cfg.cam_state = 0;
-				system("echo 0 > /kvmapp/kvm/state");
-			}
-			delete img;
+            delete img;
             debug("[kvmv]can`t get img...\n");
             continue;
             // pthread_mutex_unlock(&vi_mutex);
@@ -2055,6 +2126,7 @@ void kvmv_deinit()
         return;
     }
 
+    set_hdmi_capture_enabled(0);
     pthread_mutex_lock(&vi_mutex);
     cam->close();
     /* Camera and the optional JPEG encoder each hold an MMF reference.  A
@@ -2078,6 +2150,10 @@ void kvmv_deinit()
 
 uint8_t kvmv_hdmi_control(uint8_t _en)
 {
+    if(_en == 0){
+        set_hdmi_capture_enabled(0);
+    }
+
     if(kvmv_cfg.hw_version == 0){
 
         FILE *fp;
@@ -2103,6 +2179,9 @@ uint8_t kvmv_hdmi_control(uint8_t _en)
     }
     if(kvmv_cfg.hw_version != 'p'){
         debug("[kvmv]Hardware not support!\n");
+        if(_en != 0){
+            set_hdmi_capture_enabled(1);
+        }
         return -1;
     }
     if(access("/sys/class/gpio/gpio451/value", F_OK) != 0){
@@ -2117,7 +2196,15 @@ uint8_t kvmv_hdmi_control(uint8_t _en)
     } else {
         kvmv_cfg.hdmi_stop_flag = 0;
         system("echo 1 > /sys/class/gpio/gpio451/value");
+        set_hdmi_capture_enabled(1);
         return 0;
     }
     return -1;
+}
+
+uint8_t kvmv_hdmi_signal_active()
+{
+    uint8_t enabled = __atomic_load_n(&hdmi_capture_enabled, __ATOMIC_ACQUIRE);
+    uint8_t active = __atomic_load_n(&hdmi_signal_active, __ATOMIC_ACQUIRE);
+    return enabled != 0 && active != 0 ? 1 : 0;
 }
