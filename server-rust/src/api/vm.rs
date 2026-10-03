@@ -204,6 +204,12 @@ pub struct EnabledRsp {
 }
 
 #[derive(Debug, Serialize)]
+pub struct HdmiStateRsp {
+    pub enabled: bool,
+    pub signal: bool,
+}
+
+#[derive(Debug, Serialize)]
 pub struct OledRsp {
     pub exist: bool,
     pub sleep: i32,
@@ -375,8 +381,10 @@ pub async fn set_gpio(Json(req): Json<SetGpioReq>) -> Result<impl IntoResponse> 
 }
 
 pub async fn get_hdmi_state() -> Result<impl IntoResponse> {
-    Ok(Json(ApiResponse::ok(EnabledRsp {
-        enabled: !Path::new(HDMI_DISABLE_FILE).exists(),
+    let enabled = !Path::new(HDMI_DISABLE_FILE).exists();
+    Ok(Json(ApiResponse::ok(HdmiStateRsp {
+        enabled,
+        signal: enabled && kvm::hdmi_signal_active(),
     })))
 }
 
