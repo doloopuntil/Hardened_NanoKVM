@@ -10,7 +10,14 @@ use std::{
 use tokio::{sync::Mutex, time};
 
 use crate::{
-    AppError, Result, error::ApiResponse, state::AppState, system::files::clean_relative_path,
+    AppError, Result,
+    api::download,
+    error::ApiResponse,
+    state::AppState,
+    system::{
+        command::{AllowedCommand, run_allowed},
+        files::clean_relative_path,
+    },
     ws::hid as hid_ws,
 };
 
@@ -30,6 +37,8 @@ const USB_PRODUCT_SIZE: usize = 126;
 const UDC_FILE: &str = "/sys/kernel/config/usb_gadget/g0/UDC";
 const UDC_CLASS_DIR: &str = "/sys/class/udc";
 const MEDIA_SETTLE_DELAY: Duration = Duration::from_millis(100);
+const DATA_MOUNT: &str = "/data";
+const REMOUNT_TIMEOUT: Duration = Duration::from_secs(10);
 
 static STORAGE_GADGET_LOCK: LazyLock<Mutex<()>> = LazyLock::new(|| Mutex::new(()));
 
@@ -102,6 +111,13 @@ pub async fn mount_image(
         Some(image)
     };
 
+    // The host owns the raw partition while the virtual disk serves it, so /data
+    // has to be read-only here before the host can write it.
+    if image.is_none() {
+        ensure_no_transfer()?;
+        set_data_writable(false).await?;
+    }
+
     let mode = mount_mode(image.as_deref(), req.cdrom);
     let previous_product = read_trimmed(USB_PRODUCT).ok();
     // Detach first, so no image is ever served with stale flags.
@@ -123,6 +139,13 @@ pub async fn mount_image(
         reset_usb_gadget().await?;
     }
 
+    // A served image is read-only for the host, so the KVM may write /data again.
+    if image.is_some()
+        && let Err(err) = set_data_writable(true).await
+    {
+        tracing::warn!(error = %err, "failed to make /data writable after mounting an image");
+    }
+
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
@@ -142,9 +165,95 @@ pub async fn delete_image(
             "cannot delete the currently mounted image".to_string(),
         ));
     }
+    ensure_writable(&state.config.paths.image_directory)?;
     fs::remove_file(image)?;
 
     Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+/// Whether the mass storage device serves the whole /data partition to the host.
+pub fn data_disk_attached() -> bool {
+    read_trimmed(MOUNT_DEVICE)
+        .map(|file| file == IMAGE_NONE)
+        .unwrap_or(false)
+}
+
+/// Fails with a clear message when `path` lives on a read-only filesystem, so
+/// writers do not fail halfway with an obscure write error.
+pub fn ensure_writable(path: &Path) -> Result<()> {
+    if !is_read_only_fs(path).unwrap_or(false) {
+        return Ok(());
+    }
+    let message = if data_disk_attached() {
+        "/data is read-only while the virtual disk is shared with the host; turn the virtual disk off first"
+    } else {
+        "/data is read-only"
+    };
+    Err(AppError::Conflict(message.to_string()))
+}
+
+/// Refuses to hand /data over while an image transfer still writes to it.
+pub fn ensure_no_transfer() -> Result<()> {
+    if download::transfer_in_progress() {
+        return Err(AppError::Conflict(
+            "an image transfer is running; wait for it to finish first".to_string(),
+        ));
+    }
+    Ok(())
+}
+
+/// Remounts /data read-write or read-only. Only one side may write the
+/// partition at a time: while the virtual disk shares it with the host as a
+/// writable disk, /data is read-only here.
+pub async fn set_data_writable(writable: bool) -> Result<()> {
+    let target = Path::new(DATA_MOUNT);
+    if is_read_only_fs(target)? != writable {
+        return Ok(());
+    }
+
+    let option = if writable { "remount,rw" } else { "remount,ro" };
+    let output = run_allowed(
+        AllowedCommand::Mount,
+        ["-o", option, DATA_MOUNT],
+        REMOUNT_TIMEOUT,
+    )
+    .await?;
+    if output.status != 0 {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        return Err(AppError::Internal(format!(
+            "remount {DATA_MOUNT} failed: {}",
+            stderr.trim()
+        )));
+    }
+
+    // Never hand a writable /data to the host.
+    if is_read_only_fs(target)? == writable {
+        return Err(AppError::Internal(format!(
+            "{DATA_MOUNT} mount did not change"
+        )));
+    }
+    Ok(())
+}
+
+/// Whether the filesystem holding `path` (or its nearest existing parent) is mounted read-only.
+fn is_read_only_fs(path: &Path) -> std::io::Result<bool> {
+    use std::{ffi::CString, os::unix::ffi::OsStrExt};
+
+    let mut probe = path;
+    while !probe.exists() {
+        match probe.parent() {
+            Some(parent) => probe = parent,
+            None => break,
+        }
+    }
+    let path = CString::new(probe.as_os_str().as_bytes())
+        .map_err(|_| std::io::Error::from(ErrorKind::InvalidInput))?;
+    // SAFETY: `path` is NUL-terminated and `stat` is a plain out-parameter.
+    let mut stat: nix::libc::statvfs = unsafe { std::mem::zeroed() };
+    if unsafe { nix::libc::statvfs(path.as_ptr(), &mut stat) } != 0 {
+        return Err(std::io::Error::last_os_error());
+    }
+    Ok(stat.f_flag & nix::libc::ST_RDONLY as nix::libc::c_ulong != 0)
 }
 
 fn collect_images(root: &Path, out: &mut Vec<String>) -> Result<()> {
@@ -453,6 +562,15 @@ mod tests {
 
         let err = valid_image_path("notes.txt", dir.path()).unwrap_err();
         assert!(matches!(err, AppError::BadRequest(_)));
+    }
+
+    #[test]
+    fn writable_directory_passes_the_read_only_guard() {
+        let dir = tempdir().unwrap();
+        assert!(ensure_writable(dir.path()).is_ok());
+        // A path that does not exist yet is judged by its nearest existing parent.
+        assert!(ensure_writable(&dir.path().join("missing/cache")).is_ok());
+        assert!(!is_read_only_fs(dir.path()).unwrap());
     }
 
     #[test]
