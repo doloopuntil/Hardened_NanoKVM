@@ -523,6 +523,7 @@ case "$1" in
     stop_runtime
 
     echo -n kvm > /boot/hostname.prefix
+    [ -e /root/.profile ] || printf '%s\n' 'export PS1="\u@\h:\w# "' > /root/.profile
 
     restore_sensor_configs
 
