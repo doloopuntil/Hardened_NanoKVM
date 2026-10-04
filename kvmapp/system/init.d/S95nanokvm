@@ -533,11 +533,16 @@ start_watchdog() {
                 in_transfer=0
             fi
 
+            check_start=$(date +%s)
             if health_check "$check_time"; then
                 failures=0
             else
                 failures=$((failures + 1))
                 runtime_log "NanoKVM-Server health check failed ($failures/$max_failures)"
+            fi
+            check_secs=$(( $(date +%s) - check_start ))
+            if [ "$check_secs" -ge 3 ]; then
+                runtime_log "NanoKVM-Server health check took ${check_secs}s (limit ${check_time}s)"
             fi
 
             if [ "$failures" -ge "$max_failures" ]; then
