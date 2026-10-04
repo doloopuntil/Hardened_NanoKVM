@@ -73,6 +73,10 @@ const en = {
       videoDirectTips: 'Enable HTTPS in "Settings > System > Network" to use this mode',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC is disabled in Restricted and Paranoid Firewall modes',
+      transferRunningTitle: 'Image transfer in progress',
+      transferRunningDesc:
+        'Changing the video mode reloads the page, which cancels the running image upload or download.',
+      transferRunningOk: 'Change mode',
       resolution: 'Resolution',
       auto: 'Automatic',
       autoTips:
