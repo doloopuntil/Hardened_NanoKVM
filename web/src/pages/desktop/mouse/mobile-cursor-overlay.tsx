@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MousePointer2Icon } from 'lucide-react';
 
-import {
-  MOBILE_CURSOR_EVENT,
-  type MobileCursorEventDetail
-} from './mobile-cursor-events.ts';
+import { MOBILE_CURSOR_EVENT, type MobileCursorEventDetail } from './mobile-cursor-events.ts';
 
 type CursorState = {
   x: number;

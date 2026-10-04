@@ -171,7 +171,8 @@ const en = {
       scrollDown: 'Scroll down',
       speed: 'Wheel speed',
       sensitivity: 'Pointer speed',
-      sensitivityDesc: 'Use this for desktop relative mode. Lower values reduce drift from host mouse acceleration.',
+      sensitivityDesc:
+        'Use this for desktop relative mode. Lower values reduce drift from host mouse acceleration.',
       fast: 'Fast',
       slow: 'Slow',
       mobile: {

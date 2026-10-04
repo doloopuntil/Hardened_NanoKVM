@@ -413,7 +413,8 @@ const pl = {
           maxServers: 'Dozwolone jest maksymalnie {{count}} serwerów DNS',
           dnsServers: 'Serwery DNS',
           dhcpServersDescription: 'Serwery DNS są automatycznie pobierane z DHCP',
-          manualServersDescription: 'Serwery DNS można edytować ręcznie. IPv4 i IPv6 są obsługiwane',
+          manualServersDescription:
+            'Serwery DNS można edytować ręcznie. IPv4 i IPv6 są obsługiwane',
           networkDetails: 'Szczegóły sieci',
           interface: 'Interfejs',
           ipAddress: 'Adres IP',

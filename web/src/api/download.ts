@@ -3,8 +3,8 @@ import { http } from '@/lib/http.ts';
 // Download image
 export function downloadImage(file?: string) {
   const data = {
-      file: file ? file : ''
-    };
+    file: file ? file : ''
+  };
   return http.post('/api/download/image', data);
 }
 

@@ -397,7 +397,7 @@ const fr = {
           title: 'DNS',
           description: 'Configurer les serveurs DNS pour NanoKVM',
           ipv4Title: 'IPv4',
-          ipv4Description: 'Configurer l\'adressage IPv4 pour l\'interface filaire',
+          ipv4Description: "Configurer l'adressage IPv4 pour l'interface filaire",
           mode: 'Mode',
           dhcp: 'DHCP',
           manual: 'Manuel',
@@ -405,7 +405,8 @@ const fr = {
           save: 'Enregistrer',
           apply: 'Appliquer',
           invalid: 'Veuillez saisir une adresse IPv4 ou IPv6 valide',
-          invalidNetwork: 'Veuillez saisir une adresse IPv4, un masque de sous-réseau et un routeur valides',
+          invalidNetwork:
+            'Veuillez saisir une adresse IPv4, un masque de sous-réseau et un routeur valides',
           noDhcp: "Aucun DNS DHCP n'est actuellement disponible",
           saved: 'Paramètres DNS enregistrés',
           redirecting: 'Paramètres réseau enregistrés. Ouverture de la nouvelle adresse...',
@@ -414,7 +415,8 @@ const fr = {
           maxServers: '{{count}} serveurs DNS maximum autorisés',
           dnsServers: 'Serveurs DNS',
           dhcpServersDescription: 'Les serveurs DNS sont obtenus automatiquement par DHCP',
-          manualServersDescription: 'Les serveurs DNS peuvent être modifiés manuellement. IPv4 et IPv6 sont pris en charge',
+          manualServersDescription:
+            'Les serveurs DNS peuvent être modifiés manuellement. IPv4 et IPv6 sont pris en charge',
           networkDetails: 'Détails du réseau',
           interface: 'Interface',
           ipAddress: 'Adresse IP',

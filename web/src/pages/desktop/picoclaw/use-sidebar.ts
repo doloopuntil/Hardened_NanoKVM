@@ -72,12 +72,12 @@ export const useSidebar = () => {
   const isRuntimeInstallActive = isRuntimeStatusInstalling || isSnapshotInstalling;
   const isInstallingRuntime = isInstallRequestPending || isRuntimeInstallActive;
   const installProgress = isRuntimeStatusInstalling
-    ? runtimeStatus?.install_progress ?? installSnapshot?.installProgress
+    ? (runtimeStatus?.install_progress ?? installSnapshot?.installProgress)
     : isSnapshotInstalling
       ? installSnapshot?.installProgress
       : undefined;
   const installStage = isRuntimeStatusInstalling
-    ? runtimeStatus?.install_stage ?? installSnapshot?.installStage
+    ? (runtimeStatus?.install_stage ?? installSnapshot?.installStage)
     : isSnapshotInstalling
       ? installSnapshot?.installStage
       : undefined;

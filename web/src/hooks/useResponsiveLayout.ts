@@ -14,9 +14,7 @@ export function useIsTouchLayout() {
   const hasNoHover = useMediaQuery({ query: '(hover: none)' });
 
   return (
-    layoutMode === 'mobile' ||
-    isNarrow ||
-    (isTabletOrSmaller && (hasCoarsePointer || hasNoHover))
+    layoutMode === 'mobile' || isNarrow || (isTabletOrSmaller && (hasCoarsePointer || hasNoHover))
   );
 }
 

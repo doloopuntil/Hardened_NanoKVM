@@ -11,10 +11,10 @@ export function uploadAutostart(name: string, content: string) {
 export function deleteAutostart(name: string) {
   return http.request({
     url: '/api/vm/autostart/' + name,
-    method: 'delete',
+    method: 'delete'
   });
 }
 
 export function getAutostartContent(name: string) {
-    return http.get('/api/vm/autostart/' + name);
+  return http.get('/api/vm/autostart/' + name);
 }

@@ -166,8 +166,8 @@ export const Autostart = () => {
         footer=""
         onCancel={() => setIsManageAutostartOpen(false)}
         title={t('settings.device.autostart.title')}
-        >
-          <div className="flex justify-end">
+      >
+        <div className="flex justify-end">
           <Button
             type="text"
             onClick={() => {

@@ -1,5 +1,5 @@
-import { http } from '@/lib/http.ts';
 import { getCsrfToken } from '@/lib/cookie.ts';
+import { http } from '@/lib/http.ts';
 import { getBaseUrl } from '@/lib/service.ts';
 
 export type SystemVersion = {

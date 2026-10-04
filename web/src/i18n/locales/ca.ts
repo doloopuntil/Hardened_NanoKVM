@@ -391,7 +391,7 @@ const ca = {
           title: 'DNS',
           description: 'Configura els servidors DNS per a NanoKVM',
           ipv4Title: 'IPv4',
-          ipv4Description: 'Configura l\'adreçament IPv4 per a la interfície cablejada',
+          ipv4Description: "Configura l'adreçament IPv4 per a la interfície cablejada",
           mode: 'Mode',
           dhcp: 'DHCP',
           manual: 'Manual',
@@ -399,7 +399,8 @@ const ca = {
           save: 'Desa',
           apply: 'Aplica',
           invalid: 'Introduïu una adreça IPv4 o IPv6 vàlida',
-          invalidNetwork: 'Introduïu una adreça IPv4, una màscara de subxarxa i un encaminador vàlids',
+          invalidNetwork:
+            'Introduïu una adreça IPv4, una màscara de subxarxa i un encaminador vàlids',
           noDhcp: 'No hi ha cap DNS DHCP disponible actualment',
           saved: 'Configuració DNS desada',
           redirecting: 'Configuració de xarxa desada. Obrint la nova adreça...',
@@ -408,7 +409,8 @@ const ca = {
           maxServers: 'Es permeten com a màxim {{count}} servidors DNS',
           dnsServers: 'Servidors DNS',
           dhcpServersDescription: "Els servidors DNS s'obtenen automàticament via DHCP",
-          manualServersDescription: 'Els servidors DNS es poden editar manualment. IPv4 i IPv6 són compatibles',
+          manualServersDescription:
+            'Els servidors DNS es poden editar manualment. IPv4 i IPv6 són compatibles',
           networkDetails: 'Detalls de xarxa',
           interface: 'Interfície',
           ipAddress: 'Adreça IP',

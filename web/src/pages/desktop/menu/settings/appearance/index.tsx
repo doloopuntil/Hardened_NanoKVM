@@ -1,8 +1,8 @@
 import { Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-import { LayoutMode } from './layout-mode.tsx';
 import { Language } from './language.tsx';
+import { LayoutMode } from './layout-mode.tsx';
 import { MenuIcons } from './menu-icons.tsx';
 import { MenuMode } from './menu-mode.tsx';
 import { WebTitle } from './web-title.tsx';

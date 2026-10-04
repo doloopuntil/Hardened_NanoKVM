@@ -397,7 +397,7 @@ const it = {
           title: 'DNS',
           description: 'Configura i server DNS per NanoKVM',
           ipv4Title: 'IPv4',
-          ipv4Description: 'Configura l\'indirizzamento IPv4 per l\'interfaccia cablata',
+          ipv4Description: "Configura l'indirizzamento IPv4 per l'interfaccia cablata",
           mode: 'Modalità',
           dhcp: 'DHCP',
           manual: 'Manuale',
@@ -405,7 +405,8 @@ const it = {
           save: 'Salva',
           apply: 'Applica',
           invalid: 'Inserisci un indirizzo IPv4 o IPv6 valido',
-          invalidNetwork: 'Inserisci un indirizzo IPv4, una maschera di sottorete e un router validi',
+          invalidNetwork:
+            'Inserisci un indirizzo IPv4, una maschera di sottorete e un router validi',
           noDhcp: 'Nessun DNS DHCP è attualmente disponibile',
           saved: 'Impostazioni DNS salvate',
           redirecting: 'Impostazioni di rete salvate. Apertura del nuovo indirizzo...',
@@ -414,7 +415,8 @@ const it = {
           maxServers: 'Sono consentiti al massimo {{count}} server DNS',
           dnsServers: 'Server DNS',
           dhcpServersDescription: 'I server DNS vengono ottenuti automaticamente da DHCP',
-          manualServersDescription: 'I server DNS possono essere modificati manualmente. IPv4 e IPv6 sono supportati',
+          manualServersDescription:
+            'I server DNS possono essere modificati manualmente. IPv4 e IPv6 sono supportati',
           networkDetails: 'Dettagli rete',
           interface: 'Interfaccia',
           ipAddress: 'Indirizzo IP',

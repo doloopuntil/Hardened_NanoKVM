@@ -95,15 +95,13 @@ const layoutModeFallbackExtras: TranslationMap = {
 const layoutModeLocalizedExtras: Record<string, TranslationMap> = {
   ca: {
     'settings.appearance.layoutMode': 'Disseny de la interfície',
-    'settings.appearance.layoutModeDesc':
-      'Utilitza el disseny mòbil/tàctil en aquest navegador',
+    'settings.appearance.layoutModeDesc': 'Utilitza el disseny mòbil/tàctil en aquest navegador',
     'settings.appearance.layoutAuto': 'Automàtic',
     'settings.appearance.layoutMobile': 'Vista mòbil'
   },
   cz: {
     'settings.appearance.layoutMode': 'Rozvržení rozhraní',
-    'settings.appearance.layoutModeDesc':
-      'Použít v tomto prohlížeči mobilní/dotykové rozvržení',
+    'settings.appearance.layoutModeDesc': 'Použít v tomto prohlížeči mobilní/dotykové rozvržení',
     'settings.appearance.layoutAuto': 'Automaticky',
     'settings.appearance.layoutMobile': 'Mobilní zobrazení'
   },
@@ -153,8 +151,7 @@ const layoutModeLocalizedExtras: Record<string, TranslationMap> = {
   },
   id: {
     'settings.appearance.layoutMode': 'Tata letak antarmuka',
-    'settings.appearance.layoutModeDesc':
-      'Gunakan tata letak mobile/sentuh di browser ini',
+    'settings.appearance.layoutModeDesc': 'Gunakan tata letak mobile/sentuh di browser ini',
     'settings.appearance.layoutAuto': 'Otomatis',
     'settings.appearance.layoutMobile': 'Tampilan mobile'
   },
@@ -166,8 +163,7 @@ const layoutModeLocalizedExtras: Record<string, TranslationMap> = {
   },
   ja: {
     'settings.appearance.layoutMode': 'インターフェースのレイアウト',
-    'settings.appearance.layoutModeDesc':
-      'このブラウザーでモバイル/タッチ用レイアウトを使用します',
+    'settings.appearance.layoutModeDesc': 'このブラウザーでモバイル/タッチ用レイアウトを使用します',
     'settings.appearance.layoutAuto': '自動',
     'settings.appearance.layoutMobile': 'モバイル表示'
   },
@@ -191,8 +187,7 @@ const layoutModeLocalizedExtras: Record<string, TranslationMap> = {
   },
   pl: {
     'settings.appearance.layoutMode': 'Układ interfejsu',
-    'settings.appearance.layoutModeDesc':
-      'Użyj układu mobilnego/dotykowego w tej przeglądarce',
+    'settings.appearance.layoutModeDesc': 'Użyj układu mobilnego/dotykowego w tej przeglądarce',
     'settings.appearance.layoutAuto': 'Automatycznie',
     'settings.appearance.layoutMobile': 'Widok mobilny'
   },
@@ -229,8 +224,7 @@ const layoutModeLocalizedExtras: Record<string, TranslationMap> = {
   },
   vi: {
     'settings.appearance.layoutMode': 'Bố cục giao diện',
-    'settings.appearance.layoutModeDesc':
-      'Dùng bố cục di động/cảm ứng trong trình duyệt này',
+    'settings.appearance.layoutModeDesc': 'Dùng bố cục di động/cảm ứng trong trình duyệt này',
     'settings.appearance.layoutAuto': 'Tự động',
     'settings.appearance.layoutMobile': 'Giao diện di động'
   },
@@ -7029,17 +7023,13 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
   const key = languageAliases[language] || language;
   const firewallModerateExtras = key === 'en' || key === 'ru' ? {} : firewallModerateFallbackExtras;
   const usbWakeupExtras =
-    key === 'en' || key === 'ru'
-      ? {}
-      : usbWakeupLocalizedExtras[key] || usbWakeupFallbackExtras;
+    key === 'en' || key === 'ru' ? {} : usbWakeupLocalizedExtras[key] || usbWakeupFallbackExtras;
   const mobileControlExtras =
     key === 'en' || key === 'ru'
       ? {}
       : mobileControlLocalizedExtras[key] || mobileControlFallbackExtras;
   const layoutModeExtras =
-    key === 'en' || key === 'ru'
-      ? {}
-      : layoutModeLocalizedExtras[key] || layoutModeFallbackExtras;
+    key === 'en' || key === 'ru' ? {} : layoutModeLocalizedExtras[key] || layoutModeFallbackExtras;
   const virtualMediaExtras =
     key === 'en' || key === 'ru'
       ? {}

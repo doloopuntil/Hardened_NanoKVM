@@ -18,9 +18,9 @@ import * as api from '@/api/application.ts';
 import * as ls from '@/lib/localstorage.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { submenuOpenCountAtom } from '@/jotai/settings.ts';
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 import { Tailscale as TailscaleIcon } from '@/components/icons/tailscale';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 
 import { About } from './about';
 import { Account } from './account';
@@ -246,9 +246,7 @@ export const Settings = () => {
                 className={clsx(
                   'min-w-0',
                   isTouchLayout ? 'w-full max-w-[calc(100vw-44px)]' : 'w-full max-w-[600px]',
-                  isTouchLayout
-                    ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4'
-                    : 'pb-10 pt-14'
+                  isTouchLayout ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4' : 'pb-10 pt-14'
                 )}
               >
                 <>{tabs.find((tab) => tab.id === currentTab)?.component}</>

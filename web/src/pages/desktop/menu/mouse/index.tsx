@@ -12,8 +12,8 @@ import {
   scrollDirectionAtom,
   scrollIntervalAtom
 } from '@/jotai/mouse';
-import { MenuItem } from '@/components/menu-item.tsx';
 import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
+import { MenuItem } from '@/components/menu-item.tsx';
 
 import { Cursor } from './cursor.tsx';
 import { Direction } from './direction.tsx';

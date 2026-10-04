@@ -3,13 +3,14 @@ import { useAtomValue } from 'jotai';
 
 import { MouseReportRelative } from '@/lib/mouse.ts';
 import { client, MessageEvent } from '@/lib/websocket.ts';
-import {
-  pointerSensitivityAtom,
-  scrollDirectionAtom,
-  scrollIntervalAtom
-} from '@/jotai/mouse.ts';
+import { pointerSensitivityAtom, scrollDirectionAtom, scrollIntervalAtom } from '@/jotai/mouse.ts';
 import { resolutionAtom } from '@/jotai/screen.ts';
 
+import {
+  emitMobileCursorHide,
+  emitMobileCursorRelative,
+  emitMobileCursorShow
+} from './mobile-cursor-events.ts';
 import {
   getMobileTrackpadMovementScale,
   hasAccumulatedMovement,
@@ -17,11 +18,6 @@ import {
   resetAccumulatedMovement,
   takeAccumulatedMovement
 } from './movement-scale.ts';
-import {
-  emitMobileCursorHide,
-  emitMobileCursorRelative,
-  emitMobileCursorShow
-} from './mobile-cursor-events.ts';
 
 enum MouseButton {
   Left = 0,
@@ -368,5 +364,7 @@ export const MobileTrackpad = () => {
 };
 
 function uniqueElements(elements: Array<HTMLElement | null>): HTMLElement[] {
-  return Array.from(new Set(elements.filter((element): element is HTMLElement => Boolean(element))));
+  return Array.from(
+    new Set(elements.filter((element): element is HTMLElement => Boolean(element)))
+  );
 }

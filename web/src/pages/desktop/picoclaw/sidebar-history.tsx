@@ -61,7 +61,7 @@ export const SidebarHistory = ({
     }
 
     return (
-      <div className="picoclaw-sidebar-scrollbar box-border flex min-h-0 w-full flex-1 flex-col overflow-x-hidden overflow-y-auto px-3 py-3">
+      <div className="picoclaw-sidebar-scrollbar box-border flex min-h-0 w-full flex-1 flex-col overflow-y-auto overflow-x-hidden px-3 py-3">
         <div className="box-border w-full max-w-full space-y-2">
           {sessions.map((session) => {
             const isActive = session.id === activeSessionId;

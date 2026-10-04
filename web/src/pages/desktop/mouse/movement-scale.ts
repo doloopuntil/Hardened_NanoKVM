@@ -79,7 +79,10 @@ export function autoPanScreenToPointer(clientX: number, clientY: number): void {
 
   const rect = container.getBoundingClientRect();
   if (rect.width <= 0 || rect.height <= 0) return;
-  if (container.scrollWidth <= container.clientWidth && container.scrollHeight <= container.clientHeight) {
+  if (
+    container.scrollWidth <= container.clientWidth &&
+    container.scrollHeight <= container.clientHeight
+  ) {
     return;
   }
 

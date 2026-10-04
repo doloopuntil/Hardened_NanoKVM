@@ -1,7 +1,14 @@
 import { useEffect } from 'react';
 import { Button, Input } from 'antd';
 import { useSetAtom } from 'jotai';
-import { BookOpenIcon, CpuIcon, ExternalLinkIcon, KeyRoundIcon, LinkIcon, SaveIcon } from 'lucide-react';
+import {
+  BookOpenIcon,
+  CpuIcon,
+  ExternalLinkIcon,
+  KeyRoundIcon,
+  LinkIcon,
+  SaveIcon
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
@@ -74,7 +81,10 @@ export const SidebarModelConfig = ({
             </div>
           </div>
         </div>
-        <ExternalLinkIcon size={14} className="text-neutral-500 transition-colors group-hover:text-neutral-300" />
+        <ExternalLinkIcon
+          size={14}
+          className="text-neutral-500 transition-colors group-hover:text-neutral-300"
+        />
       </a>
 
       {/* Fields */}

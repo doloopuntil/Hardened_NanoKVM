@@ -49,7 +49,10 @@ export const SerialPort = () => {
     }
 
     setIsModalOpen(false);
-    window.open(`/#terminal?port=${port}&baud=${baudrate}&parity=${parity}&flowControl=${flowControl}&dataBits=${dataBits}&stopBits=${stopBits}`, '_blank');
+    window.open(
+      `/#terminal?port=${port}&baud=${baudrate}&parity=${parity}&flowControl=${flowControl}&dataBits=${dataBits}&stopBits=${stopBits}`,
+      '_blank'
+    );
   }
 
   return (
@@ -113,7 +116,9 @@ export const SerialPort = () => {
         </div>
 
         <div className="mt-7 flex items-center space-x-[20px]">
-          <div className="flex w-[80px] justify-end text-neutral-400">{t('terminal.flowControl')}</div>
+          <div className="flex w-[80px] justify-end text-neutral-400">
+            {t('terminal.flowControl')}
+          </div>
           <div className="w-1/2">
             <Select
               defaultValue="none"
@@ -127,7 +132,6 @@ export const SerialPort = () => {
             />
           </div>
         </div>
-
 
         <div className="mt-7 flex items-center space-x-[20px]">
           <div className="flex w-[80px] justify-end text-neutral-400">{t('terminal.dataBits')}</div>

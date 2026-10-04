@@ -406,7 +406,8 @@ const ko = {
           maxServers: '최대 {{count}}개의 DNS 서버가 허용됩니다',
           dnsServers: 'DNS 서버',
           dhcpServersDescription: 'DNS 서버는 DHCP에서 자동으로 가져옵니다',
-          manualServersDescription: 'DNS 서버를 수동으로 편집할 수 있습니다. IPv4와 IPv6을 지원합니다',
+          manualServersDescription:
+            'DNS 서버를 수동으로 편집할 수 있습니다. IPv4와 IPv6을 지원합니다',
           networkDetails: '네트워크 세부 정보',
           interface: '인터페이스',
           ipAddress: 'IP 주소',

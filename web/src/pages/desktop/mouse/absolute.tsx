@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 
-import { MouseReportAbsolute } from '@/lib/mouse.ts';
 import * as storage from '@/lib/localstorage.ts';
+import { MouseReportAbsolute } from '@/lib/mouse.ts';
 import { client, MessageEvent } from '@/lib/websocket.ts';
 import { scrollDirectionAtom, scrollIntervalAtom } from '@/jotai/mouse.ts';
 import { resolutionAtom, videoScaleAtom } from '@/jotai/screen.ts';
@@ -574,7 +574,9 @@ export const Absolute = () => {
 };
 
 function uniqueElements(elements: Array<HTMLElement | null>): HTMLElement[] {
-  return Array.from(new Set(elements.filter((element): element is HTMLElement => Boolean(element))));
+  return Array.from(
+    new Set(elements.filter((element): element is HTMLElement => Boolean(element)))
+  );
 }
 
 function getMediaSize(screen: Element) {
@@ -593,13 +595,11 @@ function getMediaSize(screen: Element) {
   return null;
 }
 
-function getPinchMetrics(touches: TouchList):
-  | {
-      distance: number;
-      centerX: number;
-      centerY: number;
-    }
-  | null {
+function getPinchMetrics(touches: TouchList): {
+  distance: number;
+  centerX: number;
+  centerY: number;
+} | null {
   if (touches.length < 2) return null;
 
   const first = touches[0];

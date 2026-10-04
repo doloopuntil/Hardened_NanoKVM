@@ -159,7 +159,7 @@ export const Message = ({ message }: MessageProps) => {
     }
 
     return (
-      <div className="border-white/5 rounded-xl border bg-white/[0.02] px-3 py-2 text-xs text-neutral-400">
+      <div className="rounded-xl border border-white/5 bg-white/[0.02] px-3 py-2 text-xs text-neutral-400">
         <MarkdownContent content={thoughtText} className="break-words" />
       </div>
     );

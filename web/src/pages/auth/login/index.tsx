@@ -4,8 +4,8 @@ import { Button, Form, Input } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import * as api from '@/api/auth.ts';
 import { getCurrentVersion } from '@/api/application.ts';
+import * as api from '@/api/auth.ts';
 import { existToken, setCsrfToken } from '@/lib/cookie.ts';
 import { encrypt } from '@/lib/encrypt.ts';
 import {

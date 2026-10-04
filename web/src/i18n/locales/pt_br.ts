@@ -411,7 +411,8 @@ const pt_br = {
           maxServers: 'Máximo de {{count}} servidores DNS permitido',
           dnsServers: 'Servidores DNS',
           dhcpServersDescription: 'Os servidores DNS são obtidos automaticamente via DHCP',
-          manualServersDescription: 'Os servidores DNS podem ser editados manualmente. IPv4 e IPv6 são compatíveis',
+          manualServersDescription:
+            'Os servidores DNS podem ser editados manualmente. IPv4 e IPv6 são compatíveis',
           networkDetails: 'Detalhes da rede',
           interface: 'Interface',
           ipAddress: 'Endereço IP',

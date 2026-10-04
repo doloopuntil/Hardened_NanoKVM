@@ -7,8 +7,8 @@ import * as storage from '@/lib/localstorage.ts';
 import { client } from '@/lib/websocket.ts';
 import { picoclawChatOpenAtom } from '@/jotai/picoclaw.ts';
 import { resolutionAtom, videoModeAtom } from '@/jotai/screen.ts';
-import { Head } from '@/components/head.tsx';
 import { useIsDesktopLayout } from '@/hooks/useResponsiveLayout.ts';
+import { Head } from '@/components/head.tsx';
 
 import { CaptureStatusOverlay, useCaptureStatus } from './capture-status';
 import { Keyboard } from './keyboard';

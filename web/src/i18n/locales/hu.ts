@@ -413,7 +413,8 @@ const hu = {
           maxServers: 'Legfeljebb {{count}} DNS-kiszolgáló engedélyezett',
           dnsServers: 'DNS-kiszolgálók',
           dhcpServersDescription: 'A DNS-kiszolgálók automatikusan DHCP-n keresztül érkeznek',
-          manualServersDescription: 'A DNS-kiszolgálók kézzel szerkeszthetők. Az IPv4 és az IPv6 támogatott',
+          manualServersDescription:
+            'A DNS-kiszolgálók kézzel szerkeszthetők. Az IPv4 és az IPv6 támogatott',
           networkDetails: 'Hálózati részletek',
           interface: 'Interfész',
           ipAddress: 'IP-cím',

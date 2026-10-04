@@ -414,7 +414,8 @@ const nl = {
           maxServers: 'Maximaal {{count}} DNS-servers toegestaan',
           dnsServers: 'DNS-servers',
           dhcpServersDescription: 'DNS-servers worden automatisch via DHCP verkregen',
-          manualServersDescription: 'DNS-servers kunnen handmatig worden bewerkt. IPv4 en IPv6 worden ondersteund',
+          manualServersDescription:
+            'DNS-servers kunnen handmatig worden bewerkt. IPv4 en IPv6 worden ondersteund',
           networkDetails: 'Netwerkdetails',
           interface: 'Interface',
           ipAddress: 'IP-adres',

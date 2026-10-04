@@ -411,7 +411,8 @@ const uk = {
           maxServers: 'Дозволено щонайбільше {{count}} DNS-серверів',
           dnsServers: 'DNS-сервери',
           dhcpServersDescription: 'DNS-сервери автоматично отримуються з DHCP',
-          manualServersDescription: 'DNS-сервери можна редагувати вручну. IPv4 та IPv6 підтримуються',
+          manualServersDescription:
+            'DNS-сервери можна редагувати вручну. IPv4 та IPv6 підтримуються',
           networkDetails: 'Відомості про мережу',
           interface: 'Інтерфейс',
           ipAddress: 'IP-адреса',

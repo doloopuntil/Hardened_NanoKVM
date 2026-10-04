@@ -29,7 +29,11 @@ export function emitMobileCursorAbsolute(xRatio: number, yRatio: number) {
   });
 }
 
-export function emitMobileCursorRelative(deltaX: number, deltaY: number, resolution: Resolution | null) {
+export function emitMobileCursorRelative(
+  deltaX: number,
+  deltaY: number,
+  resolution: Resolution | null
+) {
   if (deltaX === 0 && deltaY === 0) return;
 
   const screen = document.getElementById('screen');

@@ -25,7 +25,8 @@ export function useScreenFit(
         return;
       }
 
-      const width = resolution?.width && resolution.width > 0 ? resolution.width : FALLBACK_SCREEN_WIDTH;
+      const width =
+        resolution?.width && resolution.width > 0 ? resolution.width : FALLBACK_SCREEN_WIDTH;
       const height =
         resolution?.height && resolution.height > 0 ? resolution.height : FALLBACK_SCREEN_HEIGHT;
       const rect = containerRef.current.getBoundingClientRect();
@@ -75,7 +76,8 @@ export function useScreenFit(
 
   const mediaStyle = useMemo<CSSProperties>(() => {
     const scale = fitScale * videoScale;
-    const width = resolution?.width && resolution.width > 0 ? resolution.width : FALLBACK_SCREEN_WIDTH;
+    const width =
+      resolution?.width && resolution.width > 0 ? resolution.width : FALLBACK_SCREEN_WIDTH;
     const height =
       resolution?.height && resolution.height > 0 ? resolution.height : FALLBACK_SCREEN_HEIGHT;
 
