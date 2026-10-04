@@ -76,6 +76,10 @@ const se = {
       frameDetectTip:
         'Beräkna skillnaden mellan ramar. Sluta skicka videoström när inga förändringar upptäcks på fjärrvärdens skärm.',
       resetHdmi: 'Återställ HDMI',
+      webrtcConnectionFailed: {
+        title: 'WebRTC-anslutningen misslyckades',
+        description: 'Kontrollera nätverksanslutningen eller byt videoläge.'
+      },
       captureStatus: {
         hdmiError: 'HDMI-skärmfel',
         unsupportedResolution: 'Den aktuella upplösningen stöds inte',
@@ -179,6 +183,12 @@ const se = {
       mountFailed: 'Montering misslyckades',
       mountDesc:
         'I vissa system måste den virtuella disken avmonteras på fjärrvärden innan avbildningen monteras.',
+      diskOnWarn:
+        'Montering av avbildningen stänger av den virtuella disken, så datorn kommer inte åt /data. Fortsätta?',
+      diskOffWarn:
+        'Den virtuella disken är avstängd och måste aktiveras för att montera avbildningen. Datorns USB-enheter ansluts på nytt. Fortsätta?',
+      diskShared:
+        'Den virtuella disken är aktiverad, så /data är skrivskyddad här. Stäng av den för att ta bort eller ladda upp avbildningar.',
       unmountFailed: 'Avmontering misslyckades',
       unmountDesc:
         'I vissa system måste du manuellt mata ut från fjärrvärden innan du avmonterar avbildningen.',
@@ -247,9 +257,15 @@ const se = {
       input: 'Ange en fjärravbildnings-URL',
       ok: 'Ok',
       disabled: '/data partitionen är skrivskyddad, kan inte hämta avbildning',
+      diskShared: 'Stäng av den virtuella disken först och använd sedan nedladdningen.',
+      diskOff: 'Stäng av den virtuella disken',
       uploadbox: 'Släpp filen här eller klicka för att välja',
       inputfile: 'Vänligen ange bildfilen',
-      NoISO: 'Ingen ISO'
+      NoISO: 'Ingen ISO',
+      sha256: 'SHA-256 (valfrie)',
+      sha256Placeholder: 'Skriv inn en SHA-256-kontrollsum på 64 tegn',
+      invalidSHA256: 'SHA-256 må være en heksadesimal streng på 64 tegn',
+      checksumFailed: 'Nedlasting mislyktes: SHA-256-verifisering mislyktes'
     },
     power: {
       title: 'Ström',
@@ -299,9 +315,25 @@ const se = {
           modeOff: 'Av',
           modeAuto: 'Dölj automatiskt',
           modeAlways: 'Alltid synlig',
+          keyboardLedStatus: 'Indikatorer för tangentbordslås',
+          keyboardLedStatusDesc:
+            'Visa Num Lock-, Caps Lock- och Scroll Lock-status för fjärrdatorn',
           icons: 'Undermenyikoner',
           iconsDesc: 'Visa undermenyikoner i menyraden'
         }
+      },
+      keyboardLedStatus: {
+        groupLabel: 'Status för lås på fjärrtangentbord',
+        indicatorLabel: '{{label}}: {{state}}',
+        numLock: 'Num Lock',
+        numLockShort: 'Num',
+        capsLock: 'Caps Lock',
+        capsLockShort: 'Caps',
+        scrollLock: 'Scroll Lock',
+        scrollLockShort: 'Scr',
+        on: 'På',
+        off: 'Av',
+        unknown: 'Okänd'
       },
       device: {
         title: 'Enhet',
@@ -341,7 +373,10 @@ const se = {
           tip: 'Stäng av om det inte behövs'
         },
         hdmi: {
-          description: 'Aktivera HDMI/monitorutgång'
+          description: 'Aktivera HDMI/monitorutgång',
+          idleTimeoutTitle: 'Tidsgräns för inaktiv inspelning',
+          idleTimeoutDescription: 'Stoppa HDMI-inspelning efter att det inte har funnits aktiva tittare i',
+          minutes: 'min'
         },
         autostart: {
           title: 'Autostart skriptinställningar',
@@ -358,6 +393,9 @@ const se = {
         hidOnlyDesc: 'Sluta emulera virtuella enheter, behåll bara grundläggande HID kontroll',
         disk: 'Virtuell disk',
         diskDesc: 'Montera virtuell U-disk på fjärrvärden',
+        diskLocked: 'Avstängd medan en avbildning är monterad (aktivering avbryter monteringen)',
+        diskCancelMount:
+          'Att aktivera den virtuella disken avbryter den monterade avbildningen och avbryter en pågående nedladdning eller uppladdning. Fortsätta?',
         network: 'Virtuellt nätverk',
         networkDesc: 'Montera virtuell nätverkskort på fjärrvärden',
         reboot: 'Starta om',

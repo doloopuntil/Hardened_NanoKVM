@@ -78,6 +78,10 @@ const da = {
       frameDetectTip:
         'Beregner forskellen mellem hver frame. Stopper med at sende et video stream hvis der ikke registreres ændringer på fjerncomputerens skærm.',
       resetHdmi: 'Nulstil HDMI',
+      webrtcConnectionFailed: {
+        title: 'WebRTC-forbindelse mislykkedes',
+        description: 'Kontrollér netværksforbindelsen, eller skift videotilstand.'
+      },
       captureStatus: {
         hdmiError: 'Fejl i HDMI-billedet',
         unsupportedResolution: 'Den aktuelle opløsning understøttes ikke',
@@ -181,6 +185,12 @@ const da = {
       mountFailed: 'Montering af diskbillede mislykkedes',
       mountDesc:
         'På nogle systemer kan det være nødvendigt at skubbe den virtuelle disk ud på fjerncomputeren før du kan montere diskbilledet.',
+      diskOnWarn:
+        'Mounting the image turns the virtual disk off, so the computer can no longer access /data. Continue?',
+      diskOffWarn:
+        'The virtual disk is off and has to be enabled to mount the image. The USB devices on the computer are enumerated again. Continue?',
+      diskShared:
+        'Virtual disk is enabled, so /data is read-only here. Disable it to delete or upload images.',
       unmountFailed: 'Afmontering mislykkedes',
       unmountDesc:
         'På nogle systemer skal du manuelt skubbe ud fra fjernværten, før du afmonterer billedet.',
@@ -249,9 +259,15 @@ const da = {
       input: 'Indtast venligst et fjernbillede URL',
       ok: 'OK',
       disabled: '/data partitionen er RO, så vi kan ikke downloade billedet',
+      diskShared: 'Turn the virtual disk off first, then use the image download.',
+      diskOff: 'Turn off the virtual disk',
       uploadbox: 'Slip filen her, eller klik for at vælge',
       inputfile: 'Indtast venligst billedfilen',
-      NoISO: 'Ingen ISO'
+      NoISO: 'Ingen ISO',
+      sha256: 'SHA-256 (valgfri)',
+      sha256Placeholder: 'Indtast en SHA-256-kontrolsum på 64 tegn',
+      invalidSHA256: 'SHA-256 skal være en hexadecimal streng på 64 tegn',
+      checksumFailed: 'Download mislykkedes: SHA-256-verifikation mislykkedes'
     },
     power: {
       title: 'Tænd/sluk-knap',
@@ -301,9 +317,25 @@ const da = {
           modeOff: 'Fra',
           modeAuto: 'Skjul automatisk',
           modeAlways: 'Altid synlig',
+          keyboardLedStatus: 'Tastaturlåseindikatorer',
+          keyboardLedStatusDesc:
+            'Vis Num Lock-, Caps Lock- og Scroll Lock-status for fjerncomputeren',
           icons: 'Undermenuikoner',
           iconsDesc: 'Vis undermenuikoner i menulinjen'
         }
+      },
+      keyboardLedStatus: {
+        groupLabel: 'Status for låse på fjernkeyboard',
+        indicatorLabel: '{{label}}: {{state}}',
+        numLock: 'Num Lock',
+        numLockShort: 'Num',
+        capsLock: 'Caps Lock',
+        capsLockShort: 'Caps',
+        scrollLock: 'Scroll Lock',
+        scrollLockShort: 'Scr',
+        on: 'Til',
+        off: 'Fra',
+        unknown: 'Ukendt'
       },
       device: {
         title: 'Enhed',
@@ -343,7 +375,10 @@ const da = {
           tip: 'Slukker den, hvis den ikke er nødvendig'
         },
         hdmi: {
-          description: 'Aktiver HDMI/monitor output'
+          description: 'Aktiver HDMI/monitor output',
+          idleTimeoutTitle: 'Timeout for inaktiv optagelse',
+          idleTimeoutDescription: 'Stop HDMI-optagelse efter en periode uden aktive seere på',
+          minutes: 'min'
         },
         autostart: {
           title: 'Indstillinger for autostart scripts',
@@ -361,6 +396,9 @@ const da = {
           'Stop med at emulere virtuelle enheder, og behold kun grundlæggende HID kontrol',
         disk: 'Virtuel disk',
         diskDesc: 'Mount virtual U-disk on the remote host',
+        diskLocked: 'Off while an image is mounted (turning it on cancels the mount)',
+        diskCancelMount:
+          'Enabling the virtual disk cancels the mounted image and interrupts a running image download or upload. Continue?',
         network: 'Virtuelt netværk',
         networkDesc: 'Monter det virtuelle netværkskort på den eksterne vært',
         reboot: 'Genstart',

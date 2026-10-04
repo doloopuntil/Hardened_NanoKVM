@@ -7,6 +7,7 @@ import { DownloadIcon, XCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { downloadImage, imageEnabled, statusImage } from '@/api/download.ts';
+import { getVirtualDevice, updateVirtualDevice } from '@/api/virtual-device.ts';
 import { getCsrfToken } from '@/lib/cookie.ts';
 import { notifyImageListChanged } from '@/lib/image-events.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
@@ -30,10 +31,13 @@ export const DownloadImage = () => {
   const setIsKeyboardEnable = useSetAtom(isKeyboardEnableAtom);
 
   const [input, setInput] = useState('');
+  const [sha256sum, setSha256sum] = useState('');
   const [status, setStatus] = useState<TransferStatus>('');
   const [log, setLog] = useState('');
   const [diskEnabled, setDiskEnabled] = useState(false);
   const [remoteEnabled, setRemoteEnabled] = useState(false);
+  const [isDiskShared, setIsDiskShared] = useState(false);
+  const [isDisablingDisk, setIsDisablingDisk] = useState(false);
   const [popoverKey, setPopoverKey] = useState(0);
   const [activeTransfer, setActiveTransfer] = useState<TransferKind | null>(null);
 
@@ -124,6 +128,34 @@ export const DownloadImage = () => {
         setDiskEnabled(false);
         setRemoteEnabled(false);
       });
+
+    // /data is read-only while the virtual disk serves it to the host
+    getVirtualDevice()
+      .then((res) => {
+        setIsDiskShared(!!res.data?.disk);
+      })
+      .catch(() => {
+        setIsDiskShared(false);
+      });
+  }
+
+  // hand /data back to the KVM, which makes the download possible again
+  function disableDisk() {
+    if (isDisablingDisk) return;
+    setIsDisablingDisk(true);
+
+    updateVirtualDevice('disk')
+      .then((rsp) => {
+        if (rsp.code !== 0) {
+          console.log(rsp.msg);
+          return;
+        }
+
+        checkDiskEnabled();
+      })
+      .finally(() => {
+        setIsDisablingDisk(false);
+      });
   }
 
   function handleOpenChange(open: boolean) {
@@ -137,6 +169,7 @@ export const DownloadImage = () => {
     } else {
       if (statusRef.current !== 'in_progress') {
         setInput('');
+        setSha256sum('');
         setDownloadStatus('');
         setLog('');
         setSelectedFile(null);
@@ -157,6 +190,26 @@ export const DownloadImage = () => {
       setDownloadStatus('idle');
       setLog('');
     }
+  }
+
+  function handleSha256Change(e: ChangeEvent<HTMLInputElement>) {
+    setSha256sum(e.target.value);
+    if (statusRef.current === 'complete') {
+      setDownloadStatus('idle');
+      setLog('');
+    }
+  }
+
+  // empty means no check; null means the entered value is not a SHA-256
+  function getValidatedSHA256() {
+    const checksum = sha256sum.trim();
+    if (checksum && !/^[a-fA-F0-9]{64}$/.test(checksum)) {
+      setDownloadStatus('failed');
+      setLog(t('download.invalidSHA256'));
+      return null;
+    }
+
+    return checksum;
   }
 
   function getDownloadStatus() {
@@ -182,6 +235,11 @@ export const DownloadImage = () => {
         return;
       }
 
+      if (nextStatus === 'checksum_failed') {
+        failTransfer(t('download.checksumFailed'));
+        return;
+      }
+
       if (nextStatus === 'idle') {
         const previousStatus = statusRef.current;
         const previousTransfer = activeTransferRef.current;
@@ -195,6 +253,7 @@ export const DownloadImage = () => {
 
         if (previousStatus === 'in_progress' && previousTransfer === 'remote') {
           setInput('');
+          setSha256sum('');
           setDownloadStatus('complete');
           setLog(t('download.complete'));
           notifyImageListChanged();
@@ -205,6 +264,7 @@ export const DownloadImage = () => {
           setDownloadStatus('complete');
           setLog(t('download.uploadComplete'));
           setSelectedFile(null);
+          setSha256sum('');
           clearFileInput();
           notifyImageListChanged();
           return;
@@ -225,6 +285,9 @@ export const DownloadImage = () => {
       return;
     }
 
+    const checksum = getValidatedSHA256();
+    if (checksum === null) return;
+
     setActiveTransferKind('remote');
     lastProgressMarkerRef.current = '';
     setDownloadStatus('in_progress');
@@ -232,7 +295,7 @@ export const DownloadImage = () => {
     noteProgress(targetUrl);
     // start the getDownloadStatus to tick every 5 seconds
 
-    downloadImage(targetUrl)
+    downloadImage(targetUrl, checksum)
       .then((rsp) => {
         if (rsp.code !== 0) {
           failTransfer(rsp.msg || t('download.remoteFailed'));
@@ -277,6 +340,9 @@ export const DownloadImage = () => {
       return;
     }
 
+    const checksum = getValidatedSHA256();
+    if (checksum === null) return;
+
     setActiveTransferKind('local');
     lastProgressMarkerRef.current = '';
     setDownloadStatus('in_progress');
@@ -289,7 +355,7 @@ export const DownloadImage = () => {
     resetStallWatchdog();
 
     try {
-      await uploadFileWithProgress(file, formData);
+      await uploadFileWithProgress(file, formData, checksum);
 
       stopStatusPolling();
       stopStallWatchdog();
@@ -297,6 +363,7 @@ export const DownloadImage = () => {
       setDownloadStatus('complete');
       setLog(t('download.uploadComplete'));
       setSelectedFile(null);
+      setSha256sum('');
       clearFileInput();
       notifyImageListChanged();
     } catch (error) {
@@ -314,7 +381,7 @@ export const DownloadImage = () => {
     }
   }
 
-  function uploadFileWithProgress(file: File, formData: FormData) {
+  function uploadFileWithProgress(file: File, formData: FormData, checksum: string) {
     const csrfToken = getCsrfToken();
 
     return new Promise<void>((resolve, reject) => {
@@ -324,6 +391,9 @@ export const DownloadImage = () => {
       xhr.withCredentials = true;
       if (csrfToken) {
         xhr.setRequestHeader('x-csrf-token', csrfToken);
+      }
+      if (checksum) {
+        xhr.setRequestHeader('X-SHA256-Sum', checksum);
       }
 
       xhr.upload.onprogress = (event) => {
@@ -344,7 +414,8 @@ export const DownloadImage = () => {
           resolve();
           return;
         }
-        reject(new Error(body?.msg || t('download.uploadFailed')));
+        const message = body?.msg === 'sha256 mismatch' ? t('download.checksumFailed') : body?.msg;
+        reject(new Error(message || t('download.uploadFailed')));
       };
 
       xhr.onerror = () => {
@@ -420,7 +491,16 @@ export const DownloadImage = () => {
       <Divider style={{ margin: '10px 0 10px 0' }} />
 
       {!diskEnabled ? (
-        <div className="text-red-500">{t('download.disabled')}</div>
+        isDiskShared ? (
+          <div className="space-y-3">
+            <div className="text-neutral-300">{t('download.diskShared')}</div>
+            <Button type="primary" block loading={isDisablingDisk} onClick={disableDisk}>
+              {t('download.diskOff')}
+            </Button>
+          </div>
+        ) : (
+          <div className="text-red-500">{t('download.disabled')}</div>
+        )
       ) : (
         <>
           <div>
@@ -448,6 +528,16 @@ export const DownloadImage = () => {
             {!remoteEnabled && (
               <div className="pt-1 text-xs text-neutral-500">{t('download.remoteDisabled')}</div>
             )}
+          </div>
+          <div>
+            <div className="pb-1 text-neutral-500">{t('download.sha256')}</div>
+            <Input
+              value={sha256sum}
+              onChange={handleSha256Change}
+              disabled={status === 'in_progress'}
+              maxLength={64}
+              placeholder={t('download.sha256Placeholder')}
+            />
           </div>
           <div>
             <div className="pb-1 text-neutral-500">{t('download.inputfile')}</div>
