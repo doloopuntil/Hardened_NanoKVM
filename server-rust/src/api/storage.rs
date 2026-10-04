@@ -290,10 +290,10 @@ fn first_udc() -> Result<String> {
     let mut names = Vec::new();
     for entry in fs::read_dir(UDC_CLASS_DIR)? {
         let entry = entry?;
-        if let Some(name) = entry.file_name().to_str() {
-            if !name.is_empty() {
-                names.push(name.to_string());
-            }
+        if let Some(name) = entry.file_name().to_str()
+            && !name.is_empty()
+        {
+            names.push(name.to_string());
         }
     }
     names.sort();

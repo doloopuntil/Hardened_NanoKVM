@@ -35,10 +35,10 @@ pub fn extract_tar_gz_safe(src: &Path, dest: &Path) -> Result<PathBuf> {
         let path = entry.path()?.into_owned();
         let target = safe_join(dest, &path)?;
 
-        if first_top_level.is_none() {
-            if let Some(first) = path.components().next() {
-                first_top_level = Some(dest.join(first.as_os_str()));
-            }
+        if first_top_level.is_none()
+            && let Some(first) = path.components().next()
+        {
+            first_top_level = Some(dest.join(first.as_os_str()));
         }
 
         match entry.header().entry_type() {

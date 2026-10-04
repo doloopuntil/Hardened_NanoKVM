@@ -1959,13 +1959,13 @@ fn validate_raw_image_payload(payload_dir: &Path, image: &SystemManifestRawImage
             image.device
         )));
     }
-    if let Some(device_size) = block_device_size(device) {
-        if image.size > device_size {
-            return Err(AppError::BadRequest(format!(
-                "raw system update image {} is larger than {}",
-                image.payload, image.device
-            )));
-        }
+    if let Some(device_size) = block_device_size(device)
+        && image.size > device_size
+    {
+        return Err(AppError::BadRequest(format!(
+            "raw system update image {} is larger than {}",
+            image.payload, image.device
+        )));
     }
 
     Ok(())

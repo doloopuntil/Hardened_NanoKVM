@@ -248,10 +248,10 @@ fn current_timezone() -> Option<String> {
         if let Some(zone) = zone_from_path(&target) {
             return Some(zone);
         }
-        if let Ok(canonical) = Path::new("/etc").join(target).canonicalize() {
-            if let Some(zone) = zone_from_path(&canonical) {
-                return Some(zone);
-            }
+        if let Ok(canonical) = Path::new("/etc").join(target).canonicalize()
+            && let Some(zone) = zone_from_path(&canonical)
+        {
+            return Some(zone);
         }
     }
 

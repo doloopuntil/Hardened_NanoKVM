@@ -295,16 +295,17 @@ fn redirect_host(request_host: &str, https_port: u16) -> String {
 }
 
 fn host_without_port(request_host: &str) -> String {
-    if let Some(rest) = request_host.strip_prefix('[') {
-        if let Some((host, _)) = rest.split_once(']') {
-            return host.to_string();
-        }
+    if let Some(rest) = request_host.strip_prefix('[')
+        && let Some((host, _)) = rest.split_once(']')
+    {
+        return host.to_string();
     }
 
-    if let Some((host, port)) = request_host.rsplit_once(':') {
-        if !host.contains(':') && port.chars().all(|ch| ch.is_ascii_digit()) {
-            return host.to_string();
-        }
+    if let Some((host, port)) = request_host.rsplit_once(':')
+        && !host.contains(':')
+        && port.chars().all(|ch| ch.is_ascii_digit())
+    {
+        return host.to_string();
     }
 
     request_host.to_string()

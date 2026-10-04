@@ -297,10 +297,10 @@ pub async fn set_hostname(Json(req): Json<SetHostnameReq>) -> Result<impl IntoRe
     validate_hostname(&req.hostname)?;
     let old_hostname = read_trimmed(ETC_HOSTNAME_FILE).unwrap_or_default();
 
-    if old_hostname != req.hostname {
-        if let Ok(hosts) = fs::read_to_string(ETC_HOSTS_FILE) {
-            fs::write(ETC_HOSTS_FILE, hosts.replace(&old_hostname, &req.hostname))?;
-        }
+    if old_hostname != req.hostname
+        && let Ok(hosts) = fs::read_to_string(ETC_HOSTS_FILE)
+    {
+        fs::write(ETC_HOSTS_FILE, hosts.replace(&old_hostname, &req.hostname))?;
     }
 
     fs::write(BOOT_HOSTNAME_FILE, req.hostname.as_bytes())?;

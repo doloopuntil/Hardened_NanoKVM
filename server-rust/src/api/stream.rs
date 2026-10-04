@@ -313,10 +313,10 @@ impl Default for Screen {
         if let Some(value) = read_i32(SCREEN_FPS_FILE) {
             screen.fps = validate_fps(value);
         }
-        if let Some(value) = read_i32(SCREEN_GOP_FILE).and_then(|value| u8::try_from(value).ok()) {
-            if (1..=100).contains(&value) {
-                screen.gop = value;
-            }
+        if let Some(value) = read_i32(SCREEN_GOP_FILE).and_then(|value| u8::try_from(value).ok())
+            && (1..=100).contains(&value)
+        {
+            screen.gop = value;
         }
 
         screen

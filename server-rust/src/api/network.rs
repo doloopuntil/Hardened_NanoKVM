@@ -699,10 +699,10 @@ fn set_manual_dns(servers: &[String]) -> Result<Vec<String>> {
         return Err(AppError::BadRequest("dns servers are required".to_string()));
     }
 
-    if current_dns_mode() == DNS_MODE_DHCP {
-        if let Err(err) = refresh_dhcp_resolv_cache_from_effective() {
-            tracing::warn!(error = %err, "failed to refresh DHCP DNS cache before manual mode");
-        }
+    if current_dns_mode() == DNS_MODE_DHCP
+        && let Err(err) = refresh_dhcp_resolv_cache_from_effective()
+    {
+        tracing::warn!(error = %err, "failed to refresh DHCP DNS cache before manual mode");
     }
 
     fs::create_dir_all(DNS_CONFIG_DIR)?;
@@ -787,37 +787,37 @@ fn parse_plain_dns_servers(path: &str) -> Result<Vec<String>> {
 
 fn read_dhcp_resolv_config(allow_effective_fallback: bool) -> Result<ResolvConfig> {
     let dhcp_result = parse_resolv_config(DHCP_RESOLV_FILE);
-    if let Ok(config) = &dhcp_result {
-        if !config.servers.is_empty() {
-            return Ok(config.clone());
-        }
+    if let Ok(config) = &dhcp_result
+        && !config.servers.is_empty()
+    {
+        return Ok(config.clone());
     }
 
     let tmp_result = parse_resolv_config(TMP_RESOLV_FILE);
-    if let Ok(config) = &tmp_result {
-        if !config.servers.is_empty() {
-            return Ok(config.clone());
-        }
+    if let Ok(config) = &tmp_result
+        && !config.servers.is_empty()
+    {
+        return Ok(config.clone());
     }
 
     if allow_effective_fallback {
         let effective_result = parse_resolv_config(ETC_RESOLV_FILE);
-        if let Ok(config) = effective_result {
-            if !config.servers.is_empty() {
-                return Ok(config);
-            }
+        if let Ok(config) = effective_result
+            && !config.servers.is_empty()
+        {
+            return Ok(config);
         }
     }
 
-    if let Err(err) = dhcp_result {
-        if !is_not_found(&err) {
-            return Err(err);
-        }
+    if let Err(err) = dhcp_result
+        && !is_not_found(&err)
+    {
+        return Err(err);
     }
-    if let Err(err) = tmp_result {
-        if !is_not_found(&err) {
-            return Err(err);
-        }
+    if let Err(err) = tmp_result
+        && !is_not_found(&err)
+    {
+        return Err(err);
     }
 
     Ok(ResolvConfig::default())
@@ -1493,10 +1493,10 @@ fn parse_default_ipv6_gateway(output: &str) -> String {
         if fields.first().copied() != Some("default") {
             continue;
         }
-        if let Some(index) = fields.iter().position(|field| *field == "via") {
-            if let Some(gateway) = fields.get(index + 1) {
-                return (*gateway).to_string();
-            }
+        if let Some(index) = fields.iter().position(|field| *field == "via")
+            && let Some(gateway) = fields.get(index + 1)
+        {
+            return (*gateway).to_string();
         }
         return line.to_string();
     }

@@ -609,10 +609,10 @@ pub fn set_mouse_jiggler(enabled: bool, mode: &str) -> Result<()> {
 }
 
 fn touch_mouse_jiggler() {
-    if let Ok(mut state) = MOUSE_JIGGLER.lock() {
-        if state.running {
-            state.last_updated = Instant::now();
-        }
+    if let Ok(mut state) = MOUSE_JIGGLER.lock()
+        && state.running
+    {
+        state.last_updated = Instant::now();
     }
 }
 

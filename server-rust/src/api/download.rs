@@ -300,7 +300,7 @@ fn validate_remote_iso_url(raw: &str) -> Result<RemoteIso> {
 
     let filename = parsed
         .path_segments()
-        .and_then(|segments| segments.filter(|segment| !segment.is_empty()).next_back())
+        .and_then(|mut segments| segments.rfind(|segment| !segment.is_empty()))
         .ok_or_else(|| AppError::BadRequest("url must end with an ISO filename".to_string()))?;
     let filename = valid_upload_filename(filename)?;
     if upload_image_kind(&filename) != Some(UploadImageKind::Iso) {
@@ -499,10 +499,10 @@ fn safe_upload_target(root: &Path, filename: &str) -> Result<PathBuf> {
     let root = fs::canonicalize(root)?;
     let target = root.join(filename);
 
-    if let Ok(metadata) = fs::symlink_metadata(&target) {
-        if metadata.file_type().is_symlink() || !metadata.is_file() {
-            return Err(AppError::BadRequest("invalid destination file".to_string()));
-        }
+    if let Ok(metadata) = fs::symlink_metadata(&target)
+        && (metadata.file_type().is_symlink() || !metadata.is_file())
+    {
+        return Err(AppError::BadRequest("invalid destination file".to_string()));
     }
 
     Ok(target)
@@ -568,7 +568,7 @@ fn has_gpt_header(header: &[u8]) -> bool {
 
 fn has_mbr_partition_table(sector: &[u8]) -> bool {
     has_boot_signature(sector)
-        && sector[446..510].chunks_exact(16).any(|entry| {
+        && sector[446..510].as_chunks::<16>().0.iter().any(|entry| {
             let boot_flag = entry[0];
             let partition_type = entry[4];
             let start_lba = u32::from_le_bytes([entry[8], entry[9], entry[10], entry[11]]);

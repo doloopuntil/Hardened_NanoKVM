@@ -202,22 +202,12 @@ struct SessionListItem {
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(default)]
+#[derive(Default)]
 pub struct ScreenshotQuery {
     format: String,
     width: u16,
     height: u16,
     quality: u16,
-}
-
-impl Default for ScreenshotQuery {
-    fn default() -> Self {
-        Self {
-            format: String::new(),
-            width: 0,
-            height: 0,
-            quality: 0,
-        }
-    }
 }
 
 #[derive(Debug, Serialize)]
@@ -271,20 +261,11 @@ struct ActionResult {
 
 #[derive(Debug, Deserialize)]
 #[serde(default)]
+#[derive(Default)]
 struct LoadImageRequest {
     path: String,
     prompt: String,
     filename: String,
-}
-
-impl Default for LoadImageRequest {
-    fn default() -> Self {
-        Self {
-            path: String::new(),
-            prompt: String::new(),
-            filename: String::new(),
-        }
-    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -325,16 +306,9 @@ struct JsonRpcError {
 
 #[derive(Debug, Deserialize)]
 #[serde(default)]
+#[derive(Default)]
 pub struct GatewayQuery {
     session_id: String,
-}
-
-impl Default for GatewayQuery {
-    fn default() -> Self {
-        Self {
-            session_id: String::new(),
-        }
-    }
 }
 
 #[derive(Debug)]
@@ -538,10 +512,10 @@ pub async fn uninstall_runtime() -> Result<Response> {
     }
 
     let _ = stop_runtime_inner().await;
-    if let Ok(config_path) = resolve_config_path() {
-        if let Some(parent) = config_path.parent() {
-            let _ = fs::remove_dir_all(parent);
-        }
+    if let Ok(config_path) = resolve_config_path()
+        && let Some(parent) = config_path.parent()
+    {
+        let _ = fs::remove_dir_all(parent);
     }
     let _ = fs::remove_file(PICOCLAW_BINARY_PATH);
     let _ = fs::remove_dir_all(PICOCLAW_CACHE_DIR);
@@ -1395,10 +1369,10 @@ fn normalize_actions(raw: &[u8]) -> std::result::Result<Vec<Action>, PicoclawErr
         ));
     }
 
-    if let Ok(batch) = serde_json::from_slice::<ActionBatch>(raw) {
-        if !batch.actions.is_empty() {
-            return Ok(batch.actions);
-        }
+    if let Ok(batch) = serde_json::from_slice::<ActionBatch>(raw)
+        && !batch.actions.is_empty()
+    {
+        return Ok(batch.actions);
     }
 
     let action = serde_json::from_slice::<Action>(raw)
@@ -2459,10 +2433,10 @@ async fn download_to(url: &str, target: &Path) -> Result<()> {
         OsString::from(url),
     ];
     let curl = command::run_allowed(AllowedCommand::Curl, args, PICOCLAW_DOWNLOAD_TIMEOUT).await;
-    if let Ok(output) = curl {
-        if output.status == 0 {
-            return Ok(());
-        }
+    if let Ok(output) = curl
+        && output.status == 0
+    {
+        return Ok(());
     }
 
     let args = vec![
@@ -3204,15 +3178,14 @@ fn detect_agent_profile() -> String {
 
 fn resolve_workspace_path() -> Result<PathBuf> {
     let config_path = resolve_config_path()?;
-    if let Ok(doc) = load_config_document() {
-        if let Some(workspace) = doc
+    if let Ok(doc) = load_config_document()
+        && let Some(workspace) = doc
             .raw
             .pointer("/agents/defaults/workspace")
             .and_then(JsonValue::as_str)
             .and_then(expand_home_path)
-        {
-            return Ok(workspace);
-        }
+    {
+        return Ok(workspace);
     }
     Ok(config_path
         .parent()
@@ -3291,10 +3264,10 @@ fn picoclaw_error_with_session(
 }
 
 fn internal_token() -> Result<String> {
-    if let Ok(guard) = INTERNAL_TOKEN_CACHE.read() {
-        if let Some(token) = guard.as_ref() {
-            return Ok(token.clone());
-        }
+    if let Ok(guard) = INTERNAL_TOKEN_CACHE.read()
+        && let Some(token) = guard.as_ref()
+    {
+        return Ok(token.clone());
     }
 
     let path = Path::new(INTERNAL_TOKEN_FILE);

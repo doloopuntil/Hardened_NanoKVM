@@ -122,10 +122,9 @@ fn bearer_or_cookie(headers: &HeaderMap) -> Option<String> {
     if let Some(auth) = headers
         .get(header::AUTHORIZATION)
         .and_then(|v| v.to_str().ok())
+        && let Some(token) = auth.strip_prefix("Bearer ")
     {
-        if let Some(token) = auth.strip_prefix("Bearer ") {
-            return Some(token.to_string());
-        }
+        return Some(token.to_string());
     }
 
     let cookie = headers.get(header::COOKIE)?.to_str().ok()?;

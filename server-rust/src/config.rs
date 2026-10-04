@@ -68,6 +68,7 @@ pub struct Jwt {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(default)]
+#[derive(Default)]
 pub struct Turn {
     #[serde(alias = "turnAddr")]
     pub turn_addr: String,
@@ -162,16 +163,6 @@ impl Default for Jwt {
             secret_key_legacy: String::new(),
             refresh_token_duration: 2_678_400,
             revoke_tokens_on_logout: true,
-        }
-    }
-}
-
-impl Default for Turn {
-    fn default() -> Self {
-        Self {
-            turn_addr: String::new(),
-            turn_user: String::new(),
-            turn_cred: String::new(),
         }
     }
 }
@@ -313,7 +304,7 @@ impl Config {
         if self.jwt.secret_key.is_empty() && !self.jwt.secret_key_legacy.is_empty() {
             self.jwt.secret_key = self.jwt.secret_key_legacy.clone();
         }
-        if self.paths.update_cache_dir == PathBuf::from("/root/.kvmcache") {
+        if self.paths.update_cache_dir == *"/root/.kvmcache" {
             self.paths.update_cache_dir = PathBuf::from("/data/.hardened-kvmcache");
         }
     }
