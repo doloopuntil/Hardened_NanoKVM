@@ -51,7 +51,8 @@ everything that already succeeded.
 - **`build-modules`** (`needs: vendor-sdk-source, build-kernel`) -- builds the 30
   external and 3 media kernel modules against that tree, substitutes them
   and the 24 in-tree modules into the `/mnt/system/ko` skeleton, and writes
-  the provenance records. Uploads `kernel-modules`. The kernel tree must be
+  the provenance records, then checks all 57 against the kernel's vermagic and
+  `System.map` with `depmod -e`. Uploads `kernel-modules`. The kernel tree must be
   unpacked at the same absolute path it was built at, which holds because
   every job uses the same workspace directory.
 - **`build-image`** (`needs: vendor-sdk, build-native-libkvm, build-kernel,

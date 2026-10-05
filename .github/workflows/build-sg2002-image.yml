@@ -610,6 +610,33 @@ jobs:
           redistribution=disabled-pending-license-grant
           EOF
 
+      # depmod exits 0 on an unresolved symbol and only warns, so its output is matched explicitly.
+      - name: Check the module set against the kernel (vermagic and symbol resolution)
+        run: |
+          KO_DIR="$RUN_ROOT/runtime/system/ko"
+          kernel_release="$(sed -n 's/^#define UTS_RELEASE "\(.*\)"$/\1/p' \
+            "$RUN_ROOT/kernel/include/generated/utsrelease.h")"
+          DEPMOD_ROOT="$RUN_ROOT/depmod-root"
+          DEPMOD_MODULE_DIR="$DEPMOD_ROOT/lib/modules/$kernel_release"
+          mkdir -p "$DEPMOD_MODULE_DIR"
+          while IFS= read -r module; do
+            case "$(modinfo -F vermagic "$module" | tr '\r\n' ' ')" in
+              "$kernel_release "*) ;;
+              *)
+                echo "vermagic does not match $kernel_release: $module" >&2
+                exit 1
+                ;;
+            esac
+            cp "$module" "$DEPMOD_MODULE_DIR/$(basename "$module")"
+          done < <(find "$KO_DIR" -type f -name '*.ko' | LC_ALL=C sort)
+          [ "$(find "$DEPMOD_MODULE_DIR" -name '*.ko' | wc -l)" -eq 57 ]
+          depmod -e -F "$RUN_ROOT/kernel/System.map" -b "$DEPMOD_ROOT" "$kernel_release" \
+            2> "$RUN_ROOT/depmod.stderr" || { cat "$RUN_ROOT/depmod.stderr" >&2; exit 1; }
+          if grep -nE 'needs unknown symbol|disagrees about version|not an ELF' "$RUN_ROOT/depmod.stderr"; then
+            exit 1
+          fi
+          echo "kernel_release=$kernel_release: 57 modules, vermagic and symbols OK"
+
       - name: Upload module-rebuild evidence
         if: always()
         uses: actions/upload-artifact@v4
