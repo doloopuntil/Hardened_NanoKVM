@@ -189,8 +189,6 @@ const tr = {
         'İmajı bağlamak sanal diski kapatır, böylece bilgisayar /data dizinine erişemez. Devam edilsin mi?',
       diskOffWarn:
         'Sanal disk kapalı ve imajı bağlamak için açılması gerekiyor. Bilgisayardaki USB aygıtları yeniden tanımlanır. Devam edilsin mi?',
-      diskShared:
-        'Sanal disk açık, bu nedenle /data burada salt okunur. İmaj silmek veya yüklemek için sanal diski kapatın.',
       unmountFailed: 'Bağlantıyı kesme işlemi başarısız oldu',
       unmountDesc:
         'Bazı sistemlerde, görüntünün bağlantısını kesmeden önce uzak ana bilgisayardan manuel olarak çıkarmanız gerekir.',

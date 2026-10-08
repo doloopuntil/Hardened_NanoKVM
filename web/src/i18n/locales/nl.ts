@@ -192,8 +192,6 @@ const nl = {
         'Het koppelen van de image schakelt de virtuele schijf uit, zodat de computer geen toegang meer heeft tot /data. Doorgaan?',
       diskOffWarn:
         'De virtuele schijf staat uit en moet aan staan om de image te koppelen. De USB-apparaten op de computer worden opnieuw herkend. Doorgaan?',
-      diskShared:
-        'De virtuele schijf staat aan, dus /data is hier alleen-lezen. Schakel deze uit om images te verwijderen of te uploaden.',
       unmountFailed: 'Ontkoppelen mislukt',
       unmountDesc:
         'Op sommige systemen moet u de image handmatig uitwerpen van de externe host voordat u de image ontkoppelt.',

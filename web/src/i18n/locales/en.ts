@@ -217,8 +217,6 @@ const en = {
         'Mounting the image turns the virtual disk off, so the computer can no longer access /data. Continue?',
       diskOffWarn:
         'The virtual disk is off and has to be enabled to mount the image. The USB devices on the computer are enumerated again. Continue?',
-      diskShared:
-        'Virtual disk is enabled, so /data is read-only here. Disable it to delete or upload images.',
       unmountFailed: 'Unmount failed',
       unmountDesc:
         'On some systems, you need to manually eject from the remote host before unmounting the image.',
@@ -299,11 +297,12 @@ const en = {
       title: 'Image Downloader',
       input: 'Please enter a remote image URL',
       ok: 'Ok',
-      disabled: '/data partition is RO, so we cannot download the image',
+      disabled:
+        "Images can't be downloaded or uploaded right now because the storage isn't writable. If an image is mounted, unmount it, then turn off the virtual disk to make the storage writable again.",
       diskShared: 'Turn the virtual disk off first, then use the image download.',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Drop file here or click to select',
-      inputfile: 'Please enter the image File',
+      inputfile: 'Please enter the image file',
       NoISO: 'No ISO',
       complete: 'Download complete',
       uploadComplete: 'Upload complete',

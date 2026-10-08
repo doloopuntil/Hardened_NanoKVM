@@ -5,7 +5,6 @@ import {
   ArrowBigDownDashIcon,
   ArrowBigUpDashIcon,
   CableIcon,
-  CircleAlertIcon,
   LoaderCircleIcon,
   PackageIcon,
   PackageSearchIcon,
@@ -293,13 +292,6 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
 
   return (
     <>
-      {isDiskShared && (
-        <div className="flex items-start space-x-1 pb-2 text-xs text-neutral-400">
-          <CircleAlertIcon size={14} className="mt-[2px] shrink-0" />
-          <span>{t('image.diskShared')}</span>
-        </div>
-      )}
-
       <div className="flex max-h-[400px] flex-col overflow-y-auto pb-2">
         {images.map((image) => (
           <div

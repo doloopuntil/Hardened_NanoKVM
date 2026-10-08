@@ -193,8 +193,6 @@ const de = {
         'Beim Einbinden des Images wird das virtuelle Laufwerk ausgeschaltet, sodass der Computer nicht mehr auf /data zugreifen kann. Fortfahren?',
       diskOffWarn:
         'Das virtuelle Laufwerk ist ausgeschaltet und muss zum Einbinden des Images aktiviert werden. Die USB-Geräte am Computer werden neu erkannt. Fortfahren?',
-      diskShared:
-        'Das virtuelle Laufwerk ist aktiv, daher ist /data hier schreibgeschützt. Deaktivieren Sie es, um Images zu löschen oder hochzuladen.',
       unmountFailed: 'Das Aufheben der Bereitstellung ist fehlgeschlagen',
       unmountDesc:
         'Auf einigen Systemen müssen Sie das Image manuell vom Remote-Host auswerfen, bevor Sie die Bereitstellung aufheben.',

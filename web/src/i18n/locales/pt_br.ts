@@ -190,8 +190,6 @@ const pt_br = {
         'Montar a imagem desliga o disco virtual, então o computador não pode mais acessar /data. Continuar?',
       diskOffWarn:
         'O disco virtual está desligado e precisa ser ativado para montar a imagem. Os dispositivos USB do computador são reconectados. Continuar?',
-      diskShared:
-        'O disco virtual está ativado, então /data é somente leitura aqui. Desative-o para excluir ou enviar imagens.',
       unmountFailed: 'Falha na desmontagem',
       unmountDesc:
         'Em alguns sistemas, é necessário ejetar manualmente do host remoto antes de desmontar a imagem.',

@@ -191,8 +191,6 @@ const es = {
         'Montar la imagen desactiva el disco virtual, por lo que el equipo ya no puede acceder a /data. ¿Continuar?',
       diskOffWarn:
         'El disco virtual está desactivado y hay que activarlo para montar la imagen. Los dispositivos USB del equipo se enumeran de nuevo. ¿Continuar?',
-      diskShared:
-        'El disco virtual está activado, así que /data es de solo lectura aquí. Desactívalo para eliminar o subir imágenes.',
       unmountFailed: 'Fallo al desmontar',
       unmountDesc:
         'En algunos sistemas, es necesario expulsar manualmente el disco virtual desde el host remoto antes de desmontar la imagen.',

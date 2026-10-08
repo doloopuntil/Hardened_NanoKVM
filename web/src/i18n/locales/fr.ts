@@ -193,8 +193,6 @@ const fr = {
         "Monter l'image désactive le disque virtuel : l'ordinateur ne peut plus accéder à /data. Continuer ?",
       diskOffWarn:
         "Le disque virtuel est désactivé et doit être activé pour monter l'image. Les périphériques USB de l'ordinateur sont réénumérés. Continuer ?",
-      diskShared:
-        'Le disque virtuel est activé, donc /data est en lecture seule ici. Désactivez-le pour supprimer ou envoyer des images.',
       unmountFailed: 'Échec du démontage',
       unmountDesc:
         "Sur certains systèmes, vous devez l'éjecter manuellement de l'hôte distant avant de démonter l'image.",

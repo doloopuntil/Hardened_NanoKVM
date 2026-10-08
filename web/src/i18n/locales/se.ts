@@ -187,8 +187,6 @@ const se = {
         'Montering av avbildningen stänger av den virtuella disken, så datorn kommer inte åt /data. Fortsätta?',
       diskOffWarn:
         'Den virtuella disken är avstängd och måste aktiveras för att montera avbildningen. Datorns USB-enheter ansluts på nytt. Fortsätta?',
-      diskShared:
-        'Den virtuella disken är aktiverad, så /data är skrivskyddad här. Stäng av den för att ta bort eller ladda upp avbildningar.',
       unmountFailed: 'Avmontering misslyckades',
       unmountDesc:
         'I vissa system måste du manuellt mata ut från fjärrvärden innan du avmonterar avbildningen.',

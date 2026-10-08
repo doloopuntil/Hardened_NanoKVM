@@ -499,10 +499,10 @@ export const DownloadImage = () => {
             </Button>
           </div>
         ) : (
-          <div className="text-red-500">{t('download.disabled')}</div>
+          <div className="max-w-[300px] text-red-500">{t('download.disabled')}</div>
         )
       ) : (
-        <>
+        <div className="space-y-3">
           <div>
             <div className="pb-1 text-neutral-500">{t('download.input')}</div>
             <div className="flex items-center space-x-1">
@@ -544,7 +544,7 @@ export const DownloadImage = () => {
             <div className="flex items-center space-x-1">
               <div
                 className={clsx(
-                  'css-9118ya ant-input-outlined flex h-10 w-full flex-col items-center justify-center rounded-xl border-2 border-solid transition',
+                  'css-9118ya ant-input-outlined box-border flex h-8 w-full flex-col items-center justify-center rounded-xl border-2 border-solid transition',
                   isDragging ? 'border-blue-500 bg-neutral-500' : '',
                   status === 'in_progress'
                     ? 'pointer-events-none cursor-not-allowed border-neutral-600 bg-neutral-700 opacity-50'
@@ -572,7 +572,7 @@ export const DownloadImage = () => {
                   fileInputRef.current?.click();
                 }}
               >
-                <span className="p-1 text-sm text-neutral-100">
+                <span className="px-1 text-sm text-neutral-100">
                   {selectedFile ? selectedFile.name : t('download.uploadbox')}
                 </span>
 
@@ -588,7 +588,7 @@ export const DownloadImage = () => {
               </div>
               <Button
                 type="primary"
-                className="h-10 border-2"
+                className="border-2"
                 onClick={() => upload(selectedFile)}
                 disabled={status === 'in_progress' || status === 'complete' || !selectedFile}
               >
@@ -601,7 +601,7 @@ export const DownloadImage = () => {
               )}
             </div>
           </div>
-        </>
+        </div>
       )}
       <div className={clsx('py-2')}>
         {status && log && (

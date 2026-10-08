@@ -180,7 +180,6 @@ const zh = {
       diskOnWarn: '挂载镜像会关闭虚拟U盘，电脑将无法再访问 /data 目录。是否继续？',
       diskOffWarn:
         '虚拟U盘当前已关闭，需要先开启才能挂载镜像，电脑上的 USB 设备会短暂断开重连。是否继续？',
-      diskShared: '虚拟U盘已开启，本机 /data 为只读；关闭虚拟U盘后才能删除或上传镜像。',
       unmountFailed: '卸载失败',
       unmountDesc: '在某些系统中，需要在远程主机中手动弹出后再卸载镜像。',
       refresh: '刷新镜像列表',

@@ -190,8 +190,6 @@ const id = {
         'Mounting the image turns the virtual disk off, so the computer can no longer access /data. Continue?',
       diskOffWarn:
         'The virtual disk is off and has to be enabled to mount the image. The USB devices on the computer are enumerated again. Continue?',
-      diskShared:
-        'Virtual disk is enabled, so /data is read-only here. Disable it to delete or upload images.',
       unmountFailed: 'Pelepasan gagal',
       unmountDesc:
         'Pada beberapa sistem, Anda perlu mengeluarkan secara manual dari host jarak jauh sebelum melepas gambar.',

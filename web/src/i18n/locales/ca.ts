@@ -188,8 +188,6 @@ const ca = {
         "Muntar la imatge desactiva el disc virtual, de manera que l'ordinador ja no pot accedir a /data. Voleu continuar?",
       diskOffWarn:
         "El disc virtual està desactivat i cal activar-lo per muntar la imatge. Els dispositius USB de l'ordinador es tornaran a enumerar. Voleu continuar?",
-      diskShared:
-        'El disc virtual està activat, així que /data és només de lectura aquí. Desactiveu-lo per suprimir o pujar imatges.',
       unmountFailed: "No s'ha pogut desmuntar",
       unmountDesc:
         "En alguns sistemes, cal expulsar manualment de l'amfitrió remot abans de desmuntar la imatge.",
