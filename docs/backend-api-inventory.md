@@ -116,6 +116,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | POST            | `/api/vm/mdns/disable`     | Implemented.                                                                                                       |
 | POST            | `/api/vm/system/reboot`    | Implemented.                                                                                                       |
 | GET/POST        | `/api/vm/terminal/enabled` | Implemented; also controls whether the terminal WebSocket is available.                                            |
+| POST            | `/api/vm/session-lock/touch` | Implemented; slides the session while the user is active, so the lock counts idle time.                          |
 | GET/POST        | `/api/vm/session-lock`     | Implemented; supports 5, 15, 30, and 60 minute durations and retimes current session.                              |
 | GET/POST        | `/api/vm/memory/limit`     | Implemented.                                                                                                       |
 | GET/POST        | `/api/vm/swap`             | Implemented.                                                                                                       |
