@@ -260,6 +260,7 @@ const cz = {
       ok: 'OK',
       disabled: 'Oddíl /data je RO, takže obrázek nelze stáhnout',
       diskShared: 'Turn the virtual disk off first, then use the image download.',
+      mountedImage: 'Tento obraz je připojen. Před nahráním souboru se stejným názvem jej odpojte.',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Přetáhněte soubor sem nebo kliknutím vyberte',
       inputfile: 'Zadejte soubor obrázku',

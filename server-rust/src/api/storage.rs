@@ -42,6 +42,15 @@ const REMOUNT_TIMEOUT: Duration = Duration::from_secs(10);
 
 static STORAGE_GADGET_LOCK: LazyLock<Mutex<()>> = LazyLock::new(|| Mutex::new(()));
 
+/// Serialises everything that changes what the mass storage gadget serves.
+pub(crate) async fn lock_gadget() -> tokio::sync::MutexGuard<'static, ()> {
+    STORAGE_GADGET_LOCK.lock().await
+}
+
+/// The kernel appends this to the path of a backing file that was unlinked or
+/// replaced while the LUN still holds it open.
+const DELETED_SUFFIX: &str = " (deleted)";
+
 #[derive(Debug, Serialize)]
 pub struct GetImagesRsp {
     pub files: Vec<String>,
@@ -79,10 +88,7 @@ pub async fn get_images(State(state): State<AppState>) -> Result<impl IntoRespon
 }
 
 pub async fn get_mounted_image() -> Result<impl IntoResponse> {
-    let mut image = read_trimmed(MOUNT_DEVICE)?;
-    if image == IMAGE_NONE {
-        image.clear();
-    }
+    let image = mounted_file(&read_trimmed(MOUNT_DEVICE)?);
 
     Ok(Json(ApiResponse::ok(GetMountedImageRsp { file: image })))
 }
@@ -115,6 +121,9 @@ pub async fn mount_image(
     // has to be read-only here before the host can write it.
     if image.is_none() {
         ensure_no_transfer()?;
+        // The LUN may still hold an image open, even one that was replaced on disk,
+        // and /data cannot go read-only while it does.
+        eject_lun().await?;
         set_data_writable(false).await?;
     }
 
@@ -313,15 +322,30 @@ fn valid_image_path(input: &str, root: &Path) -> Result<PathBuf> {
     Ok(candidate)
 }
 
-fn mounted_image_matches(image: &Path) -> bool {
-    let Ok(mounted) = read_trimmed(MOUNT_DEVICE) else {
-        return false;
-    };
-    if mounted.is_empty() || mounted == IMAGE_NONE {
+/// What the UI shows as mounted: nothing for an empty LUN or the raw partition,
+/// otherwise the backing file without the kernel's "(deleted)" marker.
+fn mounted_file(raw: &str) -> String {
+    if raw.is_empty() || raw == IMAGE_NONE {
+        return String::new();
+    }
+    raw.strip_suffix(DELETED_SUFFIX).unwrap_or(raw).to_string()
+}
+
+/// Whether the LUN serves `image`, including a copy of it that was replaced on disk.
+fn lun_serves(raw: &str, image: &Path) -> bool {
+    let mounted = mounted_file(raw);
+    if mounted.is_empty() {
         return false;
     }
-    fs::canonicalize(mounted)
-        .map(|mounted| mounted == image)
+    Path::new(&mounted) == image
+        || fs::canonicalize(&mounted)
+            .map(|mounted| mounted == image)
+            .unwrap_or(false)
+}
+
+pub(crate) fn mounted_image_matches(image: &Path) -> bool {
+    read_trimmed(MOUNT_DEVICE)
+        .map(|raw| lun_serves(&raw, image))
         .unwrap_or(false)
 }
 
@@ -412,7 +436,7 @@ fn inquiry_data(product: &str) -> String {
     format!("{:<8}{:<16}{:04x}", "NanoKVM", product, 0x0520)
 }
 
-async fn eject_lun() -> Result<()> {
+pub(crate) async fn eject_lun() -> Result<()> {
     write_lun_file(b"\n")?;
     time::sleep(MEDIA_SETTLE_DELAY).await;
     Ok(())
@@ -627,6 +651,53 @@ mod tests {
         assert_eq!(cut_name("abc", 16), "abc");
         assert_eq!(cut_name("ääää", 3), "ä");
         assert_eq!(cut_name("日本語", 4), "日");
+    }
+
+    #[test]
+    fn mounted_file_hides_the_raw_partition_and_the_deleted_marker() {
+        assert_eq!(mounted_file(""), "");
+        assert_eq!(mounted_file(IMAGE_NONE), "");
+        assert_eq!(mounted_file("/data/a.iso"), "/data/a.iso");
+        assert_eq!(mounted_file("/data/a.iso (deleted)"), "/data/a.iso");
+        assert_eq!(
+            mounted_file("/data/a (deleted) b.iso"),
+            "/data/a (deleted) b.iso"
+        );
+        // Only one marker comes off.
+        assert_eq!(
+            mounted_file("/data/a (deleted) (deleted)"),
+            "/data/a (deleted)"
+        );
+    }
+
+    #[test]
+    fn lun_serves_the_image_even_after_it_was_replaced() {
+        let image = Path::new("/data/installer.iso");
+        assert!(lun_serves("/data/installer.iso", image));
+        assert!(lun_serves("/data/installer.iso (deleted)", image));
+        assert!(!lun_serves("/data/other.iso", image));
+        assert!(!lun_serves("/data/other.iso (deleted)", image));
+        assert!(!lun_serves("", image));
+        assert!(!lun_serves(IMAGE_NONE, image));
+    }
+
+    #[test]
+    fn lun_serves_follows_a_symlinked_data_directory() {
+        let dir = tempfile::tempdir().unwrap();
+        let real = dir.path().join("real");
+        fs::create_dir(&real).unwrap();
+        let image = real.join("installer.iso");
+        fs::write(&image, b"x").unwrap();
+        let link = dir.path().join("link");
+        std::os::unix::fs::symlink(&real, &link).unwrap();
+
+        let canonical = fs::canonicalize(&image).unwrap();
+        let via_link = link.join("installer.iso");
+        assert!(lun_serves(via_link.to_str().unwrap(), &canonical));
+        assert!(lun_serves(
+            &format!("{} (deleted)", via_link.to_str().unwrap()),
+            &canonical
+        ));
     }
 
     #[test]

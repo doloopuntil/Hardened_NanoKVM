@@ -248,6 +248,7 @@ const zh = {
       ok: '确定',
       disabled: '/data 是只读分区，无法下载镜像',
       diskShared: '请先关闭虚拟U盘功能，再使用镜像下载功能',
+      mountedImage: '此镜像已挂载。上传同名文件前请先卸载。',
       diskOff: '关闭虚拟U盘功能',
       uploadbox: '将文件拖放到此处或单击选择',
       inputfile: '请输入图片文件',

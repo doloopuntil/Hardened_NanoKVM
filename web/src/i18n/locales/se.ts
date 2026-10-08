@@ -256,6 +256,8 @@ const se = {
       ok: 'Ok',
       disabled: '/data partitionen är skrivskyddad, kan inte hämta avbildning',
       diskShared: 'Stäng av den virtuella disken först och använd sedan nedladdningen.',
+      mountedImage:
+        'Den här diskavbilden är monterad. Avmontera den innan du laddar upp en fil med samma namn.',
       diskOff: 'Stäng av den virtuella disken',
       uploadbox: 'Släpp filen här eller klicka för att välja',
       inputfile: 'Vänligen ange bildfilen',

@@ -259,6 +259,8 @@ const nb = {
       ok: 'Ok',
       disabled: '/data partisjonen er RO, så vi kan ikke laste ned bildet',
       diskShared: 'Turn the virtual disk off first, then use the image download.',
+      mountedImage:
+        'Dette diskavbildet er montert. Avmonter det før du laster opp en fil med samme navn.',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Slipp filen her eller klikk for å velge',
       inputfile: 'Vennligst skriv inn bildefilen',

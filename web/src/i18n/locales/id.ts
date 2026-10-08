@@ -259,6 +259,8 @@ const id = {
       ok: 'Ok',
       disabled: 'Partisi /data adalah RO, jadi kami tidak dapat mengunduh gambarnya',
       diskShared: 'Turn the virtual disk off first, then use the image download.',
+      mountedImage:
+        'Image ini sedang di-mount. Lepaskan mount-nya sebelum mengunggah berkas dengan nama yang sama.',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Letakkan file di sini atau klik untuk memilih',
       inputfile: 'Silakan masukkan File gambar',

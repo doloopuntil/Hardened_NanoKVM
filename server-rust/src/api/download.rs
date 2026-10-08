@@ -139,6 +139,7 @@ pub async fn download_image(
     let expected_sha256 = parse_sha256(&req.sha256sum)?;
     let remote = validate_remote_iso_url(&req.file)?;
     let target = safe_upload_target(&state.config.paths.image_directory, &remote.filename)?;
+    ensure_not_mounted(&target)?;
     let guard = DownloadGuard::acquire(&remote.url)?;
     let root = state.config.paths.image_directory.clone();
 
@@ -199,6 +200,7 @@ pub async fn upload_image_file(
         guard.update(&filename, 0, content_length)?;
 
         let target = safe_upload_target(&state.config.paths.image_directory, &filename)?;
+        ensure_not_mounted(&target)?;
         let mut temp = TempUpload::create(&state.config.paths.image_directory, &filename)?;
         let mut file = temp.open()?;
         let mut total = 0_usize;
@@ -231,6 +233,8 @@ pub async fn upload_image_file(
 
         validate_uploaded_image(temp.path(), &filename)?;
 
+        // The image may have been mounted while it uploaded.
+        ensure_not_mounted(&target)?;
         fs::rename(temp.path(), &target)?;
         fs::set_permissions(&target, fs::Permissions::from_mode(0o644))?;
         temp.keep();
@@ -297,6 +301,7 @@ async fn download_remote_iso(
         ));
     }
 
+    ensure_not_mounted(&target)?;
     fs::rename(temp.path(), &target)?;
     fs::set_permissions(&target, fs::Permissions::from_mode(0o644))?;
     temp.keep();
@@ -637,6 +642,17 @@ fn upload_image_kind(filename: &str) -> Option<UploadImageKind> {
         }
         _ => None,
     }
+}
+
+/// Replacing a mounted image would leave the host serving the old, unlinked copy
+/// and keep /data from going read-only.
+fn ensure_not_mounted(target: &Path) -> Result<()> {
+    if crate::api::storage::mounted_image_matches(target) {
+        return Err(AppError::Conflict(
+            "this image is mounted; unmount it before replacing it".to_string(),
+        ));
+    }
+    Ok(())
 }
 
 fn safe_upload_target(root: &Path, filename: &str) -> Result<PathBuf> {

@@ -7,6 +7,7 @@ import { DownloadIcon, XCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { downloadImage, imageEnabled, statusImage } from '@/api/download.ts';
+import { getMountedImage } from '@/api/storage.ts';
 import { getVirtualDevice, updateVirtualDevice } from '@/api/virtual-device.ts';
 import { getCsrfToken } from '@/lib/cookie.ts';
 import { notifyImageListChanged } from '@/lib/image-events.ts';
@@ -331,6 +332,15 @@ export const DownloadImage = () => {
     selectLocalFile(file);
   }
 
+  async function mountedImageName() {
+    try {
+      const rsp = await getMountedImage();
+      return rsp.code === 0 ? String(rsp.data?.file ?? '').replace(/^.*[\\/]/, '') : '';
+    } catch {
+      return '';
+    }
+  }
+
   async function upload(file: File | null) {
     if (!file) return;
 
@@ -342,6 +352,14 @@ export const DownloadImage = () => {
 
     const checksum = getValidatedSHA256();
     if (checksum === null) return;
+
+    // The server refuses to replace a mounted image, but only after the browser has started
+    // sending the file, and the browser then reports a bare network error.
+    if ((await mountedImageName()) === file.name) {
+      setDownloadStatus('failed');
+      setLog(t('download.mountedImage'));
+      return;
+    }
 
     setActiveTransferKind('local');
     lastProgressMarkerRef.current = '';

@@ -260,6 +260,8 @@ const pl = {
       ok: 'Ok',
       disabled: '/data partycja to RO, więc nie możemy pobrać obrazu',
       diskShared: 'Turn the virtual disk off first, then use the image download.',
+      mountedImage:
+        'Ten obraz jest zamontowany. Odmontuj go przed przesłaniem pliku o tej samej nazwie.',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Upuść plik tutaj lub kliknij, aby wybrać',
       inputfile: 'Proszę wprowadzić plik obrazu',

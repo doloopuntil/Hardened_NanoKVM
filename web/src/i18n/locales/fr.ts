@@ -262,6 +262,7 @@ const fr = {
       ok: 'Ok',
       disabled: 'La partition /data est en lecture seule, impossible de télécharger l’image',
       diskShared: "Désactivez d'abord le disque virtuel, puis utilisez le téléchargement d'images.",
+      mountedImage: "Cette image est montée. Démontez-la avant d'envoyer un fichier du même nom.",
       diskOff: 'Désactiver le disque virtuel',
       uploadbox: 'Déposez le fichier ici ou cliquez pour sélectionner',
       inputfile: 'Veuillez saisir le fichier image',

@@ -300,6 +300,7 @@ const en = {
       disabled:
         "Images can't be downloaded or uploaded right now because the storage isn't writable. If an image is mounted, unmount it, then turn off the virtual disk to make the storage writable again.",
       diskShared: 'Turn the virtual disk off first, then use the image download.',
+      mountedImage: 'This image is mounted. Unmount it before uploading a file with the same name.',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Drop file here or click to select',
       inputfile: 'Please enter the image file',

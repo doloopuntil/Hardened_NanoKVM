@@ -259,6 +259,8 @@ const pt_br = {
       ok: 'Ok',
       disabled: 'A partição /data é RO, então não podemos baixar a imagem',
       diskShared: 'Desligue primeiro o disco virtual e depois use o download de imagens.',
+      mountedImage:
+        'Esta imagem está montada. Desmonte-a antes de enviar um arquivo com o mesmo nome.',
       diskOff: 'Desligar o disco virtual',
       uploadbox: 'Solte o arquivo aqui ou clique para selecionar',
       inputfile: 'Por favor insira o arquivo de imagem',

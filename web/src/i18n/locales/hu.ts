@@ -261,6 +261,8 @@ const hu = {
       ok: 'Ok',
       disabled: '/data partíció RO, ezért nem tudjuk letölteni a képet',
       diskShared: 'Turn the virtual disk off first, then use the image download.',
+      mountedImage:
+        'Ez a lemezkép fel van csatolva. Csatolja le, mielőtt azonos nevű fájlt tölt fel.',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Dobja ide a fájlt, vagy kattintson a kiválasztáshoz',
       inputfile: 'Kérjük, írja be a képfájlt',

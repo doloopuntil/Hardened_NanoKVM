@@ -248,6 +248,7 @@ const zh_tw = {
       ok: '確定',
       disabled: '/data 為唯讀目錄，無法下載映像檔',
       diskShared: '請先關閉虛擬隨身碟功能，再使用映像檔下載功能',
+      mountedImage: '此映像檔已掛載。上傳同名檔案前請先卸載。',
       diskOff: '關閉虛擬隨身碟功能',
       uploadbox: '將檔案拖曳到此處或按一下選擇',
       inputfile: '請輸入圖片檔案',

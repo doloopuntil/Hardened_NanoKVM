@@ -258,6 +258,7 @@ const tr = {
       ok: 'Tamam',
       disabled: '/data bölüntüsü salt okunur modda, disk imajı indirilemiyor.',
       diskShared: 'Önce sanal diski kapatın, sonra imaj indirmeyi kullanın.',
+      mountedImage: 'Bu imaj bağlı. Aynı adlı bir dosyayı yüklemeden önce bağlantısını kesin.',
       diskOff: 'Sanal diski kapat',
       uploadbox: 'Dosyayı buraya bırakın veya seçmek için tıklayın',
       inputfile: 'Lütfen resim dosyasını giriniz',

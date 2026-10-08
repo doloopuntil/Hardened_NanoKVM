@@ -261,6 +261,8 @@ const it = {
       ok: 'Ok',
       disabled: "La partizione /data è RO, quindi non possiamo scaricare l'immagine",
       diskShared: 'Turn the virtual disk off first, then use the image download.',
+      mountedImage:
+        'Questa immagine è montata. Smontala prima di caricare un file con lo stesso nome.',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Rilascia il file qui o fai clic per selezionarlo',
       inputfile: 'Inserisci il file immagine',

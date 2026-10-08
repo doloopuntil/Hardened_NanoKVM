@@ -260,6 +260,8 @@ const es = {
       ok: 'Aceptar',
       disabled: 'La partición /data es de sólo lectura, no se puede descargar la imagen',
       diskShared: 'Desactiva primero el disco virtual y luego usa la descarga de imágenes.',
+      mountedImage:
+        'Esta imagen está montada. Desmóntela antes de subir un archivo con el mismo nombre.',
       diskOff: 'Desactivar el disco virtual',
       uploadbox: 'Suelte el archivo aquí o haga clic para seleccionar',
       inputfile: 'Por favor ingrese el archivo de imagen',

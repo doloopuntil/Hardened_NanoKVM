@@ -261,6 +261,8 @@ const nl = {
       ok: 'Ok',
       disabled: '/data partitie is RO, dus we kunnen de afbeelding niet downloaden',
       diskShared: 'Schakel eerst de virtuele schijf uit en gebruik daarna de image-download.',
+      mountedImage:
+        'Dit image is gekoppeld. Ontkoppel het voordat u een bestand met dezelfde naam uploadt.',
       diskOff: 'Virtuele schijf uitschakelen',
       uploadbox: 'Zet het bestand hier neer of klik om te selecteren',
       inputfile: 'Voer het afbeeldingsbestand in',

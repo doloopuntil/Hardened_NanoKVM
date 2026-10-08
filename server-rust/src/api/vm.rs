@@ -603,6 +603,8 @@ pub async fn update_virtual_device(
         _ => return Err(AppError::BadRequest("invalid virtual device".to_string())),
     };
 
+    // Also covers the gadget restart below: nothing may remount the media meanwhile.
+    let _gadget = storage::lock_gadget().await;
     let is_disk = req.device == "disk";
     let exists = if is_disk {
         disk_attached()
@@ -611,9 +613,10 @@ pub async fn update_virtual_device(
     };
 
     if is_disk && !exists {
-        // The host writes the partition from now on. A mounted image is released
-        // by the restarted gadget, which attaches the raw partition again.
+        // The host writes the partition from now on. Release a mounted image first,
+        // since /data cannot go read-only while the LUN holds a file on it open.
         storage::ensure_no_transfer()?;
+        storage::eject_lun().await?;
         storage::set_data_writable(false).await?;
     }
 

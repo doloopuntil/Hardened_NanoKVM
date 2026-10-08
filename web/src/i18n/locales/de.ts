@@ -264,6 +264,8 @@ const de = {
         '/data Partition ist nur-lesbar, daher kann das Systemabbild nicht heruntergeladen werden',
       diskShared:
         'Schalten Sie zuerst das virtuelle Laufwerk aus und verwenden Sie dann den Image-Download.',
+      mountedImage:
+        'Dieses Image ist eingebunden. Heben Sie die Einbindung auf, bevor Sie eine Datei mit demselben Namen hochladen.',
       diskOff: 'Virtuelles Laufwerk ausschalten',
       uploadbox: 'Datei hier ablegen oder klicken zum Auswählen',
       inputfile: 'Bitte geben Sie die Datei für das Systemabbild an',

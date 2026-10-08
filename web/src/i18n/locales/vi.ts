@@ -257,6 +257,7 @@ const vi = {
       ok: 'OK',
       disabled: '/data phân vùng là RO nên không tải được image',
       diskShared: 'Turn the virtual disk off first, then use the image download.',
+      mountedImage: 'Ảnh đĩa này đang được gắn. Hãy gỡ gắn trước khi tải lên tệp cùng tên.',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Thả file vào đây hoặc bấm vào để chọn',
       inputfile: 'Vui lòng nhập File hình ảnh',

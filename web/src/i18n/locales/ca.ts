@@ -257,6 +257,8 @@ const ca = {
       ok: "D'acord",
       disabled: 'La partició /data és només lectura. No es pot descarregar la imatge.',
       diskShared: "Apagueu primer el disc virtual i després useu la descàrrega d'imatges.",
+      mountedImage:
+        'Aquesta imatge està muntada. Desmunteu-la abans de pujar un fitxer amb el mateix nom.',
       diskOff: 'Apaga el disc virtual',
       uploadbox: 'Deixeu anar el fitxer aquí o feu clic per seleccionar-lo',
       inputfile: "Introduïu el fitxer d'imatge",
