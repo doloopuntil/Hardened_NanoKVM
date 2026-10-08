@@ -196,6 +196,9 @@ const fr = {
       unmountFailed: 'Échec du démontage',
       unmountDesc:
         "Sur certains systèmes, vous devez l'éjecter manuellement de l'hôte distant avant de démonter l'image.",
+      forceEject: "Forcer l'éjection",
+      forceEjectConfirm:
+        "L'hôte a verrouillé le lecteur optique. Forcer l'éjection déconnecte brièvement le périphérique USB virtuel, de sorte que le clavier et la souris peuvent se déconnecter momentanément. Continuer ?",
       refresh: 'Actualiser la liste des images',
       attention: 'Attention',
       deleteConfirm: 'Etes-vous sûr de vouloir supprimer cette image?',

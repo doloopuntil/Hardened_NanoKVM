@@ -182,6 +182,9 @@ const zh = {
         '虚拟U盘当前已关闭，需要先开启才能挂载镜像，电脑上的 USB 设备会短暂断开重连。是否继续？',
       unmountFailed: '卸载失败',
       unmountDesc: '在某些系统中，需要在远程主机中手动弹出后再卸载镜像。',
+      forceEject: '强制弹出',
+      forceEjectConfirm:
+        '主机已锁定光驱。强制弹出会使虚拟 USB 设备短暂断开，键盘和鼠标可能会暂时断开连接。是否继续？',
       refresh: '刷新镜像列表',
       attention: '注意',
       deleteConfirm: '确定要删除该镜像吗？',

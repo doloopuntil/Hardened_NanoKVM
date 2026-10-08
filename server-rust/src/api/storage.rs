@@ -40,6 +40,11 @@ const MEDIA_SETTLE_DELAY: Duration = Duration::from_millis(100);
 const DATA_MOUNT: &str = "/data";
 const REMOUNT_TIMEOUT: Duration = Duration::from_secs(10);
 
+/// Response code for a medium the host will not let go of, so the UI can offer a forced eject.
+pub const MEDIA_LOCKED_CODE: i32 = -423;
+const MEDIA_LOCKED_MESSAGE: &str =
+    "virtual media is busy on the remote host; eject or unmount it there first";
+
 static STORAGE_GADGET_LOCK: LazyLock<Mutex<()>> = LazyLock::new(|| Mutex::new(()));
 
 /// Serialises everything that changes what the mass storage gadget serves.
@@ -62,6 +67,9 @@ pub struct MountImageReq {
     pub file: String,
     #[serde(default)]
     pub cdrom: bool,
+    /// Take the gadget down to release a medium the host has locked.
+    #[serde(default)]
+    pub force: bool,
 }
 
 #[derive(Debug, Serialize)]
@@ -107,6 +115,23 @@ pub async fn mount_image(
     Json(req): Json<MountImageReq>,
 ) -> Result<impl IntoResponse> {
     let _guard = STORAGE_GADGET_LOCK.lock().await;
+    let result = apply_mount(&state, &req).await;
+
+    // A forced mount takes the gadget down. If it failed halfway, bring it back:
+    // the host must not be left without its keyboard and mouse.
+    if req.force
+        && result.is_err()
+        && gadget_is_down()
+        && let Err(err) = connect_gadget().await
+    {
+        tracing::warn!(error = %err, "failed to reconnect the USB gadget after a failed mount");
+    }
+
+    result?;
+    Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+async fn apply_mount(state: &AppState, req: &MountImageReq) -> Result<()> {
     let previous_cdrom = read_cdrom_flag().unwrap_or(false);
 
     let image = if req.file.trim().is_empty() {
@@ -117,10 +142,18 @@ pub async fn mount_image(
         Some(image)
     };
 
+    if image.is_none() {
+        ensure_no_transfer()?;
+    }
+    if req.force {
+        // The host holds the medium locked, and only a disconnect clears that. Bounce the
+        // gadget, then release the medium before the host can lock it again.
+        reset_usb_gadget().await?;
+    }
+
     // The host owns the raw partition while the virtual disk serves it, so /data
     // has to be read-only here before the host can write it.
     if image.is_none() {
-        ensure_no_transfer()?;
         // The LUN may still hold an image open, even one that was replaced on disk,
         // and /data cannot go read-only while it does.
         eject_lun().await?;
@@ -155,7 +188,7 @@ pub async fn mount_image(
         tracing::warn!(error = %err, "failed to make /data writable after mounting an image");
     }
 
-    Ok(Json(ApiResponse::<()>::ok_empty()))
+    Ok(())
 }
 
 pub async fn reconnect_usb_gadget() -> Result<impl IntoResponse> {
@@ -443,16 +476,19 @@ pub(crate) async fn eject_lun() -> Result<()> {
 }
 
 fn write_lun_file(contents: &[u8]) -> Result<()> {
-    fs::write(MOUNT_DEVICE, contents).map_err(|err| {
-        if is_busy_error(&err) {
-            AppError::Conflict(
-                "virtual media is busy on the remote host; eject or unmount it there first"
-                    .to_string(),
-            )
-        } else {
-            err.into()
+    fs::write(MOUNT_DEVICE, contents).map_err(lun_write_error)
+}
+
+/// The kernel refuses to change the medium with EBUSY while the host has locked it.
+fn lun_write_error(err: std::io::Error) -> AppError {
+    if is_busy_error(&err) {
+        AppError::Api {
+            code: MEDIA_LOCKED_CODE,
+            msg: MEDIA_LOCKED_MESSAGE.to_string(),
         }
-    })
+    } else {
+        err.into()
+    }
 }
 
 fn is_busy_error(err: &std::io::Error) -> bool {
@@ -465,17 +501,34 @@ fn read_cdrom_flag() -> Result<bool> {
 }
 
 async fn reset_usb_gadget() -> Result<()> {
+    disconnect_gadget().await?;
+    connect_gadget().await
+}
+
+async fn disconnect_gadget() -> Result<()> {
     if let Err(err) = hid_ws::close_cached_hid_devices() {
         tracing::warn!(error = %err, "failed to close cached HID devices before USB gadget reset");
     }
 
-    fs::write(UDC_FILE, b"\n")?;
+    // Unbinding a gadget that is already down fails with ENODEV.
+    if !gadget_is_down() {
+        fs::write(UDC_FILE, b"\n")?;
+    }
     time::sleep(Duration::from_secs(1)).await;
+    Ok(())
+}
 
+async fn connect_gadget() -> Result<()> {
     let udc = first_udc()?;
     fs::write(UDC_FILE, format!("{udc}\n").as_bytes())?;
     time::sleep(Duration::from_millis(300)).await;
     Ok(())
+}
+
+fn gadget_is_down() -> bool {
+    read_trimmed(UDC_FILE)
+        .map(|udc| udc.is_empty())
+        .unwrap_or(false)
 }
 
 fn first_udc() -> Result<String> {
@@ -698,6 +751,32 @@ mod tests {
             &format!("{} (deleted)", via_link.to_str().unwrap()),
             &canonical
         ));
+    }
+
+    #[test]
+    fn a_locked_medium_is_reported_with_its_own_code() {
+        let busy = lun_write_error(std::io::Error::from_raw_os_error(nix::libc::EBUSY));
+        assert!(
+            matches!(&busy, AppError::Api { code, msg }
+                if *code == MEDIA_LOCKED_CODE && msg.contains("busy on the remote host")),
+            "{busy:?}"
+        );
+
+        let other = lun_write_error(std::io::Error::from_raw_os_error(nix::libc::EACCES));
+        assert!(!matches!(other, AppError::Api { .. }), "{other:?}");
+    }
+
+    #[test]
+    fn mount_requests_only_force_when_asked_to() {
+        let plain: MountImageReq =
+            serde_json::from_str(r#"{"file":"a.iso","cdrom":true}"#).unwrap();
+        assert!(!plain.force);
+        let empty: MountImageReq = serde_json::from_str("{}").unwrap();
+        assert!(!empty.force && empty.file.is_empty() && !empty.cdrom);
+
+        let forced: MountImageReq =
+            serde_json::from_str(r#"{"file":"","cdrom":false,"force":true}"#).unwrap();
+        assert!(forced.force);
     }
 
     #[test]

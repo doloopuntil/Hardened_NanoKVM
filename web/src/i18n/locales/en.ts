@@ -220,6 +220,9 @@ const en = {
       unmountFailed: 'Unmount failed',
       unmountDesc:
         'On some systems, you need to manually eject from the remote host before unmounting the image.',
+      forceEject: 'Force eject',
+      forceEjectConfirm:
+        'The host has locked the optical drive. Forcing an eject disconnects the virtual USB device for a moment, so the keyboard and mouse may briefly disconnect. Continue?',
       usbReconnect: 'USB reconnect',
       usbReconnectConfirm:
         'Reconnect the USB gadget only if the remote host did not notice the media change. Keyboard and mouse may briefly disconnect.',

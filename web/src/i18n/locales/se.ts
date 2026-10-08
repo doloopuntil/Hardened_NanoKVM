@@ -190,6 +190,9 @@ const se = {
       unmountFailed: 'Avmontering misslyckades',
       unmountDesc:
         'I vissa system måste du manuellt mata ut från fjärrvärden innan du avmonterar avbildningen.',
+      forceEject: 'Tvinga utmatning',
+      forceEjectConfirm:
+        'Värden har låst den optiska enheten. Tvingad utmatning kopplar bort den virtuella USB-enheten ett ögonblick, så tangentbordet och musen kan kopplas bort en kort stund. Vill du fortsätta?',
       refresh: 'Uppdatera avbildningslistan',
       attention: 'Observera',
       deleteConfirm: 'Är du säker på att du vill ta bort denna avbildning?',

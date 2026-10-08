@@ -192,6 +192,9 @@ const da = {
       unmountFailed: 'Afmontering mislykkedes',
       unmountDesc:
         'På nogle systemer skal du manuelt skubbe ud fra fjernværten, før du afmonterer billedet.',
+      forceEject: 'Skub ud med tvang',
+      forceEjectConfirm:
+        'Værten har låst det optiske drev. Når du skubber ud med tvang, afbrydes den virtuelle USB-enhed et øjeblik, så tastaturet og musen kortvarigt kan miste forbindelsen. Vil du fortsætte?',
       refresh: 'Opdater billedlisten',
       attention: 'Opmærksomhed påkrævet',
       deleteConfirm: 'Er du sikker på, at du vil slette dette billede?',

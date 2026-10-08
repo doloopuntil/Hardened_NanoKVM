@@ -191,6 +191,9 @@ const vi = {
       unmountFailed: 'Tháo lắp không thành công',
       unmountDesc:
         'Trên một số hệ thống, bạn cần đẩy hình ảnh ra khỏi máy chủ từ xa theo cách thủ công trước khi ngắt kết nối hình ảnh.',
+      forceEject: 'Buộc đẩy ra',
+      forceEjectConfirm:
+        'Máy chủ đã khóa ổ đĩa quang. Buộc đẩy ra sẽ ngắt kết nối thiết bị USB ảo trong giây lát, vì vậy bàn phím và chuột có thể bị ngắt kết nối ngắn. Tiếp tục?',
       refresh: 'Làm mới danh sách hình ảnh',
       attention: 'Chú ý',
       deleteConfirm: 'Bạn có chắc chắn muốn xóa hình ảnh này không?',

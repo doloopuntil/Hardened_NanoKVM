@@ -194,6 +194,9 @@ const es = {
       unmountFailed: 'Fallo al desmontar',
       unmountDesc:
         'En algunos sistemas, es necesario expulsar manualmente el disco virtual desde el host remoto antes de desmontar la imagen.',
+      forceEject: 'Forzar expulsión',
+      forceEjectConfirm:
+        'El host ha bloqueado la unidad óptica. Forzar la expulsión desconecta el dispositivo USB virtual durante un momento, por lo que el teclado y el ratón pueden desconectarse brevemente. ¿Continuar?',
       refresh: 'Actualizar la lista de imágenes',
       attention: 'Atención',
       deleteConfirm: '¿Estás seguro de que deseas eliminar esta imagen?',

@@ -196,6 +196,9 @@ const de = {
       unmountFailed: 'Das Aufheben der Bereitstellung ist fehlgeschlagen',
       unmountDesc:
         'Auf einigen Systemen müssen Sie das Image manuell vom Remote-Host auswerfen, bevor Sie die Bereitstellung aufheben.',
+      forceEject: 'Auswerfen erzwingen',
+      forceEjectConfirm:
+        'Der Host hat das optische Laufwerk gesperrt. Beim erzwungenen Auswerfen wird das virtuelle USB-Gerät kurz getrennt, sodass Tastatur und Maus kurzzeitig ausfallen können. Fortfahren?',
       refresh: 'Bilder aktualisieren',
       attention: 'Achtung',
       deleteConfirm: 'Sind Sie sicher, dass Sie dieses Bild löschen möchten?',

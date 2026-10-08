@@ -191,6 +191,9 @@ const ca = {
       unmountFailed: "No s'ha pogut desmuntar",
       unmountDesc:
         "En alguns sistemes, cal expulsar manualment de l'amfitrió remot abans de desmuntar la imatge.",
+      forceEject: "Força l'expulsió",
+      forceEjectConfirm:
+        "L'amfitrió ha bloquejat la unitat òptica. Forçar l'expulsió desconnecta el dispositiu USB virtual durant un moment, de manera que el teclat i el ratolí poden desconnectar-se breument. Voleu continuar?",
       refresh: 'Actualitza la llista',
       attention: 'Atenció',
       deleteConfirm: 'Esteu segur que voleu suprimir aquesta imatge?',

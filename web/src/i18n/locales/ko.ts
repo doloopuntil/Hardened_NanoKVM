@@ -189,6 +189,9 @@ const ko = {
       unmountFailed: '언마운트 실패',
       unmountDesc:
         '일부 시스템에서는 이미지를 언마운트하기 전에 원격 호스트에서 수동으로 제거하여야 합니다.',
+      forceEject: '강제 제거',
+      forceEjectConfirm:
+        '호스트가 광학 드라이브를 잠갔습니다. 강제로 제거하면 가상 USB 장치가 잠시 연결 해제되므로 키보드와 마우스도 잠시 연결이 끊길 수 있습니다. 계속하시겠습니까?',
       refresh: '이미지 목록 새로고침',
       attention: '주의',
       deleteConfirm: '이 이미지를 제거하시겠습니까?',

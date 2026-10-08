@@ -194,6 +194,9 @@ const cz = {
       unmountFailed: 'Odpojení se nezdařilo',
       unmountDesc:
         'Na některých systémech se musíte před odpojením obrazu ručně vysunout ze vzdáleného hostitele.',
+      forceEject: 'Vynutit vysunutí',
+      forceEjectConfirm:
+        'Hostitel zamkl optickou jednotku. Vynucené vysunutí na chvíli odpojí virtuální zařízení USB, takže se klávesnice a myš mohou krátce odpojit. Pokračovat?',
       refresh: 'Obnovte seznam obrázků',
       attention: 'Pozor',
       deleteConfirm: 'Opravdu chcete smazat tento obrázek?',

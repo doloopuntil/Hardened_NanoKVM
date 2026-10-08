@@ -193,6 +193,9 @@ const pt_br = {
       unmountFailed: 'Falha na desmontagem',
       unmountDesc:
         'Em alguns sistemas, é necessário ejetar manualmente do host remoto antes de desmontar a imagem.',
+      forceEject: 'Forçar ejeção',
+      forceEjectConfirm:
+        'O host bloqueou a unidade óptica. Forçar a ejeção desconecta o dispositivo USB virtual por um momento, então o teclado e o mouse podem se desconectar brevemente. Continuar?',
       refresh: 'Atualizar a lista de imagens',
       attention: 'Atenção',
       deleteConfirm: 'Tem certeza que deseja excluir esta imagem?',

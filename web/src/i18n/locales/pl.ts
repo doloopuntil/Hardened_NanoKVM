@@ -194,6 +194,9 @@ const pl = {
       unmountFailed: 'Odmontowanie nie powiodło się',
       unmountDesc:
         'W niektórych systemach należy ręcznie wysunąć obraz ze zdalnego hosta przed odmontowaniem obrazu.',
+      forceEject: 'Wymuś wysunięcie',
+      forceEjectConfirm:
+        'Host zablokował napęd optyczny. Wymuszenie wysunięcia na chwilę odłącza wirtualne urządzenie USB, więc klawiatura i mysz mogą na krótko się odłączyć. Kontynuować?',
       refresh: 'Odśwież listę obrazów',
       attention: 'Uwaga',
       deleteConfirm: 'Czy na pewno chcesz usunąć to zdjęcie?',

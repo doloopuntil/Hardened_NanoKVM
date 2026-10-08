@@ -39,6 +39,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
   const [diskPrompt, setDiskPrompt] = useState('');
   const [pendingImage, setPendingImage] = useState('');
   const [isDiskShared, setIsDiskShared] = useState(false);
+  const [forceImage, setForceImage] = useState('');
   const isLoadingRef = useRef(false);
 
   // get mounted image
@@ -158,7 +159,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
   }
 
   // mount/unmount image
-  function doMountImage(image: string) {
+  function doMountImage(image: string, force = false) {
     if (mountingImage) return;
     setMountingImage(image);
 
@@ -170,8 +171,14 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
     const nextCdrom = isMounted ? false : imageCdrom;
 
     api
-      .mountImage(filename, nextCdrom)
+      .mountImage(filename, nextCdrom, force)
       .then((rsp) => {
+        // the computer has locked the medium, so offer to force the eject
+        if (rsp.code === api.MEDIA_LOCKED_CODE) {
+          setForceImage(image);
+          return;
+        }
+
         if (rsp.code !== 0) {
           console.log(rsp.msg);
           openNotification(isMounted, rsp.msg);
@@ -187,6 +194,14 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
         client.connect();
         getDiskState();
       });
+  }
+
+  // eject although the computer holds the medium: its USB device disconnects for a moment
+  function confirmForceEject() {
+    const image = forceImage;
+    setForceImage('');
+
+    if (image) doMountImage(image, true);
   }
 
   // show delete image modal
@@ -405,6 +420,26 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
             {t('image.okBtn')}
           </Button>
           <Button onClick={() => setDiskPrompt('')}>{t('image.cancelBtn')}</Button>
+        </div>
+      </Modal>
+
+      <Modal
+        title={t('image.attention')}
+        open={forceImage !== ''}
+        width={520}
+        footer={null}
+        onCancel={() => setForceImage('')}
+      >
+        <div className="flex flex-col items-center space-y-1 pb-10">
+          <p>{t('image.forceEjectConfirm')}</p>
+          <Typography.Text code>{forceImage.replace(/^.*[\\/]/, '')}</Typography.Text>
+        </div>
+
+        <div className="flex justify-center space-x-3 pb-3">
+          <Button type="primary" danger onClick={confirmForceEject}>
+            {t('image.forceEject')}
+          </Button>
+          <Button onClick={() => setForceImage('')}>{t('image.cancelBtn')}</Button>
         </div>
       </Modal>
 

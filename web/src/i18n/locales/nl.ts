@@ -195,6 +195,9 @@ const nl = {
       unmountFailed: 'Ontkoppelen mislukt',
       unmountDesc:
         'Op sommige systemen moet u de image handmatig uitwerpen van de externe host voordat u de image ontkoppelt.',
+      forceEject: 'Uitwerpen forceren',
+      forceEjectConfirm:
+        'De host heeft het optische station vergrendeld. Bij geforceerd uitwerpen wordt het virtuele USB-apparaat even losgekoppeld, waardoor het toetsenbord en de muis kort kunnen worden losgekoppeld. Doorgaan?',
       refresh: 'Vernieuw de afbeeldingenlijst',
       attention: 'Let op',
       deleteConfirm: 'Weet u zeker dat u deze afbeelding wilt verwijderen?',

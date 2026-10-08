@@ -195,6 +195,9 @@ const it = {
       unmountFailed: 'Smontaggio non riuscito',
       unmountDesc:
         "Su alcuni sistemi, è necessario espellere manualmente l'host remoto prima di smontare l'immagine.",
+      forceEject: "Forza l'espulsione",
+      forceEjectConfirm:
+        "L'host ha bloccato l'unità ottica. Forzare l'espulsione disconnette per un momento il dispositivo USB virtuale, quindi tastiera e mouse potrebbero disconnettersi brevemente. Continuare?",
       refresh: "Aggiorna l'elenco delle immagini",
       attention: 'Attenzione',
       deleteConfirm: 'Sei sicuro di voler eliminare questa immagine?',

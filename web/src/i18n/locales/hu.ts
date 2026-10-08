@@ -195,6 +195,9 @@ const hu = {
       unmountFailed: 'A leválasztás nem sikerült',
       unmountDesc:
         'Egyes rendszereken manuálisan kell kiadnia a távoli gazdagépről a kép leválasztása előtt.',
+      forceEject: 'Kényszerített kiadás',
+      forceEjectConfirm:
+        'A gazdagép zárolta az optikai meghajtót. A kényszerített kiadás rövid időre leválasztja a virtuális USB-eszközt, ezért a billentyűzet és az egér is átmenetileg lecsatlakozhat. Folytatja?',
       refresh: 'Frissítse a képlistát',
       attention: 'Figyelem',
       deleteConfirm: 'Biztosan törli ezt a képet?',

@@ -193,6 +193,9 @@ const nb = {
       unmountFailed: 'Avmontering mislyktes',
       unmountDesc:
         'På noen systemer må du manuelt løse ut fra den eksterne verten før du demonterer bildet.',
+      forceEject: 'Løs ut med tvang',
+      forceEjectConfirm:
+        'Verten har låst den optiske stasjonen. Tvungen utløsing kobler den virtuelle USB-enheten fra et øyeblikk, så tastaturet og musen kan bli koblet fra en kort stund. Vil du fortsette?',
       refresh: 'Oppdater bildelisten',
       attention: 'Merknad',
       deleteConfirm: 'Er du sikker på at du vil slette dette bildet?',

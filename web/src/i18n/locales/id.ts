@@ -193,6 +193,9 @@ const id = {
       unmountFailed: 'Pelepasan gagal',
       unmountDesc:
         'Pada beberapa sistem, Anda perlu mengeluarkan secara manual dari host jarak jauh sebelum melepas gambar.',
+      forceEject: 'Paksa keluarkan',
+      forceEjectConfirm:
+        'Host telah mengunci drive optik. Memaksa pengeluaran akan memutuskan perangkat USB virtual sesaat, sehingga keyboard dan mouse dapat terputus sebentar. Lanjutkan?',
       refresh: 'Segarkan daftar gambar',
       attention: 'Perhatian',
       deleteConfirm: 'Apakah Anda yakin ingin menghapus gambar ini?',

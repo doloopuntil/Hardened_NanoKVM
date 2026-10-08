@@ -182,6 +182,9 @@ const zh_tw = {
         '虛擬隨身碟目前已關閉，需要先開啟才能掛載映像檔，電腦上的 USB 裝置會短暫斷開重連。是否繼續？',
       unmountFailed: '解除安裝失敗',
       unmountDesc: '在某些系統中，需要在遠端主機中手動彈出後再解除安裝映像。',
+      forceEject: '強制彈出',
+      forceEjectConfirm:
+        '主機已鎖定光碟機。強制彈出會使虛擬 USB 裝置短暫中斷連線，鍵盤和滑鼠可能會暫時中斷連線。是否繼續？',
       refresh: '重新整理映像檔列表',
       attention: '注意',
       deleteConfirm: '確定要刪除該映像檔嗎？',

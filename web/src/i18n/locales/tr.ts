@@ -192,6 +192,9 @@ const tr = {
       unmountFailed: 'Bağlantıyı kesme işlemi başarısız oldu',
       unmountDesc:
         'Bazı sistemlerde, görüntünün bağlantısını kesmeden önce uzak ana bilgisayardan manuel olarak çıkarmanız gerekir.',
+      forceEject: 'Çıkarmayı zorla',
+      forceEjectConfirm:
+        'Ana bilgisayar optik sürücüyü kilitledi. Çıkarmayı zorlamak, sanal USB aygıtının bağlantısını kısa süreliğine keser; bu nedenle klavye ve fare kısa süreliğine bağlantıyı kaybedebilir. Devam edilsin mi?',
       refresh: 'Disk imajı listesini yenile',
       attention: 'Dikkat',
       deleteConfirm: 'Bu resmi silmek istediğinizden emin misiniz?',
