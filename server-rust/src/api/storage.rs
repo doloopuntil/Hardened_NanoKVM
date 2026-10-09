@@ -96,7 +96,7 @@ pub async fn get_images(State(state): State<AppState>) -> Result<impl IntoRespon
 }
 
 pub async fn get_mounted_image() -> Result<impl IntoResponse> {
-    let image = mounted_file(&read_trimmed(MOUNT_DEVICE)?);
+    let image = mounted_file(&read_lun_file(MOUNT_DEVICE)?);
 
     Ok(Json(ApiResponse::ok(GetMountedImageRsp { file: image })))
 }
@@ -552,6 +552,15 @@ fn read_trimmed(path: &str) -> Result<String> {
     Ok(fs::read_to_string(path)?.trim().to_string())
 }
 
+/// The LUN's backing file, or an empty string in HID-only mode, where the gadget has no
+/// mass-storage function and the file does not exist.
+fn read_lun_file(path: &str) -> Result<String> {
+    match read_trimmed(path) {
+        Err(AppError::Io(err)) if err.kind() == ErrorKind::NotFound => Ok(String::new()),
+        other => other,
+    }
+}
+
 fn has_image_extension(path: &Path) -> bool {
     image_kind(path).is_some()
 }
@@ -704,6 +713,24 @@ mod tests {
         assert_eq!(cut_name("abc", 16), "abc");
         assert_eq!(cut_name("ääää", 3), "ä");
         assert_eq!(cut_name("日本語", 4), "日");
+    }
+
+    #[test]
+    fn a_missing_lun_file_means_nothing_is_mounted() {
+        let dir = tempfile::tempdir().unwrap();
+        let file = dir.path().join("file");
+
+        // HID-only mode: the mass-storage function, and so the file, is absent.
+        assert_eq!(read_lun_file(file.to_str().unwrap()).unwrap(), "");
+
+        fs::write(&file, " /data/a.iso\n").unwrap();
+        assert_eq!(
+            read_lun_file(file.to_str().unwrap()).unwrap(),
+            "/data/a.iso"
+        );
+
+        // Any other read failure is still reported.
+        assert!(read_lun_file(dir.path().to_str().unwrap()).is_err());
     }
 
     #[test]
