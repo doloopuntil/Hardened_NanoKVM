@@ -62,13 +62,6 @@ cleanup_legacy_app_artifacts() {
     mkdir -p /etc/kvm /kvmapp/kvm
     touch /etc/kvm/frame_detact 2>/dev/null || true
 
-    if [ -f /kvmapp/system/update-nanokvm.py ]; then
-        if ! cmp -s /kvmapp/system/update-nanokvm.py /etc/kvm/update-nanokvm.py; then
-            cp /kvmapp/system/update-nanokvm.py /etc/kvm/update-nanokvm.py
-        fi
-        chmod 0755 /etc/kvm/update-nanokvm.py 2>/dev/null || true
-    fi
-
     rm -f \
         /boot/logo.jpeg \
         /etc/init.d/S02udisk \
