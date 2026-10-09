@@ -475,6 +475,15 @@ pub(crate) async fn eject_lun() -> Result<()> {
     Ok(())
 }
 
+/// Like `eject_lun`, for a caller that does not need the medium: a gadget built without the
+/// virtual disk has no mass storage function, so there is nothing to release.
+pub(crate) async fn release_lun() -> Result<()> {
+    if !Path::new(MOUNT_DEVICE).exists() {
+        return Ok(());
+    }
+    eject_lun().await
+}
+
 fn write_lun_file(contents: &[u8]) -> Result<()> {
     fs::write(MOUNT_DEVICE, contents).map_err(lun_write_error)
 }
@@ -487,7 +496,7 @@ fn lun_write_error(err: std::io::Error) -> AppError {
             msg: MEDIA_LOCKED_MESSAGE.to_string(),
         }
     } else {
-        err.into()
+        AppError::Internal(format!("{MOUNT_DEVICE}: {err}"))
     }
 }
 

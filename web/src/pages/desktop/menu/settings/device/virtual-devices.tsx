@@ -90,6 +90,7 @@ export const VirtualDevices = () => {
       const rsp = await api.updateVirtualDevice(device);
       if (rsp.code !== 0) {
         console.log(rsp.msg);
+        messageApi.error(rsp.msg);
         return;
       }
 

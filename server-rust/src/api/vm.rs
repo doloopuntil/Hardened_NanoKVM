@@ -612,15 +612,18 @@ pub async fn update_virtual_device(
         Path::new(flag).exists()
     };
 
-    if is_disk && !exists {
-        // The host writes the partition from now on. Release a mounted image first,
-        // since /data cannot go read-only while the LUN holds a file on it open.
+    let handing_over_disk = is_disk && !exists;
+    if handing_over_disk {
         storage::ensure_no_transfer()?;
-        storage::eject_lun().await?;
-        storage::set_data_writable(false).await?;
     }
 
     run_usbdev("stop").await?;
+    if handing_over_disk && let Err(err) = release_data_for_host().await {
+        if let Err(restart) = run_usbdev("start").await {
+            warn!(error = %restart, "failed to restart the USB gadget after a failed handover");
+        }
+        return Err(err);
+    }
     if exists {
         remove_dir_if_exists(config_dir)?;
         remove_file_if_exists(flag)?;
@@ -1375,6 +1378,14 @@ fn avahi_daemon_pid() -> Option<String> {
 
 fn valid_pid(pid: &str) -> bool {
     !pid.is_empty() && pid.bytes().all(|byte| byte.is_ascii_digit())
+}
+
+/// The host writes the partition from now on. Stopping the gadget dropped any lock the host
+/// held on a mounted image, so release it: /data cannot go read-only while the LUN holds a
+/// file on it open.
+async fn release_data_for_host() -> Result<()> {
+    storage::release_lun().await?;
+    storage::set_data_writable(false).await
 }
 
 async fn run_usbdev(action: &'static str) -> Result<()> {
