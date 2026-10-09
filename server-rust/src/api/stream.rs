@@ -4,19 +4,20 @@ use axum::{
     Json,
     body::Body,
     extract::{
-        State,
+        Query, State,
         ws::{Message, WebSocket, WebSocketUpgrade},
     },
     http::{Response, header},
     response::IntoResponse,
 };
 use bytes::Bytes;
+use futures_util::{SinkExt, StreamExt};
 use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
     fs, io,
     sync::atomic::{AtomicBool, AtomicUsize, Ordering},
-    sync::{LazyLock, Mutex},
+    sync::{Arc, LazyLock, Mutex},
     time::{Duration, Instant},
 };
 use tokio::{
@@ -27,6 +28,7 @@ use tracing::{debug, info, warn};
 
 use crate::{
     AppError, Result,
+    api::direct_flow::{DirectFlow, MAX_CONTROL_BYTES, Offer, parse_control},
     error::ApiResponse,
     ffi::kvm,
     hdmi_idle,
@@ -54,6 +56,12 @@ const H264_READ_TIMEOUT: Duration = Duration::from_secs(5);
 const H264_FAILURE_LIMIT: usize = 3;
 const H264_KEYFRAME_REQUEST_HOLD: Duration = Duration::from_millis(250);
 const H264_LAG_KEYFRAME_INTERVAL: Duration = Duration::from_secs(1);
+/// A direct stream socket that cannot take a frame in this long is closed, so one
+/// stalled client cannot hold the others up. The player reconnects on its own.
+const DIRECT_WRITE_TIMEOUT: Duration = Duration::from_secs(2);
+const DIRECT_PING_INTERVAL: Duration = Duration::from_secs(15);
+/// A direct client that sends nothing, not even a pong, for this long is gone.
+const DIRECT_READ_IDLE: Duration = Duration::from_secs(30);
 
 static SCREEN: LazyLock<Mutex<Screen>> = LazyLock::new(|| Mutex::new(Screen::default()));
 static LATEST_MJPEG_FRAME: LazyLock<Mutex<Option<LatestMjpegFrame>>> =
@@ -501,26 +509,90 @@ pub async fn mjpeg_stream() -> impl IntoResponse {
 pub async fn h264_direct_stream(
     State(state): State<AppState>,
     headers: axum::http::HeaderMap,
+    Query(query): Query<HashMap<String, String>>,
     ws: WebSocketUpgrade,
 ) -> Result<impl IntoResponse> {
     if !validate_ws_origin(&headers, &state.config) {
         return Err(AppError::Forbidden("invalid websocket origin".to_string()));
     }
 
-    Ok(ws.on_upgrade(handle_h264_direct_socket))
+    // `?flow=N` turns on decode-driven flow control; anything else leaves it off.
+    let window = query
+        .get("flow")
+        .and_then(|value| value.parse::<usize>().ok())
+        .filter(|window| *window > 0);
+
+    Ok(ws
+        .max_message_size(MAX_CONTROL_BYTES)
+        .on_upgrade(move |socket| handle_h264_direct_socket(socket, window)))
 }
 
-async fn handle_h264_direct_socket(mut socket: WebSocket) {
-    let mut subscription = subscribe_h264(H264ConsumerKind::Direct);
+async fn handle_h264_direct_socket(socket: WebSocket, window: Option<usize>) {
+    serve_h264_direct(socket, window, subscribe_h264(H264ConsumerKind::Direct)).await;
+}
 
-    while let Some(frame) = subscription.next().await {
-        if socket
-            .send(Message::Binary(frame.direct_packet()))
-            .await
-            .is_err()
-        {
-            break;
+async fn serve_h264_direct(
+    socket: WebSocket,
+    window: Option<usize>,
+    mut subscription: H264Subscription,
+) {
+    let (mut sink, mut stream) = socket.split();
+    let flow = Arc::new(Mutex::new(DirectFlow::new(window)));
+
+    // Acknowledgements and resync requests arrive while frames go out, so they are
+    // read on their own half of the socket.
+    let reader_flow = Arc::clone(&flow);
+    let reader = async move {
+        loop {
+            match time::timeout(DIRECT_READ_IDLE, stream.next()).await {
+                Ok(Some(Ok(Message::Binary(data)))) => {
+                    if let Some(control) = parse_control(&data)
+                        && let Ok(mut flow) = reader_flow.lock()
+                    {
+                        flow.apply(control);
+                    }
+                }
+                Ok(Some(Ok(Message::Close(_)))) | Ok(Some(Err(_))) | Ok(None) | Err(_) => break,
+                Ok(Some(Ok(_))) => {}
+            }
         }
+    };
+
+    let writer = async move {
+        let mut keyframe_requests = KeyframeGate::new();
+        let mut ping = time::interval(DIRECT_PING_INTERVAL);
+        ping.set_missed_tick_behavior(MissedTickBehavior::Delay);
+        ping.tick().await;
+
+        loop {
+            let message = tokio::select! {
+                frame = subscription.next() => {
+                    let Some(frame) = frame else { break };
+                    let offer = match flow.lock() {
+                        Ok(mut flow) => flow.offer(frame.keyframe, frame.timestamp_micros),
+                        Err(_) => break,
+                    };
+                    if offer == Offer::Skip {
+                        if keyframe_requests.on_gap(Instant::now()) {
+                            request_h264_keyframe("direct client flow control");
+                        }
+                        continue;
+                    }
+                    Message::Binary(frame.direct_packet())
+                }
+                _ = ping.tick() => Message::Ping(Bytes::new()),
+            };
+
+            match time::timeout(DIRECT_WRITE_TIMEOUT, sink.send(message)).await {
+                Ok(Ok(())) => {}
+                _ => break,
+            }
+        }
+    };
+
+    tokio::select! {
+        _ = reader => {}
+        _ = writer => {}
     }
 }
 
@@ -1100,14 +1172,17 @@ mod tests {
     use super::{
         H264_SOURCE, H264_WEBRTC_CONSUMERS, H264ConsumerKind, H264DirectProducerAction, H264Frame,
         H264Subscription, KeyframeGate, Screen, StreamMode, h264_direct_packet,
-        h264_direct_producer_action, normalize_screen,
+        h264_direct_producer_action, normalize_screen, serve_h264_direct,
     };
+    use crate::api::direct_flow::MAX_CONTROL_BYTES;
+    use axum::extract::ws::WebSocketUpgrade;
     use bytes::Bytes;
+    use futures_util::{SinkExt, StreamExt};
     use std::{
-        sync::atomic::Ordering,
+        sync::{Arc, Mutex, atomic::Ordering},
         time::{Duration, Instant},
     };
-    use tokio::sync::broadcast;
+    use tokio::{sync::broadcast, time};
 
     fn frame(keyframe: bool, tag: &'static [u8]) -> H264Frame {
         H264Frame {
@@ -1252,5 +1327,145 @@ mod tests {
             h264_direct_producer_action(StreamMode::H264, true),
             H264DirectProducerAction::StopDisabled
         );
+    }
+    fn direct_frame(keyframe: bool, timestamp_micros: u64) -> H264Frame {
+        H264Frame {
+            data: Bytes::from_static(b"\x00\x00\x00\x01"),
+            keyframe,
+            timestamp_micros,
+            packet: None,
+        }
+    }
+
+    /// The timestamp of the next frame the client receives, or `None` if none arrives soon.
+    async fn next_direct_timestamp<S>(client: &mut S) -> Option<u64>
+    where
+        S: futures_util::Stream<
+                Item = std::result::Result<
+                    tokio_tungstenite::tungstenite::Message,
+                    tokio_tungstenite::tungstenite::Error,
+                >,
+            > + Unpin,
+    {
+        loop {
+            let message = time::timeout(Duration::from_millis(400), client.next())
+                .await
+                .ok()??
+                .ok()?;
+            if let tokio_tungstenite::tungstenite::Message::Binary(data) = message {
+                return Some(u64::from_le_bytes(data[1..9].try_into().unwrap()));
+            }
+        }
+    }
+
+    #[tokio::test]
+    async fn the_direct_stream_applies_flow_control_over_a_real_socket() {
+        use axum::{Router, routing::get};
+        use tokio_tungstenite::tungstenite::Message as ClientMessage;
+
+        let (tx, rx) = broadcast::channel::<H264Frame>(16);
+        let subscription = H264Subscription {
+            rx,
+            gate: KeyframeGate::new(),
+            kind: H264ConsumerKind::Direct,
+            _client: H264_SOURCE.add_client(),
+        };
+        let pending = Arc::new(Mutex::new(Some(subscription)));
+        let app = Router::new().route(
+            "/ws",
+            get(move |ws: WebSocketUpgrade| {
+                let subscription = pending.lock().unwrap().take().unwrap();
+                async move {
+                    ws.max_message_size(MAX_CONTROL_BYTES)
+                        .on_upgrade(move |socket| serve_h264_direct(socket, Some(2), subscription))
+                }
+            }),
+        );
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let address = listener.local_addr().unwrap();
+        let server = tokio::spawn(async move { axum::serve(listener, app).await });
+
+        let (mut client, _) = tokio_tungstenite::connect_async(format!("ws://{address}/ws"))
+            .await
+            .unwrap();
+
+        // A window of two: the keyframe and one delta go out, the rest are dropped.
+        for (keyframe, timestamp) in [(true, 1), (false, 2), (false, 3), (false, 4)] {
+            tx.send(direct_frame(keyframe, timestamp)).unwrap();
+        }
+        assert_eq!(next_direct_timestamp(&mut client).await, Some(1));
+        assert_eq!(next_direct_timestamp(&mut client).await, Some(2));
+        assert_eq!(next_direct_timestamp(&mut client).await, None);
+
+        // Acknowledging frees the window, but a delta frame after a gap is still dropped.
+        let mut ack = vec![2_u8];
+        ack.extend_from_slice(&2_u64.to_le_bytes());
+        client
+            .send(ClientMessage::Binary(ack.into()))
+            .await
+            .unwrap();
+        time::sleep(Duration::from_millis(100)).await;
+        tx.send(direct_frame(false, 5)).unwrap();
+        assert_eq!(next_direct_timestamp(&mut client).await, None);
+
+        // The next keyframe resumes the stream, and deltas follow it.
+        tx.send(direct_frame(true, 6)).unwrap();
+        tx.send(direct_frame(false, 7)).unwrap();
+        assert_eq!(next_direct_timestamp(&mut client).await, Some(6));
+        assert_eq!(next_direct_timestamp(&mut client).await, Some(7));
+
+        // A resync request empties the window and waits for a keyframe again.
+        client
+            .send(ClientMessage::Binary(vec![3_u8].into()))
+            .await
+            .unwrap();
+        time::sleep(Duration::from_millis(100)).await;
+        tx.send(direct_frame(false, 8)).unwrap();
+        assert_eq!(next_direct_timestamp(&mut client).await, None);
+        tx.send(direct_frame(true, 9)).unwrap();
+        assert_eq!(next_direct_timestamp(&mut client).await, Some(9));
+
+        server.abort();
+    }
+
+    #[tokio::test]
+    async fn a_direct_client_without_flow_control_receives_every_frame() {
+        use axum::{Router, routing::get};
+
+        let (tx, rx) = broadcast::channel::<H264Frame>(16);
+        let subscription = H264Subscription {
+            rx,
+            gate: KeyframeGate::new(),
+            kind: H264ConsumerKind::Direct,
+            _client: H264_SOURCE.add_client(),
+        };
+        let pending = Arc::new(Mutex::new(Some(subscription)));
+        let app =
+            Router::new().route(
+                "/ws",
+                get(move |ws: WebSocketUpgrade| {
+                    let subscription = pending.lock().unwrap().take().unwrap();
+                    async move {
+                        ws.on_upgrade(move |socket| serve_h264_direct(socket, None, subscription))
+                    }
+                }),
+            );
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let address = listener.local_addr().unwrap();
+        let server = tokio::spawn(async move { axum::serve(listener, app).await });
+
+        let (mut client, _) = tokio_tungstenite::connect_async(format!("ws://{address}/ws"))
+            .await
+            .unwrap();
+
+        tx.send(direct_frame(true, 1)).unwrap();
+        for timestamp in 2..=6 {
+            tx.send(direct_frame(false, timestamp)).unwrap();
+        }
+        for expected in 1..=6 {
+            assert_eq!(next_direct_timestamp(&mut client).await, Some(expected));
+        }
+
+        server.abort();
     }
 }
