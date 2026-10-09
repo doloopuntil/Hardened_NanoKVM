@@ -44,6 +44,19 @@ export const H264Direct = () => {
 
     const offscreen = canvasRef.current.transferControlToOffscreen();
     const url = `${getBaseUrl('ws')}/api/stream/h264/direct`;
+    // A canvas handed to a worker no longer reports the size the worker gives it, so
+    // the worker tells us, and the mouse mapping reads it back from the element.
+    worker.onmessage = (
+      event: MessageEvent<{ type?: string; width?: number; height?: number }>
+    ) => {
+      const { type, width, height } = event.data;
+      if (type !== 'frame-size' || !width || !height || !canvasRef.current) {
+        return;
+      }
+
+      canvasRef.current.dataset.mediaWidth = String(width);
+      canvasRef.current.dataset.mediaHeight = String(height);
+    };
     worker.postMessage({ type: 'h264', canvas: offscreen, url }, [offscreen]);
 
     return () => {
