@@ -32,6 +32,21 @@ set_usb_function_macs() {
     [ -e "$func/host_addr" ] && echo "$host_addr" > "$func/host_addr"
 }
 
+# The host sees the serial, so hash the chip ID rather than expose it.
+make_usb_serial() {
+    printf '%s:usb-serial\n' "$1" | sha256sum | awk '{print toupper(substr($1, 1, 16))}'
+}
+
+usb_serial() {
+    seed=$(hw_mac_seed)
+    if [ -n "$seed" ]
+    then
+        make_usb_serial "$seed"
+    else
+        echo '0123456789ABCDEF'
+    fi
+}
+
 usb_wakeup_enabled() {
     [ -e /boot/usb.notwakeup ] && return 1
     [ -e /boot/usb.wakeup ]
@@ -65,7 +80,9 @@ start_usb_dev(){
     echo 0x01 > bDeviceProtocol
 
     mkdir strings/0x409
-    echo '0123456789ABCDEF' > strings/0x409/serialnumber
+    # Not `usb_serial > file`: awk's own write leaves the string empty on this kernel.
+    serial=$(usb_serial)
+    echo "$serial" > strings/0x409/serialnumber
     echo 'sipeed' > strings/0x409/manufacturer
     echo 'NanoKVM' > strings/0x409/product
 

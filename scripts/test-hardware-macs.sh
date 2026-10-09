@@ -8,6 +8,7 @@ trap 'rm -rf "$TEST_ROOT"' EXIT
 
 export S30ETH_TEST_ONLY=1
 export S03USBDEV_TEST_ONLY=1
+export S03USBHID_TEST_ONLY=1
 export BASE_UID_FILE="$TEST_ROOT/base_uid"
 
 # The device has sha256sum; macOS only has shasum.
@@ -30,7 +31,7 @@ reset_inputs() {
 UID_FILE_TEXT="UID: e5ca04be_1519c372"
 SEED=e5ca04be1519c372
 
-for script in S30eth S03usbdev; do
+for script in S30eth S03usbdev S03usbhid; do
     # shellcheck source=/dev/null
     . "$INIT_D/$script"
 
@@ -40,6 +41,15 @@ for script in S30eth S03usbdev; do
     # Same value as /device_key on this unit, so MACs derived from it do not change.
     echo "$UID_FILE_TEXT" > "$BASE_UID_FILE"
     expect "$script: base_uid seed" "$(hw_mac_seed)" "$SEED"
+
+    # The USB serial hides the chip ID and falls back to the old constant without one.
+    if [ "$script" != S30eth ]; then
+        expect "$script: usb serial" "$(make_usb_serial "$SEED")" "425AF29F923BF04D"
+        expect "$script: usb serial, other chip" "$(make_usb_serial 0011223344556677)" "B7E30C87D12950CB"
+        expect "$script: usb serial from base_uid" "$(usb_serial)" "425AF29F923BF04D"
+        reset_inputs
+        expect "$script: usb serial without a chip ID" "$(usb_serial)" "0123456789ABCDEF"
+    fi
 
     # A bad chip ID must give no seed rather than one shared by all units.
     reset_inputs
