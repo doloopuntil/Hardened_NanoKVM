@@ -23,7 +23,7 @@ fi
 RUST_SYSROOT="$(rustc --print sysroot)"
 CRT="$RUST_SYSROOT/lib/rustlib/$TARGET/lib/self-contained"
 
-for obj in crt1.o crti.o crtbegin.o crtend.o crtn.o; do
+for obj in Scrt1.o crti.o crtbeginS.o crtendS.o crtn.o; do
   if [[ ! -f "$CRT/$obj" ]]; then
     echo "missing Rust CRT object: $CRT/$obj" >&2
     exit 1
@@ -37,10 +37,10 @@ export CFLAGS_riscv64gc_unknown_linux_musl="${CFLAGS_riscv64gc_unknown_linux_mus
 export RUSTFLAGS="-Z unstable-options \
 -C target-feature=-crt-static \
 -C link-self-contained=no \
--C link-arg=$CRT/crt1.o \
+-C link-arg=$CRT/Scrt1.o \
 -C link-arg=$CRT/crti.o \
--C link-arg=$CRT/crtbegin.o \
--C link-arg=$CRT/crtend.o \
+-C link-arg=$CRT/crtbeginS.o \
+-C link-arg=$CRT/crtendS.o \
 -C link-arg=$CRT/crtn.o \
 -C link-arg=--dynamic-linker=/lib/ld-musl-riscv64xthead.so.1 \
 -C link-arg=--rpath=/kvmapp/server/dl_lib"

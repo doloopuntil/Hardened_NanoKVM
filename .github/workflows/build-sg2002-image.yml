@@ -12,6 +12,7 @@ concurrency:
 
 env:
   BUILDROOT_VERSION: "2026.05.1"
+  RUST_VERSION: "1.99.0"
   LICHEERV_NANO_SDK_SHA: d88d58feca49ef15f4cc7bd1f27dbf17dc25f85e
   # Published app 2.0.42 bridge archive: docs/releases/rc12-2.0.42-raw.12.md
   KVMAPP_2_0_42_ARCHIVE_URL: https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-0.3.0-raw.12/hardened-nanokvm-kvmapp-2.0.42.tar.gz
@@ -690,8 +691,13 @@ jobs:
             dosfstools mtools file libssl-dev pkg-config e2fsprogs \
             u-boot-tools zstd
 
-      - name: Install Rust riscv64gc-unknown-linux-musl target
-        run: rustup target add riscv64gc-unknown-linux-musl
+      # Pinned: the runner's moving `stable` changed the link behaviour once already.
+      - name: Install Rust ${{ env.RUST_VERSION }} with the riscv64gc-unknown-linux-musl target
+        run: |
+          rustup toolchain install "$RUST_VERSION" --profile minimal \
+            --target riscv64gc-unknown-linux-musl
+          rustup default "$RUST_VERSION"
+          rustc --version
 
       - name: Enable Corepack
         run: corepack enable
