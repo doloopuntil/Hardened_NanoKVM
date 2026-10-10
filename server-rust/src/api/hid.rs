@@ -183,6 +183,11 @@ pub async fn get_mode() -> Result<impl IntoResponse> {
     Ok(Json(ApiResponse::ok(GetHidModeRsp { mode })))
 }
 
+/// Lock-key LEDs last reported by the remote host; `known` is false until it has sent one.
+pub async fn get_keyboard_leds() -> Result<impl IntoResponse> {
+    Ok(Json(ApiResponse::ok(hid_ws::keyboard_led_status())))
+}
+
 pub async fn set_mode(Json(req): Json<SetHidModeReq>) -> Result<impl IntoResponse> {
     let mode = validate_hid_mode(&req.mode)?;
     if read_hid_mode().ok().as_deref() == Some(mode) {
@@ -532,6 +537,11 @@ fn new_shortcut_id() -> String {
     let mut bytes = [0_u8; 16];
     OsRng.fill_bytes(&mut bytes);
     bytes.iter().map(|byte| format!("{byte:02x}")).collect()
+}
+
+/// Whether the USB gadget runs the HID-only configuration, which has no mass storage.
+pub(crate) fn is_hid_only_mode() -> bool {
+    read_hid_mode().is_ok_and(|mode| mode == MODE_HID_ONLY)
 }
 
 fn read_hid_mode() -> Result<String> {
