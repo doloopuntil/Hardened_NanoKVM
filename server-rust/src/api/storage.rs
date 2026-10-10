@@ -132,6 +132,9 @@ pub async fn mount_image(
 }
 
 async fn apply_mount(state: &AppState, req: &MountImageReq) -> Result<()> {
+    if !Path::new(MOUNT_DEVICE).exists() {
+        return Err(no_lun_error());
+    }
     let previous_cdrom = read_cdrom_flag().unwrap_or(false);
 
     let image = if req.file.trim().is_empty() {
@@ -189,6 +192,15 @@ async fn apply_mount(state: &AppState, req: &MountImageReq) -> Result<()> {
     }
 
     Ok(())
+}
+
+/// The gadget has no mass storage function when the virtual disk is off or in HID-only mode.
+fn no_lun_error() -> AppError {
+    AppError::Conflict(
+        "virtual media is not available: the USB gadget has no mass storage function (the virtual \
+         disk is off, or the device is in HID-only mode)"
+            .to_string(),
+    )
 }
 
 pub async fn reconnect_usb_gadget() -> Result<impl IntoResponse> {
@@ -800,6 +812,16 @@ mod tests {
 
         let other = lun_write_error(std::io::Error::from_raw_os_error(nix::libc::EACCES));
         assert!(!matches!(other, AppError::Api { .. }), "{other:?}");
+    }
+
+    #[test]
+    fn a_missing_lun_is_explained() {
+        let err = no_lun_error();
+        assert!(
+            matches!(&err, AppError::Conflict(msg)
+                if msg.contains("virtual disk is off") && msg.contains("HID-only")),
+            "{err:?}"
+        );
     }
 
     #[test]
