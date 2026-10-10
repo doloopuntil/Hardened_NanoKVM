@@ -569,6 +569,11 @@ pub async fn update_virtual_device(
         "disk" => (VIRTUAL_DISK_FLAG, VIRTUAL_DISK_CONFIG),
         _ => return Err(AppError::BadRequest("invalid virtual device".to_string())),
     };
+    if crate::api::hid::is_hid_only_mode() {
+        return Err(AppError::Conflict(
+            "virtual devices are not available in HID-only mode".to_string(),
+        ));
+    }
 
     let exists = Path::new(flag).exists();
     run_usbdev("stop").await?;
