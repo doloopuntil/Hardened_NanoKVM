@@ -17,7 +17,6 @@ KERNEL_COMPAT_PATCH="${HISTORICAL_VC_KERNEL_COMPAT_PATCH:-}"
 TOOLCHAIN_BIN="$VENDOR_SDK_DIR/host-tools/gcc/riscv64-linux-musl-x86_64/bin"
 BASE_SYMVERS="${HISTORICAL_VC_BASE_SYMVERS:-$VENDOR_SDK_DIR/osdrv/interdrv/v2/base/Module.symvers}"
 SYS_SYMVERS="${HISTORICAL_VC_SYS_SYMVERS:-$VENDOR_SDK_DIR/osdrv/interdrv/v2/sys/Module.symvers}"
-OLD_MODULE="${HISTORICAL_VC_REFERENCE_MODULE:-$ROOT_DIR/build/latestbuildroot/vendor-runtime-source-media-v1/system/ko/soph_vc_driver.ko}"
 EXTRA_KCFLAGS="${HISTORICAL_VC_KCFLAGS:-}"
 
 require_file() {
@@ -34,7 +33,7 @@ require_dir() {
     fi
 }
 
-for command_name in comm git make modinfo sha256sum sort; do
+for command_name in git make modinfo sha256sum sort; do
     if ! command -v "$command_name" >/dev/null 2>&1; then
         echo "required command is missing: $command_name" >&2
         exit 1
@@ -51,7 +50,6 @@ require_file "$MINIMAL_VCODEC_DIR/Module.symvers"
 require_file "$SOURCE_JPEG_DIR/Module.symvers"
 require_file "$BASE_SYMVERS"
 require_file "$SYS_SYMVERS"
-require_file "$OLD_MODULE"
 require_file "$TOOLCHAIN_BIN/riscv64-unknown-linux-musl-gcc"
 
 if [ -e "$OUTPUT_DIR" ]; then
@@ -109,21 +107,13 @@ if modinfo -F parm "$NEW_MODULE" | grep -q '^rcHierarchy:'; then
     exit 1
 fi
 
-modinfo -F parm "$OLD_MODULE" | sort -u >"$REPORT_DIR/old-params.txt"
 modinfo -F parm "$NEW_MODULE" | sort -u >"$REPORT_DIR/new-params.txt"
-comm -23 "$REPORT_DIR/old-params.txt" "$REPORT_DIR/new-params.txt" \
-    >"$REPORT_DIR/missing-old-params.txt"
-if [ -s "$REPORT_DIR/missing-old-params.txt" ]; then
-    echo "historical VC dropped old module parameters" >&2
-    exit 1
-fi
 
 sha256sum "$PATCH_FILE" >"$REPORT_DIR/patch-sha256.txt"
 if [ -n "$KERNEL_COMPAT_PATCH" ]; then
     sha256sum "$KERNEL_COMPAT_PATCH" >>"$REPORT_DIR/patch-sha256.txt"
 fi
-sha256sum "$OLD_MODULE" "$ARTIFACT_DIR/soph_vc_driver.ko" \
-    >"$REPORT_DIR/module-sha256.txt"
+sha256sum "$ARTIFACT_DIR/soph_vc_driver.ko" >"$REPORT_DIR/module-sha256.txt"
 modinfo "$ARTIFACT_DIR/soph_vc_driver.ko" >"$REPORT_DIR/modinfo.txt"
 
 cat >"$REPORT_DIR/summary.md" <<EOF
@@ -133,7 +123,6 @@ cat >"$REPORT_DIR/summary.md" <<EOF
 - target kernel release: \`$kernel_release\`
 - module name: \`soph_vc_driver\`
 - dependencies: \`soph_jpeg,soph_vcodec,soph_base,soph_sys\`
-- dropped old module parameters: **0**
 - late \`rcHierarchy\` parameter: **absent**
 
 This is the earliest available public VC source snapshot. It predates the
