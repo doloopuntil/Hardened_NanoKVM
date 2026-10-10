@@ -602,6 +602,11 @@ pub async fn update_virtual_device(
         "disk" => (VIRTUAL_DISK_FLAG, VIRTUAL_DISK_CONFIG),
         _ => return Err(AppError::BadRequest("invalid virtual device".to_string())),
     };
+    if crate::api::hid::is_hid_only_mode() {
+        return Err(AppError::Conflict(
+            "virtual devices are not available in HID-only mode".to_string(),
+        ));
+    }
 
     // Also covers the gadget restart below: nothing may remount the media meanwhile.
     let _gadget = storage::lock_gadget().await;
@@ -866,6 +871,49 @@ pub async fn get_session_lock(State(state): State<AppState>) -> Result<impl Into
         duration: state.session_lock_duration(),
         expires_at: None,
     })))
+}
+
+/// Called by the web UI while the user is at the page, so the lock counts idle time
+/// rather than time since login.
+pub async fn touch_session_lock(
+    State(state): State<AppState>,
+    session: Option<Extension<CurrentSession>>,
+) -> Result<impl IntoResponse> {
+    let duration = state.session_lock_duration();
+    let mut headers = HeaderMap::new();
+
+    // Without authentication there is no session to slide.
+    let Some(Extension(CurrentSession(session))) = session else {
+        return Ok((
+            headers,
+            Json(ApiResponse::ok(SessionLockRsp {
+                duration,
+                expires_at: None,
+            })),
+        ));
+    };
+
+    let session = state
+        .sessions
+        .touch(&session.token, duration)
+        .await
+        .ok_or(AppError::Unauthorized)?;
+    headers.insert(
+        axum::http::header::SET_COOKIE,
+        session_cookie(
+            &session.token,
+            duration,
+            session_cookie_secure(&state.config.proto),
+        )?,
+    );
+
+    Ok((
+        headers,
+        Json(ApiResponse::ok(SessionLockRsp {
+            duration,
+            expires_at: Some(session.expires_at_unix),
+        })),
+    ))
 }
 
 pub async fn set_session_lock(

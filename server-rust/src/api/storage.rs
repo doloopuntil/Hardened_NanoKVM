@@ -11,7 +11,7 @@ use tokio::{sync::Mutex, time};
 
 use crate::{
     AppError, Result,
-    api::download,
+    api::{download, hid},
     error::ApiResponse,
     state::AppState,
     system::{
@@ -114,6 +114,13 @@ pub async fn mount_image(
     State(state): State<AppState>,
     Json(req): Json<MountImageReq>,
 ) -> Result<impl IntoResponse> {
+    if hid::is_hid_only_mode() {
+        return Err(AppError::Conflict(
+            "virtual media is not available in HID-only mode; switch the USB mode back to normal first"
+                .to_string(),
+        ));
+    }
+
     let _guard = STORAGE_GADGET_LOCK.lock().await;
     let result = apply_mount(&state, &req).await;
 

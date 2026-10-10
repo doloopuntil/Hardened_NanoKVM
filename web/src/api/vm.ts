@@ -150,6 +150,11 @@ export function setSessionLock(duration: number) {
   return http.post('/api/vm/session-lock', { duration });
 }
 
+// slide the session lock while the user is active
+export function touchSession() {
+  return http.post('/api/vm/session-lock/touch');
+}
+
 // get Hostname
 export function getHostname() {
   return http.get('/api/vm/hostname');

@@ -120,6 +120,7 @@ pub fn build(state: AppState) -> Router {
             "/api/vm/session-lock",
             get(vm::get_session_lock).post(vm::set_session_lock),
         )
+        .route("/api/vm/session-lock/touch", post(vm::touch_session_lock))
         .route(
             "/api/vm/memory/limit",
             get(vm::get_memory_limit).post(vm::set_memory_limit),

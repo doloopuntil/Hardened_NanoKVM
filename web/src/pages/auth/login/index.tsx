@@ -236,7 +236,7 @@ export const Login = (): ReactElement => {
       <div className="flex h-screen w-screen flex-col items-center justify-center">
         <Form
           key={formMode}
-          style={{ minWidth: 300, maxWidth: 500 }}
+          style={{ width: 300, maxWidth: '100%' }}
           initialValues={isSetup ? { username: 'admin' } : { remember: true }}
           onFinish={totpRequired ? submitTotp : isSetup ? setup : login}
         >
