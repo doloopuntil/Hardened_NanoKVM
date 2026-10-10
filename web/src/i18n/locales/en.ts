@@ -441,8 +441,8 @@ const en = {
           relative: 'Relative Mode'
         },
         sessionLock: {
-          title: 'Session lock after',
-          description: 'Require login again after this time',
+          title: 'Lock session after inactivity',
+          description: 'Require login again after this long without activity',
           5: '5 min',
           15: '15 min',
           30: '30 min',
