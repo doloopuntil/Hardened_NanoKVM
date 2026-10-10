@@ -41,6 +41,48 @@ Not yet verified on real hardware -- this is static analysis (symbol-table
 comparison), not a device boot/video test. If HDMI capture or any vision
 feature breaks after this change, this is the first thing to revert.
 
+## libkvm_mmf.so statically embeds its own copy of the LT6911 driver
+
+The LT6911 sensor-id-probe-retry patch applied to `vendor-sdk-stock`'s
+checkout of `sipeed/LicheeRV-Nano-Build` (see
+`buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/`)
+never reached the code actually driving HDMI capture. `libkvm_mmf.so` is
+built by MaixCDK (`support/sg2002/additional/kvm_mmf/CMakeLists.txt`)
+against a *second*, independent copy of the same upstream sensor source --
+`sipeed/MaixCDK`'s own `components/3rd_party/sophgo-middleware/` checkout
+-- compiled directly into `libkvm_mmf.so` as source, not linked against
+`/mnt/system/usr/lib/libsns_lt6911.so` (confirmed: `libkvm_mmf.so`'s
+`NEEDED` entries don't include it, and the compiled-in `__FILE__` string
+in `libkvm_mmf.so` points at `.../MaixCDK/components/3rd_party/...`, not
+the vendor-sdk-stock path). Diffed MaixCDK's copy of `lt6911_sensor_ctl.c`
+against vendor-sdk-stock's: byte-for-byte identical, same dead code, same
+unpatched probe timing. `/mnt/system/usr/lib/libsns_lt6911.so` is real and
+correctly patched, but nothing in the running process tree (`kvm_system`,
+`libkvm.so`, `libkvm_mmf.so`) loads it.
+
+`.github/workflows/build-sg2002-image.yml`'s `build-native-libkvm` job now
+rebuilds `libkvm.so`/`libkvm_mmf.so` from source via MaixCDK instead of
+reusing the prebuilt app 2.0.42 archive copies, applying the same LT6911
+patch to MaixCDK's checkout before building. It starts from
+`woffko/Hardened_NanoKVM`'s own current `support/sg2002/additional/`
+source tree (`HARDENED_NANOKVM_NATIVE_SRC_COMMIT`, their "Harden native
+video path for app 2.0.34 RC10" commit, 2026-07-11) rather than this
+fork's older copy of those files -- their rebuild fixed unrelated
+lifecycle/audit findings and a separate sensor-name-table `SAMPLE_SNS_TYPE_E`
+mismatch, but left this exact dead code in place too (checked: their
+currently-published `libkvm_mmf.so` still contains the same unpatched
+`read sensor id error.`/`Sensor ID Mismatch!` strings).
+
+Verified on real hardware in two rounds. First, a retry loop (confirmed
+genuinely executing via matching syslog line numbers, not a stale build)
+still failed every I2C transaction across a ~100ms window. Widened to
+~10s (20 retries x 500ms): still 100% failure, zero exceptions -- not a
+timing problem, the I2C bus never responds on this board at all. HDMI
+capture works regardless. `lt6911-sensor-id-probe-removed.patch` now
+removes the chip-ID I2C probe from `lt6911_probe()` entirely (PinMux
+only) instead of retrying further or leaving the vendor's own dead-code
+no-op in place.
+
 ## /mnt/system/usr: pruned to the one file dl_lib doesn't cover
 
 `/mnt/system/usr/bin` (CVITEK sample/test binaries: `sample_vcodec`,
@@ -107,3 +149,142 @@ file's own provenance is now fully resolved too -- see "libc.so, GCC
 runtime, loaders, and libsns_lt6911.so" below; it no longer comes from
 raw.12 either. Not yet verified on real hardware; if HDMI capture breaks
 after this change, this is still the first thing to check.
+
+## dl_lib's CVI/ISP/audio middleware: no longer extracted from raw.12
+
+The ~32 CVI/ISP/audio middleware libraries checked into this directory
+(`libcvi_*`, `libisp*`, `libae`/`libaf`/`libawb`, `libaac*`, `libcli.so`,
+`libini.so`, `libmisc.so`, `libosdc.so`, `libsys.so`, `libtinyalsa.so`,
+`libvdec.so`/`libvenc.so`/`libvpu.so`, etc.) have been in git since the
+`RC5` commit, long before this fork started sourcing a build from the
+published raw.12 image. Diffed byte-for-byte against raw.12's own
+`/kvmapp/server/dl_lib`: every one of them is identical. The CI pipeline
+used to extract them wholesale from raw.12 anyway (redundant but
+harmless, since the bytes matched) via
+`hardened-sg2002-vendor-runtime.mk`'s `cp -a kvmapp-dl-lib/.` overlay,
+which ran *after* `hardened-nanokvm-kvmapp.mk` had already installed
+this directory's own content.
+
+`build-sg2002-image.yml`'s "Extract vendor runtime staging bundle" step
+no longer dumps `/kvmapp/server/dl_lib` wholesale -- the 5 files this
+directory doesn't carry (`libc.so` and the 4 GCC runtime libs) no longer
+come from raw.12 at all; see below. Final image content is unchanged
+(proven byte-identical either way); raw.12 is just no longer asked for
+content this repo already has verified in git.
+
+## libc.so, GCC runtime, loaders, and libsns_lt6911.so: closed -- from our own build
+
+Tried sourcing `libc.so` and the GCC runtime libs (`libstdc++.so.6.0.28`,
+`libgcc_s.so.1`, `libgomp.so.1.0.0`, `libatomic.so.1.2.0`) from the public
+`sophgo/host-tools` cross-toolchain repo instead of raw.12, the same way
+the two T-Head loaders were tried there and rejected. Same dead end for
+`libc.so`: that repo ships 4 ABI variant sysroots, and every one of the 6
+candidate `libc.so` files across all of them is ~7-8x the size of raw.12's
+copy (4.2-5.4 MB vs. 621 KB) -- a systematic mismatch, a generic
+cross-toolchain build meant for linking against, not the vendor's
+on-device runtime build. The GCC runtime libs were closer (matching
+version numbers, and the `lib64v0p7_xthead` variant's RISC-V arch
+attribute string is an exact match for `libkvm.so`'s own) but still
+larger than raw.12's copies, apparently just carrying debug sections a
+release strip would remove -- promising, but unconfirmed from that repo.
+
+The actual answer was `make vendor-sdk-stock` (the `sg2002_licheervnano_sd`
+defconfig, already built and cached by the `vendor-sdk` CI job) -- the
+same real on-device build `prepare-latest-buildroot-sg2002-vendor-runtime.sh`
+originally sourced this content from, not a generic toolchain package.
+Checked all 8 remaining raw.12-only files against it on a real run: **7 are
+byte-identical** -- `libc.so`, all 4 GCC runtime libs, and both T-Head
+loaders (`ld-musl-riscv64xthead.so.1`, `ld-musl-riscv64v0p7_xthead.so.1`).
+`build-sg2002-image.yml` now sources all 7 from vendor-sdk-stock's own
+`rootfs.sd` instead of raw.12, hard-failing if any isn't found (unlike the
+diagnostic that discovered these paths, this is production extraction).
+
+`libsns_lt6911.so` was the 8th file checked, and its bytes differ (2,100 of
+14,568) -- but tracing exactly *why* closed it too. The source is real,
+checked-in C code at
+`middleware/v2/component/isp/sensor/cv182x/lontium_lt6911/` in the pinned
+`sipeed/LicheeRV-Nano-Build` commit (`sg200x` is a symlink to `cv182x`, so
+this is the exact catalog this hardware uses) -- an earlier full-tree
+search missed it because GitHub's tree API silently truncates large repos,
+the same failure mode later caught and fixed for the `sophgo/host-tools`
+`libc.so` search. It isn't in `build/sensors/sensor_list.json` because
+that's a curated picker list for user-selectable board sensors, not the
+full middleware catalog LT6911 is part of regardless (same as every other
+`libsns_*.so`).
+
+`make vendor-sdk-stock` already compiles this source as part of its normal
+build (that's how the diagnostic found a `libsns_lt6911.so` there to
+compare against in the first place). Diffing exactly where the two builds'
+bytes diverge: 91% of the difference sits in `.rodata`, but every string
+in it is character-for-character identical except one -- the compiler's
+`__FILE__`-embedded absolute source path. raw.12's copy has
+`/home/w0w/Hardened_NanoKVM/build/vendor/...`; `w0w` is the maintainer's
+own local username, matching the hardcoded path already found in
+`docs/build-notes.md` (`NanoKVM_PATH=/home/w0w/...`) and the old default
+toolchain path in `scripts/prepare-kernel-5.10.265-vendor-runtime.sh` --
+raw.12 was built on the maintainer's own machine, not any CI. This
+pipeline's build has `/home/runner/work/Hardened_NanoKVM/...` instead, the
+standard GitHub Actions runner path. The differing path length cascades:
+every later string in the section shifts by the delta, so a byte-offset
+`cmp` reports "91% different" for what is, in content, one string. The
+small `.text` diff (86 of 3,184 bytes) is the same shift rippling into
+immediate offsets that reference those strings' addresses. Same source,
+same compiled logic and data, different build-path debug string that's
+never dereferenced as a real path at runtime.
+
+That was true when this file was first traced. It no longer is, deliberately:
+`lt6911_probe()`'s chip-ID I2C read never succeeded on real hardware (100%
+failure over a 10s retry window) and logged a scary-looking (if already
+non-fatal; both its own failure paths were already dead code) error on
+every cold boot. `buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch`
+removes that I2C probe entirely, applied to the vendor SDK checkout before
+`make vendor-sdk-stock` builds it. `vendor-sdk-stock`'s `libsns_lt6911.so`
+is therefore no longer byte-identical to a truly unmodified vendor build --
+deliberately, and only for this one file; every other file
+`vendor-sdk-stock` produces is untouched. See "libkvm_mmf.so statically
+embeds its own copy of the LT6911 driver" above: this file is shipped for
+provenance but isn't actually what drives HDMI capture at runtime.
+
+`build-sg2002-image.yml` now sources all 8 files from `vendor-sdk-stock`'s
+own `rootfs.sd`. No file shipped in the final image comes from raw.12.
+
+## The module-tree structure: also closed, needed no image at all
+
+The last raw.12 fetch in the pipeline was purely structural: the
+`/mnt/system/ko` tree's basenames and `3rd/` nesting (8 of 57 modules nest
+there), used only to know where each freshly-rebuilt kernel module belongs
+-- module *content* was never sourced from raw.12 once the kernel-module
+rebuild work closed that gap. Turns out this didn't need any image at all:
+`support/sg2002/kernel/5.10.265/manifests/external-modules.txt` already
+encodes the full destination path for all 30 external modules (`3rd/`
+prefixes included), `in-tree-modules.txt` gives the other 24 (all flat),
+and the 3 media module names are already known constants -- the complete
+57-module structure, entirely from files already tracked in this repo.
+`rebuild-vendor-external-modules-5.10-baseline.sh`'s own build output was
+already placing artifacts at these exact relative paths; nothing needed
+extracting them from somewhere else in the first place.
+
+`build-sg2002-image.yml` now builds this structure as an empty-file
+skeleton straight from the manifests, no network fetch involved.
+`hardened-source-media-provenance.txt` (a plain-text record: source
+commits, a device-acceptance marker, a redistribution note) is
+regenerated the same way, from values already pinned in the workflow,
+rather than copied forward.
+
+raw.12's `/mnt/system` also carried `auto.sh`, `sdk-release`, and (in
+older releases) `root/`. Checked and confirmed dead the same way `usr/bin`
+and most of `usr/lib` were: `auto.sh` is generic, unused vendor
+evaluation-board boilerplate (sets `LD_LIBRARY_PATH`/`PATH` for a boot
+flow nothing in this repo invokes) with zero references anywhere in
+tracked source; `sdk-release` is a static, unread version string;
+`root/` doesn't exist in raw.12 at all any more. None are reproduced.
+
+One narrower, genuine content dependency came up while closing this:
+`build-historical-sophgo-vc-driver.sh` used to diff `soph_vc_driver.ko`'s
+module parameters (`modinfo -F parm`) against an "old" reference copy
+pulled from raw.12 -- a real diagnostic, not a structural lookup, since
+`modinfo` needs an actual valid compiled module. That comparison has been
+removed rather than kept as a narrower exception, so this diagnostic no
+longer runs.
+
+**raw.12 is no longer fetched anywhere in this pipeline.**
