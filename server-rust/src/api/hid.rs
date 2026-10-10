@@ -539,6 +539,11 @@ fn new_shortcut_id() -> String {
     bytes.iter().map(|byte| format!("{byte:02x}")).collect()
 }
 
+/// Whether the USB gadget runs the HID-only configuration, which has no mass storage.
+pub(crate) fn is_hid_only_mode() -> bool {
+    read_hid_mode().is_ok_and(|mode| mode == MODE_HID_ONLY)
+}
+
 fn read_hid_mode() -> Result<String> {
     let flag = fs::read_to_string(MODE_FLAG_FILE)?;
     match flag.trim() {

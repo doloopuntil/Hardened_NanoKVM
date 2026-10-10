@@ -11,7 +11,7 @@ use tokio::{sync::Mutex, time};
 
 use crate::{
     AppError, Result,
-    api::download,
+    api::{download, hid},
     error::ApiResponse,
     state::AppState,
     system::{
@@ -132,6 +132,11 @@ pub async fn mount_image(
 }
 
 async fn apply_mount(state: &AppState, req: &MountImageReq) -> Result<()> {
+    if !Path::new(MOUNT_DEVICE).exists() {
+        return Err(AppError::Conflict(
+            no_virtual_media_message(hid::is_hid_only_mode()).to_string(),
+        ));
+    }
     let previous_cdrom = read_cdrom_flag().unwrap_or(false);
 
     let image = if req.file.trim().is_empty() {
@@ -189,6 +194,15 @@ async fn apply_mount(state: &AppState, req: &MountImageReq) -> Result<()> {
     }
 
     Ok(())
+}
+
+/// Why there is no LUN to mount an image on.
+fn no_virtual_media_message(hid_only: bool) -> &'static str {
+    if hid_only {
+        "virtual media is not available in HID-only mode; switch the USB mode back to normal first"
+    } else {
+        "the virtual disk is off; turn it on in Settings > Device first"
+    }
 }
 
 pub async fn reconnect_usb_gadget() -> Result<impl IntoResponse> {
@@ -800,6 +814,12 @@ mod tests {
 
         let other = lun_write_error(std::io::Error::from_raw_os_error(nix::libc::EACCES));
         assert!(!matches!(other, AppError::Api { .. }), "{other:?}");
+    }
+
+    #[test]
+    fn a_missing_lun_is_explained_by_the_usb_mode() {
+        assert!(no_virtual_media_message(true).contains("HID-only"));
+        assert!(no_virtual_media_message(false).contains("virtual disk is off"));
     }
 
     #[test]
