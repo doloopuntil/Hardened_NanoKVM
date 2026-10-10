@@ -13,6 +13,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/hid.ts';
+import { attempt } from '@/lib/feedback.ts';
 import { isKeyboardEnableAtom, leaderKeyAtom } from '@/jotai/keyboard.ts';
 
 export const LeaderKey = () => {
@@ -87,10 +88,9 @@ export const LeaderKey = () => {
 
     setIsLoading(true);
 
-    api
-      .setLeaderKey(key)
+    attempt(() => api.setLeaderKey(key))
       .then((rsp) => {
-        if (rsp.code === 0) {
+        if (rsp) {
           setLeaderKey(key);
           closeModal();
         }

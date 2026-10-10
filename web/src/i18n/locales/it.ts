@@ -1,5 +1,12 @@
 const it = {
   translation: {
+    common: {
+      confirm: 'Conferma',
+      cancel: 'Annulla',
+      delete: 'Elimina',
+      actionFailed: 'Operazione non riuscita',
+      actionFailedDetail: 'Operazione non riuscita: {{detail}}'
+    },
     head: {
       desktop: 'Desktop Remoto',
       login: 'Accesso',

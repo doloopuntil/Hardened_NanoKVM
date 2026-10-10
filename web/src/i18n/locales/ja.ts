@@ -1,5 +1,12 @@
 const ja = {
   translation: {
+    common: {
+      confirm: '確認',
+      cancel: 'キャンセル',
+      delete: '削除',
+      actionFailed: '操作に失敗しました',
+      actionFailedDetail: '操作に失敗しました：{{detail}}'
+    },
     head: {
       desktop: 'リモートデスクトップ',
       login: 'ログイン',

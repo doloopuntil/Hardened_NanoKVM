@@ -5,6 +5,7 @@ import { CheckIcon, ScanBarcodeIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { updateScreen } from '@/api/vm';
+import { attempt } from '@/lib/feedback.ts';
 import { setFps as setCookie } from '@/lib/localstorage';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 
@@ -44,10 +45,8 @@ export const Fps = ({ fps, setFps }: FpsProps) => {
       return;
     }
 
-    const rsp = await updateScreen('fps', value);
-    if (rsp.code !== 0) {
-      return;
-    }
+    const rsp = await attempt(() => updateScreen('fps', value));
+    if (!rsp) return;
 
     setFps(value);
     setCookie(value);

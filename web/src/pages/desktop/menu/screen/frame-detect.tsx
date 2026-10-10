@@ -5,6 +5,7 @@ import { LoaderCircleIcon, Tally4Icon, Tally5Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/stream.ts';
+import { attempt } from '@/lib/feedback.ts';
 import * as ls from '@/lib/localstorage.ts';
 
 export const FrameDetect = () => {
@@ -18,7 +19,7 @@ export const FrameDetect = () => {
     if (enabled) {
       setIsEnabled(true);
     } else {
-      api.updateFrameDetect(false);
+      attempt(() => api.updateFrameDetect(false), { quiet: true });
     }
   }, []);
 
@@ -28,10 +29,9 @@ export const FrameDetect = () => {
 
     const enabled = !isEnabled;
 
-    api
-      .updateFrameDetect(enabled)
+    attempt(() => api.updateFrameDetect(enabled))
       .then((rsp) => {
-        if (rsp.code === 0) {
+        if (rsp) {
           setIsEnabled(enabled);
           ls.setFrameDetect(enabled);
         }

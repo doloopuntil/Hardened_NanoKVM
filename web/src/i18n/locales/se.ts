@@ -1,5 +1,12 @@
 const se = {
   translation: {
+    common: {
+      confirm: 'Bekräfta',
+      cancel: 'Avbryt',
+      delete: 'Ta bort',
+      actionFailed: 'Åtgärden misslyckades',
+      actionFailedDetail: 'Åtgärden misslyckades: {{detail}}'
+    },
     head: {
       desktop: 'Fjärrskrivbord',
       login: 'Logga in',

@@ -4,6 +4,7 @@ import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 import { webTitleAtom } from '@/jotai/settings.ts';
 
 export const WebTitle = () => {
@@ -31,17 +32,9 @@ export const WebTitle = () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    api
-      .setWebTitle(webTitle)
-      .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    attempt(() => api.setWebTitle(webTitle)).finally(() => {
+      setIsLoading(false);
+    });
   }
 
   return (

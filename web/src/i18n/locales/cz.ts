@@ -1,5 +1,12 @@
 const cz = {
   translation: {
+    common: {
+      confirm: 'Potvrdit',
+      cancel: 'Zrušit',
+      delete: 'Smazat',
+      actionFailed: 'Operace se nezdařila',
+      actionFailedDetail: 'Operace se nezdařila: {{detail}}'
+    },
     head: {
       desktop: 'Vzdálená plocha',
       login: 'Přihlášení',

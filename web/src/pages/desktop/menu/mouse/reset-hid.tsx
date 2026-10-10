@@ -4,6 +4,7 @@ import { RefreshCwIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/hid.ts';
+import { attempt } from '@/lib/feedback.ts';
 import { client, MessageEvent } from '@/lib/websocket.ts';
 
 export const ResetHid = () => {
@@ -21,7 +22,7 @@ export const ResetHid = () => {
 
     client.close();
 
-    api.reset().finally(() => {
+    attempt(() => api.reset()).finally(() => {
       client.connect();
       setIsResetting(false);
     });

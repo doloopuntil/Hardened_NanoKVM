@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { getCsrfToken, setCsrfToken } from '@/lib/cookie.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 const DEFAULT_DURATION = '900';
 
@@ -47,13 +48,9 @@ export const SessionLock = () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    api
-      .setSessionLock(parseInt(value))
+    attempt(() => api.setSessionLock(parseInt(value)))
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         setDuration(value);
         const expiresAt = rsp.data?.expiresAt;
@@ -61,9 +58,6 @@ export const SessionLock = () => {
         if (expiresAt && csrfToken) {
           setCsrfToken(csrfToken, expiresAt);
         }
-      })
-      .catch((err) => {
-        console.log(err);
       })
       .finally(() => {
         setIsLoading(false);

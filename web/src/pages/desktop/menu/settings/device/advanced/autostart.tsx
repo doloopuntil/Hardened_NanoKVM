@@ -7,6 +7,7 @@ import { useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/autostart.ts';
+import { attempt } from '@/lib/feedback.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 
 export const Autostart = () => {
@@ -76,11 +77,8 @@ export const Autostart = () => {
   }
 
   function uploadAutostart() {
-    api.uploadAutostart(autostartName, autostartContent).then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    attempt(() => api.uploadAutostart(autostartName, autostartContent)).then((rsp) => {
+      if (!rsp) return;
 
       getAutostart();
       setAutostartContent('');
@@ -90,11 +88,8 @@ export const Autostart = () => {
   }
 
   function editAutostart(name: string) {
-    api.getAutostartContent(name).then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    attempt(() => api.getAutostartContent(name)).then((rsp) => {
+      if (!rsp) return;
       setAutostartName(name);
       setAutostartContent(rsp.data);
       setIsEditAutostartOpen(true);
@@ -110,11 +105,8 @@ export const Autostart = () => {
   }
 
   function deleteAutostart(name: string) {
-    api.deleteAutostart(name).then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    attempt(() => api.deleteAutostart(name)).then((rsp) => {
+      if (!rsp) return;
 
       getAutostart();
     });

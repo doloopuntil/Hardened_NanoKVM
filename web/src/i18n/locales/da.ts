@@ -1,5 +1,12 @@
 const da = {
   translation: {
+    common: {
+      confirm: 'Bekræft',
+      cancel: 'Annuller',
+      delete: 'Slet',
+      actionFailed: 'Handlingen mislykkedes',
+      actionFailedDetail: 'Handlingen mislykkedes: {{detail}}'
+    },
     head: {
       desktop: 'Fjernskrivebord',
       login: 'Log ind',

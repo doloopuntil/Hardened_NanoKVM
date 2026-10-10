@@ -4,6 +4,7 @@ import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 import { isHdmiEnabledAtom } from '@/jotai/screen.ts';
 
 export const Hdmi = () => {
@@ -56,10 +57,9 @@ export const Hdmi = () => {
     }
 
     setIsIdleTimeoutLoading(true);
-    api
-      .setHdmiIdleTimeout(idleTimeoutInput)
+    attempt(() => api.setHdmiIdleTimeout(idleTimeoutInput))
       .then((rsp) => {
-        if (rsp.code !== 0) {
+        if (!rsp) {
           setIdleTimeoutInput(idleTimeout);
           return;
         }
@@ -77,8 +77,8 @@ export const Hdmi = () => {
 
     const enabled = !isHdmiEnabled;
 
-    const rsp = await api.setHdmiState(enabled);
-    if (rsp.code !== 0) {
+    const rsp = await attempt(() => api.setHdmiState(enabled));
+    if (!rsp) {
       setIsLoading(false);
       return;
     }

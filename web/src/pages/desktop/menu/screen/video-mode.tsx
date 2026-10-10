@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Modal, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import { useAtomValue } from 'jotai';
 import { CheckIcon, TvMinimalPlayIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as downloadApi from '@/api/download.ts';
 import * as firewallApi from '@/api/system-firewall.ts';
+import { confirm } from '@/lib/feedback.ts';
 import { setVideoMode as setCookie } from '@/lib/localstorage.ts';
 import { videoModeAtom } from '@/jotai/screen.ts';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
@@ -100,7 +101,7 @@ export const VideoMode = () => {
 
     // The reload below would cancel a running image upload or download.
     if (await isTransferRunning()) {
-      Modal.confirm({
+      confirm({
         title: t('screen.transferRunningTitle'),
         content: t('screen.transferRunningDesc'),
         okText: t('screen.transferRunningOk'),

@@ -4,6 +4,7 @@ import { CircleAlertIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 export const Ssh = () => {
   const { t } = useTranslation();
@@ -34,22 +35,15 @@ export const Ssh = () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    try {
-      const rsp = checked ? await api.enableSSH() : await api.disableSSH();
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    const rsp = await attempt(() => (checked ? api.enableSSH() : api.disableSSH()));
+    setIsLoading(false);
 
-      if (typeof rsp.data?.enabled === 'boolean') {
-        setIsEnabled(rsp.data.enabled);
-      } else {
-        setIsEnabled(checked);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
+    if (!rsp) return;
+
+    if (typeof rsp.data?.enabled === 'boolean') {
+      setIsEnabled(rsp.data.enabled);
+    } else {
+      setIsEnabled(checked);
     }
   }
 

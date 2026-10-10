@@ -5,7 +5,7 @@ import {
   RocketOutlined,
   SmileOutlined
 } from '@ant-design/icons';
-import { Alert, Button, Divider, Modal, Result, Spin, Switch } from 'antd';
+import { Alert, Button, Divider, Result, Spin, Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 import semver from 'semver';
 
@@ -21,6 +21,7 @@ import type {
 } from '@/api/application.ts';
 import * as firewallApi from '@/api/system-firewall.ts';
 import type { FirewallStatus } from '@/api/system-firewall.ts';
+import { confirm } from '@/lib/feedback.ts';
 
 import { Offline } from './offline.tsx';
 import { Preview } from './preview.tsx';
@@ -260,7 +261,8 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       return;
     }
 
-    Modal.confirm({
+    confirm({
+      danger: true,
       title: t('settings.update.system.rawEnableConfirmTitle'),
       content: (
         <div className="space-y-3">
@@ -313,7 +315,8 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   function confirmInstallSystemUpdate() {
     if (!systemStaged || systemStatus === 'installing' || !stagedAppRequirementMet) return;
 
-    Modal.confirm({
+    confirm({
+      danger: !!systemStaged.destructive,
       title: t('settings.update.system.installConfirmTitle'),
       content: systemStaged.destructive ? (
         <div className="space-y-3">
@@ -390,7 +393,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   function confirmRollbackSystemUpdate() {
     if (!systemRollback || systemStatus === 'rollingBack') return;
 
-    Modal.confirm({
+    confirm({
       title: t('settings.update.system.rollbackConfirmTitle'),
       content: t('settings.update.system.rollbackConfirmDesc'),
       okText: t('settings.update.system.rollback'),

@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
-import { Alert, Button, Input, message, Modal, Spin, Switch, Tag, type InputRef } from 'antd';
+import { Alert, Button, Input, Modal, Spin, Switch, Tag, type InputRef } from 'antd';
 import { QRCodeSVG } from 'qrcode.react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/auth-totp.ts';
 import type { TotpStatus } from '@/api/auth-totp.ts';
 import { encrypt } from '@/lib/encrypt.ts';
+import { toast } from '@/lib/feedback.ts';
 
 /** Copy text, falling back to execCommand where the Clipboard API is missing (plain HTTP). */
 async function copyText(text: string, container: HTMLElement): Promise<boolean> {
@@ -104,7 +105,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
       .enroll(encrypt(password))
       .then((rsp) => {
         if (rsp.code !== 0) {
-          message.error(rsp.msg || t('settings.account.totp.enrollFailed'));
+          toast.error(rsp.msg || t('settings.account.totp.enrollFailed'));
           return;
         }
         setIsStartingEnrolment(false);
@@ -113,7 +114,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         setOtpauthUri(rsp.data.otpauthUri);
         setCode('');
       })
-      .catch((err) => message.error(errorText(err, t('settings.account.totp.enrollFailed'))))
+      .catch((err) => toast.error(errorText(err, t('settings.account.totp.enrollFailed'))))
       .finally(() => setIsBusy(false));
   }
 
@@ -125,7 +126,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
       .confirm(code.trim())
       .then((rsp) => {
         if (rsp.code !== 0) {
-          message.error(rsp.msg || t('settings.account.totp.invalidCode'));
+          toast.error(rsp.msg || t('settings.account.totp.invalidCode'));
           return;
         }
         setBackupCodes(rsp.data.backupCodes || []);
@@ -135,7 +136,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         setEnrolmentNeedsAck(true);
         refresh();
       })
-      .catch((err) => message.error(errorText(err, t('settings.account.totp.invalidCode'))))
+      .catch((err) => toast.error(errorText(err, t('settings.account.totp.invalidCode'))))
       .finally(() => setIsBusy(false));
   }
 
@@ -153,14 +154,14 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
       .disable(encrypt(password))
       .then((rsp) => {
         if (rsp.code !== 0) {
-          message.error(rsp.msg || t('settings.account.totp.disableFailed'));
+          toast.error(rsp.msg || t('settings.account.totp.disableFailed'));
           return;
         }
         setIsDisabling(false);
         setPassword('');
         refresh();
       })
-      .catch((err) => message.error(errorText(err, t('settings.account.totp.disableFailed'))))
+      .catch((err) => toast.error(errorText(err, t('settings.account.totp.disableFailed'))))
       .finally(() => setIsBusy(false));
   }
 
@@ -172,7 +173,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
       .regenerateBackupCodes(encrypt(password))
       .then((rsp) => {
         if (rsp.code !== 0) {
-          message.error(rsp.msg || t('settings.account.totp.regenerateFailed'));
+          toast.error(rsp.msg || t('settings.account.totp.regenerateFailed'));
           return;
         }
         setIsRegenerating(false);
@@ -180,7 +181,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         setBackupCodes(rsp.data.backupCodes || []);
         refresh();
       })
-      .catch((err) => message.error(errorText(err, t('settings.account.totp.regenerateFailed'))))
+      .catch((err) => toast.error(errorText(err, t('settings.account.totp.regenerateFailed'))))
       .finally(() => setIsBusy(false));
   }
 
@@ -191,20 +192,20 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
       .setRequired(required)
       .then((rsp) => {
         if (rsp.code !== 0) {
-          message.error(rsp.msg || t('settings.account.totp.requireFailed'));
+          toast.error(rsp.msg || t('settings.account.totp.requireFailed'));
           return;
         }
         setStatus((current) => current && { ...current, required });
       })
-      .catch((err) => message.error(errorText(err, t('settings.account.totp.requireFailed'))))
+      .catch((err) => toast.error(errorText(err, t('settings.account.totp.requireFailed'))))
       .finally(() => setIsSavingRequired(false));
   }
 
   function copyBackupCodes() {
     copyText(backupCodes.join('\n'), codesRef.current ?? document.body).then((copied) =>
       copied
-        ? message.success(t('settings.account.totp.copied'))
-        : message.error(t('settings.account.totp.copyFailed'))
+        ? toast.success(t('settings.account.totp.copied'))
+        : toast.error(t('settings.account.totp.copyFailed'))
     );
   }
 

@@ -4,6 +4,7 @@ import { CircleAlertIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 export const Swap = () => {
   const { t } = useTranslation();
@@ -42,13 +43,9 @@ export const Swap = () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    api
-      .setSwap(parseInt(value))
+    attempt(() => api.setSwap(parseInt(value)))
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         setSize(value);
       })

@@ -1,6 +1,7 @@
 import { CheckIcon, SquareKanbanIcon } from 'lucide-react';
 
 import { updateScreen } from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 import { setGop as setCookie } from '@/lib/localstorage';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 
@@ -20,10 +21,8 @@ export const Gop = ({ gop, setGop }: GopProps) => {
   async function update(value: number) {
     if (value === gop) return;
 
-    const rsp = await updateScreen('gop', value);
-    if (rsp.code !== 0) {
-      return;
-    }
+    const rsp = await attempt(() => updateScreen('gop', value));
+    if (!rsp) return;
 
     setGop(value);
     setCookie(value);

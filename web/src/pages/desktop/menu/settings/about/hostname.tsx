@@ -5,6 +5,7 @@ import { ClipboardPenIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 export const Hostname = () => {
   const { t } = useTranslation();
@@ -48,13 +49,9 @@ export const Hostname = () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    api
-      .setHostname(input)
+    attempt(() => api.setHostname(input))
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         setHostname(input);
         setEditState('edited');

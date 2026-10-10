@@ -4,6 +4,7 @@ import { ScreenShareOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 export const Oled = () => {
   const { t } = useTranslation();
@@ -37,13 +38,9 @@ export const Oled = () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    api
-      .setOLED(parseInt(value))
+    attempt(() => api.setOLED(parseInt(value)))
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         setSleep(value);
       })

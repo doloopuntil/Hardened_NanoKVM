@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { setMouseJiggler } from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 export const MouseJiggler = () => {
   const { t } = useTranslation();
@@ -45,13 +46,9 @@ export const MouseJiggler = () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    api
-      .setMouseJiggler(true, mode)
+    attempt(() => api.setMouseJiggler(true, mode))
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         setEnabled(true);
       })
@@ -67,12 +64,9 @@ export const MouseJiggler = () => {
     const _enabled = value !== 'disable';
     const _mode = value === 'disable' ? 'relative' : value;
 
-    setMouseJiggler(_enabled, _mode)
+    attempt(() => setMouseJiggler(_enabled, _mode))
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         setEnabled(_enabled);
         setMode(_mode);

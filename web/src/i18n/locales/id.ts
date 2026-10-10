@@ -1,5 +1,12 @@
 const id = {
   translation: {
+    common: {
+      confirm: 'Konfirmasi',
+      cancel: 'Batalkan',
+      delete: 'Hapus',
+      actionFailed: 'Operasi gagal',
+      actionFailedDetail: 'Operasi gagal: {{detail}}'
+    },
     head: {
       desktop: 'Desktop jarak jauh',
       login: 'Masuk',

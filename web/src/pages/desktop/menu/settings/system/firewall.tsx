@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { Alert, Button, Divider, message, Modal, Segmented, Spin, Tag } from 'antd';
+import { Alert, Button, Divider, Segmented, Spin, Tag } from 'antd';
 import type { TFunction } from 'i18next';
 import {
   LockKeyholeIcon,
@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/system-firewall.ts';
 import type { FirewallMode, FirewallStatus } from '@/api/system-firewall.ts';
+import { confirm, toast } from '@/lib/feedback.ts';
 
 type RulesTab = 'ipv4' | 'ipv6' | 'nft';
 
@@ -107,13 +108,13 @@ export const FirewallSettings = () => {
     try {
       const rsp = await api.getStatus();
       if (rsp.code !== 0 || !rsp.data) {
-        message.error(rsp.msg || t('settings.system.firewall.loadFailed'));
+        toast.error(rsp.msg || t('settings.system.firewall.loadFailed'));
         return;
       }
       setStatus(rsp.data);
     } catch (err) {
       console.log(err);
-      message.error(t('settings.system.firewall.loadFailed'));
+      toast.error(t('settings.system.firewall.loadFailed'));
     } finally {
       setIsLoading(false);
     }
@@ -125,13 +126,14 @@ export const FirewallSettings = () => {
     const option = modeOptions.find((item) => item.mode === mode);
     if (!option || option.disabled) {
       if (mode !== 'baseline' && mode !== 'moderate' && !status.httpsEnabled) {
-        message.warning(t('settings.system.firewall.enableHttpsFirst'));
+        toast.warning(t('settings.system.firewall.enableHttpsFirst'));
       }
       return;
     }
 
     if (mode === 'restricted') {
-      Modal.confirm({
+      confirm({
+        danger: true,
         title: t('settings.system.firewall.restricted.confirmTitle'),
         content: t('settings.system.firewall.restricted.confirmDesc'),
         okText: t('settings.system.firewall.restricted.enable'),
@@ -142,7 +144,8 @@ export const FirewallSettings = () => {
     }
 
     if (mode === 'paranoid') {
-      Modal.confirm({
+      confirm({
+        danger: true,
         title: t('settings.system.firewall.paranoid.confirmTitle'),
         content: t('settings.system.firewall.paranoid.confirmDesc'),
         okText: t('settings.system.firewall.paranoid.enable'),
@@ -153,7 +156,7 @@ export const FirewallSettings = () => {
     }
 
     if (mode === 'baseline') {
-      Modal.confirm({
+      confirm({
         title: t('settings.system.firewall.baseline.confirmTitle'),
         content: t('settings.system.firewall.baseline.confirmDesc'),
         okText: t('settings.system.firewall.baseline.apply'),
@@ -163,7 +166,7 @@ export const FirewallSettings = () => {
       return;
     }
 
-    Modal.confirm({
+    confirm({
       title: modeApplyLabel(t, mode),
       content: option.description,
       okText: modeApplyLabel(t, mode),
@@ -177,7 +180,7 @@ export const FirewallSettings = () => {
     try {
       const rsp = await api.setMode(mode);
       if (rsp.code !== 0 || !rsp.data) {
-        message.error(rsp.msg || t('settings.system.firewall.saveFailed'));
+        toast.error(rsp.msg || t('settings.system.firewall.saveFailed'));
         return;
       }
 
@@ -190,10 +193,10 @@ export const FirewallSettings = () => {
       }
 
       setStatus(nextStatus);
-      message.success(t('settings.system.firewall.saved'));
+      toast.success(t('settings.system.firewall.saved'));
     } catch (err) {
       console.log(err);
-      message.error(t('settings.system.firewall.saveFailed'));
+      toast.error(t('settings.system.firewall.saveFailed'));
     } finally {
       setIsApplying(false);
       load();

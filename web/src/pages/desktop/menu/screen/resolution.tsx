@@ -1,10 +1,11 @@
-import { message, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import { useAtom } from 'jotai';
 import { CheckIcon, CircleHelpIcon, RatioIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { updateScreen } from '@/api/vm';
 import { Resolution as TypeResolution } from '@/types';
+import { attempt } from '@/lib/feedback.ts';
 import { setResolution as setCookie } from '@/lib/localstorage';
 import { resolutionAtom } from '@/jotai/screen.ts';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
@@ -22,20 +23,11 @@ export const Resolution = () => {
   const [resolution, setResolution] = useAtom(resolutionAtom);
 
   async function update(item: TypeResolution) {
-    try {
-      const rsp = await updateScreen('resolution', item.height);
-      if (rsp.code !== 0) {
-        message.error(rsp.msg || 'Failed to update resolution');
-        return;
-      }
+    const rsp = await attempt(() => updateScreen('resolution', item.height));
+    if (!rsp) return;
 
-      setResolution(item);
-      setCookie(item);
-    } catch (err) {
-      console.error(err);
-      const msg = (err as { response?: { data?: { msg?: string } } }).response?.data?.msg;
-      message.error(msg || 'Failed to update resolution');
-    }
+    setResolution(item);
+    setCookie(item);
   }
 
   const content = (

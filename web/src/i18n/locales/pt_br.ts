@@ -1,5 +1,12 @@
 const pt_br = {
   translation: {
+    common: {
+      confirm: 'Confirmar',
+      cancel: 'Cancelar',
+      delete: 'Excluir',
+      actionFailed: 'Falha na operação',
+      actionFailedDetail: 'Falha na operação: {{detail}}'
+    },
     head: {
       desktop: 'Área de Trabalho Remota',
       login: 'Login',

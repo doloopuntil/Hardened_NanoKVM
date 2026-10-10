@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Modal, Switch, Tooltip } from 'antd';
+import { Switch, Tooltip } from 'antd';
 import { CircleAlertIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt, confirm } from '@/lib/feedback.ts';
 
 const REDIRECT_DELAY_SECONDS = 30;
 
@@ -23,7 +24,7 @@ export const Tls = () => {
     const enable = !isEnabled;
     const target = protocolRedirectUrl(enable);
 
-    Modal.confirm({
+    confirm({
       title: t('settings.network.tls.rebootTitle'),
       content: (
         <div className="space-y-2">
@@ -43,14 +44,10 @@ export const Tls = () => {
       window.location.assign(target);
     }, REDIRECT_DELAY_SECONDS * 1000);
 
-    try {
-      const rsp = await api.setTLS(enable);
-      if (rsp.code === 0) {
-        setIsEnabled(enable);
-        return;
-      }
-    } catch (err) {
-      console.log(err);
+    const rsp = await attempt(() => api.setTLS(enable));
+    if (rsp) {
+      setIsEnabled(enable);
+      return;
     }
 
     window.clearTimeout(timer);

@@ -4,6 +4,7 @@ import { Button, Card } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 type LoginProps = {
   onSuccess: () => void;
@@ -14,19 +15,14 @@ export const Login = ({ onSuccess }: LoginProps) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [loginUrl, setLoginUrl] = useState('');
-  const [errMsg, setErrMsg] = useState('');
 
   function login() {
     if (isLoading) return;
     setIsLoading(true);
 
-    api
-      .login()
+    attempt(() => api.login())
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          setErrMsg(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         const url = rsp.data.url;
         if (!url) {
@@ -37,9 +33,6 @@ export const Login = ({ onSuccess }: LoginProps) => {
         setLoginUrl(url);
         window.open(url, '_blank');
         setTimeout(() => setLoginUrl(''), 10 * 60 * 1000);
-      })
-      .catch((err) => {
-        setErrMsg(err?.message || 'Failed to login');
       })
       .finally(() => {
         setIsLoading(false);
@@ -74,8 +67,6 @@ export const Login = ({ onSuccess }: LoginProps) => {
           </Button>
         </div>
       )}
-
-      {errMsg && <span className="text-red-500">{errMsg}</span>}
     </div>
   );
 };

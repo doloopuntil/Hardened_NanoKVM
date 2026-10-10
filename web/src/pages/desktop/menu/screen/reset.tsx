@@ -4,6 +4,7 @@ import { RefreshCwIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 export const Reset = () => {
   const { t } = useTranslation();
@@ -12,10 +13,8 @@ export const Reset = () => {
   const [isResetting, setIsResetting] = useState(false);
 
   useEffect(() => {
-    api.getHardware().then((rsp) => {
-      if (rsp.code === 0) {
-        setIsPcie(rsp.data?.version === 'PCIE');
-      }
+    attempt(() => api.getHardware(), { quiet: true }).then((rsp) => {
+      if (rsp) setIsPcie(rsp.data?.version === 'PCIE');
     });
   }, []);
 
@@ -23,7 +22,7 @@ export const Reset = () => {
     if (isResetting) return;
     setIsResetting(true);
 
-    api.resetHdmi().finally(() => {
+    attempt(() => api.resetHdmi()).finally(() => {
       setTimeout(() => {
         setIsResetting(false);
       }, 1000);

@@ -3,6 +3,7 @@ import { RotateCcwIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { setGpio } from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 type ResetProps = {
   showConfirm: boolean;
@@ -17,7 +18,7 @@ export const Reset = ({ showConfirm, isLoading, setIsLoading }: ResetProps) => {
     if (isLoading) return;
     setIsLoading(true);
 
-    setGpio('reset', 800).finally(() => {
+    attempt(() => setGpio('reset', 800)).finally(() => {
       setIsLoading(false);
     });
   }

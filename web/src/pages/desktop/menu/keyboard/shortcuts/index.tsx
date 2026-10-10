@@ -4,6 +4,7 @@ import { CommandIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/hid.ts';
+import { attempt } from '@/lib/feedback.ts';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -34,52 +35,33 @@ export const Shortcuts = () => {
     }
   ];
 
+  // the list is only shown in the popover, so a failed preload stays quiet
   useEffect(() => {
-    getShortcuts();
+    getShortcuts(!isOpen);
   }, [isOpen]);
 
-  async function getShortcuts() {
-    try {
-      const rsp = await api.getShortcuts();
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+  async function getShortcuts(quiet = false) {
+    const rsp = await attempt(() => api.getShortcuts(), { quiet });
+    if (!rsp) return;
 
-      setCustomShortcuts(Array.isArray(rsp.data?.shortcuts) ? rsp.data.shortcuts : []);
-    } catch (err) {
-      console.log(err);
-    }
+    setCustomShortcuts(Array.isArray(rsp.data?.shortcuts) ? rsp.data.shortcuts : []);
   }
 
   async function addShortcut(shortcut: ShortcutInterface) {
-    try {
-      const rsp = await api.addShortcut(shortcut.keys);
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    const rsp = await attempt(() => api.addShortcut(shortcut.keys));
+    if (!rsp) return;
 
-      await getShortcuts();
-    } catch (err) {
-      console.log(err);
-    }
+    await getShortcuts();
   }
 
   async function delShortcut(shortcut: ShortcutInterface) {
-    try {
-      if (!shortcut.id) return;
+    const id = shortcut.id;
+    if (!id) return;
 
-      const rsp = await api.deleteShortcut(shortcut.id);
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    const rsp = await attempt(() => api.deleteShortcut(id));
+    if (!rsp) return;
 
-      await getShortcuts();
-    } catch (err) {
-      console.log(err);
-    }
+    await getShortcuts();
   }
 
   function handleOpenChange(open: boolean) {

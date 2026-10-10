@@ -1,5 +1,12 @@
 const hu = {
   translation: {
+    common: {
+      confirm: 'Megerősítés',
+      cancel: 'Mégse',
+      delete: 'Törlés',
+      actionFailed: 'A művelet sikertelen',
+      actionFailedDetail: 'A művelet sikertelen: {{detail}}'
+    },
     head: {
       desktop: 'Távoli Asztal',
       login: 'Bejelentkezés',

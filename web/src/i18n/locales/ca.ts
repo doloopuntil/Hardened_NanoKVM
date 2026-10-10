@@ -1,5 +1,12 @@
 const ca = {
   translation: {
+    common: {
+      confirm: 'Confirma',
+      cancel: 'Cancel·la',
+      delete: 'Esborra',
+      actionFailed: "L'operació ha fallat",
+      actionFailedDetail: "L'operació ha fallat: {{detail}}"
+    },
     head: {
       desktop: 'Escriptori remot',
       login: 'Inici de sessió',

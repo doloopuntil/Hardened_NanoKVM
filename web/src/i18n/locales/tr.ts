@@ -1,5 +1,12 @@
 const tr = {
   translation: {
+    common: {
+      confirm: 'Onayla',
+      cancel: 'İptal',
+      delete: 'Sil',
+      actionFailed: 'İşlem başarısız oldu',
+      actionFailedDetail: 'İşlem başarısız oldu: {{detail}}'
+    },
     head: {
       desktop: 'Uzak masaüstü',
       login: 'Giriş',
