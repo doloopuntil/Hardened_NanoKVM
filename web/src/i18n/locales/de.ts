@@ -1,5 +1,10 @@
 const de = {
   translation: {
+    common: {
+      confirm: 'Bestätigen',
+      cancel: 'Abbrechen',
+      delete: 'Löschen'
+    },
     head: {
       desktop: 'Entfernter Desktop',
       login: 'Anmelden',

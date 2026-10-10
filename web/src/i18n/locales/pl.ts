@@ -1,5 +1,10 @@
 const pl = {
   translation: {
+    common: {
+      confirm: 'Potwierdź',
+      cancel: 'Anuluj',
+      delete: 'Usuń'
+    },
     head: {
       desktop: 'Zdalny pulpit',
       login: 'Logowanie',

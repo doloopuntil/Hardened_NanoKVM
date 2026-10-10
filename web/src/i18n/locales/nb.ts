@@ -1,5 +1,10 @@
 const nb = {
   translation: {
+    common: {
+      confirm: 'Bekreft',
+      cancel: 'Avbryt',
+      delete: 'Slett'
+    },
     head: {
       desktop: 'Eksternt skrivebord',
       login: 'Logg inn',

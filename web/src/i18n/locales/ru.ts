@@ -1,5 +1,10 @@
 const ru = {
   translation: {
+    common: {
+      confirm: 'Подтвердить',
+      cancel: 'Отмена',
+      delete: 'Удалить'
+    },
     head: {
       desktop: 'Удаленный рабочий стол',
       login: 'Войти',

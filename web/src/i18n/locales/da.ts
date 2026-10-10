@@ -1,5 +1,10 @@
 const da = {
   translation: {
+    common: {
+      confirm: 'Bekræft',
+      cancel: 'Annuller',
+      delete: 'Slet'
+    },
     head: {
       desktop: 'Fjernskrivebord',
       login: 'Log ind',

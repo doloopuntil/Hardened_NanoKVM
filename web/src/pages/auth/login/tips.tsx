@@ -33,12 +33,7 @@ export const Tips = () => {
       >
         <Card style={{ marginTop: '20px' }}>
           <div className="flex w-[430px] flex-col space-y-5">
-            <div>
-              {t('auth.tips.hardenedRecovery', {
-                defaultValue:
-                  'This Hardened image does not support password reset from the BOOT button. If the password is lost, reflash the SD card and create a new account.'
-              })}
-            </div>
+            <div>{t('auth.tips.hardenedRecovery')}</div>
           </div>
         </Card>
 

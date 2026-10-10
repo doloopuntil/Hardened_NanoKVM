@@ -1,11 +1,12 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Alert, Button, Divider, Input, message, Select, Switch } from 'antd';
+import { Alert, Button, Divider, Input, Select, Switch } from 'antd';
 import { ClockIcon, PlusIcon, RefreshCwIcon, RouterIcon, Trash2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/system-time.ts';
 import type { TimeConfig, TimeConfigResponse } from '@/api/system-time.ts';
+import { toast } from '@/lib/feedback.ts';
 
 import type { SystemActionHandle, SystemActionState } from './action.ts';
 
@@ -53,7 +54,7 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
       try {
         const rsp = await api.getConfig();
         if (rsp.code !== 0 || !rsp.data) {
-          message.error(rsp.msg || t('settings.system.time.loadFailed'));
+          toast.error(rsp.msg || t('settings.system.time.loadFailed'));
           return;
         }
 
@@ -63,7 +64,7 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
         setSavedConfig(nextConfig);
       } catch (err) {
         console.log(err);
-        message.error(t('settings.system.time.loadFailed'));
+        toast.error(t('settings.system.time.loadFailed'));
       } finally {
         setIsLoading(false);
       }
@@ -97,7 +98,7 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
 
     function addServer() {
       if (config.servers.length >= 6) {
-        message.error(t('settings.system.time.maxServers', { count: 6 }));
+        toast.error(t('settings.system.time.maxServers', { count: 6 }));
         return;
       }
       patchConfig({ servers: [...config.servers, ''] });
@@ -117,7 +118,7 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
 
       const servers = config.servers.map((server) => server.trim()).filter(Boolean);
       if (config.ntpEnabled && servers.length === 0) {
-        message.error(t('settings.system.time.invalidServers'));
+        toast.error(t('settings.system.time.invalidServers'));
         return;
       }
 
@@ -125,7 +126,7 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
       try {
         const rsp = await api.setConfig({ ...config, servers });
         if (rsp.code !== 0 || !rsp.data) {
-          message.error(rsp.msg || t('settings.system.time.saveFailed'));
+          toast.error(rsp.msg || t('settings.system.time.saveFailed'));
           return;
         }
 
@@ -133,10 +134,10 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
         setData(rsp.data);
         setConfig(nextConfig);
         setSavedConfig(nextConfig);
-        message.success(t('settings.system.time.saved'));
+        toast.success(t('settings.system.time.saved'));
       } catch (err) {
         console.log(err);
-        message.error(t('settings.system.time.saveFailed'));
+        toast.error(t('settings.system.time.saveFailed'));
       } finally {
         setIsSaving(false);
       }
@@ -149,7 +150,7 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
       try {
         const rsp = await api.syncNow();
         if (rsp.code !== 0 || !rsp.data) {
-          message.error(rsp.msg || t('settings.system.time.syncFailed'));
+          toast.error(rsp.msg || t('settings.system.time.syncFailed'));
           return;
         }
 
@@ -157,10 +158,10 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
         setData(rsp.data);
         setConfig(nextConfig);
         setSavedConfig(nextConfig);
-        message.success(t('settings.system.time.synced'));
+        toast.success(t('settings.system.time.synced'));
       } catch (err) {
         console.log(err);
-        message.error(t('settings.system.time.syncFailed'));
+        toast.error(t('settings.system.time.syncFailed'));
       } finally {
         setIsSyncing(false);
       }

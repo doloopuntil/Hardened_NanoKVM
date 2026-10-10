@@ -1,5 +1,10 @@
 const zh_tw = {
   translation: {
+    common: {
+      confirm: '確認',
+      cancel: '取消',
+      delete: '刪除'
+    },
     head: {
       desktop: '遠端桌面',
       login: '登入',

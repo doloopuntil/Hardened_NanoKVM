@@ -1,5 +1,10 @@
 const fr = {
   translation: {
+    common: {
+      confirm: 'Confirmer',
+      cancel: 'Annuler',
+      delete: 'Supprimer'
+    },
     head: {
       desktop: 'Bureau à distance',
       login: 'Connexion',

@@ -1,5 +1,10 @@
 const nl = {
   translation: {
+    common: {
+      confirm: 'Bevestigen',
+      cancel: 'Annuleren',
+      delete: 'Verwijderen'
+    },
     head: {
       desktop: 'Extern bureaublad',
       login: 'Inloggen',

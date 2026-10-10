@@ -1,5 +1,10 @@
 const uk = {
   translation: {
+    common: {
+      confirm: 'Підтвердити',
+      cancel: 'Скасувати',
+      delete: 'Видалити'
+    },
     head: {
       desktop: 'Віддалений робочий стіл',
       login: 'Вхід',

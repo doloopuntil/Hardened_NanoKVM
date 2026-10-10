@@ -1,5 +1,10 @@
 const se = {
   translation: {
+    common: {
+      confirm: 'Bekräfta',
+      cancel: 'Avbryt',
+      delete: 'Ta bort'
+    },
     head: {
       desktop: 'Fjärrskrivbord',
       login: 'Logga in',

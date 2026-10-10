@@ -1,5 +1,10 @@
 const th = {
   translation: {
+    common: {
+      confirm: 'ยืนยัน',
+      cancel: 'ยกเลิก',
+      delete: 'ลบ'
+    },
     head: {
       desktop: 'เดสก์ท็อประยะไกล',
       login: 'เข้าสู่ระบบ',

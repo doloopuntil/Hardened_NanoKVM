@@ -1,5 +1,10 @@
 const zh = {
   translation: {
+    common: {
+      confirm: '确认',
+      cancel: '取消',
+      delete: '删除'
+    },
     head: {
       desktop: '远程桌面',
       login: '登录',

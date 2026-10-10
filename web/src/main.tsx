@@ -22,6 +22,9 @@ const renderApp = () => {
     }
   };
 
+  // static message/Modal.confirm render outside the provider tree
+  ConfigProvider.config({ theme: themeConfig });
+
   return ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <Suspense

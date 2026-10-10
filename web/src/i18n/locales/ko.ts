@@ -1,5 +1,10 @@
 const ko = {
   translation: {
+    common: {
+      confirm: '확인',
+      cancel: '취소',
+      delete: '삭제'
+    },
     head: {
       desktop: '원격 데스크톱',
       login: '로그인',

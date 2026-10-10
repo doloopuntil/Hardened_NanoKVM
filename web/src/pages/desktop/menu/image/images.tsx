@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Modal, notification, Popconfirm, Typography } from 'antd';
+import { Button, notification, Typography } from 'antd';
 import clsx from 'clsx';
 import {
   ArrowBigDownDashIcon,
@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/storage.ts';
 import { getVirtualDevice, updateVirtualDevice } from '@/api/virtual-device.ts';
+import { confirm, toast } from '@/lib/feedback.ts';
 import { IMAGE_LIST_CHANGED_EVENT } from '@/lib/image-events.ts';
 import { client } from '@/lib/websocket.ts';
 
@@ -32,14 +33,9 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
   const [images, setImages] = useState<string[]>([]);
   const [mountingImage, setMountingImage] = useState('');
   const [mountedImage, setMountedImage] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
   const [deletingImage, setDeletingImage] = useState('');
   const [isReconnecting, setIsReconnecting] = useState(false);
-  const [diskPrompt, setDiskPrompt] = useState('');
-  const [pendingImage, setPendingImage] = useState('');
   const [isDiskShared, setIsDiskShared] = useState(false);
-  const [forceImage, setForceImage] = useState('');
   const isLoadingRef = useRef(false);
 
   // get mounted image
@@ -130,23 +126,24 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
         return;
       }
 
-      setDiskPrompt(rsp.data?.disk ? 'on' : 'off');
-      setPendingImage(image);
+      const diskOn = !!rsp.data?.disk;
+      confirm({
+        title: t('image.attention'),
+        content: (
+          <div className="space-y-1">
+            <p>{t(diskOn ? 'image.diskOnWarn' : 'image.diskOffWarn')}</p>
+            <Typography.Text code>{fileName(image)}</Typography.Text>
+          </div>
+        ),
+        onOk: () => confirmMountImage(image, diskOn)
+      });
     });
   }
 
   // turn the virtual disk on, then mount
-  async function confirmMountImage() {
-    const image = pendingImage;
-    const prompt = diskPrompt;
-
-    setPendingImage('');
-    setDiskPrompt('');
-
-    if (!image) return;
-
+  async function confirmMountImage(image: string, diskOn: boolean) {
     // the media device only exists while the virtual disk is enabled
-    if (prompt === 'off') {
+    if (!diskOn) {
       const rsp = await updateVirtualDevice('disk');
       if (rsp.code !== 0) {
         console.log(rsp.msg);
@@ -175,7 +172,18 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
       .then((rsp) => {
         // the computer has locked the medium, so offer to force the eject
         if (rsp.code === api.MEDIA_LOCKED_CODE) {
-          setForceImage(image);
+          confirm({
+            danger: true,
+            title: t('image.attention'),
+            content: (
+              <div className="space-y-1">
+                <p>{t('image.forceEjectConfirm')}</p>
+                <Typography.Text code>{fileName(image)}</Typography.Text>
+              </div>
+            ),
+            okText: t('image.forceEject'),
+            onOk: () => doMountImage(image, true)
+          });
           return;
         }
 
@@ -196,14 +204,6 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
       });
   }
 
-  // eject although the computer holds the medium: its USB device disconnects for a moment
-  function confirmForceEject() {
-    const image = forceImage;
-    setForceImage('');
-
-    if (image) doMountImage(image, true);
-  }
-
   // show delete image modal
   function showDeleteModal(e: any, image: string) {
     e.stopPropagation();
@@ -215,19 +215,27 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
       return;
     }
 
-    setSelectedImage(image);
-    setIsModalOpen(true);
+    confirm({
+      danger: true,
+      title: t('image.attention'),
+      content: (
+        <div className="space-y-1">
+          <p>{t('image.deleteConfirm')}</p>
+          <Typography.Text code>{image}</Typography.Text>
+        </div>
+      ),
+      okText: t('common.delete'),
+      onOk: () => deleteImage(image)
+    });
   }
 
   // delete image
-  function deleteImage() {
-    if (!selectedImage || !!deletingImage) return;
-    setDeletingImage(selectedImage);
-
-    setIsModalOpen(false);
+  function deleteImage(image: string) {
+    if (deletingImage) return;
+    setDeletingImage(image);
 
     api
-      .deleteImage(selectedImage)
+      .deleteImage(image)
       .then((rsp) => {
         if (rsp.code !== 0) {
           console.log(rsp.msg);
@@ -235,12 +243,19 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
         }
 
         getImages();
-
-        setSelectedImage('');
       })
       .finally(() => {
         setDeletingImage('');
       });
+  }
+
+  function confirmReconnectUsbGadget() {
+    confirm({
+      title: t('image.usbReconnect'),
+      content: t('image.usbReconnectConfirm'),
+      okText: t('image.usbReconnect'),
+      onOk: reconnectUsbGadget
+    });
   }
 
   function reconnectUsbGadget() {
@@ -253,7 +268,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
       .reconnectUsbGadget()
       .then((rsp) => {
         if (rsp.code !== 0) {
-          notify.open({
+          notify.error({
             message: t('image.usbReconnectFailed'),
             description: rsp.msg || t('image.mountDesc'),
             duration: 10
@@ -261,10 +276,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
           return;
         }
 
-        notify.success({
-          message: t('image.usbReconnectSuccess'),
-          duration: 5
-        });
+        toast.success(t('image.usbReconnectSuccess'));
         getMountedImage();
       })
       .finally(() => {
@@ -278,7 +290,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
     const message = isMounted ? 'image.unmountFailed' : 'image.mountFailed';
     const description = isMounted ? 'image.unmountDesc' : 'image.mountDesc';
 
-    notify.open({
+    notify.error({
       message: t(message),
       description: apiMessage || t(description),
       duration: 10
@@ -360,93 +372,30 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
       </div>
 
       <div className="mt-3 flex justify-end border-t border-neutral-700/70 pt-3">
-        <Popconfirm
-          title={t('image.usbReconnect')}
-          description={t('image.usbReconnectConfirm')}
-          okText={t('image.okBtn')}
-          cancelText={t('image.cancelBtn')}
-          onConfirm={reconnectUsbGadget}
+        <Button
+          size="small"
+          icon={
+            isReconnecting ? (
+              <LoaderCircleIcon className="animate-spin" size={14} />
+            ) : (
+              <CableIcon size={14} />
+            )
+          }
+          loading={isReconnecting}
+          onClick={confirmReconnectUsbGadget}
         >
-          <Button
-            size="small"
-            icon={
-              isReconnecting ? (
-                <LoaderCircleIcon className="animate-spin" size={14} />
-              ) : (
-                <CableIcon size={14} />
-              )
-            }
-            loading={isReconnecting}
-          >
-            {t('image.usbReconnect')}
-          </Button>
-        </Popconfirm>
+          {t('image.usbReconnect')}
+        </Button>
       </div>
-
-      <Modal
-        title={t('image.attention')}
-        open={isModalOpen}
-        width={520}
-        footer={null}
-        onCancel={() => setIsModalOpen(false)}
-      >
-        <div className="flex flex-col items-center pb-10">
-          <p>{t('image.deleteConfirm')}</p>
-          <Typography.Text code>{selectedImage}</Typography.Text>
-        </div>
-
-        <div className="flex justify-center space-x-3 pb-3">
-          <Button type="primary" danger onClick={deleteImage}>
-            {t('image.okBtn')}
-          </Button>
-          <Button onClick={() => setIsModalOpen(false)}>{t('image.cancelBtn')}</Button>
-        </div>
-      </Modal>
-
-      <Modal
-        title={t('image.attention')}
-        open={diskPrompt !== ''}
-        width={520}
-        footer={null}
-        onCancel={() => setDiskPrompt('')}
-      >
-        <div className="flex flex-col items-center space-y-1 pb-10">
-          <p>{t(diskPrompt === 'on' ? 'image.diskOnWarn' : 'image.diskOffWarn')}</p>
-          <Typography.Text code>{pendingImage.replace(/^.*[\\/]/, '')}</Typography.Text>
-        </div>
-
-        <div className="flex justify-center space-x-3 pb-3">
-          <Button type="primary" onClick={confirmMountImage}>
-            {t('image.okBtn')}
-          </Button>
-          <Button onClick={() => setDiskPrompt('')}>{t('image.cancelBtn')}</Button>
-        </div>
-      </Modal>
-
-      <Modal
-        title={t('image.attention')}
-        open={forceImage !== ''}
-        width={520}
-        footer={null}
-        onCancel={() => setForceImage('')}
-      >
-        <div className="flex flex-col items-center space-y-1 pb-10">
-          <p>{t('image.forceEjectConfirm')}</p>
-          <Typography.Text code>{forceImage.replace(/^.*[\\/]/, '')}</Typography.Text>
-        </div>
-
-        <div className="flex justify-center space-x-3 pb-3">
-          <Button type="primary" danger onClick={confirmForceEject}>
-            {t('image.forceEject')}
-          </Button>
-          <Button onClick={() => setForceImage('')}>{t('image.cancelBtn')}</Button>
-        </div>
-      </Modal>
 
       {contextHolder}
     </>
   );
 };
+
+function fileName(path: string): string {
+  return path.replace(/^.*[\\/]/, '');
+}
 
 function isImageCdrom(image: string): boolean {
   return image.toLowerCase().endsWith('.iso');

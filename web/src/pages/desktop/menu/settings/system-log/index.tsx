@@ -1,11 +1,12 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Alert, Button, Divider, Input, InputNumber, message, Select, Switch } from 'antd';
+import { Alert, Button, Divider, Input, InputNumber, Select, Switch } from 'antd';
 import { RefreshCwIcon, SendIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/system-log.ts';
 import type { SystemLogConfig } from '@/api/system-log.ts';
+import { toast } from '@/lib/feedback.ts';
 
 import type { SystemActionHandle, SystemActionState } from '../system/action.ts';
 
@@ -66,7 +67,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
       try {
         const rsp = await api.getConfig();
         if (rsp.code !== 0 || !rsp.data) {
-          message.error(rsp.msg || t('settings.systemLog.loadFailed'));
+          toast.error(rsp.msg || t('settings.systemLog.loadFailed'));
           return;
         }
 
@@ -76,7 +77,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
         setLocalLogFile(rsp.data.localLogFile || defaultConfigPath());
       } catch (err) {
         console.log(err);
-        message.error(t('settings.systemLog.loadFailed'));
+        toast.error(t('settings.systemLog.loadFailed'));
       } finally {
         setIsLoading(false);
       }
@@ -85,7 +86,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
     const save = useCallback(async () => {
       if (isSaving) return;
       if (config.remoteEnabled && !config.remoteHost.trim()) {
-        message.error(t('settings.systemLog.invalidHost'));
+        toast.error(t('settings.systemLog.invalidHost'));
         return;
       }
 
@@ -96,11 +97,11 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
           remoteHost: config.remoteHost.trim()
         });
         if (rsp.code !== 0) {
-          message.error(rsp.msg || t('settings.systemLog.saveFailed'));
+          toast.error(rsp.msg || t('settings.systemLog.saveFailed'));
           return;
         }
 
-        message.success(t('settings.systemLog.saved'));
+        toast.success(t('settings.systemLog.saved'));
         if (rsp.data?.config) {
           const nextConfig = { ...defaultConfig, ...rsp.data.config };
           setConfig(nextConfig);
@@ -109,7 +110,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
         refreshLog(lineCount);
       } catch (err) {
         console.log(err);
-        message.error(t('settings.systemLog.saveFailed'));
+        toast.error(t('settings.systemLog.saveFailed'));
       } finally {
         setIsSaving(false);
       }
@@ -120,7 +121,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
       try {
         const rsp = await api.getMessages('system', lines);
         if (rsp.code !== 0 || !rsp.data) {
-          message.error(rsp.msg || t('settings.systemLog.logLoadFailed'));
+          toast.error(rsp.msg || t('settings.systemLog.logLoadFailed'));
           return;
         }
 
@@ -128,7 +129,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
         setLogTruncated(Boolean(rsp.data.truncated));
       } catch (err) {
         console.log(err);
-        message.error(t('settings.systemLog.logLoadFailed'));
+        toast.error(t('settings.systemLog.logLoadFailed'));
       } finally {
         setIsLogLoading(false);
       }
@@ -141,15 +142,15 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
       try {
         const rsp = await api.sendTestMessage();
         if (rsp.code !== 0) {
-          message.error(rsp.msg || t('settings.systemLog.testFailed'));
+          toast.error(rsp.msg || t('settings.systemLog.testFailed'));
           return;
         }
 
-        message.success(t('settings.systemLog.testSent'));
+        toast.success(t('settings.systemLog.testSent'));
         refreshLog(lineCount);
       } catch (err) {
         console.log(err);
-        message.error(t('settings.systemLog.testFailed'));
+        toast.error(t('settings.systemLog.testFailed'));
       } finally {
         setIsTesting(false);
       }

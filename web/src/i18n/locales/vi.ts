@@ -1,5 +1,10 @@
 const vi = {
   translation: {
+    common: {
+      confirm: 'Xác nhận',
+      cancel: 'Hủy',
+      delete: 'Xóa'
+    },
     head: {
       desktop: 'Màn hình từ xa',
       login: 'Đăng nhập',

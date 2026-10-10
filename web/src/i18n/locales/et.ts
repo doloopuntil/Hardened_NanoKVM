@@ -3,6 +3,9 @@ import en from './en';
 const et: typeof en = JSON.parse(JSON.stringify(en));
 
 const translations: Record<string, string> = {
+  'common.confirm': 'Kinnita',
+  'common.cancel': 'Tühista',
+  'common.delete': 'Kustuta',
   'screen.fps': 'FPS',
   'settings.about.ip': 'IP',
   'settings.about.mdns': 'mDNS',

@@ -1,5 +1,10 @@
 const hu = {
   translation: {
+    common: {
+      confirm: 'Megerősítés',
+      cancel: 'Mégse',
+      delete: 'Törlés'
+    },
     head: {
       desktop: 'Távoli Asztal',
       login: 'Bejelentkezés',

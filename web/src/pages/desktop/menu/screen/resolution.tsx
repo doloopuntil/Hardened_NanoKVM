@@ -1,10 +1,11 @@
-import { message, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import { useAtom } from 'jotai';
 import { CheckIcon, CircleHelpIcon, RatioIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { updateScreen } from '@/api/vm';
 import { Resolution as TypeResolution } from '@/types';
+import { toast } from '@/lib/feedback.ts';
 import { setResolution as setCookie } from '@/lib/localstorage';
 import { resolutionAtom } from '@/jotai/screen.ts';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
@@ -25,7 +26,7 @@ export const Resolution = () => {
     try {
       const rsp = await updateScreen('resolution', item.height);
       if (rsp.code !== 0) {
-        message.error(rsp.msg || 'Failed to update resolution');
+        toast.error(rsp.msg || t('screen.updateFailed'));
         return;
       }
 
@@ -34,7 +35,7 @@ export const Resolution = () => {
     } catch (err) {
       console.error(err);
       const msg = (err as { response?: { data?: { msg?: string } } }).response?.data?.msg;
-      message.error(msg || 'Failed to update resolution');
+      toast.error(msg || t('screen.updateFailed'));
     }
   }
 

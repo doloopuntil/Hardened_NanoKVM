@@ -1,5 +1,10 @@
 const it = {
   translation: {
+    common: {
+      confirm: 'Conferma',
+      cancel: 'Annulla',
+      delete: 'Elimina'
+    },
     head: {
       desktop: 'Desktop Remoto',
       login: 'Accesso',
