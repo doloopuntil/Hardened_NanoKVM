@@ -45,7 +45,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | -------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
 | POST     | `/api/auth/logout`   | Implemented; revokes current session.                                                                          |
 | GET      | `/api/auth/account`  | Implemented.                                                                                                   |
-| GET/POST | `/api/auth/password` | Implemented; Argon2id writes, legacy verification, password-change session revocation, and root password sync. |
+| GET/POST | `/api/auth/password` | Implemented; requires the current password (`currentPassword`), Argon2id writes, legacy verification, password-change session revocation, and root password sync. |
 
 ### Application Updates
 
