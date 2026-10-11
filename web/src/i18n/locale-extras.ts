@@ -2,6 +2,7 @@ import type { ResourceLanguage } from 'i18next';
 
 import { termLocalizedExtras } from './term-extras';
 import { totpLocalizedExtras } from './totp-extras';
+import { translationFixes } from './translation-fixes';
 
 type TranslationMap = Record<string, string>;
 
@@ -7209,7 +7210,8 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
     ...firewallNoWebrtcExtras,
     ...firewallNoWebrtcModeDescriptionExtras,
     ...(totpLocalizedExtras[key] || totpFallbackExtras),
-    ...(termLocalizedExtras[key] || {})
+    ...(termLocalizedExtras[key] || {}),
+    ...(translationFixes[key] || {})
   };
   if (!Object.keys(extras).length) return;
 
