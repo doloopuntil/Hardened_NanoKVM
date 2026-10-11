@@ -1,25 +1,34 @@
-import { message, Modal, type ModalFuncProps } from 'antd';
+import { message, Modal, notification, type ModalFuncProps } from 'antd';
 import i18n from 'i18next';
 
 const ERROR_SECONDS = 5;
 
-// Transient result of a user action. Persistent or system events use notification.
+type CardOptions = { key?: string; description?: string };
+
+function card(type: 'error' | 'warning', content: string, options: CardOptions) {
+  notification[type]({
+    message: content,
+    description: options.description,
+    key: options.key,
+    duration: ERROR_SECONDS,
+    placement: 'topRight'
+  });
+}
+
+// Transient result of a user action. Failures and warnings are cards from the right so they
+// stand out; the rest are one-line messages at the top.
 export const toast = {
   success: (content: string) => message.success(content),
   info: (content: string) => message.info(content),
-  warning: (content: string) => message.warning(content),
-  error: (content: string, key?: string) => message.error({ content, duration: ERROR_SECONDS, key })
+  warning: (content: string, options: CardOptions = {}) => card('warning', content, options),
+  error: (content: string, options: CardOptions = {}) => card('error', content, options)
 };
 
 const LOAD_FAILED_KEY = 'load-failed';
 
 // One shared toast, however many loads fail at once.
 export function toastLoadFailed() {
-  message.error({
-    key: LOAD_FAILED_KEY,
-    content: i18n.t('common.loadFailed'),
-    duration: ERROR_SECONDS
-  });
+  toast.error(i18n.t('common.loadFailed'), { key: LOAD_FAILED_KEY });
 }
 
 type ConfirmOptions = ModalFuncProps & { danger?: boolean };
@@ -40,15 +49,17 @@ type Rsp = { code: number; msg?: string };
 // BadRequest and Conflict messages are written for users; other codes carry raw errors.
 const READABLE_CODES = [-1, -409];
 
-function failureText(rsp?: Rsp) {
-  const detail = rsp && READABLE_CODES.includes(rsp.code) ? rsp.msg : '';
-  return detail ? i18n.t('common.actionFailedDetail', { detail }) : i18n.t('common.actionFailed');
+function failureDetail(rsp?: Rsp) {
+  return rsp && READABLE_CODES.includes(rsp.code) ? rsp.msg : undefined;
 }
 
 // Keyed by text: identical failures at once show a single toast.
 function toastFailure(rsp?: Rsp) {
-  const text = failureText(rsp);
-  toast.error(text, text);
+  const detail = failureDetail(rsp);
+  toast.error(i18n.t('common.actionFailed'), {
+    description: detail,
+    key: `failed:${detail ?? ''}`
+  });
 }
 
 // Run an API call; on failure show one error toast and return undefined. Pass

@@ -12,6 +12,7 @@ import { getVirtualDevice, updateVirtualDevice } from '@/api/virtual-device.ts';
 import { getCsrfToken } from '@/lib/cookie.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { notifyImageListChanged } from '@/lib/image-events.ts';
+import { capitalizeFirst } from '@/lib/text.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
 
@@ -469,7 +470,10 @@ export const DownloadImage = () => {
           resolve();
           return;
         }
-        const message = body?.msg === 'sha256 mismatch' ? t('download.checksumFailed') : body?.msg;
+        const message =
+          body?.msg === 'sha256 mismatch'
+            ? t('download.checksumFailed')
+            : body?.msg && capitalizeFirst(body.msg);
         reject(new Error(message || t('download.uploadFailed')));
       };
 
