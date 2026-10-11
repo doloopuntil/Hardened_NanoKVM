@@ -408,7 +408,6 @@ const pt_br = {
           connectDesc1: 'Digite o SSID da rede e a senha',
           connectDesc2: 'Digite a senha para entrar nesta rede',
           disconnect: 'Tem certeza de que deseja desconectar a rede?',
-          failed: 'Falha na conexão, tente novamente.',
           ssid: 'Nome',
           password: 'Senha',
           joinBtn: 'Entrar',

@@ -408,7 +408,6 @@ const cz = {
           connectDesc1: 'Zadejte SSID sítě a heslo',
           connectDesc2: 'Zadejte heslo pro připojení k této síti',
           disconnect: 'Opravdu chcete síť odpojit?',
-          failed: 'Připojení se nezdařilo, zkuste to znovu.',
           ssid: 'Název',
           password: 'Heslo',
           joinBtn: 'Připojit',

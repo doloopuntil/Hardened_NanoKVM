@@ -407,7 +407,6 @@ const da = {
           connectDesc1: 'Indtast netværkets SSID og adgangskode',
           connectDesc2: 'Indtast adgangskoden for at tilslutte dette netværk',
           disconnect: 'Er du sikker på, at du vil afbryde netværket?',
-          failed: 'Forbindelsen mislykkedes, prøv igen.',
           ssid: 'Navn',
           password: 'Adgangskode',
           joinBtn: 'Tilslut',

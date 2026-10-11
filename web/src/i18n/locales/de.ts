@@ -413,7 +413,6 @@ const de = {
           connectDesc1: 'Bitte geben Sie die Netzwerk-SSID und das Passwort ein',
           connectDesc2: 'Bitte geben Sie das Passwort ein, um diesem Netzwerk beizutreten',
           disconnect: 'Möchten Sie die Netzwerkverbindung wirklich trennen?',
-          failed: 'Verbindung fehlgeschlagen, bitte erneut versuchen.',
           ssid: 'Name',
           password: 'Passwort',
           joinBtn: 'Verbinden',

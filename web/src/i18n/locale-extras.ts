@@ -3353,8 +3353,8 @@ const totpFallbackExtras: TranslationMap = {
   'auth.placeholderNewPassword': 'New password',
   'auth.wrongCurrentPassword': 'Current password is incorrect',
   'auth.totp.title': 'Two-factor authentication',
-  'auth.totp.prompt': 'Enter the 6-digit code from your authenticator app.',
-  'auth.totp.backupPrompt': 'Enter one of your backup codes.',
+  'auth.totp.prompt': 'Enter the 6-digit code from your authenticator app',
+  'auth.totp.backupPrompt': 'Enter one of your backup codes',
   'auth.totp.noEmptyCode': 'Enter a code',
   'auth.totp.placeholderCode': '6-digit code',
   'auth.totp.placeholderBackup': 'Backup code',
@@ -3365,7 +3365,7 @@ const totpFallbackExtras: TranslationMap = {
   'auth.totp.invalidCode': 'That code is not valid. Try again.',
   'settings.account.totp.title': 'Two-factor authentication',
   'settings.account.totp.description':
-    'Require a time-based code from an authenticator app in addition to your password.',
+    'Require a time-based code from an authenticator app in addition to your password',
   'settings.account.totp.enabled': 'Enabled',
   'settings.account.totp.disabled': 'Disabled',
   'settings.account.totp.required': 'Required by policy',
@@ -3407,7 +3407,7 @@ const totpFallbackExtras: TranslationMap = {
   'settings.account.totp.copyFailed': 'Could not copy. Select the codes and copy them manually.',
   'settings.account.totp.requireTitle': 'Require two-factor authentication',
   'settings.account.totp.requireDescription':
-    'While on, two-factor authentication cannot be disabled, and an account without it must set it up before using the device.',
+    'While on, two-factor authentication cannot be disabled, and an account without it must set it up before using the device',
   'settings.account.totp.requireFailed': 'Could not change the requirement',
   'settings.account.totp.requiredTitle': 'Two-factor authentication is required',
   'settings.account.totp.requiredDescription':

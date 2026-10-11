@@ -406,7 +406,6 @@ const ca = {
           connectDesc1: 'Introdueix el SSID i la contrasenya de la xarxa',
           connectDesc2: 'Introdueix la contrasenya per connectar-te a aquesta xarxa',
           disconnect: 'Segur que vols desconnectar la xarxa?',
-          failed: 'La connexió ha fallat, torna-ho a provar.',
           ssid: 'Nom',
           password: 'Contrasenya',
           joinBtn: 'Connecta',

@@ -406,7 +406,6 @@ const se = {
           connectDesc1: 'Ange nätverkets SSID och lösenord',
           connectDesc2: 'Ange lösenordet för att ansluta till detta nätverk',
           disconnect: 'Är du säker på att du vill koppla från nätverket?',
-          failed: 'Anslutningen misslyckades, försök igen.',
           ssid: 'Namn',
           password: 'Lösenord',
           joinBtn: 'Anslut',

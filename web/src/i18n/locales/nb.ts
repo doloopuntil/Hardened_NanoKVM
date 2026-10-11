@@ -408,7 +408,6 @@ const nb = {
           connectDesc1: 'Skriv inn nettverkets SSID og passord',
           connectDesc2: 'Skriv inn passordet for å koble til dette nettverket',
           disconnect: 'Er du sikker på at du vil koble fra nettverket?',
-          failed: 'Tilkobling mislyktes, prøv igjen.',
           ssid: 'Navn',
           password: 'Passord',
           joinBtn: 'Koble til',

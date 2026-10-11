@@ -349,7 +349,6 @@ const translations: Record<string, string> = {
   'settings.network.wifi.connectDesc1': 'Syötä verkon SSID ja salasana',
   'settings.network.wifi.connectDesc2': 'Syötä salasana liittyäksesi tähän verkkoon',
   'settings.network.wifi.disconnect': 'Haluatko varmasti katkaista verkkoyhteyden?',
-  'settings.network.wifi.failed': 'Yhteys epäonnistui, yritä uudelleen.',
   'settings.network.wifi.ssid': 'Nimi',
   'settings.network.wifi.password': 'Salasana',
   'settings.network.wifi.joinBtn': 'Liity',

@@ -410,7 +410,6 @@ const fr = {
           connectDesc1: 'Veuillez saisir le SSID du réseau et le mot de passe',
           connectDesc2: 'Veuillez saisir le mot de passe pour rejoindre ce réseau',
           disconnect: 'Voulez-vous vraiment déconnecter le réseau ?',
-          failed: 'Échec de la connexion, veuillez réessayer.',
           ssid: 'Nom',
           password: 'Mot de passe',
           joinBtn: 'Rejoindre',

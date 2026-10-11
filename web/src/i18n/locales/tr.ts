@@ -406,7 +406,6 @@ const tr = {
           connectDesc1: "Lütfen ağ SSID'sini ve parolayı girin",
           connectDesc2: 'Bu ağa katılmak için parolayı girin',
           disconnect: 'Ağ bağlantısını kesmek istediğinizden emin misiniz?',
-          failed: 'Bağlantı başarısız, lütfen tekrar deneyin.',
           ssid: 'Ad',
           password: 'Parola',
           joinBtn: 'Katıl',

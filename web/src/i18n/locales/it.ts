@@ -411,7 +411,6 @@ const it = {
           connectDesc1: 'Inserisci SSID e password della rete',
           connectDesc2: 'Inserisci la password per unirti a questa rete',
           disconnect: 'Vuoi davvero disconnettere la rete?',
-          failed: 'Connessione non riuscita, riprova.',
           ssid: 'Nome',
           password: 'Password',
           joinBtn: 'Connetti',

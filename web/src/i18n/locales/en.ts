@@ -30,7 +30,7 @@ const en = {
       globalLocked: 'System under protection, please try again later',
       error: 'Unexpected error',
       changePassword: 'Change Password',
-      changePasswordDesc: 'For the security of your device, please change the password!',
+      changePasswordDesc: 'For the security of your device, please change the password',
       differentPassword: 'Passwords do not match',
       illegalUsername: 'Username contains illegal characters',
       illegalPassword:
@@ -42,21 +42,21 @@ const en = {
       setupTitle: 'Create administrator account',
       setupDescription:
         'No web account exists on this device yet. Create the first administrator account to continue.',
-      setupRecovery: 'If this password is lost, recovery requires reflashing the SD card.',
+      setupRecovery: 'If this password is lost, recovery requires reflashing the SD card',
       setupButtonText: 'Create account',
       tips: {
         hardenedRecovery:
           'This Hardened image does not support password reset from the BOOT button. If the password is lost, reflash the SD card and create a new account.',
         change1: 'Please note that this action will change the following passwords:',
         change2: 'Web login password',
-        change3: 'System root password (SSH login password)'
+        change3: 'System root password for SSH login'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Configure Wi-Fi for NanoKVM',
-      success: 'Please go to the device to check the network status of NanoKVM.',
-      failed: 'Operation failed, please try again.',
+      success: 'Please go to the device to check the network status of NanoKVM',
+      failed: 'Operation failed, please try again',
       invalidMode:
         'The current mode does not support network setup. Please go to your device and enable Wi-Fi configuration mode.',
       confirmBtn: 'Ok',
@@ -97,7 +97,7 @@ const en = {
       resetHdmi: 'Reset HDMI',
       webrtcConnectionFailed: {
         title: 'WebRTC connection failed',
-        description: 'Check the network connection or switch the video mode.'
+        description: 'Check the network connection or switch the video mode'
       },
       captureStatus: {
         hdmiError: 'HDMI screen error',
@@ -133,12 +133,12 @@ const en = {
         clear: 'Clear',
         save: 'Save',
         captureTips:
-          'Capturing system-level keys (such as the Windows key) requires full-screen permission.',
-        enterFullScreen: 'Toggle full-screen mode.'
+          'Capturing system-level keys, such as the Windows key, requires full-screen permission',
+        enterFullScreen: 'Toggle full-screen mode'
       },
       leaderKey: {
         title: 'Leader Key',
-        desc: 'Bypass browser restrictions and send system shortcuts directly to the remote host.',
+        desc: 'Bypass browser restrictions and send system shortcuts directly to the remote host',
         howToUse: 'How to Use',
         simultaneous: {
           title: 'Simultaneous Mode',
@@ -215,14 +215,14 @@ const en = {
       mountMode: 'Mount mode',
       mountFailed: 'Mount failed',
       mountDesc:
-        'On some systems, you need to eject the virtual disk from the remote host before mounting the image.',
+        'On some systems, you need to eject the virtual disk from the remote host before mounting the image',
       diskOnWarn:
         'Mounting the image turns the virtual disk off, so the computer can no longer access /data. Continue?',
       diskOffWarn:
         'The virtual disk is off and has to be enabled to mount the image. The USB devices on the computer are enumerated again. Continue?',
       unmountFailed: 'Unmount failed',
       unmountDesc:
-        'On some systems, you need to manually eject from the remote host before unmounting the image.',
+        'On some systems, you need to manually eject from the remote host before unmounting the image',
       forceEject: 'Force eject',
       forceEjectConfirm:
         'The host has locked the optical drive. Forcing an eject disconnects the virtual USB device for a moment, so the keyboard and mouse may briefly disconnect. Continue?',
@@ -237,14 +237,14 @@ const en = {
       tips: {
         title: 'How to upload',
         usb1: 'Connect the NanoKVM to your computer via USB.',
-        usb2: 'Ensure that the virtual disk is mounted (Settings - Virtual Disk).',
+        usb2: 'Ensure that the virtual disk is mounted in Settings > Device > Virtual Disk.',
         usb3: 'Open the virtual disk on your computer and copy the image file to the root directory of the virtual disk.',
         scp1: 'Make sure the NanoKVM and your computer are on the same local network.',
         scp2: 'Open a terminal on your computer and use the SCP command to upload the image file to the /data directory on the NanoKVM.',
         scp3: 'Example: scp your-image-path root@your-nanokvm-ip:/data',
         tfCard: 'TF Card',
         tf1: 'This method is supported on Linux system',
-        tf2: 'Get TF card from the NanoKVM (for the FULL version, disassemble the case first).',
+        tf2: 'Get the TF card from the NanoKVM. On the FULL version, disassemble the case first.',
         tf3: 'Insert the TF card into a card reader and connect it to your computer.',
         tf4: 'Copy the image file to the /data directory on the TF card.',
         tf5: 'Insert the TF card into the NanoKVM.'
@@ -268,7 +268,7 @@ const en = {
       nanokvm: 'NanoKVM Terminal',
       serial: 'Serial Port Terminal',
       unlockTitle: 'Unlock terminal',
-      unlockDesc: 'Enter your web account password to start a terminal session.',
+      unlockDesc: 'Enter your web account password to start a terminal session',
       unlock: 'Unlock',
       unlockFailed: 'Failed to unlock terminal',
       invalidCredentials: 'Invalid username or password',
@@ -303,7 +303,7 @@ const en = {
       ok: 'Ok',
       disabled:
         "Images can't be downloaded or uploaded right now because the storage isn't writable. If an image is mounted, unmount it, then turn off the virtual disk to make the storage writable again.",
-      diskShared: 'Turn the virtual disk off first, then use the image download.',
+      diskShared: 'Turn the virtual disk off first, then use the image download',
       mountedImage: 'This image is mounted. Unmount it before uploading a file with the same name.',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Drop file here or click to select',
@@ -319,9 +319,9 @@ const en = {
       canceled: 'Upload canceled',
       downloadCanceled: 'Download canceled',
       cancel: 'Cancel',
-      remoteDisabled: 'Remote ISO download is disabled in Settings > Appearance.',
+      remoteDisabled: 'Remote ISO download is disabled in Settings > Appearance',
       remoteFailed: 'Remote ISO download failed',
-      sha256: 'SHA-256 (optional)',
+      sha256: 'Optional SHA-256 checksum',
       sha256Placeholder: 'Enter a 64-character SHA-256 checksum',
       invalidSHA256: 'SHA-256 must be a 64-character hexadecimal string',
       checksumFailed: 'Download failed: SHA-256 verification failed'
@@ -332,8 +332,8 @@ const en = {
       showConfirmTip: 'Power operations require an extra confirmation',
       reset: 'Reset',
       power: 'Power',
-      powerShort: 'Power (short click)',
-      powerLong: 'Power (long click)',
+      powerShort: 'Power button: short click',
+      powerLong: 'Power button: long click',
       resetConfirm: 'Proceed reset operation?',
       powerConfirm: 'Proceed power operation?',
       okBtn: 'Yes',
@@ -426,13 +426,13 @@ const en = {
         },
         ssh: {
           description: 'Enable SSH remote access',
-          tip: 'Set a strong password before enabling (Account - Change Password)'
+          tip: 'Set a strong password in Account > Password before enabling this option'
         },
         swap: {
           title: 'Swap',
           disable: 'Disable',
           description: 'Set the swap file size',
-          tip: "Enabling this feature could shorten your SD card's usable life!"
+          tip: 'Enabling this feature could shorten the usable life of your SD card'
         },
         mouseJiggler: {
           title: 'Mouse Jiggler',
@@ -465,7 +465,7 @@ const en = {
           'HID-Only Mode stops emulating virtual devices, retaining only basic HID control',
         disk: 'Virtual Disk',
         diskDesc: 'Mount SD card on the remote host',
-        diskLocked: 'Off while an image is mounted (turning it on cancels the mount)',
+        diskLocked: 'Off while an image is mounted, and turning it on cancels the mount',
         diskCancelMount: 'Enabling the virtual disk cancels the mounted image. Continue?',
         networkCancelMount:
           'Changing the virtual network restarts the USB connection. This cancels the mounted image and turns the virtual disk on. Continue?',
@@ -474,8 +474,8 @@ const en = {
         network: 'Virtual Network',
         networkDesc: 'Mount virtual network card on the remote host',
         usbWakeup: 'USB Wakeup',
-        usbWakeupDesc: 'Allow keyboard or mouse events to wake the remote host.',
-        usbWakeupTip: 'Turn off if the host logs repeated USB wakeup messages.',
+        usbWakeupDesc: 'Allow keyboard or mouse events to wake the remote host',
+        usbWakeupTip: 'Turn off if the host logs repeated USB wakeup messages',
         reboot: 'Reboot',
         rebootDesc: 'Are you sure you want to reboot NanoKVM?',
         okBtn: 'Yes',
@@ -491,7 +491,6 @@ const en = {
           connectDesc1: 'Please enter the network ssid and password',
           connectDesc2: 'Please enter the password to join this network',
           disconnect: 'Are you sure to disconnect the network?',
-          failed: 'Connection failed, please try again.',
           ssid: 'Name',
           password: 'Password',
           joinBtn: 'Join',
@@ -500,7 +499,7 @@ const en = {
         },
         tls: {
           description: 'Enable HTTPS protocol',
-          tip: 'Be aware: Using HTTPS can increase latency, especially with MJPEG video mode.',
+          tip: 'Be aware: Using HTTPS can increase latency, especially with MJPEG video mode',
           rebootTitle: 'NanoKVM will reboot',
           rebootDesc:
             'The protocol change requires a device reboot. The browser will switch to the new address after {{seconds}} seconds:',
@@ -529,7 +528,7 @@ const en = {
           dnsServers: 'DNS Servers',
           dhcpServersDescription: 'DNS servers are automatically obtained from DHCP',
           manualServersDescription:
-            'DNS servers can be edited manually. IPv4 and IPv6 are supported',
+            'DNS servers can be edited manually. IPv4 and IPv6 are supported.',
           networkDetails: 'Network Details',
           interface: 'Interface',
           ipAddress: 'IP Address',
@@ -593,7 +592,7 @@ const en = {
           servers: {
             title: 'NTP Servers',
             description:
-              'Use public pool servers by default, or point NanoKVM at your local router/NTP server.',
+              'Use public pool servers by default, or point NanoKVM at your local router/NTP server',
             add: 'Add server',
             useRouter: 'Use router',
             useDefaults: 'Use defaults',
@@ -611,7 +610,7 @@ const en = {
           enabledPort: 'Enabled on port {{port}}',
           enableHttpsFirst: 'Enable HTTPS before enabling Restricted or Paranoid Firewall mode',
           httpsRequired:
-            'Restricted and Paranoid modes are disabled until HTTPS is enabled in Settings > System > Network.',
+            'Restricted and Paranoid modes are disabled until HTTPS is enabled in Settings > System > Network',
           mode: {
             title: 'Firewall Mode',
             description:
@@ -691,11 +690,11 @@ const en = {
           description: 'Forward system logs to a syslog server',
           host: 'Server',
           port: 'Port',
-          protocol: 'UDP syslog is used by the current BusyBox syslogd.'
+          protocol: 'UDP syslog is used by the current BusyBox syslogd'
         },
         local: {
           title: 'Local Log Buffer',
-          description: 'Current logs are kept in RAM at {{path}} to avoid SD-card writes.',
+          description: 'Current logs are kept in RAM at {{path}} to avoid SD-card writes',
           priority: 'Minimum priority',
           buffer: 'Buffer size',
           rotations: 'Rotations',
@@ -713,7 +712,7 @@ const en = {
           title: 'System Log',
           refresh: 'Refresh',
           empty: 'No log entries',
-          truncated: 'Only the latest log data is shown.',
+          truncated: 'Only the latest log data is shown',
           lines: '{{count}} lines'
         },
         level: {
@@ -739,13 +738,13 @@ const en = {
         },
         restart: 'Restart Tailscale?',
         stop: 'Stop Tailscale?',
-        stopDesc: 'Log out Tailscale and disable automatic startup on boot.',
+        stopDesc: 'Log out and disable autostart.',
         loading: 'Loading...',
-        notInstall: 'Tailscale not found! Please install.',
+        notInstall: 'Tailscale not found. Please install it.',
         install: 'Install',
         installing: 'Installing',
         failed: 'Install failed',
-        retry: 'Please refresh and try again. Or try to install manually',
+        retry: 'Please refresh and try again, or install manually.',
         download: 'Download the',
         package: 'installation package',
         unzip: 'and unzip it',
@@ -786,7 +785,7 @@ const en = {
         previewDesc: 'Get early access to new features and improvements',
         previewChannels: 'Controls both application and system preview channels',
         previewTip:
-          'Please be aware that preview releases may contain bugs or incomplete functionality!',
+          'Please be aware that preview releases may contain bugs or incomplete functionality',
         application: {
           title: 'Application Update'
         },
@@ -794,12 +793,12 @@ const en = {
           title: 'System Update',
           queryFailed: 'Get system version failed',
           appUpdateRequired:
-            'Update the application to {{version}} before installing this system update.',
+            'Update the application to {{version}} before installing this system update',
           requiredAppVersion: 'Required application version',
           downloadFailed: 'Download or verification failed',
           rawEnable: 'Allow raw system updates',
           rawEnableDesc:
-            'Allow verified raw boot/rootfs images to be written to the SD-card from this screen.',
+            'Allow verified raw boot/rootfs images to be written to the SD-card from this screen',
           rawEnableConfirmTitle: 'Allow raw system updates?',
           rawEnableConfirmDesc:
             'Raw system updates can replace boot and rootfs partitions. Use this only when you have physical recovery access.',
@@ -882,15 +881,15 @@ const en = {
     },
     picoclaw: {
       title: 'PicoClaw Assistant',
-      empty: 'Open the panel and start a task to begin.',
+      empty: 'Open the panel and start a task to begin',
       inputPlaceholder: 'Describe what you want the PicoClaw to do',
       newConversation: 'New conversation',
       processing: 'Processing...',
       agent: {
         defaultTitle: 'General Assistant',
-        defaultDescription: 'General chat, search, and workspace help.',
+        defaultDescription: 'General chat, search, and workspace help',
         kvmTitle: 'Remote Control',
-        kvmDescription: 'Operate the remote host through NanoKVM.',
+        kvmDescription: 'Operate the remote host through NanoKVM',
         switched: 'Agent role switched',
         switchFailed: 'Failed to switch agent role'
       },
@@ -937,8 +936,8 @@ const en = {
         success: 'PicoClaw installed successfully',
         failed: 'Failed to install PicoClaw',
         uninstalling: 'Uninstalling runtime...',
-        uninstalled: 'Runtime uninstalled successfully.',
-        uninstallFailed: 'Uninstall failed.',
+        uninstalled: 'Runtime uninstalled successfully',
+        uninstallFailed: 'Uninstall failed',
         requiredTitle: 'PicoClaw is not installed',
         requiredDescription: 'Install PicoClaw before starting the PicoClaw runtime.',
         progressDescription: 'PicoClaw is being downloaded and installed.',

@@ -410,7 +410,6 @@ const pl = {
           connectDesc1: 'Wprowadź SSID sieci i hasło',
           connectDesc2: 'Wprowadź hasło, aby połączyć się z tą siecią',
           disconnect: 'Czy na pewno chcesz rozłączyć sieć?',
-          failed: 'Połączenie nie powiodło się, spróbuj ponownie.',
           ssid: 'Nazwa',
           password: 'Hasło',
           joinBtn: 'Połącz',

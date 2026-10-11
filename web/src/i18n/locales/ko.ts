@@ -404,7 +404,6 @@ const ko = {
           connectDesc1: '네트워크 SSID와 비밀번호를 입력하세요',
           connectDesc2: '이 네트워크에 연결할 비밀번호를 입력하세요',
           disconnect: '네트워크 연결을 끊으시겠습니까?',
-          failed: '연결에 실패했습니다. 다시 시도하세요.',
           ssid: '이름',
           password: '비밀번호',
           joinBtn: '연결',

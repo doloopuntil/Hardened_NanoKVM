@@ -405,7 +405,6 @@ const zh = {
           connectDesc1: '请输入网络名称和密码',
           connectDesc2: '请输入密码以连接此网络',
           disconnect: '是否要断开该网络连接？',
-          failed: '连接失败，请重试',
           ssid: '名称',
           password: '密码',
           joinBtn: '加入',

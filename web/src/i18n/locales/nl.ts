@@ -410,7 +410,6 @@ const nl = {
           connectDesc1: 'Voer de netwerk-SSID en het wachtwoord in',
           connectDesc2: 'Voer het wachtwoord in om met dit netwerk te verbinden',
           disconnect: 'Weet je zeker dat je de netwerkverbinding wilt verbreken?',
-          failed: 'Verbinding mislukt, probeer het opnieuw.',
           ssid: 'Naam',
           password: 'Wachtwoord',
           joinBtn: 'Verbinden',

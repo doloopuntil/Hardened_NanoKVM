@@ -405,7 +405,6 @@ const vi = {
           connectDesc1: 'Vui lòng nhập SSID mạng và mật khẩu',
           connectDesc2: 'Vui lòng nhập mật khẩu để tham gia mạng này',
           disconnect: 'Bạn có chắc muốn ngắt kết nối mạng không?',
-          failed: 'Kết nối thất bại, vui lòng thử lại.',
           ssid: 'Tên',
           password: 'Mật khẩu',
           joinBtn: 'Tham gia',

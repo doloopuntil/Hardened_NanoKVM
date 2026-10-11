@@ -396,7 +396,6 @@ const zh_tw = {
           connectDesc1: '請輸入網路名稱和密碼',
           connectDesc2: '請輸入密碼以連線此網路',
           disconnect: '是否要中斷該網路連線？',
-          failed: '連線失敗，請重試',
           ssid: 'SSID 名稱',
           password: '密碼',
           joinBtn: '加入',

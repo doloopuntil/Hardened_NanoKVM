@@ -272,10 +272,10 @@ export const Login = (): ReactElement => {
               <p className="m-0 text-sm text-neutral-400">
                 {useBackupCode
                   ? t('auth.totp.backupPrompt', {
-                      defaultValue: 'Enter one of your backup codes.'
+                      defaultValue: 'Enter one of your backup codes'
                     })
                   : t('auth.totp.prompt', {
-                      defaultValue: 'Enter the 6-digit code from your authenticator app.'
+                      defaultValue: 'Enter the 6-digit code from your authenticator app'
                     })}
               </p>
             </div>

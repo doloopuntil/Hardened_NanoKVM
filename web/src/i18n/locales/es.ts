@@ -410,7 +410,6 @@ const es = {
           connectDesc1: 'Introduce el SSID de la red y la contraseña',
           connectDesc2: 'Introduce la contraseña para unirte a esta red',
           disconnect: '¿Seguro que quieres desconectar la red?',
-          failed: 'Error de conexión, inténtalo de nuevo.',
           ssid: 'Nombre',
           password: 'Contraseña',
           joinBtn: 'Unirse',

@@ -408,7 +408,6 @@ const id = {
           connectDesc1: 'Masukkan SSID jaringan dan kata sandi',
           connectDesc2: 'Masukkan kata sandi untuk bergabung ke jaringan ini',
           disconnect: 'Yakin ingin memutuskan jaringan?',
-          failed: 'Koneksi gagal, coba lagi.',
           ssid: 'Nama',
           password: 'Kata sandi',
           joinBtn: 'Gabung',

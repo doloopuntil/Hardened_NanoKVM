@@ -410,7 +410,6 @@ const ja = {
           connectDesc1: 'SSID とパスワードを入力してください',
           connectDesc2: 'このネットワークに接続するためのパスワードを入力してください',
           disconnect: 'このネットワーク接続を切断しますか？',
-          failed: '接続に失敗しました。もう一度お試しください。',
           ssid: 'SSID',
           password: 'パスワード',
           joinBtn: '接続',

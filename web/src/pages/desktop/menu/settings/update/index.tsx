@@ -163,7 +163,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             rsp.data.appUpdateRequired && rsp.data.latest?.requiredAppVersion
               ? t('settings.update.system.appUpdateRequired', {
                   version: rsp.data.latest.requiredAppVersion,
-                  defaultValue: `Update the application to ${rsp.data.latest.requiredAppVersion} before installing this system update.`
+                  defaultValue: `Update the application to ${rsp.data.latest.requiredAppVersion} before installing this system update`
                 })
               : rsp.data.error.includes('Paranoid Firewall')
                 ? t('settings.update.paranoidBlocked')

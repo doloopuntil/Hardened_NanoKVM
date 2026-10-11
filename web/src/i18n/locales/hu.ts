@@ -411,7 +411,6 @@ const hu = {
           connectDesc1: 'Adja meg a hálózat SSID-jét és jelszavát',
           connectDesc2: 'Adja meg a jelszót a hálózathoz való csatlakozáshoz',
           disconnect: 'Biztosan bontja a hálózati kapcsolatot?',
-          failed: 'A csatlakozás sikertelen, próbálja újra.',
           ssid: 'Név',
           password: 'Jelszó',
           joinBtn: 'Csatlakozás',

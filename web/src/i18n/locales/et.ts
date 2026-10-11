@@ -356,7 +356,6 @@ const translations: Record<string, string> = {
   'settings.network.wifi.connectDesc1': 'Sisesta võrgu SSID ja parool',
   'settings.network.wifi.connectDesc2': 'Sisesta selle võrguga liitumiseks parool',
   'settings.network.wifi.disconnect': 'Kas oled kindel, et soovid võrguühenduse katkestada?',
-  'settings.network.wifi.failed': 'Ühendus nurjus, proovi uuesti.',
   'settings.network.wifi.ssid': 'Nimi',
   'settings.network.wifi.password': 'Parool',
   'settings.network.wifi.joinBtn': 'Liitu',
