@@ -5,7 +5,6 @@ const vi = {
       cancel: 'Hủy',
       delete: 'Xóa',
       actionFailed: 'Thao tác thất bại',
-      actionFailedDetail: 'Thao tác thất bại: {{detail}}',
       loading: 'Đang tải cài đặt từ thiết bị...',
       loadFailed: 'Không thể tải cài đặt từ thiết bị',
       retry: 'Thử lại'
@@ -40,15 +39,9 @@ const vi = {
       cancel: 'Hủy',
       loginButtonText: 'Đăng nhập',
       tips: {
-        reset1:
-          'To reset the passwords, pressing and holding the BOOT button on the NanoKVM for 10 seconds.',
-        reset2: 'Để biết các bước chi tiết, vui lòng xem tài liệu này:',
-        reset3: 'Tài khoản web mặc định:',
-        reset4: 'Tài khoản SSH mặc định:',
         change1: 'Lưu ý rằng thao tác này sẽ thay đổi các mật khẩu sau:',
         change2: 'Mật khẩu đăng nhập web',
-        change3: 'Mật khẩu root hệ thống (mật khẩu đăng nhập SSH)',
-        change4: 'Để đặt lại mật khẩu, hãy nhấn và giữ nút BOOT trên NanoKVM.'
+        change3: 'Mật khẩu root hệ thống (mật khẩu đăng nhập SSH)'
       }
     },
     wifi: {
@@ -207,8 +200,6 @@ const vi = {
       refresh: 'Làm mới danh sách hình ảnh',
       attention: 'Chú ý',
       deleteConfirm: 'Bạn có chắc chắn muốn xóa hình ảnh này không?',
-      okBtn: 'Có',
-      cancelBtn: 'Không',
       tips: {
         title: 'Cách tải lên',
         usb1: 'Kết nối NanoKVM với máy tính của bạn qua USB.',

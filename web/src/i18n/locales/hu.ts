@@ -5,7 +5,6 @@ const hu = {
       cancel: 'Mégse',
       delete: 'Törlés',
       actionFailed: 'A művelet sikertelen',
-      actionFailedDetail: 'A művelet sikertelen: {{detail}}',
       loading: 'Beállítások betöltése az eszközről...',
       loadFailed: 'A beállításokat nem sikerült betölteni az eszközről',
       retry: 'Újra'
@@ -41,15 +40,9 @@ const hu = {
       cancel: 'Mégse',
       loginButtonText: 'Bejelentkezés',
       tips: {
-        reset1:
-          'To reset the passwords, pressing and holding the BOOT button on the NanoKVM for 10 seconds.',
-        reset2: 'A részletes lépésekért tekintse meg ezt a dokumentumot:',
-        reset3: 'Alapértelmezett webes fiók:',
-        reset4: 'Alapértelmezett SSH-fiók:',
         change1: 'Vegye figyelembe, hogy ez a művelet a következő jelszavakat módosítja:',
         change2: 'Webes bejelentkezési jelszó',
-        change3: 'Rendszer root jelszava (SSH bejelentkezési jelszó)',
-        change4: 'A jelszavak visszaállításához tartsa lenyomva a BOOT gombot a NanoKVM-en.'
+        change3: 'Rendszer root jelszava (SSH bejelentkezési jelszó)'
       }
     },
     wifi: {
@@ -211,8 +204,6 @@ const hu = {
       refresh: 'Frissítse a képlistát',
       attention: 'Figyelem',
       deleteConfirm: 'Biztosan törli ezt a képet?',
-      okBtn: 'Igen',
-      cancelBtn: 'Nem',
       tips: {
         title: 'Hogyan tölts fel képeket',
         usb1: 'Csatlakoztassa a NanoKVM-t a számítógépéhez USB-n keresztül.',

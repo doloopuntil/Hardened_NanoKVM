@@ -5,7 +5,6 @@ const id = {
       cancel: 'Batalkan',
       delete: 'Hapus',
       actionFailed: 'Operasi gagal',
-      actionFailedDetail: 'Operasi gagal: {{detail}}',
       loading: 'Memuat pengaturan dari perangkat...',
       loadFailed: 'Gagal memuat pengaturan dari perangkat',
       retry: 'Coba lagi'
@@ -40,15 +39,9 @@ const id = {
       cancel: 'Batalkan',
       loginButtonText: 'Masuk',
       tips: {
-        reset1:
-          'To reset the passwords, pressing and holding the BOOT button on the NanoKVM for 10 seconds.',
-        reset2: 'Untuk langkah-langkah rinci, lihat dokumen ini:',
-        reset3: 'Akun web default:',
-        reset4: 'Akun SSH default:',
         change1: 'Perhatikan bahwa tindakan ini akan mengubah kata sandi berikut:',
         change2: 'Kata sandi login web',
-        change3: 'Kata sandi root sistem (kata sandi login SSH)',
-        change4: 'Untuk mengatur ulang kata sandi, tekan dan tahan tombol BOOT pada NanoKVM.'
+        change3: 'Kata sandi root sistem (kata sandi login SSH)'
       }
     },
     wifi: {
@@ -209,8 +202,6 @@ const id = {
       refresh: 'Segarkan daftar gambar',
       attention: 'Perhatian',
       deleteConfirm: 'Apakah Anda yakin ingin menghapus gambar ini?',
-      okBtn: 'Ya',
-      cancelBtn: 'Tidak',
       tips: {
         title: 'Cara mengunggah',
         usb1: 'Hubungkan NanoKVM ke komputer Anda melalui USB.',

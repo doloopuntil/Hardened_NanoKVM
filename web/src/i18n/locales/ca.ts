@@ -5,7 +5,6 @@ const ca = {
       cancel: 'Cancel·la',
       delete: 'Esborra',
       actionFailed: "L'operació ha fallat",
-      actionFailedDetail: "L'operació ha fallat: {{detail}}",
       loading: 'Carregant la configuració del dispositiu...',
       loadFailed: "No s'ha pogut carregar la configuració del dispositiu",
       retry: 'Reintenta'
@@ -40,15 +39,9 @@ const ca = {
       cancel: 'Cancel·la',
       loginButtonText: 'Inicia sessió',
       tips: {
-        reset1:
-          'Per restablir les contrasenyes, mantingues premut el botó BOOT del NanoKVM durant 10 segons.',
-        reset2: 'Per veure els passos detallats, consulta aquest document:',
-        reset3: 'Compte web per defecte:',
-        reset4: 'Compte SSH per defecte:',
         change1: 'Aquesta acció canviarà les següents contrasenyes:',
         change2: "Contrasenya d'inici de sessió web",
-        change3: 'Contrasenya root del sistema (inici de sessió SSH)',
-        change4: 'Per restablir les contrasenyes, mantingues premut el botó BOOT del NanoKVM.'
+        change3: 'Contrasenya root del sistema (inici de sessió SSH)'
       }
     },
     wifi: {
@@ -207,8 +200,6 @@ const ca = {
       refresh: 'Actualitza la llista',
       attention: 'Atenció',
       deleteConfirm: 'Esteu segur que voleu suprimir aquesta imatge?',
-      okBtn: 'Sí',
-      cancelBtn: 'No',
       tips: {
         title: 'Com pujar imatges',
         usb1: 'Connecta el NanoKVM al teu ordinador via USB.',

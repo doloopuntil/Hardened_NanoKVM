@@ -5,7 +5,6 @@ const en = {
       cancel: 'Cancel',
       delete: 'Delete',
       actionFailed: 'Operation failed',
-      actionFailedDetail: 'Operation failed: {{detail}}',
       loading: 'Loading settings from the device...',
       loadFailed: "Couldn't load settings from the device",
       retry: 'Retry'
@@ -46,17 +45,11 @@ const en = {
       setupRecovery: 'If this password is lost, recovery requires reflashing the SD card.',
       setupButtonText: 'Create account',
       tips: {
-        reset1: 'Password recovery for this Hardened image requires reflashing the SD card.',
-        reset2: 'For general NanoKVM recovery information, see:',
-        reset3: 'Web account:',
-        resetWebAccount: 'created during first setup',
-        reset4: 'SSH default account:',
         hardenedRecovery:
           'This Hardened image does not support password reset from the BOOT button. If the password is lost, reflash the SD card and create a new account.',
         change1: 'Please note that this action will change the following passwords:',
         change2: 'Web login password',
-        change3: 'System root password (SSH login password)',
-        change4: 'If this password is lost, recovery requires reflashing the SD card.'
+        change3: 'System root password (SSH login password)'
       }
     },
     wifi: {
@@ -241,8 +234,6 @@ const en = {
       refresh: 'Refresh the image list',
       attention: 'Attention',
       deleteConfirm: 'Are you sure you want to delete this image?',
-      okBtn: 'Yes',
-      cancelBtn: 'No',
       tips: {
         title: 'How to upload',
         usb1: 'Connect the NanoKVM to your computer via USB.',

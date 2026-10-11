@@ -5,7 +5,6 @@ const ja = {
       cancel: 'キャンセル',
       delete: '削除',
       actionFailed: '操作に失敗しました',
-      actionFailedDetail: '操作に失敗しました：{{detail}}',
       loading: 'デバイスから設定を読み込んでいます...',
       loadFailed: 'デバイスから設定を読み込めませんでした',
       retry: '再試行'
@@ -40,15 +39,9 @@ const ja = {
       cancel: 'キャンセル',
       loginButtonText: 'ログイン',
       tips: {
-        reset1: 'パスワードをリセットするには、NanoKVM の BOOT ボタンを 10 秒間押し続けます。',
-        reset2: '詳細な手順については、次のドキュメントを参照してください：',
-        reset3: 'ウェブデフォルトアカウント：',
-        reset4: 'SSH デフォルトアカウント：',
         change1: 'この操作により、以下のパスワードも更新されることに注意してください：',
         change2: 'ウェブログインパスワード',
-        change3: 'システム root パスワード（SSH ログインパスワード）',
-        change4:
-          'パスワードを忘れた場合は、NanoKVM の BOOT ボタンを長押ししてパスワードをリセットする必要があります。'
+        change3: 'システム root パスワード（SSH ログインパスワード）'
       }
     },
     wifi: {
@@ -209,8 +202,6 @@ const ja = {
       refresh: 'イメージリストを更新',
       attention: '注意',
       deleteConfirm: 'このイメージを削除してもよろしいですか？',
-      okBtn: 'はい',
-      cancelBtn: 'いいえ',
       tips: {
         title: 'アップロード方法',
         usb1: 'NanoKVM を USB 経由でコンピュータに接続します；',

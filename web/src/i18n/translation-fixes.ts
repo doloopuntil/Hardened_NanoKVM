@@ -4,9 +4,6 @@ type TranslationMap = Record<string, string>;
 // and keys that had no translation. Applied after every other layer, so it wins over the older extras.
 export const translationFixes: Record<string, TranslationMap> = {
   ca: {
-    'auth.tips.change4':
-      'Si es perd aquesta contrasenya, la recuperació requereix tornar a gravar la targeta SD.',
-    'auth.tips.reset3': 'Compte web:',
     'auth.illegalPassword':
       'La contrasenya ha de tenir almenys 8 caràcters i no pot contenir cometes ni barres',
     'screen.videoDirectTips':
@@ -22,8 +19,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownFrench': 'Francès',
     'keyboard.dropdownRussian': 'Rus',
     'settings.device.diskDesc': 'Munta la targeta SD al dispositiu remot',
-    'auth.tips.reset1':
-      "Per recuperar la contrasenya d'aquesta imatge Hardened cal reescriure la targeta SD.",
     'settings.device.diskCancelMount':
       'Activar el disc virtual cancel·la la imatge muntada. Vols continuar?',
     'screen.transferRunningTitle': "Transferència d'imatge en curs",
@@ -90,8 +85,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       "El mode HID-Only deixa d'emular dispositius virtuals i només conserva el control bàsic HID"
   },
   cz: {
-    'auth.tips.change4': 'Pokud toto heslo ztratíte, obnova vyžaduje přepsání SD karty.',
-    'auth.tips.reset3': 'Webový účet:',
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
     'screen.videoDirectTips':
       'Chcete-li používat tento režim, povolte HTTPS v "Nastavení > Systém > Síť"',
@@ -117,7 +110,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Před instalací této aktualizace systému aktualizujte aplikaci na verzi {{version}}.',
     'settings.update.system.requiredAppVersion': 'Požadovaná verze aplikace',
     'settings.device.diskDesc': 'Připojit SD kartu ke vzdálenému hostiteli',
-    'auth.tips.reset1': 'Obnova hesla pro tento obraz Hardened vyžaduje přepsání SD karty.',
     'settings.device.diskCancelMount':
       'Zapnutím virtuálního disku se zruší připojený obraz. Pokračovat?',
     'image.diskOnWarn':
@@ -189,8 +181,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Režim HID-Only přestane emulovat virtuální zařízení a ponechá pouze základní ovládání HID'
   },
   da: {
-    'auth.tips.change4': 'Hvis adgangskoden mistes, kræver gendannelse at SD-kortet skrives igen.',
-    'auth.tips.reset3': 'Webkonto:',
     'auth.illegalPassword':
       'Adgangskoden skal være på mindst 8 tegn og må ikke indeholde anførselstegn eller skråstreger',
     'screen.videoDirectTips':
@@ -207,7 +197,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownGerman': 'Tysk',
     'keyboard.dropdownRussian': 'Russisk',
     'image.loading': 'Indlæser...',
-    'image.cancelBtn': 'Nej',
     'script.cancel': 'Nej',
     'power.cancelBtn': 'Nej',
     'settings.device.cancelBtn': 'Nej',
@@ -230,8 +219,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Opdater programmet til {{version}}, før du installerer denne systemopdatering.',
     'settings.update.system.requiredAppVersion': 'Påkrævet programversion',
     'settings.device.diskDesc': 'Monter SD-kortet på den eksterne vært',
-    'auth.tips.reset1':
-      'Gendannelse af adgangskoden til dette Hardened-image kræver, at SD-kortet skrives igen.',
     'settings.device.diskCancelMount':
       'Hvis du aktiverer den virtuelle disk, annulleres det monterede billede. Fortsæt?',
     'image.diskOnWarn':
@@ -303,9 +290,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'HID-Only-tilstand stopper emuleringen af virtuelle enheder og beholder kun grundlæggende HID-kontrol'
   },
   de: {
-    'auth.tips.change4':
-      'Wenn dieses Passwort verloren geht, muss zur Wiederherstellung die SD-Karte neu geschrieben werden.',
-    'auth.tips.reset3': 'Web-Konto:',
     'auth.illegalPassword':
       'Das Passwort muss mindestens 8 Zeichen lang sein und darf keine Anführungszeichen oder Schrägstriche enthalten',
     'screen.videoDirectTips':
@@ -327,8 +311,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.upTailscaled': 'tailscaled nach /usr/sbin/ auf NanoKVM hochladen',
     'screen.frameDetect': 'Änderungserkennung',
     'settings.device.diskDesc': 'SD-Karte am entfernten Host einbinden',
-    'auth.tips.reset1':
-      'Die Passwort-Wiederherstellung für dieses Hardened-Image erfordert ein erneutes Beschreiben der SD-Karte.',
     'settings.device.diskCancelMount':
       'Das Aktivieren der virtuellen Festplatte bricht das eingebundene Image ab. Fortfahren?',
     'screen.transferRunningTitle': 'Image-Übertragung läuft',
@@ -395,9 +377,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Der HID-Only-Modus beendet die Emulation virtueller Geräte und behält nur die grundlegende HID-Steuerung bei'
   },
   es: {
-    'auth.tips.change4':
-      'Si se pierde esta contraseña, la recuperación requiere volver a grabar la tarjeta SD.',
-    'auth.tips.reset3': 'Cuenta web:',
     'auth.illegalPassword':
       'La contraseña debe tener al menos 8 caracteres y no puede contener comillas ni barras',
     'screen.videoDirectTips': 'Activa HTTPS en "Ajustes > Sistema > Red" para usar este modo',
@@ -406,8 +385,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.illegalUsername': 'El nombre de usuario contiene caracteres no permitidos',
     'keyboard.dropdownRussian': 'Ruso',
     'settings.device.diskDesc': 'Montar la tarjeta SD en el host remoto',
-    'auth.tips.reset1':
-      'Recuperar la contraseña de esta imagen Hardened requiere volver a escribir la tarjeta SD.',
     'settings.device.diskCancelMount':
       'Activar el disco virtual cancela la imagen montada. ¿Continuar?',
     'screen.transferRunningTitle': 'Transferencia de imagen en curso',
@@ -657,9 +634,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'HID-Only-tila lopettaa virtuaalilaitteiden emuloinnin ja säilyttää vain perus-HID-ohjauksen'
   },
   fr: {
-    'auth.tips.change4':
-      'Si ce mot de passe est perdu, la récupération nécessite de réécrire la carte SD.',
-    'auth.tips.reset3': 'Compte Web :',
     'auth.illegalPassword':
       'Le mot de passe doit contenir au moins 8 caractères et ne peut pas contenir de guillemets ni de barres obliques',
     'screen.videoDirectTips':
@@ -679,8 +653,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.upTailscale': 'Téléverser tailscale dans le répertoire NanoKVM /usr/bin/',
     'settings.device.mouseJiggler.title': 'Mouse Jiggler',
     'settings.device.diskDesc': "Monter la carte SD sur l'hôte distant",
-    'auth.tips.reset1':
-      'La récupération du mot de passe de cette image Hardened nécessite de réécrire la carte SD.',
     'settings.device.diskCancelMount':
       "Activer le disque virtuel annule l'image montée. Continuer ?",
     'screen.transferRunningTitle': "Transfert d'image en cours",
@@ -747,9 +719,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Le mode HID-Only cesse d’émuler les périphériques virtuels et ne conserve que le contrôle HID de base'
   },
   hu: {
-    'auth.tips.change4':
-      'Ha ez a jelszó elveszik, a helyreállításhoz újra kell írni az SD-kártyát.',
-    'auth.tips.reset3': 'Webes fiók:',
     'auth.illegalPassword':
       'A jelszónak legalább 8 karakter hosszúnak kell lennie, és nem tartalmazhat idézőjelet vagy törtvonalat',
     'screen.videoDirectTips':
@@ -779,8 +748,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Az alkalmazást frissítse a(z) {{version}} verzióra a rendszerfrissítés telepítése előtt.',
     'settings.update.system.requiredAppVersion': 'Szükséges alkalmazásverzió',
     'settings.device.diskDesc': 'SD-kártya csatlakoztatása a távoli gazdagéphez',
-    'auth.tips.reset1':
-      'A Hardened image jelszavának helyreállításához újra kell írni az SD-kártyát.',
     'settings.device.diskCancelMount':
       'A virtuális lemez engedélyezése megszakítja a csatlakoztatott képfájlt. Folytatja?',
     'image.diskOnWarn':
@@ -853,9 +820,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'A HID-Only mód leállítja a virtuális eszközök emulálását, és csak az alapvető HID vezérlést tartja meg'
   },
   id: {
-    'auth.tips.change4':
-      'Jika kata sandi ini hilang, pemulihan memerlukan penulisan ulang kartu SD.',
-    'auth.tips.reset3': 'Akun web:',
     'auth.illegalPassword':
       'Kata sandi harus minimal 8 karakter dan tidak boleh berisi tanda kutip atau garis miring',
     'screen.videoDirectTips':
@@ -889,8 +853,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Perbarui aplikasi ke {{version}} sebelum memasang pembaruan sistem ini.',
     'settings.update.system.requiredAppVersion': 'Versi aplikasi yang diperlukan',
     'settings.device.diskDesc': 'Pasang kartu SD pada host jarak jauh',
-    'auth.tips.reset1':
-      'Pemulihan kata sandi untuk image Hardened ini memerlukan penulisan ulang kartu SD.',
     'settings.device.diskCancelMount':
       'Mengaktifkan disk virtual akan membatalkan image yang terpasang. Lanjutkan?',
     'image.diskOnWarn':
@@ -962,9 +924,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Mode HID-Only berhenti meniru perangkat virtual dan hanya mempertahankan kontrol dasar HID'
   },
   it: {
-    'auth.tips.change4':
-      'Se questa password viene persa, il recupero richiede la riscrittura della scheda SD.',
-    'auth.tips.reset3': 'Account web:',
     'auth.illegalPassword':
       'La password deve contenere almeno 8 caratteri e non può contenere virgolette o barre',
     'screen.videoDirectTips':
@@ -1004,8 +963,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       "Aggiorna l'applicazione alla versione {{version}} prima di installare questo aggiornamento di sistema.",
     'settings.update.system.requiredAppVersion': 'Versione applicazione richiesta',
     'settings.device.diskDesc': "Monta la scheda SD sull'host remoto",
-    'auth.tips.reset1':
-      'Il recupero della password per questa immagine Hardened richiede la riscrittura della scheda SD.',
     'settings.device.diskCancelMount':
       "Abilitare il disco virtuale annulla l'immagine montata. Continuare?",
     'image.diskOnWarn':
@@ -1075,8 +1032,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'La modalità HID-Only smette di emulare i dispositivi virtuali, mantenendo solo il controllo di base HID'
   },
   ja: {
-    'auth.tips.change4': 'このパスワードを失った場合、復旧には SD カードの再書き込みが必要です。',
-    'auth.tips.reset3': 'ウェブアカウント：',
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
     'screen.videoDirectTips':
       'このモードを使用するには「設定 > システム > ネットワーク」で HTTPS を有効にしてください',
@@ -1087,8 +1042,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.inputfile': 'イメージファイルを入力してください',
     'picoclaw.connection.run.busy': 'ビジー',
     'settings.device.diskDesc': 'リモートホストに SD カードをマウントします',
-    'auth.tips.reset1':
-      'この Hardened イメージのパスワードを復旧するには、SD カードの再書き込みが必要です。',
     'settings.device.diskCancelMount':
       '仮想ディスクを有効にすると、マウント中のイメージは解除されます。続行しますか？',
     'screen.transferRunningTitle': 'イメージ転送中',
@@ -1156,8 +1109,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'HID-Only モードでは仮想デバイスのエミュレーションを停止し、基本的な HID 制御のみを維持します'
   },
   ko: {
-    'auth.tips.change4': '이 암호를 잃어버리면 복구하려면 SD 카드를 다시 기록해야 합니다.',
-    'auth.tips.reset3': '웹 계정:',
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
     'screen.videoDirectTips':
       '이 모드를 사용하려면 "설정 > 시스템 > 네트워크"에서 HTTPS를 활성화하세요',
@@ -1171,8 +1122,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.upTailscaled': 'tailscaled를 NanoKVM의 /usr/sbin/ 경로에 업로드하세요',
     'auth.setupRecovery': '이 비밀번호를 잃어버리면 복구를 위해 SD 카드를 다시 기록해야 합니다.',
     'settings.device.diskDesc': '원격 호스트에 SD 카드를 마운트합니다',
-    'auth.tips.reset1':
-      '이 Hardened 이미지의 비밀번호를 복구하려면 SD 카드를 다시 기록해야 합니다.',
     'settings.device.diskCancelMount':
       '가상 디스크를 활성화하면 마운트된 이미지가 해제됩니다. 계속하시겠습니까?',
     'screen.transferRunningTitle': '이미지 전송 중',
@@ -1237,9 +1186,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'HID-Only 모드는 가상 장치 에뮬레이션을 중지하고 기본 HID 제어만 유지합니다'
   },
   nb: {
-    'auth.tips.change4':
-      'Hvis dette passordet mistes, krever gjenoppretting at SD-kortet skrives på nytt.',
-    'auth.tips.reset3': 'Webkonto:',
     'auth.illegalPassword':
       'Passordet må være minst 8 tegn og kan ikke inneholde anførselstegn eller skråstreker',
     'screen.videoDirectTips':
@@ -1266,8 +1212,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Oppdater applikasjonen til {{version}} før du installerer denne systemoppdateringen.',
     'settings.update.system.requiredAppVersion': 'Påkrevd applikasjonsversjon',
     'settings.device.diskDesc': 'Monter SD-kortet på den eksterne verten',
-    'auth.tips.reset1':
-      'Gjenoppretting av passordet for dette Hardened-bildet krever at SD-kortet skrives på nytt.',
     'settings.device.diskCancelMount':
       'Hvis du aktiverer den virtuelle disken, avbrytes det monterte bildet. Fortsette?',
     'image.diskOnWarn':
@@ -1338,9 +1282,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'HID-Only-modus slutter å emulere virtuelle enheter og beholder bare grunnleggende HID-kontroll'
   },
   nl: {
-    'auth.tips.change4':
-      'Als dit wachtwoord verloren gaat, moet de SD-kaart opnieuw worden geschreven voor herstel.',
-    'auth.tips.reset3': 'Webaccount:',
     'auth.illegalPassword':
       'Het wachtwoord moet minstens 8 tekens bevatten en mag geen aanhalingstekens of schuine strepen bevatten',
     'screen.videoDirectTips':
@@ -1354,8 +1295,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.run': 'Start',
     'settings.network.wifi.disconnect': 'Weet u zeker dat u de netwerkverbinding wilt verbreken?',
     'settings.device.diskDesc': 'SD-kaart koppelen aan de externe host',
-    'auth.tips.reset1':
-      'Voor wachtwoordherstel van deze Hardened-image moet de SD-kaart opnieuw worden beschreven.',
     'settings.device.diskCancelMount':
       'Het inschakelen van de virtuele schijf annuleert de gekoppelde image. Doorgaan?',
     'settings.device.oled.description': 'OLED-scherm uitschakelen na',
@@ -1423,9 +1362,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'De HID-Only-modus stopt met het emuleren van virtuele apparaten en behoudt alleen de basisbesturing van HID'
   },
   pl: {
-    'auth.tips.change4':
-      'Jeśli to hasło zostanie utracone, odzyskanie dostępu wymaga ponownego zapisania karty SD.',
-    'auth.tips.reset3': 'Konto web:',
     'auth.illegalPassword':
       'Hasło musi mieć co najmniej 8 znaków i nie może zawierać cudzysłowów ani ukośników',
     'screen.videoDirectTips':
@@ -1448,8 +1384,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.shortcut.clear': 'Wyczyść',
     'power.powerConfirm': 'Wykonać operację zasilania?',
     'settings.device.oled.description': 'Wyłącz ekran OLED po',
-    'auth.tips.reset1':
-      'Odzyskanie hasła w tym obrazie Hardened wymaga ponownego zapisania karty SD.',
     'screen.transferRunningTitle': 'Trwa przesyłanie obrazu',
     'screen.transferRunningDesc':
       'Zmiana trybu wideo przeładowuje stronę, co anuluje trwające przesyłanie lub pobieranie obrazu.',
@@ -1514,8 +1448,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Tryb HID-Only przestaje emulować urządzenia wirtualne i zachowuje tylko podstawową kontrolę HID'
   },
   pt_br: {
-    'auth.tips.change4': 'Se esta senha for perdida, a recuperação exige regravar o cartão SD.',
-    'auth.tips.reset3': 'Conta web:',
     'auth.illegalPassword':
       'A senha deve ter pelo menos 8 caracteres e não pode conter aspas nem barras',
     'screen.videoDirectTips':
@@ -1524,7 +1456,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'No momento não é possível baixar nem enviar imagens porque o armazenamento não permite gravação. Se houver uma imagem montada, desmonte-a e depois desative o disco virtual para que o armazenamento volte a permitir gravação.',
     'settings.device.usbWakeup': 'Ativação por USB',
     'settings.device.diskDesc': 'Montar o cartão SD no host remoto',
-    'auth.tips.reset1': 'A recuperação da senha desta imagem Hardened exige regravar o cartão SD.',
     'settings.device.diskCancelMount':
       'Ativar o disco virtual cancela a imagem montada. Continuar?',
     'screen.transferRunningTitle': 'Transferência de imagem em andamento',
@@ -1600,8 +1531,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Задайте надёжный пароль перед включением (Аккаунт - Изменить пароль)',
     'screen.frameDetect': 'Обнаружение изменений кадров',
     'settings.device.diskDesc': 'Смонтировать SD-карту на удалённом хосте',
-    'auth.tips.reset1':
-      'Для восстановления пароля в этом образе Hardened необходимо перезаписать SD-карту.',
     'settings.device.diskCancelMount':
       'Включение виртуального диска отменит смонтированный образ. Продолжить?',
     'screen.transferRunningTitle': 'Идёт передача образа',
@@ -1647,8 +1576,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Режим HID-Only прекращает эмуляцию виртуальных устройств и сохраняет только базовое управление HID'
   },
   se: {
-    'auth.tips.change4': 'Om lösenordet förloras kräver återställning att SD-kortet skrivs om.',
-    'auth.tips.reset3': 'Webbkonto:',
     'auth.illegalPassword':
       'Lösenordet måste vara minst 8 tecken och får inte innehålla citattecken eller snedstreck',
     'screen.videoDirectTips':
@@ -1661,8 +1588,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.checksumFailed': 'Nedladdningen misslyckades: SHA-256-verifieringen misslyckades',
     'keyboard.dropdownRussian': 'Ryska',
     'settings.device.diskDesc': 'Montera SD-kortet på fjärrvärden',
-    'auth.tips.reset1':
-      'Återställning av lösenordet för den här Hardened-avbildningen kräver att SD-kortet skrivs om.',
     'settings.device.diskCancelMount':
       'Om du aktiverar den virtuella disken avbryts den monterade avbildningen. Fortsätta?',
     'screen.transferRunningTitle': 'Avbildningsöverföring pågår',
@@ -1728,8 +1653,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'HID-Only-läge slutar emulera virtuella enheter och behåller bara grundläggande HID-kontroll'
   },
   th: {
-    'auth.tips.change4': 'หากรหัสผ่านนี้หาย การกู้คืนต้องเขียนการ์ด SD ใหม่',
-    'auth.tips.reset3': 'บัญชีเว็บ:',
     'auth.illegalPassword':
       'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร และห้ามมีเครื่องหมายคำพูดหรือเครื่องหมายทับ',
     'screen.videoDirectTips': 'เปิดใช้งาน HTTPS ใน "การตั้งค่า > ระบบ > เครือข่าย" เพื่อใช้โหมดนี้',
@@ -1746,11 +1669,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.about.application': 'เวอร์ชันแอปพลิเคชัน',
     'settings.device.oled.180': '3 นาที',
     'settings.device.ssh.tip': 'ตั้งรหัสผ่านที่ปลอดภัยก่อนเปิดใช้งาน (บัญชี - เปลี่ยนรหัสผ่าน)',
-    'auth.tips.reset2': 'สำหรับวิธีแบบลงลึก โปรดอ่าน:',
     'keyboard.shortcut.clear': 'ล้าง',
     'screen.resolution': 'ความละเอียด',
     'settings.device.diskDesc': 'เมานต์การ์ด SD บนโฮสต์ระยะไกล',
-    'auth.tips.reset1': 'การกู้คืนรหัสผ่านของอิมเมจ Hardened นี้ต้องเขียนการ์ด SD ใหม่',
     'settings.device.diskCancelMount':
       'การเปิดดิสก์เสมือนจะยกเลิกการเมานต์อิมเมจ ดำเนินการต่อหรือไม่?',
     'screen.transferRunningTitle': 'กำลังถ่ายโอนอิมเมจ',
@@ -1815,8 +1736,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'โหมด HID-Only จะหยุดจำลองอุปกรณ์เสมือนและคงไว้เพียงการควบคุม HID พื้นฐาน'
   },
   tr: {
-    'auth.tips.change4': 'Bu parola kaybolursa kurtarma için SD kartın yeniden yazılması gerekir.',
-    'auth.tips.reset3': 'Web hesabı:',
     'auth.illegalPassword':
       'Şifre en az 8 karakter olmalı ve tırnak işareti veya eğik çizgi içermemelidir',
     'screen.videoDirectTips':
@@ -1836,8 +1755,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.logoutBtn': 'Çıkış yap',
     'settings.device.swap.disable': 'Devre dışı bırak',
     'settings.device.diskDesc': 'SD kartı uzak ana bilgisayara bağla',
-    'auth.tips.reset1':
-      'Bu Hardened imajının parola kurtarması için SD kartın yeniden yazılması gerekir.',
     'settings.device.diskCancelMount':
       'Sanal diski etkinleştirmek bağlı imajı iptal eder. Devam edilsin mi?',
     'wifi.success': "NanoKVM'in ağ durumunu kontrol etmek için cihazın başına gidin.",
@@ -1906,9 +1823,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'HID-Only modu sanal aygıtları taklit etmeyi durdurur ve yalnızca temel HID kontrolünü korur'
   },
   uk: {
-    'auth.tips.change4':
-      'Якщо цей пароль буде втрачено, для відновлення потрібно повторно записати SD-карту.',
-    'auth.tips.reset3': 'Обліковий запис вебінтерфейсу:',
     'auth.illegalPassword':
       'Пароль має містити щонайменше 8 символів і не може містити лапок чи похилих рисок',
     'screen.videoDirectTips':
@@ -1932,8 +1846,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'power.powerConfirm': 'Виконати операцію живлення?',
     'fullscreen.toggle': 'Перемкнути повноекранний режим',
     'settings.device.diskDesc': 'Змонтувати SD-карту на віддаленому хості',
-    'auth.tips.reset1':
-      'Для відновлення пароля в цьому образі Hardened потрібно перезаписати SD-карту.',
     'settings.device.diskCancelMount':
       'Увімкнення віртуального диска скасує змонтований образ. Продовжити?',
     'screen.transferRunningTitle': 'Триває передавання образу',
@@ -2000,8 +1912,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Режим HID-Only припиняє емуляцію віртуальних пристроїв і зберігає лише базове керування HID'
   },
   vi: {
-    'auth.tips.change4': 'Nếu mất mật khẩu này, việc khôi phục cần ghi lại thẻ SD.',
-    'auth.tips.reset3': 'Tài khoản web:',
     'auth.illegalPassword':
       'Mật khẩu phải có ít nhất 8 ký tự và không được chứa dấu nháy hoặc dấu gạch chéo',
     'screen.videoDirectTips': 'Bật HTTPS trong "Cài đặt > Hệ thống > Mạng" để sử dụng chế độ này',
@@ -2031,7 +1941,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Hãy cập nhật ứng dụng lên {{version}} trước khi cài đặt bản cập nhật hệ thống này.',
     'settings.update.system.requiredAppVersion': 'Phiên bản ứng dụng bắt buộc',
     'settings.device.diskDesc': 'Gắn thẻ SD vào máy chủ từ xa',
-    'auth.tips.reset1': 'Khôi phục mật khẩu cho image Hardened này cần ghi lại thẻ SD.',
     'settings.device.diskCancelMount': 'Bật đĩa ảo sẽ hủy image đang gắn. Tiếp tục?',
     'image.diskOnWarn':
       'Gắn image sẽ tắt đĩa ảo, nên máy tính không còn truy cập được /data. Tiếp tục?',
@@ -2100,8 +2009,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Chế độ HID-Only ngừng mô phỏng các thiết bị ảo và chỉ giữ lại điều khiển HID cơ bản'
   },
   zh: {
-    'auth.tips.change4': '如果此密码丢失，恢复需要重新写入 SD 卡。',
-    'auth.tips.reset3': '网页帐号：',
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
     'screen.videoDirectTips': '该模式需启用 HTTPS，请前往「设置 > 系统 > 网络」中开启',
     'download.disabled':
@@ -2109,7 +2016,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.restart': '确定要重启 Tailscale 吗？',
     'download.inputfile': '请输入镜像文件',
     'settings.device.diskDesc': '在远程主机上挂载 SD 卡',
-    'auth.tips.reset1': '恢复此 Hardened 镜像的密码需要重新写入 SD 卡。',
     'settings.device.diskCancelMount': '开启虚拟磁盘会取消当前挂载的镜像，是否继续？',
     'screen.transferRunningTitle': '镜像传输进行中',
     'screen.transferRunningDesc': '切换视频模式会重新加载页面，并取消正在进行的镜像上传或下载。',
@@ -2166,8 +2072,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.hidOnlyTip': 'HID-Only 模式会停止模拟虚拟设备，仅保留基础的 HID 控制'
   },
   zh_tw: {
-    'auth.tips.change4': '如果此密碼遺失，復原需要重新寫入 SD 卡。',
-    'auth.tips.reset3': '網頁帳號：',
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
     'screen.videoDirectTips': '本模式需先啟用 HTTPS，請前往「設定 > 系統 > 網路」中開啟',
     'download.disabled':
@@ -2178,7 +2082,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'screen.video': '影片模式',
     'download.inputfile': '請輸入映像檔',
     'settings.device.diskDesc': '在遠端主機上掛載 SD 卡',
-    'auth.tips.reset1': '恢復此 Hardened 映像檔的密碼需要重新寫入 SD 卡。',
     'settings.device.diskCancelMount': '開啟虛擬磁碟會取消目前掛載的映像檔，是否繼續？',
     'screen.transferRunningTitle': '映像檔傳輸進行中',
     'screen.transferRunningDesc': '切換影片模式會重新載入頁面，並取消正在進行的映像檔上傳或下載。',

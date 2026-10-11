@@ -5,7 +5,6 @@ const tr = {
       cancel: 'İptal',
       delete: 'Sil',
       actionFailed: 'İşlem başarısız oldu',
-      actionFailedDetail: 'İşlem başarısız oldu: {{detail}}',
       loading: 'Ayarlar cihazdan yükleniyor...',
       loadFailed: 'Ayarlar cihazdan yüklenemedi',
       retry: 'Yeniden dene'
@@ -40,16 +39,9 @@ const tr = {
       cancel: 'İptal',
       loginButtonText: 'Giriş',
       tips: {
-        reset1:
-          'Şifreleri sıfırlamak için NanoKVM üzerinde bulunan BOOT tuşuna 10 saniye boyunca basılı tutun.',
-        reset2: 'Ayrıntılı adımlar için dökümana göz atın:',
-        reset3: 'Arayüz varsayılan hesap:',
-        reset4: 'Güvenli Kabuk Bağlantısı (SSH) varsayılan hesap:',
         change1: 'Bu işlem şu şifreleri değiştiricektir:',
         change2: 'Arayüz giriş şifresi',
-        change3: 'Sistem yöneticisi şifresi (Güvenli Kabuk Bağlantısı (SSH) giriş şifresi)',
-        change4:
-          'Şifreleri sıfırlamak için NanoKVM üzerinde bulunan BOOT tuşuna 10 saniye boyunca basılı tutun.'
+        change3: 'Sistem yöneticisi şifresi (Güvenli Kabuk Bağlantısı (SSH) giriş şifresi)'
       }
     },
     wifi: {
@@ -208,8 +200,6 @@ const tr = {
       refresh: 'Disk imajı listesini yenile',
       attention: 'Dikkat',
       deleteConfirm: 'Bu resmi silmek istediğinizden emin misiniz?',
-      okBtn: 'Evet',
-      cancelBtn: 'Hayır',
       tips: {
         title: 'Nasıl yüklenir',
         usb1: "NanoKVM'i bilgisayarınıza USB ile bağlayın.",

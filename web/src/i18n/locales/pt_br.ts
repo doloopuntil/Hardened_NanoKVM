@@ -5,7 +5,6 @@ const pt_br = {
       cancel: 'Cancelar',
       delete: 'Excluir',
       actionFailed: 'Falha na operação',
-      actionFailedDetail: 'Falha na operação: {{detail}}',
       loading: 'Carregando configurações do dispositivo...',
       loadFailed: 'Não foi possível carregar as configurações do dispositivo',
       retry: 'Tentar novamente'
@@ -40,15 +39,9 @@ const pt_br = {
       cancel: 'Cancelar',
       loginButtonText: 'Login',
       tips: {
-        reset1:
-          'Para redefinir as senhas, pressione e segure o botão BOOT no NanoKVM por 10 segundos.',
-        reset2: 'Para etapas detalhadas, por favor, consulte este documento:',
-        reset3: 'Conta padrão da Web:',
-        reset4: 'Conta padrão SSH:',
         change1: 'Por favor, note que esta ação irá alterar as seguintes senhas:',
         change2: 'Senha de login da Web',
-        change3: 'Senha root do sistema (senha de login SSH)',
-        change4: 'Para redefinir as senhas, pressione e segure o botão BOOT no NanoKVM.'
+        change3: 'Senha root do sistema (senha de login SSH)'
       }
     },
     wifi: {
@@ -209,8 +202,6 @@ const pt_br = {
       refresh: 'Atualizar a lista de imagens',
       attention: 'Atenção',
       deleteConfirm: 'Tem certeza que deseja excluir esta imagem?',
-      okBtn: 'Sim',
-      cancelBtn: 'Não',
       tips: {
         title: 'Como fazer upload',
         usb1: 'Conecte o NanoKVM ao seu computador via USB.',

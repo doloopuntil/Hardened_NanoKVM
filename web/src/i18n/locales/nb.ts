@@ -5,7 +5,6 @@ const nb = {
       cancel: 'Avbryt',
       delete: 'Slett',
       actionFailed: 'Handlingen mislyktes',
-      actionFailedDetail: 'Handlingen mislyktes: {{detail}}',
       loading: 'Laster innstillinger fra enheten...',
       loadFailed: 'Kunne ikke laste innstillinger fra enheten',
       retry: 'Prøv igjen'
@@ -41,15 +40,9 @@ const nb = {
       cancel: 'Avbryt',
       loginButtonText: 'Logg inn',
       tips: {
-        reset1:
-          'To reset the passwords, pressing and holding the BOOT button on the NanoKVM for 10 seconds.',
-        reset2: 'Se dette dokumentet for detaljerte trinn:',
-        reset3: 'Standard webkonto:',
-        reset4: 'Standard SSH-konto:',
         change1: 'Merk at denne handlingen endrer følgende passord:',
         change2: 'Passord for webinnlogging',
-        change3: 'Systemets root-passord (SSH-innloggingspassord)',
-        change4: 'For å tilbakestille passordene holder du BOOT-knappen på NanoKVM inne.'
+        change3: 'Systemets root-passord (SSH-innloggingspassord)'
       }
     },
     wifi: {
@@ -209,8 +202,6 @@ const nb = {
       refresh: 'Oppdater bildelisten',
       attention: 'Merknad',
       deleteConfirm: 'Er du sikker på at du vil slette dette bildet?',
-      okBtn: 'Ja',
-      cancelBtn: 'Nei',
       tips: {
         title: 'Hvordan laste opp',
         usb1: 'Koble til NanoKVM-enheten til din datamaskin med USB.',

@@ -5,7 +5,6 @@ const it = {
       cancel: 'Annulla',
       delete: 'Elimina',
       actionFailed: 'Operazione non riuscita',
-      actionFailedDetail: 'Operazione non riuscita: {{detail}}',
       loading: 'Caricamento delle impostazioni dal dispositivo...',
       loadFailed: 'Impossibile caricare le impostazioni dal dispositivo',
       retry: 'Riprova'
@@ -41,15 +40,9 @@ const it = {
       cancel: 'Annulla',
       loginButtonText: 'Accedi',
       tips: {
-        reset1:
-          'To reset the passwords, pressing and holding the BOOT button on the NanoKVM for 10 seconds.',
-        reset2: 'Per i passaggi dettagliati, consulta questo documento:',
-        reset3: 'Account web predefinito:',
-        reset4: 'Account SSH predefinito:',
         change1: 'Tieni presente che questa azione modificherà le seguenti password:',
         change2: 'Password di accesso web',
-        change3: 'Password root di sistema (password di accesso SSH)',
-        change4: 'Per reimpostare le password, tieni premuto il pulsante BOOT sul NanoKVM.'
+        change3: 'Password root di sistema (password di accesso SSH)'
       }
     },
     wifi: {
@@ -211,8 +204,6 @@ const it = {
       refresh: "Aggiorna l'elenco delle immagini",
       attention: 'Attenzione',
       deleteConfirm: 'Sei sicuro di voler eliminare questa immagine?',
-      okBtn: 'Sì',
-      cancelBtn: 'No',
       tips: {
         title: 'Come caricare',
         usb1: 'Collega il NanoKVM al tuo computer tramite USB.',

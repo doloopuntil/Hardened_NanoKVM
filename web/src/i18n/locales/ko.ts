@@ -5,7 +5,6 @@ const ko = {
       cancel: '취소',
       delete: '삭제',
       actionFailed: '작업에 실패했습니다',
-      actionFailedDetail: '작업에 실패했습니다: {{detail}}',
       loading: '기기에서 설정을 불러오는 중...',
       loadFailed: '기기에서 설정을 불러오지 못했습니다',
       retry: '다시 시도'
@@ -40,14 +39,9 @@ const ko = {
       cancel: '취소',
       loginButtonText: '로그인',
       tips: {
-        reset1: '비밀번호를 재설정하려면 NanoKVM의 BOOT 버튼을 10초 동안 누르고 계세요.',
-        reset2: '자세한 절차는 이 문서를 참조하세요:',
-        reset3: '웹 기본 계정:',
-        reset4: 'SSH 기본 계정:',
         change1: '이 작업을 수행하면 다음 비밀번호가 변경됩니다:',
         change2: '웹 로그인 비밀번호',
-        change3: '시스템 루트 비밀번호 (SSH 로그인 비밀번호)',
-        change4: '비밀번호를 재설정하려면 NanoKVM의 BOOT 버튼을 길게 누르세요.'
+        change3: '시스템 루트 비밀번호 (SSH 로그인 비밀번호)'
       }
     },
     wifi: {
@@ -205,8 +199,6 @@ const ko = {
       refresh: '이미지 목록 새로고침',
       attention: '주의',
       deleteConfirm: '이 이미지를 제거하시겠습니까?',
-      okBtn: '네',
-      cancelBtn: '아니오',
       tips: {
         title: '업로드 방법',
         usb1: 'USB를 통해 NanoKVM을 컴퓨터에 연결하세요.',
