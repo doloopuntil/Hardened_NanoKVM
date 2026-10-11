@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { getCsrfToken, removeToken } from '@/lib/cookie.ts';
 import { getBaseUrl } from '@/lib/service.ts';
+import { capitalizeFirst } from '@/lib/text.ts';
 
 type Response = {
   code: number;
@@ -41,7 +42,9 @@ class Http {
 
     this.instance.interceptors.response.use(
       (response) => {
-        return response.data;
+        const data = response.data;
+        if (data?.code !== 0 && typeof data?.msg === 'string') data.msg = capitalizeFirst(data.msg);
+        return data;
       },
       (error) => {
         console.log(error);
@@ -59,6 +62,8 @@ class Http {
         if (code === 403 && msg === 'two-factor enrolment required') {
           window.location.hash = '#/auth/totp';
         }
+        const body = error.response?.data;
+        if (typeof body?.msg === 'string') body.msg = capitalizeFirst(body.msg);
         return Promise.reject(error);
       }
     );

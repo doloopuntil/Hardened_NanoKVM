@@ -201,11 +201,13 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
   }
 
   function copyBackupCodes() {
-    copyText(backupCodes.join('\n'), codesRef.current ?? document.body).then((copied) =>
-      copied
-        ? toast.success(t('settings.account.totp.copied'))
-        : toast.error(t('settings.account.totp.copyFailed'))
-    );
+    copyText(backupCodes.join('\n'), codesRef.current ?? document.body).then((copied) => {
+      if (copied) {
+        toast.success(t('settings.account.totp.copied'));
+      } else {
+        toast.error(t('settings.account.totp.copyFailed'));
+      }
+    });
   }
 
   function downloadBackupCodes() {
