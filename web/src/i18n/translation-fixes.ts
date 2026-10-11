@@ -81,7 +81,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.active': 'El mode Paranoic del tallafoc està actiu',
     'settings.system.firewall.paranoid.confirmTitle': 'Vols activar el mode Paranoic?',
     'settings.update.paranoidBlocked':
-      'Les actualitzacions en línia estan bloquejades pel mode de tallafoc Paranoic'
+      'Les actualitzacions en línia estan bloquejades pel mode de tallafoc Paranoic',
+    'settings.device.hidOnlyDesc':
+      "Millora la compatibilitat amb l'amfitrió si el ratolí o el teclat deixen de respondre",
+    'mouse.hidOnly.desc':
+      "Si el ratolí o el teclat deixen de respondre i restablir el HID no ajuda, pot ser un problema de compatibilitat entre el NanoKVM i l'amfitrió.",
+    'settings.device.hidOnlyTip':
+      "El mode HID-Only deixa d'emular dispositius virtuals i només conserva el control bàsic HID"
   },
   cz: {
     'auth.tips.change4': 'Pokud toto heslo ztratíte, obnova vyžaduje přepsání SD karty.',
@@ -174,7 +180,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.active': 'Režim firewallu Paranoidní je aktivní',
     'settings.system.firewall.paranoid.confirmTitle': 'Povolit režim Paranoidní?',
     'settings.update.paranoidBlocked':
-      'Online aktualizace jsou blokovány režimem firewallu Paranoidní'
+      'Online aktualizace jsou blokovány režimem firewallu Paranoidní',
+    'settings.device.hidOnlyDesc':
+      'Zlepšuje kompatibilitu s hostitelem, pokud myš nebo klávesnice přestanou reagovat',
+    'mouse.hidOnly.desc':
+      'Pokud myš nebo klávesnice přestanou reagovat a reset HID nepomůže, může jít o problém s kompatibilitou mezi NanoKVM a hostitelem.',
+    'settings.device.hidOnlyTip':
+      'Režim HID-Only přestane emulovat virtuální zařízení a ponechá pouze základní ovládání HID'
   },
   da: {
     'auth.tips.change4': 'Hvis adgangskoden mistes, kræver gendannelse at SD-kortet skrives igen.',
@@ -282,7 +294,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': 'Aktivér Paranoid',
     'settings.system.firewall.paranoid.active': 'Firewalltilstanden Paranoid er aktiv',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktivér firewalltilstanden Paranoid?',
-    'settings.update.paranoidBlocked': 'Onlineopdateringer blokeres af firewalltilstanden Paranoid'
+    'settings.update.paranoidBlocked': 'Onlineopdateringer blokeres af firewalltilstanden Paranoid',
+    'settings.device.hidOnlyDesc':
+      'Forbedrer kompatibiliteten med værten, hvis mus eller tastatur holder op med at reagere',
+    'mouse.hidOnly.desc':
+      'Hvis mus eller tastatur holder op med at reagere, og nulstilling af HID ikke hjælper, kan det være et kompatibilitetsproblem mellem NanoKVM og værten.',
+    'settings.device.hidOnlyTip':
+      'HID-Only-tilstand stopper emuleringen af virtuelle enheder og beholder kun grundlæggende HID-kontrol'
   },
   de: {
     'auth.tips.change4':
@@ -367,7 +385,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': 'Paranoid aktivieren',
     'settings.system.firewall.paranoid.active': 'Der Firewall-Modus Paranoid ist aktiv',
     'settings.system.firewall.paranoid.confirmTitle': 'Firewall-Modus Paranoid aktivieren?',
-    'settings.update.paranoidBlocked': 'Online-Updates werden vom Firewall-Modus Paranoid blockiert'
+    'settings.update.paranoidBlocked':
+      'Online-Updates werden vom Firewall-Modus Paranoid blockiert',
+    'settings.device.hidOnlyDesc':
+      'Verbessert die Kompatibilität mit dem Host, wenn Maus oder Tastatur nicht mehr reagieren',
+    'mouse.hidOnly.desc':
+      'Wenn Maus oder Tastatur nicht mehr reagieren und ein Zurücksetzen von HID nicht hilft, kann ein Kompatibilitätsproblem zwischen dem NanoKVM und dem Host vorliegen.',
+    'settings.device.hidOnlyTip':
+      'Der HID-Only-Modus beendet die Emulation virtueller Geräte und behält nur die grundlegende HID-Steuerung bei'
   },
   es: {
     'auth.tips.change4':
@@ -440,7 +465,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.active': 'El modo Paranoico del firewall está activo',
     'settings.system.firewall.paranoid.confirmTitle': '¿Activar el modo Paranoico?',
     'settings.update.paranoidBlocked':
-      'Las actualizaciones en línea están bloqueadas por el modo de firewall Paranoico'
+      'Las actualizaciones en línea están bloqueadas por el modo de firewall Paranoico',
+    'settings.device.hidOnlyDesc':
+      'Mejora la compatibilidad con el host si el ratón o el teclado dejan de responder',
+    'mouse.hidOnly.desc':
+      'Si el ratón o el teclado dejan de responder y restablecer el HID no ayuda, podría tratarse de un problema de compatibilidad entre el NanoKVM y el host.',
+    'settings.device.hidOnlyTip':
+      'El modo HID-Only deja de emular dispositivos virtuales y conserva solo el control básico HID'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -525,7 +556,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': 'Luba Paranoiline',
     'settings.system.firewall.paranoid.active': 'Tulemüüri režiim Paranoiline on aktiivne',
     'settings.system.firewall.paranoid.confirmTitle': 'Kas lubada tulemüüri režiim Paranoiline?',
-    'settings.update.paranoidBlocked': 'Tulemüüri režiim Paranoiline blokeerib online-uuendused'
+    'settings.update.paranoidBlocked': 'Tulemüüri režiim Paranoiline blokeerib online-uuendused',
+    'settings.device.hidOnlyDesc':
+      'Parandab ühilduvust hostiga, kui hiir või klaviatuur lakkab reageerimast',
+    'mouse.hidOnly.desc':
+      'Kui hiir või klaviatuur lakkab reageerimast ning HID lähtestamine ei aita, võib tegu olla NanoKVM-i ja hosti ühilduvusprobleemiga.',
+    'settings.device.hidOnlyTip':
+      'HID-Only režiim lõpetab virtuaalseadmete emuleerimise ja säilitab ainult põhilise HID juhtimise'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -611,7 +648,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': 'Ota Paranoidi käyttöön',
     'settings.system.firewall.paranoid.active': 'Palomuuritila Paranoidi on käytössä',
     'settings.system.firewall.paranoid.confirmTitle': 'Otetaanko palomuuritila Paranoidi käyttöön?',
-    'settings.update.paranoidBlocked': 'Palomuuritila Paranoidi estää verkkopäivitykset'
+    'settings.update.paranoidBlocked': 'Palomuuritila Paranoidi estää verkkopäivitykset',
+    'settings.device.hidOnlyDesc':
+      'Parantaa yhteensopivuutta isäntälaitteen kanssa, jos hiiri tai näppäimistö lakkaa reagoimasta',
+    'mouse.hidOnly.desc':
+      'Jos hiiri tai näppäimistö lakkaa reagoimasta eikä HID:n nollaus auta, kyseessä voi olla NanoKVM:n ja isäntälaitteen yhteensopivuusongelma.',
+    'settings.device.hidOnlyTip':
+      'HID-Only-tila lopettaa virtuaalilaitteiden emuloinnin ja säilyttää vain perus-HID-ohjauksen'
   },
   fr: {
     'auth.tips.change4':
@@ -695,7 +738,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.active': 'Le mode pare-feu Paranoïaque est actif',
     'settings.system.firewall.paranoid.confirmTitle': 'Activer le mode Paranoïaque?',
     'settings.update.paranoidBlocked':
-      'Les mises à jour en ligne sont bloquées par le mode pare-feu Paranoïaque'
+      'Les mises à jour en ligne sont bloquées par le mode pare-feu Paranoïaque',
+    'settings.device.hidOnlyDesc':
+      'Améliore la compatibilité avec l’hôte si la souris ou le clavier ne répondent plus',
+    'mouse.hidOnly.desc':
+      'Si la souris ou le clavier ne répondent plus et que la réinitialisation du HID n’y change rien, il peut s’agir d’un problème de compatibilité entre le NanoKVM et l’hôte.',
+    'settings.device.hidOnlyTip':
+      'Le mode HID-Only cesse d’émuler les périphériques virtuels et ne conserve que le contrôle HID de base'
   },
   hu: {
     'auth.tips.change4':
@@ -795,7 +844,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': 'Paranoid engedélyezése',
     'settings.system.firewall.paranoid.active': 'A Paranoid tűzfalmód aktív',
     'settings.system.firewall.paranoid.confirmTitle': 'Engedélyezi a Paranoid módot?',
-    'settings.update.paranoidBlocked': 'Az online frissítéseket a Paranoid tűzfalmód blokkolja'
+    'settings.update.paranoidBlocked': 'Az online frissítéseket a Paranoid tűzfalmód blokkolja',
+    'settings.device.hidOnlyDesc':
+      'Javítja a gazdagéppel való kompatibilitást, ha az egér vagy a billentyűzet nem válaszol',
+    'mouse.hidOnly.desc':
+      'Ha az egér vagy a billentyűzet nem válaszol, és a HID alaphelyzetbe állítása nem segít, a NanoKVM és a gazdagép közötti kompatibilitási probléma állhat fenn.',
+    'settings.device.hidOnlyTip':
+      'A HID-Only mód leállítja a virtuális eszközök emulálását, és csak az alapvető HID vezérlést tartja meg'
   },
   id: {
     'auth.tips.change4':
@@ -898,7 +953,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': 'Aktifkan Paranoid',
     'settings.system.firewall.paranoid.active': 'Mode firewall Paranoid aktif',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktifkan mode Paranoid?',
-    'settings.update.paranoidBlocked': 'Pembaruan online diblokir oleh mode firewall Paranoid'
+    'settings.update.paranoidBlocked': 'Pembaruan online diblokir oleh mode firewall Paranoid',
+    'settings.device.hidOnlyDesc':
+      'Meningkatkan kompatibilitas dengan host jika mouse atau keyboard berhenti merespons',
+    'mouse.hidOnly.desc':
+      'Jika mouse atau keyboard berhenti merespons dan mereset HID tidak membantu, mungkin ada masalah kompatibilitas antara NanoKVM dan host.',
+    'settings.device.hidOnlyTip':
+      'Mode HID-Only berhenti meniru perangkat virtual dan hanya mempertahankan kontrol dasar HID'
   },
   it: {
     'auth.tips.change4':
@@ -1005,7 +1066,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmTitle': 'Abilitare la modalità Ristretta?',
     'settings.system.firewall.paranoid.enable': 'Abilita Paranoica',
     'settings.system.firewall.paranoid.active': 'La modalità firewall Paranoica è attiva',
-    'settings.system.firewall.paranoid.confirmTitle': 'Abilitare la modalità Paranoica?'
+    'settings.system.firewall.paranoid.confirmTitle': 'Abilitare la modalità Paranoica?',
+    'settings.device.hidOnlyDesc':
+      "Migliora la compatibilità con l'host se mouse o tastiera smettono di rispondere",
+    'mouse.hidOnly.desc':
+      "Se mouse o tastiera smettono di rispondere e il ripristino dell'HID non aiuta, potrebbe trattarsi di un problema di compatibilità tra il NanoKVM e l'host.",
+    'settings.device.hidOnlyTip':
+      'La modalità HID-Only smette di emulare i dispositivi virtuali, mantenendo solo il controllo di base HID'
   },
   ja: {
     'auth.tips.change4': 'このパスワードを失った場合、復旧には SD カードの再書き込みが必要です。',
@@ -1080,7 +1147,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.active': 'パラノイドファイアウォールモードが有効です',
     'settings.system.firewall.paranoid.confirmTitle': 'パラノイドモードを有効にしますか?',
     'settings.update.paranoidBlocked':
-      'オンライン更新はパラノイドファイアウォールモードでブロックされています'
+      'オンライン更新はパラノイドファイアウォールモードでブロックされています',
+    'settings.device.hidOnlyDesc':
+      'マウスやキーボードが反応しなくなった場合に、ホストとの互換性を高めます',
+    'mouse.hidOnly.desc':
+      'マウスやキーボードが反応しなくなり、HID のリセットでも改善しない場合は、NanoKVM とホストの互換性の問題かもしれません。',
+    'settings.device.hidOnlyTip':
+      'HID-Only モードでは仮想デバイスのエミュレーションを停止し、基本的な HID 制御のみを維持します'
   },
   ko: {
     'auth.tips.change4': '이 암호를 잃어버리면 복구하려면 SD 카드를 다시 기록해야 합니다.',
@@ -1155,7 +1228,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': '파라노이드 활성화',
     'settings.system.firewall.paranoid.active': '파라노이드 방화벽 모드가 활성화되었습니다',
     'settings.system.firewall.paranoid.confirmTitle': '파라노이드 모드를 활성화할까요?',
-    'settings.update.paranoidBlocked': '온라인 업데이트는 파라노이드 방화벽 모드에서 차단됩니다'
+    'settings.update.paranoidBlocked': '온라인 업데이트는 파라노이드 방화벽 모드에서 차단됩니다',
+    'settings.device.hidOnlyDesc':
+      '마우스나 키보드가 응답하지 않을 때 호스트와의 호환성을 높입니다',
+    'mouse.hidOnly.desc':
+      '마우스나 키보드가 응답하지 않고 HID를 재설정해도 해결되지 않으면 NanoKVM과 호스트 간의 호환성 문제일 수 있습니다.',
+    'settings.device.hidOnlyTip':
+      'HID-Only 모드는 가상 장치 에뮬레이션을 중지하고 기본 HID 제어만 유지합니다'
   },
   nb: {
     'auth.tips.change4':
@@ -1250,7 +1329,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': 'Aktiver Paranoid',
     'settings.system.firewall.paranoid.active': 'Brannmurmodusen Paranoid er aktiv',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktivere brannmurmodusen Paranoid?',
-    'settings.update.paranoidBlocked': 'Onlineoppdateringer blokkeres av brannmurmodusen Paranoid'
+    'settings.update.paranoidBlocked': 'Onlineoppdateringer blokkeres av brannmurmodusen Paranoid',
+    'settings.device.hidOnlyDesc':
+      'Forbedrer kompatibiliteten med verten hvis musen eller tastaturet slutter å svare',
+    'mouse.hidOnly.desc':
+      'Hvis musen eller tastaturet slutter å svare og det ikke hjelper å tilbakestille HID, kan det være et kompatibilitetsproblem mellom NanoKVM og verten.',
+    'settings.device.hidOnlyTip':
+      'HID-Only-modus slutter å emulere virtuelle enheter og beholder bare grunnleggende HID-kontroll'
   },
   nl: {
     'auth.tips.change4':
@@ -1329,7 +1414,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.active': 'Firewallmodus Paranoïde is actief',
     'settings.system.firewall.paranoid.confirmTitle': 'Firewallmodus Paranoïde inschakelen?',
     'settings.update.paranoidBlocked':
-      'Online-updates worden geblokkeerd door firewallmodus Paranoïde'
+      'Online-updates worden geblokkeerd door firewallmodus Paranoïde',
+    'settings.device.hidOnlyDesc':
+      'Verbetert de compatibiliteit met de host als muis of toetsenbord niet meer reageren',
+    'mouse.hidOnly.desc':
+      'Als muis of toetsenbord niet meer reageren en het resetten van HID niet helpt, kan het gaan om een compatibiliteitsprobleem tussen de NanoKVM en de host.',
+    'settings.device.hidOnlyTip':
+      'De HID-Only-modus stopt met het emuleren van virtuele apparaten en behoudt alleen de basisbesturing van HID'
   },
   pl: {
     'auth.tips.change4':
@@ -1414,7 +1505,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.baseline.active': 'Tryb zapory Podstawowy jest aktywny',
     'settings.system.firewall.baseline.confirmTitle': 'Przełączyć na otwarty tryb Podstawowy?',
     'settings.update.paranoidBlocked':
-      'Aktualizacje online są blokowane przez tryb zapory Paranoidalny'
+      'Aktualizacje online są blokowane przez tryb zapory Paranoidalny',
+    'settings.device.hidOnlyDesc':
+      'Poprawia zgodność z hostem, gdy mysz lub klawiatura przestają reagować',
+    'mouse.hidOnly.desc':
+      'Jeśli mysz lub klawiatura przestaną reagować, a reset HID nie pomaga, może to być problem ze zgodnością między NanoKVM a hostem.',
+    'settings.device.hidOnlyTip':
+      'Tryb HID-Only przestaje emulować urządzenia wirtualne i zachowuje tylko podstawową kontrolę HID'
   },
   pt_br: {
     'auth.tips.change4': 'Se esta senha for perdida, a recuperação exige regravar o cartão SD.',
@@ -1485,7 +1582,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.active': 'O modo Firewall Paranoico está ativo',
     'settings.system.firewall.paranoid.confirmTitle': 'Ativar o modo Paranoico?',
     'settings.update.paranoidBlocked':
-      'Atualizações online são bloqueadas pelo modo de firewall Paranoico'
+      'Atualizações online são bloqueadas pelo modo de firewall Paranoico',
+    'settings.device.hidOnlyDesc':
+      'Melhora a compatibilidade com o host se o mouse ou o teclado pararem de responder',
+    'mouse.hidOnly.desc':
+      'Se o mouse ou o teclado pararem de responder e redefinir o HID não ajudar, pode haver um problema de compatibilidade entre o NanoKVM e o host.',
+    'settings.device.hidOnlyTip':
+      'O modo HID-Only deixa de emular dispositivos virtuais e mantém apenas o controle básico HID'
   },
   ru: {
     'download.disabled':
@@ -1535,7 +1638,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.baseline.active': 'Режим брандмауэра «Базовый» активен',
     'settings.system.firewall.baseline.confirmTitle': 'Переключить на открытый режим «Базовый»?',
     'settings.update.paranoidBlocked':
-      'Онлайн-обновления заблокированы режимом брандмауэра «Параноидальный»'
+      'Онлайн-обновления заблокированы режимом брандмауэра «Параноидальный»',
+    'settings.device.hidOnlyDesc':
+      'Улучшает совместимость с хостом, если мышь или клавиатура перестали отвечать',
+    'mouse.hidOnly.desc':
+      'Если мышь или клавиатура перестали отвечать и сброс HID не помогает, возможно, это проблема совместимости между NanoKVM и хостом.',
+    'settings.device.hidOnlyTip':
+      'Режим HID-Only прекращает эмуляцию виртуальных устройств и сохраняет только базовое управление HID'
   },
   se: {
     'auth.tips.change4': 'Om lösenordet förloras kräver återställning att SD-kortet skrivs om.',
@@ -1610,7 +1719,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': 'Aktivera Paranoid',
     'settings.system.firewall.paranoid.active': 'Brandväggsläget Paranoid är aktivt',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktivera brandväggsläget Paranoid?',
-    'settings.update.paranoidBlocked': 'Onlineuppdateringar blockeras av brandväggsläget Paranoid'
+    'settings.update.paranoidBlocked': 'Onlineuppdateringar blockeras av brandväggsläget Paranoid',
+    'settings.device.hidOnlyDesc':
+      'Förbättrar kompatibiliteten med värden om musen eller tangentbordet slutar svara',
+    'mouse.hidOnly.desc':
+      'Om musen eller tangentbordet slutar svara och det inte hjälper att återställa HID kan det vara ett kompatibilitetsproblem mellan NanoKVM och värden.',
+    'settings.device.hidOnlyTip':
+      'HID-Only-läge slutar emulera virtuella enheter och behåller bara grundläggande HID-kontroll'
   },
   th: {
     'auth.tips.change4': 'หากรหัสผ่านนี้หาย การกู้คืนต้องเขียนการ์ด SD ใหม่',
@@ -1691,7 +1806,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': 'เปิด หวาดระแวง',
     'settings.system.firewall.paranoid.active': 'โหมดไฟร์วอลล์ หวาดระแวง เปิดใช้งานอยู่',
     'settings.system.firewall.paranoid.confirmTitle': 'เปิดโหมด หวาดระแวง หรือไม่?',
-    'settings.update.paranoidBlocked': 'การอัปเดตออนไลน์ถูกบล็อกโดยโหมดไฟร์วอลล์ หวาดระแวง'
+    'settings.update.paranoidBlocked': 'การอัปเดตออนไลน์ถูกบล็อกโดยโหมดไฟร์วอลล์ หวาดระแวง',
+    'settings.device.hidOnlyDesc':
+      'ช่วยให้ทำงานร่วมกับโฮสต์ได้ดีขึ้น หากเมาส์หรือคีย์บอร์ดไม่ตอบสนอง',
+    'mouse.hidOnly.desc':
+      'หากเมาส์หรือคีย์บอร์ดไม่ตอบสนองและการรีเซ็ต HID ไม่ช่วย อาจเป็นปัญหาความเข้ากันได้ระหว่าง NanoKVM กับโฮสต์',
+    'settings.device.hidOnlyTip':
+      'โหมด HID-Only จะหยุดจำลองอุปกรณ์เสมือนและคงไว้เพียงการควบคุม HID พื้นฐาน'
   },
   tr: {
     'auth.tips.change4': 'Bu parola kaybolursa kurtarma için SD kartın yeniden yazılması gerekir.',
@@ -1776,7 +1897,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.active': 'Paranoyak güvenlik duvarı modu etkin',
     'settings.system.firewall.paranoid.confirmTitle': 'Paranoyak modu etkinleştirilsin mi?',
     'settings.update.paranoidBlocked':
-      'Çevrimiçi güncellemeler Paranoyak güvenlik duvarı modu tarafından engellenir'
+      'Çevrimiçi güncellemeler Paranoyak güvenlik duvarı modu tarafından engellenir',
+    'settings.device.hidOnlyDesc':
+      'Fare veya klavye yanıt vermeyi bırakırsa ana bilgisayarla uyumluluğu artırır',
+    'mouse.hidOnly.desc':
+      "Fare veya klavye yanıt vermeyi bırakır ve HID'i sıfırlamak yardımcı olmazsa, NanoKVM ile ana bilgisayar arasında bir uyumluluk sorunu olabilir.",
+    'settings.device.hidOnlyTip':
+      'HID-Only modu sanal aygıtları taklit etmeyi durdurur ve yalnızca temel HID kontrolünü korur'
   },
   uk: {
     'auth.tips.change4':
@@ -1864,7 +1991,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.active': 'Режим брандмауера Параноїдальний активний',
     'settings.system.firewall.paranoid.confirmTitle': 'Увімкнути режим Параноїдальний?',
     'settings.update.paranoidBlocked':
-      'Онлайн-оновлення заблоковані режимом брандмауера Параноїдальний'
+      'Онлайн-оновлення заблоковані режимом брандмауера Параноїдальний',
+    'settings.device.hidOnlyDesc':
+      'Покращує сумісність із хостом, якщо миша або клавіатура перестали відповідати',
+    'mouse.hidOnly.desc':
+      'Якщо миша або клавіатура перестали відповідати, а скидання HID не допомагає, це може бути проблема сумісності між NanoKVM і хостом.',
+    'settings.device.hidOnlyTip':
+      'Режим HID-Only припиняє емуляцію віртуальних пристроїв і зберігає лише базове керування HID'
   },
   vi: {
     'auth.tips.change4': 'Nếu mất mật khẩu này, việc khôi phục cần ghi lại thẻ SD.',
@@ -1958,7 +2091,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': 'Bật Hoang tưởng',
     'settings.system.firewall.paranoid.active': 'Chế độ tường lửa Hoang tưởng đang hoạt động',
     'settings.system.firewall.paranoid.confirmTitle': 'Bật chế độ Hoang tưởng?',
-    'settings.update.paranoidBlocked': 'Cập nhật online bị chặn bởi chế độ tường lửa Hoang tưởng'
+    'settings.update.paranoidBlocked': 'Cập nhật online bị chặn bởi chế độ tường lửa Hoang tưởng',
+    'settings.device.hidOnlyDesc':
+      'Cải thiện khả năng tương thích với máy chủ nếu chuột hoặc bàn phím ngừng phản hồi',
+    'mouse.hidOnly.desc':
+      'Nếu chuột hoặc bàn phím ngừng phản hồi và việc đặt lại HID không có tác dụng, có thể là sự cố tương thích giữa NanoKVM và máy chủ.',
+    'settings.device.hidOnlyTip':
+      'Chế độ HID-Only ngừng mô phỏng các thiết bị ảo và chỉ giữ lại điều khiển HID cơ bản'
   },
   zh: {
     'auth.tips.change4': '如果此密码丢失，恢复需要重新写入 SD 卡。',
@@ -2020,7 +2159,11 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': '启用偏执',
     'settings.system.firewall.paranoid.active': '偏执防火墙模式已启用',
     'settings.system.firewall.paranoid.confirmTitle': '启用偏执防火墙模式？',
-    'settings.update.paranoidBlocked': '在线更新被偏执防火墙模式阻止'
+    'settings.update.paranoidBlocked': '在线更新被偏执防火墙模式阻止',
+    'settings.device.hidOnlyDesc': '当鼠标或键盘停止响应时，改善与主机的兼容性',
+    'mouse.hidOnly.desc':
+      '如果鼠标或键盘停止响应，且重置 HID 无效，可能是 NanoKVM 与主机之间存在兼容性问题。',
+    'settings.device.hidOnlyTip': 'HID-Only 模式会停止模拟虚拟设备，仅保留基础的 HID 控制'
   },
   zh_tw: {
     'auth.tips.change4': '如果此密碼遺失，復原需要重新寫入 SD 卡。',
@@ -2086,6 +2229,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.paranoid.enable': '啟用偏執',
     'settings.system.firewall.paranoid.active': '偏執防火牆模式已啟用',
     'settings.system.firewall.paranoid.confirmTitle': '啟用偏執防火牆模式？',
-    'settings.update.paranoidBlocked': '線上更新被偏執防火牆模式阻擋'
+    'settings.update.paranoidBlocked': '線上更新被偏執防火牆模式阻擋',
+    'settings.device.hidOnlyDesc': '當滑鼠或鍵盤停止回應時，改善與主機的相容性',
+    'mouse.hidOnly.desc':
+      '如果滑鼠或鍵盤停止回應，且重設 HID 無效，可能是 NanoKVM 與主機之間存在相容性問題。',
+    'settings.device.hidOnlyTip': 'HID-Only 模式會停止模擬虛擬設備，僅保留基礎 HID 控制'
   }
 };
