@@ -110,7 +110,14 @@ export const LeaderKey = () => {
         <span>{t('keyboard.leaderKey.title')}</span>
       </div>
 
-      <Modal width={510} keyboard={false} footer={null} open={isModalOpen} onCancel={closeModal}>
+      <Modal
+        width={510}
+        centered
+        keyboard={false}
+        footer={null}
+        open={isModalOpen}
+        onCancel={closeModal}
+      >
         <div className="my-3 flex flex-col space-y-3">
           {/* title */}
           <div className="flex flex-col space-y-1">

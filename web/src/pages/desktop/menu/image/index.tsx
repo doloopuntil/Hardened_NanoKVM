@@ -86,7 +86,7 @@ export const Image = () => {
         </div>
       </Tooltip>
 
-      <Modal open={isModalOpen} footer={null} onCancel={() => toggleModal(false)}>
+      <Modal open={isModalOpen} centered footer={null} onCancel={() => toggleModal(false)}>
         <div className="flex items-center space-x-1">
           <span className="text-xl font-bold">{t('image.title')}</span>
           <Tips />

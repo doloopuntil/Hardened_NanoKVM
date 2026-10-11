@@ -214,7 +214,7 @@ export const VirtualDevices = () => {
         open={isHidModalOpen}
         title={t('mouse.hidOnly.title')}
         width={580}
-        centered={false}
+        centered
         footer={false}
         onCancel={() => setIsHidModalOpen(false)}
       >

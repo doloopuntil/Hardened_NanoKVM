@@ -8,12 +8,14 @@ import { useTranslation } from 'react-i18next';
 
 import { paste } from '@/api/hid';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 
 type InputStatus = '' | 'error';
 
 export const Paste = () => {
   const { t } = useTranslation();
   const setIsKeyboardEnable = useSetAtom(isKeyboardEnableAtom);
+  const isTouchLayout = useIsTouchLayout();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -180,7 +182,7 @@ export const Paste = () => {
 
       <Modal
         open={isModalOpen}
-        centered={false}
+        centered={!isTouchLayout}
         footer={null}
         onCancel={() => setIsModalOpen(false)}
         afterOpenChange={afterOpenChange}

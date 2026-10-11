@@ -37,14 +37,7 @@ export const Run = ({ script, setIsRunning }: RunProps) => {
   }, []);
 
   return (
-    <Modal
-      title={script}
-      width={600}
-      closable={false}
-      footer={null}
-      style={{ top: 60 }}
-      open={true}
-    >
+    <Modal title={script} width={600} centered closable={false} footer={null} open={true}>
       {state === 'running' ? (
         <div className="flex h-[300px] items-center justify-center">
           <Spin indicator={<LoadingOutlined spin />} size="large" />
