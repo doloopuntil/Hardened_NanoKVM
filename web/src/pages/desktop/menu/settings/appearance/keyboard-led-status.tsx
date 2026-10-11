@@ -15,7 +15,7 @@ export const KeyboardLedStatusSetting = () => {
   }
 
   return (
-    <div className="mt-5 flex w-full items-center justify-between">
+    <div className="mt-5 flex w-full items-center justify-between gap-x-4">
       <div className="flex flex-col">
         <span className="text-neutral-400">
           {t('settings.appearance.menuBar.keyboardLedStatus')}

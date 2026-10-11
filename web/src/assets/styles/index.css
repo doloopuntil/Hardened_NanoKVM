@@ -49,6 +49,19 @@ body {
   display: none;
 }
 
+/* From the sm breakpoint a block segmented control sizes each segment to its own label instead of
+   splitting the width equally, so a long label next to a short one does not wrap. */
+@media (min-width: 640px) {
+  .settings-segmented-fit.ant-segmented-block {
+    display: inline-flex;
+    min-width: 0;
+  }
+
+  .settings-segmented-fit.ant-segmented-block .ant-segmented-item {
+    flex: 0 0 auto;
+  }
+}
+
 .settings-segmented-wrap-labels .ant-segmented-item-label,
 .settings-modal-mobile .ant-segmented-item-label {
   display: flex;
