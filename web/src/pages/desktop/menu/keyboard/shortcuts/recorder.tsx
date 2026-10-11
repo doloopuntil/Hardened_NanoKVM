@@ -195,6 +195,7 @@ export const Recorder = ({
 
       <Modal
         width={500}
+        centered
         title={t('keyboard.shortcut.title')}
         keyboard={false}
         footer={null}

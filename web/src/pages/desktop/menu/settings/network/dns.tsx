@@ -548,28 +548,31 @@ export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
     return (
       <div className="flex flex-col space-y-8">
         <div className="flex flex-col space-y-5">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-col space-y-1">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-6">
+            <div className="flex min-w-0 flex-col space-y-1 sm:flex-1 sm:basis-60">
               <span>{t('settings.network.dns.ipv4Title')}</span>
               <span className="text-xs text-neutral-500">
                 {t('settings.network.dns.ipv4Description')}
               </span>
             </div>
 
-            <Segmented
-              className="max-w-full overflow-x-auto"
-              disabled={disabled || isLoading || isSaving}
-              value={mode}
-              onChange={(val) => {
-                setMode(val as DNSMode);
-                setMessage('');
-                setError('');
-              }}
-              options={[
-                { label: t('settings.network.dns.dhcp'), value: 'dhcp' },
-                { label: t('settings.network.dns.manual'), value: 'manual' }
-              ]}
-            />
+            <div className="w-full min-w-0 sm:w-auto sm:flex-none">
+              <Segmented
+                block
+                className="settings-segmented-wrap-labels settings-segmented-fit min-w-full"
+                disabled={disabled || isLoading || isSaving}
+                value={mode}
+                onChange={(val) => {
+                  setMode(val as DNSMode);
+                  setMessage('');
+                  setError('');
+                }}
+                options={[
+                  { label: t('settings.network.dns.dhcp'), value: 'dhcp' },
+                  { label: t('settings.network.dns.manual'), value: 'manual' }
+                ]}
+              />
+            </div>
           </div>
 
           <Panel title={t('settings.network.dns.networkDetails')}>

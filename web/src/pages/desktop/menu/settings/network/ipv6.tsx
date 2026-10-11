@@ -334,31 +334,34 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
 
     return (
       <div className="flex flex-col space-y-5">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-          <div className="flex flex-col space-y-1">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-6">
+          <div className="flex min-w-0 flex-col space-y-1 sm:flex-1 sm:basis-60">
             <span>{t('settings.network.ipv6.title')}</span>
             <span className="text-xs text-neutral-500">
               {t('settings.network.ipv6.description')}
             </span>
           </div>
 
-          <Segmented
-            className="max-w-full overflow-x-auto"
-            disabled={disabled || isLoading || isSaving}
-            value={mode}
-            onChange={(val) => {
-              setMode(val as IPv6Mode);
-              setStatus('');
-              setMessage('');
-              setError('');
-            }}
-            options={[
-              { label: t('settings.network.ipv6.disabled'), value: 'disabled' },
-              { label: t('settings.network.ipv6.slaac'), value: 'slaac' },
-              { label: t('settings.network.ipv6.dhcpv6'), value: 'dhcpv6' },
-              { label: t('settings.network.ipv6.manual'), value: 'manual' }
-            ]}
-          />
+          <div className="w-full min-w-0 sm:w-auto sm:flex-none">
+            <Segmented
+              block
+              className="settings-segmented-wrap-labels settings-segmented-fit min-w-full"
+              disabled={disabled || isLoading || isSaving}
+              value={mode}
+              onChange={(val) => {
+                setMode(val as IPv6Mode);
+                setStatus('');
+                setMessage('');
+                setError('');
+              }}
+              options={[
+                { label: t('settings.network.ipv6.disabled'), value: 'disabled' },
+                { label: t('settings.network.ipv6.slaac'), value: 'slaac' },
+                { label: t('settings.network.ipv6.dhcpv6'), value: 'dhcpv6' },
+                { label: t('settings.network.ipv6.manual'), value: 'manual' }
+              ]}
+            />
+          </div>
         </div>
 
         <Panel title={t('settings.network.ipv6.status')}>

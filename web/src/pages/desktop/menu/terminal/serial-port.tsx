@@ -62,7 +62,13 @@ export const SerialPort = () => {
         <span>{t('terminal.serial')}</span>
       </div>
 
-      <Modal open={isModalOpen} title={t('terminal.serial')} footer={null} onCancel={closeModal}>
+      <Modal
+        open={isModalOpen}
+        centered
+        title={t('terminal.serial')}
+        footer={null}
+        onCancel={closeModal}
+      >
         <div className="mt-10 flex items-center space-x-[20px]">
           <div className="flex w-[80px] justify-end text-neutral-400">
             {t('terminal.serialPort')}

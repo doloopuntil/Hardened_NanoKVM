@@ -387,6 +387,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
 
       <Modal
         open={isStartingEnrolment}
+        centered
         afterOpenChange={focusWhenOpen(enrolPasswordRef)}
         title={t('settings.account.totp.enableTitle')}
         okText={t('settings.account.totp.continue')}
@@ -414,6 +415,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
 
       <Modal
         open={isRegenerating}
+        centered
         afterOpenChange={focusWhenOpen(regeneratePasswordRef)}
         title={t('settings.account.totp.regenerateTitle')}
         okText={t('settings.account.totp.generate')}
@@ -441,6 +443,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
 
       <Modal
         open={isDisabling}
+        centered
         afterOpenChange={focusWhenOpen(disablePasswordRef)}
         title={t('settings.account.totp.disableTitle')}
         okText={t('settings.account.totp.disable')}
