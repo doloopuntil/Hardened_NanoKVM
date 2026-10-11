@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Switch, Tooltip } from 'antd';
 import { CircleAlertIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 export const Ssh = () => {
   const { t } = useTranslation();
@@ -12,24 +13,9 @@ export const Ssh = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    void refresh();
-  }, []);
-
-  async function refresh() {
-    setIsLoading(true);
-
-    try {
-      const rsp = await api.getSSHState();
-      if (rsp.code === 0) {
-        setIsEnabled(Boolean(rsp.data?.enabled));
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const isReady = useSettingsLoad(api.getSSHState, (rsp) => {
+    setIsEnabled(Boolean(rsp.data?.enabled));
+  });
 
   async function update(checked: boolean) {
     if (isLoading) return;
@@ -65,7 +51,7 @@ export const Ssh = () => {
         <span className="text-xs text-neutral-500">{t('settings.device.ssh.description')}</span>
       </div>
 
-      <Switch checked={isEnabled} loading={isLoading} onChange={update} />
+      <Switch checked={isEnabled} loading={isLoading} disabled={!isReady} onChange={update} />
     </div>
   );
 };

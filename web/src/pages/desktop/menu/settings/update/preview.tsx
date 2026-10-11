@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Switch, Tooltip } from 'antd';
 import { CircleAlertIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/application.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 interface PreviewProps {
   refreshUpdates: () => void;
@@ -16,27 +17,9 @@ export const Preview = ({ refreshUpdates }: PreviewProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
 
-  useEffect(() => {
-    getPreviewUpdates();
-  }, []);
-
-  function getPreviewUpdates() {
-    setIsLoading(true);
-
-    api
-      .getPreviewUpdates()
-      .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
-
-        setIsEnabled(rsp.data.enabled);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
+  const isReady = useSettingsLoad(api.getPreviewUpdates, (rsp) => {
+    setIsEnabled(rsp.data.enabled);
+  });
 
   function setPreviewUpdates() {
     if (isLoading) return;
@@ -79,7 +62,12 @@ export const Preview = ({ refreshUpdates }: PreviewProps) => {
         </span>
       </div>
 
-      <Switch checked={isEnabled} loading={isLoading} onChange={setPreviewUpdates} />
+      <Switch
+        checked={isEnabled}
+        loading={isLoading}
+        disabled={!isReady}
+        onChange={setPreviewUpdates}
+      />
     </div>
   );
 };

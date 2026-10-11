@@ -20,6 +20,7 @@ import * as ls from '@/lib/localstorage.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { submenuOpenCountAtom } from '@/jotai/settings.ts';
 import { Tailscale as TailscaleIcon } from '@/components/icons/tailscale';
+import { SettingsLoadGroup } from '@/components/settings-load-group.tsx';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 
@@ -253,7 +254,9 @@ export const Settings = () => {
                     : 'pb-10 pt-14'
                 )}
               >
-                <>{tabs.find((tab) => tab.id === currentTab)?.component}</>
+                <SettingsLoadGroup key={currentTab}>
+                  {tabs.find((tab) => tab.id === currentTab)?.component}
+                </SettingsLoadGroup>
               </div>
             </div>
           </ScrollArea>

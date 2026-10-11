@@ -5,7 +5,10 @@ const en = {
       cancel: 'Cancel',
       delete: 'Delete',
       actionFailed: 'Operation failed',
-      actionFailedDetail: 'Operation failed: {{detail}}'
+      actionFailedDetail: 'Operation failed: {{detail}}',
+      loading: 'Loading settings from the device...',
+      loadFailed: "Couldn't load settings from the device",
+      retry: 'Retry'
     },
     head: {
       desktop: 'Remote Desktop',
@@ -573,7 +576,6 @@ const en = {
             'DHCPv6 client is not installed. Install the matching raw system update first.',
           saved: 'IPv6 settings saved',
           saveFailed: 'Failed to save IPv6 settings',
-          loadFailed: 'Failed to load IPv6 settings',
           unsaved: 'Unsaved changes'
         }
       },
@@ -585,7 +587,6 @@ const en = {
           systemLog: 'System Log'
         },
         time: {
-          loadFailed: 'Failed to load time settings',
           saveFailed: 'Failed to save time settings',
           saved: 'Time settings saved',
           syncFailed: 'Failed to synchronize time',
@@ -616,7 +617,6 @@ const en = {
           }
         },
         firewall: {
-          loadFailed: 'Failed to load firewall status',
           saveFailed: 'Failed to apply firewall settings',
           saved: 'Firewall settings applied',
           cancel: 'Cancel',
@@ -694,7 +694,6 @@ const en = {
       },
       systemLog: {
         title: 'System Log',
-        loadFailed: 'Failed to load log settings',
         saveFailed: 'Failed to save log settings',
         saved: 'Log settings saved',
         invalidHost: 'Enter a syslog server host',

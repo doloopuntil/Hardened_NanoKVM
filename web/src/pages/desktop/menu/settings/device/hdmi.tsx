@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { InputNumber, Switch } from 'antd';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { isHdmiEnabledAtom } from '@/jotai/screen.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 export const Hdmi = () => {
   const { t } = useTranslation();
@@ -18,33 +19,18 @@ export const Hdmi = () => {
   const [idleTimeoutInput, setIdleTimeoutInput] = useState<number | null>(0);
   const [isIdleTimeoutLoading, setIsIdleTimeoutLoading] = useState(false);
 
-  useEffect(() => {
-    getHardware();
-    getHdmiState();
-  }, []);
-
-  async function getHardware() {
-    const rsp = await api.getHardware();
-    if (rsp.code !== 0) {
-      return;
-    }
-
+  const isHardwareReady = useSettingsLoad(api.getHardware, (rsp) => {
     setIsPcie(rsp.data?.version === 'PCIE');
-  }
+  });
 
-  async function getHdmiState() {
-    setIsLoading(true);
+  const isStateReady = useSettingsLoad(api.getHdmiState, (rsp) => {
+    setIsHdmiEnabled(rsp.data.enabled);
+    const timeout = rsp.data.idleTimeout ?? 0;
+    setIdleTimeout(timeout);
+    setIdleTimeoutInput(timeout);
+  });
 
-    const rsp = await api.getHdmiState();
-    if (rsp.code === 0) {
-      setIsHdmiEnabled(rsp.data.enabled);
-      const timeout = rsp.data.idleTimeout ?? 0;
-      setIdleTimeout(timeout);
-      setIdleTimeoutInput(timeout);
-    }
-
-    setIsLoading(false);
-  }
+  const isReady = isHardwareReady && isStateReady;
 
   function updateIdleTimeout() {
     if (
@@ -102,7 +88,12 @@ export const Hdmi = () => {
               </span>
             </div>
 
-            <Switch checked={isHdmiEnabled} loading={isLoading} onChange={setHdmiState} />
+            <Switch
+              checked={isHdmiEnabled}
+              loading={isLoading}
+              disabled={!isReady}
+              onChange={setHdmiState}
+            />
           </div>
 
           <div className="flex items-center justify-between">
@@ -120,7 +111,7 @@ export const Hdmi = () => {
               precision={0}
               value={idleTimeoutInput}
               addonAfter={t('settings.device.hdmi.minutes')}
-              disabled={isIdleTimeoutLoading}
+              disabled={isIdleTimeoutLoading || !isReady}
               onChange={setIdleTimeoutInput}
               onBlur={updateIdleTimeout}
               onPressEnter={updateIdleTimeout}

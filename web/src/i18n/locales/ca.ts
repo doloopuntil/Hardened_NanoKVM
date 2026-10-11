@@ -5,7 +5,10 @@ const ca = {
       cancel: 'Cancel·la',
       delete: 'Esborra',
       actionFailed: "L'operació ha fallat",
-      actionFailedDetail: "L'operació ha fallat: {{detail}}"
+      actionFailedDetail: "L'operació ha fallat: {{detail}}",
+      loading: 'Carregant la configuració del dispositiu...',
+      loadFailed: "No s'ha pogut carregar la configuració del dispositiu",
+      retry: 'Reintenta'
     },
     head: {
       desktop: 'Escriptori remot',

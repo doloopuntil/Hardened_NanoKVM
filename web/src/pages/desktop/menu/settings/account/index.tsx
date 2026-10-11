@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import * as api from '@/api/auth.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 import { TotpEnrollment } from '@/components/totp-enrollment.tsx';
 
 import { Logout } from './logout.tsx';
@@ -18,13 +19,7 @@ export const Account = ({ setIsLocked }: Props) => {
 
   const [username, setUsername] = useState('');
 
-  useEffect(() => {
-    api.getAccount().then((rsp) => {
-      if (rsp.code === 0) {
-        setUsername(rsp.data.username);
-      }
-    });
-  }, []);
+  useSettingsLoad(api.getAccount, (rsp) => setUsername(rsp.data.username));
 
   function changePassword() {
     navigate('/auth/password');

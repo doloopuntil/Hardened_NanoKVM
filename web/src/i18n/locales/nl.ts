@@ -5,7 +5,10 @@ const nl = {
       cancel: 'Annuleren',
       delete: 'Verwijderen',
       actionFailed: 'Bewerking mislukt',
-      actionFailedDetail: 'Bewerking mislukt: {{detail}}'
+      actionFailedDetail: 'Bewerking mislukt: {{detail}}',
+      loading: 'Instellingen van het apparaat laden...',
+      loadFailed: 'Kan de instellingen niet van het apparaat laden',
+      retry: 'Opnieuw proberen'
     },
     head: {
       desktop: 'Extern bureaublad',

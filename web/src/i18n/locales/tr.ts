@@ -5,7 +5,10 @@ const tr = {
       cancel: 'İptal',
       delete: 'Sil',
       actionFailed: 'İşlem başarısız oldu',
-      actionFailedDetail: 'İşlem başarısız oldu: {{detail}}'
+      actionFailedDetail: 'İşlem başarısız oldu: {{detail}}',
+      loading: 'Ayarlar cihazdan yükleniyor...',
+      loadFailed: 'Ayarlar cihazdan yüklenemedi',
+      retry: 'Yeniden dene'
     },
     head: {
       desktop: 'Uzak masaüstü',

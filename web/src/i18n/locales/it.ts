@@ -5,7 +5,10 @@ const it = {
       cancel: 'Annulla',
       delete: 'Elimina',
       actionFailed: 'Operazione non riuscita',
-      actionFailedDetail: 'Operazione non riuscita: {{detail}}'
+      actionFailedDetail: 'Operazione non riuscita: {{detail}}',
+      loading: 'Caricamento delle impostazioni dal dispositivo...',
+      loadFailed: 'Impossibile caricare le impostazioni dal dispositivo',
+      retry: 'Riprova'
     },
     head: {
       desktop: 'Desktop Remoto',

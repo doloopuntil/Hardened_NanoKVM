@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/network.ts';
 import type { IPv6Mode } from '@/api/network.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 import type { NetworkSectionHandle, NetworkSectionResult, NetworkSectionStatus } from './types.ts';
 
@@ -167,18 +168,39 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
     const [originalAddress, setOriginalAddress] = useState('');
     const [originalPrefix, setOriginalPrefix] = useState('64');
     const [originalRouter, setOriginalRouter] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
-    useEffect(() => {
-      getIPv6();
-    }, []);
+    const applyIPv6State = (rsp: { data?: any }) => {
+      const data = rsp.data as IPv6State;
+      const fetchedMode = data.mode || 'disabled';
+      const config = data.config || {};
+      const fetchedAddress = normalizeIPv6(config.address || '');
+      const fetchedPrefix = String(config.prefix || 64);
+      const fetchedRouter = normalizeIPv6(config.gateway || '');
 
-    async function getIPv6(showLoading = true) {
-      if (showLoading) setIsLoading(true);
+      setMode(fetchedMode);
+      setOriginalMode(fetchedMode);
+      setAddresses(data.addresses || []);
+      setGateway(data.gateway || '');
+      setClientAvailable(Boolean(data.clientAvailable));
+      setClientPath(data.clientPath || '');
+      setStatus(data.status || '');
+      setStatusMessage(data.message || '');
+      setAddress(fetchedAddress);
+      setPrefix(fetchedPrefix);
+      setRouter(fetchedRouter);
+      setOriginalAddress(fetchedAddress);
+      setOriginalPrefix(fetchedPrefix);
+      setOriginalRouter(fetchedRouter);
+    };
 
+    const isLoaded = useSettingsLoad(api.getIPv6, applyIPv6State);
+    const isLoading = !isLoaded;
+
+    // refresh after saving
+    async function getIPv6() {
       try {
         const rsp = await api.getIPv6();
         if (rsp.code !== 0) {
@@ -186,32 +208,9 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
           return;
         }
 
-        const data = rsp.data as IPv6State;
-        const fetchedMode = data.mode || 'disabled';
-        const config = data.config || {};
-        const fetchedAddress = normalizeIPv6(config.address || '');
-        const fetchedPrefix = String(config.prefix || 64);
-        const fetchedRouter = normalizeIPv6(config.gateway || '');
-
-        setMode(fetchedMode);
-        setOriginalMode(fetchedMode);
-        setAddresses(data.addresses || []);
-        setGateway(data.gateway || '');
-        setClientAvailable(Boolean(data.clientAvailable));
-        setClientPath(data.clientPath || '');
-        setStatus(data.status || '');
-        setStatusMessage(data.message || '');
-        setAddress(fetchedAddress);
-        setPrefix(fetchedPrefix);
-        setRouter(fetchedRouter);
-        setOriginalAddress(fetchedAddress);
-        setOriginalPrefix(fetchedPrefix);
-        setOriginalRouter(fetchedRouter);
+        applyIPv6State(rsp);
       } catch (err) {
         console.log(err);
-        setError(t('settings.network.ipv6.loadFailed'));
-      } finally {
-        if (showLoading) setIsLoading(false);
       }
     }
 
@@ -263,7 +262,7 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
         setOriginalAddress(normalizedAddress);
         setOriginalPrefix(trimmedPrefix);
         setOriginalRouter(normalizedRouter);
-        await getIPv6(false);
+        await getIPv6();
         setMessage(t('settings.network.ipv6.saved'));
         return { changed: true };
       } catch (err) {

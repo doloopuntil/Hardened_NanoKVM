@@ -5,7 +5,10 @@ const zh_tw = {
       cancel: '取消',
       delete: '刪除',
       actionFailed: '操作失敗',
-      actionFailedDetail: '操作失敗：{{detail}}'
+      actionFailedDetail: '操作失敗：{{detail}}',
+      loading: '正在從裝置載入設定...',
+      loadFailed: '無法從裝置載入設定',
+      retry: '重試'
     },
     head: {
       desktop: '遠端桌面',

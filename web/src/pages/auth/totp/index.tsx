@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { Head } from '@/components/head.tsx';
+import { SettingsLoadGroup } from '@/components/settings-load-group.tsx';
 import { TotpEnrollment } from '@/components/totp-enrollment.tsx';
 
 /**
@@ -30,7 +31,9 @@ export const Totp = () => {
         </Typography.Paragraph>
 
         <Card style={{ minWidth: 340, maxWidth: 480 }}>
-          <TotpEnrollment onEnrolled={() => navigate('/', { replace: true })} />
+          <SettingsLoadGroup>
+            <TotpEnrollment onEnrolled={() => navigate('/', { replace: true })} />
+          </SettingsLoadGroup>
         </Card>
       </div>
     </>

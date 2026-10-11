@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Select } from 'antd';
 import { ScreenShareOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 export const Oled = () => {
   const { t } = useTranslation();
@@ -13,21 +14,12 @@ export const Oled = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [sleep, setSleep] = useState('');
 
-  useEffect(() => {
-    api.getOLED().then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+  const isReady = useSettingsLoad(api.getOLED, (rsp) => {
+    if (!rsp.data.exist) return;
 
-      if (!rsp.data.exist) {
-        return;
-      }
-
-      setIsOLEDExist(true);
-      setSleep(rsp.data.sleep.toString());
-    });
-  }, []);
+    setIsOLEDExist(true);
+    setSleep(rsp.data.sleep.toString());
+  });
 
   const options = [0, 15, 30, 60, 180, 300, 600, 1800, 3600].map((duration) => ({
     value: duration.toString(),
@@ -62,6 +54,7 @@ export const Oled = () => {
           value={sleep}
           options={options}
           loading={isLoading}
+          disabled={!isReady}
           onChange={update}
         />
       ) : (

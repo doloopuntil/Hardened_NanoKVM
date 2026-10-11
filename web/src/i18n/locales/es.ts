@@ -5,7 +5,10 @@ const es = {
       cancel: 'Cancelar',
       delete: 'Eliminar',
       actionFailed: 'La operación ha fallado',
-      actionFailedDetail: 'La operación ha fallado: {{detail}}'
+      actionFailedDetail: 'La operación ha fallado: {{detail}}',
+      loading: 'Cargando la configuración del dispositivo...',
+      loadFailed: 'No se pudo cargar la configuración del dispositivo',
+      retry: 'Reintentar'
     },
     head: {
       desktop: 'Escritorio remoto',

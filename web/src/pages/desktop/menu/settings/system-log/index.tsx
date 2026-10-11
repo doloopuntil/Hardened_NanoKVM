@@ -1,12 +1,13 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Alert, Button, Divider, Input, InputNumber, Select, Switch } from 'antd';
+import { Alert, Button, ConfigProvider, Divider, Input, InputNumber, Select, Switch } from 'antd';
 import { RefreshCwIcon, SendIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/system-log.ts';
 import type { SystemLogConfig } from '@/api/system-log.ts';
 import { toast } from '@/lib/feedback.ts';
+import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
 
 import type { SystemActionHandle, SystemActionState } from '../system/action.ts';
 
@@ -38,7 +39,6 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
     const [localLogFile, setLocalLogFile] = useState('/tmp/hardened-syslog/messages');
     const [lineCount, setLineCount] = useState(200);
     const [content, setContent] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [isLogLoading, setIsLogLoading] = useState(false);
     const [isTesting, setIsTesting] = useState(false);
@@ -54,7 +54,6 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
     );
 
     useEffect(() => {
-      loadConfig();
       refreshLog(200);
     }, []);
 
@@ -62,26 +61,15 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
       setConfig((current) => ({ ...current, ...patch }));
     }
 
-    async function loadConfig() {
-      setIsLoading(true);
-      try {
-        const rsp = await api.getConfig();
-        if (rsp.code !== 0 || !rsp.data) {
-          toast.error(rsp.msg || t('settings.systemLog.loadFailed'));
-          return;
-        }
+    const { status: loadState } = useSettingsLoadState(api.getConfig, (rsp) => {
+      if (!rsp.data) throw new Error('missing system log config');
 
-        const nextConfig = { ...defaultConfig, ...rsp.data.config };
-        setConfig(nextConfig);
-        setSavedConfig(nextConfig);
-        setLocalLogFile(rsp.data.localLogFile || defaultConfigPath());
-      } catch (err) {
-        console.log(err);
-        toast.error(t('settings.systemLog.loadFailed'));
-      } finally {
-        setIsLoading(false);
-      }
-    }
+      const nextConfig = { ...defaultConfig, ...rsp.data.config };
+      setConfig(nextConfig);
+      setSavedConfig(nextConfig);
+      setLocalLogFile(rsp.data.localLogFile || defaultConfigPath());
+    });
+    const isUnavailable = loadState !== 'ready';
 
     const save = useCallback(async () => {
       if (isSaving) return;
@@ -165,7 +153,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
     const normalizedSavedConfig = normalizeSystemLogConfig(savedConfig);
     const hasPending = JSON.stringify(normalizedConfig) !== JSON.stringify(normalizedSavedConfig);
     const hasInvalid = normalizedConfig.remoteEnabled && !normalizedConfig.remoteHost;
-    const isBusy = isLoading || isSaving;
+    const isBusy = isUnavailable || isSaving;
 
     useImperativeHandle(ref, () => ({ save }), [save]);
 
@@ -187,184 +175,187 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
 
     return (
       <>
-        {showTitle && (
-          <>
-            <div className="text-base">{t('settings.systemLog.title')}</div>
-            <Divider className="opacity-50" />
-          </>
-        )}
+        <ConfigProvider componentDisabled={isUnavailable}>
+          {showTitle && (
+            <>
+              <div className="text-base">{t('settings.systemLog.title')}</div>
+              <Divider className="opacity-50" />
+            </>
+          )}
 
-        <div className="flex min-w-0 flex-col space-y-6">
-          <div className="flex min-w-0 items-start justify-between gap-3 sm:gap-4">
-            <div className="flex min-w-0 flex-col space-y-1">
-              <span>{t('settings.systemLog.remote.title')}</span>
-              <span className="break-words text-xs text-neutral-500">
-                {t('settings.systemLog.remote.description')}
-              </span>
+          <div className="flex min-w-0 flex-col space-y-6">
+            <div className="flex min-w-0 items-start justify-between gap-3 sm:gap-4">
+              <div className="flex min-w-0 flex-col space-y-1">
+                <span>{t('settings.systemLog.remote.title')}</span>
+                <span className="break-words text-xs text-neutral-500">
+                  {t('settings.systemLog.remote.description')}
+                </span>
+              </div>
+              <Switch
+                className="shrink-0"
+                checked={config.remoteEnabled}
+                onChange={(remoteEnabled) => patchConfig({ remoteEnabled })}
+              />
             </div>
-            <Switch
-              className="shrink-0"
-              checked={config.remoteEnabled}
-              loading={isLoading}
-              onChange={(remoteEnabled) => patchConfig({ remoteEnabled })}
-            />
-          </div>
 
-          {config.remoteEnabled && (
+            {config.remoteEnabled && (
+              <div className="min-w-0 space-y-3 overflow-hidden rounded-xl bg-neutral-800/50 p-4">
+                <SettingRow label={t('settings.systemLog.remote.host')}>
+                  <Input
+                    value={config.remoteHost}
+                    placeholder="10.0.87.5"
+                    onChange={(event) => patchConfig({ remoteHost: event.target.value })}
+                  />
+                </SettingRow>
+                <SettingRow label={t('settings.systemLog.remote.port')}>
+                  <InputNumber<number>
+                    min={1}
+                    max={65535}
+                    value={config.remotePort}
+                    onChange={(value) => patchConfig({ remotePort: value || 514 })}
+                    className="w-full"
+                  />
+                </SettingRow>
+                <div className="break-words text-xs text-neutral-500">
+                  {t('settings.systemLog.remote.protocol')}
+                </div>
+              </div>
+            )}
+
             <div className="min-w-0 space-y-3 overflow-hidden rounded-xl bg-neutral-800/50 p-4">
-              <SettingRow label={t('settings.systemLog.remote.host')}>
-                <Input
-                  value={config.remoteHost}
-                  placeholder="10.0.87.5"
-                  onChange={(event) => patchConfig({ remoteHost: event.target.value })}
-                />
-              </SettingRow>
-              <SettingRow label={t('settings.systemLog.remote.port')}>
-                <InputNumber<number>
-                  min={1}
-                  max={65535}
-                  value={config.remotePort}
-                  onChange={(value) => patchConfig({ remotePort: value || 514 })}
+              <div>
+                <div className="font-semibold text-neutral-100">
+                  {t('settings.systemLog.local.title')}
+                </div>
+                <div className="mt-0.5 break-words text-xs leading-snug text-neutral-500">
+                  {t('settings.systemLog.local.description', { path: localLogFile })}
+                </div>
+              </div>
+              <SettingRow label={t('settings.systemLog.local.priority')}>
+                <Select
+                  value={config.priority}
+                  options={priorityOptions}
+                  onChange={(priority) => patchConfig({ priority })}
                   className="w-full"
                 />
               </SettingRow>
-              <div className="break-words text-xs text-neutral-500">
-                {t('settings.systemLog.remote.protocol')}
-              </div>
-            </div>
-          )}
-
-          <div className="min-w-0 space-y-3 overflow-hidden rounded-xl bg-neutral-800/50 p-4">
-            <div>
-              <div className="font-semibold text-neutral-100">
-                {t('settings.systemLog.local.title')}
-              </div>
-              <div className="mt-0.5 break-words text-xs leading-snug text-neutral-500">
-                {t('settings.systemLog.local.description', { path: localLogFile })}
-              </div>
-            </div>
-            <SettingRow label={t('settings.systemLog.local.priority')}>
-              <Select
-                value={config.priority}
-                options={priorityOptions}
-                onChange={(priority) => patchConfig({ priority })}
-                className="w-full"
-              />
-            </SettingRow>
-            <SettingRow label={t('settings.systemLog.local.buffer')}>
-              <InputNumber<number>
-                min={16}
-                max={1024}
-                value={config.bufferKb}
-                addonAfter="KiB"
-                onChange={(value) => patchConfig({ bufferKb: value || 200 })}
-                className="w-full"
-              />
-            </SettingRow>
-            <SettingRow label={t('settings.systemLog.local.rotations')}>
-              <InputNumber<number>
-                min={0}
-                max={4}
-                value={config.rotations}
-                onChange={(value) => patchConfig({ rotations: value || 0 })}
-                className="w-full"
-              />
-            </SettingRow>
-            <SettingRow label={t('settings.systemLog.local.compact')}>
-              <Switch
-                checked={config.smallOutput}
-                onChange={(smallOutput) => patchConfig({ smallOutput })}
-              />
-            </SettingRow>
-            <SettingRow label={t('settings.systemLog.local.stripTimestamps')} isLast>
-              <Switch
-                checked={config.stripTimestamps}
-                onChange={(stripTimestamps) => patchConfig({ stripTimestamps })}
-              />
-            </SettingRow>
-          </div>
-
-          <div className="min-w-0 space-y-3 overflow-hidden rounded-xl bg-neutral-800/50 p-4">
-            <div>
-              <div className="font-semibold text-neutral-100">
-                {t('settings.systemLog.kernel.title')}
-              </div>
-              <div className="mt-0.5 break-words text-xs leading-snug text-neutral-500">
-                {t('settings.systemLog.kernel.description')}
-              </div>
-            </div>
-            <SettingRow label={t('settings.systemLog.kernel.enabled')}>
-              <Switch
-                checked={config.kernelEnabled}
-                onChange={(kernelEnabled) => patchConfig({ kernelEnabled })}
-              />
-            </SettingRow>
-            <SettingRow label={t('settings.systemLog.kernel.consoleLevel')} isLast>
-              <Select
-                value={config.kernelConsoleLevel}
-                options={priorityOptions}
-                onChange={(kernelConsoleLevel) => patchConfig({ kernelConsoleLevel })}
-                className="w-full"
-              />
-            </SettingRow>
-          </div>
-
-          <div className="flex min-w-0 flex-wrap justify-end gap-2">
-            <Button
-              className="min-w-0"
-              icon={<SendIcon size={16} />}
-              loading={isTesting}
-              onClick={sendTestMessage}
-            >
-              {t('settings.systemLog.test')}
-            </Button>
-            {showFooter && (
-              <Button
-                type="primary"
-                loading={isSaving}
-                disabled={!hasPending || hasInvalid}
-                onClick={() => void save()}
-              >
-                {t('settings.systemLog.save')}
-              </Button>
-            )}
-          </div>
-
-          <Divider className="opacity-50" />
-
-          <div className="space-y-3">
-            <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="text-base">{t('settings.systemLog.viewer.title')}</div>
-              <div className="flex min-w-0 flex-wrap items-center gap-2">
-                <Select
-                  value={lineCount}
-                  options={[100, 200, 500, 1000].map((value) => ({
-                    value,
-                    label: t('settings.systemLog.viewer.lines', { count: value })
-                  }))}
-                  onChange={changeLineCount}
-                  className="min-w-[120px] flex-1 sm:flex-none"
+              <SettingRow label={t('settings.systemLog.local.buffer')}>
+                <InputNumber<number>
+                  min={16}
+                  max={1024}
+                  value={config.bufferKb}
+                  addonAfter="KiB"
+                  onChange={(value) => patchConfig({ bufferKb: value || 200 })}
+                  className="w-full"
                 />
-                <Button
-                  className="flex-1 sm:flex-none"
-                  icon={<RefreshCwIcon size={16} />}
-                  loading={isLogLoading}
-                  onClick={() => refreshLog()}
-                >
-                  {t('settings.systemLog.viewer.refresh')}
-                </Button>
-              </div>
+              </SettingRow>
+              <SettingRow label={t('settings.systemLog.local.rotations')}>
+                <InputNumber<number>
+                  min={0}
+                  max={4}
+                  value={config.rotations}
+                  onChange={(value) => patchConfig({ rotations: value || 0 })}
+                  className="w-full"
+                />
+              </SettingRow>
+              <SettingRow label={t('settings.systemLog.local.compact')}>
+                <Switch
+                  checked={config.smallOutput}
+                  onChange={(smallOutput) => patchConfig({ smallOutput })}
+                />
+              </SettingRow>
+              <SettingRow label={t('settings.systemLog.local.stripTimestamps')} isLast>
+                <Switch
+                  checked={config.stripTimestamps}
+                  onChange={(stripTimestamps) => patchConfig({ stripTimestamps })}
+                />
+              </SettingRow>
             </div>
 
-            {logTruncated && (
-              <Alert type="info" showIcon message={t('settings.systemLog.viewer.truncated')} />
-            )}
+            <div className="min-w-0 space-y-3 overflow-hidden rounded-xl bg-neutral-800/50 p-4">
+              <div>
+                <div className="font-semibold text-neutral-100">
+                  {t('settings.systemLog.kernel.title')}
+                </div>
+                <div className="mt-0.5 break-words text-xs leading-snug text-neutral-500">
+                  {t('settings.systemLog.kernel.description')}
+                </div>
+              </div>
+              <SettingRow label={t('settings.systemLog.kernel.enabled')}>
+                <Switch
+                  checked={config.kernelEnabled}
+                  onChange={(kernelEnabled) => patchConfig({ kernelEnabled })}
+                />
+              </SettingRow>
+              <SettingRow label={t('settings.systemLog.kernel.consoleLevel')} isLast>
+                <Select
+                  value={config.kernelConsoleLevel}
+                  options={priorityOptions}
+                  onChange={(kernelConsoleLevel) => patchConfig({ kernelConsoleLevel })}
+                  className="w-full"
+                />
+              </SettingRow>
+            </div>
 
-            <pre className="max-h-[360px] min-h-[260px] overflow-auto rounded bg-black/50 p-3 font-mono text-xs leading-relaxed text-neutral-200">
-              {content || t('settings.systemLog.viewer.empty')}
-            </pre>
+            <div className="flex min-w-0 flex-wrap justify-end gap-2">
+              <Button
+                className="min-w-0"
+                icon={<SendIcon size={16} />}
+                loading={isTesting}
+                onClick={sendTestMessage}
+              >
+                {t('settings.systemLog.test')}
+              </Button>
+              {showFooter && (
+                <Button
+                  type="primary"
+                  loading={isSaving}
+                  disabled={!hasPending || hasInvalid}
+                  onClick={() => void save()}
+                >
+                  {t('settings.systemLog.save')}
+                </Button>
+              )}
+            </div>
+
+            <Divider className="opacity-50" />
+
+            <div className="space-y-3">
+              <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="text-base">{t('settings.systemLog.viewer.title')}</div>
+                <div className="flex min-w-0 flex-wrap items-center gap-2">
+                  <Select
+                    value={lineCount}
+                    options={[100, 200, 500, 1000].map((value) => ({
+                      value,
+                      label: t('settings.systemLog.viewer.lines', { count: value })
+                    }))}
+                    disabled={false}
+                    onChange={changeLineCount}
+                    className="min-w-[120px] flex-1 sm:flex-none"
+                  />
+                  <Button
+                    className="flex-1 sm:flex-none"
+                    icon={<RefreshCwIcon size={16} />}
+                    disabled={false}
+                    loading={isLogLoading}
+                    onClick={() => refreshLog()}
+                  >
+                    {t('settings.systemLog.viewer.refresh')}
+                  </Button>
+                </div>
+              </div>
+
+              {logTruncated && (
+                <Alert type="info" showIcon message={t('settings.systemLog.viewer.truncated')} />
+              )}
+
+              <pre className="max-h-[360px] min-h-[260px] overflow-auto rounded bg-black/50 p-3 font-mono text-xs leading-relaxed text-neutral-200">
+                {content || t('settings.systemLog.viewer.empty')}
+              </pre>
+            </div>
           </div>
-        </div>
+        </ConfigProvider>
       </>
     );
   }

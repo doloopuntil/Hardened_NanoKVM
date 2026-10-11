@@ -5,7 +5,10 @@ const pl = {
       cancel: 'Anuluj',
       delete: 'Usuń',
       actionFailed: 'Operacja nie powiodła się',
-      actionFailedDetail: 'Operacja nie powiodła się: {{detail}}'
+      actionFailedDetail: 'Operacja nie powiodła się: {{detail}}',
+      loading: 'Wczytywanie ustawień z urządzenia...',
+      loadFailed: 'Nie udało się wczytać ustawień z urządzenia',
+      retry: 'Spróbuj ponownie'
     },
     head: {
       desktop: 'Zdalny pulpit',

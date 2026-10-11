@@ -21,7 +21,8 @@ import type {
 } from '@/api/application.ts';
 import * as firewallApi from '@/api/system-firewall.ts';
 import type { FirewallStatus } from '@/api/system-firewall.ts';
-import { confirm } from '@/lib/feedback.ts';
+import { attempt, confirm } from '@/lib/feedback.ts';
+import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
 
 import { Offline } from './offline.tsx';
 import { Preview } from './preview.tsx';
@@ -53,8 +54,12 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
 
   useEffect(() => {
     refreshFirewallStatus();
-    refreshRawSystemUpdatesEnabled();
   }, []);
+
+  const { status: rawLoadState, reload: refreshRawSystemUpdatesEnabled } = useSettingsLoadState(
+    api.getRawSystemUpdatesEnabled,
+    (rsp) => setSystemRawEnabled(!!rsp.data?.enabled)
+  );
 
   const onlineUpdatesBlocked = !!firewallStatus?.paranoidActive;
 
@@ -232,23 +237,12 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       });
   }
 
-  function refreshRawSystemUpdatesEnabled() {
-    api.getRawSystemUpdatesEnabled().then((rsp: any) => {
-      if (rsp.code === 0 && rsp.data) {
-        setSystemRawEnabled(!!rsp.data.enabled);
-      }
-    });
-  }
-
   function changeRawSystemUpdatesEnabled(enabled: boolean) {
     const applyChange = () => {
       setSystemRawUpdating(true);
-      api
-        .setRawSystemUpdatesEnabled(enabled)
-        .then((rsp: any) => {
-          if (rsp.code === 0) {
-            setSystemRawEnabled(enabled);
-          }
+      attempt(() => api.setRawSystemUpdatesEnabled(enabled))
+        .then((rsp) => {
+          if (rsp) setSystemRawEnabled(enabled);
         })
         .finally(() => {
           setSystemRawUpdating(false);
@@ -586,6 +580,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             <Switch
               checked={systemRawEnabled}
               loading={systemRawUpdating}
+              disabled={rawLoadState !== 'ready'}
               onChange={changeRawSystemUpdatesEnabled}
             />
           </div>

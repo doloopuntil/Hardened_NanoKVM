@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Switch, Tooltip } from 'antd';
 import { CircleHelpIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 export const Swap = () => {
   const { t } = useTranslation();
@@ -12,24 +13,9 @@ export const Swap = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
 
-  useEffect(() => {
-    getSwap();
-  }, []);
-
-  function getSwap() {
-    setIsLoading(true);
-
-    api
-      .getSwap()
-      .then((rsp) => {
-        if (rsp.data?.size > 0) {
-          setIsEnabled(true);
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
+  const isReady = useSettingsLoad(api.getSwap, (rsp) => {
+    setIsEnabled(rsp.data?.size > 0);
+  });
 
   function update(enable: boolean) {
     if (isLoading) return;
@@ -62,7 +48,13 @@ export const Swap = () => {
         </Tooltip>
       </div>
 
-      <Switch value={isEnabled} loading={isLoading} size="small" onChange={update} />
+      <Switch
+        value={isEnabled}
+        loading={isLoading}
+        disabled={!isReady}
+        size="small"
+        onChange={update}
+      />
     </div>
   );
 };

@@ -5,7 +5,10 @@ const ko = {
       cancel: '취소',
       delete: '삭제',
       actionFailed: '작업에 실패했습니다',
-      actionFailedDetail: '작업에 실패했습니다: {{detail}}'
+      actionFailedDetail: '작업에 실패했습니다: {{detail}}',
+      loading: '기기에서 설정을 불러오는 중...',
+      loadFailed: '기기에서 설정을 불러오지 못했습니다',
+      retry: '다시 시도'
     },
     head: {
       desktop: '원격 데스크톱',

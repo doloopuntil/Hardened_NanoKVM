@@ -5,7 +5,10 @@ const zh = {
       cancel: '取消',
       delete: '删除',
       actionFailed: '操作失败',
-      actionFailedDetail: '操作失败：{{detail}}'
+      actionFailedDetail: '操作失败：{{detail}}',
+      loading: '正在从设备加载设置...',
+      loadFailed: '无法从设备加载设置',
+      retry: '重试'
     },
     head: {
       desktop: '远程桌面',

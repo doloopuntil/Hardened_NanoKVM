@@ -5,7 +5,10 @@ const da = {
       cancel: 'Annuller',
       delete: 'Slet',
       actionFailed: 'Handlingen mislykkedes',
-      actionFailedDetail: 'Handlingen mislykkedes: {{detail}}'
+      actionFailedDetail: 'Handlingen mislykkedes: {{detail}}',
+      loading: 'Indlæser indstillinger fra enheden...',
+      loadFailed: 'Indstillingerne kunne ikke indlæses fra enheden',
+      retry: 'Prøv igen'
     },
     head: {
       desktop: 'Fjernskrivebord',

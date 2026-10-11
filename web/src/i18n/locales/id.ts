@@ -5,7 +5,10 @@ const id = {
       cancel: 'Batalkan',
       delete: 'Hapus',
       actionFailed: 'Operasi gagal',
-      actionFailedDetail: 'Operasi gagal: {{detail}}'
+      actionFailedDetail: 'Operasi gagal: {{detail}}',
+      loading: 'Memuat pengaturan dari perangkat...',
+      loadFailed: 'Gagal memuat pengaturan dari perangkat',
+      retry: 'Coba lagi'
     },
     head: {
       desktop: 'Desktop jarak jauh',

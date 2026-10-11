@@ -1,12 +1,13 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Alert, Button, Divider, Input, Select, Switch } from 'antd';
+import { Alert, Button, ConfigProvider, Divider, Input, Select, Switch } from 'antd';
 import { ClockIcon, PlusIcon, RefreshCwIcon, RouterIcon, Trash2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/system-time.ts';
 import type { TimeConfig, TimeConfigResponse } from '@/api/system-time.ts';
 import { toast } from '@/lib/feedback.ts';
+import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
 
 import type { SystemActionHandle, SystemActionState } from './action.ts';
 
@@ -28,7 +29,6 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
     const [data, setData] = useState<TimeConfigResponse | null>(null);
     const [config, setConfig] = useState<TimeConfig>(defaultConfig);
     const [savedConfig, setSavedConfig] = useState<TimeConfig>(defaultConfig);
-    const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [isSyncing, setIsSyncing] = useState(false);
 
@@ -41,34 +41,20 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
       [data?.timezoneOptions, config.timezone]
     );
 
-    useEffect(() => {
-      load();
-    }, []);
-
     function patchConfig(patch: Partial<TimeConfig>) {
       setConfig((current) => ({ ...current, ...patch }));
     }
 
-    async function load() {
-      setIsLoading(true);
-      try {
-        const rsp = await api.getConfig();
-        if (rsp.code !== 0 || !rsp.data) {
-          toast.error(rsp.msg || t('settings.system.time.loadFailed'));
-          return;
-        }
+    const { status: loadState, reload: load } = useSettingsLoadState(api.getConfig, (rsp) => {
+      if (!rsp.data) throw new Error('missing time config');
 
-        const nextConfig = { ...defaultConfig, ...rsp.data.config };
-        setData(rsp.data);
-        setConfig(nextConfig);
-        setSavedConfig(nextConfig);
-      } catch (err) {
-        console.log(err);
-        toast.error(t('settings.system.time.loadFailed'));
-      } finally {
-        setIsLoading(false);
-      }
-    }
+      const nextConfig = { ...defaultConfig, ...rsp.data.config };
+      setData(rsp.data);
+      setConfig(nextConfig);
+      setSavedConfig(nextConfig);
+    });
+    const isLoading = loadState === 'loading';
+    const isUnavailable = loadState !== 'ready';
 
     function changeNtpEnabled(ntpEnabled: boolean) {
       if (ntpEnabled && config.servers.length === 0) {
@@ -171,7 +157,7 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
     const normalizedSavedConfig = normalizeTimeConfig(savedConfig);
     const hasPending = JSON.stringify(normalizedConfig) !== JSON.stringify(normalizedSavedConfig);
     const hasInvalid = normalizedConfig.ntpEnabled && normalizedConfig.servers.length === 0;
-    const isBusy = isLoading || isSaving || isSyncing;
+    const isBusy = isUnavailable || isSaving || isSyncing;
 
     useImperativeHandle(ref, () => ({ save }), [save]);
 
@@ -192,145 +178,148 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
     }, [hasInvalid, hasPending, isBusy, onActionStateChange, t]);
 
     return (
-      <div className="flex min-w-0 flex-col space-y-6">
-        <div className="flex min-w-0 items-start justify-between gap-3 sm:gap-4">
-          <div className="flex min-w-0 flex-col space-y-1">
-            <span>{t('settings.system.time.ntp.title')}</span>
-            <span className="break-words text-xs text-neutral-500">
-              {t('settings.system.time.ntp.description')}
-            </span>
-          </div>
-          <Switch
-            className="shrink-0"
-            checked={config.ntpEnabled}
-            loading={isLoading}
-            onChange={changeNtpEnabled}
-          />
-        </div>
-
-        <div className="min-w-0 space-y-3 overflow-hidden rounded-lg bg-neutral-800/50 p-4">
-          <div>
-            <div className="font-semibold text-neutral-100">
-              {t('settings.system.time.clock.title')}
+      <ConfigProvider componentDisabled={isUnavailable}>
+        <div className="flex min-w-0 flex-col space-y-6">
+          <div className="flex min-w-0 items-start justify-between gap-3 sm:gap-4">
+            <div className="flex min-w-0 flex-col space-y-1">
+              <span>{t('settings.system.time.ntp.title')}</span>
+              <span className="break-words text-xs text-neutral-500">
+                {t('settings.system.time.ntp.description')}
+              </span>
             </div>
-            <div className="mt-0.5 break-words text-xs leading-snug text-neutral-500">
-              {t('settings.system.time.clock.description')}
-            </div>
-          </div>
-
-          <SettingRow label={t('settings.system.time.clock.current')}>
-            <div className="flex min-h-[32px] items-center gap-2 text-sm text-neutral-300">
-              <ClockIcon size={15} />
-              <span>{data?.currentTime || '-'}</span>
-            </div>
-          </SettingRow>
-
-          <SettingRow label={t('settings.system.time.clock.timezone')} isLast>
-            <Select
-              showSearch
-              value={config.timezone}
-              options={timezoneOptions}
-              onChange={(timezone) => patchConfig({ timezone })}
-              filterOption={(input, option) =>
-                String(option?.label || '')
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
-              className="w-full"
+            <Switch
+              className="shrink-0"
+              checked={config.ntpEnabled}
+              loading={isLoading}
+              onChange={changeNtpEnabled}
             />
-          </SettingRow>
-        </div>
+          </div>
 
-        {config.ntpEnabled && (
           <div className="min-w-0 space-y-3 overflow-hidden rounded-lg bg-neutral-800/50 p-4">
             <div>
               <div className="font-semibold text-neutral-100">
-                {t('settings.system.time.servers.title')}
+                {t('settings.system.time.clock.title')}
               </div>
               <div className="mt-0.5 break-words text-xs leading-snug text-neutral-500">
-                {t('settings.system.time.servers.description')}
+                {t('settings.system.time.clock.description')}
               </div>
             </div>
 
-            <div className="space-y-2">
-              {config.servers.map((server, index) => (
-                <div key={index} className="flex min-w-0 gap-2">
-                  <Input
-                    className="min-w-0"
-                    value={server}
-                    placeholder="0.pool.ntp.org"
-                    onChange={(event) => updateServer(index, event.target.value)}
-                  />
-                  <Button
-                    icon={<Trash2Icon size={15} />}
-                    disabled={config.servers.length <= 1}
-                    onClick={() => removeServer(index)}
-                  />
-                </div>
-              ))}
-            </div>
+            <SettingRow label={t('settings.system.time.clock.current')}>
+              <div className="flex min-h-[32px] items-center gap-2 text-sm text-neutral-300">
+                <ClockIcon size={15} />
+                <span>{data?.currentTime || '-'}</span>
+              </div>
+            </SettingRow>
 
-            <div className="flex min-w-0 flex-wrap justify-end gap-2">
-              <Button className="min-w-0" icon={<PlusIcon size={15} />} onClick={addServer}>
-                {t('settings.system.time.servers.add')}
-              </Button>
-              <Button
-                className="min-w-0"
-                disabled={!data?.gateway}
-                icon={<RouterIcon size={15} />}
-                onClick={useRouter}
-              >
-                {t('settings.system.time.servers.useRouter')}
-              </Button>
-              <Button className="min-w-0" onClick={useDefaults}>
-                {t('settings.system.time.servers.useDefaults')}
-              </Button>
-            </div>
-
-            {data?.gateway && (
-              <Alert
-                type="info"
-                showIcon
-                message={t('settings.system.time.servers.routerDetected', {
-                  gateway: data.gateway
-                })}
+            <SettingRow label={t('settings.system.time.clock.timezone')} isLast>
+              <Select
+                showSearch
+                value={config.timezone}
+                options={timezoneOptions}
+                onChange={(timezone) => patchConfig({ timezone })}
+                filterOption={(input, option) =>
+                  String(option?.label || '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                className="w-full"
               />
+            </SettingRow>
+          </div>
+
+          {config.ntpEnabled && (
+            <div className="min-w-0 space-y-3 overflow-hidden rounded-lg bg-neutral-800/50 p-4">
+              <div>
+                <div className="font-semibold text-neutral-100">
+                  {t('settings.system.time.servers.title')}
+                </div>
+                <div className="mt-0.5 break-words text-xs leading-snug text-neutral-500">
+                  {t('settings.system.time.servers.description')}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                {config.servers.map((server, index) => (
+                  <div key={index} className="flex min-w-0 gap-2">
+                    <Input
+                      className="min-w-0"
+                      value={server}
+                      placeholder="0.pool.ntp.org"
+                      onChange={(event) => updateServer(index, event.target.value)}
+                    />
+                    <Button
+                      icon={<Trash2Icon size={15} />}
+                      disabled={config.servers.length <= 1}
+                      onClick={() => removeServer(index)}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex min-w-0 flex-wrap justify-end gap-2">
+                <Button className="min-w-0" icon={<PlusIcon size={15} />} onClick={addServer}>
+                  {t('settings.system.time.servers.add')}
+                </Button>
+                <Button
+                  className="min-w-0"
+                  disabled={!data?.gateway}
+                  icon={<RouterIcon size={15} />}
+                  onClick={useRouter}
+                >
+                  {t('settings.system.time.servers.useRouter')}
+                </Button>
+                <Button className="min-w-0" onClick={useDefaults}>
+                  {t('settings.system.time.servers.useDefaults')}
+                </Button>
+              </div>
+
+              {data?.gateway && (
+                <Alert
+                  type="info"
+                  showIcon
+                  message={t('settings.system.time.servers.routerDetected', {
+                    gateway: data.gateway
+                  })}
+                />
+              )}
+            </div>
+          )}
+
+          <Divider className="opacity-50" />
+
+          <div className="flex min-w-0 flex-wrap justify-end gap-2">
+            <Button
+              className="min-w-0"
+              icon={<RefreshCwIcon size={16} />}
+              disabled={false}
+              loading={isLoading}
+              onClick={load}
+            >
+              {t('settings.system.time.refresh')}
+            </Button>
+            <Button
+              className="min-w-0"
+              icon={<ClockIcon size={16} />}
+              disabled={!config.ntpEnabled}
+              loading={isSyncing}
+              onClick={syncNow}
+            >
+              {t('settings.system.time.syncNow')}
+            </Button>
+            {showFooter && (
+              <Button
+                type="primary"
+                loading={isSaving}
+                disabled={!hasPending || hasInvalid}
+                onClick={() => void save()}
+              >
+                {t('settings.system.time.save')}
+              </Button>
             )}
           </div>
-        )}
-
-        <Divider className="opacity-50" />
-
-        <div className="flex min-w-0 flex-wrap justify-end gap-2">
-          <Button
-            className="min-w-0"
-            icon={<RefreshCwIcon size={16} />}
-            loading={isLoading}
-            onClick={load}
-          >
-            {t('settings.system.time.refresh')}
-          </Button>
-          <Button
-            className="min-w-0"
-            icon={<ClockIcon size={16} />}
-            disabled={!config.ntpEnabled}
-            loading={isSyncing}
-            onClick={syncNow}
-          >
-            {t('settings.system.time.syncNow')}
-          </Button>
-          {showFooter && (
-            <Button
-              type="primary"
-              loading={isSaving}
-              disabled={!hasPending || hasInvalid}
-              onClick={() => void save()}
-            >
-              {t('settings.system.time.save')}
-            </Button>
-          )}
         </div>
-      </div>
+      </ConfigProvider>
     );
   }
 );

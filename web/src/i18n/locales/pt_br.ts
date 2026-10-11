@@ -5,7 +5,10 @@ const pt_br = {
       cancel: 'Cancelar',
       delete: 'Excluir',
       actionFailed: 'Falha na operação',
-      actionFailedDetail: 'Falha na operação: {{detail}}'
+      actionFailedDetail: 'Falha na operação: {{detail}}',
+      loading: 'Carregando configurações do dispositivo...',
+      loadFailed: 'Não foi possível carregar as configurações do dispositivo',
+      retry: 'Tentar novamente'
     },
     head: {
       desktop: 'Área de Trabalho Remota',

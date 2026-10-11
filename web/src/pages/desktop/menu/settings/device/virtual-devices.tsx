@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, Divider, Modal, Switch, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +8,7 @@ import { getMountedImage } from '@/api/storage.ts';
 import * as api from '@/api/virtual-device.ts';
 import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { notifyImageListChanged } from '@/lib/image-events.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 const { Paragraph } = Typography;
 
@@ -23,67 +24,21 @@ export const VirtualDevices = () => {
   const [isHidModalOpen, setIsHidModalOpen] = useState(false);
   const [hidErrMsg, setHidErrMsg] = useState('');
 
-  useEffect(() => {
-    getHidOnlyMode();
-    getVirtualDevice();
-    getWakeup();
-    getImageState();
-  }, []);
+  const applyVirtualDevice = (rsp: { data?: any }) => {
+    setIsDiskEnabled(rsp.data.disk);
+    setIsNetworkEnabled(rsp.data.network);
+  };
 
-  async function getHidOnlyMode() {
-    try {
-      const rsp = await getHidMode();
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
-      setIsHidOnlyMode(rsp.data.mode === 'hid-only');
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  const applyImageState = (rsp: { data?: any }) => {
+    setIsImageMounted(!!rsp.data?.file);
+  };
 
-  async function getVirtualDevice() {
-    try {
-      const rsp = await api.getVirtualDevice();
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
-
-      setIsDiskEnabled(rsp.data.disk);
-      setIsNetworkEnabled(rsp.data.network);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function getImageState() {
-    try {
-      const rsp = await getMountedImage();
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
-
-      setIsImageMounted(!!rsp.data?.file);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function getWakeup() {
-    try {
-      const rsp = await getUsbWakeup();
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
-      setIsUsbWakeupEnabled(rsp.data.enabled);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  const isReady = [
+    useSettingsLoad(getHidMode, (rsp) => setIsHidOnlyMode(rsp.data.mode === 'hid-only')),
+    useSettingsLoad(api.getVirtualDevice, applyVirtualDevice),
+    useSettingsLoad(getMountedImage, applyImageState),
+    useSettingsLoad(getUsbWakeup, (rsp) => setIsUsbWakeupEnabled(rsp.data.enabled))
+  ].every(Boolean);
 
   async function update(device: 'disk' | 'network') {
     if (loading) return;
@@ -91,8 +46,11 @@ export const VirtualDevices = () => {
 
     const rsp = await attempt(() => api.updateVirtualDevice(device));
     if (rsp) {
-      await getVirtualDevice();
-      await getImageState();
+      const device = await attempt(() => api.getVirtualDevice());
+      if (device) applyVirtualDevice(device);
+
+      const image = await attempt(() => getMountedImage());
+      if (image) applyImageState(image);
 
       // the desktop shows the mounted image and the CD-ROM flag too
       notifyImageListChanged();
@@ -173,7 +131,12 @@ export const VirtualDevices = () => {
         <span className="text-xs text-neutral-500">{t('settings.device.usbWakeupDesc')}</span>
       </div>
 
-      <Switch checked={isUsbWakeupEnabled} loading={loading === 'wakeup'} onChange={updateWakeup} />
+      <Switch
+        checked={isUsbWakeupEnabled}
+        loading={loading === 'wakeup'}
+        disabled={!isReady}
+        onChange={updateWakeup}
+      />
     </div>
   );
 
@@ -188,6 +151,7 @@ export const VirtualDevices = () => {
         <Switch
           checked={isHidOnlyMode}
           loading={loading === 'hid'}
+          disabled={!isReady}
           onChange={() => setIsHidModalOpen(true)}
         />
       </div>
@@ -253,7 +217,12 @@ export const VirtualDevices = () => {
           </span>
         </div>
 
-        <Switch checked={isDiskEnabled} loading={loading === 'disk'} onChange={toggleDisk} />
+        <Switch
+          checked={isDiskEnabled}
+          loading={loading === 'disk'}
+          disabled={!isReady}
+          onChange={toggleDisk}
+        />
       </div>
 
       {/* Virtual Network */}
@@ -266,6 +235,7 @@ export const VirtualDevices = () => {
         <Switch
           checked={isNetworkEnabled}
           loading={loading === 'network'}
+          disabled={!isReady}
           onChange={() => update('network')}
         />
       </div>

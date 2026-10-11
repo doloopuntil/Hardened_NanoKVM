@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Select } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { getCsrfToken, setCsrfToken } from '@/lib/cookie.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 const DEFAULT_DURATION = '900';
 
@@ -21,28 +22,12 @@ export const SessionLock = () => {
     { value: '3600', label: t('settings.device.sessionLock.60') }
   ];
 
-  useEffect(() => {
-    getSessionLock();
-  }, []);
-
-  function getSessionLock() {
-    setIsLoading(true);
-
-    api
-      .getSessionLock()
-      .then((rsp) => {
-        const value = rsp.data?.duration?.toString();
-        if (value) {
-          setDuration(value);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
+  const isReady = useSettingsLoad(api.getSessionLock, (rsp) => {
+    const value = rsp.data?.duration?.toString();
+    if (value) {
+      setDuration(value);
+    }
+  });
 
   function update(value: string) {
     if (isLoading) return;
@@ -78,6 +63,7 @@ export const SessionLock = () => {
         value={duration}
         options={options}
         loading={isLoading}
+        disabled={!isReady}
         onChange={update}
       />
     </div>

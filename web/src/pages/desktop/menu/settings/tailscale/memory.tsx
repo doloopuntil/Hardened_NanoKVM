@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Switch, Tooltip } from 'antd';
 import { CircleHelpIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 export const Memory = () => {
   const { t } = useTranslation();
@@ -12,16 +13,9 @@ export const Memory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
 
-  useEffect(() => {
-    api.getMemoryLimit().then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
-
-      setIsEnabled(!!rsp.data.enabled);
-    });
-  }, []);
+  const isReady = useSettingsLoad(api.getMemoryLimit, (rsp) => {
+    setIsEnabled(!!rsp.data.enabled);
+  });
 
   function update() {
     if (isLoading) return;
@@ -55,7 +49,7 @@ export const Memory = () => {
         </Tooltip>
       </div>
 
-      <Switch value={isEnabled} size="small" onClick={update} />
+      <Switch value={isEnabled} size="small" disabled={!isReady} onClick={update} />
     </div>
   );
 };
