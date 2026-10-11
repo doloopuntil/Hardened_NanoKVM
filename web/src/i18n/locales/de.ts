@@ -375,7 +375,6 @@ const de = {
           description: 'Aktiviere entfernten SSH-Zugang',
           tip: 'Setzten Sie ein starkes Passwort vor dem aktivieren (Konto - Passwort ändern)'
         },
-        advanced: 'Erweiterte Einstellungen',
         swap: {
           title: 'Swap',
           disable: 'Deaktivieren',

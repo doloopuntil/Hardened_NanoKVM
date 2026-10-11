@@ -372,7 +372,6 @@ const hu = {
           description: 'Engedélyezze a SSH távoli hozzáférést',
           tip: 'Az engedélyezés előtt állítson be erős jelszót (Fiók - Jelszó módosítása)'
         },
-        advanced: 'Speciális beállítások',
         swap: {
           title: 'Csere',
           disable: 'Letiltás',

@@ -367,7 +367,6 @@ const se = {
           description: 'Aktivera SSH-fjärråtkomst',
           tip: 'Ställ in ett starkt lösenord innan du aktiverar (Konto - Byt lösenord)'
         },
-        advanced: 'Avancerade inställningar',
         swap: {
           title: 'Swap',
           disable: 'Inaktivera',

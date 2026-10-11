@@ -367,7 +367,6 @@ const vi = {
           description: 'Kích hoạt SSH truy cập từ xa',
           tip: 'Đặt mật khẩu mạnh trước khi kích hoạt (Tài khoản - Đổi mật khẩu)'
         },
-        advanced: 'Cài đặt nâng cao',
         swap: {
           title: 'Hoán đổi',
           disable: 'Tắt',

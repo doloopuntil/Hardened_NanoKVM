@@ -1,7 +1,6 @@
 import { Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-import { Advanced } from './advanced';
 import { Hdmi } from './hdmi.tsx';
 import { Mdns } from './mdns.tsx';
 import { MouseJiggler } from './mouse-jiggler.tsx';
@@ -9,6 +8,7 @@ import { Oled } from './oled.tsx';
 import { Reboot } from './reboot.tsx';
 import { SessionLock } from './session-lock.tsx';
 import { Ssh } from './ssh.tsx';
+import { Swap } from './swap.tsx';
 import { VirtualDevices } from './virtual-devices.tsx';
 
 export const Device = () => {
@@ -33,7 +33,7 @@ export const Device = () => {
         <SessionLock />
         <Divider className="opacity-50" />
 
-        <Advanced />
+        <Swap />
       </div>
 
       <Divider className="opacity-50" />

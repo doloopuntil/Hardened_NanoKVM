@@ -371,7 +371,6 @@ const es = {
           description: 'Habilitar acceso remoto SSH',
           tip: 'Establece una contraseña segura antes de habilitar (Cuenta - Cambiar contraseña)'
         },
-        advanced: 'Ajustes avanzados',
         swap: {
           title: 'Memoria Swap',
           disable: 'Desactivar',

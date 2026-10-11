@@ -358,7 +358,6 @@ const zh = {
           description: '启用 SSH 远程访问',
           tip: '启用前请务必设置强密码（帐号 - 修改密码）'
         },
-        advanced: '高级设置',
         swap: {
           title: '交换',
           disable: '禁用',

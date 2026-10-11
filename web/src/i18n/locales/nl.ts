@@ -372,7 +372,6 @@ const nl = {
           description: 'Schakel SSH externe toegang in',
           tip: 'Stel een sterk wachtwoord in voordat u (Account - Wachtwoord wijzigen) inschakelt'
         },
-        advanced: 'Geavanceerde instellingen',
         swap: {
           title: 'Wisselen',
           disable: 'Uitschakelen',

@@ -357,7 +357,6 @@ const zh_tw = {
           description: '啟用 SSH 伺服器',
           tip: '啟用前請務必設定強密碼（帳號 - 更改密碼）'
         },
-        advanced: '進階設定',
         swap: {
           title: 'Swap',
           disable: '停用',

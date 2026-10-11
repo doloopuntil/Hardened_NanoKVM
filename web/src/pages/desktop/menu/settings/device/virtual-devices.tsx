@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Button, Divider, Modal, Switch, Typography } from 'antd';
+import { Button, Divider, Modal, Switch, Tooltip, Typography } from 'antd';
+import { useSetAtom } from 'jotai';
+import { CircleAlertIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { statusImage } from '@/api/download.ts';
@@ -8,6 +10,7 @@ import { getMountedImage } from '@/api/storage.ts';
 import * as api from '@/api/virtual-device.ts';
 import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { notifyImageListChanged } from '@/lib/image-events.ts';
+import { closeSettingsRequestAtom } from '@/jotai/settings.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 const { Paragraph } = Typography;
@@ -22,7 +25,7 @@ export const VirtualDevices = () => {
   const [isImageMounted, setIsImageMounted] = useState(false);
   const [loading, setLoading] = useState<'' | 'disk' | 'network' | 'wakeup' | 'hid'>('');
   const [isHidModalOpen, setIsHidModalOpen] = useState(false);
-  const [hidErrMsg, setHidErrMsg] = useState('');
+  const setCloseSettingsRequest = useSetAtom(closeSettingsRequestAtom);
 
   const applyVirtualDevice = (rsp: { data?: any }) => {
     setIsDiskEnabled(rsp.data.disk);
@@ -89,11 +92,24 @@ export const VirtualDevices = () => {
     await update('disk');
   }
 
-  // the device reboots to apply the mode, so the page reloads once it is back
+  // restarting the USB connection drops the mounted image and brings the virtual disk back
+  function toggleNetwork() {
+    if (!isImageMounted) {
+      update('network');
+      return;
+    }
+
+    confirm({
+      title: t('image.attention'),
+      content: t('settings.device.networkCancelMount'),
+      onOk: () => update('network')
+    });
+  }
+
+  // the device reboots to apply the mode, so the dialog closes and the page reloads once it is back
   function updateHidMode() {
     if (loading) return;
     setLoading('hid');
-    setHidErrMsg('');
 
     const timeoutId = setTimeout(() => {
       window.location.reload();
@@ -102,10 +118,13 @@ export const VirtualDevices = () => {
     setHidMode(isHidOnlyMode ? 'normal' : 'hid-only')
       .then((rsp) => {
         if (rsp.code !== 0) {
-          setHidErrMsg(rsp.msg);
+          toast.error(rsp.msg || t('common.actionFailed'));
           setLoading('');
           clearTimeout(timeoutId);
+          return;
         }
+
+        setCloseSettingsRequest((count) => count + 1);
       })
       .catch((err) => {
         console.log(err);
@@ -125,9 +144,20 @@ export const VirtualDevices = () => {
   }
 
   const usbWakeup = (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between gap-x-4">
       <div className="flex flex-col space-y-1">
-        <span>{t('settings.device.usbWakeup')}</span>
+        <div className="flex items-center space-x-2">
+          <span>{t('settings.device.usbWakeup')}</span>
+
+          <Tooltip
+            title={t('settings.device.usbWakeupTip')}
+            className="cursor-pointer"
+            placement="right"
+            styles={{ root: { maxWidth: '400px' } }}
+          >
+            <CircleAlertIcon className="text-neutral-500" size={14} />
+          </Tooltip>
+        </div>
         <span className="text-xs text-neutral-500">{t('settings.device.usbWakeupDesc')}</span>
       </div>
 
@@ -142,17 +172,41 @@ export const VirtualDevices = () => {
 
   const hidOnly = (
     <>
-      <div className="flex items-center justify-between space-x-10">
+      <div className="flex items-center justify-between gap-x-4">
         <div className="flex flex-col space-y-1">
-          <span>{t('settings.device.hidOnly')}</span>
+          <div className="flex items-center space-x-2">
+            <span>{t('settings.device.hidOnly')}</span>
+
+            <Tooltip
+              title={t('settings.device.hidOnlyTip')}
+              className="cursor-pointer"
+              placement="right"
+              styles={{ root: { maxWidth: '400px' } }}
+            >
+              <CircleAlertIcon className="text-neutral-500" size={14} />
+            </Tooltip>
+          </div>
           <span className="text-xs text-neutral-500">{t('settings.device.hidOnlyDesc')}</span>
         </div>
 
+        {/* Both directions reboot the device, so each asks in a dialog. */}
         <Switch
           checked={isHidOnlyMode}
           loading={loading === 'hid'}
           disabled={!isReady}
-          onChange={() => setIsHidModalOpen(true)}
+          onChange={() => {
+            if (!isHidOnlyMode) {
+              setIsHidModalOpen(true);
+              return;
+            }
+
+            confirm({
+              title: t('mouse.hidOnly.disable'),
+              content: t('mouse.hidOnly.tip3'),
+              okText: t('mouse.hidOnly.disable'),
+              onOk: updateHidMode
+            });
+          }}
         />
       </div>
 
@@ -176,8 +230,6 @@ export const VirtualDevices = () => {
           </ul>
         </Paragraph>
 
-        {hidErrMsg && <div className="pt-1 text-sm text-red-500">{hidErrMsg}</div>}
-
         <div className="flex justify-center pt-5">
           <Button
             danger
@@ -188,7 +240,7 @@ export const VirtualDevices = () => {
               updateHidMode();
             }}
           >
-            {isHidOnlyMode ? t('mouse.hidOnly.disable') : t('mouse.hidOnly.enable')}
+            {t('mouse.hidOnly.enable')}
           </Button>
         </div>
       </Modal>
@@ -209,7 +261,7 @@ export const VirtualDevices = () => {
       {hidOnly}
 
       {/* Virtual Disk */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-x-4">
         <div className="flex flex-col space-y-1">
           <span>{t('settings.device.disk')}</span>
           <span className="text-xs text-neutral-500">
@@ -226,7 +278,7 @@ export const VirtualDevices = () => {
       </div>
 
       {/* Virtual Network */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-x-4">
         <div className="flex flex-col space-y-1">
           <span>{t('settings.device.network')}</span>
           <span className="text-xs text-neutral-500">{t('settings.device.networkDesc')}</span>
@@ -236,7 +288,7 @@ export const VirtualDevices = () => {
           checked={isNetworkEnabled}
           loading={loading === 'network'}
           disabled={!isReady}
-          onChange={() => update('network')}
+          onChange={toggleNetwork}
         />
       </div>
 

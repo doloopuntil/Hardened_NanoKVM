@@ -42,7 +42,7 @@ export const Oled = () => {
   }
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between gap-x-4">
       <div className="flex flex-col space-y-1">
         <span>{t('settings.device.oled.title')}</span>
         <span className="text-xs text-neutral-500">{t('settings.device.oled.description')}</span>

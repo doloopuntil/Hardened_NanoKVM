@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Badge, Modal, Tooltip } from 'antd';
 import clsx from 'clsx';
-import { useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   BadgeInfoIcon,
   CircleArrowUpIcon,
@@ -18,7 +18,7 @@ import * as api from '@/api/application.ts';
 import { attempt } from '@/lib/feedback.ts';
 import * as ls from '@/lib/localstorage.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
-import { submenuOpenCountAtom } from '@/jotai/settings.ts';
+import { closeSettingsRequestAtom, submenuOpenCountAtom } from '@/jotai/settings.ts';
 import { Tailscale as TailscaleIcon } from '@/components/icons/tailscale';
 import { SettingsLoadGroup } from '@/components/settings-load-group.tsx';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -44,6 +44,9 @@ export const Settings = () => {
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
   const setIsKeyboardEnable = useSetAtom(isKeyboardEnableAtom);
   const setSubmenuOpenCount = useSetAtom(submenuOpenCountAtom);
+  const closeRequest = useAtomValue(closeSettingsRequestAtom);
+  const isModalOpenRef = useRef(false);
+  isModalOpenRef.current = isModalOpen;
 
   const tabs = [
     { id: 'about', icon: <BadgeInfoIcon size={16} />, component: <About /> },
@@ -114,11 +117,22 @@ export const Settings = () => {
       return;
     }
 
+    finishClose();
+  }
+
+  function finishClose() {
     setIsKeyboardEnable(true);
     setIsModalOpen(false);
     setCurrentTab('about');
     setSubmenuOpenCount((count) => Math.max(0, count - 1));
   }
+
+  // something in a tab (a change that reboots the device) asks for the dialog to close
+  useEffect(() => {
+    if (closeRequest === 0 || !isModalOpenRef.current) return;
+    finishClose();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [closeRequest]);
 
   return (
     <>

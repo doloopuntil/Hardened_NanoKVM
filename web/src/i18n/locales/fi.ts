@@ -323,7 +323,6 @@ const translations: Record<string, string> = {
   'settings.device.oled.description': 'Sammuta OLED-näyttö ajan kuluttua',
   'settings.device.ssh.description': 'Ota SSH-etäkäyttö käyttöön',
   'settings.device.ssh.tip': 'Aseta vahva salasana ennen käyttöönottoa (Tili - Vaihda salasana)',
-  'settings.device.advanced': 'Lisäasetukset',
   'settings.device.swap.title': 'Swap',
   'settings.device.swap.disable': 'Poista käytöstä',
   'settings.device.swap.description': 'Aseta swap-tiedoston koko',

@@ -370,7 +370,6 @@ const cz = {
           description: 'Povolit vzdálený přístup SSH',
           tip: 'Před povolením nastavte silné heslo (Účet – Změnit heslo)'
         },
-        advanced: 'Pokročilá nastavení',
         swap: {
           title: 'Vyměnit',
           disable: 'Zakázat',

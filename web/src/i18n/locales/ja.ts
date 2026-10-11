@@ -371,7 +371,6 @@ const ja = {
           description: 'SSH リモートアクセスを有効にする',
           tip: '使用する前に必ず強力なパスワードを設定してください（アカウント - パスワードの変更）'
         },
-        advanced: '詳細設定',
         swap: {
           title: 'スワップ',
           disable: '無効',
