@@ -47,7 +47,7 @@ export const Quality = ({ quality, setQuality }: QualityProps) => {
           <div className="flex h-[14px] w-[20px] items-end text-blue-500">
             {item.key === quality && <CheckIcon size={14} />}
           </div>
-          <span className="flex w-[50px]">{item.label}</span>
+          <span className="whitespace-nowrap">{item.label}</span>
         </div>
       ))}
     </>
