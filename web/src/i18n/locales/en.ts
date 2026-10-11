@@ -208,7 +208,7 @@ const en = {
       hidOnly: {
         title: 'HID-Only mode',
         desc: "If your mouse and keyboard stop responding and resetting HID doesn't help, it could be a compatibility issue between the NanoKVM and the device. Try to enable HID-Only mode for better compatibility.",
-        tip1: 'Enabling HID-Only mode will unmount the virtual U-disk and virtual network',
+        tip1: 'Enabling HID-Only mode will unmount the virtual disk and virtual network',
         tip2: 'In HID-Only mode, image mounting is disabled',
         tip3: 'NanoKVM will automatically reboot after switching modes',
         enable: 'Enable HID-Only mode',
@@ -378,9 +378,9 @@ const en = {
         webTitle: 'Web Title',
         webTitleDesc: 'Customize the web page title',
         layoutMode: 'Interface layout',
-        layoutModeDesc: 'Use the mobile/touch layout in this browser',
+        layoutModeDesc: 'Use the phone/touch layout in this browser',
         layoutAuto: 'Auto',
-        layoutMobile: 'Mobile view',
+        layoutMobile: 'Phone',
         menuBar: {
           title: 'Menu Bar',
           mode: 'Display Mode',
