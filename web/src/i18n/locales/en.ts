@@ -207,7 +207,7 @@ const en = {
       resetHid: 'Reset HID',
       hidOnly: {
         title: 'HID-Only mode',
-        desc: "If your mouse and keyboard stop responding and resetting HID doesn't help, it could be a compatibility issue between the NanoKVM and the device. Try to enable HID-Only mode for better compatibility.",
+        desc: "If your mouse or keyboard stop responding and resetting HID doesn't help, it could be a compatibility issue between the NanoKVM and the host.",
         tip1: 'Enabling HID-Only mode will unmount the virtual disk and virtual network',
         tip2: 'In HID-Only mode, image mounting is disabled',
         tip3: 'NanoKVM will automatically reboot after switching modes',
@@ -469,9 +469,9 @@ const en = {
           minutes: 'min'
         },
         hidOnly: 'HID-Only Mode',
-        hidOnlyDesc: 'Stop emulating virtual devices, retaining only basic HID control',
+        hidOnlyDesc: 'Improve compatibility with the host if mouse or keyboard stop responding',
         hidOnlyTip:
-          'Enable HID-Only mode for better compatibility if your mouse and keyboard stop responding',
+          'HID-Only Mode stops emulating virtual devices, retaining only basic HID control',
         disk: 'Virtual Disk',
         diskDesc: 'Mount SD card on the remote host',
         diskLocked: 'Off while an image is mounted (turning it on cancels the mount)',
