@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -25,36 +25,45 @@ export const Password = () => {
       setMsg(t('auth.differentPassword'));
       return;
     }
-    if (!validateString(values.username)) {
-      setMsg(t('auth.illegalUsername'));
-      return;
-    }
     if (!validateString(values.password)) {
       setMsg(t('auth.illegalPassword'));
       return;
     }
 
-    const username = values.username;
     const currentPassword = encrypt(values.currentPassword);
     const password = encrypt(values.password);
 
+    // There is a single account, and the server wants its name with the request.
     api
-      .changePassword(username, currentPassword, password)
-      .then((rsp: any) => {
-        if (rsp.code === -2) {
-          setMsg(t('auth.wrongCurrentPassword'));
-          return;
-        }
-        if (rsp.code !== 0) {
+      .getAccount()
+      .then((account: any) => {
+        const username = account.data?.username;
+        if (account.code !== 0 || !username) {
           setMsg(t('auth.error'));
           return;
         }
 
-        removeToken();
-        navigate('/auth/login', { replace: true });
+        return api.changePassword(username, currentPassword, password).then((rsp: any) => {
+          if (rsp.code === -2) {
+            setMsg(t('auth.wrongCurrentPassword'));
+            return;
+          }
+          if (rsp.code === -1 && rsp.msg) {
+            setMsg(rsp.msg);
+            return;
+          }
+          if (rsp.code !== 0) {
+            setMsg(t('auth.error'));
+            return;
+          }
+
+          removeToken();
+          navigate('/auth/login', { replace: true });
+        });
       })
-      .catch(() => {
-        setMsg(t('auth.error'));
+      .catch((err) => {
+        const detail = err?.response?.data?.msg;
+        setMsg(typeof detail === 'string' && detail ? detail : t('auth.error'));
       });
   }
 
@@ -79,13 +88,6 @@ export const Password = () => {
           initialValues={{ remember: true }}
           onFinish={changePassword}
         >
-          <Form.Item
-            name="username"
-            rules={[{ required: true, message: t('auth.noEmptyUsername'), min: 1 }]}
-          >
-            <Input prefix={<UserOutlined />} placeholder={t('auth.placeholderUsername')} />
-          </Form.Item>
-
           <Form.Item
             name="currentPassword"
             rules={[{ required: true, message: t('auth.noEmptyPassword'), min: 1 }]}
