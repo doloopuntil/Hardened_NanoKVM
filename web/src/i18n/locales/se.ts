@@ -5,7 +5,6 @@ const se = {
       cancel: 'Avbryt',
       delete: 'Ta bort',
       actionFailed: 'Åtgärden misslyckades',
-      actionFailedDetail: 'Åtgärden misslyckades: {{detail}}',
       loading: 'Läser in inställningar från enheten...',
       loadFailed: 'Det gick inte att läsa in inställningarna från enheten',
       retry: 'Försök igen'
@@ -39,14 +38,9 @@ const se = {
       cancel: 'Avbryt',
       loginButtonText: 'Logga in',
       tips: {
-        reset1: 'För att återställa lösenordet, håll in BOOT-knappen på NanoKVM i 10 sekunder.',
-        reset2: 'För detaljerade steg, se detta dokument:',
-        reset3: 'Standardkonto för webben:',
-        reset4: 'Standardkonto för SSH:',
         change1: 'Observera att denna åtgärd ändrar följande lösenord:',
         change2: 'Webbinloggningslösenord',
-        change3: 'Systemets root-lösenord (SSH-lösenord)',
-        change4: 'För att återställa lösenordet, håll in BOOT-knappen på NanoKVM.'
+        change3: 'Systemets root-lösenord (SSH-lösenord)'
       }
     },
     wifi: {
@@ -206,8 +200,6 @@ const se = {
       refresh: 'Uppdatera avbildningslistan',
       attention: 'Observera',
       deleteConfirm: 'Är du säker på att du vill ta bort denna avbildning?',
-      okBtn: 'Ja',
-      cancelBtn: 'Nej',
       tips: {
         title: 'Hur man laddar upp',
         usb1: 'Anslut NanoKVM till din dator via USB.',
@@ -414,7 +406,6 @@ const se = {
           connectDesc1: 'Ange nätverkets SSID och lösenord',
           connectDesc2: 'Ange lösenordet för att ansluta till detta nätverk',
           disconnect: 'Är du säker på att du vill koppla från nätverket?',
-          failed: 'Anslutningen misslyckades, försök igen.',
           ssid: 'Namn',
           password: 'Lösenord',
           joinBtn: 'Anslut',

@@ -5,7 +5,6 @@ const pl = {
       cancel: 'Anuluj',
       delete: 'Usuń',
       actionFailed: 'Operacja nie powiodła się',
-      actionFailedDetail: 'Operacja nie powiodła się: {{detail}}',
       loading: 'Wczytywanie ustawień z urządzenia...',
       loadFailed: 'Nie udało się wczytać ustawień z urządzenia',
       retry: 'Spróbuj ponownie'
@@ -41,15 +40,9 @@ const pl = {
       cancel: 'Anuluj',
       loginButtonText: 'Zaloguj się',
       tips: {
-        reset1:
-          'To reset the passwords, pressing and holding the BOOT button on the NanoKVM for 10 seconds.',
-        reset2: 'Szczegółowe kroki znajdziesz w tym dokumencie:',
-        reset3: 'Domyślne konto web:',
-        reset4: 'Domyślne konto SSH:',
         change1: 'Pamiętaj, że ta operacja zmieni następujące hasła:',
         change2: 'Hasło logowania web',
-        change3: 'Hasło roota systemu (hasło logowania SSH)',
-        change4: 'Aby zresetować hasła, naciśnij i przytrzymaj przycisk BOOT na NanoKVM.'
+        change3: 'Hasło roota systemu (hasło logowania SSH)'
       }
     },
     wifi: {
@@ -210,8 +203,6 @@ const pl = {
       refresh: 'Odśwież listę obrazów',
       attention: 'Uwaga',
       deleteConfirm: 'Czy na pewno chcesz usunąć to zdjęcie?',
-      okBtn: 'Tak',
-      cancelBtn: 'Nie',
       tips: {
         title: 'Jak przesłać obrazy',
         usb1: 'Podłącz urządzenie NanoKVM do komputera przez USB.',
@@ -419,7 +410,6 @@ const pl = {
           connectDesc1: 'Wprowadź SSID sieci i hasło',
           connectDesc2: 'Wprowadź hasło, aby połączyć się z tą siecią',
           disconnect: 'Czy na pewno chcesz rozłączyć sieć?',
-          failed: 'Połączenie nie powiodło się, spróbuj ponownie.',
           ssid: 'Nazwa',
           password: 'Hasło',
           joinBtn: 'Połącz',

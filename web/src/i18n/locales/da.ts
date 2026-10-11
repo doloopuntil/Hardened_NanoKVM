@@ -5,7 +5,6 @@ const da = {
       cancel: 'Annuller',
       delete: 'Slet',
       actionFailed: 'Handlingen mislykkedes',
-      actionFailedDetail: 'Handlingen mislykkedes: {{detail}}',
       loading: 'Indlæser indstillinger fra enheden...',
       loadFailed: 'Indstillingerne kunne ikke indlæses fra enheden',
       retry: 'Prøv igen'
@@ -40,15 +39,9 @@ const da = {
       cancel: 'Annuller',
       loginButtonText: 'Log ind',
       tips: {
-        reset1:
-          'To reset the passwords, pressing and holding the BOOT button on the NanoKVM for 10 seconds.',
-        reset2: 'Se detaljerede trin i dette dokument:',
-        reset3: 'Standard webkonto:',
-        reset4: 'Standard SSH-konto:',
         change1: 'Bemærk, at denne handling ændrer følgende adgangskoder:',
         change2: 'Adgangskode til weblogin',
-        change3: 'Systemets root-adgangskode (SSH-loginadgangskode)',
-        change4: 'For at nulstille adgangskoderne skal du holde BOOT-knappen på NanoKVM nede.'
+        change3: 'Systemets root-adgangskode (SSH-loginadgangskode)'
       }
     },
     wifi: {
@@ -208,8 +201,6 @@ const da = {
       refresh: 'Opdater billedlisten',
       attention: 'Opmærksomhed påkrævet',
       deleteConfirm: 'Er du sikker på, at du vil slette dette billede?',
-      okBtn: 'Ja',
-      cancelBtn: 'Annuller',
       tips: {
         title: 'Sådan uploader du',
         usb1: 'Forbind din NanoKVM til din computer via USB.',
@@ -416,7 +407,6 @@ const da = {
           connectDesc1: 'Indtast netværkets SSID og adgangskode',
           connectDesc2: 'Indtast adgangskoden for at tilslutte dette netværk',
           disconnect: 'Er du sikker på, at du vil afbryde netværket?',
-          failed: 'Forbindelsen mislykkedes, prøv igen.',
           ssid: 'Navn',
           password: 'Adgangskode',
           joinBtn: 'Tilslut',

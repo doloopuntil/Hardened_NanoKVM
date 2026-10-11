@@ -5,7 +5,6 @@ const cz = {
       cancel: 'Zrušit',
       delete: 'Smazat',
       actionFailed: 'Operace se nezdařila',
-      actionFailedDetail: 'Operace se nezdařila: {{detail}}',
       loading: 'Načítání nastavení ze zařízení...',
       loadFailed: 'Nastavení se ze zařízení nepodařilo načíst',
       retry: 'Zkusit znovu'
@@ -41,15 +40,9 @@ const cz = {
       cancel: 'Zrušit',
       loginButtonText: 'Přihlášení',
       tips: {
-        reset1:
-          'To reset the passwords, pressing and holding the BOOT button on the NanoKVM for 10 seconds.',
-        reset2: 'Podrobné kroky najdete v tomto dokumentu:',
-        reset3: 'Výchozí webový účet:',
-        reset4: 'Výchozí účet SSH:',
         change1: 'Upozorňujeme, že tato akce změní následující hesla:',
         change2: 'Heslo pro webové přihlášení',
-        change3: 'Heslo systémového uživatele root (heslo pro přihlášení SSH)',
-        change4: 'Chcete-li hesla resetovat, podržte tlačítko BOOT na NanoKVM.'
+        change3: 'Heslo systémového uživatele root (heslo pro přihlášení SSH)'
       }
     },
     wifi: {
@@ -210,8 +203,6 @@ const cz = {
       refresh: 'Obnovte seznam obrázků',
       attention: 'Pozor',
       deleteConfirm: 'Opravdu chcete smazat tento obrázek?',
-      okBtn: 'Ano',
-      cancelBtn: 'Ne',
       tips: {
         title: 'Jak nahrát',
         usb1: 'Připojte NanoKVM k vašemu počítači přes USB.',
@@ -417,7 +408,6 @@ const cz = {
           connectDesc1: 'Zadejte SSID sítě a heslo',
           connectDesc2: 'Zadejte heslo pro připojení k této síti',
           disconnect: 'Opravdu chcete síť odpojit?',
-          failed: 'Připojení se nezdařilo, zkuste to znovu.',
           ssid: 'Název',
           password: 'Heslo',
           joinBtn: 'Připojit',

@@ -5,7 +5,6 @@ const de = {
       cancel: 'Abbrechen',
       delete: 'Löschen',
       actionFailed: 'Vorgang fehlgeschlagen',
-      actionFailedDetail: 'Vorgang fehlgeschlagen: {{detail}}',
       loading: 'Einstellungen werden vom Gerät geladen...',
       loadFailed: 'Einstellungen konnten nicht vom Gerät geladen werden',
       retry: 'Erneut versuchen'
@@ -40,16 +39,9 @@ const de = {
       cancel: 'Abbrechen',
       loginButtonText: 'Anmelden',
       tips: {
-        reset1:
-          'Um das Passwort zurückzusetzen, drücken und halten Sie den BOOT Knopf auf dem NanoKVM für 10 Sekunden.',
-        reset2: 'Für detailliertere Anweisungen lesen Sie folgendes Dokument:',
-        reset3: 'Web Standard-Account:',
-        reset4: 'SSH Standard-Account:',
         change1: 'Bitte beachten Sie, dass diese Aktion folgende Passwörter ändert:',
         change2: 'Web Anmelde-Passwort',
-        change3: 'System root Passwort (SSH Anmelde-Passwort)',
-        change4:
-          'Um die Passwörter zurückzusetzen, drücken und halten Sie den BOOT Knopf auf dem NanoKVM.'
+        change3: 'System root Passwort (SSH Anmelde-Passwort)'
       }
     },
     wifi: {
@@ -212,8 +204,6 @@ const de = {
       refresh: 'Bilder aktualisieren',
       attention: 'Achtung',
       deleteConfirm: 'Sind Sie sicher, dass Sie dieses Bild löschen möchten?',
-      okBtn: 'Ja',
-      cancelBtn: 'Nein',
       tips: {
         title: 'So laden Sie Dateien hoch',
         usb1: 'Verbinden Sie den NanoKVM über USB mit Ihrem Computer.',
@@ -423,7 +413,6 @@ const de = {
           connectDesc1: 'Bitte geben Sie die Netzwerk-SSID und das Passwort ein',
           connectDesc2: 'Bitte geben Sie das Passwort ein, um diesem Netzwerk beizutreten',
           disconnect: 'Möchten Sie die Netzwerkverbindung wirklich trennen?',
-          failed: 'Verbindung fehlgeschlagen, bitte erneut versuchen.',
           ssid: 'Name',
           password: 'Passwort',
           joinBtn: 'Verbinden',

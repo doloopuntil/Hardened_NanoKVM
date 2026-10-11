@@ -5,7 +5,6 @@ const nl = {
       cancel: 'Annuleren',
       delete: 'Verwijderen',
       actionFailed: 'Bewerking mislukt',
-      actionFailedDetail: 'Bewerking mislukt: {{detail}}',
       loading: 'Instellingen van het apparaat laden...',
       loadFailed: 'Kan de instellingen niet van het apparaat laden',
       retry: 'Opnieuw proberen'
@@ -41,16 +40,9 @@ const nl = {
       cancel: 'Annuleren',
       loginButtonText: 'Inloggen',
       tips: {
-        reset1:
-          'Om de wachtwoorden opnieuw in te stellen, houdt u de BOOT-knop op de NanoKVM 10 seconden lang ingedrukt.',
-        reset2: 'Voor gedetailleerde stappen kunt u dit document raadplegen:',
-        reset3: 'Standaard webaccount:',
-        reset4: 'Standaard SSH-account:',
         change1: 'Houd er rekening mee dat deze actie de volgende wachtwoorden zal wijzigen:',
         change2: 'Web login wachtwoord',
-        change3: 'Systeem root-wachtwoord (SSH-inlogwachtwoord)',
-        change4:
-          'Om de wachtwoorden opnieuw in te stellen, houdt u de BOOT-knop op de NanoKVM ingedrukt.'
+        change3: 'Systeem root-wachtwoord (SSH-inlogwachtwoord)'
       }
     },
     wifi: {
@@ -211,8 +203,6 @@ const nl = {
       refresh: 'Vernieuw de afbeeldingenlijst',
       attention: 'Let op',
       deleteConfirm: 'Weet u zeker dat u deze afbeelding wilt verwijderen?',
-      okBtn: 'Ja',
-      cancelBtn: 'Nee',
       tips: {
         title: 'Hoe te uploaden',
         usb1: 'Verbind de NanoKVM met uw computer via USB.',
@@ -420,7 +410,6 @@ const nl = {
           connectDesc1: 'Voer de netwerk-SSID en het wachtwoord in',
           connectDesc2: 'Voer het wachtwoord in om met dit netwerk te verbinden',
           disconnect: 'Weet je zeker dat je de netwerkverbinding wilt verbreken?',
-          failed: 'Verbinding mislukt, probeer het opnieuw.',
           ssid: 'Naam',
           password: 'Wachtwoord',
           joinBtn: 'Verbinden',

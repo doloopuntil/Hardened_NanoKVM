@@ -5,7 +5,6 @@ const es = {
       cancel: 'Cancelar',
       delete: 'Eliminar',
       actionFailed: 'La operación ha fallado',
-      actionFailedDetail: 'La operación ha fallado: {{detail}}',
       loading: 'Cargando la configuración del dispositivo...',
       loadFailed: 'No se pudo cargar la configuración del dispositivo',
       retry: 'Reintentar'
@@ -41,15 +40,9 @@ const es = {
       cancel: 'Cancelar',
       loginButtonText: 'Iniciar sesión',
       tips: {
-        reset1:
-          'Para restablecer las contraseñas, mantén pulsado el botón BOOT del NanoKVM durante 10 segundos.',
-        reset2: 'Para ver los pasos detallados, consulta este documento:',
-        reset3: 'Cuenta predeterminada de la interfaz web:',
-        reset4: 'Cuenta predeterminada de SSH:',
         change1: 'Ten en cuenta que esta acción cambiará las siguientes contraseñas:',
         change2: 'Contraseña de acceso web',
-        change3: 'Contraseña root del sistema (contraseña de acceso por SSH)',
-        change4: 'Para restablecer las contraseñas, mantén pulsado el botón BOOT del NanoKVM.'
+        change3: 'Contraseña root del sistema (contraseña de acceso por SSH)'
       }
     },
     wifi: {
@@ -210,8 +203,6 @@ const es = {
       refresh: 'Actualizar la lista de imágenes',
       attention: 'Atención',
       deleteConfirm: '¿Estás seguro de que deseas eliminar esta imagen?',
-      okBtn: 'Sí',
-      cancelBtn: 'No',
       tips: {
         title: 'Cómo subir imágenes',
         usb1: 'Conecta el NanoKVM a tu computadora mediante USB.',
@@ -419,7 +410,6 @@ const es = {
           connectDesc1: 'Introduce el SSID de la red y la contraseña',
           connectDesc2: 'Introduce la contraseña para unirte a esta red',
           disconnect: '¿Seguro que quieres desconectar la red?',
-          failed: 'Error de conexión, inténtalo de nuevo.',
           ssid: 'Nombre',
           password: 'Contraseña',
           joinBtn: 'Unirse',

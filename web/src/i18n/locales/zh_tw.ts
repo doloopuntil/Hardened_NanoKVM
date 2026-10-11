@@ -5,7 +5,6 @@ const zh_tw = {
       cancel: '取消',
       delete: '刪除',
       actionFailed: '操作失敗',
-      actionFailedDetail: '操作失敗：{{detail}}',
       loading: '正在從裝置載入設定...',
       loadFailed: '無法從裝置載入設定',
       retry: '重試'
@@ -39,14 +38,9 @@ const zh_tw = {
       cancel: '取消',
       loginButtonText: '登入',
       tips: {
-        reset1: '長按 NanoKVM 上的 BOOT 按鍵 10 秒鐘來重設帳號。',
-        reset2: '詳細操作方法可參閱本文件：',
-        reset3: '網頁預設帳號：',
-        reset4: 'SSH 預設帳號：',
         change1: '請注意，此操作將同時更新下列密碼：',
         change2: '網頁登入密碼',
-        change3: 'root user 密碼 (SSH登入密碼)',
-        change4: '如果您忘記密碼，需要長按 NanoKVM 上的 BOOT 按鍵來重設密碼。'
+        change3: 'root user 密碼 (SSH登入密碼)'
       }
     },
     wifi: {
@@ -198,8 +192,6 @@ const zh_tw = {
       refresh: '重新整理映像檔列表',
       attention: '注意',
       deleteConfirm: '確定要刪除該映像檔嗎？',
-      okBtn: '確定',
-      cancelBtn: '取消',
       tips: {
         title: '如何上傳',
         usb1: '透過 USB 將 NanoKVM 連接到您的電腦。',
@@ -404,7 +396,6 @@ const zh_tw = {
           connectDesc1: '請輸入網路名稱和密碼',
           connectDesc2: '請輸入密碼以連線此網路',
           disconnect: '是否要中斷該網路連線？',
-          failed: '連線失敗，請重試',
           ssid: 'SSID 名稱',
           password: '密碼',
           joinBtn: '加入',
