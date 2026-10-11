@@ -1,5 +1,7 @@
 import type { ResourceLanguage } from 'i18next';
 
+import { totpLocalizedExtras } from './totp-extras';
+
 type TranslationMap = Record<string, string>;
 
 const languageAliases: Record<string, string> = {
@@ -3472,7 +3474,6 @@ const totpFallbackExtras: TranslationMap = {
   'settings.account.totp.enabled': 'Enabled',
   'settings.account.totp.disabled': 'Disabled',
   'settings.account.totp.required': 'Required by policy',
-  'settings.account.totp.enable': 'Enable',
   'settings.account.totp.disable': 'Disable',
   'settings.account.totp.enableTitle': 'Set up two-factor authentication',
   'settings.account.totp.enableDescription':
@@ -3500,8 +3501,9 @@ const totpFallbackExtras: TranslationMap = {
   'settings.account.totp.clockUnsynced':
     'The device clock is not synchronized yet. Synchronize time in Settings > System > Time before enrolling.',
   'settings.account.totp.noBackupCodes':
-    'No backup codes remain. Use New backup codes to issue a new set.',
+    'No backup codes remain. Select Generate to issue a new set.',
   'settings.account.totp.regenerate': 'New backup codes',
+  'settings.account.totp.generate': 'Generate',
   'settings.account.totp.regenerateTitle': 'Issue new backup codes?',
   'settings.account.totp.regenerateDescription':
     'Your current backup codes will stop working. Confirm with your password to continue.',
@@ -7314,7 +7316,7 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
     ...(timeLogExtras[key] || {}),
     ...firewallNoWebrtcExtras,
     ...firewallNoWebrtcModeDescriptionExtras,
-    ...totpFallbackExtras
+    ...(totpLocalizedExtras[key] || totpFallbackExtras)
   };
   if (!Object.keys(extras).length) return;
 

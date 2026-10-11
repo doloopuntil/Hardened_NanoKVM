@@ -320,35 +320,17 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
               </Tag>
             )}
           </div>
-          <span className="text-xs text-neutral-500">
-            {status?.enabled
-              ? // Not named `count`: that would make i18next look for plural
-                // key variants that the fork's extras mechanism does not add.
-                t('settings.account.totp.remaining', {
-                  remaining: status.backupCodesRemaining
-                })
-              : t('settings.account.totp.description')}
-          </span>
+          <span className="text-xs text-neutral-500">{t('settings.account.totp.description')}</span>
         </div>
 
-        {status?.enabled ? (
-          <div className="flex shrink-0 gap-2">
-            <Button onClick={() => setIsRegenerating(true)}>
-              {t('settings.account.totp.regenerate')}
-            </Button>
-            <Button danger disabled={status.required} onClick={() => setIsDisabling(true)}>
-              {t('settings.account.totp.disable')}
-            </Button>
-          </div>
-        ) : (
-          <Button
-            type="primary"
-            disabled={!status?.clockSynced}
-            onClick={() => setIsStartingEnrolment(true)}
-          >
-            {t('settings.account.totp.enable')}
-          </Button>
-        )}
+        {/* On starts the enrolment; off asks for the password. A policy that
+            requires it, or an unsynchronized clock, keeps it from changing. */}
+        <Switch
+          className="shrink-0"
+          checked={!!status?.enabled}
+          disabled={!status || (status.enabled ? status.required : !status.clockSynced)}
+          onChange={(checked) => (checked ? setIsStartingEnrolment(true) : setIsDisabling(true))}
+        />
       </div>
 
       {/* Codes are derived from the clock, so enrolling before NTP succeeds
@@ -374,6 +356,26 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         </div>
       )}
 
+      {status?.enabled && (
+        <div className="mt-6 flex items-center justify-between gap-4">
+          <div className="flex min-w-0 flex-col space-y-1">
+            <span>{t('settings.account.totp.regenerate')}</span>
+            <span className="text-xs text-neutral-500">
+              {
+                // Not named `count`: that would make i18next look for plural
+                // key variants that the fork's extras mechanism does not add.
+                t('settings.account.totp.remaining', {
+                  remaining: status.backupCodesRemaining
+                })
+              }
+            </span>
+          </div>
+          <Button className="shrink-0" onClick={() => setIsRegenerating(true)}>
+            {t('settings.account.totp.generate')}
+          </Button>
+        </div>
+      )}
+
       {status?.enabled && status.backupCodesRemaining === 0 && (
         <Alert
           className="mt-3"
@@ -388,6 +390,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         afterOpenChange={focusWhenOpen(enrolPasswordRef)}
         title={t('settings.account.totp.enableTitle')}
         okText={t('settings.account.totp.continue')}
+        cancelText={t('settings.account.totp.cancel')}
         okButtonProps={{ loading: isBusy, disabled: !password }}
         onOk={startEnrollment}
         onCancel={() => {
@@ -413,7 +416,8 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         open={isRegenerating}
         afterOpenChange={focusWhenOpen(regeneratePasswordRef)}
         title={t('settings.account.totp.regenerateTitle')}
-        okText={t('settings.account.totp.regenerate')}
+        okText={t('settings.account.totp.generate')}
+        cancelText={t('settings.account.totp.cancel')}
         okButtonProps={{ loading: isBusy, disabled: !password }}
         onOk={regenerate}
         onCancel={() => {
@@ -440,6 +444,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         afterOpenChange={focusWhenOpen(disablePasswordRef)}
         title={t('settings.account.totp.disableTitle')}
         okText={t('settings.account.totp.disable')}
+        cancelText={t('settings.account.totp.cancel')}
         okButtonProps={{ danger: true, loading: isBusy, disabled: !password }}
         onOk={disable}
         onCancel={() => {
