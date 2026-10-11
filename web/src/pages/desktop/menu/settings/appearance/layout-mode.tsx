@@ -29,10 +29,10 @@ export const LayoutMode = () => {
         <span className="text-xs text-neutral-500">{t('settings.appearance.layoutModeDesc')}</span>
       </div>
 
-      <div className="w-full min-w-0 overflow-x-auto sm:w-[340px] sm:flex-none">
+      <div className="w-full min-w-0 overflow-x-auto sm:w-auto sm:flex-none">
         <Segmented
           block
-          className="settings-segmented-wrap-labels min-w-full"
+          className="settings-segmented-wrap-labels settings-segmented-fit min-w-full"
           value={layoutMode}
           options={options}
           onChange={(value) => handleChange(value as LayoutModeValue)}
