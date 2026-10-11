@@ -1,12 +1,12 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Button, Divider, Input, notification } from 'antd';
+import { Button, Divider, Input, notification, Progress } from 'antd';
 import type { InputRef } from 'antd';
 import clsx from 'clsx';
 import { useSetAtom } from 'jotai';
 import { DownloadIcon, XCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-import { downloadImage, imageEnabled, statusImage } from '@/api/download.ts';
+import { cancelDownloadImage, downloadImage, imageEnabled, statusImage } from '@/api/download.ts';
 import { getMountedImage } from '@/api/storage.ts';
 import { getVirtualDevice, updateVirtualDevice } from '@/api/virtual-device.ts';
 import { getCsrfToken } from '@/lib/cookie.ts';
@@ -20,6 +20,17 @@ type TransferStatus = '' | 'idle' | 'in_progress' | 'complete' | 'failed' | 'can
 type AbortReason = 'cancel' | 'stall';
 
 const TRANSFER_STALL_TIMEOUT_MS = 90_000;
+
+function formatBytes(bytes: number) {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+  let value = bytes;
+  let unit = 0;
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024;
+    unit += 1;
+  }
+  return `${value.toFixed(unit === 0 ? 0 : 1)} ${units[unit]}`;
+}
 
 function isAllowedLocalImage(file: File | null) {
   if (!file) return false;
@@ -41,7 +52,10 @@ export const DownloadImage = () => {
   const [isDiskShared, setIsDiskShared] = useState(false);
   const [isDisablingDisk, setIsDisablingDisk] = useState(false);
   const [popoverKey, setPopoverKey] = useState(0);
-  const [activeTransfer, setActiveTransfer] = useState<TransferKind | null>(null);
+  // null: the total size is unknown
+  const [progress, setProgress] = useState<number | null>(0);
+  const [bytesDone, setBytesDone] = useState(0);
+  const [isCanceling, setIsCanceling] = useState(false);
 
   const inputRef = useRef<InputRef>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -49,6 +63,7 @@ export const DownloadImage = () => {
   const activeTransferRef = useRef<TransferKind | null>(null);
   const uploadXhrRef = useRef<XMLHttpRequest | null>(null);
   const abortReasonRef = useRef<AbortReason | null>(null);
+  const remoteCancelRef = useRef(false);
   const lastProgressMarkerRef = useRef('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -67,11 +82,22 @@ export const DownloadImage = () => {
   function setDownloadStatus(nextStatus: TransferStatus) {
     statusRef.current = nextStatus;
     setStatus(nextStatus);
+    if (nextStatus !== 'in_progress') setIsCanceling(false);
+  }
+
+  // never moves backwards within a transfer
+  function reportProgress(next: number | null) {
+    setProgress((previous) => (next === null ? null : Math.max(previous ?? 0, next)));
+  }
+
+  function startProgress(known: boolean) {
+    setProgress(known ? 0 : null);
+    setBytesDone(0);
+    setIsCanceling(false);
   }
 
   function setActiveTransferKind(nextTransfer: TransferKind | null) {
     activeTransferRef.current = nextTransfer;
-    setActiveTransfer(nextTransfer);
   }
 
   function stopStatusPolling() {
@@ -221,11 +247,15 @@ export const DownloadImage = () => {
       if (nextStatus === 'in_progress') {
         setDownloadStatus(nextStatus);
         const transfer = activeTransferRef.current ?? 'remote';
-        setLog(formatTransferLog(transfer, rsp.data.file, rsp.data.percentage));
-        noteProgress(`${rsp.data.file};${rsp.data.percentage}`);
-        if (activeTransferRef.current === 'remote') {
+        // an upload reports its own progress; the server's count would only fight it
+        if (transfer === 'remote') {
+          const percent = Number.parseFloat(rsp.data.percentage);
+          reportProgress(Number.isFinite(percent) ? percent : null);
+          setBytesDone(Number(rsp.data.written) || 0);
+          setLog(formatTransferLog(transfer, rsp.data.file));
           setInput(rsp.data.file);
         }
+        noteProgress(`${rsp.data.file};${rsp.data.percentage};${rsp.data.written ?? ''}`);
         return;
       }
 
@@ -251,6 +281,12 @@ export const DownloadImage = () => {
         }
 
         if (previousStatus === 'in_progress' && previousTransfer === 'remote') {
+          if (remoteCancelRef.current) {
+            remoteCancelRef.current = false;
+            finishCanceled('remote');
+            return;
+          }
+
           setInput('');
           setSha256sum('');
           setDownloadStatus('complete');
@@ -289,6 +325,8 @@ export const DownloadImage = () => {
 
     setActiveTransferKind('remote');
     lastProgressMarkerRef.current = '';
+    remoteCancelRef.current = false;
+    startProgress(false);
     setDownloadStatus('in_progress');
     setLog(formatTransferLog('remote', targetUrl));
     noteProgress(targetUrl);
@@ -361,6 +399,7 @@ export const DownloadImage = () => {
 
     setActiveTransferKind('local');
     lastProgressMarkerRef.current = '';
+    startProgress(true);
     setDownloadStatus('in_progress');
     setLog(formatTransferLog('local', file.name));
     noteProgress(file.name);
@@ -371,7 +410,7 @@ export const DownloadImage = () => {
     resetStallWatchdog();
 
     try {
-      await uploadFileWithProgress(file, formData, checksum);
+      await uploadFileWithProgress(formData, checksum);
 
       stopStatusPolling();
       stopStallWatchdog();
@@ -389,7 +428,7 @@ export const DownloadImage = () => {
           return;
         }
         abortReasonRef.current = null;
-        finishCanceled();
+        finishCanceled('local');
         return;
       }
 
@@ -397,7 +436,7 @@ export const DownloadImage = () => {
     }
   }
 
-  function uploadFileWithProgress(file: File, formData: FormData, checksum: string) {
+  function uploadFileWithProgress(formData: FormData, checksum: string) {
     const csrfToken = getCsrfToken();
 
     return new Promise<void>((resolve, reject) => {
@@ -414,13 +453,13 @@ export const DownloadImage = () => {
 
       xhr.upload.onprogress = (event) => {
         if (event.lengthComputable && event.total > 0) {
-          const percentage = `${((event.loaded / event.total) * 100).toFixed(2)}%`;
-          setLog(formatTransferLog('local', file.name, percentage));
+          reportProgress((event.loaded / event.total) * 100);
           noteProgress(`${event.loaded}/${event.total}`);
         } else {
-          setLog(formatTransferLog('local', file.name));
+          reportProgress(null);
           noteProgress(`${event.loaded}`);
         }
+        setBytesDone(event.loaded);
       };
 
       xhr.onload = () => {
@@ -452,10 +491,26 @@ export const DownloadImage = () => {
   }
 
   function cancelTransfer() {
-    if (statusRef.current !== 'in_progress' || activeTransferRef.current !== 'local') return;
+    if (statusRef.current !== 'in_progress' || isCanceling) return;
 
-    abortReasonRef.current = 'cancel';
-    uploadXhrRef.current?.abort();
+    if (activeTransferRef.current === 'local') {
+      abortReasonRef.current = 'cancel';
+      uploadXhrRef.current?.abort();
+      return;
+    }
+
+    // the server stops curl and drops the partial file; the next status poll sees it idle
+    setIsCanceling(true);
+    remoteCancelRef.current = true;
+    attempt(() => cancelDownloadImage()).then((rsp) => {
+      if (rsp) {
+        getDownloadStatus();
+        return;
+      }
+
+      remoteCancelRef.current = false;
+      setIsCanceling(false);
+    });
   }
 
   function failTransfer(message: string) {
@@ -472,18 +527,17 @@ export const DownloadImage = () => {
     });
   }
 
-  function finishCanceled() {
+  function finishCanceled(transfer: TransferKind) {
     stopStatusPolling();
     stopStallWatchdog();
     setActiveTransferKind(null);
     setDownloadStatus('canceled');
-    setLog(t('download.canceled'));
+    setLog(transfer === 'local' ? t('download.canceled') : t('download.downloadCanceled'));
   }
 
-  function formatTransferLog(transfer: TransferKind, file: string, percentage?: string) {
+  function formatTransferLog(transfer: TransferKind, file: string) {
     const label = transfer === 'local' ? t('download.uploading') : t('download.downloading');
-    const progress = percentage ? ` (${percentage})` : '';
-    return `${label}${progress}: ${file}`;
+    return `${label}: ${file}`;
   }
 
   function parseJson(raw: string): { code?: number; msg?: string } | null {
@@ -521,7 +575,7 @@ export const DownloadImage = () => {
         <div className="space-y-3">
           <div>
             <div className="pb-1 text-neutral-500">{t('download.input')}</div>
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-2">
               <Input
                 ref={inputRef}
                 value={input}
@@ -557,64 +611,47 @@ export const DownloadImage = () => {
           </div>
           <div>
             <div className="pb-1 text-neutral-500">{t('download.inputfile')}</div>
-            <div className="flex items-center space-x-1">
-              <div
-                className={clsx(
-                  'css-9118ya ant-input-outlined box-border flex h-8 w-full flex-col items-center justify-center rounded-xl border-2 border-solid transition',
-                  isDragging ? 'border-blue-500 bg-neutral-500' : '',
-                  status === 'in_progress'
-                    ? 'pointer-events-none cursor-not-allowed border-neutral-600 bg-neutral-700 opacity-50'
-                    : 'cursor-pointer hover:bg-neutral-500'
-                )}
+            <div className="flex items-center space-x-2">
+              <Button
+                block
+                disabled={status === 'in_progress'}
+                className={clsx('min-w-0', isDragging && '!border-blue-500 !text-blue-400')}
                 onDrop={(e) => {
-                  if (status === 'in_progress') return; // deaktiviert
                   e.preventDefault();
                   setIsDragging(false);
                   const file = e.dataTransfer.files?.[0] ?? null;
                   selectLocalFile(file);
                 }}
                 onDragOver={(e) => {
-                  if (status === 'in_progress') return; // deaktiviert
                   e.preventDefault();
-                  setIsDragging(true); // Datei wird über den Bereich gezogen
+                  setIsDragging(true);
                 }}
                 onDragLeave={(e) => {
-                  if (status === 'in_progress') return; // deaktiviert
                   e.preventDefault();
-                  setIsDragging(false); // Maus verlässt Bereich
+                  setIsDragging(false);
                 }}
-                onClick={() => {
-                  if (status === 'in_progress') return; // deaktiviert
-                  fileInputRef.current?.click();
-                }}
+                onClick={() => fileInputRef.current?.click()}
               >
-                <span className="px-1 text-sm text-neutral-100">
+                <span className="block max-w-full truncate">
                   {selectedFile ? selectedFile.name : t('download.uploadbox')}
                 </span>
-
-                <input
-                  id="file-upload"
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".iso,.img"
-                  onChange={handleFileChange}
-                  disabled={status === 'in_progress'}
-                  className="hidden"
-                />
-              </div>
+              </Button>
+              <input
+                id="file-upload"
+                ref={fileInputRef}
+                type="file"
+                accept=".iso,.img"
+                onChange={handleFileChange}
+                disabled={status === 'in_progress'}
+                className="hidden"
+              />
               <Button
                 type="primary"
-                className="border-2"
                 onClick={() => upload(selectedFile)}
                 disabled={status === 'in_progress' || status === 'complete' || !selectedFile}
               >
                 {t('download.ok')}
               </Button>
-              {status === 'in_progress' && activeTransfer === 'local' && (
-                <Button danger icon={<XCircleIcon size={14} />} onClick={cancelTransfer}>
-                  {t('download.cancel')}
-                </Button>
-              )}
             </div>
           </div>
         </div>
@@ -628,6 +665,31 @@ export const DownloadImage = () => {
             )}
           >
             {log}
+          </div>
+        )}
+        {status === 'in_progress' && (
+          <div className="flex w-full items-center space-x-2 pt-1">
+            <div className="min-w-0 flex-1">
+              <Progress
+                percent={progress ?? 100}
+                status="active"
+                size="small"
+                showInfo={progress !== null}
+                format={(percent) => `${Math.floor(percent ?? 0)}%`}
+              />
+              {progress === null && bytesDone > 0 && (
+                <div className="text-xs text-neutral-500">{formatBytes(bytesDone)}</div>
+              )}
+            </div>
+            <Button
+              danger
+              size="small"
+              icon={<XCircleIcon size={14} />}
+              loading={isCanceling}
+              onClick={cancelTransfer}
+            >
+              {t('download.cancel')}
+            </Button>
           </div>
         )}
       </div>

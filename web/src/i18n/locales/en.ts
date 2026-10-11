@@ -326,6 +326,7 @@ const en = {
       uploadFailed: 'Upload failed',
       stalled: 'Transfer stalled. Check the connection and retry.',
       canceled: 'Upload canceled',
+      downloadCanceled: 'Download canceled',
       cancel: 'Cancel',
       remoteDisabled: 'Remote ISO download is disabled in Settings > Appearance.',
       remoteFailed: 'Remote ISO download failed',
