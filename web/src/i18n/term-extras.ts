@@ -485,7 +485,7 @@ export const termLocalizedExtras: Record<string, TranslationMap> = {
     'mouse.hidOnly.title': 'HID-Only 模式',
     'mouse.hidOnly.desc':
       '如果鼠标和键盘停止响应，且重置 HID 无效，可能是 NanoKVM 与设备之间存在兼容性问题。请尝试启用 HID-Only 模式以获得更好的兼容性。',
-    'mouse.hidOnly.tip1': '启用 HID-Only 模式将卸载虚拟U盘和虚拟网络',
+    'mouse.hidOnly.tip1': '启用 HID-Only 模式将卸载虚拟磁盘和虚拟网络',
     'mouse.hidOnly.tip2': '在 HID-Only 模式下，镜像挂载被禁用',
     'mouse.hidOnly.enable': '启用 HID-Only 模式',
     'mouse.hidOnly.disable': '停用 HID-Only 模式',
@@ -500,7 +500,7 @@ export const termLocalizedExtras: Record<string, TranslationMap> = {
     'mouse.hidOnly.title': 'HID-Only 模式',
     'mouse.hidOnly.desc':
       '如果滑鼠和鍵盤停止回應，且重設 HID 無效，可能是 NanoKVM 與裝置之間存在相容性問題。請嘗試啟用 HID-Only 模式以獲得更好的相容性。',
-    'mouse.hidOnly.tip1': '啟用 HID-Only 模式將卸載虛擬隨身碟和虛擬網路',
+    'mouse.hidOnly.tip1': '啟用 HID-Only 模式將卸載虛擬磁碟和虛擬網路',
     'mouse.hidOnly.tip2': '在 HID-Only 模式下，映像檔掛載會被停用',
     'mouse.hidOnly.enable': '啟用 HID-Only 模式',
     'mouse.hidOnly.disable': '停用 HID-Only 模式',
