@@ -393,17 +393,6 @@ const id = {
           idleTimeoutDescription: 'Hentikan tangkapan HDMI setelah tidak ada penonton aktif selama',
           minutes: 'mnt'
         },
-        autostart: {
-          title: 'Pengaturan Skrip Mulai Otomatis',
-          description: 'Mengelola skrip yang berjalan secara otomatis saat startup sistem',
-          new: 'Baru',
-          deleteConfirm: 'Apa kamu yakin menghapus data ini?',
-          yes: 'Ya',
-          no: 'Tidak',
-          scriptName: 'Nama Skrip Mulai Otomatis',
-          scriptContent: 'Konten Skrip Mulai Otomatis',
-          settings: 'Pengaturan'
-        },
         hidOnly: 'HID-Mode Hanya',
         hidOnlyDesc: 'Berhenti meniru perangkat virtual, hanya mempertahankan kontrol dasar HID',
         disk: 'Disk virtual',

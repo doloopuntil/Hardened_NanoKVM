@@ -395,17 +395,6 @@ const hu = {
           idleTimeoutDescription: 'A HDMI-rögzítés leállítása, ha nincs aktív néző ennyi ideig:',
           minutes: 'perc'
         },
-        autostart: {
-          title: 'Automatikus indítási parancsfájlok beállításai',
-          description: 'A rendszer indításakor automatikusan futó szkriptek kezelése',
-          new: 'Új',
-          deleteConfirm: 'Biztosan törli ezt a fájlt?',
-          yes: 'Igen',
-          no: 'Nem',
-          scriptName: 'Automatikusan induló szkript neve',
-          scriptContent: 'A szkripttartalom automatikus indítása',
-          settings: 'Beállítások'
-        },
         hidOnly: 'HID-Csak mód',
         hidOnlyDesc:
           'A virtuális eszközök emulálásának leállítása, csak az alapvető HID vezérlés megtartásával',

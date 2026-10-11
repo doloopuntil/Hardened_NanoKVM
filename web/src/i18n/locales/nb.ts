@@ -393,17 +393,6 @@ const nb = {
           idleTimeoutDescription: 'Stopp HDMI-opptak etter at det ikke har vært aktive seere i',
           minutes: 'min'
         },
-        autostart: {
-          title: 'Autostart skriptinnstillinger',
-          description: 'Administrer skript som kjører automatisk ved systemstart',
-          new: 'Ny',
-          deleteConfirm: 'Er du sikker på at du vil slette denne filen?',
-          yes: 'Ja',
-          no: 'Nei',
-          scriptName: 'Autostart skriptnavn',
-          scriptContent: 'Autostart skriptinnhold',
-          settings: 'Innstillinger'
-        },
         hidOnly: 'HID-Bare modus',
         hidOnlyDesc: 'Slutt å emulere virtuelle enheter, behold bare grunnleggende HID-kontroll',
         disk: 'Virtuell disk',

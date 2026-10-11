@@ -390,17 +390,6 @@ const se = {
           idleTimeoutDescription: 'Stoppa HDMI-inspelning efter att det inte har funnits aktiva tittare i',
           minutes: 'min'
         },
-        autostart: {
-          title: 'Autostart skriptinställningar',
-          description: 'Hantera skript som körs automatiskt vid systemstart',
-          new: 'Nytt',
-          deleteConfirm: 'Är du säker på att du vill ta bort denna fil?',
-          yes: 'Ja',
-          no: 'Nej',
-          scriptName: 'Autostart skriptnamn',
-          scriptContent: 'Autostart skriptinnehåll',
-          settings: 'Inställningar'
-        },
         hidOnly: 'Endast-HID-läge',
         hidOnlyDesc: 'Sluta emulera virtuella enheter, behåll bara grundläggande HID kontroll',
         disk: 'Virtuell disk',

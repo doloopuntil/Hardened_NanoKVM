@@ -395,18 +395,6 @@ const it = {
           idleTimeoutDescription: 'Interrompi la cattura HDMI dopo che non ci sono visualizzatori attivi per',
           minutes: 'min'
         },
-        autostart: {
-          title: 'Impostazioni script di avvio automatico',
-          description:
-            "Gestisce gli script che vengono eseguiti automaticamente all'avvio del sistema",
-          new: 'Nuovo',
-          deleteConfirm: 'Sei sicuro di voler eliminare questo file?',
-          yes: 'Sì',
-          no: 'No',
-          scriptName: 'Nome script di avvio automatico',
-          scriptContent: 'Contenuto script di avvio automatico',
-          settings: 'Impostazioni'
-        },
         hidOnly: 'HID-Solo modalità',
         hidOnlyDesc:
           'Smette di emulare i dispositivi virtuali, mantenendo solo il controllo di base HID',

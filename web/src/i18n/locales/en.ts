@@ -468,17 +468,6 @@ const en = {
           idleTimeoutDescription: 'Stop HDMI capture after there are no active viewers for',
           minutes: 'min'
         },
-        autostart: {
-          title: 'Autostart Scripts Settings',
-          description: 'Manage scripts that run automatically on system startup',
-          new: 'New',
-          deleteConfirm: 'Are you sure you want to delete this file?',
-          yes: 'Yes',
-          no: 'No',
-          scriptName: 'Autostart Script Name',
-          scriptContent: 'Autostart Script Content',
-          settings: 'Settings'
-        },
         hidOnly: 'HID-Only Mode',
         hidOnlyDesc: 'Stop emulating virtual devices, retaining only basic HID control',
         hidOnlyTip:

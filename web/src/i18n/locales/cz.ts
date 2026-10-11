@@ -393,17 +393,6 @@ const cz = {
           idleTimeoutDescription: 'Zastavit snímání HDMI po době bez aktivních diváků',
           minutes: 'min'
         },
-        autostart: {
-          title: 'Nastavení automatického spuštění skriptů',
-          description: 'Správa skriptů, které se spouštějí automaticky při spuštění systému',
-          new: 'Nové',
-          deleteConfirm: 'Opravdu chcete tento soubor smazat?',
-          yes: 'Ano',
-          no: 'Ne',
-          scriptName: 'Název skriptu automatického spuštění',
-          scriptContent: 'Obsah skriptu automatického spuštění',
-          settings: 'Nastavení'
-        },
         hidOnly: 'HID-Pouze režim',
         hidOnlyDesc: 'Zastavit emulaci virtuálních zařízení a zachovat pouze základní ovládání HID',
         disk: 'Virtuální disk',
