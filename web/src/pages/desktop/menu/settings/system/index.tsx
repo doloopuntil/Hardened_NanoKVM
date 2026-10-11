@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Segmented } from 'antd';
+import clsx from 'clsx';
 import { SaveIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
+import { SettingsLoadGroup } from '@/components/settings-load-group.tsx';
 
 import { Network } from '../network';
 import { SystemLog } from '../system-log';
@@ -14,6 +18,7 @@ type SystemSection = 'network' | 'time' | 'firewall' | 'systemLog';
 
 export const System = () => {
   const { t } = useTranslation();
+  const isTouchLayout = useIsTouchLayout();
   const [section, setSection] = useState<SystemSection>('network');
   const [actionState, setActionState] = useState<SystemActionState>(idleSystemActionState);
   const networkRef = useRef<SystemActionHandle>(null);
@@ -54,7 +59,15 @@ export const System = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-20 -mx-1 mb-6 min-w-0 border-b border-neutral-700/70 bg-neutral-900/95 px-1 pb-3 pt-1 shadow-[0_10px_20px_rgba(0,0,0,0.25)] backdrop-blur before:absolute before:bottom-full before:left-0 before:right-0 before:hidden before:h-14 before:bg-neutral-900/95 before:content-[''] sm:top-14 sm:before:block">
+      <div
+        className={clsx(
+          'sticky top-0 z-20 -mx-1 mb-6 min-w-0 border-b border-neutral-700/70 bg-neutral-900/95 px-1 pb-3 pt-1 shadow-[0_10px_20px_rgba(0,0,0,0.25)] backdrop-blur',
+          // the desktop layout leaves room above the header for its own title bar; the touch layout
+          // has none, and the offset there pushes the header down over the first settings
+          !isTouchLayout &&
+            "before:absolute before:bottom-full before:left-0 before:right-0 before:h-14 before:bg-neutral-900/95 before:content-[''] sm:top-14"
+        )}
+      >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0 text-base">{t('settings.system.title')}</div>
           <div className="flex min-w-0 flex-col items-stretch gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
@@ -93,23 +106,31 @@ export const System = () => {
         </div>
       </div>
 
-      <div className="min-w-0 overflow-x-hidden">
-        {section === 'network' && (
-          <Network ref={networkRef} showTitle={false} onActionStateChange={updateActionState} />
-        )}
-        {section === 'time' && (
-          <TimeSettings ref={timeRef} showFooter={false} onActionStateChange={updateActionState} />
-        )}
-        {section === 'firewall' && <FirewallSettings />}
-        {section === 'systemLog' && (
-          <SystemLog
-            ref={systemLogRef}
-            showTitle={false}
-            showFooter={false}
-            onActionStateChange={updateActionState}
-          />
-        )}
-      </div>
+      {/* The load banner is part of the section, below the sticky header; the group of the whole
+          tab would put it above the header, where the header's cover hides it. */}
+      <SettingsLoadGroup key={section}>
+        <div className="min-w-0 overflow-x-hidden">
+          {section === 'network' && (
+            <Network ref={networkRef} showTitle={false} onActionStateChange={updateActionState} />
+          )}
+          {section === 'time' && (
+            <TimeSettings
+              ref={timeRef}
+              showFooter={false}
+              onActionStateChange={updateActionState}
+            />
+          )}
+          {section === 'firewall' && <FirewallSettings />}
+          {section === 'systemLog' && (
+            <SystemLog
+              ref={systemLogRef}
+              showTitle={false}
+              showFooter={false}
+              onActionStateChange={updateActionState}
+            />
+          )}
+        </div>
+      </SettingsLoadGroup>
     </>
   );
 };
