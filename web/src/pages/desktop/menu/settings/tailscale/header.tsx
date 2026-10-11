@@ -4,6 +4,7 @@ import { CircleStopIcon, EllipsisIcon, LoaderIcon, RotateCwIcon } from 'lucide-r
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 import { Memory } from './memory.tsx';
 import { Swap } from './swap.tsx';
@@ -26,7 +27,7 @@ export const Header = ({ state, onSuccess }: HeaderProps) => {
     if (loading !== '') return;
     setLoading('restarting');
 
-    api.restart().finally(() => {
+    attempt(() => api.restart()).finally(() => {
       setLoading('');
       onSuccess();
     });
@@ -36,7 +37,7 @@ export const Header = ({ state, onSuccess }: HeaderProps) => {
     if (loading !== '') return;
     setLoading('stopping');
 
-    api.stop().finally(() => {
+    attempt(() => api.stop()).finally(() => {
       setLoading('');
       onSuccess();
     });

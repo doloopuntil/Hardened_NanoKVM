@@ -6,7 +6,7 @@ import { statusImage } from '@/api/download.ts';
 import { getHidMode, getUsbWakeup, setHidMode, setUsbWakeup } from '@/api/hid.ts';
 import { getMountedImage } from '@/api/storage.ts';
 import * as api from '@/api/virtual-device.ts';
-import { confirm, toast } from '@/lib/feedback.ts';
+import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { notifyImageListChanged } from '@/lib/image-events.ts';
 
 const { Paragraph } = Typography;
@@ -89,24 +89,16 @@ export const VirtualDevices = () => {
     if (loading) return;
     setLoading(device);
 
-    try {
-      const rsp = await api.updateVirtualDevice(device);
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        toast.error(rsp.msg);
-        return;
-      }
-
+    const rsp = await attempt(() => api.updateVirtualDevice(device));
+    if (rsp) {
       await getVirtualDevice();
       await getImageState();
 
       // the desktop shows the mounted image and the CD-ROM flag too
       notifyImageListChanged();
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading('');
     }
+
+    setLoading('');
   }
 
   // enabling the disk hands /data to the host and takes it away from the
@@ -168,18 +160,10 @@ export const VirtualDevices = () => {
     if (loading) return;
     setLoading('wakeup');
 
-    try {
-      const rsp = await setUsbWakeup(enabled);
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
-      setIsUsbWakeupEnabled(rsp.data.enabled);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading('');
-    }
+    const rsp = await attempt(() => setUsbWakeup(enabled));
+    if (rsp) setIsUsbWakeupEnabled(rsp.data.enabled);
+
+    setLoading('');
   }
 
   const usbWakeup = (

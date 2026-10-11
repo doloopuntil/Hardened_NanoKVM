@@ -7,6 +7,7 @@ import { Eye, EyeClosed, NetworkIcon, Pencil, SendIcon, Trash2Icon } from 'lucid
 import { useTranslation } from 'react-i18next';
 
 import { deleteWolMac, getWolMacs, setWolMacName, wol } from '@/api/network.ts';
+import { attempt } from '@/lib/feedback.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
 
@@ -48,11 +49,8 @@ export const Wol = () => {
   }
 
   function getMacs() {
-    getWolMacs().then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    attempt(() => getWolMacs()).then((rsp) => {
+      if (!rsp) return;
 
       const isEdit = false;
       const macList = rsp.data.macs
@@ -87,19 +85,15 @@ export const Wol = () => {
     const value = e.currentTarget.value.trim();
     if (!value) return;
 
-    const rsp = await setWolMacName(mac, value);
-    if (rsp.code !== 0) {
-      console.log(rsp.msg);
-      return;
-    }
+    const rsp = await attempt(() => setWolMacName(mac, value));
+    if (!rsp) return;
+
     getMacs();
   }
 
   function deleteMac(mac: string) {
-    deleteWolMac(mac).then((rsp) => {
-      if (rsp.code === 0) {
-        getMacs();
-      }
+    attempt(() => deleteWolMac(mac)).then((rsp) => {
+      if (rsp) getMacs();
     });
   }
 

@@ -3,7 +3,9 @@ const th = {
     common: {
       confirm: 'ยืนยัน',
       cancel: 'ยกเลิก',
-      delete: 'ลบ'
+      delete: 'ลบ',
+      actionFailed: 'การดำเนินการล้มเหลว',
+      actionFailedDetail: 'การดำเนินการล้มเหลว: {{detail}}'
     },
     head: {
       desktop: 'เดสก์ท็อประยะไกล',

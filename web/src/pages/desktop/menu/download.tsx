@@ -10,6 +10,7 @@ import { downloadImage, imageEnabled, statusImage } from '@/api/download.ts';
 import { getMountedImage } from '@/api/storage.ts';
 import { getVirtualDevice, updateVirtualDevice } from '@/api/virtual-device.ts';
 import { getCsrfToken } from '@/lib/cookie.ts';
+import { attempt } from '@/lib/feedback.ts';
 import { notifyImageListChanged } from '@/lib/image-events.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
@@ -145,12 +146,9 @@ export const DownloadImage = () => {
     if (isDisablingDisk) return;
     setIsDisablingDisk(true);
 
-    updateVirtualDevice('disk')
+    attempt(() => updateVirtualDevice('disk'))
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         checkDiskEnabled();
       })

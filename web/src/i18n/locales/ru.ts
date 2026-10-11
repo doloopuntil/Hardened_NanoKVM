@@ -3,7 +3,9 @@ const ru = {
     common: {
       confirm: 'Подтвердить',
       cancel: 'Отмена',
-      delete: 'Удалить'
+      delete: 'Удалить',
+      actionFailed: 'Не удалось выполнить операцию',
+      actionFailedDetail: 'Не удалось выполнить операцию: {{detail}}'
     },
     head: {
       desktop: 'Удаленный рабочий стол',

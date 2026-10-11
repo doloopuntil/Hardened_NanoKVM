@@ -4,6 +4,7 @@ import { Button, Divider, Popconfirm, Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 import { Status } from './types.ts';
 
@@ -18,7 +19,6 @@ export const Device = ({ status, onLogout }: DeviceProps) => {
   const [isRunning, setIsRunning] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isLogging, setIsLogging] = useState(false);
-  const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
     setIsRunning(status.state === 'running');
@@ -28,39 +28,20 @@ export const Device = ({ status, onLogout }: DeviceProps) => {
     if (isUpdating) return;
     setIsUpdating(true);
 
-    try {
-      const rsp = isRunning ? await api.down() : await api.up();
-      if (rsp.code !== 0) {
-        setErrMsg(rsp.msg);
-        return;
-      }
+    const rsp = await attempt(() => (isRunning ? api.down() : api.up()));
+    if (rsp) setIsRunning(!isRunning);
 
-      setIsRunning(!isRunning);
-    } finally {
-      setIsUpdating(false);
-    }
+    setIsUpdating(false);
   }
 
   async function logout() {
     if (isLogging) return;
     setIsLogging(true);
 
-    api
-      .logout()
-      .then((rsp) => {
-        if (rsp.code !== 0) {
-          setErrMsg(rsp.msg);
-          return;
-        }
+    const rsp = await attempt(() => api.logout());
+    if (rsp) onLogout();
 
-        onLogout();
-      })
-      .catch((err) => {
-        setErrMsg(err?.message || 'Failed to logout');
-      })
-      .finally(() => {
-        setIsLogging(false);
-      });
+    setIsLogging(false);
   }
 
   return (
@@ -106,8 +87,6 @@ export const Device = ({ status, onLogout }: DeviceProps) => {
           </Button>
         </Popconfirm>
       </div>
-
-      {errMsg && <span className="text-red-500">{errMsg}</span>}
     </div>
   );
 };

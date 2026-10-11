@@ -3,7 +3,9 @@ const pl = {
     common: {
       confirm: 'Potwierdź',
       cancel: 'Anuluj',
-      delete: 'Usuń'
+      delete: 'Usuń',
+      actionFailed: 'Operacja nie powiodła się',
+      actionFailedDetail: 'Operacja nie powiodła się: {{detail}}'
     },
     head: {
       desktop: 'Zdalny pulpit',

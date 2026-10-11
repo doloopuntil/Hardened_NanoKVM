@@ -8,7 +8,7 @@ export const toast = {
   success: (content: string) => message.success(content),
   info: (content: string) => message.info(content),
   warning: (content: string) => message.warning(content),
-  error: (content: string) => message.error({ content, duration: ERROR_SECONDS })
+  error: (content: string, key?: string) => message.error({ content, duration: ERROR_SECONDS, key })
 };
 
 type ConfirmOptions = ModalFuncProps & { danger?: boolean };
@@ -22,4 +22,40 @@ export function confirm({ danger, ...props }: ConfirmOptions) {
     okButtonProps: { danger },
     ...props
   });
+}
+
+type Rsp = { code: number; msg?: string };
+
+// BadRequest and Conflict messages are written for users; other codes carry raw errors.
+const READABLE_CODES = [-1, -409];
+
+function failureText(rsp?: Rsp) {
+  const detail = rsp && READABLE_CODES.includes(rsp.code) ? rsp.msg : '';
+  return detail ? i18n.t('common.actionFailedDetail', { detail }) : i18n.t('common.actionFailed');
+}
+
+// Keyed by text: identical failures at once show a single toast.
+function toastFailure(rsp?: Rsp) {
+  const text = failureText(rsp);
+  toast.error(text, text);
+}
+
+// Run an API call; on failure show one error toast and return undefined. Pass
+// `quiet` for refreshes nobody asked for, which only log.
+export async function attempt<T extends Rsp>(
+  call: () => Promise<T>,
+  { quiet = false }: { quiet?: boolean } = {}
+): Promise<T | undefined> {
+  try {
+    const rsp = await call();
+    if (rsp.code === 0) return rsp;
+
+    console.log(rsp.msg);
+    if (!quiet) toastFailure(rsp);
+  } catch (err) {
+    console.log(err);
+    if (!quiet) toastFailure((err as { response?: { data?: Rsp } }).response?.data);
+  }
+
+  return undefined;
 }

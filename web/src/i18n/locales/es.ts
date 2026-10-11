@@ -3,7 +3,9 @@ const es = {
     common: {
       confirm: 'Confirmar',
       cancel: 'Cancelar',
-      delete: 'Eliminar'
+      delete: 'Eliminar',
+      actionFailed: 'La operación ha fallado',
+      actionFailedDetail: 'La operación ha fallado: {{detail}}'
     },
     head: {
       desktop: 'Escritorio remoto',

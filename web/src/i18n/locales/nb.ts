@@ -3,7 +3,9 @@ const nb = {
     common: {
       confirm: 'Bekreft',
       cancel: 'Avbryt',
-      delete: 'Slett'
+      delete: 'Slett',
+      actionFailed: 'Handlingen mislyktes',
+      actionFailedDetail: 'Handlingen mislyktes: {{detail}}'
     },
     head: {
       desktop: 'Eksternt skrivebord',

@@ -3,7 +3,9 @@ const fr = {
     common: {
       confirm: 'Confirmer',
       cancel: 'Annuler',
-      delete: 'Supprimer'
+      delete: 'Supprimer',
+      actionFailed: "L'opération a échoué",
+      actionFailedDetail: "L'opération a échoué : {{detail}}"
     },
     head: {
       desktop: 'Bureau à distance',

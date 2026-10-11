@@ -3,7 +3,9 @@ const hu = {
     common: {
       confirm: 'Megerősítés',
       cancel: 'Mégse',
-      delete: 'Törlés'
+      delete: 'Törlés',
+      actionFailed: 'A művelet sikertelen',
+      actionFailedDetail: 'A művelet sikertelen: {{detail}}'
     },
     head: {
       desktop: 'Távoli Asztal',

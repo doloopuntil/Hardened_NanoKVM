@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as downloadApi from '@/api/download.ts';
 import * as vmApi from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 import * as ls from '@/lib/localstorage.ts';
 import { menuDisabledItemsAtom } from '@/jotai/settings.ts';
 import { Robot } from '@/components/icons/robot.tsx';
@@ -99,10 +100,9 @@ export const MenuIcons = () => {
     if (isTerminalLoading) return;
     setIsTerminalLoading(true);
 
-    vmApi
-      .setTerminalEnabled(enabled)
+    attempt(() => vmApi.setTerminalEnabled(enabled))
       .then((rsp) => {
-        if (rsp.code !== 0) return;
+        if (!rsp) return;
         setItemVisible('terminal', enabled);
         setIsTerminalWarningOpen(false);
       })
@@ -113,10 +113,9 @@ export const MenuIcons = () => {
     if (isRemoteDownloadLoading) return;
     setIsRemoteDownloadLoading(true);
 
-    downloadApi
-      .setRemoteImageDownloadEnabled(enabled)
+    attempt(() => downloadApi.setRemoteImageDownloadEnabled(enabled))
       .then((rsp) => {
-        if (rsp.code !== 0) return;
+        if (!rsp) return;
         setIsRemoteDownloadEnabled(enabled);
         setIsRemoteDownloadWarningOpen(false);
       })

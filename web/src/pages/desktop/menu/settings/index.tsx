@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import semver from 'semver';
 
 import * as api from '@/api/application.ts';
+import { attempt } from '@/lib/feedback.ts';
 import * as ls from '@/lib/localstorage.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { submenuOpenCountAtom } from '@/jotai/settings.ts';
@@ -77,11 +78,8 @@ export const Settings = () => {
   }, [currentTab]);
 
   function checkForUpdates() {
-    api.getVersion().then((rsp: any) => {
-      if (rsp.code !== 0) {
-        return;
-      }
-      if (!rsp.data?.current || !rsp.data?.latest) {
+    attempt(() => api.getVersion(), { quiet: true }).then((rsp: any) => {
+      if (!rsp?.data?.current || !rsp.data.latest) {
         return;
       }
 

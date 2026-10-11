@@ -6,6 +6,7 @@ import { ChevronRightIcon, FileJsonIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/script.ts';
+import { attempt } from '@/lib/feedback.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
 
 import { Run } from './run';
@@ -46,13 +47,9 @@ export const Script = () => {
     const formData = new FormData();
     formData.append('file', file);
 
-    api
-      .uploadScript(formData)
+    attempt(() => api.uploadScript(formData))
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         if (!scripts.includes(rsp.data.file)) {
           setScripts([...scripts, rsp.data.file]);
@@ -69,21 +66,13 @@ export const Script = () => {
     if (type === 'foreground') {
       setIsRunning(true);
     } else {
-      api.runScript(currentScript, type).then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
-      });
+      attempt(() => api.runScript(currentScript, type));
     }
   }
 
   function getScripts() {
-    api.getScripts().then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    attempt(() => api.getScripts()).then((rsp) => {
+      if (!rsp) return;
 
       if (rsp.data?.files?.length > 0) {
         setScripts(rsp.data.files);
@@ -94,11 +83,8 @@ export const Script = () => {
   function deleteScript() {
     if (!currentScript) return;
 
-    api.deleteScript(currentScript).then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    attempt(() => api.deleteScript(currentScript)).then((rsp) => {
+      if (!rsp) return;
 
       setScripts(scripts.filter((script) => script !== currentScript));
     });

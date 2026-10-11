@@ -4,6 +4,7 @@ import { CircleHelpIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 export const Memory = () => {
   const { t } = useTranslation();
@@ -29,13 +30,9 @@ export const Memory = () => {
     const enabled = !isEnabled;
     const limit = isEnabled ? 0 : 75;
 
-    api
-      .setMemoryLimit(enabled, limit)
+    attempt(() => api.setMemoryLimit(enabled, limit))
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         setIsEnabled(enabled);
       })

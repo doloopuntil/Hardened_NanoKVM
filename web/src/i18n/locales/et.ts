@@ -6,6 +6,8 @@ const translations: Record<string, string> = {
   'common.confirm': 'Kinnita',
   'common.cancel': 'Tühista',
   'common.delete': 'Kustuta',
+  'common.actionFailed': 'Toiming ebaõnnestus',
+  'common.actionFailedDetail': 'Toiming ebaõnnestus: {{detail}}',
   'screen.fps': 'FPS',
   'settings.about.ip': 'IP',
   'settings.about.mdns': 'mDNS',

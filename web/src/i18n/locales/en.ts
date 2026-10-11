@@ -3,7 +3,9 @@ const en = {
     common: {
       confirm: 'Confirm',
       cancel: 'Cancel',
-      delete: 'Delete'
+      delete: 'Delete',
+      actionFailed: 'Operation failed',
+      actionFailedDetail: 'Operation failed: {{detail}}'
     },
     head: {
       desktop: 'Remote Desktop',

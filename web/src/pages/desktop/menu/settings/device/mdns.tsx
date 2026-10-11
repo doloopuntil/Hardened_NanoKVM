@@ -4,6 +4,7 @@ import { CircleAlertIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 export const Mdns = () => {
   const { t } = useTranslation();
@@ -30,13 +31,10 @@ export const Mdns = () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    const rsp = isEnabled ? await api.disableMdns() : await api.enableMdns();
+    const rsp = await attempt(() => (isEnabled ? api.disableMdns() : api.enableMdns()));
     setIsLoading(false);
 
-    if (rsp.code !== 0) {
-      console.log(rsp.msg);
-      return;
-    }
+    if (!rsp) return;
 
     setIsEnabled(!isEnabled);
   }

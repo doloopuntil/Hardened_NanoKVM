@@ -3,6 +3,7 @@ import { CheckIcon, SquareActivityIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { updateScreen } from '@/api/vm';
+import { attempt } from '@/lib/feedback.ts';
 import { setQuality as setCookie } from '@/lib/localstorage.ts';
 import { videoModeAtom } from '@/jotai/screen.ts';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
@@ -28,10 +29,8 @@ export const Quality = ({ quality, setQuality }: QualityProps) => {
   async function update(key: number) {
     const value = videoMode === 'mjpeg' ? QualityMap.get(key)! : BitRateMap.get(key)!;
 
-    const rsp = await updateScreen('quality', value);
-    if (rsp.code !== 0) {
-      return;
-    }
+    const rsp = await attempt(() => updateScreen('quality', value));
+    if (!rsp) return;
 
     setQuality(key);
     setCookie(key);

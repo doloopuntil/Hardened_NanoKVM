@@ -3,7 +3,9 @@ const nl = {
     common: {
       confirm: 'Bevestigen',
       cancel: 'Annuleren',
-      delete: 'Verwijderen'
+      delete: 'Verwijderen',
+      actionFailed: 'Bewerking mislukt',
+      actionFailedDetail: 'Bewerking mislukt: {{detail}}'
     },
     head: {
       desktop: 'Extern bureaublad',

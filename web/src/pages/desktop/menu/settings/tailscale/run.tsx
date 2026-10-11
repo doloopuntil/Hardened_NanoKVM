@@ -4,6 +4,7 @@ import { Button, Card, Result } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 type RunProps = {
   onSuccess: () => void;
@@ -13,24 +14,14 @@ export const Run = ({ onSuccess }: RunProps) => {
   const { t } = useTranslation();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [errMsg, setErrMsg] = useState('');
 
   function run() {
     if (isLoading) return;
     setIsLoading(true);
 
-    api
-      .start()
+    attempt(() => api.start())
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          setErrMsg(rsp.msg);
-          return;
-        }
-
-        onSuccess();
-      })
-      .catch((err) => {
-        setErrMsg(err?.message || 'Failed to run tailscale');
+        if (rsp) onSuccess();
       })
       .finally(() => {
         setIsLoading(false);
@@ -48,10 +39,6 @@ export const Run = ({ onSuccess }: RunProps) => {
           </Button>
         }
       />
-
-      <div className="flex justify-center">
-        {errMsg && <span className="text-red-500">{errMsg}</span>}
-      </div>
     </Card>
   );
 };

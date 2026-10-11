@@ -4,6 +4,7 @@ import { Button, Popconfirm } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 export const Reboot = () => {
   const { t } = useTranslation();
@@ -18,20 +19,12 @@ export const Reboot = () => {
       window.location.reload();
     }, 30000);
 
-    api
-      .reboot()
-      .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          setIsLoading(false);
-          clearTimeout(timeoutId);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoading(false);
-        clearTimeout(timeoutId);
-      });
+    attempt(() => api.reboot()).then((rsp) => {
+      if (rsp) return;
+
+      setIsLoading(false);
+      clearTimeout(timeoutId);
+    });
   }
 
   return (

@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/storage.ts';
 import { getVirtualDevice, updateVirtualDevice } from '@/api/virtual-device.ts';
-import { confirm, toast } from '@/lib/feedback.ts';
+import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { IMAGE_LIST_CHANGED_EVENT } from '@/lib/image-events.ts';
 import { client } from '@/lib/websocket.ts';
 
@@ -36,12 +36,14 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
   const [deletingImage, setDeletingImage] = useState('');
   const [isReconnecting, setIsReconnecting] = useState(false);
   const [isDiskShared, setIsDiskShared] = useState(false);
+  const [isDiskStateKnown, setIsDiskStateKnown] = useState(false);
+  const [isListFailed, setIsListFailed] = useState(false);
   const isLoadingRef = useRef(false);
 
   // get mounted image
   const getMountedImage = useCallback(() => {
-    api.getMountedImage().then((rsp) => {
-      if (rsp.code !== 0) return;
+    attempt(() => api.getMountedImage()).then((rsp) => {
+      if (!rsp) return;
 
       const file = rsp.data?.file;
       setMountedImage(file);
@@ -55,12 +57,10 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
     isLoadingRef.current = true;
     setIsLoading(true);
 
-    api
-      .getImages()
+    attempt(() => api.getImages())
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          return;
-        }
+        setIsListFailed(!rsp);
+        if (!rsp) return;
 
         const files = rsp.data?.files;
 
@@ -80,11 +80,9 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
   // the host writes /data while the virtual disk serves it, so images are
   // read-only here and can only be mounted, not deleted or uploaded
   const getDiskState = useCallback(() => {
-    getVirtualDevice().then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    attempt(() => getVirtualDevice()).then((rsp) => {
+      setIsDiskStateKnown(!!rsp);
+      if (!rsp) return;
 
       setIsDiskShared(!!rsp.data?.disk);
     });
@@ -120,11 +118,8 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
       return;
     }
 
-    getVirtualDevice().then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    attempt(() => getVirtualDevice()).then((rsp) => {
+      if (!rsp) return;
 
       const diskOn = !!rsp.data?.disk;
       confirm({
@@ -211,7 +206,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
     const isMounted = mountedImage === image;
     const isDeleting = deletingImage !== '';
 
-    if (isMounted || isDeleting || isDiskShared) {
+    if (isMounted || isDeleting || isDiskShared || !isDiskStateKnown) {
       return;
     }
 
@@ -234,13 +229,9 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
     if (deletingImage) return;
     setDeletingImage(image);
 
-    api
-      .deleteImage(image)
+    attempt(() => api.deleteImage(image))
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         getImages();
       })
@@ -312,7 +303,9 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
     return (
       <div className="flex items-center justify-center space-x-2 py-5 text-neutral-500">
         <PackageSearchIcon size={18} />
-        <span className="text-sm">{t('image.empty')}</span>
+        <span className="text-sm">
+          {isListFailed ? t('common.actionFailed') : t('image.empty')}
+        </span>
       </div>
     );
   }
@@ -363,7 +356,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
               danger
               className="h-[24px] w-[24px] p-0"
               icon={<Trash2Icon size={16} />}
-              disabled={mountedImage === image || isDiskShared}
+              disabled={mountedImage === image || isDiskShared || !isDiskStateKnown}
               loading={deletingImage === image}
               onClick={(e) => showDeleteModal(e, image)}
             />

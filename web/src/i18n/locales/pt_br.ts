@@ -3,7 +3,9 @@ const pt_br = {
     common: {
       confirm: 'Confirmar',
       cancel: 'Cancelar',
-      delete: 'Excluir'
+      delete: 'Excluir',
+      actionFailed: 'Falha na operação',
+      actionFailedDetail: 'Falha na operação: {{detail}}'
     },
     head: {
       desktop: 'Área de Trabalho Remota',

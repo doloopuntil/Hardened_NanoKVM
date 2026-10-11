@@ -3,7 +3,9 @@ const ca = {
     common: {
       confirm: 'Confirma',
       cancel: 'Cancel·la',
-      delete: 'Esborra'
+      delete: 'Esborra',
+      actionFailed: "L'operació ha fallat",
+      actionFailedDetail: "L'operació ha fallat: {{detail}}"
     },
     head: {
       desktop: 'Escriptori remot',

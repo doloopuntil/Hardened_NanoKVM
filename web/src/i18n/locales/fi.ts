@@ -6,6 +6,8 @@ const translations: Record<string, string> = {
   'common.confirm': 'Vahvista',
   'common.cancel': 'Peruuta',
   'common.delete': 'Poista',
+  'common.actionFailed': 'Toiminto epäonnistui',
+  'common.actionFailedDetail': 'Toiminto epäonnistui: {{detail}}',
   'head.desktop': 'Etätyöpöytä',
   'head.login': 'Kirjautuminen',
   'head.firstSetup': 'Ensiasetus',

@@ -3,6 +3,7 @@ import { PowerIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 type PowerShortProps = {
   showConfirm: boolean;
@@ -17,7 +18,7 @@ export const PowerShort = ({ showConfirm, isLoading, setIsLoading }: PowerShortP
     if (isLoading) return;
     setIsLoading(true);
 
-    api.setGpio('power', 800).finally(() => {
+    attempt(() => api.setGpio('power', 800)).finally(() => {
       setIsLoading(false);
     });
   }

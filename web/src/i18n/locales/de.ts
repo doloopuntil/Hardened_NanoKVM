@@ -3,7 +3,9 @@ const de = {
     common: {
       confirm: 'Bestätigen',
       cancel: 'Abbrechen',
-      delete: 'Löschen'
+      delete: 'Löschen',
+      actionFailed: 'Vorgang fehlgeschlagen',
+      actionFailedDetail: 'Vorgang fehlgeschlagen: {{detail}}'
     },
     head: {
       desktop: 'Entfernter Desktop',

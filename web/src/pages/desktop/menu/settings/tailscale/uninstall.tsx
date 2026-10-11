@@ -4,6 +4,7 @@ import { Trash2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 type UninstallProps = {
   onSuccess: () => void;
@@ -19,7 +20,7 @@ export const Uninstall = ({ onSuccess }: UninstallProps) => {
     if (isLoading) return;
     setIsLoading(true);
 
-    api.uninstall().finally(() => {
+    attempt(() => api.uninstall()).finally(() => {
       setIsModalOpen(false);
       setIsLoading(false);
       onSuccess();

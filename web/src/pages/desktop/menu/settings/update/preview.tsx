@@ -4,6 +4,7 @@ import { CircleAlertIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/application.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 interface PreviewProps {
   refreshUpdates: () => void;
@@ -43,13 +44,9 @@ export const Preview = ({ refreshUpdates }: PreviewProps) => {
 
     const enable = !isEnabled;
 
-    api
-      .setPreviewUpdates(enable)
+    attempt(() => api.setPreviewUpdates(enable))
       .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
+        if (!rsp) return;
 
         setIsEnabled(enable);
         refreshUpdates();

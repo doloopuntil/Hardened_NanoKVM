@@ -3,7 +3,9 @@ const vi = {
     common: {
       confirm: 'Xác nhận',
       cancel: 'Hủy',
-      delete: 'Xóa'
+      delete: 'Xóa',
+      actionFailed: 'Thao tác thất bại',
+      actionFailedDetail: 'Thao tác thất bại: {{detail}}'
     },
     head: {
       desktop: 'Màn hình từ xa',

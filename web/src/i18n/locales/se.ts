@@ -3,7 +3,9 @@ const se = {
     common: {
       confirm: 'Bekräfta',
       cancel: 'Avbryt',
-      delete: 'Ta bort'
+      delete: 'Ta bort',
+      actionFailed: 'Åtgärden misslyckades',
+      actionFailedDetail: 'Åtgärden misslyckades: {{detail}}'
     },
     head: {
       desktop: 'Fjärrskrivbord',

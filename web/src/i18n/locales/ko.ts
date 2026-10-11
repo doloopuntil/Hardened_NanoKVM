@@ -3,7 +3,9 @@ const ko = {
     common: {
       confirm: '확인',
       cancel: '취소',
-      delete: '삭제'
+      delete: '삭제',
+      actionFailed: '작업에 실패했습니다',
+      actionFailedDetail: '작업에 실패했습니다: {{detail}}'
     },
     head: {
       desktop: '원격 데스크톱',

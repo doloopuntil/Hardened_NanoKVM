@@ -3,7 +3,9 @@ const tr = {
     common: {
       confirm: 'Onayla',
       cancel: 'İptal',
-      delete: 'Sil'
+      delete: 'Sil',
+      actionFailed: 'İşlem başarısız oldu',
+      actionFailedDetail: 'İşlem başarısız oldu: {{detail}}'
     },
     head: {
       desktop: 'Uzak masaüstü',

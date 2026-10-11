@@ -3,7 +3,9 @@ const da = {
     common: {
       confirm: 'Bekræft',
       cancel: 'Annuller',
-      delete: 'Slet'
+      delete: 'Slet',
+      actionFailed: 'Handlingen mislykkedes',
+      actionFailedDetail: 'Handlingen mislykkedes: {{detail}}'
     },
     head: {
       desktop: 'Fjernskrivebord',

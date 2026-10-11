@@ -3,7 +3,9 @@ const zh = {
     common: {
       confirm: '确认',
       cancel: '取消',
-      delete: '删除'
+      delete: '删除',
+      actionFailed: '操作失败',
+      actionFailedDetail: '操作失败：{{detail}}'
     },
     head: {
       desktop: '远程桌面',

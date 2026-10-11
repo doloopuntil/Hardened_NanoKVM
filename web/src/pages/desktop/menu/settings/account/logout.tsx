@@ -5,17 +5,15 @@ import { useNavigate } from 'react-router-dom';
 
 import * as api from '@/api/auth.ts';
 import { removeToken } from '@/lib/cookie.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 export const Logout = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   function logout() {
-    api.logout().then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    attempt(() => api.logout()).then((rsp) => {
+      if (!rsp) return;
 
       removeToken();
       navigate('/auth/login');

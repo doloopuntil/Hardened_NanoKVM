@@ -4,6 +4,7 @@ import { CirclePowerIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 
 const DEFAULT_POWER_LONG_DURATION_SECONDS = 12;
 
@@ -22,7 +23,7 @@ export const PowerLong = ({ showConfirm, isLoading, setIsLoading }: PowerLongPro
     if (isLoading) return;
     setIsLoading(true);
 
-    api.setGpio('power', duration * 1000).finally(() => {
+    attempt(() => api.setGpio('power', duration * 1000)).finally(() => {
       setIsLoading(false);
     });
   }
