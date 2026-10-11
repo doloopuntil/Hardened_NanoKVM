@@ -391,17 +391,6 @@ const ca = {
           idleTimeoutDescription: "Atura la captura HDMI després de no detectar espectadors actius durant",
           minutes: 'min'
         },
-        autostart: {
-          title: "Configuració dels scripts d'inici automàtic",
-          description: "Gestioneu els scripts que s'executen automàticament a l'inici del sistema",
-          new: 'Nou',
-          deleteConfirm: 'Estàs segur que vols eliminar aquest fitxer?',
-          yes: 'Sí',
-          no: 'No',
-          scriptName: "Nom de l'script d'inici automàtic",
-          scriptContent: "Contingut de l'script d'inici automàtic",
-          settings: 'Configuració'
-        },
         hidOnly: 'Mode només HID',
         hidOnlyDesc: "Deixeu d'emular dispositius virtuals, conservant només el control bàsic HID",
         disk: 'Disc virtual',

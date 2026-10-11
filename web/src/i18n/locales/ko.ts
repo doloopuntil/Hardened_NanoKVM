@@ -388,17 +388,6 @@ const ko = {
           idleTimeoutDescription: '활성 시청자가 없는 상태가 다음 시간 동안 지속되면 HDMI 캡처 중지',
           minutes: '분'
         },
-        autostart: {
-          title: '자동 시작 스크립트 설정',
-          description: '시스템 시작 시 자동으로 실행되는 스크립트를 관리합니다.',
-          new: '새로운',
-          deleteConfirm: '이 파일을 정말로 삭제합니까?',
-          yes: '네',
-          no: '아니오',
-          scriptName: '자동 시작 스크립트 이름',
-          scriptContent: '자동 시작 스크립트 내용',
-          settings: '설정'
-        },
         hidOnly: 'HID 전용 모드',
         hidOnlyDesc: '가상 장치 에뮬레이션을 중지하고 기본 HID 제어만 유지합니다.',
         disk: '가상 디스크',

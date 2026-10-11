@@ -394,17 +394,6 @@ const es = {
           idleTimeoutDescription: 'Detener la captura HDMI después de no haber espectadores activos durante',
           minutes: 'min'
         },
-        autostart: {
-          title: 'Configuración de scripts de inicio automático',
-          description: 'Administrar scripts que se ejecutan automáticamente al iniciar el sistema',
-          new: 'Nuevo',
-          deleteConfirm: '¿Estás seguro de que deseas eliminar este archivo?',
-          yes: 'Sí',
-          no: 'No',
-          scriptName: 'Nombre del script de inicio automático',
-          scriptContent: 'Contenido del script de inicio automático',
-          settings: 'Ajustes'
-        },
         hidOnly: 'Modo sólo HID',
         hidOnlyDesc:
           'Dejar de emular dispositivos virtuales y conservar solo el control básico HID',

@@ -398,17 +398,6 @@ const de = {
           idleTimeoutDescription: 'HDMI-Aufnahme stoppen, wenn keine aktiven Zuschauer vorhanden sind für',
           minutes: 'Min.'
         },
-        autostart: {
-          title: 'Autostart-Skripteinstellungen',
-          description: 'Skripte verwalten, die beim Systemstart automatisch ausgeführt werden',
-          new: 'Neu',
-          deleteConfirm: 'Möchten Sie diese Datei wirklich löschen?',
-          yes: 'Ja',
-          no: 'Nein',
-          scriptName: 'Name des Autostart-Skripts',
-          scriptContent: 'Inhalt des Autostart-Skripts',
-          settings: 'Einstellungen'
-        },
         hidOnly: 'HID-Only Mode',
         hidOnlyDesc:
           'Hören Sie auf, virtuelle Geräte zu emulieren, und behalten Sie nur die grundlegende HID-Steuerung bei',

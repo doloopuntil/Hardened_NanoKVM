@@ -341,16 +341,6 @@ const translations: Record<string, string> = {
   'settings.device.mdns.description': 'Ota mDNS-löytöpalvelu käyttöön',
   'settings.device.mdns.tip': 'Poista käytöstä, jos sitä ei tarvita',
   'settings.device.hdmi.description': 'Ota HDMI-/monitorilähtö käyttöön',
-  'settings.device.autostart.title': 'Automaattikäynnistyksen skriptiasetukset',
-  'settings.device.autostart.description':
-    'Hallitse skriptejä, jotka käynnistyvät automaattisesti järjestelmän käynnistyessä',
-  'settings.device.autostart.new': 'Uusi',
-  'settings.device.autostart.deleteConfirm': 'Haluatko varmasti poistaa tämän tiedoston?',
-  'settings.device.autostart.yes': 'Kyllä',
-  'settings.device.autostart.no': 'Ei',
-  'settings.device.autostart.scriptName': 'Automaattikäynnistysskriptin nimi',
-  'settings.device.autostart.scriptContent': 'Automaattikäynnistysskriptin sisältö',
-  'settings.device.autostart.settings': 'Asetukset',
   'settings.device.hidOnly': 'Vain HID -tila',
   'settings.device.hidOnlyDesc':
     'Lopeta virtuaalilaitteiden emulointi ja säilytä vain perus-HID-ohjaus',

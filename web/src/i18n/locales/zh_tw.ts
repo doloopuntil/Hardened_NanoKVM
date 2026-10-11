@@ -380,17 +380,6 @@ const zh_tw = {
           idleTimeoutDescription: '沒有活躍觀看者時，在指定時間後停止 HDMI 擷取',
           minutes: '分鐘'
         },
-        autostart: {
-          title: '啟動時指令碼設定',
-          description: '管理能夠在 NanoKVM 啟動時自動執行的相關指令碼',
-          new: '建立新指令碼',
-          deleteConfirm: '確定要刪除該檔案嗎？',
-          yes: '是',
-          no: '否',
-          scriptName: 'Script 名稱',
-          scriptContent: 'Script 內容',
-          settings: '設定'
-        },
         hidOnly: 'HID-Only 模式',
         hidOnlyDesc: '停止模擬虛擬設備，僅保留基礎 HID 控制',
         disk: '虛擬隨身碟',

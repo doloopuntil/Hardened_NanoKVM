@@ -391,18 +391,6 @@ const tr = {
           idleTimeoutDescription: 'Etkin görüntüleyici olmadığında HDMI yakalamayı şu süre sonunda durdur:',
           minutes: 'dk'
         },
-        autostart: {
-          title: 'Otomatik Başlatılan Komut Dosyaları Ayarları',
-          description:
-            'Sistem başlangıcında otomatik olarak çalıştırılan komut dosyalarını yönetme',
-          new: 'Yeni',
-          deleteConfirm: 'Bu dosyayı silmek istediğinden emin misin?',
-          yes: 'Evet',
-          no: 'Hayır',
-          scriptName: 'Otomatik Başlatma Komut Dosyası Adı',
-          scriptContent: 'Otomatik Başlatılan Komut Dosyası İçeriği',
-          settings: 'Ayarlar'
-        },
         hidOnly: 'Yalnızca HID modu',
         hidOnlyDesc:
           'Yalnızca temel HID kontrolünü koruyarak sanal aygıtları taklit etmeyi bırakın',

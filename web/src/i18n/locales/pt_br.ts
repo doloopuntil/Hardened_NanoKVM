@@ -393,18 +393,6 @@ const pt_br = {
           idleTimeoutDescription: 'Parar a captura HDMI após não haver visualizadores ativos por',
           minutes: 'min'
         },
-        autostart: {
-          title: 'Configurações de scripts de inicialização automática',
-          description:
-            'Gerencia scripts que são executados automaticamente na inicialização do sistema',
-          new: 'Novo',
-          deleteConfirm: 'Tem certeza de que deseja excluir este arquivo?',
-          yes: 'Sim',
-          no: 'Não',
-          scriptName: 'Nome do script de inicialização automática',
-          scriptContent: 'Conteúdo do script de inicialização automática',
-          settings: 'Configurações'
-        },
         hidOnly: 'Modo Somente-HID',
         hidOnlyDesc: 'Pare de emular dispositivos virtuais, mantendo apenas o controle básico HID',
         disk: 'Disco Virtual',

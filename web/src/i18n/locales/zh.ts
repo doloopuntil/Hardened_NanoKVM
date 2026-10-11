@@ -389,17 +389,6 @@ const zh = {
           idleTimeoutDescription: '没有活跃观看者后停止 HDMI 采集，0 表示永不停止',
           minutes: '分钟'
         },
-        autostart: {
-          title: '自动启动脚本设置',
-          description: '管理能够在 NanoKVM 启动时自动运行的脚本文件',
-          new: '创建新脚本',
-          deleteConfirm: '确定要删除该文件吗？',
-          yes: '是',
-          no: '否',
-          scriptName: '自动启动脚本名称',
-          scriptContent: '自动启动脚本内容',
-          settings: '设置'
-        },
         hidOnly: 'HID-Only 模式',
         hidOnlyDesc: '该模式下不再挂载虚拟设备，仅保留基础的 HID 控制功能。',
         disk: '虚拟U盘',

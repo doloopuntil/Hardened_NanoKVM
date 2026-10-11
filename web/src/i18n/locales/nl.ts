@@ -395,18 +395,6 @@ const nl = {
           idleTimeoutDescription: 'HDMI-opname stoppen nadat er gedurende deze tijd geen actieve kijkers zijn:',
           minutes: 'min'
         },
-        autostart: {
-          title: 'Instellingen voor automatisch starten van scripts',
-          description:
-            'Beheer scripts die automatisch worden uitgevoerd bij het opstarten van het systeem',
-          new: 'Nieuw',
-          deleteConfirm: 'Weet u zeker dat u dit bestand wilt verwijderen?',
-          yes: 'Ja',
-          no: 'Nee',
-          scriptName: 'Scriptnaam automatisch starten',
-          scriptContent: 'Scriptinhoud automatisch starten',
-          settings: 'Instellingen'
-        },
         hidOnly: 'HID-Alleen modus',
         hidOnlyDesc:
           'Stop met het emuleren van virtuele apparaten en behoud alleen de basisbesturing van HID',

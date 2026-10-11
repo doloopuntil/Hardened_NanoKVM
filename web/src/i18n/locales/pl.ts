@@ -394,18 +394,6 @@ const pl = {
           idleTimeoutDescription: 'Zatrzymaj przechwytywanie HDMI po czasie bez aktywnych widzów:',
           minutes: 'min'
         },
-        autostart: {
-          title: 'Ustawienia skryptów autostartu',
-          description:
-            'Zarządzaj skryptami uruchamianymi automatycznie podczas uruchamiania systemu',
-          new: 'Nowy',
-          deleteConfirm: 'Czy na pewno chcesz usunąć ten plik?',
-          yes: 'Tak',
-          no: 'Nie',
-          scriptName: 'Nazwa skryptu autostartu',
-          scriptContent: 'Treść skryptu autostartu',
-          settings: 'Ustawienia'
-        },
         hidOnly: 'HID – tylko tryb',
         hidOnlyDesc:
           'Przestań emulować urządzenia wirtualne, zachowując jedynie podstawową kontrolę HID',

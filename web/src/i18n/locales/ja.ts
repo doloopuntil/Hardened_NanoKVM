@@ -394,17 +394,6 @@ const ja = {
           idleTimeoutDescription: 'アクティブな閲覧者がいない状態が次の時間続いたら HDMI キャプチャを停止',
           minutes: '分'
         },
-        autostart: {
-          title: '自動起動スクリプト設定',
-          description: 'NanoKVM の起動時に自動的に実行されるスクリプトファイルを管理します',
-          new: '新しいスクリプトを作成する',
-          deleteConfirm: 'このファイルを削除してもよろしいですか？',
-          yes: 'はい',
-          no: 'いいえ',
-          scriptName: '自動起動スクリプト名',
-          scriptContent: '自動起動スクリプト内容',
-          settings: '設定'
-        },
         hidOnly: 'HID-Only モード',
         hidOnlyDesc:
           'このモードでは仮想デバイスはマウントされなくなり、基本的な HID 制御機能のみが保持されます。',

@@ -346,16 +346,6 @@ const translations: Record<string, string> = {
   'settings.device.mdns.description': 'Luba mDNS avastusteenus',
   'settings.device.mdns.tip': 'Lülita välja, kui seda pole vaja',
   'settings.device.hdmi.description': 'Luba HDMI/monitori väljund',
-  'settings.device.autostart.title': 'Autostart-skriptide seaded',
-  'settings.device.autostart.description':
-    'Halda skripte, mis käivituvad süsteemi käivitamisel automaatselt',
-  'settings.device.autostart.new': 'Uus',
-  'settings.device.autostart.deleteConfirm': 'Kas oled kindel, et soovid selle faili kustutada?',
-  'settings.device.autostart.yes': 'Jah',
-  'settings.device.autostart.no': 'Ei',
-  'settings.device.autostart.scriptName': 'Autostart-skripti nimi',
-  'settings.device.autostart.scriptContent': 'Autostart-skripti sisu',
-  'settings.device.autostart.settings': 'Seaded',
   'settings.device.hidOnly': 'Ainult HID režiim',
   'settings.device.hidOnlyDesc':
     'Lõpeta virtuaalseadmete emuleerimine, säilitades ainult põhilise HID juhtimise',

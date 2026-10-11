@@ -390,17 +390,6 @@ const vi = {
           idleTimeoutDescription: 'Dừng việc ghi hình HDMI sau khi không có người xem hoạt động trong',
           minutes: 'phút'
         },
-        autostart: {
-          title: 'Cài đặt tập lệnh tự khởi động',
-          description: 'Quản lý các tập lệnh chạy tự động khi khởi động hệ thống',
-          new: 'Mới',
-          deleteConfirm: 'Bạn có chắc chắn muốn xóa tệp này không?',
-          yes: 'Có',
-          no: 'Không',
-          scriptName: 'Tên tập lệnh tự khởi động',
-          scriptContent: 'Nội dung tập lệnh tự khởi động',
-          settings: 'Cài đặt'
-        },
         hidOnly: 'HID-Chế độ chỉ',
         hidOnlyDesc: 'Dừng mô phỏng các thiết bị ảo, chỉ giữ lại điều khiển HID cơ bản',
         disk: 'Đĩa ảo',
