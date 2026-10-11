@@ -1,6 +1,8 @@
 import type { ResourceLanguage } from 'i18next';
 
+import { termLocalizedExtras } from './term-extras';
 import { totpLocalizedExtras } from './totp-extras';
+import { translationFixes } from './translation-fixes';
 
 type TranslationMap = Record<string, string>;
 
@@ -89,164 +91,105 @@ const firewallModerateLocalizedExtras: Record<string, TranslationMap> = {
 
 const layoutModeFallbackExtras: TranslationMap = {
   'settings.appearance.layoutMode': 'Interface layout',
-  'settings.appearance.layoutModeDesc': 'Use the mobile/touch layout in this browser',
-  'settings.appearance.layoutAuto': 'Auto',
-  'settings.appearance.layoutMobile': 'Mobile view'
+  'settings.appearance.layoutAuto': 'Auto'
 };
 
 const layoutModeLocalizedExtras: Record<string, TranslationMap> = {
   ca: {
     'settings.appearance.layoutMode': 'Disseny de la interfície',
-    'settings.appearance.layoutModeDesc':
-      'Utilitza el disseny mòbil/tàctil en aquest navegador',
-    'settings.appearance.layoutAuto': 'Automàtic',
-    'settings.appearance.layoutMobile': 'Vista mòbil'
+    'settings.appearance.layoutAuto': 'Automàtic'
   },
   cz: {
     'settings.appearance.layoutMode': 'Rozvržení rozhraní',
-    'settings.appearance.layoutModeDesc':
-      'Použít v tomto prohlížeči mobilní/dotykové rozvržení',
-    'settings.appearance.layoutAuto': 'Automaticky',
-    'settings.appearance.layoutMobile': 'Mobilní zobrazení'
+    'settings.appearance.layoutAuto': 'Automaticky'
   },
   da: {
     'settings.appearance.layoutMode': 'Grænsefladelayout',
-    'settings.appearance.layoutModeDesc': 'Brug mobil-/touchlayout i denne browser',
-    'settings.appearance.layoutAuto': 'Automatisk',
-    'settings.appearance.layoutMobile': 'Mobilvisning'
+    'settings.appearance.layoutAuto': 'Automatisk'
   },
   de: {
     'settings.appearance.layoutMode': 'Oberflächenlayout',
-    'settings.appearance.layoutModeDesc': 'Mobil-/Touch-Layout in diesem Browser verwenden',
-    'settings.appearance.layoutAuto': 'Automatisch',
-    'settings.appearance.layoutMobile': 'Mobile Ansicht'
+    'settings.appearance.layoutAuto': 'Automatisch'
   },
   es: {
     'settings.appearance.layoutMode': 'Diseño de la interfaz',
-    'settings.appearance.layoutModeDesc': 'Usar el diseño móvil/táctil en este navegador',
-    'settings.appearance.layoutAuto': 'Automático',
-    'settings.appearance.layoutMobile': 'Vista móvil'
+    'settings.appearance.layoutAuto': 'Automático'
   },
   et: {
     'settings.appearance.layoutMode': 'Liidese paigutus',
-    'settings.appearance.layoutModeDesc': 'Kasuta selles brauseris mobiili-/puutepaigutust',
-    'settings.appearance.layoutAuto': 'Automaatne',
-    'settings.appearance.layoutMobile': 'Mobiilivaade'
+    'settings.appearance.layoutAuto': 'Automaatne'
   },
   fi: {
     'settings.appearance.layoutMode': 'Käyttöliittymän asettelu',
-    'settings.appearance.layoutModeDesc': 'Käytä tässä selaimessa mobiili-/kosketusasettelua',
-    'settings.appearance.layoutAuto': 'Automaattinen',
-    'settings.appearance.layoutMobile': 'Mobiilinäkymä'
+    'settings.appearance.layoutAuto': 'Automaattinen'
   },
   fr: {
     'settings.appearance.layoutMode': "Disposition de l'interface",
-    'settings.appearance.layoutModeDesc':
-      'Utiliser la disposition mobile/tactile dans ce navigateur',
-    'settings.appearance.layoutAuto': 'Auto',
-    'settings.appearance.layoutMobile': 'Vue mobile'
+    'settings.appearance.layoutAuto': 'Auto'
   },
   hu: {
     'settings.appearance.layoutMode': 'Felület elrendezése',
-    'settings.appearance.layoutModeDesc':
-      'Mobil/érintéses elrendezés használata ebben a böngészőben',
-    'settings.appearance.layoutAuto': 'Automatikus',
-    'settings.appearance.layoutMobile': 'Mobilnézet'
+    'settings.appearance.layoutAuto': 'Automatikus'
   },
   id: {
     'settings.appearance.layoutMode': 'Tata letak antarmuka',
-    'settings.appearance.layoutModeDesc':
-      'Gunakan tata letak mobile/sentuh di browser ini',
-    'settings.appearance.layoutAuto': 'Otomatis',
-    'settings.appearance.layoutMobile': 'Tampilan mobile'
+    'settings.appearance.layoutAuto': 'Otomatis'
   },
   it: {
     'settings.appearance.layoutMode': "Layout dell'interfaccia",
-    'settings.appearance.layoutModeDesc': 'Usa il layout mobile/touch in questo browser',
-    'settings.appearance.layoutAuto': 'Automatico',
-    'settings.appearance.layoutMobile': 'Vista mobile'
+    'settings.appearance.layoutAuto': 'Automatico'
   },
   ja: {
     'settings.appearance.layoutMode': 'インターフェースのレイアウト',
-    'settings.appearance.layoutModeDesc':
-      'このブラウザーでモバイル/タッチ用レイアウトを使用します',
-    'settings.appearance.layoutAuto': '自動',
-    'settings.appearance.layoutMobile': 'モバイル表示'
+    'settings.appearance.layoutAuto': '自動'
   },
   ko: {
     'settings.appearance.layoutMode': '인터페이스 레이아웃',
-    'settings.appearance.layoutModeDesc': '이 브라우저에서 모바일/터치 레이아웃 사용',
-    'settings.appearance.layoutAuto': '자동',
-    'settings.appearance.layoutMobile': '모바일 보기'
+    'settings.appearance.layoutAuto': '자동'
   },
   nb: {
     'settings.appearance.layoutMode': 'Grensesnittoppsett',
-    'settings.appearance.layoutModeDesc': 'Bruk mobil-/berøringsoppsett i denne nettleseren',
-    'settings.appearance.layoutAuto': 'Automatisk',
-    'settings.appearance.layoutMobile': 'Mobilvisning'
+    'settings.appearance.layoutAuto': 'Automatisk'
   },
   nl: {
     'settings.appearance.layoutMode': 'Interface-indeling',
-    'settings.appearance.layoutModeDesc': 'Gebruik de mobiele/touch-indeling in deze browser',
-    'settings.appearance.layoutAuto': 'Automatisch',
-    'settings.appearance.layoutMobile': 'Mobiele weergave'
+    'settings.appearance.layoutAuto': 'Automatisch'
   },
   pl: {
     'settings.appearance.layoutMode': 'Układ interfejsu',
-    'settings.appearance.layoutModeDesc':
-      'Użyj układu mobilnego/dotykowego w tej przeglądarce',
-    'settings.appearance.layoutAuto': 'Automatycznie',
-    'settings.appearance.layoutMobile': 'Widok mobilny'
+    'settings.appearance.layoutAuto': 'Automatycznie'
   },
   pt_br: {
     'settings.appearance.layoutMode': 'Layout da interface',
-    'settings.appearance.layoutModeDesc': 'Usar o layout móvel/touch neste navegador',
-    'settings.appearance.layoutAuto': 'Automático',
-    'settings.appearance.layoutMobile': 'Visualização móvel'
+    'settings.appearance.layoutAuto': 'Automático'
   },
   se: {
     'settings.appearance.layoutMode': 'Gränssnittslayout',
-    'settings.appearance.layoutModeDesc': 'Använd mobil-/touchlayout i den här webbläsaren',
-    'settings.appearance.layoutAuto': 'Automatiskt',
-    'settings.appearance.layoutMobile': 'Mobilvy'
+    'settings.appearance.layoutAuto': 'Automatiskt'
   },
   th: {
     'settings.appearance.layoutMode': 'เลย์เอาต์อินเทอร์เฟซ',
-    'settings.appearance.layoutModeDesc': 'ใช้เลย์เอาต์มือถือ/สัมผัสในเบราว์เซอร์นี้',
-    'settings.appearance.layoutAuto': 'อัตโนมัติ',
-    'settings.appearance.layoutMobile': 'มุมมองมือถือ'
+    'settings.appearance.layoutAuto': 'อัตโนมัติ'
   },
   tr: {
     'settings.appearance.layoutMode': 'Arayüz yerleşimi',
-    'settings.appearance.layoutModeDesc': 'Bu tarayıcıda mobil/dokunmatik yerleşimi kullan',
-    'settings.appearance.layoutAuto': 'Otomatik',
-    'settings.appearance.layoutMobile': 'Mobil görünüm'
+    'settings.appearance.layoutAuto': 'Otomatik'
   },
   uk: {
     'settings.appearance.layoutMode': 'Компонування інтерфейсу',
-    'settings.appearance.layoutModeDesc':
-      'Використовувати мобільний/сенсорний інтерфейс у цьому браузері',
-    'settings.appearance.layoutAuto': 'Авто',
-    'settings.appearance.layoutMobile': 'Мобільний вигляд'
+    'settings.appearance.layoutAuto': 'Авто'
   },
   vi: {
     'settings.appearance.layoutMode': 'Bố cục giao diện',
-    'settings.appearance.layoutModeDesc':
-      'Dùng bố cục di động/cảm ứng trong trình duyệt này',
-    'settings.appearance.layoutAuto': 'Tự động',
-    'settings.appearance.layoutMobile': 'Giao diện di động'
+    'settings.appearance.layoutAuto': 'Tự động'
   },
   zh: {
     'settings.appearance.layoutMode': '界面布局',
-    'settings.appearance.layoutModeDesc': '在此浏览器中使用移动/触控布局',
-    'settings.appearance.layoutAuto': '自动',
-    'settings.appearance.layoutMobile': '移动视图'
+    'settings.appearance.layoutAuto': '自动'
   },
   zh_tw: {
     'settings.appearance.layoutMode': '介面佈局',
-    'settings.appearance.layoutModeDesc': '在此瀏覽器中使用行動/觸控佈局',
-    'settings.appearance.layoutAuto': '自動',
-    'settings.appearance.layoutMobile': '行動檢視'
+    'settings.appearance.layoutAuto': '自動'
   }
 };
 
@@ -879,8 +822,6 @@ const downloadCanceledLocalizedExtras: Record<string, TranslationMap> = {
 };
 
 const deviceTipFallbackExtras: TranslationMap = {
-  'settings.device.hidOnlyTip':
-    'Enable HID-Only mode for better compatibility if your mouse and keyboard stop responding',
   'settings.device.usbWakeupTip': 'Turn off if the host logs repeated USB wakeup messages.',
   'settings.device.mdns.tip':
     'Lets you reach this device by its .local name. Not needed if you connect by IP address or your DNS already resolves its hostname.',
@@ -890,8 +831,6 @@ const deviceTipFallbackExtras: TranslationMap = {
 
 const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
   ca: {
-    'settings.device.hidOnlyTip':
-      'Activa el mode només HID per a una millor compatibilitat si el ratolí i el teclat deixen de respondre',
     'settings.device.usbWakeupTip':
       'Desactiveu-ho si el host registra missatges USB wakeup repetits.',
     'settings.device.mdns.tip':
@@ -900,8 +839,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Canviar la xarxa virtual reinicia la connexió USB. Això cancel·la la imatge muntada i activa el disc virtual. Vols continuar?'
   },
   cz: {
-    'settings.device.hidOnlyTip':
-      'Zapněte režim pouze HID pro lepší kompatibilitu, pokud myš a klávesnice přestanou reagovat',
     'settings.device.usbWakeupTip': 'Vypněte, pokud host zapisuje opakované zprávy USB wakeup.',
     'settings.device.mdns.tip':
       'Umožňuje připojit se k zařízení přes jeho název .local. Není potřeba, pokud se připojujete přes IP adresu nebo váš DNS už název hostitele překládá.',
@@ -909,8 +846,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Změna virtuální sítě restartuje připojení USB. Tím se zruší připojený obraz a zapne virtuální disk. Pokračovat?'
   },
   da: {
-    'settings.device.hidOnlyTip':
-      'Aktivér kun-HID-tilstand for bedre kompatibilitet, hvis mus og tastatur holder op med at reagere',
     'settings.device.usbWakeupTip': 'Slå fra, hvis værten logger gentagne USB wakeup-meddelelser.',
     'settings.device.mdns.tip':
       'Gør det muligt at nå enheden via dens .local-navn. Ikke nødvendigt, hvis du forbinder via IP-adresse, eller din DNS allerede kan slå værtsnavnet op.',
@@ -918,8 +853,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Hvis du ændrer det virtuelle netværk, genstartes USB-forbindelsen. Det annullerer det monterede billede og aktiverer den virtuelle disk. Fortsæt?'
   },
   de: {
-    'settings.device.hidOnlyTip':
-      'HID-Only-Modus für bessere Kompatibilität aktivieren, wenn Maus und Tastatur nicht mehr reagieren',
     'settings.device.usbWakeupTip':
       'Ausschalten, wenn der Host wiederholt USB-Wakeup-Meldungen protokolliert.',
     'settings.device.mdns.tip':
@@ -928,8 +861,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Das Ändern des virtuellen Netzwerks startet die USB-Verbindung neu. Dadurch wird das eingebundene Image abgebrochen und die virtuelle Festplatte aktiviert. Fortfahren?'
   },
   es: {
-    'settings.device.hidOnlyTip':
-      'Activa el modo solo HID para una mejor compatibilidad si el ratón y el teclado dejan de responder',
     'settings.device.usbWakeupTip':
       'Desactívalo si el host registra mensajes USB wakeup repetidos.',
     'settings.device.mdns.tip':
@@ -938,8 +869,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Cambiar la red virtual reinicia la conexión USB. Esto cancela la imagen montada y activa el disco virtual. ¿Continuar?'
   },
   et: {
-    'settings.device.hidOnlyTip':
-      'Lülita sisse ainult HID režiim parema ühilduvuse jaoks, kui hiir ja klaviatuur lakkavad reageerimast',
     'settings.device.usbWakeupTip': 'Lülita välja, kui host logib korduvaid USB wakeup teateid.',
     'settings.device.mdns.tip':
       'Võimaldab seadmega ühenduda selle .local-nime kaudu. Pole vaja, kui ühendud IP-aadressi kaudu või su DNS lahendab hostinime juba.',
@@ -947,8 +876,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       "Virtuaalse võrgu muutmine taaskäivitab USB-ühenduse. See tühistab ühendatud image'i ja lubab virtuaalse ketta. Kas jätkata?"
   },
   fi: {
-    'settings.device.hidOnlyTip':
-      'Ota Vain HID -tila käyttöön paremman yhteensopivuuden vuoksi, jos hiiri ja näppäimistö lakkaavat reagoimasta',
     'settings.device.usbWakeupTip':
       'Poista käytöstä, jos isäntä kirjaa toistuvia USB wakeup -viestejä.',
     'settings.device.mdns.tip':
@@ -957,8 +884,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Virtuaaliverkon muuttaminen käynnistää USB-yhteyden uudelleen. Tämä peruu liitetyn levykuvan ja ottaa virtuaalilevyn käyttöön. Jatketaanko?'
   },
   fr: {
-    'settings.device.hidOnlyTip':
-      'Activez le mode HID uniquement pour une meilleure compatibilité si la souris et le clavier ne répondent plus',
     'settings.device.usbWakeupTip':
       'Désactivez si l’hôte journalise des messages USB wakeup répétés.',
     'settings.device.mdns.tip':
@@ -967,8 +892,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       "Modifier le réseau virtuel redémarre la connexion USB. Cela annule l'image montée et active le disque virtuel. Continuer ?"
   },
   hu: {
-    'settings.device.hidOnlyTip':
-      'Kapcsolja be a csak HID módot a jobb kompatibilitásért, ha az egér és a billentyűzet nem válaszol',
     'settings.device.usbWakeupTip':
       'Kapcsolja ki, ha a gép ismétlődő USB wakeup üzeneteket naplóz.',
     'settings.device.mdns.tip':
@@ -977,8 +900,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'A virtuális hálózat módosítása újraindítja az USB-kapcsolatot. Ez megszakítja a csatlakoztatott képfájlt, és engedélyezi a virtuális lemezt. Folytatja?'
   },
   id: {
-    'settings.device.hidOnlyTip':
-      'Aktifkan mode HID saja untuk kompatibilitas lebih baik jika mouse dan keyboard berhenti merespons',
     'settings.device.usbWakeupTip': 'Matikan jika host mencatat pesan USB wakeup berulang.',
     'settings.device.mdns.tip':
       'Memungkinkan perangkat ini dijangkau lewat nama .local. Tidak diperlukan jika Anda terhubung lewat alamat IP atau DNS Anda sudah meresolusi nama host.',
@@ -986,8 +907,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Mengubah jaringan virtual akan memulai ulang koneksi USB. Ini membatalkan image yang terpasang dan mengaktifkan disk virtual. Lanjutkan?'
   },
   it: {
-    'settings.device.hidOnlyTip':
-      'Attiva la modalità solo HID per una migliore compatibilità se mouse e tastiera smettono di rispondere',
     'settings.device.usbWakeupTip': 'Disattiva se l’host registra messaggi USB wakeup ripetuti.',
     'settings.device.mdns.tip':
       'Consente di raggiungere questo dispositivo tramite il nome .local. Non serve se ti connetti tramite indirizzo IP o se il tuo DNS risolve già il nome host.',
@@ -995,8 +914,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       "Modificare la rete virtuale riavvia la connessione USB. Questo annulla l'immagine montata e abilita il disco virtuale. Continuare?"
   },
   ja: {
-    'settings.device.hidOnlyTip':
-      'マウスとキーボードが反応しなくなった場合は、互換性向上のため HID-Only モードを有効にしてください',
     'settings.device.usbWakeupTip':
       'ホストが USB wakeup メッセージを繰り返し記録する場合はオフにしてください。',
     'settings.device.mdns.tip':
@@ -1005,8 +922,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       '仮想ネットワークを変更すると、USB 接続が再起動します。マウント中のイメージは解除され、仮想ディスクが有効になります。続行しますか？'
   },
   ko: {
-    'settings.device.hidOnlyTip':
-      '마우스와 키보드가 응답하지 않으면 호환성을 높이기 위해 HID 전용 모드를 켜세요',
     'settings.device.usbWakeupTip': '호스트가 USB wakeup 메시지를 반복해서 기록하면 끄세요.',
     'settings.device.mdns.tip':
       '.local 이름으로 이 장치에 접속할 수 있게 합니다. IP 주소로 접속하거나 DNS가 이미 호스트 이름을 확인해 주면 필요하지 않습니다.',
@@ -1014,8 +929,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       '가상 네트워크를 변경하면 USB 연결이 다시 시작됩니다. 마운트된 이미지가 해제되고 가상 디스크가 활성화됩니다. 계속하시겠습니까?'
   },
   nb: {
-    'settings.device.hidOnlyTip':
-      'Aktiver bare-HID-modus for bedre kompatibilitet hvis musen og tastaturet slutter å svare',
     'settings.device.usbWakeupTip': 'Slå av hvis verten logger gjentatte USB wakeup-meldinger.',
     'settings.device.mdns.tip':
       'Gjør at enheten kan nås med .local-navnet. Ikke nødvendig hvis du kobler til med IP-adresse eller DNS-en din allerede løser vertsnavnet.',
@@ -1023,8 +936,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Hvis du endrer det virtuelle nettverket, startes USB-tilkoblingen på nytt. Dette avbryter det monterte bildet og aktiverer den virtuelle disken. Fortsette?'
   },
   nl: {
-    'settings.device.hidOnlyTip':
-      'Schakel de HID-alleen-modus in voor betere compatibiliteit als muis en toetsenbord niet meer reageren',
     'settings.device.usbWakeupTip': 'Schakel uit als de host herhaald USB wakeup-berichten logt.',
     'settings.device.mdns.tip':
       'Maakt het apparaat bereikbaar via zijn .local-naam. Niet nodig als je verbinding maakt via IP-adres of je DNS de hostnaam al omzet.',
@@ -1032,8 +943,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Het wijzigen van het virtuele netwerk start de USB-verbinding opnieuw. Hierdoor wordt de gekoppelde image geannuleerd en de virtuele schijf ingeschakeld. Doorgaan?'
   },
   pl: {
-    'settings.device.hidOnlyTip':
-      'Włącz tryb tylko HID, aby uzyskać lepszą zgodność, jeśli mysz i klawiatura przestaną reagować',
     'settings.device.usbWakeupTip':
       'Wyłącz, jeśli host zapisuje powtarzające się komunikaty USB wakeup.',
     'settings.device.mdns.tip':
@@ -1042,8 +951,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Zmiana sieci wirtualnej restartuje połączenie USB. Spowoduje to anulowanie zamontowanego obrazu i włączenie dysku wirtualnego. Kontynuować?'
   },
   pt_br: {
-    'settings.device.hidOnlyTip':
-      'Ative o modo somente HID para melhor compatibilidade se o mouse e o teclado pararem de responder',
     'settings.device.usbWakeupTip': 'Desative se o host registrar mensagens USB wakeup repetidas.',
     'settings.device.mdns.tip':
       'Permite acessar este dispositivo pelo nome .local. Desnecessário se você se conecta por endereço IP ou se o seu DNS já resolve o nome do host.',
@@ -1051,8 +958,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Alterar a rede virtual reinicia a conexão USB. Isso cancela a imagem montada e ativa o disco virtual. Continuar?'
   },
   se: {
-    'settings.device.hidOnlyTip':
-      'Aktivera endast-HID-läge för bättre kompatibilitet om musen och tangentbordet slutar svara',
     'settings.device.usbWakeupTip': 'Stäng av om värden loggar upprepade USB wakeup-meddelanden.',
     'settings.device.mdns.tip':
       'Gör att enheten kan nås via sitt .local-namn. Behövs inte om du ansluter via IP-adress eller din DNS redan löser värdnamnet.',
@@ -1060,8 +965,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Om du ändrar det virtuella nätverket startas USB-anslutningen om. Det avbryter den monterade avbildningen och aktiverar den virtuella disken. Fortsätta?'
   },
   th: {
-    'settings.device.hidOnlyTip':
-      'เปิดโหมด HID เท่านั้นเพื่อความเข้ากันได้ที่ดีขึ้น หากเมาส์และแป้นพิมพ์หยุดตอบสนอง',
     'settings.device.usbWakeupTip': 'ปิดถ้าโฮสต์บันทึกข้อความ USB wakeup ซ้ำ ๆ',
     'settings.device.mdns.tip':
       'ช่วยให้เข้าถึงอุปกรณ์นี้ด้วยชื่อ .local ไม่จำเป็นหากคุณเชื่อมต่อด้วยที่อยู่ IP หรือ DNS แปลงชื่อโฮสต์ได้อยู่แล้ว',
@@ -1069,8 +972,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'การเปลี่ยนเครือข่ายจำลองจะรีสตาร์ตการเชื่อมต่อ USB ซึ่งจะยกเลิกการเมานต์อิมเมจและเปิดดิสก์เสมือน ดำเนินการต่อหรือไม่?'
   },
   tr: {
-    'settings.device.hidOnlyTip':
-      'Fare ve klavye yanıt vermeyi bırakırsa daha iyi uyumluluk için yalnızca HID modunu etkinleştirin',
     'settings.device.usbWakeupTip': 'Makine tekrarlayan USB wakeup iletileri kaydediyorsa kapatın.',
     'settings.device.mdns.tip':
       "Bu cihaza .local adıyla erişmenizi sağlar. IP adresiyle bağlanıyorsanız veya DNS'iniz ana makine adını zaten çözüyorsa gerekmez.",
@@ -1078,8 +979,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Sanal ağı değiştirmek USB bağlantısını yeniden başlatır. Bu, bağlı imajı iptal eder ve sanal diski etkinleştirir. Devam edilsin mi?'
   },
   uk: {
-    'settings.device.hidOnlyTip':
-      'Увімкніть режим лише HID для кращої сумісності, якщо миша та клавіатура перестали відповідати',
     'settings.device.usbWakeupTip':
       'Вимкніть, якщо хост записує повторювані повідомлення USB wakeup.',
     'settings.device.mdns.tip':
@@ -1088,8 +987,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Зміна віртуальної мережі перезапускає USB-підключення. Це скасує змонтований образ і ввімкне віртуальний диск. Продовжити?'
   },
   vi: {
-    'settings.device.hidOnlyTip':
-      'Bật chế độ chỉ HID để tương thích tốt hơn nếu chuột và bàn phím ngừng phản hồi',
     'settings.device.usbWakeupTip': 'Tắt nếu máy ghi lặp lại thông báo USB wakeup.',
     'settings.device.mdns.tip':
       'Cho phép truy cập thiết bị này bằng tên .local. Không cần nếu bạn kết nối bằng địa chỉ IP hoặc DNS của bạn đã phân giải được tên máy.',
@@ -1097,7 +994,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'Thay đổi mạng ảo sẽ khởi động lại kết nối USB. Việc này hủy image đang gắn và bật đĩa ảo. Tiếp tục?'
   },
   zh: {
-    'settings.device.hidOnlyTip': '如果鼠标和键盘停止响应，请启用 HID-Only 模式以获得更好的兼容性',
     'settings.device.usbWakeupTip': '如果主机反复记录 USB wakeup 消息，请关闭。',
     'settings.device.mdns.tip':
       '允许通过 .local 名称访问此设备。如果您通过 IP 地址连接，或 DNS 已能解析其主机名，则无需开启。',
@@ -1105,7 +1001,6 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       '更改虚拟网卡会重启 USB 连接。这会取消当前挂载的镜像并开启虚拟磁盘。是否继续？'
   },
   zh_tw: {
-    'settings.device.hidOnlyTip': '如果滑鼠和鍵盤停止回應，請啟用 HID-Only 模式以獲得更好的相容性',
     'settings.device.usbWakeupTip': '如果主機反覆記錄 USB wakeup 訊息，請關閉。',
     'settings.device.mdns.tip':
       '允許透過 .local 名稱存取此裝置。如果您透過 IP 位址連線，或 DNS 已能解析其主機名稱，則無需開啟。',
@@ -7279,9 +7174,7 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
       ? {}
       : mobileControlLocalizedExtras[key] || mobileControlFallbackExtras;
   const layoutModeExtras =
-    key === 'en' || key === 'ru'
-      ? {}
-      : layoutModeLocalizedExtras[key] || layoutModeFallbackExtras;
+    key === 'en' || key === 'ru' ? {} : layoutModeLocalizedExtras[key] || layoutModeFallbackExtras;
   const virtualMediaExtras =
     key === 'en' || key === 'ru'
       ? {}
@@ -7316,7 +7209,9 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
     ...(timeLogExtras[key] || {}),
     ...firewallNoWebrtcExtras,
     ...firewallNoWebrtcModeDescriptionExtras,
-    ...(totpLocalizedExtras[key] || totpFallbackExtras)
+    ...(totpLocalizedExtras[key] || totpFallbackExtras),
+    ...(termLocalizedExtras[key] || {}),
+    ...(translationFixes[key] || {})
   };
   if (!Object.keys(extras).length) return;
 
