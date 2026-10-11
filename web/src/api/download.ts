@@ -9,6 +9,10 @@ export function downloadImage(file?: string, sha256sum?: string) {
   return http.post('/api/download/image', data);
 }
 
+export function cancelDownloadImage() {
+  return http.post('/api/download/image/cancel');
+}
+
 export function statusImage() {
   return http.get('/api/download/image/status');
 }

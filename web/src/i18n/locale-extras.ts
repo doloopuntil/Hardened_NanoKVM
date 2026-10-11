@@ -845,6 +845,37 @@ const usbWakeupLocalizedExtras: Record<string, TranslationMap> = {
   zh_tw: usbWakeupTranslation('USB 喚醒', '允許鍵盤或滑鼠事件喚醒遠端主機。')
 };
 
+const downloadCanceledFallbackExtras: TranslationMap = {
+  'download.downloadCanceled': 'Download canceled'
+};
+
+const downloadCanceledLocalizedExtras: Record<string, TranslationMap> = {
+  ca: { 'download.downloadCanceled': 'Descàrrega cancel·lada' },
+  cz: { 'download.downloadCanceled': 'Stahování zrušeno' },
+  da: { 'download.downloadCanceled': 'Download annulleret' },
+  de: { 'download.downloadCanceled': 'Download abgebrochen' },
+  es: { 'download.downloadCanceled': 'Descarga cancelada' },
+  et: { 'download.downloadCanceled': 'Allalaadimine tühistati' },
+  fi: { 'download.downloadCanceled': 'Lataus peruttu' },
+  fr: { 'download.downloadCanceled': 'Téléchargement annulé' },
+  hu: { 'download.downloadCanceled': 'Letöltés megszakítva' },
+  id: { 'download.downloadCanceled': 'Unduhan dibatalkan' },
+  it: { 'download.downloadCanceled': 'Download annullato' },
+  ja: { 'download.downloadCanceled': 'ダウンロードをキャンセルしました' },
+  ko: { 'download.downloadCanceled': '다운로드가 취소되었습니다' },
+  nb: { 'download.downloadCanceled': 'Nedlasting avbrutt' },
+  nl: { 'download.downloadCanceled': 'Download geannuleerd' },
+  pl: { 'download.downloadCanceled': 'Pobieranie anulowane' },
+  pt_br: { 'download.downloadCanceled': 'Download cancelado' },
+  se: { 'download.downloadCanceled': 'Nedladdning avbruten' },
+  th: { 'download.downloadCanceled': 'ยกเลิกการดาวน์โหลดแล้ว' },
+  tr: { 'download.downloadCanceled': 'İndirme iptal edildi' },
+  uk: { 'download.downloadCanceled': 'Завантаження скасовано' },
+  vi: { 'download.downloadCanceled': 'Đã hủy tải xuống' },
+  zh: { 'download.downloadCanceled': '下载已取消' },
+  zh_tw: { 'download.downloadCanceled': '下載已取消' }
+};
+
 const deviceTipFallbackExtras: TranslationMap = {
   'settings.device.hidOnlyTip':
     'Enable HID-Only mode for better compatibility if your mouse and keyboard stop responding',
@@ -7237,6 +7268,10 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
     key === 'en' || key === 'ru' ? {} : usbWakeupLocalizedExtras[key] || usbWakeupFallbackExtras;
   const deviceTipExtras =
     key === 'en' || key === 'ru' ? {} : deviceTipLocalizedExtras[key] || deviceTipFallbackExtras;
+  const downloadCanceledExtras =
+    key === 'en' || key === 'ru'
+      ? {}
+      : downloadCanceledLocalizedExtras[key] || downloadCanceledFallbackExtras;
   const mobileControlExtras =
     key === 'en' || key === 'ru'
       ? {}
@@ -7265,6 +7300,7 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
     ...(systemActionExtras[key] || {}),
     ...usbWakeupExtras,
     ...deviceTipExtras,
+    ...downloadCanceledExtras,
     ...mobileControlExtras,
     ...layoutModeExtras,
     ...virtualMediaExtras,
