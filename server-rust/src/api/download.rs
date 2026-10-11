@@ -15,10 +15,10 @@ use std::{
     io::{ErrorKind, Read, Seek, SeekFrom, Write},
     os::unix::fs::{OpenOptionsExt, PermissionsExt},
     path::{Path, PathBuf},
-    sync::Mutex,
+    sync::{LazyLock, Mutex},
     time::Duration,
 };
-use tokio::io::AsyncWriteExt;
+use tokio::{io::AsyncWriteExt, sync::watch};
 use url::Url;
 
 use crate::{
@@ -47,10 +47,15 @@ const REMOTE_STATUS_STALE_TIMEOUT: Duration = Duration::from_secs((2 * 60 * 60) 
 const SHA256_HEADER: &str = "x-sha256-sum";
 const CHECKSUM_QUEUE_CHUNKS: usize = 8;
 const SHA256_MISMATCH: &str = "sha256 mismatch";
+const REMOTE_PROGRESS_INTERVAL: Duration = Duration::from_secs(1);
+const CANCELED_CODE: i32 = -499;
 
 /// Image whose remote download failed the checksum; reported once by the status
 /// endpoint, because the background task has no other way to tell the UI.
 static CHECKSUM_FAILURE: Mutex<Option<String>> = Mutex::new(None);
+
+/// Bumped to ask the running remote download to stop.
+static CANCEL_GENERATION: LazyLock<watch::Sender<u64>> = LazyLock::new(|| watch::channel(0).0);
 
 #[derive(Debug, Deserialize)]
 pub struct DownloadImageReq {
@@ -77,6 +82,8 @@ pub struct StatusImageRsp {
     pub status: String,
     pub file: String,
     pub percentage: String,
+    /// Bytes received so far; 0 when unknown.
+    pub written: u64,
 }
 
 pub async fn image_enabled(State(state): State<AppState>) -> Result<impl IntoResponse> {
@@ -144,8 +151,13 @@ pub async fn download_image(
     let root = state.config.paths.image_directory.clone();
 
     tokio::spawn(async move {
-        if let Err(err) = download_remote_iso(remote, root, target, expected_sha256, guard).await {
-            tracing::error!(error = %err, "remote ISO download failed");
+        match download_remote_iso(remote, root, target, expected_sha256, guard).await {
+            Ok(()) => {}
+            Err(AppError::Api {
+                code: CANCELED_CODE,
+                ..
+            }) => tracing::info!("remote ISO download canceled"),
+            Err(err) => tracing::error!(error = %err, "remote ISO download failed"),
         }
     });
 
@@ -153,7 +165,21 @@ pub async fn download_image(
         status: "in_progress".to_string(),
         file: req.file,
         percentage: String::new(),
+        written: 0,
     })))
+}
+
+/// Stops the running remote download; uploads are canceled by the browser.
+pub async fn cancel_download() -> Result<impl IntoResponse> {
+    let status = read_status_image(Path::new(SENTINEL_PATH))?;
+    if status.status != "in_progress" || !is_remote_status_label(&status.file) {
+        return Err(AppError::Conflict(
+            "no remote download is running".to_string(),
+        ));
+    }
+
+    CANCEL_GENERATION.send_modify(|generation| *generation += 1);
+    Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
 pub async fn upload_image_file(
@@ -266,10 +292,23 @@ async fn download_remote_iso(
     root: PathBuf,
     target: PathBuf,
     expected_sha256: Option<[u8; 32]>,
-    _guard: DownloadGuard,
+    guard: DownloadGuard,
 ) -> Result<()> {
     let mut temp = TempUpload::create(&root, &remote.filename)?;
-    let output = download_remote_with_curl(&remote.url, temp.path()).await?;
+    let mut cancel = CANCEL_GENERATION.subscribe();
+
+    // Dropping the curl future kills the process, and the guards then remove
+    // the partial file and the status marker.
+    let output = tokio::select! {
+        output = download_remote_with_curl(&remote.url, temp.path()) => output?,
+        never = report_remote_progress(&guard, &remote.url, temp.path()) => match never {},
+        _ = cancel.changed() => {
+            return Err(AppError::Api {
+                code: CANCELED_CODE,
+                msg: "download canceled".to_string(),
+            });
+        }
+    };
     if output.status != 0 {
         return Err(AppError::Internal(command_error(
             "download remote ISO failed",
@@ -306,6 +345,64 @@ async fn download_remote_iso(
     fs::set_permissions(&target, fs::Permissions::from_mode(0o644))?;
     temp.keep();
     Ok(())
+}
+
+/// Publishes how much of the remote file has arrived, once a second.
+async fn report_remote_progress(
+    guard: &DownloadGuard,
+    url: &str,
+    path: &Path,
+) -> std::convert::Infallible {
+    let total = remote_content_length(url).await;
+    loop {
+        tokio::time::sleep(REMOTE_PROGRESS_INTERVAL).await;
+        let written = fs::metadata(path).map(|meta| meta.len()).unwrap_or(0);
+        let _ = guard.update(url, written, total);
+    }
+}
+
+/// Size announced by the server, when it announces one.
+async fn remote_content_length(url: &str) -> Option<u64> {
+    let args = vec![
+        OsString::from("--silent"),
+        OsString::from("--head"),
+        OsString::from("--fail"),
+        OsString::from("--location"),
+        OsString::from("--proto"),
+        OsString::from("=http,https"),
+        OsString::from("--proto-redir"),
+        OsString::from("=http,https"),
+        OsString::from("--max-redirs"),
+        OsString::from("5"),
+        OsString::from("--connect-timeout"),
+        OsString::from("10"),
+        OsString::from("--max-time"),
+        OsString::from("15"),
+        OsString::from(url),
+    ];
+    let output = run_allowed(AllowedCommand::Curl, args, Duration::from_secs(20))
+        .await
+        .ok()?;
+    if output.status != 0 {
+        return None;
+    }
+
+    parse_content_length(&String::from_utf8_lossy(&output.stdout))
+}
+
+/// Content-Length of the last response in a `curl --head --location` dump.
+fn parse_content_length(headers: &str) -> Option<u64> {
+    let headers = headers.replace("\r\n", "\n");
+    let last = headers
+        .split("\n\n")
+        .filter(|block| !block.trim().is_empty())
+        .last()?;
+
+    last.lines()
+        .filter_map(|line| line.split_once(':'))
+        .find(|(name, _)| name.trim().eq_ignore_ascii_case("content-length"))
+        .and_then(|(_, value)| value.trim().parse().ok())
+        .filter(|length| *length > 0)
 }
 
 async fn download_remote_with_curl(
@@ -460,14 +557,16 @@ impl StatusImageRsp {
             status: "idle".to_string(),
             file: String::new(),
             percentage: String::new(),
+            written: 0,
         }
     }
 
-    fn in_progress(file: String, percentage: String) -> Self {
+    fn in_progress(file: String, percentage: String, written: u64) -> Self {
         Self {
             status: "in_progress".to_string(),
             file,
             percentage,
+            written,
         }
     }
 
@@ -476,14 +575,16 @@ impl StatusImageRsp {
             status: "checksum_failed".to_string(),
             file,
             percentage: String::new(),
+            written: 0,
         }
     }
 
-    fn failed(file: String, percentage: String) -> Self {
+    fn failed(file: String, percentage: String, written: u64) -> Self {
         Self {
             status: "failed".to_string(),
             file,
             percentage,
+            written,
         }
     }
 }
@@ -495,16 +596,21 @@ fn read_status_image(path: &Path) -> Result<StatusImageRsp> {
         Err(err) => return Err(err.into()),
     };
 
-    let mut parts = content.splitn(2, ';');
+    // "label", "label;percentage" or "label;percentage;bytes written"
+    let mut parts = content.splitn(3, ';');
     let file = parts.next().unwrap_or_default().to_string();
     let percentage = parts.next().unwrap_or_default().to_string();
+    let written = parts
+        .next()
+        .and_then(|bytes| bytes.trim().parse().ok())
+        .unwrap_or(0);
 
     if status_sentinel_is_stale(path, &file)? {
         let _ = fs::remove_file(path);
-        return Ok(StatusImageRsp::failed(file, percentage));
+        return Ok(StatusImageRsp::failed(file, percentage, written));
     }
 
-    Ok(StatusImageRsp::in_progress(file, percentage))
+    Ok(StatusImageRsp::in_progress(file, percentage, written))
 }
 
 fn status_sentinel_is_stale(path: &Path, label: &str) -> Result<bool> {
@@ -530,6 +636,14 @@ fn is_remote_status_label(label: &str) -> bool {
     label.starts_with("http://") || label.starts_with("https://")
 }
 
+/// "12.34%", or empty when the total is unknown.
+fn percentage_label(written: u64, total: Option<u64>) -> String {
+    total
+        .filter(|total| *total > 0)
+        .map(|total| format!("{:.2}%", (written as f64 / total as f64 * 100.0).min(100.0)))
+        .unwrap_or_default()
+}
+
 struct DownloadGuard;
 
 impl DownloadGuard {
@@ -546,15 +660,8 @@ impl DownloadGuard {
     }
 
     fn update(&self, label: &str, written: u64, total: Option<u64>) -> Result<()> {
-        let percentage = total
-            .filter(|total| *total > 0)
-            .map(|total| format!("{:.2}%", (written as f64 / total as f64) * 100.0))
-            .unwrap_or_default();
-        let content = if percentage.is_empty() {
-            label.to_string()
-        } else {
-            format!("{label};{percentage}")
-        };
+        let percentage = percentage_label(written, total);
+        let content = format!("{label};{percentage};{written}");
         fs::write(SENTINEL_PATH, content.as_bytes())?;
         Ok(())
     }
@@ -1008,6 +1115,150 @@ mod tests {
         assert!(!is_mass_storage_image(&path).unwrap());
         let err = validate_uploaded_image(&path, "random.img").unwrap_err();
         assert!(matches!(err, AppError::BadRequest(_)));
+    }
+
+    #[test]
+    fn content_length_comes_from_the_final_response() {
+        let dump = "HTTP/1.1 302 Found\r\nContent-Length: 120\r\nLocation: https://cdn/x.iso\r\n\r\n\
+                    HTTP/2 200\r\ncontent-length: 4700372992\r\ncontent-type: application/octet-stream\r\n\r\n";
+        assert_eq!(parse_content_length(dump), Some(4_700_372_992));
+    }
+
+    #[test]
+    fn content_length_ignores_redirect_body_size_when_final_has_none() {
+        let dump = "HTTP/1.1 302 Found\nContent-Length: 120\n\nHTTP/1.1 200 OK\nTransfer-Encoding: chunked\n\n";
+        assert_eq!(parse_content_length(dump), None);
+    }
+
+    #[test]
+    fn content_length_rejects_missing_or_bad_values() {
+        assert_eq!(parse_content_length(""), None);
+        assert_eq!(parse_content_length("HTTP/1.1 200 OK\n\n"), None);
+        assert_eq!(
+            parse_content_length("HTTP/1.1 200 OK\ncontent-length: abc\n\n"),
+            None
+        );
+        assert_eq!(
+            parse_content_length("HTTP/1.1 200 OK\ncontent-length: 0\n\n"),
+            None
+        );
+    }
+
+    // Serves 20 x 100 bytes at 250 ms intervals, so a download takes about 5 s.
+    async fn serve_slow_file(listener: tokio::net::TcpListener) {
+        use tokio::io::{AsyncReadExt, AsyncWriteExt};
+
+        while let Ok((mut socket, _)) = listener.accept().await {
+            tokio::spawn(async move {
+                let mut request = [0u8; 1024];
+                let read = socket.read(&mut request).await.unwrap_or(0);
+                let is_head = request[..read].starts_with(b"HEAD");
+                let headers =
+                    "HTTP/1.1 200 OK\r\nContent-Length: 2000\r\nConnection: close\r\n\r\n";
+                if socket.write_all(headers.as_bytes()).await.is_err() || is_head {
+                    return;
+                }
+                for _ in 0..20 {
+                    if socket.write_all(&[b'x'; 100]).await.is_err() {
+                        return;
+                    }
+                    tokio::time::sleep(Duration::from_millis(250)).await;
+                }
+            });
+        }
+    }
+
+    #[tokio::test]
+    async fn remote_download_reports_progress_and_can_be_canceled() {
+        if !Path::new("/usr/bin/curl").exists() {
+            return;
+        }
+
+        // Nothing is running yet, so there is nothing to cancel.
+        assert!(matches!(
+            cancel_download().await,
+            Err(AppError::Conflict(_))
+        ));
+
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let url = format!("http://{}/test.iso", listener.local_addr().unwrap());
+        tokio::spawn(serve_slow_file(listener));
+
+        let root = std::env::temp_dir().join(format!("nanokvm-dl-test-{}", random_suffix()));
+        fs::create_dir_all(&root).unwrap();
+
+        let guard = DownloadGuard::acquire(&url).unwrap();
+        let remote = RemoteIso {
+            url: url.clone(),
+            filename: "test.iso".to_string(),
+        };
+        let task = tokio::spawn(download_remote_iso(
+            remote,
+            root.clone(),
+            root.join("test.iso"),
+            None,
+            guard,
+        ));
+
+        let mut percentage = String::new();
+        for _ in 0..30 {
+            tokio::time::sleep(Duration::from_millis(200)).await;
+            percentage = read_status_image(Path::new(SENTINEL_PATH))
+                .unwrap()
+                .percentage;
+            if !percentage.is_empty() {
+                break;
+            }
+        }
+        assert!(
+            percentage.ends_with('%'),
+            "no progress reported: {percentage:?}"
+        );
+
+        cancel_download().await.unwrap();
+        let result = task.await.unwrap();
+        assert!(matches!(
+            result,
+            Err(AppError::Api {
+                code: CANCELED_CODE,
+                ..
+            })
+        ));
+
+        assert!(!Path::new(SENTINEL_PATH).exists());
+        assert_eq!(
+            fs::read_dir(&root).unwrap().count(),
+            0,
+            "partial file left behind"
+        );
+        fs::remove_dir_all(&root).unwrap();
+    }
+
+    #[test]
+    fn status_file_carries_percentage_and_bytes_written() {
+        let path = std::env::temp_dir().join(format!("nanokvm-status-{}", random_suffix()));
+        let cases = [
+            ("https://host/a.iso;12.50%;1234", "12.50%", 1234),
+            ("https://host/a.iso;;987", "", 987),
+            ("a.iso;5.00%", "5.00%", 0),
+            ("a.iso", "", 0),
+        ];
+        for (content, percentage, written) in cases {
+            fs::write(&path, content).unwrap();
+            let status = read_status_image(&path).unwrap();
+            assert_eq!(status.status, "in_progress", "{content}");
+            assert_eq!(status.percentage, percentage, "{content}");
+            assert_eq!(status.written, written, "{content}");
+        }
+        fs::remove_file(&path).unwrap();
+    }
+
+    #[test]
+    fn percentage_label_formats_and_clamps() {
+        assert_eq!(percentage_label(50, Some(200)), "25.00%");
+        assert_eq!(percentage_label(300, Some(200)), "100.00%");
+        assert_eq!(percentage_label(10, None), "");
+        assert_eq!(percentage_label(10, Some(0)), "");
     }
 
     #[test]
