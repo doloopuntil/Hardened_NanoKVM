@@ -594,6 +594,11 @@ fn disk_attached() -> bool {
     Path::new(VIRTUAL_DISK_FLAG).exists() && storage::data_disk_attached()
 }
 
+/// An empty disk flag makes the gadget serve /data; a non-empty one names another disk.
+fn disk_flag_serves_data(flag: &Path) -> bool {
+    fs::metadata(flag).is_ok_and(|meta| meta.len() == 0)
+}
+
 pub async fn update_virtual_device(
     Json(req): Json<UpdateVirtualDeviceReq>,
 ) -> Result<impl IntoResponse> {
@@ -617,7 +622,12 @@ pub async fn update_virtual_device(
         Path::new(flag).exists()
     };
 
-    let handing_over_disk = is_disk && !exists;
+    // A gadget restart serves /data again whenever the disk is on, whichever device is toggled.
+    let handing_over_disk = if is_disk {
+        !exists
+    } else {
+        disk_flag_serves_data(Path::new(VIRTUAL_DISK_FLAG)) && !disk_attached()
+    };
     if handing_over_disk {
         storage::ensure_no_transfer()?;
     }
@@ -1529,6 +1539,17 @@ mod tests {
         assert_eq!(size.ws_col, 120);
         assert!(parse_terminal_winsize(br#"{"rows":0,"cols":120}"#).is_none());
         assert!(parse_terminal_winsize(b"not json").is_none());
+    }
+
+    #[test]
+    fn empty_disk_flag_serves_data() {
+        let dir = tempfile::tempdir().unwrap();
+        let flag = dir.path().join("usb.disk0");
+        assert!(!disk_flag_serves_data(&flag));
+        fs::write(&flag, b"").unwrap();
+        assert!(disk_flag_serves_data(&flag));
+        fs::write(&flag, b"/data/image.iso").unwrap();
+        assert!(!disk_flag_serves_data(&flag));
     }
 
     #[test]

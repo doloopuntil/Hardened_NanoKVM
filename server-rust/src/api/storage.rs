@@ -102,12 +102,20 @@ pub async fn get_mounted_image() -> Result<impl IntoResponse> {
 }
 
 pub async fn get_cdrom() -> Result<impl IntoResponse> {
-    let flag = read_trimmed(CDROM_FLAG)?;
-    let cdrom = flag
-        .parse::<i64>()
-        .map_err(|_| AppError::BadRequest("parse failed".to_string()))?;
+    let cdrom = parse_cdrom_flag(&read_lun_file(CDROM_FLAG)?)?;
 
     Ok(Json(ApiResponse::ok(GetCdRomRsp { cdrom })))
+}
+
+/// The LUN's cdrom flag; an empty string, as when the gadget has no mass-storage
+/// function, means "not a CD-ROM".
+fn parse_cdrom_flag(raw: &str) -> Result<i64> {
+    if raw.is_empty() {
+        return Ok(0);
+    }
+
+    raw.parse::<i64>()
+        .map_err(|_| AppError::BadRequest("parse failed".to_string()))
 }
 
 pub async fn mount_image(
@@ -622,6 +630,19 @@ mod tests {
     use super::*;
     use std::{fs::File, os::unix::fs as unix_fs};
     use tempfile::tempdir;
+
+    #[test]
+    fn cdrom_flag_defaults_to_zero_without_a_lun() {
+        let dir = tempdir().unwrap();
+        let missing = dir.path().join("lun.0/cdrom");
+
+        // the gadget has no mass-storage function, so the flag file does not exist
+        let raw = read_lun_file(missing.to_str().unwrap()).unwrap();
+        assert_eq!(parse_cdrom_flag(&raw).unwrap(), 0);
+        assert_eq!(parse_cdrom_flag("1").unwrap(), 1);
+        assert_eq!(parse_cdrom_flag("0").unwrap(), 0);
+        assert!(parse_cdrom_flag("yes").is_err());
+    }
 
     #[test]
     fn accepts_image_inside_storage_root() {
