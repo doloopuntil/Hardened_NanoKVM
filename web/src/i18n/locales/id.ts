@@ -370,7 +370,6 @@ const id = {
           description: 'Aktifkan akses jarak jauh SSH',
           tip: 'Tetapkan kata sandi yang kuat sebelum mengaktifkan (Akun - Ubah Kata Sandi)'
         },
-        advanced: 'Pengaturan Lanjutan',
         swap: {
           title: 'Tukar',
           disable: 'Nonaktifkan',

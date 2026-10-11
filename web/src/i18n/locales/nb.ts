@@ -370,7 +370,6 @@ const nb = {
           description: 'Aktiver SSH ekstern tilgang',
           tip: 'Angi et sterkt passord før du aktiverer (Konto - Endre passord)'
         },
-        advanced: 'Avanserte innstillinger',
         swap: {
           title: 'Bytt',
           disable: 'Deaktiver',

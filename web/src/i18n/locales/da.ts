@@ -368,7 +368,6 @@ const da = {
           description: 'Aktiver SSH fjernadgang',
           tip: 'Indstil en stærk adgangskode før aktivering (Konto - Skift adgangskode)'
         },
-        advanced: 'Avancerede indstillinger',
         swap: {
           title: 'Byt',
           disable: 'Deaktiver',

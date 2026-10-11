@@ -43,7 +43,7 @@ export const Swap = () => {
   }
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between gap-x-4">
       <div className="flex flex-col space-y-1">
         <div className="flex items-center space-x-2">
           <span>{t('settings.device.swap.title')}</span>

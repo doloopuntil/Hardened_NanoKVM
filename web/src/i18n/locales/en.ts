@@ -436,7 +436,6 @@ const en = {
           description: 'Enable SSH remote access',
           tip: 'Set a strong password before enabling (Account - Change Password)'
         },
-        advanced: 'Advanced Settings',
         swap: {
           title: 'Swap',
           disable: 'Disable',
@@ -460,7 +459,7 @@ const en = {
         },
         mdns: {
           description: 'Enable mDNS discovery service',
-          tip: "Turning it off if it's not needed"
+          tip: 'Lets you reach this device by its .local name. Not needed if you connect by IP address or your DNS already resolves its hostname.'
         },
         hdmi: {
           description: 'Enable HDMI/monitor output',
@@ -481,17 +480,21 @@ const en = {
         },
         hidOnly: 'HID-Only Mode',
         hidOnlyDesc: 'Stop emulating virtual devices, retaining only basic HID control',
+        hidOnlyTip:
+          'Enable HID-Only mode for better compatibility if your mouse and keyboard stop responding',
         disk: 'Virtual Disk',
         diskDesc: 'Mount SD card on the remote host',
         diskLocked: 'Off while an image is mounted (turning it on cancels the mount)',
         diskCancelMount: 'Enabling the virtual disk cancels the mounted image. Continue?',
+        networkCancelMount:
+          'Changing the virtual network restarts the USB connection. This cancels the mounted image and turns the virtual disk on. Continue?',
         diskTransferRunning:
           'An image transfer is running. Wait for it to finish before enabling the virtual disk.',
         network: 'Virtual Network',
         networkDesc: 'Mount virtual network card on the remote host',
         usbWakeup: 'USB Wakeup',
-        usbWakeupDesc:
-          'Allow keyboard or mouse events to wake the remote host. Turn off if the host logs repeated USB wakeup messages.',
+        usbWakeupDesc: 'Allow keyboard or mouse events to wake the remote host.',
+        usbWakeupTip: 'Turn off if the host logs repeated USB wakeup messages.',
         reboot: 'Reboot',
         rebootDesc: 'Are you sure you want to reboot NanoKVM?',
         okBtn: 'Yes',

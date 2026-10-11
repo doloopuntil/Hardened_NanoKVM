@@ -370,7 +370,6 @@ const pt_br = {
           description: 'Habilitar acesso remoto SSH',
           tip: 'Defina uma senha forte antes de habilitar (Conta - Mudar Senha)'
         },
-        advanced: 'Configurações Avançadas',
         swap: {
           title: 'Swap',
           disable: 'Desativar',

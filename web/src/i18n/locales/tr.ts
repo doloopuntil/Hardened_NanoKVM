@@ -368,7 +368,6 @@ const tr = {
           description: 'Güvenli Kabuk Bağlantısı (SSH) aktif et',
           tip: 'Aktifleştirmeden önce güçlü bir şifreye sahip olduğunuzdan emin olun (Hesap - Şifremi Değiştir)'
         },
-        advanced: 'Gelişmiş Ayarlar',
         swap: {
           title: 'Swap',
           disable: 'Aktifleştir',

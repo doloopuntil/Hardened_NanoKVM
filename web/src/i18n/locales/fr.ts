@@ -372,7 +372,6 @@ const fr = {
           description: "Activer l'accès à distance SSH",
           tip: "Définissez un mot de passe fort avant d'activer (Compte - Modifier le mot de passe)"
         },
-        advanced: 'Paramètres avancés',
         swap: {
           title: 'Échange',
           disable: 'Désactiver',

@@ -371,7 +371,6 @@ const pl = {
           description: 'Włącz SSH zdalny dostęp',
           tip: 'Ustaw silne hasło przed włączeniem (Konto - Zmień hasło)'
         },
-        advanced: 'Ustawienia zaawansowane',
         swap: {
           title: 'Zamień',
           disable: 'Wyłącz',

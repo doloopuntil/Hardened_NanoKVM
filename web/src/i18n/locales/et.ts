@@ -328,7 +328,6 @@ const translations: Record<string, string> = {
   'settings.device.oled.description': 'Lülita OLED-ekraan välja pärast',
   'settings.device.ssh.description': 'Luba SSH kaugjuurdepääs',
   'settings.device.ssh.tip': 'Määra enne lubamist tugev parool (Konto - Muuda parooli)',
-  'settings.device.advanced': 'Täpsemad seaded',
   'settings.device.swap.title': 'Swap',
   'settings.device.swap.disable': 'Keela',
   'settings.device.swap.description': 'Määra swap-faili suurus',

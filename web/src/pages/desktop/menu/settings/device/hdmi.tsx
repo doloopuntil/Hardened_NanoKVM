@@ -79,7 +79,7 @@ export const Hdmi = () => {
     <>
       {isPcie && (
         <div className="flex flex-col space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-x-4">
             <div className="flex flex-col space-y-1">
               <span>HDMI</span>
 
@@ -96,7 +96,7 @@ export const Hdmi = () => {
             />
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-x-4">
             <div className="flex flex-col space-y-1">
               <span>{t('settings.device.hdmi.idleTimeoutTitle')}</span>
               <span className="text-xs text-neutral-500">

@@ -365,7 +365,6 @@ const ko = {
           description: 'SSH 원격 접속 활성화',
           tip: '활성화하기 전에 강력한 비밀번호를 설정하세요. (계정 - 비밀번호 변경)'
         },
-        advanced: '고급 설정',
         swap: {
           title: '스왑',
           disable: '비활성화',

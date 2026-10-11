@@ -19,3 +19,6 @@ export const layoutModeAtom = atom<LayoutMode>(getLayoutMode());
 
 // show the remote keyboard lock-status indicator beside the menu bar
 export const keyboardLedStatusVisibleAtom = atom(true);
+
+// bumped to ask the settings dialog to close, even while a tab has it locked
+export const closeSettingsRequestAtom = atom(0);

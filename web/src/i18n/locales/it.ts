@@ -372,7 +372,6 @@ const it = {
           description: 'Abilita SSH accesso remoto',
           tip: "Imposta una password complessa prima dell'abilitazione (Account - Modifica password)"
         },
-        advanced: 'Impostazioni avanzate',
         swap: {
           title: 'Scambia',
           disable: 'Disabilita',

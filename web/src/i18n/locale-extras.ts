@@ -745,8 +745,7 @@ const systemActionExtras: Record<string, TranslationMap> = {
 
 const usbWakeupFallbackExtras: TranslationMap = {
   'settings.device.usbWakeup': 'USB Wakeup',
-  'settings.device.usbWakeupDesc':
-    'Allow keyboard or mouse events to wake the remote host. Turn off if the host logs repeated USB wakeup messages.'
+  'settings.device.usbWakeupDesc': 'Allow keyboard or mouse events to wake the remote host.'
 };
 
 function usbWakeupTranslation(title: string, description: string): TranslationMap {
@@ -759,100 +758,327 @@ function usbWakeupTranslation(title: string, description: string): TranslationMa
 const usbWakeupLocalizedExtras: Record<string, TranslationMap> = {
   ca: usbWakeupTranslation(
     'Activació per USB',
-    'Permet que els esdeveniments de teclat o ratolí despertin el host remot. Desactiveu-ho si el host registra missatges USB wakeup repetits.'
+    'Permet que els esdeveniments de teclat o ratolí despertin el host remot.'
   ),
   cz: usbWakeupTranslation(
     'Probuzení přes USB',
-    'Povolí klávesnici nebo myši probudit vzdálený host. Vypněte, pokud host zapisuje opakované zprávy USB wakeup.'
+    'Povolí klávesnici nebo myši probudit vzdálený host.'
   ),
   da: usbWakeupTranslation(
     'USB-vækning',
-    'Tillad tastatur- eller musehændelser at vække fjernværten. Slå fra, hvis værten logger gentagne USB wakeup-meddelelser.'
+    'Tillad tastatur- eller musehændelser at vække fjernværten.'
   ),
   de: usbWakeupTranslation(
     'USB-Aufwecken',
-    'Erlaubt Tastatur- oder Mausereignissen, den Remote-Host aufzuwecken. Ausschalten, wenn der Host wiederholt USB-Wakeup-Meldungen protokolliert.'
+    'Erlaubt Tastatur- oder Mausereignissen, den Remote-Host aufzuwecken.'
   ),
   es: usbWakeupTranslation(
     'Activación por USB',
-    'Permite que eventos de teclado o ratón despierten el host remoto. Desactívalo si el host registra mensajes USB wakeup repetidos.'
+    'Permite que eventos de teclado o ratón despierten el host remoto.'
   ),
-  et: usbWakeupTranslation(
-    'USB äratus',
-    'Luba klaviatuuri või hiire sündmustel kaughost äratada. Lülita välja, kui host logib korduvaid USB wakeup teateid.'
-  ),
+  et: usbWakeupTranslation('USB äratus', 'Luba klaviatuuri või hiire sündmustel kaughost äratada.'),
   fi: usbWakeupTranslation(
     'USB-herätys',
-    'Salli näppäimistön tai hiiren tapahtumien herättää etäisäntä. Poista käytöstä, jos isäntä kirjaa toistuvia USB wakeup -viestejä.'
+    'Salli näppäimistön tai hiiren tapahtumien herättää etäisäntä.'
   ),
   fr: usbWakeupTranslation(
     'Réveil USB',
-    'Autorise le clavier ou la souris à réveiller l’hôte distant. Désactivez si l’hôte journalise des messages USB wakeup répétés.'
+    'Autorise le clavier ou la souris à réveiller l’hôte distant.'
   ),
   hu: usbWakeupTranslation(
     'USB-ébresztés',
-    'Engedje, hogy a billentyűzet vagy egér eseményei felébresszék a távoli gépet. Kapcsolja ki, ha a gép ismétlődő USB wakeup üzeneteket naplóz.'
+    'Engedje, hogy a billentyűzet vagy egér eseményei felébresszék a távoli gépet.'
   ),
   id: usbWakeupTranslation(
     'Bangunkan lewat USB',
-    'Izinkan kejadian keyboard atau mouse membangunkan host jarak jauh. Matikan jika host mencatat pesan USB wakeup berulang.'
+    'Izinkan kejadian keyboard atau mouse membangunkan host jarak jauh.'
   ),
   it: usbWakeupTranslation(
     'Risveglio USB',
-    'Consente a tastiera o mouse di riattivare l’host remoto. Disattiva se l’host registra messaggi USB wakeup ripetuti.'
+    'Consente a tastiera o mouse di riattivare l’host remoto.'
   ),
   ja: usbWakeupTranslation(
     'USB ウェイクアップ',
-    'キーボードまたはマウスのイベントでリモートホストを復帰できるようにします。ホストが USB wakeup メッセージを繰り返し記録する場合はオフにしてください。'
+    'キーボードまたはマウスのイベントでリモートホストを復帰できるようにします。'
   ),
   ko: usbWakeupTranslation(
     'USB 깨우기',
-    '키보드 또는 마우스 이벤트가 원격 호스트를 깨우도록 허용합니다. 호스트가 USB wakeup 메시지를 반복해서 기록하면 끄세요.'
+    '키보드 또는 마우스 이벤트가 원격 호스트를 깨우도록 허용합니다.'
   ),
   nb: usbWakeupTranslation(
     'USB-vekking',
-    'Tillat tastatur- eller musehendelser å vekke den eksterne verten. Slå av hvis verten logger gjentatte USB wakeup-meldinger.'
+    'Tillat tastatur- eller musehendelser å vekke den eksterne verten.'
   ),
   nl: usbWakeupTranslation(
     'USB-wekken',
-    'Sta toetsenbord- of muisgebeurtenissen toe om de externe host te wekken. Schakel uit als de host herhaald USB wakeup-berichten logt.'
+    'Sta toetsenbord- of muisgebeurtenissen toe om de externe host te wekken.'
   ),
   pl: usbWakeupTranslation(
     'Wybudzanie przez USB',
-    'Pozwól zdarzeniom klawiatury lub myszy wybudzać zdalny host. Wyłącz, jeśli host zapisuje powtarzające się komunikaty USB wakeup.'
+    'Pozwól zdarzeniom klawiatury lub myszy wybudzać zdalny host.'
   ),
   pt_br: usbWakeupTranslation(
     'Wakeup por USB',
-    'Permite que eventos de teclado ou mouse acordem o host remoto. Desative se o host registrar mensagens USB wakeup repetidas.'
+    'Permite que eventos de teclado ou mouse acordem o host remoto.'
   ),
   se: usbWakeupTranslation(
     'USB-väckning',
-    'Tillåt tangentbords- eller mushändelser att väcka fjärrvärden. Stäng av om värden loggar upprepade USB wakeup-meddelanden.'
+    'Tillåt tangentbords- eller mushändelser att väcka fjärrvärden.'
   ),
   th: usbWakeupTranslation(
     'ปลุกผ่าน USB',
-    'อนุญาตให้เหตุการณ์จากแป้นพิมพ์หรือเมาส์ปลุกโฮสต์ระยะไกล ปิดถ้าโฮสต์บันทึกข้อความ USB wakeup ซ้ำ ๆ'
+    'อนุญาตให้เหตุการณ์จากแป้นพิมพ์หรือเมาส์ปลุกโฮสต์ระยะไกล'
   ),
   tr: usbWakeupTranslation(
     'USB ile uyandırma',
-    'Klavye veya fare olaylarının uzak makineyi uyandırmasına izin verir. Makine tekrarlayan USB wakeup iletileri kaydediyorsa kapatın.'
+    'Klavye veya fare olaylarının uzak makineyi uyandırmasına izin verir.'
   ),
   uk: usbWakeupTranslation(
     'Пробудження через USB',
-    'Дозволяє подіям клавіатури або миші пробуджувати віддалений хост. Вимкніть, якщо хост записує повторювані повідомлення USB wakeup.'
+    'Дозволяє подіям клавіатури або миші пробуджувати віддалений хост.'
   ),
   vi: usbWakeupTranslation(
     'Đánh thức qua USB',
-    'Cho phép sự kiện bàn phím hoặc chuột đánh thức máy từ xa. Tắt nếu máy ghi lặp lại thông báo USB wakeup.'
+    'Cho phép sự kiện bàn phím hoặc chuột đánh thức máy từ xa.'
   ),
-  zh: usbWakeupTranslation(
-    'USB 唤醒',
-    '允许键盘或鼠标事件唤醒远程主机。如果主机反复记录 USB wakeup 消息，请关闭。'
-  ),
-  zh_tw: usbWakeupTranslation(
-    'USB 喚醒',
-    '允許鍵盤或滑鼠事件喚醒遠端主機。如果主機反覆記錄 USB wakeup 訊息，請關閉。'
-  )
+  zh: usbWakeupTranslation('USB 唤醒', '允许键盘或鼠标事件唤醒远程主机。'),
+  zh_tw: usbWakeupTranslation('USB 喚醒', '允許鍵盤或滑鼠事件喚醒遠端主機。')
+};
+
+const deviceTipFallbackExtras: TranslationMap = {
+  'settings.device.hidOnlyTip':
+    'Enable HID-Only mode for better compatibility if your mouse and keyboard stop responding',
+  'settings.device.usbWakeupTip': 'Turn off if the host logs repeated USB wakeup messages.',
+  'settings.device.mdns.tip':
+    'Lets you reach this device by its .local name. Not needed if you connect by IP address or your DNS already resolves its hostname.',
+  'settings.device.networkCancelMount':
+    'Changing the virtual network restarts the USB connection. This cancels the mounted image and turns the virtual disk on. Continue?'
+};
+
+const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
+  ca: {
+    'settings.device.hidOnlyTip':
+      'Activa el mode només HID per a una millor compatibilitat si el ratolí i el teclat deixen de respondre',
+    'settings.device.usbWakeupTip':
+      'Desactiveu-ho si el host registra missatges USB wakeup repetits.',
+    'settings.device.mdns.tip':
+      "Permet accedir a aquest dispositiu pel seu nom .local. No cal si us connecteu per adreça IP o si el vostre DNS ja resol el nom d'amfitrió.",
+    'settings.device.networkCancelMount':
+      'Canviar la xarxa virtual reinicia la connexió USB. Això cancel·la la imatge muntada i activa el disc virtual. Vols continuar?'
+  },
+  cz: {
+    'settings.device.hidOnlyTip':
+      'Zapněte režim pouze HID pro lepší kompatibilitu, pokud myš a klávesnice přestanou reagovat',
+    'settings.device.usbWakeupTip': 'Vypněte, pokud host zapisuje opakované zprávy USB wakeup.',
+    'settings.device.mdns.tip':
+      'Umožňuje připojit se k zařízení přes jeho název .local. Není potřeba, pokud se připojujete přes IP adresu nebo váš DNS už název hostitele překládá.',
+    'settings.device.networkCancelMount':
+      'Změna virtuální sítě restartuje připojení USB. Tím se zruší připojený obraz a zapne virtuální disk. Pokračovat?'
+  },
+  da: {
+    'settings.device.hidOnlyTip':
+      'Aktivér kun-HID-tilstand for bedre kompatibilitet, hvis mus og tastatur holder op med at reagere',
+    'settings.device.usbWakeupTip': 'Slå fra, hvis værten logger gentagne USB wakeup-meddelelser.',
+    'settings.device.mdns.tip':
+      'Gør det muligt at nå enheden via dens .local-navn. Ikke nødvendigt, hvis du forbinder via IP-adresse, eller din DNS allerede kan slå værtsnavnet op.',
+    'settings.device.networkCancelMount':
+      'Hvis du ændrer det virtuelle netværk, genstartes USB-forbindelsen. Det annullerer det monterede billede og aktiverer den virtuelle disk. Fortsæt?'
+  },
+  de: {
+    'settings.device.hidOnlyTip':
+      'HID-Only-Modus für bessere Kompatibilität aktivieren, wenn Maus und Tastatur nicht mehr reagieren',
+    'settings.device.usbWakeupTip':
+      'Ausschalten, wenn der Host wiederholt USB-Wakeup-Meldungen protokolliert.',
+    'settings.device.mdns.tip':
+      'Ermöglicht den Zugriff auf dieses Gerät über seinen .local-Namen. Nicht nötig, wenn Sie sich per IP-Adresse verbinden oder Ihr DNS den Hostnamen bereits auflöst.',
+    'settings.device.networkCancelMount':
+      'Das Ändern des virtuellen Netzwerks startet die USB-Verbindung neu. Dadurch wird das eingebundene Image abgebrochen und die virtuelle Festplatte aktiviert. Fortfahren?'
+  },
+  es: {
+    'settings.device.hidOnlyTip':
+      'Activa el modo solo HID para una mejor compatibilidad si el ratón y el teclado dejan de responder',
+    'settings.device.usbWakeupTip':
+      'Desactívalo si el host registra mensajes USB wakeup repetidos.',
+    'settings.device.mdns.tip':
+      'Permite acceder a este dispositivo por su nombre .local. No es necesario si te conectas por dirección IP o si tu DNS ya resuelve su nombre de host.',
+    'settings.device.networkCancelMount':
+      'Cambiar la red virtual reinicia la conexión USB. Esto cancela la imagen montada y activa el disco virtual. ¿Continuar?'
+  },
+  et: {
+    'settings.device.hidOnlyTip':
+      'Lülita sisse ainult HID režiim parema ühilduvuse jaoks, kui hiir ja klaviatuur lakkavad reageerimast',
+    'settings.device.usbWakeupTip': 'Lülita välja, kui host logib korduvaid USB wakeup teateid.',
+    'settings.device.mdns.tip':
+      'Võimaldab seadmega ühenduda selle .local-nime kaudu. Pole vaja, kui ühendud IP-aadressi kaudu või su DNS lahendab hostinime juba.',
+    'settings.device.networkCancelMount':
+      "Virtuaalse võrgu muutmine taaskäivitab USB-ühenduse. See tühistab ühendatud image'i ja lubab virtuaalse ketta. Kas jätkata?"
+  },
+  fi: {
+    'settings.device.hidOnlyTip':
+      'Ota Vain HID -tila käyttöön paremman yhteensopivuuden vuoksi, jos hiiri ja näppäimistö lakkaavat reagoimasta',
+    'settings.device.usbWakeupTip':
+      'Poista käytöstä, jos isäntä kirjaa toistuvia USB wakeup -viestejä.',
+    'settings.device.mdns.tip':
+      'Mahdollistaa laitteen tavoittamisen sen .local-nimellä. Ei tarvita, jos yhdistät IP-osoitteella tai DNS ratkaisee jo isäntänimen.',
+    'settings.device.networkCancelMount':
+      'Virtuaaliverkon muuttaminen käynnistää USB-yhteyden uudelleen. Tämä peruu liitetyn levykuvan ja ottaa virtuaalilevyn käyttöön. Jatketaanko?'
+  },
+  fr: {
+    'settings.device.hidOnlyTip':
+      'Activez le mode HID uniquement pour une meilleure compatibilité si la souris et le clavier ne répondent plus',
+    'settings.device.usbWakeupTip':
+      'Désactivez si l’hôte journalise des messages USB wakeup répétés.',
+    'settings.device.mdns.tip':
+      'Permet d’accéder à cet appareil par son nom .local. Inutile si vous vous connectez par adresse IP ou si votre DNS résout déjà son nom d’hôte.',
+    'settings.device.networkCancelMount':
+      "Modifier le réseau virtuel redémarre la connexion USB. Cela annule l'image montée et active le disque virtuel. Continuer ?"
+  },
+  hu: {
+    'settings.device.hidOnlyTip':
+      'Kapcsolja be a csak HID módot a jobb kompatibilitásért, ha az egér és a billentyűzet nem válaszol',
+    'settings.device.usbWakeupTip':
+      'Kapcsolja ki, ha a gép ismétlődő USB wakeup üzeneteket naplóz.',
+    'settings.device.mdns.tip':
+      'Lehetővé teszi az eszköz elérését a .local nevén. Nem szükséges, ha IP-címmel csatlakozik, vagy a DNS már feloldja a gépnevet.',
+    'settings.device.networkCancelMount':
+      'A virtuális hálózat módosítása újraindítja az USB-kapcsolatot. Ez megszakítja a csatlakoztatott képfájlt, és engedélyezi a virtuális lemezt. Folytatja?'
+  },
+  id: {
+    'settings.device.hidOnlyTip':
+      'Aktifkan mode HID saja untuk kompatibilitas lebih baik jika mouse dan keyboard berhenti merespons',
+    'settings.device.usbWakeupTip': 'Matikan jika host mencatat pesan USB wakeup berulang.',
+    'settings.device.mdns.tip':
+      'Memungkinkan perangkat ini dijangkau lewat nama .local. Tidak diperlukan jika Anda terhubung lewat alamat IP atau DNS Anda sudah meresolusi nama host.',
+    'settings.device.networkCancelMount':
+      'Mengubah jaringan virtual akan memulai ulang koneksi USB. Ini membatalkan image yang terpasang dan mengaktifkan disk virtual. Lanjutkan?'
+  },
+  it: {
+    'settings.device.hidOnlyTip':
+      'Attiva la modalità solo HID per una migliore compatibilità se mouse e tastiera smettono di rispondere',
+    'settings.device.usbWakeupTip': 'Disattiva se l’host registra messaggi USB wakeup ripetuti.',
+    'settings.device.mdns.tip':
+      'Consente di raggiungere questo dispositivo tramite il nome .local. Non serve se ti connetti tramite indirizzo IP o se il tuo DNS risolve già il nome host.',
+    'settings.device.networkCancelMount':
+      "Modificare la rete virtuale riavvia la connessione USB. Questo annulla l'immagine montata e abilita il disco virtuale. Continuare?"
+  },
+  ja: {
+    'settings.device.hidOnlyTip':
+      'マウスとキーボードが反応しなくなった場合は、互換性向上のため HID-Only モードを有効にしてください',
+    'settings.device.usbWakeupTip':
+      'ホストが USB wakeup メッセージを繰り返し記録する場合はオフにしてください。',
+    'settings.device.mdns.tip':
+      '.local 名でこのデバイスにアクセスできるようにします。IP アドレスで接続する場合や、DNS がすでにホスト名を解決できる場合は不要です。',
+    'settings.device.networkCancelMount':
+      '仮想ネットワークを変更すると、USB 接続が再起動します。マウント中のイメージは解除され、仮想ディスクが有効になります。続行しますか？'
+  },
+  ko: {
+    'settings.device.hidOnlyTip':
+      '마우스와 키보드가 응답하지 않으면 호환성을 높이기 위해 HID 전용 모드를 켜세요',
+    'settings.device.usbWakeupTip': '호스트가 USB wakeup 메시지를 반복해서 기록하면 끄세요.',
+    'settings.device.mdns.tip':
+      '.local 이름으로 이 장치에 접속할 수 있게 합니다. IP 주소로 접속하거나 DNS가 이미 호스트 이름을 확인해 주면 필요하지 않습니다.',
+    'settings.device.networkCancelMount':
+      '가상 네트워크를 변경하면 USB 연결이 다시 시작됩니다. 마운트된 이미지가 해제되고 가상 디스크가 활성화됩니다. 계속하시겠습니까?'
+  },
+  nb: {
+    'settings.device.hidOnlyTip':
+      'Aktiver bare-HID-modus for bedre kompatibilitet hvis musen og tastaturet slutter å svare',
+    'settings.device.usbWakeupTip': 'Slå av hvis verten logger gjentatte USB wakeup-meldinger.',
+    'settings.device.mdns.tip':
+      'Gjør at enheten kan nås med .local-navnet. Ikke nødvendig hvis du kobler til med IP-adresse eller DNS-en din allerede løser vertsnavnet.',
+    'settings.device.networkCancelMount':
+      'Hvis du endrer det virtuelle nettverket, startes USB-tilkoblingen på nytt. Dette avbryter det monterte bildet og aktiverer den virtuelle disken. Fortsette?'
+  },
+  nl: {
+    'settings.device.hidOnlyTip':
+      'Schakel de HID-alleen-modus in voor betere compatibiliteit als muis en toetsenbord niet meer reageren',
+    'settings.device.usbWakeupTip': 'Schakel uit als de host herhaald USB wakeup-berichten logt.',
+    'settings.device.mdns.tip':
+      'Maakt het apparaat bereikbaar via zijn .local-naam. Niet nodig als je verbinding maakt via IP-adres of je DNS de hostnaam al omzet.',
+    'settings.device.networkCancelMount':
+      'Het wijzigen van het virtuele netwerk start de USB-verbinding opnieuw. Hierdoor wordt de gekoppelde image geannuleerd en de virtuele schijf ingeschakeld. Doorgaan?'
+  },
+  pl: {
+    'settings.device.hidOnlyTip':
+      'Włącz tryb tylko HID, aby uzyskać lepszą zgodność, jeśli mysz i klawiatura przestaną reagować',
+    'settings.device.usbWakeupTip':
+      'Wyłącz, jeśli host zapisuje powtarzające się komunikaty USB wakeup.',
+    'settings.device.mdns.tip':
+      'Umożliwia dostęp do urządzenia przez nazwę .local. Niepotrzebne, jeśli łączysz się przez adres IP lub Twój DNS już rozwiązuje nazwę hosta.',
+    'settings.device.networkCancelMount':
+      'Zmiana sieci wirtualnej restartuje połączenie USB. Spowoduje to anulowanie zamontowanego obrazu i włączenie dysku wirtualnego. Kontynuować?'
+  },
+  pt_br: {
+    'settings.device.hidOnlyTip':
+      'Ative o modo somente HID para melhor compatibilidade se o mouse e o teclado pararem de responder',
+    'settings.device.usbWakeupTip': 'Desative se o host registrar mensagens USB wakeup repetidas.',
+    'settings.device.mdns.tip':
+      'Permite acessar este dispositivo pelo nome .local. Desnecessário se você se conecta por endereço IP ou se o seu DNS já resolve o nome do host.',
+    'settings.device.networkCancelMount':
+      'Alterar a rede virtual reinicia a conexão USB. Isso cancela a imagem montada e ativa o disco virtual. Continuar?'
+  },
+  se: {
+    'settings.device.hidOnlyTip':
+      'Aktivera endast-HID-läge för bättre kompatibilitet om musen och tangentbordet slutar svara',
+    'settings.device.usbWakeupTip': 'Stäng av om värden loggar upprepade USB wakeup-meddelanden.',
+    'settings.device.mdns.tip':
+      'Gör att enheten kan nås via sitt .local-namn. Behövs inte om du ansluter via IP-adress eller din DNS redan löser värdnamnet.',
+    'settings.device.networkCancelMount':
+      'Om du ändrar det virtuella nätverket startas USB-anslutningen om. Det avbryter den monterade avbildningen och aktiverar den virtuella disken. Fortsätta?'
+  },
+  th: {
+    'settings.device.hidOnlyTip':
+      'เปิดโหมด HID เท่านั้นเพื่อความเข้ากันได้ที่ดีขึ้น หากเมาส์และแป้นพิมพ์หยุดตอบสนอง',
+    'settings.device.usbWakeupTip': 'ปิดถ้าโฮสต์บันทึกข้อความ USB wakeup ซ้ำ ๆ',
+    'settings.device.mdns.tip':
+      'ช่วยให้เข้าถึงอุปกรณ์นี้ด้วยชื่อ .local ไม่จำเป็นหากคุณเชื่อมต่อด้วยที่อยู่ IP หรือ DNS แปลงชื่อโฮสต์ได้อยู่แล้ว',
+    'settings.device.networkCancelMount':
+      'การเปลี่ยนเครือข่ายจำลองจะรีสตาร์ตการเชื่อมต่อ USB ซึ่งจะยกเลิกการเมานต์อิมเมจและเปิดดิสก์เสมือน ดำเนินการต่อหรือไม่?'
+  },
+  tr: {
+    'settings.device.hidOnlyTip':
+      'Fare ve klavye yanıt vermeyi bırakırsa daha iyi uyumluluk için yalnızca HID modunu etkinleştirin',
+    'settings.device.usbWakeupTip': 'Makine tekrarlayan USB wakeup iletileri kaydediyorsa kapatın.',
+    'settings.device.mdns.tip':
+      "Bu cihaza .local adıyla erişmenizi sağlar. IP adresiyle bağlanıyorsanız veya DNS'iniz ana makine adını zaten çözüyorsa gerekmez.",
+    'settings.device.networkCancelMount':
+      'Sanal ağı değiştirmek USB bağlantısını yeniden başlatır. Bu, bağlı imajı iptal eder ve sanal diski etkinleştirir. Devam edilsin mi?'
+  },
+  uk: {
+    'settings.device.hidOnlyTip':
+      'Увімкніть режим лише HID для кращої сумісності, якщо миша та клавіатура перестали відповідати',
+    'settings.device.usbWakeupTip':
+      'Вимкніть, якщо хост записує повторювані повідомлення USB wakeup.',
+    'settings.device.mdns.tip':
+      'Дозволяє звертатися до пристрою за іменем .local. Не потрібно, якщо ви підключаєтеся за IP-адресою або ваш DNS уже розв’язує ім’я хоста.',
+    'settings.device.networkCancelMount':
+      'Зміна віртуальної мережі перезапускає USB-підключення. Це скасує змонтований образ і ввімкне віртуальний диск. Продовжити?'
+  },
+  vi: {
+    'settings.device.hidOnlyTip':
+      'Bật chế độ chỉ HID để tương thích tốt hơn nếu chuột và bàn phím ngừng phản hồi',
+    'settings.device.usbWakeupTip': 'Tắt nếu máy ghi lặp lại thông báo USB wakeup.',
+    'settings.device.mdns.tip':
+      'Cho phép truy cập thiết bị này bằng tên .local. Không cần nếu bạn kết nối bằng địa chỉ IP hoặc DNS của bạn đã phân giải được tên máy.',
+    'settings.device.networkCancelMount':
+      'Thay đổi mạng ảo sẽ khởi động lại kết nối USB. Việc này hủy image đang gắn và bật đĩa ảo. Tiếp tục?'
+  },
+  zh: {
+    'settings.device.hidOnlyTip': '如果鼠标和键盘停止响应，请启用 HID-Only 模式以获得更好的兼容性',
+    'settings.device.usbWakeupTip': '如果主机反复记录 USB wakeup 消息，请关闭。',
+    'settings.device.mdns.tip':
+      '允许通过 .local 名称访问此设备。如果您通过 IP 地址连接，或 DNS 已能解析其主机名，则无需开启。',
+    'settings.device.networkCancelMount':
+      '更改虚拟网卡会重启 USB 连接。这会取消当前挂载的镜像并开启虚拟磁盘。是否继续？'
+  },
+  zh_tw: {
+    'settings.device.hidOnlyTip': '如果滑鼠和鍵盤停止回應，請啟用 HID-Only 模式以獲得更好的相容性',
+    'settings.device.usbWakeupTip': '如果主機反覆記錄 USB wakeup 訊息，請關閉。',
+    'settings.device.mdns.tip':
+      '允許透過 .local 名稱存取此裝置。如果您透過 IP 位址連線，或 DNS 已能解析其主機名稱，則無需開啟。',
+    'settings.device.networkCancelMount':
+      '更改虛擬網卡會重新啟動 USB 連線。這會取消目前掛載的映像檔並開啟虛擬磁碟。是否繼續？'
+  }
 };
 
 const mobileControlFallbackExtras: TranslationMap = {
@@ -7008,9 +7234,9 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
   const key = languageAliases[language] || language;
   const firewallModerateExtras = key === 'en' || key === 'ru' ? {} : firewallModerateFallbackExtras;
   const usbWakeupExtras =
-    key === 'en' || key === 'ru'
-      ? {}
-      : usbWakeupLocalizedExtras[key] || usbWakeupFallbackExtras;
+    key === 'en' || key === 'ru' ? {} : usbWakeupLocalizedExtras[key] || usbWakeupFallbackExtras;
+  const deviceTipExtras =
+    key === 'en' || key === 'ru' ? {} : deviceTipLocalizedExtras[key] || deviceTipFallbackExtras;
   const mobileControlExtras =
     key === 'en' || key === 'ru'
       ? {}
@@ -7038,6 +7264,7 @@ export function applyLocaleExtras(language: string, resource: ResourceLanguage) 
     ...downloadTransferExtras,
     ...(systemActionExtras[key] || {}),
     ...usbWakeupExtras,
+    ...deviceTipExtras,
     ...mobileControlExtras,
     ...layoutModeExtras,
     ...virtualMediaExtras,

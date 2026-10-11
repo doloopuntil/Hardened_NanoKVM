@@ -368,7 +368,6 @@ const ca = {
           description: 'Activa accés remot per SSH',
           tip: 'Configura una contrasenya segura abans (Compte - Canvia contrasenya)'
         },
-        advanced: 'Configuració avançada',
         swap: {
           title: 'Swap',
           disable: 'Desactiva',
