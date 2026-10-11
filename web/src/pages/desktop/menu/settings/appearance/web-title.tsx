@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Input } from 'antd';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { webTitleAtom } from '@/jotai/settings.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 export const WebTitle = () => {
   const { t } = useTranslation();
@@ -13,20 +14,11 @@ export const WebTitle = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    setIsLoading(true);
-
-    api
-      .getWebTitle()
-      .then((rsp) => {
-        if (rsp.data?.title) {
-          setWebTitle(rsp.data.title);
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+  const isReady = useSettingsLoad(api.getWebTitle, (rsp) => {
+    if (rsp.data?.title) {
+      setWebTitle(rsp.data.title);
+    }
+  });
 
   function submit() {
     if (isLoading) return;
@@ -46,7 +38,7 @@ export const WebTitle = () => {
 
       <div className="w-full sm:w-auto">
         <Input
-          disabled={isLoading}
+          disabled={isLoading || !isReady}
           className="w-full sm:w-[180px]"
           value={webTitle}
           onChange={(e) => setWebTitle(e.target.value)}

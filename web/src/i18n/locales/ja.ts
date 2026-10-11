@@ -5,7 +5,10 @@ const ja = {
       cancel: 'キャンセル',
       delete: '削除',
       actionFailed: '操作に失敗しました',
-      actionFailedDetail: '操作に失敗しました：{{detail}}'
+      actionFailedDetail: '操作に失敗しました：{{detail}}',
+      loading: 'デバイスから設定を読み込んでいます...',
+      loadFailed: 'デバイスから設定を読み込めませんでした',
+      retry: '再試行'
     },
     head: {
       desktop: 'リモートデスクトップ',

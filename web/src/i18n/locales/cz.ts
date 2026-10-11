@@ -5,7 +5,10 @@ const cz = {
       cancel: 'Zrušit',
       delete: 'Smazat',
       actionFailed: 'Operace se nezdařila',
-      actionFailedDetail: 'Operace se nezdařila: {{detail}}'
+      actionFailedDetail: 'Operace se nezdařila: {{detail}}',
+      loading: 'Načítání nastavení ze zařízení...',
+      loadFailed: 'Nastavení se ze zařízení nepodařilo načíst',
+      retry: 'Zkusit znovu'
     },
     head: {
       desktop: 'Vzdálená plocha',

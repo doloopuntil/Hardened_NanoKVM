@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Alert, Button, Divider, Segmented, Spin, Tag } from 'antd';
 import type { TFunction } from 'i18next';
 import {
@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/system-firewall.ts';
 import type { FirewallMode, FirewallStatus } from '@/api/system-firewall.ts';
 import { confirm, toast } from '@/lib/feedback.ts';
+import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
 
 type RulesTab = 'ipv4' | 'ipv6' | 'nft';
 
@@ -32,7 +33,6 @@ export const FirewallSettings = () => {
 
   const [status, setStatus] = useState<FirewallStatus | null>(null);
   const [rulesTab, setRulesTab] = useState<RulesTab>('ipv4');
-  const [isLoading, setIsLoading] = useState(false);
   const [isApplying, setIsApplying] = useState(false);
 
   const selectedRules = useMemo(() => {
@@ -99,26 +99,11 @@ export const FirewallSettings = () => {
     ];
   }, [status?.httpsEnabled, t]);
 
-  useEffect(() => {
-    load();
-  }, []);
-
-  async function load() {
-    setIsLoading(true);
-    try {
-      const rsp = await api.getStatus();
-      if (rsp.code !== 0 || !rsp.data) {
-        toast.error(rsp.msg || t('settings.system.firewall.loadFailed'));
-        return;
-      }
-      setStatus(rsp.data);
-    } catch (err) {
-      console.log(err);
-      toast.error(t('settings.system.firewall.loadFailed'));
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const { status: loadState, reload } = useSettingsLoadState(api.getStatus, (rsp) => {
+    if (!rsp.data) throw new Error('missing firewall status');
+    setStatus(rsp.data);
+  });
+  const isLoading = loadState === 'loading';
 
   function selectMode(mode: FirewallMode) {
     if (!status || isApplying || mode === effectiveMode) return;
@@ -199,7 +184,7 @@ export const FirewallSettings = () => {
       toast.error(t('settings.system.firewall.saveFailed'));
     } finally {
       setIsApplying(false);
-      load();
+      reload();
     }
   }
 
@@ -213,7 +198,7 @@ export const FirewallSettings = () => {
 
   return (
     <div className="flex min-w-0 flex-col space-y-6">
-      {!status?.httpsEnabled && (
+      {status && !status.httpsEnabled && (
         <Alert type="warning" showIcon message={t('settings.system.firewall.httpsRequired')} />
       )}
 
@@ -264,14 +249,16 @@ export const FirewallSettings = () => {
             </div>
           </div>
           <div className="flex min-w-0 flex-wrap items-center gap-2">
-            <Tag className="m-0 max-w-full whitespace-normal" color={modeColor(effectiveMode)}>
-              {modeText(t, effectiveMode)}
-            </Tag>
+            {status && (
+              <Tag className="m-0 max-w-full whitespace-normal" color={modeColor(effectiveMode)}>
+                {modeText(t, effectiveMode)}
+              </Tag>
+            )}
             <Button
               size="small"
               icon={<RefreshCwIcon size={14} />}
               loading={isLoading}
-              onClick={load}
+              onClick={reload}
             >
               {t('settings.system.firewall.refresh')}
             </Button>

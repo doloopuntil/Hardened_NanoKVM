@@ -5,7 +5,10 @@ const th = {
       cancel: 'ยกเลิก',
       delete: 'ลบ',
       actionFailed: 'การดำเนินการล้มเหลว',
-      actionFailedDetail: 'การดำเนินการล้มเหลว: {{detail}}'
+      actionFailedDetail: 'การดำเนินการล้มเหลว: {{detail}}',
+      loading: 'กำลังโหลดการตั้งค่าจากอุปกรณ์...',
+      loadFailed: 'ไม่สามารถโหลดการตั้งค่าจากอุปกรณ์ได้',
+      retry: 'ลองอีกครั้ง'
     },
     head: {
       desktop: 'เดสก์ท็อประยะไกล',

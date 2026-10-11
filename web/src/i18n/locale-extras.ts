@@ -1677,7 +1677,6 @@ const networkExtras: Record<string, TranslationMap> = {
       "El client DHCPv6 no està instal·lat. Instal·la primer l'actualització raw del sistema corresponent.",
     'settings.network.ipv6.saved': 'Configuració IPv6 desada',
     'settings.network.ipv6.saveFailed': "No s'ha pogut desar la configuració IPv6",
-    'settings.network.ipv6.loadFailed': "No s'ha pogut carregar la configuració IPv6",
     'settings.network.ipv6.unsaved': 'Canvis no desats'
   },
   cz: {
@@ -1708,7 +1707,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'Klient DHCPv6 není nainstalován. Nejprve nainstalujte odpovídající raw aktualizaci systému.',
     'settings.network.ipv6.saved': 'Nastavení IPv6 uloženo',
     'settings.network.ipv6.saveFailed': 'Nastavení IPv6 se nepodařilo uložit',
-    'settings.network.ipv6.loadFailed': 'Nastavení IPv6 se nepodařilo načíst',
     'settings.network.ipv6.unsaved': 'Neuložené změny'
   },
   da: {
@@ -1739,7 +1737,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'DHCPv6-klienten er ikke installeret. Installer først den matchende raw-systemopdatering.',
     'settings.network.ipv6.saved': 'IPv6-indstillinger gemt',
     'settings.network.ipv6.saveFailed': 'Kunne ikke gemme IPv6-indstillinger',
-    'settings.network.ipv6.loadFailed': 'Kunne ikke indlæse IPv6-indstillinger',
     'settings.network.ipv6.unsaved': 'Ikke-gemte ændringer'
   },
   de: {
@@ -1772,7 +1769,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'Der DHCPv6-Client ist nicht installiert. Installieren Sie zuerst das passende Raw-Systemupdate.',
     'settings.network.ipv6.saved': 'IPv6-Einstellungen gespeichert',
     'settings.network.ipv6.saveFailed': 'IPv6-Einstellungen konnten nicht gespeichert werden',
-    'settings.network.ipv6.loadFailed': 'IPv6-Einstellungen konnten nicht geladen werden',
     'settings.network.ipv6.unsaved': 'Ungespeicherte Änderungen'
   },
   es: {
@@ -1805,7 +1801,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'El cliente DHCPv6 no está instalado. Instala primero la actualización raw del sistema correspondiente.',
     'settings.network.ipv6.saved': 'Configuración IPv6 guardada',
     'settings.network.ipv6.saveFailed': 'No se pudo guardar la configuración IPv6',
-    'settings.network.ipv6.loadFailed': 'No se pudo cargar la configuración IPv6',
     'settings.network.ipv6.unsaved': 'Cambios sin guardar'
   },
   fr: {
@@ -1837,7 +1832,6 @@ const networkExtras: Record<string, TranslationMap> = {
       "Le client DHCPv6 n'est pas installé. Installez d'abord la mise à jour système raw correspondante.",
     'settings.network.ipv6.saved': 'Paramètres IPv6 enregistrés',
     'settings.network.ipv6.saveFailed': "Échec de l'enregistrement des paramètres IPv6",
-    'settings.network.ipv6.loadFailed': 'Échec du chargement des paramètres IPv6',
     'settings.network.ipv6.unsaved': 'Modifications non enregistrées'
   },
   hu: {
@@ -1869,7 +1863,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'A DHCPv6 kliens nincs telepítve. Először telepítsd a megfelelő raw rendszerfrissítést.',
     'settings.network.ipv6.saved': 'IPv6-beállítások mentve',
     'settings.network.ipv6.saveFailed': 'Nem sikerült menteni az IPv6-beállításokat',
-    'settings.network.ipv6.loadFailed': 'Nem sikerült betölteni az IPv6-beállításokat',
     'settings.network.ipv6.unsaved': 'Nem mentett módosítások'
   },
   id: {
@@ -1900,7 +1893,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'Klien DHCPv6 belum terpasang. Pasang pembaruan sistem raw yang sesuai terlebih dahulu.',
     'settings.network.ipv6.saved': 'Pengaturan IPv6 disimpan',
     'settings.network.ipv6.saveFailed': 'Gagal menyimpan pengaturan IPv6',
-    'settings.network.ipv6.loadFailed': 'Gagal memuat pengaturan IPv6',
     'settings.network.ipv6.unsaved': 'Perubahan belum disimpan'
   },
   it: {
@@ -1933,7 +1925,6 @@ const networkExtras: Record<string, TranslationMap> = {
       "Il client DHCPv6 non è installato. Installa prima l'aggiornamento raw di sistema corrispondente.",
     'settings.network.ipv6.saved': 'Impostazioni IPv6 salvate',
     'settings.network.ipv6.saveFailed': 'Impossibile salvare le impostazioni IPv6',
-    'settings.network.ipv6.loadFailed': 'Impossibile caricare le impostazioni IPv6',
     'settings.network.ipv6.unsaved': 'Modifiche non salvate'
   },
   ja: {
@@ -1965,7 +1956,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'DHCPv6 クライアントがインストールされていません。先に対応する raw システムアップデートをインストールしてください。',
     'settings.network.ipv6.saved': 'IPv6 設定を保存しました',
     'settings.network.ipv6.saveFailed': 'IPv6 設定の保存に失敗しました',
-    'settings.network.ipv6.loadFailed': 'IPv6 設定の読み込みに失敗しました',
     'settings.network.ipv6.unsaved': '未保存の変更'
   },
   ko: {
@@ -1996,7 +1986,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'DHCPv6 클라이언트가 설치되어 있지 않습니다. 먼저 일치하는 raw 시스템 업데이트를 설치하세요.',
     'settings.network.ipv6.saved': 'IPv6 설정이 저장되었습니다',
     'settings.network.ipv6.saveFailed': 'IPv6 설정 저장 실패',
-    'settings.network.ipv6.loadFailed': 'IPv6 설정 불러오기 실패',
     'settings.network.ipv6.unsaved': '저장되지 않은 변경 사항'
   },
   nb: {
@@ -2027,7 +2016,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'DHCPv6-klienten er ikke installert. Installer først den matchende raw-systemoppdateringen.',
     'settings.network.ipv6.saved': 'IPv6-innstillinger lagret',
     'settings.network.ipv6.saveFailed': 'Kunne ikke lagre IPv6-innstillinger',
-    'settings.network.ipv6.loadFailed': 'Kunne ikke laste IPv6-innstillinger',
     'settings.network.ipv6.unsaved': 'Ulagrede endringer'
   },
   nl: {
@@ -2059,7 +2047,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'De DHCPv6-client is niet geïnstalleerd. Installeer eerst de bijbehorende raw-systeemupdate.',
     'settings.network.ipv6.saved': 'IPv6-instellingen opgeslagen',
     'settings.network.ipv6.saveFailed': 'Opslaan van IPv6-instellingen mislukt',
-    'settings.network.ipv6.loadFailed': 'Laden van IPv6-instellingen mislukt',
     'settings.network.ipv6.unsaved': 'Niet-opgeslagen wijzigingen'
   },
   pl: {
@@ -2090,7 +2077,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'Klient DHCPv6 nie jest zainstalowany. Najpierw zainstaluj pasującą raw aktualizację systemu.',
     'settings.network.ipv6.saved': 'Ustawienia IPv6 zapisane',
     'settings.network.ipv6.saveFailed': 'Nie udało się zapisać ustawień IPv6',
-    'settings.network.ipv6.loadFailed': 'Nie udało się wczytać ustawień IPv6',
     'settings.network.ipv6.unsaved': 'Niezapisane zmiany'
   },
   pt_br: {
@@ -2121,7 +2107,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'O cliente DHCPv6 não está instalado. Instale primeiro a atualização raw do sistema correspondente.',
     'settings.network.ipv6.saved': 'Configurações IPv6 salvas',
     'settings.network.ipv6.saveFailed': 'Falha ao salvar as configurações IPv6',
-    'settings.network.ipv6.loadFailed': 'Falha ao carregar as configurações IPv6',
     'settings.network.ipv6.unsaved': 'Alterações não salvas'
   },
   se: {
@@ -2153,7 +2138,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'DHCPv6-klienten är inte installerad. Installera först den matchande raw-systemuppdateringen.',
     'settings.network.ipv6.saved': 'IPv6-inställningar sparade',
     'settings.network.ipv6.saveFailed': 'Det gick inte att spara IPv6-inställningar',
-    'settings.network.ipv6.loadFailed': 'Det gick inte att läsa in IPv6-inställningar',
     'settings.network.ipv6.unsaved': 'Osparade ändringar'
   },
   th: {
@@ -2184,7 +2168,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'ยังไม่ได้ติดตั้งไคลเอนต์ DHCPv6 โปรดติดตั้งการอัปเดตระบบ raw ที่ตรงกันก่อน',
     'settings.network.ipv6.saved': 'บันทึกการตั้งค่า IPv6 แล้ว',
     'settings.network.ipv6.saveFailed': 'บันทึกการตั้งค่า IPv6 ไม่สำเร็จ',
-    'settings.network.ipv6.loadFailed': 'โหลดการตั้งค่า IPv6 ไม่สำเร็จ',
     'settings.network.ipv6.unsaved': 'การเปลี่ยนแปลงที่ยังไม่ได้บันทึก'
   },
   tr: {
@@ -2215,7 +2198,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'DHCPv6 istemcisi kurulu değil. Önce eşleşen raw sistem güncellemesini kurun.',
     'settings.network.ipv6.saved': 'IPv6 ayarları kaydedildi',
     'settings.network.ipv6.saveFailed': 'IPv6 ayarları kaydedilemedi',
-    'settings.network.ipv6.loadFailed': 'IPv6 ayarları yüklenemedi',
     'settings.network.ipv6.unsaved': 'Kaydedilmemiş değişiklikler'
   },
   uk: {
@@ -2246,7 +2228,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'Клієнт DHCPv6 не встановлено. Спочатку встановіть відповідне raw-оновлення системи.',
     'settings.network.ipv6.saved': 'Налаштування IPv6 збережено',
     'settings.network.ipv6.saveFailed': 'Не вдалося зберегти налаштування IPv6',
-    'settings.network.ipv6.loadFailed': 'Не вдалося завантажити налаштування IPv6',
     'settings.network.ipv6.unsaved': 'Незбережені зміни'
   },
   vi: {
@@ -2277,7 +2258,6 @@ const networkExtras: Record<string, TranslationMap> = {
       'Máy khách DHCPv6 chưa được cài đặt. Hãy cài đặt bản cập nhật hệ thống raw phù hợp trước.',
     'settings.network.ipv6.saved': 'Đã lưu cài đặt IPv6',
     'settings.network.ipv6.saveFailed': 'Không thể lưu cài đặt IPv6',
-    'settings.network.ipv6.loadFailed': 'Không thể tải cài đặt IPv6',
     'settings.network.ipv6.unsaved': 'Thay đổi chưa lưu'
   },
   zh: {
@@ -2307,7 +2287,6 @@ const networkExtras: Record<string, TranslationMap> = {
     'settings.network.ipv6.clientMissing': '未安装 DHCPv6 客户端。请先安装匹配的 raw 系统更新。',
     'settings.network.ipv6.saved': 'IPv6 设置已保存',
     'settings.network.ipv6.saveFailed': '保存 IPv6 设置失败',
-    'settings.network.ipv6.loadFailed': '加载 IPv6 设置失败',
     'settings.network.ipv6.unsaved': '未保存的更改'
   },
   zh_tw: {
@@ -2337,7 +2316,6 @@ const networkExtras: Record<string, TranslationMap> = {
     'settings.network.ipv6.clientMissing': '尚未安裝 DHCPv6 客戶端。請先安裝相符的 raw 系統更新。',
     'settings.network.ipv6.saved': 'IPv6 設定已儲存',
     'settings.network.ipv6.saveFailed': '儲存 IPv6 設定失敗',
-    'settings.network.ipv6.loadFailed': '載入 IPv6 設定失敗',
     'settings.network.ipv6.unsaved': '未儲存的變更'
   }
 };
@@ -2348,7 +2326,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Hora',
     'settings.system.sections.firewall': 'Tallafoc',
     'settings.system.sections.systemLog': 'Registre del sistema',
-    'settings.system.firewall.loadFailed': "No s'ha pogut carregar l'estat del tallafoc",
     'settings.system.firewall.saveFailed': "No s'han pogut aplicar els paràmetres del tallafoc",
     'settings.system.firewall.saved': 'Paràmetres del tallafoc aplicats',
     'settings.system.firewall.cancel': 'Cancel·la',
@@ -2387,7 +2364,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Čas',
     'settings.system.sections.firewall': 'Firewall',
     'settings.system.sections.systemLog': 'Systémový protokol',
-    'settings.system.firewall.loadFailed': 'Nepodařilo se načíst stav firewallu',
     'settings.system.firewall.saveFailed': 'Nepodařilo se použít nastavení firewallu',
     'settings.system.firewall.saved': 'Nastavení firewallu použito',
     'settings.system.firewall.cancel': 'Zrušit',
@@ -2425,7 +2401,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Tid',
     'settings.system.sections.firewall': 'Firewall',
     'settings.system.sections.systemLog': 'Systemlog',
-    'settings.system.firewall.loadFailed': 'Kunne ikke indlæse firewallstatus',
     'settings.system.firewall.saveFailed': 'Kunne ikke anvende firewallindstillinger',
     'settings.system.firewall.saved': 'Firewallindstillinger anvendt',
     'settings.system.firewall.cancel': 'Annuller',
@@ -2464,7 +2439,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Zeit',
     'settings.system.sections.firewall': 'Firewall',
     'settings.system.sections.systemLog': 'Systemprotokoll',
-    'settings.system.firewall.loadFailed': 'Firewall-Status konnte nicht geladen werden',
     'settings.system.firewall.saveFailed': 'Firewall-Einstellungen konnten nicht angewendet werden',
     'settings.system.firewall.saved': 'Firewall-Einstellungen angewendet',
     'settings.system.firewall.cancel': 'Abbrechen',
@@ -2503,7 +2477,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Hora',
     'settings.system.sections.firewall': 'Firewall',
     'settings.system.sections.systemLog': 'Registro del sistema',
-    'settings.system.firewall.loadFailed': 'No se pudo cargar el estado del firewall',
     'settings.system.firewall.saveFailed': 'No se pudieron aplicar los ajustes del firewall',
     'settings.system.firewall.saved': 'Ajustes del firewall aplicados',
     'settings.system.firewall.cancel': 'Cancelar',
@@ -2554,7 +2527,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Heure',
     'settings.system.sections.firewall': 'Pare-feu',
     'settings.system.sections.systemLog': 'Journal système',
-    'settings.system.firewall.loadFailed': 'Échec du chargement de l’état du pare-feu',
     'settings.system.firewall.saveFailed': 'Échec de l’application des paramètres du pare-feu',
     'settings.system.firewall.saved': 'Paramètres du pare-feu appliqués',
     'settings.system.firewall.cancel': 'Annuler',
@@ -2593,7 +2565,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Idő',
     'settings.system.sections.firewall': 'Tűzfal',
     'settings.system.sections.systemLog': 'Rendszernapló',
-    'settings.system.firewall.loadFailed': 'Nem sikerült betölteni a tűzfal állapotát',
     'settings.system.firewall.saveFailed': 'Nem sikerült alkalmazni a tűzfalbeállításokat',
     'settings.system.firewall.saved': 'Tűzfalbeállítások alkalmazva',
     'settings.system.firewall.cancel': 'Mégse',
@@ -2632,7 +2603,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Waktu',
     'settings.system.sections.firewall': 'Firewall',
     'settings.system.sections.systemLog': 'Log Sistem',
-    'settings.system.firewall.loadFailed': 'Gagal memuat status firewall',
     'settings.system.firewall.saveFailed': 'Gagal menerapkan pengaturan firewall',
     'settings.system.firewall.saved': 'Pengaturan firewall diterapkan',
     'settings.system.firewall.cancel': 'Batal',
@@ -2671,7 +2641,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Ora',
     'settings.system.sections.firewall': 'Firewall',
     'settings.system.sections.systemLog': 'Log di sistema',
-    'settings.system.firewall.loadFailed': 'Impossibile caricare lo stato del firewall',
     'settings.system.firewall.saveFailed': 'Impossibile applicare le impostazioni del firewall',
     'settings.system.firewall.saved': 'Impostazioni del firewall applicate',
     'settings.system.firewall.cancel': 'Annulla',
@@ -2710,7 +2679,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': '時刻',
     'settings.system.sections.firewall': 'ファイアウォール',
     'settings.system.sections.systemLog': 'システムログ',
-    'settings.system.firewall.loadFailed': 'ファイアウォール状態の読み込みに失敗しました',
     'settings.system.firewall.saveFailed': 'ファイアウォール設定の適用に失敗しました',
     'settings.system.firewall.saved': 'ファイアウォール設定を適用しました',
     'settings.system.firewall.cancel': 'キャンセル',
@@ -2749,7 +2717,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': '시간',
     'settings.system.sections.firewall': '방화벽',
     'settings.system.sections.systemLog': '시스템 로그',
-    'settings.system.firewall.loadFailed': '방화벽 상태를 불러오지 못했습니다',
     'settings.system.firewall.saveFailed': '방화벽 설정을 적용하지 못했습니다',
     'settings.system.firewall.saved': '방화벽 설정이 적용되었습니다',
     'settings.system.firewall.cancel': '취소',
@@ -2788,7 +2755,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Tid',
     'settings.system.sections.firewall': 'Brannmur',
     'settings.system.sections.systemLog': 'Systemlogg',
-    'settings.system.firewall.loadFailed': 'Kunne ikke laste brannmurstatus',
     'settings.system.firewall.saveFailed': 'Kunne ikke bruke brannmurinnstillinger',
     'settings.system.firewall.saved': 'Brannmurinnstillinger brukt',
     'settings.system.firewall.cancel': 'Avbryt',
@@ -2827,7 +2793,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Tijd',
     'settings.system.sections.firewall': 'Firewall',
     'settings.system.sections.systemLog': 'Systeemlog',
-    'settings.system.firewall.loadFailed': 'Kan firewallstatus niet laden',
     'settings.system.firewall.saveFailed': 'Kan firewallinstellingen niet toepassen',
     'settings.system.firewall.saved': 'Firewallinstellingen toegepast',
     'settings.system.firewall.cancel': 'Annuleren',
@@ -2866,7 +2831,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Hora',
     'settings.system.sections.firewall': 'Firewall',
     'settings.system.sections.systemLog': 'Log do sistema',
-    'settings.system.firewall.loadFailed': 'Falha ao carregar o status do firewall',
     'settings.system.firewall.saveFailed': 'Falha ao aplicar as configurações do firewall',
     'settings.system.firewall.saved': 'Configurações do firewall aplicadas',
     'settings.system.firewall.cancel': 'Cancelar',
@@ -2905,7 +2869,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Tid',
     'settings.system.sections.firewall': 'Brandvägg',
     'settings.system.sections.systemLog': 'Systemlogg',
-    'settings.system.firewall.loadFailed': 'Kunde inte läsa in brandväggsstatus',
     'settings.system.firewall.saveFailed': 'Kunde inte tillämpa brandväggsinställningar',
     'settings.system.firewall.saved': 'Brandväggsinställningar tillämpade',
     'settings.system.firewall.cancel': 'Avbryt',
@@ -2944,7 +2907,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'เวลา',
     'settings.system.sections.firewall': 'ไฟร์วอลล์',
     'settings.system.sections.systemLog': 'บันทึกระบบ',
-    'settings.system.firewall.loadFailed': 'โหลดสถานะไฟร์วอลล์ไม่สำเร็จ',
     'settings.system.firewall.saveFailed': 'ใช้การตั้งค่าไฟร์วอลล์ไม่สำเร็จ',
     'settings.system.firewall.saved': 'ใช้การตั้งค่าไฟร์วอลล์แล้ว',
     'settings.system.firewall.cancel': 'ยกเลิก',
@@ -2982,7 +2944,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Saat',
     'settings.system.sections.firewall': 'Güvenlik duvarı',
     'settings.system.sections.systemLog': 'Sistem günlüğü',
-    'settings.system.firewall.loadFailed': 'Güvenlik duvarı durumu yüklenemedi',
     'settings.system.firewall.saveFailed': 'Güvenlik duvarı ayarları uygulanamadı',
     'settings.system.firewall.saved': 'Güvenlik duvarı ayarları uygulandı',
     'settings.system.firewall.cancel': 'İptal',
@@ -3021,7 +2982,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Thời gian',
     'settings.system.sections.firewall': 'Tường lửa',
     'settings.system.sections.systemLog': 'Nhật ký hệ thống',
-    'settings.system.firewall.loadFailed': 'Không thể tải trạng thái tường lửa',
     'settings.system.firewall.saveFailed': 'Không thể áp dụng cài đặt tường lửa',
     'settings.system.firewall.saved': 'Đã áp dụng cài đặt tường lửa',
     'settings.system.firewall.cancel': 'Hủy',
@@ -3060,7 +3020,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Час',
     'settings.system.sections.firewall': 'Брандмауер',
     'settings.system.sections.systemLog': 'Системний журнал',
-    'settings.system.firewall.loadFailed': 'Не вдалося завантажити стан брандмауера',
     'settings.system.firewall.saveFailed': 'Не вдалося застосувати налаштування брандмауера',
     'settings.system.firewall.saved': 'Налаштування брандмауера застосовано',
     'settings.system.firewall.cancel': 'Скасувати',
@@ -3099,7 +3058,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': '时间',
     'settings.system.sections.firewall': '防火墙',
     'settings.system.sections.systemLog': '系统日志',
-    'settings.system.firewall.loadFailed': '加载防火墙状态失败',
     'settings.system.firewall.saveFailed': '应用防火墙设置失败',
     'settings.system.firewall.saved': '防火墙设置已应用',
     'settings.system.firewall.cancel': '取消',
@@ -3137,7 +3095,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': '時間',
     'settings.system.sections.firewall': '防火牆',
     'settings.system.sections.systemLog': '系統記錄',
-    'settings.system.firewall.loadFailed': '載入防火牆狀態失敗',
     'settings.system.firewall.saveFailed': '套用防火牆設定失敗',
     'settings.system.firewall.saved': '防火牆設定已套用',
     'settings.system.firewall.cancel': '取消',
@@ -3173,7 +3130,6 @@ const firewallExtras: Record<string, TranslationMap> = {
 };
 
 const timeLogKeys = [
-  'settings.system.time.loadFailed',
   'settings.system.time.saveFailed',
   'settings.system.time.saved',
   'settings.system.time.syncFailed',
@@ -3196,7 +3152,6 @@ const timeLogKeys = [
   'settings.system.time.servers.useDefaults',
   'settings.system.time.servers.routerDetected',
   'settings.systemLog.title',
-  'settings.systemLog.loadFailed',
   'settings.systemLog.saveFailed',
   'settings.systemLog.saved',
   'settings.systemLog.invalidHost',
@@ -3316,7 +3271,6 @@ function keyedExtras(keys: readonly string[], packs: Record<string, string[]>) {
 
 const timeLogExtras = keyedExtras(timeLogKeys, {
   de: [
-    'Zeiteinstellungen konnten nicht geladen werden',
     'Zeiteinstellungen konnten nicht gespeichert werden',
     'Zeiteinstellungen gespeichert',
     'Zeitsynchronisierung fehlgeschlagen',
@@ -3339,7 +3293,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Standardwerte verwenden',
     'Erkannter Router: {{gateway}}',
     'Systemprotokoll',
-    'Protokolleinstellungen konnten nicht geladen werden',
     'Protokolleinstellungen konnten nicht gespeichert werden',
     'Protokolleinstellungen gespeichert',
     'Syslog-Serverhost eingeben',
@@ -3379,7 +3332,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Alle'
   ],
   es: [
-    'No se pudieron cargar los ajustes de hora',
     'No se pudieron guardar los ajustes de hora',
     'Ajustes de hora guardados',
     'No se pudo sincronizar la hora',
@@ -3402,7 +3354,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Usar valores predeterminados',
     'Router detectado: {{gateway}}',
     'Registro del sistema',
-    'No se pudieron cargar los ajustes de registro',
     'No se pudieron guardar los ajustes de registro',
     'Ajustes de registro guardados',
     'Introduce un host de servidor syslog',
@@ -3442,7 +3393,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Todo'
   ],
   fr: [
-    'Échec du chargement des paramètres d’heure',
     'Échec de l’enregistrement des paramètres d’heure',
     'Paramètres d’heure enregistrés',
     'Échec de la synchronisation de l’heure',
@@ -3465,7 +3415,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Utiliser les valeurs par défaut',
     'Routeur détecté: {{gateway}}',
     'Journal système',
-    'Échec du chargement des paramètres de journal',
     'Échec de l’enregistrement des paramètres de journal',
     'Paramètres de journal enregistrés',
     'Saisissez un hôte de serveur syslog',
@@ -3505,7 +3454,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Tout'
   ],
   uk: [
-    'Не вдалося завантажити налаштування часу',
     'Не вдалося зберегти налаштування часу',
     'Налаштування часу збережено',
     'Не вдалося синхронізувати час',
@@ -3528,7 +3476,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Використати типові',
     'Виявлений маршрутизатор: {{gateway}}',
     'Системний журнал',
-    'Не вдалося завантажити налаштування журналу',
     'Не вдалося зберегти налаштування журналу',
     'Налаштування журналу збережено',
     'Введіть хост сервера syslog',
@@ -3568,7 +3515,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Усі'
   ],
   zh: [
-    '加载时间设置失败',
     '保存时间设置失败',
     '时间设置已保存',
     '同步时间失败',
@@ -3591,7 +3537,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '使用默认值',
     '检测到路由器：{{gateway}}',
     '系统日志',
-    '加载日志设置失败',
     '保存日志设置失败',
     '日志设置已保存',
     '请输入 syslog 服务器主机',
@@ -3631,7 +3576,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - 全部'
   ],
   zh_tw: [
-    '載入時間設定失敗',
     '儲存時間設定失敗',
     '時間設定已儲存',
     '同步時間失敗',
@@ -3654,7 +3598,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '使用預設值',
     '偵測到路由器：{{gateway}}',
     '系統記錄',
-    '載入記錄設定失敗',
     '儲存記錄設定失敗',
     '記錄設定已儲存',
     '請輸入 syslog 伺服器主機',
@@ -3694,7 +3637,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - 全部'
   ],
   it: [
-    'Impossibile caricare le impostazioni dell’ora',
     'Impossibile salvare le impostazioni dell’ora',
     'Impostazioni dell’ora salvate',
     'Impossibile sincronizzare l’ora',
@@ -3717,7 +3659,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Usa predefiniti',
     'Router rilevato: {{gateway}}',
     'Log di sistema',
-    'Impossibile caricare le impostazioni dei log',
     'Impossibile salvare le impostazioni dei log',
     'Impostazioni dei log salvate',
     'Inserisci l’host del server syslog',
@@ -3757,7 +3698,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Tutto'
   ],
   nl: [
-    'Kan tijdinstellingen niet laden',
     'Kan tijdinstellingen niet opslaan',
     'Tijdinstellingen opgeslagen',
     'Kan tijd niet synchroniseren',
@@ -3780,7 +3720,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Standaarden gebruiken',
     'Gedetecteerde router: {{gateway}}',
     'Systeemlog',
-    'Kan loginstellingen niet laden',
     'Kan loginstellingen niet opslaan',
     'Loginstellingen opgeslagen',
     'Voer een syslog-serverhost in',
@@ -3820,7 +3759,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Alles'
   ],
   pt_br: [
-    'Falha ao carregar as configurações de hora',
     'Falha ao salvar as configurações de hora',
     'Configurações de hora salvas',
     'Falha ao sincronizar a hora',
@@ -3843,7 +3781,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Usar padrões',
     'Roteador detectado: {{gateway}}',
     'Log do sistema',
-    'Falha ao carregar as configurações de log',
     'Falha ao salvar as configurações de log',
     'Configurações de log salvas',
     'Informe um host de servidor syslog',
@@ -3883,7 +3820,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Tudo'
   ],
   tr: [
-    'Saat ayarları yüklenemedi',
     'Saat ayarları kaydedilemedi',
     'Saat ayarları kaydedildi',
     'Saat eşitlenemedi',
@@ -3906,7 +3842,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Varsayılanları kullan',
     'Algılanan yönlendirici: {{gateway}}',
     'Sistem günlüğü',
-    'Günlük ayarları yüklenemedi',
     'Günlük ayarları kaydedilemedi',
     'Günlük ayarları kaydedildi',
     'Bir syslog sunucusu hostu girin',
@@ -3946,7 +3881,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Tümü'
   ],
   ja: [
-    '時刻設定の読み込みに失敗しました',
     '時刻設定の保存に失敗しました',
     '時刻設定を保存しました',
     '時刻の同期に失敗しました',
@@ -3969,7 +3903,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '既定値を使用',
     '検出されたルーター: {{gateway}}',
     'システムログ',
-    'ログ設定の読み込みに失敗しました',
     'ログ設定の保存に失敗しました',
     'ログ設定を保存しました',
     'syslog サーバーのホストを入力してください',
@@ -4009,7 +3942,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - すべて'
   ],
   ko: [
-    '시간 설정을 불러오지 못했습니다',
     '시간 설정을 저장하지 못했습니다',
     '시간 설정이 저장되었습니다',
     '시간 동기화에 실패했습니다',
@@ -4032,7 +3964,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '기본값 사용',
     '감지된 라우터: {{gateway}}',
     '시스템 로그',
-    '로그 설정을 불러오지 못했습니다',
     '로그 설정을 저장하지 못했습니다',
     '로그 설정이 저장되었습니다',
     'syslog 서버 호스트를 입력하세요',
@@ -4072,7 +4003,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - 모두'
   ],
   ca: [
-    "No s'han pogut carregar els paràmetres d'hora",
     "No s'han pogut desar els paràmetres d'hora",
     'Paràmetres d’hora desats',
     "No s'ha pogut sincronitzar l'hora",
@@ -4095,7 +4025,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Fes servir valors per defecte',
     'Encaminador detectat: {{gateway}}',
     'Registre del sistema',
-    "No s'han pogut carregar els paràmetres de registre",
     "No s'han pogut desar els paràmetres de registre",
     'Paràmetres de registre desats',
     'Introdueix un host de servidor syslog',
@@ -4135,7 +4064,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Tot'
   ],
   cz: [
-    'Nepodařilo se načíst nastavení času',
     'Nepodařilo se uložit nastavení času',
     'Nastavení času uloženo',
     'Nepodařilo se synchronizovat čas',
@@ -4158,7 +4086,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Použít výchozí',
     'Zjištěný router: {{gateway}}',
     'Systémový protokol',
-    'Nepodařilo se načíst nastavení protokolu',
     'Nepodařilo se uložit nastavení protokolu',
     'Nastavení protokolu uloženo',
     'Zadejte hostitele syslog serveru',
@@ -4198,7 +4125,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Vše'
   ],
   da: [
-    'Kunne ikke indlæse tidsindstillinger',
     'Kunne ikke gemme tidsindstillinger',
     'Tidsindstillinger gemt',
     'Kunne ikke synkronisere tid',
@@ -4221,7 +4147,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Brug standarder',
     'Registreret router: {{gateway}}',
     'Systemlog',
-    'Kunne ikke indlæse logindstillinger',
     'Kunne ikke gemme logindstillinger',
     'Logindstillinger gemt',
     'Angiv en syslog-serverhost',
@@ -4261,7 +4186,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Alle'
   ],
   hu: [
-    'Nem sikerült betölteni az időbeállításokat',
     'Nem sikerült menteni az időbeállításokat',
     'Időbeállítások mentve',
     'Nem sikerült szinkronizálni az időt',
@@ -4284,7 +4208,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Alapértékek használata',
     'Észlelt router: {{gateway}}',
     'Rendszernapló',
-    'Nem sikerült betölteni a naplóbeállításokat',
     'Nem sikerült menteni a naplóbeállításokat',
     'Naplóbeállítások mentve',
     'Adj meg egy syslog szerver hostot',
@@ -4324,7 +4247,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Mind'
   ],
   id: [
-    'Gagal memuat pengaturan waktu',
     'Gagal menyimpan pengaturan waktu',
     'Pengaturan waktu disimpan',
     'Gagal menyinkronkan waktu',
@@ -4347,7 +4269,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Gunakan default',
     'Router terdeteksi: {{gateway}}',
     'Log Sistem',
-    'Gagal memuat pengaturan log',
     'Gagal menyimpan pengaturan log',
     'Pengaturan log disimpan',
     'Masukkan host server syslog',
@@ -4387,7 +4308,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Semua'
   ],
   nb: [
-    'Kunne ikke laste tidsinnstillinger',
     'Kunne ikke lagre tidsinnstillinger',
     'Tidsinnstillinger lagret',
     'Kunne ikke synkronisere tid',
@@ -4410,7 +4330,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Bruk standarder',
     'Oppdaget ruter: {{gateway}}',
     'Systemlogg',
-    'Kunne ikke laste logginnstillinger',
     'Kunne ikke lagre logginnstillinger',
     'Logginnstillinger lagret',
     'Angi en syslog-serverhost',
@@ -4450,7 +4369,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Alle'
   ],
   se: [
-    'Kunde inte läsa in tidsinställningar',
     'Kunde inte spara tidsinställningar',
     'Tidsinställningar sparade',
     'Kunde inte synkronisera tid',
@@ -4473,7 +4391,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Använd standardvärden',
     'Upptäckt router: {{gateway}}',
     'Systemlogg',
-    'Kunde inte läsa in logginställningar',
     'Kunde inte spara logginställningar',
     'Logginställningar sparade',
     'Ange en syslog-serverhost',
@@ -4513,7 +4430,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - Alla'
   ],
   th: [
-    'โหลดการตั้งค่าเวลาไม่สำเร็จ',
     'บันทึกการตั้งค่าเวลาไม่สำเร็จ',
     'บันทึกการตั้งค่าเวลาแล้ว',
     'ซิงโครไนซ์เวลาไม่สำเร็จ',
@@ -4536,7 +4452,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'ใช้ค่าเริ่มต้น',
     'ตรวจพบเราเตอร์: {{gateway}}',
     'บันทึกระบบ',
-    'โหลดการตั้งค่าบันทึกไม่สำเร็จ',
     'บันทึกการตั้งค่าบันทึกไม่สำเร็จ',
     'บันทึกการตั้งค่าบันทึกแล้ว',
     'ป้อนโฮสต์เซิร์ฟเวอร์ syslog',
@@ -4576,7 +4491,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '8 - ทั้งหมด'
   ],
   vi: [
-    'Không thể tải cài đặt thời gian',
     'Không thể lưu cài đặt thời gian',
     'Đã lưu cài đặt thời gian',
     'Không thể đồng bộ thời gian',
@@ -4599,7 +4513,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Dùng mặc định',
     'Bộ định tuyến phát hiện được: {{gateway}}',
     'Nhật ký hệ thống',
-    'Không thể tải cài đặt nhật ký',
     'Không thể lưu cài đặt nhật ký',
     'Đã lưu cài đặt nhật ký',
     'Nhập host máy chủ syslog',
@@ -6902,7 +6815,6 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.system.sections.time': 'Czas',
     'settings.system.sections.firewall': 'Zapora',
     'settings.system.sections.systemLog': 'Dziennik systemowy',
-    'settings.system.time.loadFailed': 'Nie udało się wczytać ustawień czasu',
     'settings.system.time.saveFailed': 'Nie udało się zapisać ustawień czasu',
     'settings.system.time.saved': 'Ustawienia czasu zapisane',
     'settings.system.time.syncFailed': 'Nie udało się zsynchronizować czasu',
@@ -6927,7 +6839,6 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.system.time.servers.useRouter': 'Użyj routera',
     'settings.system.time.servers.useDefaults': 'Użyj domyślnych',
     'settings.system.time.servers.routerDetected': 'Wykryty router: {{gateway}}',
-    'settings.system.firewall.loadFailed': 'Nie udało się wczytać stanu zapory',
     'settings.system.firewall.saveFailed': 'Nie udało się zastosować ustawień zapory',
     'settings.system.firewall.saved': 'Ustawienia zapory zastosowane',
     'settings.system.firewall.cancel': 'Anuluj',
@@ -6961,7 +6872,6 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.rules.title': 'Aktualne reguły',
     'settings.system.firewall.rules.empty': 'Brak reguł',
     'settings.systemLog.title': 'Dziennik systemowy',
-    'settings.systemLog.loadFailed': 'Nie udało się wczytać ustawień logów',
     'settings.systemLog.saveFailed': 'Nie udało się zapisać ustawień logów',
     'settings.systemLog.saved': 'Ustawienia logów zapisane',
     'settings.systemLog.invalidHost': 'Wprowadź host serwera syslog',

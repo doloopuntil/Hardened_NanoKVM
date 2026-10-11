@@ -5,7 +5,10 @@ const vi = {
       cancel: 'Hủy',
       delete: 'Xóa',
       actionFailed: 'Thao tác thất bại',
-      actionFailedDetail: 'Thao tác thất bại: {{detail}}'
+      actionFailedDetail: 'Thao tác thất bại: {{detail}}',
+      loading: 'Đang tải cài đặt từ thiết bị...',
+      loadFailed: 'Không thể tải cài đặt từ thiết bị',
+      retry: 'Thử lại'
     },
     head: {
       desktop: 'Màn hình từ xa',

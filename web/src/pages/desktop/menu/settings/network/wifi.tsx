@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { LockOutlined, WifiOutlined } from '@ant-design/icons';
 import { Button, Input, Modal, Switch } from 'antd';
 import { WifiIcon, WifiPenIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/network.ts';
+import { attempt } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 export const Wifi = () => {
   const { t } = useTranslation();
@@ -17,57 +19,41 @@ export const Wifi = () => {
   const [ssid, setSsid] = useState('');
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState<'' | 'connecting' | 'disconnecting'>('');
-  const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    getWiFi();
-  }, []);
+  const applyWiFi = (rsp: { data?: any }) => {
+    setIsSupported(!!rsp.data?.supported);
+    setIsAPMode(!!rsp.data?.apMode);
 
-  async function getWiFi() {
-    try {
-      const rsp = await api.getWiFi();
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
-
-      setIsSupported(!!rsp.data?.supported);
-      setIsAPMode(!!rsp.data?.apMode);
-
-      if (rsp.data?.connected && rsp.data?.ssid) {
-        setConnectedWifi(rsp.data.ssid);
-      } else {
-        setConnectedWifi('');
-      }
-    } catch {
-      /* empty */
+    if (rsp.data?.connected && rsp.data?.ssid) {
+      setConnectedWifi(rsp.data.ssid);
+    } else {
+      setConnectedWifi('');
     }
+  };
+
+  const isReady = useSettingsLoad(api.getWiFi, applyWiFi);
+
+  // refresh after a failed connect
+  async function getWiFi() {
+    const rsp = await attempt(() => api.getWiFi(), { quiet: true });
+    if (rsp) applyWiFi(rsp);
   }
 
   async function connect() {
-    setMessage('');
-
     if (!ssid || !password) return;
 
     if (status !== '') return;
     setStatus('connecting');
 
-    try {
-      const rsp = await api.connectWifi(ssid, password);
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        setMessage(t('settings.network.wifi.failed'));
-        getWiFi();
-        return;
-      }
-
+    const rsp = await attempt(() => api.connectWifi(ssid, password));
+    if (rsp) {
       setConnectedWifi(ssid);
       setIsModalOpen(false);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setStatus('');
+    } else {
+      getWiFi();
     }
+
+    setStatus('');
   }
 
   async function disconnect(enable: boolean) {
@@ -75,25 +61,15 @@ export const Wifi = () => {
 
     setStatus('disconnecting');
 
-    try {
-      const rsp = await api.disconnectWifi();
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
+    const rsp = await attempt(() => api.disconnectWifi());
+    if (rsp) setConnectedWifi('');
 
-      setConnectedWifi('');
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setStatus('');
-    }
+    setStatus('');
   }
 
   function openModal() {
     setSsid('');
     setPassword('');
-    setMessage('');
     setIsModalOpen(true);
   }
 
@@ -137,6 +113,7 @@ export const Wifi = () => {
           type={connectedWiFi ? 'primary' : 'default'}
           shape="round"
           size="small"
+          disabled={!isReady}
           onClick={openModal}
         >
           <div className="flex items-center justify-center px-1.5">
@@ -200,8 +177,6 @@ export const Wifi = () => {
             placeholder={t('settings.network.wifi.password')}
             onChange={(e) => setPassword(e.target.value)}
           />
-
-          {!!message && <span className="text-sm text-red-500">{message}</span>}
         </div>
       </Modal>
     </>

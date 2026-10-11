@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Select, Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { setMouseJiggler } from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 export const MouseJiggler = () => {
   const { t } = useTranslation();
@@ -13,34 +14,16 @@ export const MouseJiggler = () => {
   const [mode, setMode] = useState('relative');
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    getMouseJiggler();
-  }, []);
+  const isReady = useSettingsLoad(api.getMouseJiggler, (rsp) => {
+    setEnabled(rsp.data.enabled);
+    setMode(rsp.data.mode);
+  });
 
   const options = [
     { value: 'disable', label: t('settings.device.mouseJiggler.disable') },
     { value: 'relative', label: t('settings.device.mouseJiggler.relative') },
     { value: 'absolute', label: t('settings.device.mouseJiggler.absolute') }
   ];
-
-  function getMouseJiggler() {
-    setIsLoading(true);
-
-    api
-      .getMouseJiggler()
-      .then((rsp) => {
-        if (rsp.code !== 0) {
-          console.log(rsp.msg);
-          return;
-        }
-
-        setEnabled(rsp.data.enabled);
-        setMode(rsp.data.mode);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
 
   function enable() {
     if (isLoading) return;
@@ -91,10 +74,11 @@ export const MouseJiggler = () => {
           value={mode}
           options={options}
           loading={isLoading}
+          disabled={!isReady}
           onChange={updateMode}
         />
       ) : (
-        <Switch checked={enabled} loading={isLoading} onChange={enable} />
+        <Switch checked={enabled} loading={isLoading} disabled={!isReady} onChange={enable} />
       )}
     </div>
   );

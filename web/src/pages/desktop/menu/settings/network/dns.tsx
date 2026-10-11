@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/network.ts';
 import type { DNSMode } from '@/api/network.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 import type { NetworkSectionHandle, NetworkSectionResult, NetworkSectionStatus } from './types.ts';
 
@@ -310,19 +311,40 @@ export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
     const [originalSubnetMask, setOriginalSubnetMask] = useState('');
     const [originalGateway, setOriginalGateway] = useState('');
 
-    const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [focusNewRow, setFocusNewRow] = useState(false);
 
-    useEffect(() => {
-      getDNS();
-    }, []);
+    const applyDNSState = (rsp: { data?: any }) => {
+      const data = rsp.data as DNSState;
+      const fetchedMode = data.mode || 'dhcp';
+      setMode(fetchedMode);
+      setOriginalMode(fetchedMode);
 
-    async function getDNS(showLoading = true) {
-      if (showLoading) setIsLoading(true);
+      const fetchedServers = data.servers?.filter(Boolean) || [];
+      setServers(fetchedServers);
+      setOriginalServers(fetchedServers);
+      setDHCP(data.dhcp || []);
+      setInfo(data.info || {});
 
+      const config = data.config || {};
+      const fetchedAddress = normalizeIPv4(config.address || data.info?.address || '');
+      const fetchedSubnetMask = config.subnetMask || data.info?.subnetMask || '';
+      const fetchedGateway = config.gateway || data.info?.gateway || '';
+      setAddress(fetchedAddress);
+      setSubnetMask(fetchedSubnetMask);
+      setGateway(fetchedGateway);
+      setOriginalAddress(fetchedAddress);
+      setOriginalSubnetMask(fetchedSubnetMask);
+      setOriginalGateway(fetchedGateway);
+    };
+
+    const isLoaded = useSettingsLoad(api.getDNS, applyDNSState);
+    const isLoading = !isLoaded;
+
+    // refresh after saving
+    async function getDNS() {
       try {
         const rsp = await api.getDNS();
         if (rsp.code !== 0) {
@@ -330,31 +352,9 @@ export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
           return;
         }
 
-        const data = rsp.data as DNSState;
-        const fetchedMode = data.mode || 'dhcp';
-        setMode(fetchedMode);
-        setOriginalMode(fetchedMode);
-
-        const fetchedServers = data.servers?.filter(Boolean) || [];
-        setServers(fetchedServers);
-        setOriginalServers(fetchedServers);
-        setDHCP(data.dhcp || []);
-        setInfo(data.info || {});
-
-        const config = data.config || {};
-        const fetchedAddress = normalizeIPv4(config.address || data.info?.address || '');
-        const fetchedSubnetMask = config.subnetMask || data.info?.subnetMask || '';
-        const fetchedGateway = config.gateway || data.info?.gateway || '';
-        setAddress(fetchedAddress);
-        setSubnetMask(fetchedSubnetMask);
-        setGateway(fetchedGateway);
-        setOriginalAddress(fetchedAddress);
-        setOriginalSubnetMask(fetchedSubnetMask);
-        setOriginalGateway(fetchedGateway);
+        applyDNSState(rsp);
       } catch (err) {
         console.log(err);
-      } finally {
-        if (showLoading) setIsLoading(false);
       }
     }
 
@@ -433,7 +433,7 @@ export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
           window.setTimeout(() => window.location.assign(redirectURL), 800);
           return { changed: true, redirecting: true };
         } else {
-          await getDNS(false);
+          await getDNS();
           setMessage(t('settings.network.dns.saved'));
           return { changed: true };
         }

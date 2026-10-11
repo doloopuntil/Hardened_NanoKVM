@@ -7,6 +7,7 @@ import * as api from '@/api/auth-totp.ts';
 import type { TotpStatus } from '@/api/auth-totp.ts';
 import { encrypt } from '@/lib/encrypt.ts';
 import { toast } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 /** Copy text, falling back to execCommand where the Clipboard API is missing (plain HTTP). */
 async function copyText(text: string, container: HTMLElement): Promise<boolean> {
@@ -47,7 +48,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
   const { t } = useTranslation();
 
   const [status, setStatus] = useState<TotpStatus | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isBusy, setIsBusy] = useState(false);
 
   const [secret, setSecret] = useState('');
@@ -74,9 +75,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
 
   const isEnrolling = Boolean(otpauthUri);
 
-  useEffect(() => {
-    refresh();
-  }, []);
+  useSettingsLoad(api.getStatus, (rsp) => setStatus(rsp.data as TotpStatus));
 
   // An abandoned enrolment leaves a secret the user may already have scanned,
   // so keep them on the tab until they either confirm it or back out.
@@ -307,13 +306,14 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         <div className="flex min-w-0 flex-col space-y-1">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <span>{t('settings.account.totp.title')}</span>
-            {status?.enabled ? (
-              <Tag color="green" className="!me-0">
-                {t('settings.account.totp.enabled')}
-              </Tag>
-            ) : (
-              <Tag className="!me-0">{t('settings.account.totp.disabled')}</Tag>
-            )}
+            {status &&
+              (status.enabled ? (
+                <Tag color="green" className="!me-0">
+                  {t('settings.account.totp.enabled')}
+                </Tag>
+              ) : (
+                <Tag className="!me-0">{t('settings.account.totp.disabled')}</Tag>
+              ))}
             {status?.required && !status.enabled && (
               <Tag color="blue" className="!me-0">
                 {t('settings.account.totp.required')}
@@ -353,7 +353,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
 
       {/* Codes are derived from the clock, so enrolling before NTP succeeds
           would produce a secret whose codes could never be confirmed. */}
-      {!status?.clockSynced && !status?.enabled && (
+      {status && !status.clockSynced && !status.enabled && (
         <Alert
           className="mt-3"
           type="warning"

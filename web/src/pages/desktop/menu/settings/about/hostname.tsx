@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
 import { ClipboardPenIcon } from 'lucide-react';
@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 export const Hostname = () => {
   const { t } = useTranslation();
@@ -16,24 +17,11 @@ export const Hostname = () => {
   const [editState, setEditState] = useState<'' | 'editing' | 'edited'>('');
   const [input, setInput] = useState('');
 
-  useEffect(() => {
-    getHostname();
-  }, []);
-
-  function getHostname() {
-    setIsLoading(true);
-
-    api
-      .getHostname()
-      .then((rsp) => {
-        if (rsp.data?.hostname) {
-          setHostname(rsp.data?.hostname);
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
+  const isReady = useSettingsLoad(api.getHostname, (rsp) => {
+    if (rsp.data?.hostname) {
+      setHostname(rsp.data.hostname);
+    }
+  });
 
   function showInput() {
     setInput(hostname);
@@ -81,8 +69,10 @@ export const Hostname = () => {
           <div className="flex min-w-0 items-center space-x-2">
             <span className="min-w-0 break-all">{hostname}</span>
             <div
-              className="size-[16px] shrink-0 cursor-pointer text-neutral-500 hover:text-blue-500"
-              onClick={showInput}
+              className={`size-[16px] shrink-0 text-neutral-500 ${
+                isReady ? 'cursor-pointer hover:text-blue-500' : 'cursor-not-allowed opacity-40'
+              }`}
+              onClick={isReady ? showInput : undefined}
             >
               <ClipboardPenIcon size={16} />
             </div>

@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Divider } from 'antd';
 import { LoaderCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
+import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
 
 import { Device } from './device.tsx';
 import { Header } from './header.tsx';
@@ -19,39 +20,15 @@ type TailscaleProps = {
 export const Tailscale = ({ setIsLocked }: TailscaleProps) => {
   const { t } = useTranslation();
 
-  const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<Status>();
-  const [errMsg, setErrMsg] = useState('');
-
-  useEffect(() => {
-    getStatus();
-  }, []);
-
-  function getStatus() {
-    if (isLoading) return;
-    setIsLoading(true);
-
-    api
-      .getStatus()
-      .then((rsp) => {
-        if (rsp.code !== 0) {
-          setErrMsg(rsp.msg);
-          return;
-        }
-
-        setStatus(rsp.data);
-      })
-      .catch((err) => {
-        setErrMsg(err?.message || 'Failed to get status');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
+  const { status: loadStatus, reload } = useSettingsLoadState(api.getStatus, (rsp) =>
+    setStatus(rsp.data)
+  );
+  const isLoading = loadStatus === 'loading';
 
   return (
     <>
-      <Header state={status?.state} onSuccess={getStatus} />
+      <Header state={status?.state} onSuccess={reload} />
       <Divider className="opacity-50" />
 
       {isLoading ? (
@@ -62,18 +39,16 @@ export const Tailscale = ({ setIsLocked }: TailscaleProps) => {
       ) : (
         <>
           {status?.state === 'notInstall' && (
-            <Install setIsLocked={setIsLocked} onSuccess={getStatus} />
+            <Install setIsLocked={setIsLocked} onSuccess={reload} />
           )}
 
-          {status?.state === 'notRunning' && <Run onSuccess={getStatus} />}
+          {status?.state === 'notRunning' && <Run onSuccess={reload} />}
 
-          {status?.state === 'notLogin' && <Login onSuccess={getStatus} />}
+          {status?.state === 'notLogin' && <Login onSuccess={reload} />}
 
           {(status?.state === 'stopped' || status?.state === 'running') && (
-            <Device status={status} onLogout={getStatus} />
+            <Device status={status} onLogout={reload} />
           )}
-
-          {errMsg && <div className="pt-5 text-red-500">{errMsg}</div>}
         </>
       )}
     </>

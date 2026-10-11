@@ -5,7 +5,10 @@ const hu = {
       cancel: 'Mégse',
       delete: 'Törlés',
       actionFailed: 'A művelet sikertelen',
-      actionFailedDetail: 'A művelet sikertelen: {{detail}}'
+      actionFailedDetail: 'A művelet sikertelen: {{detail}}',
+      loading: 'Beállítások betöltése az eszközről...',
+      loadFailed: 'A beállításokat nem sikerült betölteni az eszközről',
+      retry: 'Újra'
     },
     head: {
       desktop: 'Távoli Asztal',

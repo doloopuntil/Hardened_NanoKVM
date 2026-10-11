@@ -5,7 +5,10 @@ const se = {
       cancel: 'Avbryt',
       delete: 'Ta bort',
       actionFailed: 'Åtgärden misslyckades',
-      actionFailedDetail: 'Åtgärden misslyckades: {{detail}}'
+      actionFailedDetail: 'Åtgärden misslyckades: {{detail}}',
+      loading: 'Läser in inställningar från enheten...',
+      loadFailed: 'Det gick inte att läsa in inställningarna från enheten',
+      retry: 'Försök igen'
     },
     head: {
       desktop: 'Fjärrskrivbord',

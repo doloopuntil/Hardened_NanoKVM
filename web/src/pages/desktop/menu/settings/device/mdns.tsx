@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Switch, Tooltip } from 'antd';
 import { CircleAlertIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 export const Mdns = () => {
   const { t } = useTranslation();
@@ -12,20 +13,9 @@ export const Mdns = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    setIsLoading(true);
-
-    api
-      .getMdnsState()
-      .then((rsp) => {
-        if (rsp.data?.enabled) {
-          setIsEnabled(true);
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+  const isReady = useSettingsLoad(api.getMdnsState, (rsp) => {
+    setIsEnabled(!!rsp.data?.enabled);
+  });
 
   async function update() {
     if (isLoading) return;
@@ -58,7 +48,7 @@ export const Mdns = () => {
         <span className="text-xs text-neutral-500">{t('settings.device.mdns.description')}</span>
       </div>
 
-      <Switch checked={isEnabled} loading={isLoading} onChange={update} />
+      <Switch checked={isEnabled} loading={isLoading} disabled={!isReady} onChange={update} />
     </div>
   );
 };

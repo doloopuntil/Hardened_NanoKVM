@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Modal, Switch } from 'antd';
 import { useAtom } from 'jotai';
 import {
@@ -18,6 +18,7 @@ import * as vmApi from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import * as ls from '@/lib/localstorage.ts';
 import { menuDisabledItemsAtom } from '@/jotai/settings.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 import { Robot } from '@/components/icons/robot.tsx';
 
 export const MenuIcons = () => {
@@ -47,16 +48,20 @@ export const MenuIcons = () => {
     { key: 'collapse', icon: <XIcon size={16} />, label: 'menu.collapse' }
   ];
 
-  useEffect(() => {
-    vmApi.getTerminalEnabled().then((rsp) => {
-      if (rsp.code !== 0 || typeof rsp.data?.enabled !== 'boolean') return;
+  const isTerminalReady = useSettingsLoad(vmApi.getTerminalEnabled, (rsp) => {
+    if (typeof rsp.data?.enabled === 'boolean') {
       setItemVisible('terminal', rsp.data.enabled);
-    });
-    downloadApi.getRemoteImageDownloadEnabled().then((rsp) => {
-      if (rsp.code !== 0 || typeof rsp.data?.remoteEnabled !== 'boolean') return;
-      setIsRemoteDownloadEnabled(rsp.data.remoteEnabled);
-    });
-  }, []);
+    }
+  });
+
+  const isRemoteDownloadReady = useSettingsLoad(
+    downloadApi.getRemoteImageDownloadEnabled,
+    (rsp) => {
+      if (typeof rsp.data?.remoteEnabled === 'boolean') {
+        setIsRemoteDownloadEnabled(rsp.data.remoteEnabled);
+      }
+    }
+  );
 
   function saveItems(newItems: string[]) {
     setMenuDisabledItems(newItems);
@@ -139,6 +144,12 @@ export const MenuIcons = () => {
     return false;
   }
 
+  function itemDisabled(key: string) {
+    if (key === 'terminal') return !isTerminalReady;
+    if (key === 'remoteDownload') return !isRemoteDownloadReady;
+    return false;
+  }
+
   return (
     <>
       <div className="mt-8 flex min-w-0 flex-col space-y-5">
@@ -163,6 +174,7 @@ export const MenuIcons = () => {
                 className="shrink-0"
                 checked={itemChecked(item.key)}
                 loading={itemLoading(item.key)}
+                disabled={itemDisabled(item.key)}
                 onChange={() => updateItems(item.key)}
               />
             </div>

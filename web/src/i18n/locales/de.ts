@@ -5,7 +5,10 @@ const de = {
       cancel: 'Abbrechen',
       delete: 'Löschen',
       actionFailed: 'Vorgang fehlgeschlagen',
-      actionFailedDetail: 'Vorgang fehlgeschlagen: {{detail}}'
+      actionFailedDetail: 'Vorgang fehlgeschlagen: {{detail}}',
+      loading: 'Einstellungen werden vom Gerät geladen...',
+      loadFailed: 'Einstellungen konnten nicht vom Gerät geladen werden',
+      retry: 'Erneut versuchen'
     },
     head: {
       desktop: 'Entfernter Desktop',

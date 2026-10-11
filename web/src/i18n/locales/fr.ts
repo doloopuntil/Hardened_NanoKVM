@@ -5,7 +5,10 @@ const fr = {
       cancel: 'Annuler',
       delete: 'Supprimer',
       actionFailed: "L'opération a échoué",
-      actionFailedDetail: "L'opération a échoué : {{detail}}"
+      actionFailedDetail: "L'opération a échoué : {{detail}}",
+      loading: "Chargement des paramètres de l'appareil...",
+      loadFailed: "Impossible de charger les paramètres de l'appareil",
+      retry: 'Réessayer'
     },
     head: {
       desktop: 'Bureau à distance',

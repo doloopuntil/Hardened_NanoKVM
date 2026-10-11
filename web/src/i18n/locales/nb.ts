@@ -5,7 +5,10 @@ const nb = {
       cancel: 'Avbryt',
       delete: 'Slett',
       actionFailed: 'Handlingen mislyktes',
-      actionFailedDetail: 'Handlingen mislyktes: {{detail}}'
+      actionFailedDetail: 'Handlingen mislyktes: {{detail}}',
+      loading: 'Laster innstillinger fra enheten...',
+      loadFailed: 'Kunne ikke laste innstillinger fra enheten',
+      retry: 'Prøv igjen'
     },
     head: {
       desktop: 'Eksternt skrivebord',

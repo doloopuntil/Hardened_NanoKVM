@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Select, Tooltip } from 'antd';
 import { CircleAlertIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 export const Swap = () => {
   const { t } = useTranslation();
@@ -20,24 +21,11 @@ export const Swap = () => {
     { value: '512', label: '512 MB' }
   ];
 
-  useEffect(() => {
-    getSwap();
-  }, []);
-
-  function getSwap() {
-    setIsLoading(true);
-
-    api
-      .getSwap()
-      .then((rsp) => {
-        if (rsp.data?.size) {
-          setSize(rsp.data.size.toString());
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
+  const isReady = useSettingsLoad(api.getSwap, (rsp) => {
+    if (rsp.data?.size) {
+      setSize(rsp.data.size.toString());
+    }
+  });
 
   function update(value: string) {
     if (isLoading) return;
@@ -77,6 +65,7 @@ export const Swap = () => {
         value={size}
         options={options}
         loading={isLoading}
+        disabled={!isReady}
         onChange={update}
       />
     </div>

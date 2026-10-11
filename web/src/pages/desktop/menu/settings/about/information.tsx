@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { Tooltip } from 'antd';
 import { CircleHelpIcon, EthernetPortIcon, WifiIcon } from 'lucide-react';
@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { formatHardenedVersion } from '@/lib/hardened.ts';
+import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 
 import { Hostname } from './hostname.tsx';
 
@@ -59,16 +60,7 @@ export const Information = () => {
 
   const [information, setInformation] = useState<Info>();
 
-  useEffect(() => {
-    api.getInfo().then((rsp: any) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
-
-      setInformation(rsp.data);
-    });
-  }, []);
+  useSettingsLoad(api.getInfo, (rsp) => setInformation(rsp.data));
 
   return (
     <>

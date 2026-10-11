@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/autostart.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
+import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
 
 export const Autostart = () => {
   interface AutostartItem {
@@ -54,27 +55,19 @@ export const Autostart = () => {
 
   useEffect(() => {
     setIsKeyboardEnable(false);
-    getAutostart();
 
     return () => {
       setIsKeyboardEnable(true);
     };
   }, []);
 
-  function getAutostart() {
-    api.getAutostart().then((rsp) => {
-      if (rsp.code !== 0) {
-        console.log(rsp.msg);
-        return;
-      }
-      setAutostartItems([]);
-      if (rsp.data?.files?.length > 0) {
-        rsp.data.files.forEach((item: string) => {
-          setAutostartItems((prevItems) => [...prevItems, { name: item }]);
-        });
-      }
-    });
-  }
+  const { status: loadState, reload: getAutostart } = useSettingsLoadState(
+    api.getAutostart,
+    (rsp) => {
+      const files: string[] = rsp.data?.files ?? [];
+      setAutostartItems(files.map((name) => ({ name })));
+    }
+  );
 
   function uploadAutostart() {
     attempt(() => api.uploadAutostart(autostartName, autostartContent)).then((rsp) => {
@@ -124,6 +117,7 @@ export const Autostart = () => {
         <div>
           <Button
             type="text"
+            disabled={loadState !== 'ready'}
             onClick={() => {
               setIsManageAutostartOpen(true);
             }}

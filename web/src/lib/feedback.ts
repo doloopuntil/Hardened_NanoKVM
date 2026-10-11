@@ -11,6 +11,17 @@ export const toast = {
   error: (content: string, key?: string) => message.error({ content, duration: ERROR_SECONDS, key })
 };
 
+const LOAD_FAILED_KEY = 'load-failed';
+
+// One shared toast, however many loads fail at once.
+export function toastLoadFailed() {
+  message.error({
+    key: LOAD_FAILED_KEY,
+    content: i18n.t('common.loadFailed'),
+    duration: ERROR_SECONDS
+  });
+}
+
 type ConfirmOptions = ModalFuncProps & { danger?: boolean };
 
 // Set `danger` for destructive or irreversible actions.
