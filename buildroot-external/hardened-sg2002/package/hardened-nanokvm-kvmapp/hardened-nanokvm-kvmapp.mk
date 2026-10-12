@@ -26,7 +26,7 @@ define HARDENED_NANOKVM_KVMAPP_INSTALL_TARGET_CMDS
 	printf 'rust\n' > $(TARGET_DIR)/etc/kvm/backend
 	chmod 0644 $(TARGET_DIR)/etc/kvm/backend
 	for name in S00kmod S01fs S01syslogd S02klogd S03usbdev S15kvmhwd \
-		S30eth S30wifi S40firewall S49ntp S50avahi-daemon S50sshd \
+		S30eth S30wifi S40firewall S45wireguard S49ntp S50avahi-daemon S50sshd \
 		S95nanokvm; do \
 		script="$(@D)/system/init.d/$$name"; \
 		[ -f "$$script" ] || continue; \
