@@ -3,6 +3,8 @@
 CONFIG_FILE=/etc/kvm/firewall.json
 SERVER_CONFIG=/etc/kvm/server.yaml
 SYSLOG_CONFIG=/etc/kvm/syslog.json
+WG_CONFIG=/etc/kvm/wireguard/kvm.conf
+WG_IFACE=wg0
 LOCAL_IPV4_CIDRS="10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 169.254.0.0/16"
 LOCAL_IPV4_LOOPBACK_CIDRS="127.0.0.0/8"
 LOCAL_IPV6_CIDRS="fc00::/7 fe80::/10"
@@ -38,6 +40,38 @@ syslog_port() {
     port="$(sed -n 's/.*"remotePort"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' "$SYSLOG_CONFIG" 2>/dev/null | head -n 1)"
     [ -n "$port" ] || port=514
     echo "$port"
+}
+
+wg_get() {
+    sed -n "s/^$1=//p" "$WG_CONFIG" 2>/dev/null | head -n 1
+}
+
+wg_enabled() {
+    [ "$(wg_get Enabled)" = yes ]
+}
+
+wg_allowed_cidrs() {
+    wg_get AllowedIPs | tr ',' '\n'
+}
+
+# Peers on the tunnel count as local, but only from their allowed ranges and only on its interface.
+allow_wg_ipv4_new() {
+    for cidr in $(wg_allowed_cidrs); do
+        iptables -A INPUT -i "$WG_IFACE" -s "$cidr" -m state --state NEW -j ACCEPT
+    done
+}
+
+allow_wg_ipv4_tcp_port() {
+    port="$1"
+    for cidr in $(wg_allowed_cidrs); do
+        iptables -A INPUT -i "$WG_IFACE" -s "$cidr" -p tcp --dport "$port" -m state --state NEW -j ACCEPT
+    done
+}
+
+allow_wg_endpoint() {
+    port="$(wg_get EndpointPort)"
+    [ -n "$port" ] || return 0
+    "$1" -A OUTPUT -p udp --dport "$port" -j ACCEPT
 }
 
 local_ipv4_cidrs() {
@@ -133,6 +167,7 @@ apply_moderate_ipv4() {
     iptables -A OUTPUT -o lo -j ACCEPT
     iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
     allow_local_ipv4_new
+    wg_enabled && allow_wg_ipv4_new
     iptables -A INPUT -p udp --sport 67 --dport 68 -j ACCEPT 2>/dev/null || true
     iptables -A OUTPUT -o eth0 -p tcp --sport 8000 -m state --state ESTABLISHED -j DROP 2>/dev/null || true
     iptables -P INPUT DROP
@@ -197,6 +232,11 @@ apply_restricted_ipv4() {
     allow_local_ipv4_tcp_port "$port"
     iptables -A OUTPUT -p tcp --dport 443 -m state --state NEW -j ACCEPT
     allow_local_ipv4_tcp_port 22
+    if wg_enabled; then
+        allow_wg_ipv4_tcp_port "$(https_port)"
+        allow_wg_ipv4_tcp_port 22
+        allow_wg_endpoint iptables
+    fi
     iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
     iptables -A OUTPUT -p tcp --dport 53 -m state --state NEW -j ACCEPT
     iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
@@ -220,6 +260,7 @@ apply_restricted_ipv6() {
     allow_local_ipv6_tcp_port "$port"
     ip6tables -A OUTPUT -p tcp --dport 443 -m state --state NEW -j ACCEPT
     allow_local_ipv6_tcp_port 22
+    wg_enabled && allow_wg_endpoint ip6tables
     ip6tables -A OUTPUT -p udp --dport 53 -j ACCEPT
     ip6tables -A OUTPUT -p tcp --dport 53 -m state --state NEW -j ACCEPT
     ip6tables -A OUTPUT -p udp --dport 123 -j ACCEPT

@@ -38,6 +38,7 @@ const BOOT_INIT_SCRIPTS: &[&str] = &[
     "S30eth",
     "S30wifi",
     "S40firewall",
+    "S45wireguard",
     "S49ntp",
     "S50avahi-daemon",
     "S50sshd",

@@ -1,0 +1,134 @@
+#!/bin/sh
+# WireGuard tunnel for remote access. Configured from Settings > System > WireGuard,
+# which writes $CONF and $KEY; edit those only through the server.
+
+CONF_DIR=/etc/kvm/wireguard
+CONF=$CONF_DIR/kvm.conf
+KEY=$CONF_DIR/private.key
+IFACE=wg0
+MTU=1420
+SELF=/etc/init.d/S45wireguard
+WATCHER_PID=/var/run/wireguard-endpoint.pid
+
+log() {
+    logger -t wireguard "$*" 2>/dev/null || true
+}
+
+conf_get() {
+    sed -n "s/^$1=//p" "$CONF" 2>/dev/null | head -n 1
+}
+
+endpoint() {
+    host="$(conf_get EndpointHost)"
+    port="$(conf_get EndpointPort)"
+    case "$host" in
+        *:*) echo "[$host]:$port" ;;
+        *) echo "$host:$port" ;;
+    esac
+}
+
+set_endpoint() {
+    wg set "$IFACE" peer "$(conf_get PublicKey)" endpoint "$(endpoint)" 2>/dev/null
+}
+
+# The endpoint is resolved only when it is set, so keep setting it until the first handshake
+# (DNS may not be up at boot) and again whenever the peer goes quiet (dynamic DNS).
+watch_endpoint() {
+    pub="$(conf_get PublicKey)"
+    while ip link show "$IFACE" >/dev/null 2>&1; do
+        last="$(wg show "$IFACE" latest-handshakes 2>/dev/null | awk -v k="$pub" '$1 == k { print $2 }')"
+        now="$(date +%s)"
+        if [ -z "$last" ] || [ "$last" = 0 ] || [ $((now - last)) -gt 180 ]; then
+            set_endpoint
+        fi
+        sleep 30
+    done
+}
+
+stop_watcher() {
+    start-stop-daemon -K -q -p "$WATCHER_PID" 2>/dev/null
+    rm -f "$WATCHER_PID"
+    return 0
+}
+
+teardown() {
+    stop_watcher
+    ip link show "$IFACE" >/dev/null 2>&1 && ip link del dev "$IFACE" 2>/dev/null
+    return 0
+}
+
+start() {
+    printf 'Starting WireGuard: '
+
+    if [ "$(conf_get Enabled)" != yes ]; then
+        echo disabled
+        return 0
+    fi
+    if ! command -v wg >/dev/null 2>&1; then
+        echo 'FAIL (wg is not installed)'
+        return 1
+    fi
+    for f in "$CONF" "$KEY"; do
+        if [ ! -s "$f" ]; then
+            echo "FAIL (missing $f)"
+            return 1
+        fi
+    done
+
+    teardown
+
+    pub="$(conf_get PublicKey)"
+    allowed="$(conf_get AllowedIPs)"
+    keepalive="$(conf_get PersistentKeepalive)"
+    address="$(conf_get Address)"
+
+    err="$(
+        {
+            ip link add dev "$IFACE" type wireguard &&
+                wg set "$IFACE" private-key "$KEY" peer "$pub" \
+                    allowed-ips "$allowed" persistent-keepalive "${keepalive:-0}" &&
+                ip -4 address add "$address" dev "$IFACE" &&
+                ip link set mtu "$MTU" up dev "$IFACE"
+        } 2>&1
+    )" || {
+        echo FAIL
+        log "start failed: $err"
+        teardown
+        return 1
+    }
+
+    # One route per allowed range, so replies to a peer address outside Address leave through the
+    # tunnel. Ranges inside Address already have their connected route.
+    OLD_IFS="$IFS"
+    IFS=,
+    for cidr in $allowed; do
+        [ -n "$(ip -4 route show "$cidr" dev "$IFACE" 2>/dev/null)" ] ||
+            ip -4 route add "$cidr" dev "$IFACE" 2>/dev/null ||
+            log "no route for $cidr"
+    done
+    IFS="$OLD_IFS"
+
+    start-stop-daemon -S -q -b -m -p "$WATCHER_PID" -x "$SELF" -- watch
+
+    echo OK
+}
+
+stop() {
+    printf 'Stopping WireGuard: '
+    teardown
+    echo OK
+}
+
+case "$1" in
+    start) start ;;
+    stop) stop ;;
+    watch) watch_endpoint ;;
+    restart | reload)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
