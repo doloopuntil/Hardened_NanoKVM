@@ -64,7 +64,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC està desactivat en els modes de tallafoc Restringit i Paranoic',
     'settings.system.firewall.mode.description':
-      'Trieu com s’exposa l’accés administratiu entrant. Moderat és el perfil local per defecte; Restringit manté HTTPS/SSH només locals i bloqueja WebRTC; Base és un perfil obert de compatibilitat.',
+      'Tria com s’exposa l’accés administratiu entrant. Moderat és el perfil local per defecte; Restringit manté HTTPS/SSH només locals i bloqueja WebRTC; Base és un perfil obert de compatibilitat.',
     'settings.system.firewall.mode.baseline': 'Base',
     'settings.system.firewall.mode.moderate': 'Moderat',
     'settings.system.firewall.mode.restricted': 'Restringit',
@@ -102,24 +102,25 @@ export const translationFixes: Record<string, TranslationMap> = {
     'wifi.success': "Comprova l'estat de la xarxa del NanoKVM i visita la nova adreça IP",
     'wifi.failed': "L'operació ha fallat, torna-ho a intentar",
     'screen.webrtcConnectionFailed.description':
-      'Comproveu la connexió de xarxa o canvieu el mode de vídeo',
+      'Comprova la connexió de xarxa o canvia el mode de vídeo',
     'keyboard.shortcut.enterFullScreen': 'Canvia el mode de pantalla completa',
     'keyboard.leaderKey.desc':
       "Evita les restriccions del navegador i envia dreceres del sistema directament a l'amfitrió remot",
     'image.mountDesc': 'En alguns sistemes cal expulsar el disc virtual abans de muntar la imatge',
     'image.unmountDesc':
       "En alguns sistemes, cal expulsar manualment de l'amfitrió remot abans de desmuntar la imatge",
-    'auth.totp.prompt': "Introduïu el codi de 6 dígits de l'aplicació d'autenticació",
-    'auth.totp.backupPrompt': 'Introduïu un dels vostres codis de còpia de seguretat',
+    'auth.totp.prompt': "Introdueix el codi de 6 dígits de l'aplicació d'autenticació",
+    'auth.totp.backupPrompt': 'Introdueix un dels teus codis de còpia de seguretat',
     'auth.setupRecovery':
       'Si es perd aquesta contrasenya, la recuperació requereix tornar a gravar la targeta SD',
-    'download.diskShared': "Apagueu primer el disc virtual i després useu la descàrrega d'imatges",
+    'download.diskShared':
+      "Apaga primer el disc virtual i després fes servir la descàrrega d'imatges",
     'download.remoteDisabled':
       'La descàrrega remota d’ISO està desactivada a Configuració > Aparença',
     'settings.device.usbWakeupDesc':
       'Permet que els esdeveniments de teclat o ratolí despertin el host remot',
     'settings.device.usbWakeupTip':
-      'Desactiveu-ho si el host registra missatges USB wakeup repetits',
+      'Desactiva-ho si el host registra missatges USB wakeup repetits',
     'settings.network.tls.tip':
       'Atenció: Usar HTTPS pot augmentar la latència, sobretot amb vídeo MJPEG',
     'settings.system.time.servers.description':
@@ -134,7 +135,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       "Exigeix un codi temporal d'una aplicació d'autenticació, a més de la contrasenya",
     'settings.account.totp.requireDescription':
       "Mentre estigui activada, no es pot desactivar l'autenticació de dos factors, i un compte que no la tingui l'haurà de configurar abans d'utilitzar el dispositiu",
-    'picoclaw.empty': 'Obriu el tauler i inicieu una tasca per començar',
+    'picoclaw.empty': 'Obre el tauler i inicia una tasca per començar',
     'picoclaw.agent.defaultDescription': 'Ajuda general de xat, cerca i espai de treball',
     'picoclaw.agent.kvmDescription': "Opera l'amfitrió remot mitjançant NanoKVM",
     'picoclaw.install.uninstalled': "El temps d'execució s'ha desinstal·lat correctament",
@@ -147,12 +148,108 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Els servidors DNS es poden editar manualment. IPv4 i IPv6 són compatibles.',
     'terminal.baudrate': 'Velocitat en bauds',
     'settings.tailscale.stopDesc': "Tanca la sessió i desactiva l'inici automàtic.",
+    'terminal.unlockDesc':
+      'Introdueix la contrasenya del compte web per iniciar una sessió de terminal',
+    'terminal.locked': 'Massa intents, torna-ho a provar més tard',
+    'settings.update.updating': 'Actualització iniciada. Espera...',
     'keyboard.dropdownKorean': 'Coreà',
     'keyboard.dropdownJapanese': 'Japonès',
-    'terminal.unlockDesc':
-      'Introduïu la contrasenya del compte web per iniciar una sessió de terminal',
-    'terminal.locked': 'Massa intents. Torneu-ho a provar més tard',
-    'settings.update.updating': 'Actualització iniciada. Espera...'
+    'auth.globalLocked': 'Sistema sota protecció, torna-ho a provar més tard',
+    'auth.setupDescription':
+      'Aquest dispositiu encara no té cap compte web. Crea el primer compte administrador per continuar.',
+    'auth.tips.hardenedRecovery':
+      'Aquesta imatge Hardened no admet restablir la contrasenya amb el botó BOOT. Si es perd la contrasenya, torna a gravar la targeta SD i crea un compte nou.',
+    'auth.totp.invalidCode': 'Aquest codi no és vàlid. Torna-ho a provar.',
+    'wifi.invalidMode':
+      'El mode actual no admet la configuració de xarxa. Ves al teu dispositiu i activa el mode de configuració Wi-Fi.',
+    'keyboard.shortcut.capture': 'Fes clic aquí per capturar la drecera',
+    'keyboard.leaderKey.simultaneous.desc1': 'Mantén premuda la tecla líder i prem la drecera.',
+    'keyboard.leaderKey.sequential.desc1':
+      'Prem la tecla líder → prem la drecera en seqüència → torna a prémer la tecla líder.',
+    'keyboard.leaderKey.placeholder': 'Prem la tecla líder',
+    'keyboard.leaderKey.recorder.input': 'Prem la drecera...',
+    'mouse.sensitivityDesc':
+      'Fes-ho servir per al mode relatiu d’escriptori. Valors més baixos redueixen la deriva causada per l’acceleració del ratolí del host.',
+    'mouse.mobile.touchSyncDesc':
+      'Mou-te per qualsevol punt de l’àrea KVM. El cursor remot conserva la posició entre tocs i es manté sincronitzat amb HID absolut.',
+    'mouse.mobile.trackpadDesc':
+      'Mou un dit per desplaçar el punter remot. Toca per fer clic; pressió llarga o toc amb dos dits per al clic dret.',
+    'mouse.mobile.directDesc':
+      'Toca directament la posició de la pantalla remota. Arrossega per mantenir premut el botó esquerre.',
+    'image.diskOnWarn':
+      "Muntar la imatge desactiva el disc virtual, de manera que l'ordinador ja no pot accedir a /data. Vols continuar?",
+    'image.diskOffWarn':
+      "El disc virtual està desactivat i cal activar-lo per muntar la imatge. Els dispositius USB de l'ordinador es tornaran a enumerar. Vols continuar?",
+    'image.forceEjectConfirm':
+      "L'amfitrió ha bloquejat la unitat òptica. Forçar l'expulsió desconnecta el dispositiu USB virtual durant un moment, de manera que el teclat i el ratolí poden desconnectar-se breument. Vols continuar?",
+    'image.usbReconnectConfirm':
+      'Reconnecta el gadget USB només si el host remot no ha detectat el canvi de mitjà. El teclat i el ratolí es poden desconnectar breument.',
+    'image.deleteConfirm': 'Estàs segur que vols suprimir aquesta imatge?',
+    'terminal.sessionClosed': 'Sessió de terminal tancada. Desbloqueja de nou per reconnectar.',
+    'terminal.sessionError':
+      'La connexió del terminal ha fallat. Desbloqueja de nou per reintentar.',
+    'download.mountedImage':
+      'Aquesta imatge està muntada. Desmunta-la abans de pujar un fitxer amb el mateix nom.',
+    'download.uploadbox': 'Deixa anar el fitxer aquí o fes clic per seleccionar-lo',
+    'download.stalled': 'La transferència s’ha aturat. Comprova la connexió i torna-ho a provar.',
+    'settings.appearance.languageDesc': "Selecciona l'idioma per a la interfície",
+    'settings.appearance.menuBar.terminalWarningTitle': 'Vols activar el terminal web?',
+    'settings.appearance.menuBar.terminalWarningDesc':
+      "El terminal obre una shell root al navegador. Activa'l només en una xarxa de confiança i desactiva'l en acabar.",
+    'settings.appearance.menuBar.remoteDownloadWarningTitle':
+      'Vols activar la descàrrega remota d’ISO?',
+    'settings.appearance.menuBar.remoteDownloadWarningDesc':
+      "NanoKVM baixarà una ISO des d’un URL i l’escriurà a /data. Activa'l només per a URL de confiança i desactiva'l en acabar.",
+    'settings.device.mdns.tip':
+      "Permet accedir a aquest dispositiu pel seu nom .local. No cal si et connectes per adreça IP o si el teu DNS ja resol el nom d'amfitrió.",
+    'settings.tailscale.swap.tip':
+      "Si els problemes persisteixen després d'activar l'optimització de memòria, prova d'habilitar la memòria d'intercanvi. Això estableix la mida del fitxer d'intercanvi a 256MB per defecte, que es pot ajustar a \"Configuració > Dispositiu\".",
+    'settings.tailscale.notRunning':
+      "Tailscale no s'està executant. Si us plau, inicia'l per continuar.",
+    'settings.tailscale.uninstallDesc': 'Estàs segur que vols desinstal·lar Tailscale?',
+    'settings.update.system.rawEnableConfirmDesc':
+      'Les actualitzacions raw poden substituir les particions boot i rootfs. Fes-ho servir només si tens accés físic de recuperació.',
+    'settings.update.system.rawInstallDisabled':
+      'Aquesta actualització preparada escriu particions raw de la targeta SD. Activa les actualitzacions raw del sistema abans d’instal·lar-la.',
+    'settings.update.system.rawInstallConfirmDesc':
+      'Aquest paquet verificat escriurà imatges raw boot/rootfs a les particions de la targeta SD i reiniciarà automàticament. L’escriptura pot trigar uns minuts; mantén l’alimentació connectada.',
+    'settings.update.system.rawInstallWarning':
+      'No hi ha rollback automàtic per a actualitzacions de particions raw. Si l’arrencada falla, recupera la targeta SD manualment.',
+    'settings.update.offline.invalidName':
+      "Format de nom de fitxer no vàlid. Baixa'l des de les versions de GitHub.",
+    'settings.account.totp.enableDescription':
+      'Confirma la contrasenya per continuar. Cal per a qualsevol canvi del segon factor.',
+    'settings.account.totp.disableTitle': "Vols desactivar l'autenticació de dos factors?",
+    'settings.account.totp.disableDescription':
+      'El teu compte només quedarà protegit per la contrasenya. Confirma amb la contrasenya per continuar.',
+    'settings.account.totp.invalidCode': 'Aquest codi no coincideix. Prova el següent.',
+    'settings.account.totp.scan': "Escaneja-ho amb l'aplicació d'autenticació.",
+    'settings.account.totp.backupTitle': 'Desa ara els codis de còpia de seguretat',
+    'settings.account.totp.clockUnsynced':
+      "El rellotge del dispositiu encara no està sincronitzat. Sincronitza l'hora a Configuració > Sistema > Hora abans de configurar-ho.",
+    'settings.account.totp.noBackupCodes':
+      'No queda cap codi de còpia de seguretat. Fes clic a Genera per crear-ne un joc nou.',
+    'settings.account.totp.regenerateTitle': 'Vols generar codis de còpia de seguretat nous?',
+    'settings.account.totp.regenerateDescription':
+      'Els codis de còpia de seguretat actuals deixaran de funcionar. Confirma amb la contrasenya per continuar.',
+    'settings.account.totp.copyFailed':
+      "No s'ha pogut copiar. Selecciona els codis i copia'ls manualment.",
+    'settings.account.totp.requiredDescription':
+      "Aquest dispositiu està configurat per exigir un segon factor, però el teu compte encara no en té cap. Configura'l ara per continuar.",
+    'picoclaw.uninstall.confirmContent':
+      "Estàs segur que vols desinstal·lar PicoClaw? Això suprimirà l'executable i tots els fitxers de configuració.",
+    'picoclaw.history.deleteConfirmContent': 'Estàs segur que vols suprimir "{{title}}"?',
+    'picoclaw.start.description':
+      "Inicia el temps d'execució per començar a utilitzar l'assistent PicoClaw.",
+    'auth.totp.noEmptyCode': 'Introdueix un codi',
+    'wifi.ap.authDescription': 'Introdueix la contrasenya AP per continuar',
+    'download.inputfile': "Introdueix el fitxer d'imatge",
+    'download.sha256Placeholder': 'Introdueix una suma de verificació SHA-256 de 64 caràcters',
+    'settings.network.dns.invalid': 'Introdueix una adreça IPv4 o IPv6 vàlida',
+    'settings.network.dns.invalidNetwork':
+      'Introdueix una adreça IPv4, una màscara de subxarxa i un encaminador vàlids',
+    'settings.account.totp.codePlaceholder': 'Introdueix el codi de 6 dígits per confirmar',
+    'picoclaw.model.apiKeyPlaceholder': 'Introdueix la clau API del model'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -303,10 +400,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'Servery DNS lze upravovat ručně. IPv4 i IPv6 jsou podporovány.',
     'settings.account.totp.savedThem': 'Mám je uložené',
-    'keyboard.dropdownKorean': 'Korejsky',
-    'keyboard.dropdownJapanese': 'Japonsky',
     'terminal.unlockDesc': 'Pro spuštění terminálové relace zadejte heslo webového účtu',
     'terminal.locked': 'Příliš mnoho pokusů. Zkuste to později',
+    'keyboard.dropdownKorean': 'Korejsky',
+    'keyboard.dropdownJapanese': 'Japonsky',
     'settings.device.oled.15': '15 s',
     'settings.device.oled.30': '30 s',
     'settings.device.oled.60': '1 min',
@@ -481,11 +578,11 @@ export const translationFixes: Record<string, TranslationMap> = {
       'For sikkerheden af din enhed, bedes du ændre web-login adgangskoden',
     'settings.network.dns.manualServersDescription':
       'DNS-servere kan redigeres manuelt. IPv4 og IPv6 understøttes.',
-    'keyboard.dropdownKorean': 'Koreansk',
-    'keyboard.dropdownJapanese': 'Japansk',
     'terminal.unlockDesc': 'Indtast adgangskoden til webkontoen for at starte en terminalsession',
     'terminal.locked': 'For mange forsøg. Prøv igen senere',
-    'wol.sending': 'Sender Wake-on-LAN magic packet...'
+    'wol.sending': 'Sender Wake-on-LAN magic packet...',
+    'keyboard.dropdownKorean': 'Koreansk',
+    'keyboard.dropdownJapanese': 'Japansk'
   },
   de: {
     'auth.illegalPassword':
@@ -600,8 +697,8 @@ export const translationFixes: Record<string, TranslationMap> = {
       'In einigen Systemen ist es notwendig, die virtuelle Festplatte auf dem entfernten Host auszuwerfen, bevor das Image eingebunden werden kann',
     'image.unmountDesc':
       'Auf einigen Systemen müssen Sie das Image manuell vom Remote-Host auswerfen, bevor Sie die Bereitstellung aufheben',
-    'auth.totp.prompt': 'Gib den 6-stelligen Code aus deiner Authenticator-App ein',
-    'auth.totp.backupPrompt': 'Gib einen deiner Backup-Codes ein',
+    'auth.totp.prompt': 'Geben Sie den 6-stelligen Code aus Ihrer Authenticator-App ein',
+    'auth.totp.backupPrompt': 'Geben Sie einen Ihrer Backup-Codes ein',
     'auth.setupRecovery':
       'Wenn dieses Passwort verloren geht, muss zur Wiederherstellung die SD-Karte neu geschrieben werden',
     'download.diskShared':
@@ -639,14 +736,35 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'DNS-Server können manuell bearbeitet werden. IPv4 und IPv6 werden unterstützt.',
     'settings.tailscale.stopDesc': 'Abmelden und Autostart deaktivieren.',
-    'keyboard.dropdownKorean': 'Koreanisch',
-    'keyboard.dropdownJapanese': 'Japanisch',
     'mouse.hidOnly.tip3':
       'NanoKVM wird nach dem Wechsel in den neuen Modus automatisch neu gestartet',
     'image.tips.tf1': 'Diese Methode wird unter Linux-Systemen unterstützt',
     'terminal.unlockDesc':
       'Geben Sie das Passwort Ihres Webkontos ein, um eine Terminalsitzung zu starten',
-    'terminal.locked': 'Zu viele Versuche. Bitte später erneut versuchen'
+    'terminal.locked': 'Zu viele Versuche. Bitte später erneut versuchen',
+    'keyboard.dropdownKorean': 'Koreanisch',
+    'keyboard.dropdownJapanese': 'Japanisch',
+    'settings.device.ssh.description': 'Entfernten SSH-Zugang aktivieren',
+    'settings.device.oled.description': 'OLED-Bildschirm ausschalten nach',
+    'settings.device.networkDesc': 'Virtuelle Netzwerkkarte an den entfernten Host binden',
+    'settings.account.totp.enableDescription':
+      'Bestätigen Sie Ihr Passwort, um fortzufahren. Es ist bei jeder Änderung des zweiten Faktors erforderlich.',
+    'settings.account.totp.disableDescription':
+      'Ihr Konto ist dann nur noch durch das Passwort geschützt. Bestätigen Sie mit Ihrem Passwort, um fortzufahren.',
+    'settings.account.totp.scan': 'Scannen Sie dies mit Ihrer Authenticator-App.',
+    'settings.account.totp.codePlaceholder': 'Geben Sie den 6-stelligen Code zur Bestätigung ein',
+    'settings.account.totp.backupTitle': 'Speichern Sie jetzt Ihre Backup-Codes',
+    'settings.account.totp.backupDescription':
+      'Jeder Code funktioniert nur einmal und wird nicht erneut angezeigt. Die Codes sind der einzige Weg zurück, wenn Sie Ihre Authenticator-App verlieren, und sie funktionieren auch, wenn die Uhr des Geräts nicht synchronisiert ist.',
+    'settings.account.totp.clockUnsynced':
+      'Die Uhr des Geräts ist noch nicht synchronisiert. Synchronisieren Sie die Zeit unter Einstellungen > System > Zeit, bevor Sie die Einrichtung starten.',
+    'settings.account.totp.noBackupCodes':
+      'Es sind keine Backup-Codes mehr übrig. Wählen Sie „Erzeugen“, um einen neuen Satz auszustellen.',
+    'settings.account.totp.regenerateDescription':
+      'Ihre aktuellen Backup-Codes funktionieren dann nicht mehr. Bestätigen Sie mit Ihrem Passwort, um fortzufahren.',
+    'settings.account.totp.requiredDescription':
+      'Dieses Gerät verlangt einen zweiten Faktor, aber Ihr Konto hat noch keinen eingerichtet. Richten Sie ihn jetzt ein, um fortzufahren.',
+    'settings.account.totp.manualEntry': 'Oder geben Sie diesen Schlüssel manuell ein:'
   },
   es: {
     'auth.illegalPassword':
@@ -741,7 +859,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'wifi.success': 'Comprueba el estado de red del NanoKVM y accede a la nueva dirección IP',
     'wifi.failed': 'La operación ha fallado, vuelve a intentarlo',
     'screen.webrtcConnectionFailed.description':
-      'Compruebe la conexión de red o cambie el modo de vídeo',
+      'Comprueba la conexión de red o cambia el modo de vídeo',
     'keyboard.shortcut.enterFullScreen': 'Alternar el modo de pantalla completa',
     'keyboard.leaderKey.desc':
       'Omite las restricciones del navegador y envía accesos directos al sistema directamente al host remoto',
@@ -780,19 +898,31 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.swap.tip':
       'Habilitar esta función podría acortar la vida útil de tu tarjeta SD',
     'auth.changePasswordDesc':
-      'Para la seguridad de su dispositivo, por favor, modifique la contraseña de inicio de sesión en la web',
+      'Para la seguridad de tu dispositivo, por favor, modifica la contraseña de inicio de sesión en la web',
     'settings.network.dns.manualServersDescription':
       'Los servidores DNS se pueden editar manualmente. Se admiten IPv4 e IPv6.',
     'screen.autoTips':
       'En determinadas resoluciones pueden producirse desgarros de imagen o desplazamiento del ratón. Prueba a ajustar la resolución del host remoto o desactiva el modo automático.',
     'settings.tailscale.stopDesc': 'Cerrar sesión y desactivar el inicio automático.',
-    'keyboard.dropdownKorean': 'Coreano',
-    'keyboard.dropdownJapanese': 'Japonés',
     'auth.noAccount':
       'No se ha encontrado la cuenta. Por favor, recarga la página o recupera tu contraseña',
     'terminal.unlockDesc':
       'Introduce la contraseña de tu cuenta web para iniciar una sesión de terminal',
-    'terminal.locked': 'Demasiados intentos. Inténtalo más tarde'
+    'terminal.locked': 'Demasiados intentos. Inténtalo más tarde',
+    'keyboard.dropdownKorean': 'Coreano',
+    'keyboard.dropdownJapanese': 'Japonés',
+    'wifi.invalidMode':
+      'El modo actual no admite la configuración de red. Ve a tu dispositivo y habilita el modo de configuración Wi-Fi.',
+    'keyboard.shortcut.capture': 'Haz clic aquí para capturar el acceso directo',
+    'keyboard.leaderKey.sequential.desc1':
+      'Pulsa la tecla líder → pulsa el atajo en secuencia → vuelve a pulsar la tecla líder.',
+    'keyboard.leaderKey.placeholder': 'Pulsa la tecla líder',
+    'download.sha256Placeholder': 'Introduce una suma de comprobación SHA-256 de 64 caracteres',
+    'settings.update.offline.invalidName':
+      'Formato de nombre de archivo no válido. Descarga desde las versiones de GitHub.',
+    'picoclaw.model.requiredDescription':
+      'Configura el modelo PicoClaw antes de usar el chat PicoClaw.',
+    'picoclaw.model.apiKeyPlaceholder': 'Introduce la clave API del modelo'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -936,14 +1066,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'DNS-servereid saab käsitsi muuta. IPv4 ja IPv6 on toetatud.',
     'settings.tailscale.stopDesc': 'Logi välja ja keela automaatne käivitus.',
+    'terminal.unlockDesc': 'Terminaliseansi alustamiseks sisesta veebikonto parool',
+    'terminal.locked': 'Liiga palju katseid. Proovi hiljem uuesti',
     'keyboard.dropdownEnglish': 'Inglise keel',
     'keyboard.dropdownFrench': 'Prantsuse keel',
     'keyboard.dropdownGerman': 'Saksa keel',
     'keyboard.dropdownRussian': 'Vene keel',
     'keyboard.dropdownKorean': 'Korea keel',
     'keyboard.dropdownJapanese': 'Jaapani keel',
-    'terminal.unlockDesc': 'Terminaliseansi alustamiseks sisesta veebikonto parool',
-    'terminal.locked': 'Liiga palju katseid. Proovi hiljem uuesti',
     'download.disabled':
       "Image'e ei saa praegu alla laadida ega üles laadida, sest salvestusruum pole kirjutatav. Kui image on ühendatud, ühenda see lahti ja lülita seejärel virtuaalne ketas välja, et salvestusruum oleks taas kirjutatav."
   },
@@ -1091,10 +1221,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'DNS-palvelimia voi muokata manuaalisesti. IPv4 ja IPv6 ovat tuettuja.',
     'settings.tailscale.stopDesc': 'Kirjaudu ulos ja poista automaattinen käynnistys.',
-    'keyboard.dropdownKorean': 'Korea',
-    'keyboard.dropdownJapanese': 'Japani',
     'terminal.unlockDesc': 'Anna verkkotilin salasana käynnistääksesi terminaali-istunnon',
     'terminal.locked': 'Liikaa yrityksiä. Yritä myöhemmin uudelleen',
+    'keyboard.dropdownKorean': 'Korea',
+    'keyboard.dropdownJapanese': 'Japani',
     'download.disabled':
       'Levykuvia ei voi nyt ladata eikä lähettää, koska tallennustila ei ole kirjoitettavissa. Jos levykuva on liitetty, irrota se ja kytke sitten virtuaalilevy pois päältä, jotta tallennustila on taas kirjoitettavissa.'
   },
@@ -1249,8 +1379,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'Les serveurs DNS peuvent être modifiés manuellement. IPv4 et IPv6 sont pris en charge.',
     'settings.tailscale.stopDesc': 'Déconnecter et désactiver le démarrage automatique.',
-    'keyboard.dropdownKorean': 'Coréen',
-    'keyboard.dropdownJapanese': 'Japonais',
     'image.mountFailed': "Échec du montage de l'image",
     'image.tips.tf1': 'Cette méthode est adaptée aux systèmes Linux',
     'terminal.unlockDesc':
@@ -1260,6 +1388,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'screen.frameDetectTip':
       "Calcule la différence entre les images. Arrête la transmission du flux vidéo lorsqu'aucun changement n'est détecté sur l'écran de l'hôte distant.",
     'image.loading': 'Chargement...',
+    'keyboard.dropdownKorean': 'Coréen',
+    'keyboard.dropdownJapanese': 'Japonais',
     'settings.device.oled.15': '15 s',
     'settings.device.oled.30': '30 s',
     'settings.device.oled.60': '1 min',
@@ -1430,14 +1560,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'A DNS-kiszolgálók kézzel szerkeszthetők. Az IPv4 és az IPv6 támogatott.',
     'settings.system.firewall.enabledPort': 'Engedélyezve a következő porton: {{port}}',
+    'terminal.unlockDesc': 'Terminálmunkamenet indításához adja meg a webes fiók jelszavát',
+    'terminal.locked': 'Túl sok próbálkozás. Próbálja újra később',
     'keyboard.dropdownEnglish': 'Angol',
     'keyboard.dropdownFrench': 'Francia',
     'keyboard.dropdownGerman': 'Német',
     'keyboard.dropdownRussian': 'Orosz',
     'keyboard.dropdownKorean': 'Koreai',
     'keyboard.dropdownJapanese': 'Japán',
-    'terminal.unlockDesc': 'Terminálmunkamenet indításához adja meg a webes fiók jelszavát',
-    'terminal.locked': 'Túl sok próbálkozás. Próbálja újra később',
     'settings.device.oled.15': '15 mp',
     'settings.device.oled.30': '30 mp',
     'settings.device.oled.60': '1 perc',
@@ -1605,13 +1735,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': 'Untuk keamanan perangkat Anda, silakan ubah kata sandi masuk web',
     'settings.network.dns.manualServersDescription':
       'Server DNS dapat diedit secara manual. IPv4 dan IPv6 didukung.',
+    'terminal.unlockDesc': 'Masukkan kata sandi akun web untuk memulai sesi terminal',
+    'terminal.locked': 'Terlalu banyak percobaan. Coba lagi nanti',
     'keyboard.dropdownFrench': 'Bahasa Prancis',
     'keyboard.dropdownGerman': 'Bahasa Jerman',
     'keyboard.dropdownRussian': 'Bahasa Rusia',
     'keyboard.dropdownKorean': 'Bahasa Korea',
     'keyboard.dropdownJapanese': 'Bahasa Jepang',
-    'terminal.unlockDesc': 'Masukkan kata sandi akun web untuk memulai sesi terminal',
-    'terminal.locked': 'Terlalu banyak percobaan. Coba lagi nanti',
     'settings.device.oled.15': '15 dtk',
     'settings.device.oled.30': '30 dtk',
     'settings.device.oled.60': '1 mnt',
@@ -1619,7 +1749,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.300': '5 mnt',
     'settings.device.oled.600': '10 mnt',
     'settings.device.oled.1800': '30 mnt',
-    'settings.device.oled.3600': '1 jam'
+    'settings.device.oled.3600': '1 jam',
+    'script.delDesc': 'Apakah Anda yakin ingin menghapus data ini?',
+    'settings.update.isLatest': 'Anda sudah menggunakan versi terbaru.',
+    'settings.update.available': 'Ada pembaruan baru. Apakah Anda mau memperbarui?'
   },
   it: {
     'auth.illegalPassword':
@@ -1778,11 +1911,11 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Per la sicurezza del tuo dispositivo, modifica la password di accesso web',
     'settings.network.dns.manualServersDescription':
       'I server DNS possono essere modificati manualmente. IPv4 e IPv6 sono supportati.',
-    'keyboard.dropdownKorean': 'Coreano',
-    'keyboard.dropdownJapanese': 'Giapponese',
     'terminal.unlockDesc':
       'Inserisci la password dell’account web per avviare una sessione terminale',
     'terminal.locked': 'Troppi tentativi. Riprova più tardi',
+    'keyboard.dropdownKorean': 'Coreano',
+    'keyboard.dropdownJapanese': 'Giapponese',
     'settings.device.oled.15': '15 s',
     'settings.device.oled.30': '30 s',
     'settings.device.oled.60': '1 min',
@@ -1790,7 +1923,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.300': '5 min',
     'settings.device.oled.600': '10 min',
     'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 ora'
+    'settings.device.oled.3600': '1 ora',
+    'settings.update.offline.invalidName':
+      'Formato nome file non valido. Scarica dalle versioni GitHub.'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -1931,8 +2066,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'DNS サーバーは手動で編集できます。IPv4 と IPv6 に対応しています。',
     'settings.tailscale.stopDesc': 'ログアウトして自動起動を無効にします。',
-    'keyboard.dropdownKorean': '韓国語',
-    'keyboard.dropdownJapanese': '日本語',
     'auth.noAccount':
       'ユーザー情報の取得に失敗しました。ページを更新してもう一度お試しいただくか、パスワードをリセットしてください',
     'auth.locked': 'ログインが多すぎます。後でもう一度お試しください',
@@ -1943,7 +2076,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'terminal.locked': '試行回数が多すぎます。後でもう一度お試しください',
     'settings.network.wifi.apMode':
       'AP モードが有効になりました。QR コードをスキャンして Wi-Fi に接続してください',
-    'image.loading': '読み込み中...'
+    'image.loading': '読み込み中...',
+    'keyboard.dropdownKorean': '韓国語',
+    'keyboard.dropdownJapanese': '日本語'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -2076,8 +2211,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'DNS 서버를 수동으로 편집할 수 있습니다. IPv4와 IPv6을 지원합니다.',
     'settings.tailscale.stopDesc': '로그아웃하고 자동 시작을 비활성화합니다.',
-    'keyboard.dropdownKorean': '한국어',
-    'keyboard.dropdownJapanese': '일본어',
     'auth.placeholderUsername': '사용자 이름을 입력하세요',
     'auth.placeholderPassword': '비밀번호를 입력하세요',
     'auth.placeholderPassword2': '비밀번호를 다시 입력하세요',
@@ -2099,7 +2232,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.uploadbox': '여기에 파일을 놓거나 클릭하여 선택하세요',
     'settings.device.networkDesc': '원격 호스트에서 가상 네트워크 카드를 마운트합니다',
     'settings.tailscale.urlPeriod': '이 주소는 10분간 유효합니다',
-    'error.title': '문제가 발생했습니다'
+    'error.title': '문제가 발생했습니다',
+    'keyboard.dropdownKorean': '한국어',
+    'keyboard.dropdownJapanese': '일본어'
   },
   nb: {
     'auth.illegalPassword':
@@ -2255,10 +2390,10 @@ export const translationFixes: Record<string, TranslationMap> = {
       'For sikkerheten til enheten, vennligst endre passordet ditt for web-innlogging',
     'settings.network.dns.manualServersDescription':
       'DNS-servere kan redigeres manuelt. IPv4 og IPv6 støttes.',
-    'keyboard.dropdownKorean': 'Koreansk',
-    'keyboard.dropdownJapanese': 'Japansk',
     'terminal.unlockDesc': 'Skriv inn passordet til webkontoen for å starte en terminaløkt',
     'terminal.locked': 'For mange forsøk. Prøv igjen senere',
+    'keyboard.dropdownKorean': 'Koreansk',
+    'keyboard.dropdownJapanese': 'Japansk',
     'settings.device.oled.15': '15 s',
     'settings.device.oled.30': '30 s',
     'settings.device.oled.60': '1 min',
@@ -2374,8 +2509,8 @@ export const translationFixes: Record<string, TranslationMap> = {
       'In sommige systemen is het noodzakelijk om de virtuele schijf op de externe host uit te werpen voordat het image wordt gekoppeld',
     'image.unmountDesc':
       'Op sommige systemen moet u de image handmatig uitwerpen van de externe host voordat u de image ontkoppelt',
-    'auth.totp.prompt': 'Voer de 6-cijferige code uit je authenticator-app in',
-    'auth.totp.backupPrompt': 'Voer een van je back-upcodes in',
+    'auth.totp.prompt': 'Voer de 6-cijferige code uit uw authenticator-app in',
+    'auth.totp.backupPrompt': 'Voer een van uw back-upcodes in',
     'auth.setupRecovery':
       'Als dit wachtwoord verloren gaat, moet de SD-kaart opnieuw worden geschreven voor herstel',
     'download.diskShared':
@@ -2397,7 +2532,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.rawEnableDesc':
       'Sta toe dat geverifieerde raw boot/rootfs-images vanaf dit scherm naar de SD-kaart worden geschreven',
     'settings.account.totp.description':
-      'Vereis naast je wachtwoord een tijdgebonden code uit een authenticator-app',
+      'Vereis naast uw wachtwoord een tijdgebonden code uit een authenticator-app',
     'settings.account.totp.requireDescription':
       'Zolang dit aan staat, kan tweefactorauthenticatie niet worden uitgeschakeld en moet een account zonder tweefactorauthenticatie die instellen voordat het apparaat wordt gebruikt',
     'picoclaw.empty': 'Open het paneel en start een taak om te beginnen',
@@ -2414,11 +2549,11 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'DNS-servers kunnen handmatig worden bewerkt. IPv4 en IPv6 worden ondersteund.',
     'settings.tailscale.stopDesc': 'Uitloggen en automatisch opstarten uitschakelen.',
-    'keyboard.dropdownKorean': 'Koreaans',
-    'keyboard.dropdownJapanese': 'Japans',
     'terminal.unlockDesc':
       'Voer het wachtwoord van uw webaccount in om een terminalsessie te starten',
     'terminal.locked': 'Te veel pogingen. Probeer later opnieuw',
+    'keyboard.dropdownKorean': 'Koreaans',
+    'keyboard.dropdownJapanese': 'Japans',
     'settings.device.oled.15': '15 s',
     'settings.device.oled.30': '30 s',
     'settings.device.oled.60': '1 min',
@@ -2426,7 +2561,25 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.300': '5 min',
     'settings.device.oled.600': '10 min',
     'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 uur'
+    'settings.device.oled.3600': '1 uur',
+    'mouse.hidOnly.tip1':
+      'Als u de HID-Only-modus inschakelt, worden de virtuele schijf en het virtuele netwerk ontkoppeld',
+    'settings.device.mdns.tip':
+      'Maakt het apparaat bereikbaar via zijn .local-naam. Niet nodig als u verbinding maakt via IP-adres of uw DNS de hostnaam al omzet.',
+    'settings.account.totp.enableDescription':
+      'Bevestig uw wachtwoord om door te gaan. Het is nodig bij elke wijziging van de tweede factor.',
+    'settings.account.totp.disableDescription':
+      'Uw account wordt dan alleen nog door het wachtwoord beschermd. Bevestig met uw wachtwoord om door te gaan.',
+    'settings.account.totp.scan': 'Scan dit met uw authenticator-app.',
+    'settings.account.totp.backupTitle': 'Bewaar nu uw back-upcodes',
+    'settings.account.totp.backupDescription':
+      'Elke code werkt maar één keer en wordt niet opnieuw getoond. Ze zijn de enige weg terug als u uw authenticator-app kwijtraakt, en ze blijven werken als de klok van het apparaat niet is gesynchroniseerd.',
+    'settings.account.totp.clockUnsynced':
+      'De klok van het apparaat is nog niet gesynchroniseerd. Synchroniseer de tijd via Instellingen > Systeem > Tijd voordat u begint met instellen.',
+    'settings.account.totp.regenerateDescription':
+      'Uw huidige back-upcodes werken dan niet meer. Bevestig met uw wachtwoord om door te gaan.',
+    'settings.account.totp.requiredDescription':
+      'Dit apparaat is ingesteld om een tweede factor te vereisen, maar uw account heeft er nog geen ingesteld. Stel die nu in om door te gaan.'
   },
   pl: {
     'auth.illegalPassword':
@@ -2522,9 +2675,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Opcjonalna suma kontrolna SHA-256',
     'power.powerShort': 'Przycisk zasilania: krótkie kliknięcie',
     'power.powerLong': 'Przycisk zasilania: długie kliknięcie',
-    'settings.tailscale.notInstall': 'Nie znaleziono Tailscale. Proszę zainstalować.',
+    'settings.tailscale.notInstall': 'Nie znaleziono Tailscale. Zainstaluj go.',
     'settings.tailscale.retry': 'Odśwież stronę i spróbuj ponownie lub zainstaluj ręcznie.',
-    'wifi.success': 'Proszę podejść do urządzenia, aby sprawdzić stan sieci NanoKVM',
+    'wifi.success': 'Podejdź do urządzenia, aby sprawdzić stan sieci NanoKVM',
     'wifi.failed': 'Operacja nie powiodła się, spróbuj ponownie',
     'screen.webrtcConnectionFailed.description': 'Sprawdź połączenie sieciowe lub zmień tryb wideo',
     'keyboard.shortcut.enterFullScreen': 'Przełącz tryb pełnoekranowy',
@@ -2567,13 +2720,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'Należy pamiętać, że wersje poglądowe mogą zawierać błędy lub niekompletną funkcjonalność',
     'auth.changePasswordDesc':
-      'Dla bezpieczeństwa Twojego urządzenia, proszę zmień hasło do logowania w sieci',
+      'Dla bezpieczeństwa twojego urządzenia zmień hasło do logowania w sieci',
     'settings.network.dns.manualServersDescription':
       'Serwery DNS można edytować ręcznie. IPv4 i IPv6 są obsługiwane.',
-    'keyboard.dropdownKorean': 'Koreański',
-    'keyboard.dropdownJapanese': 'Japoński',
     'keyboard.tips': 'Tylko standardowe klawiaturowe znaki i symbole są obsługiwane',
     'terminal.locked': 'Zbyt wiele prób. Spróbuj ponownie później',
+    'keyboard.dropdownKorean': 'Koreański',
+    'keyboard.dropdownJapanese': 'Japoński',
     'settings.device.oled.15': '15 s',
     'settings.device.oled.30': '30 s',
     'settings.device.oled.60': '1 min',
@@ -2581,7 +2734,15 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.300': '5 min',
     'settings.device.oled.600': '10 min',
     'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 godzina'
+    'settings.device.oled.3600': '1 godzina',
+    'keyboard.placeholder': 'Wprowadź coś',
+    'keyboard.leaderKey.recorder.input': 'Naciśnij skrót...',
+    'download.inputfile': 'Wprowadź plik obrazu',
+    'settings.update.updating': 'Aktualizacja rozpoczęta. Czekaj...',
+    'settings.update.offline.invalidName':
+      'Nieprawidłowy format nazwy pliku. Pobierz z wydań GitHub.',
+    'terminal.sessionClosed':
+      'Sesja terminala została zamknięta. Odblokuj ponownie, aby się połączyć.'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -2718,10 +2879,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'Os servidores DNS podem ser editados manualmente. IPv4 e IPv6 são compatíveis.',
     'settings.tailscale.stopDesc': 'Sair e desativar a inicialização automática.',
-    'keyboard.dropdownKorean': 'Coreano',
-    'keyboard.dropdownJapanese': 'Japonês',
     'terminal.unlockDesc': 'Digite a senha da conta web para iniciar uma sessão de terminal',
-    'terminal.locked': 'Muitas tentativas. Tente novamente mais tarde'
+    'terminal.locked': 'Muitas tentativas. Tente novamente mais tarde',
+    'keyboard.dropdownKorean': 'Coreano',
+    'keyboard.dropdownJapanese': 'Japonês'
   },
   ru: {
     'download.disabled':
@@ -2839,8 +3000,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'DNS-серверы можно редактировать вручную. IPv4 и IPv6 поддерживаются.',
     'settings.tailscale.stopDesc': 'Выйти и отключить автозапуск.',
-    'keyboard.dropdownKorean': 'Корейский',
-    'keyboard.dropdownJapanese': 'Японский',
     'auth.locked': 'Слишком много входов. Повторите попытку позже',
     'auth.globalLocked': 'Система находится под защитой. Повторите попытку позже',
     'wifi.ap.authDescription': 'Пожалуйста, введите пароль AP, чтобы продолжить',
@@ -2855,7 +3014,11 @@ export const translationFixes: Record<string, TranslationMap> = {
     'picoclaw.model.saved': 'Конфигурация модели сохранена',
     'picoclaw.model.saveFailed': 'Не удалось сохранить конфигурацию модели',
     'picoclaw.history.loadFailed': 'Не удалось загрузить историю сеансов',
-    'picoclaw.history.deleteFailed': 'Не удалось удалить сеанс'
+    'picoclaw.history.deleteFailed': 'Не удалось удалить сеанс',
+    'keyboard.dropdownKorean': 'Корейский',
+    'keyboard.dropdownJapanese': 'Японский',
+    'mouse.mobile.touchSyncDesc':
+      'Двигайте курсор в любой области KVM. Позиция сохраняется между касаниями и синхронизируется через абсолютный HID.'
   },
   se: {
     'auth.illegalPassword':
@@ -2993,10 +3156,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'DNS-servrar kan redigeras manuellt. IPv4 och IPv6 stöds.',
     'settings.tailscale.stopDesc': 'Logga ut och stäng av automatisk start.',
-    'keyboard.dropdownKorean': 'Koreanska',
-    'keyboard.dropdownJapanese': 'Japanska',
     'terminal.unlockDesc': 'Ange lösenordet för webbkonto för att starta en terminalsession',
-    'terminal.locked': 'För många försök. Försök igen senare'
+    'terminal.locked': 'För många försök. Försök igen senare',
+    'keyboard.dropdownKorean': 'Koreanska',
+    'keyboard.dropdownJapanese': 'Japanska'
   },
   th: {
     'auth.illegalPassword':
@@ -3255,12 +3418,17 @@ export const translationFixes: Record<string, TranslationMap> = {
     'wol.title': 'Ağ Üzerinden Uyandırma',
     'settings.device.ssh.description': 'SSH uzaktan erişimini etkinleştir',
     'settings.tailscale.stopDesc': 'Çıkış yap ve otomatik başlatmayı kapat.',
-    'keyboard.dropdownKorean': 'Korece',
-    'keyboard.dropdownJapanese': 'Japonca',
     'keyboard.tips': 'Sadece standart klavye harfleri ve sembolleri desteklenmektedir',
     'image.tips.tf1': 'Bu yöntem Linux sistemlerde desteklenmektedir',
     'terminal.unlockDesc': 'Terminal oturumu başlatmak için web hesabı parolanızı girin',
-    'terminal.locked': 'Çok fazla deneme. Lütfen daha sonra tekrar deneyin'
+    'terminal.locked': 'Çok fazla deneme. Lütfen daha sonra tekrar deneyin',
+    'keyboard.dropdownKorean': 'Korece',
+    'keyboard.dropdownJapanese': 'Japonca',
+    'image.tips.scp2':
+      "Bilgisayarınızda uçbirimi açın ve disk imajı dosyanızı SCP komutunu kullanarak NanoKVM'in /data dizinine yükleyin.",
+    'image.tips.scp3': 'Örnek: scp disk-imajı-yolu root@nanokvm-ip:/data',
+    'image.tips.tf4': 'Disk imajı dosyanızı micro SD kartın /data dizinine kopyalayın.',
+    'script.delDesc': 'Bu dosyayı silmek istediğinizden emin misiniz?'
   },
   uk: {
     'auth.illegalPassword':
@@ -3415,14 +3583,14 @@ export const translationFixes: Record<string, TranslationMap> = {
       'DNS-сервери можна редагувати вручну. IPv4 та IPv6 підтримуються.',
     'settings.device.swap.title': 'Swap',
     'settings.tailscale.stopDesc': 'Вийти та вимкнути автозапуск.',
+    'terminal.unlockDesc': 'Введіть пароль вебоблікового запису, щоб почати сеанс термінала',
+    'terminal.locked': 'Забагато спроб. Спробуйте пізніше',
     'keyboard.dropdownEnglish': 'Англійська',
     'keyboard.dropdownFrench': 'Французька',
     'keyboard.dropdownGerman': 'Німецька',
     'keyboard.dropdownRussian': 'Російська',
     'keyboard.dropdownKorean': 'Корейська',
-    'keyboard.dropdownJapanese': 'Японська',
-    'terminal.unlockDesc': 'Введіть пароль вебоблікового запису, щоб почати сеанс термінала',
-    'terminal.locked': 'Забагато спроб. Спробуйте пізніше'
+    'keyboard.dropdownJapanese': 'Японська'
   },
   vi: {
     'auth.illegalPassword':
@@ -3576,10 +3744,10 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Để bảo mật thiết bị của bạn, vui lòng thay đổi mật khẩu đăng nhập web',
     'settings.network.dns.manualServersDescription':
       'Có thể chỉnh sửa máy chủ DNS thủ công. Hỗ trợ IPv4 và IPv6.',
-    'keyboard.dropdownKorean': 'Tiếng Hàn',
-    'keyboard.dropdownJapanese': 'Tiếng Nhật',
     'terminal.unlockDesc': 'Nhập mật khẩu tài khoản web để bắt đầu phiên terminal',
     'terminal.locked': 'Quá nhiều lần thử. Vui lòng thử lại sau',
+    'keyboard.dropdownKorean': 'Tiếng Hàn',
+    'keyboard.dropdownJapanese': 'Tiếng Nhật',
     'settings.device.oled.15': '15 giây',
     'settings.device.oled.30': '30 giây',
     'settings.device.oled.60': '1 phút',
@@ -3695,11 +3863,15 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': '为了您的设备安全，请修改密码',
     'settings.network.dns.manualServersDescription': 'DNS 服务器可以手动编辑。支持 IPv4 和 IPv6。',
     'settings.tailscale.stopDesc': '退出登录并禁用开机自启。',
-    'keyboard.dropdownKorean': '韩语',
-    'keyboard.dropdownJapanese': '日语',
     'terminal.unlockDesc': '输入网页账户密码以启动终端会话',
     'terminal.locked': '尝试次数过多，请稍后再试',
-    'image.loading': '加载中...'
+    'image.loading': '加载中...',
+    'keyboard.dropdownKorean': '韩语',
+    'keyboard.dropdownJapanese': '日语',
+    'image.tips.usb1': '将 NanoKVM 通过 USB 连接到您的电脑；',
+    'image.tips.scp1': '确保 NanoKVM 和您的电脑在同一个局域网内；',
+    'image.tips.tf3': '将 TF 卡插入读卡器并连接到您的电脑；',
+    'picoclaw.inputPlaceholder': '描述您希望 PicoClaw 执行的操作'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -3814,10 +3986,11 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription': 'DNS 伺服器可手動編輯。支援 IPv4 和 IPv6。',
     'settings.device.mouseJiggler.title': '滑鼠抖動模式',
     'settings.tailscale.stopDesc': '登出並停用開機自動啟動。',
-    'keyboard.dropdownKorean': '韓語',
-    'keyboard.dropdownJapanese': '日語',
     'terminal.unlockDesc': '輸入網頁帳戶密碼以啟動終端機工作階段',
     'terminal.locked': '嘗試次數過多，請稍後再試',
-    'settings.about.hostnameUpdated': '已更新主機名稱。請重新啟動以生效。'
+    'settings.about.hostnameUpdated': '已更新主機名稱。請重新啟動以生效。',
+    'keyboard.dropdownKorean': '韓語',
+    'keyboard.dropdownJapanese': '日語',
+    'settings.tailscale.notRunning': 'Tailscale 尚未執行，請先啟動以繼續'
   }
 };
