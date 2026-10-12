@@ -148,7 +148,11 @@ export const translationFixes: Record<string, TranslationMap> = {
     'terminal.baudrate': 'Velocitat en bauds',
     'settings.tailscale.stopDesc': "Tanca la sessió i desactiva l'inici automàtic.",
     'keyboard.dropdownKorean': 'Coreà',
-    'keyboard.dropdownJapanese': 'Japonès'
+    'keyboard.dropdownJapanese': 'Japonès',
+    'terminal.unlockDesc':
+      'Introduïu la contrasenya del compte web per iniciar una sessió de terminal',
+    'terminal.locked': 'Massa intents. Torneu-ho a provar més tard',
+    'settings.update.updating': 'Actualització iniciada. Espera...'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -300,7 +304,17 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Servery DNS lze upravovat ručně. IPv4 i IPv6 jsou podporovány.',
     'settings.account.totp.savedThem': 'Mám je uložené',
     'keyboard.dropdownKorean': 'Korejsky',
-    'keyboard.dropdownJapanese': 'Japonsky'
+    'keyboard.dropdownJapanese': 'Japonsky',
+    'terminal.unlockDesc': 'Pro spuštění terminálové relace zadejte heslo webového účtu',
+    'terminal.locked': 'Příliš mnoho pokusů. Zkuste to později',
+    'settings.device.oled.15': '15 s',
+    'settings.device.oled.30': '30 s',
+    'settings.device.oled.60': '1 min',
+    'settings.device.oled.180': '3 min',
+    'settings.device.oled.300': '5 min',
+    'settings.device.oled.600': '10 min',
+    'settings.device.oled.1800': '30 min',
+    'settings.device.oled.3600': '1 hodina'
   },
   da: {
     'auth.illegalPassword':
@@ -468,7 +482,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'DNS-servere kan redigeres manuelt. IPv4 og IPv6 understøttes.',
     'keyboard.dropdownKorean': 'Koreansk',
-    'keyboard.dropdownJapanese': 'Japansk'
+    'keyboard.dropdownJapanese': 'Japansk',
+    'terminal.unlockDesc': 'Indtast adgangskoden til webkontoen for at starte en terminalsession',
+    'terminal.locked': 'For mange forsøg. Prøv igen senere',
+    'wol.sending': 'Sender Wake-on-LAN magic packet...'
   },
   de: {
     'auth.illegalPassword':
@@ -623,7 +640,13 @@ export const translationFixes: Record<string, TranslationMap> = {
       'DNS-Server können manuell bearbeitet werden. IPv4 und IPv6 werden unterstützt.',
     'settings.tailscale.stopDesc': 'Abmelden und Autostart deaktivieren.',
     'keyboard.dropdownKorean': 'Koreanisch',
-    'keyboard.dropdownJapanese': 'Japanisch'
+    'keyboard.dropdownJapanese': 'Japanisch',
+    'mouse.hidOnly.tip3':
+      'NanoKVM wird nach dem Wechsel in den neuen Modus automatisch neu gestartet',
+    'image.tips.tf1': 'Diese Methode wird unter Linux-Systemen unterstützt',
+    'terminal.unlockDesc':
+      'Geben Sie das Passwort Ihres Webkontos ein, um eine Terminalsitzung zu starten',
+    'terminal.locked': 'Zu viele Versuche. Bitte später erneut versuchen'
   },
   es: {
     'auth.illegalPassword':
@@ -764,7 +787,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'En determinadas resoluciones pueden producirse desgarros de imagen o desplazamiento del ratón. Prueba a ajustar la resolución del host remoto o desactiva el modo automático.',
     'settings.tailscale.stopDesc': 'Cerrar sesión y desactivar el inicio automático.',
     'keyboard.dropdownKorean': 'Coreano',
-    'keyboard.dropdownJapanese': 'Japonés'
+    'keyboard.dropdownJapanese': 'Japonés',
+    'auth.noAccount':
+      'No se ha encontrado la cuenta. Por favor, recarga la página o recupera tu contraseña',
+    'terminal.unlockDesc':
+      'Introduce la contraseña de tu cuenta web para iniciar una sesión de terminal',
+    'terminal.locked': 'Demasiados intentos. Inténtalo más tarde'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -913,7 +941,11 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownGerman': 'Saksa keel',
     'keyboard.dropdownRussian': 'Vene keel',
     'keyboard.dropdownKorean': 'Korea keel',
-    'keyboard.dropdownJapanese': 'Jaapani keel'
+    'keyboard.dropdownJapanese': 'Jaapani keel',
+    'terminal.unlockDesc': 'Terminaliseansi alustamiseks sisesta veebikonto parool',
+    'terminal.locked': 'Liiga palju katseid. Proovi hiljem uuesti',
+    'download.disabled':
+      "Image'e ei saa praegu alla laadida ega üles laadida, sest salvestusruum pole kirjutatav. Kui image on ühendatud, ühenda see lahti ja lülita seejärel virtuaalne ketas välja, et salvestusruum oleks taas kirjutatav."
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1060,7 +1092,11 @@ export const translationFixes: Record<string, TranslationMap> = {
       'DNS-palvelimia voi muokata manuaalisesti. IPv4 ja IPv6 ovat tuettuja.',
     'settings.tailscale.stopDesc': 'Kirjaudu ulos ja poista automaattinen käynnistys.',
     'keyboard.dropdownKorean': 'Korea',
-    'keyboard.dropdownJapanese': 'Japani'
+    'keyboard.dropdownJapanese': 'Japani',
+    'terminal.unlockDesc': 'Anna verkkotilin salasana käynnistääksesi terminaali-istunnon',
+    'terminal.locked': 'Liikaa yrityksiä. Yritä myöhemmin uudelleen',
+    'download.disabled':
+      'Levykuvia ei voi nyt ladata eikä lähettää, koska tallennustila ei ole kirjoitettavissa. Jos levykuva on liitetty, irrota se ja kytke sitten virtuaalilevy pois päältä, jotta tallennustila on taas kirjoitettavissa.'
   },
   fr: {
     'auth.illegalPassword':
@@ -1214,7 +1250,24 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Les serveurs DNS peuvent être modifiés manuellement. IPv4 et IPv6 sont pris en charge.',
     'settings.tailscale.stopDesc': 'Déconnecter et désactiver le démarrage automatique.',
     'keyboard.dropdownKorean': 'Coréen',
-    'keyboard.dropdownJapanese': 'Japonais'
+    'keyboard.dropdownJapanese': 'Japonais',
+    'image.mountFailed': "Échec du montage de l'image",
+    'image.tips.tf1': 'Cette méthode est adaptée aux systèmes Linux',
+    'terminal.unlockDesc':
+      'Saisissez le mot de passe du compte web pour démarrer une session terminal',
+    'terminal.locked': 'Trop de tentatives. Réessayez plus tard',
+    'settings.update.queryFailed': 'Impossible de vérifier les mises à jour. Veuillez réessayer',
+    'screen.frameDetectTip':
+      "Calcule la différence entre les images. Arrête la transmission du flux vidéo lorsqu'aucun changement n'est détecté sur l'écran de l'hôte distant.",
+    'image.loading': 'Chargement...',
+    'settings.device.oled.15': '15 s',
+    'settings.device.oled.30': '30 s',
+    'settings.device.oled.60': '1 min',
+    'settings.device.oled.180': '3 min',
+    'settings.device.oled.300': '5 min',
+    'settings.device.oled.600': '10 min',
+    'settings.device.oled.1800': '30 min',
+    'settings.device.oled.3600': '1 heure'
   },
   hu: {
     'auth.illegalPassword':
@@ -1382,7 +1435,17 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownGerman': 'Német',
     'keyboard.dropdownRussian': 'Orosz',
     'keyboard.dropdownKorean': 'Koreai',
-    'keyboard.dropdownJapanese': 'Japán'
+    'keyboard.dropdownJapanese': 'Japán',
+    'terminal.unlockDesc': 'Terminálmunkamenet indításához adja meg a webes fiók jelszavát',
+    'terminal.locked': 'Túl sok próbálkozás. Próbálja újra később',
+    'settings.device.oled.15': '15 mp',
+    'settings.device.oled.30': '30 mp',
+    'settings.device.oled.60': '1 perc',
+    'settings.device.oled.180': '3 perc',
+    'settings.device.oled.300': '5 perc',
+    'settings.device.oled.600': '10 perc',
+    'settings.device.oled.1800': '30 perc',
+    'settings.device.oled.3600': '1 óra'
   },
   id: {
     'auth.illegalPassword':
@@ -1546,7 +1609,17 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownGerman': 'Bahasa Jerman',
     'keyboard.dropdownRussian': 'Bahasa Rusia',
     'keyboard.dropdownKorean': 'Bahasa Korea',
-    'keyboard.dropdownJapanese': 'Bahasa Jepang'
+    'keyboard.dropdownJapanese': 'Bahasa Jepang',
+    'terminal.unlockDesc': 'Masukkan kata sandi akun web untuk memulai sesi terminal',
+    'terminal.locked': 'Terlalu banyak percobaan. Coba lagi nanti',
+    'settings.device.oled.15': '15 dtk',
+    'settings.device.oled.30': '30 dtk',
+    'settings.device.oled.60': '1 mnt',
+    'settings.device.oled.180': '3 mnt',
+    'settings.device.oled.300': '5 mnt',
+    'settings.device.oled.600': '10 mnt',
+    'settings.device.oled.1800': '30 mnt',
+    'settings.device.oled.3600': '1 jam'
   },
   it: {
     'auth.illegalPassword':
@@ -1706,7 +1779,18 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'I server DNS possono essere modificati manualmente. IPv4 e IPv6 sono supportati.',
     'keyboard.dropdownKorean': 'Coreano',
-    'keyboard.dropdownJapanese': 'Giapponese'
+    'keyboard.dropdownJapanese': 'Giapponese',
+    'terminal.unlockDesc':
+      'Inserisci la password dell’account web per avviare una sessione terminale',
+    'terminal.locked': 'Troppi tentativi. Riprova più tardi',
+    'settings.device.oled.15': '15 s',
+    'settings.device.oled.30': '30 s',
+    'settings.device.oled.60': '1 min',
+    'settings.device.oled.180': '3 min',
+    'settings.device.oled.300': '5 min',
+    'settings.device.oled.600': '10 min',
+    'settings.device.oled.1800': '30 min',
+    'settings.device.oled.3600': '1 ora'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -1848,7 +1932,18 @@ export const translationFixes: Record<string, TranslationMap> = {
       'DNS サーバーは手動で編集できます。IPv4 と IPv6 に対応しています。',
     'settings.tailscale.stopDesc': 'ログアウトして自動起動を無効にします。',
     'keyboard.dropdownKorean': '韓国語',
-    'keyboard.dropdownJapanese': '日本語'
+    'keyboard.dropdownJapanese': '日本語',
+    'auth.noAccount':
+      'ユーザー情報の取得に失敗しました。ページを更新してもう一度お試しいただくか、パスワードをリセットしてください',
+    'auth.locked': 'ログインが多すぎます。後でもう一度お試しください',
+    'auth.globalLocked': 'システムは保護されています。後でもう一度試してください',
+    'mouse.hidOnly.tip3': 'モードを切り替えると、NanoKVM は自動的に再起動します',
+    'terminal.unlockDesc':
+      'ターミナルセッションを開始するには Web アカウントのパスワードを入力してください',
+    'terminal.locked': '試行回数が多すぎます。後でもう一度お試しください',
+    'settings.network.wifi.apMode':
+      'AP モードが有効になりました。QR コードをスキャンして Wi-Fi に接続してください',
+    'image.loading': '読み込み中...'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -1982,7 +2077,29 @@ export const translationFixes: Record<string, TranslationMap> = {
       'DNS 서버를 수동으로 편집할 수 있습니다. IPv4와 IPv6을 지원합니다.',
     'settings.tailscale.stopDesc': '로그아웃하고 자동 시작을 비활성화합니다.',
     'keyboard.dropdownKorean': '한국어',
-    'keyboard.dropdownJapanese': '일본어'
+    'keyboard.dropdownJapanese': '일본어',
+    'auth.placeholderUsername': '사용자 이름을 입력하세요',
+    'auth.placeholderPassword': '비밀번호를 입력하세요',
+    'auth.placeholderPassword2': '비밀번호를 다시 입력하세요',
+    'auth.noEmptyUsername': '사용자 이름은 비어있을 수 없습니다',
+    'auth.noEmptyPassword': '비밀번호는 비어있을 수 없습니다',
+    'auth.noAccount':
+      '사용자 정보를 불러오는 데 실패했습니다. 페이지를 새로고침하거나 비밀번호를 초기화하세요',
+    'auth.invalidUser': '사용자 이름이나 비밀번호가 틀렸습니다',
+    'auth.locked': '로그인 횟수가 너무 많습니다. 나중에 다시 시도해 주세요',
+    'auth.globalLocked': '시스템이 보호 중입니다. 나중에 다시 시도해 주세요',
+    'auth.differentPassword': '비밀번호가 서로 일치하지 않습니다',
+    'auth.illegalUsername': '사용자 이름에 사용할 수 없는 문자가 있습니다',
+    'keyboard.clipboardReadError': '클립보드를 읽지 못했습니다',
+    'image.empty': '아무것도 없습니다',
+    'terminal.unlockDesc': '터미널 세션을 시작하려면 웹 계정 암호를 입력하세요',
+    'terminal.locked': '시도가 너무 많습니다. 나중에 다시 시도하세요',
+    'wol.input': 'MAC주소를 입력하세요',
+    'download.input': '원격 이미지 URL을 입력하세요',
+    'download.uploadbox': '여기에 파일을 놓거나 클릭하여 선택하세요',
+    'settings.device.networkDesc': '원격 호스트에서 가상 네트워크 카드를 마운트합니다',
+    'settings.tailscale.urlPeriod': '이 주소는 10분간 유효합니다',
+    'error.title': '문제가 발생했습니다'
   },
   nb: {
     'auth.illegalPassword':
@@ -2139,7 +2256,17 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'DNS-servere kan redigeres manuelt. IPv4 og IPv6 støttes.',
     'keyboard.dropdownKorean': 'Koreansk',
-    'keyboard.dropdownJapanese': 'Japansk'
+    'keyboard.dropdownJapanese': 'Japansk',
+    'terminal.unlockDesc': 'Skriv inn passordet til webkontoen for å starte en terminaløkt',
+    'terminal.locked': 'For mange forsøk. Prøv igjen senere',
+    'settings.device.oled.15': '15 s',
+    'settings.device.oled.30': '30 s',
+    'settings.device.oled.60': '1 min',
+    'settings.device.oled.180': '3 min',
+    'settings.device.oled.300': '5 min',
+    'settings.device.oled.600': '10 min',
+    'settings.device.oled.1800': '30 min',
+    'settings.device.oled.3600': '1 time'
   },
   nl: {
     'auth.illegalPassword':
@@ -2288,7 +2415,18 @@ export const translationFixes: Record<string, TranslationMap> = {
       'DNS-servers kunnen handmatig worden bewerkt. IPv4 en IPv6 worden ondersteund.',
     'settings.tailscale.stopDesc': 'Uitloggen en automatisch opstarten uitschakelen.',
     'keyboard.dropdownKorean': 'Koreaans',
-    'keyboard.dropdownJapanese': 'Japans'
+    'keyboard.dropdownJapanese': 'Japans',
+    'terminal.unlockDesc':
+      'Voer het wachtwoord van uw webaccount in om een terminalsessie te starten',
+    'terminal.locked': 'Te veel pogingen. Probeer later opnieuw',
+    'settings.device.oled.15': '15 s',
+    'settings.device.oled.30': '30 s',
+    'settings.device.oled.60': '1 min',
+    'settings.device.oled.180': '3 min',
+    'settings.device.oled.300': '5 min',
+    'settings.device.oled.600': '10 min',
+    'settings.device.oled.1800': '30 min',
+    'settings.device.oled.3600': '1 uur'
   },
   pl: {
     'auth.illegalPassword':
@@ -2433,7 +2571,17 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'Serwery DNS można edytować ręcznie. IPv4 i IPv6 są obsługiwane.',
     'keyboard.dropdownKorean': 'Koreański',
-    'keyboard.dropdownJapanese': 'Japoński'
+    'keyboard.dropdownJapanese': 'Japoński',
+    'keyboard.tips': 'Tylko standardowe klawiaturowe znaki i symbole są obsługiwane',
+    'terminal.locked': 'Zbyt wiele prób. Spróbuj ponownie później',
+    'settings.device.oled.15': '15 s',
+    'settings.device.oled.30': '30 s',
+    'settings.device.oled.60': '1 min',
+    'settings.device.oled.180': '3 min',
+    'settings.device.oled.300': '5 min',
+    'settings.device.oled.600': '10 min',
+    'settings.device.oled.1800': '30 min',
+    'settings.device.oled.3600': '1 godzina'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -2571,7 +2719,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Os servidores DNS podem ser editados manualmente. IPv4 e IPv6 são compatíveis.',
     'settings.tailscale.stopDesc': 'Sair e desativar a inicialização automática.',
     'keyboard.dropdownKorean': 'Coreano',
-    'keyboard.dropdownJapanese': 'Japonês'
+    'keyboard.dropdownJapanese': 'Japonês',
+    'terminal.unlockDesc': 'Digite a senha da conta web para iniciar uma sessão de terminal',
+    'terminal.locked': 'Muitas tentativas. Tente novamente mais tarde'
   },
   ru: {
     'download.disabled':
@@ -2690,7 +2840,22 @@ export const translationFixes: Record<string, TranslationMap> = {
       'DNS-серверы можно редактировать вручную. IPv4 и IPv6 поддерживаются.',
     'settings.tailscale.stopDesc': 'Выйти и отключить автозапуск.',
     'keyboard.dropdownKorean': 'Корейский',
-    'keyboard.dropdownJapanese': 'Японский'
+    'keyboard.dropdownJapanese': 'Японский',
+    'auth.locked': 'Слишком много входов. Повторите попытку позже',
+    'auth.globalLocked': 'Система находится под защитой. Повторите попытку позже',
+    'wifi.ap.authDescription': 'Пожалуйста, введите пароль AP, чтобы продолжить',
+    'keyboard.clipboardReadError': 'Не удалось прочитать буфер обмена',
+    'keyboard.leaderKey.recorder.rec': 'ЗАП',
+    'terminal.locked': 'Слишком много попыток. Повторите позже',
+    'settings.appearance.menuBar.modeOff': 'Выкл',
+    'settings.keyboardLedStatus.on': 'Вкл',
+    'settings.keyboardLedStatus.off': 'Выкл',
+    'picoclaw.inputPlaceholder': 'Опишите, что вы хотите от PicoClaw',
+    'picoclaw.agent.switchFailed': 'Не удалось переключить роль агента',
+    'picoclaw.model.saved': 'Конфигурация модели сохранена',
+    'picoclaw.model.saveFailed': 'Не удалось сохранить конфигурацию модели',
+    'picoclaw.history.loadFailed': 'Не удалось загрузить историю сеансов',
+    'picoclaw.history.deleteFailed': 'Не удалось удалить сеанс'
   },
   se: {
     'auth.illegalPassword':
@@ -2829,7 +2994,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'DNS-servrar kan redigeras manuellt. IPv4 och IPv6 stöds.',
     'settings.tailscale.stopDesc': 'Logga ut och stäng av automatisk start.',
     'keyboard.dropdownKorean': 'Koreanska',
-    'keyboard.dropdownJapanese': 'Japanska'
+    'keyboard.dropdownJapanese': 'Japanska',
+    'terminal.unlockDesc': 'Ange lösenordet för webbkonto för att starta en terminalsession',
+    'terminal.locked': 'För många försök. Försök igen senare'
   },
   th: {
     'auth.illegalPassword':
@@ -3089,7 +3256,11 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.ssh.description': 'SSH uzaktan erişimini etkinleştir',
     'settings.tailscale.stopDesc': 'Çıkış yap ve otomatik başlatmayı kapat.',
     'keyboard.dropdownKorean': 'Korece',
-    'keyboard.dropdownJapanese': 'Japonca'
+    'keyboard.dropdownJapanese': 'Japonca',
+    'keyboard.tips': 'Sadece standart klavye harfleri ve sembolleri desteklenmektedir',
+    'image.tips.tf1': 'Bu yöntem Linux sistemlerde desteklenmektedir',
+    'terminal.unlockDesc': 'Terminal oturumu başlatmak için web hesabı parolanızı girin',
+    'terminal.locked': 'Çok fazla deneme. Lütfen daha sonra tekrar deneyin'
   },
   uk: {
     'auth.illegalPassword':
@@ -3249,7 +3420,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownGerman': 'Німецька',
     'keyboard.dropdownRussian': 'Російська',
     'keyboard.dropdownKorean': 'Корейська',
-    'keyboard.dropdownJapanese': 'Японська'
+    'keyboard.dropdownJapanese': 'Японська',
+    'terminal.unlockDesc': 'Введіть пароль вебоблікового запису, щоб почати сеанс термінала',
+    'terminal.locked': 'Забагато спроб. Спробуйте пізніше'
   },
   vi: {
     'auth.illegalPassword':
@@ -3404,7 +3577,17 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'Có thể chỉnh sửa máy chủ DNS thủ công. Hỗ trợ IPv4 và IPv6.',
     'keyboard.dropdownKorean': 'Tiếng Hàn',
-    'keyboard.dropdownJapanese': 'Tiếng Nhật'
+    'keyboard.dropdownJapanese': 'Tiếng Nhật',
+    'terminal.unlockDesc': 'Nhập mật khẩu tài khoản web để bắt đầu phiên terminal',
+    'terminal.locked': 'Quá nhiều lần thử. Vui lòng thử lại sau',
+    'settings.device.oled.15': '15 giây',
+    'settings.device.oled.30': '30 giây',
+    'settings.device.oled.60': '1 phút',
+    'settings.device.oled.180': '3 phút',
+    'settings.device.oled.300': '5 phút',
+    'settings.device.oled.600': '10 phút',
+    'settings.device.oled.1800': '30 phút',
+    'settings.device.oled.3600': '1 giờ'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -3513,7 +3696,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription': 'DNS 服务器可以手动编辑。支持 IPv4 和 IPv6。',
     'settings.tailscale.stopDesc': '退出登录并禁用开机自启。',
     'keyboard.dropdownKorean': '韩语',
-    'keyboard.dropdownJapanese': '日语'
+    'keyboard.dropdownJapanese': '日语',
+    'terminal.unlockDesc': '输入网页账户密码以启动终端会话',
+    'terminal.locked': '尝试次数过多，请稍后再试',
+    'image.loading': '加载中...'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -3629,6 +3815,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.mouseJiggler.title': '滑鼠抖動模式',
     'settings.tailscale.stopDesc': '登出並停用開機自動啟動。',
     'keyboard.dropdownKorean': '韓語',
-    'keyboard.dropdownJapanese': '日語'
+    'keyboard.dropdownJapanese': '日語',
+    'terminal.unlockDesc': '輸入網頁帳戶密碼以啟動終端機工作階段',
+    'terminal.locked': '嘗試次數過多，請稍後再試',
+    'settings.about.hostnameUpdated': '已更新主機名稱。請重新啟動以生效。'
   }
 };
