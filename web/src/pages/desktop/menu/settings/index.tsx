@@ -19,10 +19,10 @@ import { attempt } from '@/lib/feedback.ts';
 import * as ls from '@/lib/localstorage.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { closeSettingsRequestAtom, submenuOpenCountAtom } from '@/jotai/settings.ts';
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 import { Tailscale as TailscaleIcon } from '@/components/icons/tailscale';
 import { SettingsLoadGroup } from '@/components/settings-load-group.tsx';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 
 import { About } from './about';
 import { Account } from './account';
@@ -200,20 +200,14 @@ export const Settings = () => {
               {t('settings.title')}
             </div>
             {!isTouchLayout && <div className="h-10 sm:h-5" />}
-            <div
-              className={clsx(
-                isTouchLayout
-                  ? 'settings-mobile-tabs flex gap-1 overflow-x-auto px-2 pb-2'
-                  : 'contents'
-              )}
-            >
+            <div className={clsx(isTouchLayout ? 'flex flex-wrap gap-1 px-2 pb-2' : 'contents')}>
               {tabs.map((tab) => (
                 <div
                   key={tab.id}
                   className={clsx(
                     'cursor-pointer select-none rounded-lg',
                     isTouchLayout
-                      ? 'flex min-w-[72px] flex-col items-center justify-center px-2 py-2'
+                      ? 'flex min-w-0 flex-auto flex-col items-center justify-center px-2 py-2'
                       : 'flex items-center space-x-2 p-2 sm:px-3',
                     currentTab === tab.id ? 'bg-neutral-700/50' : 'hover:bg-neutral-700/50'
                   )}
@@ -228,7 +222,7 @@ export const Settings = () => {
                       <span
                         className={clsx(
                           isTouchLayout
-                            ? 'mt-1 block max-w-[68px] truncate text-[11px] leading-tight'
+                            ? 'mt-1 block text-center text-[11px] leading-tight [overflow-wrap:anywhere]'
                             : 'hidden truncate text-sm sm:block'
                         )}
                       >
@@ -239,7 +233,7 @@ export const Settings = () => {
                     <span
                       className={clsx(
                         isTouchLayout
-                          ? 'mt-1 block max-w-[68px] truncate text-[11px] leading-tight'
+                          ? 'mt-1 block text-center text-[11px] leading-tight [overflow-wrap:anywhere]'
                           : 'hidden truncate text-sm sm:block'
                       )}
                     >
@@ -255,17 +249,17 @@ export const Settings = () => {
             viewportRef={scrollViewportRef}
             className={clsx(
               'w-full max-w-full overflow-x-hidden bg-neutral-900/50 [&_[data-slot=scroll-area-scrollbar]]:w-1.5 [&_[data-slot=scroll-area-scrollbar]]:p-0 [&_[data-slot=scroll-area-thumb]]:bg-neutral-500/30',
-              isTouchLayout ? 'min-h-0 flex-1 rounded-none pl-3 pr-8' : 'h-full rounded-r-lg px-3'
+              isTouchLayout
+                ? 'box-border min-h-0 flex-1 rounded-none px-4'
+                : 'h-full rounded-r-lg px-3'
             )}
           >
             <div className="flex h-full w-full min-w-0 justify-center">
               <div
                 className={clsx(
                   'min-w-0',
-                  isTouchLayout ? 'w-full max-w-[calc(100vw-44px)]' : 'w-full max-w-[600px]',
-                  isTouchLayout
-                    ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4'
-                    : 'pb-10 pt-14'
+                  isTouchLayout ? 'w-full max-w-full' : 'w-full max-w-[600px]',
+                  isTouchLayout ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4' : 'pb-10 pt-14'
                 )}
               >
                 <SettingsLoadGroup key={currentTab}>
