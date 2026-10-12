@@ -41,14 +41,6 @@ body {
   color: rgba(255, 255, 255, 0.72);
 }
 
-.settings-mobile-tabs {
-  scrollbar-width: none;
-}
-
-.settings-mobile-tabs::-webkit-scrollbar {
-  display: none;
-}
-
 /* From the sm breakpoint a block segmented control sizes each segment to its own label instead of
    splitting the width equally, so a long label next to a short one does not wrap. */
 @media (min-width: 640px) {
@@ -100,7 +92,6 @@ body {
 
 .settings-modal-mobile .ant-switch {
   flex-shrink: 0;
-  margin-right: 10px;
 }
 
 ::-webkit-scrollbar {
