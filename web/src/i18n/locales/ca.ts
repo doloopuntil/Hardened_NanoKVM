@@ -576,7 +576,6 @@ const ca = {
         success: 'PicoClaw instal·lat correctament',
         failed: "No s'ha pogut instal·lar PicoClaw",
         uninstalling: "S'està desinstal·lant el temps d'execució...",
-        uninstaling: "S'està desinstal·lant el temps d'execució...",
         uninstalled: "El temps d'execució s'ha desinstal·lat correctament.",
         uninstallFailed: 'La desinstal·lació ha fallat.',
         requiredTitle: 'PicoClaw no està instal·lat',
