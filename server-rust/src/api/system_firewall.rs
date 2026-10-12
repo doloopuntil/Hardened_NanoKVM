@@ -305,7 +305,7 @@ fn spawn_pending_rollback(previous: FirewallConfig) {
     });
 }
 
-async fn apply_firewall() -> Result<()> {
+pub async fn apply_firewall() -> Result<()> {
     let output = run_allowed(
         AllowedCommand::ServiceFirewall,
         ["restart"],

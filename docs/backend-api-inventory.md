@@ -89,6 +89,10 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | -------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | GET/POST | `/api/system/time`      | Implemented in app `2.0.20`; persists `/etc/kvm/time.json`, validates timezone names against `/usr/share/zoneinfo`, writes `/etc/localtime`, writes `/etc/ntp.conf`, and starts/stops the managed `S49ntp` service. NTP defaults to enabled with public `pool.ntp.org` servers. |
 | POST     | `/api/system/time/sync` | Implemented; runs `ntpdate -u` against the first configured NTP server, then restarts `ntpd`.                                                                                                                                                                                   |
+| GET/POST | `/api/system/wireguard` | Implemented; GET returns the config, whether a private key is set, the public key derived from it, the interface state, the peer's last handshake and transfer counters, and whether Paranoid Firewall mode blocks the tunnel. POST validates and persists `/etc/kvm/wireguard/kvm.conf` (one peer, IPv4 address and allowed ranges, `/0` ranges refused) and restarts or stops `S45wireguard`, then reapplies the firewall. Enabling needs a private key and a complete peer. |
+| POST     | `/api/system/wireguard/private-key` | Implemented; write-only. Stores a validated key in `/etc/kvm/wireguard/private.key` (0600) and rebuilds a running tunnel. The key is never returned. |
+| POST     | `/api/system/wireguard/private-key/generate` | Implemented; runs `wg genkey`, stores the key the same way and returns only the derived public key in the status. |
+| POST     | `/api/system/wireguard/private-key/remove` | Implemented; turns WireGuard off and deletes the key file. |
 
 ### System Firewall
 
