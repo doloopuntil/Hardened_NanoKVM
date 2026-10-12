@@ -1,27 +1,9 @@
 import i18n from 'i18next';
-import type { Resource } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 import { getLanguage } from '@/lib/localstorage.ts';
 
-import { applyLocaleExtras } from './locale-extras';
-
-function getResources(): Resource {
-  const resources: Resource = {};
-
-  const modules: Record<string, Resource> = import.meta.glob('./locales/*.ts', { eager: true });
-
-  for (const path in modules) {
-    const moduleName = path.split('/').pop()?.replace('.ts', '');
-    if (moduleName) {
-      const resource = modules[path].default;
-      applyLocaleExtras(moduleName, resource);
-      resources[moduleName] = resource;
-    }
-  }
-
-  return resources;
-}
+import { getResources } from './resources';
 
 const languageAliases: Record<string, string> = {
   cs: 'cz',
