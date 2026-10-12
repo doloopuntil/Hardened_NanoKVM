@@ -8,6 +8,7 @@ import {
   PaletteIcon,
   ServerCogIcon,
   SettingsIcon,
+  ShieldCheckIcon,
   SmartphoneIcon,
   UserRoundIcon
 } from 'lucide-react';
@@ -31,6 +32,7 @@ import { Device } from './device';
 import { System } from './system';
 import { Tailscale } from './tailscale';
 import { Update } from './update';
+import { Wireguard } from './wireguard';
 
 export const Settings = () => {
   const { t } = useTranslation();
@@ -53,6 +55,7 @@ export const Settings = () => {
     { id: 'appearance', icon: <PaletteIcon size={16} />, component: <Appearance /> },
     { id: 'device', icon: <SmartphoneIcon size={16} />, component: <Device /> },
     { id: 'system', icon: <ServerCogIcon size={16} />, component: <System /> },
+    { id: 'wireguard', icon: <ShieldCheckIcon size={16} />, component: <Wireguard /> },
     {
       id: 'tailscale',
       icon: <TailscaleIcon />,
