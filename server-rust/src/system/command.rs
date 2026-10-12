@@ -30,6 +30,7 @@ pub enum AllowedCommand {
     ServiceEth,
     ServiceWifi,
     ServiceTailscaled,
+    ServiceWireguard,
     ServicePicoclawEtc,
     ServicePicoclawKvmapp,
     EtherWake,
@@ -39,6 +40,7 @@ pub enum AllowedCommand {
     Swapoff,
     Tailscale,
     Tailscaled,
+    Wg,
     Curl,
     Wget,
     OpenSsl,
@@ -79,6 +81,7 @@ impl AllowedCommand {
             AllowedCommand::ServiceEth => OsStr::new("/etc/init.d/S30eth"),
             AllowedCommand::ServiceWifi => OsStr::new("/etc/init.d/S30wifi"),
             AllowedCommand::ServiceTailscaled => OsStr::new("/etc/init.d/S98tailscaled"),
+            AllowedCommand::ServiceWireguard => OsStr::new("/etc/init.d/S45wireguard"),
             AllowedCommand::ServicePicoclawEtc => OsStr::new("/etc/init.d/S96picoclaw"),
             AllowedCommand::ServicePicoclawKvmapp => {
                 OsStr::new("/kvmapp/system/init.d/S96picoclaw")
@@ -90,6 +93,7 @@ impl AllowedCommand {
             AllowedCommand::Swapoff => OsStr::new("swapoff"),
             AllowedCommand::Tailscale => OsStr::new("/usr/bin/tailscale"),
             AllowedCommand::Tailscaled => OsStr::new("/usr/sbin/tailscaled"),
+            AllowedCommand::Wg => OsStr::new("/usr/bin/wg"),
             AllowedCommand::Curl => OsStr::new("/usr/bin/curl"),
             AllowedCommand::Wget => OsStr::new("/usr/bin/wget"),
             AllowedCommand::OpenSsl => OsStr::new("/usr/bin/openssl"),

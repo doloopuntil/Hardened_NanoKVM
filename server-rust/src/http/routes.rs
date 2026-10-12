@@ -10,7 +10,7 @@ use crate::{
     api::{
         account, account_totp, application, autostart, compatibility, download, hid, network,
         picoclaw, script, storage, stream, system_firewall, system_log, system_time, system_update,
-        tailscale, vm, webrtc_stream,
+        tailscale, vm, webrtc_stream, wireguard,
     },
     http::middleware::{picoclaw_internal, protected},
     security::headers::security_headers,
@@ -81,6 +81,22 @@ pub fn build(state: AppState) -> Router {
             get(system_time::get_config).post(system_time::set_config),
         )
         .route("/api/system/time/sync", post(system_time::sync_now))
+        .route(
+            "/api/system/wireguard",
+            get(wireguard::get_status).post(wireguard::set_config),
+        )
+        .route(
+            "/api/system/wireguard/private-key",
+            post(wireguard::set_private_key),
+        )
+        .route(
+            "/api/system/wireguard/private-key/generate",
+            post(wireguard::generate_private_key),
+        )
+        .route(
+            "/api/system/wireguard/private-key/remove",
+            post(wireguard::remove_private_key),
+        )
         .route("/api/vm/info", get(vm::get_info))
         .route("/api/vm/hardware", get(vm::get_hardware))
         .route(

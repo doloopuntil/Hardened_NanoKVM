@@ -66,6 +66,36 @@ pub fn totp_backup_codes_regenerated(username: &str) {
     );
 }
 
+pub fn wireguard_changed(source_ip: &str, enabled: bool) {
+    emit(
+        85,
+        &format!(
+            "{TAG}: wireguard settings changed enabled={enabled} source={}",
+            sanitize(source_ip)
+        ),
+    );
+}
+
+pub fn wireguard_key_set(source_ip: &str) {
+    emit(
+        85,
+        &format!(
+            "{TAG}: wireguard private key set source={}",
+            sanitize(source_ip)
+        ),
+    );
+}
+
+pub fn wireguard_key_removed(source_ip: &str) {
+    emit(
+        84,
+        &format!(
+            "{TAG}: wireguard private key removed source={}",
+            sanitize(source_ip)
+        ),
+    );
+}
+
 fn emit(priority: u8, message: &str) {
     let payload = format!("<{priority}>{message}");
     let Ok(socket) = UnixDatagram::unbound() else {
