@@ -1,12 +1,22 @@
 import { Tooltip } from 'antd';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { useKeyboardLedStatus } from './use-keyboard-led-status';
 
 const LOCK_INDICATORS = {
-  numLock: { label: 'Num Lock', shortLabel: 'Num' },
-  capsLock: { label: 'Caps Lock', shortLabel: 'Caps' },
-  scrollLock: { label: 'Scroll Lock', shortLabel: 'Scr' }
+  numLock: {
+    label: 'settings.keyboardLedStatus.numLock',
+    shortLabel: 'settings.keyboardLedStatus.numLockShort'
+  },
+  capsLock: {
+    label: 'settings.keyboardLedStatus.capsLock',
+    shortLabel: 'settings.keyboardLedStatus.capsLockShort'
+  },
+  scrollLock: {
+    label: 'settings.keyboardLedStatus.scrollLock',
+    shortLabel: 'settings.keyboardLedStatus.scrollLockShort'
+  }
 } as const;
 
 type LockIndicatorProps = {
@@ -16,9 +26,18 @@ type LockIndicatorProps = {
 };
 
 function LockIndicator({ labelKey, active, known }: LockIndicatorProps) {
+  const { t } = useTranslation();
+
   const { label, shortLabel } = LOCK_INDICATORS[labelKey];
-  const state = known ? (active ? 'On' : 'Off') : 'Unknown';
-  const indicatorLabel = `${label}: ${state}`;
+  const state = known
+    ? active
+      ? t('settings.keyboardLedStatus.on')
+      : t('settings.keyboardLedStatus.off')
+    : t('settings.keyboardLedStatus.unknown');
+  const indicatorLabel = t('settings.keyboardLedStatus.indicatorLabel', {
+    label: t(label),
+    state
+  });
 
   return (
     <Tooltip title={indicatorLabel} placement="bottom" mouseEnterDelay={0.6}>
@@ -40,20 +59,22 @@ function LockIndicator({ labelKey, active, known }: LockIndicatorProps) {
         >
           {!known && '?'}
         </span>
-        <span className="hidden sm:inline">{shortLabel}</span>
+        <span className="hidden sm:inline">{t(shortLabel)}</span>
       </div>
     </Tooltip>
   );
 }
 
 export function KeyboardLedStatus() {
+  const { t } = useTranslation();
+
   const status = useKeyboardLedStatus();
   const known = status?.known ?? false;
 
   return (
     <div
       className="flex h-full w-[40px] flex-col items-start justify-center rounded bg-neutral-800/80"
-      aria-label="Keyboard lock status"
+      aria-label={t('settings.keyboardLedStatus.groupLabel')}
       role="group"
     >
       <LockIndicator labelKey="numLock" active={status?.numLock ?? false} known={known} />
