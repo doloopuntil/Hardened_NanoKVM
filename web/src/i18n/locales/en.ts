@@ -128,6 +128,7 @@ const en = {
       dropdownRussian: 'Russian',
       dropdownKorean: 'Korean',
       dropdownJapanese: 'Japanese',
+      localInput: 'Mobile keyboard input',
       shortcut: {
         title: 'Shortcuts',
         custom: 'Custom',

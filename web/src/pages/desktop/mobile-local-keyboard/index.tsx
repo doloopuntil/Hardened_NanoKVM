@@ -1,5 +1,6 @@
 import { ClipboardEvent, FormEvent, KeyboardEvent, useEffect, useRef } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
+import { useTranslation } from 'react-i18next';
 
 import { paste } from '@/api/hid.ts';
 import { KeyboardReport } from '@/lib/keyboard.ts';
@@ -26,6 +27,8 @@ export function blurMobileLocalKeyboard() {
 }
 
 export const MobileLocalKeyboard = () => {
+  const { t } = useTranslation();
+
   const [isLocalKeyboardOpen, setIsLocalKeyboardOpen] = useAtom(isLocalKeyboardOpenAtom);
   const setIsKeyboardEnable = useSetAtom(isKeyboardEnableAtom);
 
@@ -141,7 +144,7 @@ export const MobileLocalKeyboard = () => {
     <textarea
       id={INPUT_ID}
       ref={inputRef}
-      aria-label="Mobile local keyboard input"
+      aria-label={t('keyboard.localInput')}
       autoCapitalize="off"
       autoComplete="off"
       autoCorrect="off"

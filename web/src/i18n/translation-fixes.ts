@@ -249,7 +249,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.invalidNetwork':
       'Introdueix una adreça IPv4, una màscara de subxarxa i un encaminador vàlids',
     'settings.account.totp.codePlaceholder': 'Introdueix el codi de 6 dígits per confirmar',
-    'picoclaw.model.apiKeyPlaceholder': 'Introdueix la clau API del model'
+    'picoclaw.model.apiKeyPlaceholder': 'Introdueix la clau API del model',
+    'keyboard.localInput': 'Entrada del teclat mòbil'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -411,7 +412,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.300': '5 min',
     'settings.device.oled.600': '10 min',
     'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 hodina'
+    'settings.device.oled.3600': '1 hodina',
+    'keyboard.localInput': 'Vstup z klávesnice mobilu'
   },
   da: {
     'auth.illegalPassword':
@@ -582,7 +584,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'terminal.locked': 'For mange forsøg. Prøv igen senere',
     'wol.sending': 'Sender Wake-on-LAN magic packet...',
     'keyboard.dropdownKorean': 'Koreansk',
-    'keyboard.dropdownJapanese': 'Japansk'
+    'keyboard.dropdownJapanese': 'Japansk',
+    'keyboard.localInput': 'Input fra mobiltastatur'
   },
   de: {
     'auth.illegalPassword':
@@ -764,7 +767,8 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Ihre aktuellen Backup-Codes funktionieren dann nicht mehr. Bestätigen Sie mit Ihrem Passwort, um fortzufahren.',
     'settings.account.totp.requiredDescription':
       'Dieses Gerät verlangt einen zweiten Faktor, aber Ihr Konto hat noch keinen eingerichtet. Richten Sie ihn jetzt ein, um fortzufahren.',
-    'settings.account.totp.manualEntry': 'Oder geben Sie diesen Schlüssel manuell ein:'
+    'settings.account.totp.manualEntry': 'Oder geben Sie diesen Schlüssel manuell ein:',
+    'keyboard.localInput': 'Eingabe über die Mobiltastatur'
   },
   es: {
     'auth.illegalPassword':
@@ -922,7 +926,8 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Formato de nombre de archivo no válido. Descarga desde las versiones de GitHub.',
     'picoclaw.model.requiredDescription':
       'Configura el modelo PicoClaw antes de usar el chat PicoClaw.',
-    'picoclaw.model.apiKeyPlaceholder': 'Introduce la clave API del modelo'
+    'picoclaw.model.apiKeyPlaceholder': 'Introduce la clave API del modelo',
+    'keyboard.localInput': 'Entrada del teclado móvil'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1075,7 +1080,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownKorean': 'Korea keel',
     'keyboard.dropdownJapanese': 'Jaapani keel',
     'download.disabled':
-      "Image'e ei saa praegu alla laadida ega üles laadida, sest salvestusruum pole kirjutatav. Kui image on ühendatud, ühenda see lahti ja lülita seejärel virtuaalne ketas välja, et salvestusruum oleks taas kirjutatav."
+      "Image'e ei saa praegu alla laadida ega üles laadida, sest salvestusruum pole kirjutatav. Kui image on ühendatud, ühenda see lahti ja lülita seejärel virtuaalne ketas välja, et salvestusruum oleks taas kirjutatav.",
+    'keyboard.localInput': 'Mobiilse klaviatuuri sisend'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1226,7 +1232,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownKorean': 'Korea',
     'keyboard.dropdownJapanese': 'Japani',
     'download.disabled':
-      'Levykuvia ei voi nyt ladata eikä lähettää, koska tallennustila ei ole kirjoitettavissa. Jos levykuva on liitetty, irrota se ja kytke sitten virtuaalilevy pois päältä, jotta tallennustila on taas kirjoitettavissa.'
+      'Levykuvia ei voi nyt ladata eikä lähettää, koska tallennustila ei ole kirjoitettavissa. Jos levykuva on liitetty, irrota se ja kytke sitten virtuaalilevy pois päältä, jotta tallennustila on taas kirjoitettavissa.',
+    'keyboard.localInput': 'Mobiilinäppäimistön syöte'
   },
   fr: {
     'auth.illegalPassword':
@@ -1397,7 +1404,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.300': '5 min',
     'settings.device.oled.600': '10 min',
     'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 heure'
+    'settings.device.oled.3600': '1 heure',
+    'keyboard.localInput': 'Saisie au clavier mobile'
   },
   hu: {
     'auth.illegalPassword':
@@ -1575,7 +1583,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.300': '5 perc',
     'settings.device.oled.600': '10 perc',
     'settings.device.oled.1800': '30 perc',
-    'settings.device.oled.3600': '1 óra'
+    'settings.device.oled.3600': '1 óra',
+    'keyboard.localInput': 'Mobil billentyűzet bemenete'
   },
   id: {
     'auth.illegalPassword':
@@ -1752,7 +1761,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.3600': '1 jam',
     'script.delDesc': 'Apakah Anda yakin ingin menghapus data ini?',
     'settings.update.isLatest': 'Anda sudah menggunakan versi terbaru.',
-    'settings.update.available': 'Ada pembaruan baru. Apakah Anda mau memperbarui?'
+    'settings.update.available': 'Ada pembaruan baru. Apakah Anda mau memperbarui?',
+    'keyboard.localInput': 'Input papan ketik seluler'
   },
   it: {
     'auth.illegalPassword':
@@ -1925,7 +1935,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.1800': '30 min',
     'settings.device.oled.3600': '1 ora',
     'settings.update.offline.invalidName':
-      'Formato nome file non valido. Scarica dalle versioni GitHub.'
+      'Formato nome file non valido. Scarica dalle versioni GitHub.',
+    'keyboard.localInput': 'Input da tastiera mobile'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -2078,7 +2089,8 @@ export const translationFixes: Record<string, TranslationMap> = {
       'AP モードが有効になりました。QR コードをスキャンして Wi-Fi に接続してください',
     'image.loading': '読み込み中...',
     'keyboard.dropdownKorean': '韓国語',
-    'keyboard.dropdownJapanese': '日本語'
+    'keyboard.dropdownJapanese': '日本語',
+    'keyboard.localInput': 'モバイルキーボード入力'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -2234,7 +2246,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.urlPeriod': '이 주소는 10분간 유효합니다',
     'error.title': '문제가 발생했습니다',
     'keyboard.dropdownKorean': '한국어',
-    'keyboard.dropdownJapanese': '일본어'
+    'keyboard.dropdownJapanese': '일본어',
+    'keyboard.localInput': '모바일 키보드 입력'
   },
   nb: {
     'auth.illegalPassword':
@@ -2401,7 +2414,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.300': '5 min',
     'settings.device.oled.600': '10 min',
     'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 time'
+    'settings.device.oled.3600': '1 time',
+    'keyboard.localInput': 'Inndata fra mobiltastatur'
   },
   nl: {
     'auth.illegalPassword':
@@ -2579,7 +2593,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.regenerateDescription':
       'Uw huidige back-upcodes werken dan niet meer. Bevestig met uw wachtwoord om door te gaan.',
     'settings.account.totp.requiredDescription':
-      'Dit apparaat is ingesteld om een tweede factor te vereisen, maar uw account heeft er nog geen ingesteld. Stel die nu in om door te gaan.'
+      'Dit apparaat is ingesteld om een tweede factor te vereisen, maar uw account heeft er nog geen ingesteld. Stel die nu in om door te gaan.',
+    'keyboard.localInput': 'Invoer via mobiel toetsenbord'
   },
   pl: {
     'auth.illegalPassword':
@@ -2742,7 +2757,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.offline.invalidName':
       'Nieprawidłowy format nazwy pliku. Pobierz z wydań GitHub.',
     'terminal.sessionClosed':
-      'Sesja terminala została zamknięta. Odblokuj ponownie, aby się połączyć.'
+      'Sesja terminala została zamknięta. Odblokuj ponownie, aby się połączyć.',
+    'keyboard.localInput': 'Wprowadzanie z klawiatury mobilnej'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -2882,7 +2898,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'terminal.unlockDesc': 'Digite a senha da conta web para iniciar uma sessão de terminal',
     'terminal.locked': 'Muitas tentativas. Tente novamente mais tarde',
     'keyboard.dropdownKorean': 'Coreano',
-    'keyboard.dropdownJapanese': 'Japonês'
+    'keyboard.dropdownJapanese': 'Japonês',
+    'keyboard.localInput': 'Entrada do teclado do celular'
   },
   ru: {
     'download.disabled':
@@ -3018,7 +3035,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownKorean': 'Корейский',
     'keyboard.dropdownJapanese': 'Японский',
     'mouse.mobile.touchSyncDesc':
-      'Двигайте курсор в любой области KVM. Позиция сохраняется между касаниями и синхронизируется через абсолютный HID.'
+      'Двигайте курсор в любой области KVM. Позиция сохраняется между касаниями и синхронизируется через абсолютный HID.',
+    'keyboard.localInput': 'Ввод с мобильной клавиатуры'
   },
   se: {
     'auth.illegalPassword':
@@ -3159,7 +3177,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'terminal.unlockDesc': 'Ange lösenordet för webbkonto för att starta en terminalsession',
     'terminal.locked': 'För många försök. Försök igen senare',
     'keyboard.dropdownKorean': 'Koreanska',
-    'keyboard.dropdownJapanese': 'Japanska'
+    'keyboard.dropdownJapanese': 'Japanska',
+    'keyboard.localInput': 'Inmatning från mobiltangentbord'
   },
   th: {
     'auth.illegalPassword':
@@ -3269,7 +3288,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownGerman': 'ภาษาเยอรมัน',
     'keyboard.dropdownRussian': 'ภาษารัสเซีย',
     'keyboard.dropdownKorean': 'ภาษาเกาหลี',
-    'keyboard.dropdownJapanese': 'ภาษาญี่ปุ่น'
+    'keyboard.dropdownJapanese': 'ภาษาญี่ปุ่น',
+    'keyboard.localInput': 'การป้อนข้อมูลจากแป้นพิมพ์มือถือ'
   },
   tr: {
     'auth.illegalPassword':
@@ -3428,7 +3448,8 @@ export const translationFixes: Record<string, TranslationMap> = {
       "Bilgisayarınızda uçbirimi açın ve disk imajı dosyanızı SCP komutunu kullanarak NanoKVM'in /data dizinine yükleyin.",
     'image.tips.scp3': 'Örnek: scp disk-imajı-yolu root@nanokvm-ip:/data',
     'image.tips.tf4': 'Disk imajı dosyanızı micro SD kartın /data dizinine kopyalayın.',
-    'script.delDesc': 'Bu dosyayı silmek istediğinizden emin misiniz?'
+    'script.delDesc': 'Bu dosyayı silmek istediğinizden emin misiniz?',
+    'keyboard.localInput': 'Mobil klavye girişi'
   },
   uk: {
     'auth.illegalPassword':
@@ -3590,7 +3611,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownGerman': 'Німецька',
     'keyboard.dropdownRussian': 'Російська',
     'keyboard.dropdownKorean': 'Корейська',
-    'keyboard.dropdownJapanese': 'Японська'
+    'keyboard.dropdownJapanese': 'Японська',
+    'keyboard.localInput': 'Введення з мобільної клавіатури'
   },
   vi: {
     'auth.illegalPassword':
@@ -3755,7 +3777,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.300': '5 phút',
     'settings.device.oled.600': '10 phút',
     'settings.device.oled.1800': '30 phút',
-    'settings.device.oled.3600': '1 giờ'
+    'settings.device.oled.3600': '1 giờ',
+    'keyboard.localInput': 'Nhập liệu từ bàn phím di động'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -3871,7 +3894,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'image.tips.usb1': '将 NanoKVM 通过 USB 连接到您的电脑；',
     'image.tips.scp1': '确保 NanoKVM 和您的电脑在同一个局域网内；',
     'image.tips.tf3': '将 TF 卡插入读卡器并连接到您的电脑；',
-    'picoclaw.inputPlaceholder': '描述您希望 PicoClaw 执行的操作'
+    'picoclaw.inputPlaceholder': '描述您希望 PicoClaw 执行的操作',
+    'keyboard.localInput': '移动端键盘输入'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -3991,6 +4015,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.about.hostnameUpdated': '已更新主機名稱。請重新啟動以生效。',
     'keyboard.dropdownKorean': '韓語',
     'keyboard.dropdownJapanese': '日語',
-    'settings.tailscale.notRunning': 'Tailscale 尚未執行，請先啟動以繼續'
+    'settings.tailscale.notRunning': 'Tailscale 尚未執行，請先啟動以繼續',
+    'keyboard.localInput': '行動裝置鍵盤輸入'
   }
 };
