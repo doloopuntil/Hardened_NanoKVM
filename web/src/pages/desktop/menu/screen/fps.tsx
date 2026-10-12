@@ -86,8 +86,8 @@ export const Fps = ({ fps, setFps }: FpsProps) => {
             <div className="flex h-[14px] w-[20px] items-end text-blue-500">
               <CheckIcon size={14} />
             </div>
-            <span>Customize</span>
-            <span className="text-xs">{`(${fps}Hz)`}</span>
+            <span>{t('screen.customizeFps')}</span>
+            <span className="ml-1 text-xs">{`${fps} Hz`}</span>
           </>
         )}
       </div>

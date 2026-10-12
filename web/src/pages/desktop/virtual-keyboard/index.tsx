@@ -4,6 +4,7 @@ import { AppleOutlined, WindowsOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { XIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { KeyboardButtonTheme } from 'react-simple-keyboard';
 import * as SimpleKeyboard from 'react-simple-keyboard';
 import { Drawer } from 'vaul';
@@ -41,6 +42,7 @@ const SimpleKeyboardComponent = [
 ].find((candidate) => typeof candidate === 'function') as ComponentType<any>;
 
 export const VirtualKeyboard = () => {
+  const { t } = useTranslation();
   const isDesktopLayout = useIsDesktopLayout();
 
   const [isKeyboardOpen, setIsKeyboardOpen] = useAtom(isKeyboardOpenAtom);
@@ -58,12 +60,12 @@ export const VirtualKeyboard = () => {
   ];
 
   const languages = [
-    { value: 'en', label: 'English' },
-    { value: 'fr', label: 'French' },
-    { value: 'de', label: 'German' },
-    { value: 'ru', label: 'Russian' },
-    { value: 'ko', label: 'Korean' },
-    { value: 'ja', label: 'Japanese' }
+    { value: 'en', label: t('keyboard.dropdownEnglish') },
+    { value: 'fr', label: t('keyboard.dropdownFrench') },
+    { value: 'de', label: t('keyboard.dropdownGerman') },
+    { value: 'ru', label: t('keyboard.dropdownRussian') },
+    { value: 'ko', label: t('keyboard.dropdownKorean') },
+    { value: 'ja', label: t('keyboard.dropdownJapanese') }
   ];
 
   useEffect(() => {

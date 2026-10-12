@@ -146,7 +146,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'Els servidors DNS es poden editar manualment. IPv4 i IPv6 són compatibles.',
     'terminal.baudrate': 'Velocitat en bauds',
-    'settings.tailscale.stopDesc': "Tanca la sessió i desactiva l'inici automàtic."
+    'settings.tailscale.stopDesc': "Tanca la sessió i desactiva l'inici automàtic.",
+    'keyboard.dropdownKorean': 'Coreà',
+    'keyboard.dropdownJapanese': 'Japonès'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -296,7 +298,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Pro bezpečnost vašeho zařízení prosím změňte heslo pro přihlášení na webu',
     'settings.network.dns.manualServersDescription':
       'Servery DNS lze upravovat ručně. IPv4 i IPv6 jsou podporovány.',
-    'settings.account.totp.savedThem': 'Mám je uložené'
+    'settings.account.totp.savedThem': 'Mám je uložené',
+    'keyboard.dropdownKorean': 'Korejsky',
+    'keyboard.dropdownJapanese': 'Japonsky'
   },
   da: {
     'auth.illegalPassword':
@@ -462,7 +466,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc':
       'For sikkerheden af din enhed, bedes du ændre web-login adgangskoden',
     'settings.network.dns.manualServersDescription':
-      'DNS-servere kan redigeres manuelt. IPv4 og IPv6 understøttes.'
+      'DNS-servere kan redigeres manuelt. IPv4 og IPv6 understøttes.',
+    'keyboard.dropdownKorean': 'Koreansk',
+    'keyboard.dropdownJapanese': 'Japansk'
   },
   de: {
     'auth.illegalPassword':
@@ -615,7 +621,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': 'Für die Sicherheit Ihres Geräts ändern Sie bitte das Passwort',
     'settings.network.dns.manualServersDescription':
       'DNS-Server können manuell bearbeitet werden. IPv4 und IPv6 werden unterstützt.',
-    'settings.tailscale.stopDesc': 'Abmelden und Autostart deaktivieren.'
+    'settings.tailscale.stopDesc': 'Abmelden und Autostart deaktivieren.',
+    'keyboard.dropdownKorean': 'Koreanisch',
+    'keyboard.dropdownJapanese': 'Japanisch'
   },
   es: {
     'auth.illegalPassword':
@@ -754,7 +762,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Los servidores DNS se pueden editar manualmente. Se admiten IPv4 e IPv6.',
     'screen.autoTips':
       'En determinadas resoluciones pueden producirse desgarros de imagen o desplazamiento del ratón. Prueba a ajustar la resolución del host remoto o desactiva el modo automático.',
-    'settings.tailscale.stopDesc': 'Cerrar sesión y desactivar el inicio automático.'
+    'settings.tailscale.stopDesc': 'Cerrar sesión y desactivar el inicio automático.',
+    'keyboard.dropdownKorean': 'Coreano',
+    'keyboard.dropdownJapanese': 'Japonés'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -897,7 +907,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': 'Seadme turvalisuse huvides muuda parool ära',
     'settings.network.dns.manualServersDescription':
       'DNS-servereid saab käsitsi muuta. IPv4 ja IPv6 on toetatud.',
-    'settings.tailscale.stopDesc': 'Logi välja ja keela automaatne käivitus.'
+    'settings.tailscale.stopDesc': 'Logi välja ja keela automaatne käivitus.',
+    'keyboard.dropdownEnglish': 'Inglise keel',
+    'keyboard.dropdownFrench': 'Prantsuse keel',
+    'keyboard.dropdownGerman': 'Saksa keel',
+    'keyboard.dropdownRussian': 'Vene keel',
+    'keyboard.dropdownKorean': 'Korea keel',
+    'keyboard.dropdownJapanese': 'Jaapani keel'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1042,7 +1058,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': 'Vaihda salasana laitteen turvallisuuden vuoksi',
     'settings.network.dns.manualServersDescription':
       'DNS-palvelimia voi muokata manuaalisesti. IPv4 ja IPv6 ovat tuettuja.',
-    'settings.tailscale.stopDesc': 'Kirjaudu ulos ja poista automaattinen käynnistys.'
+    'settings.tailscale.stopDesc': 'Kirjaudu ulos ja poista automaattinen käynnistys.',
+    'keyboard.dropdownKorean': 'Korea',
+    'keyboard.dropdownJapanese': 'Japani'
   },
   fr: {
     'auth.illegalPassword':
@@ -1194,7 +1212,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Pour la sécurité de votre appareil, veuillez modifier le mot de passe de connexion Web',
     'settings.network.dns.manualServersDescription':
       'Les serveurs DNS peuvent être modifiés manuellement. IPv4 et IPv6 sont pris en charge.',
-    'settings.tailscale.stopDesc': 'Déconnecter et désactiver le démarrage automatique.'
+    'settings.tailscale.stopDesc': 'Déconnecter et désactiver le démarrage automatique.',
+    'keyboard.dropdownKorean': 'Coréen',
+    'keyboard.dropdownJapanese': 'Japonais'
   },
   hu: {
     'auth.illegalPassword':
@@ -1356,7 +1376,13 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Az eszköz biztonsága érdekében módosítsa a webes bejelentkezési jelszót',
     'settings.network.dns.manualServersDescription':
       'A DNS-kiszolgálók kézzel szerkeszthetők. Az IPv4 és az IPv6 támogatott.',
-    'settings.system.firewall.enabledPort': 'Engedélyezve a következő porton: {{port}}'
+    'settings.system.firewall.enabledPort': 'Engedélyezve a következő porton: {{port}}',
+    'keyboard.dropdownEnglish': 'Angol',
+    'keyboard.dropdownFrench': 'Francia',
+    'keyboard.dropdownGerman': 'Német',
+    'keyboard.dropdownRussian': 'Orosz',
+    'keyboard.dropdownKorean': 'Koreai',
+    'keyboard.dropdownJapanese': 'Japán'
   },
   id: {
     'auth.illegalPassword':
@@ -1515,7 +1541,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Perlu diketahui bahwa rilis pratinjau mungkin mengandung bug atau fungsi yang tidak lengkap',
     'auth.changePasswordDesc': 'Untuk keamanan perangkat Anda, silakan ubah kata sandi masuk web',
     'settings.network.dns.manualServersDescription':
-      'Server DNS dapat diedit secara manual. IPv4 dan IPv6 didukung.'
+      'Server DNS dapat diedit secara manual. IPv4 dan IPv6 didukung.',
+    'keyboard.dropdownFrench': 'Bahasa Prancis',
+    'keyboard.dropdownGerman': 'Bahasa Jerman',
+    'keyboard.dropdownRussian': 'Bahasa Rusia',
+    'keyboard.dropdownKorean': 'Bahasa Korea',
+    'keyboard.dropdownJapanese': 'Bahasa Jepang'
   },
   it: {
     'auth.illegalPassword':
@@ -1673,7 +1704,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc':
       'Per la sicurezza del tuo dispositivo, modifica la password di accesso web',
     'settings.network.dns.manualServersDescription':
-      'I server DNS possono essere modificati manualmente. IPv4 e IPv6 sono supportati.'
+      'I server DNS possono essere modificati manualmente. IPv4 e IPv6 sono supportati.',
+    'keyboard.dropdownKorean': 'Coreano',
+    'keyboard.dropdownJapanese': 'Giapponese'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -1813,7 +1846,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': 'デバイスのセキュリティのために、パスワードを変更してください',
     'settings.network.dns.manualServersDescription':
       'DNS サーバーは手動で編集できます。IPv4 と IPv6 に対応しています。',
-    'settings.tailscale.stopDesc': 'ログアウトして自動起動を無効にします。'
+    'settings.tailscale.stopDesc': 'ログアウトして自動起動を無効にします。',
+    'keyboard.dropdownKorean': '韓国語',
+    'keyboard.dropdownJapanese': '日本語'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -1945,7 +1980,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': '보안을 위해 웹 로그인 비밀번호를 변경하세요',
     'settings.network.dns.manualServersDescription':
       'DNS 서버를 수동으로 편집할 수 있습니다. IPv4와 IPv6을 지원합니다.',
-    'settings.tailscale.stopDesc': '로그아웃하고 자동 시작을 비활성화합니다.'
+    'settings.tailscale.stopDesc': '로그아웃하고 자동 시작을 비활성화합니다.',
+    'keyboard.dropdownKorean': '한국어',
+    'keyboard.dropdownJapanese': '일본어'
   },
   nb: {
     'auth.illegalPassword':
@@ -2100,7 +2137,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc':
       'For sikkerheten til enheten, vennligst endre passordet ditt for web-innlogging',
     'settings.network.dns.manualServersDescription':
-      'DNS-servere kan redigeres manuelt. IPv4 og IPv6 støttes.'
+      'DNS-servere kan redigeres manuelt. IPv4 og IPv6 støttes.',
+    'keyboard.dropdownKorean': 'Koreansk',
+    'keyboard.dropdownJapanese': 'Japansk'
   },
   nl: {
     'auth.illegalPassword':
@@ -2247,7 +2286,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Voor de veiligheid van uw apparaat, wijzig alstublieft het webaanmeldingswachtwoord',
     'settings.network.dns.manualServersDescription':
       'DNS-servers kunnen handmatig worden bewerkt. IPv4 en IPv6 worden ondersteund.',
-    'settings.tailscale.stopDesc': 'Uitloggen en automatisch opstarten uitschakelen.'
+    'settings.tailscale.stopDesc': 'Uitloggen en automatisch opstarten uitschakelen.',
+    'keyboard.dropdownKorean': 'Koreaans',
+    'keyboard.dropdownJapanese': 'Japans'
   },
   pl: {
     'auth.illegalPassword':
@@ -2390,7 +2431,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc':
       'Dla bezpieczeństwa Twojego urządzenia, proszę zmień hasło do logowania w sieci',
     'settings.network.dns.manualServersDescription':
-      'Serwery DNS można edytować ręcznie. IPv4 i IPv6 są obsługiwane.'
+      'Serwery DNS można edytować ręcznie. IPv4 i IPv6 są obsługiwane.',
+    'keyboard.dropdownKorean': 'Koreański',
+    'keyboard.dropdownJapanese': 'Japoński'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -2526,7 +2569,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': 'Para a segurança do seu dispositivo, por favor, mude a senha',
     'settings.network.dns.manualServersDescription':
       'Os servidores DNS podem ser editados manualmente. IPv4 e IPv6 são compatíveis.',
-    'settings.tailscale.stopDesc': 'Sair e desativar a inicialização automática.'
+    'settings.tailscale.stopDesc': 'Sair e desativar a inicialização automática.',
+    'keyboard.dropdownKorean': 'Coreano',
+    'keyboard.dropdownJapanese': 'Japonês'
   },
   ru: {
     'download.disabled':
@@ -2643,7 +2688,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': 'Для безопасности вашего устройства, пожалуйста поменяйте пароль',
     'settings.network.dns.manualServersDescription':
       'DNS-серверы можно редактировать вручную. IPv4 и IPv6 поддерживаются.',
-    'settings.tailscale.stopDesc': 'Выйти и отключить автозапуск.'
+    'settings.tailscale.stopDesc': 'Выйти и отключить автозапуск.',
+    'keyboard.dropdownKorean': 'Корейский',
+    'keyboard.dropdownJapanese': 'Японский'
   },
   se: {
     'auth.illegalPassword':
@@ -2780,7 +2827,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': 'För din enhets säkerhet, byt lösenord',
     'settings.network.dns.manualServersDescription':
       'DNS-servrar kan redigeras manuellt. IPv4 och IPv6 stöds.',
-    'settings.tailscale.stopDesc': 'Logga ut och stäng av automatisk start.'
+    'settings.tailscale.stopDesc': 'Logga ut och stäng av automatisk start.',
+    'keyboard.dropdownKorean': 'Koreanska',
+    'keyboard.dropdownJapanese': 'Japanska'
   },
   th: {
     'auth.illegalPassword':
@@ -2885,7 +2934,12 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': 'เพื่อความปลอดภัย, โปรดเปลี่ยนรหัสผ่าน',
     'settings.network.dns.manualServersDescription':
       'สามารถแก้ไขเซิร์ฟเวอร์ DNS ด้วยตนเองได้ รองรับ IPv4 และ IPv6.',
-    'settings.tailscale.stopDesc': 'ออกจากระบบและปิดการเริ่มอัตโนมัติ'
+    'settings.tailscale.stopDesc': 'ออกจากระบบและปิดการเริ่มอัตโนมัติ',
+    'keyboard.dropdownFrench': 'ภาษาฝรั่งเศส',
+    'keyboard.dropdownGerman': 'ภาษาเยอรมัน',
+    'keyboard.dropdownRussian': 'ภาษารัสเซีย',
+    'keyboard.dropdownKorean': 'ภาษาเกาหลี',
+    'keyboard.dropdownJapanese': 'ภาษาญี่ปุ่น'
   },
   tr: {
     'auth.illegalPassword':
@@ -3033,7 +3087,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'error.title': 'Bir hata oluştu',
     'wol.title': 'Ağ Üzerinden Uyandırma',
     'settings.device.ssh.description': 'SSH uzaktan erişimini etkinleştir',
-    'settings.tailscale.stopDesc': 'Çıkış yap ve otomatik başlatmayı kapat.'
+    'settings.tailscale.stopDesc': 'Çıkış yap ve otomatik başlatmayı kapat.',
+    'keyboard.dropdownKorean': 'Korece',
+    'keyboard.dropdownJapanese': 'Japonca'
   },
   uk: {
     'auth.illegalPassword':
@@ -3187,7 +3243,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription':
       'DNS-сервери можна редагувати вручну. IPv4 та IPv6 підтримуються.',
     'settings.device.swap.title': 'Swap',
-    'settings.tailscale.stopDesc': 'Вийти та вимкнути автозапуск.'
+    'settings.tailscale.stopDesc': 'Вийти та вимкнути автозапуск.',
+    'keyboard.dropdownEnglish': 'Англійська',
+    'keyboard.dropdownFrench': 'Французька',
+    'keyboard.dropdownGerman': 'Німецька',
+    'keyboard.dropdownRussian': 'Російська',
+    'keyboard.dropdownKorean': 'Корейська',
+    'keyboard.dropdownJapanese': 'Японська'
   },
   vi: {
     'auth.illegalPassword':
@@ -3340,7 +3402,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc':
       'Để bảo mật thiết bị của bạn, vui lòng thay đổi mật khẩu đăng nhập web',
     'settings.network.dns.manualServersDescription':
-      'Có thể chỉnh sửa máy chủ DNS thủ công. Hỗ trợ IPv4 và IPv6.'
+      'Có thể chỉnh sửa máy chủ DNS thủ công. Hỗ trợ IPv4 và IPv6.',
+    'keyboard.dropdownKorean': 'Tiếng Hàn',
+    'keyboard.dropdownJapanese': 'Tiếng Nhật'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -3447,7 +3511,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip': '预览版更新可能包含一些不稳定因素或未完善的功能',
     'auth.changePasswordDesc': '为了您的设备安全，请修改密码',
     'settings.network.dns.manualServersDescription': 'DNS 服务器可以手动编辑。支持 IPv4 和 IPv6。',
-    'settings.tailscale.stopDesc': '退出登录并禁用开机自启。'
+    'settings.tailscale.stopDesc': '退出登录并禁用开机自启。',
+    'keyboard.dropdownKorean': '韩语',
+    'keyboard.dropdownJapanese': '日语'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -3561,6 +3627,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': '為了您的裝置安全，請修改登入密碼',
     'settings.network.dns.manualServersDescription': 'DNS 伺服器可手動編輯。支援 IPv4 和 IPv6。',
     'settings.device.mouseJiggler.title': '滑鼠抖動模式',
-    'settings.tailscale.stopDesc': '登出並停用開機自動啟動。'
+    'settings.tailscale.stopDesc': '登出並停用開機自動啟動。',
+    'keyboard.dropdownKorean': '韓語',
+    'keyboard.dropdownJapanese': '日語'
   }
 };
