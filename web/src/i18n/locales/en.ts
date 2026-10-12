@@ -709,6 +709,67 @@ const en = {
           8: '8 - All'
         }
       },
+      wireguard: {
+        title: 'WireGuard',
+        tunnel: 'Encrypted tunnel',
+        description: 'Reach this KVM through a WireGuard tunnel',
+        unavailable: 'WireGuard is not installed on this device',
+        blocked: 'Paranoid Firewall mode blocks WireGuard',
+        needsKey: 'Set a private key before turning WireGuard on',
+        saved: 'WireGuard settings saved',
+        save: 'Save changes',
+        unsaved: 'Unsaved changes',
+        invalid: 'Check the highlighted fields',
+        invalidAddress: 'Enter an address with its mask, like 10.0.0.1/24',
+        invalidKey: 'Enter a 44-character WireGuard key',
+        invalidEndpoint: 'Enter a host name or IP address',
+        invalidPort: 'Enter a port from 1 to 65535',
+        invalidRanges: 'Use IPv4 ranges like 10.0.0.0/24, not 0.0.0.0/0',
+        status: {
+          connected: 'Connected',
+          waiting: 'Waiting for the peer',
+          stopped: 'Stopped',
+          handshake: 'Last handshake {{time}}'
+        },
+        privateKey: {
+          title: 'Private key',
+          description: 'Stays on this device and is never shown again',
+          set: 'Set',
+          notSet: 'Not set',
+          setBtn: 'Set',
+          generate: 'Generate',
+          remove: 'Remove',
+          modalTitle: 'Set the private key',
+          modalDescription: 'The key is stored on this device and is never shown again',
+          placeholder: 'Paste the private key',
+          generateConfirmTitle: 'Generate a new private key?',
+          generateConfirmDesc:
+            'The current key stops working. Add the new public key to the peer afterwards.',
+          removeConfirmTitle: 'Remove the private key?',
+          removeConfirmDesc: 'WireGuard is turned off and stays off until a new key is set.'
+        },
+        publicKey: {
+          title: "This KVM's public key",
+          description: "Add it to the peer's configuration"
+        },
+        address: {
+          title: 'Address',
+          description: 'KVM address in the tunnel and its mask'
+        },
+        peer: {
+          title: 'Peer',
+          publicKey: 'Public key',
+          publicKeyDescription: 'Public key of the peer you connect to',
+          server: 'Server',
+          serverDescription: 'Host name or IP address of the peer',
+          port: 'Port',
+          portDescription: 'UDP port of the peer, usually 51820',
+          allowedIps: 'Allowed IPs',
+          allowedIpsDescription: 'Peer address or range in the tunnel, such as 10.0.0.0/24',
+          keepalive: 'Keepalive',
+          keepaliveDescription: 'Seconds between keepalive packets, needed behind a router'
+        }
+      },
       tailscale: {
         title: 'Tailscale',
         memory: {
