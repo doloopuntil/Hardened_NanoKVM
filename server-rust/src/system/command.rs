@@ -3,12 +3,16 @@ use std::{ffi::OsStr, path::PathBuf, process::Stdio, time::Duration};
 use tokio::{
     io::{AsyncBufReadExt, AsyncReadExt, AsyncWriteExt, BufReader},
     process::Command,
+    task::JoinHandle,
     time,
 };
 
 use crate::{AppError, Result};
 
 const MAX_CAPTURE_BYTES: usize = 256 * 1024;
+// How long to keep reading the output of a command that has exited. A daemon it started can
+// keep the pipes open indefinitely.
+const PIPE_DRAIN_GRACE: Duration = Duration::from_secs(2);
 
 #[derive(Debug, Clone)]
 pub enum AllowedCommand {
@@ -140,12 +144,8 @@ where
     let stdin_result = stdin_task
         .await
         .map_err(|err| AppError::Internal(format!("stdin task failed: {err}")))?;
-    let stdout = stdout_task
-        .await
-        .map_err(|err| AppError::Internal(format!("stdout task failed: {err}")))??;
-    let stderr = stderr_task
-        .await
-        .map_err(|err| AppError::Internal(format!("stderr task failed: {err}")))??;
+    let stdout = drain(stdout_task, "stdout").await?;
+    let stderr = drain(stderr_task, "stderr").await?;
 
     if status.success() {
         stdin_result?;
@@ -184,12 +184,8 @@ where
         .await
         .map_err(|_| AppError::Internal("command timed out".to_string()))??;
 
-    let stdout = stdout_task
-        .await
-        .map_err(|err| AppError::Internal(format!("stdout task failed: {err}")))??;
-    let stderr = stderr_task
-        .await
-        .map_err(|err| AppError::Internal(format!("stderr task failed: {err}")))??;
+    let stdout = drain(stdout_task, "stdout").await?;
+    let stderr = drain(stderr_task, "stderr").await?;
 
     Ok(CommandOutput {
         status: status.code().unwrap_or(-1),
@@ -239,6 +235,18 @@ where
     Ok(matched)
 }
 
+async fn drain(mut task: JoinHandle<std::io::Result<Vec<u8>>>, name: &str) -> Result<Vec<u8>> {
+    match time::timeout(PIPE_DRAIN_GRACE, &mut task).await {
+        Ok(joined) => joined
+            .map_err(|err| AppError::Internal(format!("{name} task failed: {err}")))?
+            .map_err(AppError::from),
+        Err(_) => {
+            task.abort();
+            Ok(Vec::new())
+        }
+    }
+}
+
 async fn read_limited<R>(reader: &mut R) -> std::io::Result<Vec<u8>>
 where
     R: tokio::io::AsyncRead + Unpin,
@@ -273,6 +281,20 @@ mod tests {
         .unwrap();
         assert_eq!(out.status, 0);
         assert_eq!(String::from_utf8_lossy(&out.stdout), "hello\n");
+    }
+
+    #[tokio::test]
+    async fn does_not_wait_for_a_daemon_that_keeps_the_pipes_open() {
+        let started = std::time::Instant::now();
+        let out = run_allowed(
+            AllowedCommand::CustomForTest(PathBuf::from("/bin/sh")),
+            ["-c", "sleep 30 & exit 0"],
+            Duration::from_secs(10),
+        )
+        .await
+        .unwrap();
+        assert_eq!(out.status, 0);
+        assert!(started.elapsed() < Duration::from_secs(8));
     }
 
     #[tokio::test]
