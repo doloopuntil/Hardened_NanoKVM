@@ -183,6 +183,7 @@ pub fn build(state: AppState) -> Router {
             "/api/network/dns",
             get(network::get_dns).post(network::set_dns),
         )
+        .route("/api/network/dns/servers", post(network::set_dns_servers))
         .route(
             "/api/network/ipv6",
             get(network::get_ipv6).post(network::set_ipv6),

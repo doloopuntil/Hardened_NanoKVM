@@ -50,6 +50,9 @@ cat "$TMPFILE" > "$CACHE"
 MODE_VALUE="$(cat "$MODE" 2>/dev/null)"
 if [ "$MODE_VALUE" = "dhcp" ] || { [ -z "$MODE_VALUE" ] && [ ! -f "$BOOT" ]; }; then
 	cat "$TMPFILE" > "$ACTIVE"
+elif [ "$MODE_VALUE" = "manual" ] && [ -s "$BOOT" ]; then
+	# fixed servers on a DHCP network: undo whatever the lease script just wrote
+	cat "$BOOT" > "$ACTIVE"
 fi
 rm -f "$TMPFILE"
 

@@ -36,6 +36,8 @@ const BOOT_RESOLV_BACKUP: &str = "/boot/resolv.conf.manual.bak";
 const BOOT_ETH_NODHCP_FILE: &str = "/boot/eth.nodhcp";
 const ETC_RESOLV_FILE: &str = "/etc/resolv.conf";
 const DHCP_RESOLV_FILE: &str = "/etc/resolv.conf.dhcp";
+// Where the DHCPv6 lease script parks its servers while fixed ones are in use.
+const DHCP6_RESOLV_FILE: &str = "/etc/resolv.conf.dhcp6";
 const TMP_RESOLV_FILE: &str = "/tmp/resolv.conf";
 const UDHCPC_HOOK_FILE: &str = "/usr/share/udhcpc/default.script.d/99-nanokvm-dns";
 const UDHCPC_DNS_HOOK: &str = include_str!("../../assets/99-nanokvm-dns");
@@ -74,12 +76,24 @@ pub struct WolMacsRsp {
 
 #[derive(Debug, Serialize)]
 pub struct DnsRsp {
+    /// Same as `dns_mode`, kept for older clients.
     pub mode: String,
+    #[serde(rename = "ipv4Mode")]
+    pub ipv4_mode: String,
+    #[serde(rename = "dnsMode")]
+    pub dns_mode: String,
     pub servers: Vec<String>,
     pub effective: Vec<String>,
     pub dhcp: Vec<String>,
     pub info: DnsInfo,
     pub config: Option<StaticNetworkConfig>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct SetDnsServersReq {
+    pub mode: String,
+    #[serde(default)]
+    pub servers: Vec<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -266,7 +280,14 @@ pub async fn set_wol_mac_name(Json(req): Json<SetWolMacNameReq>) -> Result<impl 
 
 pub async fn get_dns() -> Result<impl IntoResponse> {
     let static_config = read_static_network_config().unwrap_or_default();
-    let mode = if static_config.is_some() {
+    let ipv4_mode = if static_config.is_some() {
+        DNS_MODE_MANUAL
+    } else {
+        DNS_MODE_DHCP
+    }
+    .to_string();
+    // A static IPv4 address leaves no DHCP server to take DNS servers from.
+    let dns_mode = if static_config.is_some() {
         DNS_MODE_MANUAL.to_string()
     } else {
         current_dns_mode()
@@ -284,7 +305,9 @@ pub async fn get_dns() -> Result<impl IntoResponse> {
         .unwrap_or_else(|_| ResolvConfig::default());
 
     Ok(Json(ApiResponse::ok(DnsRsp {
-        mode,
+        mode: dns_mode.clone(),
+        ipv4_mode,
+        dns_mode,
         servers,
         effective,
         dhcp: dhcp_config.servers,
@@ -301,6 +324,64 @@ pub async fn set_dns(Json(req): Json<SetDnsReq>) -> Result<impl IntoResponse> {
     }
 
     Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+/// Sets only the DNS servers, leaving the IPv4 configuration alone, so a DHCP network can still
+/// use fixed servers. `set_dns` changes both at once.
+pub async fn set_dns_servers(Json(req): Json<SetDnsServersReq>) -> Result<impl IntoResponse> {
+    match req.mode.as_str() {
+        DNS_MODE_MANUAL => {
+            set_manual_dns(&req.servers)?;
+        }
+        DNS_MODE_DHCP => set_automatic_dns().await?,
+        _ => return Err(AppError::BadRequest("invalid dns mode".to_string())),
+    }
+
+    Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+async fn set_automatic_dns() -> Result<()> {
+    if read_static_network_config().unwrap_or_default().is_some() {
+        return Err(AppError::BadRequest(
+            "dns servers must stay manual while the ipv4 address is static".to_string(),
+        ));
+    }
+
+    fs::create_dir_all(DNS_CONFIG_DIR)?;
+    preserve_manual_dns_servers()?;
+    write_dns_mode(DNS_MODE_DHCP)?;
+    backup_and_remove_boot_resolv()?;
+    install_udhcpc_dns_hook()?;
+
+    // The hook keeps the DHCP cache current even while the servers are manual. Only ask for a
+    // new lease when nothing was cached, since that briefly drops the connection.
+    let mut dhcp_config = read_dhcp_resolv_config(false).unwrap_or_default();
+    if dhcp_config.servers.is_empty() {
+        restart_ethernet().await?;
+        dhcp_config = read_dhcp_resolv_config(true).unwrap_or_default();
+    }
+    if !dhcp_config.servers.is_empty() {
+        render_resolv_config(DHCP_RESOLV_FILE, &dhcp_config)?;
+        render_resolv_config(ETC_RESOLV_FILE, &dhcp_config)?;
+    }
+    restore_dhcpv6_dns()?;
+
+    Ok(())
+}
+
+/// While fixed servers are in use, the DHCPv6 lease script keeps its own servers aside; put them
+/// back so they apply again until the next renewal would.
+fn restore_dhcpv6_dns() -> Result<()> {
+    let extra = match fs::read_to_string(DHCP6_RESOLV_FILE) {
+        Ok(extra) if !extra.trim().is_empty() => extra,
+        _ => return Ok(()),
+    };
+    let mut resolv = fs::read_to_string(ETC_RESOLV_FILE).unwrap_or_default();
+    if !resolv.is_empty() && !resolv.ends_with('\n') {
+        resolv.push('\n');
+    }
+    resolv.push_str(&extra);
+    write_file(Path::new(ETC_RESOLV_FILE), resolv.as_bytes(), 0o644)
 }
 
 pub async fn get_ipv6() -> Result<impl IntoResponse> {
@@ -1709,6 +1790,24 @@ fn command_error(message: &str, output: crate::system::command::CommandOutput) -
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn dns_response_reports_ipv4_and_dns_modes_separately() {
+        let rsp = DnsRsp {
+            mode: "manual".to_string(),
+            ipv4_mode: "dhcp".to_string(),
+            dns_mode: "manual".to_string(),
+            servers: vec!["9.9.9.9".to_string()],
+            effective: Vec::new(),
+            dhcp: Vec::new(),
+            info: DnsInfo::default(),
+            config: None,
+        };
+        let json = serde_json::to_value(&rsp).unwrap();
+        assert_eq!(json["ipv4Mode"], "dhcp");
+        assert_eq!(json["dnsMode"], "manual");
+        assert_eq!(json["mode"], "manual");
+    }
+
     use super::*;
 
     #[test]

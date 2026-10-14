@@ -254,6 +254,10 @@ start() {
             ip a add "$inet" brd + dev eth0
         } || exit 1
     else
+        # fixed DNS servers on a DHCP network
+        if [ "$(cat /etc/kvm/network/dns.mode 2>/dev/null)" = manual ] && [ -s "$BOOT_RESOLV_FILE" ]; then
+            render_static_dns ""
+        fi
         udhcpc -i eth0 -t 10 -T 1 -A 5 -b -p /run/udhcpc.eth0.pid &
     fi
 
