@@ -107,6 +107,7 @@ export const Network = forwardRef<SystemActionHandle, NetworkProps>(
             disabled={isApplying}
             onStatusChange={setDNSStatus}
           />
+          <Divider className="opacity-50" />
           <IPv6
             ref={ipv6Ref}
             showFooter={false}

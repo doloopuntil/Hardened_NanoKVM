@@ -486,6 +486,7 @@ const en = {
       },
       network: {
         title: 'Network',
+        configuration: 'Configuration',
         wifi: {
           title: 'Wi-Fi',
           description: 'Configure Wi-Fi',
@@ -514,10 +515,10 @@ const en = {
           description: 'Configure DNS servers for NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Configure IPv4 addressing for the wired interface',
+          servers: 'Servers',
           mode: 'Mode',
           dhcp: 'DHCP',
           manual: 'Manual',
-          add: 'Add DNS',
           save: 'Save',
           apply: 'Apply',
           invalid: 'Please enter a valid IPv4 or IPv6 address',
@@ -528,16 +529,12 @@ const en = {
           saveFailed: 'Failed to save DNS settings',
           unsaved: 'Unsaved changes',
           maxServers: 'Maximum {{count}} DNS servers allowed',
-          dnsServers: 'DNS Servers',
           dhcpServersDescription: 'DNS servers are automatically obtained from DHCP',
-          manualServersDescription:
-            'DNS servers can be edited manually. IPv4 and IPv6 are supported.',
-          networkDetails: 'Network Details',
+          manualServersDescription: 'IPv4 and IPv6 servers are supported',
           interface: 'Interface',
           ipAddress: 'IP Address',
           subnetMask: 'Subnet Mask',
-          router: 'Router',
-          none: 'None'
+          router: 'Router'
         },
         ipv6: {
           title: 'IPv6',
@@ -547,14 +544,12 @@ const en = {
           dhcpv6: 'DHCPv6',
           manual: 'Manual',
           apply: 'Apply',
-          status: 'IPv6 Status',
           interface: 'Interface',
           state: 'State',
           router: 'Router',
           addresses: 'Addresses',
           dhcpv6Client: 'DHCPv6 Client',
           notInstalled: 'Not installed',
-          manualSettings: 'Manual IPv6',
           ipAddress: 'IPv6 Address',
           prefix: 'Prefix',
           invalidManual: 'Please enter a valid IPv6 address, prefix, and router',

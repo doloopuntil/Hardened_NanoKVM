@@ -429,7 +429,6 @@ const it = {
           mode: 'Modalità',
           dhcp: 'DHCP',
           manual: 'Manuale',
-          add: 'Aggiungi DNS',
           save: 'Salva',
           apply: 'Applica',
           invalid: 'Inserisci un indirizzo IPv4 o IPv6 valido',
@@ -440,15 +439,12 @@ const it = {
           saveFailed: 'Impossibile salvare le impostazioni DNS',
           unsaved: 'Modifiche non salvate',
           maxServers: 'Sono consentiti al massimo {{count}} server DNS',
-          dnsServers: 'Server DNS',
           dhcpServersDescription: 'I server DNS vengono ottenuti automaticamente da DHCP',
           manualServersDescription: 'I server DNS possono essere modificati manualmente. IPv4 e IPv6 sono supportati',
-          networkDetails: 'Dettagli rete',
           interface: 'Interfaccia',
           ipAddress: 'Indirizzo IP',
           subnetMask: 'Subnet mask',
-          router: 'Router',
-          none: 'Nessuno'
+          router: 'Router'
         }
       },
       tailscale: {

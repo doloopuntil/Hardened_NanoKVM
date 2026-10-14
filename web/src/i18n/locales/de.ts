@@ -431,7 +431,6 @@ const de = {
           mode: 'Modus',
           dhcp: 'DHCP',
           manual: 'Manuell',
-          add: 'DNS hinzufügen',
           save: 'Speichern',
           apply: 'Übernehmen',
           invalid: 'Bitte eine gültige IPv4- oder IPv6-Adresse eingeben',
@@ -442,15 +441,12 @@ const de = {
           saveFailed: 'DNS-Einstellungen konnten nicht gespeichert werden',
           unsaved: 'Ungespeicherte Änderungen',
           maxServers: 'Maximal {{count}} DNS-Server erlaubt',
-          dnsServers: 'DNS-Server',
           dhcpServersDescription: 'DNS-Server werden automatisch per DHCP bezogen',
           manualServersDescription: 'DNS-Server können manuell bearbeitet werden. IPv4 und IPv6 werden unterstützt',
-          networkDetails: 'Netzwerkdetails',
           interface: 'Schnittstelle',
           ipAddress: 'IP-Adresse',
           subnetMask: 'Subnetzmaske',
-          router: 'Router',
-          none: 'Keine'
+          router: 'Router'
         }
       },
       tailscale: {

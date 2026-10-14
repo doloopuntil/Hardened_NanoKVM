@@ -426,7 +426,6 @@ const id = {
           mode: 'Mode',
           dhcp: 'DHCP',
           manual: 'Manual',
-          add: 'Tambah DNS',
           save: 'Simpan',
           apply: 'Terapkan',
           invalid: 'Masukkan alamat IPv4 atau IPv6 yang valid',
@@ -437,15 +436,12 @@ const id = {
           saveFailed: 'Gagal menyimpan pengaturan DNS',
           unsaved: 'Perubahan belum disimpan',
           maxServers: 'Maksimal {{count}} server DNS diizinkan',
-          dnsServers: 'Server DNS',
           dhcpServersDescription: 'Server DNS diperoleh otomatis dari DHCP',
           manualServersDescription: 'Server DNS dapat diedit secara manual. IPv4 dan IPv6 didukung',
-          networkDetails: 'Detail Jaringan',
           interface: 'Antarmuka',
           ipAddress: 'Alamat IP',
           subnetMask: 'Subnet mask',
-          router: 'Router',
-          none: 'Tidak ada'
+          router: 'Router'
         }
       },
       tailscale: {

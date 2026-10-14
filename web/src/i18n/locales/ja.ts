@@ -428,7 +428,6 @@ const ja = {
           mode: 'モード',
           dhcp: 'DHCP',
           manual: '手動',
-          add: 'DNS を追加',
           save: '保存',
           apply: '適用',
           invalid: '有効な IPv4 または IPv6 アドレスを入力してください',
@@ -439,15 +438,12 @@ const ja = {
           saveFailed: 'DNS 設定の保存に失敗しました',
           unsaved: '未保存の変更',
           maxServers: 'DNS サーバーは最大 {{count}} 個までです',
-          dnsServers: 'DNS サーバー',
           dhcpServersDescription: 'DNS サーバーは DHCP から自動取得されます',
           manualServersDescription: 'DNS サーバーは手動で編集できます。IPv4 と IPv6 に対応しています',
-          networkDetails: 'ネットワーク詳細',
           interface: 'インターフェイス',
           ipAddress: 'IP アドレス',
           subnetMask: 'サブネットマスク',
-          router: 'ルーター',
-          none: 'なし'
+          router: 'ルーター'
         }
       },
       tailscale: {

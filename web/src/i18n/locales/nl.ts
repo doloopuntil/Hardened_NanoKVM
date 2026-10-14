@@ -428,7 +428,6 @@ const nl = {
           mode: 'Modus',
           dhcp: 'DHCP',
           manual: 'Handmatig',
-          add: 'DNS toevoegen',
           save: 'Opslaan',
           apply: 'Toepassen',
           invalid: 'Voer een geldig IPv4- of IPv6-adres in',
@@ -439,15 +438,12 @@ const nl = {
           saveFailed: 'DNS-instellingen opslaan mislukt',
           unsaved: 'Niet-opgeslagen wijzigingen',
           maxServers: 'Maximaal {{count}} DNS-servers toegestaan',
-          dnsServers: 'DNS-servers',
           dhcpServersDescription: 'DNS-servers worden automatisch via DHCP verkregen',
           manualServersDescription: 'DNS-servers kunnen handmatig worden bewerkt. IPv4 en IPv6 worden ondersteund',
-          networkDetails: 'Netwerkdetails',
           interface: 'Interface',
           ipAddress: 'IP-adres',
           subnetMask: 'Subnetmasker',
-          router: 'Router',
-          none: 'Geen'
+          router: 'Router'
         }
       },
       tailscale: {

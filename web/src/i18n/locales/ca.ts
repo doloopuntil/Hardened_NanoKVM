@@ -424,7 +424,6 @@ const ca = {
           mode: 'Mode',
           dhcp: 'DHCP',
           manual: 'Manual',
-          add: 'Afegeix DNS',
           save: 'Desa',
           apply: 'Aplica',
           invalid: 'Introduïu una adreça IPv4 o IPv6 vàlida',
@@ -435,15 +434,12 @@ const ca = {
           saveFailed: "No s'ha pogut desar la configuració DNS",
           unsaved: 'Canvis no desats',
           maxServers: 'Es permeten com a màxim {{count}} servidors DNS',
-          dnsServers: 'Servidors DNS',
           dhcpServersDescription: "Els servidors DNS s'obtenen automàticament via DHCP",
           manualServersDescription: 'Els servidors DNS es poden editar manualment. IPv4 i IPv6 són compatibles',
-          networkDetails: 'Detalls de xarxa',
           interface: 'Interfície',
           ipAddress: 'Adreça IP',
           subnetMask: 'Màscara de subxarxa',
-          router: 'Encaminador',
-          none: 'Cap'
+          router: 'Encaminador'
         }
       },
       tailscale: {

@@ -424,7 +424,6 @@ const se = {
           mode: 'Läge',
           dhcp: 'DHCP',
           manual: 'Manuell',
-          add: 'Lägg till DNS',
           save: 'Spara',
           apply: 'Tillämpa',
           invalid: 'Ange en giltig IPv4- eller IPv6-adress',
@@ -435,15 +434,12 @@ const se = {
           saveFailed: 'Det gick inte att spara DNS-inställningar',
           unsaved: 'Osparade ändringar',
           maxServers: 'Maximalt {{count}} DNS-servrar tillåtna',
-          dnsServers: 'DNS-servrar',
           dhcpServersDescription: 'DNS-servrar hämtas automatiskt från DHCP',
           manualServersDescription: 'DNS-servrar kan redigeras manuellt. IPv4 och IPv6 stöds',
-          networkDetails: 'Nätverksdetaljer',
           interface: 'Gränssnitt',
           ipAddress: 'IP-adress',
           subnetMask: 'Subnätmask',
-          router: 'Router',
-          none: 'Ingen'
+          router: 'Router'
         }
       },
       tailscale: {

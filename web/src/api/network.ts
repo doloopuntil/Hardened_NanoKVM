@@ -95,6 +95,11 @@ export function setDNS(mode: DNSMode, servers: string[], config?: NetworkConfig)
   return http.post('/api/network/dns', { mode, servers, ...(config || {}) });
 }
 
+// Only the servers; the IPv4 configuration stays as it is.
+export function setDNSServers(mode: DNSMode, servers: string[]) {
+  return http.post('/api/network/dns/servers', { mode, servers });
+}
+
 export function getIPv6() {
   return http.get('/api/network/ipv6');
 }

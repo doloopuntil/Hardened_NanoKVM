@@ -414,7 +414,6 @@ const zh_tw = {
           mode: '模式',
           dhcp: 'DHCP',
           manual: '手動',
-          add: '新增 DNS',
           save: '儲存',
           apply: '套用',
           invalid: '請輸入有效的 IPv4 或 IPv6 位址',
@@ -425,15 +424,12 @@ const zh_tw = {
           saveFailed: '儲存 DNS 設定失敗',
           unsaved: '有未儲存的變更',
           maxServers: '最多允許 {{count}} 個 DNS 伺服器',
-          dnsServers: 'DNS 伺服器',
           dhcpServersDescription: 'DNS 伺服器由 DHCP 自動取得',
           manualServersDescription: 'DNS 伺服器可手動編輯。支援 IPv4 和 IPv6',
-          networkDetails: '網路詳細資訊',
           interface: '介面',
           ipAddress: 'IP 位址',
           subnetMask: '子網路遮罩',
-          router: '路由器',
-          none: '無'
+          router: '路由器'
         }
       },
       tailscale: {
