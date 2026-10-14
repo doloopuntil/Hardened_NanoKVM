@@ -173,7 +173,8 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | POST       | `/api/network/wol`             | Implemented.                                                                  |
 | GET/DELETE | `/api/network/wol/mac`         | Implemented.                                                                  |
 | POST       | `/api/network/wol/mac/name`    | Implemented.                                                                  |
-| GET/POST   | `/api/network/dns`             | Implemented.                                                                  |
+| GET/POST   | `/api/network/dns`             | Implemented. GET reports `ipv4Mode` (static or DHCP address) and `dnsMode` (manual or DHCP servers) separately; `mode` repeats `dnsMode`. POST sets both together, and manual mode needs a static IPv4 address. |
+| POST       | `/api/network/dns/servers`     | Implemented; sets only the DNS servers (`manual` with a list, or `dhcp`), so a DHCP network can use fixed servers. `dhcp` is refused while the IPv4 address is static. |
 | GET        | `/api/network/wifi`            | Implemented.                                                                  |
 | POST       | `/api/network/wifi/connect`    | Implemented.                                                                  |
 | POST       | `/api/network/wifi/disconnect` | Implemented.                                                                  |
