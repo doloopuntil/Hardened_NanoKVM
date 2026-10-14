@@ -426,7 +426,6 @@ const pt_br = {
           mode: 'Modo',
           dhcp: 'DHCP',
           manual: 'Manual',
-          add: 'Adicionar DNS',
           save: 'Salvar',
           apply: 'Aplicar',
           invalid: 'Insira um endereço IPv4 ou IPv6 válido',
@@ -437,15 +436,12 @@ const pt_br = {
           saveFailed: 'Falha ao salvar as configurações de DNS',
           unsaved: 'Alterações não salvas',
           maxServers: 'Máximo de {{count}} servidores DNS permitido',
-          dnsServers: 'Servidores DNS',
           dhcpServersDescription: 'Os servidores DNS são obtidos automaticamente via DHCP',
           manualServersDescription: 'Os servidores DNS podem ser editados manualmente. IPv4 e IPv6 são compatíveis',
-          networkDetails: 'Detalhes da rede',
           interface: 'Interface',
           ipAddress: 'Endereço IP',
           subnetMask: 'Máscara de sub-rede',
-          router: 'Roteador',
-          none: 'Nenhum'
+          router: 'Roteador'
         }
       },
       tailscale: {

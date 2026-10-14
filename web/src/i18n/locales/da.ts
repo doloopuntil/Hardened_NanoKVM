@@ -425,7 +425,6 @@ const da = {
           mode: 'Tilstand',
           dhcp: 'DHCP',
           manual: 'Manuel',
-          add: 'Tilføj DNS',
           save: 'Gem',
           apply: 'Anvend',
           invalid: 'Indtast en gyldig IPv4- eller IPv6-adresse',
@@ -436,15 +435,12 @@ const da = {
           saveFailed: 'DNS-indstillinger kunne ikke gemmes',
           unsaved: 'Ikke-gemte ændringer',
           maxServers: 'Maksimalt {{count}} DNS-servere er tilladt',
-          dnsServers: 'DNS-servere',
           dhcpServersDescription: 'DNS-servere hentes automatisk fra DHCP',
           manualServersDescription: 'DNS-servere kan redigeres manuelt. IPv4 og IPv6 understøttes',
-          networkDetails: 'Netværksdetaljer',
           interface: 'Grænseflade',
           ipAddress: 'IP-adresse',
           subnetMask: 'Undernetmaske',
-          router: 'Router',
-          none: 'Ingen'
+          router: 'Router'
         }
       },
       tailscale: {

@@ -420,7 +420,6 @@ const th = {
           mode: 'โหมด',
           dhcp: 'DHCP',
           manual: 'กำหนดเอง',
-          add: 'เพิ่ม DNS',
           save: 'บันทึก',
           apply: 'นำไปใช้',
           invalid: 'ป้อนที่อยู่ IPv4 หรือ IPv6 ที่ถูกต้อง',
@@ -431,15 +430,12 @@ const th = {
           saveFailed: 'บันทึกการตั้งค่า DNS ไม่สำเร็จ',
           unsaved: 'มีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก',
           maxServers: 'อนุญาตเซิร์ฟเวอร์ DNS ได้สูงสุด {{count}} รายการ',
-          dnsServers: 'เซิร์ฟเวอร์ DNS',
           dhcpServersDescription: 'เซิร์ฟเวอร์ DNS จะได้รับจาก DHCP โดยอัตโนมัติ',
           manualServersDescription: 'สามารถแก้ไขเซิร์ฟเวอร์ DNS ด้วยตนเองได้ รองรับ IPv4 และ IPv6',
-          networkDetails: 'รายละเอียดเครือข่าย',
           interface: 'อินเทอร์เฟซ',
           ipAddress: 'ที่อยู่ IP',
           subnetMask: 'ซับเน็ตมาสก์',
-          router: 'เราเตอร์',
-          none: 'ไม่มี'
+          router: 'เราเตอร์'
         }
       },
       tailscale: {

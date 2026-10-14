@@ -428,7 +428,6 @@ const uk = {
           mode: 'Режим',
           dhcp: 'DHCP',
           manual: 'Вручну',
-          add: 'Додати DNS',
           save: 'Зберегти',
           apply: 'Застосувати',
           invalid: 'Введіть дійсну IPv4- або IPv6-адресу',
@@ -439,15 +438,12 @@ const uk = {
           saveFailed: 'Не вдалося зберегти налаштування DNS',
           unsaved: 'Незбережені зміни',
           maxServers: 'Дозволено щонайбільше {{count}} DNS-серверів',
-          dnsServers: 'DNS-сервери',
           dhcpServersDescription: 'DNS-сервери автоматично отримуються з DHCP',
           manualServersDescription: 'DNS-сервери можна редагувати вручну. IPv4 та IPv6 підтримуються',
-          networkDetails: 'Відомості про мережу',
           interface: 'Інтерфейс',
           ipAddress: 'IP-адреса',
           subnetMask: 'Маска підмережі',
-          router: 'Маршрутизатор',
-          none: 'Немає'
+          router: 'Маршрутизатор'
         }
       },
       tailscale: {

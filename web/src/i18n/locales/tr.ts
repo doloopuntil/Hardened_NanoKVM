@@ -424,7 +424,6 @@ const tr = {
           mode: 'Mod',
           dhcp: 'DHCP',
           manual: 'Manuel',
-          add: 'DNS ekle',
           save: 'Kaydet',
           apply: 'Uygula',
           invalid: 'Geçerli bir IPv4 veya IPv6 adresi girin',
@@ -435,15 +434,12 @@ const tr = {
           saveFailed: 'DNS ayarları kaydedilemedi',
           unsaved: 'Kaydedilmemiş değişiklikler',
           maxServers: 'En fazla {{count}} DNS sunucusuna izin verilir',
-          dnsServers: 'DNS Sunucuları',
           dhcpServersDescription: "DNS sunucuları DHCP'den otomatik olarak alınır",
           manualServersDescription: 'DNS sunucuları elle düzenlenebilir. IPv4 ve IPv6 desteklenir',
-          networkDetails: 'Ağ Ayrıntıları',
           interface: 'Arayüz',
           ipAddress: 'IP Adresi',
           subnetMask: 'Alt Ağ Maskesi',
-          router: 'Yönlendirici',
-          none: 'Yok'
+          router: 'Yönlendirici'
         }
       },
       tailscale: {

@@ -423,7 +423,6 @@ const zh = {
           mode: '模式',
           dhcp: 'DHCP',
           manual: '手动',
-          add: '添加 DNS',
           save: '保存',
           apply: '应用',
           invalid: '请输入有效的 IPv4 或 IPv6 地址',
@@ -434,15 +433,12 @@ const zh = {
           saveFailed: '保存 DNS 设置失败',
           unsaved: '有未保存的更改',
           maxServers: '最多允许 {{count}} 个 DNS 服务器',
-          dnsServers: 'DNS 服务器',
           dhcpServersDescription: 'DNS 服务器由 DHCP 自动获取',
           manualServersDescription: 'DNS 服务器可以手动编辑。支持 IPv4 和 IPv6',
-          networkDetails: '网络详情',
           interface: '接口',
           ipAddress: 'IP 地址',
           subnetMask: '子网掩码',
-          router: '路由器',
-          none: '无'
+          router: '路由器'
         }
       },
       tailscale: {

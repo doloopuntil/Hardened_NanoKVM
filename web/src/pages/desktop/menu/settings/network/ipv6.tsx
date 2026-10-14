@@ -1,12 +1,12 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import type { ReactNode } from 'react';
-import { Button, Input, Segmented } from 'antd';
+import { Button, Segmented } from 'antd';
 import { CheckIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/network.ts';
 import type { IPv6Mode } from '@/api/network.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { EditableInfoRow, InfoRow } from '@/components/setting-rows.tsx';
 
 import type { NetworkSectionHandle, NetworkSectionResult, NetworkSectionStatus } from './types.ts';
 
@@ -67,88 +67,6 @@ function isValidPrefix(value: string) {
 function formatAddress(address: IPv6Address) {
   return `${address.address}/${address.prefix} (${address.scope})`;
 }
-
-const Panel = ({
-  title,
-  description,
-  children
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) => {
-  return (
-    <div className="overflow-hidden rounded-xl bg-neutral-800/50">
-      <div className="px-4 pb-1.5 pt-3">
-        <div className="font-semibold text-neutral-100">{title}</div>
-        {description && (
-          <div className="mt-0.5 text-xs leading-snug text-neutral-500">{description}</div>
-        )}
-      </div>
-      <div>{children}</div>
-    </div>
-  );
-};
-
-const InfoRow = ({
-  label,
-  value,
-  isLast = false
-}: {
-  label: string;
-  value?: string;
-  isLast?: boolean;
-}) => {
-  return (
-    <div className="px-4">
-      <div
-        className={`flex min-h-[44px] flex-col items-start gap-1 py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-0 ${
-          isLast ? '' : 'border-b border-neutral-700/50'
-        }`}
-      >
-        <span className="shrink-0 text-sm text-neutral-300">{label}</span>
-        <span className="w-full break-all text-left text-sm text-neutral-500 sm:w-auto sm:max-w-[420px] sm:text-right">
-          {value || '-'}
-        </span>
-      </div>
-    </div>
-  );
-};
-
-const EditableInfoRow = ({
-  label,
-  value,
-  placeholder,
-  status,
-  isLast = false,
-  onChange
-}: {
-  label: string;
-  value: string;
-  placeholder: string;
-  status?: 'error';
-  isLast?: boolean;
-  onChange: (value: string) => void;
-}) => {
-  return (
-    <div className="px-4">
-      <div
-        className={`flex min-h-[52px] flex-col items-start gap-2 py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-0 ${
-          isLast ? '' : 'border-b border-neutral-700/50'
-        }`}
-      >
-        <span className="shrink-0 text-sm text-neutral-300">{label}</span>
-        <Input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          status={status}
-          className="w-full sm:max-w-[300px]"
-        />
-      </div>
-    </div>
-  );
-};
 
 export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
   ({ showFooter = true, disabled = false, onStatusChange }, ref) => {
@@ -334,9 +252,11 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
 
     return (
       <div className="flex flex-col space-y-5">
+        <div className="text-neutral-400">{t('settings.network.ipv6.title')}</div>
+
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-6">
           <div className="flex min-w-0 flex-col space-y-1 sm:flex-1 sm:basis-60">
-            <span>{t('settings.network.ipv6.title')}</span>
+            <span>{t('settings.network.configuration')}</span>
             <span className="text-xs text-neutral-500">
               {t('settings.network.ipv6.description')}
             </span>
@@ -364,7 +284,7 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
           </div>
         </div>
 
-        <Panel title={t('settings.network.ipv6.status')}>
+        <div className="flex flex-col space-y-5">
           <InfoRow label={t('settings.network.ipv6.interface')} value="eth0" />
           <InfoRow label={t('settings.network.ipv6.state')} value={statusMessage} />
           <InfoRow label={t('settings.network.ipv6.router')} value={gateway} />
@@ -372,15 +292,16 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
             label={t('settings.network.ipv6.dhcpv6Client')}
             value={clientAvailable ? clientPath : t('settings.network.ipv6.notInstalled')}
           />
-          <InfoRow label={t('settings.network.ipv6.addresses')} value={addressList} isLast />
-        </Panel>
+          <InfoRow label={t('settings.network.ipv6.addresses')} value={addressList} />
+        </div>
 
         {mode === 'manual' && (
-          <Panel title={t('settings.network.ipv6.manualSettings')}>
+          <div className="flex flex-col space-y-5">
             <EditableInfoRow
               label={t('settings.network.ipv6.ipAddress')}
               value={address}
               placeholder="fd00:1234:abcd:2::132"
+              inputWidth="sm:w-80"
               status={address.trim() && !isValidIPv6(normalizedAddress) ? 'error' : undefined}
               onChange={(value) => {
                 setAddress(value);
@@ -392,6 +313,7 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
               label={t('settings.network.ipv6.prefix')}
               value={prefix}
               placeholder="64"
+              inputWidth="sm:w-20"
               status={prefix.trim() && !isValidPrefix(trimmedPrefix) ? 'error' : undefined}
               onChange={(value) => {
                 setPrefix(value);
@@ -403,15 +325,15 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
               label={t('settings.network.ipv6.router')}
               value={router}
               placeholder="fe80::1"
+              inputWidth="sm:w-80"
               status={router.trim() && !isValidIPv6(normalizedRouter) ? 'error' : undefined}
-              isLast
               onChange={(value) => {
                 setRouter(value);
                 setMessage('');
                 setError('');
               }}
             />
-          </Panel>
+          </div>
         )}
 
         {showFooter && (hasChanges || statusText) && (

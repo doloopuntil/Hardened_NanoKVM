@@ -429,7 +429,6 @@ const hu = {
           mode: 'Mód',
           dhcp: 'DHCP',
           manual: 'Kézi',
-          add: 'DNS hozzáadása',
           save: 'Mentés',
           apply: 'Alkalmaz',
           invalid: 'Adjon meg érvényes IPv4- vagy IPv6-címet',
@@ -440,15 +439,12 @@ const hu = {
           saveFailed: 'Nem sikerült menteni a DNS-beállításokat',
           unsaved: 'Nem mentett módosítások',
           maxServers: 'Legfeljebb {{count}} DNS-kiszolgáló engedélyezett',
-          dnsServers: 'DNS-kiszolgálók',
           dhcpServersDescription: 'A DNS-kiszolgálók automatikusan DHCP-n keresztül érkeznek',
           manualServersDescription: 'A DNS-kiszolgálók kézzel szerkeszthetők. Az IPv4 és az IPv6 támogatott',
-          networkDetails: 'Hálózati részletek',
           interface: 'Interfész',
           ipAddress: 'IP-cím',
           subnetMask: 'Alhálózati maszk',
-          router: 'Router',
-          none: 'Nincs'
+          router: 'Router'
         }
       },
       tailscale: {

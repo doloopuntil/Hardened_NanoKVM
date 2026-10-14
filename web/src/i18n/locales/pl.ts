@@ -428,7 +428,6 @@ const pl = {
           mode: 'Tryb',
           dhcp: 'DHCP',
           manual: 'Ręcznie',
-          add: 'Dodaj DNS',
           save: 'Zapisz',
           apply: 'Zastosuj',
           invalid: 'Wprowadź prawidłowy adres IPv4 lub IPv6',
@@ -439,15 +438,12 @@ const pl = {
           saveFailed: 'Nie udało się zapisać ustawień DNS',
           unsaved: 'Niezapisane zmiany',
           maxServers: 'Dozwolone jest maksymalnie {{count}} serwerów DNS',
-          dnsServers: 'Serwery DNS',
           dhcpServersDescription: 'Serwery DNS są automatycznie pobierane z DHCP',
           manualServersDescription: 'Serwery DNS można edytować ręcznie. IPv4 i IPv6 są obsługiwane',
-          networkDetails: 'Szczegóły sieci',
           interface: 'Interfejs',
           ipAddress: 'Adres IP',
           subnetMask: 'Maska podsieci',
-          router: 'Router',
-          none: 'Brak'
+          router: 'Router'
         }
       },
       tailscale: {

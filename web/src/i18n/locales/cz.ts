@@ -426,7 +426,6 @@ const cz = {
           mode: 'Režim',
           dhcp: 'DHCP',
           manual: 'Ručně',
-          add: 'Přidat DNS',
           save: 'Uložit',
           apply: 'Použít',
           invalid: 'Zadejte platnou adresu IPv4 nebo IPv6',
@@ -437,15 +436,12 @@ const cz = {
           saveFailed: 'Nastavení DNS se nepodařilo uložit',
           unsaved: 'Neuložené změny',
           maxServers: 'Je povoleno maximálně {{count}} DNS serverů',
-          dnsServers: 'DNS servery',
           dhcpServersDescription: 'DNS servery jsou automaticky získávány z DHCP',
           manualServersDescription: 'Servery DNS lze upravovat ručně. IPv4 i IPv6 jsou podporovány',
-          networkDetails: 'Podrobnosti sítě',
           interface: 'Rozhraní',
           ipAddress: 'IP adresa',
           subnetMask: 'Maska podsítě',
-          router: 'Router',
-          none: 'Žádné'
+          router: 'Router'
         }
       },
       tailscale: {

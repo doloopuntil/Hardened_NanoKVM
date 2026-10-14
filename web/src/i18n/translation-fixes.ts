@@ -144,8 +144,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'Compte: aquestes versions poden tenir errors o funcions inacabades',
     'auth.changePasswordDesc': 'Per a la seguretat del dispositiu, canvia la contrasenya',
-    'settings.network.dns.manualServersDescription':
-      'Els servidors DNS es poden editar manualment. IPv4 i IPv6 són compatibles.',
+    'settings.network.dns.manualServersDescription': "S'admeten servidors IPv4 i IPv6",
     'terminal.baudrate': 'Velocitat en bauds',
     'settings.tailscale.stopDesc': "Tanca la sessió i desactiva l'inici automàtic.",
     'terminal.unlockDesc':
@@ -250,7 +249,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Introdueix una adreça IPv4, una màscara de subxarxa i un encaminador vàlids',
     'settings.account.totp.codePlaceholder': 'Introdueix el codi de 6 dígits per confirmar',
     'picoclaw.model.apiKeyPlaceholder': 'Introdueix la clau API del model',
-    'keyboard.localInput': 'Entrada del teclat mòbil'
+    'keyboard.localInput': 'Entrada del teclat mòbil',
+    'settings.network.configuration': 'Configuració',
+    'settings.network.dns.servers': 'Servidors'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -398,8 +399,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Uvědomte si prosím, že předběžné verze mohou obsahovat chyby nebo neúplné funkce',
     'auth.changePasswordDesc':
       'Pro bezpečnost vašeho zařízení prosím změňte heslo pro přihlášení na webu',
-    'settings.network.dns.manualServersDescription':
-      'Servery DNS lze upravovat ručně. IPv4 i IPv6 jsou podporovány.',
+    'settings.network.dns.manualServersDescription': 'Podporovány jsou servery IPv4 i IPv6',
     'settings.account.totp.savedThem': 'Mám je uložené',
     'terminal.unlockDesc': 'Pro spuštění terminálové relace zadejte heslo webového účtu',
     'terminal.locked': 'Příliš mnoho pokusů. Zkuste to později',
@@ -413,7 +413,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.600': '10 min',
     'settings.device.oled.1800': '30 min',
     'settings.device.oled.3600': '1 hodina',
-    'keyboard.localInput': 'Vstup z klávesnice mobilu'
+    'keyboard.localInput': 'Vstup z klávesnice mobilu',
+    'settings.network.configuration': 'Konfigurace',
+    'settings.network.dns.servers': 'Servery'
   },
   da: {
     'auth.illegalPassword':
@@ -578,14 +580,15 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Vær opmærksom på, at forhåndsvisningsudgivelser kan indeholde fejl eller ufuldstændig funktionalitet',
     'auth.changePasswordDesc':
       'For sikkerheden af din enhed, bedes du ændre web-login adgangskoden',
-    'settings.network.dns.manualServersDescription':
-      'DNS-servere kan redigeres manuelt. IPv4 og IPv6 understøttes.',
+    'settings.network.dns.manualServersDescription': 'IPv4- og IPv6-servere understøttes',
     'terminal.unlockDesc': 'Indtast adgangskoden til webkontoen for at starte en terminalsession',
     'terminal.locked': 'For mange forsøg. Prøv igen senere',
     'wol.sending': 'Sender Wake-on-LAN magic packet...',
     'keyboard.dropdownKorean': 'Koreansk',
     'keyboard.dropdownJapanese': 'Japansk',
-    'keyboard.localInput': 'Input fra mobiltastatur'
+    'keyboard.localInput': 'Input fra mobiltastatur',
+    'settings.network.configuration': 'Konfiguration',
+    'settings.network.dns.servers': 'Servere'
   },
   de: {
     'auth.illegalPassword':
@@ -736,8 +739,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'Bitte beachten Sie, dass Vorab-Versionen womöglich noch Fehler oder unvollständige Funktionen enthalten',
     'auth.changePasswordDesc': 'Für die Sicherheit Ihres Geräts ändern Sie bitte das Passwort',
-    'settings.network.dns.manualServersDescription':
-      'DNS-Server können manuell bearbeitet werden. IPv4 und IPv6 werden unterstützt.',
+    'settings.network.dns.manualServersDescription': 'IPv4- und IPv6-Server werden unterstützt',
     'settings.tailscale.stopDesc': 'Abmelden und Autostart deaktivieren.',
     'mouse.hidOnly.tip3':
       'NanoKVM wird nach dem Wechsel in den neuen Modus automatisch neu gestartet',
@@ -768,7 +770,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.requiredDescription':
       'Dieses Gerät verlangt einen zweiten Faktor, aber Ihr Konto hat noch keinen eingerichtet. Richten Sie ihn jetzt ein, um fortzufahren.',
     'settings.account.totp.manualEntry': 'Oder geben Sie diesen Schlüssel manuell ein:',
-    'keyboard.localInput': 'Eingabe über die Mobiltastatur'
+    'keyboard.localInput': 'Eingabe über die Mobiltastatur',
+    'settings.network.configuration': 'Konfiguration',
+    'settings.network.dns.servers': 'Server'
   },
   es: {
     'auth.illegalPassword':
@@ -903,8 +907,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Habilitar esta función podría acortar la vida útil de tu tarjeta SD',
     'auth.changePasswordDesc':
       'Para la seguridad de tu dispositivo, por favor, modifica la contraseña de inicio de sesión en la web',
-    'settings.network.dns.manualServersDescription':
-      'Los servidores DNS se pueden editar manualmente. Se admiten IPv4 e IPv6.',
+    'settings.network.dns.manualServersDescription': 'Se admiten servidores IPv4 e IPv6',
     'screen.autoTips':
       'En determinadas resoluciones pueden producirse desgarros de imagen o desplazamiento del ratón. Prueba a ajustar la resolución del host remoto o desactiva el modo automático.',
     'settings.tailscale.stopDesc': 'Cerrar sesión y desactivar el inicio automático.',
@@ -927,7 +930,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'picoclaw.model.requiredDescription':
       'Configura el modelo PicoClaw antes de usar el chat PicoClaw.',
     'picoclaw.model.apiKeyPlaceholder': 'Introduce la clave API del modelo',
-    'keyboard.localInput': 'Entrada del teclado móvil'
+    'keyboard.localInput': 'Entrada del teclado móvil',
+    'settings.network.configuration': 'Configuración',
+    'settings.network.dns.servers': 'Servidores'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1068,8 +1073,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'Pane tähele, et eelvaateversioonid võivad sisaldada vigu või lõpetamata funktsioone',
     'auth.changePasswordDesc': 'Seadme turvalisuse huvides muuda parool ära',
-    'settings.network.dns.manualServersDescription':
-      'DNS-servereid saab käsitsi muuta. IPv4 ja IPv6 on toetatud.',
+    'settings.network.dns.manualServersDescription': 'IPv4 ja IPv6 serverid on toetatud',
     'settings.tailscale.stopDesc': 'Logi välja ja keela automaatne käivitus.',
     'terminal.unlockDesc': 'Terminaliseansi alustamiseks sisesta veebikonto parool',
     'terminal.locked': 'Liiga palju katseid. Proovi hiljem uuesti',
@@ -1081,7 +1085,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownJapanese': 'Jaapani keel',
     'download.disabled':
       "Image'e ei saa praegu alla laadida ega üles laadida, sest salvestusruum pole kirjutatav. Kui image on ühendatud, ühenda see lahti ja lülita seejärel virtuaalne ketas välja, et salvestusruum oleks taas kirjutatav.",
-    'keyboard.localInput': 'Mobiilse klaviatuuri sisend'
+    'keyboard.localInput': 'Mobiilse klaviatuuri sisend',
+    'settings.network.configuration': 'Seadistus',
+    'settings.network.dns.servers': 'Serverid'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1224,8 +1230,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'Huomaa, että esikatseluversiot voivat sisältää virheitä tai keskeneräisiä toimintoja',
     'auth.changePasswordDesc': 'Vaihda salasana laitteen turvallisuuden vuoksi',
-    'settings.network.dns.manualServersDescription':
-      'DNS-palvelimia voi muokata manuaalisesti. IPv4 ja IPv6 ovat tuettuja.',
+    'settings.network.dns.manualServersDescription': 'IPv4- ja IPv6-palvelimet ovat tuettuja',
     'settings.tailscale.stopDesc': 'Kirjaudu ulos ja poista automaattinen käynnistys.',
     'terminal.unlockDesc': 'Anna verkkotilin salasana käynnistääksesi terminaali-istunnon',
     'terminal.locked': 'Liikaa yrityksiä. Yritä myöhemmin uudelleen',
@@ -1233,7 +1238,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownJapanese': 'Japani',
     'download.disabled':
       'Levykuvia ei voi nyt ladata eikä lähettää, koska tallennustila ei ole kirjoitettavissa. Jos levykuva on liitetty, irrota se ja kytke sitten virtuaalilevy pois päältä, jotta tallennustila on taas kirjoitettavissa.',
-    'keyboard.localInput': 'Mobiilinäppäimistön syöte'
+    'keyboard.localInput': 'Mobiilinäppäimistön syöte',
+    'settings.network.configuration': 'Määritys',
+    'settings.network.dns.servers': 'Palvelimet'
   },
   fr: {
     'auth.illegalPassword':
@@ -1384,7 +1391,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc':
       'Pour la sécurité de votre appareil, veuillez modifier le mot de passe de connexion Web',
     'settings.network.dns.manualServersDescription':
-      'Les serveurs DNS peuvent être modifiés manuellement. IPv4 et IPv6 sont pris en charge.',
+      'Les serveurs IPv4 et IPv6 sont pris en charge',
     'settings.tailscale.stopDesc': 'Déconnecter et désactiver le démarrage automatique.',
     'image.mountFailed': "Échec du montage de l'image",
     'image.tips.tf1': 'Cette méthode est adaptée aux systèmes Linux',
@@ -1405,7 +1412,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.600': '10 min',
     'settings.device.oled.1800': '30 min',
     'settings.device.oled.3600': '1 heure',
-    'keyboard.localInput': 'Saisie au clavier mobile'
+    'keyboard.localInput': 'Saisie au clavier mobile',
+    'settings.network.configuration': 'Configuration',
+    'settings.network.dns.servers': 'Serveurs'
   },
   hu: {
     'auth.illegalPassword':
@@ -1565,8 +1574,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Kérjük, vegye figyelembe, hogy az előzetes verziók hibákat vagy hiányos funkciókat tartalmazhatnak',
     'auth.changePasswordDesc':
       'Az eszköz biztonsága érdekében módosítsa a webes bejelentkezési jelszót',
-    'settings.network.dns.manualServersDescription':
-      'A DNS-kiszolgálók kézzel szerkeszthetők. Az IPv4 és az IPv6 támogatott.',
+    'settings.network.dns.manualServersDescription': 'Az IPv4- és IPv6-kiszolgálók is támogatottak',
     'settings.system.firewall.enabledPort': 'Engedélyezve a következő porton: {{port}}',
     'terminal.unlockDesc': 'Terminálmunkamenet indításához adja meg a webes fiók jelszavát',
     'terminal.locked': 'Túl sok próbálkozás. Próbálja újra később',
@@ -1584,7 +1592,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.600': '10 perc',
     'settings.device.oled.1800': '30 perc',
     'settings.device.oled.3600': '1 óra',
-    'keyboard.localInput': 'Mobil billentyűzet bemenete'
+    'keyboard.localInput': 'Mobil billentyűzet bemenete',
+    'settings.network.configuration': 'Konfiguráció',
+    'settings.network.dns.servers': 'Kiszolgálók'
   },
   id: {
     'auth.illegalPassword':
@@ -1742,8 +1752,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'Perlu diketahui bahwa rilis pratinjau mungkin mengandung bug atau fungsi yang tidak lengkap',
     'auth.changePasswordDesc': 'Untuk keamanan perangkat Anda, silakan ubah kata sandi masuk web',
-    'settings.network.dns.manualServersDescription':
-      'Server DNS dapat diedit secara manual. IPv4 dan IPv6 didukung.',
+    'settings.network.dns.manualServersDescription': 'Server IPv4 dan IPv6 didukung',
     'terminal.unlockDesc': 'Masukkan kata sandi akun web untuk memulai sesi terminal',
     'terminal.locked': 'Terlalu banyak percobaan. Coba lagi nanti',
     'keyboard.dropdownFrench': 'Bahasa Prancis',
@@ -1762,7 +1771,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'script.delDesc': 'Apakah Anda yakin ingin menghapus data ini?',
     'settings.update.isLatest': 'Anda sudah menggunakan versi terbaru.',
     'settings.update.available': 'Ada pembaruan baru. Apakah Anda mau memperbarui?',
-    'keyboard.localInput': 'Input papan ketik seluler'
+    'keyboard.localInput': 'Input papan ketik seluler',
+    'settings.network.configuration': 'Konfigurasi',
+    'settings.network.dns.servers': 'Server'
   },
   it: {
     'auth.illegalPassword':
@@ -1919,8 +1930,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Tieni presente che le versioni di anteprima possono contenere bug o funzionalità incomplete',
     'auth.changePasswordDesc':
       'Per la sicurezza del tuo dispositivo, modifica la password di accesso web',
-    'settings.network.dns.manualServersDescription':
-      'I server DNS possono essere modificati manualmente. IPv4 e IPv6 sono supportati.',
+    'settings.network.dns.manualServersDescription': 'Sono supportati server IPv4 e IPv6',
     'terminal.unlockDesc':
       'Inserisci la password dell’account web per avviare una sessione terminale',
     'terminal.locked': 'Troppi tentativi. Riprova più tardi',
@@ -1936,7 +1946,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.3600': '1 ora',
     'settings.update.offline.invalidName':
       'Formato nome file non valido. Scarica dalle versioni GitHub.',
-    'keyboard.localInput': 'Input da tastiera mobile'
+    'keyboard.localInput': 'Input da tastiera mobile',
+    'settings.network.configuration': 'Configurazione',
+    'settings.network.dns.servers': 'Server'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -2074,8 +2086,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'プレビューアップデートには不安定な部分や不完全な機能が含まれる場合があります',
     'auth.changePasswordDesc': 'デバイスのセキュリティのために、パスワードを変更してください',
-    'settings.network.dns.manualServersDescription':
-      'DNS サーバーは手動で編集できます。IPv4 と IPv6 に対応しています。',
+    'settings.network.dns.manualServersDescription': 'IPv4 と IPv6 のサーバーに対応しています',
     'settings.tailscale.stopDesc': 'ログアウトして自動起動を無効にします。',
     'auth.noAccount':
       'ユーザー情報の取得に失敗しました。ページを更新してもう一度お試しいただくか、パスワードをリセットしてください',
@@ -2090,7 +2101,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'image.loading': '読み込み中...',
     'keyboard.dropdownKorean': '韓国語',
     'keyboard.dropdownJapanese': '日本語',
-    'keyboard.localInput': 'モバイルキーボード入力'
+    'keyboard.localInput': 'モバイルキーボード入力',
+    'settings.network.configuration': '設定',
+    'settings.network.dns.servers': 'サーバー'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -2220,8 +2233,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       '미리보기 버전에는 버그나 완성되지 않은 기능이 포함될 수 있으니 주의하세요',
     'auth.changePasswordDesc': '보안을 위해 웹 로그인 비밀번호를 변경하세요',
-    'settings.network.dns.manualServersDescription':
-      'DNS 서버를 수동으로 편집할 수 있습니다. IPv4와 IPv6을 지원합니다.',
+    'settings.network.dns.manualServersDescription': 'IPv4 및 IPv6 서버를 지원합니다',
     'settings.tailscale.stopDesc': '로그아웃하고 자동 시작을 비활성화합니다.',
     'auth.placeholderUsername': '사용자 이름을 입력하세요',
     'auth.placeholderPassword': '비밀번호를 입력하세요',
@@ -2247,7 +2259,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'error.title': '문제가 발생했습니다',
     'keyboard.dropdownKorean': '한국어',
     'keyboard.dropdownJapanese': '일본어',
-    'keyboard.localInput': '모바일 키보드 입력'
+    'keyboard.localInput': '모바일 키보드 입력',
+    'settings.network.configuration': '구성',
+    'settings.network.dns.servers': '서버'
   },
   nb: {
     'auth.illegalPassword':
@@ -2401,8 +2415,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Vær oppmerksom på at forhåndsvisningsutgivelser kan inneholde feil eller ufullstendig funksjonalitet',
     'auth.changePasswordDesc':
       'For sikkerheten til enheten, vennligst endre passordet ditt for web-innlogging',
-    'settings.network.dns.manualServersDescription':
-      'DNS-servere kan redigeres manuelt. IPv4 og IPv6 støttes.',
+    'settings.network.dns.manualServersDescription': 'IPv4- og IPv6-servere støttes',
     'terminal.unlockDesc': 'Skriv inn passordet til webkontoen for å starte en terminaløkt',
     'terminal.locked': 'For mange forsøk. Prøv igjen senere',
     'keyboard.dropdownKorean': 'Koreansk',
@@ -2415,7 +2428,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.600': '10 min',
     'settings.device.oled.1800': '30 min',
     'settings.device.oled.3600': '1 time',
-    'keyboard.localInput': 'Inndata fra mobiltastatur'
+    'keyboard.localInput': 'Inndata fra mobiltastatur',
+    'settings.network.configuration': 'Konfigurasjon',
+    'settings.network.dns.servers': 'Servere'
   },
   nl: {
     'auth.illegalPassword':
@@ -2560,8 +2575,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Houd er rekening mee dat preview-releases bugs of onvolledige functionaliteit kunnen bevatten',
     'auth.changePasswordDesc':
       'Voor de veiligheid van uw apparaat, wijzig alstublieft het webaanmeldingswachtwoord',
-    'settings.network.dns.manualServersDescription':
-      'DNS-servers kunnen handmatig worden bewerkt. IPv4 en IPv6 worden ondersteund.',
+    'settings.network.dns.manualServersDescription': 'IPv4- en IPv6-servers worden ondersteund',
     'settings.tailscale.stopDesc': 'Uitloggen en automatisch opstarten uitschakelen.',
     'terminal.unlockDesc':
       'Voer het wachtwoord van uw webaccount in om een terminalsessie te starten',
@@ -2594,7 +2608,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Uw huidige back-upcodes werken dan niet meer. Bevestig met uw wachtwoord om door te gaan.',
     'settings.account.totp.requiredDescription':
       'Dit apparaat is ingesteld om een tweede factor te vereisen, maar uw account heeft er nog geen ingesteld. Stel die nu in om door te gaan.',
-    'keyboard.localInput': 'Invoer via mobiel toetsenbord'
+    'keyboard.localInput': 'Invoer via mobiel toetsenbord',
+    'settings.network.configuration': 'Configuratie',
+    'settings.network.dns.servers': 'Servers'
   },
   pl: {
     'auth.illegalPassword':
@@ -2736,8 +2752,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Należy pamiętać, że wersje poglądowe mogą zawierać błędy lub niekompletną funkcjonalność',
     'auth.changePasswordDesc':
       'Dla bezpieczeństwa twojego urządzenia zmień hasło do logowania w sieci',
-    'settings.network.dns.manualServersDescription':
-      'Serwery DNS można edytować ręcznie. IPv4 i IPv6 są obsługiwane.',
+    'settings.network.dns.manualServersDescription': 'Obsługiwane są serwery IPv4 i IPv6',
     'keyboard.tips': 'Tylko standardowe klawiaturowe znaki i symbole są obsługiwane',
     'terminal.locked': 'Zbyt wiele prób. Spróbuj ponownie później',
     'keyboard.dropdownKorean': 'Koreański',
@@ -2758,7 +2773,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Nieprawidłowy format nazwy pliku. Pobierz z wydań GitHub.',
     'terminal.sessionClosed':
       'Sesja terminala została zamknięta. Odblokuj ponownie, aby się połączyć.',
-    'keyboard.localInput': 'Wprowadzanie z klawiatury mobilnej'
+    'keyboard.localInput': 'Wprowadzanie z klawiatury mobilnej',
+    'settings.network.configuration': 'Konfiguracja',
+    'settings.network.dns.servers': 'Serwery'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -2892,14 +2909,15 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'Esteja ciente de que as versões de prévia podem conter bugs ou funcionalidade incompleta',
     'auth.changePasswordDesc': 'Para a segurança do seu dispositivo, por favor, mude a senha',
-    'settings.network.dns.manualServersDescription':
-      'Os servidores DNS podem ser editados manualmente. IPv4 e IPv6 são compatíveis.',
+    'settings.network.dns.manualServersDescription': 'Servidores IPv4 e IPv6 são compatíveis',
     'settings.tailscale.stopDesc': 'Sair e desativar a inicialização automática.',
     'terminal.unlockDesc': 'Digite a senha da conta web para iniciar uma sessão de terminal',
     'terminal.locked': 'Muitas tentativas. Tente novamente mais tarde',
     'keyboard.dropdownKorean': 'Coreano',
     'keyboard.dropdownJapanese': 'Japonês',
-    'keyboard.localInput': 'Entrada do teclado do celular'
+    'keyboard.localInput': 'Entrada do teclado do celular',
+    'settings.network.configuration': 'Configuração',
+    'settings.network.dns.servers': 'Servidores'
   },
   ru: {
     'download.disabled':
@@ -3014,8 +3032,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'Обратите внимание: в ранних версиях могут быть ошибки или незавершённый функционал',
     'auth.changePasswordDesc': 'Для безопасности вашего устройства, пожалуйста поменяйте пароль',
-    'settings.network.dns.manualServersDescription':
-      'DNS-серверы можно редактировать вручную. IPv4 и IPv6 поддерживаются.',
+    'settings.network.dns.manualServersDescription': 'Поддерживаются серверы IPv4 и IPv6',
     'settings.tailscale.stopDesc': 'Выйти и отключить автозапуск.',
     'auth.locked': 'Слишком много входов. Повторите попытку позже',
     'auth.globalLocked': 'Система находится под защитой. Повторите попытку позже',
@@ -3036,7 +3053,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownJapanese': 'Японский',
     'mouse.mobile.touchSyncDesc':
       'Двигайте курсор в любой области KVM. Позиция сохраняется между касаниями и синхронизируется через абсолютный HID.',
-    'keyboard.localInput': 'Ввод с мобильной клавиатуры'
+    'keyboard.localInput': 'Ввод с мобильной клавиатуры',
+    'settings.network.configuration': 'Конфигурация',
+    'settings.network.dns.servers': 'Серверы'
   },
   se: {
     'auth.illegalPassword':
@@ -3171,14 +3190,15 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'Observera att förhandsversioner kan innehålla buggar eller ofullständig funktionalitet',
     'auth.changePasswordDesc': 'För din enhets säkerhet, byt lösenord',
-    'settings.network.dns.manualServersDescription':
-      'DNS-servrar kan redigeras manuellt. IPv4 och IPv6 stöds.',
+    'settings.network.dns.manualServersDescription': 'IPv4- och IPv6-servrar stöds',
     'settings.tailscale.stopDesc': 'Logga ut och stäng av automatisk start.',
     'terminal.unlockDesc': 'Ange lösenordet för webbkonto för att starta en terminalsession',
     'terminal.locked': 'För många försök. Försök igen senare',
     'keyboard.dropdownKorean': 'Koreanska',
     'keyboard.dropdownJapanese': 'Japanska',
-    'keyboard.localInput': 'Inmatning från mobiltangentbord'
+    'keyboard.localInput': 'Inmatning från mobiltangentbord',
+    'settings.network.configuration': 'Konfiguration',
+    'settings.network.dns.servers': 'Servrar'
   },
   th: {
     'auth.illegalPassword':
@@ -3281,15 +3301,16 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'โปรดทราบว่าการเผยแพร่ตัวอย่างอาจมีข้อบกพร่องหรือฟังก์ชันการทำงานที่ไม่สมบูรณ์',
     'auth.changePasswordDesc': 'เพื่อความปลอดภัย, โปรดเปลี่ยนรหัสผ่าน',
-    'settings.network.dns.manualServersDescription':
-      'สามารถแก้ไขเซิร์ฟเวอร์ DNS ด้วยตนเองได้ รองรับ IPv4 และ IPv6.',
+    'settings.network.dns.manualServersDescription': 'รองรับเซิร์ฟเวอร์ทั้ง IPv4 และ IPv6',
     'settings.tailscale.stopDesc': 'ออกจากระบบและปิดการเริ่มอัตโนมัติ',
     'keyboard.dropdownFrench': 'ภาษาฝรั่งเศส',
     'keyboard.dropdownGerman': 'ภาษาเยอรมัน',
     'keyboard.dropdownRussian': 'ภาษารัสเซีย',
     'keyboard.dropdownKorean': 'ภาษาเกาหลี',
     'keyboard.dropdownJapanese': 'ภาษาญี่ปุ่น',
-    'keyboard.localInput': 'การป้อนข้อมูลจากแป้นพิมพ์มือถือ'
+    'keyboard.localInput': 'การป้อนข้อมูลจากแป้นพิมพ์มือถือ',
+    'settings.network.configuration': 'การกำหนดค่า',
+    'settings.network.dns.servers': 'เซิร์ฟเวอร์'
   },
   tr: {
     'auth.illegalPassword':
@@ -3432,8 +3453,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip':
       'Ön izleme güncellemelerinin tamamlanmamış olduğunu ve sorunlara sebep olabileceğini unutmayın',
     'auth.changePasswordDesc': 'Güvenlik sebebiyle lütfen şifrenizi değiştiriniz',
-    'settings.network.dns.manualServersDescription':
-      'DNS sunucuları elle düzenlenebilir. IPv4 ve IPv6 desteklenir.',
+    'settings.network.dns.manualServersDescription': 'IPv4 ve IPv6 sunucuları desteklenir',
     'error.title': 'Bir hata oluştu',
     'wol.title': 'Ağ Üzerinden Uyandırma',
     'settings.device.ssh.description': 'SSH uzaktan erişimini etkinleştir',
@@ -3449,7 +3469,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'image.tips.scp3': 'Örnek: scp disk-imajı-yolu root@nanokvm-ip:/data',
     'image.tips.tf4': 'Disk imajı dosyanızı micro SD kartın /data dizinine kopyalayın.',
     'script.delDesc': 'Bu dosyayı silmek istediğinizden emin misiniz?',
-    'keyboard.localInput': 'Mobil klavye girişi'
+    'keyboard.localInput': 'Mobil klavye girişi',
+    'settings.network.configuration': 'Yapılandırma',
+    'settings.network.dns.servers': 'Sunucular'
   },
   uk: {
     'auth.illegalPassword':
@@ -3600,8 +3622,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Будь ласка, майте на увазі, що випуски бета релізів можуть містити помилки або неповну функціональність',
     'auth.changePasswordDesc':
       'Для безпеки вашого пристрою, будь ласка, змініть пароль для входу в веб-інтерфейс',
-    'settings.network.dns.manualServersDescription':
-      'DNS-сервери можна редагувати вручну. IPv4 та IPv6 підтримуються.',
+    'settings.network.dns.manualServersDescription': 'Підтримуються сервери IPv4 та IPv6',
     'settings.device.swap.title': 'Swap',
     'settings.tailscale.stopDesc': 'Вийти та вимкнути автозапуск.',
     'terminal.unlockDesc': 'Введіть пароль вебоблікового запису, щоб почати сеанс термінала',
@@ -3612,7 +3633,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownRussian': 'Російська',
     'keyboard.dropdownKorean': 'Корейська',
     'keyboard.dropdownJapanese': 'Японська',
-    'keyboard.localInput': 'Введення з мобільної клавіатури'
+    'keyboard.localInput': 'Введення з мобільної клавіатури',
+    'settings.network.configuration': 'Конфігурація',
+    'settings.network.dns.servers': 'Сервери'
   },
   vi: {
     'auth.illegalPassword':
@@ -3764,8 +3787,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Xin lưu ý rằng các bản phát hành xem trước có thể có lỗi hoặc chức năng chưa hoàn chỉnh',
     'auth.changePasswordDesc':
       'Để bảo mật thiết bị của bạn, vui lòng thay đổi mật khẩu đăng nhập web',
-    'settings.network.dns.manualServersDescription':
-      'Có thể chỉnh sửa máy chủ DNS thủ công. Hỗ trợ IPv4 và IPv6.',
+    'settings.network.dns.manualServersDescription': 'Hỗ trợ máy chủ IPv4 và IPv6',
     'terminal.unlockDesc': 'Nhập mật khẩu tài khoản web để bắt đầu phiên terminal',
     'terminal.locked': 'Quá nhiều lần thử. Vui lòng thử lại sau',
     'keyboard.dropdownKorean': 'Tiếng Hàn',
@@ -3778,7 +3800,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.600': '10 phút',
     'settings.device.oled.1800': '30 phút',
     'settings.device.oled.3600': '1 giờ',
-    'keyboard.localInput': 'Nhập liệu từ bàn phím di động'
+    'keyboard.localInput': 'Nhập liệu từ bàn phím di động',
+    'settings.network.configuration': 'Cấu hình',
+    'settings.network.dns.servers': 'Máy chủ'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -3884,7 +3908,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.swap.tip': '启用该功能可能会减少SD卡使用寿命',
     'settings.update.previewTip': '预览版更新可能包含一些不稳定因素或未完善的功能',
     'auth.changePasswordDesc': '为了您的设备安全，请修改密码',
-    'settings.network.dns.manualServersDescription': 'DNS 服务器可以手动编辑。支持 IPv4 和 IPv6。',
+    'settings.network.dns.manualServersDescription': '支持 IPv4 和 IPv6 服务器',
     'settings.tailscale.stopDesc': '退出登录并禁用开机自启。',
     'terminal.unlockDesc': '输入网页账户密码以启动终端会话',
     'terminal.locked': '尝试次数过多，请稍后再试',
@@ -3895,7 +3919,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'image.tips.scp1': '确保 NanoKVM 和您的电脑在同一个局域网内；',
     'image.tips.tf3': '将 TF 卡插入读卡器并连接到您的电脑；',
     'picoclaw.inputPlaceholder': '描述您希望 PicoClaw 执行的操作',
-    'keyboard.localInput': '移动端键盘输入'
+    'keyboard.localInput': '移动端键盘输入',
+    'settings.network.configuration': '配置',
+    'settings.network.dns.servers': '服务器'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -4007,7 +4033,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.swap.tip': '啟用此功能可能會減少SD卡的使用壽命',
     'settings.update.previewTip': '請注意，預覽版本可能包含一些不穩定因素或未完善的功能',
     'auth.changePasswordDesc': '為了您的裝置安全，請修改登入密碼',
-    'settings.network.dns.manualServersDescription': 'DNS 伺服器可手動編輯。支援 IPv4 和 IPv6。',
+    'settings.network.dns.manualServersDescription': '支援 IPv4 與 IPv6 伺服器',
     'settings.device.mouseJiggler.title': '滑鼠抖動模式',
     'settings.tailscale.stopDesc': '登出並停用開機自動啟動。',
     'terminal.unlockDesc': '輸入網頁帳戶密碼以啟動終端機工作階段',
@@ -4016,6 +4042,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownKorean': '韓語',
     'keyboard.dropdownJapanese': '日語',
     'settings.tailscale.notRunning': 'Tailscale 尚未執行，請先啟動以繼續',
-    'keyboard.localInput': '行動裝置鍵盤輸入'
+    'keyboard.localInput': '行動裝置鍵盤輸入',
+    'settings.network.configuration': '設定',
+    'settings.network.dns.servers': '伺服器'
   }
 };

@@ -423,7 +423,6 @@ const vi = {
           mode: 'Chế độ',
           dhcp: 'DHCP',
           manual: 'Thủ công',
-          add: 'Thêm DNS',
           save: 'Lưu',
           apply: 'Áp dụng',
           invalid: 'Nhập địa chỉ IPv4 hoặc IPv6 hợp lệ',
@@ -434,15 +433,12 @@ const vi = {
           saveFailed: 'Không thể lưu cài đặt DNS',
           unsaved: 'Thay đổi chưa lưu',
           maxServers: 'Cho phép tối đa {{count}} máy chủ DNS',
-          dnsServers: 'Máy chủ DNS',
           dhcpServersDescription: 'Máy chủ DNS được tự động lấy từ DHCP',
           manualServersDescription: 'Có thể chỉnh sửa máy chủ DNS thủ công. Hỗ trợ IPv4 và IPv6',
-          networkDetails: 'Chi tiết mạng',
           interface: 'Giao diện',
           ipAddress: 'Địa chỉ IP',
           subnetMask: 'Mặt nạ mạng con',
-          router: 'Bộ định tuyến',
-          none: 'Không có'
+          router: 'Bộ định tuyến'
         }
       },
       tailscale: {

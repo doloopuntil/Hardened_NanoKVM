@@ -422,7 +422,6 @@ const ko = {
           mode: '모드',
           dhcp: 'DHCP',
           manual: '수동',
-          add: 'DNS 추가',
           save: '저장',
           apply: '적용',
           invalid: '유효한 IPv4 또는 IPv6 주소를 입력하세요',
@@ -433,15 +432,12 @@ const ko = {
           saveFailed: 'DNS 설정 저장 실패',
           unsaved: '저장되지 않은 변경사항',
           maxServers: '최대 {{count}}개의 DNS 서버가 허용됩니다',
-          dnsServers: 'DNS 서버',
           dhcpServersDescription: 'DNS 서버는 DHCP에서 자동으로 가져옵니다',
           manualServersDescription: 'DNS 서버를 수동으로 편집할 수 있습니다. IPv4와 IPv6을 지원합니다',
-          networkDetails: '네트워크 세부 정보',
           interface: '인터페이스',
           ipAddress: 'IP 주소',
           subnetMask: '서브넷 마스크',
-          router: '라우터',
-          none: '없음'
+          router: '라우터'
         }
       },
       tailscale: {
