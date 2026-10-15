@@ -30,27 +30,19 @@ const fr = {
       globalLocked: 'Système sous protection, veuillez réessayer plus tard',
       error: 'Erreur inattendue',
       changePassword: 'Changer le mot de passe',
-      changePasswordDesc:
-        'Pour la sécurité de votre appareil, veuillez modifier le mot de passe de connexion Web.',
       differentPassword: 'Les mots de passe ne correspondent pas',
       illegalUsername: "Le nom d'utilisateur contient des caractères illégaux",
-      illegalPassword: 'Le mot de passe contient des caractères illégaux',
       forgetPassword: 'Mot de passe oublié',
-      ok: 'Se connecter',
       cancel: 'Annuler',
       loginButtonText: 'Connexion',
       tips: {
         change1: 'Veuillez noter que cette action modifiera les mots de passe suivants :',
-        change2: 'Mot de passe de connexion Web',
-        change3: 'Mot de passe racine du système (mot de passe de connexion SSH)'
+        change2: 'Mot de passe de connexion Web'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Configurez le Wi-Fi pour le NanoKVM',
-      success:
-        'Veuillez vérifier le statut du réseau du NanoKVM et visitez la nouvelle adresse IP.',
-      failed: "L'opération a échoué, veuillez réessayer.",
       invalidMode:
         'Le mode actuel ne prend pas en charge la configuration réseau. Veuillez accéder à votre appareil et activer le mode de configuration Wi-Fi.',
       confirmBtn: 'Ok',
@@ -67,7 +59,6 @@ const fr = {
       scale: 'Échelle',
       title: 'Écran',
       video: 'Mode vidéo',
-      videoDirectTips: 'Activez HTTPS dans "Paramètres > Appareil" pour utiliser ce mode',
       resolution: 'Résolution',
       auto: 'Automatique',
       autoTips:
@@ -80,12 +71,9 @@ const fr = {
       qualityMedium: 'Moyen',
       qualityLow: 'Bas',
       frameDetect: 'Détection de trame',
-      frameDetectTip:
-        "Calcule la différence entre les images. Arrête la transmission du flux vidéo lorsqu'aucun changement n'est détecté sur l'écran de l'hôte distant",
       resetHdmi: 'Réinitialiser le HDMI',
       webrtcConnectionFailed: {
-        title: 'Échec de la connexion WebRTC',
-        description: 'Vérifiez la connexion réseau ou changez de mode vidéo.'
+        title: 'Échec de la connexion WebRTC'
       },
       captureStatus: {
         hdmiError: 'Erreur d’image HDMI',
@@ -118,14 +106,10 @@ const fr = {
         custom: 'Personnalisé',
         capture: 'Cliquez ici pour capturer le raccourci',
         clear: 'Effacer',
-        save: 'Enregistrer',
-        captureTips:
-          'La capture de touches système (comme la touche Windows) nécessite l’autorisation du plein écran.',
-        enterFullScreen: 'Basculer en mode plein écran.'
+        save: 'Enregistrer'
       },
       leaderKey: {
         title: 'Touche Leader',
-        desc: "Contournez les restrictions du navigateur et envoyez les raccourcis système directement à l'hôte distant.",
         howToUse: 'Comment utiliser',
         simultaneous: {
           title: 'Mode simultané',
@@ -159,7 +143,6 @@ const fr = {
       pointer: 'Curseur de la souris',
       cell: 'Curseur de cellule',
       text: 'Curseur de texte',
-      grab: 'Curseur de poignée',
       hide: 'Cacher le curseur',
       mode: 'Mode de la souris',
       absolute: 'Mode absolu',
@@ -175,7 +158,6 @@ const fr = {
       resetHid: 'Réinitialiser le périphérique HID',
       hidOnly: {
         title: 'Mode HID uniquement',
-        desc: "Si votre souris et votre clavier ne répondent plus et que la réinitialisation de HID ne vous aide pas, il peut s'agir d'un problème de compatibilité entre le NanoKVM et l'appareil. Essayez d'activer le mode HID-Only pour une meilleure compatibilité.",
         tip1: "L'activation du mode HID-Only démontera le disque U virtuel et le réseau virtuel",
         tip2: "En mode HID-Only, le montage d'image est désactivé",
         tip3: 'NanoKVM redémarrera automatiquement après avoir changé de mode',
@@ -185,19 +167,13 @@ const fr = {
     },
     image: {
       title: 'Images',
-      loading: 'Chargement',
       empty: 'Vide',
       mountMode: 'Mode de montage',
-      mountFailed: "Échec du montage de l'image.",
-      mountDesc:
-        "Dans certains systèmes, il est nécessaire de déséjecter le disque virtuel sur l'hôte distant avant de monter l'image.",
       diskOnWarn:
         "Monter l'image désactive le disque virtuel : l'ordinateur ne peut plus accéder à /data. Continuer ?",
       diskOffWarn:
         "Le disque virtuel est désactivé et doit être activé pour monter l'image. Les périphériques USB de l'ordinateur sont réénumérés. Continuer ?",
       unmountFailed: 'Échec du démontage',
-      unmountDesc:
-        "Sur certains systèmes, vous devez l'éjecter manuellement de l'hôte distant avant de démonter l'image.",
       forceEject: "Forcer l'éjection",
       forceEjectConfirm:
         "L'hôte a verrouillé le lecteur optique. Forcer l'éjection déconnecte brièvement le périphérique USB virtuel, de sorte que le clavier et la souris peuvent se déconnecter momentanément. Continuer ?",
@@ -207,14 +183,11 @@ const fr = {
       tips: {
         title: 'Comment télécharger',
         usb1: 'Connectez le NanoKVM à votre ordinateur via USB.',
-        usb2: 'Assurez-vous que le disque virtuel est monté (Paramètres - Disque virtuel).',
         usb3: 'Ouvrez le disque virtuel sur votre ordinateur et copiez le fichier image dans le répertoire racine du disque virtuel.',
         scp1: 'Assurez-vous que le NanoKVM et votre ordinateur sont sur le même réseau local.',
         scp2: 'Ouvrez un terminal sur votre ordinateur et utilisez la commande SCP pour copier le fichier image dans le répertoire /data du NanoKVM.',
         scp3: 'Exemple : scp chemin-de-votre-image root@ip-de-votre-nanokvm:/data',
         tfCard: 'Carte TF',
-        tf1: 'Cette méthode est adaptée aux systèmes Linux.',
-        tf2: 'Retirez la carte TF du NanoKVM (Pour la version FULL, il est nécessaire de retirer le boîtier).',
         tf3: 'Insérez la carte TF dans un lecteur de carte et connectez-la à votre ordinateur.',
         tf4: 'Copiez le fichier image dans le répertoire /data de la carte TF sur votre ordinateur.',
         tf5: 'Réinsérez la carte TF dans le NanoKVM.'
@@ -263,35 +236,26 @@ const fr = {
       title: 'Télécharger l’image',
       input: 'Veuillez entrer l’URL d’une image distante',
       ok: 'Ok',
-      disabled: 'La partition /data est en lecture seule, impossible de télécharger l’image',
-      diskShared: "Désactivez d'abord le disque virtuel, puis utilisez le téléchargement d'images.",
       mountedImage: "Cette image est montée. Démontez-la avant d'envoyer un fichier du même nom.",
       diskOff: 'Désactiver le disque virtuel',
       uploadbox: 'Déposez le fichier ici ou cliquez pour sélectionner',
       inputfile: 'Veuillez saisir le fichier image',
       NoISO: 'Aucun ISO',
-      sha256: 'SHA-256 (facultatif)',
       sha256Placeholder: 'Saisissez une somme de contrôle SHA-256 de 64 caractères',
       invalidSHA256: 'SHA-256 doit être une chaîne hexadécimale de 64 caractères',
       checksumFailed: 'Échec du téléchargement : échec de la vérification SHA-256'
     },
     power: {
-      title: 'Power',
       showConfirm: 'Confirmation',
       showConfirmTip: 'Les opérations électriques nécessitent une confirmation supplémentaire',
       reset: 'Réinitialiser',
-      power: 'Power',
-      powerShort: 'Power (appui court)',
-      powerLong: 'Power (appui long)',
       resetConfirm: "Procéder à l'opération de réinitialisation?",
-      powerConfirm: 'Continuer le fonctionnement électrique?',
       okBtn: 'Oui',
       cancelBtn: 'Non'
     },
     settings: {
       title: 'Paramètres',
       about: {
-        title: 'A propos de NanoKVM',
         information: 'Informations',
         ip: 'IP',
         mdns: 'mDNS',
@@ -359,17 +323,14 @@ const fr = {
           3600: '1 heure'
         },
         ssh: {
-          description: "Activer l'accès à distance SSH",
-          tip: "Définissez un mot de passe fort avant d'activer (Compte - Modifier le mot de passe)"
+          description: "Activer l'accès à distance SSH"
         },
         swap: {
           title: 'Échange',
           disable: 'Désactiver',
-          description: "Définir la taille du fichier d'échange",
-          tip: "L'activation de cette fonctionnalité pourrait réduire la durée de vie de votre carte SD!"
+          description: "Définir la taille du fichier d'échange"
         },
         mouseJiggler: {
-          title: 'Souris Jiggler',
           description: "Empêcher l'hôte distant de dormir",
           disable: 'Désactiver',
           absolute: 'Mode absolu',
@@ -387,13 +348,7 @@ const fr = {
           minutes: 'min'
         },
         hidOnly: 'HID-Mode uniquement',
-        hidOnlyDesc:
-          "Arrêtez d'émuler des périphériques virtuels, en ne conservant que le contrôle de base HID",
         disk: 'Disque virtuel',
-        diskDesc: "Monter le disque virtuel U sur l'hôte distant",
-        diskLocked: "Désactivé tant qu'une image est montée (l'activer annule le montage)",
-        diskCancelMount:
-          "Activer le disque virtuel annule l'image montée et interrompt un téléchargement ou un envoi d'image en cours. Continuer ?",
         network: 'Réseau virtuel',
         networkDesc: "Monter la carte réseau virtuelle sur l'hôte distant",
         reboot: 'Redémarrer',
@@ -418,8 +373,7 @@ const fr = {
           cancelBtn: 'Annuler'
         },
         tls: {
-          description: 'Activer le protocole HTTPS',
-          tip: "Attention : l'utilisation de HTTPS peut augmenter la latence, surtout en mode vidéo MJPEG."
+          description: 'Activer le protocole HTTPS'
         },
         dns: {
           title: 'DNS',
@@ -441,8 +395,6 @@ const fr = {
           unsaved: 'Modifications non enregistrées',
           maxServers: '{{count}} serveurs DNS maximum autorisés',
           dhcpServersDescription: 'Les serveurs DNS sont obtenus automatiquement par DHCP',
-          manualServersDescription:
-            'Les serveurs DNS peuvent être modifiés manuellement. IPv4 et IPv6 sont pris en charge',
           interface: 'Interface',
           ipAddress: 'Adresse IP',
           subnetMask: 'Masque de sous-réseau',
@@ -461,27 +413,21 @@ const fr = {
         },
         restart: 'Êtes-vous sûr de vouloir redémarrer Tailscale ?',
         stop: 'Êtes-vous sûr de vouloir arrêter Tailscale ?',
-        stopDesc: 'Arrêtez Tailscale et désactivez son démarrage automatique.',
         loading: 'Chargement...',
-        notInstall: "Tailscale non trouvé ! Veuillez l'installer.",
         install: 'Installer',
         installing: 'Installation',
         failed: 'Installation échouée',
-        retry: "Veuillez rafraîchir et réessayer. Ou essayez d'installer manuellement",
         download: 'Télécharger le',
         package: "paquet d'installation",
         unzip: 'et décompressez-le',
-        upTailscale: 'Téléverser tailscale dans le répertoire NanoKVM /usr/sbin/',
         upTailscaled: 'Téléverser tailscaled dans le répertoire NanoKVM /usr/sbin/',
         refresh: 'Rafraîchir la page courante',
         notRunning:
           "Tailscale n'est pas en cours d'exécution. Veuillez le démarrer pour continuer.",
-        run: 'Début',
         notLogin: "L'appareil n'est pas relié. Connectez-vous et liez cet appareil à votre compte.",
         urlPeriod: "L'URL est valide pendant 10 minutes",
         login: 'Connexion',
         loginSuccess: 'Connexion réussie',
-        enable: 'Démarrer Tailscale',
         deviceName: "Nom de l'appareil",
         deviceIP: "IP de l'appareil",
         account: 'Compte',
@@ -494,7 +440,6 @@ const fr = {
       },
       update: {
         title: 'Vérifier les mises à jour',
-        queryFailed: 'Impossible de vérifier les mises à jour. Veuillez réessayer.',
         updateFailed: 'Mise à jour échouée. Veuillez réessayer.',
         isLatest: 'Vous avez déjà la dernière version.',
         available: 'Une mise à jour est disponible. Voulez-vous vraiment mettre à jour?',
@@ -504,8 +449,6 @@ const fr = {
         preview: 'Aperçu des mises à jour',
         previewDesc:
           "Bénéficiez d'un accès anticipé aux nouvelles fonctionnalités et améliorations",
-        previewTip:
-          'Veuillez noter que les versions préliminaires peuvent contenir des bugs ou des fonctionnalités incomplètes!',
         offline: {
           title: 'Mises à jour hors ligne',
           desc: "Mise à jour via le package d'installation local",
@@ -528,15 +471,12 @@ const fr = {
     },
     picoclaw: {
       title: 'PicoClaw Assistante',
-      empty: 'Ouvrez le panneau et démarrez une tâche pour commencer.',
       inputPlaceholder: 'Décrivez ce que vous voulez que le PicoClaw fasse',
       newConversation: 'Nouvelle conversation',
       processing: 'Traitement...',
       agent: {
         defaultTitle: 'Assistant général',
-        defaultDescription: "Aide générale sur le chat, la recherche et l'espace de travail.",
         kvmTitle: 'Contrôle à distance',
-        kvmDescription: "Faites fonctionner l'hôte distant via NanoKVM.",
         switched: "Rôle d'agent modifié",
         switchFailed: "Échec du changement de rôle d'agent"
       },
@@ -583,8 +523,6 @@ const fr = {
         success: 'PicoClaw installé avec succès',
         failed: "Échec de l'installation de PicoClaw",
         uninstalling: 'Désinstallation du runtime...',
-        uninstalled: 'Runtime désinstallé avec succès.',
-        uninstallFailed: 'Échec de la désinstallation.',
         requiredTitle: "PicoClaw n'est pas installé",
         requiredDescription: 'Installez PicoClaw avant de démarrer le runtime PicoClaw.',
         progressDescription: "PicoClaw est en cours de téléchargement et d'installation.",

@@ -30,26 +30,20 @@ const nb = {
       globalLocked: 'System under beskyttelse, prøv igjen senere',
       error: 'Uventet feil',
       changePassword: 'Endre passord',
-      changePasswordDesc:
-        'For sikkerheten til enheten, vennligst endre passordet ditt for web-innlogging.',
       differentPassword: 'Passordene er ikke like',
       illegalUsername: 'Brukernavn inneholder tegn som ikke er tillat',
-      illegalPassword: 'Passord inneholder tegn som ikke er tillat',
       forgetPassword: 'Glemt passord',
       ok: 'Ok',
       cancel: 'Avbryt',
       loginButtonText: 'Logg inn',
       tips: {
         change1: 'Merk at denne handlingen endrer følgende passord:',
-        change2: 'Passord for webinnlogging',
-        change3: 'Systemets root-passord (SSH-innloggingspassord)'
+        change2: 'Passord for webinnlogging'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Konfigurer Wi-Fi for NanoKVM',
-      success: 'Please check the network status of NanoKVM and visit the new IP address.',
-      failed: 'Operasjonen mislyktes, prøv igjen.',
       invalidMode:
         'Gjeldende modus støtter ikke nettverksoppsett. Gå til enheten din og aktiver Wi-Fi konfigurasjonsmodus.',
       confirmBtn: 'Ok',
@@ -65,8 +59,6 @@ const nb = {
     screen: {
       scale: 'Skala',
       title: 'Skjerm',
-      video: 'Video-kodek',
-      videoDirectTips: 'Aktiver HTTPS i "Innstillinger > Enhet" for å bruke denne modusen',
       resolution: 'Oppløsning',
       auto: 'Automatisk',
       autoTips:
@@ -83,8 +75,7 @@ const nb = {
         'Kalkuler forskjellen mellom bilder. Stopper overføring av video når det ikke oppdages forskjell på den eksterne vertens skjerm.',
       resetHdmi: 'Tilbakestill HDMI',
       webrtcConnectionFailed: {
-        title: 'WebRTC-tilkobling mislyktes',
-        description: 'Kontroller nettverkstilkoblingen eller bytt videomodus.'
+        title: 'WebRTC-tilkobling mislyktes'
       },
       captureStatus: {
         hdmiError: 'HDMI-skjermfeil',
@@ -98,33 +89,25 @@ const nb = {
       }
     },
     keyboard: {
-      title: 'Åpne tastatur',
       paste: 'Lim inn',
       tips: 'Kun vanlige tegn på tastatur er støttet',
       placeholder: 'Vennligst angi teksten du vil lime inn',
-      submit: 'Lim inn',
       virtual: 'Åpne tastatur',
       readClipboard: 'Les fra utklippstavlen',
       clipboardPermissionDenied:
         'Utklippstavle tillatelse nektet. Tillat utklippstavletilgang i nettleseren din.',
       clipboardReadError: 'Kunne ikke lese utklippstavlen',
       dropdownEnglish: 'Engelsk',
-      dropdownGerman: 'tysk',
       dropdownFrench: 'Fransk',
-      dropdownRussian: 'russisk',
       shortcut: {
         title: 'Snarveier',
         custom: 'Egendefinert',
         capture: 'Klikk her for å ta en snarvei',
         clear: 'Tøm',
-        save: 'Lagre',
-        captureTips:
-          'Registrering av systemtaster (som Windows-tasten) krever fullskjermtillatelse.',
-        enterFullScreen: 'Veksle fullskjermmodus.'
+        save: 'Lagre'
       },
       leaderKey: {
         title: 'Leader-tast',
-        desc: 'Omgå nettleserrestriksjoner og send systemsnarveier direkte til den eksterne verten.',
         howToUse: 'Hvordan bruke',
         simultaneous: {
           title: 'Samtidig modus',
@@ -173,7 +156,6 @@ const nb = {
       resetHid: 'Gjenopprett HID',
       hidOnly: {
         title: 'Kun HID-modus',
-        desc: 'Hvis musen og tastaturet slutter å svare og tilbakestilling av HID ikke hjelper, kan det være et kompatibilitetsproblem mellom NanoKVM og enheten. Prøv å aktivere HID-Only-modus for bedre kompatibilitet.',
         tip1: 'Aktivering av HID-Only-modus vil demontere den virtuelle U-disken og det virtuelle nettverket',
         tip2: 'I HID-Only-modus er bildemontering deaktivert',
         tip3: 'NanoKVM vil automatisk starte på nytt etter bytte av modus',
@@ -187,15 +169,7 @@ const nb = {
       empty: 'Ingen funnet',
       mountMode: 'Monteringsmodus',
       mountFailed: 'Montering feilet',
-      mountDesc:
-        'På noen systemer er det nødvendig å koble fra den virtuelle disken på den eksterne verten før man kan montere arkivfilen.',
-      diskOnWarn:
-        'Mounting the image turns the virtual disk off, so the computer can no longer access /data. Continue?',
-      diskOffWarn:
-        'The virtual disk is off and has to be enabled to mount the image. The USB devices on the computer are enumerated again. Continue?',
       unmountFailed: 'Avmontering mislyktes',
-      unmountDesc:
-        'På noen systemer må du manuelt løse ut fra den eksterne verten før du demonterer bildet.',
       forceEject: 'Løs ut med tvang',
       forceEjectConfirm:
         'Verten har låst den optiske stasjonen. Tvungen utløsing kobler den virtuelle USB-enheten fra et øyeblikk, så tastaturet og musen kan bli koblet fra en kort stund. Vil du fortsette?',
@@ -205,14 +179,12 @@ const nb = {
       tips: {
         title: 'Hvordan laste opp',
         usb1: 'Koble til NanoKVM-enheten til din datamaskin med USB.',
-        usb2: 'Sikre at den virtuelle disken er montert (Innstillinger - Virtuell disk).',
         usb3: 'Åpne den virtuelle disken på datamaskinen din og kopier arkivfilen til rot-mappen på den virtuelle disken.',
         scp1: 'Sikre at NanoKVM-enheten og datamaskinen din er tilkoblet det samme lokale nettverket.',
         scp2: 'Åpne en terminal på datamaskinen din og bruk SCP-kommandoen til å laste opp arkivfilen til mappen /data på NanoKVM-enheten.',
         scp3: 'Eksempel: scp sti-til-din-arkivfil root@din-nanokvm-ip:/data',
         tfCard: 'TF-kort',
         tf1: 'Denne metoden er støttet på datamskiner med Linux',
-        tf2: 'Ta TF-kortet ut av NanoKVM-enheten (hvis du har FULL-versjonen, demonter kabinettet først).',
         tf3: 'Sett inn TF-kortet i en kortleser og koble den til datamaskinen din.',
         tf4: 'Kopiér arkivfilen til mappen /data på TF-kortet.',
         tf5: 'Sett inn TF-kortet i NanoKVM-enheten.'
@@ -261,15 +233,11 @@ const nb = {
       title: 'Bildedaster',
       input: 'Vennligst skriv inn et eksternt bilde URL',
       ok: 'Ok',
-      disabled: '/data partisjonen er RO, så vi kan ikke laste ned bildet',
-      diskShared: 'Turn the virtual disk off first, then use the image download.',
       mountedImage:
         'Dette diskavbildet er montert. Avmonter det før du laster opp en fil med samme navn.',
-      diskOff: 'Turn off the virtual disk',
       uploadbox: 'Slipp filen her eller klikk for å velge',
       inputfile: 'Vennligst skriv inn bildefilen',
       NoISO: 'Ingen ISO',
-      sha256: 'SHA-256 (valgfritt)',
       sha256Placeholder: 'Skriv inn en SHA-256-kontrollsum på 64 tegn',
       invalidSHA256: 'SHA-256 må være en heksadesimal streng på 64 tegn',
       checksumFailed: 'Nedlasting mislyktes: SHA-256-verifisering mislyktes'
@@ -280,8 +248,6 @@ const nb = {
       showConfirmTip: 'Strømdrift krever en ekstra bekreftelse',
       reset: 'Reset-knapp',
       power: 'På-knapp',
-      powerShort: 'På-knapp (kort trykk)',
-      powerLong: 'På-knapp (langt trykk)',
       resetConfirm: 'Fortsette tilbakestilling?',
       powerConfirm: 'Fortsette strømdrift?',
       okBtn: 'Ja',
@@ -296,7 +262,6 @@ const nb = {
         mdns: 'mDNS',
         application: 'Applikasjonsversjon',
         applicationTip: 'Versjon av NanoKVM-webapplikasjonen',
-        image: 'Arkivfil-versjon',
         imageTip: 'Versjon av NanoKVM-systemavbildningen',
         deviceKey: 'Enhetsnøkkel',
         community: 'Fellesskap',
@@ -346,7 +311,6 @@ const nb = {
         title: 'Enhet',
         oled: {
           title: 'OLED',
-          description: 'OLED screen automatically sleep',
           0: 'Aldri',
           15: '15 sec',
           30: '30 sec',
@@ -358,14 +322,12 @@ const nb = {
           3600: '1 time'
         },
         ssh: {
-          description: 'Aktiver SSH ekstern tilgang',
-          tip: 'Angi et sterkt passord før du aktiverer (Konto - Endre passord)'
+          description: 'Aktiver SSH ekstern tilgang'
         },
         swap: {
           title: 'Bytt',
           disable: 'Deaktiver',
-          description: 'Angi størrelsen på byttefilen',
-          tip: 'Aktivering av denne funksjonen kan forkorte SD-kortets brukbare levetid!'
+          description: 'Angi størrelsen på byttefilen'
         },
         mouseJiggler: {
           title: 'Mus Jiggler',
@@ -385,12 +347,7 @@ const nb = {
           minutes: 'min'
         },
         hidOnly: 'HID-Bare modus',
-        hidOnlyDesc: 'Slutt å emulere virtuelle enheter, behold bare grunnleggende HID-kontroll',
         disk: 'Virtuell disk',
-        diskDesc: 'Mount virtual U-disk on the remote host',
-        diskLocked: 'Off while an image is mounted (turning it on cancels the mount)',
-        diskCancelMount:
-          'Enabling the virtual disk cancels the mounted image and interrupts a running image download or upload. Continue?',
         network: 'Virtuelt nettverk',
         networkDesc: 'Monter virtuelt nettverkskort på den eksterne verten',
         reboot: 'Start på nytt',
@@ -415,8 +372,7 @@ const nb = {
           cancelBtn: 'Avbryt'
         },
         tls: {
-          description: 'Aktiver HTTPS-protokoll',
-          tip: 'Merk: Bruk av HTTPS kan øke forsinkelsen, spesielt i MJPEG-videomodus.'
+          description: 'Aktiver HTTPS-protokoll'
         },
         dns: {
           title: 'DNS',
@@ -437,7 +393,6 @@ const nb = {
           unsaved: 'Ulagrede endringer',
           maxServers: 'Maksimalt {{count}} DNS-servere er tillatt',
           dhcpServersDescription: 'DNS-servere hentes automatisk fra DHCP',
-          manualServersDescription: 'DNS-servere kan redigeres manuelt. IPv4 og IPv6 støttes',
           interface: 'Grensesnitt',
           ipAddress: 'IP-adresse',
           subnetMask: 'Subnettmaske',
@@ -447,22 +402,16 @@ const nb = {
       tailscale: {
         title: 'Tailscale',
         memory: {
-          title: 'Minneoptimalisering',
-          tip: "When memory usage exceeds the limit, garbage collection is performed more aggressively to attempt to free up memory. it's recommended to set to 50MB if using Tailscale. A Tailscale restart is required for the change to take effect."
+          title: 'Minneoptimalisering'
         },
         swap: {
           title: 'Bytt minne',
           tip: 'Hvis problemene vedvarer etter at du har aktivert minneoptimalisering, prøv å aktivere swap-minne. Dette setter swap-filstørrelsen til 256MB som standard, som kan justeres i "Innstillinger > Enhet".'
         },
-        restart: 'Are you sure to restart Tailscale?',
-        stop: 'Are you sure to stop Tailscale?',
-        stopDesc: 'Log out Tailscale and disable its automatic startup on boot.',
         loading: 'Laster...',
-        notInstall: 'Tailscale er ikke funnet! Vennligst installer.',
         install: 'Installér',
         installing: 'Installerer',
         failed: 'Installering feilet',
-        retry: 'Vennligst last inn siden på nytt og forsøk igjen eller installer manuelt',
         download: 'Last ned',
         package: 'installasjonspakken',
         unzip: 'og pakk den ut',
@@ -483,9 +432,7 @@ const nb = {
         logout: 'Logg ut',
         logoutDesc: 'Er du sikker på at du vil logge ut?',
         uninstall: 'Avinstaller Tailscale',
-        uninstallDesc: 'Er du sikker på at du vil avinstallere Tailscale?',
-        okBtn: 'Yes',
-        cancelBtn: 'No'
+        uninstallDesc: 'Er du sikker på at du vil avinstallere Tailscale?'
       },
       update: {
         title: 'Se etter oppdatering',
@@ -494,12 +441,9 @@ const nb = {
         isLatest: 'Du har siste versjon allerede.',
         available: 'En oppdatering er tilgjengelig. Er du sikker på at du ønsker å oppdatere?',
         updating: 'Oppdatering har startet. Vennligst vent...',
-        confirm: 'Oppdater',
         cancel: 'Avbryt',
         preview: 'Forhåndsvisningsoppdateringer',
         previewDesc: 'Få tidlig tilgang til nye funksjoner og forbedringer',
-        previewTip:
-          'Vær oppmerksom på at forhåndsvisningsutgivelser kan inneholde feil eller ufullstendig funksjonalitet!',
         offline: {
           title: 'Offline oppdateringer',
           desc: 'Oppdater gjennom lokal installasjonspakke',
@@ -521,15 +465,12 @@ const nb = {
     },
     picoclaw: {
       title: 'PicoClaw Assistent',
-      empty: 'Åpne panelet og start en oppgave for å begynne.',
       inputPlaceholder: 'Beskriv hva du vil at PicoClaw skal gjøre',
       newConversation: 'Ny samtale',
       processing: 'Behandler...',
       agent: {
         defaultTitle: 'Generell assistent',
-        defaultDescription: 'Generell chat-, søk- og arbeidsområdehjelp.',
         kvmTitle: 'Fjernstyring',
-        kvmDescription: 'Betjen den eksterne verten gjennom NanoKVM.',
         switched: 'Agentrolle byttet',
         switchFailed: 'Kunne ikke bytte agentrolle'
       },
@@ -576,8 +517,6 @@ const nb = {
         success: 'PicoClaw installert vellykket',
         failed: 'Kunne ikke installere PicoClaw',
         uninstalling: 'Avinstallerer runtime...',
-        uninstalled: 'Runtime ble avinstallert.',
-        uninstallFailed: 'Avinstallering mislyktes.',
         requiredTitle: 'PicoClaw er ikke installert',
         requiredDescription: 'Installer PicoClaw før du starter PicoClaw runtime.',
         progressDescription: 'PicoClaw blir lastet ned og installert.',

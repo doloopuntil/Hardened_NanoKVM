@@ -116,8 +116,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Fes servir els servidors públics per defecte, el teu encaminador local o servidors NTP personalitzats',
     'settings.systemLog.remote.protocol': 'El syslog UDP és usat pel syslogd BusyBox actual',
-    'settings.systemLog.local.description':
-      'Els registres actuals es mantenen a la RAM a {{path}} per evitar escriptures a la targeta SD',
     'settings.systemLog.viewer.truncated': 'Només es mostren les dades de registre més recents',
     'settings.update.system.rawEnableDesc':
       'Permet escriure imatges raw verificades de boot/rootfs a la targeta SD des d’aquesta pantalla',
@@ -248,7 +246,31 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       "L'accés administratiu entrant quedarà limitat als rangs private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback per a HTTPS i SSH. Els rangs públics no estan permesos. DNS, NTP, syslog remot, actualitzacions online, DHCP, connexions establertes i trànsit essencial IPv6 de sortida romandran disponibles. WebRTC/ICE UDP i la resta de trànsit entrant/sortint quedaran bloquejats.",
     'settings.system.firewall.paranoid.confirmDesc':
-      'Només quedarà disponible l’accés HTTPS des de rangs private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, descàrregues de GitHub i la resta de trànsit quedaran bloquejats excepte el mínim DHCP/control IPv6.'
+      'Només quedarà disponible l’accés HTTPS des de rangs private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, descàrregues de GitHub i la resta de trànsit quedaran bloquejats excepte el mínim DHCP/control IPv6.',
+    'settings.system.sections.systemLog': 'Registre',
+    'settings.systemLog.remote.title': 'Registre remot',
+    'settings.systemLog.remote.forward': 'Reenvia el registre del sistema',
+    'settings.systemLog.remote.description':
+      'Reenvia els missatges del sistema a un servidor remot',
+    'settings.systemLog.kernel.title': 'Registre del kernel',
+    'settings.systemLog.local.title': 'Memòria intermèdia del registre del sistema',
+    'settings.systemLog.remote.hostDesc': "Nom d'amfitrió o adreça IPv4 del servidor syslog",
+    'settings.systemLog.kernel.enabledDesc':
+      'Captura els missatges del kernel al registre del sistema',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      "Urgència mínima perquè un missatge del kernel s'imprimeixi a la consola",
+    'settings.systemLog.local.priorityDesc': 'Urgència mínima perquè un missatge es registri',
+    'settings.systemLog.local.bufferDesc':
+      'Mida del registre a partir de la qual es fa la rotació del fitxer',
+    'settings.systemLog.local.rotationsDesc':
+      'Nombre de fitxers de registre rotats que es conserven',
+    'settings.systemLog.local.compactDesc':
+      "Ometeix el nom d'amfitrió i la facilitat de cada línia",
+    'settings.systemLog.local.stripTimestampsDesc':
+      "Elimina les marques de temps afegides per l'emissor; syslog afegeix les seves",
+    'settings.systemLog.local.description':
+      'Els registres actuals es mantenen a la RAM a {{path}} per evitar escriptures a la targeta SD',
+    'settings.systemLog.kernel.enabled': 'Reenvia el registre del kernel'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -367,8 +389,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Použijte výchozí veřejné servery, místní router nebo vlastní servery NTP',
     'settings.systemLog.remote.protocol': 'Aktuální BusyBox syslogd používá UDP syslog',
-    'settings.systemLog.local.description':
-      'Aktuální protokoly jsou uchovány v RAM v {{path}}, aby se zabránilo zápisům na SD kartu',
     'settings.systemLog.viewer.truncated': 'Zobrazují se pouze nejnovější data protokolu',
     'settings.update.system.rawEnableDesc':
       'Povolí z této obrazovky zapisovat ověřené raw image boot/rootfs na SD kartu',
@@ -409,7 +429,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Příchozí administrátorský přístup bude omezen na rozsahy private IPv4, IPv4 link-local/loopback, IPv6 link-local nebo IPv6 loopback pro HTTPS a SSH. Veřejné zdrojové rozsahy nejsou povoleny. Odchozí DNS, NTP, vzdálený syslog, online aktualizace, DHCP, navázaná spojení a nezbytný IPv6 řídicí provoz zůstanou dostupné. WebRTC/ICE UDP a ostatní příchozí/odchozí provoz budou blokovány.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Zůstane dostupný pouze HTTPS přístup ze zdrojů private IPv4, IPv4 link-local/loopback, IPv6 link-local nebo IPv6 loopback. SSH, HTTP, mDNS, NTP, stahování z GitHubu a další provoz budou blokovány kromě minimálního DHCP/IPv6 řízení.'
+      'Zůstane dostupný pouze HTTPS přístup ze zdrojů private IPv4, IPv4 link-local/loopback, IPv6 link-local nebo IPv6 loopback. SSH, HTTP, mDNS, NTP, stahování z GitHubu a další provoz budou blokovány kromě minimálního DHCP/IPv6 řízení.',
+    'settings.system.sections.systemLog': 'Protokolování',
+    'settings.systemLog.remote.title': 'Vzdálené protokolování',
+    'settings.systemLog.remote.forward': 'Předávat systémový protokol',
+    'settings.systemLog.remote.description': 'Předávat systémové zprávy na vzdálený server',
+    'settings.systemLog.kernel.title': 'Protokolování kernelu',
+    'settings.systemLog.local.title': 'Buffer systémového protokolu',
+    'settings.systemLog.remote.hostDesc': 'Název hostitele nebo adresa IPv4 serveru syslog',
+    'settings.systemLog.kernel.enabledDesc': 'Zaznamenávat zprávy kernelu do systémového protokolu',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Minimální naléhavost zprávy kernelu pro výpis na konzoli',
+    'settings.systemLog.local.priorityDesc': 'Minimální naléhavost zprávy pro zaznamenání',
+    'settings.systemLog.local.bufferDesc': 'Velikost protokolu, při které se soubor rotuje',
+    'settings.systemLog.local.rotationsDesc': 'Počet uchovávaných rotovaných souborů protokolu',
+    'settings.systemLog.local.compactDesc': 'Vynechat z každého řádku název hostitele a facility',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Odebrat časová razítka přidaná odesílatelem; syslog přidá vlastní',
+    'settings.systemLog.local.description':
+      'Aktuální protokoly jsou uchovány v RAM v {{path}}, aby se zabránilo zápisům na SD kartu',
+    'settings.systemLog.kernel.enabled': 'Předávat protokol kernelu'
   },
   da: {
     'auth.illegalPassword':
@@ -544,8 +583,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Brug standardens offentlige servere, din lokale router eller egne NTP-servere',
     'settings.systemLog.remote.protocol': 'UDP-syslog bruges af den aktuelle BusyBox syslogd',
-    'settings.systemLog.local.description':
-      'Aktuelle logs opbevares i RAM på {{path}} for at undgå skrivninger til SD-kortet',
     'settings.systemLog.viewer.truncated': 'Kun de seneste logdata vises',
     'settings.update.system.rawEnableDesc':
       'Tillad at verificerede raw boot/rootfs-images skrives til SD-kortet fra denne skærm',
@@ -579,7 +616,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Indgående administrativ adgang begrænses til private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- eller IPv6 loopback-kilder for HTTPS og SSH. Offentlige kildeområder tillades ikke. Udgående DNS, NTP, fjern-syslog, onlineopdateringer, DHCP, etablerede forbindelser og nødvendig IPv6-kontroltrafik forbliver tilgængelige. WebRTC/ICE UDP og anden ind-/udgående trafik blokeres.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Kun HTTPS-adgang fra private IPv4, IPv4 link-local/loopback, IPv6 link-local eller IPv6 loopback forbliver tilgængelig. SSH, HTTP, mDNS, NTP, GitHub-downloads og anden trafik blokeres bortset fra minimal DHCP/IPv6-kontroltrafik.'
+      'Kun HTTPS-adgang fra private IPv4, IPv4 link-local/loopback, IPv6 link-local eller IPv6 loopback forbliver tilgængelig. SSH, HTTP, mDNS, NTP, GitHub-downloads og anden trafik blokeres bortset fra minimal DHCP/IPv6-kontroltrafik.',
+    'settings.system.sections.systemLog': 'Logning',
+    'settings.systemLog.remote.title': 'Fjernlogning',
+    'settings.systemLog.remote.forward': 'Videresend systemlog',
+    'settings.systemLog.remote.description': 'Videresend systemmeddelelser til en fjernserver',
+    'settings.systemLog.kernel.title': 'Kernellogning',
+    'settings.systemLog.local.title': 'Systemlogbuffer',
+    'settings.systemLog.remote.hostDesc': 'Værtsnavn eller IPv4-adresse på syslog-serveren',
+    'settings.systemLog.kernel.enabledDesc': 'Opfang kernelmeddelelser i systemloggen',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Mindste hastegrad for at en kernelmeddelelse udskrives på konsollen',
+    'settings.systemLog.local.priorityDesc': 'Mindste hastegrad for at en meddelelse logges',
+    'settings.systemLog.local.bufferDesc': 'Logstørrelse, hvor filen roteres',
+    'settings.systemLog.local.rotationsDesc': 'Antal roterede logfiler, der gemmes',
+    'settings.systemLog.local.compactDesc': 'Udelad værtsnavn og facility fra hver linje',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Fjern tidsstempler tilføjet af afsenderen; syslog tilføjer sine egne',
+    'settings.systemLog.local.description':
+      'Aktuelle logs opbevares i RAM på {{path}} for at undgå skrivninger til SD-kortet',
+    'settings.systemLog.kernel.enabled': 'Videresend kernellog'
   },
   de: {
     'auth.illegalPassword':
@@ -701,8 +757,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Öffentliche Standardserver, den lokalen Router oder eigene NTP-Server verwenden',
     'settings.systemLog.remote.protocol': 'UDP-Syslog wird vom aktuellen BusyBox syslogd verwendet',
-    'settings.systemLog.local.description':
-      'Aktuelle Protokolle werden im RAM unter {{path}} gehalten, um Schreibzugriffe auf die SD-Karte zu vermeiden',
     'settings.systemLog.viewer.truncated': 'Nur die neuesten Protokolldaten werden angezeigt',
     'settings.update.system.rawEnableDesc':
       'Erlaubt, verifizierte raw Boot-/Rootfs-Images von diesem Bildschirm auf die SD-Karte zu schreiben',
@@ -760,7 +814,27 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Eingehender Adminzugriff wird für HTTPS und SSH auf private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- oder IPv6 loopback-Quellbereiche begrenzt. Öffentliche Quellbereiche sind nicht erlaubt. Ausgehendes DNS, NTP, Remote-Syslog, Online-Updates, DHCP, bestehende Verbindungen und notwendiger IPv6-Steuerverkehr bleiben verfügbar. WebRTC/ICE UDP und anderer ein-/ausgehender Verkehr werden blockiert.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Nur HTTPS-Zugriff aus privaten IPv4-, IPv4 link-local/loopback-, IPv6 link-local- oder IPv6 loopback-Quellbereichen bleibt verfügbar. SSH, HTTP, mDNS, NTP, GitHub-Downloads und anderer Verkehr werden außer minimalem DHCP/IPv6-Steuerverkehr blockiert.'
+      'Nur HTTPS-Zugriff aus privaten IPv4-, IPv4 link-local/loopback-, IPv6 link-local- oder IPv6 loopback-Quellbereichen bleibt verfügbar. SSH, HTTP, mDNS, NTP, GitHub-Downloads und anderer Verkehr werden außer minimalem DHCP/IPv6-Steuerverkehr blockiert.',
+    'settings.system.sections.systemLog': 'Protokollierung',
+    'settings.systemLog.remote.title': 'Remote-Protokollierung',
+    'settings.systemLog.remote.forward': 'Systemprotokoll weiterleiten',
+    'settings.systemLog.remote.description': 'Systemmeldungen an einen Remote-Server weiterleiten',
+    'settings.systemLog.kernel.title': 'Kernel-Protokollierung',
+    'settings.systemLog.local.title': 'Systemprotokoll-Puffer',
+    'settings.systemLog.remote.hostDesc': 'Hostname oder IPv4-Adresse des Syslog-Servers',
+    'settings.systemLog.kernel.enabledDesc': 'Kernel-Meldungen im Systemprotokoll erfassen',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Mindestdringlichkeit, damit eine Kernel-Meldung auf der Konsole ausgegeben wird',
+    'settings.systemLog.local.priorityDesc':
+      'Mindestdringlichkeit, damit eine Meldung protokolliert wird',
+    'settings.systemLog.local.bufferDesc': 'Protokollgröße, ab der die Datei rotiert wird',
+    'settings.systemLog.local.rotationsDesc': 'Anzahl der aufbewahrten rotierten Protokolldateien',
+    'settings.systemLog.local.compactDesc': 'Hostname und Facility in jeder Zeile weglassen',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Vom Absender hinzugefügte Zeitstempel entfernen; Syslog fügt eigene hinzu',
+    'settings.systemLog.local.description':
+      'Aktuelle Protokolle werden im RAM unter {{path}} gehalten, um Schreibzugriffe auf die SD-Karte zu vermeiden',
+    'settings.systemLog.kernel.enabled': 'Kernelprotokoll weiterleiten'
   },
   es: {
     'auth.illegalPassword':
@@ -867,8 +941,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Usa los servidores públicos predeterminados, tu router local o servidores NTP personalizados',
     'settings.systemLog.remote.protocol': 'El syslog UDP lo usa el syslogd actual de BusyBox',
-    'settings.systemLog.local.description':
-      'Los registros actuales se mantienen en RAM en {{path}} para evitar escrituras en la tarjeta SD',
     'settings.systemLog.viewer.truncated': 'Solo se muestran los datos de registro más recientes',
     'settings.update.system.rawEnableDesc':
       'Permite escribir imágenes raw verificadas de boot/rootfs en la tarjeta SD desde esta pantalla',
@@ -917,7 +989,30 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'El acceso administrativo entrante se limitará a rangos private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback para HTTPS y SSH. No se permiten rangos públicos de origen. DNS, NTP, syslog remoto, actualizaciones online, DHCP, conexiones establecidas y tráfico esencial IPv6 salientes seguirán disponibles. WebRTC/ICE UDP y el resto del tráfico entrante/saliente se bloquearán.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Solo quedará disponible el acceso HTTPS desde rangos private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, descargas de GitHub y el resto del tráfico se bloquearán salvo el mínimo DHCP/control IPv6.'
+      'Solo quedará disponible el acceso HTTPS desde rangos private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, descargas de GitHub y el resto del tráfico se bloquearán salvo el mínimo DHCP/control IPv6.',
+    'settings.system.sections.systemLog': 'Registro',
+    'settings.systemLog.remote.title': 'Registro remoto',
+    'settings.systemLog.remote.forward': 'Reenviar el registro del sistema',
+    'settings.systemLog.remote.description':
+      'Reenvía los mensajes del sistema a un servidor remoto',
+    'settings.systemLog.kernel.title': 'Registro del kernel',
+    'settings.systemLog.local.title': 'Búfer del registro del sistema',
+    'settings.systemLog.remote.hostDesc': 'Nombre de host o dirección IPv4 del servidor syslog',
+    'settings.systemLog.kernel.enabledDesc':
+      'Captura los mensajes del kernel en el registro del sistema',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Urgencia mínima para que un mensaje del kernel se imprima en la consola',
+    'settings.systemLog.local.priorityDesc': 'Urgencia mínima para que un mensaje se registre',
+    'settings.systemLog.local.bufferDesc':
+      'Tamaño del registro a partir del cual se rota el archivo',
+    'settings.systemLog.local.rotationsDesc':
+      'Número de archivos de registro rotados que se conservan',
+    'settings.systemLog.local.compactDesc': 'Omite el nombre de host y la facilidad de cada línea',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Elimina las marcas de tiempo añadidas por el emisor; syslog añade las suyas',
+    'settings.systemLog.local.description':
+      'Los registros actuales se mantienen en RAM en {{path}} para evitar escrituras en la tarjeta SD',
+    'settings.systemLog.kernel.enabled': 'Reenviar el registro del kernel'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1030,8 +1125,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Kasuta avalikke vaikeservereid, kohalikku ruuterit või enda NTP-servereid',
     'settings.systemLog.remote.protocol': 'Praegune BusyBox syslogd kasutab UDP syslogi',
-    'settings.systemLog.local.description':
-      'Praeguseid logisid hoitakse RAM-is asukohas {{path}}, et vältida SD-kaardi kirjutusi',
     'settings.systemLog.viewer.truncated': 'Kuvatakse ainult uusimad logiandmed',
     'settings.update.system.rawEnableDesc':
       'Luba verifitseeritud raw boot/rootfs image failide kirjutamine SD-kaardile sellelt ekraanilt',
@@ -1069,7 +1162,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Sissetulev haldusligipääs piiratakse HTTPS-i ja SSH jaoks private IPv4, IPv4 link-local/loopback, IPv6 link-local või IPv6 loopback lähtevahemikega. Avalikud lähtevahemikud pole lubatud. Väljaminev DNS, NTP, kaug-syslog, online-uuendused, DHCP, olemasolevad ühendused ja hädavajalik IPv6 juhtliiklus jäävad kättesaadavaks. WebRTC/ICE UDP ja muu sisse-/väljaminev liiklus blokeeritakse.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Alles jääb ainult HTTPS ligipääs private IPv4, IPv4 link-local/loopback, IPv6 link-local või IPv6 loopback lähtevahemikest. SSH, HTTP, mDNS, NTP, GitHubi allalaadimised ja muu liiklus blokeeritakse, välja arvatud minimaalne DHCP/IPv6 juhtliiklus.'
+      'Alles jääb ainult HTTPS ligipääs private IPv4, IPv4 link-local/loopback, IPv6 link-local või IPv6 loopback lähtevahemikest. SSH, HTTP, mDNS, NTP, GitHubi allalaadimised ja muu liiklus blokeeritakse, välja arvatud minimaalne DHCP/IPv6 juhtliiklus.',
+    'settings.system.sections.systemLog': 'Logimine',
+    'settings.systemLog.remote.title': 'Kaugloogimine',
+    'settings.systemLog.remote.forward': 'Edasta süsteemilogi',
+    'settings.systemLog.remote.description': 'Edasta süsteemiteated kaugserverisse',
+    'settings.systemLog.kernel.title': 'Kerneli logimine',
+    'settings.systemLog.local.title': 'Süsteemilogi puhver',
+    'settings.systemLog.remote.hostDesc': 'Syslog-serveri hostinimi või IPv4-aadress',
+    'settings.systemLog.kernel.enabledDesc': 'Salvesta kerneli teated süsteemilogisse',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Minimaalne kiireloomulisus, et kerneli teade konsooli trükitaks',
+    'settings.systemLog.local.priorityDesc': 'Minimaalne kiireloomulisus, et teade logitaks',
+    'settings.systemLog.local.bufferDesc': 'Logi suurus, mille juures fail pööratakse',
+    'settings.systemLog.local.rotationsDesc': 'Säilitatavate pööratud logifailide arv',
+    'settings.systemLog.local.compactDesc': 'Jäta igalt realt välja hostinimi ja facility',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Eemalda saatja lisatud ajatemplid; syslog lisab omad',
+    'settings.systemLog.local.description':
+      'Praeguseid logisid hoitakse RAM-is asukohas {{path}}, et vältida SD-kaardi kirjutusi',
+    'settings.systemLog.kernel.enabled': 'Edasta kerneli logi'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1184,8 +1296,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Käytä julkisia oletuspalvelimia, paikallista reititintä tai omia NTP-palvelimia',
     'settings.systemLog.remote.protocol': 'Nykyinen BusyBox syslogd käyttää UDP syslogia',
-    'settings.systemLog.local.description':
-      'Nykyiset lokit säilytetään RAMissa polussa {{path}}, jotta SD-kortille ei kirjoiteta',
     'settings.systemLog.viewer.truncated': 'Vain uusimmat lokitiedot näytetään',
     'settings.update.system.rawEnableDesc':
       'Salli varmistettujen raw boot/rootfs -imagejen kirjoittaminen SD-kortille tästä näkymästä',
@@ -1219,7 +1329,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Saapuva ylläpitokäyttö rajataan HTTPS:lle ja SSH:lle private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- tai IPv6 loopback-lähdealueisiin. Julkisia lähdealueita ei sallita. Lähtevä DNS, NTP, etä-syslog, verkkopäivitykset, DHCP, muodostetut yhteydet ja välttämätön IPv6-ohjausliikenne pysyvät käytettävissä. WebRTC/ICE UDP ja muu sisään-/ulospäin kulkeva liikenne estetään.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Vain HTTPS-käyttö private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- tai IPv6 loopback-lähdealueilta jää käyttöön. SSH, HTTP, mDNS, NTP, GitHub-lataukset ja muu liikenne estetään lukuun ottamatta vähäistä DHCP/IPv6-ohjausliikennettä.'
+      'Vain HTTPS-käyttö private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- tai IPv6 loopback-lähdealueilta jää käyttöön. SSH, HTTP, mDNS, NTP, GitHub-lataukset ja muu liikenne estetään lukuun ottamatta vähäistä DHCP/IPv6-ohjausliikennettä.',
+    'settings.system.sections.systemLog': 'Lokitus',
+    'settings.systemLog.remote.title': 'Etälokitus',
+    'settings.systemLog.remote.forward': 'Välitä järjestelmäloki',
+    'settings.systemLog.remote.description': 'Välitä järjestelmäviestit etäpalvelimelle',
+    'settings.systemLog.kernel.title': 'Kernel-lokitus',
+    'settings.systemLog.local.title': 'Järjestelmälokin puskuri',
+    'settings.systemLog.remote.hostDesc': 'Syslog-palvelimen isäntänimi tai IPv4-osoite',
+    'settings.systemLog.kernel.enabledDesc': 'Tallenna kernel-viestit järjestelmälokiin',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Pienin kiireellisyys, jolla kernel-viesti tulostetaan konsoliin',
+    'settings.systemLog.local.priorityDesc': 'Pienin kiireellisyys, jolla viesti kirjataan lokiin',
+    'settings.systemLog.local.bufferDesc': 'Lokin koko, jossa tiedosto kierrätetään',
+    'settings.systemLog.local.rotationsDesc': 'Säilytettävien kierrätettyjen lokitiedostojen määrä',
+    'settings.systemLog.local.compactDesc': 'Jätä isäntänimi ja facility pois jokaiselta riviltä',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Poista lähettäjän lisäämät aikaleimat; syslog lisää omansa',
+    'settings.systemLog.local.description':
+      'Nykyiset lokit säilytetään RAMissa polussa {{path}}, jotta SD-kortille ei kirjoiteta',
+    'settings.systemLog.kernel.enabled': 'Välitä kernel-loki'
   },
   fr: {
     'auth.illegalPassword':
@@ -1337,8 +1466,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Utiliser les serveurs publics par défaut, votre routeur local ou des serveurs NTP personnalisés',
     'settings.systemLog.remote.protocol': 'Le syslog UDP est utilisé par le syslogd BusyBox actuel',
-    'settings.systemLog.local.description':
-      'Les journaux actuels sont conservés en RAM dans {{path}} pour éviter les écritures sur la carte SD',
     'settings.systemLog.viewer.truncated':
       'Seules les données de journal les plus récentes sont affichées',
     'settings.update.system.rawEnableDesc':
@@ -1390,7 +1517,29 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'L’accès administrateur entrant sera limité aux plages private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback pour HTTPS et SSH. Les plages publiques ne sont pas autorisées. DNS, NTP, syslog distant, mises à jour en ligne, DHCP, connexions établies et trafic de contrôle IPv6 essentiel sortants restent disponibles. WebRTC/ICE UDP et les autres trafics entrants/sortants seront bloqués.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Seul l’accès HTTPS depuis les plages private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback restera disponible. SSH, HTTP, mDNS, NTP, téléchargements GitHub et le reste du trafic seront bloqués sauf le minimum DHCP/contrôle IPv6.'
+      'Seul l’accès HTTPS depuis les plages private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback restera disponible. SSH, HTTP, mDNS, NTP, téléchargements GitHub et le reste du trafic seront bloqués sauf le minimum DHCP/contrôle IPv6.',
+    'settings.system.sections.systemLog': 'Journalisation',
+    'settings.systemLog.remote.title': 'Journalisation distante',
+    'settings.systemLog.remote.forward': 'Transférer le journal système',
+    'settings.systemLog.remote.description':
+      'Transférer les messages système vers un serveur distant',
+    'settings.systemLog.kernel.title': 'Journalisation du noyau',
+    'settings.systemLog.local.title': 'Tampon du journal système',
+    'settings.systemLog.remote.hostDesc': "Nom d'hôte ou adresse IPv4 du serveur syslog",
+    'settings.systemLog.kernel.enabledDesc':
+      'Enregistrer les messages du noyau dans le journal système',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      "Urgence minimale pour qu'un message du noyau soit affiché sur la console",
+    'settings.systemLog.local.priorityDesc': "Urgence minimale pour qu'un message soit enregistré",
+    'settings.systemLog.local.bufferDesc':
+      "Taille du journal à laquelle le fichier fait l'objet d'une rotation",
+    'settings.systemLog.local.rotationsDesc': 'Nombre de fichiers de journal archivés à conserver',
+    'settings.systemLog.local.compactDesc': "Omettre le nom d'hôte et la facility de chaque ligne",
+    'settings.systemLog.local.stripTimestampsDesc':
+      "Supprimer les horodatages ajoutés par l'émetteur ; syslog ajoute les siens",
+    'settings.systemLog.local.description':
+      'Les journaux actuels sont conservés en RAM dans {{path}} pour éviter les écritures sur la carte SD',
+    'settings.systemLog.kernel.enabled': 'Transférer le journal du noyau'
   },
   hu: {
     'auth.illegalPassword':
@@ -1520,8 +1669,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Használja az alapértelmezett nyilvános szervereket, a helyi routert vagy egyéni NTP-szervereket',
     'settings.systemLog.remote.protocol': 'A jelenlegi BusyBox syslogd UDP syslogot használ',
-    'settings.systemLog.local.description':
-      'Az aktuális naplók RAM-ban, a {{path}} útvonalon maradnak, hogy elkerülje az SD-kártya írását',
     'settings.systemLog.viewer.truncated': 'Csak a legfrissebb naplóadatok láthatók',
     'settings.update.system.rawEnableDesc':
       'Engedélyezi ellenőrzött raw boot/rootfs image-ek írását az SD-kártyára erről a képernyőről',
@@ -1566,7 +1713,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'A bejövő adminisztrációs hozzáférés HTTPS és SSH esetén private IPv4, IPv4 link-local/loopback, IPv6 link-local vagy IPv6 loopback forrástartományokra korlátozódik. Nyilvános forrástartományok nem engedélyezettek. A kimenő DNS, NTP, távoli syslog, online frissítések, DHCP, meglévő kapcsolatok és alapvető IPv6 vezérlőforgalom elérhető marad. A WebRTC/ICE UDP és minden más bejövő/kimenő forgalom blokkolva lesz.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Csak a HTTPS-hozzáférés marad elérhető private IPv4, IPv4 link-local/loopback, IPv6 link-local vagy IPv6 loopback forrástartományokból. Az SSH, HTTP, mDNS, NTP, GitHub-letöltések és más forgalom blokkolva lesz, kivéve a minimális DHCP/IPv6 vezérlést.'
+      'Csak a HTTPS-hozzáférés marad elérhető private IPv4, IPv4 link-local/loopback, IPv6 link-local vagy IPv6 loopback forrástartományokból. Az SSH, HTTP, mDNS, NTP, GitHub-letöltések és más forgalom blokkolva lesz, kivéve a minimális DHCP/IPv6 vezérlést.',
+    'settings.system.sections.systemLog': 'Naplózás',
+    'settings.systemLog.remote.title': 'Távoli naplózás',
+    'settings.systemLog.remote.forward': 'Rendszernapló továbbítása',
+    'settings.systemLog.remote.description': 'A rendszerüzenetek továbbítása távoli szerverre',
+    'settings.systemLog.kernel.title': 'Kernel-naplózás',
+    'settings.systemLog.local.title': 'Rendszernapló-puffer',
+    'settings.systemLog.remote.hostDesc': 'A syslog szerver állomásneve vagy IPv4-címe',
+    'settings.systemLog.kernel.enabledDesc': 'A kernelüzenetek rögzítése a rendszernaplóban',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'A kernelüzenet konzolra írásához szükséges minimális sürgősség',
+    'settings.systemLog.local.priorityDesc': 'Az üzenet naplózásához szükséges minimális sürgősség',
+    'settings.systemLog.local.bufferDesc': 'A naplófájl mérete, amelynél a fájl rotálásra kerül',
+    'settings.systemLog.local.rotationsDesc': 'A megőrzött rotált naplófájlok száma',
+    'settings.systemLog.local.compactDesc': 'Az állomásnév és a facility elhagyása minden sorból',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'A küldő által hozzáadott időbélyegek eltávolítása; a syslog sajátot ad hozzá',
+    'settings.systemLog.local.description':
+      'Az aktuális naplók RAM-ban, a {{path}} útvonalon maradnak, hogy elkerülje az SD-kártya írását',
+    'settings.systemLog.kernel.enabled': 'Kernelnapló továbbítása'
   },
   id: {
     'auth.illegalPassword':
@@ -1695,8 +1861,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Gunakan server publik bawaan, router lokal Anda, atau server NTP kustom',
     'settings.systemLog.remote.protocol': 'Syslog UDP digunakan oleh BusyBox syslogd saat ini',
-    'settings.systemLog.local.description':
-      'Log saat ini disimpan di RAM pada {{path}} untuk menghindari penulisan ke kartu SD',
     'settings.systemLog.viewer.truncated': 'Hanya data log terbaru yang ditampilkan',
     'settings.update.system.rawEnableDesc':
       'Izinkan image raw boot/rootfs terverifikasi ditulis ke kartu SD dari layar ini',
@@ -1742,7 +1906,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Akses admin masuk akan dibatasi ke rentang private IPv4, IPv4 link-local/loopback, IPv6 link-local, atau IPv6 loopback untuk HTTPS dan SSH. Rentang sumber publik tidak diizinkan. DNS, NTP, syslog jarak jauh, pembaruan online, DHCP, koneksi yang sudah terbentuk, dan lalu lintas kontrol IPv6 penting keluar tetap tersedia. WebRTC/ICE UDP dan lalu lintas masuk/keluar lainnya akan diblokir.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Hanya akses HTTPS dari rentang private IPv4, IPv4 link-local/loopback, IPv6 link-local, atau IPv6 loopback yang tetap tersedia. SSH, HTTP, mDNS, NTP, unduhan GitHub, dan lalu lintas lain diblokir kecuali DHCP/kontrol IPv6 minimal.'
+      'Hanya akses HTTPS dari rentang private IPv4, IPv4 link-local/loopback, IPv6 link-local, atau IPv6 loopback yang tetap tersedia. SSH, HTTP, mDNS, NTP, unduhan GitHub, dan lalu lintas lain diblokir kecuali DHCP/kontrol IPv6 minimal.',
+    'settings.system.sections.systemLog': 'Pencatatan log',
+    'settings.systemLog.remote.title': 'Pencatatan log jarak jauh',
+    'settings.systemLog.remote.forward': 'Teruskan log sistem',
+    'settings.systemLog.remote.description': 'Teruskan pesan sistem ke server jarak jauh',
+    'settings.systemLog.kernel.title': 'Pencatatan Log Kernel',
+    'settings.systemLog.local.title': 'Buffer Log Sistem',
+    'settings.systemLog.remote.hostDesc': 'Nama host atau alamat IPv4 server syslog',
+    'settings.systemLog.kernel.enabledDesc': 'Tangkap pesan kernel ke dalam log sistem',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Tingkat urgensi minimum agar pesan kernel dicetak ke konsol',
+    'settings.systemLog.local.priorityDesc': 'Tingkat urgensi minimum agar pesan dicatat',
+    'settings.systemLog.local.bufferDesc': 'Ukuran log saat file dirotasi',
+    'settings.systemLog.local.rotationsDesc': 'Jumlah file log hasil rotasi yang disimpan',
+    'settings.systemLog.local.compactDesc': 'Hilangkan nama host dan facility dari setiap baris',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Hapus stempel waktu dari pengirim; syslog menambahkan miliknya sendiri',
+    'settings.systemLog.local.description':
+      'Log saat ini disimpan di RAM pada {{path}} untuk menghindari penulisan ke kartu SD',
+    'settings.systemLog.kernel.enabled': 'Teruskan log kernel'
   },
   it: {
     'auth.illegalPassword':
@@ -1870,8 +2053,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Usa i server pubblici predefiniti, il router locale o server NTP personalizzati',
     'settings.systemLog.remote.protocol': 'Il syslog UDP è usato dall’attuale BusyBox syslogd',
-    'settings.systemLog.local.description':
-      'I log correnti sono mantenuti in RAM in {{path}} per evitare scritture sulla scheda SD',
     'settings.systemLog.viewer.truncated': 'Sono mostrati solo i dati di log più recenti',
     'settings.update.system.rawEnableDesc':
       'Consente di scrivere immagini raw boot/rootfs verificate sulla scheda SD da questa schermata',
@@ -1914,7 +2095,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'L’accesso amministrativo in ingresso sarà limitato agli intervalli private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback per HTTPS e SSH. Gli intervalli pubblici non sono consentiti. DNS, NTP, syslog remoto, aggiornamenti online, DHCP, connessioni stabilite e traffico essenziale IPv6 in uscita resteranno disponibili. WebRTC/ICE UDP e altro traffico in ingresso/uscita saranno bloccati.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Resterà disponibile solo l’accesso HTTPS da intervalli private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, download da GitHub e altro traffico saranno bloccati salvo il minimo DHCP/controllo IPv6.'
+      'Resterà disponibile solo l’accesso HTTPS da intervalli private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, download da GitHub e altro traffico saranno bloccati salvo il minimo DHCP/controllo IPv6.',
+    'settings.system.sections.systemLog': 'Logging',
+    'settings.systemLog.remote.title': 'Logging remoto',
+    'settings.systemLog.remote.forward': 'Inoltra il log di sistema',
+    'settings.systemLog.remote.description': 'Inoltra i messaggi di sistema a un server remoto',
+    'settings.systemLog.kernel.title': 'Logging del kernel',
+    'settings.systemLog.local.title': 'Buffer del log di sistema',
+    'settings.systemLog.remote.hostDesc': 'Nome host o indirizzo IPv4 del server syslog',
+    'settings.systemLog.kernel.enabledDesc': 'Acquisisci i messaggi del kernel nel log di sistema',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Urgenza minima perché un messaggio del kernel venga stampato sulla console',
+    'settings.systemLog.local.priorityDesc': 'Urgenza minima perché un messaggio venga registrato',
+    'settings.systemLog.local.bufferDesc': 'Dimensione del log alla quale il file viene ruotato',
+    'settings.systemLog.local.rotationsDesc': 'Numero di file di log ruotati da conservare',
+    'settings.systemLog.local.compactDesc': 'Ometti nome host e facility da ogni riga',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Rimuovi i timestamp aggiunti dal mittente; syslog aggiunge i propri',
+    'settings.systemLog.local.description':
+      'I log correnti sono mantenuti in RAM in {{path}} per evitare scritture sulla scheda SD',
+    'settings.systemLog.kernel.enabled': 'Inoltra il log del kernel'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -2024,8 +2224,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       '既定の公開サーバー、ローカルルーター、またはカスタム NTP サーバーを使用します',
     'settings.systemLog.remote.protocol': '現在の BusyBox syslogd は UDP syslog を使用します',
-    'settings.systemLog.local.description':
-      'SD カードへの書き込みを避けるため、現在のログは {{path}} の RAM に保持されます',
     'settings.systemLog.viewer.truncated': '最新のログデータのみ表示されます',
     'settings.update.system.rawEnableDesc':
       '検証済み raw boot/rootfs イメージをこの画面から SD カードに書き込めるようにします',
@@ -2066,7 +2264,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'HTTPS と SSH の受信管理アクセスは private IPv4、IPv4 link-local/loopback、IPv6 link-local、IPv6 loopback の送信元範囲に制限されます。公開送信元範囲は許可されません。外向き DNS、NTP、リモート syslog、オンライン更新、DHCP、確立済み接続、必須 IPv6 制御通信は利用可能なままです。WebRTC/ICE UDP とその他の受信/送信通信はブロックされます。',
     'settings.system.firewall.paranoid.confirmDesc':
-      'private IPv4、IPv4 link-local/loopback、IPv6 link-local、IPv6 loopback の送信元範囲からの HTTPS アクセスのみが残ります。SSH、HTTP、mDNS、NTP、GitHub ダウンロード、その他の通信は最小限の DHCP/IPv6 制御通信を除きブロックされます。'
+      'private IPv4、IPv4 link-local/loopback、IPv6 link-local、IPv6 loopback の送信元範囲からの HTTPS アクセスのみが残ります。SSH、HTTP、mDNS、NTP、GitHub ダウンロード、その他の通信は最小限の DHCP/IPv6 制御通信を除きブロックされます。',
+    'settings.system.sections.systemLog': 'ログ記録',
+    'settings.systemLog.remote.title': 'リモートログ記録',
+    'settings.systemLog.remote.forward': 'システムログを転送',
+    'settings.systemLog.remote.description': 'システムメッセージをリモートサーバーへ転送します',
+    'settings.systemLog.kernel.title': 'カーネルログ記録',
+    'settings.systemLog.local.title': 'システムログバッファ',
+    'settings.systemLog.remote.hostDesc': 'syslog サーバーのホスト名または IPv4 アドレス',
+    'settings.systemLog.kernel.enabledDesc': 'カーネルメッセージをシステムログに記録します',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'カーネルメッセージをコンソールに出力する最小の緊急度',
+    'settings.systemLog.local.priorityDesc': 'メッセージを記録する最小の緊急度',
+    'settings.systemLog.local.bufferDesc': 'ファイルをローテーションするログサイズ',
+    'settings.systemLog.local.rotationsDesc': '保持するローテーション済みログファイルの数',
+    'settings.systemLog.local.compactDesc': '各行からホスト名とファシリティを省略します',
+    'settings.systemLog.local.stripTimestampsDesc':
+      '送信側が付けたタイムスタンプを削除します。syslog が独自のものを付けます',
+    'settings.systemLog.local.description':
+      'SD カードへの書き込みを避けるため、現在のログは {{path}} の RAM に保持されます',
+    'settings.systemLog.kernel.enabled': 'カーネルログを転送'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -2169,8 +2386,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       '기본 공용 서버, 로컬 라우터 또는 사용자 지정 NTP 서버를 사용합니다',
     'settings.systemLog.remote.protocol': '현재 BusyBox syslogd는 UDP syslog를 사용합니다',
-    'settings.systemLog.local.description':
-      'SD 카드 쓰기를 피하기 위해 현재 로그는 {{path}}의 RAM에 보관됩니다',
     'settings.systemLog.viewer.truncated': '최신 로그 데이터만 표시됩니다',
     'settings.update.system.rawEnableDesc':
       '이 화면에서 검증된 raw boot/rootfs 이미지를 SD 카드에 쓸 수 있도록 허용합니다',
@@ -2221,7 +2436,25 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'HTTPS와 SSH의 수신 관리자 접근은 private IPv4, IPv4 link-local/loopback, IPv6 link-local 또는 IPv6 loopback 원본 범위로 제한됩니다. 공용 원본 범위는 허용되지 않습니다. 송신 DNS, NTP, 원격 syslog, 온라인 업데이트, DHCP, 기존 연결, 필수 IPv6 제어 트래픽은 계속 사용할 수 있습니다. WebRTC/ICE UDP 및 기타 수신/송신 트래픽은 차단됩니다.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'private IPv4, IPv4 link-local/loopback, IPv6 link-local 또는 IPv6 loopback 원본 범위의 HTTPS 접근만 남습니다. SSH, HTTP, mDNS, NTP, GitHub 다운로드 및 기타 트래픽은 최소 DHCP/IPv6 제어 트래픽을 제외하고 차단됩니다.'
+      'private IPv4, IPv4 link-local/loopback, IPv6 link-local 또는 IPv6 loopback 원본 범위의 HTTPS 접근만 남습니다. SSH, HTTP, mDNS, NTP, GitHub 다운로드 및 기타 트래픽은 최소 DHCP/IPv6 제어 트래픽을 제외하고 차단됩니다.',
+    'settings.system.sections.systemLog': '로깅',
+    'settings.systemLog.remote.title': '원격 로깅',
+    'settings.systemLog.remote.forward': '시스템 로그 전달',
+    'settings.systemLog.remote.description': '시스템 메시지를 원격 서버로 전달합니다',
+    'settings.systemLog.kernel.title': '커널 로깅',
+    'settings.systemLog.local.title': '시스템 로그 버퍼',
+    'settings.systemLog.remote.hostDesc': 'syslog 서버의 호스트 이름 또는 IPv4 주소',
+    'settings.systemLog.kernel.enabledDesc': '커널 메시지를 시스템 로그에 기록합니다',
+    'settings.systemLog.kernel.consoleLevelDesc': '커널 메시지를 콘솔에 출력하기 위한 최소 긴급도',
+    'settings.systemLog.local.priorityDesc': '메시지를 기록하기 위한 최소 긴급도',
+    'settings.systemLog.local.bufferDesc': '파일을 순환(로테이션)시키는 로그 크기',
+    'settings.systemLog.local.rotationsDesc': '보관할 순환된 로그 파일 수',
+    'settings.systemLog.local.compactDesc': '각 줄에서 호스트 이름과 facility를 생략합니다',
+    'settings.systemLog.local.stripTimestampsDesc':
+      '발신자가 추가한 타임스탬프를 제거합니다. syslog가 자체 타임스탬프를 추가합니다',
+    'settings.systemLog.local.description':
+      'SD 카드 쓰기를 피하기 위해 현재 로그는 {{path}}의 RAM에 보관됩니다',
+    'settings.systemLog.kernel.enabled': '커널 로그 전달'
   },
   nb: {
     'auth.illegalPassword':
@@ -2345,8 +2578,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Bruk standard offentlige servere, din lokale ruter eller egne NTP-servere',
     'settings.systemLog.remote.protocol': 'UDP-syslog brukes av gjeldende BusyBox syslogd',
-    'settings.systemLog.local.description':
-      'Gjeldende logger holdes i RAM på {{path}} for å unngå skriving til SD-kortet',
     'settings.systemLog.viewer.truncated': 'Bare de nyeste loggdataene vises',
     'settings.update.system.rawEnableDesc':
       'Tillat at verifiserte raw boot/rootfs-images skrives til SD-kortet fra denne skjermen',
@@ -2387,7 +2618,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Innkommende administratortilgang begrenses til private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- eller IPv6 loopback-kilder for HTTPS og SSH. Offentlige kildeområder er ikke tillatt. Utgående DNS, NTP, ekstern syslog, onlineoppdateringer, DHCP, etablerte forbindelser og nødvendig IPv6-kontrolltrafikk forblir tilgjengelig. WebRTC/ICE UDP og annen inn-/utgående trafikk blokkeres.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Bare HTTPS-tilgang fra private IPv4, IPv4 link-local/loopback, IPv6 link-local eller IPv6 loopback forblir tilgjengelig. SSH, HTTP, mDNS, NTP, GitHub-nedlastinger og annen trafikk blokkeres bortsett fra minimal DHCP/IPv6-kontroll.'
+      'Bare HTTPS-tilgang fra private IPv4, IPv4 link-local/loopback, IPv6 link-local eller IPv6 loopback forblir tilgjengelig. SSH, HTTP, mDNS, NTP, GitHub-nedlastinger og annen trafikk blokkeres bortsett fra minimal DHCP/IPv6-kontroll.',
+    'settings.system.sections.systemLog': 'Logging',
+    'settings.systemLog.remote.title': 'Ekstern logging',
+    'settings.systemLog.remote.forward': 'Videresend systemlogg',
+    'settings.systemLog.remote.description': 'Videresend systemmeldinger til en ekstern server',
+    'settings.systemLog.kernel.title': 'Kjernelogging',
+    'settings.systemLog.local.title': 'Systemloggbuffer',
+    'settings.systemLog.remote.hostDesc': 'Vertsnavn eller IPv4-adresse til syslog-serveren',
+    'settings.systemLog.kernel.enabledDesc': 'Fang opp kjernemeldinger i systemloggen',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Minste hastegrad for at en kjernemelding skrives ut på konsollen',
+    'settings.systemLog.local.priorityDesc': 'Minste hastegrad for at en melding logges',
+    'settings.systemLog.local.bufferDesc': 'Loggstørrelse der filen roteres',
+    'settings.systemLog.local.rotationsDesc': 'Antall roterte loggfiler som beholdes',
+    'settings.systemLog.local.compactDesc': 'Utelat vertsnavn og facility fra hver linje',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Fjern tidsstempler lagt til av avsenderen; syslog legger til sine egne',
+    'settings.systemLog.local.description':
+      'Gjeldende logger holdes i RAM på {{path}} for å unngå skriving til SD-kortet',
+    'settings.systemLog.kernel.enabled': 'Videresend kjernelogg'
   },
   nl: {
     'auth.illegalPassword':
@@ -2502,8 +2752,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Gebruik de standaard openbare servers, je lokale router of eigen NTP-servers',
     'settings.systemLog.remote.protocol':
       'UDP-syslog wordt gebruikt door de huidige BusyBox syslogd',
-    'settings.systemLog.local.description':
-      'Huidige logs worden in RAM bewaard op {{path}} om schrijven naar de SD-kaart te vermijden',
     'settings.systemLog.viewer.truncated': 'Alleen de nieuwste loggegevens worden getoond',
     'settings.update.system.rawEnableDesc':
       'Sta toe dat geverifieerde raw boot/rootfs-images vanaf dit scherm naar de SD-kaart worden geschreven',
@@ -2564,7 +2812,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Inkomende beheerstoegang wordt voor HTTPS en SSH beperkt tot private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- of IPv6 loopback-bronbereiken. Openbare bronbereiken zijn niet toegestaan. Uitgaande DNS, NTP, externe syslog, online-updates, DHCP, bestaande verbindingen en essentieel IPv6-besturingsverkeer blijven beschikbaar. WebRTC/ICE UDP en ander inkomend/uitgaand verkeer worden geblokkeerd.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Alleen HTTPS-toegang vanuit private IPv4, IPv4 link-local/loopback, IPv6 link-local of IPv6 loopback-bronbereiken blijft beschikbaar. SSH, HTTP, mDNS, NTP, GitHub-downloads en ander verkeer worden geblokkeerd behalve minimaal DHCP/IPv6-controleverkeer.'
+      'Alleen HTTPS-toegang vanuit private IPv4, IPv4 link-local/loopback, IPv6 link-local of IPv6 loopback-bronbereiken blijft beschikbaar. SSH, HTTP, mDNS, NTP, GitHub-downloads en ander verkeer worden geblokkeerd behalve minimaal DHCP/IPv6-controleverkeer.',
+    'settings.system.sections.systemLog': 'Logging',
+    'settings.systemLog.remote.title': 'Remote logging',
+    'settings.systemLog.remote.forward': 'Systeemlog doorsturen',
+    'settings.systemLog.remote.description': 'Systeemberichten doorsturen naar een externe server',
+    'settings.systemLog.kernel.title': 'Kernel-logging',
+    'settings.systemLog.local.title': 'Systeemlogbuffer',
+    'settings.systemLog.remote.hostDesc': 'Hostnaam of IPv4-adres van de syslog-server',
+    'settings.systemLog.kernel.enabledDesc': 'Kernelberichten vastleggen in de systeemlog',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Minimale urgentie om een kernelbericht op de console af te drukken',
+    'settings.systemLog.local.priorityDesc': 'Minimale urgentie om een bericht te loggen',
+    'settings.systemLog.local.bufferDesc': 'Loggrootte waarbij het bestand wordt geroteerd',
+    'settings.systemLog.local.rotationsDesc': 'Aantal geroteerde logbestanden dat wordt bewaard',
+    'settings.systemLog.local.compactDesc': 'Hostnaam en facility weglaten uit elke regel',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Door de afzender toegevoegde tijdstempels verwijderen; syslog voegt zijn eigen toe',
+    'settings.systemLog.local.description':
+      'Huidige logs worden in RAM bewaard op {{path}} om schrijven naar de SD-kaart te vermijden',
+    'settings.systemLog.kernel.enabled': 'Kernellog doorsturen'
   },
   pl: {
     'auth.illegalPassword':
@@ -2680,8 +2947,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Użyj domyślnych serwerów publicznych, lokalnego routera lub własnych serwerów NTP',
     'settings.systemLog.remote.protocol': 'Bieżący BusyBox syslogd używa syslog przez UDP',
-    'settings.systemLog.local.description':
-      'Aktualne logi są przechowywane w RAM w {{path}}, aby unikać zapisów na kartę SD',
     'settings.systemLog.viewer.truncated': 'Wyświetlane są tylko najnowsze dane logu',
     'settings.update.system.rawEnableDesc':
       'Pozwól zapisywać zweryfikowane obrazy raw boot/rootfs na kartę SD z tego ekranu',
@@ -2735,7 +3000,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Dostęp administracyjny przychodzący zostanie ograniczony do źródeł private IPv4, IPv4 link-local/loopback, IPv6 link-local lub IPv6 loopback dla HTTPS i SSH. Publiczne zakresy źródłowe nie są dozwolone. Wychodzące DNS, NTP, zdalny syslog, aktualizacje online, DHCP, istniejące połączenia i niezbędny ruch sterujący IPv6 pozostaną dostępne. WebRTC/ICE UDP oraz pozostały ruch przychodzący i wychodzący zostaną zablokowane.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Dostępny pozostanie tylko HTTPS ze źródeł private IPv4, IPv4 link-local/loopback, IPv6 link-local lub IPv6 loopback. Publiczne zakresy źródłowe nie są dozwolone. SSH, HTTP, mDNS, NTP, pobieranie z GitHub i pozostały ruch przychodzący/wychodzący zostaną zablokowane z wyjątkiem minimalnego DHCP/ruchu sterującego IPv6.'
+      'Dostępny pozostanie tylko HTTPS ze źródeł private IPv4, IPv4 link-local/loopback, IPv6 link-local lub IPv6 loopback. Publiczne zakresy źródłowe nie są dozwolone. SSH, HTTP, mDNS, NTP, pobieranie z GitHub i pozostały ruch przychodzący/wychodzący zostaną zablokowane z wyjątkiem minimalnego DHCP/ruchu sterującego IPv6.',
+    'settings.system.sections.systemLog': 'Logowanie',
+    'settings.systemLog.remote.title': 'Zdalne logowanie',
+    'settings.systemLog.remote.forward': 'Przekazuj dziennik systemowy',
+    'settings.systemLog.remote.description': 'Przekazuj komunikaty systemowe do zdalnego serwera',
+    'settings.systemLog.kernel.title': 'Logowanie kernela',
+    'settings.systemLog.local.title': 'Bufor dziennika systemowego',
+    'settings.systemLog.remote.hostDesc': 'Nazwa hosta lub adres IPv4 serwera syslog',
+    'settings.systemLog.kernel.enabledDesc': 'Zapisuj komunikaty kernela w dzienniku systemowym',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Minimalna pilność komunikatu kernela do wypisania na konsoli',
+    'settings.systemLog.local.priorityDesc': 'Minimalna pilność komunikatu do zapisania',
+    'settings.systemLog.local.bufferDesc': 'Rozmiar dziennika, przy którym plik jest rotowany',
+    'settings.systemLog.local.rotationsDesc': 'Liczba przechowywanych rotowanych plików dziennika',
+    'settings.systemLog.local.compactDesc': 'Pomiń nazwę hosta i facility w każdym wierszu',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Usuń znaczniki czasu dodane przez nadawcę; syslog dodaje własne',
+    'settings.systemLog.local.description':
+      'Aktualne logi są przechowywane w RAM w {{path}}, aby unikać zapisów na kartę SD',
+    'settings.systemLog.kernel.enabled': 'Przekazuj log kernela'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -2840,8 +3124,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Use os servidores públicos padrão, seu roteador local ou servidores NTP personalizados',
     'settings.systemLog.remote.protocol': 'O syslog UDP é usado pelo BusyBox syslogd atual',
-    'settings.systemLog.local.description':
-      'Os logs atuais ficam em RAM em {{path}} para evitar gravações no cartão SD',
     'settings.systemLog.viewer.truncated': 'Apenas os dados de log mais recentes são exibidos',
     'settings.update.system.rawEnableDesc':
       'Permite gravar imagens raw boot/rootfs verificadas no cartão SD a partir desta tela',
@@ -2874,7 +3156,28 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'O acesso administrativo de entrada será limitado a faixas private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback para HTTPS e SSH. Faixas públicas de origem não são permitidas. DNS, NTP, syslog remoto, atualizações online, DHCP, conexões estabelecidas e tráfego essencial IPv6 de saída permanecerão disponíveis. WebRTC/ICE UDP e demais tráfegos de entrada/saída serão bloqueados.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Apenas acesso HTTPS de faixas private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback permanecerá disponível. SSH, HTTP, mDNS, NTP, downloads do GitHub e outro tráfego serão bloqueados exceto DHCP/controle IPv6 mínimo.'
+      'Apenas acesso HTTPS de faixas private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback permanecerá disponível. SSH, HTTP, mDNS, NTP, downloads do GitHub e outro tráfego serão bloqueados exceto DHCP/controle IPv6 mínimo.',
+    'settings.system.sections.systemLog': 'Registros',
+    'settings.systemLog.remote.title': 'Registro remoto',
+    'settings.systemLog.remote.forward': 'Encaminhar log do sistema',
+    'settings.systemLog.remote.description':
+      'Encaminha as mensagens do sistema para um servidor remoto',
+    'settings.systemLog.kernel.title': 'Registro do kernel',
+    'settings.systemLog.local.title': 'Buffer do log do sistema',
+    'settings.systemLog.remote.hostDesc': 'Nome do host ou endereço IPv4 do servidor syslog',
+    'settings.systemLog.kernel.enabledDesc': 'Captura as mensagens do kernel no log do sistema',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Urgência mínima para uma mensagem do kernel ser impressa no console',
+    'settings.systemLog.local.priorityDesc': 'Urgência mínima para uma mensagem ser registrada',
+    'settings.systemLog.local.bufferDesc': 'Tamanho do log em que o arquivo é rotacionado',
+    'settings.systemLog.local.rotationsDesc':
+      'Número de arquivos de log rotacionados que são mantidos',
+    'settings.systemLog.local.compactDesc': 'Omite o nome do host e a facility de cada linha',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Remove os carimbos de data e hora adicionados pelo remetente; o syslog adiciona os seus',
+    'settings.systemLog.local.description':
+      'Os logs atuais ficam em RAM em {{path}} para evitar gravações no cartão SD',
+    'settings.systemLog.kernel.enabled': 'Encaminhar log do kernel'
   },
   ru: {
     'download.disabled':
@@ -2962,8 +3265,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Используйте публичные серверы по умолчанию, локальный маршрутизатор или собственные NTP-серверы',
     'settings.systemLog.remote.protocol': 'Текущий BusyBox syslogd использует UDP syslog',
-    'settings.systemLog.local.description':
-      'Текущие логи хранятся в RAM по пути {{path}}, без записи на SD-карту',
     'settings.systemLog.viewer.truncated': 'Показана только последняя часть лога',
     'settings.update.system.appUpdateRequired':
       'Перед установкой этого системного обновления обновите приложение до версии {{version}}',
@@ -3018,7 +3319,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Входящий административный доступ будет ограничен private IPv4, IPv4 link-local/loopback, IPv6 link-local или IPv6 loopback source ranges для HTTPS и SSH. Публичные source ranges не разрешаются. Исходящие DNS, NTP, удаленный syslog, онлайн-обновления, DHCP, established-соединения и минимальный IPv6 control traffic останутся доступны. WebRTC/ICE UDP и прочий входящий/исходящий трафик будут заблокированы.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Останется доступ только по HTTPS из private IPv4, IPv4 link-local/loopback, IPv6 link-local или IPv6 loopback source ranges. Публичные source ranges не разрешаются. SSH, HTTP, mDNS, NTP, загрузки с GitHub и прочий входящий/исходящий трафик будут заблокированы, кроме минимального DHCP/IPv6 control traffic.'
+      'Останется доступ только по HTTPS из private IPv4, IPv4 link-local/loopback, IPv6 link-local или IPv6 loopback source ranges. Публичные source ranges не разрешаются. SSH, HTTP, mDNS, NTP, загрузки с GitHub и прочий входящий/исходящий трафик будут заблокированы, кроме минимального DHCP/IPv6 control traffic.',
+    'settings.system.sections.systemLog': 'Журналирование',
+    'settings.systemLog.remote.title': 'Удаленное журналирование',
+    'settings.systemLog.remote.forward': 'Отправлять системный лог',
+    'settings.systemLog.remote.description': 'Отправка системных сообщений на удаленный сервер',
+    'settings.systemLog.kernel.title': 'Журналирование ядра',
+    'settings.systemLog.local.title': 'Буфер системного лога',
+    'settings.systemLog.remote.hostDesc': 'Имя хоста или адрес IPv4 syslog-сервера',
+    'settings.systemLog.kernel.enabledDesc': 'Записывать сообщения ядра в системный лог',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Минимальная срочность сообщения ядра для вывода в консоль',
+    'settings.systemLog.local.priorityDesc': 'Минимальная срочность сообщения для записи в лог',
+    'settings.systemLog.local.bufferDesc': 'Размер лога, при котором файл ротируется',
+    'settings.systemLog.local.rotationsDesc': 'Количество хранимых ротированных файлов лога',
+    'settings.systemLog.local.compactDesc': 'Не включать в каждую строку имя хоста и facility',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Удалять метки времени, добавленные отправителем; syslog добавляет свои',
+    'settings.systemLog.local.description':
+      'Текущие логи хранятся в RAM по пути {{path}}, без записи на SD-карту',
+    'settings.systemLog.kernel.enabled': 'Отправлять лог ядра'
   },
   se: {
     'auth.illegalPassword':
@@ -3124,8 +3444,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Använd standardservrarna, din lokala router eller egna NTP-servrar',
     'settings.systemLog.remote.protocol': 'UDP-syslog används av aktuell BusyBox syslogd',
-    'settings.systemLog.local.description':
-      'Aktuella loggar hålls i RAM på {{path}} för att undvika skrivningar till SD-kortet',
     'settings.systemLog.viewer.truncated': 'Endast de senaste loggdata visas',
     'settings.update.system.rawEnableDesc':
       'Tillåt att verifierade raw boot/rootfs-images skrivs till SD-kortet från denna skärm',
@@ -3158,7 +3476,27 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Inkommande administratörsåtkomst begränsas till private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- eller IPv6 loopback-källor för HTTPS och SSH. Offentliga källintervall tillåts inte. Utgående DNS, NTP, fjärr-syslog, onlineuppdateringar, DHCP, etablerade anslutningar och nödvändig IPv6-kontrolltrafik förblir tillgängliga. WebRTC/ICE UDP och annan in-/utgående trafik blockeras.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Endast HTTPS-åtkomst från private IPv4, IPv4 link-local/loopback, IPv6 link-local eller IPv6 loopback är tillgänglig. SSH, HTTP, mDNS, NTP, GitHub-nedladdningar och annan trafik blockeras utom minimal DHCP/IPv6-kontroll.'
+      'Endast HTTPS-åtkomst från private IPv4, IPv4 link-local/loopback, IPv6 link-local eller IPv6 loopback är tillgänglig. SSH, HTTP, mDNS, NTP, GitHub-nedladdningar och annan trafik blockeras utom minimal DHCP/IPv6-kontroll.',
+    'settings.system.sections.systemLog': 'Loggning',
+    'settings.systemLog.remote.title': 'Fjärrloggning',
+    'settings.systemLog.remote.forward': 'Vidarebefordra systemlogg',
+    'settings.systemLog.remote.description': 'Vidarebefordra systemmeddelanden till en fjärrserver',
+    'settings.systemLog.kernel.title': 'Kärnloggning',
+    'settings.systemLog.local.title': 'Systemloggbuffert',
+    'settings.systemLog.remote.hostDesc': 'Värdnamn eller IPv4-adress till syslog-servern',
+    'settings.systemLog.kernel.enabledDesc': 'Fånga kärnmeddelanden i systemloggen',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Lägsta brådskandegrad för att ett kärnmeddelande ska skrivas ut på konsolen',
+    'settings.systemLog.local.priorityDesc':
+      'Lägsta brådskandegrad för att ett meddelande ska loggas',
+    'settings.systemLog.local.bufferDesc': 'Loggstorlek där filen roteras',
+    'settings.systemLog.local.rotationsDesc': 'Antal roterade loggfiler som sparas',
+    'settings.systemLog.local.compactDesc': 'Utelämna värdnamn och facility från varje rad',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Ta bort tidsstämplar som lagts till av avsändaren; syslog lägger till sina egna',
+    'settings.systemLog.local.description':
+      'Aktuella loggar hålls i RAM på {{path}} för att undvika skrivningar till SD-kortet',
+    'settings.systemLog.kernel.enabled': 'Vidarebefordra kärnlogg'
   },
   th: {
     'auth.illegalPassword':
@@ -3269,7 +3607,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'การเข้าถึงผู้ดูแลขาเข้าจะถูกจำกัดไว้ที่ช่วง private IPv4, IPv4 link-local/loopback, IPv6 link-local หรือ IPv6 loopback สำหรับ HTTPS และ SSH ไม่อนุญาตช่วงต้นทางสาธารณะ DNS, NTP, syslog ระยะไกล, อัปเดตออนไลน์, DHCP, การเชื่อมต่อที่สร้างแล้ว และทราฟฟิกควบคุม IPv6 ที่จำเป็นขาออกจะยังใช้งานได้ WebRTC/ICE UDP และทราฟฟิกขาเข้า/ขาออกอื่นจะถูกบล็อก',
     'settings.system.firewall.paranoid.confirmDesc':
-      'จะเหลือเฉพาะการเข้าถึง HTTPS จากช่วง private IPv4, IPv4 link-local/loopback, IPv6 link-local หรือ IPv6 loopback เท่านั้น SSH, HTTP, mDNS, NTP, การดาวน์โหลด GitHub และทราฟฟิกอื่นจะถูกบล็อก ยกเว้น DHCP/การควบคุม IPv6 ขั้นต่ำ'
+      'จะเหลือเฉพาะการเข้าถึง HTTPS จากช่วง private IPv4, IPv4 link-local/loopback, IPv6 link-local หรือ IPv6 loopback เท่านั้น SSH, HTTP, mDNS, NTP, การดาวน์โหลด GitHub และทราฟฟิกอื่นจะถูกบล็อก ยกเว้น DHCP/การควบคุม IPv6 ขั้นต่ำ',
+    'settings.system.sections.systemLog': 'การบันทึกล็อก',
+    'settings.systemLog.remote.title': 'การบันทึกล็อกระยะไกล',
+    'settings.systemLog.remote.forward': 'ส่งต่อบันทึกระบบ',
+    'settings.systemLog.remote.description': 'ส่งต่อข้อความระบบไปยังเซิร์ฟเวอร์ระยะไกล',
+    'settings.systemLog.kernel.title': 'การบันทึกล็อก Kernel',
+    'settings.systemLog.local.title': 'บัฟเฟอร์บันทึกระบบ',
+    'settings.systemLog.remote.hostDesc': 'ชื่อโฮสต์หรือที่อยู่ IPv4 ของเซิร์ฟเวอร์ syslog',
+    'settings.systemLog.kernel.enabledDesc': 'เก็บข้อความ kernel ไว้ในบันทึกระบบ',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'ระดับความเร่งด่วนขั้นต่ำของข้อความ kernel ที่จะแสดงบนคอนโซล',
+    'settings.systemLog.local.priorityDesc': 'ระดับความเร่งด่วนขั้นต่ำของข้อความที่จะถูกบันทึก',
+    'settings.systemLog.local.bufferDesc': 'ขนาดบันทึกที่จะหมุนเวียนไฟล์',
+    'settings.systemLog.local.rotationsDesc': 'จำนวนไฟล์บันทึกที่หมุนเวียนแล้วซึ่งเก็บไว้',
+    'settings.systemLog.local.compactDesc': 'ตัดชื่อโฮสต์และ facility ออกจากแต่ละบรรทัด',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'ลบการประทับเวลาที่ผู้ส่งเพิ่มเข้ามา โดย syslog จะเพิ่มของตัวเอง',
+    'settings.systemLog.local.description':
+      'บันทึกปัจจุบันถูกเก็บไว้ใน RAM ที่ {{path}} เพื่อหลีกเลี่ยงการเขียนลงการ์ด SD',
+    'settings.systemLog.kernel.enabled': 'ส่งต่อบันทึก kernel'
   },
   tr: {
     'auth.illegalPassword':
@@ -3383,8 +3740,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Varsayılan genel sunucuları, yerel yönlendiricinizi veya özel NTP sunucularını kullanın',
     'settings.systemLog.remote.protocol': 'Geçerli BusyBox syslogd UDP syslog kullanır',
-    'settings.systemLog.local.description':
-      'SD karta yazmayı önlemek için geçerli günlükler RAM’de {{path}} konumunda tutulur',
     'settings.systemLog.viewer.truncated': 'Yalnızca en son günlük verileri gösterilir',
     'settings.update.system.rawEnableDesc':
       'Doğrulanmış raw boot/rootfs imajlarının bu ekrandan SD karta yazılmasına izin verir',
@@ -3427,7 +3782,28 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Gelen yönetim erişimi HTTPS ve SSH için private IPv4, IPv4 link-local/loopback, IPv6 link-local veya IPv6 loopback kaynak aralıklarıyla sınırlanır. Genel kaynak aralıklarına izin verilmez. Giden DNS, NTP, uzak syslog, çevrimiçi güncellemeler, DHCP, kurulmuş bağlantılar ve gerekli IPv6 kontrol trafiği kullanılabilir kalır. WebRTC/ICE UDP ve diğer gelen/giden trafik engellenir.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Yalnızca private IPv4, IPv4 link-local/loopback, IPv6 link-local veya IPv6 loopback kaynak aralıklarından HTTPS erişimi kullanılabilir kalır. SSH, HTTP, mDNS, NTP, GitHub indirmeleri ve diğer trafik minimal DHCP/IPv6 kontrolü dışında engellenir.'
+      'Yalnızca private IPv4, IPv4 link-local/loopback, IPv6 link-local veya IPv6 loopback kaynak aralıklarından HTTPS erişimi kullanılabilir kalır. SSH, HTTP, mDNS, NTP, GitHub indirmeleri ve diğer trafik minimal DHCP/IPv6 kontrolü dışında engellenir.',
+    'settings.system.sections.systemLog': 'Günlük kaydı',
+    'settings.systemLog.remote.title': 'Uzak günlük kaydı',
+    'settings.systemLog.remote.forward': 'Sistem günlüğünü ilet',
+    'settings.systemLog.remote.description': 'Sistem iletilerini uzak bir sunucuya ilet',
+    'settings.systemLog.kernel.title': 'Kernel günlük kaydı',
+    'settings.systemLog.local.title': 'Sistem günlüğü tamponu',
+    'settings.systemLog.remote.hostDesc': 'Syslog sunucusunun ana bilgisayar adı veya IPv4 adresi',
+    'settings.systemLog.kernel.enabledDesc': 'Kernel iletilerini sistem günlüğüne kaydet',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Bir kernel iletisinin konsola yazdırılması için en düşük aciliyet',
+    'settings.systemLog.local.priorityDesc':
+      'Bir iletinin günlüğe kaydedilmesi için en düşük aciliyet',
+    'settings.systemLog.local.bufferDesc': 'Dosyanın döndürüldüğü günlük boyutu',
+    'settings.systemLog.local.rotationsDesc': 'Saklanan döndürülmüş günlük dosyalarının sayısı',
+    'settings.systemLog.local.compactDesc':
+      'Her satırdan ana bilgisayar adını ve facility değerini çıkar',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Gönderenin eklediği zaman damgalarını kaldır; syslog kendisininkini ekler',
+    'settings.systemLog.local.description':
+      'SD karta yazmayı önlemek için geçerli günlükler RAM’de {{path}} konumunda tutulur',
+    'settings.systemLog.kernel.enabled': 'Kernel günlüğünü ilet'
   },
   uk: {
     'auth.illegalPassword':
@@ -3549,8 +3925,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Використовуйте публічні сервери за замовчуванням, локальний маршрутизатор або власні NTP-сервери',
     'settings.systemLog.remote.protocol': 'Поточний BusyBox syslogd використовує UDP syslog',
-    'settings.systemLog.local.description':
-      'Поточні журнали зберігаються в RAM за шляхом {{path}}, щоб уникати записів на SD-карту',
     'settings.systemLog.viewer.truncated': 'Показано лише найновіші дані журналу',
     'settings.update.system.rawEnableDesc':
       'Дозволяє записувати перевірені raw-образи boot/rootfs на SD-карту з цього екрана',
@@ -3588,7 +3962,27 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Вхідний адміністративний доступ буде обмежено джерелами private IPv4, IPv4 link-local/loopback, IPv6 link-local або IPv6 loopback для HTTPS і SSH. Публічні діапазони джерел не дозволені. Вихідні DNS, NTP, віддалений syslog, онлайн-оновлення, DHCP, встановлені з’єднання та необхідний керівний трафік IPv6 залишаться доступними. WebRTC/ICE UDP та інший вхідний/вихідний трафік буде заблоковано.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Доступним залишиться лише HTTPS із джерел private IPv4, IPv4 link-local/loopback, IPv6 link-local або IPv6 loopback. SSH, HTTP, mDNS, NTP, завантаження з GitHub та інший трафік буде заблоковано, крім мінімального DHCP/керування IPv6.'
+      'Доступним залишиться лише HTTPS із джерел private IPv4, IPv4 link-local/loopback, IPv6 link-local або IPv6 loopback. SSH, HTTP, mDNS, NTP, завантаження з GitHub та інший трафік буде заблоковано, крім мінімального DHCP/керування IPv6.',
+    'settings.system.sections.systemLog': 'Журналювання',
+    'settings.systemLog.remote.title': 'Віддалене журналювання',
+    'settings.systemLog.remote.forward': 'Пересилати системний журнал',
+    'settings.systemLog.remote.description':
+      'Пересилати системні повідомлення на віддалений сервер',
+    'settings.systemLog.kernel.title': 'Журналювання ядра',
+    'settings.systemLog.local.title': 'Буфер системного журналу',
+    'settings.systemLog.remote.hostDesc': "Ім'я хоста або адреса IPv4 сервера syslog",
+    'settings.systemLog.kernel.enabledDesc': 'Записувати повідомлення ядра в системний журнал',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Мінімальна терміновість повідомлення ядра для виводу на консоль',
+    'settings.systemLog.local.priorityDesc': 'Мінімальна терміновість повідомлення для запису',
+    'settings.systemLog.local.bufferDesc': 'Розмір журналу, за якого файл ротується',
+    'settings.systemLog.local.rotationsDesc': 'Кількість збережених ротованих файлів журналу',
+    'settings.systemLog.local.compactDesc': "Не включати в кожен рядок ім'я хоста та facility",
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Видаляти мітки часу, додані відправником; syslog додає власні',
+    'settings.systemLog.local.description':
+      'Поточні журнали зберігаються в RAM за шляхом {{path}}, щоб уникати записів на SD-карту',
+    'settings.systemLog.kernel.enabled': 'Пересилати журнал ядра'
   },
   vi: {
     'auth.illegalPassword':
@@ -3709,8 +4103,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.time.servers.description':
       'Dùng máy chủ công cộng mặc định, bộ định tuyến cục bộ hoặc máy chủ NTP tùy chỉnh',
     'settings.systemLog.remote.protocol': 'BusyBox syslogd hiện tại dùng UDP syslog',
-    'settings.systemLog.local.description':
-      'Nhật ký hiện tại được giữ trong RAM tại {{path}} để tránh ghi vào thẻ SD',
     'settings.systemLog.viewer.truncated': 'Chỉ hiển thị dữ liệu nhật ký mới nhất',
     'settings.update.system.rawEnableDesc':
       'Cho phép ghi image raw boot/rootfs đã xác minh vào thẻ SD từ màn hình này',
@@ -3752,7 +4144,26 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       'Truy cập quản trị đi vào sẽ bị giới hạn cho HTTPS và SSH ở các dải nguồn private IPv4, IPv4 link-local/loopback, IPv6 link-local hoặc IPv6 loopback. Không cho phép dải nguồn công khai. DNS, NTP, syslog từ xa, cập nhật online, DHCP, kết nối đã thiết lập và lưu lượng điều khiển IPv6 thiết yếu đi ra vẫn khả dụng. WebRTC/ICE UDP và lưu lượng đi vào/đi ra khác sẽ bị chặn.',
     'settings.system.firewall.paranoid.confirmDesc':
-      'Chỉ truy cập HTTPS từ các dải nguồn private IPv4, IPv4 link-local/loopback, IPv6 link-local hoặc IPv6 loopback còn khả dụng. SSH, HTTP, mDNS, NTP, tải xuống GitHub và lưu lượng khác sẽ bị chặn ngoại trừ DHCP/điều khiển IPv6 tối thiểu.'
+      'Chỉ truy cập HTTPS từ các dải nguồn private IPv4, IPv4 link-local/loopback, IPv6 link-local hoặc IPv6 loopback còn khả dụng. SSH, HTTP, mDNS, NTP, tải xuống GitHub và lưu lượng khác sẽ bị chặn ngoại trừ DHCP/điều khiển IPv6 tối thiểu.',
+    'settings.system.sections.systemLog': 'Ghi nhật ký',
+    'settings.systemLog.remote.title': 'Ghi nhật ký từ xa',
+    'settings.systemLog.remote.forward': 'Chuyển tiếp nhật ký hệ thống',
+    'settings.systemLog.remote.description': 'Chuyển tiếp thông báo hệ thống tới máy chủ từ xa',
+    'settings.systemLog.kernel.title': 'Ghi nhật ký kernel',
+    'settings.systemLog.local.title': 'Bộ đệm nhật ký hệ thống',
+    'settings.systemLog.remote.hostDesc': 'Tên máy chủ hoặc địa chỉ IPv4 của máy chủ syslog',
+    'settings.systemLog.kernel.enabledDesc': 'Ghi các thông báo kernel vào nhật ký hệ thống',
+    'settings.systemLog.kernel.consoleLevelDesc':
+      'Mức khẩn cấp tối thiểu để thông báo kernel được in ra bảng điều khiển',
+    'settings.systemLog.local.priorityDesc': 'Mức khẩn cấp tối thiểu để thông báo được ghi',
+    'settings.systemLog.local.bufferDesc': 'Kích thước nhật ký mà tại đó tệp được xoay vòng',
+    'settings.systemLog.local.rotationsDesc': 'Số tệp nhật ký đã xoay vòng được giữ lại',
+    'settings.systemLog.local.compactDesc': 'Bỏ tên máy chủ và facility khỏi mỗi dòng',
+    'settings.systemLog.local.stripTimestampsDesc':
+      'Xóa dấu thời gian do bên gửi thêm; syslog tự thêm dấu thời gian của nó',
+    'settings.systemLog.local.description':
+      'Nhật ký hiện tại được giữ trong RAM tại {{path}} để tránh ghi vào thẻ SD',
+    'settings.systemLog.kernel.enabled': 'Chuyển tiếp nhật ký kernel'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -3833,7 +4244,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip': '注意：使用 HTTPS 可能导致延迟增加，特别是在 MJPEG 视频模式下',
     'settings.system.time.servers.description': '使用默认公共服务器、本地路由器或自定义 NTP 服务器',
     'settings.systemLog.remote.protocol': '当前 BusyBox syslogd 使用 UDP syslog',
-    'settings.systemLog.local.description': '当前日志保存在 RAM 的 {{path}}，以避免写入 SD 卡',
     'settings.systemLog.viewer.truncated': '仅显示最新的日志数据',
     'settings.update.system.rawEnableDesc': '允许从此页面将已验证的 raw boot/rootfs 镜像写入 SD 卡',
     'settings.account.totp.description': '除密码外，还需要验证器应用生成的基于时间的验证码',
@@ -3867,7 +4277,24 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       '入站管理访问将仅限于来自 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 源范围的 HTTPS 和 SSH。不允许公共源地址范围。出站 DNS、NTP、远程 syslog、在线更新、DHCP、已建立连接和必要的 IPv6 控制流量仍可用。WebRTC/ICE UDP 以及其他入站/出站流量将被阻止。',
     'settings.system.firewall.paranoid.confirmDesc':
-      '仅保留来自 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 源范围的 HTTPS 访问。SSH、HTTP、mDNS、NTP、GitHub 下载和其他流量将被阻止，仅保留最小 DHCP/IPv6 控制流量。'
+      '仅保留来自 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 源范围的 HTTPS 访问。SSH、HTTP、mDNS、NTP、GitHub 下载和其他流量将被阻止，仅保留最小 DHCP/IPv6 控制流量。',
+    'settings.system.sections.systemLog': '日志',
+    'settings.systemLog.remote.title': '远程日志记录',
+    'settings.systemLog.remote.forward': '转发系统日志',
+    'settings.systemLog.remote.description': '将系统消息转发到远程服务器',
+    'settings.systemLog.kernel.title': '内核日志记录',
+    'settings.systemLog.local.title': '系统日志缓冲区',
+    'settings.systemLog.remote.hostDesc': 'syslog 服务器的主机名或 IPv4 地址',
+    'settings.systemLog.kernel.enabledDesc': '将内核消息记录到系统日志',
+    'settings.systemLog.kernel.consoleLevelDesc': '内核消息输出到控制台所需的最低紧急程度',
+    'settings.systemLog.local.priorityDesc': '消息被记录所需的最低紧急程度',
+    'settings.systemLog.local.bufferDesc': '日志文件达到此大小时进行轮转',
+    'settings.systemLog.local.rotationsDesc': '保留的已轮转日志文件数量',
+    'settings.systemLog.local.compactDesc': '在每行中省略主机名和 facility',
+    'settings.systemLog.local.stripTimestampsDesc':
+      '移除发送方添加的时间戳；syslog 会添加自己的时间戳',
+    'settings.systemLog.local.description': '当前日志保存在 RAM 的 {{path}}，以避免写入 SD 卡',
+    'settings.systemLog.kernel.enabled': '转发内核日志'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -3953,7 +4380,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       '啟用 HTTPS 可以提高安全性，但可能會增加傳輸延遲，特別是使用 MJPEG 格式傳輸時',
     'settings.system.time.servers.description': '使用預設公用伺服器、本機路由器或自訂 NTP 伺服器',
     'settings.systemLog.remote.protocol': '目前 BusyBox syslogd 使用 UDP syslog',
-    'settings.systemLog.local.description': '目前記錄保存在 RAM 的 {{path}}，以避免寫入 SD 卡',
     'settings.systemLog.viewer.truncated': '僅顯示最新的記錄資料',
     'settings.update.system.rawEnableDesc':
       '允許從此畫面將已驗證的 raw boot/rootfs 映像檔寫入 SD 卡',
@@ -3986,6 +4412,23 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.restricted.confirmDesc':
       '輸入管理存取會限制為 HTTPS 和 SSH 使用 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 來源範圍。不允許公開來源範圍。輸出 DNS、NTP、遠端 syslog、線上更新、DHCP、已建立連線和必要的 IPv6 控制流量仍可使用。WebRTC/ICE UDP 以及其他輸入/輸出流量會被阻擋。',
     'settings.system.firewall.paranoid.confirmDesc':
-      '僅保留來自 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 來源範圍的 HTTPS 存取。SSH、HTTP、mDNS、NTP、GitHub 下載和其他流量將被阻擋，只保留最小 DHCP/IPv6 控制流量。'
+      '僅保留來自 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 來源範圍的 HTTPS 存取。SSH、HTTP、mDNS、NTP、GitHub 下載和其他流量將被阻擋，只保留最小 DHCP/IPv6 控制流量。',
+    'settings.system.sections.systemLog': '記錄',
+    'settings.systemLog.remote.title': '遠端記錄',
+    'settings.systemLog.remote.forward': '轉送系統記錄',
+    'settings.systemLog.remote.description': '將系統訊息轉送到遠端伺服器',
+    'settings.systemLog.kernel.title': '核心記錄',
+    'settings.systemLog.local.title': '系統記錄緩衝區',
+    'settings.systemLog.remote.hostDesc': 'syslog 伺服器的主機名稱或 IPv4 位址',
+    'settings.systemLog.kernel.enabledDesc': '將核心訊息記錄到系統記錄',
+    'settings.systemLog.kernel.consoleLevelDesc': '核心訊息輸出到主控台所需的最低緊急程度',
+    'settings.systemLog.local.priorityDesc': '訊息被記錄所需的最低緊急程度',
+    'settings.systemLog.local.bufferDesc': '記錄檔達到此大小時進行輪替',
+    'settings.systemLog.local.rotationsDesc': '保留的已輪替記錄檔數量',
+    'settings.systemLog.local.compactDesc': '在每一行省略主機名稱和 facility',
+    'settings.systemLog.local.stripTimestampsDesc':
+      '移除傳送端加入的時間戳記；syslog 會加入自己的時間戳記',
+    'settings.systemLog.local.description': '目前記錄保存在 RAM 的 {{path}}，以避免寫入 SD 卡',
+    'settings.systemLog.kernel.enabled': '轉送核心記錄'
   }
 };

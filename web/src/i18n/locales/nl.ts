@@ -30,26 +30,20 @@ const nl = {
       globalLocked: 'Systeem wordt beveiligd. Probeer het later opnieuw',
       error: 'Onverwachte fout',
       changePassword: 'Wachtwoord wijzigen',
-      changePasswordDesc:
-        'Voor de veiligheid van uw apparaat, wijzig alstublieft het webaanmeldingswachtwoord.',
       differentPassword: 'Wachtwoorden komen niet overeen',
       illegalUsername: 'Gebruikersnaam bevat ongeldige tekens',
-      illegalPassword: 'Wachtwoord bevat ongeldige tekens',
       forgetPassword: 'Wachtwoord vergeten',
       ok: 'Ok',
       cancel: 'Annuleren',
       loginButtonText: 'Inloggen',
       tips: {
         change1: 'Houd er rekening mee dat deze actie de volgende wachtwoorden zal wijzigen:',
-        change2: 'Web login wachtwoord',
-        change3: 'Systeem root-wachtwoord (SSH-inlogwachtwoord)'
+        change2: 'Web login wachtwoord'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Wi-Fi configureren voor NanoKVM',
-      success: 'Controleer de netwerkstatus van NanoKVM en bezoek het nieuwe IP-adres.',
-      failed: 'De bewerking is mislukt. Probeer het opnieuw.',
       invalidMode:
         'De huidige modus ondersteunt geen netwerkconfiguratie. Ga naar uw apparaat en schakel de configuratiemodus Wi-Fi in.',
       confirmBtn: 'Ok',
@@ -66,7 +60,6 @@ const nl = {
       scale: 'Schaal',
       title: 'Scherm',
       video: 'Videomodus',
-      videoDirectTips: 'Schakel HTTPS in "Instellingen > Apparaat" in om deze modus te gebruiken',
       resolution: 'Resolutie',
       auto: 'Automatisch',
       autoTips:
@@ -81,10 +74,8 @@ const nl = {
       frameDetect: 'Frame detectie',
       frameDetectTip:
         'Berekent het verschil tussen frames. Stopt met het verzenden van de videostream wanneer er geen veranderingen worden gedetecteerd op het scherm van de externe host.',
-      resetHdmi: 'Reset HDMI',
       webrtcConnectionFailed: {
-        title: 'WebRTC-verbinding mislukt',
-        description: 'Controleer de netwerkverbinding of wijzig de videomodus.'
+        title: 'WebRTC-verbinding mislukt'
       },
       captureStatus: {
         hdmiError: 'HDMI-schermfout',
@@ -113,18 +104,12 @@ const nl = {
       dropdownFrench: 'Frans',
       dropdownRussian: 'Russisch',
       shortcut: {
-        title: 'Snelkoppelingen',
         custom: 'Aangepast',
         capture: 'Klik hier om de snelkoppeling vast te leggen',
-        clear: 'Duidelijk',
-        save: 'Opslaan',
-        captureTips:
-          'Voor het vastleggen van systeemtoetsen (zoals de Windows-toets) is toestemming voor volledig scherm vereist.',
-        enterFullScreen: 'Schakelen naar volledig scherm.'
+        save: 'Opslaan'
       },
       leaderKey: {
         title: 'Leader-toets',
-        desc: 'Omzeil browserbeperkingen en stuur systeemsnelkoppelingen rechtstreeks naar de externe host.',
         howToUse: 'Hoe te gebruiken',
         simultaneous: {
           title: 'Gelijktijdige modus',
@@ -174,8 +159,6 @@ const nl = {
       resetHid: 'HID resetten',
       hidOnly: {
         title: 'Alleen HID-modus',
-        desc: 'Als uw muis en toetsenbord niet meer reageren en het opnieuw instellen van HID niet helpt, kan er sprake zijn van een compatibiliteitsprobleem tussen de NanoKVM en het apparaat. Probeer de modus HID-Only in te schakelen voor betere compatibiliteit.',
-        tip1: 'Als u de modus HID-Only inschakelt, worden de virtuele U-schijf en het virtuele netwerk ontkoppeld',
         tip2: 'In de modus HID-Alleen is beeldmontage uitgeschakeld',
         tip3: 'NanoKVM wordt automatisch opnieuw opgestart na het wisselen van modus',
         enable: 'Schakel de modus HID-Alleen in',
@@ -188,15 +171,11 @@ const nl = {
       empty: 'Niets gevonden',
       mountMode: 'Montagemodus',
       mountFailed: 'Koppelen mislukt',
-      mountDesc:
-        'In sommige systemen is het noodzakelijk om de virtuele schijf op de externe host uit te werpen voordat het image wordt gekoppeld.',
       diskOnWarn:
         'Het koppelen van de image schakelt de virtuele schijf uit, zodat de computer geen toegang meer heeft tot /data. Doorgaan?',
       diskOffWarn:
         'De virtuele schijf staat uit en moet aan staan om de image te koppelen. De USB-apparaten op de computer worden opnieuw herkend. Doorgaan?',
       unmountFailed: 'Ontkoppelen mislukt',
-      unmountDesc:
-        'Op sommige systemen moet u de image handmatig uitwerpen van de externe host voordat u de image ontkoppelt.',
       forceEject: 'Uitwerpen forceren',
       forceEjectConfirm:
         'De host heeft het optische station vergrendeld. Bij geforceerd uitwerpen wordt het virtuele USB-apparaat even losgekoppeld, waardoor het toetsenbord en de muis kort kunnen worden losgekoppeld. Doorgaan?',
@@ -206,14 +185,12 @@ const nl = {
       tips: {
         title: 'Hoe te uploaden',
         usb1: 'Verbind de NanoKVM met uw computer via USB.',
-        usb2: 'Zorg ervoor dat de virtuele schijf is gekoppeld (Instellingen - Virtuele schijf).',
         usb3: 'Open de virtuele schijf op uw computer en kopieer het imagebestand naar de hoofdmap van de virtuele schijf.',
         scp1: 'Zorg ervoor dat de NanoKVM en uw computer zich in hetzelfde lokale netwerk bevinden.',
         scp2: 'Open een terminal op uw computer en gebruik het SCP-commando om het imagebestand te uploaden naar de /data directory op de NanoKVM.',
         scp3: 'Voorbeeld: scp uw-image-pad root@uw-nanokvm-ip:/data',
         tfCard: 'TF-kaart',
         tf1: 'Deze methode wordt ondersteund op Linux-systemen',
-        tf2: 'Haal de TF-kaart uit de NanoKVM (voor de VOLLEDIGE versie, demonteer eerst de behuizing).',
         tf3: 'Plaats de TF-kaart in een kaartlezer en verbind deze met uw computer.',
         tf4: 'Kopieer het imagebestand naar de /data directory op de TF-kaart.',
         tf5: 'Plaats de TF-kaart terug in de NanoKVM.'
@@ -262,15 +239,12 @@ const nl = {
       title: 'Afbeeldingdownloader',
       input: 'Voer een externe afbeelding in URL',
       ok: 'Ok',
-      disabled: '/data partitie is RO, dus we kunnen de afbeelding niet downloaden',
-      diskShared: 'Schakel eerst de virtuele schijf uit en gebruik daarna de image-download.',
       mountedImage:
         'Dit image is gekoppeld. Ontkoppel het voordat u een bestand met dezelfde naam uploadt.',
       diskOff: 'Virtuele schijf uitschakelen',
       uploadbox: 'Zet het bestand hier neer of klik om te selecteren',
       inputfile: 'Voer het afbeeldingsbestand in',
       NoISO: 'Geen ISO',
-      sha256: 'SHA-256 (optioneel)',
       sha256Placeholder: 'Voer een SHA-256-controlesom van 64 tekens in',
       invalidSHA256: 'SHA-256 moet een hexadecimale tekenreeks van 64 tekens zijn',
       checksumFailed: 'Download mislukt: SHA-256-verificatie mislukt'
@@ -281,8 +255,6 @@ const nl = {
       showConfirmTip: 'Stroombedieningen vereisen een extra bevestiging',
       reset: 'Resetten',
       power: 'Aan/uit',
-      powerShort: 'Aan/uit (kort indrukken)',
-      powerLong: 'Aan/uit (lang indrukken)',
       resetConfirm: 'Doorgaan met resetten?',
       powerConfirm: 'Doorgaan met stroomvoorziening?',
       okBtn: 'Ja',
@@ -347,7 +319,6 @@ const nl = {
         title: 'Apparaat',
         oled: {
           title: 'OLED',
-          description: 'OLED scherm automatisch slapen',
           0: 'Nooit',
           15: '15 sec',
           30: '30 sec',
@@ -359,14 +330,12 @@ const nl = {
           3600: '1 uur'
         },
         ssh: {
-          description: 'Schakel SSH externe toegang in',
-          tip: 'Stel een sterk wachtwoord in voordat u (Account - Wachtwoord wijzigen) inschakelt'
+          description: 'Schakel SSH externe toegang in'
         },
         swap: {
           title: 'Wisselen',
           disable: 'Uitschakelen',
-          description: 'Stel de grootte van het wisselbestand in',
-          tip: 'Het inschakelen van deze functie kan de bruikbare levensduur van uw SD-kaart verkorten!'
+          description: 'Stel de grootte van het wisselbestand in'
         },
         mouseJiggler: {
           title: 'Muisschommel',
@@ -376,8 +345,7 @@ const nl = {
           relative: 'Relatieve modus'
         },
         mdns: {
-          description: 'Schakel de mDNS detectieservice in',
-          tip: 'Schakel het uit als het niet nodig is'
+          description: 'Schakel de mDNS detectieservice in'
         },
         hdmi: {
           description: 'Schakel HDMI/monitoruitgang in',
@@ -387,13 +355,7 @@ const nl = {
           minutes: 'min'
         },
         hidOnly: 'HID-Alleen modus',
-        hidOnlyDesc:
-          'Stop met het emuleren van virtuele apparaten en behoud alleen de basisbesturing van HID',
         disk: 'Virtuele schijf',
-        diskDesc: 'Koppel virtuele U-schijf aan de externe host',
-        diskLocked: 'Uit zolang een image is gekoppeld (aanzetten breekt het koppelen af)',
-        diskCancelMount:
-          'Het inschakelen van de virtuele schijf breekt de gekoppelde image af en onderbreekt een lopende image-download of -upload. Doorgaan?',
         network: 'Virtueel Netwerk',
         networkDesc: 'Koppel virtueel netwerk kaart aan de externe host',
         reboot: 'Opnieuw opstarten',
@@ -410,7 +372,6 @@ const nl = {
           connect: 'Wi-Fi verbinden',
           connectDesc1: 'Voer de netwerk-SSID en het wachtwoord in',
           connectDesc2: 'Voer het wachtwoord in om met dit netwerk te verbinden',
-          disconnect: 'Weet je zeker dat je de netwerkverbinding wilt verbreken?',
           ssid: 'Naam',
           password: 'Wachtwoord',
           joinBtn: 'Verbinden',
@@ -418,8 +379,7 @@ const nl = {
           cancelBtn: 'Annuleren'
         },
         tls: {
-          description: 'HTTPS-protocol inschakelen',
-          tip: 'Let op: HTTPS gebruiken kan de latentie verhogen, vooral in MJPEG-videomodus.'
+          description: 'HTTPS-protocol inschakelen'
         },
         dns: {
           title: 'DNS',
@@ -440,8 +400,6 @@ const nl = {
           unsaved: 'Niet-opgeslagen wijzigingen',
           maxServers: 'Maximaal {{count}} DNS-servers toegestaan',
           dhcpServersDescription: 'DNS-servers worden automatisch via DHCP verkregen',
-          manualServersDescription:
-            'DNS-servers kunnen handmatig worden bewerkt. IPv4 en IPv6 worden ondersteund',
           interface: 'Interface',
           ipAddress: 'IP-adres',
           subnetMask: 'Subnetmasker',
@@ -460,13 +418,10 @@ const nl = {
         },
         restart: 'Weet u zeker dat u Tailscale opnieuw wilt opstarten?',
         stop: 'Weet u zeker dat u Tailscale wilt stoppen?',
-        stopDesc: 'Meld Tailscale af en schakel het automatisch opstarten bij het opstarten uit.',
         loading: 'Laden...',
-        notInstall: 'Tailscale niet gevonden! Installeer a.u.b.',
         install: 'Installeren',
         installing: 'Installeren bezig',
         failed: 'Installatie mislukt',
-        retry: 'Vernieuw en probeer opnieuw. Of probeer handmatig te installeren',
         download: 'Download het',
         package: 'installatiepakket',
         unzip: 'en pak het uit',
@@ -474,7 +429,6 @@ const nl = {
         upTailscaled: 'Upload tailscaled naar NanoKVM directory /usr/sbin/',
         refresh: 'Vernieuw huidige pagina',
         notRunning: 'Tailscale is niet actief. Start het programma om door te gaan.',
-        run: 'Begin',
         notLogin:
           'Het apparaat is nog niet gekoppeld. Log in en koppel dit apparaat aan uw account.',
         urlPeriod: 'Deze url is 10 minuten geldig',
@@ -486,7 +440,6 @@ const nl = {
         account: 'Account',
         logout: 'Uitloggen',
         logoutDesc: 'Weet u zeker dat u wilt uitloggen?',
-        uninstall: 'Verwijderen Tailscale',
         uninstallDesc: 'Weet u zeker dat u Tailscale wilt verwijderen?',
         okBtn: 'Ja',
         cancelBtn: 'Nee'
@@ -502,8 +455,6 @@ const nl = {
         cancel: 'Annuleren',
         preview: 'Preview-updates',
         previewDesc: 'Krijg vroegtijdig toegang tot nieuwe functies en verbeteringen',
-        previewTip:
-          'Houd er rekening mee dat preview-releases bugs of onvolledige functionaliteit kunnen bevatten!',
         offline: {
           title: 'Offline-updates',
           desc: 'Update via lokaal installatiepakket',
@@ -525,15 +476,12 @@ const nl = {
     },
     picoclaw: {
       title: 'PicoClaw Assistent',
-      empty: 'Open het paneel en start een taak om te beginnen.',
       inputPlaceholder: 'Beschrijf wat u wilt dat de PicoClaw doet',
       newConversation: 'Nieuw gesprek',
       processing: 'Verwerken...',
       agent: {
         defaultTitle: 'Algemene assistent',
-        defaultDescription: 'Algemene hulp bij chatten, zoeken en werkruimte.',
         kvmTitle: 'Bediening op afstand',
-        kvmDescription: 'Bedien de externe host via NanoKVM.',
         switched: 'Agentrol gewijzigd',
         switchFailed: 'Kan agentrol niet wisselen'
       },
@@ -580,8 +528,6 @@ const nl = {
         success: 'PicoClaw is succesvol geïnstalleerd',
         failed: 'Kan PicoClaw niet installeren',
         uninstalling: 'Runtime verwijderen...',
-        uninstalled: 'Runtime is succesvol verwijderd.',
-        uninstallFailed: 'Verwijderen mislukt.',
         requiredTitle: 'PicoClaw is niet geïnstalleerd',
         requiredDescription: 'Installeer PicoClaw voordat u de runtime van PicoClaw start.',
         progressDescription: 'PicoClaw wordt gedownload en geïnstalleerd.',

@@ -23,35 +23,24 @@ const es = {
       placeholderPassword2: 'Introduce tu contraseña de nuevo',
       noEmptyUsername: 'El nombre de usuario no puede estar vacío',
       noEmptyPassword: 'La contraseña no puede estar vacía',
-      noAccount:
-        'No se ha encontrado la cuenta. Por favor, recarga la página o recupera tu contraseña.',
       invalidUser: 'Nombre de usuario o contraseña incorrectos',
       locked: 'Demasiados inicios de sesión, inténtalo de nuevo más tarde',
       globalLocked: 'Sistema bajo protección, inténtelo nuevamente más tarde',
       error: 'Error inesperado',
       changePassword: 'Cambiar contraseña',
-      changePasswordDesc:
-        'Para la seguridad de su dispositivo, por favor, modifique la contraseña de inicio de sesión en la web.',
       differentPassword: 'Las contraseñas no coinciden',
-      illegalUsername: 'El  nombre de usuario contiene caracteres no permitidos',
-      illegalPassword: 'La contraseña contiene caracteres no permitidos',
       forgetPassword: 'Contraseña olvidada',
       ok: 'Aceptar',
       cancel: 'Cancelar',
       loginButtonText: 'Iniciar sesión',
       tips: {
         change1: 'Ten en cuenta que esta acción cambiará las siguientes contraseñas:',
-        change2: 'Contraseña de acceso web',
-        change3: 'Contraseña root del sistema (contraseña de acceso por SSH)'
+        change2: 'Contraseña de acceso web'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Configura el Wi-Fi para el NanoKVM',
-      success: 'Comprueba el estado de red del NanoKVM y accede a la nueva dirección IP.',
-      failed: 'La operación ha fallado, vuelve a intentarlo.',
-      invalidMode:
-        'El modo actual no admite la configuración de red. Vaya a su dispositivo y habilite el modo de configuración Wi-Fi.',
       confirmBtn: 'Aceptar',
       finishBtn: 'Finalizado',
       ap: {
@@ -66,11 +55,8 @@ const es = {
       scale: 'Escala',
       title: 'Pantalla',
       video: 'Modo de vídeo',
-      videoDirectTips: 'Habilita HTTPS en "Ajustes > Dispositivo" para usar este modo',
       resolution: 'Resolución',
       auto: 'Automático',
-      autoTips:
-        'En determinadas resoluciones pueden producirse rasgado de imagen (tearing) o desplazamiento del ratón. Prueba a ajustar la resolución del host remoto o desactiva el modo automático.',
       fps: 'FPS',
       customizeFps: 'Personalizar',
       quality: 'Calidad',
@@ -83,8 +69,7 @@ const es = {
         'Calcula la diferencia entre fotogramas. Para de transmitir vídeo cuando no se detectan cambios en la pantalla del host remoto.',
       resetHdmi: 'Reiniciar HDMI',
       webrtcConnectionFailed: {
-        title: 'Error de conexión de WebRTC',
-        description: 'Compruebe la conexión de red o cambie el modo de vídeo.'
+        title: 'Error de conexión de WebRTC'
       },
       captureStatus: {
         hdmiError: 'Error de imagen HDMI',
@@ -111,20 +96,14 @@ const es = {
       dropdownEnglish: 'Inglés',
       dropdownGerman: 'Alemán',
       dropdownFrench: 'Francés',
-      dropdownRussian: 'ruso',
       shortcut: {
         title: 'Atajos',
         custom: 'Personalizado',
-        capture: 'Haga clic aquí para capturar el acceso directo',
         clear: 'Borrar',
-        save: 'Guardar',
-        captureTips:
-          'Capturar teclas del sistema (como la tecla Windows) requiere permiso de pantalla completa.',
-        enterFullScreen: 'Alternar el modo de pantalla completa.'
+        save: 'Guardar'
       },
       leaderKey: {
         title: 'Tecla líder',
-        desc: 'Omite las restricciones del navegador y envía accesos directos al sistema directamente al host remoto.',
         howToUse: 'Cómo utilizar',
         simultaneous: {
           title: 'Modo Simultáneo',
@@ -133,13 +112,10 @@ const es = {
         },
         sequential: {
           title: 'Modo Secuencial',
-          desc1:
-            'Pulse la tecla líder → pulse el atajo en secuencia → vuelva a pulsar la tecla líder.',
           desc2: 'Requiere más pasos, pero evita por completo conflictos del sistema.'
         },
         enable: 'Habilitar tecla líder',
         tip: 'Al asignarse como tecla líder, esta tecla funciona únicamente como activador de atajos y pierde su comportamiento predeterminado.',
-        placeholder: 'Pulse la tecla líder',
         shiftRight: 'Shift derecho',
         ctrlRight: 'Ctrl derecho',
         metaRight: 'Win derecho',
@@ -174,7 +150,6 @@ const es = {
       resetHid: 'Restablecer HID',
       hidOnly: {
         title: 'Modo solo HID',
-        desc: 'Si tu ratón y teclado dejan de responder y restablecer el HID no ayuda, podría ser un problema de compatibilidad entre el NanoKVM y el dispositivo. Prueba a habilitar el modo sólo HID para mejorar la compatibilidad.',
         tip1: 'Habilitar el modo sólo HID desmontará el disco virtual y la red virtual',
         tip2: 'En modo sólo HID, el montaje de imágenes está deshabilitado',
         tip3: 'El NanoKVM se reiniciará automáticamente después de cambiar de modo',
@@ -188,15 +163,11 @@ const es = {
       empty: 'No se ha encontrado nada',
       mountMode: 'Modo de montaje',
       mountFailed: 'Fallo al montar',
-      mountDesc:
-        'En algunos sistemas, es necesario expulsar el disco virtual del host remoto antes de montar una imagen.',
       diskOnWarn:
         'Montar la imagen desactiva el disco virtual, por lo que el equipo ya no puede acceder a /data. ¿Continuar?',
       diskOffWarn:
         'El disco virtual está desactivado y hay que activarlo para montar la imagen. Los dispositivos USB del equipo se enumeran de nuevo. ¿Continuar?',
       unmountFailed: 'Fallo al desmontar',
-      unmountDesc:
-        'En algunos sistemas, es necesario expulsar manualmente el disco virtual desde el host remoto antes de desmontar la imagen.',
       forceEject: 'Forzar expulsión',
       forceEjectConfirm:
         'El host ha bloqueado la unidad óptica. Forzar la expulsión desconecta el dispositivo USB virtual durante un momento, por lo que el teclado y el ratón pueden desconectarse brevemente. ¿Continuar?',
@@ -206,14 +177,12 @@ const es = {
       tips: {
         title: 'Cómo subir imágenes',
         usb1: 'Conecta el NanoKVM a tu computadora mediante USB.',
-        usb2: 'Asegúrate de que el disco virtual esté montado (Ajustes - Disco Virtual).',
         usb3: 'Abre el disco virtual en tu computadora y copia el archivo de imagen en el directorio raíz del disco virtual.',
         scp1: 'Asegúrate de que el NanoKVM y tu computadora estén en la misma red local.',
         scp2: 'Abre una terminal en tu computadora y usa el comando SCP para subir el archivo de imagen al directorio /data en el NanoKVM.',
         scp3: 'Ejemplo: scp tu-ruta-de-imagen root@tu-ip-del-nanokvm:/data',
         tfCard: 'Tarjeta SD',
         tf1: 'Este método es compatible con el sistema Linux',
-        tf2: 'Obtén la tarjeta SD del NanoKVM (para la versión FULL, desmonta la carcasa primero).',
         tf3: 'Inserta la tarjeta SD en un lector de tarjetas y conéctalo a tu computadora.',
         tf4: 'Copia el archivo de imagen en el directorio /data de la tarjeta SD.',
         tf5: 'Inserta la tarjeta SD en el NanoKVM.'
@@ -262,16 +231,12 @@ const es = {
       title: 'Descargador de imágenes',
       input: 'Por favor, introduce la URL de una imagen remota',
       ok: 'Aceptar',
-      disabled: 'La partición /data es de sólo lectura, no se puede descargar la imagen',
-      diskShared: 'Desactiva primero el disco virtual y luego usa la descarga de imágenes.',
       mountedImage:
         'Esta imagen está montada. Desmóntela antes de subir un archivo con el mismo nombre.',
       diskOff: 'Desactivar el disco virtual',
       uploadbox: 'Suelte el archivo aquí o haga clic para seleccionar',
       inputfile: 'Por favor ingrese el archivo de imagen',
       NoISO: 'Sin ISO',
-      sha256: 'SHA-256 (opcional)',
-      sha256Placeholder: 'Introduzca una suma de comprobación SHA-256 de 64 caracteres',
       invalidSHA256: 'SHA-256 debe ser una cadena hexadecimal de 64 caracteres',
       checksumFailed: 'Descarga fallida: error en la verificación SHA-256'
     },
@@ -281,8 +246,6 @@ const es = {
       showConfirmTip: 'Las operaciones de encendido requieren confirmación adicional',
       reset: 'Reiniciar',
       power: 'Encender / Apagar',
-      powerShort: 'Encender / Apagar (pulsación corta)',
-      powerLong: 'Encendido/Apagado (pulsación larga)',
       resetConfirm: '¿Desea proceder con la operación de reinicio?',
       powerConfirm: '¿Desea proceder con la operación de encendido?',
       okBtn: 'Sí',
@@ -359,14 +322,12 @@ const es = {
           3600: '1 hora'
         },
         ssh: {
-          description: 'Habilitar acceso remoto SSH',
-          tip: 'Establece una contraseña segura antes de habilitar (Cuenta - Cambiar contraseña)'
+          description: 'Habilitar acceso remoto SSH'
         },
         swap: {
           title: 'Memoria Swap',
           disable: 'Desactivar',
-          description: 'Establece el tamaño del archivo swap',
-          tip: 'Habilitar esta función podría acortar la vida útil de tu tarjeta SD.'
+          description: 'Establece el tamaño del archivo swap'
         },
         mouseJiggler: {
           title: 'Mouse Jiggler',
@@ -387,13 +348,7 @@ const es = {
           minutes: 'min'
         },
         hidOnly: 'Modo sólo HID',
-        hidOnlyDesc:
-          'Dejar de emular dispositivos virtuales y conservar solo el control básico HID',
         disk: 'Disco Virtual',
-        diskDesc: 'Montar disco virtual en el host remoto',
-        diskLocked: 'Desactivado mientras hay una imagen montada (activarlo cancela el montaje)',
-        diskCancelMount:
-          'Activar el disco virtual cancela la imagen montada e interrumpe una descarga o subida de imagen en curso. ¿Continuar?',
         network: 'Red Virtual',
         networkDesc: 'Montar tarjeta de red virtual en el host remoto',
         reboot: 'Reiniciar',
@@ -418,8 +373,7 @@ const es = {
           cancelBtn: 'Cancelar'
         },
         tls: {
-          description: 'Habilitar protocolo HTTPS',
-          tip: 'Aviso: Usar HTTPS puede aumentar la latencia, especialmente en modo de vídeo MJPEG.'
+          description: 'Habilitar protocolo HTTPS'
         },
         dns: {
           title: 'DNS',
@@ -440,8 +394,6 @@ const es = {
           unsaved: 'Cambios sin guardar',
           maxServers: 'Se permiten como máximo {{count}} servidores DNS',
           dhcpServersDescription: 'Los servidores DNS se obtienen automáticamente por DHCP',
-          manualServersDescription:
-            'Los servidores DNS se pueden editar manualmente. Se admiten IPv4 e IPv6',
           interface: 'Interfaz',
           ipAddress: 'Dirección IP',
           subnetMask: 'Máscara de subred',
@@ -460,14 +412,10 @@ const es = {
         },
         restart: '¿Seguro que deseas reiniciar Tailscale?',
         stop: '¿Seguro que deseas detener Tailscale?',
-        stopDesc: 'Cerrar sesión en Tailscale y desactivar su inicio automático al arrancar.',
         loading: 'Cargando...',
-        notInstall: '¡Tailscale no encontrado! Por favor, instálalo.',
         install: 'Instalar',
         installing: 'Instalando',
         failed: 'La instalación falló',
-        retry:
-          'Por favor, actualiza la página e inténtalo de nuevo. O intenta instalarlo manualmente',
         download: 'Descargar el',
         package: 'paquete de instalación',
         unzip: 'y descomprimirlo',
@@ -509,8 +457,6 @@ const es = {
           title: 'Actualizaciones sin conexión',
           desc: 'Actualización a través del paquete de instalación local',
           upload: 'Subir',
-          invalidName:
-            'Formato de nombre de archivo no válido. Descargue desde las versiones de GitHub.',
           updateFailed: 'La actualización falló. Por favor, inténtalo de nuevo.'
         }
       },
@@ -527,15 +473,12 @@ const es = {
     },
     picoclaw: {
       title: 'PicoClaw Asistente',
-      empty: 'Abre el panel e inicia una tarea para comenzar.',
       inputPlaceholder: 'Describe lo que quieres que haga el PicoClaw',
       newConversation: 'Nueva conversación',
       processing: 'Procesando...',
       agent: {
         defaultTitle: 'Asistente general',
-        defaultDescription: 'Ayuda general para chat, búsqueda y espacio de trabajo.',
         kvmTitle: 'Control remoto',
-        kvmDescription: 'Opere el host remoto a través de NanoKVM.',
         switched: 'Rol de agente cambiado',
         switchFailed: 'No se pudo cambiar la función del agente'
       },
@@ -582,8 +525,6 @@ const es = {
         success: 'PicoClaw instalado correctamente',
         failed: 'Error al instalar PicoClaw',
         uninstalling: 'Desinstalando el tiempo de ejecución...',
-        uninstalled: 'El tiempo de ejecución se desinstaló exitosamente.',
-        uninstallFailed: 'Falló la desinstalación.',
         requiredTitle: 'PicoClaw no está instalado',
         requiredDescription:
           'Instala PicoClaw antes de iniciar el tiempo de ejecución de PicoClaw.',
@@ -601,7 +542,6 @@ const es = {
       },
       model: {
         requiredTitle: 'Se requiere configuración del modelo',
-        requiredDescription: 'Configure el modelo PicoClaw antes de usar el chat PicoClaw.',
         docsTitle: 'Guía de configuración',
         docsDesc: 'Modelos y protocolos compatibles',
         menuLabel: 'Configurar modelo',
@@ -610,7 +550,6 @@ const es = {
         apiBase: 'API Base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Clave API',
-        apiKeyPlaceholder: 'Introduzca la clave API del modelo',
         save: 'Guardar',
         saving: 'Guardando',
         saved: 'Configuración del modelo guardada',

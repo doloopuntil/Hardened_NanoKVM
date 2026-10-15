@@ -30,26 +30,20 @@ const de = {
       globalLocked: 'System wird geschützt, bitte versuchen Sie es später erneut',
       error: 'Unerwarteter Fehler',
       changePassword: 'Passwort ändern',
-      changePasswordDesc: 'Für die Sicherheit Ihres Geräts ändern Sie bitte das Passwort!',
       differentPassword: 'Passwörter stimmen nicht überein',
       illegalUsername: 'Benutzername enthält ungültige Zeichen',
-      illegalPassword: 'Passwort enthält ungültige Zeichen',
       forgetPassword: 'Passwort vergessen',
       ok: 'Ok',
       cancel: 'Abbrechen',
       loginButtonText: 'Anmelden',
       tips: {
         change1: 'Bitte beachten Sie, dass diese Aktion folgende Passwörter ändert:',
-        change2: 'Web Anmelde-Passwort',
-        change3: 'System root Passwort (SSH Anmelde-Passwort)'
+        change2: 'Web Anmelde-Passwort'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Wi-Fi Konfiguration für NanoKVM',
-      success:
-        'Bitte überprüfen Sie den Netzwerk-Status des NanoKVM und greifen Sie über die neue IP Adresse darauf zu.',
-      failed: 'Aktion fehlgeschlagen, bitte erneut versuchen.',
       invalidMode:
         'Der aktuelle Modus unterstützt keine Netzwerkeinrichtung. Bitte gehen Sie zu Ihrem Gerät und aktivieren Sie den Wi-Fi-Konfigurationsmodus.',
       confirmBtn: 'Ok',
@@ -66,8 +60,6 @@ const de = {
       scale: 'Skala',
       title: 'Bildschirm',
       video: 'Video Modus',
-      videoDirectTips:
-        'Aktivieren Sie HTTPS unter „Einstellungen > Gerät“, um diesen Modus zu verwenden',
       resolution: 'Auflösung',
       auto: 'Automatisch',
       autoTips:
@@ -79,13 +71,11 @@ const de = {
       qualityHigh: 'Hoch',
       qualityMedium: 'Mittel',
       qualityLow: 'Niedrig',
-      frameDetect: 'Bilderkennung',
       frameDetectTip:
         'Berechnet den Unterschied zwischen den Einzelbildern. Beendet die Liveübertragung des Videostreams wenn keine Änderungen auf dem Bildschirm des Hosts festgestellt werden kann.',
       resetHdmi: 'HDMI zurücksetzen',
       webrtcConnectionFailed: {
-        title: 'WebRTC-Verbindung fehlgeschlagen',
-        description: 'Überprüfen Sie die Netzwerkverbindung oder wechseln Sie den Videomodus.'
+        title: 'WebRTC-Verbindung fehlgeschlagen'
       },
       captureStatus: {
         hdmiError: 'HDMI-Bildschirmfehler',
@@ -101,7 +91,6 @@ const de = {
     keyboard: {
       title: 'Tastatur',
       paste: 'Einfügen',
-      tips: 'Server Tastaturbelegung',
       placeholder: 'Bitte eingeben',
       submit: 'Senden',
       virtual: 'Tastatur',
@@ -114,18 +103,12 @@ const de = {
       dropdownFrench: 'Französisch',
       dropdownRussian: 'Russisch',
       shortcut: {
-        title: 'Verknüpfungen',
         custom: 'Benutzerdefiniert',
         capture: 'Klicken Sie hier, um die Verknüpfung zu erfassen',
-        clear: 'Klar',
-        save: 'Speichern',
-        captureTips:
-          'Das Erfassen systemweiter Tasten (z. B. der Windows-Taste) erfordert die Vollbildberechtigung.',
-        enterFullScreen: 'Vollbildmodus umschalten.'
+        save: 'Speichern'
       },
       leaderKey: {
         title: 'Leader-Taste',
-        desc: 'Browserbeschränkungen umgehen und Systemverknüpfungen direkt an den Remote-Host senden.',
         howToUse: 'Verwendung',
         simultaneous: {
           title: 'Simultanmodus',
@@ -160,13 +143,11 @@ const de = {
       cell: 'Zellen Cursor',
       text: 'Text Cursor',
       grab: 'Greif Cursor',
-      hide: 'Versteckter Cursor',
       mode: 'Maus Modus',
       absolute: 'Absoluter Modus',
       relative: 'Relativer Modus',
       direction: 'Scrollrichtung',
       scrollUp: 'Nach oben scrollen',
-      scrollDown: 'Scrollen Sie nach unten',
       speed: 'Scrollgeschwindigkeit',
       fast: 'Schnell',
       slow: 'Langsam',
@@ -175,10 +156,8 @@ const de = {
       resetHid: 'HID zurücksetzen',
       hidOnly: {
         title: 'HID-Only-Modus',
-        desc: 'Wenn Ihre Maus und Tastatur nicht mehr reagieren und das Zurücksetzen der HID-Verbindung nicht hilft, könnte es sich um ein Kompatibilitätsproblem zwischen dem NanoKVM und dem Gerät handeln. Versuchen Sie, den HID-Only Modus zu aktivieren, um die Kompatibilität zu verbessern.',
         tip1: 'Die Aktivierung des HID-Only Modus entfernt das virtuelle U-Laufwerk und das virtuelle Netzwerk.',
         tip2: 'Im HID-Only Modus ist das Einbinden von Systemabbilder deaktiviert.',
-        tip3: 'NanoKVM wird nach dem Wechsel in den neuen Modus automatisch neu gestartet.',
         enable: 'HID-Only Modus aktivieren',
         disable: 'HID-Only Modus deaktivieren'
       }
@@ -189,15 +168,10 @@ const de = {
       empty: 'Nichts gefunden',
       mountMode: 'Mount-Modus',
       mountFailed: 'Einbinden fehlgeschlagen',
-      mountDesc:
-        'In einigen Systemen ist es notwendig, die virtuelle Festplatte auf dem entfernten Host auszuwerfen, bevor das Image eingebunden werden kann.',
       diskOnWarn:
         'Beim Einbinden des Images wird das virtuelle Laufwerk ausgeschaltet, sodass der Computer nicht mehr auf /data zugreifen kann. Fortfahren?',
       diskOffWarn:
         'Das virtuelle Laufwerk ist ausgeschaltet und muss zum Einbinden des Images aktiviert werden. Die USB-Geräte am Computer werden neu erkannt. Fortfahren?',
-      unmountFailed: 'Das Aufheben der Bereitstellung ist fehlgeschlagen',
-      unmountDesc:
-        'Auf einigen Systemen müssen Sie das Image manuell vom Remote-Host auswerfen, bevor Sie die Bereitstellung aufheben.',
       forceEject: 'Auswerfen erzwingen',
       forceEjectConfirm:
         'Der Host hat das optische Laufwerk gesperrt. Beim erzwungenen Auswerfen wird das virtuelle USB-Gerät kurz getrennt, sodass Tastatur und Maus kurzzeitig ausfallen können. Fortfahren?',
@@ -207,14 +181,11 @@ const de = {
       tips: {
         title: 'So laden Sie Dateien hoch',
         usb1: 'Verbinden Sie den NanoKVM über USB mit Ihrem Computer.',
-        usb2: 'Stellen Sie sicher, dass die virtuelle Festplatte eingebunden ist (Einstellungen – Virtuelle Festplatte).',
         usb3: 'Öffnen Sie die virtuelle Festplatte auf Ihrem Computer und kopieren Sie die Image-Datei in das Stammverzeichnis der virtuellen Festplatte.',
         scp1: 'Stellen Sie sicher, dass sich der NanoKVM und Ihr Computer im selben lokalen Netzwerk befinden.',
         scp2: 'Öffnen Sie ein Terminal auf Ihrem Computer und verwenden Sie den SCP-Befehl, um die Image-Datei in das Verzeichnis /data auf dem NanoKVM hochzuladen.',
         scp3: 'Beispiel: scp your-image-path root@your-nanokvm-ip:/data',
         tfCard: 'TF-Karte',
-        tf1: 'Diese Methode wird unter Linux-Systemen unterstützt.',
-        tf2: 'Entnehmen Sie die TF-Karte aus dem NanoKVM (bei der FULL-Version muss zuvor das Gehäuse geöffnet werden).',
         tf3: 'Stecken Sie die TF-Karte in einen Kartenleser und verbinden Sie diesen mit Ihrem Computer.',
         tf4: 'Kopieren Sie die Image-Datei in das Verzeichnis /data auf der TF-Karte.',
         tf5: 'Setzen Sie die TF-Karte wieder in den NanoKVM ein.'
@@ -225,7 +196,6 @@ const de = {
       upload: 'Hochladen',
       run: 'Ausführen',
       runBackground: 'Im Hintergrund ausführen',
-      runFailed: '',
       attention: 'Achtung',
       delDesc: 'Möchten Sie diese Datei wirklich löschen?',
       confirm: 'Ja',
@@ -263,17 +233,12 @@ const de = {
       title: 'Systemabbild Downloader',
       input: 'Bitte geben Sie die URL für das Remote-Systemabbild ein',
       ok: 'Ok',
-      disabled:
-        '/data Partition ist nur-lesbar, daher kann das Systemabbild nicht heruntergeladen werden',
-      diskShared:
-        'Schalten Sie zuerst das virtuelle Laufwerk aus und verwenden Sie dann den Image-Download.',
       mountedImage:
         'Dieses Image ist eingebunden. Heben Sie die Einbindung auf, bevor Sie eine Datei mit demselben Namen hochladen.',
       diskOff: 'Virtuelles Laufwerk ausschalten',
       uploadbox: 'Datei hier ablegen oder klicken zum Auswählen',
       inputfile: 'Bitte geben Sie die Datei für das Systemabbild an',
       NoISO: 'Keine ISO',
-      sha256: 'SHA-256 (optional)',
       sha256Placeholder: 'Geben Sie eine 64-stellige SHA-256-Prüfsumme ein',
       invalidSHA256: 'SHA-256 muss eine 64-stellige Hexadezimalzeichenfolge sein',
       checksumFailed: 'Download fehlgeschlagen: SHA-256-Prüfung fehlgeschlagen'
@@ -284,8 +249,6 @@ const de = {
       showConfirmTip: 'Diese Aktionen benötigen eine zusätzliche Bestätigung',
       reset: 'Zurücksetzen',
       power: 'Power',
-      powerShort: 'Power (Kurzer Klick)',
-      powerLong: 'Power (Langer Klick)',
       resetConfirm: 'Reset-Aktion durchführen?',
       powerConfirm: 'Power-Aktion durchführen?',
       okBtn: 'Ja',
@@ -350,7 +313,6 @@ const de = {
         title: 'Gerät',
         oled: {
           title: 'OLED',
-          description: 'Schalte OLED Bildschirm aus nach',
           0: 'Nie',
           15: '15 Sek',
           30: '30 Sek',
@@ -361,15 +323,11 @@ const de = {
           1800: '30 Min',
           3600: '1 Stunde'
         },
-        ssh: {
-          description: 'Aktiviere entfernten SSH-Zugang',
-          tip: 'Setzten Sie ein starkes Passwort vor dem aktivieren (Konto - Passwort ändern)'
-        },
+        ssh: {},
         swap: {
           title: 'Swap',
           disable: 'Deaktivieren',
-          description: 'Grösse der Swap-Datei festlegen',
-          tip: 'Das Aktivieren dieser Funktion kann die Lebensdauer Ihrer SD-Karte verkürzen!'
+          description: 'Grösse der Swap-Datei festlegen'
         },
         mouseJiggler: {
           title: 'Mausaktivitäts-Simulator',
@@ -390,15 +348,8 @@ const de = {
           minutes: 'Min.'
         },
         hidOnly: 'HID-Only Mode',
-        hidOnlyDesc:
-          'Hören Sie auf, virtuelle Geräte zu emulieren, und behalten Sie nur die grundlegende HID-Steuerung bei',
         disk: 'Virtuelle Festplatte',
-        diskDesc: 'Binde das virtuelle U-Laufwerk an den entfernten Host',
-        diskLocked: 'Aus, solange ein Image eingebunden ist (Einschalten bricht die Einbindung ab)',
-        diskCancelMount:
-          'Das Aktivieren des virtuellen Laufwerks bricht das eingebundene Image ab und unterbricht einen laufenden Image-Download oder -Upload. Fortfahren?',
         network: 'Virtuelles Netzwerk',
-        networkDesc: 'Binde die virtuelle Netzwerkkarte an den entfernten Host',
         reboot: 'Neustarten',
         rebootDesc: 'Sind Sie sicher dass Sie NanoKVM neustarten möchten?',
         okBtn: 'Ja',
@@ -421,8 +372,7 @@ const de = {
           cancelBtn: 'Abbrechen'
         },
         tls: {
-          description: 'HTTPS-Protokoll aktivieren',
-          tip: 'Hinweis: Die Verwendung von HTTPS kann die Latenz erhöhen, besonders im MJPEG-Videomodus.'
+          description: 'HTTPS-Protokoll aktivieren'
         },
         dns: {
           title: 'DNS',
@@ -443,8 +393,6 @@ const de = {
           unsaved: 'Ungespeicherte Änderungen',
           maxServers: 'Maximal {{count}} DNS-Server erlaubt',
           dhcpServersDescription: 'DNS-Server werden automatisch per DHCP bezogen',
-          manualServersDescription:
-            'DNS-Server können manuell bearbeitet werden. IPv4 und IPv6 werden unterstützt',
           interface: 'Schnittstelle',
           ipAddress: 'IP-Adresse',
           subnetMask: 'Subnetzmaske',
@@ -463,18 +411,13 @@ const de = {
         },
         restart: 'Tailscale neu starten?',
         stop: 'Tailscale stoppen?',
-        stopDesc: 'Von Tailscale abmelden und automatischen Start beim Booten deaktivieren.',
         loading: 'Lädt...',
-        notInstall: 'Tailscale nicht gefunden! Bitte installieren.',
         install: 'Installieren',
         installing: 'Installiere',
         failed: 'Installation fehlgeschlagen',
-        retry: 'Bitte Seite neu laden und erneut versuchen oder manuelle Installation versuchen.',
         download: 'Laden Sie das',
         package: 'Installations-Paket herunter',
         unzip: 'und entpacken Sie es',
-        upTailscale: 'Tailscale nach /usr/bin/ auf NanoKVM hochladen',
-        upTailscaled: 'Tailscaled nach /usr/bin/ auf NanoKVM hochladen',
         refresh: 'Aktuelle Seite neu laden',
         notRunning: 'Tailscale läuft nicht. Bitte starten Sie es, um fortzufahren.',
         run: 'Start',
@@ -505,8 +448,6 @@ const de = {
         cancel: 'Abbrechen',
         preview: 'Vorab-Versionen',
         previewDesc: 'Erhalten Sie vorab Zugriff auf neue Funktionen und Verbesserungen',
-        previewTip:
-          'Bitte beachten Sie, dass Vorab-Versionen womöglich noch Fehler oder unvollständige Funktionen enthalten!',
         offline: {
           title: 'Offline Aktualisierung',
           desc: 'Über lokales Installationspaket aktualisieren',
@@ -529,15 +470,12 @@ const de = {
     },
     picoclaw: {
       title: 'PicoClaw Assistent',
-      empty: 'Öffnen Sie das Bedienfeld und starten Sie eine Aufgabe.',
       inputPlaceholder: 'Beschreiben Sie, was der PicoClaw tun soll',
       newConversation: 'Neues Gespräch',
       processing: 'Wird verarbeitet...',
       agent: {
         defaultTitle: 'Allgemeiner Assistent',
-        defaultDescription: 'Allgemeine Chat-, Such- und Arbeitsbereichshilfe.',
         kvmTitle: 'Fernsteuerung',
-        kvmDescription: 'Betreiben Sie den Remote-Host über NanoKVM.',
         switched: 'Agentenrolle gewechselt',
         switchFailed: 'Agentenrolle konnte nicht gewechselt werden'
       },
@@ -584,8 +522,6 @@ const de = {
         success: 'PicoClaw erfolgreich installiert',
         failed: 'Installation von PicoClaw fehlgeschlagen',
         uninstalling: 'Runtime wird deinstalliert...',
-        uninstalled: 'Runtime erfolgreich deinstalliert.',
-        uninstallFailed: 'Deinstallation fehlgeschlagen.',
         requiredTitle: 'PicoClaw ist nicht installiert',
         requiredDescription: 'Installieren Sie PicoClaw, bevor Sie die PicoClaw Runtime starten.',
         progressDescription: 'PicoClaw wird heruntergeladen und installiert.',
@@ -658,10 +594,7 @@ const de = {
     fullscreen: {
       toggle: 'Vollbild ein/aus'
     },
-    menu: {
-      collapse: 'Menu einblenden',
-      expand: 'Menu verbergen'
-    }
+    menu: {}
   }
 };
 

@@ -30,26 +30,20 @@ const cz = {
       globalLocked: 'Systém je chráněn, zkuste to znovu později',
       error: 'Neočekávaná chyba',
       changePassword: 'Změnit heslo',
-      changePasswordDesc:
-        'Pro bezpečnost vašeho zařízení prosím změňte heslo pro přihlášení na webu.',
       differentPassword: 'Hesla se neshodují',
       illegalUsername: 'Uživatelské jméno obsahuje nepovolené znaky',
-      illegalPassword: 'Heslo obsahuje nepovolené znaky',
       forgetPassword: 'Zapomenuté heslo',
       ok: 'OK',
       cancel: 'Zrušit',
       loginButtonText: 'Přihlášení',
       tips: {
         change1: 'Upozorňujeme, že tato akce změní následující hesla:',
-        change2: 'Heslo pro webové přihlášení',
-        change3: 'Heslo systémového uživatele root (heslo pro přihlášení SSH)'
+        change2: 'Heslo pro webové přihlášení'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Nastavit Wi-Fi pro NanoKVM',
-      success: 'Please check the network status of NanoKVM and visit the new IP address.',
-      failed: 'Operace selhala, zkuste to znovu.',
       invalidMode:
         'Aktuální režim nepodporuje nastavení sítě. Přejděte do svého zařízení a povolte konfigurační režim Wi-Fi.',
       confirmBtn: 'Ok',
@@ -66,7 +60,6 @@ const cz = {
       scale: 'Měřítko',
       title: 'Obrazovka',
       video: 'Režim videa',
-      videoDirectTips: 'Chcete-li používat tento režim, povolte HTTPS v "Nastavení > Zařízení"',
       resolution: 'Rozlišení',
       auto: 'Automatické',
       autoTips:
@@ -83,8 +76,7 @@ const cz = {
         'Vypočítá rozdíl mezi snímky. Přenos video streamu se zastaví, pokud nejsou detekovány změny na obrazovce vzdáleného hostitele.',
       resetHdmi: 'Resetovat HDMI',
       webrtcConnectionFailed: {
-        title: 'Připojení WebRTC se nezdařilo',
-        description: 'Zkontrolujte síťové připojení nebo přepněte režim videa.'
+        title: 'Připojení WebRTC se nezdařilo'
       },
       captureStatus: {
         hdmiError: 'Chyba obrazu HDMI',
@@ -108,23 +100,13 @@ const cz = {
       clipboardPermissionDenied:
         'Oprávnění ke schránce odepřeno. Povolte prosím přístup do schránky ve svém prohlížeči.',
       clipboardReadError: 'Nepodařilo se přečíst schránku',
-      dropdownEnglish: 'anglicky',
-      dropdownGerman: 'německy',
-      dropdownFrench: 'francouzsky',
-      dropdownRussian: 'rusky',
       shortcut: {
         title: 'Zkratky',
         custom: 'Vlastní',
-        capture: 'Kliknutím sem zachytíte zástupce',
-        clear: 'Jasno',
-        save: 'Uložit',
-        captureTips:
-          'Zachycení systémových kláves (například klávesy Windows) vyžaduje oprávnění pro celou obrazovku.',
-        enterFullScreen: 'Přepnout režim celé obrazovky.'
+        save: 'Uložit'
       },
       leaderKey: {
         title: 'Klávesa Leader',
-        desc: 'Obejít omezení prohlížeče a odeslat systémové zkratky přímo vzdálenému hostiteli.',
         howToUse: 'Jak používat',
         simultaneous: {
           title: 'Simultánní režim',
@@ -174,7 +156,6 @@ const cz = {
       resetHid: 'Resetovat HID',
       hidOnly: {
         title: 'Režim pouze HID',
-        desc: 'Pokud vaše myš a klávesnice přestanou reagovat a resetování HID nepomůže, může jít o problém s kompatibilitou mezi NanoKVM a zařízením. Zkuste povolit režim HID-Only pro lepší kompatibilitu.',
         tip1: 'Povolení režimu HID-Only odpojí virtuální U-disk a virtuální síť',
         tip2: 'V režimu HID-Only je připojení obrazu zakázáno',
         tip3: 'NanoKVM se po přepnutí režimů automaticky restartuje',
@@ -188,15 +169,7 @@ const cz = {
       empty: 'Nic nenalezeno',
       mountMode: 'Režim připojení',
       mountFailed: 'Připojení se nezdařilo',
-      mountDesc:
-        'V některých systémech je nutné před připojením obrazu vysunout virtuální disk na vzdáleném hostiteli.',
-      diskOnWarn:
-        'Mounting the image turns the virtual disk off, so the computer can no longer access /data. Continue?',
-      diskOffWarn:
-        'The virtual disk is off and has to be enabled to mount the image. The USB devices on the computer are enumerated again. Continue?',
       unmountFailed: 'Odpojení se nezdařilo',
-      unmountDesc:
-        'Na některých systémech se musíte před odpojením obrazu ručně vysunout ze vzdáleného hostitele.',
       forceEject: 'Vynutit vysunutí',
       forceEjectConfirm:
         'Hostitel zamkl optickou jednotku. Vynucené vysunutí na chvíli odpojí virtuální zařízení USB, takže se klávesnice a myš mohou krátce odpojit. Pokračovat?',
@@ -206,21 +179,18 @@ const cz = {
       tips: {
         title: 'Jak nahrát',
         usb1: 'Připojte NanoKVM k vašemu počítači přes USB.',
-        usb2: 'Ujistěte se, že je virtuální disk připojen (Nastavení - Virtuální disk).',
         usb3: 'Otevřete virtuální disk na vašem počítači a zkopírujte soubor s obrazem do kořenového adresáře virtuálního disku.',
         scp1: 'Ujistěte se, že jsou NanoKVM a váš počítač ve stejné místní síti.',
         scp2: 'Otevřete terminál na vašem počítači a použijte příkaz SCP pro nahrání souboru s obrazem do adresáře /data na zařízení NanoKVM.',
         scp3: 'Příklad: scp cesta-k-vašemu-obrazu root@ip-nanokvm:/data',
         tfCard: 'SD Karta',
         tf1: 'Tato metoda je podporována na systémech Linux',
-        tf2: 'Vyjměte SD kartu z NanoKVM (u plné verze nejprve rozložte krabičku).',
         tf3: 'Vložte SD kartu do čtečky karet a připojte ji k vašemu počítači.',
         tf4: 'Zkopírujte soubor s obrazem do adresáře /data na SD kartě.',
         tf5: 'Vložte SD kartu zpět do NanoKVM.'
       }
     },
     script: {
-      title: 'Skript',
       upload: 'Nahrát',
       run: 'Spustit',
       runBackground: 'Spustit na pozadí',
@@ -262,14 +232,10 @@ const cz = {
       title: 'Stahovač obrazů',
       input: 'Zadejte prosím vzdálený obrázek URL',
       ok: 'OK',
-      disabled: 'Oddíl /data je RO, takže obrázek nelze stáhnout',
-      diskShared: 'Turn the virtual disk off first, then use the image download.',
       mountedImage: 'Tento obraz je připojen. Před nahráním souboru se stejným názvem jej odpojte.',
-      diskOff: 'Turn off the virtual disk',
       uploadbox: 'Přetáhněte soubor sem nebo kliknutím vyberte',
       inputfile: 'Zadejte soubor obrázku',
       NoISO: 'Žádné ISO',
-      sha256: 'SHA-256 (volitelné)',
       sha256Placeholder: 'Zadejte 64znakový kontrolní součet SHA-256',
       invalidSHA256: 'SHA-256 musí být 64znakový hexadecimální řetězec',
       checksumFailed: 'Stažení se nezdařilo: ověření SHA-256 selhalo'
@@ -280,10 +246,7 @@ const cz = {
       showConfirmTip: 'Výkonové operace vyžadují další potvrzení',
       reset: 'Resetovat',
       power: 'Napájení',
-      powerShort: 'Napájení (krátký stisk)',
-      powerLong: 'Napájení (dlouhý stisk)',
       resetConfirm: 'Pokračovat v operaci resetování?',
-      powerConfirm: 'Pokračovat v napájení?',
       okBtn: 'Ano',
       cancelBtn: 'Ne'
     },
@@ -346,7 +309,6 @@ const cz = {
         title: 'Zařízení',
         oled: {
           title: 'OLED',
-          description: 'OLED screen automatically sleep',
           0: 'Nikdy',
           15: '15 sec',
           30: '30 sec',
@@ -358,14 +320,12 @@ const cz = {
           3600: '1 hodina'
         },
         ssh: {
-          description: 'Povolit vzdálený přístup SSH',
-          tip: 'Před povolením nastavte silné heslo (Účet – Změnit heslo)'
+          description: 'Povolit vzdálený přístup SSH'
         },
         swap: {
           title: 'Vyměnit',
           disable: 'Zakázat',
-          description: 'Nastavte velikost odkládacího souboru',
-          tip: 'Povolení této funkce může zkrátit životnost vaší SD karty!'
+          description: 'Nastavte velikost odkládacího souboru'
         },
         mouseJiggler: {
           title: 'Mouse Jiggler',
@@ -385,12 +345,7 @@ const cz = {
           minutes: 'min'
         },
         hidOnly: 'HID-Pouze režim',
-        hidOnlyDesc: 'Zastavit emulaci virtuálních zařízení a zachovat pouze základní ovládání HID',
         disk: 'Virtuální disk',
-        diskDesc: 'Mount virtual U-disk on the remote host',
-        diskLocked: 'Off while an image is mounted (turning it on cancels the mount)',
-        diskCancelMount:
-          'Enabling the virtual disk cancels the mounted image and interrupts a running image download or upload. Continue?',
         network: 'Virtuální síť',
         networkDesc: 'Připojit virtuální síťovou kartu na vzdáleném hostiteli',
         reboot: 'Restartujte',
@@ -415,8 +370,7 @@ const cz = {
           cancelBtn: 'Zrušit'
         },
         tls: {
-          description: 'Povolit protokol HTTPS',
-          tip: 'Upozornění: Použití HTTPS může zvýšit latenci, zejména v režimu videa MJPEG.'
+          description: 'Povolit protokol HTTPS'
         },
         dns: {
           title: 'DNS',
@@ -437,7 +391,6 @@ const cz = {
           unsaved: 'Neuložené změny',
           maxServers: 'Je povoleno maximálně {{count}} DNS serverů',
           dhcpServersDescription: 'DNS servery jsou automaticky získávány z DHCP',
-          manualServersDescription: 'Servery DNS lze upravovat ručně. IPv4 i IPv6 jsou podporovány',
           interface: 'Rozhraní',
           ipAddress: 'IP adresa',
           subnetMask: 'Maska podsítě',
@@ -447,22 +400,16 @@ const cz = {
       tailscale: {
         title: 'Tailscale',
         memory: {
-          title: 'Optimalizace paměti',
-          tip: "When memory usage exceeds the limit, garbage collection is performed more aggressively to attempt to free up memory. it's recommended to set to 50MB if using Tailscale. A Tailscale restart is required for the change to take effect."
+          title: 'Optimalizace paměti'
         },
         swap: {
           title: 'Vyměňte paměť',
           tip: 'Pokud problémy přetrvávají i po povolení optimalizace paměti, zkuste povolit odkládací paměť. Tím se ve výchozím nastavení nastaví velikost odkládacího souboru na 256MB, kterou lze upravit v „Nastavení > Zařízení“.'
         },
-        restart: 'Are you sure to restart Tailscale?',
-        stop: 'Are you sure to stop Tailscale?',
-        stopDesc: 'Log out Tailscale and disable its automatic startup on boot.',
         loading: 'Načítání...',
-        notInstall: 'Tailscale nebyl nalezen! Prosím nainstalujte.',
         install: 'Nainstalovat',
         installing: 'Instalace probíhá',
         failed: 'Instalace se nezdařila',
-        retry: 'Obnovte stránku a zkuste to znovu. Nebo zkuste instalaci manuálně',
         download: 'Stáhnout',
         package: 'instalační balíček',
         unzip: 'a rozbalit ho',
@@ -483,9 +430,7 @@ const cz = {
         logout: 'Odhlásit se',
         logoutDesc: 'Opravdu se chcete odhlásit?',
         uninstall: 'Odinstalovat Tailscale',
-        uninstallDesc: 'Opravdu chcete odinstalovat Tailscale?',
-        okBtn: 'Yes',
-        cancelBtn: 'No'
+        uninstallDesc: 'Opravdu chcete odinstalovat Tailscale?'
       },
       update: {
         title: 'Zkontrolovat aktualizaci',
@@ -498,8 +443,6 @@ const cz = {
         cancel: 'Zrušit',
         preview: 'Náhled aktualizací',
         previewDesc: 'Získejte včasný přístup k novým funkcím a vylepšením',
-        previewTip:
-          'Uvědomte si prosím, že předběžné verze mohou obsahovat chyby nebo neúplné funkce!',
         offline: {
           title: 'Offline aktualizace',
           desc: 'Aktualizace prostřednictvím místního instalačního balíčku',
@@ -521,15 +464,12 @@ const cz = {
     },
     picoclaw: {
       title: 'PicoClaw asistent',
-      empty: 'Otevřete panel a spusťte úlohu.',
       inputPlaceholder: 'Popište, co chcete, aby PicoClaw dělal',
       newConversation: 'Nová konverzace',
       processing: 'Zpracovává se...',
       agent: {
         defaultTitle: 'Obecný asistent',
-        defaultDescription: 'Obecná nápověda pro chat, vyhledávání a pracovní prostor.',
         kvmTitle: 'Vzdálené ovládání',
-        kvmDescription: 'Ovládejte vzdáleného hostitele prostřednictvím NanoKVM.',
         switched: 'Role agenta změněna',
         switchFailed: 'Přepnutí role agenta se nezdařilo'
       },
@@ -576,8 +516,6 @@ const cz = {
         success: 'PicoClaw úspěšně nainstalováno',
         failed: 'Nepodařilo se nainstalovat PicoClaw',
         uninstalling: 'Odinstalování běhového prostředí...',
-        uninstalled: 'Běhové prostředí bylo úspěšně odinstalováno.',
-        uninstallFailed: 'Odinstalace se nezdařila.',
         requiredTitle: 'PicoClaw není nainstalováno',
         requiredDescription: 'Nainstalujte PicoClaw před spuštěním běhového prostředí PicoClaw.',
         progressDescription: 'PicoClaw se stahuje a instaluje.',
