@@ -430,7 +430,6 @@ const translations: Record<string, string> = {
   'settings.system.time.servers.title': 'NTP-palvelimet',
   'settings.system.time.servers.description':
     'Käytä oletuksena julkisia pool-palvelimia tai osoita NanoKVM paikalliseen reitittimeen/NTP-palvelimeen.',
-  'settings.system.time.servers.add': 'Lisää palvelin',
   'settings.system.time.servers.useRouter': 'Käytä reititintä',
   'settings.system.time.servers.useDefaults': 'Käytä oletuksia',
   'settings.system.time.servers.routerDetected': 'Tunnistettu reititin: {{gateway}}',

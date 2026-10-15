@@ -1,15 +1,17 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import type { ReactNode } from 'react';
-import { Alert, Button, ConfigProvider, Divider, Input, Select, Switch } from 'antd';
-import { ClockIcon, PlusIcon, RefreshCwIcon, RouterIcon, Trash2Icon } from 'lucide-react';
+import { Alert, Button, ConfigProvider, Divider, Select, Switch } from 'antd';
+import { ClockIcon, RefreshCwIcon, RouterIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/system-time.ts';
 import type { TimeConfig, TimeConfigResponse } from '@/api/system-time.ts';
 import { toast } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
+import { InfoRow, SettingRow } from '@/components/setting-rows.tsx';
 
 import type { SystemActionHandle, SystemActionState } from './action.ts';
+
+const maxServers = 6;
 
 const defaultConfig: TimeConfig = {
   ntpEnabled: true,
@@ -68,26 +70,12 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
       patchConfig({ ntpEnabled });
     }
 
-    function updateServer(index: number, value: string) {
-      setConfig((current) => ({
-        ...current,
-        servers: current.servers.map((server, itemIndex) => (itemIndex === index ? value : server))
-      }));
-    }
-
-    function removeServer(index: number) {
-      setConfig((current) => ({
-        ...current,
-        servers: current.servers.filter((_, itemIndex) => itemIndex !== index)
-      }));
-    }
-
-    function addServer() {
-      if (config.servers.length >= 6) {
-        toast.error(t('settings.system.time.maxServers', { count: 6 }));
+    function changeServers(servers: string[]) {
+      if (servers.length > maxServers) {
+        toast.error(t('settings.system.time.maxServers', { count: maxServers }));
         return;
       }
-      patchConfig({ servers: [...config.servers, ''] });
+      patchConfig({ servers });
     }
 
     function useRouter() {
@@ -195,24 +183,17 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
             />
           </div>
 
-          <div className="min-w-0 space-y-3 overflow-hidden rounded-lg bg-neutral-800/50 p-4">
-            <div>
-              <div className="font-semibold text-neutral-100">
-                {t('settings.system.time.clock.title')}
-              </div>
-              <div className="mt-0.5 break-words text-xs leading-snug text-neutral-500">
-                {t('settings.system.time.clock.description')}
-              </div>
-            </div>
+          <Divider className="opacity-50" />
 
-            <SettingRow label={t('settings.system.time.clock.current')}>
-              <div className="flex min-h-[32px] items-center gap-2 text-sm text-neutral-300">
-                <ClockIcon size={15} />
-                <span>{data?.currentTime || '-'}</span>
-              </div>
-            </SettingRow>
+          <div className="flex min-w-0 flex-col space-y-6">
+            <div className="text-neutral-400">{t('settings.system.time.clock.title')}</div>
 
-            <SettingRow label={t('settings.system.time.clock.timezone')} isLast>
+            <InfoRow label={t('settings.system.time.clock.current')} value={data?.currentTime} />
+
+            <SettingRow
+              label={t('settings.system.time.clock.timezone')}
+              description={t('settings.system.time.clock.description')}
+            >
               <Select
                 showSearch
                 value={config.timezone}
@@ -223,68 +204,55 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
                     .toLowerCase()
                     .includes(input.toLowerCase())
                 }
-                className="w-full"
+                className="w-full text-right sm:w-72 [&_.ant-select-selection-search-input]:text-right"
               />
             </SettingRow>
-          </div>
 
-          {config.ntpEnabled && (
-            <div className="min-w-0 space-y-3 overflow-hidden rounded-lg bg-neutral-800/50 p-4">
-              <div>
-                <div className="font-semibold text-neutral-100">
-                  {t('settings.system.time.servers.title')}
-                </div>
-                <div className="mt-0.5 break-words text-xs leading-snug text-neutral-500">
-                  {t('settings.system.time.servers.description')}
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                {config.servers.map((server, index) => (
-                  <div key={index} className="flex min-w-0 gap-2">
-                    <Input
-                      className="min-w-0"
-                      value={server}
-                      placeholder="0.pool.ntp.org"
-                      onChange={(event) => updateServer(index, event.target.value)}
-                    />
-                    <Button
-                      icon={<Trash2Icon size={15} />}
-                      disabled={config.servers.length <= 1}
-                      onClick={() => removeServer(index)}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex min-w-0 flex-wrap justify-end gap-2">
-                <Button className="min-w-0" icon={<PlusIcon size={15} />} onClick={addServer}>
-                  {t('settings.system.time.servers.add')}
-                </Button>
-                <Button
-                  className="min-w-0"
-                  disabled={!data?.gateway}
-                  icon={<RouterIcon size={15} />}
-                  onClick={useRouter}
+            {config.ntpEnabled && (
+              <>
+                <SettingRow
+                  label={t('settings.system.time.servers.title')}
+                  description={t('settings.system.time.servers.description')}
                 >
-                  {t('settings.system.time.servers.useRouter')}
-                </Button>
-                <Button className="min-w-0" onClick={useDefaults}>
-                  {t('settings.system.time.servers.useDefaults')}
-                </Button>
-              </div>
+                  <Select
+                    className="w-full sm:w-72 [&_.ant-select-selection-overflow]:justify-end"
+                    mode="tags"
+                    open={false}
+                    tokenSeparators={[',', ' ']}
+                    value={config.servers}
+                    placeholder="0.pool.ntp.org"
+                    status={hasInvalid ? 'error' : undefined}
+                    suffixIcon={null}
+                    onChange={(servers) => changeServers(servers.map(String))}
+                  />
+                </SettingRow>
 
-              {data?.gateway && (
-                <Alert
-                  type="info"
-                  showIcon
-                  message={t('settings.system.time.servers.routerDetected', {
-                    gateway: data.gateway
-                  })}
-                />
-              )}
-            </div>
-          )}
+                <div className="flex min-w-0 flex-wrap justify-end gap-2">
+                  <Button
+                    className="min-w-0"
+                    disabled={!data?.gateway}
+                    icon={<RouterIcon size={15} />}
+                    onClick={useRouter}
+                  >
+                    {t('settings.system.time.servers.useRouter')}
+                  </Button>
+                  <Button className="min-w-0" onClick={useDefaults}>
+                    {t('settings.system.time.servers.useDefaults')}
+                  </Button>
+                </div>
+
+                {data?.gateway && (
+                  <Alert
+                    type="info"
+                    showIcon
+                    message={t('settings.system.time.servers.routerDetected', {
+                      gateway: data.gateway
+                    })}
+                  />
+                )}
+              </>
+            )}
+          </div>
 
           <Divider className="opacity-50" />
 
@@ -333,24 +301,3 @@ function normalizeTimeConfig(config: TimeConfig): TimeConfig {
     servers: config.servers.map((server) => server.trim()).filter(Boolean)
   };
 }
-
-const SettingRow = ({
-  label,
-  children,
-  isLast = false
-}: {
-  label: string;
-  children: ReactNode;
-  isLast?: boolean;
-}) => {
-  return (
-    <div
-      className={`flex min-h-[44px] min-w-0 flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
-        isLast ? '' : 'border-b border-neutral-700/50 pb-3'
-      }`}
-    >
-      <span className="min-w-0 text-sm text-neutral-300">{label}</span>
-      <div className="w-full min-w-0 sm:w-[280px]">{children}</div>
-    </div>
-  );
-};

@@ -185,7 +185,8 @@ const en = {
       scrollDown: 'Scroll down',
       speed: 'Wheel speed',
       sensitivity: 'Pointer speed',
-      sensitivityDesc: 'Use this for desktop relative mode. Lower values reduce drift from host mouse acceleration.',
+      sensitivityDesc:
+        'Use this for desktop relative mode. Lower values reduce drift from host mouse acceleration.',
       fast: 'Fast',
       slow: 'Slow',
       mobile: {
@@ -589,9 +590,7 @@ const en = {
           },
           servers: {
             title: 'NTP Servers',
-            description:
-              'Use public pool servers by default, or point NanoKVM at your local router/NTP server',
-            add: 'Add server',
+            description: 'Use default public servers, your local router, or custom NTP servers',
             useRouter: 'Use router',
             useDefaults: 'Use defaults',
             routerDetected: 'Detected router: {{gateway}}'

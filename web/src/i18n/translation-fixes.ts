@@ -124,7 +124,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Atenció: Usar HTTPS pot augmentar la latència, sobretot amb vídeo MJPEG',
     'settings.system.time.servers.description':
-      'Fes servir servidors pool públics per defecte o apunta NanoKVM al teu encaminador/servidor NTP local',
+      'Fes servir els servidors públics per defecte, el teu encaminador local o servidors NTP personalitzats',
     'settings.systemLog.remote.protocol': 'El syslog UDP és usat pel syslogd BusyBox actual',
     'settings.systemLog.local.description':
       'Els registres actuals es mantenen a la RAM a {{path}} per evitar escriptures a la targeta SD',
@@ -378,7 +378,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Upozornění: Použití HTTPS může zvýšit latenci, zejména v režimu videa MJPEG',
     'settings.system.time.servers.description':
-      'Použijte výchozí veřejné pool servery nebo nasměrujte NanoKVM na místní router/NTP server',
+      'Použijte výchozí veřejné servery, místní router nebo vlastní servery NTP',
     'settings.systemLog.remote.protocol': 'Aktuální BusyBox syslogd používá UDP syslog',
     'settings.systemLog.local.description':
       'Aktuální protokoly jsou uchovány v RAM v {{path}}, aby se zabránilo zápisům na SD kartu',
@@ -558,7 +558,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Bemærk: Brug af HTTPS kan øge forsinkelsen, især med MJPEG-videotilstand',
     'settings.system.time.servers.description':
-      'Brug offentlige pool-servere som standard, eller peg NanoKVM på din lokale router/NTP-server',
+      'Brug standardens offentlige servere, din lokale router eller egne NTP-servere',
     'settings.systemLog.remote.protocol': 'UDP-syslog bruges af den aktuelle BusyBox syslogd',
     'settings.systemLog.local.description':
       'Aktuelle logs opbevares i RAM på {{path}} for at undgå skrivninger til SD-kortet',
@@ -718,7 +718,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Hinweis: Die Verwendung von HTTPS kann die Latenz erhöhen, besonders im MJPEG-Videomodus',
     'settings.system.time.servers.description':
-      'Standardmäßig öffentliche Pool-Server verwenden oder NanoKVM auf den lokalen Router/NTP-Server verweisen',
+      'Öffentliche Standardserver, den lokalen Router oder eigene NTP-Server verwenden',
     'settings.systemLog.remote.protocol': 'UDP-Syslog wird vom aktuellen BusyBox syslogd verwendet',
     'settings.systemLog.local.description':
       'Aktuelle Protokolle werden im RAM unter {{path}} gehalten, um Schreibzugriffe auf die SD-Karte zu vermeiden',
@@ -887,7 +887,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Aviso: Usar HTTPS puede aumentar la latencia, especialmente en modo de vídeo MJPEG',
     'settings.system.time.servers.description':
-      'Usa servidores públicos por defecto o apunta NanoKVM a tu router/servidor NTP local',
+      'Usa los servidores públicos predeterminados, tu router local o servidores NTP personalizados',
     'settings.systemLog.remote.protocol': 'El syslog UDP lo usa el syslogd actual de BusyBox',
     'settings.systemLog.local.description':
       'Los registros actuales se mantienen en RAM en {{path}} para evitar escrituras en la tarjeta SD',
@@ -1053,7 +1053,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Pane tähele: HTTPS kasutamine võib suurendada latentsust, eriti MJPEG videorežiimis',
     'settings.system.time.servers.description':
-      'Kasuta vaikimisi avalikke pool servereid või suuna NanoKVM kohaliku ruuteri/NTP-serveri poole',
+      'Kasuta avalikke vaikeservereid, kohalikku ruuterit või enda NTP-servereid',
     'settings.systemLog.remote.protocol': 'Praegune BusyBox syslogd kasutab UDP syslogi',
     'settings.systemLog.local.description':
       'Praeguseid logisid hoitakse RAM-is asukohas {{path}}, et vältida SD-kaardi kirjutusi',
@@ -1210,7 +1210,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Poista käytöstä, jos isäntä kirjaa toistuvia USB wakeup -viestejä',
     'settings.network.tls.tip': 'Huomaa: HTTPS voi lisätä viivettä, erityisesti MJPEG-videotilassa',
     'settings.system.time.servers.description':
-      'Käytä oletuksena julkisia pool-palvelimia tai osoita NanoKVM paikalliseen reitittimeen/NTP-palvelimeen',
+      'Käytä julkisia oletuspalvelimia, paikallista reititintä tai omia NTP-palvelimia',
     'settings.systemLog.remote.protocol': 'Nykyinen BusyBox syslogd käyttää UDP syslogia',
     'settings.systemLog.local.description':
       'Nykyiset lokit säilytetään RAMissa polussa {{path}}, jotta SD-kortille ei kirjoiteta',
@@ -1366,7 +1366,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       "Attention : l'utilisation de HTTPS peut augmenter la latence, surtout en mode vidéo MJPEG",
     'settings.system.time.servers.description':
-      'Utilisez les serveurs publics par défaut ou pointez NanoKVM vers votre routeur/serveur NTP local',
+      'Utiliser les serveurs publics par défaut, votre routeur local ou des serveurs NTP personnalisés',
     'settings.systemLog.remote.protocol': 'Le syslog UDP est utilisé par le syslogd BusyBox actuel',
     'settings.systemLog.local.description':
       'Les journaux actuels sont conservés en RAM dans {{path}} pour éviter les écritures sur la carte SD',
@@ -1552,7 +1552,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Figyelem: A HTTPS használata növelheti a késleltetést, különösen MJPEG videó módban',
     'settings.system.time.servers.description':
-      'Alapértelmezetten nyilvános pool szerverek használata, vagy a NanoKVM irányítása helyi router/NTP-szerver felé',
+      'Használja az alapértelmezett nyilvános szervereket, a helyi routert vagy egyéni NTP-szervereket',
     'settings.systemLog.remote.protocol': 'A jelenlegi BusyBox syslogd UDP syslogot használ',
     'settings.systemLog.local.description':
       'Az aktuális naplók RAM-ban, a {{path}} útvonalon maradnak, hogy elkerülje az SD-kártya írását',
@@ -1731,7 +1731,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Perhatian: Menggunakan HTTPS dapat meningkatkan latensi, terutama pada mode video MJPEG',
     'settings.system.time.servers.description':
-      'Gunakan server pool publik secara default, atau arahkan NanoKVM ke router/server NTP lokal',
+      'Gunakan server publik bawaan, router lokal Anda, atau server NTP kustom',
     'settings.systemLog.remote.protocol': 'Syslog UDP digunakan oleh BusyBox syslogd saat ini',
     'settings.systemLog.local.description':
       'Log saat ini disimpan di RAM pada {{path}} untuk menghindari penulisan ke kartu SD',
@@ -1909,7 +1909,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       "Attenzione: l'uso di HTTPS può aumentare la latenza, soprattutto in modalità video MJPEG",
     'settings.system.time.servers.description':
-      'Usa i server pubblici predefiniti oppure indirizza NanoKVM al router/server NTP locale',
+      'Usa i server pubblici predefiniti, il router locale o server NTP personalizzati',
     'settings.systemLog.remote.protocol': 'Il syslog UDP è usato dall’attuale BusyBox syslogd',
     'settings.systemLog.local.description':
       'I log correnti sono mantenuti in RAM in {{path}} per evitare scritture sulla scheda SD',
@@ -2066,7 +2066,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       '注意：HTTPS を使用すると、特に MJPEG ビデオモードで遅延が増加する可能性があります',
     'settings.system.time.servers.description':
-      '既定では公開 pool サーバーを使用するか、NanoKVM をローカルルーター/NTP サーバーに向けます',
+      '既定の公開サーバー、ローカルルーター、またはカスタム NTP サーバーを使用します',
     'settings.systemLog.remote.protocol': '現在の BusyBox syslogd は UDP syslog を使用します',
     'settings.systemLog.local.description':
       'SD カードへの書き込みを避けるため、現在のログは {{path}} の RAM に保持されます',
@@ -2214,7 +2214,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       '주의: HTTPS 사용 시 특히 MJPEG 비디오 모드에서 지연 시간이 증가할 수 있습니다',
     'settings.system.time.servers.description':
-      '기본적으로 공개 pool 서버를 사용하거나 NanoKVM을 로컬 라우터/NTP 서버로 지정하세요',
+      '기본 공용 서버, 로컬 라우터 또는 사용자 지정 NTP 서버를 사용합니다',
     'settings.systemLog.remote.protocol': '현재 BusyBox syslogd는 UDP syslog를 사용합니다',
     'settings.systemLog.local.description':
       'SD 카드 쓰기를 피하기 위해 현재 로그는 {{path}}의 RAM에 보관됩니다',
@@ -2393,7 +2393,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Merk: Bruk av HTTPS kan øke forsinkelsen, spesielt i MJPEG-videomodus',
     'settings.system.time.servers.description':
-      'Bruk offentlige pool-servere som standard, eller pek NanoKVM til lokal ruter/NTP-server',
+      'Bruk standard offentlige servere, din lokale ruter eller egne NTP-servere',
     'settings.systemLog.remote.protocol': 'UDP-syslog brukes av gjeldende BusyBox syslogd',
     'settings.systemLog.local.description':
       'Gjeldende logger holdes i RAM på {{path}} for å unngå skriving til SD-kortet',
@@ -2552,7 +2552,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Let op: HTTPS gebruiken kan de latentie verhogen, vooral in MJPEG-videomodus',
     'settings.system.time.servers.description':
-      'Gebruik standaard publieke poolservers of wijs NanoKVM naar uw lokale router/NTP-server',
+      'Gebruik de standaard openbare servers, je lokale router of eigen NTP-servers',
     'settings.systemLog.remote.protocol':
       'UDP-syslog wordt gebruikt door de huidige BusyBox syslogd',
     'settings.systemLog.local.description':
@@ -2730,7 +2730,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Uwaga: użycie HTTPS może zwiększyć opóźnienie, szczególnie w trybie wideo MJPEG',
     'settings.system.time.servers.description':
-      'Domyślnie używaj publicznych serwerów pool albo wskaż lokalny router/serwer NTP',
+      'Użyj domyślnych serwerów publicznych, lokalnego routera lub własnych serwerów NTP',
     'settings.systemLog.remote.protocol': 'Bieżący BusyBox syslogd używa syslog przez UDP',
     'settings.systemLog.local.description':
       'Aktualne logi są przechowywane w RAM w {{path}}, aby unikać zapisów na kartę SD',
@@ -2888,7 +2888,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Atenção: O uso de HTTPS pode aumentar a latência, especialmente com o modo de vídeo MJPEG',
     'settings.system.time.servers.description':
-      'Use servidores públicos por padrão ou aponte o NanoKVM para seu roteador/servidor NTP local',
+      'Use os servidores públicos padrão, seu roteador local ou servidores NTP personalizados',
     'settings.systemLog.remote.protocol': 'O syslog UDP é usado pelo BusyBox syslogd atual',
     'settings.systemLog.local.description':
       'Os logs atuais ficam em RAM em {{path}} para evitar gravações no cartão SD',
@@ -3009,7 +3009,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Имейте в виду: использование HTTPS может увеличить задержку, особенно в режиме видео MJPEG',
     'settings.system.time.servers.description':
-      'По умолчанию используются публичные pool.ntp.org, но можно указать локальный роутер или NTP-сервер',
+      'Используйте публичные серверы по умолчанию, локальный маршрутизатор или собственные NTP-серверы',
     'settings.systemLog.remote.protocol': 'Текущий BusyBox syslogd использует UDP syslog',
     'settings.systemLog.local.description':
       'Текущие логи хранятся в RAM по пути {{path}}, без записи на SD-карту',
@@ -3169,7 +3169,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Observera: Användning av HTTPS kan öka fördröjningen, särskilt med MJPEG-läge',
     'settings.system.time.servers.description':
-      'Använd offentliga pool-servrar som standard, eller peka NanoKVM mot lokal router/NTP-server',
+      'Använd standardservrarna, din lokala router eller egna NTP-servrar',
     'settings.systemLog.remote.protocol': 'UDP-syslog används av aktuell BusyBox syslogd',
     'settings.systemLog.local.description':
       'Aktuella loggar hålls i RAM på {{path}} för att undvika skrivningar till SD-kortet',
@@ -3310,7 +3310,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownJapanese': 'ภาษาญี่ปุ่น',
     'keyboard.localInput': 'การป้อนข้อมูลจากแป้นพิมพ์มือถือ',
     'settings.network.configuration': 'การกำหนดค่า',
-    'settings.network.dns.servers': 'เซิร์ฟเวอร์'
+    'settings.network.dns.servers': 'เซิร์ฟเวอร์',
+    'settings.system.time.servers.description':
+      'ใช้เซิร์ฟเวอร์สาธารณะเริ่มต้น เราเตอร์ในเครือข่ายของคุณ หรือเซิร์ฟเวอร์ NTP ที่กำหนดเอง'
   },
   tr: {
     'auth.illegalPassword':
@@ -3432,7 +3434,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'HTTPS protokolü bağlantıda gecikmeye sebep olabilir, özellikle MJPEG görüntü modu ile',
     'settings.system.time.servers.description':
-      'Varsayılan olarak genel pool sunucularını kullanın veya NanoKVM’i yerel yönlendirici/NTP sunucunuza yönlendirin',
+      'Varsayılan genel sunucuları, yerel yönlendiricinizi veya özel NTP sunucularını kullanın',
     'settings.systemLog.remote.protocol': 'Geçerli BusyBox syslogd UDP syslog kullanır',
     'settings.systemLog.local.description':
       'SD karta yazmayı önlemek için geçerli günlükler RAM’de {{path}} konumunda tutulur',
@@ -3601,7 +3603,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Будьте в курсі: Використання HTTPS може збільшити затримку, особливо в режимі відео MJPEG',
     'settings.system.time.servers.description':
-      'Використовуйте публічні pool-сервери за замовчуванням або вкажіть локальний маршрутизатор/NTP-сервер',
+      'Використовуйте публічні сервери за замовчуванням, локальний маршрутизатор або власні NTP-сервери',
     'settings.systemLog.remote.protocol': 'Поточний BusyBox syslogd використовує UDP syslog',
     'settings.systemLog.local.description':
       'Поточні журнали зберігаються в RAM за шляхом {{path}}, щоб уникати записів на SD-карту',
@@ -3764,7 +3766,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.tls.tip':
       'Lưu ý: Sử dụng HTTPS có thể tăng độ trễ, đặc biệt trong chế độ video MJPEG',
     'settings.system.time.servers.description':
-      'Dùng máy chủ pool công khai theo mặc định, hoặc trỏ NanoKVM tới bộ định tuyến/máy chủ NTP cục bộ',
+      'Dùng máy chủ công cộng mặc định, bộ định tuyến cục bộ hoặc máy chủ NTP tùy chỉnh',
     'settings.systemLog.remote.protocol': 'BusyBox syslogd hiện tại dùng UDP syslog',
     'settings.systemLog.local.description':
       'Nhật ký hiện tại được giữ trong RAM tại {{path}} để tránh ghi vào thẻ SD',
@@ -3891,8 +3893,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.usbWakeupDesc': '允许键盘或鼠标事件唤醒远程主机',
     'settings.device.usbWakeupTip': '如果主机反复记录 USB wakeup 消息，请关闭',
     'settings.network.tls.tip': '注意：使用 HTTPS 可能导致延迟增加，特别是在 MJPEG 视频模式下',
-    'settings.system.time.servers.description':
-      '默认使用公共 pool 服务器，或将 NanoKVM 指向本地路由器/NTP 服务器',
+    'settings.system.time.servers.description': '使用默认公共服务器、本地路由器或自定义 NTP 服务器',
     'settings.systemLog.remote.protocol': '当前 BusyBox syslogd 使用 UDP syslog',
     'settings.systemLog.local.description': '当前日志保存在 RAM 的 {{path}}，以避免写入 SD 卡',
     'settings.systemLog.viewer.truncated': '仅显示最新的日志数据',
@@ -4015,8 +4016,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.usbWakeupTip': '如果主機反覆記錄 USB wakeup 訊息，請關閉',
     'settings.network.tls.tip':
       '啟用 HTTPS 可以提高安全性，但可能會增加傳輸延遲，特別是使用 MJPEG 格式傳輸時',
-    'settings.system.time.servers.description':
-      '預設使用公共 pool 伺服器，或將 NanoKVM 指向本地路由器/NTP 伺服器',
+    'settings.system.time.servers.description': '使用預設公用伺服器、本機路由器或自訂 NTP 伺服器',
     'settings.systemLog.remote.protocol': '目前 BusyBox syslogd 使用 UDP syslog',
     'settings.systemLog.local.description': '目前記錄保存在 RAM 的 {{path}}，以避免寫入 SD 卡',
     'settings.systemLog.viewer.truncated': '僅顯示最新的記錄資料',
