@@ -379,7 +379,8 @@ const ca = {
         hdmi: {
           description: 'Activa la sortida HDMI',
           idleTimeoutTitle: "Temps d'espera d'inactivitat de captura",
-          idleTimeoutDescription: "Atura la captura HDMI després de no detectar espectadors actius durant",
+          idleTimeoutDescription:
+            'Atura la captura HDMI després de no detectar espectadors actius durant',
           minutes: 'min'
         },
         hidOnly: 'Mode només HID',
@@ -420,14 +421,15 @@ const ca = {
           title: 'DNS',
           description: 'Configura els servidors DNS per a NanoKVM',
           ipv4Title: 'IPv4',
-          ipv4Description: 'Configura l\'adreçament IPv4 per a la interfície cablejada',
+          ipv4Description: "Configura l'adreçament IPv4 per a la interfície cablejada",
           mode: 'Mode',
           dhcp: 'DHCP',
           manual: 'Manual',
           save: 'Desa',
           apply: 'Aplica',
           invalid: 'Introduïu una adreça IPv4 o IPv6 vàlida',
-          invalidNetwork: 'Introduïu una adreça IPv4, una màscara de subxarxa i un encaminador vàlids',
+          invalidNetwork:
+            'Introduïu una adreça IPv4, una màscara de subxarxa i un encaminador vàlids',
           noDhcp: 'No hi ha cap DNS DHCP disponible actualment',
           saved: 'Configuració DNS desada',
           redirecting: 'Configuració de xarxa desada. Obrint la nova adreça...',
@@ -435,7 +437,8 @@ const ca = {
           unsaved: 'Canvis no desats',
           maxServers: 'Es permeten com a màxim {{count}} servidors DNS',
           dhcpServersDescription: "Els servidors DNS s'obtenen automàticament via DHCP",
-          manualServersDescription: 'Els servidors DNS es poden editar manualment. IPv4 i IPv6 són compatibles',
+          manualServersDescription:
+            'Els servidors DNS es poden editar manualment. IPv4 i IPv6 són compatibles',
           interface: 'Interfície',
           ipAddress: 'Adreça IP',
           subnetMask: 'Màscara de subxarxa',

@@ -439,7 +439,8 @@ const uk = {
           unsaved: 'Незбережені зміни',
           maxServers: 'Дозволено щонайбільше {{count}} DNS-серверів',
           dhcpServersDescription: 'DNS-сервери автоматично отримуються з DHCP',
-          manualServersDescription: 'DNS-сервери можна редагувати вручну. IPv4 та IPv6 підтримуються',
+          manualServersDescription:
+            'DNS-сервери можна редагувати вручну. IPv4 та IPv6 підтримуються',
           interface: 'Інтерфейс',
           ipAddress: 'IP-адреса',
           subnetMask: 'Маска підмережі',

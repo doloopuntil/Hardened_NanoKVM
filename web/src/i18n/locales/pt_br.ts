@@ -437,7 +437,8 @@ const pt_br = {
           unsaved: 'Alterações não salvas',
           maxServers: 'Máximo de {{count}} servidores DNS permitido',
           dhcpServersDescription: 'Os servidores DNS são obtidos automaticamente via DHCP',
-          manualServersDescription: 'Os servidores DNS podem ser editados manualmente. IPv4 e IPv6 são compatíveis',
+          manualServersDescription:
+            'Os servidores DNS podem ser editados manualmente. IPv4 e IPv6 são compatíveis',
           interface: 'Interface',
           ipAddress: 'Endereço IP',
           subnetMask: 'Máscara de sub-rede',

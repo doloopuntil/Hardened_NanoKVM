@@ -437,34 +437,18 @@ const translations: Record<string, string> = {
   'settings.system.firewall.saved': 'Tulemüüri seaded rakendatud',
   'settings.system.firewall.cancel': 'Tühista',
   'settings.system.firewall.refresh': 'Värskenda',
-  'settings.system.firewall.backend': 'Backend',
-  'settings.system.firewall.effectiveMode': 'Kehtiv režiim',
-  'settings.system.firewall.disabled': 'Keelatud',
-  'settings.system.firewall.enabledPort': 'Lubatud pordil {{port}}',
   'settings.system.firewall.enableHttpsFirst':
     'Luba HTTPS enne Paranoid tulemüüri režiimi lubamist',
   'settings.system.firewall.httpsRequired':
     'Paranoid režiim on keelatud, kuni HTTPS on lubatud menüüs Seaded > Süsteem > Võrk.',
   'settings.system.firewall.mode.title': 'Tulemüüri režiim',
-  'settings.system.firewall.mode.description':
-    'Vali, kuidas sissetulev haldusligipääs avatakse. Moderate on vaikimisi ainult kohalik profiil; Restricted hoiab HTTPS/SSH ainult kohaliku ja blokeerib WebRTC; Baseline on avatud ühilduvusprofiil.',
   'settings.system.firewall.mode.baseline': 'Hallatud baseline',
   'settings.system.firewall.mode.restricted': 'Piiratud',
   'settings.system.firewall.mode.paranoid': 'Paranoid',
   'settings.system.firewall.restricted.enable': 'Luba Restricted',
-  'settings.system.firewall.restricted.active': 'Restricted tulemüüri režiim on aktiivne',
-  'settings.system.firewall.restricted.allows':
-    'Lubatud liiklus: HTTPS ja SSH ainult private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local või IPv6 loopback lähtevahemikest; väljaminev DNS, NTP, kaug-syslog ja online-uuendused; DHCP, olemasolevad ühendused ja hädavajalik IPv6 juhtliiklus. WebRTC/ICE UDP blokeeritakse.',
   'settings.system.firewall.restricted.confirmTitle': 'Kas lubada Restricted tulemüüri režiim?',
-  'settings.system.firewall.restricted.confirmDesc':
-    'Sissetulev haldusligipääs piiratakse HTTPS-i ja SSH jaoks private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local või IPv6 loopback lähtevahemikega. Avalikud lähtevahemikud pole lubatud. Väljaminev DNS, NTP, kaug-syslog, online-uuendused, DHCP, olemasolevad ühendused ja hädavajalik IPv6 juhtliiklus jäävad kättesaadavaks. WebRTC/ICE UDP ja muu sisse-/väljaminev liiklus blokeeritakse.',
   'settings.system.firewall.paranoid.enable': 'Luba Paranoid',
-  'settings.system.firewall.paranoid.active': 'Paranoid tulemüüri režiim on aktiivne',
-  'settings.system.firewall.paranoid.blocks':
-    'Online-uuendused ja väljaminevad võrgufunktsioonid on blokeeritud. Offline-uuenduse üleslaadimine ja juba ettevalmistatud paigaldused jäävad kättesaadavaks.',
   'settings.system.firewall.paranoid.confirmTitle': 'Kas lubada Paranoid tulemüüri režiim?',
-  'settings.system.firewall.paranoid.confirmDesc':
-    'Alles jääb ainult HTTPS ligipääs. SSH, HTTP, mDNS, NTP, GitHubi allalaadimised ning muu sisse- ja väljaminev liiklus blokeeritakse, välja arvatud minimaalne DHCP/IPv6 juhtliiklus.',
   'settings.system.firewall.baseline.apply': 'Naase baseline režiimi',
   'settings.system.firewall.baseline.confirmTitle': 'Kas naasta hallatud baseline režiimi?',
   'settings.system.firewall.baseline.confirmDesc':

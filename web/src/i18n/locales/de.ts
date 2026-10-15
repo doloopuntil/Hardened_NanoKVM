@@ -385,7 +385,8 @@ const de = {
         hdmi: {
           description: 'HDMI/Monitor-Ausgabe aktivieren',
           idleTimeoutTitle: 'Zeitlimit für inaktive Aufnahme',
-          idleTimeoutDescription: 'HDMI-Aufnahme stoppen, wenn keine aktiven Zuschauer vorhanden sind für',
+          idleTimeoutDescription:
+            'HDMI-Aufnahme stoppen, wenn keine aktiven Zuschauer vorhanden sind für',
           minutes: 'Min.'
         },
         hidOnly: 'HID-Only Mode',
@@ -442,7 +443,8 @@ const de = {
           unsaved: 'Ungespeicherte Änderungen',
           maxServers: 'Maximal {{count}} DNS-Server erlaubt',
           dhcpServersDescription: 'DNS-Server werden automatisch per DHCP bezogen',
-          manualServersDescription: 'DNS-Server können manuell bearbeitet werden. IPv4 und IPv6 werden unterstützt',
+          manualServersDescription:
+            'DNS-Server können manuell bearbeitet werden. IPv4 und IPv6 werden unterstützt',
           interface: 'Schnittstelle',
           ipAddress: 'IP-Adresse',
           subnetMask: 'Subnetzmaske',

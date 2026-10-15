@@ -382,7 +382,8 @@ const es = {
         hdmi: {
           description: 'Habilitar salida HDMI/monitor',
           idleTimeoutTitle: 'Tiempo de espera de captura inactiva',
-          idleTimeoutDescription: 'Detener la captura HDMI después de no haber espectadores activos durante',
+          idleTimeoutDescription:
+            'Detener la captura HDMI después de no haber espectadores activos durante',
           minutes: 'min'
         },
         hidOnly: 'Modo sólo HID',
@@ -439,7 +440,8 @@ const es = {
           unsaved: 'Cambios sin guardar',
           maxServers: 'Se permiten como máximo {{count}} servidores DNS',
           dhcpServersDescription: 'Los servidores DNS se obtienen automáticamente por DHCP',
-          manualServersDescription: 'Los servidores DNS se pueden editar manualmente. Se admiten IPv4 e IPv6',
+          manualServersDescription:
+            'Los servidores DNS se pueden editar manualmente. Se admiten IPv4 e IPv6',
           interface: 'Interfaz',
           ipAddress: 'Dirección IP',
           subnetMask: 'Máscara de subred',

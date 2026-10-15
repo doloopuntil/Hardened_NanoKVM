@@ -378,7 +378,8 @@ const vi = {
         hdmi: {
           description: 'Kích hoạt HDMI/đầu ra màn hình',
           idleTimeoutTitle: 'Thời gian chờ khi không hoạt động',
-          idleTimeoutDescription: 'Dừng việc ghi hình HDMI sau khi không có người xem hoạt động trong',
+          idleTimeoutDescription:
+            'Dừng việc ghi hình HDMI sau khi không có người xem hoạt động trong',
           minutes: 'phút'
         },
         hidOnly: 'HID-Chế độ chỉ',

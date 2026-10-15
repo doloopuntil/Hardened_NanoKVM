@@ -377,7 +377,8 @@ const ko = {
         hdmi: {
           description: 'HDMI/모니터 출력 활성화',
           idleTimeoutTitle: '캡처 유휴 시간 제한',
-          idleTimeoutDescription: '활성 시청자가 없는 상태가 다음 시간 동안 지속되면 HDMI 캡처 중지',
+          idleTimeoutDescription:
+            '활성 시청자가 없는 상태가 다음 시간 동안 지속되면 HDMI 캡처 중지',
           minutes: '분'
         },
         hidOnly: 'HID 전용 모드',
@@ -433,7 +434,8 @@ const ko = {
           unsaved: '저장되지 않은 변경사항',
           maxServers: '최대 {{count}}개의 DNS 서버가 허용됩니다',
           dhcpServersDescription: 'DNS 서버는 DHCP에서 자동으로 가져옵니다',
-          manualServersDescription: 'DNS 서버를 수동으로 편집할 수 있습니다. IPv4와 IPv6을 지원합니다',
+          manualServersDescription:
+            'DNS 서버를 수동으로 편집할 수 있습니다. IPv4와 IPv6을 지원합니다',
           interface: '인터페이스',
           ipAddress: 'IP 주소',
           subnetMask: '서브넷 마스크',

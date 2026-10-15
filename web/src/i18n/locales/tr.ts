@@ -378,7 +378,8 @@ const tr = {
         hdmi: {
           description: 'HDMI/Momitör çıktısını aktifleştir',
           idleTimeoutTitle: 'Etkin olmayan yakalama zaman aşımı',
-          idleTimeoutDescription: 'Etkin görüntüleyici olmadığında HDMI yakalamayı şu süre sonunda durdur:',
+          idleTimeoutDescription:
+            'Etkin görüntüleyici olmadığında HDMI yakalamayı şu süre sonunda durdur:',
           minutes: 'dk'
         },
         hidOnly: 'Yalnızca HID modu',
