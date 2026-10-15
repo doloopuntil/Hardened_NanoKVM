@@ -469,16 +469,12 @@ const translations: Record<string, string> = {
   'settings.systemLog.remote.port': 'Portti',
   'settings.systemLog.remote.protocol': 'Nykyinen BusyBox syslogd käyttää UDP syslogia.',
   'settings.systemLog.local.title': 'Paikallinen lokipuskuri',
-  'settings.systemLog.local.description':
-    'Nykyiset lokit säilytetään RAMissa polussa {{path}}, jotta SD-kortille ei kirjoiteta.',
   'settings.systemLog.local.priority': 'Vähimmäisprioriteetti',
   'settings.systemLog.local.buffer': 'Puskurin koko',
   'settings.systemLog.local.rotations': 'Kierrot',
   'settings.systemLog.local.compact': 'Tiivis tulostus',
   'settings.systemLog.local.stripTimestamps': 'Poista aikaleimat',
   'settings.systemLog.kernel.title': 'Kernel-loki',
-  'settings.systemLog.kernel.description':
-    'Välitä kernel-viestit syslogiin. Kernel-näkymä lukee nykyisen dmesg-rengaspuskurin.',
   'settings.systemLog.kernel.enabled': 'Kernel-viestit',
   'settings.systemLog.kernel.consoleLevel': 'Konsolitaso',
   'settings.systemLog.viewer.title': 'Järjestelmäloki',

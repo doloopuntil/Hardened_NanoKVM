@@ -1,5 +1,4 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import type { ReactNode } from 'react';
 import { Alert, Button, ConfigProvider, Divider, Input, InputNumber, Select, Switch } from 'antd';
 import { RefreshCwIcon, SendIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -8,8 +7,11 @@ import * as api from '@/api/system-log.ts';
 import type { SystemLogConfig } from '@/api/system-log.ts';
 import { toast } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 import type { SystemActionHandle, SystemActionState } from '../system/action.ts';
+
+const defaultLogFile = '/tmp/hardened-syslog/messages';
 
 const defaultConfig: SystemLogConfig = {
   remoteEnabled: false,
@@ -35,8 +37,8 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
     const { t } = useTranslation();
 
     const [config, setConfig] = useState<SystemLogConfig>(defaultConfig);
+    const [localLogFile, setLocalLogFile] = useState(defaultLogFile);
     const [savedConfig, setSavedConfig] = useState<SystemLogConfig>(defaultConfig);
-    const [localLogFile, setLocalLogFile] = useState('/tmp/hardened-syslog/messages');
     const [lineCount, setLineCount] = useState(200);
     const [content, setContent] = useState('');
     const [isSaving, setIsSaving] = useState(false);
@@ -67,7 +69,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
       const nextConfig = { ...defaultConfig, ...rsp.data.config };
       setConfig(nextConfig);
       setSavedConfig(nextConfig);
-      setLocalLogFile(rsp.data.localLogFile || defaultConfigPath());
+      setLocalLogFile(rsp.data.localLogFile || defaultLogFile);
     });
     const isUnavailable = loadState !== 'ready';
 
@@ -184,129 +186,146 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
           )}
 
           <div className="flex min-w-0 flex-col space-y-6">
-            <div className="flex min-w-0 items-start justify-between gap-3 sm:gap-4">
-              <div className="flex min-w-0 flex-col space-y-1">
-                <span>{t('settings.systemLog.remote.title')}</span>
-                <span className="break-words text-xs text-neutral-500">
-                  {t('settings.systemLog.remote.description')}
-                </span>
-              </div>
-              <Switch
-                className="shrink-0"
-                checked={config.remoteEnabled}
-                onChange={(remoteEnabled) => patchConfig({ remoteEnabled })}
-              />
-            </div>
-
-            {config.remoteEnabled && (
-              <div className="min-w-0 space-y-3 overflow-hidden rounded-xl bg-neutral-800/50 p-4">
-                <SettingRow label={t('settings.systemLog.remote.host')}>
-                  <Input
-                    value={config.remoteHost}
-                    placeholder="10.0.87.5"
-                    onChange={(event) => patchConfig({ remoteHost: event.target.value })}
-                  />
-                </SettingRow>
-                <SettingRow label={t('settings.systemLog.remote.port')}>
-                  <InputNumber<number>
-                    min={1}
-                    max={65535}
-                    value={config.remotePort}
-                    onChange={(value) => patchConfig({ remotePort: value || 514 })}
-                    className="w-full"
-                  />
-                </SettingRow>
-                <div className="break-words text-xs text-neutral-500">
-                  {t('settings.systemLog.remote.protocol')}
-                </div>
-              </div>
-            )}
-
-            <div className="min-w-0 space-y-3 overflow-hidden rounded-xl bg-neutral-800/50 p-4">
-              <div>
-                <div className="font-semibold text-neutral-100">
-                  {t('settings.systemLog.local.title')}
-                </div>
-                <div className="mt-0.5 break-words text-xs leading-snug text-neutral-500">
-                  {t('settings.systemLog.local.description', { path: localLogFile })}
-                </div>
-              </div>
-              <SettingRow label={t('settings.systemLog.local.priority')}>
-                <Select
-                  value={config.priority}
-                  options={priorityOptions}
-                  onChange={(priority) => patchConfig({ priority })}
-                  className="w-full"
-                />
-              </SettingRow>
-              <SettingRow label={t('settings.systemLog.local.buffer')}>
-                <InputNumber<number>
-                  min={16}
-                  max={1024}
-                  value={config.bufferKb}
-                  addonAfter="KiB"
-                  onChange={(value) => patchConfig({ bufferKb: value || 200 })}
-                  className="w-full"
-                />
-              </SettingRow>
-              <SettingRow label={t('settings.systemLog.local.rotations')}>
-                <InputNumber<number>
-                  min={0}
-                  max={4}
-                  value={config.rotations}
-                  onChange={(value) => patchConfig({ rotations: value || 0 })}
-                  className="w-full"
-                />
-              </SettingRow>
-              <SettingRow label={t('settings.systemLog.local.compact')}>
-                <Switch
-                  checked={config.smallOutput}
-                  onChange={(smallOutput) => patchConfig({ smallOutput })}
-                />
-              </SettingRow>
-              <SettingRow label={t('settings.systemLog.local.stripTimestamps')} isLast>
-                <Switch
-                  checked={config.stripTimestamps}
-                  onChange={(stripTimestamps) => patchConfig({ stripTimestamps })}
-                />
-              </SettingRow>
-            </div>
-
-            <div className="min-w-0 space-y-3 overflow-hidden rounded-xl bg-neutral-800/50 p-4">
-              <div>
-                <div className="font-semibold text-neutral-100">
-                  {t('settings.systemLog.kernel.title')}
-                </div>
-                <div className="mt-0.5 break-words text-xs leading-snug text-neutral-500">
-                  {t('settings.systemLog.kernel.description')}
-                </div>
-              </div>
-              <SettingRow label={t('settings.systemLog.kernel.enabled')}>
+            <div className="flex min-w-0 flex-col space-y-6">
+              <div className="text-neutral-400">{t('settings.systemLog.kernel.title')}</div>
+              <SettingRow
+                label={t('settings.systemLog.kernel.enabled')}
+                description={t('settings.systemLog.kernel.enabledDesc')}
+                isSwitch
+              >
                 <Switch
                   checked={config.kernelEnabled}
                   onChange={(kernelEnabled) => patchConfig({ kernelEnabled })}
                 />
               </SettingRow>
-              <SettingRow label={t('settings.systemLog.kernel.consoleLevel')} isLast>
+              <SettingRow
+                label={t('settings.systemLog.kernel.consoleLevel')}
+                description={t('settings.systemLog.kernel.consoleLevelDesc')}
+              >
                 <Select
                   value={config.kernelConsoleLevel}
                   options={priorityOptions}
                   onChange={(kernelConsoleLevel) => patchConfig({ kernelConsoleLevel })}
-                  className="w-full"
+                  className="w-full text-right sm:w-36"
                 />
               </SettingRow>
             </div>
 
-            <div className="flex min-w-0 flex-wrap justify-end gap-2">
-              <Button
-                className="min-w-0"
-                icon={<SendIcon size={16} />}
-                loading={isTesting}
-                onClick={sendTestMessage}
+            <Divider className="opacity-50" />
+
+            <div className="flex min-w-0 flex-col space-y-6">
+              <div className="text-neutral-400">{t('settings.systemLog.remote.title')}</div>
+              <SettingRow
+                label={t('settings.systemLog.remote.forward')}
+                description={t('settings.systemLog.remote.description')}
+                isSwitch
               >
-                {t('settings.systemLog.test')}
-              </Button>
-              {showFooter && (
+                <Switch
+                  checked={config.remoteEnabled}
+                  onChange={(remoteEnabled) => patchConfig({ remoteEnabled })}
+                />
+              </SettingRow>
+              <SettingRow
+                label={t('settings.systemLog.remote.host')}
+                description={t('settings.systemLog.remote.hostDesc')}
+              >
+                <Input
+                  value={config.remoteHost}
+                  placeholder="10.0.87.5"
+                  status={hasInvalid ? 'error' : undefined}
+                  disabled={!config.remoteEnabled}
+                  onChange={(event) => patchConfig({ remoteHost: event.target.value })}
+                  className="w-full text-right sm:w-36"
+                />
+              </SettingRow>
+              <SettingRow
+                label={t('settings.systemLog.remote.port')}
+                description={t('settings.systemLog.remote.protocol')}
+              >
+                <InputNumber<number>
+                  min={1}
+                  max={65535}
+                  controls={false}
+                  disabled={!config.remoteEnabled}
+                  value={config.remotePort}
+                  onChange={(value) => patchConfig({ remotePort: value || 514 })}
+                  className="w-full sm:w-20 [&_.ant-input-number-input]:!text-right"
+                />
+              </SettingRow>
+            </div>
+
+            <Divider className="opacity-50" />
+
+            <div className="flex min-w-0 flex-col space-y-6">
+              <div className="text-neutral-400">{t('settings.systemLog.local.title')}</div>
+              <SettingRow
+                label={t('settings.systemLog.local.priority')}
+                description={t('settings.systemLog.local.priorityDesc')}
+              >
+                <Select
+                  value={config.priority}
+                  options={priorityOptions}
+                  onChange={(priority) => patchConfig({ priority })}
+                  className="w-full text-right sm:w-36"
+                />
+              </SettingRow>
+              <SettingRow
+                label={t('settings.systemLog.local.buffer')}
+                description={t('settings.systemLog.local.bufferDesc')}
+              >
+                <InputNumber<number>
+                  min={16}
+                  max={1024}
+                  controls={false}
+                  value={config.bufferKb}
+                  addonAfter="KiB"
+                  onChange={(value) => patchConfig({ bufferKb: value || 200 })}
+                  className="w-full sm:w-28 [&_.ant-input-number-input]:!text-right"
+                />
+              </SettingRow>
+              <SettingRow
+                label={t('settings.systemLog.local.rotations')}
+                description={t('settings.systemLog.local.rotationsDesc')}
+              >
+                <InputNumber<number>
+                  min={0}
+                  max={4}
+                  controls={false}
+                  value={config.rotations}
+                  onChange={(value) => patchConfig({ rotations: value || 0 })}
+                  className="w-full sm:w-16 [&_.ant-input-number-input]:!text-right"
+                />
+              </SettingRow>
+              <SettingRow
+                label={t('settings.systemLog.local.compact')}
+                description={t('settings.systemLog.local.compactDesc')}
+                isSwitch
+              >
+                <Switch
+                  checked={config.smallOutput}
+                  onChange={(smallOutput) => patchConfig({ smallOutput })}
+                />
+              </SettingRow>
+              <SettingRow
+                label={t('settings.systemLog.local.stripTimestamps')}
+                description={t('settings.systemLog.local.stripTimestampsDesc')}
+                isSwitch
+              >
+                <Switch
+                  checked={config.stripTimestamps}
+                  onChange={(stripTimestamps) => patchConfig({ stripTimestamps })}
+                />
+              </SettingRow>
+
+              <Alert
+                type="info"
+                showIcon
+                message={t('settings.systemLog.local.description', { path: localLogFile })}
+              />
+            </div>
+
+            {showFooter && (
+              <div className="flex min-w-0 flex-wrap justify-end gap-2">
                 <Button
                   type="primary"
                   loading={isSaving}
@@ -315,15 +334,15 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
                 >
                   {t('settings.systemLog.save')}
                 </Button>
-              )}
-            </div>
+              </div>
+            )}
 
             <Divider className="opacity-50" />
 
             <div className="space-y-3">
               <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="text-base">{t('settings.systemLog.viewer.title')}</div>
-                <div className="flex min-w-0 flex-wrap items-center gap-2">
+                <div className="text-neutral-400">{t('settings.systemLog.viewer.title')}</div>
+                <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
                   <Select
                     value={lineCount}
                     options={[100, 200, 500, 1000].map((value) => ({
@@ -332,17 +351,28 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
                     }))}
                     disabled={false}
                     onChange={changeLineCount}
-                    className="min-w-[120px] flex-1 sm:flex-none"
+                    className="w-full sm:w-auto sm:min-w-32"
                   />
-                  <Button
-                    className="flex-1 sm:flex-none"
-                    icon={<RefreshCwIcon size={16} />}
-                    disabled={false}
-                    loading={isLogLoading}
-                    onClick={() => refreshLog()}
-                  >
-                    {t('settings.systemLog.viewer.refresh')}
-                  </Button>
+                  <div className="flex min-w-0 gap-2">
+                    <Button
+                      className="flex-1 sm:flex-none"
+                      icon={<SendIcon size={16} />}
+                      disabled={false}
+                      loading={isTesting}
+                      onClick={sendTestMessage}
+                    >
+                      {t('settings.systemLog.test')}
+                    </Button>
+                    <Button
+                      className="flex-1 sm:flex-none"
+                      icon={<RefreshCwIcon size={16} />}
+                      disabled={false}
+                      loading={isLogLoading}
+                      onClick={() => refreshLog()}
+                    >
+                      {t('settings.systemLog.viewer.refresh')}
+                    </Button>
+                  </div>
                 </div>
               </div>
 
@@ -363,10 +393,6 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
 
 SystemLog.displayName = 'SystemLog';
 
-function defaultConfigPath() {
-  return '/tmp/hardened-syslog/messages';
-}
-
 function normalizeSystemLogConfig(config: SystemLogConfig): SystemLogConfig {
   return {
     remoteEnabled: Boolean(config.remoteEnabled),
@@ -381,24 +407,3 @@ function normalizeSystemLogConfig(config: SystemLogConfig): SystemLogConfig {
     kernelConsoleLevel: Number(config.kernelConsoleLevel) || defaultConfig.kernelConsoleLevel
   };
 }
-
-const SettingRow = ({
-  label,
-  children,
-  isLast = false
-}: {
-  label: string;
-  children: ReactNode;
-  isLast?: boolean;
-}) => {
-  return (
-    <div
-      className={`flex min-h-[44px] min-w-0 flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
-        isLast ? '' : 'border-b border-neutral-700/50 pb-3'
-      }`}
-    >
-      <span className="min-w-0 text-sm text-neutral-300">{label}</span>
-      <div className="w-full min-w-0 sm:w-[260px]">{children}</div>
-    </div>
-  );
-};

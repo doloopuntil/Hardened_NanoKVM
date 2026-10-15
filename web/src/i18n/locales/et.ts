@@ -470,16 +470,12 @@ const translations: Record<string, string> = {
   'settings.systemLog.remote.port': 'Port',
   'settings.systemLog.remote.protocol': 'Praegune BusyBox syslogd kasutab UDP syslogi.',
   'settings.systemLog.local.title': 'Kohalik logipuhver',
-  'settings.systemLog.local.description':
-    'Praeguseid logisid hoitakse RAM-is asukohas {{path}}, et vältida SD-kaardi kirjutusi.',
   'settings.systemLog.local.priority': 'Miinimumprioriteet',
   'settings.systemLog.local.buffer': 'Puhvri suurus',
   'settings.systemLog.local.rotations': 'Rotatsioonid',
   'settings.systemLog.local.compact': 'Kompaktne väljund',
   'settings.systemLog.local.stripTimestamps': 'Eemalda ajatemplid',
   'settings.systemLog.kernel.title': 'Kerneli logi',
-  'settings.systemLog.kernel.description':
-    'Edasta kerneli teated syslogi. Kerneli vaatur loeb praegust dmesg ringpuhvrit.',
   'settings.systemLog.kernel.enabled': 'Kerneli teated',
   'settings.systemLog.kernel.consoleLevel': 'Konsooli tase',
   'settings.systemLog.viewer.title': 'Süsteemilogi',

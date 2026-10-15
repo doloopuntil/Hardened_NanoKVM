@@ -566,7 +566,7 @@ const en = {
         sections: {
           time: 'Time',
           firewall: 'Firewall',
-          systemLog: 'System Log'
+          systemLog: 'Logging'
         },
         time: {
           saveFailed: 'Failed to save time settings',
@@ -666,27 +666,34 @@ const en = {
         testSent: 'Test log sent',
         testFailed: 'Failed to send test log',
         remote: {
-          title: 'Remote Syslog',
-          description: 'Forward system logs to a syslog server',
+          title: 'Remote Logging',
+          forward: 'Forward system log',
+          description: 'Forward system messages to a remote server',
           host: 'Server',
+          hostDesc: 'Hostname or IPv4 address of the syslog server',
           port: 'Port',
           protocol: 'UDP syslog is used by the current BusyBox syslogd'
         },
         local: {
-          title: 'Local Log Buffer',
+          title: 'System Log Buffer',
           description: 'Current logs are kept in RAM at {{path}} to avoid SD-card writes',
           priority: 'Minimum priority',
+          priorityDesc: 'Minimum urgency for a message to be logged',
           buffer: 'Buffer size',
+          bufferDesc: 'Log size at which the file is rotated',
           rotations: 'Rotations',
+          rotationsDesc: 'Number of rotated log files to keep',
           compact: 'Compact output',
-          stripTimestamps: 'Strip timestamps'
+          compactDesc: 'Omit host name and facility from each line',
+          stripTimestamps: 'Strip timestamps',
+          stripTimestampsDesc: 'Remove timestamps added by the sender; syslog adds its own'
         },
         kernel: {
-          title: 'Kernel Log',
-          description:
-            'Forward kernel messages into syslog. The Kernel viewer reads the current dmesg ring buffer.',
-          enabled: 'Kernel messages',
-          consoleLevel: 'Console level'
+          title: 'Kernel Logging',
+          enabled: 'Forward kernel log',
+          enabledDesc: 'Capture kernel messages in the system log',
+          consoleLevel: 'Console level',
+          consoleLevelDesc: 'Minimum urgency for a kernel message to be printed to the console'
         },
         viewer: {
           title: 'System Log',
