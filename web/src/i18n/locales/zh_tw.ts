@@ -29,25 +29,20 @@ const zh_tw = {
       globalLocked: '系統受保護，請稍後重試',
       error: '非預期性錯誤',
       changePassword: '更改密碼',
-      changePasswordDesc: '為了您的裝置安全，請修改登入密碼。',
       differentPassword: '密碼不一致',
       illegalUsername: '使用者名稱包含非法字元',
-      illegalPassword: '密碼包含非法字元',
       forgetPassword: '忘記密碼',
       ok: '確定',
       cancel: '取消',
       loginButtonText: '登入',
       tips: {
         change1: '請注意，此操作將同時更新下列密碼：',
-        change2: '網頁登入密碼',
-        change3: 'root user 密碼 (SSH登入密碼)'
+        change2: '網頁登入密碼'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: '設定 NanoKVM Wi-Fi',
-      success: '請檢查 NanoKVM 的網路狀態，並存取新的 IP 位址。',
-      failed: '操作失敗，請重試。',
       invalidMode: '目前模式不支援設定網路。請先前往裝置啟用 Wi-Fi 配置模式。',
       confirmBtn: '確定',
       finishBtn: '完成',
@@ -60,10 +55,7 @@ const zh_tw = {
       }
     },
     screen: {
-      scale: '缩放',
       title: '螢幕',
-      video: '編碼格式',
-      videoDirectTips: '本模式需先啟用 HTTPS，請前往「設定 -> 設備」中開啟',
       resolution: '解析度',
       auto: '自動',
       autoTips:
@@ -79,8 +71,7 @@ const zh_tw = {
       frameDetectTip: '計算影格之間的差異。當遠端主機畫面未偵測到任何變更時，停止視訊傳輸串流。',
       resetHdmi: '重置 HDMI',
       webrtcConnectionFailed: {
-        title: 'WebRTC 連線失敗',
-        description: '請檢查網路連線或切換影片模式。'
+        title: 'WebRTC 連線失敗'
       },
       captureStatus: {
         hdmiError: 'HDMI 畫面異常',
@@ -112,13 +103,10 @@ const zh_tw = {
         custom: '自定義',
         capture: '點選此處錄製快捷鍵',
         clear: '清空',
-        save: '儲存',
-        captureTips: '擷取系統級按鍵（如 Windows 鍵）需要全螢幕權限。',
-        enterFullScreen: '切換全螢幕模式。'
+        save: '儲存'
       },
       leaderKey: {
         title: '引導鍵',
-        desc: '繞過瀏覽器限制並將系統捷徑直接傳送到遠端主機。',
         howToUse: '如何使用',
         simultaneous: {
           title: '同步模式',
@@ -166,7 +154,6 @@ const zh_tw = {
       resetHid: '重設 HID',
       hidOnly: {
         title: 'HID-Only 模式',
-        desc: '如果您的滑鼠和鍵盤沒有反應，且重設 HID 無效，可能是 NanoKVM 與您的裝置間有相容性問題。請嘗試啟用 HID-Only 模式以獲得更好的相容性。',
         tip1: '啟用 HID-Only 模式將會停用虛擬磁碟和虛擬網卡的功能',
         tip2: '在 HID-Only 模式下，映像檔掛載功能將被停用',
         tip3: 'NanoKVM 將在切換模式後自動重新啟動',
@@ -180,12 +167,10 @@ const zh_tw = {
       empty: '未找到任何內容',
       mountMode: '掛載模式',
       mountFailed: '掛載失敗',
-      mountDesc: '在某些系統中，需要在遠端主機中彈出虛擬硬碟後再掛載映像檔。',
       diskOnWarn: '掛載映像檔會關閉虛擬磁碟，電腦將無法再存取 /data 目錄。是否繼續？',
       diskOffWarn:
         '虛擬磁碟目前已關閉，需要先開啟才能掛載映像檔，電腦上的 USB 裝置會短暫斷開重連。是否繼續？',
       unmountFailed: '解除安裝失敗',
-      unmountDesc: '在某些系統中，需要在遠端主機中手動彈出後再解除安裝映像。',
       forceEject: '強制彈出',
       forceEjectConfirm:
         '主機已鎖定光碟機。強制彈出會使虛擬 USB 裝置短暫中斷連線，鍵盤和滑鼠可能會暫時中斷連線。是否繼續？',
@@ -195,14 +180,12 @@ const zh_tw = {
       tips: {
         title: '如何上傳',
         usb1: '透過 USB 將 NanoKVM 連接到您的電腦。',
-        usb2: '確保已安裝虛擬磁碟（設定 - 虛擬磁碟）。',
         usb3: '開啟電腦上的虛擬磁碟，將映象檔案複製到虛擬磁碟的根目錄下。',
         scp1: '確保 NanoKVM 和您的電腦位於同一區域網路。',
         scp2: '開啟電腦上的終端機，使用 SCP 指令將映像檔案上傳到 NanoKVM 的 /data 目錄下。',
         scp3: '範例：scp your-image-path root@your-nanokvm-ip:/data',
         tfCard: 'microSD 卡',
         tf1: '此方法適用於 Linux 系統',
-        tf2: '從 NanoKVM 拔出 microSD 卡（FULL 版本請先拆開外殼）。',
         tf3: '使用 USB 讀卡機將 microSD 卡連接至電腦。',
         tf4: '將映像檔複製到 microSD 卡的 /data 目錄下。',
         tf5: '將 microSD 卡重新插回 NanoKVM。'
@@ -251,14 +234,11 @@ const zh_tw = {
       title: '下载映像檔',
       input: '請輸入映像檔的下載 URL',
       ok: '確定',
-      disabled: '/data 為唯讀目錄，無法下載映像檔',
       diskShared: '請先關閉虛擬磁碟功能，再使用映像檔下載功能',
       mountedImage: '此映像檔已掛載。上傳同名檔案前請先卸載。',
       diskOff: '關閉虛擬磁碟功能',
       uploadbox: '將檔案拖曳到此處或按一下選擇',
-      inputfile: '請輸入圖片檔案',
       NoISO: '無 ISO',
-      sha256: 'SHA-256（可選）',
       sha256Placeholder: '請輸入 64 位元 SHA-256 校驗和',
       invalidSHA256: 'SHA-256 必須是 64 位元十六進位字串',
       checksumFailed: '下載失敗：SHA-256 校驗失敗'
@@ -269,8 +249,6 @@ const zh_tw = {
       showConfirmTip: '電源操作需要二次確認',
       reset: '重新啟動',
       power: '電源',
-      powerShort: '電源 (短按)',
-      powerLong: '電源 (長按)',
       resetConfirm: '確認執行重新啟動的按鍵操作嗎？',
       powerConfirm: '確認執行電源的按鍵操作嗎？',
       okBtn: '確認',
@@ -286,11 +264,9 @@ const zh_tw = {
         application: '應用程式版本',
         applicationTip: 'NanoKVM 網頁程式版本',
         image: '韌體版本',
-        imageTip: 'NanoKVM 系统韌體版本',
         deviceKey: '設備序號',
         community: '社群',
         hostname: '主機名稱',
-        hostnameUpdated: '已更新主機名稱. 請重新啟動以生效',
         ipType: {
           Wired: '有線',
           Wireless: '無線',
@@ -346,17 +322,14 @@ const zh_tw = {
           3600: '1 小時'
         },
         ssh: {
-          description: '啟用 SSH 伺服器',
-          tip: '啟用前請務必設定強密碼（帳號 - 更改密碼）'
+          description: '啟用 SSH 伺服器'
         },
         swap: {
           title: 'Swap',
           disable: '停用',
-          description: '設定 Swap 檔大小',
-          tip: '啟用此功能可能會減少SD卡的使用壽命！'
+          description: '設定 Swap 檔大小'
         },
         mouseJiggler: {
-          title: '滑鼠抖動模式 (Mouse Jiggler)',
           description: '避免遠端主機進入休眠狀態',
           disable: '停用',
           absolute: '絕對模式',
@@ -373,12 +346,7 @@ const zh_tw = {
           minutes: '分鐘'
         },
         hidOnly: 'HID-Only 模式',
-        hidOnlyDesc: '停止模擬虛擬設備，僅保留基礎 HID 控制',
         disk: '虛擬磁碟',
-        diskDesc: '在遠端主機上連接虛擬磁碟',
-        diskLocked: '掛載映像檔期間已關閉（開啟會取消映像檔掛載）',
-        diskCancelMount:
-          '開啟虛擬磁碟會取消目前掛載的映像檔，並中斷正在進行的映像檔下載或上傳，是否繼續？',
         network: '虛擬網卡',
         networkDesc: '在遠端主機上新增虛擬網卡',
         reboot: '重新啟動',
@@ -403,8 +371,7 @@ const zh_tw = {
           cancelBtn: '取消'
         },
         tls: {
-          description: '啟用 HTTPS 協議',
-          tip: '啟用 HTTPS 可以提高安全性，但可能會增加傳輸延遲，特別是使用 MJPEG 格式傳輸時。'
+          description: '啟用 HTTPS 協議'
         },
         dns: {
           title: 'DNS',
@@ -425,7 +392,6 @@ const zh_tw = {
           unsaved: '有未儲存的變更',
           maxServers: '最多允許 {{count}} 個 DNS 伺服器',
           dhcpServersDescription: 'DNS 伺服器由 DHCP 自動取得',
-          manualServersDescription: 'DNS 伺服器可手動編輯。支援 IPv4 和 IPv6',
           interface: '介面',
           ipAddress: 'IP 位址',
           subnetMask: '子網路遮罩',
@@ -444,20 +410,15 @@ const zh_tw = {
         },
         restart: '確定要重啟 Tailscale 嗎？',
         stop: '確定要停止 Tailscale 嗎？',
-        stopDesc: '登出 Tailscale 並停用開機自動啟動。',
         loading: '載入中...',
-        notInstall: '未找到 Tailscale ！請先安裝。',
         install: '安裝',
         installing: '安裝中',
         failed: '安裝失敗',
-        retry: '請重新整理並重試。或嘗試手動安裝',
         download: '下載',
         package: '安裝包',
         unzip: '並解壓縮它',
         upTailscale: '將 Tailscale 上傳到 NanoKVM 的 /usr/bin/ 資料夾',
-        upTailscaled: '將 Tailscale 上傳到 NanoKVM 的 /usr/sbin/ 資料夾',
         refresh: '重新整理頁面',
-        notRunning: 'Tailscale 尚未執行',
         run: '啟動',
         notLogin: '設備尚未綁定。請登入並將該裝置綁定到您的帳戶。',
         urlPeriod: '此網址有效期限為 10 分鐘',
@@ -485,7 +446,6 @@ const zh_tw = {
         cancel: '取消',
         preview: '預覽更新',
         previewDesc: '預覽版本，搶先體驗新功能和改進',
-        previewTip: '請注意，預覽版本可能包含一些不穩定因素或未完善的功能！',
         offline: {
           title: '離線更新',
           desc: '透過本地安裝包進行更新',
@@ -507,15 +467,12 @@ const zh_tw = {
     },
     picoclaw: {
       title: 'PicoClaw 助理',
-      empty: '打開面板並啟動一個任務來開始。',
       inputPlaceholder: '描述您希望 PicoClaw 執行的操作',
       newConversation: '新對話',
       processing: '正在處理...',
       agent: {
         defaultTitle: '通用助理',
-        defaultDescription: '一般聊天、搜尋和工作區域幫助。',
         kvmTitle: '遠端控制',
-        kvmDescription: '透過 NanoKVM 操作遠端主機。',
         switched: '代理角色已切換',
         switchFailed: '代理角色切換失敗'
       },
@@ -562,8 +519,6 @@ const zh_tw = {
         success: 'PicoClaw 安裝成功',
         failed: 'PicoClaw 安裝失敗',
         uninstalling: '正在解除安裝 Runtime...',
-        uninstalled: 'Runtime 解除安裝成功。',
-        uninstallFailed: '解除安裝失敗。',
         requiredTitle: 'PicoClaw 未安裝',
         requiredDescription: '在啟動 PicoClaw Runtime 之前，請先安裝 PicoClaw。',
         progressDescription: '正在下載並安裝 PicoClaw。',

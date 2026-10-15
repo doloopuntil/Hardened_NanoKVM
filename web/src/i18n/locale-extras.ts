@@ -39,27 +39,13 @@ const firewallModerateFallbackExtras: TranslationMap = {
 
 const firewallModerateLocalizedExtras: Record<string, TranslationMap> = {
   pl: {
-    'settings.system.firewall.enableHttpsFirst':
-      'Włącz HTTPS przed włączeniem trybu Restricted lub Paranoid',
-    'settings.system.firewall.httpsRequired':
-      'Tryby Restricted i Paranoid są niedostępne, dopóki HTTPS nie zostanie włączony w Ustawienia > System > Sieć.',
-    'settings.system.firewall.mode.baseline': 'Baseline',
-    'settings.system.firewall.mode.baselineDesc':
-      'Otwarty profil zarządzany. Zachowuje zwykły dostęp NanoKVM bez filtrowania zakresów źródłowych.',
-    'settings.system.firewall.mode.moderate': 'Moderate',
-    'settings.system.firewall.mode.paranoidDesc':
-      'Lokalny dostęp tylko przez HTTPS. Blokuje SSH, HTTP, aktualizacje online i inne wychodzące funkcje sieciowe.',
     'settings.system.firewall.mode.current': 'Aktualny',
     'settings.system.firewall.mode.default': 'Domyślny',
     'settings.system.firewall.mode.localOnly': 'Tylko lokalnie',
-    'settings.system.firewall.mode.openTag': 'Otwarty',
     'settings.system.firewall.mode.httpsRequiredTag': 'Wymaga HTTPS',
     'settings.system.firewall.mode.outboundOpen': 'Wychodzące otwarte',
     'settings.system.firewall.mode.outboundLimited': 'Wychodzące ograniczone',
     'settings.system.firewall.mode.httpsOnly': 'Tylko HTTPS',
-    'settings.system.firewall.moderate.apply': 'Przełącz na Moderate',
-    'settings.system.firewall.baseline.apply': 'Przełącz na Baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Przełączyć na otwarty tryb Baseline?',
     'settings.system.firewall.baseline.confirmDesc':
       'Usługa zapory pozostanie aktywna, ale ograniczenie local-only dla zakresów źródłowych zostanie zdjęte. Publiczne zakresy źródłowe mogą dotrzeć do wystawionych usług NanoKVM, jeśli sieć je routuje.'
   }
@@ -427,7 +413,6 @@ const downloadTransferLocalizedExtras: Record<string, TranslationMap> = {
     'download.stalled': 'Transfer zatrzymał się. Sprawdź połączenie i spróbuj ponownie.',
     'download.canceled': 'Przesyłanie anulowane',
     'download.cancel': 'Anuluj',
-    'download.remoteDisabled': 'Zdalne pobieranie ISO jest wyłączone w Ustawienia > Wygląd.',
     'download.remoteFailed': 'Zdalne pobieranie ISO nie powiodło się'
   },
   pt_br: downloadTransferTranslation(
@@ -807,134 +792,104 @@ const deviceTipFallbackExtras: TranslationMap = {
 
 const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
   ca: {
-    'settings.device.usbWakeupTip':
-      'Desactiveu-ho si el host registra missatges USB wakeup repetits.',
-    'settings.device.mdns.tip':
-      "Permet accedir a aquest dispositiu pel seu nom .local. No cal si us connecteu per adreça IP o si el vostre DNS ja resol el nom d'amfitrió.",
     'settings.device.networkCancelMount':
       'Canviar la xarxa virtual reinicia la connexió USB. Això cancel·la la imatge muntada i activa el disc virtual. Vols continuar?'
   },
   cz: {
-    'settings.device.usbWakeupTip': 'Vypněte, pokud host zapisuje opakované zprávy USB wakeup.',
     'settings.device.mdns.tip':
       'Umožňuje připojit se k zařízení přes jeho název .local. Není potřeba, pokud se připojujete přes IP adresu nebo váš DNS už název hostitele překládá.',
     'settings.device.networkCancelMount':
       'Změna virtuální sítě restartuje připojení USB. Tím se zruší připojený obraz a zapne virtuální disk. Pokračovat?'
   },
   da: {
-    'settings.device.usbWakeupTip': 'Slå fra, hvis værten logger gentagne USB wakeup-meddelelser.',
     'settings.device.mdns.tip':
       'Gør det muligt at nå enheden via dens .local-navn. Ikke nødvendigt, hvis du forbinder via IP-adresse, eller din DNS allerede kan slå værtsnavnet op.',
     'settings.device.networkCancelMount':
       'Hvis du ændrer det virtuelle netværk, genstartes USB-forbindelsen. Det annullerer det monterede billede og aktiverer den virtuelle disk. Fortsæt?'
   },
   de: {
-    'settings.device.usbWakeupTip':
-      'Ausschalten, wenn der Host wiederholt USB-Wakeup-Meldungen protokolliert.',
     'settings.device.mdns.tip':
       'Ermöglicht den Zugriff auf dieses Gerät über seinen .local-Namen. Nicht nötig, wenn Sie sich per IP-Adresse verbinden oder Ihr DNS den Hostnamen bereits auflöst.',
     'settings.device.networkCancelMount':
       'Das Ändern des virtuellen Netzwerks startet die USB-Verbindung neu. Dadurch wird das eingebundene Image abgebrochen und die virtuelle Festplatte aktiviert. Fortfahren?'
   },
   es: {
-    'settings.device.usbWakeupTip':
-      'Desactívalo si el host registra mensajes USB wakeup repetidos.',
     'settings.device.mdns.tip':
       'Permite acceder a este dispositivo por su nombre .local. No es necesario si te conectas por dirección IP o si tu DNS ya resuelve su nombre de host.',
     'settings.device.networkCancelMount':
       'Cambiar la red virtual reinicia la conexión USB. Esto cancela la imagen montada y activa el disco virtual. ¿Continuar?'
   },
   et: {
-    'settings.device.usbWakeupTip': 'Lülita välja, kui host logib korduvaid USB wakeup teateid.',
     'settings.device.mdns.tip':
       'Võimaldab seadmega ühenduda selle .local-nime kaudu. Pole vaja, kui ühendud IP-aadressi kaudu või su DNS lahendab hostinime juba.',
     'settings.device.networkCancelMount':
       "Virtuaalse võrgu muutmine taaskäivitab USB-ühenduse. See tühistab ühendatud image'i ja lubab virtuaalse ketta. Kas jätkata?"
   },
   fi: {
-    'settings.device.usbWakeupTip':
-      'Poista käytöstä, jos isäntä kirjaa toistuvia USB wakeup -viestejä.',
     'settings.device.mdns.tip':
       'Mahdollistaa laitteen tavoittamisen sen .local-nimellä. Ei tarvita, jos yhdistät IP-osoitteella tai DNS ratkaisee jo isäntänimen.',
     'settings.device.networkCancelMount':
       'Virtuaaliverkon muuttaminen käynnistää USB-yhteyden uudelleen. Tämä peruu liitetyn levykuvan ja ottaa virtuaalilevyn käyttöön. Jatketaanko?'
   },
   fr: {
-    'settings.device.usbWakeupTip':
-      'Désactivez si l’hôte journalise des messages USB wakeup répétés.',
     'settings.device.mdns.tip':
       'Permet d’accéder à cet appareil par son nom .local. Inutile si vous vous connectez par adresse IP ou si votre DNS résout déjà son nom d’hôte.',
     'settings.device.networkCancelMount':
       "Modifier le réseau virtuel redémarre la connexion USB. Cela annule l'image montée et active le disque virtuel. Continuer ?"
   },
   hu: {
-    'settings.device.usbWakeupTip':
-      'Kapcsolja ki, ha a gép ismétlődő USB wakeup üzeneteket naplóz.',
     'settings.device.mdns.tip':
       'Lehetővé teszi az eszköz elérését a .local nevén. Nem szükséges, ha IP-címmel csatlakozik, vagy a DNS már feloldja a gépnevet.',
     'settings.device.networkCancelMount':
       'A virtuális hálózat módosítása újraindítja az USB-kapcsolatot. Ez megszakítja a csatlakoztatott képfájlt, és engedélyezi a virtuális lemezt. Folytatja?'
   },
   id: {
-    'settings.device.usbWakeupTip': 'Matikan jika host mencatat pesan USB wakeup berulang.',
     'settings.device.mdns.tip':
       'Memungkinkan perangkat ini dijangkau lewat nama .local. Tidak diperlukan jika Anda terhubung lewat alamat IP atau DNS Anda sudah meresolusi nama host.',
     'settings.device.networkCancelMount':
       'Mengubah jaringan virtual akan memulai ulang koneksi USB. Ini membatalkan image yang terpasang dan mengaktifkan disk virtual. Lanjutkan?'
   },
   it: {
-    'settings.device.usbWakeupTip': 'Disattiva se l’host registra messaggi USB wakeup ripetuti.',
     'settings.device.mdns.tip':
       'Consente di raggiungere questo dispositivo tramite il nome .local. Non serve se ti connetti tramite indirizzo IP o se il tuo DNS risolve già il nome host.',
     'settings.device.networkCancelMount':
       "Modificare la rete virtuale riavvia la connessione USB. Questo annulla l'immagine montata e abilita il disco virtuale. Continuare?"
   },
   ja: {
-    'settings.device.usbWakeupTip':
-      'ホストが USB wakeup メッセージを繰り返し記録する場合はオフにしてください。',
     'settings.device.mdns.tip':
       '.local 名でこのデバイスにアクセスできるようにします。IP アドレスで接続する場合や、DNS がすでにホスト名を解決できる場合は不要です。',
     'settings.device.networkCancelMount':
       '仮想ネットワークを変更すると、USB 接続が再起動します。マウント中のイメージは解除され、仮想ディスクが有効になります。続行しますか？'
   },
   ko: {
-    'settings.device.usbWakeupTip': '호스트가 USB wakeup 메시지를 반복해서 기록하면 끄세요.',
     'settings.device.mdns.tip':
       '.local 이름으로 이 장치에 접속할 수 있게 합니다. IP 주소로 접속하거나 DNS가 이미 호스트 이름을 확인해 주면 필요하지 않습니다.',
     'settings.device.networkCancelMount':
       '가상 네트워크를 변경하면 USB 연결이 다시 시작됩니다. 마운트된 이미지가 해제되고 가상 디스크가 활성화됩니다. 계속하시겠습니까?'
   },
   nb: {
-    'settings.device.usbWakeupTip': 'Slå av hvis verten logger gjentatte USB wakeup-meldinger.',
     'settings.device.mdns.tip':
       'Gjør at enheten kan nås med .local-navnet. Ikke nødvendig hvis du kobler til med IP-adresse eller DNS-en din allerede løser vertsnavnet.',
     'settings.device.networkCancelMount':
       'Hvis du endrer det virtuelle nettverket, startes USB-tilkoblingen på nytt. Dette avbryter det monterte bildet og aktiverer den virtuelle disken. Fortsette?'
   },
   nl: {
-    'settings.device.usbWakeupTip': 'Schakel uit als de host herhaald USB wakeup-berichten logt.',
-    'settings.device.mdns.tip':
-      'Maakt het apparaat bereikbaar via zijn .local-naam. Niet nodig als je verbinding maakt via IP-adres of je DNS de hostnaam al omzet.',
     'settings.device.networkCancelMount':
       'Het wijzigen van het virtuele netwerk start de USB-verbinding opnieuw. Hierdoor wordt de gekoppelde image geannuleerd en de virtuele schijf ingeschakeld. Doorgaan?'
   },
   pl: {
-    'settings.device.usbWakeupTip':
-      'Wyłącz, jeśli host zapisuje powtarzające się komunikaty USB wakeup.',
     'settings.device.mdns.tip':
       'Umożliwia dostęp do urządzenia przez nazwę .local. Niepotrzebne, jeśli łączysz się przez adres IP lub Twój DNS już rozwiązuje nazwę hosta.',
     'settings.device.networkCancelMount':
       'Zmiana sieci wirtualnej restartuje połączenie USB. Spowoduje to anulowanie zamontowanego obrazu i włączenie dysku wirtualnego. Kontynuować?'
   },
   pt_br: {
-    'settings.device.usbWakeupTip': 'Desative se o host registrar mensagens USB wakeup repetidas.',
     'settings.device.mdns.tip':
       'Permite acessar este dispositivo pelo nome .local. Desnecessário se você se conecta por endereço IP ou se o seu DNS já resolve o nome do host.',
     'settings.device.networkCancelMount':
       'Alterar a rede virtual reinicia a conexão USB. Isso cancela a imagem montada e ativa o disco virtual. Continuar?'
   },
   se: {
-    'settings.device.usbWakeupTip': 'Stäng av om värden loggar upprepade USB wakeup-meddelanden.',
     'settings.device.mdns.tip':
       'Gör att enheten kan nås via sitt .local-namn. Behövs inte om du ansluter via IP-adress eller din DNS redan löser värdnamnet.',
     'settings.device.networkCancelMount':
@@ -948,36 +903,30 @@ const deviceTipLocalizedExtras: Record<string, TranslationMap> = {
       'การเปลี่ยนเครือข่ายจำลองจะรีสตาร์ตการเชื่อมต่อ USB ซึ่งจะยกเลิกการเมานต์อิมเมจและเปิดดิสก์เสมือน ดำเนินการต่อหรือไม่?'
   },
   tr: {
-    'settings.device.usbWakeupTip': 'Makine tekrarlayan USB wakeup iletileri kaydediyorsa kapatın.',
     'settings.device.mdns.tip':
       "Bu cihaza .local adıyla erişmenizi sağlar. IP adresiyle bağlanıyorsanız veya DNS'iniz ana makine adını zaten çözüyorsa gerekmez.",
     'settings.device.networkCancelMount':
       'Sanal ağı değiştirmek USB bağlantısını yeniden başlatır. Bu, bağlı imajı iptal eder ve sanal diski etkinleştirir. Devam edilsin mi?'
   },
   uk: {
-    'settings.device.usbWakeupTip':
-      'Вимкніть, якщо хост записує повторювані повідомлення USB wakeup.',
     'settings.device.mdns.tip':
       'Дозволяє звертатися до пристрою за іменем .local. Не потрібно, якщо ви підключаєтеся за IP-адресою або ваш DNS уже розв’язує ім’я хоста.',
     'settings.device.networkCancelMount':
       'Зміна віртуальної мережі перезапускає USB-підключення. Це скасує змонтований образ і ввімкне віртуальний диск. Продовжити?'
   },
   vi: {
-    'settings.device.usbWakeupTip': 'Tắt nếu máy ghi lặp lại thông báo USB wakeup.',
     'settings.device.mdns.tip':
       'Cho phép truy cập thiết bị này bằng tên .local. Không cần nếu bạn kết nối bằng địa chỉ IP hoặc DNS của bạn đã phân giải được tên máy.',
     'settings.device.networkCancelMount':
       'Thay đổi mạng ảo sẽ khởi động lại kết nối USB. Việc này hủy image đang gắn và bật đĩa ảo. Tiếp tục?'
   },
   zh: {
-    'settings.device.usbWakeupTip': '如果主机反复记录 USB wakeup 消息，请关闭。',
     'settings.device.mdns.tip':
       '允许通过 .local 名称访问此设备。如果您通过 IP 地址连接，或 DNS 已能解析其主机名，则无需开启。',
     'settings.device.networkCancelMount':
       '更改虚拟网卡会重启 USB 连接。这会取消当前挂载的镜像并开启虚拟磁盘。是否继续？'
   },
   zh_tw: {
-    'settings.device.usbWakeupTip': '如果主機反覆記錄 USB wakeup 訊息，請關閉。',
     'settings.device.mdns.tip':
       '允許透過 .local 名稱存取此裝置。如果您透過 IP 位址連線，或 DNS 已能解析其主機名稱，則無需開啟。',
     'settings.device.networkCancelMount':
@@ -1490,10 +1439,7 @@ const virtualMediaLocalizedExtras: Record<string, TranslationMap> = {
   )
 };
 
-const firewallNoWebrtcFallbackExtras: TranslationMap = {
-  'screen.videoWebrtcBlockedByFirewall':
-    'H.264 WebRTC is disabled in Restricted and Paranoid Firewall modes'
-};
+const firewallNoWebrtcFallbackExtras: TranslationMap = {};
 
 function firewallNoWebrtcTranslation(videoBlocked: string): TranslationMap {
   return { 'screen.videoWebrtcBlockedByFirewall': videoBlocked };
@@ -1790,14 +1736,11 @@ const networkExtras: Record<string, TranslationMap> = {
     'settings.network.ipv6.apply': 'Alkalmaz',
     'settings.network.ipv6.interface': 'Interfész',
     'settings.network.ipv6.state': 'Állapot',
-    'settings.network.ipv6.router': 'Útvonalválasztó',
     'settings.network.ipv6.addresses': 'Címek',
     'settings.network.ipv6.dhcpv6Client': 'DHCPv6 kliens',
     'settings.network.ipv6.notInstalled': 'Nincs telepítve',
     'settings.network.ipv6.ipAddress': 'IPv6-cím',
     'settings.network.ipv6.prefix': 'Előtag',
-    'settings.network.ipv6.invalidManual':
-      'Adj meg érvényes IPv6-címet, előtagot és útvonalválasztót',
     'settings.network.ipv6.clientMissing':
       'A DHCPv6 kliens nincs telepítve. Először telepítsd a megfelelő raw rendszerfrissítést.',
     'settings.network.ipv6.saved': 'IPv6-beállítások mentve',
@@ -2234,27 +2177,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Sistema',
     'settings.system.sections.time': 'Hora',
     'settings.system.sections.firewall': 'Tallafoc',
-    'settings.system.sections.systemLog': 'Registre del sistema',
     'settings.system.firewall.saveFailed': "No s'han pogut aplicar els paràmetres del tallafoc",
     'settings.system.firewall.saved': 'Paràmetres del tallafoc aplicats',
     'settings.system.firewall.cancel': 'Cancel·la',
     'settings.system.firewall.refresh': 'Actualitza',
-    'settings.system.firewall.enableHttpsFirst':
-      'Activa HTTPS abans d’activar el mode Paranoid del tallafoc',
-    'settings.system.firewall.httpsRequired':
-      'El mode Paranoid està desactivat fins que HTTPS estigui activat a Configuració > Sistema > Xarxa.',
     'settings.system.firewall.mode.title': 'Mode del tallafoc',
-    'settings.system.firewall.mode.baseline': 'Baseline gestionat',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Activa Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Vols activar el mode Restricted?',
-    'settings.system.firewall.paranoid.enable': 'Activa Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Vols activar el mode Paranoid?',
-    'settings.system.firewall.baseline.apply': 'Torna a baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Vols tornar al baseline gestionat?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Això manté actiu el servei de tallafoc però restaura el perfil normal d’accés NanoKVM.',
     'settings.system.firewall.rules.title': 'Regles actuals',
     'settings.system.firewall.rules.empty': 'No hi ha regles'
   },
@@ -2262,26 +2189,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Systém',
     'settings.system.sections.time': 'Čas',
     'settings.system.sections.firewall': 'Firewall',
-    'settings.system.sections.systemLog': 'Systémový protokol',
     'settings.system.firewall.saveFailed': 'Nepodařilo se použít nastavení firewallu',
     'settings.system.firewall.saved': 'Nastavení firewallu použito',
     'settings.system.firewall.cancel': 'Zrušit',
     'settings.system.firewall.refresh': 'Obnovit',
-    'settings.system.firewall.enableHttpsFirst': 'Před zapnutím režimu Paranoid povolte HTTPS',
-    'settings.system.firewall.httpsRequired':
-      'Režim Paranoid je zakázán, dokud není HTTPS povoleno v Nastavení > Systém > Síť.',
     'settings.system.firewall.mode.title': 'Režim firewallu',
-    'settings.system.firewall.mode.baseline': 'Spravovaný baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Povolit Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Povolit režim Restricted?',
-    'settings.system.firewall.paranoid.enable': 'Povolit Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Povolit režim Paranoid?',
-    'settings.system.firewall.baseline.apply': 'Vrátit na baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Vrátit na spravovaný baseline?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Služba firewallu zůstane aktivní, ale obnoví se běžný profil přístupu NanoKVM.',
     'settings.system.firewall.rules.title': 'Aktuální pravidla',
     'settings.system.firewall.rules.empty': 'Žádná pravidla'
   },
@@ -2289,27 +2201,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'System',
     'settings.system.sections.time': 'Tid',
     'settings.system.sections.firewall': 'Firewall',
-    'settings.system.sections.systemLog': 'Systemlog',
     'settings.system.firewall.saveFailed': 'Kunne ikke anvende firewallindstillinger',
     'settings.system.firewall.saved': 'Firewallindstillinger anvendt',
     'settings.system.firewall.cancel': 'Annuller',
     'settings.system.firewall.refresh': 'Opdater',
-    'settings.system.firewall.enableHttpsFirst':
-      'Aktivér HTTPS før Paranoid-firewalltilstand aktiveres',
-    'settings.system.firewall.httpsRequired':
-      'Paranoid-tilstand er deaktiveret, indtil HTTPS er aktiveret i Indstillinger > System > Netværk.',
     'settings.system.firewall.mode.title': 'Firewalltilstand',
-    'settings.system.firewall.mode.baseline': 'Styret baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Aktivér Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Aktivér Restricted firewalltilstand?',
-    'settings.system.firewall.paranoid.enable': 'Aktivér Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Aktivér Paranoid firewalltilstand?',
-    'settings.system.firewall.baseline.apply': 'Tilbage til baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Tilbage til styret baseline?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Dette holder firewalltjenesten aktiv, men gendanner den normale NanoKVM-adgangsprofil.',
     'settings.system.firewall.rules.title': 'Aktuelle regler',
     'settings.system.firewall.rules.empty': 'Ingen regler'
   },
@@ -2317,27 +2213,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'System',
     'settings.system.sections.time': 'Zeit',
     'settings.system.sections.firewall': 'Firewall',
-    'settings.system.sections.systemLog': 'Systemprotokoll',
     'settings.system.firewall.saveFailed': 'Firewall-Einstellungen konnten nicht angewendet werden',
     'settings.system.firewall.saved': 'Firewall-Einstellungen angewendet',
     'settings.system.firewall.cancel': 'Abbrechen',
     'settings.system.firewall.refresh': 'Aktualisieren',
-    'settings.system.firewall.enableHttpsFirst':
-      'HTTPS aktivieren, bevor der Paranoid-Firewallmodus eingeschaltet wird',
-    'settings.system.firewall.httpsRequired':
-      'Der Paranoid-Modus ist deaktiviert, bis HTTPS unter Einstellungen > System > Netzwerk aktiviert ist.',
     'settings.system.firewall.mode.title': 'Firewallmodus',
-    'settings.system.firewall.mode.baseline': 'Verwaltete Baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Restricted aktivieren',
-    'settings.system.firewall.restricted.confirmTitle': 'Restricted-Firewallmodus aktivieren?',
-    'settings.system.firewall.paranoid.enable': 'Paranoid aktivieren',
-    'settings.system.firewall.paranoid.confirmTitle': 'Paranoid-Firewallmodus aktivieren?',
-    'settings.system.firewall.baseline.apply': 'Zur Baseline zurückkehren',
-    'settings.system.firewall.baseline.confirmTitle': 'Zur verwalteten Baseline zurückkehren?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Der Firewall-Dienst bleibt aktiv, aber das normale NanoKVM-Zugriffsprofil wird wiederhergestellt.',
     'settings.system.firewall.rules.title': 'Aktuelle Regeln',
     'settings.system.firewall.rules.empty': 'Keine Regeln'
   },
@@ -2345,27 +2225,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Sistema',
     'settings.system.sections.time': 'Hora',
     'settings.system.sections.firewall': 'Firewall',
-    'settings.system.sections.systemLog': 'Registro del sistema',
     'settings.system.firewall.saveFailed': 'No se pudieron aplicar los ajustes del firewall',
     'settings.system.firewall.saved': 'Ajustes del firewall aplicados',
     'settings.system.firewall.cancel': 'Cancelar',
     'settings.system.firewall.refresh': 'Actualizar',
-    'settings.system.firewall.enableHttpsFirst':
-      'Activa HTTPS antes de activar el modo Paranoid del firewall',
-    'settings.system.firewall.httpsRequired':
-      'El modo Paranoid está desactivado hasta que HTTPS se active en Ajustes > Sistema > Red.',
     'settings.system.firewall.mode.title': 'Modo del firewall',
-    'settings.system.firewall.mode.baseline': 'Baseline administrado',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Activar Restricted',
-    'settings.system.firewall.restricted.confirmTitle': '¿Activar el modo Restricted?',
-    'settings.system.firewall.paranoid.enable': 'Activar Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': '¿Activar el modo Paranoid?',
-    'settings.system.firewall.baseline.apply': 'Volver a baseline',
-    'settings.system.firewall.baseline.confirmTitle': '¿Volver al baseline administrado?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Esto mantiene activo el servicio de firewall, pero restaura el perfil normal de acceso a NanoKVM.',
     'settings.system.firewall.rules.title': 'Reglas actuales',
     'settings.system.firewall.rules.empty': 'Sin reglas'
   },
@@ -2375,27 +2239,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Système',
     'settings.system.sections.time': 'Heure',
     'settings.system.sections.firewall': 'Pare-feu',
-    'settings.system.sections.systemLog': 'Journal système',
     'settings.system.firewall.saveFailed': 'Échec de l’application des paramètres du pare-feu',
     'settings.system.firewall.saved': 'Paramètres du pare-feu appliqués',
     'settings.system.firewall.cancel': 'Annuler',
     'settings.system.firewall.refresh': 'Actualiser',
-    'settings.system.firewall.enableHttpsFirst':
-      'Activez HTTPS avant d’activer le mode pare-feu Paranoid',
-    'settings.system.firewall.httpsRequired':
-      'Le mode Paranoid est désactivé tant que HTTPS n’est pas activé dans Paramètres > Système > Réseau.',
     'settings.system.firewall.mode.title': 'Mode du pare-feu',
-    'settings.system.firewall.mode.baseline': 'Baseline gérée',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Activer Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Activer le mode Restricted?',
-    'settings.system.firewall.paranoid.enable': 'Activer Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Activer le mode Paranoid?',
-    'settings.system.firewall.baseline.apply': 'Revenir à la baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Revenir à la baseline gérée?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Cela garde le service de pare-feu actif mais restaure le profil d’accès NanoKVM normal.',
     'settings.system.firewall.rules.title': 'Règles actuelles',
     'settings.system.firewall.rules.empty': 'Aucune règle'
   },
@@ -2403,27 +2251,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Rendszer',
     'settings.system.sections.time': 'Idő',
     'settings.system.sections.firewall': 'Tűzfal',
-    'settings.system.sections.systemLog': 'Rendszernapló',
     'settings.system.firewall.saveFailed': 'Nem sikerült alkalmazni a tűzfalbeállításokat',
     'settings.system.firewall.saved': 'Tűzfalbeállítások alkalmazva',
     'settings.system.firewall.cancel': 'Mégse',
     'settings.system.firewall.refresh': 'Frissítés',
-    'settings.system.firewall.enableHttpsFirst':
-      'A Paranoid tűzfal mód engedélyezése előtt engedélyezze a HTTPS-t',
-    'settings.system.firewall.httpsRequired':
-      'A Paranoid mód addig le van tiltva, amíg a HTTPS nincs engedélyezve a Beállítások > Rendszer > Hálózat alatt.',
     'settings.system.firewall.mode.title': 'Tűzfal mód',
-    'settings.system.firewall.mode.baseline': 'Kezelt baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Restricted engedélyezése',
-    'settings.system.firewall.restricted.confirmTitle': 'Engedélyezi a Restricted módot?',
-    'settings.system.firewall.paranoid.enable': 'Paranoid engedélyezése',
-    'settings.system.firewall.paranoid.confirmTitle': 'Engedélyezi a Paranoid módot?',
-    'settings.system.firewall.baseline.apply': 'Vissza a baseline módhoz',
-    'settings.system.firewall.baseline.confirmTitle': 'Visszatérés a kezelt baseline módhoz?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'A tűzfal szolgáltatás aktív marad, de visszaáll a normál NanoKVM-hozzáférési profil.',
     'settings.system.firewall.rules.title': 'Aktuális szabályok',
     'settings.system.firewall.rules.empty': 'Nincsenek szabályok'
   },
@@ -2431,27 +2263,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Sistem',
     'settings.system.sections.time': 'Waktu',
     'settings.system.sections.firewall': 'Firewall',
-    'settings.system.sections.systemLog': 'Log Sistem',
     'settings.system.firewall.saveFailed': 'Gagal menerapkan pengaturan firewall',
     'settings.system.firewall.saved': 'Pengaturan firewall diterapkan',
     'settings.system.firewall.cancel': 'Batal',
     'settings.system.firewall.refresh': 'Segarkan',
-    'settings.system.firewall.enableHttpsFirst':
-      'Aktifkan HTTPS sebelum mengaktifkan mode Firewall Paranoid',
-    'settings.system.firewall.httpsRequired':
-      'Mode Paranoid dinonaktifkan sampai HTTPS diaktifkan di Pengaturan > Sistem > Jaringan.',
     'settings.system.firewall.mode.title': 'Mode Firewall',
-    'settings.system.firewall.mode.baseline': 'Baseline terkelola',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Aktifkan Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Aktifkan mode Restricted?',
-    'settings.system.firewall.paranoid.enable': 'Aktifkan Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Aktifkan mode Paranoid?',
-    'settings.system.firewall.baseline.apply': 'Kembali ke baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Kembali ke baseline terkelola?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Layanan firewall tetap aktif, tetapi profil akses NanoKVM normal dipulihkan.',
     'settings.system.firewall.rules.title': 'Aturan Saat Ini',
     'settings.system.firewall.rules.empty': 'Tidak ada aturan'
   },
@@ -2459,27 +2275,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Sistema',
     'settings.system.sections.time': 'Ora',
     'settings.system.sections.firewall': 'Firewall',
-    'settings.system.sections.systemLog': 'Log di sistema',
     'settings.system.firewall.saveFailed': 'Impossibile applicare le impostazioni del firewall',
     'settings.system.firewall.saved': 'Impostazioni del firewall applicate',
     'settings.system.firewall.cancel': 'Annulla',
     'settings.system.firewall.refresh': 'Aggiorna',
-    'settings.system.firewall.enableHttpsFirst':
-      'Abilita HTTPS prima di attivare la modalità firewall Paranoid',
-    'settings.system.firewall.httpsRequired':
-      'La modalità Paranoid è disabilitata finché HTTPS non è abilitato in Impostazioni > Sistema > Rete.',
     'settings.system.firewall.mode.title': 'Modalità firewall',
-    'settings.system.firewall.mode.baseline': 'Baseline gestita',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Abilita Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Abilitare la modalità Restricted?',
-    'settings.system.firewall.paranoid.enable': 'Abilita Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Abilitare la modalità Paranoid?',
-    'settings.system.firewall.baseline.apply': 'Torna alla baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Tornare alla baseline gestita?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Il servizio firewall resta attivo ma viene ripristinato il normale profilo di accesso NanoKVM.',
     'settings.system.firewall.rules.title': 'Regole correnti',
     'settings.system.firewall.rules.empty': 'Nessuna regola'
   },
@@ -2487,27 +2287,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'システム',
     'settings.system.sections.time': '時刻',
     'settings.system.sections.firewall': 'ファイアウォール',
-    'settings.system.sections.systemLog': 'システムログ',
     'settings.system.firewall.saveFailed': 'ファイアウォール設定の適用に失敗しました',
     'settings.system.firewall.saved': 'ファイアウォール設定を適用しました',
     'settings.system.firewall.cancel': 'キャンセル',
     'settings.system.firewall.refresh': '更新',
-    'settings.system.firewall.enableHttpsFirst':
-      'Paranoid ファイアウォールモードを有効にする前に HTTPS を有効にしてください',
-    'settings.system.firewall.httpsRequired':
-      'Paranoid モードは、設定 > システム > ネットワークで HTTPS が有効になるまで使用できません。',
     'settings.system.firewall.mode.title': 'ファイアウォールモード',
-    'settings.system.firewall.mode.baseline': '管理された baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Restricted を有効化',
-    'settings.system.firewall.restricted.confirmTitle': 'Restricted モードを有効にしますか?',
-    'settings.system.firewall.paranoid.enable': 'Paranoid を有効化',
-    'settings.system.firewall.paranoid.confirmTitle': 'Paranoid モードを有効にしますか?',
-    'settings.system.firewall.baseline.apply': 'Baseline に戻す',
-    'settings.system.firewall.baseline.confirmTitle': '管理された baseline に戻しますか?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'ファイアウォールサービスは有効のまま、通常の NanoKVM アクセスプロファイルを復元します。',
     'settings.system.firewall.rules.title': '現在のルール',
     'settings.system.firewall.rules.empty': 'ルールなし'
   },
@@ -2515,27 +2299,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': '시스템',
     'settings.system.sections.time': '시간',
     'settings.system.sections.firewall': '방화벽',
-    'settings.system.sections.systemLog': '시스템 로그',
     'settings.system.firewall.saveFailed': '방화벽 설정을 적용하지 못했습니다',
     'settings.system.firewall.saved': '방화벽 설정이 적용되었습니다',
     'settings.system.firewall.cancel': '취소',
     'settings.system.firewall.refresh': '새로 고침',
-    'settings.system.firewall.enableHttpsFirst':
-      'Paranoid 방화벽 모드를 켜기 전에 HTTPS를 활성화하세요',
-    'settings.system.firewall.httpsRequired':
-      '설정 > 시스템 > 네트워크에서 HTTPS를 활성화해야 Paranoid 모드를 사용할 수 있습니다.',
     'settings.system.firewall.mode.title': '방화벽 모드',
-    'settings.system.firewall.mode.baseline': '관리되는 baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Restricted 활성화',
-    'settings.system.firewall.restricted.confirmTitle': 'Restricted 모드를 활성화할까요?',
-    'settings.system.firewall.paranoid.enable': 'Paranoid 활성화',
-    'settings.system.firewall.paranoid.confirmTitle': 'Paranoid 모드를 활성화할까요?',
-    'settings.system.firewall.baseline.apply': 'Baseline으로 돌아가기',
-    'settings.system.firewall.baseline.confirmTitle': '관리되는 baseline으로 돌아갈까요?',
-    'settings.system.firewall.baseline.confirmDesc':
-      '방화벽 서비스는 활성 상태로 유지하고 일반 NanoKVM 접근 프로필을 복원합니다.',
     'settings.system.firewall.rules.title': '현재 규칙',
     'settings.system.firewall.rules.empty': '규칙 없음'
   },
@@ -2543,27 +2311,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'System',
     'settings.system.sections.time': 'Tid',
     'settings.system.sections.firewall': 'Brannmur',
-    'settings.system.sections.systemLog': 'Systemlogg',
     'settings.system.firewall.saveFailed': 'Kunne ikke bruke brannmurinnstillinger',
     'settings.system.firewall.saved': 'Brannmurinnstillinger brukt',
     'settings.system.firewall.cancel': 'Avbryt',
     'settings.system.firewall.refresh': 'Oppdater',
-    'settings.system.firewall.enableHttpsFirst':
-      'Aktiver HTTPS før Paranoid-brannmurmodus aktiveres',
-    'settings.system.firewall.httpsRequired':
-      'Paranoid-modus er deaktivert til HTTPS er aktivert i Innstillinger > System > Nettverk.',
     'settings.system.firewall.mode.title': 'Brannmurmodus',
-    'settings.system.firewall.mode.baseline': 'Administrert baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Aktiver Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Aktivere Restricted-modus?',
-    'settings.system.firewall.paranoid.enable': 'Aktiver Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Aktivere Paranoid-modus?',
-    'settings.system.firewall.baseline.apply': 'Tilbake til baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Tilbake til administrert baseline?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Dette holder brannmurtjenesten aktiv, men gjenoppretter normal NanoKVM-tilgangsprofil.',
     'settings.system.firewall.rules.title': 'Gjeldende regler',
     'settings.system.firewall.rules.empty': 'Ingen regler'
   },
@@ -2571,27 +2323,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Systeem',
     'settings.system.sections.time': 'Tijd',
     'settings.system.sections.firewall': 'Firewall',
-    'settings.system.sections.systemLog': 'Systeemlog',
     'settings.system.firewall.saveFailed': 'Kan firewallinstellingen niet toepassen',
     'settings.system.firewall.saved': 'Firewallinstellingen toegepast',
     'settings.system.firewall.cancel': 'Annuleren',
     'settings.system.firewall.refresh': 'Vernieuwen',
-    'settings.system.firewall.enableHttpsFirst':
-      'Schakel HTTPS in voordat u Paranoid-firewallmodus inschakelt',
-    'settings.system.firewall.httpsRequired':
-      'Paranoid-modus is uitgeschakeld totdat HTTPS is ingeschakeld in Instellingen > Systeem > Netwerk.',
     'settings.system.firewall.mode.title': 'Firewallmodus',
-    'settings.system.firewall.mode.baseline': 'Beheerde baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Restricted inschakelen',
-    'settings.system.firewall.restricted.confirmTitle': 'Restricted-modus inschakelen?',
-    'settings.system.firewall.paranoid.enable': 'Paranoid inschakelen',
-    'settings.system.firewall.paranoid.confirmTitle': 'Paranoid-modus inschakelen?',
-    'settings.system.firewall.baseline.apply': 'Terug naar baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Terug naar beheerde baseline?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Dit houdt de firewallservice actief maar herstelt het normale NanoKVM-toegangsprofiel.',
     'settings.system.firewall.rules.title': 'Huidige regels',
     'settings.system.firewall.rules.empty': 'Geen regels'
   },
@@ -2599,27 +2335,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Sistema',
     'settings.system.sections.time': 'Hora',
     'settings.system.sections.firewall': 'Firewall',
-    'settings.system.sections.systemLog': 'Log do sistema',
     'settings.system.firewall.saveFailed': 'Falha ao aplicar as configurações do firewall',
     'settings.system.firewall.saved': 'Configurações do firewall aplicadas',
     'settings.system.firewall.cancel': 'Cancelar',
     'settings.system.firewall.refresh': 'Atualizar',
-    'settings.system.firewall.enableHttpsFirst':
-      'Ative HTTPS antes de ativar o modo Firewall Paranoid',
-    'settings.system.firewall.httpsRequired':
-      'O modo Paranoid fica desativado até que HTTPS seja ativado em Configurações > Sistema > Rede.',
     'settings.system.firewall.mode.title': 'Modo do firewall',
-    'settings.system.firewall.mode.baseline': 'Baseline gerenciado',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Ativar Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Ativar o modo Restricted?',
-    'settings.system.firewall.paranoid.enable': 'Ativar Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Ativar o modo Paranoid?',
-    'settings.system.firewall.baseline.apply': 'Voltar ao baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Voltar ao baseline gerenciado?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Isso mantém o serviço de firewall ativo, mas restaura o perfil normal de acesso do NanoKVM.',
     'settings.system.firewall.rules.title': 'Regras atuais',
     'settings.system.firewall.rules.empty': 'Nenhuma regra'
   },
@@ -2627,27 +2347,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'System',
     'settings.system.sections.time': 'Tid',
     'settings.system.sections.firewall': 'Brandvägg',
-    'settings.system.sections.systemLog': 'Systemlogg',
     'settings.system.firewall.saveFailed': 'Kunde inte tillämpa brandväggsinställningar',
     'settings.system.firewall.saved': 'Brandväggsinställningar tillämpade',
     'settings.system.firewall.cancel': 'Avbryt',
     'settings.system.firewall.refresh': 'Uppdatera',
-    'settings.system.firewall.enableHttpsFirst':
-      'Aktivera HTTPS innan Paranoid-brandväggsläge aktiveras',
-    'settings.system.firewall.httpsRequired':
-      'Paranoid-läget är inaktiverat tills HTTPS har aktiverats i Inställningar > System > Nätverk.',
     'settings.system.firewall.mode.title': 'Brandväggsläge',
-    'settings.system.firewall.mode.baseline': 'Hanterad baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Aktivera Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Aktivera Restricted-läge?',
-    'settings.system.firewall.paranoid.enable': 'Aktivera Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Aktivera Paranoid-läge?',
-    'settings.system.firewall.baseline.apply': 'Tillbaka till baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Tillbaka till hanterad baseline?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Detta håller brandväggstjänsten aktiv men återställer normal NanoKVM-åtkomstprofil.',
     'settings.system.firewall.rules.title': 'Aktuella regler',
     'settings.system.firewall.rules.empty': 'Inga regler'
   },
@@ -2655,26 +2359,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'ระบบ',
     'settings.system.sections.time': 'เวลา',
     'settings.system.sections.firewall': 'ไฟร์วอลล์',
-    'settings.system.sections.systemLog': 'บันทึกระบบ',
     'settings.system.firewall.saveFailed': 'ใช้การตั้งค่าไฟร์วอลล์ไม่สำเร็จ',
     'settings.system.firewall.saved': 'ใช้การตั้งค่าไฟร์วอลล์แล้ว',
     'settings.system.firewall.cancel': 'ยกเลิก',
     'settings.system.firewall.refresh': 'รีเฟรช',
-    'settings.system.firewall.enableHttpsFirst': 'เปิดใช้งาน HTTPS ก่อนเปิดโหมดไฟร์วอลล์ Paranoid',
-    'settings.system.firewall.httpsRequired':
-      'โหมด Paranoid จะปิดอยู่จนกว่าจะเปิด HTTPS ใน การตั้งค่า > ระบบ > เครือข่าย',
     'settings.system.firewall.mode.title': 'โหมดไฟร์วอลล์',
-    'settings.system.firewall.mode.baseline': 'Baseline ที่จัดการโดยระบบ',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'เปิด Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'เปิดโหมด Restricted หรือไม่?',
-    'settings.system.firewall.paranoid.enable': 'เปิด Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'เปิดโหมด Paranoid หรือไม่?',
-    'settings.system.firewall.baseline.apply': 'กลับสู่ baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'กลับสู่ baseline ที่จัดการโดยระบบหรือไม่?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'บริการไฟร์วอลล์จะยังทำงานอยู่ แต่จะคืนค่าโปรไฟล์การเข้าถึง NanoKVM ปกติ',
     'settings.system.firewall.rules.title': 'กฎปัจจุบัน',
     'settings.system.firewall.rules.empty': 'ไม่มีกฎ'
   },
@@ -2682,27 +2371,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Sistem',
     'settings.system.sections.time': 'Saat',
     'settings.system.sections.firewall': 'Güvenlik duvarı',
-    'settings.system.sections.systemLog': 'Sistem günlüğü',
     'settings.system.firewall.saveFailed': 'Güvenlik duvarı ayarları uygulanamadı',
     'settings.system.firewall.saved': 'Güvenlik duvarı ayarları uygulandı',
     'settings.system.firewall.cancel': 'İptal',
     'settings.system.firewall.refresh': 'Yenile',
-    'settings.system.firewall.enableHttpsFirst':
-      'Paranoid Güvenlik Duvarı modunu etkinleştirmeden önce HTTPS’i etkinleştirin',
-    'settings.system.firewall.httpsRequired':
-      'Paranoid modu, Ayarlar > Sistem > Ağ içinde HTTPS etkinleştirilene kadar devre dışıdır.',
     'settings.system.firewall.mode.title': 'Güvenlik duvarı modu',
-    'settings.system.firewall.mode.baseline': 'Yönetilen baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Restricted etkinleştir',
-    'settings.system.firewall.restricted.confirmTitle': 'Restricted modu etkinleştirilsin mi?',
-    'settings.system.firewall.paranoid.enable': 'Paranoid etkinleştir',
-    'settings.system.firewall.paranoid.confirmTitle': 'Paranoid modu etkinleştirilsin mi?',
-    'settings.system.firewall.baseline.apply': 'Baseline’a dön',
-    'settings.system.firewall.baseline.confirmTitle': 'Yönetilen baseline’a dönülsün mü?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Bu, güvenlik duvarı hizmetini etkin tutar ancak normal NanoKVM erişim profilini geri yükler.',
     'settings.system.firewall.rules.title': 'Geçerli kurallar',
     'settings.system.firewall.rules.empty': 'Kural yok'
   },
@@ -2710,27 +2383,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Hệ thống',
     'settings.system.sections.time': 'Thời gian',
     'settings.system.sections.firewall': 'Tường lửa',
-    'settings.system.sections.systemLog': 'Nhật ký hệ thống',
     'settings.system.firewall.saveFailed': 'Không thể áp dụng cài đặt tường lửa',
     'settings.system.firewall.saved': 'Đã áp dụng cài đặt tường lửa',
     'settings.system.firewall.cancel': 'Hủy',
     'settings.system.firewall.refresh': 'Làm mới',
-    'settings.system.firewall.enableHttpsFirst':
-      'Bật HTTPS trước khi bật chế độ tường lửa Paranoid',
-    'settings.system.firewall.httpsRequired':
-      'Chế độ Paranoid bị tắt cho đến khi HTTPS được bật trong Cài đặt > Hệ thống > Mạng.',
     'settings.system.firewall.mode.title': 'Chế độ tường lửa',
-    'settings.system.firewall.mode.baseline': 'Baseline được quản lý',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Bật Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Bật chế độ Restricted?',
-    'settings.system.firewall.paranoid.enable': 'Bật Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Bật chế độ Paranoid?',
-    'settings.system.firewall.baseline.apply': 'Quay lại baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Quay lại baseline được quản lý?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Dịch vụ tường lửa vẫn hoạt động nhưng hồ sơ truy cập NanoKVM bình thường sẽ được khôi phục.',
     'settings.system.firewall.rules.title': 'Quy tắc hiện tại',
     'settings.system.firewall.rules.empty': 'Không có quy tắc'
   },
@@ -2738,27 +2395,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'Система',
     'settings.system.sections.time': 'Час',
     'settings.system.sections.firewall': 'Брандмауер',
-    'settings.system.sections.systemLog': 'Системний журнал',
     'settings.system.firewall.saveFailed': 'Не вдалося застосувати налаштування брандмауера',
     'settings.system.firewall.saved': 'Налаштування брандмауера застосовано',
     'settings.system.firewall.cancel': 'Скасувати',
     'settings.system.firewall.refresh': 'Оновити',
-    'settings.system.firewall.enableHttpsFirst':
-      'Увімкніть HTTPS перед увімкненням режиму брандмауера Paranoid',
-    'settings.system.firewall.httpsRequired':
-      'Режим Paranoid вимкнено, доки HTTPS не ввімкнено в Налаштування > Система > Мережа.',
     'settings.system.firewall.mode.title': 'Режим брандмауера',
-    'settings.system.firewall.mode.baseline': 'Керований baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Увімкнути Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Увімкнути режим Restricted?',
-    'settings.system.firewall.paranoid.enable': 'Увімкнути Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Увімкнути режим Paranoid?',
-    'settings.system.firewall.baseline.apply': 'Повернутися до baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Повернутися до керованого baseline?',
-    'settings.system.firewall.baseline.confirmDesc':
-      'Служба брандмауера залишиться активною, але буде відновлено звичайний профіль доступу NanoKVM.',
     'settings.system.firewall.rules.title': 'Поточні правила',
     'settings.system.firewall.rules.empty': 'Немає правил'
   },
@@ -2766,26 +2407,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': '系统',
     'settings.system.sections.time': '时间',
     'settings.system.sections.firewall': '防火墙',
-    'settings.system.sections.systemLog': '系统日志',
     'settings.system.firewall.saveFailed': '应用防火墙设置失败',
     'settings.system.firewall.saved': '防火墙设置已应用',
     'settings.system.firewall.cancel': '取消',
     'settings.system.firewall.refresh': '刷新',
-    'settings.system.firewall.enableHttpsFirst': '启用 Paranoid 防火墙模式前请先启用 HTTPS',
-    'settings.system.firewall.httpsRequired':
-      'Paranoid 模式需要先在 设置 > 系统 > 网络 中启用 HTTPS。',
     'settings.system.firewall.mode.title': '防火墙模式',
-    'settings.system.firewall.mode.baseline': '受管 baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': '启用 Restricted',
-    'settings.system.firewall.restricted.confirmTitle': '启用 Restricted 防火墙模式？',
-    'settings.system.firewall.paranoid.enable': '启用 Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': '启用 Paranoid 防火墙模式？',
-    'settings.system.firewall.baseline.apply': '返回 baseline',
-    'settings.system.firewall.baseline.confirmTitle': '返回受管 baseline？',
-    'settings.system.firewall.baseline.confirmDesc':
-      '防火墙服务会保持启用，但会恢复普通 NanoKVM 访问策略。',
     'settings.system.firewall.rules.title': '当前规则',
     'settings.system.firewall.rules.empty': '无规则'
   },
@@ -2793,26 +2419,11 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.title': '系統',
     'settings.system.sections.time': '時間',
     'settings.system.sections.firewall': '防火牆',
-    'settings.system.sections.systemLog': '系統記錄',
     'settings.system.firewall.saveFailed': '套用防火牆設定失敗',
     'settings.system.firewall.saved': '防火牆設定已套用',
     'settings.system.firewall.cancel': '取消',
     'settings.system.firewall.refresh': '重新整理',
-    'settings.system.firewall.enableHttpsFirst': '啟用 Paranoid 防火牆模式前請先啟用 HTTPS',
-    'settings.system.firewall.httpsRequired':
-      'Paranoid 模式需要先在 設定 > 系統 > 網路 中啟用 HTTPS。',
     'settings.system.firewall.mode.title': '防火牆模式',
-    'settings.system.firewall.mode.baseline': '受管理 baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': '啟用 Restricted',
-    'settings.system.firewall.restricted.confirmTitle': '啟用 Restricted 防火牆模式？',
-    'settings.system.firewall.paranoid.enable': '啟用 Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': '啟用 Paranoid 防火牆模式？',
-    'settings.system.firewall.baseline.apply': '返回 baseline',
-    'settings.system.firewall.baseline.confirmTitle': '返回受管理 baseline？',
-    'settings.system.firewall.baseline.confirmDesc':
-      '防火牆服務會保持啟用，但會恢復一般 NanoKVM 存取設定。',
     'settings.system.firewall.rules.title': '目前規則',
     'settings.system.firewall.rules.empty': '沒有規則'
   }
@@ -2835,7 +2446,6 @@ const timeLogKeys = [
   'settings.system.time.clock.current',
   'settings.system.time.clock.timezone',
   'settings.system.time.servers.title',
-  'settings.system.time.servers.description',
   'settings.system.time.servers.useRouter',
   'settings.system.time.servers.useDefaults',
   'settings.system.time.servers.routerDetected',
@@ -2848,19 +2458,14 @@ const timeLogKeys = [
   'settings.systemLog.test',
   'settings.systemLog.testSent',
   'settings.systemLog.testFailed',
-  'settings.systemLog.remote.title',
-  'settings.systemLog.remote.description',
   'settings.systemLog.remote.host',
   'settings.systemLog.remote.port',
   'settings.systemLog.remote.protocol',
-  'settings.systemLog.local.title',
   'settings.systemLog.local.priority',
   'settings.systemLog.local.buffer',
   'settings.systemLog.local.rotations',
   'settings.systemLog.local.compact',
   'settings.systemLog.local.stripTimestamps',
-  'settings.systemLog.kernel.title',
-  'settings.systemLog.kernel.enabled',
   'settings.systemLog.kernel.consoleLevel',
   'settings.systemLog.viewer.title',
   'settings.systemLog.viewer.refresh',
@@ -2973,7 +2578,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Aktuelle Zeit',
     'Zeitzone',
     'NTP-Server',
-    'Standardmäßig öffentliche Pool-Server verwenden oder NanoKVM auf den lokalen Router/NTP-Server verweisen.',
     'Router verwenden',
     'Standardwerte verwenden',
     'Erkannter Router: {{gateway}}',
@@ -2986,19 +2590,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Testprotokoll senden',
     'Testprotokoll gesendet',
     'Testprotokoll konnte nicht gesendet werden',
-    'Remote-Syslog',
-    'Systemprotokolle an einen Syslog-Server weiterleiten',
     'Server',
     'Port',
     'UDP-Syslog wird vom aktuellen BusyBox syslogd verwendet.',
-    'Lokaler Protokollpuffer',
     'Mindestpriorität',
     'Puffergröße',
     'Rotationen',
     'Kompakte Ausgabe',
     'Zeitstempel entfernen',
-    'Kernelprotokoll',
-    'Kernelmeldungen',
     'Konsolenstufe',
     'Systemprotokoll',
     'Aktualisieren',
@@ -3031,7 +2630,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Hora actual',
     'Zona horaria',
     'Servidores NTP',
-    'Usa servidores públicos por defecto o apunta NanoKVM a tu router/servidor NTP local.',
     'Usar router',
     'Usar valores predeterminados',
     'Router detectado: {{gateway}}',
@@ -3044,19 +2642,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Enviar registro de prueba',
     'Registro de prueba enviado',
     'No se pudo enviar el registro de prueba',
-    'Syslog remoto',
-    'Reenviar registros del sistema a un servidor syslog',
     'Servidor',
     'Puerto',
     'El syslog UDP lo usa el syslogd actual de BusyBox.',
-    'Búfer de registro local',
     'Prioridad mínima',
     'Tamaño del búfer',
     'Rotaciones',
     'Salida compacta',
     'Quitar marcas de tiempo',
-    'Registro del kernel',
-    'Mensajes del kernel',
     'Nivel de consola',
     'Registro del sistema',
     'Actualizar',
@@ -3089,7 +2682,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Heure actuelle',
     'Fuseau horaire',
     'Serveurs NTP',
-    'Utilisez les serveurs publics par défaut ou pointez NanoKVM vers votre routeur/serveur NTP local.',
     'Utiliser le routeur',
     'Utiliser les valeurs par défaut',
     'Routeur détecté: {{gateway}}',
@@ -3102,19 +2694,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Envoyer un journal de test',
     'Journal de test envoyé',
     'Échec de l’envoi du journal de test',
-    'Syslog distant',
-    'Transférer les journaux système vers un serveur syslog',
     'Serveur',
     'Port',
     'Le syslog UDP est utilisé par le syslogd BusyBox actuel.',
-    'Tampon de journal local',
     'Priorité minimale',
     'Taille du tampon',
     'Rotations',
     'Sortie compacte',
     'Supprimer les horodatages',
-    'Journal du noyau',
-    'Messages du noyau',
     'Niveau console',
     'Journal système',
     'Actualiser',
@@ -3147,7 +2734,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Поточний час',
     'Часовий пояс',
     'Сервери NTP',
-    'Використовуйте публічні pool-сервери за замовчуванням або вкажіть локальний маршрутизатор/NTP-сервер.',
     'Використати маршрутизатор',
     'Використати типові',
     'Виявлений маршрутизатор: {{gateway}}',
@@ -3160,19 +2746,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Надіслати тестовий запис',
     'Тестовий запис надіслано',
     'Не вдалося надіслати тестовий запис',
-    'Віддалений syslog',
-    'Пересилати системні журнали на сервер syslog',
     'Сервер',
     'Порт',
     'Поточний BusyBox syslogd використовує UDP syslog.',
-    'Локальний буфер журналу',
     'Мінімальний пріоритет',
     'Розмір буфера',
     'Ротації',
     'Компактний вивід',
     'Прибрати часові мітки',
-    'Журнал ядра',
-    'Повідомлення ядра',
     'Рівень консолі',
     'Системний журнал',
     'Оновити',
@@ -3205,7 +2786,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '当前时间',
     '时区',
     'NTP 服务器',
-    '默认使用公共 pool 服务器，或将 NanoKVM 指向本地路由器/NTP 服务器。',
     '使用路由器',
     '使用默认值',
     '检测到路由器：{{gateway}}',
@@ -3218,19 +2798,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '发送测试日志',
     '测试日志已发送',
     '发送测试日志失败',
-    '远程 Syslog',
-    '将系统日志转发到 syslog 服务器',
     '服务器',
     '端口',
     '当前 BusyBox syslogd 使用 UDP syslog。',
-    '本地日志缓冲区',
     '最低优先级',
     '缓冲区大小',
     '轮转',
     '紧凑输出',
     '去除时间戳',
-    '内核日志',
-    '内核消息',
     '控制台级别',
     '系统日志',
     '刷新',
@@ -3263,7 +2838,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '目前時間',
     '時區',
     'NTP 伺服器',
-    '預設使用公共 pool 伺服器，或將 NanoKVM 指向本地路由器/NTP 伺服器。',
     '使用路由器',
     '使用預設值',
     '偵測到路由器：{{gateway}}',
@@ -3276,19 +2850,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '傳送測試記錄',
     '測試記錄已傳送',
     '傳送測試記錄失敗',
-    '遠端 Syslog',
-    '將系統記錄轉送到 syslog 伺服器',
     '伺服器',
     '連接埠',
     '目前 BusyBox syslogd 使用 UDP syslog。',
-    '本地記錄緩衝區',
     '最低優先級',
     '緩衝區大小',
     '輪替',
     '精簡輸出',
     '移除時間戳記',
-    '核心記錄',
-    '核心訊息',
     '主控台層級',
     '系統記錄',
     '重新整理',
@@ -3321,7 +2890,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Ora corrente',
     'Fuso orario',
     'Server NTP',
-    'Usa i server pubblici predefiniti oppure indirizza NanoKVM al router/server NTP locale.',
     'Usa router',
     'Usa predefiniti',
     'Router rilevato: {{gateway}}',
@@ -3334,19 +2902,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Invia log di prova',
     'Log di prova inviato',
     'Impossibile inviare il log di prova',
-    'Syslog remoto',
-    'Inoltra i log di sistema a un server syslog',
     'Server',
     'Porta',
     'Il syslog UDP è usato dall’attuale BusyBox syslogd.',
-    'Buffer log locale',
     'Priorità minima',
     'Dimensione buffer',
     'Rotazioni',
     'Output compatto',
     'Rimuovi timestamp',
-    'Log del kernel',
-    'Messaggi del kernel',
     'Livello console',
     'Log di sistema',
     'Aggiorna',
@@ -3379,7 +2942,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Huidige tijd',
     'Tijdzone',
     'NTP-servers',
-    'Gebruik standaard publieke poolservers of wijs NanoKVM naar uw lokale router/NTP-server.',
     'Router gebruiken',
     'Standaarden gebruiken',
     'Gedetecteerde router: {{gateway}}',
@@ -3392,19 +2954,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Testlog verzenden',
     'Testlog verzonden',
     'Kan testlog niet verzenden',
-    'Remote syslog',
-    'Systeemlogs doorsturen naar een syslog-server',
     'Server',
     'Poort',
     'UDP-syslog wordt gebruikt door de huidige BusyBox syslogd.',
-    'Lokale logbuffer',
     'Minimale prioriteit',
     'Buffergrootte',
     'Rotaties',
     'Compacte uitvoer',
     'Tijdstempels verwijderen',
-    'Kernellog',
-    'Kernelberichten',
     'Consoleniveau',
     'Systeemlog',
     'Vernieuwen',
@@ -3437,7 +2994,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Hora atual',
     'Fuso horário',
     'Servidores NTP',
-    'Use servidores públicos por padrão ou aponte o NanoKVM para seu roteador/servidor NTP local.',
     'Usar roteador',
     'Usar padrões',
     'Roteador detectado: {{gateway}}',
@@ -3450,19 +3006,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Enviar log de teste',
     'Log de teste enviado',
     'Falha ao enviar log de teste',
-    'Syslog remoto',
-    'Encaminhar logs do sistema para um servidor syslog',
     'Servidor',
     'Porta',
     'O syslog UDP é usado pelo BusyBox syslogd atual.',
-    'Buffer local de logs',
     'Prioridade mínima',
     'Tamanho do buffer',
     'Rotações',
     'Saída compacta',
     'Remover timestamps',
-    'Log do kernel',
-    'Mensagens do kernel',
     'Nível do console',
     'Log do sistema',
     'Atualizar',
@@ -3495,7 +3046,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Geçerli saat',
     'Saat dilimi',
     'NTP Sunucuları',
-    'Varsayılan olarak genel pool sunucularını kullanın veya NanoKVM’i yerel yönlendirici/NTP sunucunuza yönlendirin.',
     'Yönlendiriciyi kullan',
     'Varsayılanları kullan',
     'Algılanan yönlendirici: {{gateway}}',
@@ -3508,19 +3058,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Test günlüğü gönder',
     'Test günlüğü gönderildi',
     'Test günlüğü gönderilemedi',
-    'Uzak Syslog',
-    'Sistem günlüklerini bir syslog sunucusuna ilet',
     'Sunucu',
     'Port',
     'Geçerli BusyBox syslogd UDP syslog kullanır.',
-    'Yerel günlük tamponu',
     'En düşük öncelik',
     'Tampon boyutu',
     'Döndürmeler',
     'Kompakt çıktı',
     'Zaman damgalarını kaldır',
-    'Kernel günlüğü',
-    'Kernel mesajları',
     'Konsol seviyesi',
     'Sistem günlüğü',
     'Yenile',
@@ -3553,7 +3098,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '現在時刻',
     'タイムゾーン',
     'NTP サーバー',
-    '既定では公開 pool サーバーを使用するか、NanoKVM をローカルルーター/NTP サーバーに向けます。',
     'ルーターを使用',
     '既定値を使用',
     '検出されたルーター: {{gateway}}',
@@ -3566,19 +3110,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'テストログを送信',
     'テストログを送信しました',
     'テストログの送信に失敗しました',
-    'リモート Syslog',
-    'システムログを syslog サーバーへ転送します',
     'サーバー',
     'ポート',
     '現在の BusyBox syslogd は UDP syslog を使用します。',
-    'ローカルログバッファ',
     '最小優先度',
     'バッファサイズ',
     'ローテーション',
     'コンパクト出力',
     'タイムスタンプを削除',
-    'カーネルログ',
-    'カーネルメッセージ',
     'コンソールレベル',
     'システムログ',
     '更新',
@@ -3611,7 +3150,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '현재 시간',
     '시간대',
     'NTP 서버',
-    '기본적으로 공개 pool 서버를 사용하거나 NanoKVM을 로컬 라우터/NTP 서버로 지정하세요.',
     '라우터 사용',
     '기본값 사용',
     '감지된 라우터: {{gateway}}',
@@ -3624,19 +3162,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     '테스트 로그 보내기',
     '테스트 로그가 전송되었습니다',
     '테스트 로그 전송에 실패했습니다',
-    '원격 Syslog',
-    '시스템 로그를 syslog 서버로 전달합니다',
     '서버',
     '포트',
     '현재 BusyBox syslogd는 UDP syslog를 사용합니다.',
-    '로컬 로그 버퍼',
     '최소 우선순위',
     '버퍼 크기',
     '회전',
     '간결한 출력',
     '타임스탬프 제거',
-    '커널 로그',
-    '커널 메시지',
     '콘솔 레벨',
     '시스템 로그',
     '새로 고침',
@@ -3669,7 +3202,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Hora actual',
     'Zona horària',
     'Servidors NTP',
-    'Fes servir servidors pool públics per defecte o apunta NanoKVM al teu encaminador/servidor NTP local.',
     'Fes servir encaminador',
     'Fes servir valors per defecte',
     'Encaminador detectat: {{gateway}}',
@@ -3682,19 +3214,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Envia registre de prova',
     'Registre de prova enviat',
     "No s'ha pogut enviar el registre de prova",
-    'Syslog remot',
-    'Reenvia els registres del sistema a un servidor syslog',
     'Servidor',
     'Port',
     'El syslog UDP és usat pel syslogd BusyBox actual.',
-    'Memòria intermèdia local de registres',
     'Prioritat mínima',
     'Mida del buffer',
     'Rotacions',
     'Sortida compacta',
     'Elimina marques de temps',
-    'Registre del kernel',
-    'Missatges del kernel',
     'Nivell de consola',
     'Registre del sistema',
     'Actualitza',
@@ -3727,7 +3254,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Aktuální čas',
     'Časové pásmo',
     'Servery NTP',
-    'Použijte výchozí veřejné pool servery nebo nasměrujte NanoKVM na místní router/NTP server.',
     'Použít router',
     'Použít výchozí',
     'Zjištěný router: {{gateway}}',
@@ -3740,19 +3266,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Odeslat testovací protokol',
     'Testovací protokol odeslán',
     'Nepodařilo se odeslat testovací protokol',
-    'Vzdálený syslog',
-    'Předávat systémové protokoly na syslog server',
     'Server',
     'Port',
     'Aktuální BusyBox syslogd používá UDP syslog.',
-    'Místní buffer protokolu',
     'Minimální priorita',
     'Velikost bufferu',
     'Rotace',
     'Kompaktní výstup',
     'Odstranit časové značky',
-    'Protokol kernelu',
-    'Zprávy kernelu',
     'Úroveň konzole',
     'Systémový protokol',
     'Obnovit',
@@ -3785,7 +3306,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Aktuel tid',
     'Tidszone',
     'NTP-servere',
-    'Brug offentlige pool-servere som standard, eller peg NanoKVM på din lokale router/NTP-server.',
     'Brug router',
     'Brug standarder',
     'Registreret router: {{gateway}}',
@@ -3798,19 +3318,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Send testlog',
     'Testlog sendt',
     'Kunne ikke sende testlog',
-    'Fjern-syslog',
-    'Videresend systemlogs til en syslog-server',
     'Server',
     'Port',
     'UDP-syslog bruges af den aktuelle BusyBox syslogd.',
-    'Lokal logbuffer',
     'Minimumsprioritet',
     'Bufferstørrelse',
     'Rotationer',
     'Kompakt output',
     'Fjern tidsstempler',
-    'Kernellog',
-    'Kernelbeskeder',
     'Konsolniveau',
     'Systemlog',
     'Opdater',
@@ -3843,7 +3358,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Aktuális idő',
     'Időzóna',
     'NTP-szerverek',
-    'Alapértelmezetten nyilvános pool szerverek használata, vagy a NanoKVM irányítása helyi router/NTP-szerver felé.',
     'Router használata',
     'Alapértékek használata',
     'Észlelt router: {{gateway}}',
@@ -3856,19 +3370,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Teszt napló küldése',
     'Teszt napló elküldve',
     'Nem sikerült elküldeni a teszt naplót',
-    'Távoli syslog',
-    'Rendszernaplók továbbítása syslog szerverre',
     'Szerver',
     'Port',
     'A jelenlegi BusyBox syslogd UDP syslogot használ.',
-    'Helyi naplópuffer',
     'Minimális prioritás',
     'Pufferméret',
     'Rotációk',
     'Kompakt kimenet',
     'Időbélyegek eltávolítása',
-    'Kernelnapló',
-    'Kernelüzenetek',
     'Konzolszint',
     'Rendszernapló',
     'Frissítés',
@@ -3901,7 +3410,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Waktu saat ini',
     'Zona waktu',
     'Server NTP',
-    'Gunakan server pool publik secara default, atau arahkan NanoKVM ke router/server NTP lokal.',
     'Gunakan router',
     'Gunakan default',
     'Router terdeteksi: {{gateway}}',
@@ -3914,19 +3422,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Kirim log uji',
     'Log uji terkirim',
     'Gagal mengirim log uji',
-    'Syslog jarak jauh',
-    'Teruskan log sistem ke server syslog',
     'Server',
     'Port',
     'Syslog UDP digunakan oleh BusyBox syslogd saat ini.',
-    'Buffer Log Lokal',
     'Prioritas minimum',
     'Ukuran buffer',
     'Rotasi',
     'Output ringkas',
     'Hapus timestamp',
-    'Log Kernel',
-    'Pesan kernel',
     'Level konsol',
     'Log Sistem',
     'Segarkan',
@@ -3959,7 +3462,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Gjeldende tid',
     'Tidssone',
     'NTP-servere',
-    'Bruk offentlige pool-servere som standard, eller pek NanoKVM til lokal ruter/NTP-server.',
     'Bruk ruter',
     'Bruk standarder',
     'Oppdaget ruter: {{gateway}}',
@@ -3972,19 +3474,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Send testlogg',
     'Testlogg sendt',
     'Kunne ikke sende testlogg',
-    'Ekstern syslog',
-    'Videresend systemlogger til en syslog-server',
     'Server',
     'Port',
     'UDP-syslog brukes av gjeldende BusyBox syslogd.',
-    'Lokal loggbuffer',
     'Minimumsprioritet',
     'Bufferstørrelse',
     'Rotasjoner',
     'Kompakt utdata',
     'Fjern tidsstempler',
-    'Kjernelogg',
-    'Kjernemeldinger',
     'Konsollnivå',
     'Systemlogg',
     'Oppdater',
@@ -4017,7 +3514,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Aktuell tid',
     'Tidszon',
     'NTP-servrar',
-    'Använd offentliga pool-servrar som standard, eller peka NanoKVM mot lokal router/NTP-server.',
     'Använd router',
     'Använd standardvärden',
     'Upptäckt router: {{gateway}}',
@@ -4030,19 +3526,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Skicka testlogg',
     'Testlogg skickad',
     'Kunde inte skicka testlogg',
-    'Fjärr-syslog',
-    'Vidarebefordra systemloggar till en syslog-server',
     'Server',
     'Port',
     'UDP-syslog används av aktuell BusyBox syslogd.',
-    'Lokal loggbuffert',
     'Minsta prioritet',
     'Buffertstorlek',
     'Rotationer',
     'Kompakt utdata',
     'Ta bort tidsstämplar',
-    'Kärnlogg',
-    'Kärnmeddelanden',
     'Konsolnivå',
     'Systemlogg',
     'Uppdatera',
@@ -4075,7 +3566,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'เวลาปัจจุบัน',
     'เขตเวลา',
     'เซิร์ฟเวอร์ NTP',
-    'ใช้เซิร์ฟเวอร์ pool สาธารณะเป็นค่าเริ่มต้น หรือชี้ NanoKVM ไปยังเราเตอร์/เซิร์ฟเวอร์ NTP ภายใน',
     'ใช้เราเตอร์',
     'ใช้ค่าเริ่มต้น',
     'ตรวจพบเราเตอร์: {{gateway}}',
@@ -4088,19 +3578,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'ส่งบันทึกทดสอบ',
     'ส่งบันทึกทดสอบแล้ว',
     'ส่งบันทึกทดสอบไม่สำเร็จ',
-    'Syslog ระยะไกล',
-    'ส่งต่อบันทึกระบบไปยังเซิร์ฟเวอร์ syslog',
     'เซิร์ฟเวอร์',
     'พอร์ต',
     'BusyBox syslogd ปัจจุบันใช้ UDP syslog',
-    'บัฟเฟอร์บันทึกภายใน',
     'ลำดับความสำคัญต่ำสุด',
     'ขนาดบัฟเฟอร์',
     'การหมุนเวียน',
     'เอาต์พุตแบบย่อ',
     'ลบ timestamp',
-    'บันทึก Kernel',
-    'ข้อความ kernel',
     'ระดับคอนโซล',
     'บันทึกระบบ',
     'รีเฟรช',
@@ -4133,7 +3618,6 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Thời gian hiện tại',
     'Múi giờ',
     'Máy chủ NTP',
-    'Dùng máy chủ pool công khai theo mặc định, hoặc trỏ NanoKVM tới bộ định tuyến/máy chủ NTP cục bộ.',
     'Dùng bộ định tuyến',
     'Dùng mặc định',
     'Bộ định tuyến phát hiện được: {{gateway}}',
@@ -4146,19 +3630,14 @@ const timeLogExtras = keyedExtras(timeLogKeys, {
     'Gửi nhật ký thử',
     'Đã gửi nhật ký thử',
     'Không thể gửi nhật ký thử',
-    'Syslog từ xa',
-    'Chuyển tiếp nhật ký hệ thống tới máy chủ syslog',
     'Máy chủ',
     'Cổng',
     'BusyBox syslogd hiện tại dùng UDP syslog.',
-    'Bộ đệm nhật ký cục bộ',
     'Mức ưu tiên tối thiểu',
     'Kích thước bộ đệm',
     'Luân phiên',
     'Đầu ra gọn',
     'Loại bỏ timestamp',
-    'Nhật ký kernel',
-    'Thông báo kernel',
     'Mức console',
     'Nhật ký hệ thống',
     'Làm mới',
@@ -4982,7 +4461,6 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
 
 const systemUpdateKeys = [
   'settings.update.application.title',
-  'settings.update.paranoidBlocked',
   'settings.update.paranoidBlockedDesc',
   'settings.update.system.archive',
   'settings.update.system.available',
@@ -5047,7 +4525,6 @@ const systemUpdateKeys = [
 const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ca: [
     'Actualització de l’aplicació',
-    'Les actualitzacions en línia estan bloquejades pel mode Paranoid Firewall',
     'Les comprovacions i descàrregues de GitHub requereixen accés de sortida. La pujada offline i les instal·lacions ja preparades continuen disponibles.',
     'Arxiu',
     'Hi ha una actualització del sistema base disponible.',
@@ -5110,7 +4587,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   cz: [
     'Aktualizace aplikace',
-    'Online aktualizace jsou blokovány režimem Paranoid Firewall',
     'Kontroly a stahování z GitHubu vyžadují odchozí síťový přístup. Offline nahrání a již připravené instalace zůstávají dostupné.',
     'Archiv',
     'Je dostupná aktualizace základního systému.',
@@ -5173,7 +4649,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   da: [
     'Applikationsopdatering',
-    'Onlineopdateringer blokeres af Paranoid Firewall-tilstand',
     'GitHub-kontroller og downloads kræver udgående netværksadgang. Offline upload og allerede klargjorte installationer er stadig tilgængelige.',
     'Arkiv',
     'Der er en opdatering til basissystemet.',
@@ -5236,7 +4711,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   de: [
     'Anwendungsupdate',
-    'Online-Updates werden vom Paranoid-Firewallmodus blockiert',
     'GitHub-Prüfungen und Downloads benötigen ausgehenden Netzwerkzugriff. Offline-Upload und bereits vorbereitete Installationen bleiben verfügbar.',
     'Archiv',
     'Ein Update für das Basissystem ist verfügbar.',
@@ -5299,7 +4773,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   es: [
     'Actualización de aplicación',
-    'Las actualizaciones en línea están bloqueadas por el modo Paranoid Firewall',
     'Las comprobaciones y descargas de GitHub requieren acceso de red saliente. La carga offline y las instalaciones ya preparadas siguen disponibles.',
     'Archivo',
     'Hay una actualización del sistema base disponible.',
@@ -5362,7 +4835,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   fr: [
     'Mise à jour de l’application',
-    'Les mises à jour en ligne sont bloquées par le mode Paranoid Firewall',
     'Les vérifications et téléchargements GitHub nécessitent un accès réseau sortant. L’envoi offline et les installations déjà préparées restent disponibles.',
     'Archive',
     'Une mise à jour du système de base est disponible.',
@@ -5425,7 +4897,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   hu: [
     'Alkalmazásfrissítés',
-    'Az online frissítéseket a Paranoid Firewall mód blokkolja',
     'A GitHub-ellenőrzésekhez és letöltésekhez kimenő hálózati hozzáférés szükséges. Az offline feltöltés és a már előkészített telepítések továbbra is elérhetők.',
     'Archívum',
     'Elérhető egy alaprendszer-frissítés.',
@@ -5488,7 +4959,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   id: [
     'Pembaruan aplikasi',
-    'Pembaruan online diblokir oleh mode Paranoid Firewall',
     'Pemeriksaan dan unduhan GitHub memerlukan akses jaringan keluar. Unggahan offline dan instalasi yang sudah disiapkan tetap tersedia.',
     'Arsip',
     'Pembaruan sistem dasar tersedia.',
@@ -5551,7 +5021,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   it: [
     'Aggiornamento applicazione',
-    'Gli aggiornamenti online sono bloccati dalla modalità Paranoid Firewall',
     'Controlli e download da GitHub richiedono accesso di rete in uscita. Upload offline e installazioni già preparate restano disponibili.',
     'Archivio',
     'È disponibile un aggiornamento del sistema base.',
@@ -5614,7 +5083,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   ja: [
     'アプリケーション更新',
-    'オンライン更新は Paranoid Firewall モードでブロックされています',
     'GitHub の確認とダウンロードには外向きネットワークアクセスが必要です。オフラインアップロードと準備済みインストールは引き続き利用できます。',
     'アーカイブ',
     'ベースシステム更新があります。',
@@ -5677,7 +5145,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   ko: [
     '애플리케이션 업데이트',
-    '온라인 업데이트는 Paranoid Firewall 모드에서 차단됩니다',
     'GitHub 확인과 다운로드에는 송신 네트워크 접근이 필요합니다. 오프라인 업로드와 이미 준비된 설치는 계속 사용할 수 있습니다.',
     '아카이브',
     '기본 시스템 업데이트가 있습니다.',
@@ -5740,7 +5207,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   nb: [
     'Applikasjonsoppdatering',
-    'Onlineoppdateringer blokkeres av Paranoid Firewall-modus',
     'GitHub-kontroller og nedlastinger krever utgående nettverkstilgang. Offline-opplasting og allerede klargjorte installasjoner er fortsatt tilgjengelige.',
     'Arkiv',
     'En oppdatering av basissystemet er tilgjengelig.',
@@ -5803,7 +5269,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   nl: [
     'Applicatie-update',
-    'Online-updates worden geblokkeerd door Paranoid Firewall-modus',
     'GitHub-controles en downloads vereisen uitgaande netwerktoegang. Offline upload en al voorbereide installaties blijven beschikbaar.',
     'Archief',
     'Er is een update voor het basissysteem beschikbaar.',
@@ -5866,7 +5331,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   pt_br: [
     'Atualização do aplicativo',
-    'Atualizações online são bloqueadas pelo modo Paranoid Firewall',
     'Verificações e downloads do GitHub exigem acesso de rede de saída. Upload offline e instalações já preparadas continuam disponíveis.',
     'Arquivo',
     'Há uma atualização do sistema base disponível.',
@@ -5929,7 +5393,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   se: [
     'Programuppdatering',
-    'Onlineuppdateringar blockeras av Paranoid Firewall-läge',
     'GitHub-kontroller och nedladdningar kräver utgående nätverksåtkomst. Offlineuppladdning och redan förberedda installationer är fortsatt tillgängliga.',
     'Arkiv',
     'En uppdatering av bassystemet är tillgänglig.',
@@ -5992,7 +5455,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   th: [
     'อัปเดตแอปพลิเคชัน',
-    'การอัปเดตออนไลน์ถูกบล็อกโดยโหมด Paranoid Firewall',
     'การตรวจสอบและดาวน์โหลดจาก GitHub ต้องใช้เครือข่ายขาออก การอัปโหลด offline และการติดตั้งที่เตรียมไว้แล้วยังใช้งานได้',
     'ไฟล์เก็บถาวร',
     'มีอัปเดตระบบพื้นฐานให้ใช้งาน',
@@ -6055,7 +5517,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   tr: [
     'Uygulama güncellemesi',
-    'Çevrimiçi güncellemeler Paranoid Firewall modu tarafından engellenir',
     'GitHub kontrolleri ve indirmeler giden ağ erişimi gerektirir. Offline yükleme ve zaten hazırlanmış kurulumlar kullanılabilir kalır.',
     'Arşiv',
     'Bir temel sistem güncellemesi mevcut.',
@@ -6118,7 +5579,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   uk: [
     'Оновлення застосунку',
-    'Онлайн-оновлення заблоковані режимом Paranoid Firewall',
     'Перевірки й завантаження з GitHub потребують вихідного доступу до мережі. Offline upload і вже підготовлені встановлення залишаються доступними.',
     'Архів',
     'Доступне оновлення базової системи.',
@@ -6181,7 +5641,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   vi: [
     'Cập nhật ứng dụng',
-    'Cập nhật online bị chặn bởi chế độ Paranoid Firewall',
     'Kiểm tra và tải xuống từ GitHub cần truy cập mạng đi ra. Tải lên offline và các bản cài đã chuẩn bị vẫn khả dụng.',
     'Lưu trữ',
     'Có bản cập nhật hệ thống nền.',
@@ -6244,7 +5703,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   zh: [
     '应用更新',
-    '在线更新被 Paranoid Firewall 模式阻止',
     'GitHub 检查和下载需要出站网络访问。离线上传和已暂存的安装仍可使用。',
     '归档',
     '有可用的基础系统更新。',
@@ -6307,7 +5765,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
   ],
   zh_tw: [
     '應用程式更新',
-    '線上更新被 Paranoid Firewall 模式阻擋',
     'GitHub 檢查與下載需要輸出網路存取。離線上傳和已暫存的安裝仍可使用。',
     '封存',
     '有可用的基礎系統更新。',
@@ -6376,18 +5833,12 @@ const legacyExtras: Record<string, TranslationMap> = {
     'auth.setupTitle': 'Utwórz konto administratora',
     'auth.setupDescription':
       'Na tym urządzeniu nie ma jeszcze konta web. Utwórz pierwsze konto administratora, aby kontynuować.',
-    'auth.setupRecovery':
-      'Jeśli to hasło zostanie utracone, odzyskanie dostępu wymaga ponownego zapisania karty SD.',
     'auth.setupButtonText': 'Utwórz konto',
     'terminal.unlockTitle': 'Odblokuj terminal',
-    'terminal.unlockDesc': 'Wprowadź dane konta web, aby otworzyć powłokę roota.',
     'terminal.unlock': 'Odblokuj',
     'terminal.unlockFailed': 'Nie udało się odblokować terminala',
     'terminal.invalidCredentials': 'Nieprawidłowa nazwa użytkownika lub hasło',
-    'terminal.locked': 'Zbyt wiele prób. Spróbuj ponownie później.',
-    'terminal.sessionClosed': 'Sesja terminala została zamknięta',
     'terminal.sessionError': 'Połączenie terminala nie powiodło się. Odblokuj ponownie.',
-    'download.remoteDisabled': 'Zdalne pobieranie ISO jest wyłączone w ustawieniach wyglądu.',
     'download.remoteFailed': 'Zdalne pobieranie ISO nie powiodło się',
     'settings.about.uptime': 'Czas działania',
     'settings.appearance.menuBar.terminalWarningTitle': 'Włączyć terminal web?',
@@ -6411,7 +5862,6 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.system.title': 'System',
     'settings.system.sections.time': 'Czas',
     'settings.system.sections.firewall': 'Zapora',
-    'settings.system.sections.systemLog': 'Dziennik systemowy',
     'settings.system.time.saveFailed': 'Nie udało się zapisać ustawień czasu',
     'settings.system.time.saved': 'Ustawienia czasu zapisane',
     'settings.system.time.syncFailed': 'Nie udało się zsynchronizować czasu',
@@ -6430,8 +5880,6 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.system.time.clock.current': 'Aktualny czas',
     'settings.system.time.clock.timezone': 'Strefa czasowa',
     'settings.system.time.servers.title': 'Serwery NTP',
-    'settings.system.time.servers.description':
-      'Domyślnie używaj publicznych serwerów pool albo wskaż lokalny router/serwer NTP.',
     'settings.system.time.servers.useRouter': 'Użyj routera',
     'settings.system.time.servers.useDefaults': 'Użyj domyślnych',
     'settings.system.time.servers.routerDetected': 'Wykryty router: {{gateway}}',
@@ -6439,20 +5887,7 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Ustawienia zapory zastosowane',
     'settings.system.firewall.cancel': 'Anuluj',
     'settings.system.firewall.refresh': 'Odśwież',
-    'settings.system.firewall.enableHttpsFirst':
-      'Włącz HTTPS przed włączeniem trybu zapory Paranoid',
-    'settings.system.firewall.httpsRequired':
-      'Tryb Paranoid jest niedostępny, dopóki HTTPS nie zostanie włączony w Ustawienia > System > Sieć.',
     'settings.system.firewall.mode.title': 'Tryb zapory',
-    'settings.system.firewall.mode.baseline': 'Zarządzany baseline',
-    'settings.system.firewall.mode.restricted': 'Restricted',
-    'settings.system.firewall.mode.paranoid': 'Paranoid',
-    'settings.system.firewall.restricted.enable': 'Włącz Restricted',
-    'settings.system.firewall.restricted.confirmTitle': 'Włączyć tryb zapory Restricted?',
-    'settings.system.firewall.paranoid.enable': 'Włącz Paranoid',
-    'settings.system.firewall.paranoid.confirmTitle': 'Włączyć tryb zapory Paranoid?',
-    'settings.system.firewall.baseline.apply': 'Wróć do baseline',
-    'settings.system.firewall.baseline.confirmTitle': 'Wrócić do zarządzanego baseline?',
     'settings.system.firewall.baseline.confirmDesc':
       'Usługa zapory pozostanie aktywna, ale przywrócony zostanie normalny profil dostępu NanoKVM.',
     'settings.system.firewall.rules.title': 'Aktualne reguły',
@@ -6466,24 +5901,17 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.systemLog.test': 'Wyślij log testowy',
     'settings.systemLog.testSent': 'Log testowy wysłany',
     'settings.systemLog.testFailed': 'Nie udało się wysłać logu testowego',
-    'settings.systemLog.remote.title': 'Zdalny syslog',
-    'settings.systemLog.remote.description': 'Przekazuj logi systemowe do serwera syslog',
     'settings.systemLog.remote.host': 'Serwer',
     'settings.systemLog.remote.port': 'Port',
-    'settings.systemLog.remote.protocol': 'Bieżący BusyBox syslogd używa syslog przez UDP.',
-    'settings.systemLog.local.title': 'Lokalny bufor logów',
     'settings.systemLog.local.priority': 'Minimalny priorytet',
     'settings.systemLog.local.buffer': 'Rozmiar bufora',
     'settings.systemLog.local.rotations': 'Rotacje',
     'settings.systemLog.local.compact': 'Kompaktowe wyjście',
     'settings.systemLog.local.stripTimestamps': 'Usuń znaczniki czasu',
-    'settings.systemLog.kernel.title': 'Log kernela',
-    'settings.systemLog.kernel.enabled': 'Komunikaty kernela',
     'settings.systemLog.kernel.consoleLevel': 'Poziom konsoli',
     'settings.systemLog.viewer.title': 'Dziennik systemowy',
     'settings.systemLog.viewer.refresh': 'Odśwież',
     'settings.systemLog.viewer.empty': 'Brak wpisów logu',
-    'settings.systemLog.viewer.truncated': 'Wyświetlane są tylko najnowsze dane logu.',
     'settings.systemLog.viewer.lines': '{{count}} linii',
     'settings.systemLog.level.1': '1 - Alarm',
     'settings.systemLog.level.2': '2 - Krytyczny',
@@ -6493,8 +5921,6 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.systemLog.level.6': '6 - Info',
     'settings.systemLog.level.7': '7 - Debug',
     'settings.systemLog.level.8': '8 - Wszystko',
-    'settings.update.paranoidBlocked':
-      'Aktualizacje online są blokowane przez tryb zapory Paranoid',
     'settings.update.paranoidBlockedDesc':
       'Sprawdzanie GitHub i pobieranie wymagają dostępu wychodzącego do sieci. Przesyłanie offline i już przygotowane instalacje pozostają dostępne.',
     'settings.update.application.title': 'Aktualizacja aplikacji',
@@ -6502,8 +5928,6 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.update.system.queryFailed': 'Nie udało się pobrać wersji systemu',
     'settings.update.system.downloadFailed': 'Pobieranie lub weryfikacja nie powiodły się',
     'settings.update.system.rawEnable': 'Zezwalaj na raw aktualizacje systemu',
-    'settings.update.system.rawEnableDesc':
-      'Pozwól zapisywać zweryfikowane obrazy raw boot/rootfs na kartę SD z tego ekranu.',
     'settings.update.system.rawEnableConfirmTitle': 'Zezwolić na raw aktualizacje systemu?',
     'settings.update.system.rawEnableConfirmDesc':
       'Raw aktualizacje systemu mogą zastąpić partycje boot i rootfs. Używaj tego tylko wtedy, gdy masz fizyczny dostęp do odzyskiwania.',

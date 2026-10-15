@@ -20,7 +20,6 @@ const tr = {
       login: 'Giriş',
       placeholderUsername: 'Kullanıcı Adı',
       placeholderPassword: 'Şifre',
-      placeholderPassword2: 'Şifrenizi tekrar deneyiniz',
       noEmptyUsername: 'Kullanıcı adı gereklidir',
       noEmptyPassword: 'Şifre gereklidir',
       noAccount:
@@ -30,25 +29,20 @@ const tr = {
       globalLocked: 'Sistem koruma altında, lütfen daha sonra tekrar deneyin',
       error: 'Beklenmedik bir hata',
       changePassword: 'Şifrenizi değiştiriniz',
-      changePasswordDesc: 'Güvenlik sebebiyle lütfen şifrenizi değiştiriniz!',
       differentPassword: 'Şifreler eşleşmemektedir',
       illegalUsername: 'Kullanıcı adı istenmeyen karakterler içermektedir',
-      illegalPassword: 'Şifre istenmeyen karakterler içermektedir',
       forgetPassword: 'Şifremi unuttum',
       ok: 'Tamam',
       cancel: 'İptal',
       loginButtonText: 'Giriş',
       tips: {
         change1: 'Bu işlem şu şifreleri değiştiricektir:',
-        change2: 'Arayüz giriş şifresi',
-        change3: 'Sistem yöneticisi şifresi (Güvenli Kabuk Bağlantısı (SSH) giriş şifresi)'
+        change2: 'Arayüz giriş şifresi'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'NanoKVM için Wi-Fi ayarlarını ayarlayın',
-      success: "NanoKVM'in bağlantı durumunu kontrol edin ve yeni IP adresini ziyaret edin.",
-      failed: 'İşlem başarısız oldu, lütfen tekrar deneyiniz.',
       invalidMode:
         'Geçerli mod ağ kurulumunu desteklemiyor. Lütfen cihazınıza gidin ve Wi-Fi yapılandırma modunu etkinleştirin.',
       confirmBtn: 'Tamam',
@@ -65,7 +59,6 @@ const tr = {
       scale: 'Ölçek',
       title: 'Ekran',
       video: 'Görüntü modu',
-      videoDirectTips: 'kullanmak için "Ayarlar > Cihaz" HTTPS aktif edin',
       resolution: 'Çözünürlük',
       auto: 'Otomatik',
       autoTips:
@@ -82,8 +75,7 @@ const tr = {
         'Gönderilen kareler arasındaki farkı hesaplar. Uzak ana bilgisayardan gönderilen yayında bir değişiklik yoksa görüntü yayınını durdurur.',
       resetHdmi: 'HDMI sıfırla',
       webrtcConnectionFailed: {
-        title: 'WebRTC bağlantısı başarısız',
-        description: 'Ağ bağlantısını kontrol edin veya video modunu değiştirin.'
+        title: 'WebRTC bağlantısı başarısız'
       },
       captureStatus: {
         hdmiError: 'HDMI ekran hatası',
@@ -99,7 +91,6 @@ const tr = {
     keyboard: {
       title: 'Klavye',
       paste: 'Yapıştır',
-      tips: 'Sadece standart klavye harfleri ve sembolleri desteklenmektedir.',
       placeholder: 'Girdi',
       submit: 'Gönder',
       virtual: 'Klavye',
@@ -116,14 +107,10 @@ const tr = {
         custom: 'Özel',
         capture: 'Kısayolu yakalamak için burayı tıklayın',
         clear: 'Temizle',
-        save: 'Kaydet',
-        captureTips:
-          'Windows tuşu gibi sistem düzeyi tuşları yakalamak için tam ekran izni gerekir.',
-        enterFullScreen: 'Tam ekran moduna geçiş yapın.'
+        save: 'Kaydet'
       },
       leaderKey: {
         title: 'Leader Tuşu',
-        desc: 'Tarayıcı kısıtlamalarını atlayın ve sistem kısayollarını doğrudan uzak ana bilgisayara gönderin.',
         howToUse: 'Nasıl Kullanılır',
         simultaneous: {
           title: 'Eşzamanlı Mod',
@@ -171,7 +158,6 @@ const tr = {
       resetHid: 'HID’yi sıfırla',
       hidOnly: {
         title: 'Yalnızca HID modu',
-        desc: 'Fare ve klavye yanıt vermeyi durdurursa ve HID sıfırlama yardımcı olmazsa, NanoKVM ile cihaz arasında bir uyumluluk sorunu olabilir. Daha iyi uyumluluk için yalnızca HID modunu etkinleştirmeyi deneyin.',
         tip1: 'Yalnızca HID modunu etkinleştirmek sanal U-disk’i ve sanal ağı ayırır',
         tip2: 'Yalnızca HID modunda imaj bağlama devre dışıdır',
         tip3: 'NanoKVM mod değişiminden sonra kendiliğinden yeniden başlatılacaktır',
@@ -184,16 +170,10 @@ const tr = {
       loading: 'Yükleniyor...',
       empty: 'Hiçbir şey bulunamadı',
       mountMode: 'Montaj modu',
-      mountFailed: 'Bağlantı başarısız oldu',
-      mountDesc:
-        'Bazı sistemlerde, disk imajını bağlamadan önce uzak ana bilgisayardaki sanal diski çıkarmak gerekir.',
       diskOnWarn:
         'İmajı bağlamak sanal diski kapatır, böylece bilgisayar /data dizinine erişemez. Devam edilsin mi?',
       diskOffWarn:
         'Sanal disk kapalı ve imajı bağlamak için açılması gerekiyor. Bilgisayardaki USB aygıtları yeniden tanımlanır. Devam edilsin mi?',
-      unmountFailed: 'Bağlantıyı kesme işlemi başarısız oldu',
-      unmountDesc:
-        'Bazı sistemlerde, görüntünün bağlantısını kesmeden önce uzak ana bilgisayardan manuel olarak çıkarmanız gerekir.',
       forceEject: 'Çıkarmayı zorla',
       forceEjectConfirm:
         'Ana bilgisayar optik sürücüyü kilitledi. Çıkarmayı zorlamak, sanal USB aygıtının bağlantısını kısa süreliğine keser; bu nedenle klavye ve fare kısa süreliğine bağlantıyı kaybedebilir. Devam edilsin mi?',
@@ -203,16 +183,10 @@ const tr = {
       tips: {
         title: 'Nasıl yüklenir',
         usb1: "NanoKVM'i bilgisayarınıza USB ile bağlayın.",
-        usb2: 'Sanal diskin bağlı olduğundan emin olun (Ayarlar - Sanal Disk).',
         usb3: 'Sanal diski bilgisayarınızda açın ve disk imajı dosyanızı sanal diskin kök dizinine kopyalayın.',
         scp1: 'NanoKVM ve bilgisayarınızın aynı yerel ağda bulunduğundan emin olun.',
-        scp2: "Bilgisayarınızda uçbirimi açın ve disk imajı dosyanını SCP komudunu kullanarak NanoKVM'in /data dizinine yükleyin.",
-        scp3: 'Örnek: scp senin-disk-imajı-dizinin root@senin-nanokvm-ip:/data',
         tfCard: 'micro SD kart',
-        tf1: 'Bu yöntem Linux sistemlerde desteklenmektedir.',
-        tf2: "NanoKVM'den micro SD kartı çıkartın(TAM sürüm için öncelikle kutuyu sökün).",
         tf3: 'micro SD kartı kart okuyucusuna takın ve bilgisayarınıza bağlayın.',
-        tf4: 'Disk imajı dosyanını micro SD kartın /data dizinine kopyalayın.',
         tf5: "micro SD kartı NanoKVM'e geri yerleştirin."
       }
     },
@@ -223,7 +197,6 @@ const tr = {
       runBackground: 'Arka planda çalıştır',
       runFailed: 'Çalıştırma başarısız oldu',
       attention: 'Dikkat',
-      delDesc: 'Bu dosyayı silmek istediğinden emin misin?',
       confirm: 'Evet',
       cancel: 'Hayır',
       delete: 'Sil',
@@ -249,7 +222,6 @@ const tr = {
       confirm: 'Tamam'
     },
     wol: {
-      title: 'Ağ Üzerinden Uyandırma (WOL)',
       sending: 'Komut gönderiliyor...',
       sent: 'Komut gönderildi',
       input: 'MAC adresi girin',
@@ -259,14 +231,11 @@ const tr = {
       title: 'Disk İmajı İndirici',
       input: 'Uzak imaj URL’sini girin',
       ok: 'Tamam',
-      disabled: '/data bölüntüsü salt okunur modda, disk imajı indirilemiyor.',
-      diskShared: 'Önce sanal diski kapatın, sonra imaj indirmeyi kullanın.',
       mountedImage: 'Bu imaj bağlı. Aynı adlı bir dosyayı yüklemeden önce bağlantısını kesin.',
       diskOff: 'Sanal diski kapat',
       uploadbox: 'Dosyayı buraya bırakın veya seçmek için tıklayın',
       inputfile: 'Lütfen resim dosyasını giriniz',
       NoISO: 'ISO yok',
-      sha256: 'SHA-256 (isteğe bağlı)',
       sha256Placeholder: '64 karakterlik SHA-256 sağlama toplamını girin',
       invalidSHA256: 'SHA-256, 64 karakterlik bir onaltılık dize olmalıdır',
       checksumFailed: 'İndirme başarısız: SHA-256 doğrulaması başarısız'
@@ -277,8 +246,6 @@ const tr = {
       showConfirmTip: 'Güç ile ilgili işlemler fazladan doğrulama gerektirir',
       reset: 'Sıfırla',
       power: 'Güç',
-      powerShort: 'Güç tuşu (bas-çek)',
-      powerLong: 'Güç tuşu (uzun bas)',
       resetConfirm: 'Sıfırlama işlemine devam etmek istediğinizden emin misiniz?',
       powerConfirm: 'Güç işlemine devam etmek istediğinizden emin misiniz?',
       okBtn: 'Evet',
@@ -343,7 +310,6 @@ const tr = {
         title: 'Cihaz',
         oled: {
           title: 'OLED',
-          description: 'Oled ekranı ... sonra kapatın',
           0: 'Hiçbir zaman',
           15: '15 saniye',
           30: '30 saniye',
@@ -354,15 +320,10 @@ const tr = {
           1800: '30 dakika',
           3600: '1 saat'
         },
-        ssh: {
-          description: 'Güvenli Kabuk Bağlantısı (SSH) aktif et',
-          tip: 'Aktifleştirmeden önce güçlü bir şifreye sahip olduğunuzdan emin olun (Hesap - Şifremi Değiştir)'
-        },
+        ssh: {},
         swap: {
           title: 'Swap',
-          disable: 'Aktifleştir',
-          description: 'Swap dosyasının boyutunu belirle',
-          tip: 'Bu özelliği aktifleştirmek micro SD kartınızın ömrünü kısaltabilir!'
+          description: 'Swap dosyasının boyutunu belirle'
         },
         mouseJiggler: {
           title: 'Fare Oynatıcı',
@@ -376,20 +337,13 @@ const tr = {
           tip: 'Kullanmıyorsanız devre dışı bırakabilirsiniz'
         },
         hdmi: {
-          description: 'HDMI/Momitör çıktısını aktifleştir',
           idleTimeoutTitle: 'Etkin olmayan yakalama zaman aşımı',
           idleTimeoutDescription:
             'Etkin görüntüleyici olmadığında HDMI yakalamayı şu süre sonunda durdur:',
           minutes: 'dk'
         },
         hidOnly: 'Yalnızca HID modu',
-        hidOnlyDesc:
-          'Yalnızca temel HID kontrolünü koruyarak sanal aygıtları taklit etmeyi bırakın',
         disk: 'Sanal Disk',
-        diskDesc: "Sanal U-disk'i uzak ana bilgisayara bağla",
-        diskLocked: 'Bir imaj bağlıyken kapalı (açmak bağlamayı iptal eder)',
-        diskCancelMount:
-          'Sanal diski açmak, bağlı imajı iptal eder ve sürmekte olan imaj indirme veya yüklemeyi keser. Devam edilsin mi?',
         network: 'Sanal Ağ',
         networkDesc: 'Sanal ağ kartını uzak ana bilgisayara bağla',
         reboot: 'Yeniden Başlat',
@@ -414,8 +368,7 @@ const tr = {
           cancelBtn: 'İptal'
         },
         tls: {
-          description: 'HTTPS protokolünü etkinleştir',
-          tip: 'HTTPS protokolü bağlantıda gecikmeye sebep olabilir, özellikle MJPEG görüntü modu ile.'
+          description: 'HTTPS protokolünü etkinleştir'
         },
         dns: {
           title: 'DNS',
@@ -436,7 +389,6 @@ const tr = {
           unsaved: 'Kaydedilmemiş değişiklikler',
           maxServers: 'En fazla {{count}} DNS sunucusuna izin verilir',
           dhcpServersDescription: "DNS sunucuları DHCP'den otomatik olarak alınır",
-          manualServersDescription: 'DNS sunucuları elle düzenlenebilir. IPv4 ve IPv6 desteklenir',
           interface: 'Arayüz',
           ipAddress: 'IP Adresi',
           subnetMask: 'Alt Ağ Maskesi',
@@ -455,13 +407,7 @@ const tr = {
         },
         restart: "Tailscale'i yeniden başlat?",
         stop: "Tailscale'i durdur?",
-        stopDesc: 'Tailscale oturumundan çıkış yap ve başlangıçta çalışmasını devre dışı bırak.',
         loading: 'Yükleniyor...',
-        notInstall: 'Tailscale bulunamadı! Lütfen indirin.',
-        install: 'İndir',
-        installing: 'İndiriliyor',
-        failed: 'İndirme başarısız oldu',
-        retry: 'Lütfen sayfayı yenileyin ve tekrar deneyin, ya da manuel indirin',
         download: 'İndir',
         package: 'yükleme paketi',
         unzip: 'sıkışmış dosyayı açın',
@@ -471,7 +417,6 @@ const tr = {
         notRunning: 'Tailscale çalışmıyor. Devam etmek için lütfen başlatın.',
         run: 'Başlat',
         notLogin: 'Cihaz bağlı değil. Lütfen giriş yapıp cihazınızı hesabınıza bağlayın.',
-        urlPeriod: 'Adres sadece 10 ndakika boyunca geçerlidir',
         login: 'Giriş yap',
         loginSuccess: 'Giriş yapıldı',
         enable: "Tailscale'i etkinleştir",
@@ -496,8 +441,6 @@ const tr = {
         cancel: 'İptal',
         preview: 'Ön İzleme Güncellemeleri',
         previewDesc: 'En son geliştirmelere ve özelliklere erken erişin',
-        previewTip:
-          'Ön izleme güncellemelerinin tamamlanmamış olduğunu ve sorunlara sebep olabileceğini unutmayın!',
         offline: {
           title: 'Çevrimdışı Güncellemeler',
           desc: 'Yerel kurulum paketi aracılığıyla güncelleme',
@@ -511,7 +454,6 @@ const tr = {
         webAccount: 'Web Hesap Adı',
         password: 'Şifre',
         updateBtn: 'Değiştir',
-        logoutBtn: 'Çıkış  yap',
         logoutDesc: 'Çıkış yapmak istediğinizden emin misiniz?',
         okBtn: 'Evet',
         cancelBtn: 'Hayır'
@@ -519,15 +461,12 @@ const tr = {
     },
     picoclaw: {
       title: 'PicoClaw Asistan',
-      empty: 'Paneli açın ve başlamak için bir görevi başlatın.',
       inputPlaceholder: "PicoClaw'nin ne yapmasını istediğinizi açıklayın",
       newConversation: 'Yeni görüşme',
       processing: 'İşleniyor...',
       agent: {
         defaultTitle: 'Genel Asistan',
-        defaultDescription: 'Genel sohbet, arama ve çalışma alanı yardımı.',
         kvmTitle: 'Uzaktan Kontrol',
-        kvmDescription: 'Uzak ana bilgisayarı NanoKVM aracılığıyla çalıştırın.',
         switched: 'Temsilci rolü değiştirildi',
         switchFailed: 'Temsilci rolü değiştirilemedi'
       },
@@ -574,8 +513,6 @@ const tr = {
         success: 'PicoClaw başarıyla yüklendi',
         failed: 'PicoClaw yüklenemedi',
         uninstalling: 'Runtime kaldırılıyor...',
-        uninstalled: 'Runtime başarıyla kaldırıldı.',
-        uninstallFailed: 'Kaldırma başarısız oldu.',
         requiredTitle: 'PicoClaw kurulu değil',
         requiredDescription: "PicoClaw runtime'ı başlatmadan önce PicoClaw'ı yükleyin.",
         progressDescription: 'PicoClaw indiriliyor ve kuruluyor.',
@@ -640,7 +577,6 @@ const tr = {
       }
     },
     error: {
-      title: 'Bir hata oldu!',
       refresh: 'Yenile'
     },
     fullscreen: {

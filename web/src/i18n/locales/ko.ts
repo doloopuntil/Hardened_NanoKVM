@@ -18,37 +18,20 @@ const ko = {
     },
     auth: {
       login: '로그인',
-      placeholderUsername: '사용자 이름을 입력하세요.',
-      placeholderPassword: '비밀번호를 입력하세요.',
-      placeholderPassword2: '비밀번호를 다시 입력하세요.',
-      noEmptyUsername: '사용자 이름은 비어있을 수 없습니다.',
-      noEmptyPassword: '비밀번호는 비어있을 수 없습니다.',
-      noAccount:
-        '사용자 정보를 불러오는 데 실패했습니다. 페이지를 새로고침하거나 비밀번호를 초기화하세요.',
-      invalidUser: '사용자 이름이나 비밀번호가 틀렸습니다.',
-      locked: '로그인 횟수가 너무 많습니다. 나중에 다시 시도해 주세요.',
-      globalLocked: '시스템이 보호 중입니다. 나중에 다시 시도해 주세요.',
       error: '알 수 없는 오류',
       changePassword: '비밀번호 변경',
-      changePasswordDesc: '보안을 위해 웹 로그인 비밀번호를 변경하세요.',
-      differentPassword: '비밀번호가 서로 일치하지 않습니다.',
-      illegalUsername: '사용자 이름에 사용할 수 없는 문자가 있습니다.',
-      illegalPassword: '비밀번호에 사용할 수 없는 문자가 있습니다.',
       forgetPassword: '비밀번호 분실',
       ok: '확인',
       cancel: '취소',
       loginButtonText: '로그인',
       tips: {
         change1: '이 작업을 수행하면 다음 비밀번호가 변경됩니다:',
-        change2: '웹 로그인 비밀번호',
-        change3: '시스템 루트 비밀번호 (SSH 로그인 비밀번호)'
+        change2: '웹 로그인 비밀번호'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'NanoKVM Wi-Fi 설정',
-      success: 'NanoKVM의 네트워크 상태를 확인하고 새 IP 주소로 접속하세요.',
-      failed: '작업에 실패했습니다. 다시 시도하세요.',
       invalidMode:
         '현재 모드는 네트워크 설정을 지원하지 않습니다. 장치로 이동하여 Wi-Fi 구성 모드를 활성화하십시오.',
       confirmBtn: '확인',
@@ -62,10 +45,8 @@ const ko = {
       }
     },
     screen: {
-      scale: '규모',
       title: '화면',
       video: '비디오 모드',
-      videoDirectTips: '이 모드를 사용하려면 "설정 > 장치"에서 HTTPS를 활성화하세요',
       resolution: '해상도',
       auto: '자동 설정',
       autoTips:
@@ -82,8 +63,7 @@ const ko = {
         '프레임 간의 차이를 계산합니다. 원격 호스트 화면에 변경 사항이 감지되지 않으면 비디오 스트림 전송을 중지합니다.',
       resetHdmi: 'HDMI 초기화',
       webrtcConnectionFailed: {
-        title: 'WebRTC 연결에 실패했습니다',
-        description: '네트워크 연결을 확인하거나 비디오 모드를 전환하세요.'
+        title: 'WebRTC 연결에 실패했습니다'
       },
       captureStatus: {
         hdmiError: 'HDMI 화면 오류',
@@ -106,23 +86,17 @@ const ko = {
       readClipboard: '클립보드에서 읽기',
       clipboardPermissionDenied:
         '클립보드 권한이 거부되었습니다. 브라우저에서 클립보드 액세스를 허용해 주세요.',
-      clipboardReadError: '클립보드를 읽지 못했습니다.',
       dropdownEnglish: '영어',
       dropdownGerman: '독일어',
       dropdownFrench: '프랑스어',
       dropdownRussian: '러시아어',
       shortcut: {
         title: '바로가기',
-        custom: '관습',
         capture: '바로가기를 캡처하려면 여기를 클릭하세요',
-        clear: '클리어',
-        save: '저장',
-        captureTips: 'Windows 키와 같은 시스템 수준 키를 캡처하려면 전체 화면 권한이 필요합니다.',
-        enterFullScreen: '전체 화면 모드를 전환합니다.'
+        save: '저장'
       },
       leaderKey: {
         title: '리더 키',
-        desc: '브라우저 제한을 우회하고 시스템 바로가기를 원격 호스트에 직접 보냅니다.',
         howToUse: '사용방법',
         simultaneous: {
           title: '동시 모드',
@@ -170,7 +144,6 @@ const ko = {
       resetHid: 'HID 초기화',
       hidOnly: {
         title: 'HID 전용 모드',
-        desc: '마우스와 키보드가 응답하지 않고 HID 초기화도 도움이 되지 않는다면, NanoKVM과 장치 간의 호환성 문제일 수 있습니다. 더 나은 호환성을 위해 HID 전용 모드를 활성화해 보세요.',
         tip1: 'HID 전용 모드를 활성화하면 가상 USB와 가상 네트워크가 언마운트됩니다',
         tip2: 'HID 전용 모드에서는 이미지 마운트가 비활성화됩니다',
         tip3: '모드 전환 후 NanoKVM이 자동으로 재부팅됩니다',
@@ -181,18 +154,13 @@ const ko = {
     image: {
       title: '이미지',
       loading: '불러오는 중...',
-      empty: '아무것도 없습니다.',
       mountMode: '마운트 모드',
       mountFailed: '마운트 실패',
-      mountDesc:
-        '일부 시스템에서는 이미지를 마운트하기 전에 원격 호스트에서 가상 디스크를 제거해야 합니다.',
       diskOnWarn:
         '이미지를 마운트하면 가상 디스크가 꺼지고 컴퓨터에서 /data에 접근할 수 없게 됩니다. 계속하시겠습니까?',
       diskOffWarn:
         '가상 디스크가 꺼져 있어 이미지를 마운트하려면 먼저 켜야 합니다. 컴퓨터의 USB 장치가 다시 연결됩니다. 계속하시겠습니까?',
       unmountFailed: '언마운트 실패',
-      unmountDesc:
-        '일부 시스템에서는 이미지를 언마운트하기 전에 원격 호스트에서 수동으로 제거하여야 합니다.',
       forceEject: '강제 제거',
       forceEjectConfirm:
         '호스트가 광학 드라이브를 잠갔습니다. 강제로 제거하면 가상 USB 장치가 잠시 연결 해제되므로 키보드와 마우스도 잠시 연결이 끊길 수 있습니다. 계속하시겠습니까?',
@@ -202,14 +170,12 @@ const ko = {
       tips: {
         title: '업로드 방법',
         usb1: 'USB를 통해 NanoKVM을 컴퓨터에 연결하세요.',
-        usb2: '가상 디스크가 마운트되었는지 확인하세요. (설정 - 가상 디스크).',
         usb3: '컴퓨터에서 가상 디스크를 열고 이미지 파일을 가상 디스크의 루트 디렉토리로 복사하세요.',
         scp1: 'NanoKVM과 컴퓨터가 동일한 로컬 네트워크에 있는지 확인하세요.',
         scp2: '컴퓨터에서 터미널을 열고 SCP 명령을 사용하여 이미지 파일을 NanoKVM의 /data 디렉터리에 업로드하세요.',
         scp3: '예시: scp [이미지 파일 경로] root@[NanoKVM IP 주소]:/data',
         tfCard: 'TF 카드',
         tf1: '이 방법은 Linux 시스템에서 지원됩니다',
-        tf2: 'NanoKVM에서 TF 카드를 가져옵니다(전체 버전의 경우 먼저 케이스를 분해하세요).',
         tf3: 'TF 카드를 카드 리더기에 삽입하고 컴퓨터에 연결하세요.',
         tf4: '이미지 파일을 TF 카드의 /data 디렉터리에 복사하세요.',
         tf5: 'TF 카드를 NanoKVM에 삽입하세요.'
@@ -251,22 +217,16 @@ const ko = {
       title: 'Wake-on-LAN',
       sending: '패킷 전송 중...',
       sent: '패킷 전송 완료',
-      input: 'MAC주소를 입력하세요.',
       ok: '확인'
     },
     download: {
       title: '이미지 다운로드',
-      input: '원격 이미지 URL을 입력하세요.',
       ok: '확인',
-      disabled: '/data 파티션이 읽기 전용(RO) 상태이므로 이미지를 다운로드할 수 없습니다.',
-      diskShared: '먼저 가상 디스크를 끈 다음 이미지 다운로드를 사용하세요.',
       mountedImage:
         '이 이미지는 마운트되어 있습니다. 같은 이름의 파일을 업로드하기 전에 마운트를 해제하세요.',
       diskOff: '가상 디스크 끄기',
-      uploadbox: '여기에 파일을 놓거나 클릭하여 선택하세요.',
       inputfile: '이미지 파일을 입력해주세요',
       NoISO: 'ISO 없음',
-      sha256: 'SHA-256 (선택 사항)',
       sha256Placeholder: '64자 SHA-256 체크섬을 입력하세요',
       invalidSHA256: 'SHA-256은 64자의 16진수 문자열이어야 합니다',
       checksumFailed: '다운로드 실패: SHA-256 검증 실패'
@@ -277,8 +237,6 @@ const ko = {
       showConfirmTip: '전원 작업에는 추가 확인이 필요합니다',
       reset: '리셋',
       power: '전원',
-      powerShort: '전원 (짧게 누르기)',
-      powerLong: '전원 (길게 누르기)',
       resetConfirm: '리셋 작업을 진행하시겠습니까?',
       powerConfirm: '전원 작업을 진행하시겠습니까?',
       okBtn: '네',
@@ -291,7 +249,6 @@ const ko = {
         information: '정보',
         ip: 'IP',
         mdns: 'mDNS',
-        application: '펌웨어 버전',
         applicationTip: 'NanoKVM 웹 애플리케이션 버전',
         image: '이미지 버전',
         imageTip: 'NanoKVM 시스템 이미지 버전',
@@ -354,14 +311,12 @@ const ko = {
           3600: '1시간'
         },
         ssh: {
-          description: 'SSH 원격 접속 활성화',
-          tip: '활성화하기 전에 강력한 비밀번호를 설정하세요. (계정 - 비밀번호 변경)'
+          description: 'SSH 원격 접속 활성화'
         },
         swap: {
           title: '스왑',
           disable: '비활성화',
-          description: '스왑 파일 크기 설정',
-          tip: '이 기능을 활성화하면 SD 카드의 수명이 단축될 수 있습니다!'
+          description: '스왑 파일 크기 설정'
         },
         mouseJiggler: {
           title: '마우스 흔들기',
@@ -382,14 +337,8 @@ const ko = {
           minutes: '분'
         },
         hidOnly: 'HID 전용 모드',
-        hidOnlyDesc: '가상 장치 에뮬레이션을 중지하고 기본 HID 제어만 유지합니다.',
         disk: '가상 디스크',
-        diskDesc: '원격 호스트에서 가상 USB를 마운트합니다.',
-        diskLocked: '이미지가 마운트된 동안 꺼짐 (켜면 마운트가 해제됩니다)',
-        diskCancelMount:
-          '가상 디스크를 켜면 마운트된 이미지가 해제되고 진행 중인 이미지 다운로드/업로드도 중단됩니다. 계속하시겠습니까?',
         network: '가상 네트워크',
-        networkDesc: '원격 호스트에서 가상 네트워크 카드를 마운트합니다.',
         reboot: '재부팅',
         rebootDesc: 'NanoKVM을 재부팅하시겠습니까?',
         okBtn: '네',
@@ -412,8 +361,7 @@ const ko = {
           cancelBtn: '취소'
         },
         tls: {
-          description: 'HTTPS 프로토콜 활성화',
-          tip: '주의: HTTPS 사용 시 특히 MJPEG 비디오 모드에서 지연 시간이 증가할 수 있습니다.'
+          description: 'HTTPS 프로토콜 활성화'
         },
         dns: {
           title: 'DNS',
@@ -434,8 +382,6 @@ const ko = {
           unsaved: '저장되지 않은 변경사항',
           maxServers: '최대 {{count}}개의 DNS 서버가 허용됩니다',
           dhcpServersDescription: 'DNS 서버는 DHCP에서 자동으로 가져옵니다',
-          manualServersDescription:
-            'DNS 서버를 수동으로 편집할 수 있습니다. IPv4와 IPv6을 지원합니다',
           interface: '인터페이스',
           ipAddress: 'IP 주소',
           subnetMask: '서브넷 마스크',
@@ -454,23 +400,18 @@ const ko = {
         },
         restart: '정말로 Tailscale을 다시 시작하시겠습니까?',
         stop: '정말로 Tailscale을 중지하시겠습니까?',
-        stopDesc: 'Tailscale에서 로그아웃하고 자동 시작을 비활성화합니다.',
         loading: '불러오는 중...',
         notInstall: 'Tailscale이 없습니다. 설치해주세요.',
         install: '설치',
         installing: '설치중',
         failed: '설치 실패',
-        retry: '새로고침하고 다시 시도하거나, 수동으로 설치하세요',
         download: '다운로드 중 :',
         package: '패키지 설치',
         unzip: '압축 해제',
-        upTailscale: 'tailscale을 NanoKVM의 /usr/bin/ 경로에 업로드 했습니다.',
-        upTailscaled: 'tailscaled을 NanoKVM의 /usr/sbin/ 경로에 업로드 했습니다.',
         refresh: '현재 페이지 새로고침',
         notRunning: 'Tailscale이 실행되고 있지 않습니다. 계속하려면 시작해 주세요.',
         run: '시작',
         notLogin: '이 기기는 현재 연동 되지 않았습니다. 로그인해서 계정에 이 장치를 연동하세요.',
-        urlPeriod: '이 주소는 10분간 유효합니다.',
         login: '로그인',
         loginSuccess: '로그인 성공',
         enable: 'Tailscale 활성화',
@@ -495,7 +436,6 @@ const ko = {
         cancel: '취소',
         preview: '미리보기 업데이트',
         previewDesc: '새로운 기능과 개선 사항에 미리 접근하세요',
-        previewTip: '미리보기 버전에는 버그나 완성되지 않은 기능이 포함될 수 있으니 주의하세요!',
         offline: {
           title: '오프라인 업데이트',
           desc: '로컬 설치 패키지를 통한 업데이트',
@@ -517,15 +457,12 @@ const ko = {
     },
     picoclaw: {
       title: 'PicoClaw 어시스턴트',
-      empty: '패널을 열고 작업을 시작하세요.',
       inputPlaceholder: 'PicoClaw가 무엇을 하기를 원하는지 설명하세요',
       newConversation: '새 대화',
       processing: '처리 중...',
       agent: {
         defaultTitle: '일반 어시스턴트',
-        defaultDescription: '일반 대화, 검색, 작업 공간 지원.',
         kvmTitle: '원격 제어',
-        kvmDescription: 'NanoKVM을 통한 원격 호스트 제어.',
         switched: '에이전트 역할 변경됨',
         switchFailed: '에이전트 역할 변경에 실패했습니다'
       },
@@ -572,8 +509,6 @@ const ko = {
         success: 'PicoClaw가 성공적으로 설치되었습니다',
         failed: 'PicoClaw 설치에 실패했습니다',
         uninstalling: '런타임 삭제 중...',
-        uninstalled: '런타임 삭제에 성공했습니다.',
-        uninstallFailed: '삭제에 실패했습니다.',
         requiredTitle: 'PicoClaw가 설치되지 않았습니다',
         requiredDescription: 'PicoClaw 런타임을 시작하기 전에 PicoClaw를 설치하세요.',
         progressDescription: 'PicoClaw가 다운로드되고 설치되고 있습니다.',
@@ -637,7 +572,6 @@ const ko = {
       }
     },
     error: {
-      title: '문제가 발생했습니다.',
       refresh: '새로고침'
     },
     fullscreen: {

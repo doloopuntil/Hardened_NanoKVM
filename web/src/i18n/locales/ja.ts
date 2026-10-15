@@ -23,32 +23,23 @@ const ja = {
       placeholderPassword2: 'パスワードをもう一度入力してください',
       noEmptyUsername: 'ユーザー名は空にできません',
       noEmptyPassword: 'パスワードは空にできません',
-      noAccount:
-        'ユーザー情報の取得に失敗しました。ページを更新してもう一度お試しいただくか、パスワードをリセットしてください。',
       invalidUser: 'ユーザー名またはパスワードが正しくありません',
-      locked: 'ログインが多すぎます。後でもう一度お試しください。',
-      globalLocked: 'システムは保護されています。後でもう一度試してください。',
       error: '不明なエラー',
       changePassword: 'パスワード変更',
-      changePasswordDesc: 'デバイスのセキュリティのために、パスワードを変更してください！',
       differentPassword: 'パスワードが一致しません',
       illegalUsername: 'ユーザー名に不正な文字が含まれています',
-      illegalPassword: 'パスワードに不正な文字が含まれています',
       forgetPassword: 'パスワードを忘れた',
       ok: 'OK',
       cancel: 'キャンセル',
       loginButtonText: 'ログイン',
       tips: {
         change1: 'この操作により、以下のパスワードも更新されることに注意してください：',
-        change2: 'ウェブログインパスワード',
-        change3: 'システム root パスワード（SSH ログインパスワード）'
+        change2: 'ウェブログインパスワード'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'NanoKVM の Wi-Fi を設定する',
-      success: 'NanoKVM のネットワークステータスを確認するにはデバイスにアクセスしてください。',
-      failed: '操作に失敗しました。もう一度お試しください。',
       invalidMode:
         '現在のモードではネットワーク設定はサポートされていません。デバイスで Wi-Fi 設定モードを有効にしてください。',
       confirmBtn: 'OK',
@@ -65,7 +56,6 @@ const ja = {
       scale: '倍率',
       title: '画面',
       video: 'ビデオモード',
-      videoDirectTips: 'このモードを使用するには「設定 - デバイス」で HTTPS を有効にしてください',
       resolution: '解像度',
       auto: '自動',
       autoTips:
@@ -82,8 +72,7 @@ const ja = {
         'フレーム間の差異を計算し、リモートホストの画面が変更されない場合はビデオストリームの送信を停止します',
       resetHdmi: 'HDMI をリセット',
       webrtcConnectionFailed: {
-        title: 'WebRTC 接続に失敗しました',
-        description: 'ネットワーク接続を確認するか、ビデオモードを切り替えてください。'
+        title: 'WebRTC 接続に失敗しました'
       },
       captureStatus: {
         hdmiError: 'HDMI 画面エラー',
@@ -116,14 +105,10 @@ const ja = {
         custom: 'カスタム',
         capture: 'ショートカットをキャプチャするにはここをクリックしてください',
         clear: 'クリア',
-        save: '保存',
-        captureTips:
-          'Windows キーなどのシステムレベルのキーを取得するには、全画面表示の許可が必要です。',
-        enterFullScreen: '全画面モードに切り替えます。'
+        save: '保存'
       },
       leaderKey: {
         title: 'リーダーキー',
-        desc: 'ブラウザの制限を回避して、システムによってブロックされているショートカットキーをリモートホストに送信します。',
         howToUse: '使用方法',
         simultaneous: {
           title: '同時モード',
@@ -173,29 +158,22 @@ const ja = {
       resetHid: 'HID をリセット',
       hidOnly: {
         title: 'HID-Only モード',
-        desc: '使用中にマウスとキーボードが反応しなくなり、HID をリセットしても効果がない場合は、NanoKVM とデバイス間の互換性に問題がある可能性があります。互換性を向上させるために、HID-Only モードを有効にすることをお勧めします。',
         tip1: 'HID-Only モードを有効にすると、仮想 U ディスクと仮想ネットワークがアンマウントされます',
         tip2: 'HID-Only モードでは、イメージのマウントは無効になります',
-        tip3: 'モードを切り替えると、NanoKVM は自動的に再起動します。',
         enable: 'HID-Only モードを有効化',
         disable: 'HID-Only モードを無効化'
       }
     },
     image: {
       title: 'イメージ',
-      loading: '読み込み中',
       empty: 'イメージファイルがありません',
       mountMode: 'マウントモード',
       mountFailed: 'マウントに失敗しました',
-      mountDesc:
-        '一部のシステムでは、イメージをマウントする前にリモートホストで仮想ディスクをアンマウントする必要があります。',
       diskOnWarn:
         'イメージをマウントすると仮想ディスクがオフになり、コンピュータから /data にアクセスできなくなります。続行しますか？',
       diskOffWarn:
         '仮想ディスクがオフになっているため、イメージのマウントには有効化が必要です。コンピュータの USB デバイスが再接続されます。続行しますか？',
       unmountFailed: 'アンマウントに失敗しました',
-      unmountDesc:
-        '一部のシステムでは、イメージをアンマウントする前にリモートホストから手動で取り出す必要があります。',
       forceEject: '強制的に取り出す',
       forceEjectConfirm:
         'ホストが光学ドライブをロックしています。強制的に取り出すと、仮想 USB デバイスが一時的に切断されるため、キーボードとマウスも一時的に切断される場合があります。続行しますか？',
@@ -205,14 +183,12 @@ const ja = {
       tips: {
         title: 'アップロード方法',
         usb1: 'NanoKVM を USB 経由でコンピュータに接続します；',
-        usb2: '仮想ディスクがマウントされていることを確認します（設定 - 仮想ディスク）；',
         usb3: 'コンピュータ上で仮想ディスクを開き、イメージファイルを仮想ディスクのルートディレクトリにコピーします。',
         scp1: 'NanoKVM とコンピュータが同じローカルエリアネットワークに接続されていることを確認します；',
         scp2: 'コンピュータでターミナルを開き、SCP コマンドを使用してイメージファイルを NanoKVM の /data ディレクトリにアップロードします。',
         scp3: '例：scp your-image-path root@your-nanokvm-ip:/data',
         tfCard: 'TF カード',
         tf1: 'この方法は Linux システムでサポートされています',
-        tf2: 'NanoKVM から TF カードを取り出します（フルバージョンでは、まずケースを分解してください）；',
         tf3: 'TF カードをカードリーダーに挿入してコンピュータに接続します；',
         tf4: 'コンピューターから TF カードの /data ディレクトリにイメージファイルをコピーします；',
         tf5: 'TF カードを NanoKVM に挿入します。'
@@ -261,16 +237,11 @@ const ja = {
       title: 'イメージダウンローダー',
       input: 'リモートイメージの URL を入力してください',
       ok: 'OK',
-      disabled:
-        '/data パーティションは読み取り専用であり、イメージのダウンロードには使用できません',
-      diskShared: '先に仮想ディスクをオフにしてから、イメージのダウンロードを使用してください。',
       mountedImage:
         'このイメージはマウントされています。同じ名前のファイルをアップロードする前にマウントを解除してください。',
       diskOff: '仮想ディスクをオフにする',
       uploadbox: 'ここにファイルをドロップするか、クリックして選択してください',
-      inputfile: '画像ファイルを入力してください',
       NoISO: 'ISO なし',
-      sha256: 'SHA-256（任意）',
       sha256Placeholder: '64 文字の SHA-256 チェックサムを入力してください',
       invalidSHA256: 'SHA-256 は 64 文字の 16 進数文字列である必要があります',
       checksumFailed: 'ダウンロードに失敗しました：SHA-256 検証に失敗しました'
@@ -281,8 +252,6 @@ const ja = {
       showConfirmTip: '電源操作の確認メッセージを表示する',
       reset: 'リセット',
       power: '電源',
-      powerShort: '電源（クリック）',
-      powerLong: '電源（長押し）',
       resetConfirm: '再起動を実行しますか？',
       powerConfirm: '電源操作を実行しますか？',
       okBtn: 'はい',
@@ -320,7 +289,6 @@ const ja = {
           title: 'メニューバー',
           mode: '表示モード',
           modeDesc: 'メニューバーの画面表示方法',
-          modeOff: '閉じる',
           modeAuto: '自動非表示',
           modeAlways: '常に表示',
           keyboardLedStatus: 'キーボードロックの表示',
@@ -359,19 +327,16 @@ const ja = {
           3600: '1時間'
         },
         ssh: {
-          description: 'SSH リモートアクセスを有効にする',
-          tip: '使用する前に必ず強力なパスワードを設定してください（アカウント - パスワードの変更）'
+          description: 'SSH リモートアクセスを有効にする'
         },
         swap: {
           title: 'スワップ',
           disable: '無効',
-          description: 'スワップファイルのサイズを設定する',
-          tip: 'この機能を有効にすると、SD カードの寿命が短くなる可能性があります！'
+          description: 'スワップファイルのサイズを設定する'
         },
         mouseJiggler: {
           title: 'マウスジグラー',
           description: 'リモートホストの休止を防ぐ',
-          disable: '閉じる',
           absolute: '絶対モード',
           relative: '相対モード'
         },
@@ -387,13 +352,7 @@ const ja = {
           minutes: '分'
         },
         hidOnly: 'HID-Only モード',
-        hidOnlyDesc:
-          'このモードでは仮想デバイスはマウントされなくなり、基本的な HID 制御機能のみが保持されます。',
         disk: '仮想ディスク',
-        diskDesc: 'リモートホストに仮想 USB ドライブをマウントする',
-        diskLocked: 'イメージのマウント中はオフです（オンにするとマウントが解除されます）',
-        diskCancelMount:
-          '仮想ディスクを有効にすると、マウント中のイメージは解除され、進行中のイメージのダウンロード/アップロードも中断されます。続行しますか？',
         network: '仮想ネットワークカード',
         networkDesc: 'リモートホストに仮想ネットワークカードをマウントする',
         reboot: '再起動',
@@ -406,7 +365,6 @@ const ja = {
         wifi: {
           title: 'Wi-Fi',
           description: 'Wi-Fi 設定',
-          apMode: 'AP モードが有効になりました。QR コードをスキャンして Wi-Fi に接続してください。',
           connect: 'Wi-Fi に接続',
           connectDesc1: 'SSID とパスワードを入力してください',
           connectDesc2: 'このネットワークに接続するためのパスワードを入力してください',
@@ -418,8 +376,7 @@ const ja = {
           cancelBtn: 'キャンセル'
         },
         tls: {
-          description: 'HTTPS プロトコルを有効にする',
-          tip: '注意：HTTPS を使用すると、特に MJPEG ビデオモードで遅延が増加する可能性があります。'
+          description: 'HTTPS プロトコルを有効にする'
         },
         dns: {
           title: 'DNS',
@@ -440,8 +397,6 @@ const ja = {
           unsaved: '未保存の変更',
           maxServers: 'DNS サーバーは最大 {{count}} 個までです',
           dhcpServersDescription: 'DNS サーバーは DHCP から自動取得されます',
-          manualServersDescription:
-            'DNS サーバーは手動で編集できます。IPv4 と IPv6 に対応しています',
           interface: 'インターフェイス',
           ipAddress: 'IP アドレス',
           subnetMask: 'サブネットマスク',
@@ -460,13 +415,11 @@ const ja = {
         },
         restart: 'Tailscale を再起動しますか？',
         stop: 'Tailscale を停止しますか？',
-        stopDesc: 'Tailscale からログアウトし、起動時の自動実行を無効にします。',
         loading: '読み込み中...',
         notInstall: 'Tailscale が見つかりません。インストールしてください。',
         install: 'インストール',
         installing: 'インストール中',
         failed: 'インストールに失敗しました',
-        retry: 'ページを更新してもう一度お試しいただくか、手動でインストールしてください',
         download: 'ダウンロードして',
         package: 'インストールパッケージを',
         unzip: '解凍してください',
@@ -502,8 +455,6 @@ const ja = {
         cancel: 'いいえ',
         preview: 'プレビューアップデート',
         previewDesc: '新機能や改善をいち早く体験する',
-        previewTip:
-          'プレビューアップデートには不安定な部分や不完全な機能が含まれる場合があります！',
         offline: {
           title: 'オフラインアップデート',
           desc: 'ローカルインストールパッケージでアップデートする',
@@ -526,15 +477,12 @@ const ja = {
     },
     picoclaw: {
       title: 'PicoClaw アシスタント',
-      empty: 'パネルを開いてタスクを開始して開始します。',
       inputPlaceholder: 'PicoClaw に実行してほしいことを説明してください',
       newConversation: '新しい会話',
       processing: '処理中...',
       agent: {
         defaultTitle: '一般アシスタント',
-        defaultDescription: '一般的なチャット、検索、およびワークスペースのヘルプ。',
         kvmTitle: 'リモート操作',
-        kvmDescription: 'NanoKVM を通じてリモート ホストを操作します。',
         switched: 'エージェントの役割が切り替わりました',
         switchFailed: 'エージェントの役割を切り替えることができませんでした'
       },
@@ -563,8 +511,7 @@ const ja = {
           connected: '接続されました'
         },
         run: {
-          idle: 'アイドル状態',
-          busy: '忙しいです'
+          idle: 'アイドル状態'
         }
       },
       message: {
@@ -581,8 +528,6 @@ const ja = {
         success: 'PicoClaw は正常にインストールされました',
         failed: 'PicoClaw のインストールに失敗しました',
         uninstalling: 'ランタイムをアンインストールしています...',
-        uninstalled: 'ランタイムは正常にアンインストールされました。',
-        uninstallFailed: 'アンインストールに失敗しました。',
         requiredTitle: 'PicoClaw がインストールされていません',
         requiredDescription:
           'PicoClaw ランタイムを開始する前に PicoClaw をインストールしてください。',

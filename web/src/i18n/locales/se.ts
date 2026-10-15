@@ -29,25 +29,20 @@ const se = {
       globalLocked: 'System under skydd, försök igen senare',
       error: 'Oväntat fel',
       changePassword: 'Byt lösenord',
-      changePasswordDesc: 'För din enhets säkerhet, byt lösenord!',
       differentPassword: 'Lösenorden matchar inte',
       illegalUsername: 'Användarnamnet innehåller ogiltiga tecken',
-      illegalPassword: 'Lösenordet innehåller ogiltiga tecken',
       forgetPassword: 'Glömt lösenord',
       ok: 'Ok',
       cancel: 'Avbryt',
       loginButtonText: 'Logga in',
       tips: {
         change1: 'Observera att denna åtgärd ändrar följande lösenord:',
-        change2: 'Webbinloggningslösenord',
-        change3: 'Systemets root-lösenord (SSH-lösenord)'
+        change2: 'Webbinloggningslösenord'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Konfigurera Wi-Fi för NanoKVM',
-      success: 'Kontrollera nätverksstatusen för NanoKVM och besök den nya IP-adressen.',
-      failed: 'Åtgärden misslyckades, försök igen.',
       invalidMode:
         'Det aktuella läget stöder inte nätverksinstallation. Gå till din enhet och aktivera Wi-Fi konfigurationsläge.',
       confirmBtn: 'Ok',
@@ -64,7 +59,6 @@ const se = {
       scale: 'Skala',
       title: 'Skärm',
       video: 'Videoläge',
-      videoDirectTips: 'Aktivera HTTPS i "Inställningar > Enhet" för att använda detta läge',
       resolution: 'Upplösning',
       auto: 'Automatisk',
       autoTips:
@@ -81,8 +75,7 @@ const se = {
         'Beräkna skillnaden mellan ramar. Sluta skicka videoström när inga förändringar upptäcks på fjärrvärdens skärm.',
       resetHdmi: 'Återställ HDMI',
       webrtcConnectionFailed: {
-        title: 'WebRTC-anslutningen misslyckades',
-        description: 'Kontrollera nätverksanslutningen eller byt videoläge.'
+        title: 'WebRTC-anslutningen misslyckades'
       },
       captureStatus: {
         hdmiError: 'HDMI-skärmfel',
@@ -109,20 +102,15 @@ const se = {
       dropdownEnglish: 'Engelska',
       dropdownGerman: 'Tyska',
       dropdownFrench: 'Franska',
-      dropdownRussian: 'ryska',
       shortcut: {
         title: 'Genvägar',
         custom: 'Anpassad',
         capture: 'Klicka här för att fånga genväg',
         clear: 'Rensa',
-        save: 'Spara',
-        captureTips:
-          'Att fånga systemtangenter (som Windows-tangenten) kräver helskärmsbehörighet.',
-        enterFullScreen: 'Växla helskärmsläge.'
+        save: 'Spara'
       },
       leaderKey: {
         title: 'Leader-tangent',
-        desc: 'Gå förbi webbläsarbegränsningar och skicka systemgenvägar direkt till fjärrvärden.',
         howToUse: 'Hur man använder',
         simultaneous: {
           title: 'Samtidigt läge',
@@ -171,7 +159,6 @@ const se = {
       resetHid: 'Återställ HID',
       hidOnly: {
         title: 'Endast HID-läge',
-        desc: 'Om din mus och ditt tangentbord slutar svara och återställning av HID inte hjälper, kan det bero på kompatibilitetsproblem mellan NanoKVM och enheten. Prova att aktivera Endast-HID-läge för bättre kompatibilitet.',
         tip1: 'Aktivering av Endast-HID-läge avmonterar den virtuella U-disken och nätverket',
         tip2: 'I Endast-HID-läge är avbildningsmontering inaktiverat',
         tip3: 'NanoKVM kommer automatiskt att starta om efter lägesbyte',
@@ -185,15 +172,11 @@ const se = {
       empty: 'Inget hittades',
       mountMode: 'Monteringsläge',
       mountFailed: 'Montering misslyckades',
-      mountDesc:
-        'I vissa system måste den virtuella disken avmonteras på fjärrvärden innan avbildningen monteras.',
       diskOnWarn:
         'Montering av avbildningen stänger av den virtuella disken, så datorn kommer inte åt /data. Fortsätta?',
       diskOffWarn:
         'Den virtuella disken är avstängd och måste aktiveras för att montera avbildningen. Datorns USB-enheter ansluts på nytt. Fortsätta?',
       unmountFailed: 'Avmontering misslyckades',
-      unmountDesc:
-        'I vissa system måste du manuellt mata ut från fjärrvärden innan du avmonterar avbildningen.',
       forceEject: 'Tvinga utmatning',
       forceEjectConfirm:
         'Värden har låst den optiska enheten. Tvingad utmatning kopplar bort den virtuella USB-enheten ett ögonblick, så tangentbordet och musen kan kopplas bort en kort stund. Vill du fortsätta?',
@@ -203,14 +186,12 @@ const se = {
       tips: {
         title: 'Hur man laddar upp',
         usb1: 'Anslut NanoKVM till din dator via USB.',
-        usb2: 'Säkerställ att den virtuella disken är monterad (Inställningar - Virtuell Disk).',
         usb3: 'Öppna den virtuella disken på din dator och kopiera avbildningsfilen till rotkatalogen.',
         scp1: 'Säkerställ att NanoKVM och din dator är på samma lokala nätverk.',
         scp2: 'Öppna en terminal på din dator och använd SCP-kommandot för att ladda upp avbildningen till /data på NanoKVM.',
         scp3: 'Exempel: scp din-avbildningssökväg root@din-nanokvm-ip:/data',
         tfCard: 'TF-kort',
         tf1: 'Denna metod stöds på Linux-system',
-        tf2: 'Ta ut TF-kortet från NanoKVM (för FULL-versionen, öppna chassit först).',
         tf3: 'Sätt in TF-kortet i en kortläsare och anslut till din dator.',
         tf4: 'Kopiera avbildningsfilen till /data på TF-kortet.',
         tf5: 'Sätt in TF-kortet i NanoKVM.'
@@ -259,18 +240,12 @@ const se = {
       title: 'Avbildningshämtare',
       input: 'Ange en fjärravbildnings-URL',
       ok: 'Ok',
-      disabled: '/data partitionen är skrivskyddad, kan inte hämta avbildning',
-      diskShared: 'Stäng av den virtuella disken först och använd sedan nedladdningen.',
       mountedImage:
         'Den här diskavbilden är monterad. Avmontera den innan du laddar upp en fil med samma namn.',
       diskOff: 'Stäng av den virtuella disken',
       uploadbox: 'Släpp filen här eller klicka för att välja',
       inputfile: 'Vänligen ange bildfilen',
-      NoISO: 'Ingen ISO',
-      sha256: 'SHA-256 (valfrie)',
-      sha256Placeholder: 'Skriv inn en SHA-256-kontrollsum på 64 tegn',
-      invalidSHA256: 'SHA-256 må være en heksadesimal streng på 64 tegn',
-      checksumFailed: 'Nedlasting mislyktes: SHA-256-verifisering mislyktes'
+      NoISO: 'Ingen ISO'
     },
     power: {
       title: 'Ström',
@@ -278,8 +253,6 @@ const se = {
       showConfirmTip: 'Strömätgärder kräver extra bekräftelse',
       reset: 'Starta om',
       power: 'Ström',
-      powerShort: 'Ström (kort tryck)',
-      powerLong: 'Ström (långt tryck)',
       resetConfirm: 'Utföra omstart?',
       powerConfirm: 'Utföra strömåtgärd?',
       okBtn: 'Ja',
@@ -356,14 +329,12 @@ const se = {
           3600: '1 timme'
         },
         ssh: {
-          description: 'Aktivera SSH-fjärråtkomst',
-          tip: 'Ställ in ett starkt lösenord innan du aktiverar (Konto - Byt lösenord)'
+          description: 'Aktivera SSH-fjärråtkomst'
         },
         swap: {
           title: 'Swap',
           disable: 'Inaktivera',
-          description: 'Ange swap-filens storlek',
-          tip: 'Aktivering av denna funktion kan förkorta livslängden på ditt SD-kort!'
+          description: 'Ange swap-filens storlek'
         },
         mouseJiggler: {
           title: 'Musvickare',
@@ -384,12 +355,7 @@ const se = {
           minutes: 'min'
         },
         hidOnly: 'Endast-HID-läge',
-        hidOnlyDesc: 'Sluta emulera virtuella enheter, behåll bara grundläggande HID kontroll',
         disk: 'Virtuell disk',
-        diskDesc: 'Montera virtuell U-disk på fjärrvärden',
-        diskLocked: 'Avstängd medan en avbildning är monterad (aktivering avbryter monteringen)',
-        diskCancelMount:
-          'Att aktivera den virtuella disken avbryter den monterade avbildningen och avbryter en pågående nedladdning eller uppladdning. Fortsätta?',
         network: 'Virtuellt nätverk',
         networkDesc: 'Montera virtuell nätverkskort på fjärrvärden',
         reboot: 'Starta om',
@@ -414,8 +380,7 @@ const se = {
           cancelBtn: 'Avbryt'
         },
         tls: {
-          description: 'Aktivera HTTPS-protokoll',
-          tip: 'Observera: Användning av HTTPS kan öka fördröjningen, särskilt med MJPEG-läge.'
+          description: 'Aktivera HTTPS-protokoll'
         },
         dns: {
           title: 'DNS',
@@ -436,7 +401,6 @@ const se = {
           unsaved: 'Osparade ändringar',
           maxServers: 'Maximalt {{count}} DNS-servrar tillåtna',
           dhcpServersDescription: 'DNS-servrar hämtas automatiskt från DHCP',
-          manualServersDescription: 'DNS-servrar kan redigeras manuellt. IPv4 och IPv6 stöds',
           interface: 'Gränssnitt',
           ipAddress: 'IP-adress',
           subnetMask: 'Subnätmask',
@@ -455,13 +419,10 @@ const se = {
         },
         restart: 'Starta om Tailscale?',
         stop: 'Stoppa Tailscale?',
-        stopDesc: 'Logga ut från Tailscale och inaktivera autostart vid uppstart.',
         loading: 'Laddar...',
-        notInstall: 'Tailscale hittades inte! Installera först.',
         install: 'Installera',
         installing: 'Installerar',
         failed: 'Installationen misslyckades',
-        retry: 'Uppdatera sidan och försök igen. Eller installera manuellt',
         download: 'Ladda ner',
         package: 'installationspaketet',
         unzip: 'och packa upp det',
@@ -496,8 +457,6 @@ const se = {
         cancel: 'Avbryt',
         preview: 'Förhandsvisning av uppdateringar',
         previewDesc: 'Få tidig tillgång till nya funktioner och förbättringar',
-        previewTip:
-          'Observera att förhandsversioner kan innehålla buggar eller ofullständig funktionalitet!',
         offline: {
           title: 'Offlineuppdateringar',
           desc: 'Uppdatera genom lokalt installationspaket',
@@ -519,15 +478,12 @@ const se = {
     },
     picoclaw: {
       title: 'PicoClaw Assistent',
-      empty: 'Öppna panelen och starta en uppgift för att börja.',
       inputPlaceholder: 'Beskriv vad du vill att PicoClaw ska göra',
       newConversation: 'Ny konversation',
       processing: 'Bearbetar...',
       agent: {
         defaultTitle: 'Allmän assistent',
-        defaultDescription: 'Allmän hjälp för chatt, sökning och arbetsyta.',
         kvmTitle: 'Fjärrstyrning',
-        kvmDescription: 'Manövrera fjärrvärden genom NanoKVM.',
         switched: 'Agentroll bytte',
         switchFailed: 'Det gick inte att byta agentroll'
       },
@@ -574,8 +530,6 @@ const se = {
         success: 'PicoClaw har installerats framgångsrikt',
         failed: 'Det gick inte att installera PicoClaw',
         uninstalling: 'Avinstallerar runtime...',
-        uninstalled: 'Runtime avinstallerades framgångsrikt.',
-        uninstallFailed: 'Avinstallationen misslyckades.',
         requiredTitle: 'PicoClaw är inte installerad',
         requiredDescription: 'Installera PicoClaw innan du startar PicoClaw runtime.',
         progressDescription: 'PicoClaw laddas ner och installeras.',

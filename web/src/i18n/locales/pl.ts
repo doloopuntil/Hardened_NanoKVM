@@ -18,38 +18,23 @@ const pl = {
     },
     auth: {
       login: 'Logowanie',
-      placeholderUsername: 'Wprowadź nazwę użykownika',
-      placeholderPassword: 'wprowadź hasło',
-      placeholderPassword2: 'wprowadź hasło ponownie',
-      noEmptyUsername: 'nazwa użykownika nie może być pusta',
-      noEmptyPassword: 'hasło nie może być puste',
       noAccount:
         'Nie udało się uzyskać informacji o użytkowniku, odśwież stronę lub zresetuj hasło',
-      invalidUser: 'Błędne hasło lub nazwa użykownika',
       locked: 'Zbyt wiele loginów, spróbuj ponownie później',
       globalLocked: 'System chroniony, spróbuj ponownie później',
-      error: 'niespodziewany błąd',
       changePassword: 'Zmień Hasło',
-      changePasswordDesc:
-        'Dla bezpieczeństwa Twojego urządzenia, proszę zmień hasło do logowania w sieci.',
-      differentPassword: 'hasła nie zgadzają się',
-      illegalUsername: 'nazwa użytkownika zawiera niedozwolone znaki',
-      illegalPassword: 'hasło zawiera niedozwolone znaki',
       forgetPassword: 'Zapomiałeś hasła?',
       ok: 'Ok',
       cancel: 'Anuluj',
       loginButtonText: 'Zaloguj się',
       tips: {
         change1: 'Pamiętaj, że ta operacja zmieni następujące hasła:',
-        change2: 'Hasło logowania web',
-        change3: 'Hasło roota systemu (hasło logowania SSH)'
+        change2: 'Hasło logowania web'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Skonfiguruj Wi-Fi dla NanoKVM',
-      success: 'Proszę podejść do urządzenia, aby sprawdzić stan sieci NanoKVM.',
-      failed: 'Operacja nie powiodła się, spróbuj ponownie.',
       invalidMode:
         'Bieżący tryb nie obsługuje konfiguracji sieci. Przejdź do swojego urządzenia i włącz tryb konfiguracji Wi-Fi.',
       confirmBtn: 'Ok',
@@ -66,7 +51,6 @@ const pl = {
       scale: 'Skala',
       title: 'Ekran',
       video: 'Tryb wideo',
-      videoDirectTips: 'Włącz HTTPS w „Ustawienia > Urządzenie”, aby korzystać z tego trybu',
       resolution: 'Rozdzielczość',
       auto: 'Automatyczny',
       autoTips:
@@ -83,8 +67,7 @@ const pl = {
         'Obliczanie różnicy między klatkami. Zatrzymaj transmisję strumienia wideo, gdy na ekranie zdalnego hosta nie zostaną wykryte żadne zmiany.',
       resetHdmi: 'Resetuj HDMI',
       webrtcConnectionFailed: {
-        title: 'Połączenie WebRTC nie powiodło się',
-        description: 'Sprawdź połączenie sieciowe lub zmień tryb wideo.'
+        title: 'Połączenie WebRTC nie powiodło się'
       },
       captureStatus: {
         hdmiError: 'Błąd obrazu HDMI',
@@ -100,8 +83,6 @@ const pl = {
     keyboard: {
       title: 'Klawiatura',
       paste: 'Wklej',
-      tips: 'Tylko standardowe klawiaturowe znaki i symbole są obsługiwane.',
-      placeholder: 'Proszę wprowadzić coś',
       submit: 'Prześlij',
       virtual: 'Klawiatura',
       readClipboard: 'Czytaj ze schowka',
@@ -109,22 +90,16 @@ const pl = {
         'Odmowa dostępu do schowka. Zezwól na dostęp do schowka w przeglądarce.',
       clipboardReadError: 'Nie udało się odczytać schowka',
       dropdownEnglish: 'Angielski',
-      dropdownGerman: 'niemiecki',
       dropdownFrench: 'Francuski',
       dropdownRussian: 'Rosyjski',
       shortcut: {
         title: 'Skróty',
         custom: 'Niestandardowe',
         capture: 'Kliknij tutaj, aby przechwycić skrót',
-        clear: 'Jasne',
-        save: 'Zapisz',
-        captureTips:
-          'Przechwytywanie klawiszy systemowych (takich jak klawisz Windows) wymaga uprawnienia do pełnego ekranu.',
-        enterFullScreen: 'Przełącz tryb pełnoekranowy.'
+        save: 'Zapisz'
       },
       leaderKey: {
         title: 'Klawisz Leader',
-        desc: 'Omiń ograniczenia przeglądarki i wyślij skróty systemowe bezpośrednio do zdalnego hosta.',
         howToUse: 'Jak używać',
         simultaneous: {
           title: 'Tryb symultaniczny',
@@ -147,8 +122,7 @@ const pl = {
         submit: 'Prześlij',
         recorder: {
           rec: 'NAGR',
-          activate: 'Aktywuj klawisze',
-          input: 'Proszę nacisnąć skrót...'
+          activate: 'Aktywuj klawisze'
         }
       }
     },
@@ -160,7 +134,6 @@ const pl = {
       cell: 'Kursor komórki',
       text: 'Kursor tekstowy',
       grab: 'Kursor chwytania',
-      hide: 'Ukruj kursor',
       mode: 'Tryb myszki',
       absolute: 'Tryb bezwzględny',
       relative: 'Tryb względny',
@@ -174,7 +147,6 @@ const pl = {
       resetHid: 'Zresetuj HID',
       hidOnly: {
         title: 'Tryb tylko HID',
-        desc: 'Jeśli mysz i klawiatura przestaną odpowiadać, a resetowanie HID nie pomoże, może to oznaczać problem ze zgodnością między NanoKVM a urządzeniem. Spróbuj włączyć tryb HID-Only, aby uzyskać lepszą kompatybilność.',
         tip1: 'Włączenie trybu HID-Only spowoduje odmontowanie wirtualnego dysku U i sieci wirtualnej',
         tip2: 'W trybie HID-Only montowanie obrazu jest wyłączone',
         tip3: 'NanoKVM automatycznie uruchomi się ponownie po przełączeniu trybów',
@@ -188,32 +160,21 @@ const pl = {
       empty: 'Nic nie znaleziono',
       mountMode: 'Tryb montowania',
       mountFailed: 'Nie udało się zamontować obrazu',
-      mountDesc:
-        'W niektórych systemach wymagane jest wyjęcie dysku wirtualnego na zdalnym hoście przed zamontowaniem obrazu.',
-      diskOnWarn:
-        'Mounting the image turns the virtual disk off, so the computer can no longer access /data. Continue?',
-      diskOffWarn:
-        'The virtual disk is off and has to be enabled to mount the image. The USB devices on the computer are enumerated again. Continue?',
       unmountFailed: 'Odmontowanie nie powiodło się',
-      unmountDesc:
-        'W niektórych systemach należy ręcznie wysunąć obraz ze zdalnego hosta przed odmontowaniem obrazu.',
       forceEject: 'Wymuś wysunięcie',
       forceEjectConfirm:
         'Host zablokował napęd optyczny. Wymuszenie wysunięcia na chwilę odłącza wirtualne urządzenie USB, więc klawiatura i mysz mogą na krótko się odłączyć. Kontynuować?',
       refresh: 'Odśwież listę obrazów',
       attention: 'Uwaga',
-      deleteConfirm: 'Czy na pewno chcesz usunąć to zdjęcie?',
       tips: {
         title: 'Jak przesłać obrazy',
         usb1: 'Podłącz urządzenie NanoKVM do komputera przez USB.',
-        usb2: 'Upewnij się, że dysk wirtualny jest zamontowany (Ustawienia - Dysk wirtualny).',
         usb3: 'Otwórz dysk wirtualny na swoim komputerze i skopiuj plik obrazu do katalogu głównego dysku wirtualnego.',
         scp1: 'Upewnij się że NanoKVM i twój komputer są na tej samej sieci lokalnej.',
         scp2: 'Otwórz terminal na komputerze i użyj komendę SCP aby przesłać obraz do katalogu /data na NanoKVM.',
         scp3: 'Przykład: scp lokalizacja-zrodlowego-obrazu root@ip-twojego-nanokvm:/data',
         tfCard: 'Karta SD',
         tf1: 'Ta metoda jest obsługiwana w systemie Linux',
-        tf2: 'Usuń kartę SD od NanoKVM (dla wersji FULL, rozbierz obudowę najpierw).',
         tf3: 'Włóż kartę SD do czytnika kart i podłącz do twojego komputera.',
         tf4: 'Kopjuj obraz do katalogu /data na karcie SD.',
         tf5: 'Włóż kartę SD do NanoKVM.'
@@ -223,7 +184,6 @@ const pl = {
       title: 'Skrypty',
       upload: 'Prześlij',
       run: 'Uruchom',
-      runBackground: 'Uruchomiony w tle',
       runFailed: 'Uruchomienie nie powiodło się',
       attention: 'Uwaga',
       delDesc: 'Czy na pewno chcesz usunąć ten plik?',
@@ -262,15 +222,10 @@ const pl = {
       title: 'Narzędzie do pobierania obrazów',
       input: 'Proszę wprowadzić zdalny obraz URL',
       ok: 'Ok',
-      disabled: '/data partycja to RO, więc nie możemy pobrać obrazu',
-      diskShared: 'Turn the virtual disk off first, then use the image download.',
       mountedImage:
         'Ten obraz jest zamontowany. Odmontuj go przed przesłaniem pliku o tej samej nazwie.',
-      diskOff: 'Turn off the virtual disk',
       uploadbox: 'Upuść plik tutaj lub kliknij, aby wybrać',
-      inputfile: 'Proszę wprowadzić plik obrazu',
       NoISO: 'Brak ISO',
-      sha256: 'SHA-256 (opcjonalnie)',
       sha256Placeholder: 'Wprowadź 64-znakową sumę kontrolną SHA-256',
       invalidSHA256: 'SHA-256 musi być 64-znakowym ciągiem szesnastkowym',
       checksumFailed: 'Pobieranie nie powiodło się: weryfikacja SHA-256 nie powiodła się'
@@ -281,10 +236,7 @@ const pl = {
       showConfirmTip: 'Operacje zasilania wymagają dodatkowego potwierdzenia',
       reset: 'Resetuj',
       power: 'Zasilanie',
-      powerShort: 'Zasilanie (krótkie kliknięcie)',
-      powerLong: 'Zasilanie (długie kliknięcie)',
       resetConfirm: 'Kontynuować operację resetowania?',
-      powerConfirm: 'Kontynuować zasilanie?',
       okBtn: 'Tak',
       cancelBtn: 'Nie'
     },
@@ -347,7 +299,6 @@ const pl = {
         title: 'Urządzenie',
         oled: {
           title: 'OLED',
-          description: 'OLED screen automatically sleep',
           0: 'Nigdy',
           15: '15 sec',
           30: '30 sec',
@@ -359,14 +310,12 @@ const pl = {
           3600: '1 godzina'
         },
         ssh: {
-          description: 'Włącz SSH zdalny dostęp',
-          tip: 'Ustaw silne hasło przed włączeniem (Konto - Zmień hasło)'
+          description: 'Włącz SSH zdalny dostęp'
         },
         swap: {
           title: 'Zamień',
           disable: 'Wyłącz',
-          description: 'Ustaw rozmiar pliku wymiany',
-          tip: 'Włączenie tej funkcji może skrócić żywotność karty SD!'
+          description: 'Ustaw rozmiar pliku wymiany'
         },
         mouseJiggler: {
           title: 'Jiggler myszy',
@@ -386,13 +335,7 @@ const pl = {
           minutes: 'min'
         },
         hidOnly: 'HID – tylko tryb',
-        hidOnlyDesc:
-          'Przestań emulować urządzenia wirtualne, zachowując jedynie podstawową kontrolę HID',
         disk: 'Dysk wirtualny',
-        diskDesc: 'Mount virtual U-disk on the remote host',
-        diskLocked: 'Off while an image is mounted (turning it on cancels the mount)',
-        diskCancelMount:
-          'Enabling the virtual disk cancels the mounted image and interrupts a running image download or upload. Continue?',
         network: 'Sieć wirtualna',
         networkDesc: 'Zamontuj wirtualną kartę sieciową na zdalnym hoście',
         reboot: 'Uruchom ponownie',
@@ -417,8 +360,7 @@ const pl = {
           cancelBtn: 'Anuluj'
         },
         tls: {
-          description: 'Włącz protokół HTTPS',
-          tip: 'Uwaga: użycie HTTPS może zwiększyć opóźnienie, szczególnie w trybie wideo MJPEG.'
+          description: 'Włącz protokół HTTPS'
         },
         dns: {
           title: 'DNS',
@@ -439,8 +381,6 @@ const pl = {
           unsaved: 'Niezapisane zmiany',
           maxServers: 'Dozwolone jest maksymalnie {{count}} serwerów DNS',
           dhcpServersDescription: 'Serwery DNS są automatycznie pobierane z DHCP',
-          manualServersDescription:
-            'Serwery DNS można edytować ręcznie. IPv4 i IPv6 są obsługiwane',
           interface: 'Interfejs',
           ipAddress: 'Adres IP',
           subnetMask: 'Maska podsieci',
@@ -450,22 +390,16 @@ const pl = {
       tailscale: {
         title: 'Tailscale',
         memory: {
-          title: 'Optymalizacja pamięci',
-          tip: "When memory usage exceeds the limit, garbage collection is performed more aggressively to attempt to free up memory. it's recommended to set to 50MB if using Tailscale. A Tailscale restart is required for the change to take effect."
+          title: 'Optymalizacja pamięci'
         },
         swap: {
           title: 'Zamień pamięć',
           tip: 'Jeśli po włączeniu optymalizacji pamięci problemy nadal występują, spróbuj włączyć pamięć wymiany. Spowoduje to ustawienie domyślnego rozmiaru pliku wymiany na 256MB, który można dostosować w „Ustawienia > Urządzenie”.'
         },
-        restart: 'Are you sure to restart Tailscale?',
-        stop: 'Are you sure to stop Tailscale?',
-        stopDesc: 'Log out Tailscale and disable its automatic startup on boot.',
         loading: 'Ładowanie...',
-        notInstall: 'Nie znaleziono Tailscale! Proszę zainstalować.',
         install: 'Instaluj',
         installing: 'Instalowanie',
         failed: 'Instalowanie nie powiodło się',
-        retry: 'Odśwież stronę i spróbuj ponownie, albo spróbuj zainstalować manualnie.',
         download: 'Pobierz',
         package: 'pakiet instalacyjny',
         unzip: 'i wypakuj pliki',
@@ -486,9 +420,7 @@ const pl = {
         logout: 'Wyloguj',
         logoutDesc: 'Czy na pewno chcesz się wylogować?',
         uninstall: 'Odinstaluj Tailscale',
-        uninstallDesc: 'Czy na pewno chcesz odinstalować Tailscale?',
-        okBtn: 'Yes',
-        cancelBtn: 'No'
+        uninstallDesc: 'Czy na pewno chcesz odinstalować Tailscale?'
       },
       update: {
         title: 'Sprawdź aktualizacje',
@@ -496,18 +428,14 @@ const pl = {
         updateFailed: 'Aktualizacja nie powiodła się. Spróbuj ponownie.',
         isLatest: 'Oprogramowanie jest aktualne.',
         available: 'Aktualizacja jest dostępna. Czy na pewno chcesz dokonać aktualizacji?',
-        updating: 'Aktualizacja rozpoczęta. Proszę czekać...',
         confirm: 'Potwierdź',
         cancel: 'Anuluj',
         preview: 'Podgląd aktualizacji',
         previewDesc: 'Uzyskaj wcześniejszy dostęp do nowych funkcji i ulepszeń',
-        previewTip:
-          'Należy pamiętać, że wersje poglądowe mogą zawierać błędy lub niekompletną funkcjonalność!',
         offline: {
           title: 'Aktualizacje offline',
           desc: 'Aktualizacja poprzez lokalny pakiet instalacyjny',
           upload: 'Prześlij',
-          invalidName: 'Nieprawidłowy format nazwy pliku. Proszę pobrać z wydań GitHub.',
           updateFailed: 'Aktualizacja nie powiodła się. Spróbuj ponownie.'
         }
       },
@@ -524,15 +452,12 @@ const pl = {
     },
     picoclaw: {
       title: 'PicoClaw Asystent',
-      empty: 'Otwórz panel i rozpocznij zadanie.',
       inputPlaceholder: 'Opisz, co chcesz, aby PicoClaw zrobił',
       newConversation: 'Nowa rozmowa',
       processing: 'Przetwarzanie...',
       agent: {
         defaultTitle: 'Asystent ogólny',
-        defaultDescription: 'Ogólna pomoc dotycząca czatu, wyszukiwania i przestrzeni roboczej.',
         kvmTitle: 'Zdalne sterowanie',
-        kvmDescription: 'Sterowanie zdalnym hostem poprzez NanoKVM.',
         switched: 'Rola agenta została zmieniona',
         switchFailed: 'Nie udało się zmienić roli agenta'
       },
@@ -579,8 +504,6 @@ const pl = {
         success: 'PicoClaw zainstalowano pomyślnie',
         failed: 'Nie udało się zainstalować PicoClaw',
         uninstalling: 'Odinstalowywanie runtime...',
-        uninstalled: 'Runtime został pomyślnie odinstalowany.',
-        uninstallFailed: 'Odinstalowanie nie powiodło się.',
         requiredTitle: 'PicoClaw nie jest zainstalowany',
         requiredDescription: 'Zainstaluj PicoClaw przed uruchomieniem runtime PicoClaw.',
         progressDescription: 'PicoClaw jest pobierany i instalowany.',

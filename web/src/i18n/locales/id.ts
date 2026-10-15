@@ -18,37 +18,23 @@ const id = {
     },
     auth: {
       login: 'Masuk',
-      placeholderUsername: 'Silahkan masukkan username',
-      placeholderPassword: 'Silahkan masukkan password',
-      placeholderPassword2: 'Silahkan masukkan password again',
-      noEmptyUsername: 'nama user tidak boleh kosong',
-      noEmptyPassword: 'sandi  tidak boleh kosong',
       noAccount:
         'Gagal mendapatkan informasi user, silahkan segarkan halaman atau atur ulang sandi',
-      invalidUser: 'invalid username or password',
       locked: 'Terlalu banyak login, silakan coba lagi nanti',
       globalLocked: 'Sistem dalam perlindungan, silakan coba lagi nanti',
-      error: 'terjadi kesalahan tak terduga',
       changePassword: 'Ganti Sandi',
-      changePasswordDesc: 'Untuk keamanan perangkat Anda, silakan ubah kata sandi masuk web.',
-      differentPassword: 'sandi tidak sesuai',
-      illegalUsername: 'ada karakter ilegal pada nama user',
-      illegalPassword: 'ada karakter ilegal pada sandi',
       forgetPassword: 'Lupa Sandi',
       ok: 'Ok',
       cancel: 'Batalkan',
       loginButtonText: 'Masuk',
       tips: {
         change1: 'Perhatikan bahwa tindakan ini akan mengubah kata sandi berikut:',
-        change2: 'Kata sandi login web',
-        change3: 'Kata sandi root sistem (kata sandi login SSH)'
+        change2: 'Kata sandi login web'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Konfigurasi Wi-Fi untuk NanoKVM',
-      success: 'Please check the network status of NanoKVM and visit the new IP address.',
-      failed: 'Operasi gagal, silakan coba lagi.',
       invalidMode:
         'Mode saat ini tidak mendukung pengaturan jaringan. Silakan buka perangkat Anda dan aktifkan mode konfigurasi Wi-Fi.',
       confirmBtn: 'Ok',
@@ -65,7 +51,6 @@ const id = {
       scale: 'Skala',
       title: 'Layar',
       video: 'Mode Video',
-      videoDirectTips: 'Aktifkan HTTPS di "Pengaturan > Perangkat" untuk menggunakan mode ini',
       resolution: 'Resolusi',
       auto: 'Otomatis',
       autoTips:
@@ -82,8 +67,7 @@ const id = {
         'Hitung selisih antar frame. Hentikan transmisi aliran video saat tidak ada perubahan yang terdeteksi di layar host jarak jauh.',
       resetHdmi: 'Atur ulang HDMI',
       webrtcConnectionFailed: {
-        title: 'Koneksi WebRTC gagal',
-        description: 'Periksa koneksi jaringan atau ganti mode video.'
+        title: 'Koneksi WebRTC gagal'
       },
       captureStatus: {
         hdmiError: 'Kesalahan layar HDMI',
@@ -108,22 +92,13 @@ const id = {
         'Izin papan klip ditolak. Harap izinkan akses clipboard di browser Anda.',
       clipboardReadError: 'Gagal membaca papan klip',
       dropdownEnglish: 'Bahasa Inggris',
-      dropdownGerman: 'Jerman',
-      dropdownFrench: 'Perancis',
-      dropdownRussian: 'Rusia',
       shortcut: {
         title: 'Pintasan',
-        custom: 'Adat',
         capture: 'Klik di sini untuk mengambil pintasan',
-        clear: 'Jelas',
-        save: 'Simpan',
-        captureTips:
-          'Menangkap tombol tingkat sistem (seperti tombol Windows) memerlukan izin layar penuh.',
-        enterFullScreen: 'Beralih ke mode layar penuh.'
+        save: 'Simpan'
       },
       leaderKey: {
         title: 'Tombol Leader',
-        desc: 'Lewati batasan browser dan kirim pintasan sistem langsung ke host jarak jauh.',
         howToUse: 'Cara Menggunakan',
         simultaneous: {
           title: 'Mode Simultan',
@@ -151,7 +126,6 @@ const id = {
       }
     },
     mouse: {
-      title: 'Tikus',
       cursor: 'Gaya kursor',
       default: 'Kursor bawaan',
       pointer: 'Kursor penunjuk',
@@ -173,7 +147,6 @@ const id = {
       resetHid: 'Setel ulang HID',
       hidOnly: {
         title: 'Mode hanya HID',
-        desc: 'Jika mouse dan keyboard Anda berhenti merespons dan menyetel ulang HID tidak membantu, mungkin ada masalah kompatibilitas antara NanoKVM dan perangkat. Coba aktifkan mode HID-Only untuk kompatibilitas yang lebih baik.',
         tip1: 'Mengaktifkan mode HID-Hanya akan melepas U-disk virtual dan jaringan virtual',
         tip2: 'Dalam mode HID-Only, pemasangan gambar dinonaktifkan',
         tip3: 'NanoKVM akan otomatis reboot setelah berpindah mode',
@@ -187,15 +160,7 @@ const id = {
       empty: 'Tidak ada yang ditemukan',
       mountMode: 'Mode pemasangan',
       mountFailed: 'Pemasangan Gagal',
-      mountDesc:
-        'Di beberapa sistem, perlu mengeluarkan disk virtual pada host jarak jauh sebelum memasang gambar.',
-      diskOnWarn:
-        'Mounting the image turns the virtual disk off, so the computer can no longer access /data. Continue?',
-      diskOffWarn:
-        'The virtual disk is off and has to be enabled to mount the image. The USB devices on the computer are enumerated again. Continue?',
       unmountFailed: 'Pelepasan gagal',
-      unmountDesc:
-        'Pada beberapa sistem, Anda perlu mengeluarkan secara manual dari host jarak jauh sebelum melepas gambar.',
       forceEject: 'Paksa keluarkan',
       forceEjectConfirm:
         'Host telah mengunci drive optik. Memaksa pengeluaran akan memutuskan perangkat USB virtual sesaat, sehingga keyboard dan mouse dapat terputus sebentar. Lanjutkan?',
@@ -205,14 +170,12 @@ const id = {
       tips: {
         title: 'Cara mengunggah',
         usb1: 'Hubungkan NanoKVM ke komputer Anda melalui USB.',
-        usb2: 'Pastikan disk virtual telah terpasang (Pengaturan - Disk Virtual).',
         usb3: 'Buka disk virtual di komputer Anda dan salin file gambar ke direktori root disk virtual.',
         scp1: 'Pastikan NanoKVM dan komputer Anda berada di jaringan lokal yang sama.',
         scp2: 'Buka terminal di komputer Anda dan gunakan perintah SCP untuk mengunggah file gambar ke direktori /data di NanoKVM.',
         scp3: 'Contoh: scp jalur-gambar-anda root@ip-nanokvm-anda:/data',
         tfCard: 'Kartu TF',
         tf1: 'Metode ini didukung di sistem linux',
-        tf2: 'Dapatkan Kartu TF dari NanoKVM (untuk versi LENGKAP, bongkar casingnya terlebih dahulu).',
         tf3: 'Masukkan Kartu TF ke pembaca kartu dan hubungkan ke komputer Anda.',
         tf4: 'Salin berkas gambar ke direktori /data pada Kartu TF.',
         tf5: 'Masukkan Kartu TF ke dalam NanoKVM.'
@@ -225,7 +188,6 @@ const id = {
       runBackground: 'Jalankan di belakang',
       runFailed: 'Gagal menjalankan',
       attention: 'Perhatian',
-      delDesc: 'Apa kamu yakin menghapus data ini?',
       confirm: 'Ya',
       cancel: 'Tidak',
       delete: 'Hapus',
@@ -252,7 +214,6 @@ const id = {
     },
     wol: {
       title: 'Wake-on-LAN',
-      sending: 'Kirim perintah...',
       sent: 'Perintah terkirim',
       input: 'Silahkan masukkan MAC',
       ok: 'Ok'
@@ -261,15 +222,11 @@ const id = {
       title: 'Pengunduh Gambar',
       input: 'Silakan masukkan gambar jarak jauh URL',
       ok: 'Ok',
-      disabled: 'Partisi /data adalah RO, jadi kami tidak dapat mengunduh gambarnya',
-      diskShared: 'Turn the virtual disk off first, then use the image download.',
       mountedImage:
         'Image ini sedang di-mount. Lepaskan mount-nya sebelum mengunggah berkas dengan nama yang sama.',
-      diskOff: 'Turn off the virtual disk',
       uploadbox: 'Letakkan file di sini atau klik untuk memilih',
       inputfile: 'Silakan masukkan File gambar',
       NoISO: 'Tidak ada ISO',
-      sha256: 'SHA-256 (opsional)',
       sha256Placeholder: 'Masukkan checksum SHA-256 64 karakter',
       invalidSHA256: 'SHA-256 harus berupa string heksadesimal 64 karakter',
       checksumFailed: 'Unduhan gagal: verifikasi SHA-256 gagal'
@@ -278,10 +235,7 @@ const id = {
       title: 'Daya',
       showConfirm: 'Konfirmasi',
       showConfirmTip: 'Pengoperasian listrik memerlukan konfirmasi tambahan',
-      reset: 'Mulai Ulang',
       power: 'Daya',
-      powerShort: 'Data (tekan sebentar)',
-      powerLong: 'Power (tekan lama)',
       resetConfirm: 'Lanjutkan operasi penyetelan ulang?',
       powerConfirm: 'Lanjutkan pengoperasian listrik?',
       okBtn: 'Ya',
@@ -346,7 +300,6 @@ const id = {
         title: 'Perangkat',
         oled: {
           title: 'OLED',
-          description: 'OLED screen automatically sleep',
           0: 'Tidak pernah',
           15: '15 sec',
           30: '30 sec',
@@ -358,14 +311,12 @@ const id = {
           3600: '1 jam'
         },
         ssh: {
-          description: 'Aktifkan akses jarak jauh SSH',
-          tip: 'Tetapkan kata sandi yang kuat sebelum mengaktifkan (Akun - Ubah Kata Sandi)'
+          description: 'Aktifkan akses jarak jauh SSH'
         },
         swap: {
           title: 'Tukar',
           disable: 'Nonaktifkan',
-          description: 'Atur ukuran file swap',
-          tip: 'Mengaktifkan fitur ini dapat mempersingkat masa pakai kartu SD Anda!'
+          description: 'Atur ukuran file swap'
         },
         mouseJiggler: {
           title: 'Tikus Jiggler',
@@ -385,12 +336,7 @@ const id = {
           minutes: 'mnt'
         },
         hidOnly: 'HID-Mode Hanya',
-        hidOnlyDesc: 'Berhenti meniru perangkat virtual, hanya mempertahankan kontrol dasar HID',
         disk: 'Disk virtual',
-        diskDesc: 'Mount virtual U-disk on the remote host',
-        diskLocked: 'Off while an image is mounted (turning it on cancels the mount)',
-        diskCancelMount:
-          'Enabling the virtual disk cancels the mounted image and interrupts a running image download or upload. Continue?',
         network: 'Jaringan virtual',
         networkDesc: 'Pasang kartu jaringan virtual pada host jarak jauh',
         reboot: 'Mulai ulang',
@@ -415,8 +361,7 @@ const id = {
           cancelBtn: 'Batal'
         },
         tls: {
-          description: 'Aktifkan protokol HTTPS',
-          tip: 'Perhatian: Menggunakan HTTPS dapat meningkatkan latensi, terutama pada mode video MJPEG.'
+          description: 'Aktifkan protokol HTTPS'
         },
         dns: {
           title: 'DNS',
@@ -437,7 +382,6 @@ const id = {
           unsaved: 'Perubahan belum disimpan',
           maxServers: 'Maksimal {{count}} server DNS diizinkan',
           dhcpServersDescription: 'Server DNS diperoleh otomatis dari DHCP',
-          manualServersDescription: 'Server DNS dapat diedit secara manual. IPv4 dan IPv6 didukung',
           interface: 'Antarmuka',
           ipAddress: 'Alamat IP',
           subnetMask: 'Subnet mask',
@@ -447,22 +391,16 @@ const id = {
       tailscale: {
         title: 'Tailscale',
         memory: {
-          title: 'Optimasi memori',
-          tip: "When memory usage exceeds the limit, garbage collection is performed more aggressively to attempt to free up memory. it's recommended to set to 50MB if using Tailscale. A Tailscale restart is required for the change to take effect."
+          title: 'Optimasi memori'
         },
         swap: {
           title: 'Tukar memori',
           tip: 'Jika masalah terus berlanjut setelah mengaktifkan pengoptimalan memori, coba aktifkan memori swap. Ini menetapkan ukuran file swap ke 256MB secara default, yang dapat disesuaikan di "Pengaturan > Perangkat".'
         },
-        restart: 'Are you sure to restart Tailscale?',
-        stop: 'Are you sure to stop Tailscale?',
-        stopDesc: 'Log out Tailscale and disable its automatic startup on boot.',
         loading: 'Memuat...',
-        notInstall: 'Tailscale tidak ditemukan! Silahkan pasang.',
         install: 'Memasang',
         installing: 'Memasangkan',
         failed: 'Gagal memasangkan',
-        retry: 'Harap segarkan dan coba lagi. Atau coba instal secara manual',
         download: 'Mengunduh',
         package: 'paket instalasi',
         unzip: 'dan unzip itu',
@@ -483,23 +421,17 @@ const id = {
         logout: 'Keluar',
         logoutDesc: 'Apakah Anda yakin ingin logout?',
         uninstall: 'Copot pemasangan Tailscale',
-        uninstallDesc: 'Apakah Anda yakin ingin menghapus instalan Tailscale?',
-        okBtn: 'Yes',
-        cancelBtn: 'No'
+        uninstallDesc: 'Apakah Anda yakin ingin menghapus instalan Tailscale?'
       },
       update: {
         title: 'Periksa pembaruan',
         queryFailed: 'Gagal mendapatkan versi',
         updateFailed: 'Gagal memperbarui, tolong coba lagi.',
-        isLatest: 'Kamu sudah menggunakan versi terbaru.',
-        available: 'Ada pembaruan baru. apa kamu mau memperbarui?',
         updating: 'Pembaruan dimulai. Silahkan tunggu...',
         confirm: 'Konfirmasi',
         cancel: 'Batalkan',
         preview: 'Pratinjau Pembaruan',
         previewDesc: 'Dapatkan akses awal ke fitur dan peningkatan baru',
-        previewTip:
-          'Perlu diketahui bahwa rilis pratinjau mungkin mengandung bug atau fungsi yang tidak lengkap!',
         offline: {
           title: 'Pembaruan Offline',
           desc: 'Perbarui melalui paket instalasi lokal',
@@ -521,15 +453,12 @@ const id = {
     },
     picoclaw: {
       title: 'PicoClaw Asisten',
-      empty: 'Buka panel dan mulai tugas untuk memulai.',
       inputPlaceholder: 'Jelaskan apa yang Anda ingin PicoClaw lakukan',
       newConversation: 'Percakapan baru',
       processing: 'Memproses...',
       agent: {
         defaultTitle: 'Asisten umum',
-        defaultDescription: 'Obrolan umum, pencarian, dan bantuan ruang kerja.',
         kvmTitle: 'Kontrol jarak jauh',
-        kvmDescription: 'Operasikan host jarak jauh melalui NanoKVM.',
         switched: 'Peran agen dialihkan',
         switchFailed: 'Gagal mengganti peran agen'
       },
@@ -576,8 +505,6 @@ const id = {
         success: 'PicoClaw berhasil diinstal',
         failed: 'Gagal menginstal PicoClaw',
         uninstalling: 'Mencopot pemasangan runtime...',
-        uninstalled: 'Runtime berhasil di-uninstall.',
-        uninstallFailed: 'Pencopotan pemasangan gagal.',
         requiredTitle: 'PicoClaw tidak diinstal',
         requiredDescription: 'Instal PicoClaw sebelum memulai runtime PicoClaw.',
         progressDescription: 'PicoClaw sedang diunduh dan diinstal.',

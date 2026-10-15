@@ -29,25 +29,20 @@ const zh = {
       globalLocked: '系统防爆破保护中，请稍后再试',
       error: '未知错误',
       changePassword: '修改密码',
-      changePasswordDesc: '为了您的设备安全，请修改密码!',
       differentPassword: '两次密码不一致',
       illegalUsername: '用户名中包含非法字符',
-      illegalPassword: '密码中包含非法字符',
       forgetPassword: '忘记密码',
       ok: '确定',
       cancel: '取消',
       loginButtonText: '登录',
       tips: {
         change1: '请注意，此操作将同时更新以下密码：',
-        change2: '网页的登录密码',
-        change3: '系统 root 用户的密码（SSH 登录密码）'
+        change2: '网页的登录密码'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: '配置 NanoKVM Wi-Fi 信息',
-      success: '请前往设备检查 NanoKVM 的网络状态。',
-      failed: '操作失败，请重试。',
       invalidMode: '当前模式不支持配置网络。请先前往设备启用 Wi-Fi 配置模式。',
       confirmBtn: '确定',
       finishBtn: '完成',
@@ -63,7 +58,6 @@ const zh = {
       scale: '缩放',
       title: '屏幕',
       video: '视频模式',
-      videoDirectTips: '该模式需启用 HTTPS，请前往「设置 - 设备」中开启',
       resolution: '分辨率',
       auto: '自动',
       autoTips:
@@ -79,8 +73,7 @@ const zh = {
       frameDetectTip: '计算帧之间的差异，当检测到远程主机画面不变时，停止传输视频流',
       resetHdmi: '重置 HDMI',
       webrtcConnectionFailed: {
-        title: 'WebRTC 连接失败',
-        description: '请检查网络连接或切换视频模式。'
+        title: 'WebRTC 连接失败'
       },
       captureStatus: {
         hdmiError: 'HDMI 画面异常',
@@ -112,13 +105,10 @@ const zh = {
         custom: '自定义',
         capture: '点击此处捕获快捷键',
         clear: '清空',
-        save: '保存',
-        captureTips: '捕获系统级按键（如 Windows 键）需要全屏权限。',
-        enterFullScreen: '切换全屏模式。'
+        save: '保存'
       },
       leaderKey: {
         title: '引导键',
-        desc: '绕过浏览器限制，向远程主机发送被系统拦截的快捷键。',
         howToUse: '使用方法',
         simultaneous: {
           title: '组合按键模式',
@@ -166,7 +156,6 @@ const zh = {
       resetHid: '重置 HID',
       hidOnly: {
         title: 'HID-Only 模式',
-        desc: '若使用过程中遇到鼠标键盘无响应，且重置 HID 无效，可能是 NanoKVM 与您的设备存在兼容性问题。建议尝试启用 HID-Only 模式以提升兼容性。',
         tip1: '启用 HID-Only 模式会卸载虚拟 U 盘和虚拟网络',
         tip2: 'HID-Only 模式下，镜像挂载将被禁用',
         tip3: '切换模式后将自动重启 NanoKVM',
@@ -176,16 +165,13 @@ const zh = {
     },
     image: {
       title: '镜像',
-      loading: '加载中',
       empty: '无镜像文件',
       mountMode: '挂载模式',
       mountFailed: '挂载失败',
-      mountDesc: '在某些系统中，需要在远程主机中弹出虚拟硬盘后再挂载镜像。',
       diskOnWarn: '挂载镜像会关闭虚拟磁盘，电脑将无法再访问 /data 目录。是否继续？',
       diskOffWarn:
         '虚拟磁盘当前已关闭，需要先开启才能挂载镜像，电脑上的 USB 设备会短暂断开重连。是否继续？',
       unmountFailed: '卸载失败',
-      unmountDesc: '在某些系统中，需要在远程主机中手动弹出后再卸载镜像。',
       forceEject: '强制弹出',
       forceEjectConfirm:
         '主机已锁定光驱。强制弹出会使虚拟 USB 设备短暂断开，键盘和鼠标可能会暂时断开连接。是否继续？',
@@ -194,16 +180,11 @@ const zh = {
       deleteConfirm: '确定要删除该镜像吗？',
       tips: {
         title: '如何上传',
-        usb1: '将 NanoKVM 通过 USB 连接到你的电脑；',
-        usb2: '确保已经挂载了虚拟硬盘（设置 - 虚拟硬盘）；',
         usb3: '在电脑上打开虚拟硬盘，将镜像文件拷贝到虚拟硬盘的根目录下。',
-        scp1: '确保 NanoKVM 和你的电脑在同一个局域网内；',
         scp2: '在电脑上打开终端软件，使用 SCP 命令将镜像文件上传到 NanoKVM 的 /data 目录。',
         scp3: '示例：scp your-image-path root@your-nanokvm-ip:/data',
         tfCard: 'TF 卡',
         tf1: '该方式适用于 Linux 系统',
-        tf2: '将 TF 卡从 NanoKVM 中取出（FULL 版本需要先拆开外壳）；',
-        tf3: '将 TF 卡插入读卡器并连接到你的电脑；',
         tf4: '从电脑上拷贝镜像文件到 TF 卡的 /data 目录下；',
         tf5: '将 TF 卡重新插入 NanoKVM。'
       }
@@ -251,14 +232,11 @@ const zh = {
       title: '下载镜像',
       input: '请输入远程镜像 URL',
       ok: '确定',
-      disabled: '/data 是只读分区，无法下载镜像',
       diskShared: '请先关闭虚拟磁盘功能，再使用镜像下载功能',
       mountedImage: '此镜像已挂载。上传同名文件前请先卸载。',
       diskOff: '关闭虚拟磁盘功能',
       uploadbox: '将文件拖放到此处或单击选择',
-      inputfile: '请输入图片文件',
       NoISO: '无 ISO',
-      sha256: 'SHA-256（可选）',
       sha256Placeholder: '请输入 64 位 SHA-256 校验和',
       invalidSHA256: 'SHA-256 必须是 64 位十六进制字符串',
       checksumFailed: '下载失败：SHA-256 校验失败'
@@ -269,8 +247,6 @@ const zh = {
       showConfirmTip: '电源操作需要二次确认',
       reset: '重启',
       power: '电源',
-      powerShort: '电源（短按）',
-      powerLong: '电源（长按）',
       resetConfirm: '确认执行重启操作吗？',
       powerConfirm: '确认执行电源操作吗？',
       okBtn: '确认',
@@ -347,14 +323,12 @@ const zh = {
           3600: '1小时'
         },
         ssh: {
-          description: '启用 SSH 远程访问',
-          tip: '启用前请务必设置强密码（帐号 - 修改密码）'
+          description: '启用 SSH 远程访问'
         },
         swap: {
           title: '交换',
           disable: '禁用',
-          description: '设置交换文件大小',
-          tip: '启用该功能可能会减少SD卡使用寿命！'
+          description: '设置交换文件大小'
         },
         mouseJiggler: {
           title: '鼠标抖动',
@@ -382,12 +356,7 @@ const zh = {
           minutes: '分钟'
         },
         hidOnly: 'HID-Only 模式',
-        hidOnlyDesc: '该模式下不再挂载虚拟设备，仅保留基础的 HID 控制功能。',
         disk: '虚拟磁盘',
-        diskDesc: '在远程主机中挂载虚拟磁盘',
-        diskLocked: '挂载镜像期间已关闭（开启会取消镜像挂载）',
-        diskCancelMount:
-          '开启虚拟磁盘会取消当前挂载的镜像，并中断正在进行的镜像下载或上传，是否继续？',
         network: '虚拟网卡',
         networkDesc: '在远程主机中挂载虚拟网卡',
         reboot: '重新启动',
@@ -412,8 +381,7 @@ const zh = {
           cancelBtn: '取消'
         },
         tls: {
-          description: '启用 HTTPS 协议',
-          tip: '注意：使用 HTTPS 可能导致延迟增加，特别是在 MJPEG 视频模式下。'
+          description: '启用 HTTPS 协议'
         },
         dns: {
           title: 'DNS',
@@ -434,7 +402,6 @@ const zh = {
           unsaved: '有未保存的更改',
           maxServers: '最多允许 {{count}} 个 DNS 服务器',
           dhcpServersDescription: 'DNS 服务器由 DHCP 自动获取',
-          manualServersDescription: 'DNS 服务器可以手动编辑。支持 IPv4 和 IPv6',
           interface: '接口',
           ipAddress: 'IP 地址',
           subnetMask: '子网掩码',
@@ -451,15 +418,11 @@ const zh = {
           title: '交换内存',
           tip: '如果启用内存优化后依然存在问题，可以尝试开启交换内存。启用后会将交换文件设置为256MB，可以在「设置 - 设备」中修改该选项。'
         },
-        restart: '取定要重启 Tailscale 吗？',
         stop: '确定要停止 Tailscale 吗？',
-        stopDesc: '退出 Tailscale 并禁用开机自动启动。',
         loading: '加载中...',
-        notInstall: '未检测到 Tailscale，请先安装',
         install: '安装',
         installing: '安装中',
         failed: '安装失败',
-        retry: '请刷新后重试，或尝试手动安装',
         download: '下载',
         package: '安装包',
         unzip: '并解压',
@@ -494,7 +457,6 @@ const zh = {
         cancel: '取消',
         preview: '预览更新',
         previewDesc: '率先体验即将推出的新功能和优化',
-        previewTip: '预览版更新可能包含一些不稳定因素或未完善的功能！',
         offline: {
           title: '离线更新',
           desc: '通过本地安装包进行更新',
@@ -516,15 +478,11 @@ const zh = {
     },
     picoclaw: {
       title: 'PicoClaw 助手',
-      empty: '打开面板并发送任务后，PicoClaw 会开始工作。',
-      inputPlaceholder: '描述你希望 PicoClaw 执行的操作',
       newConversation: '新对话',
       processing: '正在处理中...',
       agent: {
         defaultTitle: '通用助手',
-        defaultDescription: '适合普通问答、搜索和工作区辅助。',
         kvmTitle: '远程控制',
-        kvmDescription: '通过 NanoKVM 操作下游远程主机。',
         switched: '角色已切换',
         switchFailed: '切换角色失败'
       },
@@ -571,8 +529,6 @@ const zh = {
         success: 'PicoClaw 安装成功',
         failed: 'PicoClaw 安装失败',
         uninstalling: '正在卸载运行时...',
-        uninstalled: '运行时卸载成功。',
-        uninstallFailed: '卸载失败。',
         requiredTitle: '未安装 PicoClaw',
         requiredDescription: '在启动 PicoClaw 运行时之前，需要先下载安装 PicoClaw。',
         progressDescription: '正在下载并安装 PicoClaw。',

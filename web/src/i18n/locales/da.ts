@@ -19,36 +19,24 @@ const da = {
     auth: {
       login: 'Log ind',
       placeholderUsername: 'Indtast brugernavn',
-      placeholderPassword: 'indtast adgangskode',
-      placeholderPassword2: 'indtast adgangskode igen',
-      noEmptyUsername: 'brugernavn kan ikke være tom',
-      noEmptyPassword: 'adgangskode kan ikke være tom',
       noAccount:
         'Kunne ikke hente brugeroplysninger. Prøv at opdater siden eller nulstil adgangskoden',
-      invalidUser: 'ugyldigt brugernavn eller adgangskode',
       locked: 'For mange logins, prøv venligst igen senere',
       globalLocked: 'System under beskyttelse, prøv venligst igen senere',
-      error: 'uventet fejl',
       changePassword: 'Skift adgangskode',
-      changePasswordDesc: 'For sikkerheden af din enhed, bedes du ændre web-login adgangskoden.',
       differentPassword: 'Adgangskoder er ikke ens',
-      illegalUsername: 'brugernavn indeholder ugyldige tegn',
-      illegalPassword: 'adgangskode indeholder ugyldige tegn',
       forgetPassword: 'Glem adgangskode',
       ok: 'OK',
       cancel: 'Annuller',
       loginButtonText: 'Log ind',
       tips: {
         change1: 'Bemærk, at denne handling ændrer følgende adgangskoder:',
-        change2: 'Adgangskode til weblogin',
-        change3: 'Systemets root-adgangskode (SSH-loginadgangskode)'
+        change2: 'Adgangskode til weblogin'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Konfigurer Wi-Fi for NanoKVM',
-      success: 'Please check the network status of NanoKVM and visit the new IP address.',
-      failed: 'Handlingen mislykkedes, prøv igen.',
       invalidMode:
         'Den aktuelle tilstand understøtter ikke netværksopsætning. Gå til din enhed og aktiver Wi-Fi konfigurationstilstand.',
       confirmBtn: 'Ok',
@@ -65,7 +53,6 @@ const da = {
       scale: 'Skala',
       title: 'Skærm',
       video: 'Videotilstand',
-      videoDirectTips: 'Aktiver HTTPS i "Indstillinger > Enhed" for at bruge denne tilstand',
       resolution: 'Opløsning',
       auto: 'Automatisk',
       autoTips:
@@ -77,13 +64,11 @@ const da = {
       qualityHigh: 'Høj',
       qualityMedium: 'Mellem',
       qualityLow: 'Lav',
-      frameDetect: 'Beregn frames',
       frameDetectTip:
         'Beregner forskellen mellem hver frame. Stopper med at sende et video stream hvis der ikke registreres ændringer på fjerncomputerens skærm.',
       resetHdmi: 'Nulstil HDMI',
       webrtcConnectionFailed: {
-        title: 'WebRTC-forbindelse mislykkedes',
-        description: 'Kontrollér netværksforbindelsen, eller skift videotilstand.'
+        title: 'WebRTC-forbindelse mislykkedes'
       },
       captureStatus: {
         hdmiError: 'Fejl i HDMI-billedet',
@@ -108,22 +93,16 @@ const da = {
         'Udklipsholdertilladelse nægtet. Tillad venligst udklipsholderadgang i din browser.',
       clipboardReadError: 'Kunne ikke læse udklipsholderen',
       dropdownEnglish: 'Engelsk',
-      dropdownGerman: 'tysk',
       dropdownFrench: 'Fransk',
-      dropdownRussian: 'russisk',
       shortcut: {
         title: 'Genveje',
         custom: 'Brugerdefineret',
         capture: 'Klik her for at fange genvej',
         clear: 'Ryd',
-        save: 'Gem',
-        captureTips:
-          'Optagelse af systemtaster (såsom Windows-tasten) kræver fuldskærmstilladelse.',
-        enterFullScreen: 'Skift fuldskærmstilstand.'
+        save: 'Gem'
       },
       leaderKey: {
         title: 'Leader-tast',
-        desc: 'Omgå browserbegrænsninger og send systemgenveje direkte til fjernværten.',
         howToUse: 'Sådan bruges',
         simultaneous: {
           title: 'Samtidig tilstand',
@@ -172,7 +151,6 @@ const da = {
       resetHid: 'Nulstil HID',
       hidOnly: {
         title: 'Kun HID-tilstand',
-        desc: 'Hvis din mus og tastatur holder op med at reagere, og nulstilling af HID ikke hjælper, kan det være et kompatibilitetsproblem mellem NanoKVM og enheden. Prøv at aktivere HID-Only-tilstand for bedre kompatibilitet.',
         tip1: 'Aktivering af HID-Only-tilstand vil afmontere den virtuelle U-disk og det virtuelle netværk',
         tip2: 'I HID-Only-tilstand er billedmontering deaktiveret',
         tip3: 'NanoKVM genstarter automatisk efter at have skiftet tilstand',
@@ -182,19 +160,10 @@ const da = {
     },
     image: {
       title: 'Diskbilleder',
-      loading: 'Kontrollerer...',
       empty: 'Ingen fundet',
       mountMode: 'Monteringstilstand',
       mountFailed: 'Montering af diskbillede mislykkedes',
-      mountDesc:
-        'På nogle systemer kan det være nødvendigt at skubbe den virtuelle disk ud på fjerncomputeren før du kan montere diskbilledet.',
-      diskOnWarn:
-        'Mounting the image turns the virtual disk off, so the computer can no longer access /data. Continue?',
-      diskOffWarn:
-        'The virtual disk is off and has to be enabled to mount the image. The USB devices on the computer are enumerated again. Continue?',
       unmountFailed: 'Afmontering mislykkedes',
-      unmountDesc:
-        'På nogle systemer skal du manuelt skubbe ud fra fjernværten, før du afmonterer billedet.',
       forceEject: 'Skub ud med tvang',
       forceEjectConfirm:
         'Værten har låst det optiske drev. Når du skubber ud med tvang, afbrydes den virtuelle USB-enhed et øjeblik, så tastaturet og musen kortvarigt kan miste forbindelsen. Vil du fortsætte?',
@@ -204,14 +173,12 @@ const da = {
       tips: {
         title: 'Sådan uploader du',
         usb1: 'Forbind din NanoKVM til din computer via USB.',
-        usb2: 'Sørg for, at den virtuelle disk er monteret (Indstillinger -> Virtuel disk).',
         usb3: 'Åben den virtuelle disk på din computer og kopier diskbilledet til roden af den virtuelle disk.',
         scp1: 'Kontroller at din NanoKVM og din computer er på samme lokale netværk.',
         scp2: 'Åben en terminal på din computer og brug SCP-kommandoen for at uploade diskbilledet til /data mappen på din NanoKVM.',
         scp3: 'Eksempel: scp sti-til-dit-diskbillede root@din-nanokvm-ip:/data',
         tfCard: 'microSD-kort',
         tf1: 'Denne metode er understøttet af Linux systemer',
-        tf2: 'Tag microSD-kortet ud af din NanoKVM (for den fulde version af NanoKVM skal du åbne enheden for at kunne tage microSD-kortet ud).',
         tf3: 'Indsæt microSD-kortet i en kortlæser og tilslut den til en computer.',
         tf4: 'Kopier diskbilledet til /data mappen på microSD-kortet.',
         tf5: 'Skub microSD-kortet ud og indsæt microSD-kortet i din NanoKVM.'
@@ -226,7 +193,6 @@ const da = {
       attention: 'Opmærksomhed påkrævet',
       delDesc: 'Er du sikker på at du vil slette denne fil?',
       confirm: 'Ja',
-      cancel: 'Annuller',
       delete: 'Slet',
       close: 'Luk'
     },
@@ -251,7 +217,6 @@ const da = {
     },
     wol: {
       title: 'Wake-on-LAN',
-      sending: 'Sender Wake-on-LAN magic packet',
       sent: 'Wake-on-LAN magic packet sendt',
       input: 'Angiv MAC-adresse',
       ok: 'OK'
@@ -260,14 +225,10 @@ const da = {
       title: 'Billedhenter',
       input: 'Indtast venligst et fjernbillede URL',
       ok: 'OK',
-      disabled: '/data partitionen er RO, så vi kan ikke downloade billedet',
-      diskShared: 'Turn the virtual disk off first, then use the image download.',
       mountedImage: 'Dette image er monteret. Afmontér det, før du uploader en fil med samme navn.',
-      diskOff: 'Turn off the virtual disk',
       uploadbox: 'Slip filen her, eller klik for at vælge',
       inputfile: 'Indtast venligst billedfilen',
       NoISO: 'Ingen ISO',
-      sha256: 'SHA-256 (valgfri)',
       sha256Placeholder: 'Indtast en SHA-256-kontrolsum på 64 tegn',
       invalidSHA256: 'SHA-256 skal være en hexadecimal streng på 64 tegn',
       checksumFailed: 'Download mislykkedes: SHA-256-verifikation mislykkedes'
@@ -278,12 +239,9 @@ const da = {
       showConfirmTip: 'Strømdrift kræver en ekstra bekræftelse',
       reset: 'Nulstillingsknap',
       power: 'Tænd/sluk-knap',
-      powerShort: 'Tænd/sluk-knap (kort tryk)',
-      powerLong: 'Tænd/sluk-knap (langt tryk)',
       resetConfirm: 'Fortsæt med nulstilling?',
       powerConfirm: 'Fortsæt strømdrift?',
-      okBtn: 'Ja',
-      cancelBtn: 'Annuller'
+      okBtn: 'Ja'
     },
     settings: {
       title: 'Indstillinger',
@@ -344,7 +302,6 @@ const da = {
         title: 'Enhed',
         oled: {
           title: 'OLED',
-          description: 'OLED screen automatically sleep',
           0: 'Aldrig',
           15: '15 sek.',
           30: '30 sek.',
@@ -356,14 +313,12 @@ const da = {
           3600: '1 time'
         },
         ssh: {
-          description: 'Aktiver SSH fjernadgang',
-          tip: 'Indstil en stærk adgangskode før aktivering (Konto - Skift adgangskode)'
+          description: 'Aktiver SSH fjernadgang'
         },
         swap: {
           title: 'Byt',
           disable: 'Deaktiver',
-          description: 'Indstil swap-filstørrelsen',
-          tip: 'Aktivering af denne funktion kan forkorte dit SD-korts brugbare levetid!'
+          description: 'Indstil swap-filstørrelsen'
         },
         mouseJiggler: {
           title: 'Mus Jiggler',
@@ -383,19 +338,12 @@ const da = {
           minutes: 'min'
         },
         hidOnly: 'HID-Kun tilstand',
-        hidOnlyDesc:
-          'Stop med at emulere virtuelle enheder, og behold kun grundlæggende HID kontrol',
         disk: 'Virtuel disk',
-        diskDesc: 'Mount virtual U-disk on the remote host',
-        diskLocked: 'Off while an image is mounted (turning it on cancels the mount)',
-        diskCancelMount:
-          'Enabling the virtual disk cancels the mounted image and interrupts a running image download or upload. Continue?',
         network: 'Virtuelt netværk',
         networkDesc: 'Monter det virtuelle netværkskort på den eksterne vært',
         reboot: 'Genstart',
         rebootDesc: 'Er du sikker på, at du vil genstarte NanoKVM?',
-        okBtn: 'Ja',
-        cancelBtn: 'Annuller'
+        okBtn: 'Ja'
       },
       network: {
         title: 'Netværk',
@@ -414,8 +362,7 @@ const da = {
           cancelBtn: 'Annuller'
         },
         tls: {
-          description: 'Aktiver HTTPS-protokol',
-          tip: 'Bemærk: Brug af HTTPS kan øge forsinkelsen, især med MJPEG-videotilstand.'
+          description: 'Aktiver HTTPS-protokol'
         },
         dns: {
           title: 'DNS',
@@ -436,7 +383,6 @@ const da = {
           unsaved: 'Ikke-gemte ændringer',
           maxServers: 'Maksimalt {{count}} DNS-servere er tilladt',
           dhcpServersDescription: 'DNS-servere hentes automatisk fra DHCP',
-          manualServersDescription: 'DNS-servere kan redigeres manuelt. IPv4 og IPv6 understøttes',
           interface: 'Grænseflade',
           ipAddress: 'IP-adresse',
           subnetMask: 'Undernetmaske',
@@ -446,28 +392,21 @@ const da = {
       tailscale: {
         title: 'Tailscale',
         memory: {
-          title: 'Hukommelsesoptimering',
-          tip: "When memory usage exceeds the limit, garbage collection is performed more aggressively to attempt to free up memory. it's recommended to set to 50MB if using Tailscale. A Tailscale restart is required for the change to take effect."
+          title: 'Hukommelsesoptimering'
         },
         swap: {
           title: 'Skift hukommelse',
           tip: 'Hvis problemerne fortsætter efter aktivering af hukommelsesoptimering, prøv at aktivere swap-hukommelse. Dette indstiller swap-filstørrelsen til 256MB som standard, som kan justeres i "Indstillinger > Enhed".'
         },
-        restart: 'Are you sure to restart Tailscale?',
-        stop: 'Are you sure to stop Tailscale?',
-        stopDesc: 'Log out Tailscale and disable its automatic startup on boot.',
         loading: 'Indlæser...',
-        notInstall: 'Tailscale ikke fundet! Installer det for at fuldføre opsætningen.',
         install: 'Installer',
         installing: 'Installerer',
         failed: 'Installation mislykkedes',
-        retry: 'Opdater siden og prøv igen. Ellers prøv at installere manuelt.',
         download: 'Download',
         package: 'installationspakken',
         unzip: 'og udpak den',
         upTailscale: 'Upload tailscale til NanoKVM-mappen /usr/bin/',
         upTailscaled: 'Upload tailscaled til NanoKVM-mappen /usr/sbin/',
-        refresh: 'Opdater sides',
         notRunning: 'Tailscale kører ikke. Start det for at fortsætte.',
         run: 'Start',
         notLogin:
@@ -482,9 +421,7 @@ const da = {
         logout: 'Log ud',
         logoutDesc: 'Er du sikker på, at du vil logge ud?',
         uninstall: 'Afinstaller Tailscale',
-        uninstallDesc: 'Er du sikker på, at du vil afinstallere Tailscale?',
-        okBtn: 'Yes',
-        cancelBtn: 'No'
+        uninstallDesc: 'Er du sikker på, at du vil afinstallere Tailscale?'
       },
       update: {
         title: 'Kontroller for opdatering',
@@ -497,8 +434,6 @@ const da = {
         cancel: 'Annuller',
         preview: 'Forhåndsvisning af opdateringer',
         previewDesc: 'Få tidlig adgang til nye funktioner og forbedringer',
-        previewTip:
-          'Vær opmærksom på, at forhåndsvisningsudgivelser kan indeholde fejl eller ufuldstændig funktionalitet!',
         offline: {
           title: 'Offline opdateringer',
           desc: 'Opdatering via lokal installationspakke',
@@ -514,21 +449,17 @@ const da = {
         updateBtn: 'Update',
         logoutBtn: 'Log ud',
         logoutDesc: 'Er du sikker på, at du vil logge ud?',
-        okBtn: 'Ja',
-        cancelBtn: 'Annuller'
+        okBtn: 'Ja'
       }
     },
     picoclaw: {
       title: 'PicoClaw Assistent',
-      empty: 'Åbn panelet og start en opgave for at begynde.',
       inputPlaceholder: 'Beskriv, hvad du vil have PicoClaw til at gøre',
       newConversation: 'Ny samtale',
       processing: 'Behandler...',
       agent: {
         defaultTitle: 'Generel assistent',
-        defaultDescription: 'Generel hjælp til chat, søgning og arbejdsområde.',
         kvmTitle: 'Fjernstyring',
-        kvmDescription: 'Betjen fjernværten gennem NanoKVM.',
         switched: 'Agentrolle skiftet',
         switchFailed: 'Kunne ikke skifte agentrolle'
       },
@@ -575,8 +506,6 @@ const da = {
         success: 'PicoClaw installeret korrekt',
         failed: 'Kunne ikke installere PicoClaw',
         uninstalling: 'Afinstallerer runtime...',
-        uninstalled: 'Runtime blev afinstalleret.',
-        uninstallFailed: 'Afinstallation mislykkedes.',
         requiredTitle: 'PicoClaw er ikke installeret',
         requiredDescription: 'Installer PicoClaw før start af PicoClaw runtime.',
         progressDescription: 'PicoClaw bliver downloadet og installeret.',

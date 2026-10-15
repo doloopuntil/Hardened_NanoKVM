@@ -30,26 +30,20 @@ const it = {
       globalLocked: 'Sistema sotto protezione, riprova più tardi',
       error: 'Errore imprevisto',
       changePassword: 'Cambia Password',
-      changePasswordDesc:
-        'Per la sicurezza del tuo dispositivo, modifica la password di accesso web.',
       differentPassword: 'Le password non corrispondono',
       illegalUsername: 'Il nome utente contiene caratteri non validi',
-      illegalPassword: 'La password contiene caratteri non validi',
       forgetPassword: 'Hai dimenticato la password',
       ok: 'Ok',
       cancel: 'Annulla',
       loginButtonText: 'Accedi',
       tips: {
         change1: 'Tieni presente che questa azione modificherà le seguenti password:',
-        change2: 'Password di accesso web',
-        change3: 'Password root di sistema (password di accesso SSH)'
+        change2: 'Password di accesso web'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Configura il Wi-Fi per NanoKVM',
-      success: 'Please check the network status of NanoKVM and visit the new IP address.',
-      failed: 'Operazione non riuscita, riprova.',
       invalidMode:
         'La modalità corrente non supporta la configurazione di rete. Vai al tuo dispositivo e abilita la modalità di configurazione Wi-Fi.',
       confirmBtn: 'Ok',
@@ -66,8 +60,6 @@ const it = {
       scale: 'Scala',
       title: 'Schermo',
       video: 'Modalità video',
-      videoDirectTips:
-        'Abilita HTTPS in "Impostazioni > Dispositivo" per utilizzare questa modalità',
       resolution: 'Risoluzione',
       auto: 'Automatico',
       autoTips:
@@ -84,8 +76,7 @@ const it = {
         'Calcola la differenza tra i frame. Interrompe la trasmissione del flusso video quando non vengono rilevate modifiche sullo schermo del dispositivo remoto.',
       resetHdmi: 'Reimposta HDMI',
       webrtcConnectionFailed: {
-        title: 'Connessione WebRTC non riuscita',
-        description: 'Controlla la connessione di rete o cambia la modalità video.'
+        title: 'Connessione WebRTC non riuscita'
       },
       captureStatus: {
         hdmiError: 'Errore schermata HDMI',
@@ -116,16 +107,11 @@ const it = {
       shortcut: {
         title: 'Scorciatoie',
         custom: 'Personalizzato',
-        capture: 'Fai clic qui per acquisire il collegamento',
         clear: 'Cancella',
-        save: 'Salva',
-        captureTips:
-          'La cattura dei tasti di sistema (come il tasto Windows) richiede l’autorizzazione a schermo intero.',
-        enterFullScreen: 'Attiva/disattiva la modalità a schermo intero.'
+        save: 'Salva'
       },
       leaderKey: {
         title: 'Tasto Leader',
-        desc: "Ignora le restrizioni del browser e invia collegamenti di sistema direttamente all'host remoto.",
         howToUse: 'Come usare',
         simultaneous: {
           title: 'Modalità simultanea',
@@ -175,7 +161,6 @@ const it = {
       resetHid: 'Reimposta HID',
       hidOnly: {
         title: 'Modalità solo HID',
-        desc: 'Se il mouse e la tastiera smettono di rispondere e il ripristino di HID non aiuta, potrebbe trattarsi di un problema di compatibilità tra NanoKVM e il dispositivo. Prova ad abilitare la modalità HID-Only per una migliore compatibilità.',
         tip1: "L'abilitazione della modalità HID-Solo smonterà il disco U virtuale e la rete virtuale",
         tip2: "Nella modalità HID-Only, il montaggio dell'immagine è disabilitato",
         tip3: 'NanoKVM si riavvierà automaticamente dopo aver cambiato modalità',
@@ -188,16 +173,7 @@ const it = {
       loading: 'Caricamento...',
       empty: 'Nessun risultato',
       mountMode: 'Modalità di montaggio',
-      mountFailed: 'Montaggio immagine fallito',
-      mountDesc:
-        "In alcuni sistemi, è necessario espellere il disco virtuale sull'host remoto prima di montare l'immagine.",
-      diskOnWarn:
-        'Mounting the image turns the virtual disk off, so the computer can no longer access /data. Continue?',
-      diskOffWarn:
-        'The virtual disk is off and has to be enabled to mount the image. The USB devices on the computer are enumerated again. Continue?',
       unmountFailed: 'Smontaggio non riuscito',
-      unmountDesc:
-        "Su alcuni sistemi, è necessario espellere manualmente l'host remoto prima di smontare l'immagine.",
       forceEject: "Forza l'espulsione",
       forceEjectConfirm:
         "L'host ha bloccato l'unità ottica. Forzare l'espulsione disconnette per un momento il dispositivo USB virtuale, quindi tastiera e mouse potrebbero disconnettersi brevemente. Continuare?",
@@ -207,14 +183,11 @@ const it = {
       tips: {
         title: 'Come caricare',
         usb1: 'Collega il NanoKVM al tuo computer tramite USB.',
-        usb2: 'Assicurati che la Virtual Disk sia montata (Impostazioni - Virtual Disk).',
-        usb3: 'Apri il disk virtuale sul tuo computer e copia il file immagine nella directory principale del disk.',
         scp1: 'Assicurati che il NanoKVM e il tuo computer siano sulla stessa rete locale.',
         scp2: 'Apri un terminale sul tuo computer e usa il comando SCP per caricare il file immagine nella directory /data del NanoKVM.',
         scp3: 'Esempio: scp il-tuo-percorso-immagine root@il-tuo-ip-nanokvm:/data',
         tfCard: 'Scheda TF',
         tf1: 'Questo metodo è supportato su sistemi Linux',
-        tf2: 'Recupera la scheda TF dal NanoKVM (per la versione FULL, smonta prima il case).',
         tf3: 'Inserisci la scheda TF in un lettore di schede e collegala al tuo computer.',
         tf4: 'Copia il file immagine nella directory /data sulla scheda TF.',
         tf5: 'Inserisci la scheda TF nel NanoKVM.'
@@ -225,7 +198,6 @@ const it = {
       upload: 'Carica',
       run: 'Esegui',
       runBackground: 'Esegui in Background',
-      runFailed: 'Esecuzione fallita',
       attention: 'Attenzione',
       delDesc: 'Sei sicuro di voler eliminare questo file?',
       confirm: 'Sì',
@@ -263,15 +235,11 @@ const it = {
       title: 'Scaricatore di immagini',
       input: "Inserisci un'immagine remota URL",
       ok: 'Ok',
-      disabled: "La partizione /data è RO, quindi non possiamo scaricare l'immagine",
-      diskShared: 'Turn the virtual disk off first, then use the image download.',
       mountedImage:
         'Questa immagine è montata. Smontala prima di caricare un file con lo stesso nome.',
-      diskOff: 'Turn off the virtual disk',
       uploadbox: 'Rilascia il file qui o fai clic per selezionarlo',
       inputfile: 'Inserisci il file immagine',
       NoISO: 'Nessuna ISO',
-      sha256: 'SHA-256 (facoltativo)',
       sha256Placeholder: 'Inserisci un checksum SHA-256 di 64 caratteri',
       invalidSHA256: 'SHA-256 deve essere una stringa esadecimale di 64 caratteri',
       checksumFailed: 'Download non riuscito: verifica SHA-256 non riuscita'
@@ -282,9 +250,6 @@ const it = {
       showConfirmTip: 'Le operazioni di alimentazione richiedono una conferma aggiuntiva',
       reset: 'Reimposta',
       power: 'Accensione',
-      powerShort: 'Accensione (clic breve)',
-      powerLong: 'Accensione (clic lungo)',
-      resetConfirm: "Procedere con l'operazione di ripristino?",
       powerConfirm: "Procedere con l'operazione di accensione?",
       okBtn: 'Sì',
       cancelBtn: 'No'
@@ -348,7 +313,6 @@ const it = {
         title: 'Dispositivo',
         oled: {
           title: 'OLED',
-          description: 'OLED screen automatically sleep',
           0: 'Mai',
           15: '15 sec',
           30: '30 sec',
@@ -359,15 +323,11 @@ const it = {
           1800: '30 min',
           3600: '1 ora'
         },
-        ssh: {
-          description: 'Abilita SSH accesso remoto',
-          tip: "Imposta una password complessa prima dell'abilitazione (Account - Modifica password)"
-        },
+        ssh: {},
         swap: {
           title: 'Scambia',
           disable: 'Disabilita',
-          description: 'Imposta la dimensione del file di scambio',
-          tip: 'Abilitare questa funzione potrebbe ridurre la durata utile della tua scheda SD!'
+          description: 'Imposta la dimensione del file di scambio'
         },
         mouseJiggler: {
           title: 'Muovi il mouse',
@@ -381,20 +341,13 @@ const it = {
           tip: 'Spegnerlo se non è necessario'
         },
         hdmi: {
-          description: 'Abilita HDMI/monitora uscita',
           idleTimeoutTitle: 'Timeout cattura inattiva',
           idleTimeoutDescription:
             'Interrompi la cattura HDMI dopo che non ci sono visualizzatori attivi per',
           minutes: 'min'
         },
         hidOnly: 'HID-Solo modalità',
-        hidOnlyDesc:
-          'Smette di emulare i dispositivi virtuali, mantenendo solo il controllo di base HID',
         disk: 'Disco virtuale',
-        diskDesc: 'Mount virtual U-disk on the remote host',
-        diskLocked: 'Off while an image is mounted (turning it on cancels the mount)',
-        diskCancelMount:
-          'Enabling the virtual disk cancels the mounted image and interrupts a running image download or upload. Continue?',
         network: 'Rete virtuale',
         networkDesc: 'Monta la scheda di rete virtuale sull’host remoto',
         reboot: 'Riavvia',
@@ -419,8 +372,7 @@ const it = {
           cancelBtn: 'Annulla'
         },
         tls: {
-          description: 'Abilita protocollo HTTPS',
-          tip: "Attenzione: l'uso di HTTPS può aumentare la latenza, soprattutto in modalità video MJPEG."
+          description: 'Abilita protocollo HTTPS'
         },
         dns: {
           title: 'DNS',
@@ -442,8 +394,6 @@ const it = {
           unsaved: 'Modifiche non salvate',
           maxServers: 'Sono consentiti al massimo {{count}} server DNS',
           dhcpServersDescription: 'I server DNS vengono ottenuti automaticamente da DHCP',
-          manualServersDescription:
-            'I server DNS possono essere modificati manualmente. IPv4 e IPv6 sono supportati',
           interface: 'Interfaccia',
           ipAddress: 'Indirizzo IP',
           subnetMask: 'Subnet mask',
@@ -453,22 +403,15 @@ const it = {
       tailscale: {
         title: 'Tailscale',
         memory: {
-          title: 'Ottimizzazione memoria',
-          tip: "When memory usage exceeds the limit, garbage collection is performed more aggressively to attempt to free up memory. it's recommended to set to 50MB if using Tailscale. A Tailscale restart is required for the change to take effect."
+          title: 'Ottimizzazione memoria'
         },
         swap: {
           title: 'Scambia memoria',
           tip: 'Se i problemi persistono dopo aver abilitato l\'ottimizzazione della memoria, provare ad abilitare la memoria di scambio. Ciò imposta la dimensione del file di scambio su 256MB per impostazione predefinita, che può essere regolata in "Impostazioni > Dispositivo".'
         },
-        restart: 'Are you sure to restart Tailscale?',
-        stop: 'Are you sure to stop Tailscale?',
-        stopDesc: 'Log out Tailscale and disable its automatic startup on boot.',
         loading: 'Caricamento...',
-        notInstall: 'Tailscale non trovato! Per favore, installa.',
         install: 'Installa',
         installing: 'Installazione in corso',
-        failed: 'Installazione fallita',
-        retry: 'Riprova aggiornando la pagina o installa manualmente',
         download: 'Scarica il',
         package: 'pacchetto di installazione',
         unzip: 'e decomprimilo',
@@ -476,7 +419,6 @@ const it = {
         upTailscaled: 'Carica tailscaled nella directory /usr/sbin/ del NanoKVM',
         refresh: 'Aggiorna la pagina corrente',
         notRunning: 'Tailscale non è in esecuzione. Per favore avvialo per continuare.',
-        run: 'Inizio',
         notLogin:
           'Il dispositivo non è ancora stato associato. Effettua il login e associa questo dispositivo al tuo account.',
         urlPeriod: 'Questo URL è valido per 10 minuti',
@@ -490,7 +432,6 @@ const it = {
         logoutDesc: 'Sei sicuro di voler uscire?',
         uninstall: 'Disinstalla Tailscale',
         uninstallDesc: 'Sei sicuro di voler disinstallare Tailscale?',
-        okBtn: 'Yes',
         cancelBtn: 'No'
       },
       update: {
@@ -504,13 +445,10 @@ const it = {
         cancel: 'Annulla',
         preview: 'Anteprima aggiornamenti',
         previewDesc: "Ottieni l'accesso anticipato a nuove funzionalità e miglioramenti",
-        previewTip:
-          'Tieni presente che le versioni di anteprima possono contenere bug o funzionalità incomplete!',
         offline: {
           title: 'Aggiornamenti offline',
           desc: 'Aggiornamento tramite pacchetto di installazione locale',
           upload: 'Carica',
-          invalidName: 'Formato nome file non valido. Si prega di scaricare dalle versioni GitHub.',
           updateFailed: 'Aggiornamento fallito. Riprova.'
         }
       },
@@ -527,15 +465,12 @@ const it = {
     },
     picoclaw: {
       title: 'PicoClaw Assistente',
-      empty: "Apri il pannello e avvia un'attività da iniziare.",
       inputPlaceholder: 'Descrivi cosa vuoi che PicoClaw faccia',
       newConversation: 'Nuova conversazione',
       processing: 'In elaborazione...',
       agent: {
         defaultTitle: 'Assistente generale',
-        defaultDescription: "Chat generale, ricerca e aiuto nell'area di lavoro.",
         kvmTitle: 'Controllo remoto',
-        kvmDescription: "Gestisci l'host remoto tramite NanoKVM.",
         switched: "Ruolo dell'agente cambiato",
         switchFailed: "Impossibile cambiare il ruolo dell'agente"
       },
@@ -582,8 +517,6 @@ const it = {
         success: 'PicoClaw installato correttamente',
         failed: 'Impossibile installare PicoClaw',
         uninstalling: 'Disinstallazione del runtime in corso...',
-        uninstalled: 'Runtime disinstallato correttamente.',
-        uninstallFailed: 'Disinstallazione non riuscita.',
         requiredTitle: 'PicoClaw non è installato',
         requiredDescription: 'Installa PicoClaw prima di avviare il runtime PicoClaw.',
         progressDescription: 'PicoClaw è in fase di download e installazione.',

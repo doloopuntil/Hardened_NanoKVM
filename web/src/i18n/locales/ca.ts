@@ -27,35 +27,26 @@ const ca = {
         "No s'ha pogut obtenir la informació de l'usuari, actualitza la pàgina web o restableix la contrasenya",
       invalidUser: "Nom d'usuari o contrasenya invàlids",
       locked: 'Massa inicis de sessió, si us plau, torna-ho a provar més tard',
-      globalLocked: 'Sistema sota protecció, torneu-ho a provar més tard',
       error: 'Error inesperat',
       changePassword: 'Canviar la contrasenya',
-      changePasswordDesc: 'Per a la seguretat del dispositiu, canvia la contrasenya!',
       differentPassword: 'Les contrasenyes no coincideixen',
       illegalUsername: "El nom d'usuari conté caràcters no permesos",
-      illegalPassword: 'La contrasenya conté caràcters no permesos',
       forgetPassword: 'Has oblidat la contrasenya',
       ok: "D'acord",
       cancel: 'Cancel·la',
       loginButtonText: 'Inicia sessió',
       tips: {
         change1: 'Aquesta acció canviarà les següents contrasenyes:',
-        change2: "Contrasenya d'inici de sessió web",
-        change3: 'Contrasenya root del sistema (inici de sessió SSH)'
+        change2: "Contrasenya d'inici de sessió web"
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Configura Wi-Fi per al NanoKVM',
-      success: "Comprova l'estat de la xarxa del NanoKVM i visita la nova adreça IP.",
-      failed: "L'operació ha fallat, torna-ho a intentar.",
-      invalidMode:
-        'El mode actual no admet la configuració de xarxa. Aneu al vostre dispositiu i activeu el mode de configuració Wi-Fi.',
       confirmBtn: "D'acord",
       finishBtn: 'Fet',
       ap: {
         authTitle: 'Es requereix autenticació',
-        authDescription: 'Introduïu la contrasenya AP per continuar',
         authFailed: 'Contrasenya AP no vàlida',
         passPlaceholder: 'AP contrasenya',
         verifyBtn: 'Verificar'
@@ -65,7 +56,6 @@ const ca = {
       scale: 'Escala',
       title: 'Pantalla',
       video: 'Mode de vídeo',
-      videoDirectTips: "Activa HTTPS a 'Configuració > Dispositiu' per utilitzar aquest mode",
       resolution: 'Resolució',
       auto: 'Automàtic',
       autoTips:
@@ -82,8 +72,7 @@ const ca = {
         "Calcula la diferència entre fotogrames. S'atura la transmissió si no hi ha canvis a la pantalla de l'amfitrió remot.",
       resetHdmi: 'Restablir HDMI',
       webrtcConnectionFailed: {
-        title: 'Error de connexió WebRTC',
-        description: 'Comproveu la connexió de xarxa o canvieu el mode de vídeo.'
+        title: 'Error de connexió WebRTC'
       },
       captureStatus: {
         hdmiError: 'Error a la pantalla HDMI',
@@ -108,45 +97,30 @@ const ca = {
         "S'ha denegat el permís del porta-retalls. Permet l'accés al porta-retalls al teu navegador.",
       clipboardReadError: "No s'ha pogut llegir el porta-retalls",
       dropdownEnglish: 'Anglès',
-      dropdownGerman: 'alemany',
-      dropdownFrench: 'francès',
-      dropdownRussian: 'rus',
       shortcut: {
         title: 'Dreceres',
         custom: 'Personalitzat',
-        capture: 'Feu clic aquí per capturar la drecera',
-        clear: 'Clar',
-        save: 'Desa',
-        captureTips:
-          'Capturar tecles del sistema (com la tecla Windows) requereix permís de pantalla completa.',
-        enterFullScreen: 'Canvia el mode de pantalla completa.'
+        save: 'Desa'
       },
       leaderKey: {
         title: 'Tecla líder',
-        desc: "Evita les restriccions del navegador i envia dreceres del sistema directament a l'amfitrió remot.",
         howToUse: "Com s'utilitza",
         simultaneous: {
-          title: 'Mode simultània',
-          desc1: 'Manteniu premuda la tecla líder i premeu la drecera.',
           desc2: 'Intuïtiu, però pot entrar en conflicte amb les dreceres del sistema.'
         },
         sequential: {
           title: 'Mode seqüencial',
-          desc1:
-            'Premeu la tecla líder → premeu la drecera en seqüència → torneu a prémer la tecla líder.',
           desc2: 'Requereix més passos, però evita completament els conflictes del sistema.'
         },
         enable: 'Activa la tecla líder',
         tip: "Quan s'assigna com a tecla líder, aquesta tecla només funciona com a activador de dreceres i perd el seu comportament predeterminat.",
-        placeholder: 'Premeu la tecla líder',
         shiftRight: 'Maj dreta',
         ctrlRight: 'Ctrl dret',
         metaRight: 'Win dret',
         submit: 'Envia',
         recorder: {
           rec: 'REC',
-          activate: 'Activa les tecles',
-          input: 'Premeu la drecera...'
+          activate: 'Activa les tecles'
         }
       }
     },
@@ -172,7 +146,6 @@ const ca = {
       resetHid: 'Restablir HID',
       hidOnly: {
         title: 'Mode només HID',
-        desc: 'Si el ratolí i el teclat deixen de respondre i restablir HID no ajuda, pot ser un problema de compatibilitat entre el NanoKVM i el dispositiu. Proveu d’activar el mode només HID per millorar la compatibilitat.',
         tip1: 'Activar el mode només HID desmuntarà el disc virtual i la xarxa virtual',
         tip2: 'En mode només HID, no es pot muntar imatges',
         tip3: 'El NanoKVM es reiniciarà automàticament en canviar de mode',
@@ -186,31 +159,19 @@ const ca = {
       empty: "No s'ha trobat res",
       mountMode: 'Mode de muntatge',
       mountFailed: 'Error en muntar',
-      mountDesc: 'En alguns sistemes cal expulsar el disc virtual abans de muntar la imatge.',
-      diskOnWarn:
-        "Muntar la imatge desactiva el disc virtual, de manera que l'ordinador ja no pot accedir a /data. Voleu continuar?",
-      diskOffWarn:
-        "El disc virtual està desactivat i cal activar-lo per muntar la imatge. Els dispositius USB de l'ordinador es tornaran a enumerar. Voleu continuar?",
       unmountFailed: "No s'ha pogut desmuntar",
-      unmountDesc:
-        "En alguns sistemes, cal expulsar manualment de l'amfitrió remot abans de desmuntar la imatge.",
       forceEject: "Força l'expulsió",
-      forceEjectConfirm:
-        "L'amfitrió ha bloquejat la unitat òptica. Forçar l'expulsió desconnecta el dispositiu USB virtual durant un moment, de manera que el teclat i el ratolí poden desconnectar-se breument. Voleu continuar?",
       refresh: 'Actualitza la llista',
       attention: 'Atenció',
-      deleteConfirm: 'Esteu segur que voleu suprimir aquesta imatge?',
       tips: {
         title: 'Com pujar imatges',
         usb1: 'Connecta el NanoKVM al teu ordinador via USB.',
-        usb2: "Assegura't que el disc virtual està muntat (Configuració - Disc Virtual).",
         usb3: "Obre el disc virtual i copia la imatge a l'arrel.",
         scp1: 'Comprova que el NanoKVM i el teu ordinador estan a la mateixa xarxa.',
         scp2: 'Obre un terminal i usa SCP per pujar la imatge al directori /data del NanoKVM.',
         scp3: 'Exemple: scp ruta-de-la-imatge root@ip-del-nanokvm:/data',
         tfCard: 'Targeta TF',
         tf1: 'Mètode disponible a sistemes GNU/Linux',
-        tf2: 'Extreu la targeta TF del NanoKVM (versió FULL, cal obrir la carcassa).',
         tf3: "Introdueix la targeta en un lector i connecta'l a l'ordinador.",
         tf4: 'Copia la imatge al directori /data de la targeta.',
         tf5: 'Reintrodueix la targeta al NanoKVM.'
@@ -235,7 +196,6 @@ const ca = {
       serial: 'Terminal de port sèrie',
       serialPort: 'Port sèrie',
       serialPortPlaceholder: 'Introdueix el port sèrie',
-      baudrate: 'Velocitat (baudrate)',
       parity: 'Paritat',
       parityNone: 'Cap',
       parityEven: 'Parell',
@@ -259,16 +219,8 @@ const ca = {
       title: "Descarregador d'imatges",
       input: 'Introdueix la URL de la imatge',
       ok: "D'acord",
-      disabled: 'La partició /data és només lectura. No es pot descarregar la imatge.',
-      diskShared: "Apagueu primer el disc virtual i després useu la descàrrega d'imatges.",
-      mountedImage:
-        'Aquesta imatge està muntada. Desmunteu-la abans de pujar un fitxer amb el mateix nom.',
       diskOff: 'Apaga el disc virtual',
-      uploadbox: 'Deixeu anar el fitxer aquí o feu clic per seleccionar-lo',
-      inputfile: "Introduïu el fitxer d'imatge",
       NoISO: 'Cap ISO',
-      sha256: 'SHA-256 (opcional)',
-      sha256Placeholder: 'Introduïu una suma de verificació SHA-256 de 64 caràcters',
       invalidSHA256: 'SHA-256 ha de ser una cadena hexadecimal de 64 caràcters',
       checksumFailed: 'Descàrrega fallida: ha fallat la verificació SHA-256'
     },
@@ -278,8 +230,6 @@ const ca = {
       showConfirmTip: "Les operacions d'alimentació requereixen confirmació",
       reset: 'Reinicia',
       power: 'Encén',
-      powerShort: 'Clic curt',
-      powerLong: 'Clic llarg',
       resetConfirm: 'Vols realment reiniciar?',
       powerConfirm: 'Vols realment encendre/apagar?',
       okBtn: 'Sí',
@@ -310,7 +260,6 @@ const ca = {
         title: 'Aparença',
         display: 'Pantalla',
         language: 'Idioma',
-        languageDesc: "Seleccioneu l'idioma per a la interfície",
         webTitle: 'Títol web',
         webTitleDesc: 'Personalitza el títol de la pàgina',
         menuBar: {
@@ -356,14 +305,12 @@ const ca = {
           3600: '1 h'
         },
         ssh: {
-          description: 'Activa accés remot per SSH',
-          tip: 'Configura una contrasenya segura abans (Compte - Canvia contrasenya)'
+          description: 'Activa accés remot per SSH'
         },
         swap: {
           title: 'Swap',
           disable: 'Desactiva',
-          description: 'Defineix la mida del fitxer swap',
-          tip: 'Pot reduir la vida útil de la targeta SD!'
+          description: 'Defineix la mida del fitxer swap'
         },
         mouseJiggler: {
           title: 'Mou-ratolí automàtic',
@@ -373,8 +320,7 @@ const ca = {
           relative: 'Mode relatiu'
         },
         mdns: {
-          description: 'Activa descobriment mDNS',
-          tip: 'Desactiva-ho si no és necessari'
+          description: 'Activa descobriment mDNS'
         },
         hdmi: {
           description: 'Activa la sortida HDMI',
@@ -384,12 +330,7 @@ const ca = {
           minutes: 'min'
         },
         hidOnly: 'Mode només HID',
-        hidOnlyDesc: "Deixeu d'emular dispositius virtuals, conservant només el control bàsic HID",
         disk: 'Disc virtual',
-        diskDesc: 'Munta un disc U virtual al dispositiu remot',
-        diskLocked: 'Desactivat mentre hi ha una imatge muntada (activar-lo cancel·la el muntatge)',
-        diskCancelMount:
-          "Activar el disc virtual cancel·la la imatge muntada i interromp una descàrrega o pujada d'imatge en curs. Voleu continuar?",
         network: 'Xarxa virtual',
         networkDesc: 'Munta una targeta de xarxa virtual al dispositiu remot',
         reboot: 'Reinicia',
@@ -414,8 +355,7 @@ const ca = {
           cancelBtn: 'Cancel·la'
         },
         tls: {
-          description: 'Activa el protocol HTTPS',
-          tip: 'Atenció: Usar HTTPS pot augmentar la latència, sobretot amb vídeo MJPEG.'
+          description: 'Activa el protocol HTTPS'
         },
         dns: {
           title: 'DNS',
@@ -427,9 +367,6 @@ const ca = {
           manual: 'Manual',
           save: 'Desa',
           apply: 'Aplica',
-          invalid: 'Introduïu una adreça IPv4 o IPv6 vàlida',
-          invalidNetwork:
-            'Introduïu una adreça IPv4, una màscara de subxarxa i un encaminador vàlids',
           noDhcp: 'No hi ha cap DNS DHCP disponible actualment',
           saved: 'Configuració DNS desada',
           redirecting: 'Configuració de xarxa desada. Obrint la nova adreça...',
@@ -437,8 +374,6 @@ const ca = {
           unsaved: 'Canvis no desats',
           maxServers: 'Es permeten com a màxim {{count}} servidors DNS',
           dhcpServersDescription: "Els servidors DNS s'obtenen automàticament via DHCP",
-          manualServersDescription:
-            'Els servidors DNS es poden editar manualment. IPv4 i IPv6 són compatibles',
           interface: 'Interfície',
           ipAddress: 'Adreça IP',
           subnetMask: 'Màscara de subxarxa',
@@ -452,25 +387,20 @@ const ca = {
           tip: 'Quan es supera el límit de memòria, es fa una neteja més agressiva. Recomanat: 75MB si uses Tailscale. Requereix reiniciar Tailscale.'
         },
         swap: {
-          title: 'Intercanvi de memòria',
-          tip: "Si els problemes persisteixen després d'activar l'optimització de memòria, proveu d'habilitar la memòria d'intercanvi. Això estableix la mida del fitxer d'intercanvi a 256MB per defecte, que es pot ajustar a \"Configuració > Dispositiu\"."
+          title: 'Intercanvi de memòria'
         },
         restart: 'Reiniciar Tailscale?',
         stop: 'Aturar Tailscale?',
-        stopDesc: 'Tanca la sessió de Tailscale i desactiva l’inici automàtic en arrencar.',
         loading: 'Carregant...',
-        notInstall: 'Tailscale no instal·lat! Instal·la-ho.',
         install: 'Instal·la',
         installing: 'Instal·lant',
         failed: 'Error en la instal·lació',
-        retry: 'Actualitza i torna-ho a provar. O instal·la manualment',
         download: 'Descarrega el',
         package: "paquet d'instal·lació",
         unzip: 'i descomprimeix-lo',
         upTailscale: 'Puja tailscale al directori /usr/bin/ del NanoKVM',
         upTailscaled: 'Puja tailscaled al directori /usr/sbin/ del NanoKVM',
         refresh: 'Actualitza la pàgina',
-        notRunning: "Tailscale no s'està executant. Si us plau, inicieu-lo per continuar.",
         run: 'Comença',
         notLogin: 'El dispositiu no està vinculat. Inicia sessió per vincular-lo.',
         urlPeriod: 'Aquesta URL és vàlida durant 10 minuts',
@@ -483,7 +413,6 @@ const ca = {
         logout: 'Tanca sessió',
         logoutDesc: 'Segur que vols tancar sessió?',
         uninstall: 'Desinstal·la Tailscale',
-        uninstallDesc: 'Esteu segur que voleu desinstal·lar Tailscale?',
         okBtn: 'Sí',
         cancelBtn: 'No'
       },
@@ -493,17 +422,14 @@ const ca = {
         updateFailed: 'Error en actualitzar. Torna-ho a intentar.',
         isLatest: 'Ja tens la darrera versió.',
         available: 'Hi ha una actualització disponible. Vols actualitzar ara?',
-        updating: 'Actualitzant... espera',
         confirm: 'Confirma',
         cancel: 'Cancel·la',
         preview: 'Versió de prova',
         previewDesc: 'Prova noves funcions abans que ningú',
-        previewTip: 'Compte: aquestes versions poden tenir errors o funcions inacabades!',
         offline: {
           title: 'Actualitzacions fora de línia',
           desc: "Actualització mitjançant el paquet d'instal·lació local",
           upload: 'Puja',
-          invalidName: 'Format de nom de fitxer no vàlid. Baixeu-lo des de les versions de GitHub.',
           updateFailed: 'Error en actualitzar. Torna-ho a intentar.'
         }
       },
@@ -520,15 +446,12 @@ const ca = {
     },
     picoclaw: {
       title: 'PicoClaw Assistent',
-      empty: 'Obriu el tauler i inicieu una tasca per començar.',
       inputPlaceholder: 'Descriu què vols que faci el PicoClaw',
       newConversation: 'Nova conversa',
       processing: "S'està processant...",
       agent: {
         defaultTitle: 'Assistent general',
-        defaultDescription: 'Ajuda general de xat, cerca i espai de treball.',
         kvmTitle: 'Control remot',
-        kvmDescription: "Opera l'amfitrió remot mitjançant NanoKVM.",
         switched: "Rol d'agent canviat",
         switchFailed: "No s'ha pogut canviar la funció d'agent"
       },
@@ -575,8 +498,6 @@ const ca = {
         success: 'PicoClaw instal·lat correctament',
         failed: "No s'ha pogut instal·lar PicoClaw",
         uninstalling: "S'està desinstal·lant el temps d'execució...",
-        uninstalled: "El temps d'execució s'ha desinstal·lat correctament.",
-        uninstallFailed: 'La desinstal·lació ha fallat.',
         requiredTitle: 'PicoClaw no està instal·lat',
         requiredDescription: "Instal·leu PicoClaw abans d'iniciar el temps d'execució de PicoClaw.",
         progressDescription: "PicoClaw s'està baixant i instal·lant.",
@@ -602,9 +523,7 @@ const ca = {
         apiBase: 'API Base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Clau API',
-        apiKeyPlaceholder: 'Introduïu la clau API del model',
         save: 'Desa',
-        saving: 'Desa',
         saved: "S'ha desat la configuració del model",
         saveFailed: "No s'ha pogut desar la configuració del model",
         invalid: "Cal indicar l'identificador del model, l'API Base URL i la clau API"
@@ -612,8 +531,6 @@ const ca = {
       uninstall: {
         menuLabel: 'Desinstal·la',
         confirmTitle: 'Desinstal·la PicoClaw',
-        confirmContent:
-          "Esteu segur que voleu desinstal·lar PicoClaw? Això suprimirà l'executable i tots els fitxers de configuració.",
         confirmOk: 'Desinstal·la',
         confirmCancel: 'Cancel·la'
       },
@@ -625,20 +542,15 @@ const ca = {
         loadFailed: "No s'ha pogut carregar l'historial de sessions",
         deleteFailed: "No s'ha pogut suprimir la sessió",
         deleteConfirmTitle: 'Suprimeix la sessió',
-        deleteConfirmContent: 'Esteu segur que voleu suprimir "{{title}}"?',
         deleteConfirmOk: 'Esborra',
         deleteConfirmCancel: 'Cancel·la',
         messageCount_one: '{{count}} missatge',
         messageCount_other: '{{count}} missatges'
       },
       config: {
-        startRuntime: 'Inici PicoClaw',
         stopRuntime: 'Atura PicoClaw'
       },
-      start: {
-        title: 'Inici PicoClaw',
-        description: "Inicieu el temps d'execució per començar a utilitzar l'assistent PicoClaw."
-      }
+      start: {}
     },
     error: {
       title: 'Hi ha hagut un error',
