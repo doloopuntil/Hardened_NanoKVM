@@ -430,7 +430,6 @@ const translations: Record<string, string> = {
   'settings.system.time.servers.title': 'NTP-serverid',
   'settings.system.time.servers.description':
     'Kasuta vaikimisi avalikke pool servereid või suuna NanoKVM kohaliku ruuteri/NTP-serveri poole.',
-  'settings.system.time.servers.add': 'Lisa server',
   'settings.system.time.servers.useRouter': 'Kasuta ruuterit',
   'settings.system.time.servers.useDefaults': 'Kasuta vaikeväärtusi',
   'settings.system.time.servers.routerDetected': 'Tuvastatud ruuter: {{gateway}}',

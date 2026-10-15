@@ -591,7 +591,6 @@ const ru = {
             title: 'NTP-серверы',
             description:
               'По умолчанию используются публичные pool.ntp.org, но можно указать локальный роутер или NTP-сервер.',
-            add: 'Добавить сервер',
             useRouter: 'Использовать роутер',
             useDefaults: 'По умолчанию',
             routerDetected: 'Обнаружен роутер: {{gateway}}'
