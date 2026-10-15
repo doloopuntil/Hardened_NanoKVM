@@ -37,43 +37,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       "Els modes Restringit i Paranoic estan desactivats fins que s'activi HTTPS a Configuració > Sistema > Xarxa",
     'settings.system.firewall.mode.baselineDesc':
-      "Perfil obert i gestionat. Manté l'accés normal a NanoKVM sense filtrar per intervals d'origen.",
+      "Perfil obert de compatibilitat. El tallafoc funciona, però els orígens entrants no estan restringits. Utilitza'l només en xarxes de confiança.",
     'settings.system.firewall.mode.moderateDesc':
-      "Perfil per defecte. Manté els serveis de Base, però només accepta noves connexions entrants d'intervals privats, ULA, d'enllaç local o de loopback.",
+      "Perfil per defecte. Manté els serveis de Base, però només accepta noves connexions entrants d'intervals privats, d'enllaç local o de loopback. El trànsit de sortida continua obert.",
     'settings.system.firewall.mode.paranoidDesc':
-      'Accés HTTPS només local. Bloqueja SSH, HTTP, les actualitzacions en línia i altres funcions de xarxa de sortida.',
+      "Accés HTTPS només local. Bloqueja SSH, HTTP, les actualitzacions en línia i altres funcions de xarxa de sortida. La pujada d'actualitzacions fora de línia i les instal·lacions ja preparades continuen disponibles.",
     'settings.system.firewall.mode.current': 'Actual',
     'settings.system.firewall.mode.default': 'Per defecte',
     'settings.system.firewall.mode.localOnly': 'Només local',
-    'settings.system.firewall.mode.openTag': 'Obert',
+    'settings.system.firewall.mode.openTag': 'Entrada oberta',
     'settings.system.firewall.mode.httpsRequiredTag': 'Cal HTTPS',
     'settings.system.firewall.mode.outboundOpen': 'Sortida oberta',
     'settings.system.firewall.mode.outboundLimited': 'Sortida limitada',
     'settings.system.firewall.mode.httpsOnly': 'Només HTTPS',
     'settings.system.firewall.moderate.apply': 'Canvia a Moderat',
-    'settings.system.firewall.moderate.active': 'El mode de tallafoc Moderat està actiu',
-    'settings.system.firewall.moderate.allows':
-      "Només s'accepten connexions entrants d'intervals d'origen IPv4 privats, IPv4 d'enllaç local/loopback, IPv6 ULA, IPv6 d'enllaç local o IPv6 loopback. L'accés de sortida continua obert.",
     'settings.system.firewall.baseline.apply': 'Canvia a Base',
-    'settings.system.firewall.baseline.active': 'El mode de tallafoc Base està actiu',
-    'settings.system.firewall.baseline.allows':
-      "El servei de tallafoc està actiu, però els intervals d'origen entrants no estan restringits. Utilitza-ho només en entorns de laboratori de confiança o per compatibilitat.",
     'settings.system.firewall.baseline.confirmTitle': 'Canviar al mode Base obert?',
     'settings.system.firewall.baseline.confirmDesc':
       "El servei de tallafoc continua actiu, però se suprimeix la restricció d'intervals d'origen només locals. Els intervals d'origen públics poden arribar als serveis exposats de NanoKVM si la xarxa els encamina.",
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC està desactivat en els modes de tallafoc Restringit i Paranoic',
-    'settings.system.firewall.mode.description':
-      'Tria com s’exposa l’accés administratiu entrant. Moderat és el perfil local per defecte; Restringit manté HTTPS/SSH només locals i bloqueja WebRTC; Base és un perfil obert de compatibilitat.',
     'settings.system.firewall.mode.baseline': 'Base',
     'settings.system.firewall.mode.moderate': 'Moderat',
     'settings.system.firewall.mode.restricted': 'Restringit',
     'settings.system.firewall.mode.paranoid': 'Paranoic',
     'settings.system.firewall.restricted.enable': 'Activa Restringit',
-    'settings.system.firewall.restricted.active': 'El mode Restringit del tallafoc està actiu',
     'settings.system.firewall.restricted.confirmTitle': 'Vols activar el mode Restringit?',
     'settings.system.firewall.paranoid.enable': 'Activa Paranoic',
-    'settings.system.firewall.paranoid.active': 'El mode Paranoic del tallafoc està actiu',
     'settings.system.firewall.paranoid.confirmTitle': 'Vols activar el mode Paranoic?',
     'settings.update.paranoidBlocked':
       'Les actualitzacions en línia estan bloquejades pel mode de tallafoc Paranoic',
@@ -251,7 +241,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'picoclaw.model.apiKeyPlaceholder': 'Introdueix la clau API del model',
     'keyboard.localInput': 'Entrada del teclat mòbil',
     'settings.network.configuration': 'Configuració',
-    'settings.network.dns.servers': 'Servidors'
+    'settings.network.dns.servers': 'Servidors',
+    'settings.system.firewall.mode.restrictedDesc':
+      'HTTPS i SSH només locals, més DNS, NTP, syslog i actualitzacions en línia de sortida. DHCP i el trànsit IPv6 essencial continuen disponibles. WebRTC està bloquejat.',
+    'settings.system.firewall.backends': 'Backends',
+    'settings.system.firewall.restricted.confirmDesc':
+      "L'accés administratiu entrant quedarà limitat als rangs private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback per a HTTPS i SSH. Els rangs públics no estan permesos. DNS, NTP, syslog remot, actualitzacions online, DHCP, connexions establertes i trànsit essencial IPv6 de sortida romandran disponibles. WebRTC/ICE UDP i la resta de trànsit entrant/sortint quedaran bloquejats.",
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Només quedarà disponible l’accés HTTPS des de rangs private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, descàrregues de GitHub i la resta de trànsit quedaran bloquejats excepte el mínim DHCP/control IPv6.'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -301,43 +298,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Režimy Omezený a Paranoidní jsou vypnuté, dokud není HTTPS zapnuto v Nastavení > Systém > Síť',
     'settings.system.firewall.mode.baselineDesc':
-      'Otevřený spravovaný profil. Zachovává běžný přístup k NanoKVM bez filtrování podle zdrojových rozsahů.',
+      'Otevřený profil kompatibility. Firewall běží, ale příchozí zdroje nejsou omezeny. Používejte jej jen v důvěryhodných sítích.',
     'settings.system.firewall.mode.moderateDesc':
-      'Výchozí profil. Zachovává služby profilu Základní, ale nová příchozí spojení přijímá jen ze soukromých, ULA, link-local nebo loopback rozsahů.',
+      'Výchozí profil. Zachovává služby profilu Základní, ale nová příchozí spojení přijímá jen ze soukromých, link-local nebo loopback rozsahů. Odchozí přístup zůstává otevřený.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Přístup HTTPS pouze z lokální sítě. Blokuje SSH, HTTP, online aktualizace a další odchozí síťové funkce.',
+      'Přístup HTTPS pouze z lokální sítě. Blokuje SSH, HTTP, online aktualizace a další odchozí síťové funkce. Offline nahrání aktualizací a již připravené instalace zůstávají dostupné.',
     'settings.system.firewall.mode.current': 'Aktuální',
     'settings.system.firewall.mode.default': 'Výchozí',
     'settings.system.firewall.mode.localOnly': 'Pouze lokálně',
-    'settings.system.firewall.mode.openTag': 'Otevřený',
+    'settings.system.firewall.mode.openTag': 'Příchozí otevřené',
     'settings.system.firewall.mode.httpsRequiredTag': 'Vyžaduje HTTPS',
     'settings.system.firewall.mode.outboundOpen': 'Odchozí otevřené',
     'settings.system.firewall.mode.outboundLimited': 'Odchozí omezené',
     'settings.system.firewall.mode.httpsOnly': 'Pouze HTTPS',
     'settings.system.firewall.moderate.apply': 'Přepnout na Umírněný',
-    'settings.system.firewall.moderate.active': 'Režim firewallu Umírněný je aktivní',
-    'settings.system.firewall.moderate.allows':
-      'Příchozí spojení se přijímají jen ze zdrojových rozsahů soukromých IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local nebo IPv6 loopback. Odchozí přístup zůstává otevřený.',
     'settings.system.firewall.baseline.apply': 'Přepnout na Základní',
-    'settings.system.firewall.baseline.active': 'Režim firewallu Základní je aktivní',
-    'settings.system.firewall.baseline.allows':
-      'Služba firewallu je aktivní, ale příchozí zdrojové rozsahy nejsou omezeny. Používejte jen v důvěryhodném laboratorním prostředí nebo kvůli kompatibilitě.',
     'settings.system.firewall.baseline.confirmTitle': 'Přepnout na otevřený režim Základní?',
     'settings.system.firewall.baseline.confirmDesc':
       'Služba firewallu zůstane aktivní, ale odstraní se omezení pouze na lokální zdrojové rozsahy. Veřejné zdrojové rozsahy se mohou dostat k vystaveným službám NanoKVM, pokud je síť směruje.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC je v režimech firewallu Omezený a Paranoidní vypnuto',
-    'settings.system.firewall.mode.description':
-      'Vyberte, jak bude vystaven příchozí administrátorský přístup. Umírněný je výchozí lokální profil; Omezený ponechá HTTPS/SSH pouze lokálně a blokuje WebRTC; Základní je otevřený kompatibilní profil.',
     'settings.system.firewall.mode.baseline': 'Základní',
     'settings.system.firewall.mode.moderate': 'Umírněný',
     'settings.system.firewall.mode.restricted': 'Omezený',
     'settings.system.firewall.mode.paranoid': 'Paranoidní',
     'settings.system.firewall.restricted.enable': 'Povolit Omezený',
-    'settings.system.firewall.restricted.active': 'Režim firewallu Omezený je aktivní',
     'settings.system.firewall.restricted.confirmTitle': 'Povolit režim Omezený?',
     'settings.system.firewall.paranoid.enable': 'Povolit Paranoidní',
-    'settings.system.firewall.paranoid.active': 'Režim firewallu Paranoidní je aktivní',
     'settings.system.firewall.paranoid.confirmTitle': 'Povolit režim Paranoidní?',
     'settings.update.paranoidBlocked':
       'Online aktualizace jsou blokovány režimem firewallu Paranoidní',
@@ -415,7 +402,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.3600': '1 hodina',
     'keyboard.localInput': 'Vstup z klávesnice mobilu',
     'settings.network.configuration': 'Konfigurace',
-    'settings.network.dns.servers': 'Servery'
+    'settings.network.dns.servers': 'Servery',
+    'settings.system.firewall.mode.restrictedDesc':
+      'HTTPS a SSH jen z lokální sítě plus odchozí DNS, NTP, syslog a online aktualizace. DHCP a nezbytný provoz IPv6 zůstávají dostupné. WebRTC je blokováno.',
+    'settings.system.firewall.backends': 'Backendy',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Příchozí administrátorský přístup bude omezen na rozsahy private IPv4, IPv4 link-local/loopback, IPv6 link-local nebo IPv6 loopback pro HTTPS a SSH. Veřejné zdrojové rozsahy nejsou povoleny. Odchozí DNS, NTP, vzdálený syslog, online aktualizace, DHCP, navázaná spojení a nezbytný IPv6 řídicí provoz zůstanou dostupné. WebRTC/ICE UDP a ostatní příchozí/odchozí provoz budou blokovány.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Zůstane dostupný pouze HTTPS přístup ze zdrojů private IPv4, IPv4 link-local/loopback, IPv6 link-local nebo IPv6 loopback. SSH, HTTP, mDNS, NTP, stahování z GitHubu a další provoz budou blokovány kromě minimálního DHCP/IPv6 řízení.'
   },
   da: {
     'auth.illegalPassword':
@@ -479,43 +473,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Tilstandene Begrænset og Paranoid er deaktiveret, indtil HTTPS er aktiveret under Indstillinger > System > Netværk',
     'settings.system.firewall.mode.baselineDesc':
-      'Åben administreret profil. Bevarer normal adgang til NanoKVM uden filtrering efter kildeintervaller.',
+      'Åben kompatibilitetsprofil. Firewallen kører, men indgående kilder er ikke begrænset. Brug kun på betroede netværk.',
     'settings.system.firewall.mode.moderateDesc':
-      'Standardprofil. Bevarer Basis-tjenesterne, men accepterer kun nye indgående forbindelser fra private, ULA-, link-local- eller loopback-intervaller.',
+      'Standardprofil. Bevarer Basis-tjenesterne, men accepterer kun nye indgående forbindelser fra private, link-local- eller loopback-intervaller. Udgående adgang forbliver åben.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Kun lokal HTTPS-adgang. Blokerer SSH, HTTP, onlineopdateringer og andre udgående netværksfunktioner.',
+      'Kun lokal HTTPS-adgang. Blokerer SSH, HTTP, onlineopdateringer og andre udgående netværksfunktioner. Upload af offlineopdateringer og allerede klargjorte installationer er stadig tilgængelige.',
     'settings.system.firewall.mode.current': 'Nuværende',
     'settings.system.firewall.mode.default': 'Standard',
     'settings.system.firewall.mode.localOnly': 'Kun lokalt',
-    'settings.system.firewall.mode.openTag': 'Åben',
+    'settings.system.firewall.mode.openTag': 'Indgående åben',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS påkrævet',
     'settings.system.firewall.mode.outboundOpen': 'Udgående åben',
     'settings.system.firewall.mode.outboundLimited': 'Udgående begrænset',
     'settings.system.firewall.mode.httpsOnly': 'Kun HTTPS',
     'settings.system.firewall.moderate.apply': 'Skift til Moderat',
-    'settings.system.firewall.moderate.active': 'Firewalltilstanden Moderat er aktiv',
-    'settings.system.firewall.moderate.allows':
-      'Indgående forbindelser accepteres kun fra private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- eller IPv6 loopback-kildeintervaller. Udgående adgang forbliver åben.',
     'settings.system.firewall.baseline.apply': 'Skift til Basis',
-    'settings.system.firewall.baseline.active': 'Firewalltilstanden Basis er aktiv',
-    'settings.system.firewall.baseline.allows':
-      'Firewalltjenesten er aktiv, men indgående kildeintervaller er ikke begrænset. Brug kun dette i betroede laboratorie- eller kompatibilitetsscenarier.',
     'settings.system.firewall.baseline.confirmTitle': 'Skifte til den åbne tilstand Basis?',
     'settings.system.firewall.baseline.confirmDesc':
       'Firewalltjenesten forbliver aktiv, men begrænsningen til lokale kildeintervaller fjernes. Offentlige kildeintervaller kan nå eksponerede NanoKVM-tjenester, hvis netværket router dem.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC er deaktiveret i firewalltilstandene Begrænset og Paranoid',
-    'settings.system.firewall.mode.description':
-      'Vælg hvordan indgående administrationsadgang eksponeres. Moderat er standardprofilen kun for lokale net; Begrænset holder HTTPS/SSH kun lokalt og blokerer WebRTC; Basis er en åben kompatibilitetsprofil.',
     'settings.system.firewall.mode.baseline': 'Basis',
     'settings.system.firewall.mode.moderate': 'Moderat',
     'settings.system.firewall.mode.restricted': 'Begrænset',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Aktivér Begrænset',
-    'settings.system.firewall.restricted.active': 'Firewalltilstanden Begrænset er aktiv',
     'settings.system.firewall.restricted.confirmTitle': 'Aktivér firewalltilstanden Begrænset?',
     'settings.system.firewall.paranoid.enable': 'Aktivér Paranoid',
-    'settings.system.firewall.paranoid.active': 'Firewalltilstanden Paranoid er aktiv',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktivér firewalltilstanden Paranoid?',
     'settings.update.paranoidBlocked': 'Onlineopdateringer blokeres af firewalltilstanden Paranoid',
     'settings.device.hidOnlyDesc':
@@ -588,7 +572,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownJapanese': 'Japansk',
     'keyboard.localInput': 'Input fra mobiltastatur',
     'settings.network.configuration': 'Konfiguration',
-    'settings.network.dns.servers': 'Servere'
+    'settings.network.dns.servers': 'Servere',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Kun lokal HTTPS og SSH samt udgående DNS, NTP, syslog og onlineopdateringer. DHCP og nødvendig IPv6-trafik forbliver tilgængelig. WebRTC er blokeret.',
+    'settings.system.firewall.backends': 'Backends',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Indgående administrativ adgang begrænses til private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- eller IPv6 loopback-kilder for HTTPS og SSH. Offentlige kildeområder tillades ikke. Udgående DNS, NTP, fjern-syslog, onlineopdateringer, DHCP, etablerede forbindelser og nødvendig IPv6-kontroltrafik forbliver tilgængelige. WebRTC/ICE UDP og anden ind-/udgående trafik blokeres.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Kun HTTPS-adgang fra private IPv4, IPv4 link-local/loopback, IPv6 link-local eller IPv6 loopback forbliver tilgængelig. SSH, HTTP, mDNS, NTP, GitHub-downloads og anden trafik blokeres bortset fra minimal DHCP/IPv6-kontroltrafik.'
   },
   de: {
     'auth.illegalPassword':
@@ -630,43 +621,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Die Modi Eingeschränkt und Paranoid sind deaktiviert, bis HTTPS unter Einstellungen > System > Netzwerk aktiviert wird',
     'settings.system.firewall.mode.baselineDesc':
-      'Offenes, verwaltetes Profil. Behält den normalen NanoKVM-Zugriff ohne Filterung nach Quellbereichen bei.',
+      'Offenes Kompatibilitätsprofil. Die Firewall läuft, aber eingehende Quellen werden nicht eingeschränkt. Nur in vertrauenswürdigen Netzwerken verwenden.',
     'settings.system.firewall.mode.moderateDesc':
-      'Standardprofil. Behält die Basis-Dienste bei, nimmt neue eingehende Verbindungen aber nur aus privaten, ULA-, Link-Local- oder Loopback-Bereichen an.',
+      'Standardprofil. Behält die Basis-Dienste bei, nimmt neue eingehende Verbindungen aber nur aus privaten, Link-Local- oder Loopback-Bereichen an. Ausgehender Zugriff bleibt offen.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Nur lokaler HTTPS-Zugriff. Blockiert SSH, HTTP, Online-Updates und andere ausgehende Netzwerkfunktionen.',
+      'Nur lokaler HTTPS-Zugriff. Blockiert SSH, HTTP, Online-Updates und andere ausgehende Netzwerkfunktionen. Das Hochladen von Offline-Updates und bereits bereitgestellte Installationen bleiben verfügbar.',
     'settings.system.firewall.mode.current': 'Aktuell',
     'settings.system.firewall.mode.default': 'Standard',
     'settings.system.firewall.mode.localOnly': 'Nur lokal',
-    'settings.system.firewall.mode.openTag': 'Offen',
+    'settings.system.firewall.mode.openTag': 'Eingehend offen',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS erforderlich',
     'settings.system.firewall.mode.outboundOpen': 'Ausgehend offen',
     'settings.system.firewall.mode.outboundLimited': 'Ausgehend eingeschränkt',
     'settings.system.firewall.mode.httpsOnly': 'Nur HTTPS',
     'settings.system.firewall.moderate.apply': 'Zu Moderat wechseln',
-    'settings.system.firewall.moderate.active': 'Der Firewall-Modus Moderat ist aktiv',
-    'settings.system.firewall.moderate.allows':
-      'Eingehende Verbindungen werden nur aus privaten IPv4-, IPv4-Link-Local/Loopback-, IPv6-ULA-, IPv6-Link-Local- oder IPv6-Loopback-Quellbereichen angenommen. Ausgehender Zugriff bleibt offen.',
     'settings.system.firewall.baseline.apply': 'Zu Basis wechseln',
-    'settings.system.firewall.baseline.active': 'Der Firewall-Modus Basis ist aktiv',
-    'settings.system.firewall.baseline.allows':
-      'Der Firewall-Dienst ist aktiv, aber eingehende Quellbereiche sind nicht eingeschränkt. Nur in vertrauenswürdigen Labor- oder Kompatibilitätsszenarien verwenden.',
     'settings.system.firewall.baseline.confirmTitle': 'Zum offenen Modus Basis wechseln?',
     'settings.system.firewall.baseline.confirmDesc':
       'Der Firewall-Dienst bleibt aktiv, aber die Beschränkung auf lokale Quellbereiche entfällt. Öffentliche Quellbereiche können exponierte NanoKVM-Dienste erreichen, wenn das Netzwerk sie weiterleitet.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC ist in den Firewall-Modi Eingeschränkt und Paranoid deaktiviert',
-    'settings.system.firewall.mode.description':
-      'Wählen Sie, wie eingehender Adminzugriff erreichbar ist. Moderat ist das standardmäßige lokale Profil; Eingeschränkt hält HTTPS/SSH lokal und blockiert WebRTC; Basis ist ein offenes Kompatibilitätsprofil.',
     'settings.system.firewall.mode.baseline': 'Basis',
     'settings.system.firewall.mode.moderate': 'Moderat',
     'settings.system.firewall.mode.restricted': 'Eingeschränkt',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Eingeschränkt aktivieren',
-    'settings.system.firewall.restricted.active': 'Der Firewall-Modus Eingeschränkt ist aktiv',
     'settings.system.firewall.restricted.confirmTitle': 'Firewall-Modus Eingeschränkt aktivieren?',
     'settings.system.firewall.paranoid.enable': 'Paranoid aktivieren',
-    'settings.system.firewall.paranoid.active': 'Der Firewall-Modus Paranoid ist aktiv',
     'settings.system.firewall.paranoid.confirmTitle': 'Firewall-Modus Paranoid aktivieren?',
     'settings.update.paranoidBlocked':
       'Online-Updates werden vom Firewall-Modus Paranoid blockiert',
@@ -772,7 +753,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.manualEntry': 'Oder geben Sie diesen Schlüssel manuell ein:',
     'keyboard.localInput': 'Eingabe über die Mobiltastatur',
     'settings.network.configuration': 'Konfiguration',
-    'settings.network.dns.servers': 'Server'
+    'settings.network.dns.servers': 'Server',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Nur lokales HTTPS und SSH sowie ausgehendes DNS, NTP, Syslog und Online-Updates. DHCP und wichtiger IPv6-Verkehr bleiben verfügbar. WebRTC ist blockiert.',
+    'settings.system.firewall.backends': 'Backends',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Eingehender Adminzugriff wird für HTTPS und SSH auf private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- oder IPv6 loopback-Quellbereiche begrenzt. Öffentliche Quellbereiche sind nicht erlaubt. Ausgehendes DNS, NTP, Remote-Syslog, Online-Updates, DHCP, bestehende Verbindungen und notwendiger IPv6-Steuerverkehr bleiben verfügbar. WebRTC/ICE UDP und anderer ein-/ausgehender Verkehr werden blockiert.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Nur HTTPS-Zugriff aus privaten IPv4-, IPv4 link-local/loopback-, IPv6 link-local- oder IPv6 loopback-Quellbereichen bleibt verfügbar. SSH, HTTP, mDNS, NTP, GitHub-Downloads und anderer Verkehr werden außer minimalem DHCP/IPv6-Steuerverkehr blockiert.'
   },
   es: {
     'auth.illegalPassword':
@@ -801,43 +789,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Los modos Restringido y Paranoico están desactivados hasta que se active HTTPS en Ajustes > Sistema > Red',
     'settings.system.firewall.mode.baselineDesc':
-      'Perfil abierto y gestionado. Mantiene el acceso normal a NanoKVM sin filtrar por rangos de origen.',
+      'Perfil abierto de compatibilidad. El cortafuegos está activo, pero los orígenes entrantes no se restringen. Úsalo solo en redes de confianza.',
     'settings.system.firewall.mode.moderateDesc':
-      'Perfil predeterminado. Mantiene los servicios de Base, pero solo acepta nuevas conexiones entrantes de rangos privados, ULA, link-local o loopback.',
+      'Perfil predeterminado. Mantiene los servicios de Base, pero solo acepta nuevas conexiones entrantes de rangos privados, link-local o loopback. El acceso saliente sigue abierto.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Acceso HTTPS solo local. Bloquea SSH, HTTP, las actualizaciones en línea y otras funciones de red de salida.',
+      'Acceso HTTPS solo local. Bloquea SSH, HTTP, las actualizaciones en línea y otras funciones de red de salida. La subida de actualizaciones sin conexión y las instalaciones ya preparadas siguen disponibles.',
     'settings.system.firewall.mode.current': 'Actual',
     'settings.system.firewall.mode.default': 'Predeterminado',
     'settings.system.firewall.mode.localOnly': 'Solo local',
-    'settings.system.firewall.mode.openTag': 'Abierto',
+    'settings.system.firewall.mode.openTag': 'Entrada abierta',
     'settings.system.firewall.mode.httpsRequiredTag': 'Requiere HTTPS',
     'settings.system.firewall.mode.outboundOpen': 'Salida abierta',
     'settings.system.firewall.mode.outboundLimited': 'Salida limitada',
     'settings.system.firewall.mode.httpsOnly': 'Solo HTTPS',
     'settings.system.firewall.moderate.apply': 'Cambiar a Moderado',
-    'settings.system.firewall.moderate.active': 'El modo de firewall Moderado está activo',
-    'settings.system.firewall.moderate.allows':
-      'Solo se aceptan conexiones entrantes de rangos de origen IPv4 privados, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback. El acceso de salida sigue abierto.',
     'settings.system.firewall.baseline.apply': 'Cambiar a Base',
-    'settings.system.firewall.baseline.active': 'El modo de firewall Base está activo',
-    'settings.system.firewall.baseline.allows':
-      'El servicio de firewall está activo, pero los rangos de origen entrantes no están restringidos. Úsalo solo en entornos de laboratorio de confianza o por compatibilidad.',
     'settings.system.firewall.baseline.confirmTitle': '¿Cambiar al modo Base abierto?',
     'settings.system.firewall.baseline.confirmDesc':
       'El servicio de firewall sigue activo, pero se elimina la restricción a rangos de origen solo locales. Los rangos de origen públicos pueden llegar a los servicios expuestos de NanoKVM si la red los enruta.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC está desactivado en los modos de firewall Restringido y Paranoico',
-    'settings.system.firewall.mode.description':
-      'Elige cómo se expone el acceso administrativo entrante. Moderado es el perfil local predeterminado; Restringido mantiene HTTPS/SSH solo local y bloquea WebRTC; Base es un perfil abierto de compatibilidad.',
     'settings.system.firewall.mode.baseline': 'Base',
     'settings.system.firewall.mode.moderate': 'Moderado',
     'settings.system.firewall.mode.restricted': 'Restringido',
     'settings.system.firewall.mode.paranoid': 'Paranoico',
     'settings.system.firewall.restricted.enable': 'Activar Restringido',
-    'settings.system.firewall.restricted.active': 'El modo Restringido del firewall está activo',
     'settings.system.firewall.restricted.confirmTitle': '¿Activar el modo Restringido?',
     'settings.system.firewall.paranoid.enable': 'Activar Paranoico',
-    'settings.system.firewall.paranoid.active': 'El modo Paranoico del firewall está activo',
     'settings.system.firewall.paranoid.confirmTitle': '¿Activar el modo Paranoico?',
     'settings.update.paranoidBlocked':
       'Las actualizaciones en línea están bloqueadas por el modo de firewall Paranoico',
@@ -932,7 +910,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'picoclaw.model.apiKeyPlaceholder': 'Introduce la clave API del modelo',
     'keyboard.localInput': 'Entrada del teclado móvil',
     'settings.network.configuration': 'Configuración',
-    'settings.network.dns.servers': 'Servidores'
+    'settings.network.dns.servers': 'Servidores',
+    'settings.system.firewall.mode.restrictedDesc':
+      'HTTPS y SSH solo locales, más DNS, NTP, syslog y actualizaciones en línea salientes. DHCP y el tráfico IPv6 esencial siguen disponibles. WebRTC está bloqueado.',
+    'settings.system.firewall.backends': 'Backends',
+    'settings.system.firewall.restricted.confirmDesc':
+      'El acceso administrativo entrante se limitará a rangos private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback para HTTPS y SSH. No se permiten rangos públicos de origen. DNS, NTP, syslog remoto, actualizaciones online, DHCP, conexiones establecidas y tráfico esencial IPv6 salientes seguirán disponibles. WebRTC/ICE UDP y el resto del tráfico entrante/saliente se bloquearán.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Solo quedará disponible el acceso HTTPS desde rangos private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, descargas de GitHub y el resto del tráfico se bloquearán salvo el mínimo DHCP/control IPv6.'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -979,43 +964,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Režiimid Piiratud ja Paranoiline on keelatud, kuni HTTPS on lubatud menüüs Seaded > Süsteem > Võrk',
     'settings.system.firewall.mode.baselineDesc':
-      'Avatud hallatud profiil. Säilitab tavalise NanoKVM-i juurdepääsu ilma lähtevahemike filtreerimiseta.',
+      'Avatud ühilduvusprofiil. Tulemüür töötab, kuid sissetulevaid allikaid ei piirata. Kasuta ainult usaldusväärsetes võrkudes.',
     'settings.system.firewall.mode.moderateDesc':
-      'Vaikeprofiil. Säilitab režiimi Baas teenused, kuid võtab uusi sissetulevaid ühendusi vastu ainult privaatsetest, ULA, link-local või loopback vahemikest.',
+      'Vaikeprofiil. Säilitab režiimi Baas teenused, kuid võtab uusi sissetulevaid ühendusi vastu ainult privaatsetest, link-local või loopback vahemikest. Väljaminev juurdepääs jääb avatuks.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Ainult kohalik HTTPS-juurdepääs. Blokeerib SSH, HTTP, veebipõhised uuendused ja muud väljuvad võrgufunktsioonid.',
+      'Ainult kohalik HTTPS-juurdepääs. Blokeerib SSH, HTTP, veebipõhised uuendused ja muud väljuvad võrgufunktsioonid. Võrguühenduseta uuenduste üleslaadimine ja juba ettevalmistatud paigaldused jäävad kättesaadavaks.',
     'settings.system.firewall.mode.current': 'Praegune',
     'settings.system.firewall.mode.default': 'Vaikimisi',
     'settings.system.firewall.mode.localOnly': 'Ainult kohalik',
-    'settings.system.firewall.mode.openTag': 'Avatud',
+    'settings.system.firewall.mode.openTag': 'Sisenev avatud',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS nõutav',
     'settings.system.firewall.mode.outboundOpen': 'Väljuv avatud',
     'settings.system.firewall.mode.outboundLimited': 'Väljuv piiratud',
     'settings.system.firewall.mode.httpsOnly': 'Ainult HTTPS',
     'settings.system.firewall.moderate.apply': 'Lülitu režiimile Mõõdukas',
-    'settings.system.firewall.moderate.active': 'Tulemüüri režiim Mõõdukas on aktiivne',
-    'settings.system.firewall.moderate.allows':
-      'Sissetulevaid ühendusi võetakse vastu ainult privaatsetest IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local või IPv6 loopback lähtevahemikest. Väljuv juurdepääs jääb avatuks.',
     'settings.system.firewall.baseline.apply': 'Lülitu režiimile Baas',
-    'settings.system.firewall.baseline.active': 'Tulemüüri režiim Baas on aktiivne',
-    'settings.system.firewall.baseline.allows':
-      'Tulemüüri teenus on aktiivne, kuid sissetulevaid lähtevahemikke ei piirata. Kasuta seda ainult usaldusväärsetes labori- või ühilduvusstsenaariumites.',
     'settings.system.firewall.baseline.confirmTitle': 'Lülituda avatud režiimile Baas?',
     'settings.system.firewall.baseline.confirmDesc':
       'Tulemüüri teenus jääb aktiivseks, kuid kohalike lähtevahemike piirang eemaldatakse. Avalikud lähtevahemikud võivad jõuda NanoKVM-i avatud teenusteni, kui võrk neid marsruudib.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC on tulemüürirežiimides Piiratud ja Paranoiline keelatud',
-    'settings.system.firewall.mode.description':
-      'Vali, kuidas sissetulev haldusligipääs avatakse. Mõõdukas on vaikimisi ainult kohalik profiil; Piiratud hoiab HTTPS/SSH ainult kohaliku ja blokeerib WebRTC; Baas on avatud ühilduvusprofiil.',
     'settings.system.firewall.mode.baseline': 'Baas',
     'settings.system.firewall.mode.moderate': 'Mõõdukas',
     'settings.system.firewall.mode.restricted': 'Piiratud',
     'settings.system.firewall.mode.paranoid': 'Paranoiline',
     'settings.system.firewall.restricted.enable': 'Luba Piiratud',
-    'settings.system.firewall.restricted.active': 'Tulemüüri režiim Piiratud on aktiivne',
     'settings.system.firewall.restricted.confirmTitle': 'Kas lubada tulemüüri režiim Piiratud?',
     'settings.system.firewall.paranoid.enable': 'Luba Paranoiline',
-    'settings.system.firewall.paranoid.active': 'Tulemüüri režiim Paranoiline on aktiivne',
     'settings.system.firewall.paranoid.confirmTitle': 'Kas lubada tulemüüri režiim Paranoiline?',
     'settings.update.paranoidBlocked': 'Tulemüüri režiim Paranoiline blokeerib online-uuendused',
     'settings.device.hidOnlyDesc':
@@ -1087,7 +1062,14 @@ export const translationFixes: Record<string, TranslationMap> = {
       "Image'e ei saa praegu alla laadida ega üles laadida, sest salvestusruum pole kirjutatav. Kui image on ühendatud, ühenda see lahti ja lülita seejärel virtuaalne ketas välja, et salvestusruum oleks taas kirjutatav.",
     'keyboard.localInput': 'Mobiilse klaviatuuri sisend',
     'settings.network.configuration': 'Seadistus',
-    'settings.network.dns.servers': 'Serverid'
+    'settings.network.dns.servers': 'Serverid',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Ainult kohalik HTTPS ja SSH ning väljaminev DNS, NTP, syslog ja veebipõhised uuendused. DHCP ja oluline IPv6 liiklus jäävad kättesaadavaks. WebRTC on blokeeritud.',
+    'settings.system.firewall.backends': 'Backendid',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Sissetulev haldusligipääs piiratakse HTTPS-i ja SSH jaoks private IPv4, IPv4 link-local/loopback, IPv6 link-local või IPv6 loopback lähtevahemikega. Avalikud lähtevahemikud pole lubatud. Väljaminev DNS, NTP, kaug-syslog, online-uuendused, DHCP, olemasolevad ühendused ja hädavajalik IPv6 juhtliiklus jäävad kättesaadavaks. WebRTC/ICE UDP ja muu sisse-/väljaminev liiklus blokeeritakse.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Alles jääb ainult HTTPS ligipääs private IPv4, IPv4 link-local/loopback, IPv6 link-local või IPv6 loopback lähtevahemikest. SSH, HTTP, mDNS, NTP, GitHubi allalaadimised ja muu liiklus blokeeritakse, välja arvatud minimaalne DHCP/IPv6 juhtliiklus.'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1134,44 +1116,34 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Tilat Rajoitettu ja Paranoidi ovat pois käytöstä, kunnes HTTPS otetaan käyttöön kohdassa Asetukset > Järjestelmä > Verkko',
     'settings.system.firewall.mode.baselineDesc':
-      'Avoin hallittu profiili. Säilyttää normaalin NanoKVM-yhteyden ilman lähdealueiden suodatusta.',
+      'Avoin yhteensopivuusprofiili. Palomuuri on käynnissä, mutta saapuvia lähteitä ei rajoiteta. Käytä vain luotetuissa verkoissa.',
     'settings.system.firewall.mode.moderateDesc':
-      'Oletusprofiili. Säilyttää tilan Perus palvelut, mutta hyväksyy uudet saapuvat yhteydet vain yksityisistä, ULA-, link-local- tai loopback-alueista.',
+      'Oletusprofiili. Säilyttää tilan Perus palvelut, mutta hyväksyy uudet saapuvat yhteydet vain yksityisistä, link-local- tai loopback-alueista. Lähtevä liikenne pysyy avoimena.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Vain paikallinen HTTPS-yhteys. Estää SSH:n, HTTP:n, verkkopäivitykset ja muut lähtevän liikenteen verkko-ominaisuudet.',
+      'Vain paikallinen HTTPS-yhteys. Estää SSH:n, HTTP:n, verkkopäivitykset ja muut lähtevän liikenteen verkko-ominaisuudet. Offline-päivitysten lähetys ja jo valmisteltu asennus pysyvät käytettävissä.',
     'settings.system.firewall.mode.current': 'Nykyinen',
     'settings.system.firewall.mode.default': 'Oletus',
     'settings.system.firewall.mode.localOnly': 'Vain paikallinen',
-    'settings.system.firewall.mode.openTag': 'Avoin',
+    'settings.system.firewall.mode.openTag': 'Saapuva avoin',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS vaaditaan',
     'settings.system.firewall.mode.outboundOpen': 'Lähtevä avoin',
     'settings.system.firewall.mode.outboundLimited': 'Lähtevä rajoitettu',
     'settings.system.firewall.mode.httpsOnly': 'Vain HTTPS',
     'settings.system.firewall.moderate.apply': 'Siirry tilaan Kohtuullinen',
-    'settings.system.firewall.moderate.active': 'Palomuuritila Kohtuullinen on käytössä',
-    'settings.system.firewall.moderate.allows':
-      'Saapuvat yhteydet hyväksytään vain yksityisistä IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- tai IPv6 loopback -lähdealueista. Lähtevä liikenne pysyy avoimena.',
     'settings.system.firewall.baseline.apply': 'Siirry tilaan Perus',
-    'settings.system.firewall.baseline.active': 'Palomuuritila Perus on käytössä',
-    'settings.system.firewall.baseline.allows':
-      'Palomuuripalvelu on käytössä, mutta saapuvien yhteyksien lähdealueita ei rajoiteta. Käytä tätä vain luotetuissa laboratorio- tai yhteensopivuustilanteissa.',
     'settings.system.firewall.baseline.confirmTitle': 'Siirrytäänkö avoimeen tilaan Perus?',
     'settings.system.firewall.baseline.confirmDesc':
       'Palomuuripalvelu pysyy käytössä, mutta vain paikallisiin lähdealueisiin rajoittava sääntö poistuu. Julkiset lähdealueet voivat tavoittaa NanoKVM:n julkaistut palvelut, jos verkko reitittää ne.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC on poistettu käytöstä palomuuritiloissa Rajoitettu ja Paranoidi',
-    'settings.system.firewall.mode.description':
-      'Valitse, miten saapuva ylläpitoyhteys sallitaan. Kohtuullinen on oletuksena käytettävä vain paikallinen profiili; Rajoitettu pitää HTTPS/SSH-yhteydet paikallisina ja estää WebRTC:n; Perus on avoin yhteensopivuusprofiili.',
     'settings.system.firewall.mode.baseline': 'Perus',
     'settings.system.firewall.mode.moderate': 'Kohtuullinen',
     'settings.system.firewall.mode.restricted': 'Rajoitettu',
     'settings.system.firewall.mode.paranoid': 'Paranoidi',
     'settings.system.firewall.restricted.enable': 'Ota Rajoitettu käyttöön',
-    'settings.system.firewall.restricted.active': 'Palomuuritila Rajoitettu on käytössä',
     'settings.system.firewall.restricted.confirmTitle':
       'Otetaanko palomuuritila Rajoitettu käyttöön?',
     'settings.system.firewall.paranoid.enable': 'Ota Paranoidi käyttöön',
-    'settings.system.firewall.paranoid.active': 'Palomuuritila Paranoidi on käytössä',
     'settings.system.firewall.paranoid.confirmTitle': 'Otetaanko palomuuritila Paranoidi käyttöön?',
     'settings.update.paranoidBlocked': 'Palomuuritila Paranoidi estää verkkopäivitykset',
     'settings.device.hidOnlyDesc':
@@ -1240,7 +1212,14 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Levykuvia ei voi nyt ladata eikä lähettää, koska tallennustila ei ole kirjoitettavissa. Jos levykuva on liitetty, irrota se ja kytke sitten virtuaalilevy pois päältä, jotta tallennustila on taas kirjoitettavissa.',
     'keyboard.localInput': 'Mobiilinäppäimistön syöte',
     'settings.network.configuration': 'Määritys',
-    'settings.network.dns.servers': 'Palvelimet'
+    'settings.network.dns.servers': 'Palvelimet',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Vain paikallinen HTTPS ja SSH sekä lähtevä DNS, NTP, syslog ja verkkopäivitykset. DHCP ja välttämätön IPv6-liikenne pysyvät käytettävissä. WebRTC on estetty.',
+    'settings.system.firewall.backends': 'Backendit',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Saapuva ylläpitokäyttö rajataan HTTPS:lle ja SSH:lle private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- tai IPv6 loopback-lähdealueisiin. Julkisia lähdealueita ei sallita. Lähtevä DNS, NTP, etä-syslog, verkkopäivitykset, DHCP, muodostetut yhteydet ja välttämätön IPv6-ohjausliikenne pysyvät käytettävissä. WebRTC/ICE UDP ja muu sisään-/ulospäin kulkeva liikenne estetään.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Vain HTTPS-käyttö private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- tai IPv6 loopback-lähdealueilta jää käyttöön. SSH, HTTP, mDNS, NTP, GitHub-lataukset ja muu liikenne estetään lukuun ottamatta vähäistä DHCP/IPv6-ohjausliikennettä.'
   },
   fr: {
     'auth.illegalPassword':
@@ -1280,43 +1259,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       "Les modes Restreint et Paranoïaque sont désactivés tant que HTTPS n'est pas activé dans Paramètres > Système > Réseau",
     'settings.system.firewall.mode.baselineDesc':
-      "Profil ouvert et géré. Conserve l'accès normal à NanoKVM sans filtrage par plages sources.",
+      'Profil ouvert de compatibilité. Le pare-feu fonctionne, mais les sources entrantes ne sont pas restreintes. À utiliser uniquement sur des réseaux de confiance.',
     'settings.system.firewall.mode.moderateDesc':
-      "Profil par défaut. Conserve les services de Base, mais n'accepte de nouvelles connexions entrantes que depuis des plages privées, ULA, link-local ou loopback.",
+      "Profil par défaut. Conserve les services de Base, mais n'accepte de nouvelles connexions entrantes que depuis des plages privées, link-local ou loopback. L'accès sortant reste ouvert.",
     'settings.system.firewall.mode.paranoidDesc':
-      'Accès HTTPS local uniquement. Bloque SSH, HTTP, les mises à jour en ligne et les autres fonctions réseau sortantes.',
+      'Accès HTTPS local uniquement. Bloque SSH, HTTP, les mises à jour en ligne et les autres fonctions réseau sortantes. Le téléversement de mises à jour hors ligne et les installations déjà préparées restent disponibles.',
     'settings.system.firewall.mode.current': 'Actuel',
     'settings.system.firewall.mode.default': 'Par défaut',
     'settings.system.firewall.mode.localOnly': 'Local uniquement',
-    'settings.system.firewall.mode.openTag': 'Ouvert',
+    'settings.system.firewall.mode.openTag': 'Entrant ouvert',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS requis',
     'settings.system.firewall.mode.outboundOpen': 'Sortant ouvert',
     'settings.system.firewall.mode.outboundLimited': 'Sortant limité',
     'settings.system.firewall.mode.httpsOnly': 'HTTPS uniquement',
     'settings.system.firewall.moderate.apply': 'Passer à Modéré',
-    'settings.system.firewall.moderate.active': 'Le mode pare-feu Modéré est actif',
-    'settings.system.firewall.moderate.allows':
-      "Les connexions entrantes ne sont acceptées que depuis les plages sources IPv4 privées, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local ou IPv6 loopback. L'accès sortant reste ouvert.",
     'settings.system.firewall.baseline.apply': 'Passer à Base',
-    'settings.system.firewall.baseline.active': 'Le mode pare-feu Base est actif',
-    'settings.system.firewall.baseline.allows':
-      'Le service de pare-feu est actif, mais les plages sources entrantes ne sont pas restreintes. À utiliser uniquement dans des environnements de laboratoire de confiance ou pour la compatibilité.',
     'settings.system.firewall.baseline.confirmTitle': 'Passer au mode Base ouvert ?',
     'settings.system.firewall.baseline.confirmDesc':
       'Le service de pare-feu reste actif, mais la restriction aux plages sources locales est supprimée. Des plages sources publiques peuvent atteindre les services exposés de NanoKVM si le réseau les route.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC est désactivé dans les modes de pare-feu Restreint et Paranoïaque',
-    'settings.system.firewall.mode.description':
-      'Choisissez comment l’accès administrateur entrant est exposé. Modéré est le profil local par défaut; Restreint garde HTTPS/SSH en local et bloque WebRTC; Base est un profil ouvert de compatibilité.',
     'settings.system.firewall.mode.baseline': 'Base',
     'settings.system.firewall.mode.moderate': 'Modéré',
     'settings.system.firewall.mode.restricted': 'Restreint',
     'settings.system.firewall.mode.paranoid': 'Paranoïaque',
     'settings.system.firewall.restricted.enable': 'Activer Restreint',
-    'settings.system.firewall.restricted.active': 'Le mode pare-feu Restreint est actif',
     'settings.system.firewall.restricted.confirmTitle': 'Activer le mode Restreint?',
     'settings.system.firewall.paranoid.enable': 'Activer Paranoïaque',
-    'settings.system.firewall.paranoid.active': 'Le mode pare-feu Paranoïaque est actif',
     'settings.system.firewall.paranoid.confirmTitle': 'Activer le mode Paranoïaque?',
     'settings.update.paranoidBlocked':
       'Les mises à jour en ligne sont bloquées par le mode pare-feu Paranoïaque',
@@ -1414,7 +1383,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.3600': '1 heure',
     'keyboard.localInput': 'Saisie au clavier mobile',
     'settings.network.configuration': 'Configuration',
-    'settings.network.dns.servers': 'Serveurs'
+    'settings.network.dns.servers': 'Serveurs',
+    'settings.system.firewall.mode.restrictedDesc':
+      'HTTPS et SSH locaux uniquement, plus DNS, NTP, syslog et mises à jour en ligne sortants. Le DHCP et le trafic IPv6 essentiel restent disponibles. WebRTC est bloqué.',
+    'settings.system.firewall.backends': 'Backends',
+    'settings.system.firewall.restricted.confirmDesc':
+      'L’accès administrateur entrant sera limité aux plages private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback pour HTTPS et SSH. Les plages publiques ne sont pas autorisées. DNS, NTP, syslog distant, mises à jour en ligne, DHCP, connexions établies et trafic de contrôle IPv6 essentiel sortants restent disponibles. WebRTC/ICE UDP et les autres trafics entrants/sortants seront bloqués.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Seul l’accès HTTPS depuis les plages private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback restera disponible. SSH, HTTP, mDNS, NTP, téléchargements GitHub et le reste du trafic seront bloqués sauf le minimum DHCP/contrôle IPv6.'
   },
   hu: {
     'auth.illegalPassword':
@@ -1470,43 +1446,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'A Korlátozott és Paranoid mód le van tiltva, amíg a HTTPS nincs engedélyezve a Beállítások > Rendszer > Hálózat alatt',
     'settings.system.firewall.mode.baselineDesc':
-      'Nyitott, felügyelt profil. Megtartja a NanoKVM szokásos elérését forrástartomány-szűrés nélkül.',
+      'Nyitott kompatibilitási profil. A tűzfal fut, de a bejövő forrásokat nem korlátozza. Csak megbízható hálózatokon használja.',
     'settings.system.firewall.mode.moderateDesc':
-      'Alapértelmezett profil. Megtartja az Alap szolgáltatásait, de új bejövő kapcsolatokat csak privát, ULA, link-local vagy loopback tartományokból fogad el.',
+      'Alapértelmezett profil. Megtartja az Alap szolgáltatásait, de új bejövő kapcsolatokat csak privát, link-local vagy loopback tartományokból fogad el. A kimenő hozzáférés nyitva marad.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Csak helyi HTTPS-hozzáférés. Blokkolja az SSH-t, a HTTP-t, az online frissítéseket és a többi kimenő hálózati funkciót.',
+      'Csak helyi HTTPS-hozzáférés. Blokkolja az SSH-t, a HTTP-t, az online frissítéseket és a többi kimenő hálózati funkciót. Az offline frissítések feltöltése és az már előkészített telepítések elérhetők maradnak.',
     'settings.system.firewall.mode.current': 'Jelenlegi',
     'settings.system.firewall.mode.default': 'Alapértelmezett',
     'settings.system.firewall.mode.localOnly': 'Csak helyi',
-    'settings.system.firewall.mode.openTag': 'Nyitott',
+    'settings.system.firewall.mode.openTag': 'Bejövő nyitott',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS szükséges',
     'settings.system.firewall.mode.outboundOpen': 'Kimenő nyitott',
     'settings.system.firewall.mode.outboundLimited': 'Kimenő korlátozott',
     'settings.system.firewall.mode.httpsOnly': 'Csak HTTPS',
     'settings.system.firewall.moderate.apply': 'Váltás Mérsékelt módra',
-    'settings.system.firewall.moderate.active': 'A Mérsékelt tűzfalmód aktív',
-    'settings.system.firewall.moderate.allows':
-      'A bejövő kapcsolatok csak privát IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local vagy IPv6 loopback forrástartományokból fogadhatók el. A kimenő hozzáférés nyitva marad.',
     'settings.system.firewall.baseline.apply': 'Váltás Alap módra',
-    'settings.system.firewall.baseline.active': 'Az Alap tűzfalmód aktív',
-    'settings.system.firewall.baseline.allows':
-      'A tűzfalszolgáltatás aktív, de a bejövő forrástartományok nincsenek korlátozva. Csak megbízható labor- vagy kompatibilitási környezetben használja.',
     'settings.system.firewall.baseline.confirmTitle': 'Átvált a nyitott Alap módra?',
     'settings.system.firewall.baseline.confirmDesc':
       'A tűzfalszolgáltatás aktív marad, de megszűnik a csak helyi forrástartományokra vonatkozó korlátozás. A nyilvános forrástartományok elérhetik a NanoKVM nyilvános szolgáltatásait, ha a hálózat továbbítja őket.',
     'screen.videoWebrtcBlockedByFirewall':
       'A H.264 WebRTC le van tiltva Korlátozott és Paranoid tűzfal módban',
-    'settings.system.firewall.mode.description':
-      'Válassza ki, hogyan legyen elérhető a bejövő adminisztrációs hozzáférés. A Mérsékelt az alapértelmezett helyi profil; a Korlátozott helyben tartja a HTTPS/SSH-t és blokkolja a WebRTC-t; az Alap nyílt kompatibilitási profil.',
     'settings.system.firewall.mode.baseline': 'Alap',
     'settings.system.firewall.mode.moderate': 'Mérsékelt',
     'settings.system.firewall.mode.restricted': 'Korlátozott',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Korlátozott engedélyezése',
-    'settings.system.firewall.restricted.active': 'A Korlátozott tűzfal mód aktív',
     'settings.system.firewall.restricted.confirmTitle': 'Engedélyezi a Korlátozott módot?',
     'settings.system.firewall.paranoid.enable': 'Paranoid engedélyezése',
-    'settings.system.firewall.paranoid.active': 'A Paranoid tűzfalmód aktív',
     'settings.system.firewall.paranoid.confirmTitle': 'Engedélyezi a Paranoid módot?',
     'settings.update.paranoidBlocked': 'Az online frissítéseket a Paranoid tűzfalmód blokkolja',
     'settings.device.hidOnlyDesc':
@@ -1575,7 +1541,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc':
       'Az eszköz biztonsága érdekében módosítsa a webes bejelentkezési jelszót',
     'settings.network.dns.manualServersDescription': 'Az IPv4- és IPv6-kiszolgálók is támogatottak',
-    'settings.system.firewall.enabledPort': 'Engedélyezve a következő porton: {{port}}',
     'terminal.unlockDesc': 'Terminálmunkamenet indításához adja meg a webes fiók jelszavát',
     'terminal.locked': 'Túl sok próbálkozás. Próbálja újra később',
     'keyboard.dropdownEnglish': 'Angol',
@@ -1594,7 +1559,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.3600': '1 óra',
     'keyboard.localInput': 'Mobil billentyűzet bemenete',
     'settings.network.configuration': 'Konfiguráció',
-    'settings.network.dns.servers': 'Kiszolgálók'
+    'settings.network.dns.servers': 'Kiszolgálók',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Csak helyi HTTPS és SSH, valamint kimenő DNS, NTP, syslog és online frissítések. A DHCP és a lényeges IPv6-forgalom elérhető marad. A WebRTC le van tiltva.',
+    'settings.system.firewall.backends': 'Backendek',
+    'settings.system.firewall.restricted.confirmDesc':
+      'A bejövő adminisztrációs hozzáférés HTTPS és SSH esetén private IPv4, IPv4 link-local/loopback, IPv6 link-local vagy IPv6 loopback forrástartományokra korlátozódik. Nyilvános forrástartományok nem engedélyezettek. A kimenő DNS, NTP, távoli syslog, online frissítések, DHCP, meglévő kapcsolatok és alapvető IPv6 vezérlőforgalom elérhető marad. A WebRTC/ICE UDP és minden más bejövő/kimenő forgalom blokkolva lesz.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Csak a HTTPS-hozzáférés marad elérhető private IPv4, IPv4 link-local/loopback, IPv6 link-local vagy IPv6 loopback forrástartományokból. Az SSH, HTTP, mDNS, NTP, GitHub-letöltések és más forgalom blokkolva lesz, kivéve a minimális DHCP/IPv6 vezérlést.'
   },
   id: {
     'auth.illegalPassword':
@@ -1653,43 +1625,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Mode Terbatas dan Paranoid dinonaktifkan sampai HTTPS diaktifkan di Pengaturan > Sistem > Jaringan',
     'settings.system.firewall.mode.baselineDesc':
-      'Profil terkelola terbuka. Mempertahankan akses NanoKVM normal tanpa pemfilteran rentang sumber.',
+      'Profil kompatibilitas terbuka. Firewall berjalan, tetapi sumber masuk tidak dibatasi. Gunakan hanya di jaringan tepercaya.',
     'settings.system.firewall.mode.moderateDesc':
-      'Profil default. Mempertahankan layanan Dasar, tetapi hanya menerima koneksi masuk baru dari rentang privat, ULA, link-local, atau loopback.',
+      'Profil default. Mempertahankan layanan Dasar, tetapi hanya menerima koneksi masuk baru dari rentang privat, link-local, atau loopback. Akses keluar tetap terbuka.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Akses HTTPS khusus lokal. Memblokir SSH, HTTP, pembaruan online, dan fitur jaringan keluar lainnya.',
+      'Akses HTTPS khusus lokal. Memblokir SSH, HTTP, pembaruan online, dan fitur jaringan keluar lainnya. Unggah pembaruan offline dan instalasi yang sudah disiapkan tetap tersedia.',
     'settings.system.firewall.mode.current': 'Saat ini',
     'settings.system.firewall.mode.default': 'Default',
     'settings.system.firewall.mode.localOnly': 'Khusus lokal',
-    'settings.system.firewall.mode.openTag': 'Terbuka',
+    'settings.system.firewall.mode.openTag': 'Masuk terbuka',
     'settings.system.firewall.mode.httpsRequiredTag': 'Perlu HTTPS',
     'settings.system.firewall.mode.outboundOpen': 'Keluar terbuka',
     'settings.system.firewall.mode.outboundLimited': 'Keluar terbatas',
     'settings.system.firewall.mode.httpsOnly': 'Hanya HTTPS',
     'settings.system.firewall.moderate.apply': 'Beralih ke Sedang',
-    'settings.system.firewall.moderate.active': 'Mode firewall Sedang aktif',
-    'settings.system.firewall.moderate.allows':
-      'Koneksi masuk hanya diterima dari rentang sumber IPv4 privat, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, atau IPv6 loopback. Akses keluar tetap terbuka.',
     'settings.system.firewall.baseline.apply': 'Beralih ke Dasar',
-    'settings.system.firewall.baseline.active': 'Mode firewall Dasar aktif',
-    'settings.system.firewall.baseline.allows':
-      'Layanan firewall aktif, tetapi rentang sumber masuk tidak dibatasi. Gunakan hanya untuk lingkungan lab tepercaya atau skenario kompatibilitas.',
     'settings.system.firewall.baseline.confirmTitle': 'Beralih ke mode Dasar terbuka?',
     'settings.system.firewall.baseline.confirmDesc':
       'Layanan firewall tetap aktif, tetapi pembatasan rentang sumber khusus lokal dihapus. Rentang sumber publik dapat menjangkau layanan NanoKVM yang terbuka jika jaringan merutekannya.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC dinonaktifkan dalam mode firewall Terbatas dan Paranoid',
-    'settings.system.firewall.mode.description':
-      'Pilih bagaimana akses admin masuk diekspos. Sedang adalah profil lokal bawaan; Terbatas membuat HTTPS/SSH hanya lokal dan memblokir WebRTC; Dasar adalah profil kompatibilitas terbuka.',
     'settings.system.firewall.mode.baseline': 'Dasar',
     'settings.system.firewall.mode.moderate': 'Sedang',
     'settings.system.firewall.mode.restricted': 'Terbatas',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Aktifkan Terbatas',
-    'settings.system.firewall.restricted.active': 'Mode firewall Terbatas aktif',
     'settings.system.firewall.restricted.confirmTitle': 'Aktifkan mode Terbatas?',
     'settings.system.firewall.paranoid.enable': 'Aktifkan Paranoid',
-    'settings.system.firewall.paranoid.active': 'Mode firewall Paranoid aktif',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktifkan mode Paranoid?',
     'settings.update.paranoidBlocked': 'Pembaruan online diblokir oleh mode firewall Paranoid',
     'settings.device.hidOnlyDesc':
@@ -1773,7 +1735,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.available': 'Ada pembaruan baru. Apakah Anda mau memperbarui?',
     'keyboard.localInput': 'Input papan ketik seluler',
     'settings.network.configuration': 'Konfigurasi',
-    'settings.network.dns.servers': 'Server'
+    'settings.network.dns.servers': 'Server',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Hanya HTTPS dan SSH lokal, ditambah DNS, NTP, syslog, dan pembaruan online keluar. DHCP dan lalu lintas IPv6 penting tetap tersedia. WebRTC diblokir.',
+    'settings.system.firewall.backends': 'Backend',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Akses admin masuk akan dibatasi ke rentang private IPv4, IPv4 link-local/loopback, IPv6 link-local, atau IPv6 loopback untuk HTTPS dan SSH. Rentang sumber publik tidak diizinkan. DNS, NTP, syslog jarak jauh, pembaruan online, DHCP, koneksi yang sudah terbentuk, dan lalu lintas kontrol IPv6 penting keluar tetap tersedia. WebRTC/ICE UDP dan lalu lintas masuk/keluar lainnya akan diblokir.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Hanya akses HTTPS dari rentang private IPv4, IPv4 link-local/loopback, IPv6 link-local, atau IPv6 loopback yang tetap tersedia. SSH, HTTP, mDNS, NTP, unduhan GitHub, dan lalu lintas lain diblokir kecuali DHCP/kontrol IPv6 minimal.'
   },
   it: {
     'auth.illegalPassword':
@@ -1837,43 +1806,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Le modalità Ristretta e Paranoica sono disattivate finché HTTPS non viene abilitato in Impostazioni > Sistema > Rete',
     'settings.system.firewall.mode.baselineDesc':
-      'Profilo aperto e gestito. Mantiene il normale accesso a NanoKVM senza filtrare per intervalli di origine.',
+      'Profilo aperto di compatibilità. Il firewall è attivo, ma le origini in ingresso non sono limitate. Da usare solo su reti attendibili.',
     'settings.system.firewall.mode.moderateDesc':
-      'Profilo predefinito. Mantiene i servizi di Base, ma accetta nuove connessioni in ingresso solo da intervalli privati, ULA, link-local o loopback.',
+      "Profilo predefinito. Mantiene i servizi di Base, ma accetta nuove connessioni in ingresso solo da intervalli privati, link-local o loopback. L'accesso in uscita resta aperto.",
     'settings.system.firewall.mode.paranoidDesc':
-      'Accesso HTTPS solo locale. Blocca SSH, HTTP, gli aggiornamenti online e le altre funzioni di rete in uscita.',
+      'Accesso HTTPS solo locale. Blocca SSH, HTTP, gli aggiornamenti online e le altre funzioni di rete in uscita. Il caricamento di aggiornamenti offline e le installazioni già preparate restano disponibili.',
     'settings.system.firewall.mode.current': 'Corrente',
     'settings.system.firewall.mode.default': 'Predefinito',
     'settings.system.firewall.mode.localOnly': 'Solo locale',
-    'settings.system.firewall.mode.openTag': 'Aperto',
+    'settings.system.firewall.mode.openTag': 'Ingresso aperto',
     'settings.system.firewall.mode.httpsRequiredTag': 'Richiede HTTPS',
     'settings.system.firewall.mode.outboundOpen': 'Uscita aperta',
     'settings.system.firewall.mode.outboundLimited': 'Uscita limitata',
     'settings.system.firewall.mode.httpsOnly': 'Solo HTTPS',
     'settings.system.firewall.moderate.apply': 'Passa a Moderata',
-    'settings.system.firewall.moderate.active': 'La modalità firewall Moderata è attiva',
-    'settings.system.firewall.moderate.allows':
-      "Le connessioni in ingresso sono accettate solo da intervalli di origine IPv4 privati, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback. L'accesso in uscita resta aperto.",
     'settings.system.firewall.baseline.apply': 'Passa a Base',
-    'settings.system.firewall.baseline.active': 'La modalità firewall Base è attiva',
-    'settings.system.firewall.baseline.allows':
-      'Il servizio firewall è attivo, ma gli intervalli di origine in ingresso non sono limitati. Usalo solo in ambienti di laboratorio fidati o per compatibilità.',
     'settings.system.firewall.baseline.confirmTitle': 'Passare alla modalità Base aperta?',
     'settings.system.firewall.baseline.confirmDesc':
       'Il servizio firewall resta attivo, ma viene rimossa la restrizione ai soli intervalli di origine locali. Gli intervalli di origine pubblici possono raggiungere i servizi esposti di NanoKVM se la rete li instrada.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC è disattivato nelle modalità firewall Ristretta e Paranoica',
-    'settings.system.firewall.mode.description':
-      'Scegli come esporre l’accesso amministrativo in ingresso. Modalità Moderata è il profilo locale predefinito; Modalità Ristretta mantiene HTTPS/SSH solo locali e blocca WebRTC; Modalità Base è un profilo aperto di compatibilità.',
     'settings.system.firewall.mode.baseline': 'Base',
     'settings.system.firewall.mode.moderate': 'Moderata',
     'settings.system.firewall.mode.restricted': 'Ristretta',
     'settings.system.firewall.mode.paranoid': 'Paranoica',
     'settings.system.firewall.restricted.enable': 'Abilita Ristretta',
-    'settings.system.firewall.restricted.active': 'La modalità firewall Ristretta è attiva',
     'settings.system.firewall.restricted.confirmTitle': 'Abilitare la modalità Ristretta?',
     'settings.system.firewall.paranoid.enable': 'Abilita Paranoica',
-    'settings.system.firewall.paranoid.active': 'La modalità firewall Paranoica è attiva',
     'settings.system.firewall.paranoid.confirmTitle': 'Abilitare la modalità Paranoica?',
     'settings.device.hidOnlyDesc':
       "Migliora la compatibilità con l'host se mouse o tastiera smettono di rispondere",
@@ -1948,7 +1907,14 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Formato nome file non valido. Scarica dalle versioni GitHub.',
     'keyboard.localInput': 'Input da tastiera mobile',
     'settings.network.configuration': 'Configurazione',
-    'settings.network.dns.servers': 'Server'
+    'settings.network.dns.servers': 'Server',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Solo HTTPS e SSH locali, più DNS, NTP, syslog e aggiornamenti online in uscita. DHCP e il traffico IPv6 essenziale restano disponibili. WebRTC è bloccato.',
+    'settings.system.firewall.backends': 'Backend',
+    'settings.system.firewall.restricted.confirmDesc':
+      'L’accesso amministrativo in ingresso sarà limitato agli intervalli private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback per HTTPS e SSH. Gli intervalli pubblici non sono consentiti. DNS, NTP, syslog remoto, aggiornamenti online, DHCP, connessioni stabilite e traffico essenziale IPv6 in uscita resteranno disponibili. WebRTC/ICE UDP e altro traffico in ingresso/uscita saranno bloccati.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Resterà disponibile solo l’accesso HTTPS da intervalli private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, download da GitHub e altro traffico saranno bloccati salvo il minimo DHCP/controllo IPv6.'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -1979,44 +1945,34 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'HTTPS が「設定 > システム > ネットワーク」で有効になるまで、制限付きモードとパラノイドモードは無効です',
     'settings.system.firewall.mode.baselineDesc':
-      'オープンな管理対象プロファイル。送信元範囲のフィルタリングなしで、通常の NanoKVM アクセスを維持します。',
+      'オープンな互換性プロファイル。ファイアウォールは動作しますが、着信元は制限されません。信頼できるネットワークでのみ使用してください。',
     'settings.system.firewall.mode.moderateDesc':
-      '既定のプロファイル。ベースラインのサービスを維持しつつ、新しい着信接続はプライベート、ULA、リンクローカル、ループバックの範囲からのみ受け付けます。',
+      '既定のプロファイル。ベースラインのサービスを維持しつつ、新しい着信接続はプライベート、リンクローカル、ループバックの範囲からのみ受け付けます。外向きのアクセスは開放されたままです。',
     'settings.system.firewall.mode.paranoidDesc':
-      'ローカル専用の HTTPS アクセス。SSH、HTTP、オンライン更新、その他の送信方向のネットワーク機能をブロックします。',
+      'ローカル専用の HTTPS アクセス。SSH、HTTP、オンライン更新、その他の送信方向のネットワーク機能をブロックします。オフライン更新のアップロードと準備済みのインストールは引き続き利用できます。',
     'settings.system.firewall.mode.current': '現在',
     'settings.system.firewall.mode.default': '既定',
     'settings.system.firewall.mode.localOnly': 'ローカル専用',
-    'settings.system.firewall.mode.openTag': 'オープン',
+    'settings.system.firewall.mode.openTag': '着信は開放',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS が必要',
     'settings.system.firewall.mode.outboundOpen': '送信は開放',
     'settings.system.firewall.mode.outboundLimited': '送信は制限',
     'settings.system.firewall.mode.httpsOnly': 'HTTPS のみ',
     'settings.system.firewall.moderate.apply': '標準に切り替え',
-    'settings.system.firewall.moderate.active': '標準ファイアウォールモードが有効です',
-    'settings.system.firewall.moderate.allows':
-      '着信接続は、プライベート IPv4、IPv4 リンクローカル/ループバック、IPv6 ULA、IPv6 リンクローカル、IPv6 ループバックの送信元範囲からのみ受け付けます。送信アクセスは開放されたままです。',
     'settings.system.firewall.baseline.apply': 'ベースラインに切り替え',
-    'settings.system.firewall.baseline.active': 'ベースラインファイアウォールモードが有効です',
-    'settings.system.firewall.baseline.allows':
-      'ファイアウォールサービスは有効ですが、着信の送信元範囲は制限されません。信頼できる検証環境や互換性が必要な場合にのみ使用してください。',
     'settings.system.firewall.baseline.confirmTitle':
       'オープンなベースラインモードに切り替えますか?',
     'settings.system.firewall.baseline.confirmDesc':
       'ファイアウォールサービスは有効のままですが、ローカル専用の送信元範囲の制限が解除されます。ネットワークが経路を提供している場合、公開側の送信元範囲から NanoKVM の公開サービスに到達できる可能性があります。',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC は制限付き/パラノイドファイアウォールモードでは無効です',
-    'settings.system.firewall.mode.description':
-      '受信管理アクセスの公開方法を選択します。標準は既定のローカル専用プロファイルです。制限付きは HTTPS/SSH をローカル専用にし、WebRTC をブロックします。ベースラインは互換性用のオープンプロファイルです。',
     'settings.system.firewall.mode.baseline': 'ベースライン',
     'settings.system.firewall.mode.moderate': '標準',
     'settings.system.firewall.mode.restricted': '制限付き',
     'settings.system.firewall.mode.paranoid': 'パラノイド',
     'settings.system.firewall.restricted.enable': '制限付きを有効化',
-    'settings.system.firewall.restricted.active': '制限付きファイアウォールモードが有効です',
     'settings.system.firewall.restricted.confirmTitle': '制限付きモードを有効にしますか?',
     'settings.system.firewall.paranoid.enable': 'パラノイドを有効化',
-    'settings.system.firewall.paranoid.active': 'パラノイドファイアウォールモードが有効です',
     'settings.system.firewall.paranoid.confirmTitle': 'パラノイドモードを有効にしますか?',
     'settings.update.paranoidBlocked':
       'オンライン更新はパラノイドファイアウォールモードでブロックされています',
@@ -2103,7 +2059,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownJapanese': '日本語',
     'keyboard.localInput': 'モバイルキーボード入力',
     'settings.network.configuration': '設定',
-    'settings.network.dns.servers': 'サーバー'
+    'settings.network.dns.servers': 'サーバー',
+    'settings.system.firewall.mode.restrictedDesc':
+      'ローカルのみの HTTPS と SSH に加え、外向きの DNS、NTP、syslog、オンライン更新を許可します。DHCP と必須の IPv6 トラフィックは引き続き利用できます。WebRTC はブロックされます。',
+    'settings.system.firewall.backends': 'バックエンド',
+    'settings.system.firewall.restricted.confirmDesc':
+      'HTTPS と SSH の受信管理アクセスは private IPv4、IPv4 link-local/loopback、IPv6 link-local、IPv6 loopback の送信元範囲に制限されます。公開送信元範囲は許可されません。外向き DNS、NTP、リモート syslog、オンライン更新、DHCP、確立済み接続、必須 IPv6 制御通信は利用可能なままです。WebRTC/ICE UDP とその他の受信/送信通信はブロックされます。',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'private IPv4、IPv4 link-local/loopback、IPv6 link-local、IPv6 loopback の送信元範囲からの HTTPS アクセスのみが残ります。SSH、HTTP、mDNS、NTP、GitHub ダウンロード、その他の通信は最小限の DHCP/IPv6 制御通信を除きブロックされます。'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -2136,43 +2099,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       '설정 > 시스템 > 네트워크에서 HTTPS를 활성화하기 전까지 제한 및 파라노이드 모드는 비활성화됩니다',
     'settings.system.firewall.mode.baselineDesc':
-      '개방형 관리 프로필입니다. 소스 범위 필터링 없이 일반적인 NanoKVM 접근을 유지합니다.',
+      '개방형 호환성 프로필입니다. 방화벽은 작동하지만 인바운드 소스를 제한하지 않습니다. 신뢰할 수 있는 네트워크에서만 사용하세요.',
     'settings.system.firewall.mode.moderateDesc':
-      '기본 프로필입니다. 베이스라인 서비스를 유지하되, 새 인바운드 연결은 사설, ULA, 링크 로컬 또는 루프백 범위에서만 허용합니다.',
+      '기본 프로필입니다. 베이스라인 서비스를 유지하되, 새 인바운드 연결은 사설, 링크 로컬 또는 루프백 범위에서만 허용합니다. 아웃바운드 접근은 열린 상태로 유지됩니다.',
     'settings.system.firewall.mode.paranoidDesc':
-      '로컬 전용 HTTPS 접근입니다. SSH, HTTP, 온라인 업데이트 및 기타 아웃바운드 네트워크 기능을 차단합니다.',
+      '로컬 전용 HTTPS 접근입니다. SSH, HTTP, 온라인 업데이트 및 기타 아웃바운드 네트워크 기능을 차단합니다. 오프라인 업데이트 업로드와 이미 준비된 설치는 계속 사용할 수 있습니다.',
     'settings.system.firewall.mode.current': '현재',
     'settings.system.firewall.mode.default': '기본',
     'settings.system.firewall.mode.localOnly': '로컬 전용',
-    'settings.system.firewall.mode.openTag': '개방',
+    'settings.system.firewall.mode.openTag': '인바운드 개방',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS 필요',
     'settings.system.firewall.mode.outboundOpen': '아웃바운드 개방',
     'settings.system.firewall.mode.outboundLimited': '아웃바운드 제한',
     'settings.system.firewall.mode.httpsOnly': 'HTTPS만',
     'settings.system.firewall.moderate.apply': '보통으로 전환',
-    'settings.system.firewall.moderate.active': '보통 방화벽 모드가 활성화되어 있습니다',
-    'settings.system.firewall.moderate.allows':
-      '인바운드 연결은 사설 IPv4, IPv4 링크 로컬/루프백, IPv6 ULA, IPv6 링크 로컬 또는 IPv6 루프백 소스 범위에서만 허용됩니다. 아웃바운드 접근은 계속 열려 있습니다.',
     'settings.system.firewall.baseline.apply': '베이스라인으로 전환',
-    'settings.system.firewall.baseline.active': '베이스라인 방화벽 모드가 활성화되어 있습니다',
-    'settings.system.firewall.baseline.allows':
-      '방화벽 서비스는 활성화되어 있지만 인바운드 소스 범위는 제한되지 않습니다. 신뢰할 수 있는 실험실 환경이나 호환성이 필요한 경우에만 사용하세요.',
     'settings.system.firewall.baseline.confirmTitle': '개방형 베이스라인 모드로 전환할까요?',
     'settings.system.firewall.baseline.confirmDesc':
       '방화벽 서비스는 계속 활성화되지만 로컬 전용 소스 범위 제한이 해제됩니다. 네트워크가 라우팅하는 경우 공용 소스 범위에서 노출된 NanoKVM 서비스에 접근할 수 있습니다.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC는 제한 및 파라노이드 방화벽 모드에서 비활성화됩니다',
-    'settings.system.firewall.mode.description':
-      '수신 관리자 접근을 노출하는 방식을 선택합니다. 보통은 기본 로컬 전용 프로필입니다. 제한은 HTTPS/SSH를 로컬 전용으로 유지하고 WebRTC를 차단합니다. 베이스라인은 개방형 호환성 프로필입니다.',
     'settings.system.firewall.mode.baseline': '베이스라인',
     'settings.system.firewall.mode.moderate': '보통',
     'settings.system.firewall.mode.restricted': '제한',
     'settings.system.firewall.mode.paranoid': '파라노이드',
     'settings.system.firewall.restricted.enable': '제한 활성화',
-    'settings.system.firewall.restricted.active': '제한 방화벽 모드가 활성화되었습니다',
     'settings.system.firewall.restricted.confirmTitle': '제한 모드를 활성화할까요?',
     'settings.system.firewall.paranoid.enable': '파라노이드 활성화',
-    'settings.system.firewall.paranoid.active': '파라노이드 방화벽 모드가 활성화되었습니다',
     'settings.system.firewall.paranoid.confirmTitle': '파라노이드 모드를 활성화할까요?',
     'settings.update.paranoidBlocked': '온라인 업데이트는 파라노이드 방화벽 모드에서 차단됩니다',
     'settings.device.hidOnlyDesc':
@@ -2261,7 +2214,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownJapanese': '일본어',
     'keyboard.localInput': '모바일 키보드 입력',
     'settings.network.configuration': '구성',
-    'settings.network.dns.servers': '서버'
+    'settings.network.dns.servers': '서버',
+    'settings.system.firewall.mode.restrictedDesc':
+      '로컬 전용 HTTPS와 SSH, 그리고 송신 DNS, NTP, syslog 및 온라인 업데이트를 허용합니다. DHCP와 필수 IPv6 트래픽은 계속 사용할 수 있습니다. WebRTC는 차단됩니다.',
+    'settings.system.firewall.backends': '백엔드',
+    'settings.system.firewall.restricted.confirmDesc':
+      'HTTPS와 SSH의 수신 관리자 접근은 private IPv4, IPv4 link-local/loopback, IPv6 link-local 또는 IPv6 loopback 원본 범위로 제한됩니다. 공용 원본 범위는 허용되지 않습니다. 송신 DNS, NTP, 원격 syslog, 온라인 업데이트, DHCP, 기존 연결, 필수 IPv6 제어 트래픽은 계속 사용할 수 있습니다. WebRTC/ICE UDP 및 기타 수신/송신 트래픽은 차단됩니다.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'private IPv4, IPv4 link-local/loopback, IPv6 link-local 또는 IPv6 loopback 원본 범위의 HTTPS 접근만 남습니다. SSH, HTTP, mDNS, NTP, GitHub 다운로드 및 기타 트래픽은 최소 DHCP/IPv6 제어 트래픽을 제외하고 차단됩니다.'
   },
   nb: {
     'auth.illegalPassword':
@@ -2312,43 +2272,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Modusene Begrenset og Paranoid er deaktivert til HTTPS er aktivert under Innstillinger > System > Nettverk',
     'settings.system.firewall.mode.baselineDesc':
-      'Åpen administrert profil. Beholder normal tilgang til NanoKVM uten filtrering på kildeområder.',
+      'Åpen kompatibilitetsprofil. Brannmuren kjører, men innkommende kilder er ikke begrenset. Bruk bare på pålitelige nettverk.',
     'settings.system.firewall.mode.moderateDesc':
-      'Standardprofil. Beholder Basis-tjenestene, men godtar bare nye innkommende tilkoblinger fra private, ULA-, link-local- eller loopback-områder.',
+      'Standardprofil. Beholder Basis-tjenestene, men godtar bare nye innkommende tilkoblinger fra private, link-local- eller loopback-områder. Utgående tilgang forblir åpen.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Kun lokal HTTPS-tilgang. Blokkerer SSH, HTTP, nettbaserte oppdateringer og andre utgående nettverksfunksjoner.',
+      'Kun lokal HTTPS-tilgang. Blokkerer SSH, HTTP, nettbaserte oppdateringer og andre utgående nettverksfunksjoner. Opplasting av frakoblede oppdateringer og allerede klargjorte installasjoner er fortsatt tilgjengelig.',
     'settings.system.firewall.mode.current': 'Gjeldende',
     'settings.system.firewall.mode.default': 'Standard',
     'settings.system.firewall.mode.localOnly': 'Kun lokalt',
-    'settings.system.firewall.mode.openTag': 'Åpen',
+    'settings.system.firewall.mode.openTag': 'Innkommende åpen',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS kreves',
     'settings.system.firewall.mode.outboundOpen': 'Utgående åpen',
     'settings.system.firewall.mode.outboundLimited': 'Utgående begrenset',
     'settings.system.firewall.mode.httpsOnly': 'Kun HTTPS',
     'settings.system.firewall.moderate.apply': 'Bytt til Moderat',
-    'settings.system.firewall.moderate.active': 'Brannmurmodusen Moderat er aktiv',
-    'settings.system.firewall.moderate.allows':
-      'Innkommende tilkoblinger godtas bare fra private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- eller IPv6 loopback-kildeområder. Utgående tilgang forblir åpen.',
     'settings.system.firewall.baseline.apply': 'Bytt til Basis',
-    'settings.system.firewall.baseline.active': 'Brannmurmodusen Basis er aktiv',
-    'settings.system.firewall.baseline.allows':
-      'Brannmurtjenesten er aktiv, men innkommende kildeområder er ikke begrenset. Bruk dette bare i pålitelige laboratorie- eller kompatibilitetsscenarier.',
     'settings.system.firewall.baseline.confirmTitle': 'Bytte til åpen Basis-modus?',
     'settings.system.firewall.baseline.confirmDesc':
       'Brannmurtjenesten forblir aktiv, men begrensningen til lokale kildeområder fjernes. Offentlige kildeområder kan nå eksponerte NanoKVM-tjenester hvis nettverket ruter dem.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC er deaktivert i brannmurmodusene Begrenset og Paranoid',
-    'settings.system.firewall.mode.description':
-      'Velg hvordan innkommende administratortilgang eksponeres. Moderat er standard lokal profil; Begrenset holder HTTPS/SSH lokalt og blokkerer WebRTC; Basis er en åpen kompatibilitetsprofil.',
     'settings.system.firewall.mode.baseline': 'Basis',
     'settings.system.firewall.mode.moderate': 'Moderat',
     'settings.system.firewall.mode.restricted': 'Begrenset',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Aktiver Begrenset',
-    'settings.system.firewall.restricted.active': 'Brannmurmodusen Begrenset er aktiv',
     'settings.system.firewall.restricted.confirmTitle': 'Aktivere brannmurmodusen Begrenset?',
     'settings.system.firewall.paranoid.enable': 'Aktiver Paranoid',
-    'settings.system.firewall.paranoid.active': 'Brannmurmodusen Paranoid er aktiv',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktivere brannmurmodusen Paranoid?',
     'settings.update.paranoidBlocked': 'Onlineoppdateringer blokkeres av brannmurmodusen Paranoid',
     'settings.device.hidOnlyDesc':
@@ -2430,7 +2380,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.3600': '1 time',
     'keyboard.localInput': 'Inndata fra mobiltastatur',
     'settings.network.configuration': 'Konfigurasjon',
-    'settings.network.dns.servers': 'Servere'
+    'settings.network.dns.servers': 'Servere',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Kun lokal HTTPS og SSH, pluss utgående DNS, NTP, syslog og nettbaserte oppdateringer. DHCP og nødvendig IPv6-trafikk forblir tilgjengelig. WebRTC er blokkert.',
+    'settings.system.firewall.backends': 'Backends',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Innkommende administratortilgang begrenses til private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- eller IPv6 loopback-kilder for HTTPS og SSH. Offentlige kildeområder er ikke tillatt. Utgående DNS, NTP, ekstern syslog, onlineoppdateringer, DHCP, etablerte forbindelser og nødvendig IPv6-kontrolltrafikk forblir tilgjengelig. WebRTC/ICE UDP og annen inn-/utgående trafikk blokkeres.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Bare HTTPS-tilgang fra private IPv4, IPv4 link-local/loopback, IPv6 link-local eller IPv6 loopback forblir tilgjengelig. SSH, HTTP, mDNS, NTP, GitHub-nedlastinger og annen trafikk blokkeres bortsett fra minimal DHCP/IPv6-kontroll.'
   },
   nl: {
     'auth.illegalPassword':
@@ -2465,43 +2422,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'De modi Beperkt en Paranoïde zijn uitgeschakeld totdat HTTPS is ingeschakeld bij Instellingen > Systeem > Netwerk',
     'settings.system.firewall.mode.baselineDesc':
-      'Open beheerd profiel. Behoudt de normale NanoKVM-toegang zonder filtering op bronbereiken.',
+      'Open compatibiliteitsprofiel. De firewall draait, maar inkomende bronnen worden niet beperkt. Alleen gebruiken op vertrouwde netwerken.',
     'settings.system.firewall.mode.moderateDesc':
-      'Standaardprofiel. Behoudt de Basis-diensten, maar accepteert nieuwe inkomende verbindingen alleen vanuit privé-, ULA-, link-local- of loopbackbereiken.',
+      'Standaardprofiel. Behoudt de Basis-diensten, maar accepteert nieuwe inkomende verbindingen alleen vanuit privé-, link-local- of loopbackbereiken. Uitgaande toegang blijft open.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Alleen lokale HTTPS-toegang. Blokkeert SSH, HTTP, online updates en andere uitgaande netwerkfuncties.',
+      'Alleen lokale HTTPS-toegang. Blokkeert SSH, HTTP, online updates en andere uitgaande netwerkfuncties. Het uploaden van offline updates en al klaargezette installaties blijven beschikbaar.',
     'settings.system.firewall.mode.current': 'Huidig',
     'settings.system.firewall.mode.default': 'Standaard',
     'settings.system.firewall.mode.localOnly': 'Alleen lokaal',
-    'settings.system.firewall.mode.openTag': 'Open',
+    'settings.system.firewall.mode.openTag': 'Inkomend open',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS vereist',
     'settings.system.firewall.mode.outboundOpen': 'Uitgaand open',
     'settings.system.firewall.mode.outboundLimited': 'Uitgaand beperkt',
     'settings.system.firewall.mode.httpsOnly': 'Alleen HTTPS',
     'settings.system.firewall.moderate.apply': 'Overschakelen naar Gematigd',
-    'settings.system.firewall.moderate.active': 'Firewallmodus Gematigd is actief',
-    'settings.system.firewall.moderate.allows':
-      'Inkomende verbindingen worden alleen geaccepteerd vanuit privé-IPv4-, IPv4-link-local/loopback-, IPv6-ULA-, IPv6-link-local- of IPv6-loopbackbronbereiken. Uitgaande toegang blijft open.',
     'settings.system.firewall.baseline.apply': 'Overschakelen naar Basis',
-    'settings.system.firewall.baseline.active': 'Firewallmodus Basis is actief',
-    'settings.system.firewall.baseline.allows':
-      "De firewalldienst is actief, maar inkomende bronbereiken zijn niet beperkt. Gebruik dit alleen in vertrouwde lab- of compatibiliteitsscenario's.",
     'settings.system.firewall.baseline.confirmTitle': 'Overschakelen naar de open modus Basis?',
     'settings.system.firewall.baseline.confirmDesc':
       'De firewalldienst blijft actief, maar de beperking tot lokale bronbereiken vervalt. Openbare bronbereiken kunnen blootgestelde NanoKVM-diensten bereiken als het netwerk ze routeert.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC is uitgeschakeld in de firewallmodi Beperkt en Paranoïde',
-    'settings.system.firewall.mode.description':
-      'Kies hoe inkomende beheerstoegang wordt aangeboden. Gematigd is het standaard lokale profiel; Beperkt houdt HTTPS/SSH lokaal en blokkeert WebRTC; Basis is een open compatibiliteitsprofiel.',
     'settings.system.firewall.mode.baseline': 'Basis',
     'settings.system.firewall.mode.moderate': 'Gematigd',
     'settings.system.firewall.mode.restricted': 'Beperkt',
     'settings.system.firewall.mode.paranoid': 'Paranoïde',
     'settings.system.firewall.restricted.enable': 'Beperkt inschakelen',
-    'settings.system.firewall.restricted.active': 'Firewallmodus Beperkt is actief',
     'settings.system.firewall.restricted.confirmTitle': 'Firewallmodus Beperkt inschakelen?',
     'settings.system.firewall.paranoid.enable': 'Paranoïde inschakelen',
-    'settings.system.firewall.paranoid.active': 'Firewallmodus Paranoïde is actief',
     'settings.system.firewall.paranoid.confirmTitle': 'Firewallmodus Paranoïde inschakelen?',
     'settings.update.paranoidBlocked':
       'Online-updates worden geblokkeerd door firewallmodus Paranoïde',
@@ -2610,7 +2557,14 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Dit apparaat is ingesteld om een tweede factor te vereisen, maar uw account heeft er nog geen ingesteld. Stel die nu in om door te gaan.',
     'keyboard.localInput': 'Invoer via mobiel toetsenbord',
     'settings.network.configuration': 'Configuratie',
-    'settings.network.dns.servers': 'Servers'
+    'settings.network.dns.servers': 'Servers',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Alleen lokale HTTPS en SSH, plus uitgaande DNS, NTP, syslog en online updates. DHCP en essentieel IPv6-verkeer blijven beschikbaar. WebRTC is geblokkeerd.',
+    'settings.system.firewall.backends': 'Backends',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Inkomende beheerstoegang wordt voor HTTPS en SSH beperkt tot private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- of IPv6 loopback-bronbereiken. Openbare bronbereiken zijn niet toegestaan. Uitgaande DNS, NTP, externe syslog, online-updates, DHCP, bestaande verbindingen en essentieel IPv6-besturingsverkeer blijven beschikbaar. WebRTC/ICE UDP en ander inkomend/uitgaand verkeer worden geblokkeerd.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Alleen HTTPS-toegang vanuit private IPv4, IPv4 link-local/loopback, IPv6 link-local of IPv6 loopback-bronbereiken blijft beschikbaar. SSH, HTTP, mDNS, NTP, GitHub-downloads en ander verkeer worden geblokkeerd behalve minimaal DHCP/IPv6-controleverkeer.'
   },
   pl: {
     'auth.illegalPassword':
@@ -2669,24 +2623,18 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Włącz HTTPS przed włączeniem trybu Ograniczony lub Paranoidalny',
     'settings.system.firewall.httpsRequired':
       'Tryby Ograniczony i Paranoidalny są niedostępne, dopóki HTTPS nie zostanie włączony w Ustawienia > System > Sieć',
-    'settings.system.firewall.mode.description':
-      'Wybierz, jak udostępniony jest przychodzący dostęp administracyjny. Umiarkowany jest domyślnym profilem lokalnym; Ograniczony utrzymuje HTTPS/SSH tylko lokalnie i blokuje WebRTC; Podstawowy jest otwartym profilem zgodności.',
     'settings.system.firewall.mode.baseline': 'Podstawowy',
     'settings.system.firewall.mode.moderate': 'Umiarkowany',
     'settings.system.firewall.mode.moderateDesc':
-      'Profil domyślny. Zachowuje usługi baseline, ale przyjmuje nowe połączenia przychodzące tylko z zakresów prywatnych, ULA, link-local lub loopback.',
+      'Profil domyślny. Zachowuje usługi baseline, ale przyjmuje nowe połączenia przychodzące tylko z zakresów prywatnych, link-local lub loopback. Dostęp wychodzący pozostaje otwarty.',
     'settings.system.firewall.mode.restricted': 'Ograniczony',
     'settings.system.firewall.mode.paranoid': 'Paranoidalny',
     'settings.system.firewall.moderate.apply': 'Przełącz na Umiarkowany',
-    'settings.system.firewall.moderate.active': 'Tryb zapory Umiarkowany jest aktywny',
     'settings.system.firewall.restricted.enable': 'Włącz Ograniczony',
-    'settings.system.firewall.restricted.active': 'Tryb zapory Ograniczony jest aktywny',
     'settings.system.firewall.restricted.confirmTitle': 'Włączyć tryb zapory Ograniczony?',
     'settings.system.firewall.paranoid.enable': 'Włącz Paranoidalny',
-    'settings.system.firewall.paranoid.active': 'Tryb zapory Paranoidalny jest aktywny',
     'settings.system.firewall.paranoid.confirmTitle': 'Włączyć tryb zapory Paranoidalny?',
     'settings.system.firewall.baseline.apply': 'Przełącz na Podstawowy',
-    'settings.system.firewall.baseline.active': 'Tryb zapory Podstawowy jest aktywny',
     'settings.system.firewall.baseline.confirmTitle': 'Przełączyć na otwarty tryb Podstawowy?',
     'settings.update.paranoidBlocked':
       'Aktualizacje online są blokowane przez tryb zapory Paranoidalny',
@@ -2775,7 +2723,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Sesja terminala została zamknięta. Odblokuj ponownie, aby się połączyć.',
     'keyboard.localInput': 'Wprowadzanie z klawiatury mobilnej',
     'settings.network.configuration': 'Konfiguracja',
-    'settings.network.dns.servers': 'Serwery'
+    'settings.network.dns.servers': 'Serwery',
+    'settings.system.firewall.mode.baselineDesc':
+      'Otwarty profil zgodności. Zapora działa, ale źródła przychodzące nie są ograniczane. Używaj tylko w zaufanych sieciach.',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Lokalny HTTPS i SSH oraz wychodzące DNS, NTP, syslog i aktualizacje online. DHCP i niezbędny ruch IPv6 pozostają dostępne. WebRTC jest zablokowany.',
+    'settings.system.firewall.mode.paranoidDesc':
+      'Lokalny dostęp tylko przez HTTPS. Blokuje SSH, HTTP, aktualizacje online i inne wychodzące funkcje sieciowe. Wgrywanie aktualizacji offline i już przygotowane instalacje pozostają dostępne.',
+    'settings.system.firewall.backends': 'Backendy',
+    'settings.system.firewall.mode.openTag': 'Przychodzące otwarte',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Dostęp administracyjny przychodzący zostanie ograniczony do źródeł private IPv4, IPv4 link-local/loopback, IPv6 link-local lub IPv6 loopback dla HTTPS i SSH. Publiczne zakresy źródłowe nie są dozwolone. Wychodzące DNS, NTP, zdalny syslog, aktualizacje online, DHCP, istniejące połączenia i niezbędny ruch sterujący IPv6 pozostaną dostępne. WebRTC/ICE UDP oraz pozostały ruch przychodzący i wychodzący zostaną zablokowane.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Dostępny pozostanie tylko HTTPS ze źródeł private IPv4, IPv4 link-local/loopback, IPv6 link-local lub IPv6 loopback. Publiczne zakresy źródłowe nie są dozwolone. SSH, HTTP, mDNS, NTP, pobieranie z GitHub i pozostały ruch przychodzący/wychodzący zostaną zablokowane z wyjątkiem minimalnego DHCP/ruchu sterującego IPv6.'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -2804,43 +2764,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Os modos Restrito e Paranoico ficam desativados até que o HTTPS seja ativado em Configurações > Sistema > Rede',
     'settings.system.firewall.mode.baselineDesc':
-      'Perfil aberto e gerenciado. Mantém o acesso normal ao NanoKVM sem filtragem por faixas de origem.',
+      'Perfil aberto de compatibilidade. O firewall está ativo, mas as origens de entrada não são restringidas. Use apenas em redes confiáveis.',
     'settings.system.firewall.mode.moderateDesc':
-      'Perfil padrão. Mantém os serviços do Base, mas só aceita novas conexões de entrada de faixas privadas, ULA, link-local ou loopback.',
+      'Perfil padrão. Mantém os serviços do Base, mas só aceita novas conexões de entrada de faixas privadas, link-local ou loopback. O acesso de saída continua aberto.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Acesso HTTPS somente local. Bloqueia SSH, HTTP, atualizações online e outros recursos de rede de saída.',
+      'Acesso HTTPS somente local. Bloqueia SSH, HTTP, atualizações online e outros recursos de rede de saída. O envio de atualizações offline e as instalações já preparadas continuam disponíveis.',
     'settings.system.firewall.mode.current': 'Atual',
     'settings.system.firewall.mode.default': 'Padrão',
     'settings.system.firewall.mode.localOnly': 'Somente local',
-    'settings.system.firewall.mode.openTag': 'Aberto',
+    'settings.system.firewall.mode.openTag': 'Entrada aberta',
     'settings.system.firewall.mode.httpsRequiredTag': 'Requer HTTPS',
     'settings.system.firewall.mode.outboundOpen': 'Saída aberta',
     'settings.system.firewall.mode.outboundLimited': 'Saída limitada',
     'settings.system.firewall.mode.httpsOnly': 'Somente HTTPS',
     'settings.system.firewall.moderate.apply': 'Mudar para Moderado',
-    'settings.system.firewall.moderate.active': 'O modo de firewall Moderado está ativo',
-    'settings.system.firewall.moderate.allows':
-      'As conexões de entrada só são aceitas de faixas de origem IPv4 privadas, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local ou IPv6 loopback. O acesso de saída continua aberto.',
     'settings.system.firewall.baseline.apply': 'Mudar para Base',
-    'settings.system.firewall.baseline.active': 'O modo de firewall Base está ativo',
-    'settings.system.firewall.baseline.allows':
-      'O serviço de firewall está ativo, mas as faixas de origem de entrada não são restritas. Use apenas em ambientes de laboratório confiáveis ou por compatibilidade.',
     'settings.system.firewall.baseline.confirmTitle': 'Mudar para o modo Base aberto?',
     'settings.system.firewall.baseline.confirmDesc':
       'O serviço de firewall continua ativo, mas a restrição a faixas de origem somente locais é removida. Faixas de origem públicas podem alcançar os serviços expostos do NanoKVM se a rede as rotear.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC está desativado nos modos de firewall Restrito e Paranoico',
-    'settings.system.firewall.mode.description':
-      'Escolha como o acesso administrativo de entrada é exposto. Moderado é o perfil local padrão; Restrito mantém HTTPS/SSH apenas local e bloqueia WebRTC; Base é um perfil aberto de compatibilidade.',
     'settings.system.firewall.mode.baseline': 'Base',
     'settings.system.firewall.mode.moderate': 'Moderado',
     'settings.system.firewall.mode.restricted': 'Restrito',
     'settings.system.firewall.mode.paranoid': 'Paranoico',
     'settings.system.firewall.restricted.enable': 'Ativar Restrito',
-    'settings.system.firewall.restricted.active': 'O modo Firewall Restrito está ativo',
     'settings.system.firewall.restricted.confirmTitle': 'Ativar o modo Restrito?',
     'settings.system.firewall.paranoid.enable': 'Ativar Paranoico',
-    'settings.system.firewall.paranoid.active': 'O modo Firewall Paranoico está ativo',
     'settings.system.firewall.paranoid.confirmTitle': 'Ativar o modo Paranoico?',
     'settings.update.paranoidBlocked':
       'Atualizações online são bloqueadas pelo modo de firewall Paranoico',
@@ -2917,7 +2867,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownJapanese': 'Japonês',
     'keyboard.localInput': 'Entrada do teclado do celular',
     'settings.network.configuration': 'Configuração',
-    'settings.network.dns.servers': 'Servidores'
+    'settings.network.dns.servers': 'Servidores',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Somente HTTPS e SSH locais, além de DNS, NTP, syslog e atualizações online de saída. DHCP e o tráfego IPv6 essencial continuam disponíveis. O WebRTC está bloqueado.',
+    'settings.system.firewall.backends': 'Backends',
+    'settings.system.firewall.restricted.confirmDesc':
+      'O acesso administrativo de entrada será limitado a faixas private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback para HTTPS e SSH. Faixas públicas de origem não são permitidas. DNS, NTP, syslog remoto, atualizações online, DHCP, conexões estabelecidas e tráfego essencial IPv6 de saída permanecerão disponíveis. WebRTC/ICE UDP e demais tráfegos de entrada/saída serão bloqueados.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Apenas acesso HTTPS de faixas private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback permanecerá disponível. SSH, HTTP, mDNS, NTP, downloads do GitHub e outro tráfego serão bloqueados exceto DHCP/controle IPv6 mínimo.'
   },
   ru: {
     'download.disabled':
@@ -2943,26 +2900,20 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Перед включением режима брандмауэра «Ограниченный» или «Параноидальный» включите HTTPS',
     'settings.system.firewall.httpsRequired':
       'Режимы «Ограниченный» и «Параноидальный» недоступны, пока HTTPS не включен в Настройки > Система > Сеть',
-    'settings.system.firewall.mode.description':
-      'Выберите, как открыт входящий административный доступ. «Умеренный» — типовой локальный профиль; «Ограниченный» оставляет HTTPS/SSH только локальными и блокирует WebRTC; «Базовый» — открытый профиль совместимости.',
     'settings.system.firewall.mode.baseline': 'Базовый',
     'settings.system.firewall.mode.moderate': 'Умеренный',
     'settings.system.firewall.mode.moderateDesc':
-      'Дефолтный профиль. Сохраняет сервисы baseline, но принимает новые входящие соединения только из private, ULA, link-local или loopback диапазонов.',
+      'Дефолтный профиль. Сохраняет сервисы baseline, но принимает новые входящие соединения только из private, link-local или loopback диапазонов. Исходящий доступ остаётся открытым.',
     'settings.system.firewall.mode.restricted': 'Ограниченный',
     'settings.system.firewall.mode.paranoid': 'Параноидальный',
     'settings.system.firewall.moderate.apply': 'Переключить на «Умеренный»',
-    'settings.system.firewall.moderate.active': 'Режим брандмауэра «Умеренный» активен',
     'settings.system.firewall.restricted.enable': 'Включить «Ограниченный»',
-    'settings.system.firewall.restricted.active': 'Режим брандмауэра «Ограниченный» активен',
     'settings.system.firewall.restricted.confirmTitle':
       'Включить режим брандмауэра «Ограниченный»?',
     'settings.system.firewall.paranoid.enable': 'Включить «Параноидальный»',
-    'settings.system.firewall.paranoid.active': 'Режим брандмауэра «Параноидальный» активен',
     'settings.system.firewall.paranoid.confirmTitle':
       'Включить режим брандмауэра «Параноидальный»?',
     'settings.system.firewall.baseline.apply': 'Переключить на «Базовый»',
-    'settings.system.firewall.baseline.active': 'Режим брандмауэра «Базовый» активен',
     'settings.system.firewall.baseline.confirmTitle': 'Переключить на открытый режим «Базовый»?',
     'settings.update.paranoidBlocked':
       'Онлайн-обновления заблокированы режимом брандмауэра «Параноидальный»',
@@ -3055,7 +3006,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Двигайте курсор в любой области KVM. Позиция сохраняется между касаниями и синхронизируется через абсолютный HID.',
     'keyboard.localInput': 'Ввод с мобильной клавиатуры',
     'settings.network.configuration': 'Конфигурация',
-    'settings.network.dns.servers': 'Серверы'
+    'settings.network.dns.servers': 'Серверы',
+    'settings.system.firewall.mode.baselineDesc':
+      'Открытый профиль совместимости. Файрвол работает, но входящие источники не ограничиваются. Используйте только в доверенных сетях.',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Только локальные HTTPS и SSH, плюс исходящие DNS, NTP, syslog и онлайн-обновления. DHCP и необходимый трафик IPv6 остаются доступными. WebRTC заблокирован.',
+    'settings.system.firewall.mode.paranoidDesc':
+      'Только локальный HTTPS-доступ. Блокирует SSH, HTTP, онлайн-обновления и другие исходящие сетевые функции. Загрузка офлайн-обновлений и уже подготовленные установки остаются доступными.',
+    'settings.system.firewall.backends': 'Backends',
+    'settings.system.firewall.mode.openTag': 'Входящие открыты',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Входящий административный доступ будет ограничен private IPv4, IPv4 link-local/loopback, IPv6 link-local или IPv6 loopback source ranges для HTTPS и SSH. Публичные source ranges не разрешаются. Исходящие DNS, NTP, удаленный syslog, онлайн-обновления, DHCP, established-соединения и минимальный IPv6 control traffic останутся доступны. WebRTC/ICE UDP и прочий входящий/исходящий трафик будут заблокированы.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Останется доступ только по HTTPS из private IPv4, IPv4 link-local/loopback, IPv6 link-local или IPv6 loopback source ranges. Публичные source ranges не разрешаются. SSH, HTTP, mDNS, NTP, загрузки с GitHub и прочий входящий/исходящий трафик будут заблокированы, кроме минимального DHCP/IPv6 control traffic.'
   },
   se: {
     'auth.illegalPassword':
@@ -3088,43 +3051,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Lägena Begränsad och Paranoid är inaktiverade tills HTTPS har aktiverats under Inställningar > System > Nätverk',
     'settings.system.firewall.mode.baselineDesc':
-      'Öppen hanterad profil. Behåller normal åtkomst till NanoKVM utan filtrering av källintervall.',
+      'Öppen kompatibilitetsprofil. Brandväggen körs, men inkommande källor begränsas inte. Använd bara i betrodda nätverk.',
     'settings.system.firewall.mode.moderateDesc':
-      'Standardprofil. Behåller Bas-tjänsterna men tar bara emot nya inkommande anslutningar från privata, ULA-, link-local- eller loopback-intervall.',
+      'Standardprofil. Behåller Bas-tjänsterna men tar bara emot nya inkommande anslutningar från privata, link-local- eller loopback-intervall. Utgående åtkomst förblir öppen.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Endast lokal HTTPS-åtkomst. Blockerar SSH, HTTP, onlineuppdateringar och andra utgående nätverksfunktioner.',
+      'Endast lokal HTTPS-åtkomst. Blockerar SSH, HTTP, onlineuppdateringar och andra utgående nätverksfunktioner. Uppladdning av offlineuppdateringar och redan förberedda installationer är fortfarande tillgängliga.',
     'settings.system.firewall.mode.current': 'Aktuell',
     'settings.system.firewall.mode.default': 'Standard',
     'settings.system.firewall.mode.localOnly': 'Endast lokalt',
-    'settings.system.firewall.mode.openTag': 'Öppen',
+    'settings.system.firewall.mode.openTag': 'Inkommande öppen',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS krävs',
     'settings.system.firewall.mode.outboundOpen': 'Utgående öppen',
     'settings.system.firewall.mode.outboundLimited': 'Utgående begränsad',
     'settings.system.firewall.mode.httpsOnly': 'Endast HTTPS',
     'settings.system.firewall.moderate.apply': 'Byt till Måttlig',
-    'settings.system.firewall.moderate.active': 'Brandväggsläget Måttlig är aktivt',
-    'settings.system.firewall.moderate.allows':
-      'Inkommande anslutningar accepteras endast från privata IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- eller IPv6 loopback-källintervall. Utgående åtkomst förblir öppen.',
     'settings.system.firewall.baseline.apply': 'Byt till Bas',
-    'settings.system.firewall.baseline.active': 'Brandväggsläget Bas är aktivt',
-    'settings.system.firewall.baseline.allows':
-      'Brandväggstjänsten är aktiv, men inkommande källintervall är inte begränsade. Använd endast i betrodda labb- eller kompatibilitetsscenarier.',
     'settings.system.firewall.baseline.confirmTitle': 'Byta till öppet läge Bas?',
     'settings.system.firewall.baseline.confirmDesc':
       'Brandväggstjänsten förblir aktiv, men begränsningen till lokala källintervall tas bort. Offentliga källintervall kan nå exponerade NanoKVM-tjänster om nätverket routar dem.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC är inaktiverat i brandväggslägena Begränsad och Paranoid',
-    'settings.system.firewall.mode.description':
-      'Välj hur inkommande administratörsåtkomst exponeras. Måttlig är standardprofilen endast för lokala nät; Begränsad håller HTTPS/SSH lokalt och blockerar WebRTC; Bas är en öppen kompatibilitetsprofil.',
     'settings.system.firewall.mode.baseline': 'Bas',
     'settings.system.firewall.mode.moderate': 'Måttlig',
     'settings.system.firewall.mode.restricted': 'Begränsad',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Aktivera Begränsad',
-    'settings.system.firewall.restricted.active': 'Brandväggsläget Begränsad är aktivt',
     'settings.system.firewall.restricted.confirmTitle': 'Aktivera brandväggsläget Begränsad?',
     'settings.system.firewall.paranoid.enable': 'Aktivera Paranoid',
-    'settings.system.firewall.paranoid.active': 'Brandväggsläget Paranoid är aktivt',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktivera brandväggsläget Paranoid?',
     'settings.update.paranoidBlocked': 'Onlineuppdateringar blockeras av brandväggsläget Paranoid',
     'settings.device.hidOnlyDesc':
@@ -3198,7 +3151,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownJapanese': 'Japanska',
     'keyboard.localInput': 'Inmatning från mobiltangentbord',
     'settings.network.configuration': 'Konfiguration',
-    'settings.network.dns.servers': 'Servrar'
+    'settings.network.dns.servers': 'Servrar',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Endast lokal HTTPS och SSH, plus utgående DNS, NTP, syslog och onlineuppdateringar. DHCP och nödvändig IPv6-trafik förblir tillgänglig. WebRTC är blockerat.',
+    'settings.system.firewall.backends': 'Backends',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Inkommande administratörsåtkomst begränsas till private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- eller IPv6 loopback-källor för HTTPS och SSH. Offentliga källintervall tillåts inte. Utgående DNS, NTP, fjärr-syslog, onlineuppdateringar, DHCP, etablerade anslutningar och nödvändig IPv6-kontrolltrafik förblir tillgängliga. WebRTC/ICE UDP och annan in-/utgående trafik blockeras.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Endast HTTPS-åtkomst från private IPv4, IPv4 link-local/loopback, IPv6 link-local eller IPv6 loopback är tillgänglig. SSH, HTTP, mDNS, NTP, GitHub-nedladdningar och annan trafik blockeras utom minimal DHCP/IPv6-kontroll.'
   },
   th: {
     'auth.illegalPassword':
@@ -3238,43 +3198,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'โหมด จำกัด และ หวาดระแวง จะถูกปิดใช้งานจนกว่าจะเปิด HTTPS ที่ การตั้งค่า > ระบบ > เครือข่าย',
     'settings.system.firewall.mode.baselineDesc':
-      'โปรไฟล์แบบเปิดที่จัดการโดยระบบ คงการเข้าถึง NanoKVM ตามปกติโดยไม่กรองตามช่วงต้นทาง',
+      'โปรไฟล์แบบเปิดเพื่อความเข้ากันได้ ไฟร์วอลล์ทำงานอยู่ แต่ไม่จำกัดแหล่งที่มาขาเข้า ใช้เฉพาะในเครือข่ายที่เชื่อถือได้เท่านั้น',
     'settings.system.firewall.mode.moderateDesc':
-      'โปรไฟล์เริ่มต้น คงบริการของ พื้นฐาน ไว้ แต่รับการเชื่อมต่อขาเข้าใหม่จากช่วงส่วนตัว, ULA, link-local หรือ loopback เท่านั้น',
+      'โปรไฟล์เริ่มต้น คงบริการของ พื้นฐาน ไว้ แต่รับการเชื่อมต่อขาเข้าใหม่จากช่วงส่วนตัว, link-local หรือ loopback เท่านั้น การเข้าถึงขาออกยังคงเปิดอยู่',
     'settings.system.firewall.mode.paranoidDesc':
-      'เข้าถึง HTTPS ได้เฉพาะภายในเครื่อง บล็อก SSH, HTTP, การอัปเดตออนไลน์ และฟีเจอร์เครือข่ายขาออกอื่น ๆ',
+      'เข้าถึง HTTPS ได้เฉพาะภายในเครื่อง บล็อก SSH, HTTP, การอัปเดตออนไลน์ และฟีเจอร์เครือข่ายขาออกอื่น ๆ การอัปโหลดอัปเดตแบบออฟไลน์และการติดตั้งที่เตรียมไว้แล้วยังใช้งานได้',
     'settings.system.firewall.mode.current': 'ปัจจุบัน',
     'settings.system.firewall.mode.default': 'ค่าเริ่มต้น',
     'settings.system.firewall.mode.localOnly': 'เฉพาะภายในเครื่อง',
-    'settings.system.firewall.mode.openTag': 'เปิด',
+    'settings.system.firewall.mode.openTag': 'ขาเข้าเปิด',
     'settings.system.firewall.mode.httpsRequiredTag': 'ต้องใช้ HTTPS',
     'settings.system.firewall.mode.outboundOpen': 'ขาออกเปิด',
     'settings.system.firewall.mode.outboundLimited': 'ขาออกจำกัด',
     'settings.system.firewall.mode.httpsOnly': 'เฉพาะ HTTPS',
     'settings.system.firewall.moderate.apply': 'สลับไปใช้ ปานกลาง',
-    'settings.system.firewall.moderate.active': 'โหมดไฟร์วอลล์ ปานกลาง กำลังทำงาน',
-    'settings.system.firewall.moderate.allows':
-      'รับการเชื่อมต่อขาเข้าเฉพาะจากช่วงต้นทาง IPv4 ส่วนตัว, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local หรือ IPv6 loopback เท่านั้น การเข้าถึงขาออกยังคงเปิดอยู่',
     'settings.system.firewall.baseline.apply': 'สลับไปใช้ พื้นฐาน',
-    'settings.system.firewall.baseline.active': 'โหมดไฟร์วอลล์ พื้นฐาน กำลังทำงาน',
-    'settings.system.firewall.baseline.allows':
-      'บริการไฟร์วอลล์ทำงานอยู่ แต่ช่วงต้นทางขาเข้าไม่ถูกจำกัด ใช้เฉพาะในสภาพแวดล้อมห้องทดลองที่เชื่อถือได้หรือกรณีที่ต้องการความเข้ากันได้',
     'settings.system.firewall.baseline.confirmTitle': 'สลับไปใช้โหมด พื้นฐาน แบบเปิดหรือไม่?',
     'settings.system.firewall.baseline.confirmDesc':
       'บริการไฟร์วอลล์ยังคงทำงานอยู่ แต่จะยกเลิกข้อจำกัดเฉพาะช่วงต้นทางภายในเครื่อง ช่วงต้นทางสาธารณะอาจเข้าถึงบริการ NanoKVM ที่เปิดอยู่ได้หากเครือข่ายส่งต่อให้',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC ถูกปิดใช้งานในโหมดไฟร์วอลล์ จำกัด และ หวาดระแวง',
-    'settings.system.firewall.mode.description':
-      'เลือกวิธีเปิดเผยการเข้าถึงผู้ดูแลขาเข้า ปานกลาง เป็นโปรไฟล์ภายในเริ่มต้น; จำกัด ให้ HTTPS/SSH ใช้ได้เฉพาะภายในและบล็อก WebRTC; พื้นฐาน เป็นโปรไฟล์เปิดเพื่อความเข้ากันได้',
     'settings.system.firewall.mode.baseline': 'พื้นฐาน',
     'settings.system.firewall.mode.moderate': 'ปานกลาง',
     'settings.system.firewall.mode.restricted': 'จำกัด',
     'settings.system.firewall.mode.paranoid': 'หวาดระแวง',
     'settings.system.firewall.restricted.enable': 'เปิด จำกัด',
-    'settings.system.firewall.restricted.active': 'โหมดไฟร์วอลล์ จำกัด เปิดใช้งานอยู่',
     'settings.system.firewall.restricted.confirmTitle': 'เปิดโหมด จำกัด หรือไม่?',
     'settings.system.firewall.paranoid.enable': 'เปิด หวาดระแวง',
-    'settings.system.firewall.paranoid.active': 'โหมดไฟร์วอลล์ หวาดระแวง เปิดใช้งานอยู่',
     'settings.system.firewall.paranoid.confirmTitle': 'เปิดโหมด หวาดระแวง หรือไม่?',
     'settings.update.paranoidBlocked': 'การอัปเดตออนไลน์ถูกบล็อกโดยโหมดไฟร์วอลล์ หวาดระแวง',
     'settings.device.hidOnlyDesc':
@@ -3312,7 +3262,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.configuration': 'การกำหนดค่า',
     'settings.network.dns.servers': 'เซิร์ฟเวอร์',
     'settings.system.time.servers.description':
-      'ใช้เซิร์ฟเวอร์สาธารณะเริ่มต้น เราเตอร์ในเครือข่ายของคุณ หรือเซิร์ฟเวอร์ NTP ที่กำหนดเอง'
+      'ใช้เซิร์ฟเวอร์สาธารณะเริ่มต้น เราเตอร์ในเครือข่ายของคุณ หรือเซิร์ฟเวอร์ NTP ที่กำหนดเอง',
+    'settings.system.firewall.mode.restrictedDesc':
+      'HTTPS และ SSH เฉพาะภายในเครื่อง รวมถึง DNS, NTP, syslog และการอัปเดตออนไลน์ขาออก DHCP และทราฟฟิก IPv6 ที่จำเป็นยังใช้งานได้ WebRTC ถูกบล็อก',
+    'settings.system.firewall.backends': 'แบ็กเอนด์',
+    'settings.system.firewall.restricted.confirmDesc':
+      'การเข้าถึงผู้ดูแลขาเข้าจะถูกจำกัดไว้ที่ช่วง private IPv4, IPv4 link-local/loopback, IPv6 link-local หรือ IPv6 loopback สำหรับ HTTPS และ SSH ไม่อนุญาตช่วงต้นทางสาธารณะ DNS, NTP, syslog ระยะไกล, อัปเดตออนไลน์, DHCP, การเชื่อมต่อที่สร้างแล้ว และทราฟฟิกควบคุม IPv6 ที่จำเป็นขาออกจะยังใช้งานได้ WebRTC/ICE UDP และทราฟฟิกขาเข้า/ขาออกอื่นจะถูกบล็อก',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'จะเหลือเฉพาะการเข้าถึง HTTPS จากช่วง private IPv4, IPv4 link-local/loopback, IPv6 link-local หรือ IPv6 loopback เท่านั้น SSH, HTTP, mDNS, NTP, การดาวน์โหลด GitHub และทราฟฟิกอื่นจะถูกบล็อก ยกเว้น DHCP/การควบคุม IPv6 ขั้นต่ำ'
   },
   tr: {
     'auth.illegalPassword':
@@ -3355,43 +3312,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Kısıtlı ve Paranoyak modları, HTTPS Ayarlar > Sistem > Ağ bölümünde etkinleştirilene kadar devre dışıdır',
     'settings.system.firewall.mode.baselineDesc':
-      'Açık, yönetilen profil. Kaynak aralığı filtrelemesi olmadan normal NanoKVM erişimini korur.',
+      'Açık uyumluluk profili. Güvenlik duvarı çalışır, ancak gelen kaynaklar kısıtlanmaz. Yalnızca güvenilir ağlarda kullanın.',
     'settings.system.firewall.mode.moderateDesc':
-      'Varsayılan profil. Temel mod hizmetlerini korur, ancak yeni gelen bağlantıları yalnızca özel, ULA, link-local veya loopback aralıklarından kabul eder.',
+      'Varsayılan profil. Temel mod hizmetlerini korur, ancak yeni gelen bağlantıları yalnızca özel, link-local veya loopback aralıklarından kabul eder. Giden erişim açık kalır.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Yalnızca yerel HTTPS erişimi. SSH, HTTP, çevrimiçi güncellemeleri ve diğer giden ağ özelliklerini engeller.',
+      'Yalnızca yerel HTTPS erişimi. SSH, HTTP, çevrimiçi güncellemeleri ve diğer giden ağ özelliklerini engeller. Çevrimdışı güncelleme yükleme ve önceden hazırlanmış kurulumlar kullanılabilir kalır.',
     'settings.system.firewall.mode.current': 'Geçerli',
     'settings.system.firewall.mode.default': 'Varsayılan',
     'settings.system.firewall.mode.localOnly': 'Yalnızca yerel',
-    'settings.system.firewall.mode.openTag': 'Açık',
+    'settings.system.firewall.mode.openTag': 'Gelen açık',
     'settings.system.firewall.mode.httpsRequiredTag': 'HTTPS gerekli',
     'settings.system.firewall.mode.outboundOpen': 'Giden açık',
     'settings.system.firewall.mode.outboundLimited': 'Giden sınırlı',
     'settings.system.firewall.mode.httpsOnly': 'Yalnızca HTTPS',
     'settings.system.firewall.moderate.apply': 'Orta moda geç',
-    'settings.system.firewall.moderate.active': 'Orta güvenlik duvarı modu etkin',
-    'settings.system.firewall.moderate.allows':
-      'Gelen bağlantılar yalnızca özel IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local veya IPv6 loopback kaynak aralıklarından kabul edilir. Giden erişim açık kalır.',
     'settings.system.firewall.baseline.apply': 'Temel moda geç',
-    'settings.system.firewall.baseline.active': 'Temel güvenlik duvarı modu etkin',
-    'settings.system.firewall.baseline.allows':
-      'Güvenlik duvarı hizmeti etkin, ancak gelen kaynak aralıkları kısıtlanmaz. Bunu yalnızca güvenilir laboratuvar veya uyumluluk senaryolarında kullanın.',
     'settings.system.firewall.baseline.confirmTitle': 'Açık Temel moduna geçilsin mi?',
     'settings.system.firewall.baseline.confirmDesc':
       "Güvenlik duvarı hizmeti etkin kalır, ancak yalnızca yerel kaynak aralığı kısıtlaması kaldırılır. Ağ yönlendiriyorsa genel kaynak aralıkları NanoKVM'in açıkta kalan hizmetlerine ulaşabilir.",
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC, Kısıtlı ve Paranoyak güvenlik duvarı modlarında devre dışıdır',
-    'settings.system.firewall.mode.description':
-      'Gelen yönetim erişiminin nasıl açılacağını seçin. Orta varsayılan yerel profildir; Kısıtlı HTTPS/SSH’yi yerel tutar ve WebRTC’yi engeller; Temel açık uyumluluk profilidir.',
     'settings.system.firewall.mode.baseline': 'Temel',
     'settings.system.firewall.mode.moderate': 'Orta',
     'settings.system.firewall.mode.restricted': 'Kısıtlı',
     'settings.system.firewall.mode.paranoid': 'Paranoyak',
     'settings.system.firewall.restricted.enable': 'Kısıtlı modu etkinleştir',
-    'settings.system.firewall.restricted.active': 'Kısıtlı güvenlik duvarı modu etkin',
     'settings.system.firewall.restricted.confirmTitle': 'Kısıtlı modu etkinleştirilsin mi?',
     'settings.system.firewall.paranoid.enable': 'Paranoyak modu etkinleştir',
-    'settings.system.firewall.paranoid.active': 'Paranoyak güvenlik duvarı modu etkin',
     'settings.system.firewall.paranoid.confirmTitle': 'Paranoyak modu etkinleştirilsin mi?',
     'settings.update.paranoidBlocked':
       'Çevrimiçi güncellemeler Paranoyak güvenlik duvarı modu tarafından engellenir',
@@ -3473,7 +3420,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'script.delDesc': 'Bu dosyayı silmek istediğinizden emin misiniz?',
     'keyboard.localInput': 'Mobil klavye girişi',
     'settings.network.configuration': 'Yapılandırma',
-    'settings.network.dns.servers': 'Sunucular'
+    'settings.network.dns.servers': 'Sunucular',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Yalnızca yerel HTTPS ve SSH ile giden DNS, NTP, syslog ve çevrimiçi güncellemeler. DHCP ve temel IPv6 trafiği kullanılabilir kalır. WebRTC engellenir.',
+    'settings.system.firewall.backends': "Backend'ler",
+    'settings.system.firewall.restricted.confirmDesc':
+      'Gelen yönetim erişimi HTTPS ve SSH için private IPv4, IPv4 link-local/loopback, IPv6 link-local veya IPv6 loopback kaynak aralıklarıyla sınırlanır. Genel kaynak aralıklarına izin verilmez. Giden DNS, NTP, uzak syslog, çevrimiçi güncellemeler, DHCP, kurulmuş bağlantılar ve gerekli IPv6 kontrol trafiği kullanılabilir kalır. WebRTC/ICE UDP ve diğer gelen/giden trafik engellenir.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Yalnızca private IPv4, IPv4 link-local/loopback, IPv6 link-local veya IPv6 loopback kaynak aralıklarından HTTPS erişimi kullanılabilir kalır. SSH, HTTP, mDNS, NTP, GitHub indirmeleri ve diğer trafik minimal DHCP/IPv6 kontrolü dışında engellenir.'
   },
   uk: {
     'auth.illegalPassword':
@@ -3517,43 +3471,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Режими Обмежений і Параноїдальний вимкнено, доки HTTPS не буде увімкнено в Налаштування > Система > Мережа',
     'settings.system.firewall.mode.baselineDesc':
-      'Відкритий керований профіль. Зберігає звичайний доступ до NanoKVM без фільтрації за діапазонами джерел.',
+      'Відкритий профіль сумісності. Брандмауер працює, але вхідні джерела не обмежуються. Використовуйте лише в довірених мережах.',
     'settings.system.firewall.mode.moderateDesc':
-      'Типовий профіль. Зберігає служби базового режиму, але приймає нові вхідні підключення лише з приватних діапазонів, ULA, link-local або loopback.',
+      'Типовий профіль. Зберігає служби базового режиму, але приймає нові вхідні підключення лише з приватних діапазонів, link-local або loopback. Вихідний доступ залишається відкритим.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Лише локальний доступ HTTPS. Блокує SSH, HTTP, онлайн-оновлення та інші функції вихідної мережі.',
+      'Лише локальний доступ HTTPS. Блокує SSH, HTTP, онлайн-оновлення та інші функції вихідної мережі. Завантаження офлайн-оновлень і вже підготовлені встановлення залишаються доступними.',
     'settings.system.firewall.mode.current': 'Поточний',
     'settings.system.firewall.mode.default': 'Типовий',
     'settings.system.firewall.mode.localOnly': 'Лише локально',
-    'settings.system.firewall.mode.openTag': 'Відкритий',
+    'settings.system.firewall.mode.openTag': 'Вхідні відкриті',
     'settings.system.firewall.mode.httpsRequiredTag': 'Потрібен HTTPS',
     'settings.system.firewall.mode.outboundOpen': 'Вихідні відкриті',
     'settings.system.firewall.mode.outboundLimited': 'Вихідні обмежені',
     'settings.system.firewall.mode.httpsOnly': 'Лише HTTPS',
     'settings.system.firewall.moderate.apply': 'Перейти на Помірний',
-    'settings.system.firewall.moderate.active': 'Режим брандмауера Помірний активний',
-    'settings.system.firewall.moderate.allows':
-      'Вхідні підключення приймаються лише з діапазонів джерел приватних IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local або IPv6 loopback. Вихідний доступ залишається відкритим.',
     'settings.system.firewall.baseline.apply': 'Перейти на Базовий',
-    'settings.system.firewall.baseline.active': 'Режим брандмауера Базовий активний',
-    'settings.system.firewall.baseline.allows':
-      'Служба брандмауера активна, але вхідні діапазони джерел не обмежені. Використовуйте лише в довірених лабораторних умовах або для сумісності.',
     'settings.system.firewall.baseline.confirmTitle': 'Перейти на відкритий режим Базовий?',
     'settings.system.firewall.baseline.confirmDesc':
       'Служба брандмауера залишається активною, але обмеження лише локальними діапазонами джерел знімається. Публічні діапазони джерел можуть досягти відкритих служб NanoKVM, якщо мережа їх маршрутизує.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC вимкнено в режимах firewall Обмежений і Параноїдальний',
-    'settings.system.firewall.mode.description':
-      'Виберіть, як відкрито вхідний адміністративний доступ. Помірний — типовий локальний профіль; Обмежений залишає HTTPS/SSH лише локальними та блокує WebRTC; Базовий — відкритий профіль сумісності.',
     'settings.system.firewall.mode.baseline': 'Базовий',
     'settings.system.firewall.mode.moderate': 'Помірний',
     'settings.system.firewall.mode.restricted': 'Обмежений',
     'settings.system.firewall.mode.paranoid': 'Параноїдальний',
     'settings.system.firewall.restricted.enable': 'Увімкнути Обмежений',
-    'settings.system.firewall.restricted.active': 'Режим брандмауера Обмежений активний',
     'settings.system.firewall.restricted.confirmTitle': 'Увімкнути режим Обмежений?',
     'settings.system.firewall.paranoid.enable': 'Увімкнути Параноїдальний',
-    'settings.system.firewall.paranoid.active': 'Режим брандмауера Параноїдальний активний',
     'settings.system.firewall.paranoid.confirmTitle': 'Увімкнути режим Параноїдальний?',
     'settings.update.paranoidBlocked':
       'Онлайн-оновлення заблоковані режимом брандмауера Параноїдальний',
@@ -3637,7 +3581,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownJapanese': 'Японська',
     'keyboard.localInput': 'Введення з мобільної клавіатури',
     'settings.network.configuration': 'Конфігурація',
-    'settings.network.dns.servers': 'Сервери'
+    'settings.network.dns.servers': 'Сервери',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Лише локальні HTTPS і SSH, а також вихідні DNS, NTP, syslog та онлайн-оновлення. DHCP і необхідний трафік IPv6 залишаються доступними. WebRTC заблоковано.',
+    'settings.system.firewall.backends': 'Backends',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Вхідний адміністративний доступ буде обмежено джерелами private IPv4, IPv4 link-local/loopback, IPv6 link-local або IPv6 loopback для HTTPS і SSH. Публічні діапазони джерел не дозволені. Вихідні DNS, NTP, віддалений syslog, онлайн-оновлення, DHCP, встановлені з’єднання та необхідний керівний трафік IPv6 залишаться доступними. WebRTC/ICE UDP та інший вхідний/вихідний трафік буде заблоковано.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Доступним залишиться лише HTTPS із джерел private IPv4, IPv4 link-local/loopback, IPv6 link-local або IPv6 loopback. SSH, HTTP, mDNS, NTP, завантаження з GitHub та інший трафік буде заблоковано, крім мінімального DHCP/керування IPv6.'
   },
   vi: {
     'auth.illegalPassword':
@@ -3690,43 +3641,33 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       'Các chế độ Hạn chế và Hoang tưởng bị tắt cho đến khi HTTPS được bật trong Cài đặt > Hệ thống > Mạng',
     'settings.system.firewall.mode.baselineDesc':
-      'Hồ sơ mở, được quản lý. Giữ quyền truy cập NanoKVM bình thường mà không lọc theo dải nguồn.',
+      'Hồ sơ mở để tương thích. Tường lửa vẫn chạy nhưng không giới hạn nguồn đến. Chỉ dùng trong mạng đáng tin cậy.',
     'settings.system.firewall.mode.moderateDesc':
-      'Hồ sơ mặc định. Giữ các dịch vụ của Cơ bản, nhưng chỉ chấp nhận kết nối đến mới từ các dải riêng tư, ULA, link-local hoặc loopback.',
+      'Hồ sơ mặc định. Giữ các dịch vụ của Cơ bản, nhưng chỉ chấp nhận kết nối đến mới từ các dải riêng tư, link-local hoặc loopback. Truy cập đi ra vẫn được mở.',
     'settings.system.firewall.mode.paranoidDesc':
-      'Chỉ truy cập HTTPS cục bộ. Chặn SSH, HTTP, cập nhật trực tuyến và các tính năng mạng đi ra khác.',
+      'Chỉ truy cập HTTPS cục bộ. Chặn SSH, HTTP, cập nhật trực tuyến và các tính năng mạng đi ra khác. Việc tải lên bản cập nhật ngoại tuyến và các bản cài đặt đã chuẩn bị vẫn khả dụng.',
     'settings.system.firewall.mode.current': 'Hiện tại',
     'settings.system.firewall.mode.default': 'Mặc định',
     'settings.system.firewall.mode.localOnly': 'Chỉ cục bộ',
-    'settings.system.firewall.mode.openTag': 'Mở',
+    'settings.system.firewall.mode.openTag': 'Đi vào: mở',
     'settings.system.firewall.mode.httpsRequiredTag': 'Cần HTTPS',
     'settings.system.firewall.mode.outboundOpen': 'Đi ra: mở',
     'settings.system.firewall.mode.outboundLimited': 'Đi ra: hạn chế',
     'settings.system.firewall.mode.httpsOnly': 'Chỉ HTTPS',
     'settings.system.firewall.moderate.apply': 'Chuyển sang Vừa phải',
-    'settings.system.firewall.moderate.active': 'Chế độ tường lửa Vừa phải đang hoạt động',
-    'settings.system.firewall.moderate.allows':
-      'Chỉ chấp nhận kết nối đến từ các dải nguồn IPv4 riêng tư, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local hoặc IPv6 loopback. Truy cập đi ra vẫn mở.',
     'settings.system.firewall.baseline.apply': 'Chuyển sang Cơ bản',
-    'settings.system.firewall.baseline.active': 'Chế độ tường lửa Cơ bản đang hoạt động',
-    'settings.system.firewall.baseline.allows':
-      'Dịch vụ tường lửa đang hoạt động nhưng các dải nguồn đến không bị hạn chế. Chỉ dùng trong môi trường phòng thí nghiệm tin cậy hoặc khi cần tương thích.',
     'settings.system.firewall.baseline.confirmTitle': 'Chuyển sang chế độ Cơ bản mở?',
     'settings.system.firewall.baseline.confirmDesc':
       'Dịch vụ tường lửa vẫn hoạt động nhưng bỏ hạn chế chỉ cho dải nguồn cục bộ. Các dải nguồn công khai có thể truy cập các dịch vụ NanoKVM đang mở nếu mạng định tuyến cho chúng.',
     'screen.videoWebrtcBlockedByFirewall':
       'H.264 WebRTC bị tắt trong các chế độ tường lửa Hạn chế và Hoang tưởng',
-    'settings.system.firewall.mode.description':
-      'Chọn cách mở truy cập quản trị đi vào. Vừa phải là hồ sơ cục bộ mặc định; Hạn chế giữ HTTPS/SSH chỉ cục bộ và chặn WebRTC; Cơ bản là hồ sơ tương thích mở.',
     'settings.system.firewall.mode.baseline': 'Cơ bản',
     'settings.system.firewall.mode.moderate': 'Vừa phải',
     'settings.system.firewall.mode.restricted': 'Hạn chế',
     'settings.system.firewall.mode.paranoid': 'Hoang tưởng',
     'settings.system.firewall.restricted.enable': 'Bật Hạn chế',
-    'settings.system.firewall.restricted.active': 'Chế độ tường lửa Hạn chế đang hoạt động',
     'settings.system.firewall.restricted.confirmTitle': 'Bật chế độ Hạn chế?',
     'settings.system.firewall.paranoid.enable': 'Bật Hoang tưởng',
-    'settings.system.firewall.paranoid.active': 'Chế độ tường lửa Hoang tưởng đang hoạt động',
     'settings.system.firewall.paranoid.confirmTitle': 'Bật chế độ Hoang tưởng?',
     'settings.update.paranoidBlocked': 'Cập nhật online bị chặn bởi chế độ tường lửa Hoang tưởng',
     'settings.device.hidOnlyDesc':
@@ -3804,7 +3745,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.oled.3600': '1 giờ',
     'keyboard.localInput': 'Nhập liệu từ bàn phím di động',
     'settings.network.configuration': 'Cấu hình',
-    'settings.network.dns.servers': 'Máy chủ'
+    'settings.network.dns.servers': 'Máy chủ',
+    'settings.system.firewall.mode.restrictedDesc':
+      'Chỉ HTTPS và SSH cục bộ, cùng DNS, NTP, syslog và cập nhật trực tuyến đi ra. DHCP và lưu lượng IPv6 thiết yếu vẫn khả dụng. WebRTC bị chặn.',
+    'settings.system.firewall.backends': 'Backend',
+    'settings.system.firewall.restricted.confirmDesc':
+      'Truy cập quản trị đi vào sẽ bị giới hạn cho HTTPS và SSH ở các dải nguồn private IPv4, IPv4 link-local/loopback, IPv6 link-local hoặc IPv6 loopback. Không cho phép dải nguồn công khai. DNS, NTP, syslog từ xa, cập nhật online, DHCP, kết nối đã thiết lập và lưu lượng điều khiển IPv6 thiết yếu đi ra vẫn khả dụng. WebRTC/ICE UDP và lưu lượng đi vào/đi ra khác sẽ bị chặn.',
+    'settings.system.firewall.paranoid.confirmDesc':
+      'Chỉ truy cập HTTPS từ các dải nguồn private IPv4, IPv4 link-local/loopback, IPv6 link-local hoặc IPv6 loopback còn khả dụng. SSH, HTTP, mDNS, NTP, tải xuống GitHub và lưu lượng khác sẽ bị chặn ngoại trừ DHCP/điều khiển IPv6 tối thiểu.'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -3826,42 +3774,32 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       '在“设置 > 系统 > 网络”中启用 HTTPS 之前，受限和偏执模式不可用',
     'settings.system.firewall.mode.baselineDesc':
-      '开放的受管配置。保持正常的 NanoKVM 访问，不按来源范围过滤。',
+      '开放的兼容配置。防火墙正在运行，但不限制入站来源。仅在可信网络中使用。',
     'settings.system.firewall.mode.moderateDesc':
-      '默认配置。保留基线的服务，但仅接受来自私有、ULA、链路本地或环回范围的新入站连接。',
+      '默认配置。保留基线的服务，但仅接受来自私有、链路本地或环回范围的新入站连接。出站访问保持开放。',
     'settings.system.firewall.mode.paranoidDesc':
-      '仅限本地的 HTTPS 访问。阻止 SSH、HTTP、在线更新和其他出站网络功能。',
+      '仅限本地的 HTTPS 访问。阻止 SSH、HTTP、在线更新和其他出站网络功能。离线更新上传和已暂存的安装仍然可用。',
     'settings.system.firewall.mode.current': '当前',
     'settings.system.firewall.mode.default': '默认',
     'settings.system.firewall.mode.localOnly': '仅限本地',
-    'settings.system.firewall.mode.openTag': '开放',
+    'settings.system.firewall.mode.openTag': '入站开放',
     'settings.system.firewall.mode.httpsRequiredTag': '需要 HTTPS',
     'settings.system.firewall.mode.outboundOpen': '出站开放',
     'settings.system.firewall.mode.outboundLimited': '出站受限',
     'settings.system.firewall.mode.httpsOnly': '仅 HTTPS',
     'settings.system.firewall.moderate.apply': '切换到适中',
-    'settings.system.firewall.moderate.active': '适中防火墙模式已启用',
-    'settings.system.firewall.moderate.allows':
-      '仅接受来自私有 IPv4、IPv4 链路本地/环回、IPv6 ULA、IPv6 链路本地或 IPv6 环回来源范围的入站连接。出站访问保持开放。',
     'settings.system.firewall.baseline.apply': '切换到基线',
-    'settings.system.firewall.baseline.active': '基线防火墙模式已启用',
-    'settings.system.firewall.baseline.allows':
-      '防火墙服务已启用，但不限制入站来源范围。仅在可信的实验或兼容性场景中使用。',
     'settings.system.firewall.baseline.confirmTitle': '切换到开放的基线模式？',
     'settings.system.firewall.baseline.confirmDesc':
       '防火墙服务保持启用，但会取消仅限本地来源范围的限制。如果网络会路由，公共来源范围可能访问暴露的 NanoKVM 服务。',
     'screen.videoWebrtcBlockedByFirewall': 'H.264 WebRTC 在受限和偏执防火墙模式下已禁用',
-    'settings.system.firewall.mode.description':
-      '选择入站管理访问的暴露方式。适中是默认的仅本地配置；受限将 HTTPS/SSH 保持为仅本地并阻止 WebRTC；基线是开放的兼容配置。',
     'settings.system.firewall.mode.baseline': '基线',
     'settings.system.firewall.mode.moderate': '适中',
     'settings.system.firewall.mode.restricted': '受限',
     'settings.system.firewall.mode.paranoid': '偏执',
     'settings.system.firewall.restricted.enable': '启用受限',
-    'settings.system.firewall.restricted.active': '受限防火墙模式已启用',
     'settings.system.firewall.restricted.confirmTitle': '启用受限防火墙模式？',
     'settings.system.firewall.paranoid.enable': '启用偏执',
-    'settings.system.firewall.paranoid.active': '偏执防火墙模式已启用',
     'settings.system.firewall.paranoid.confirmTitle': '启用偏执防火墙模式？',
     'settings.update.paranoidBlocked': '在线更新被偏执防火墙模式阻止',
     'settings.device.hidOnlyDesc': '当鼠标或键盘停止响应时，改善与主机的兼容性',
@@ -3922,7 +3860,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'picoclaw.inputPlaceholder': '描述您希望 PicoClaw 执行的操作',
     'keyboard.localInput': '移动端键盘输入',
     'settings.network.configuration': '配置',
-    'settings.network.dns.servers': '服务器'
+    'settings.network.dns.servers': '服务器',
+    'settings.system.firewall.mode.restrictedDesc':
+      '仅限本地的 HTTPS 和 SSH，以及出站的 DNS、NTP、syslog 和在线更新。DHCP 和必要的 IPv6 流量仍然可用。WebRTC 被阻止。',
+    'settings.system.firewall.backends': '后端',
+    'settings.system.firewall.restricted.confirmDesc':
+      '入站管理访问将仅限于来自 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 源范围的 HTTPS 和 SSH。不允许公共源地址范围。出站 DNS、NTP、远程 syslog、在线更新、DHCP、已建立连接和必要的 IPv6 控制流量仍可用。WebRTC/ICE UDP 以及其他入站/出站流量将被阻止。',
+    'settings.system.firewall.paranoid.confirmDesc':
+      '仅保留来自 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 源范围的 HTTPS 访问。SSH、HTTP、mDNS、NTP、GitHub 下载和其他流量将被阻止，仅保留最小 DHCP/IPv6 控制流量。'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -3948,42 +3893,32 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.httpsRequired':
       '在「設定 > 系統 > 網路」中啟用 HTTPS 之前，受限和偏執模式無法使用',
     'settings.system.firewall.mode.baselineDesc':
-      '開放的受管設定檔。維持正常的 NanoKVM 存取，不依來源範圍過濾。',
+      '開放的相容設定檔。防火牆正在執行，但不限制傳入來源。僅在可信任的網路中使用。',
     'settings.system.firewall.mode.moderateDesc':
-      '預設設定檔。保留基準的服務，但僅接受來自私有、ULA、連結本機或迴路範圍的新傳入連線。',
+      '預設設定檔。保留基準的服務，但僅接受來自私有、連結本機或迴路範圍的新傳入連線。輸出存取保持開放。',
     'settings.system.firewall.mode.paranoidDesc':
-      '僅限本機的 HTTPS 存取。封鎖 SSH、HTTP、線上更新和其他傳出網路功能。',
+      '僅限本機的 HTTPS 存取。封鎖 SSH、HTTP、線上更新和其他傳出網路功能。離線更新上傳和已暫存的安裝仍然可用。',
     'settings.system.firewall.mode.current': '目前',
     'settings.system.firewall.mode.default': '預設',
     'settings.system.firewall.mode.localOnly': '僅限本機',
-    'settings.system.firewall.mode.openTag': '開放',
+    'settings.system.firewall.mode.openTag': '傳入開放',
     'settings.system.firewall.mode.httpsRequiredTag': '需要 HTTPS',
     'settings.system.firewall.mode.outboundOpen': '傳出開放',
     'settings.system.firewall.mode.outboundLimited': '傳出受限',
     'settings.system.firewall.mode.httpsOnly': '僅 HTTPS',
     'settings.system.firewall.moderate.apply': '切換到適中',
-    'settings.system.firewall.moderate.active': '適中防火牆模式已啟用',
-    'settings.system.firewall.moderate.allows':
-      '僅接受來自私有 IPv4、IPv4 連結本機/迴路、IPv6 ULA、IPv6 連結本機或 IPv6 迴路來源範圍的傳入連線。傳出存取維持開放。',
     'settings.system.firewall.baseline.apply': '切換到基準',
-    'settings.system.firewall.baseline.active': '基準防火牆模式已啟用',
-    'settings.system.firewall.baseline.allows':
-      '防火牆服務已啟用，但不限制傳入來源範圍。僅在可信任的實驗或相容性情境中使用。',
     'settings.system.firewall.baseline.confirmTitle': '切換到開放的基準模式？',
     'settings.system.firewall.baseline.confirmDesc':
       '防火牆服務維持啟用，但會取消僅限本機來源範圍的限制。若網路會路由，公開來源範圍可能存取暴露的 NanoKVM 服務。',
     'screen.videoWebrtcBlockedByFirewall': 'H.264 WebRTC 在受限和偏執防火牆模式下已停用',
-    'settings.system.firewall.mode.description':
-      '選擇輸入管理存取的開放方式。適中是預設的僅本機設定；受限讓 HTTPS/SSH 維持僅本機並阻擋 WebRTC；基準是開放相容性設定。',
     'settings.system.firewall.mode.baseline': '基準',
     'settings.system.firewall.mode.moderate': '適中',
     'settings.system.firewall.mode.restricted': '受限',
     'settings.system.firewall.mode.paranoid': '偏執',
     'settings.system.firewall.restricted.enable': '啟用受限',
-    'settings.system.firewall.restricted.active': '受限防火牆模式已啟用',
     'settings.system.firewall.restricted.confirmTitle': '啟用受限防火牆模式？',
     'settings.system.firewall.paranoid.enable': '啟用偏執',
-    'settings.system.firewall.paranoid.active': '偏執防火牆模式已啟用',
     'settings.system.firewall.paranoid.confirmTitle': '啟用偏執防火牆模式？',
     'settings.update.paranoidBlocked': '線上更新被偏執防火牆模式阻擋',
     'settings.device.hidOnlyDesc': '當滑鼠或鍵盤停止回應時，改善與主機的相容性',
@@ -4044,6 +3979,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.notRunning': 'Tailscale 尚未執行，請先啟動以繼續',
     'keyboard.localInput': '行動裝置鍵盤輸入',
     'settings.network.configuration': '設定',
-    'settings.network.dns.servers': '伺服器'
+    'settings.network.dns.servers': '伺服器',
+    'settings.system.firewall.mode.restrictedDesc':
+      '僅限本機的 HTTPS 和 SSH，以及輸出的 DNS、NTP、syslog 和線上更新。DHCP 和必要的 IPv6 流量仍然可用。WebRTC 已封鎖。',
+    'settings.system.firewall.backends': '後端',
+    'settings.system.firewall.restricted.confirmDesc':
+      '輸入管理存取會限制為 HTTPS 和 SSH 使用 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 來源範圍。不允許公開來源範圍。輸出 DNS、NTP、遠端 syslog、線上更新、DHCP、已建立連線和必要的 IPv6 控制流量仍可使用。WebRTC/ICE UDP 以及其他輸入/輸出流量會被阻擋。',
+    'settings.system.firewall.paranoid.confirmDesc':
+      '僅保留來自 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 來源範圍的 HTTPS 存取。SSH、HTTP、mDNS、NTP、GitHub 下載和其他流量將被阻擋，只保留最小 DHCP/IPv6 控制流量。'
   }
 };

@@ -383,7 +383,8 @@ const it = {
         hdmi: {
           description: 'Abilita HDMI/monitora uscita',
           idleTimeoutTitle: 'Timeout cattura inattiva',
-          idleTimeoutDescription: 'Interrompi la cattura HDMI dopo che non ci sono visualizzatori attivi per',
+          idleTimeoutDescription:
+            'Interrompi la cattura HDMI dopo che non ci sono visualizzatori attivi per',
           minutes: 'min'
         },
         hidOnly: 'HID-Solo modalità',
@@ -425,14 +426,15 @@ const it = {
           title: 'DNS',
           description: 'Configura i server DNS per NanoKVM',
           ipv4Title: 'IPv4',
-          ipv4Description: 'Configura l\'indirizzamento IPv4 per l\'interfaccia cablata',
+          ipv4Description: "Configura l'indirizzamento IPv4 per l'interfaccia cablata",
           mode: 'Modalità',
           dhcp: 'DHCP',
           manual: 'Manuale',
           save: 'Salva',
           apply: 'Applica',
           invalid: 'Inserisci un indirizzo IPv4 o IPv6 valido',
-          invalidNetwork: 'Inserisci un indirizzo IPv4, una maschera di sottorete e un router validi',
+          invalidNetwork:
+            'Inserisci un indirizzo IPv4, una maschera di sottorete e un router validi',
           noDhcp: 'Nessun DNS DHCP è attualmente disponibile',
           saved: 'Impostazioni DNS salvate',
           redirecting: 'Impostazioni di rete salvate. Apertura del nuovo indirizzo...',
@@ -440,7 +442,8 @@ const it = {
           unsaved: 'Modifiche non salvate',
           maxServers: 'Sono consentiti al massimo {{count}} server DNS',
           dhcpServersDescription: 'I server DNS vengono ottenuti automaticamente da DHCP',
-          manualServersDescription: 'I server DNS possono essere modificati manualmente. IPv4 e IPv6 sono supportati',
+          manualServersDescription:
+            'I server DNS possono essere modificati manualmente. IPv4 e IPv6 sono supportati',
           interface: 'Interfaccia',
           ipAddress: 'Indirizzo IP',
           subnetMask: 'Subnet mask',

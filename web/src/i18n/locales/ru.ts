@@ -601,26 +601,16 @@ const ru = {
           saved: 'Настройки firewall применены',
           cancel: 'Отмена',
           refresh: 'Обновить',
-          backend: 'Backend',
-          effectiveMode: 'Фактический режим',
-          disabled: 'Отключен',
-          enabledPort: 'Включен на порту {{port}}',
           enableHttpsFirst: 'Перед режимами Restricted или Paranoid включите HTTPS',
           httpsRequired:
             'Режимы Restricted и Paranoid недоступны, пока HTTPS не включен в Настройки > Система > Сеть.',
           mode: {
             title: 'Режим firewall',
-            description:
-              'Выберите, как открыт входящий административный доступ. Moderate - дефолтный локальный профиль; Baseline - открытый профиль совместимости.',
             baseline: 'Baseline',
             baselineDesc:
               'Открытый управляемый профиль. Сохраняет обычный доступ NanoKVM без фильтрации source ranges.',
             moderate: 'Moderate',
-            moderateDesc:
-              'Дефолтный профиль. Сохраняет сервисы baseline, но принимает новые входящие соединения только из private, ULA, link-local или loopback диапазонов.',
             restricted: 'Restricted',
-            restrictedDesc:
-              'Локальные административные HTTPS/SSH порты плюс исходящие сервисы для обновлений, DNS, NTP и syslog. WebRTC отключен.',
             paranoid: 'Paranoid',
             paranoidDesc:
               'Только локальный HTTPS-доступ. Блокирует SSH, HTTP, онлайн-обновления и другие исходящие сетевые функции.',
@@ -634,34 +624,18 @@ const ru = {
             httpsOnly: 'Только HTTPS'
           },
           moderate: {
-            apply: 'Переключить в Moderate',
-            active: 'Moderate Firewall mode активен',
-            allows:
-              'Входящие соединения принимаются только из private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local или IPv6 loopback source ranges. Исходящий доступ остается открытым.'
+            apply: 'Переключить в Moderate'
           },
           restricted: {
             enable: 'Включить Restricted',
-            active: 'Restricted Firewall mode активен',
-            allows:
-              'Разрешенный трафик: HTTPS и SSH только из private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local или IPv6 loopback source ranges; исходящие DNS, NTP, удаленный syslog и онлайн-обновления; DHCP, established-соединения и минимальный IPv6 control traffic. WebRTC/ICE UDP блокируется.',
-            confirmTitle: 'Включить Restricted Firewall mode?',
-            confirmDesc:
-              'Входящий административный доступ будет ограничен private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local или IPv6 loopback source ranges для HTTPS и SSH. Публичные source ranges не разрешаются. Исходящие DNS, NTP, удаленный syslog, онлайн-обновления, DHCP, established-соединения и минимальный IPv6 control traffic останутся доступны. WebRTC/ICE UDP и прочий входящий/исходящий трафик будут заблокированы.'
+            confirmTitle: 'Включить Restricted Firewall mode?'
           },
           paranoid: {
             enable: 'Включить Paranoid',
-            active: 'Paranoid Firewall mode активен',
-            blocks:
-              'Останется только HTTPS из private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local или IPv6 loopback source ranges. Онлайн-обновления и исходящие сетевые функции заблокированы. Offline upload и установка уже подготовленных обновлений остаются доступны.',
-            confirmTitle: 'Включить Paranoid Firewall mode?',
-            confirmDesc:
-              'Останется доступ только по HTTPS из private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local или IPv6 loopback source ranges. Публичные source ranges не разрешаются. SSH, HTTP, mDNS, NTP, загрузки с GitHub и прочий входящий/исходящий трафик будут заблокированы, кроме минимального DHCP/IPv6 control traffic.'
+            confirmTitle: 'Включить Paranoid Firewall mode?'
           },
           baseline: {
             apply: 'Переключить в Baseline',
-            active: 'Baseline Firewall mode активен',
-            allows:
-              'Firewall service активен, но входящие source ranges не ограничены. Используйте это только для доверенной лабораторной сети или совместимости.',
             confirmTitle: 'Переключить в открытый Baseline mode?',
             confirmDesc:
               'Firewall service останется активен, но local-only ограничение source ranges будет снято. Публичные source ranges смогут достучаться до открытых сервисов NanoKVM, если сеть их маршрутизирует.'

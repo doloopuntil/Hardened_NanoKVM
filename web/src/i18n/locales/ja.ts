@@ -382,7 +382,8 @@ const ja = {
         hdmi: {
           description: 'HDMI/モニター 出力機能を有効にする',
           idleTimeoutTitle: 'キャプチャのアイドルタイムアウト',
-          idleTimeoutDescription: 'アクティブな閲覧者がいない状態が次の時間続いたら HDMI キャプチャを停止',
+          idleTimeoutDescription:
+            'アクティブな閲覧者がいない状態が次の時間続いたら HDMI キャプチャを停止',
           minutes: '分'
         },
         hidOnly: 'HID-Only モード',
@@ -439,7 +440,8 @@ const ja = {
           unsaved: '未保存の変更',
           maxServers: 'DNS サーバーは最大 {{count}} 個までです',
           dhcpServersDescription: 'DNS サーバーは DHCP から自動取得されます',
-          manualServersDescription: 'DNS サーバーは手動で編集できます。IPv4 と IPv6 に対応しています',
+          manualServersDescription:
+            'DNS サーバーは手動で編集できます。IPv4 と IPv6 に対応しています',
           interface: 'インターフェイス',
           ipAddress: 'IP アドレス',
           subnetMask: 'サブネットマスク',

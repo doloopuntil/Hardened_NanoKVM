@@ -440,7 +440,8 @@ const hu = {
           unsaved: 'Nem mentett módosítások',
           maxServers: 'Legfeljebb {{count}} DNS-kiszolgáló engedélyezett',
           dhcpServersDescription: 'A DNS-kiszolgálók automatikusan DHCP-n keresztül érkeznek',
-          manualServersDescription: 'A DNS-kiszolgálók kézzel szerkeszthetők. Az IPv4 és az IPv6 támogatott',
+          manualServersDescription:
+            'A DNS-kiszolgálók kézzel szerkeszthetők. Az IPv4 és az IPv6 támogatott',
           interface: 'Interfész',
           ipAddress: 'IP-cím',
           subnetMask: 'Alhálózati maszk',

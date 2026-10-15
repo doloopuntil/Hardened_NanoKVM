@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
-import { Alert, Button, Divider, Segmented, Spin, Tag } from 'antd';
+import { Button, Divider, Segmented, Spin, Tag, Tooltip } from 'antd';
 import type { TFunction } from 'i18next';
 import {
+  CircleAlertIcon,
   LockKeyholeIcon,
   RefreshCwIcon,
   ShieldCheckIcon,
@@ -15,6 +16,7 @@ import * as api from '@/api/system-firewall.ts';
 import type { FirewallMode, FirewallStatus } from '@/api/system-firewall.ts';
 import { confirm, toast } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
+import { InfoRow } from '@/components/setting-rows.tsx';
 
 type RulesTab = 'ipv4' | 'ipv6' | 'nft';
 
@@ -41,10 +43,6 @@ export const FirewallSettings = () => {
   }, [status, rulesTab, t]);
 
   const effectiveMode = status?.effectiveMode || status?.config.mode || 'moderate';
-  const isBaselineMode = effectiveMode === 'baseline';
-  const isModerateMode = status?.moderateActive || effectiveMode === 'moderate';
-  const isRestrictedMode = status?.restrictedActive || effectiveMode === 'restricted';
-  const isParanoidMode = status?.paranoidActive || effectiveMode === 'paranoid';
 
   const modeOptions = useMemo<ModeOption[]>(() => {
     const httpsModeDisabled = !status?.httpsEnabled;
@@ -198,71 +196,19 @@ export const FirewallSettings = () => {
 
   return (
     <div className="flex min-w-0 flex-col space-y-6">
-      {status && !status.httpsEnabled && (
-        <Alert type="warning" showIcon message={t('settings.system.firewall.httpsRequired')} />
-      )}
-
-      {status && isBaselineMode && (
-        <Alert
-          type="warning"
-          showIcon
-          message={t('settings.system.firewall.baseline.active')}
-          description={t('settings.system.firewall.baseline.allows')}
-        />
-      )}
-
-      {status && isModerateMode && (
-        <Alert
-          type="success"
-          showIcon
-          message={t('settings.system.firewall.moderate.active')}
-          description={t('settings.system.firewall.moderate.allows')}
-        />
-      )}
-
-      {status && isRestrictedMode && !isParanoidMode && (
-        <Alert
-          type="warning"
-          showIcon
-          message={t('settings.system.firewall.restricted.active')}
-          description={t('settings.system.firewall.restricted.allows')}
-        />
-      )}
-
-      {status && isParanoidMode && (
-        <Alert
-          type="error"
-          showIcon
-          message={t('settings.system.firewall.paranoid.active')}
-          description={t('settings.system.firewall.paranoid.blocks')}
-        />
-      )}
-
-      <div className="min-w-0 space-y-4 overflow-hidden rounded-md bg-neutral-800/50 p-4">
-        <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-          <div className="min-w-0 space-y-1">
-            <div className="font-semibold text-neutral-100">
-              {t('settings.system.firewall.mode.title')}
-            </div>
-            <div className="break-words text-xs leading-snug text-neutral-500">
-              {t('settings.system.firewall.mode.description')}
-            </div>
-          </div>
-          <div className="flex min-w-0 flex-wrap items-center gap-2">
-            {status && (
-              <Tag className="m-0 max-w-full whitespace-normal" color={modeColor(effectiveMode)}>
-                {modeText(t, effectiveMode)}
-              </Tag>
-            )}
-            <Button
-              size="small"
-              icon={<RefreshCwIcon size={14} />}
-              loading={isLoading}
-              onClick={reload}
+      <div className="min-w-0 space-y-6">
+        <div className="flex items-center space-x-2 text-neutral-400">
+          <span>{t('settings.system.firewall.mode.title')}</span>
+          {status && !status.httpsEnabled && (
+            <Tooltip
+              title={t('settings.system.firewall.httpsRequired')}
+              className="cursor-pointer"
+              placement="right"
+              styles={{ root: { maxWidth: '400px' } }}
             >
-              {t('settings.system.firewall.refresh')}
-            </Button>
-          </div>
+              <CircleAlertIcon className="text-amber-500" size={14} />
+            </Tooltip>
+          )}
         </div>
 
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
@@ -278,38 +224,13 @@ export const FirewallSettings = () => {
             />
           ))}
         </div>
-
-        <div className="grid grid-cols-1 gap-3 pt-1 text-xs text-neutral-400 sm:grid-cols-2">
-          <StatusLine
-            label={t('settings.system.firewall.backend')}
-            value={status?.backend.preferred || '-'}
-          />
-          <StatusLine
-            label="HTTPS"
-            value={
-              status?.httpsEnabled
-                ? t('settings.system.firewall.enabledPort', { port: status.httpsPort })
-                : t('settings.system.firewall.disabled')
-            }
-          />
-          <StatusLine label="iptables" value={toolText(status?.backend.iptables)} />
-          <StatusLine label="ip6tables" value={toolText(status?.backend.ip6tables)} />
-          <StatusLine label="nft" value={toolText(status?.backend.nft)} />
-          <StatusLine
-            label={t('settings.system.firewall.effectiveMode')}
-            value={modeText(t, effectiveMode)}
-          />
-        </div>
       </div>
 
       <Divider className="opacity-50" />
 
       <div className="space-y-3">
         <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-2 text-base">
-            <ShieldIcon size={16} />
-            <span>{t('settings.system.firewall.rules.title')}</span>
-          </div>
+          <div className="text-neutral-400">{t('settings.system.firewall.rules.title')}</div>
           <Segmented
             size="small"
             className="max-w-full overflow-x-auto"
@@ -325,6 +246,29 @@ export const FirewallSettings = () => {
         <pre className="max-h-[360px] min-h-[260px] overflow-auto rounded bg-black/50 p-3 font-mono text-xs leading-relaxed text-neutral-200">
           {selectedRules}
         </pre>
+      </div>
+
+      <Divider className="opacity-50" />
+
+      <div className="space-y-6">
+        <div className="text-neutral-400">{t('settings.system.firewall.backends')}</div>
+        <div className="space-y-4 sm:space-y-2">
+          <InfoRow
+            label={t('settings.system.firewall.mode.current')}
+            value={status?.backend.preferred}
+          />
+          <InfoRow label="iptables" value={toolText(status?.backend.iptables)} />
+          <InfoRow label="ip6tables" value={toolText(status?.backend.ip6tables)} />
+          <InfoRow label="nft" value={toolText(status?.backend.nft)} />
+        </div>
+      </div>
+
+      <Divider className="opacity-50" />
+
+      <div className="flex min-w-0 flex-wrap justify-end gap-2">
+        <Button icon={<RefreshCwIcon size={16} />} loading={isLoading} onClick={reload}>
+          {t('settings.system.firewall.refresh')}
+        </Button>
       </div>
     </div>
   );
@@ -415,31 +359,9 @@ function tagColor(mode: FirewallMode, danger?: boolean) {
   return 'blue';
 }
 
-function StatusLine({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex min-w-0 justify-between gap-3">
-      <span className="min-w-0 break-words">{label}</span>
-      <span className="truncate text-right text-neutral-200">{value}</span>
-    </div>
-  );
-}
-
 function toolText(tool?: { installed: boolean; detail: string }) {
   if (!tool) return '-';
   return tool.installed ? tool.detail : 'missing';
-}
-
-function modeText(t: TFunction, mode: FirewallMode) {
-  switch (mode) {
-    case 'baseline':
-      return t('settings.system.firewall.mode.baseline');
-    case 'moderate':
-      return t('settings.system.firewall.mode.moderate');
-    case 'restricted':
-      return t('settings.system.firewall.mode.restricted');
-    case 'paranoid':
-      return t('settings.system.firewall.mode.paranoid');
-  }
 }
 
 function modeApplyLabel(t: TFunction, mode: FirewallMode) {

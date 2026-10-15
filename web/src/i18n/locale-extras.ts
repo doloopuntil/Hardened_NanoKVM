@@ -16,16 +16,10 @@ const firewallModerateFallbackExtras: TranslationMap = {
     'Enable HTTPS before enabling Restricted or Paranoid Firewall mode',
   'settings.system.firewall.httpsRequired':
     'Restricted and Paranoid modes are disabled until HTTPS is enabled in Settings > System > Network.',
-  'settings.system.firewall.mode.description':
-    'Choose how inbound admin access is exposed. Moderate is the default local-only profile; Baseline is an open compatibility profile.',
   'settings.system.firewall.mode.baseline': 'Baseline',
   'settings.system.firewall.mode.baselineDesc':
     'Open managed profile. Keeps normal NanoKVM access without source-range filtering.',
   'settings.system.firewall.mode.moderate': 'Moderate',
-  'settings.system.firewall.mode.moderateDesc':
-    'Default profile. Keeps baseline services, but accepts new inbound connections only from private, ULA, link-local, or loopback ranges.',
-  'settings.system.firewall.mode.restrictedDesc':
-    'Local-only HTTPS/SSH admin ports plus outbound services for updates, DNS, NTP, and syslog. WebRTC is disabled.',
   'settings.system.firewall.mode.paranoidDesc':
     'Local-only HTTPS access. Blocks SSH, HTTP, online updates, and other outbound network features.',
   'settings.system.firewall.mode.current': 'Current',
@@ -37,13 +31,7 @@ const firewallModerateFallbackExtras: TranslationMap = {
   'settings.system.firewall.mode.outboundLimited': 'Outbound limited',
   'settings.system.firewall.mode.httpsOnly': 'HTTPS only',
   'settings.system.firewall.moderate.apply': 'Switch to Moderate',
-  'settings.system.firewall.moderate.active': 'Moderate Firewall mode is active',
-  'settings.system.firewall.moderate.allows':
-    'Inbound connections are accepted only from private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, or IPv6 loopback source ranges. Outbound access remains open.',
   'settings.system.firewall.baseline.apply': 'Switch to Baseline',
-  'settings.system.firewall.baseline.active': 'Baseline Firewall mode is active',
-  'settings.system.firewall.baseline.allows':
-    'The firewall service is active, but inbound source ranges are not restricted. Use this only for trusted lab or compatibility scenarios.',
   'settings.system.firewall.baseline.confirmTitle': 'Switch to open Baseline mode?',
   'settings.system.firewall.baseline.confirmDesc':
     'This keeps the firewall service active but removes the local-only source-range restriction. Public source ranges may reach exposed NanoKVM services if the network routes them.'
@@ -55,16 +43,10 @@ const firewallModerateLocalizedExtras: Record<string, TranslationMap> = {
       'Włącz HTTPS przed włączeniem trybu Restricted lub Paranoid',
     'settings.system.firewall.httpsRequired':
       'Tryby Restricted i Paranoid są niedostępne, dopóki HTTPS nie zostanie włączony w Ustawienia > System > Sieć.',
-    'settings.system.firewall.mode.description':
-      'Wybierz, jak udostępniony jest przychodzący dostęp administracyjny. Moderate jest domyślnym profilem tylko dla sieci lokalnych; Baseline jest otwartym profilem zgodności.',
     'settings.system.firewall.mode.baseline': 'Baseline',
     'settings.system.firewall.mode.baselineDesc':
       'Otwarty profil zarządzany. Zachowuje zwykły dostęp NanoKVM bez filtrowania zakresów źródłowych.',
     'settings.system.firewall.mode.moderate': 'Moderate',
-    'settings.system.firewall.mode.moderateDesc':
-      'Profil domyślny. Zachowuje usługi baseline, ale przyjmuje nowe połączenia przychodzące tylko z zakresów prywatnych, ULA, link-local lub loopback.',
-    'settings.system.firewall.mode.restrictedDesc':
-      'Lokalne porty administracyjne HTTPS/SSH oraz usługi wychodzące potrzebne do aktualizacji, DNS, NTP i syslog. WebRTC jest wyłączony.',
     'settings.system.firewall.mode.paranoidDesc':
       'Lokalny dostęp tylko przez HTTPS. Blokuje SSH, HTTP, aktualizacje online i inne wychodzące funkcje sieciowe.',
     'settings.system.firewall.mode.current': 'Aktualny',
@@ -76,13 +58,7 @@ const firewallModerateLocalizedExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.outboundLimited': 'Wychodzące ograniczone',
     'settings.system.firewall.mode.httpsOnly': 'Tylko HTTPS',
     'settings.system.firewall.moderate.apply': 'Przełącz na Moderate',
-    'settings.system.firewall.moderate.active': 'Tryb zapory Moderate jest aktywny',
-    'settings.system.firewall.moderate.allows':
-      'Połączenia przychodzące są przyjmowane tylko z zakresów private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local lub IPv6 loopback. Dostęp wychodzący pozostaje otwarty.',
     'settings.system.firewall.baseline.apply': 'Przełącz na Baseline',
-    'settings.system.firewall.baseline.active': 'Tryb zapory Baseline jest aktywny',
-    'settings.system.firewall.baseline.allows':
-      'Usługa zapory jest aktywna, ale zakresy źródłowe połączeń przychodzących nie są ograniczone. Używaj tego tylko w zaufanej sieci testowej albo dla zgodności.',
     'settings.system.firewall.baseline.confirmTitle': 'Przełączyć na otwarty tryb Baseline?',
     'settings.system.firewall.baseline.confirmDesc':
       'Usługa zapory pozostanie aktywna, ale ograniczenie local-only dla zakresów źródłowych zostanie zdjęte. Publiczne zakresy źródłowe mogą dotrzeć do wystawionych usług NanoKVM, jeśli sieć je routuje.'
@@ -1516,288 +1492,111 @@ const virtualMediaLocalizedExtras: Record<string, TranslationMap> = {
 
 const firewallNoWebrtcFallbackExtras: TranslationMap = {
   'screen.videoWebrtcBlockedByFirewall':
-    'H.264 WebRTC is disabled in Restricted and Paranoid Firewall modes',
-  'settings.system.firewall.mode.restrictedDesc':
-    'Local-only HTTPS/SSH admin ports plus outbound services for updates, DNS, NTP, and syslog. WebRTC is disabled.',
-  'settings.system.firewall.restricted.allows':
-    'Allowed traffic: HTTPS and SSH only from private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, or IPv6 loopback source ranges; outbound DNS, NTP, remote syslog, and online updates; DHCP, established connections, and essential IPv6 control traffic. WebRTC/ICE UDP is blocked.',
-  'settings.system.firewall.restricted.confirmDesc':
-    'Inbound admin access will be limited to private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, or IPv6 loopback source ranges for HTTPS and SSH. Public source ranges are not allowed. Outbound DNS, NTP, remote syslog, online updates, DHCP, established connections, and essential IPv6 control traffic remain available. WebRTC/ICE UDP and other inbound/outbound traffic will be blocked.'
+    'H.264 WebRTC is disabled in Restricted and Paranoid Firewall modes'
 };
 
-function firewallNoWebrtcTranslation(
-  videoBlocked: string,
-  restrictedDesc: string,
-  allows: string,
-  confirmDesc: string
-): TranslationMap {
-  return {
-    'screen.videoWebrtcBlockedByFirewall': videoBlocked,
-    'settings.system.firewall.mode.restrictedDesc': restrictedDesc,
-    'settings.system.firewall.restricted.allows': allows,
-    'settings.system.firewall.restricted.confirmDesc': confirmDesc
-  };
+function firewallNoWebrtcTranslation(videoBlocked: string): TranslationMap {
+  return { 'screen.videoWebrtcBlockedByFirewall': videoBlocked };
 }
 
 const firewallNoWebrtcLocalizedExtras: Record<string, TranslationMap> = {
   ca: firewallNoWebrtcTranslation(
-    'H.264 WebRTC està desactivat en els modes de tallafoc Restricted i Paranoid',
-    "Ports d'administració HTTPS/SSH només locals i serveis de sortida per a actualitzacions, DNS, NTP i syslog. WebRTC està desactivat.",
-    'Trànsit permès: HTTPS i SSH només des de rangs private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback; DNS, NTP, syslog remot i actualitzacions online de sortida; DHCP, connexions establertes i trànsit essencial de control IPv6. WebRTC/ICE UDP queda bloquejat.',
-    "L'accés administratiu entrant quedarà limitat als rangs private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback per a HTTPS i SSH. Els rangs públics no estan permesos. DNS, NTP, syslog remot, actualitzacions online, DHCP, connexions establertes i trànsit essencial IPv6 de sortida romandran disponibles. WebRTC/ICE UDP i la resta de trànsit entrant/sortint quedaran bloquejats."
+    'H.264 WebRTC està desactivat en els modes de tallafoc Restricted i Paranoid'
   ),
   cz: firewallNoWebrtcTranslation(
-    'H.264 WebRTC je v režimech firewallu Restricted a Paranoid vypnuto',
-    'Lokální administrátorské porty HTTPS/SSH a odchozí služby pro aktualizace, DNS, NTP a syslog. WebRTC je vypnuto.',
-    'Povolený provoz: HTTPS a SSH pouze ze zdrojů private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local nebo IPv6 loopback; odchozí DNS, NTP, vzdálený syslog a online aktualizace; DHCP, navázaná spojení a nezbytný IPv6 řídicí provoz. WebRTC/ICE UDP je blokováno.',
-    'Příchozí administrátorský přístup bude omezen na rozsahy private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local nebo IPv6 loopback pro HTTPS a SSH. Veřejné zdrojové rozsahy nejsou povoleny. Odchozí DNS, NTP, vzdálený syslog, online aktualizace, DHCP, navázaná spojení a nezbytný IPv6 řídicí provoz zůstanou dostupné. WebRTC/ICE UDP a ostatní příchozí/odchozí provoz budou blokovány.'
+    'H.264 WebRTC je v režimech firewallu Restricted a Paranoid vypnuto'
   ),
   da: firewallNoWebrtcTranslation(
-    'H.264 WebRTC er deaktiveret i firewalltilstandene Restricted og Paranoid',
-    'Lokale HTTPS/SSH-administrationsporte samt udgående tjenester til opdateringer, DNS, NTP og syslog. WebRTC er deaktiveret.',
-    'Tilladt trafik: HTTPS og SSH kun fra private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- eller IPv6 loopback-kilder; udgående DNS, NTP, fjern-syslog og onlineopdateringer; DHCP, etablerede forbindelser og nødvendig IPv6-kontroltrafik. WebRTC/ICE UDP blokeres.',
-    'Indgående administrativ adgang begrænses til private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- eller IPv6 loopback-kilder for HTTPS og SSH. Offentlige kildeområder tillades ikke. Udgående DNS, NTP, fjern-syslog, onlineopdateringer, DHCP, etablerede forbindelser og nødvendig IPv6-kontroltrafik forbliver tilgængelige. WebRTC/ICE UDP og anden ind-/udgående trafik blokeres.'
+    'H.264 WebRTC er deaktiveret i firewalltilstandene Restricted og Paranoid'
   ),
   de: firewallNoWebrtcTranslation(
-    'H.264 WebRTC ist in den Firewall-Modi Restricted und Paranoid deaktiviert',
-    'Lokale HTTPS/SSH-Admin-Ports plus ausgehende Dienste für Updates, DNS, NTP und Syslog. WebRTC ist deaktiviert.',
-    'Erlaubter Verkehr: HTTPS und SSH nur aus privaten IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- oder IPv6 loopback-Quellbereichen; ausgehend DNS, NTP, Remote-Syslog und Online-Updates; DHCP, bestehende Verbindungen und notwendiger IPv6-Steuerverkehr. WebRTC/ICE UDP wird blockiert.',
-    'Eingehender Adminzugriff wird für HTTPS und SSH auf private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- oder IPv6 loopback-Quellbereiche begrenzt. Öffentliche Quellbereiche sind nicht erlaubt. Ausgehendes DNS, NTP, Remote-Syslog, Online-Updates, DHCP, bestehende Verbindungen und notwendiger IPv6-Steuerverkehr bleiben verfügbar. WebRTC/ICE UDP und anderer ein-/ausgehender Verkehr werden blockiert.'
+    'H.264 WebRTC ist in den Firewall-Modi Restricted und Paranoid deaktiviert'
   ),
   es: firewallNoWebrtcTranslation(
-    'H.264 WebRTC está desactivado en los modos de firewall Restricted y Paranoid',
-    'Puertos administrativos HTTPS/SSH locales y servicios salientes para actualizaciones, DNS, NTP y syslog. WebRTC está desactivado.',
-    'Tráfico permitido: HTTPS y SSH solo desde rangos private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback; DNS, NTP, syslog remoto y actualizaciones online salientes; DHCP, conexiones establecidas y tráfico esencial de control IPv6. WebRTC/ICE UDP queda bloqueado.',
-    'El acceso administrativo entrante se limitará a rangos private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback para HTTPS y SSH. No se permiten rangos públicos de origen. DNS, NTP, syslog remoto, actualizaciones online, DHCP, conexiones establecidas y tráfico esencial IPv6 salientes seguirán disponibles. WebRTC/ICE UDP y el resto del tráfico entrante/saliente se bloquearán.'
+    'H.264 WebRTC está desactivado en los modos de firewall Restricted y Paranoid'
   ),
   et: firewallNoWebrtcTranslation(
-    'H.264 WebRTC on Restricted ja Paranoid tulemüürirežiimides keelatud',
-    'Kohalikud HTTPS/SSH halduspordid ning väljaminevad teenused uuenduste, DNS-i, NTP ja syslogi jaoks. WebRTC on keelatud.',
-    'Lubatud liiklus: HTTPS ja SSH ainult private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local või IPv6 loopback lähtevahemikest; väljaminev DNS, NTP, kaug-syslog ja online-uuendused; DHCP, olemasolevad ühendused ja hädavajalik IPv6 juhtliiklus. WebRTC/ICE UDP blokeeritakse.',
-    'Sissetulev haldusligipääs piiratakse HTTPS-i ja SSH jaoks private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local või IPv6 loopback lähtevahemikega. Avalikud lähtevahemikud pole lubatud. Väljaminev DNS, NTP, kaug-syslog, online-uuendused, DHCP, olemasolevad ühendused ja hädavajalik IPv6 juhtliiklus jäävad kättesaadavaks. WebRTC/ICE UDP ja muu sisse-/väljaminev liiklus blokeeritakse.'
+    'H.264 WebRTC on Restricted ja Paranoid tulemüürirežiimides keelatud'
   ),
   fi: firewallNoWebrtcTranslation(
-    'H.264 WebRTC on poistettu käytöstä Restricted- ja Paranoid-palomuureissa',
-    'Paikalliset HTTPS/SSH-ylläpitoportit sekä lähtevät palvelut päivityksille, DNS:lle, NTP:lle ja syslogille. WebRTC on pois käytöstä.',
-    'Sallittu liikenne: HTTPS ja SSH vain private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- tai IPv6 loopback-lähdealueilta; lähtevä DNS, NTP, etä-syslog ja verkkopäivitykset; DHCP, muodostetut yhteydet ja välttämätön IPv6-ohjausliikenne. WebRTC/ICE UDP estetään.',
-    'Saapuva ylläpitokäyttö rajataan HTTPS:lle ja SSH:lle private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- tai IPv6 loopback-lähdealueisiin. Julkisia lähdealueita ei sallita. Lähtevä DNS, NTP, etä-syslog, verkkopäivitykset, DHCP, muodostetut yhteydet ja välttämätön IPv6-ohjausliikenne pysyvät käytettävissä. WebRTC/ICE UDP ja muu sisään-/ulospäin kulkeva liikenne estetään.'
+    'H.264 WebRTC on poistettu käytöstä Restricted- ja Paranoid-palomuureissa'
   ),
   fr: firewallNoWebrtcTranslation(
-    'H.264 WebRTC est désactivé dans les modes de pare-feu Restricted et Paranoid',
-    'Ports administratifs HTTPS/SSH locaux et services sortants pour les mises à jour, DNS, NTP et syslog. WebRTC est désactivé.',
-    'Trafic autorisé: HTTPS et SSH seulement depuis les plages private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local ou IPv6 loopback; DNS, NTP, syslog distant et mises à jour en ligne sortants; DHCP, connexions établies et trafic de contrôle IPv6 essentiel. WebRTC/ICE UDP est bloqué.',
-    'L’accès administrateur entrant sera limité aux plages private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local ou IPv6 loopback pour HTTPS et SSH. Les plages publiques ne sont pas autorisées. DNS, NTP, syslog distant, mises à jour en ligne, DHCP, connexions établies et trafic de contrôle IPv6 essentiel sortants restent disponibles. WebRTC/ICE UDP et les autres trafics entrants/sortants seront bloqués.'
+    'H.264 WebRTC est désactivé dans les modes de pare-feu Restricted et Paranoid'
   ),
   hu: firewallNoWebrtcTranslation(
-    'A H.264 WebRTC le van tiltva Restricted és Paranoid tűzfal módban',
-    'Helyi HTTPS/SSH adminisztrációs portok és kimenő szolgáltatások frissítésekhez, DNS-hez, NTP-hez és sysloghoz. A WebRTC le van tiltva.',
-    'Engedélyezett forgalom: HTTPS és SSH csak private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local vagy IPv6 loopback forrástartományokból; kimenő DNS, NTP, távoli syslog és online frissítések; DHCP, meglévő kapcsolatok és alapvető IPv6 vezérlőforgalom. A WebRTC/ICE UDP blokkolva van.',
-    'A bejövő adminisztrációs hozzáférés HTTPS és SSH esetén private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local vagy IPv6 loopback forrástartományokra korlátozódik. Nyilvános forrástartományok nem engedélyezettek. A kimenő DNS, NTP, távoli syslog, online frissítések, DHCP, meglévő kapcsolatok és alapvető IPv6 vezérlőforgalom elérhető marad. A WebRTC/ICE UDP és minden más bejövő/kimenő forgalom blokkolva lesz.'
+    'A H.264 WebRTC le van tiltva Restricted és Paranoid tűzfal módban'
   ),
   id: firewallNoWebrtcTranslation(
-    'H.264 WebRTC dinonaktifkan dalam mode firewall Restricted dan Paranoid',
-    'Port admin HTTPS/SSH lokal serta layanan keluar untuk pembaruan, DNS, NTP, dan syslog. WebRTC dinonaktifkan.',
-    'Lalu lintas yang diizinkan: HTTPS dan SSH hanya dari rentang private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, atau IPv6 loopback; DNS, NTP, syslog jarak jauh, dan pembaruan online keluar; DHCP, koneksi yang sudah terbentuk, dan lalu lintas kontrol IPv6 penting. WebRTC/ICE UDP diblokir.',
-    'Akses admin masuk akan dibatasi ke rentang private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, atau IPv6 loopback untuk HTTPS dan SSH. Rentang sumber publik tidak diizinkan. DNS, NTP, syslog jarak jauh, pembaruan online, DHCP, koneksi yang sudah terbentuk, dan lalu lintas kontrol IPv6 penting keluar tetap tersedia. WebRTC/ICE UDP dan lalu lintas masuk/keluar lainnya akan diblokir.'
+    'H.264 WebRTC dinonaktifkan dalam mode firewall Restricted dan Paranoid'
   ),
   it: firewallNoWebrtcTranslation(
-    'H.264 WebRTC è disattivato nelle modalità firewall Restricted e Paranoid',
-    'Porte amministrative HTTPS/SSH locali e servizi in uscita per aggiornamenti, DNS, NTP e syslog. WebRTC è disattivato.',
-    'Traffico consentito: HTTPS e SSH solo da intervalli private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback; DNS, NTP, syslog remoto e aggiornamenti online in uscita; DHCP, connessioni stabilite e traffico essenziale di controllo IPv6. WebRTC/ICE UDP viene bloccato.',
-    'L’accesso amministrativo in ingresso sarà limitato agli intervalli private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback per HTTPS e SSH. Gli intervalli pubblici non sono consentiti. DNS, NTP, syslog remoto, aggiornamenti online, DHCP, connessioni stabilite e traffico essenziale IPv6 in uscita resteranno disponibili. WebRTC/ICE UDP e altro traffico in ingresso/uscita saranno bloccati.'
+    'H.264 WebRTC è disattivato nelle modalità firewall Restricted e Paranoid'
   ),
   ja: firewallNoWebrtcTranslation(
-    'H.264 WebRTC は Restricted/Paranoid ファイアウォールモードでは無効です',
-    'ローカルのみの HTTPS/SSH 管理ポートと、更新、DNS、NTP、syslog 用の外向きサービスを許可します。WebRTC は無効です。',
-    '許可される通信: private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local、IPv6 loopback の送信元範囲からの HTTPS と SSH のみ。外向き DNS、NTP、リモート syslog、オンライン更新、DHCP、確立済み接続、必須 IPv6 制御通信。WebRTC/ICE UDP はブロックされます。',
-    'HTTPS と SSH の受信管理アクセスは private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local、IPv6 loopback の送信元範囲に制限されます。公開送信元範囲は許可されません。外向き DNS、NTP、リモート syslog、オンライン更新、DHCP、確立済み接続、必須 IPv6 制御通信は利用可能なままです。WebRTC/ICE UDP とその他の受信/送信通信はブロックされます。'
+    'H.264 WebRTC は Restricted/Paranoid ファイアウォールモードでは無効です'
   ),
   ko: firewallNoWebrtcTranslation(
-    'H.264 WebRTC는 Restricted 및 Paranoid 방화벽 모드에서 비활성화됩니다',
-    '로컬 전용 HTTPS/SSH 관리 포트와 업데이트, DNS, NTP, syslog용 송신 서비스입니다. WebRTC는 비활성화됩니다.',
-    '허용되는 트래픽: private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local 또는 IPv6 loopback 원본 범위의 HTTPS와 SSH만. 송신 DNS, NTP, 원격 syslog, 온라인 업데이트, DHCP, 기존 연결, 필수 IPv6 제어 트래픽. WebRTC/ICE UDP는 차단됩니다.',
-    'HTTPS와 SSH의 수신 관리자 접근은 private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local 또는 IPv6 loopback 원본 범위로 제한됩니다. 공용 원본 범위는 허용되지 않습니다. 송신 DNS, NTP, 원격 syslog, 온라인 업데이트, DHCP, 기존 연결, 필수 IPv6 제어 트래픽은 계속 사용할 수 있습니다. WebRTC/ICE UDP 및 기타 수신/송신 트래픽은 차단됩니다.'
+    'H.264 WebRTC는 Restricted 및 Paranoid 방화벽 모드에서 비활성화됩니다'
   ),
   nb: firewallNoWebrtcTranslation(
-    'H.264 WebRTC er deaktivert i brannmurmodusene Restricted og Paranoid',
-    'Lokale HTTPS/SSH-administrasjonsporter og utgående tjenester for oppdateringer, DNS, NTP og syslog. WebRTC er deaktivert.',
-    'Tillatt trafikk: HTTPS og SSH bare fra private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- eller IPv6 loopback-kilder; utgående DNS, NTP, ekstern syslog og onlineoppdateringer; DHCP, etablerte forbindelser og nødvendig IPv6-kontrolltrafikk. WebRTC/ICE UDP blokkeres.',
-    'Innkommende administratortilgang begrenses til private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- eller IPv6 loopback-kilder for HTTPS og SSH. Offentlige kildeområder er ikke tillatt. Utgående DNS, NTP, ekstern syslog, onlineoppdateringer, DHCP, etablerte forbindelser og nødvendig IPv6-kontrolltrafikk forblir tilgjengelig. WebRTC/ICE UDP og annen inn-/utgående trafikk blokkeres.'
+    'H.264 WebRTC er deaktivert i brannmurmodusene Restricted og Paranoid'
   ),
   nl: firewallNoWebrtcTranslation(
-    'H.264 WebRTC is uitgeschakeld in de firewallmodi Restricted en Paranoid',
-    'Lokale HTTPS/SSH-beheerpoorten plus uitgaande diensten voor updates, DNS, NTP en syslog. WebRTC is uitgeschakeld.',
-    'Toegestaan verkeer: HTTPS en SSH alleen vanaf private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- of IPv6 loopback-bronbereiken; uitgaande DNS, NTP, externe syslog en online-updates; DHCP, bestaande verbindingen en essentieel IPv6-besturingsverkeer. WebRTC/ICE UDP wordt geblokkeerd.',
-    'Inkomende beheerstoegang wordt voor HTTPS en SSH beperkt tot private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- of IPv6 loopback-bronbereiken. Openbare bronbereiken zijn niet toegestaan. Uitgaande DNS, NTP, externe syslog, online-updates, DHCP, bestaande verbindingen en essentieel IPv6-besturingsverkeer blijven beschikbaar. WebRTC/ICE UDP en ander inkomend/uitgaand verkeer worden geblokkeerd.'
+    'H.264 WebRTC is uitgeschakeld in de firewallmodi Restricted en Paranoid'
   ),
   pl: firewallNoWebrtcTranslation(
-    'H.264 WebRTC jest wyłączony w trybach zapory Restricted i Paranoid',
-    'Lokalne porty administracyjne HTTPS/SSH oraz usługi wychodzące potrzebne do aktualizacji, DNS, NTP i syslog. WebRTC jest wyłączony.',
-    'Dozwolony ruch: HTTPS i SSH tylko ze źródeł private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local lub IPv6 loopback; wychodzące DNS, NTP, zdalny syslog i aktualizacje online; DHCP, istniejące połączenia i niezbędny ruch sterujący IPv6. WebRTC/ICE UDP jest blokowany.',
-    'Dostęp administracyjny przychodzący zostanie ograniczony do źródeł private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local lub IPv6 loopback dla HTTPS i SSH. Publiczne zakresy źródłowe nie są dozwolone. Wychodzące DNS, NTP, zdalny syslog, aktualizacje online, DHCP, istniejące połączenia i niezbędny ruch sterujący IPv6 pozostaną dostępne. WebRTC/ICE UDP oraz pozostały ruch przychodzący i wychodzący zostaną zablokowane.'
+    'H.264 WebRTC jest wyłączony w trybach zapory Restricted i Paranoid'
   ),
   pt_br: firewallNoWebrtcTranslation(
-    'H.264 WebRTC está desativado nos modos de firewall Restricted e Paranoid',
-    'Portas administrativas HTTPS/SSH locais e serviços de saída para atualizações, DNS, NTP e syslog. WebRTC está desativado.',
-    'Tráfego permitido: HTTPS e SSH apenas de faixas private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local ou IPv6 loopback; DNS, NTP, syslog remoto e atualizações online de saída; DHCP, conexões estabelecidas e tráfego essencial de controle IPv6. WebRTC/ICE UDP é bloqueado.',
-    'O acesso administrativo de entrada será limitado a faixas private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local ou IPv6 loopback para HTTPS e SSH. Faixas públicas de origem não são permitidas. DNS, NTP, syslog remoto, atualizações online, DHCP, conexões estabelecidas e tráfego essencial IPv6 de saída permanecerão disponíveis. WebRTC/ICE UDP e demais tráfegos de entrada/saída serão bloqueados.'
+    'H.264 WebRTC está desativado nos modos de firewall Restricted e Paranoid'
   ),
-  ru: firewallNoWebrtcTranslation(
-    'H.264 WebRTC отключен в режимах Restricted и Paranoid Firewall',
-    'Локальные административные HTTPS/SSH порты плюс исходящие сервисы для обновлений, DNS, NTP и syslog. WebRTC отключен.',
-    'Разрешенный трафик: HTTPS и SSH только из private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local или IPv6 loopback source ranges; исходящие DNS, NTP, удаленный syslog и онлайн-обновления; DHCP, established-соединения и минимальный IPv6 control traffic. WebRTC/ICE UDP блокируется.',
-    'Входящий административный доступ будет ограничен private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local или IPv6 loopback source ranges для HTTPS и SSH. Публичные source ranges не разрешаются. Исходящие DNS, NTP, удаленный syslog, онлайн-обновления, DHCP, established-соединения и минимальный IPv6 control traffic останутся доступны. WebRTC/ICE UDP и прочий входящий/исходящий трафик будут заблокированы.'
-  ),
+  ru: firewallNoWebrtcTranslation('H.264 WebRTC отключен в режимах Restricted и Paranoid Firewall'),
   se: firewallNoWebrtcTranslation(
-    'H.264 WebRTC är inaktiverat i brandväggslägena Restricted och Paranoid',
-    'Lokala HTTPS/SSH-administrationsportar och utgående tjänster för uppdateringar, DNS, NTP och syslog. WebRTC är inaktiverat.',
-    'Tillåten trafik: HTTPS och SSH endast från private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- eller IPv6 loopback-källor; utgående DNS, NTP, fjärr-syslog och onlineuppdateringar; DHCP, etablerade anslutningar och nödvändig IPv6-kontrolltrafik. WebRTC/ICE UDP blockeras.',
-    'Inkommande administratörsåtkomst begränsas till private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- eller IPv6 loopback-källor för HTTPS och SSH. Offentliga källintervall tillåts inte. Utgående DNS, NTP, fjärr-syslog, onlineuppdateringar, DHCP, etablerade anslutningar och nödvändig IPv6-kontrolltrafik förblir tillgängliga. WebRTC/ICE UDP och annan in-/utgående trafik blockeras.'
+    'H.264 WebRTC är inaktiverat i brandväggslägena Restricted och Paranoid'
   ),
   th: firewallNoWebrtcTranslation(
-    'H.264 WebRTC ถูกปิดใช้งานในโหมดไฟร์วอลล์ Restricted และ Paranoid',
-    'พอร์ตผู้ดูแล HTTPS/SSH เฉพาะเครือข่ายภายใน และบริการขาออกสำหรับอัปเดต DNS, NTP และ syslog โดย WebRTC ถูกปิดใช้งาน',
-    'ทราฟฟิกที่อนุญาต: HTTPS และ SSH เฉพาะจากช่วง private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local หรือ IPv6 loopback; DNS, NTP, syslog ระยะไกล และอัปเดตออนไลน์ขาออก; DHCP, การเชื่อมต่อที่สร้างแล้ว และทราฟฟิกควบคุม IPv6 ที่จำเป็น WebRTC/ICE UDP จะถูกบล็อก',
-    'การเข้าถึงผู้ดูแลขาเข้าจะถูกจำกัดไว้ที่ช่วง private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local หรือ IPv6 loopback สำหรับ HTTPS และ SSH ไม่อนุญาตช่วงต้นทางสาธารณะ DNS, NTP, syslog ระยะไกล, อัปเดตออนไลน์, DHCP, การเชื่อมต่อที่สร้างแล้ว และทราฟฟิกควบคุม IPv6 ที่จำเป็นขาออกจะยังใช้งานได้ WebRTC/ICE UDP และทราฟฟิกขาเข้า/ขาออกอื่นจะถูกบล็อก'
+    'H.264 WebRTC ถูกปิดใช้งานในโหมดไฟร์วอลล์ Restricted และ Paranoid'
   ),
   tr: firewallNoWebrtcTranslation(
-    'H.264 WebRTC, Restricted ve Paranoid firewall modlarında devre dışıdır',
-    'Yerel HTTPS/SSH yönetim portları ile güncellemeler, DNS, NTP ve syslog için giden servisler. WebRTC devre dışıdır.',
-    'İzin verilen trafik: yalnızca private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local veya IPv6 loopback kaynak aralıklarından HTTPS ve SSH; giden DNS, NTP, uzak syslog ve çevrimiçi güncellemeler; DHCP, kurulmuş bağlantılar ve gerekli IPv6 kontrol trafiği. WebRTC/ICE UDP engellenir.',
-    'Gelen yönetim erişimi HTTPS ve SSH için private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local veya IPv6 loopback kaynak aralıklarıyla sınırlanır. Genel kaynak aralıklarına izin verilmez. Giden DNS, NTP, uzak syslog, çevrimiçi güncellemeler, DHCP, kurulmuş bağlantılar ve gerekli IPv6 kontrol trafiği kullanılabilir kalır. WebRTC/ICE UDP ve diğer gelen/giden trafik engellenir.'
+    'H.264 WebRTC, Restricted ve Paranoid firewall modlarında devre dışıdır'
   ),
-  uk: firewallNoWebrtcTranslation(
-    'H.264 WebRTC вимкнено в режимах firewall Restricted і Paranoid',
-    'Локальні адміністративні порти HTTPS/SSH та вихідні служби для оновлень, DNS, NTP і syslog. WebRTC вимкнено.',
-    'Дозволений трафік: HTTPS і SSH лише з джерел private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local або IPv6 loopback; вихідні DNS, NTP, віддалений syslog і онлайн-оновлення; DHCP, встановлені з’єднання та необхідний керівний трафік IPv6. WebRTC/ICE UDP блокується.',
-    'Вхідний адміністративний доступ буде обмежено джерелами private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local або IPv6 loopback для HTTPS і SSH. Публічні діапазони джерел не дозволені. Вихідні DNS, NTP, віддалений syslog, онлайн-оновлення, DHCP, встановлені з’єднання та необхідний керівний трафік IPv6 залишаться доступними. WebRTC/ICE UDP та інший вхідний/вихідний трафік буде заблоковано.'
-  ),
+  uk: firewallNoWebrtcTranslation('H.264 WebRTC вимкнено в режимах firewall Restricted і Paranoid'),
   vi: firewallNoWebrtcTranslation(
-    'H.264 WebRTC bị tắt trong các chế độ tường lửa Restricted và Paranoid',
-    'Các cổng quản trị HTTPS/SSH cục bộ và dịch vụ đi ra cho cập nhật, DNS, NTP và syslog. WebRTC bị tắt.',
-    'Lưu lượng được phép: HTTPS và SSH chỉ từ các dải nguồn private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local hoặc IPv6 loopback; DNS, NTP, syslog từ xa và cập nhật online đi ra; DHCP, kết nối đã thiết lập và lưu lượng điều khiển IPv6 thiết yếu. WebRTC/ICE UDP bị chặn.',
-    'Truy cập quản trị đi vào sẽ bị giới hạn cho HTTPS và SSH ở các dải nguồn private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local hoặc IPv6 loopback. Không cho phép dải nguồn công khai. DNS, NTP, syslog từ xa, cập nhật online, DHCP, kết nối đã thiết lập và lưu lượng điều khiển IPv6 thiết yếu đi ra vẫn khả dụng. WebRTC/ICE UDP và lưu lượng đi vào/đi ra khác sẽ bị chặn.'
+    'H.264 WebRTC bị tắt trong các chế độ tường lửa Restricted và Paranoid'
   ),
-  zh: firewallNoWebrtcTranslation(
-    'H.264 WebRTC 在 Restricted 和 Paranoid 防火墙模式下已禁用',
-    '仅本地 HTTPS/SSH 管理端口，以及用于更新、DNS、NTP 和 syslog 的出站服务。WebRTC 已禁用。',
-    '允许的流量：仅来自 private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local 或 IPv6 loopback 源范围的 HTTPS 和 SSH；出站 DNS、NTP、远程 syslog 和在线更新；DHCP、已建立连接和必要的 IPv6 控制流量。WebRTC/ICE UDP 被阻止。',
-    '入站管理访问将仅限于来自 private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local 或 IPv6 loopback 源范围的 HTTPS 和 SSH。不允许公共源地址范围。出站 DNS、NTP、远程 syslog、在线更新、DHCP、已建立连接和必要的 IPv6 控制流量仍可用。WebRTC/ICE UDP 以及其他入站/出站流量将被阻止。'
-  ),
-  zh_tw: firewallNoWebrtcTranslation(
-    'H.264 WebRTC 在 Restricted 和 Paranoid 防火牆模式下已停用',
-    '僅本機 HTTPS/SSH 管理連接埠，以及更新、DNS、NTP 和 syslog 所需的輸出服務。WebRTC 已停用。',
-    '允許的流量：僅來自 private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local 或 IPv6 loopback 來源範圍的 HTTPS 和 SSH；輸出 DNS、NTP、遠端 syslog 和線上更新；DHCP、已建立連線和必要的 IPv6 控制流量。WebRTC/ICE UDP 會被阻擋。',
-    '輸入管理存取會限制為 HTTPS 和 SSH 使用 private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local 或 IPv6 loopback 來源範圍。不允許公開來源範圍。輸出 DNS、NTP、遠端 syslog、線上更新、DHCP、已建立連線和必要的 IPv6 控制流量仍可使用。WebRTC/ICE UDP 以及其他輸入/輸出流量會被阻擋。'
-  )
+  zh: firewallNoWebrtcTranslation('H.264 WebRTC 在 Restricted 和 Paranoid 防火墙模式下已禁用'),
+  zh_tw: firewallNoWebrtcTranslation('H.264 WebRTC 在 Restricted 和 Paranoid 防火牆模式下已停用')
 };
 
-const firewallNoWebrtcModeDescriptionFallbackExtras: TranslationMap = {
-  'settings.system.firewall.mode.description':
-    'Choose how inbound admin access is exposed. Moderate is the default local-only profile; Restricted keeps HTTPS/SSH local-only and blocks WebRTC; Baseline is an open compatibility profile.'
-};
+const firewallNoWebrtcModeDescriptionFallbackExtras: TranslationMap = {};
 
 const firewallNoWebrtcModeDescriptionLocalizedExtras: Record<string, TranslationMap> = {
-  ca: {
-    'settings.system.firewall.mode.description':
-      'Trieu com s’exposa l’accés administratiu entrant. Moderate és el perfil local per defecte; Restricted manté HTTPS/SSH només locals i bloqueja WebRTC; Baseline és un perfil obert de compatibilitat.'
-  },
-  cz: {
-    'settings.system.firewall.mode.description':
-      'Vyberte, jak bude vystaven příchozí administrátorský přístup. Moderate je výchozí lokální profil; Restricted ponechá HTTPS/SSH pouze lokálně a blokuje WebRTC; Baseline je otevřený kompatibilní profil.'
-  },
-  da: {
-    'settings.system.firewall.mode.description':
-      'Vælg hvordan indgående administrationsadgang eksponeres. Moderate er standardprofilen kun for lokale net; Restricted holder HTTPS/SSH kun lokalt og blokerer WebRTC; Baseline er en åben kompatibilitetsprofil.'
-  },
-  de: {
-    'settings.system.firewall.mode.description':
-      'Wählen Sie, wie eingehender Adminzugriff erreichbar ist. Moderate ist das standardmäßige lokale Profil; Restricted hält HTTPS/SSH lokal und blockiert WebRTC; Baseline ist ein offenes Kompatibilitätsprofil.'
-  },
-  es: {
-    'settings.system.firewall.mode.description':
-      'Elige cómo se expone el acceso administrativo entrante. Moderate es el perfil local predeterminado; Restricted mantiene HTTPS/SSH solo local y bloquea WebRTC; Baseline es un perfil abierto de compatibilidad.'
-  },
-  et: {
-    'settings.system.firewall.mode.description':
-      'Vali, kuidas sissetulev haldusligipääs avatakse. Moderate on vaikimisi ainult kohalik profiil; Restricted hoiab HTTPS/SSH ainult kohaliku ja blokeerib WebRTC; Baseline on avatud ühilduvusprofiil.'
-  },
-  fi: {
-    'settings.system.firewall.mode.description':
-      'Valitse, miten saapuva ylläpitokäytön portit näkyvät. Moderate on oletuksena paikallinen profiili; Restricted pitää HTTPS/SSH-yhteydet paikallisina ja estää WebRTC:n; Baseline on avoin yhteensopivuusprofiili.'
-  },
-  fr: {
-    'settings.system.firewall.mode.description':
-      'Choisissez comment l’accès administrateur entrant est exposé. Moderate est le profil local par défaut; Restricted garde HTTPS/SSH en local et bloque WebRTC; Baseline est un profil ouvert de compatibilité.'
-  },
-  hu: {
-    'settings.system.firewall.mode.description':
-      'Válassza ki, hogyan legyen elérhető a bejövő adminisztrációs hozzáférés. A Moderate az alapértelmezett helyi profil; a Restricted helyben tartja a HTTPS/SSH-t és blokkolja a WebRTC-t; a Baseline nyílt kompatibilitási profil.'
-  },
-  id: {
-    'settings.system.firewall.mode.description':
-      'Pilih bagaimana akses admin masuk diekspos. Moderate adalah profil lokal bawaan; Restricted membuat HTTPS/SSH hanya lokal dan memblokir WebRTC; Baseline adalah profil kompatibilitas terbuka.'
-  },
-  it: {
-    'settings.system.firewall.mode.description':
-      'Scegli come esporre l’accesso amministrativo in ingresso. Moderate è il profilo locale predefinito; Restricted mantiene HTTPS/SSH solo locali e blocca WebRTC; Baseline è un profilo aperto di compatibilità.'
-  },
-  ja: {
-    'settings.system.firewall.mode.description':
-      '受信管理アクセスの公開方法を選択します。Moderate は既定のローカル専用プロファイルです。Restricted は HTTPS/SSH をローカル専用にし、WebRTC をブロックします。Baseline は互換性用のオープンプロファイルです。'
-  },
-  ko: {
-    'settings.system.firewall.mode.description':
-      '수신 관리자 접근을 노출하는 방식을 선택합니다. Moderate는 기본 로컬 전용 프로필입니다. Restricted는 HTTPS/SSH를 로컬 전용으로 유지하고 WebRTC를 차단합니다. Baseline은 개방형 호환성 프로필입니다.'
-  },
-  nb: {
-    'settings.system.firewall.mode.description':
-      'Velg hvordan innkommende administratortilgang eksponeres. Moderate er standard lokal profil; Restricted holder HTTPS/SSH lokalt og blokkerer WebRTC; Baseline er en åpen kompatibilitetsprofil.'
-  },
-  nl: {
-    'settings.system.firewall.mode.description':
-      'Kies hoe inkomende beheerstoegang wordt aangeboden. Moderate is het standaard lokale profiel; Restricted houdt HTTPS/SSH lokaal en blokkeert WebRTC; Baseline is een open compatibiliteitsprofiel.'
-  },
-  pl: {
-    'settings.system.firewall.mode.description':
-      'Wybierz, jak udostępniony jest przychodzący dostęp administracyjny. Moderate jest domyślnym profilem lokalnym; Restricted utrzymuje HTTPS/SSH tylko lokalnie i blokuje WebRTC; Baseline jest otwartym profilem zgodności.'
-  },
-  pt_br: {
-    'settings.system.firewall.mode.description':
-      'Escolha como o acesso administrativo de entrada é exposto. Moderate é o perfil local padrão; Restricted mantém HTTPS/SSH apenas local e bloqueia WebRTC; Baseline é um perfil aberto de compatibilidade.'
-  },
-  ru: {
-    'settings.system.firewall.mode.description':
-      'Выберите, как открыт входящий административный доступ. Moderate - дефолтный локальный профиль; Restricted оставляет HTTPS/SSH только локальными и блокирует WebRTC; Baseline - открытый профиль совместимости.'
-  },
-  se: {
-    'settings.system.firewall.mode.description':
-      'Välj hur inkommande administratörsåtkomst exponeras. Moderate är standardprofilen endast för lokala nät; Restricted håller HTTPS/SSH lokalt och blockerar WebRTC; Baseline är en öppen kompatibilitetsprofil.'
-  },
-  th: {
-    'settings.system.firewall.mode.description':
-      'เลือกวิธีเปิดเผยการเข้าถึงผู้ดูแลขาเข้า Moderate เป็นโปรไฟล์ภายในเริ่มต้น; Restricted ให้ HTTPS/SSH ใช้ได้เฉพาะภายในและบล็อก WebRTC; Baseline เป็นโปรไฟล์เปิดเพื่อความเข้ากันได้'
-  },
-  tr: {
-    'settings.system.firewall.mode.description':
-      'Gelen yönetim erişiminin nasıl açılacağını seçin. Moderate varsayılan yerel profildir; Restricted HTTPS/SSH’yi yerel tutar ve WebRTC’yi engeller; Baseline açık uyumluluk profilidir.'
-  },
-  uk: {
-    'settings.system.firewall.mode.description':
-      'Виберіть, як відкрито вхідний адміністративний доступ. Moderate — типовий локальний профіль; Restricted залишає HTTPS/SSH лише локальними та блокує WebRTC; Baseline — відкритий профіль сумісності.'
-  },
-  vi: {
-    'settings.system.firewall.mode.description':
-      'Chọn cách mở truy cập quản trị đi vào. Moderate là hồ sơ cục bộ mặc định; Restricted giữ HTTPS/SSH chỉ cục bộ và chặn WebRTC; Baseline là hồ sơ tương thích mở.'
-  },
-  zh: {
-    'settings.system.firewall.mode.description':
-      '选择入站管理访问的暴露方式。Moderate 是默认的仅本地配置；Restricted 将 HTTPS/SSH 保持为仅本地并阻止 WebRTC；Baseline 是开放的兼容配置。'
-  },
-  zh_tw: {
-    'settings.system.firewall.mode.description':
-      '選擇輸入管理存取的開放方式。Moderate 是預設的僅本機設定；Restricted 讓 HTTPS/SSH 維持僅本機並阻擋 WebRTC；Baseline 是開放相容性設定。'
-  }
+  ca: {},
+  cz: {},
+  da: {},
+  de: {},
+  es: {},
+  et: {},
+  fi: {},
+  fr: {},
+  hu: {},
+  id: {},
+  it: {},
+  ja: {},
+  ko: {},
+  nb: {},
+  nl: {},
+  pl: {},
+  pt_br: {},
+  ru: {},
+  se: {},
+  th: {},
+  tr: {},
+  uk: {},
+  vi: {},
+  zh: {},
+  zh_tw: {}
 };
 
 const networkExtras: Record<string, TranslationMap> = {
@@ -2440,10 +2239,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Paràmetres del tallafoc aplicats',
     'settings.system.firewall.cancel': 'Cancel·la',
     'settings.system.firewall.refresh': 'Actualitza',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Mode efectiu',
-    'settings.system.firewall.disabled': 'Desactivat',
-    'settings.system.firewall.enabledPort': 'Activat al port {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Activa HTTPS abans d’activar el mode Paranoid del tallafoc',
     'settings.system.firewall.httpsRequired':
@@ -2453,15 +2248,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Activa Restricted',
-    'settings.system.firewall.restricted.active': 'El mode Restricted del tallafoc està actiu',
     'settings.system.firewall.restricted.confirmTitle': 'Vols activar el mode Restricted?',
     'settings.system.firewall.paranoid.enable': 'Activa Paranoid',
-    'settings.system.firewall.paranoid.active': 'El mode Paranoid del tallafoc està actiu',
-    'settings.system.firewall.paranoid.blocks':
-      'Només queda disponible HTTPS des de rangs private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback. Les actualitzacions online i les funcions de xarxa sortints queden bloquejades.',
     'settings.system.firewall.paranoid.confirmTitle': 'Vols activar el mode Paranoid?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Només quedarà disponible l’accés HTTPS des de rangs private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, descàrregues de GitHub i la resta de trànsit quedaran bloquejats excepte el mínim DHCP/control IPv6.',
     'settings.system.firewall.baseline.apply': 'Torna a baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Vols tornar al baseline gestionat?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2478,10 +2267,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Nastavení firewallu použito',
     'settings.system.firewall.cancel': 'Zrušit',
     'settings.system.firewall.refresh': 'Obnovit',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Aktivní režim',
-    'settings.system.firewall.disabled': 'Zakázáno',
-    'settings.system.firewall.enabledPort': 'Povoleno na portu {{port}}',
     'settings.system.firewall.enableHttpsFirst': 'Před zapnutím režimu Paranoid povolte HTTPS',
     'settings.system.firewall.httpsRequired':
       'Režim Paranoid je zakázán, dokud není HTTPS povoleno v Nastavení > Systém > Síť.',
@@ -2490,15 +2275,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Povolit Restricted',
-    'settings.system.firewall.restricted.active': 'Režim firewallu Restricted je aktivní',
     'settings.system.firewall.restricted.confirmTitle': 'Povolit režim Restricted?',
     'settings.system.firewall.paranoid.enable': 'Povolit Paranoid',
-    'settings.system.firewall.paranoid.active': 'Režim firewallu Paranoid je aktivní',
-    'settings.system.firewall.paranoid.blocks':
-      'Zůstane dostupné pouze HTTPS ze zdrojů private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local nebo IPv6 loopback. Online aktualizace a odchozí síťové funkce budou blokovány.',
     'settings.system.firewall.paranoid.confirmTitle': 'Povolit režim Paranoid?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Zůstane dostupný pouze HTTPS přístup ze zdrojů private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local nebo IPv6 loopback. SSH, HTTP, mDNS, NTP, stahování z GitHubu a další provoz budou blokovány kromě minimálního DHCP/IPv6 řízení.',
     'settings.system.firewall.baseline.apply': 'Vrátit na baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Vrátit na spravovaný baseline?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2515,10 +2294,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Firewallindstillinger anvendt',
     'settings.system.firewall.cancel': 'Annuller',
     'settings.system.firewall.refresh': 'Opdater',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Effektiv tilstand',
-    'settings.system.firewall.disabled': 'Deaktiveret',
-    'settings.system.firewall.enabledPort': 'Aktiveret på port {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Aktivér HTTPS før Paranoid-firewalltilstand aktiveres',
     'settings.system.firewall.httpsRequired':
@@ -2528,15 +2303,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Aktivér Restricted',
-    'settings.system.firewall.restricted.active': 'Restricted firewalltilstand er aktiv',
     'settings.system.firewall.restricted.confirmTitle': 'Aktivér Restricted firewalltilstand?',
     'settings.system.firewall.paranoid.enable': 'Aktivér Paranoid',
-    'settings.system.firewall.paranoid.active': 'Paranoid firewalltilstand er aktiv',
-    'settings.system.firewall.paranoid.blocks':
-      'Kun HTTPS fra private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local eller IPv6 loopback-kilder forbliver tilgængelig. Onlineopdateringer og udgående netværksfunktioner blokeres.',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktivér Paranoid firewalltilstand?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Kun HTTPS-adgang fra private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local eller IPv6 loopback forbliver tilgængelig. SSH, HTTP, mDNS, NTP, GitHub-downloads og anden trafik blokeres bortset fra minimal DHCP/IPv6-kontroltrafik.',
     'settings.system.firewall.baseline.apply': 'Tilbage til baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Tilbage til styret baseline?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2553,10 +2322,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Firewall-Einstellungen angewendet',
     'settings.system.firewall.cancel': 'Abbrechen',
     'settings.system.firewall.refresh': 'Aktualisieren',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Wirksamer Modus',
-    'settings.system.firewall.disabled': 'Deaktiviert',
-    'settings.system.firewall.enabledPort': 'Aktiv auf Port {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'HTTPS aktivieren, bevor der Paranoid-Firewallmodus eingeschaltet wird',
     'settings.system.firewall.httpsRequired':
@@ -2566,15 +2331,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Restricted aktivieren',
-    'settings.system.firewall.restricted.active': 'Restricted-Firewallmodus ist aktiv',
     'settings.system.firewall.restricted.confirmTitle': 'Restricted-Firewallmodus aktivieren?',
     'settings.system.firewall.paranoid.enable': 'Paranoid aktivieren',
-    'settings.system.firewall.paranoid.active': 'Paranoid-Firewallmodus ist aktiv',
-    'settings.system.firewall.paranoid.blocks':
-      'Nur HTTPS aus privaten IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- oder IPv6 loopback-Quellbereichen bleibt verfügbar. Online-Updates und ausgehende Netzwerkfunktionen werden blockiert.',
     'settings.system.firewall.paranoid.confirmTitle': 'Paranoid-Firewallmodus aktivieren?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Nur HTTPS-Zugriff aus privaten IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- oder IPv6 loopback-Quellbereichen bleibt verfügbar. SSH, HTTP, mDNS, NTP, GitHub-Downloads und anderer Verkehr werden außer minimalem DHCP/IPv6-Steuerverkehr blockiert.',
     'settings.system.firewall.baseline.apply': 'Zur Baseline zurückkehren',
     'settings.system.firewall.baseline.confirmTitle': 'Zur verwalteten Baseline zurückkehren?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2591,10 +2350,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Ajustes del firewall aplicados',
     'settings.system.firewall.cancel': 'Cancelar',
     'settings.system.firewall.refresh': 'Actualizar',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Modo efectivo',
-    'settings.system.firewall.disabled': 'Desactivado',
-    'settings.system.firewall.enabledPort': 'Activado en el puerto {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Activa HTTPS antes de activar el modo Paranoid del firewall',
     'settings.system.firewall.httpsRequired':
@@ -2604,15 +2359,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Activar Restricted',
-    'settings.system.firewall.restricted.active': 'El modo Restricted del firewall está activo',
     'settings.system.firewall.restricted.confirmTitle': '¿Activar el modo Restricted?',
     'settings.system.firewall.paranoid.enable': 'Activar Paranoid',
-    'settings.system.firewall.paranoid.active': 'El modo Paranoid del firewall está activo',
-    'settings.system.firewall.paranoid.blocks':
-      'Solo queda disponible HTTPS desde rangos private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback. Las actualizaciones online y las funciones de red salientes quedan bloqueadas.',
     'settings.system.firewall.paranoid.confirmTitle': '¿Activar el modo Paranoid?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Solo quedará disponible el acceso HTTPS desde rangos private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, descargas de GitHub y el resto del tráfico se bloquearán salvo el mínimo DHCP/control IPv6.',
     'settings.system.firewall.baseline.apply': 'Volver a baseline',
     'settings.system.firewall.baseline.confirmTitle': '¿Volver al baseline administrado?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2620,18 +2369,8 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.rules.title': 'Reglas actuales',
     'settings.system.firewall.rules.empty': 'Sin reglas'
   },
-  et: {
-    'settings.system.firewall.paranoid.blocks':
-      'Alles jääb ainult HTTPS private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local või IPv6 loopback lähtevahemikest. Online-uuendused ja väljaminevad võrgufunktsioonid blokeeritakse.',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Alles jääb ainult HTTPS ligipääs private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local või IPv6 loopback lähtevahemikest. SSH, HTTP, mDNS, NTP, GitHubi allalaadimised ja muu liiklus blokeeritakse, välja arvatud minimaalne DHCP/IPv6 juhtliiklus.'
-  },
-  fi: {
-    'settings.system.firewall.paranoid.blocks':
-      'Vain HTTPS private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- tai IPv6 loopback-lähdealueilta jää käyttöön. Verkkopäivitykset ja lähtevät verkkotoiminnot estetään.',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Vain HTTPS-käyttö private IPv4-, IPv4 link-local/loopback-, IPv6 ULA-, IPv6 link-local- tai IPv6 loopback-lähdealueilta jää käyttöön. SSH, HTTP, mDNS, NTP, GitHub-lataukset ja muu liikenne estetään lukuun ottamatta vähäistä DHCP/IPv6-ohjausliikennettä.'
-  },
+  et: {},
+  fi: {},
   fr: {
     'settings.system.title': 'Système',
     'settings.system.sections.time': 'Heure',
@@ -2641,10 +2380,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Paramètres du pare-feu appliqués',
     'settings.system.firewall.cancel': 'Annuler',
     'settings.system.firewall.refresh': 'Actualiser',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Mode effectif',
-    'settings.system.firewall.disabled': 'Désactivé',
-    'settings.system.firewall.enabledPort': 'Activé sur le port {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Activez HTTPS avant d’activer le mode pare-feu Paranoid',
     'settings.system.firewall.httpsRequired':
@@ -2654,15 +2389,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Activer Restricted',
-    'settings.system.firewall.restricted.active': 'Le mode pare-feu Restricted est actif',
     'settings.system.firewall.restricted.confirmTitle': 'Activer le mode Restricted?',
     'settings.system.firewall.paranoid.enable': 'Activer Paranoid',
-    'settings.system.firewall.paranoid.active': 'Le mode pare-feu Paranoid est actif',
-    'settings.system.firewall.paranoid.blocks':
-      'Seul HTTPS depuis les plages private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local ou IPv6 loopback reste disponible. Les mises à jour en ligne et les fonctions réseau sortantes sont bloquées.',
     'settings.system.firewall.paranoid.confirmTitle': 'Activer le mode Paranoid?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Seul l’accès HTTPS depuis les plages private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local ou IPv6 loopback restera disponible. SSH, HTTP, mDNS, NTP, téléchargements GitHub et le reste du trafic seront bloqués sauf le minimum DHCP/contrôle IPv6.',
     'settings.system.firewall.baseline.apply': 'Revenir à la baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Revenir à la baseline gérée?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2679,10 +2408,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Tűzfalbeállítások alkalmazva',
     'settings.system.firewall.cancel': 'Mégse',
     'settings.system.firewall.refresh': 'Frissítés',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Érvényes mód',
-    'settings.system.firewall.disabled': 'Letiltva',
-    'settings.system.firewall.enabledPort': 'Engedélyezve a(z) {{port}} porton',
     'settings.system.firewall.enableHttpsFirst':
       'A Paranoid tűzfal mód engedélyezése előtt engedélyezze a HTTPS-t',
     'settings.system.firewall.httpsRequired':
@@ -2692,15 +2417,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Restricted engedélyezése',
-    'settings.system.firewall.restricted.active': 'A Restricted tűzfal mód aktív',
     'settings.system.firewall.restricted.confirmTitle': 'Engedélyezi a Restricted módot?',
     'settings.system.firewall.paranoid.enable': 'Paranoid engedélyezése',
-    'settings.system.firewall.paranoid.active': 'A Paranoid tűzfal mód aktív',
-    'settings.system.firewall.paranoid.blocks':
-      'Csak a HTTPS marad elérhető private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local vagy IPv6 loopback forrástartományokból. Az online frissítések és a kimenő hálózati funkciók blokkolva lesznek.',
     'settings.system.firewall.paranoid.confirmTitle': 'Engedélyezi a Paranoid módot?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Csak a HTTPS-hozzáférés marad elérhető private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local vagy IPv6 loopback forrástartományokból. Az SSH, HTTP, mDNS, NTP, GitHub-letöltések és más forgalom blokkolva lesz, kivéve a minimális DHCP/IPv6 vezérlést.',
     'settings.system.firewall.baseline.apply': 'Vissza a baseline módhoz',
     'settings.system.firewall.baseline.confirmTitle': 'Visszatérés a kezelt baseline módhoz?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2717,10 +2436,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Pengaturan firewall diterapkan',
     'settings.system.firewall.cancel': 'Batal',
     'settings.system.firewall.refresh': 'Segarkan',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Mode efektif',
-    'settings.system.firewall.disabled': 'Dinonaktifkan',
-    'settings.system.firewall.enabledPort': 'Diaktifkan pada port {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Aktifkan HTTPS sebelum mengaktifkan mode Firewall Paranoid',
     'settings.system.firewall.httpsRequired':
@@ -2730,15 +2445,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Aktifkan Restricted',
-    'settings.system.firewall.restricted.active': 'Mode Firewall Restricted aktif',
     'settings.system.firewall.restricted.confirmTitle': 'Aktifkan mode Restricted?',
     'settings.system.firewall.paranoid.enable': 'Aktifkan Paranoid',
-    'settings.system.firewall.paranoid.active': 'Mode Firewall Paranoid aktif',
-    'settings.system.firewall.paranoid.blocks':
-      'Hanya HTTPS dari rentang private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, atau IPv6 loopback yang tetap tersedia. Pembaruan online dan fitur jaringan keluar diblokir.',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktifkan mode Paranoid?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Hanya akses HTTPS dari rentang private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local, atau IPv6 loopback yang tetap tersedia. SSH, HTTP, mDNS, NTP, unduhan GitHub, dan lalu lintas lain diblokir kecuali DHCP/kontrol IPv6 minimal.',
     'settings.system.firewall.baseline.apply': 'Kembali ke baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Kembali ke baseline terkelola?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2755,10 +2464,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Impostazioni del firewall applicate',
     'settings.system.firewall.cancel': 'Annulla',
     'settings.system.firewall.refresh': 'Aggiorna',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Modalità effettiva',
-    'settings.system.firewall.disabled': 'Disabilitato',
-    'settings.system.firewall.enabledPort': 'Abilitato sulla porta {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Abilita HTTPS prima di attivare la modalità firewall Paranoid',
     'settings.system.firewall.httpsRequired':
@@ -2768,15 +2473,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Abilita Restricted',
-    'settings.system.firewall.restricted.active': 'La modalità firewall Restricted è attiva',
     'settings.system.firewall.restricted.confirmTitle': 'Abilitare la modalità Restricted?',
     'settings.system.firewall.paranoid.enable': 'Abilita Paranoid',
-    'settings.system.firewall.paranoid.active': 'La modalità firewall Paranoid è attiva',
-    'settings.system.firewall.paranoid.blocks':
-      'Resta disponibile solo HTTPS da intervalli private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback. Gli aggiornamenti online e le funzioni di rete in uscita sono bloccati.',
     'settings.system.firewall.paranoid.confirmTitle': 'Abilitare la modalità Paranoid?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Resterà disponibile solo l’accesso HTTPS da intervalli private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, download da GitHub e altro traffico saranno bloccati salvo il minimo DHCP/controllo IPv6.',
     'settings.system.firewall.baseline.apply': 'Torna alla baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Tornare alla baseline gestita?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2793,10 +2492,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'ファイアウォール設定を適用しました',
     'settings.system.firewall.cancel': 'キャンセル',
     'settings.system.firewall.refresh': '更新',
-    'settings.system.firewall.backend': 'バックエンド',
-    'settings.system.firewall.effectiveMode': '有効なモード',
-    'settings.system.firewall.disabled': '無効',
-    'settings.system.firewall.enabledPort': 'ポート {{port}} で有効',
     'settings.system.firewall.enableHttpsFirst':
       'Paranoid ファイアウォールモードを有効にする前に HTTPS を有効にしてください',
     'settings.system.firewall.httpsRequired':
@@ -2806,15 +2501,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Restricted を有効化',
-    'settings.system.firewall.restricted.active': 'Restricted ファイアウォールモードが有効です',
     'settings.system.firewall.restricted.confirmTitle': 'Restricted モードを有効にしますか?',
     'settings.system.firewall.paranoid.enable': 'Paranoid を有効化',
-    'settings.system.firewall.paranoid.active': 'Paranoid ファイアウォールモードが有効です',
-    'settings.system.firewall.paranoid.blocks':
-      'private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local、IPv6 loopback の送信元範囲からの HTTPS のみが利用できます。オンライン更新と外向きネットワーク機能はブロックされます。',
     'settings.system.firewall.paranoid.confirmTitle': 'Paranoid モードを有効にしますか?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local、IPv6 loopback の送信元範囲からの HTTPS アクセスのみが残ります。SSH、HTTP、mDNS、NTP、GitHub ダウンロード、その他の通信は最小限の DHCP/IPv6 制御通信を除きブロックされます。',
     'settings.system.firewall.baseline.apply': 'Baseline に戻す',
     'settings.system.firewall.baseline.confirmTitle': '管理された baseline に戻しますか?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2831,10 +2520,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': '방화벽 설정이 적용되었습니다',
     'settings.system.firewall.cancel': '취소',
     'settings.system.firewall.refresh': '새로 고침',
-    'settings.system.firewall.backend': '백엔드',
-    'settings.system.firewall.effectiveMode': '적용 모드',
-    'settings.system.firewall.disabled': '비활성화됨',
-    'settings.system.firewall.enabledPort': '{{port}} 포트에서 활성화됨',
     'settings.system.firewall.enableHttpsFirst':
       'Paranoid 방화벽 모드를 켜기 전에 HTTPS를 활성화하세요',
     'settings.system.firewall.httpsRequired':
@@ -2844,15 +2529,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Restricted 활성화',
-    'settings.system.firewall.restricted.active': 'Restricted 방화벽 모드가 활성화되었습니다',
     'settings.system.firewall.restricted.confirmTitle': 'Restricted 모드를 활성화할까요?',
     'settings.system.firewall.paranoid.enable': 'Paranoid 활성화',
-    'settings.system.firewall.paranoid.active': 'Paranoid 방화벽 모드가 활성화되었습니다',
-    'settings.system.firewall.paranoid.blocks':
-      'private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local 또는 IPv6 loopback 원본 범위의 HTTPS만 사용할 수 있습니다. 온라인 업데이트와 송신 네트워크 기능은 차단됩니다.',
     'settings.system.firewall.paranoid.confirmTitle': 'Paranoid 모드를 활성화할까요?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local 또는 IPv6 loopback 원본 범위의 HTTPS 접근만 남습니다. SSH, HTTP, mDNS, NTP, GitHub 다운로드 및 기타 트래픽은 최소 DHCP/IPv6 제어 트래픽을 제외하고 차단됩니다.',
     'settings.system.firewall.baseline.apply': 'Baseline으로 돌아가기',
     'settings.system.firewall.baseline.confirmTitle': '관리되는 baseline으로 돌아갈까요?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2869,10 +2548,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Brannmurinnstillinger brukt',
     'settings.system.firewall.cancel': 'Avbryt',
     'settings.system.firewall.refresh': 'Oppdater',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Aktiv modus',
-    'settings.system.firewall.disabled': 'Deaktivert',
-    'settings.system.firewall.enabledPort': 'Aktivert på port {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Aktiver HTTPS før Paranoid-brannmurmodus aktiveres',
     'settings.system.firewall.httpsRequired':
@@ -2882,15 +2557,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Aktiver Restricted',
-    'settings.system.firewall.restricted.active': 'Restricted-brannmurmodus er aktiv',
     'settings.system.firewall.restricted.confirmTitle': 'Aktivere Restricted-modus?',
     'settings.system.firewall.paranoid.enable': 'Aktiver Paranoid',
-    'settings.system.firewall.paranoid.active': 'Paranoid-brannmurmodus er aktiv',
-    'settings.system.firewall.paranoid.blocks':
-      'Bare HTTPS fra private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local eller IPv6 loopback-kilder forblir tilgjengelig. Onlineoppdateringer og utgående nettverksfunksjoner blokkeres.',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktivere Paranoid-modus?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Bare HTTPS-tilgang fra private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local eller IPv6 loopback forblir tilgjengelig. SSH, HTTP, mDNS, NTP, GitHub-nedlastinger og annen trafikk blokkeres bortsett fra minimal DHCP/IPv6-kontroll.',
     'settings.system.firewall.baseline.apply': 'Tilbake til baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Tilbake til administrert baseline?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2907,10 +2576,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Firewallinstellingen toegepast',
     'settings.system.firewall.cancel': 'Annuleren',
     'settings.system.firewall.refresh': 'Vernieuwen',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Effectieve modus',
-    'settings.system.firewall.disabled': 'Uitgeschakeld',
-    'settings.system.firewall.enabledPort': 'Ingeschakeld op poort {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Schakel HTTPS in voordat u Paranoid-firewallmodus inschakelt',
     'settings.system.firewall.httpsRequired':
@@ -2920,15 +2585,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Restricted inschakelen',
-    'settings.system.firewall.restricted.active': 'Restricted-firewallmodus is actief',
     'settings.system.firewall.restricted.confirmTitle': 'Restricted-modus inschakelen?',
     'settings.system.firewall.paranoid.enable': 'Paranoid inschakelen',
-    'settings.system.firewall.paranoid.active': 'Paranoid-firewallmodus is actief',
-    'settings.system.firewall.paranoid.blocks':
-      'Alleen HTTPS vanuit private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local of IPv6 loopback-bronbereiken blijft beschikbaar. Online updates en uitgaande netwerkfuncties worden geblokkeerd.',
     'settings.system.firewall.paranoid.confirmTitle': 'Paranoid-modus inschakelen?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Alleen HTTPS-toegang vanuit private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local of IPv6 loopback-bronbereiken blijft beschikbaar. SSH, HTTP, mDNS, NTP, GitHub-downloads en ander verkeer worden geblokkeerd behalve minimaal DHCP/IPv6-controleverkeer.',
     'settings.system.firewall.baseline.apply': 'Terug naar baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Terug naar beheerde baseline?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2945,10 +2604,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Configurações do firewall aplicadas',
     'settings.system.firewall.cancel': 'Cancelar',
     'settings.system.firewall.refresh': 'Atualizar',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Modo efetivo',
-    'settings.system.firewall.disabled': 'Desativado',
-    'settings.system.firewall.enabledPort': 'Ativado na porta {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Ative HTTPS antes de ativar o modo Firewall Paranoid',
     'settings.system.firewall.httpsRequired':
@@ -2958,15 +2613,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Ativar Restricted',
-    'settings.system.firewall.restricted.active': 'O modo Firewall Restricted está ativo',
     'settings.system.firewall.restricted.confirmTitle': 'Ativar o modo Restricted?',
     'settings.system.firewall.paranoid.enable': 'Ativar Paranoid',
-    'settings.system.firewall.paranoid.active': 'O modo Firewall Paranoid está ativo',
-    'settings.system.firewall.paranoid.blocks':
-      'Apenas HTTPS de faixas private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local ou IPv6 loopback permanece disponível. Atualizações online e funções de rede de saída são bloqueadas.',
     'settings.system.firewall.paranoid.confirmTitle': 'Ativar o modo Paranoid?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Apenas acesso HTTPS de faixas private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local ou IPv6 loopback permanecerá disponível. SSH, HTTP, mDNS, NTP, downloads do GitHub e outro tráfego serão bloqueados exceto DHCP/controle IPv6 mínimo.',
     'settings.system.firewall.baseline.apply': 'Voltar ao baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Voltar ao baseline gerenciado?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -2983,10 +2632,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Brandväggsinställningar tillämpade',
     'settings.system.firewall.cancel': 'Avbryt',
     'settings.system.firewall.refresh': 'Uppdatera',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Aktivt läge',
-    'settings.system.firewall.disabled': 'Inaktiverad',
-    'settings.system.firewall.enabledPort': 'Aktiverad på port {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Aktivera HTTPS innan Paranoid-brandväggsläge aktiveras',
     'settings.system.firewall.httpsRequired':
@@ -2996,15 +2641,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Aktivera Restricted',
-    'settings.system.firewall.restricted.active': 'Restricted-brandväggsläge är aktivt',
     'settings.system.firewall.restricted.confirmTitle': 'Aktivera Restricted-läge?',
     'settings.system.firewall.paranoid.enable': 'Aktivera Paranoid',
-    'settings.system.firewall.paranoid.active': 'Paranoid-brandväggsläge är aktivt',
-    'settings.system.firewall.paranoid.blocks':
-      'Endast HTTPS från private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local eller IPv6 loopback-källor är tillgängligt. Onlineuppdateringar och utgående nätverksfunktioner blockeras.',
     'settings.system.firewall.paranoid.confirmTitle': 'Aktivera Paranoid-läge?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Endast HTTPS-åtkomst från private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local eller IPv6 loopback är tillgänglig. SSH, HTTP, mDNS, NTP, GitHub-nedladdningar och annan trafik blockeras utom minimal DHCP/IPv6-kontroll.',
     'settings.system.firewall.baseline.apply': 'Tillbaka till baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Tillbaka till hanterad baseline?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -3021,10 +2660,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'ใช้การตั้งค่าไฟร์วอลล์แล้ว',
     'settings.system.firewall.cancel': 'ยกเลิก',
     'settings.system.firewall.refresh': 'รีเฟรช',
-    'settings.system.firewall.backend': 'แบ็กเอนด์',
-    'settings.system.firewall.effectiveMode': 'โหมดที่มีผล',
-    'settings.system.firewall.disabled': 'ปิดใช้งาน',
-    'settings.system.firewall.enabledPort': 'เปิดใช้งานที่พอร์ต {{port}}',
     'settings.system.firewall.enableHttpsFirst': 'เปิดใช้งาน HTTPS ก่อนเปิดโหมดไฟร์วอลล์ Paranoid',
     'settings.system.firewall.httpsRequired':
       'โหมด Paranoid จะปิดอยู่จนกว่าจะเปิด HTTPS ใน การตั้งค่า > ระบบ > เครือข่าย',
@@ -3033,15 +2668,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'เปิด Restricted',
-    'settings.system.firewall.restricted.active': 'โหมดไฟร์วอลล์ Restricted เปิดใช้งานอยู่',
     'settings.system.firewall.restricted.confirmTitle': 'เปิดโหมด Restricted หรือไม่?',
     'settings.system.firewall.paranoid.enable': 'เปิด Paranoid',
-    'settings.system.firewall.paranoid.active': 'โหมดไฟร์วอลล์ Paranoid เปิดใช้งานอยู่',
-    'settings.system.firewall.paranoid.blocks':
-      'เหลือเพียง HTTPS จากช่วง private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local หรือ IPv6 loopback เท่านั้น อัปเดตออนไลน์และฟังก์ชันเครือข่ายขาออกจะถูกบล็อก',
     'settings.system.firewall.paranoid.confirmTitle': 'เปิดโหมด Paranoid หรือไม่?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'จะเหลือเฉพาะการเข้าถึง HTTPS จากช่วง private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local หรือ IPv6 loopback เท่านั้น SSH, HTTP, mDNS, NTP, การดาวน์โหลด GitHub และทราฟฟิกอื่นจะถูกบล็อก ยกเว้น DHCP/การควบคุม IPv6 ขั้นต่ำ',
     'settings.system.firewall.baseline.apply': 'กลับสู่ baseline',
     'settings.system.firewall.baseline.confirmTitle': 'กลับสู่ baseline ที่จัดการโดยระบบหรือไม่?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -3058,10 +2687,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Güvenlik duvarı ayarları uygulandı',
     'settings.system.firewall.cancel': 'İptal',
     'settings.system.firewall.refresh': 'Yenile',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Etkin mod',
-    'settings.system.firewall.disabled': 'Devre dışı',
-    'settings.system.firewall.enabledPort': '{{port}} portunda etkin',
     'settings.system.firewall.enableHttpsFirst':
       'Paranoid Güvenlik Duvarı modunu etkinleştirmeden önce HTTPS’i etkinleştirin',
     'settings.system.firewall.httpsRequired':
@@ -3071,15 +2696,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Restricted etkinleştir',
-    'settings.system.firewall.restricted.active': 'Restricted Güvenlik Duvarı modu etkin',
     'settings.system.firewall.restricted.confirmTitle': 'Restricted modu etkinleştirilsin mi?',
     'settings.system.firewall.paranoid.enable': 'Paranoid etkinleştir',
-    'settings.system.firewall.paranoid.active': 'Paranoid Güvenlik Duvarı modu etkin',
-    'settings.system.firewall.paranoid.blocks':
-      'Yalnızca private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local veya IPv6 loopback kaynak aralıklarından HTTPS kullanılabilir kalır. Online güncellemeler ve giden ağ özellikleri engellenir.',
     'settings.system.firewall.paranoid.confirmTitle': 'Paranoid modu etkinleştirilsin mi?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Yalnızca private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local veya IPv6 loopback kaynak aralıklarından HTTPS erişimi kullanılabilir kalır. SSH, HTTP, mDNS, NTP, GitHub indirmeleri ve diğer trafik minimal DHCP/IPv6 kontrolü dışında engellenir.',
     'settings.system.firewall.baseline.apply': 'Baseline’a dön',
     'settings.system.firewall.baseline.confirmTitle': 'Yönetilen baseline’a dönülsün mü?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -3096,10 +2715,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Đã áp dụng cài đặt tường lửa',
     'settings.system.firewall.cancel': 'Hủy',
     'settings.system.firewall.refresh': 'Làm mới',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Chế độ hiệu lực',
-    'settings.system.firewall.disabled': 'Đã tắt',
-    'settings.system.firewall.enabledPort': 'Đã bật trên cổng {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Bật HTTPS trước khi bật chế độ tường lửa Paranoid',
     'settings.system.firewall.httpsRequired':
@@ -3109,15 +2724,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Bật Restricted',
-    'settings.system.firewall.restricted.active': 'Chế độ tường lửa Restricted đang hoạt động',
     'settings.system.firewall.restricted.confirmTitle': 'Bật chế độ Restricted?',
     'settings.system.firewall.paranoid.enable': 'Bật Paranoid',
-    'settings.system.firewall.paranoid.active': 'Chế độ tường lửa Paranoid đang hoạt động',
-    'settings.system.firewall.paranoid.blocks':
-      'Chỉ HTTPS từ các dải nguồn private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local hoặc IPv6 loopback còn khả dụng. Cập nhật online và các chức năng mạng đi ra bị chặn.',
     'settings.system.firewall.paranoid.confirmTitle': 'Bật chế độ Paranoid?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Chỉ truy cập HTTPS từ các dải nguồn private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local hoặc IPv6 loopback còn khả dụng. SSH, HTTP, mDNS, NTP, tải xuống GitHub và lưu lượng khác sẽ bị chặn ngoại trừ DHCP/điều khiển IPv6 tối thiểu.',
     'settings.system.firewall.baseline.apply': 'Quay lại baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Quay lại baseline được quản lý?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -3134,10 +2743,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Налаштування брандмауера застосовано',
     'settings.system.firewall.cancel': 'Скасувати',
     'settings.system.firewall.refresh': 'Оновити',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Ефективний режим',
-    'settings.system.firewall.disabled': 'Вимкнено',
-    'settings.system.firewall.enabledPort': 'Увімкнено на порту {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Увімкніть HTTPS перед увімкненням режиму брандмауера Paranoid',
     'settings.system.firewall.httpsRequired':
@@ -3147,15 +2752,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Увімкнути Restricted',
-    'settings.system.firewall.restricted.active': 'Режим брандмауера Restricted активний',
     'settings.system.firewall.restricted.confirmTitle': 'Увімкнути режим Restricted?',
     'settings.system.firewall.paranoid.enable': 'Увімкнути Paranoid',
-    'settings.system.firewall.paranoid.active': 'Режим брандмауера Paranoid активний',
-    'settings.system.firewall.paranoid.blocks':
-      'Доступним залишається лише HTTPS із джерел private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local або IPv6 loopback. Онлайн-оновлення й вихідні мережеві функції заблоковані.',
     'settings.system.firewall.paranoid.confirmTitle': 'Увімкнути режим Paranoid?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Доступним залишиться лише HTTPS із джерел private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local або IPv6 loopback. SSH, HTTP, mDNS, NTP, завантаження з GitHub та інший трафік буде заблоковано, крім мінімального DHCP/керування IPv6.',
     'settings.system.firewall.baseline.apply': 'Повернутися до baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Повернутися до керованого baseline?',
     'settings.system.firewall.baseline.confirmDesc':
@@ -3172,10 +2771,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': '防火墙设置已应用',
     'settings.system.firewall.cancel': '取消',
     'settings.system.firewall.refresh': '刷新',
-    'settings.system.firewall.backend': '后端',
-    'settings.system.firewall.effectiveMode': '生效模式',
-    'settings.system.firewall.disabled': '已禁用',
-    'settings.system.firewall.enabledPort': '已在端口 {{port}} 启用',
     'settings.system.firewall.enableHttpsFirst': '启用 Paranoid 防火墙模式前请先启用 HTTPS',
     'settings.system.firewall.httpsRequired':
       'Paranoid 模式需要先在 设置 > 系统 > 网络 中启用 HTTPS。',
@@ -3184,15 +2779,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': '启用 Restricted',
-    'settings.system.firewall.restricted.active': 'Restricted 防火墙模式已启用',
     'settings.system.firewall.restricted.confirmTitle': '启用 Restricted 防火墙模式？',
     'settings.system.firewall.paranoid.enable': '启用 Paranoid',
-    'settings.system.firewall.paranoid.active': 'Paranoid 防火墙模式已启用',
-    'settings.system.firewall.paranoid.blocks':
-      '仅保留来自 private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local 或 IPv6 loopback 源范围的 HTTPS。在线更新和出站网络功能会被阻止。',
     'settings.system.firewall.paranoid.confirmTitle': '启用 Paranoid 防火墙模式？',
-    'settings.system.firewall.paranoid.confirmDesc':
-      '仅保留来自 private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local 或 IPv6 loopback 源范围的 HTTPS 访问。SSH、HTTP、mDNS、NTP、GitHub 下载和其他流量将被阻止，仅保留最小 DHCP/IPv6 控制流量。',
     'settings.system.firewall.baseline.apply': '返回 baseline',
     'settings.system.firewall.baseline.confirmTitle': '返回受管 baseline？',
     'settings.system.firewall.baseline.confirmDesc':
@@ -3209,10 +2798,6 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': '防火牆設定已套用',
     'settings.system.firewall.cancel': '取消',
     'settings.system.firewall.refresh': '重新整理',
-    'settings.system.firewall.backend': '後端',
-    'settings.system.firewall.effectiveMode': '生效模式',
-    'settings.system.firewall.disabled': '已停用',
-    'settings.system.firewall.enabledPort': '已在連接埠 {{port}} 啟用',
     'settings.system.firewall.enableHttpsFirst': '啟用 Paranoid 防火牆模式前請先啟用 HTTPS',
     'settings.system.firewall.httpsRequired':
       'Paranoid 模式需要先在 設定 > 系統 > 網路 中啟用 HTTPS。',
@@ -3221,15 +2806,9 @@ const firewallExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': '啟用 Restricted',
-    'settings.system.firewall.restricted.active': 'Restricted 防火牆模式已啟用',
     'settings.system.firewall.restricted.confirmTitle': '啟用 Restricted 防火牆模式？',
     'settings.system.firewall.paranoid.enable': '啟用 Paranoid',
-    'settings.system.firewall.paranoid.active': 'Paranoid 防火牆模式已啟用',
-    'settings.system.firewall.paranoid.blocks':
-      '僅保留來自 private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local 或 IPv6 loopback 來源範圍的 HTTPS。線上更新和輸出網路功能會被阻擋。',
     'settings.system.firewall.paranoid.confirmTitle': '啟用 Paranoid 防火牆模式？',
-    'settings.system.firewall.paranoid.confirmDesc':
-      '僅保留來自 private IPv4、IPv4 link-local/loopback、IPv6 ULA、IPv6 link-local 或 IPv6 loopback 來源範圍的 HTTPS 存取。SSH、HTTP、mDNS、NTP、GitHub 下載和其他流量將被阻擋，只保留最小 DHCP/IPv6 控制流量。',
     'settings.system.firewall.baseline.apply': '返回 baseline',
     'settings.system.firewall.baseline.confirmTitle': '返回受管理 baseline？',
     'settings.system.firewall.baseline.confirmDesc':
@@ -6904,10 +6483,6 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.saved': 'Ustawienia zapory zastosowane',
     'settings.system.firewall.cancel': 'Anuluj',
     'settings.system.firewall.refresh': 'Odśwież',
-    'settings.system.firewall.backend': 'Backend',
-    'settings.system.firewall.effectiveMode': 'Tryb efektywny',
-    'settings.system.firewall.disabled': 'Wyłączone',
-    'settings.system.firewall.enabledPort': 'Włączone na porcie {{port}}',
     'settings.system.firewall.enableHttpsFirst':
       'Włącz HTTPS przed włączeniem trybu zapory Paranoid',
     'settings.system.firewall.httpsRequired':
@@ -6917,15 +6492,9 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.system.firewall.mode.restricted': 'Restricted',
     'settings.system.firewall.mode.paranoid': 'Paranoid',
     'settings.system.firewall.restricted.enable': 'Włącz Restricted',
-    'settings.system.firewall.restricted.active': 'Tryb zapory Restricted jest aktywny',
     'settings.system.firewall.restricted.confirmTitle': 'Włączyć tryb zapory Restricted?',
     'settings.system.firewall.paranoid.enable': 'Włącz Paranoid',
-    'settings.system.firewall.paranoid.active': 'Tryb zapory Paranoid jest aktywny',
-    'settings.system.firewall.paranoid.blocks':
-      'Dostępny pozostaje tylko HTTPS ze źródeł private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local lub IPv6 loopback. Aktualizacje online i funkcje sieci wychodzącej są blokowane. Przesyłanie aktualizacji offline i już przygotowane instalacje pozostają dostępne.',
     'settings.system.firewall.paranoid.confirmTitle': 'Włączyć tryb zapory Paranoid?',
-    'settings.system.firewall.paranoid.confirmDesc':
-      'Dostępny pozostanie tylko HTTPS ze źródeł private IPv4, IPv4 link-local/loopback, IPv6 ULA, IPv6 link-local lub IPv6 loopback. Publiczne zakresy źródłowe nie są dozwolone. SSH, HTTP, mDNS, NTP, pobieranie z GitHub i pozostały ruch przychodzący/wychodzący zostaną zablokowane z wyjątkiem minimalnego DHCP/ruchu sterującego IPv6.',
     'settings.system.firewall.baseline.apply': 'Wróć do baseline',
     'settings.system.firewall.baseline.confirmTitle': 'Wrócić do zarządzanego baseline?',
     'settings.system.firewall.baseline.confirmDesc':

@@ -379,7 +379,8 @@ const se = {
         hdmi: {
           description: 'Aktivera HDMI/monitorutgång',
           idleTimeoutTitle: 'Tidsgräns för inaktiv inspelning',
-          idleTimeoutDescription: 'Stoppa HDMI-inspelning efter att det inte har funnits aktiva tittare i',
+          idleTimeoutDescription:
+            'Stoppa HDMI-inspelning efter att det inte har funnits aktiva tittare i',
           minutes: 'min'
         },
         hidOnly: 'Endast-HID-läge',

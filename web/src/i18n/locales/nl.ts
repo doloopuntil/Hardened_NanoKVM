@@ -382,7 +382,8 @@ const nl = {
         hdmi: {
           description: 'Schakel HDMI/monitoruitgang in',
           idleTimeoutTitle: 'Time-out voor inactieve opname',
-          idleTimeoutDescription: 'HDMI-opname stoppen nadat er gedurende deze tijd geen actieve kijkers zijn:',
+          idleTimeoutDescription:
+            'HDMI-opname stoppen nadat er gedurende deze tijd geen actieve kijkers zijn:',
           minutes: 'min'
         },
         hidOnly: 'HID-Alleen modus',
@@ -439,7 +440,8 @@ const nl = {
           unsaved: 'Niet-opgeslagen wijzigingen',
           maxServers: 'Maximaal {{count}} DNS-servers toegestaan',
           dhcpServersDescription: 'DNS-servers worden automatisch via DHCP verkregen',
-          manualServersDescription: 'DNS-servers kunnen handmatig worden bewerkt. IPv4 en IPv6 worden ondersteund',
+          manualServersDescription:
+            'DNS-servers kunnen handmatig worden bewerkt. IPv4 en IPv6 worden ondersteund',
           interface: 'Interface',
           ipAddress: 'IP-adres',
           subnetMask: 'Subnetmasker',
