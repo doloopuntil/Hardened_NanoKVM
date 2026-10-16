@@ -404,8 +404,8 @@ export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
     }, [onStatusChange, status]);
 
     return (
-      <div className="flex flex-col space-y-8">
-        <div className="flex flex-col space-y-5">
+      <div className="flex flex-col space-y-6">
+        <div className="flex flex-col space-y-6">
           <div className="text-neutral-400">{t('settings.network.dns.ipv4Title')}</div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-6">
@@ -443,7 +443,7 @@ export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
             </div>
           </div>
 
-          <div className="flex flex-col space-y-5">
+          <div className="flex flex-col space-y-3">
             <InfoRow label={t('settings.network.dns.interface')} value={formatInterface(info)} />
             {ipMode === 'manual' ? (
               <>
@@ -495,7 +495,7 @@ export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
 
         <Divider className="opacity-50" />
 
-        <div className="flex flex-col space-y-5">
+        <div className="flex flex-col space-y-6">
           <div className="text-neutral-400">{t('settings.network.dns.title')}</div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-6">

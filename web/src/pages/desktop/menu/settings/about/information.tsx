@@ -49,7 +49,6 @@ export const Information = () => {
     <SettingSection title={t('settings.about.information')}>
       <div className="space-y-3">
         <InfoRow
-          inline
           alignStart
           label={t('settings.about.ip')}
           value={
@@ -73,11 +72,10 @@ export const Information = () => {
         />
 
         {!!information?.mdns && (
-          <InfoRow inline label={t('settings.about.mdns')} value={information.mdns} />
+          <InfoRow label={t('settings.about.mdns')} value={information.mdns} />
         )}
 
         <InfoRow
-          inline
           label={
             <LabelWithTip text={t('settings.about.image')} tip={t('settings.about.imageTip')} />
           }
@@ -85,7 +83,6 @@ export const Information = () => {
         />
 
         <InfoRow
-          inline
           label={
             <LabelWithTip
               text={t('settings.about.application')}
@@ -95,11 +92,7 @@ export const Information = () => {
           value={information ? formatHardenedVersion(information.application) : undefined}
         />
 
-        <InfoRow
-          inline
-          label={t('settings.about.uptime')}
-          value={formatUptime(information?.uptime)}
-        />
+        <InfoRow label={t('settings.about.uptime')} value={formatUptime(information?.uptime)} />
 
         <Hostname />
       </div>

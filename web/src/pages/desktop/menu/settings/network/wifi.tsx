@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/network.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 export const Wifi = () => {
   const { t } = useTranslation();
@@ -84,31 +85,27 @@ export const Wifi = () => {
 
   if (isAPMode) {
     return (
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col space-y-1">
-          <span>{t('settings.network.wifi.title')}</span>
-          <span className="text-xs text-neutral-500">{t('settings.network.wifi.apMode')}</span>
-        </div>
-
+      <SettingRow
+        label={t('settings.network.wifi.title')}
+        description={t('settings.network.wifi.apMode')}
+        inline
+      >
         <Button shape="round" size="small" disabled>
           <div className="flex items-center justify-center px-1.5">
             <WifiIcon size={16} />
           </div>
         </Button>
-      </div>
+      </SettingRow>
     );
   }
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col space-y-1">
-          <span>{t('settings.network.wifi.title')}</span>
-          <span className="text-xs text-neutral-500">
-            {connectedWiFi ? connectedWiFi : t('settings.network.wifi.description')}
-          </span>
-        </div>
-
+      <SettingRow
+        label={t('settings.network.wifi.title')}
+        description={connectedWiFi ? connectedWiFi : t('settings.network.wifi.description')}
+        inline
+      >
         <Button
           type={connectedWiFi ? 'primary' : 'default'}
           shape="round"
@@ -120,7 +117,7 @@ export const Wifi = () => {
             <WifiIcon size={16} />
           </div>
         </Button>
-      </div>
+      </SettingRow>
 
       <Modal
         closable={false}
@@ -134,7 +131,7 @@ export const Wifi = () => {
       >
         {/* title */}
         <div className="flex items-center space-x-5">
-          <div className="h-[64px] w-[64px]">
+          <div className="size-16">
             <WifiPenIcon size={64} className="text-blue-400" />
           </div>
 
@@ -147,7 +144,7 @@ export const Wifi = () => {
             </div>
           ) : (
             <div className="flex justify-center">
-              <div className="flex w-[300px] justify-between rounded-lg bg-neutral-800">
+              <div className="flex w-72 justify-between rounded-lg bg-neutral-800">
                 <div className="flex w-full justify-between p-3">
                   <span>{connectedWiFi}</span>
                   <Switch
@@ -165,14 +162,14 @@ export const Wifi = () => {
         <div className="flex flex-col items-center space-y-3 py-6">
           <Input
             value={ssid}
-            style={{ width: '300px' }}
+            className="w-72"
             prefix={<WifiOutlined />}
             placeholder={t('settings.network.wifi.ssid')}
             onChange={(e) => setSsid(e.target.value)}
           />
           <Input.Password
             value={password}
-            style={{ width: '300px' }}
+            className="w-72"
             prefix={<LockOutlined />}
             placeholder={t('settings.network.wifi.password')}
             onChange={(e) => setPassword(e.target.value)}

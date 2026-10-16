@@ -337,7 +337,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Servidor',
     'settings.wireguard.peer.serverDescription': "Nom d'amfitrió o adreça IP del peer",
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'Port UDP del peer, normalment 51820'
+    'settings.wireguard.peer.portDescription': 'Port UDP del peer, normalment 51820',
+    'settings.network.connection': 'Connexió',
+    'settings.system.time.networkTime': 'Hora de xarxa'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -573,7 +575,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Server',
     'settings.wireguard.peer.serverDescription': 'Název hostitele nebo adresa IP peeru',
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'Port UDP peeru, obvykle 51820'
+    'settings.wireguard.peer.portDescription': 'Port UDP peeru, obvykle 51820',
+    'settings.network.connection': 'Připojení',
+    'settings.system.time.networkTime': 'Síťový čas'
   },
   da: {
     'auth.illegalPassword':
@@ -826,7 +830,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Server',
     'settings.wireguard.peer.serverDescription': 'Peerens værtsnavn eller IP-adresse',
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'Peerens UDP-port, normalt 51820'
+    'settings.wireguard.peer.portDescription': 'Peerens UDP-port, normalt 51820',
+    'settings.network.connection': 'Forbindelse',
+    'settings.system.time.networkTime': 'Netværkstid'
   },
   de: {
     'auth.illegalPassword':
@@ -1095,7 +1101,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Server',
     'settings.wireguard.peer.serverDescription': 'Hostname oder IP-Adresse des Peers',
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'UDP-Port des Peers, meist 51820'
+    'settings.wireguard.peer.portDescription': 'UDP-Port des Peers, meist 51820',
+    'settings.network.connection': 'Verbindung',
+    'settings.system.time.networkTime': 'Netzwerkzeit'
   },
   es: {
     'auth.illegalPassword':
@@ -1339,7 +1347,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Servidor',
     'settings.wireguard.peer.serverDescription': 'Nombre de host o dirección IP del peer',
     'settings.wireguard.peer.port': 'Puerto',
-    'settings.wireguard.peer.portDescription': 'Puerto UDP del peer, normalmente 51820'
+    'settings.wireguard.peer.portDescription': 'Puerto UDP del peer, normalmente 51820',
+    'settings.network.connection': 'Conexión',
+    'settings.system.time.networkTime': 'Hora de red'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1574,7 +1584,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Server',
     'settings.wireguard.peer.serverDescription': 'Peeri hostinimi või IP-aadress',
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'Peeri UDP-port, tavaliselt 51820'
+    'settings.wireguard.peer.portDescription': 'Peeri UDP-port, tavaliselt 51820',
+    'settings.network.connection': 'Ühendus',
+    'settings.system.time.networkTime': 'Võrguaeg'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1807,7 +1819,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Palvelin',
     'settings.wireguard.peer.serverDescription': 'Peerin isäntänimi tai IP-osoite',
     'settings.wireguard.peer.port': 'Portti',
-    'settings.wireguard.peer.portDescription': 'Peerin UDP-portti, yleensä 51820'
+    'settings.wireguard.peer.portDescription': 'Peerin UDP-portti, yleensä 51820',
+    'settings.network.connection': 'Yhteys',
+    'settings.system.time.networkTime': 'Verkkoaika'
   },
   fr: {
     'auth.illegalPassword':
@@ -2058,7 +2072,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Serveur',
     'settings.wireguard.peer.serverDescription': "Nom d'hôte ou adresse IP du pair",
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'Port UDP du pair, généralement 51820'
+    'settings.wireguard.peer.portDescription': 'Port UDP du pair, généralement 51820',
+    'settings.network.connection': 'Connexion',
+    'settings.system.time.networkTime': 'Heure réseau'
   },
   hu: {
     'auth.illegalPassword':
@@ -2311,7 +2327,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Szerver',
     'settings.wireguard.peer.serverDescription': 'A partner állomásneve vagy IP-címe',
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'A partner UDP-portja, általában 51820'
+    'settings.wireguard.peer.portDescription': 'A partner UDP-portja, általában 51820',
+    'settings.network.connection': 'Kapcsolat',
+    'settings.system.time.networkTime': 'Hálózati idő'
   },
   id: {
     'auth.illegalPassword':
@@ -2482,8 +2500,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.systemLog.remote.title': 'Pencatatan log jarak jauh',
     'settings.systemLog.remote.forward': 'Teruskan log sistem',
     'settings.systemLog.remote.description': 'Teruskan pesan sistem ke server jarak jauh',
-    'settings.systemLog.kernel.title': 'Pencatatan Log Kernel',
-    'settings.systemLog.local.title': 'Buffer Log Sistem',
+    'settings.systemLog.kernel.title': 'Pencatatan log kernel',
+    'settings.systemLog.local.title': 'Buffer log sistem',
     'settings.systemLog.remote.hostDesc': 'Nama host atau alamat IPv4 server syslog',
     'settings.systemLog.kernel.enabledDesc': 'Tangkap pesan kernel ke dalam log sistem',
     'settings.systemLog.kernel.consoleLevelDesc':
@@ -2562,7 +2580,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Server',
     'settings.wireguard.peer.serverDescription': 'Nama host atau alamat IP peer',
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'Port UDP peer, biasanya 51820'
+    'settings.wireguard.peer.portDescription': 'Port UDP peer, biasanya 51820',
+    'settings.network.connection': 'Koneksi',
+    'settings.system.time.networkTime': 'Waktu jaringan',
+    'settings.system.firewall.mode.title': 'Mode firewall',
+    'settings.system.firewall.rules.title': 'Aturan saat ini',
+    'settings.systemLog.viewer.title': 'Log sistem',
+    'settings.appearance.menuBar.title': 'Bilah menu',
+    'settings.appearance.menuBar.icons': 'Ikon submenu'
   },
   it: {
     'auth.illegalPassword':
@@ -2811,7 +2836,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Server',
     'settings.wireguard.peer.serverDescription': 'Nome host o indirizzo IP del peer',
     'settings.wireguard.peer.port': 'Porta',
-    'settings.wireguard.peer.portDescription': 'Porta UDP del peer, di solito 51820'
+    'settings.wireguard.peer.portDescription': 'Porta UDP del peer, di solito 51820',
+    'settings.network.connection': 'Connessione',
+    'settings.system.time.networkTime': 'Ora di rete'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -3049,7 +3076,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'サーバー',
     'settings.wireguard.peer.serverDescription': 'ピアのホスト名または IP アドレス',
     'settings.wireguard.peer.port': 'ポート',
-    'settings.wireguard.peer.portDescription': 'ピアの UDP ポート。通常は 51820'
+    'settings.wireguard.peer.portDescription': 'ピアの UDP ポート。通常は 51820',
+    'settings.network.connection': '接続',
+    'settings.system.time.networkTime': 'ネットワーク時刻'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -3285,7 +3314,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': '서버',
     'settings.wireguard.peer.serverDescription': '피어의 호스트 이름 또는 IP 주소',
     'settings.wireguard.peer.port': '포트',
-    'settings.wireguard.peer.portDescription': '피어의 UDP 포트, 보통 51820'
+    'settings.wireguard.peer.portDescription': '피어의 UDP 포트, 보통 51820',
+    'settings.network.connection': '연결',
+    'settings.system.time.networkTime': '네트워크 시간'
   },
   nb: {
     'auth.illegalPassword':
@@ -3525,7 +3556,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Server',
     'settings.wireguard.peer.serverDescription': 'Peerens vertsnavn eller IP-adresse',
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'Peerens UDP-port, vanligvis 51820'
+    'settings.wireguard.peer.portDescription': 'Peerens UDP-port, vanligvis 51820',
+    'settings.network.connection': 'Tilkobling',
+    'settings.system.time.networkTime': 'Nettverkstid'
   },
   nl: {
     'auth.illegalPassword':
@@ -3778,7 +3811,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Server',
     'settings.wireguard.peer.serverDescription': 'Hostnaam of IP-adres van de peer',
     'settings.wireguard.peer.port': 'Poort',
-    'settings.wireguard.peer.portDescription': 'UDP-poort van de peer, meestal 51820'
+    'settings.wireguard.peer.portDescription': 'UDP-poort van de peer, meestal 51820',
+    'settings.network.connection': 'Verbinding',
+    'settings.system.time.networkTime': 'Netwerktijd'
   },
   pl: {
     'auth.illegalPassword':
@@ -4025,7 +4060,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Serwer',
     'settings.wireguard.peer.serverDescription': 'Nazwa hosta lub adres IP peera',
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'Port UDP peera, zwykle 51820'
+    'settings.wireguard.peer.portDescription': 'Port UDP peera, zwykle 51820',
+    'settings.network.connection': 'Połączenie',
+    'settings.system.time.networkTime': 'Czas sieciowy'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -4249,7 +4286,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Servidor',
     'settings.wireguard.peer.serverDescription': 'Nome de host ou endereço IP do peer',
     'settings.wireguard.peer.port': 'Porta',
-    'settings.wireguard.peer.portDescription': 'Porta UDP do peer, normalmente 51820'
+    'settings.wireguard.peer.portDescription': 'Porta UDP do peer, normalmente 51820',
+    'settings.network.connection': 'Conexão',
+    'settings.system.time.networkTime': 'Hora da rede',
+    'settings.appearance.menuBar.title': 'Barra de menu'
   },
   ru: {
     'download.disabled':
@@ -4478,7 +4518,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Сервер',
     'settings.wireguard.peer.serverDescription': 'Имя хоста или IP-адрес пира',
     'settings.wireguard.peer.port': 'Порт',
-    'settings.wireguard.peer.portDescription': 'UDP-порт пира, обычно 51820'
+    'settings.wireguard.peer.portDescription': 'UDP-порт пира, обычно 51820',
+    'settings.network.connection': 'Подключение',
+    'settings.system.time.networkTime': 'Сетевое время',
+    'settings.systemLog.viewer.title': 'Системный лог'
   },
   se: {
     'auth.illegalPassword':
@@ -4701,7 +4744,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Server',
     'settings.wireguard.peer.serverDescription': 'Peerens värdnamn eller IP-adress',
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'Peerens UDP-port, vanligtvis 51820'
+    'settings.wireguard.peer.portDescription': 'Peerens UDP-port, vanligtvis 51820',
+    'settings.network.connection': 'Anslutning',
+    'settings.system.time.networkTime': 'Nätverkstid'
   },
   th: {
     'auth.illegalPassword':
@@ -4894,7 +4939,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'เซิร์ฟเวอร์',
     'settings.wireguard.peer.serverDescription': 'ชื่อโฮสต์หรือที่อยู่ IP ของเพียร์',
     'settings.wireguard.peer.port': 'พอร์ต',
-    'settings.wireguard.peer.portDescription': 'พอร์ต UDP ของเพียร์ ปกติคือ 51820'
+    'settings.wireguard.peer.portDescription': 'พอร์ต UDP ของเพียร์ ปกติคือ 51820',
+    'settings.network.connection': 'การเชื่อมต่อ',
+    'settings.system.time.networkTime': 'เวลาเครือข่าย'
   },
   tr: {
     'auth.illegalPassword':
@@ -5136,7 +5183,16 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Sunucu',
     'settings.wireguard.peer.serverDescription': 'Eşin ana bilgisayar adı veya IP adresi',
     'settings.wireguard.peer.port': 'Port',
-    'settings.wireguard.peer.portDescription': 'Eşin UDP bağlantı noktası, genellikle 51820'
+    'settings.wireguard.peer.portDescription': 'Eşin UDP bağlantı noktası, genellikle 51820',
+    'settings.network.connection': 'Bağlantı',
+    'settings.system.time.networkTime': 'Ağ saati',
+    'settings.appearance.menuBar.title': 'Menü çubuğu',
+    'settings.appearance.menuBar.icons': 'Alt menü simgeleri',
+    'settings.network.dns.ipAddress': 'IP adresi',
+    'settings.network.dns.subnetMask': 'Alt ağ maskesi',
+    'settings.network.ipv6.dhcpv6Client': 'DHCPv6 istemcisi',
+    'settings.network.ipv6.ipAddress': 'IPv6 adresi',
+    'settings.system.time.servers.title': 'NTP sunucuları'
   },
   uk: {
     'auth.illegalPassword':
@@ -5382,7 +5438,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Сервер',
     'settings.wireguard.peer.serverDescription': "Ім'я хоста або IP-адреса піра",
     'settings.wireguard.peer.port': 'Порт',
-    'settings.wireguard.peer.portDescription': 'UDP-порт піра, зазвичай 51820'
+    'settings.wireguard.peer.portDescription': 'UDP-порт піра, зазвичай 51820',
+    'settings.network.connection': 'Підключення',
+    'settings.system.time.networkTime': 'Мережевий час'
   },
   vi: {
     'auth.illegalPassword':
@@ -5621,7 +5679,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': 'Máy chủ',
     'settings.wireguard.peer.serverDescription': 'Tên máy chủ hoặc địa chỉ IP của peer',
     'settings.wireguard.peer.port': 'Cổng',
-    'settings.wireguard.peer.portDescription': 'Cổng UDP của peer, thường là 51820'
+    'settings.wireguard.peer.portDescription': 'Cổng UDP của peer, thường là 51820',
+    'settings.network.connection': 'Kết nối',
+    'settings.system.time.networkTime': 'Giờ mạng'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -5815,7 +5875,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': '服务器',
     'settings.wireguard.peer.serverDescription': '对端的主机名或 IP 地址',
     'settings.wireguard.peer.port': '端口',
-    'settings.wireguard.peer.portDescription': '对端的 UDP 端口，通常为 51820'
+    'settings.wireguard.peer.portDescription': '对端的 UDP 端口，通常为 51820',
+    'settings.network.connection': '连接',
+    'settings.system.time.networkTime': '网络时间'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -6013,6 +6075,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.server': '伺服器',
     'settings.wireguard.peer.serverDescription': '對端的主機名稱或 IP 位址',
     'settings.wireguard.peer.port': '連接埠',
-    'settings.wireguard.peer.portDescription': '對端的 UDP 連接埠，通常為 51820'
+    'settings.wireguard.peer.portDescription': '對端的 UDP 連接埠，通常為 51820',
+    'settings.network.connection': '連線',
+    'settings.system.time.networkTime': '網路時間'
   }
 };

@@ -377,7 +377,7 @@ const en = {
         layoutAuto: 'Auto',
         layoutMobile: 'Phone',
         menuBar: {
-          title: 'Menu Bar',
+          title: 'Menu bar',
           mode: 'Display Mode',
           modeDesc: 'Display menu bar on the screen',
           modeOff: 'Off',
@@ -385,7 +385,7 @@ const en = {
           modeAlways: 'Always visible',
           keyboardLedStatus: 'Keyboard lock indicators',
           keyboardLedStatusDesc: 'Display remote Num Lock, Caps Lock, and Scroll Lock status',
-          icons: 'Submenu Icons',
+          icons: 'Submenu icons',
           iconsDesc: 'Display submenu icons in the menu bar',
           terminalWarningTitle: 'Enable web terminal?',
           terminalWarningDesc:
@@ -419,7 +419,7 @@ const en = {
         sections: {
           connectivity: 'Connectivity',
           hostConnection: 'Host connection',
-          inputOutput: 'Input and Output',
+          inputOutput: 'Input and output',
           optimizations: 'Optimizations'
         },
         oled: {
@@ -483,6 +483,7 @@ const en = {
       },
       network: {
         title: 'Network',
+        connection: 'Connection',
         configuration: 'Configuration',
         wifi: {
           title: 'Wi-Fi',
@@ -529,8 +530,8 @@ const en = {
           dhcpServersDescription: 'DNS servers are automatically obtained from DHCP',
           manualServersDescription: 'IPv4 and IPv6 servers are supported',
           interface: 'Interface',
-          ipAddress: 'IP Address',
-          subnetMask: 'Subnet Mask',
+          ipAddress: 'IP address',
+          subnetMask: 'Subnet mask',
           router: 'Router'
         },
         ipv6: {
@@ -545,9 +546,9 @@ const en = {
           state: 'State',
           router: 'Router',
           addresses: 'Addresses',
-          dhcpv6Client: 'DHCPv6 Client',
+          dhcpv6Client: 'DHCPv6 client',
           notInstalled: 'Not installed',
-          ipAddress: 'IPv6 Address',
+          ipAddress: 'IPv6 address',
           prefix: 'Prefix',
           invalidManual: 'Please enter a valid IPv6 address, prefix, and router',
           clientMissing:
@@ -578,6 +579,7 @@ const en = {
             title: 'NTP',
             description: 'Synchronize device time from configured NTP servers'
           },
+          networkTime: 'Network time',
           clock: {
             title: 'Clock',
             description: 'Set the local timezone used by logs and the UI',
@@ -585,7 +587,7 @@ const en = {
             timezone: 'Timezone'
           },
           servers: {
-            title: 'NTP Servers',
+            title: 'NTP servers',
             description: 'Use default public servers, your local router, or custom NTP servers',
             useRouter: 'Use router',
             useDefaults: 'Use defaults',
@@ -602,7 +604,7 @@ const en = {
           httpsRequired:
             'Restricted and Paranoid modes are disabled until HTTPS is enabled in Settings > System > Network',
           mode: {
-            title: 'Firewall Mode',
+            title: 'Firewall mode',
             baseline: 'Baseline',
             baselineDesc:
               'Open compatibility profile. The firewall runs, but inbound sources are not restricted. Use only in trusted networks.',
@@ -646,13 +648,13 @@ const en = {
               'This keeps the firewall service active but removes the local-only source-range restriction. Public source ranges may reach exposed NanoKVM services if the network routes them.'
           },
           rules: {
-            title: 'Current Rules',
+            title: 'Current rules',
             empty: 'No rules'
           }
         }
       },
       systemLog: {
-        title: 'System Log',
+        title: 'System log',
         saveFailed: 'Failed to save log settings',
         saved: 'Log settings saved',
         invalidHost: 'Enter a syslog server host',
@@ -662,7 +664,7 @@ const en = {
         testSent: 'Test log sent',
         testFailed: 'Failed to send test log',
         remote: {
-          title: 'Remote Logging',
+          title: 'Remote logging',
           forward: 'Forward system log',
           description: 'Forward system messages to a remote server',
           host: 'Server',
@@ -671,7 +673,7 @@ const en = {
           protocol: 'UDP syslog is used by the current BusyBox syslogd'
         },
         local: {
-          title: 'System Log Buffer',
+          title: 'System log buffer',
           description: 'Current logs are kept in RAM at {{path}} to avoid SD-card writes',
           priority: 'Minimum priority',
           priorityDesc: 'Minimum urgency for a message to be logged',
@@ -685,14 +687,14 @@ const en = {
           stripTimestampsDesc: 'Remove timestamps added by the sender; syslog adds its own'
         },
         kernel: {
-          title: 'Kernel Logging',
+          title: 'Kernel logging',
           enabled: 'Forward kernel log',
           enabledDesc: 'Capture kernel messages in the system log',
           consoleLevel: 'Console level',
           consoleLevelDesc: 'Minimum urgency for a kernel message to be printed to the console'
         },
         viewer: {
-          title: 'System Log',
+          title: 'System log',
           refresh: 'Refresh',
           empty: 'No log entries',
           truncated: 'Only the latest log data is shown',

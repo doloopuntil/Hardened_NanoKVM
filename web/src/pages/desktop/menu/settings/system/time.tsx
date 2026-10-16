@@ -7,7 +7,7 @@ import * as api from '@/api/system-time.ts';
 import type { TimeConfig, TimeConfigResponse } from '@/api/system-time.ts';
 import { toast } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
-import { InfoRow, SettingRow } from '@/components/setting-rows.tsx';
+import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import type { SystemActionHandle, SystemActionState } from './action.ts';
 
@@ -168,26 +168,61 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
     return (
       <ConfigProvider componentDisabled={isUnavailable}>
         <div className="flex min-w-0 flex-col space-y-6">
-          <div className="flex min-w-0 items-start justify-between gap-3 sm:gap-4">
-            <div className="flex min-w-0 flex-col space-y-1">
-              <span>{t('settings.system.time.ntp.title')}</span>
-              <span className="break-words text-xs text-neutral-500">
-                {t('settings.system.time.ntp.description')}
-              </span>
+          <SettingSection title={t('settings.system.time.networkTime')}>
+            <SettingRow
+              label={t('settings.system.time.ntp.title')}
+              description={t('settings.system.time.ntp.description')}
+              isSwitch
+            >
+              <Switch checked={config.ntpEnabled} loading={isLoading} onChange={changeNtpEnabled} />
+            </SettingRow>
+
+            <SettingRow
+              label={t('settings.system.time.servers.title')}
+              description={t('settings.system.time.servers.description')}
+            >
+              <Select
+                className="w-full sm:w-72 [&_.ant-select-selection-overflow]:justify-end"
+                mode="tags"
+                open={false}
+                disabled={!config.ntpEnabled}
+                tokenSeparators={[',', ' ']}
+                value={config.servers}
+                placeholder="0.pool.ntp.org"
+                status={hasInvalid ? 'error' : undefined}
+                suffixIcon={null}
+                onChange={(servers) => changeServers(servers.map(String))}
+              />
+            </SettingRow>
+
+            <div className="flex min-w-0 flex-wrap justify-end gap-2">
+              <Button
+                className="min-w-0"
+                disabled={!config.ntpEnabled || !data?.gateway}
+                icon={<RouterIcon size={15} />}
+                onClick={useRouter}
+              >
+                {t('settings.system.time.servers.useRouter')}
+              </Button>
+              <Button className="min-w-0" disabled={!config.ntpEnabled} onClick={useDefaults}>
+                {t('settings.system.time.servers.useDefaults')}
+              </Button>
             </div>
-            <Switch
-              className="shrink-0"
-              checked={config.ntpEnabled}
-              loading={isLoading}
-              onChange={changeNtpEnabled}
-            />
-          </div>
+
+            {data?.gateway && (
+              <Alert
+                type="info"
+                showIcon
+                message={t('settings.system.time.servers.routerDetected', {
+                  gateway: data.gateway
+                })}
+              />
+            )}
+          </SettingSection>
 
           <Divider className="opacity-50" />
 
-          <div className="flex min-w-0 flex-col space-y-6">
-            <div className="text-neutral-400">{t('settings.system.time.clock.title')}</div>
-
+          <SettingSection title={t('settings.system.time.clock.title')}>
             <InfoRow label={t('settings.system.time.clock.current')} value={data?.currentTime} />
 
             <SettingRow
@@ -207,52 +242,7 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
                 className="w-full text-right sm:w-72 [&_.ant-select-selection-search-input]:text-right"
               />
             </SettingRow>
-
-            {config.ntpEnabled && (
-              <>
-                <SettingRow
-                  label={t('settings.system.time.servers.title')}
-                  description={t('settings.system.time.servers.description')}
-                >
-                  <Select
-                    className="w-full sm:w-72 [&_.ant-select-selection-overflow]:justify-end"
-                    mode="tags"
-                    open={false}
-                    tokenSeparators={[',', ' ']}
-                    value={config.servers}
-                    placeholder="0.pool.ntp.org"
-                    status={hasInvalid ? 'error' : undefined}
-                    suffixIcon={null}
-                    onChange={(servers) => changeServers(servers.map(String))}
-                  />
-                </SettingRow>
-
-                <div className="flex min-w-0 flex-wrap justify-end gap-2">
-                  <Button
-                    className="min-w-0"
-                    disabled={!data?.gateway}
-                    icon={<RouterIcon size={15} />}
-                    onClick={useRouter}
-                  >
-                    {t('settings.system.time.servers.useRouter')}
-                  </Button>
-                  <Button className="min-w-0" onClick={useDefaults}>
-                    {t('settings.system.time.servers.useDefaults')}
-                  </Button>
-                </div>
-
-                {data?.gateway && (
-                  <Alert
-                    type="info"
-                    showIcon
-                    message={t('settings.system.time.servers.routerDetected', {
-                      gateway: data.gateway
-                    })}
-                  />
-                )}
-              </>
-            )}
-          </div>
+          </SettingSection>
 
           <Divider className="opacity-50" />
 
