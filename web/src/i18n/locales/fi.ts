@@ -446,7 +446,6 @@ const translations: Record<string, string> = {
   'settings.tailscale.urlPeriod': 'Tämä URL on voimassa 10 minuuttia',
   'settings.tailscale.login': 'Kirjaudu',
   'settings.tailscale.loginSuccess': 'Kirjautuminen onnistui',
-  'settings.tailscale.enable': 'Ota Tailscale käyttöön',
   'settings.tailscale.deviceName': 'Laitteen nimi',
   'settings.tailscale.deviceIP': 'Laitteen IP',
   'settings.tailscale.account': 'Tili',

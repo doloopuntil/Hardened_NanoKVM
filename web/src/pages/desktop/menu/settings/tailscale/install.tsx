@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { DownloadOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { Button, Card, Result } from 'antd';
+import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
+import { SettingSection } from '@/components/setting-rows.tsx';
 
 type InstallProps = {
   setIsLocked: (setIsLocked: boolean) => void;
@@ -41,48 +41,42 @@ export const Install = ({ setIsLocked, onSuccess }: InstallProps) => {
 
   if (state === 'failed') {
     return (
-      <Result
-        status="warning"
+      <SettingSection
         title={t('settings.tailscale.failed')}
-        subTitle={t('settings.tailscale.retry')}
-        icon={<InfoCircleOutlined />}
-        extra={
-          <Card key="tips" styles={{ body: { padding: 0 } }}>
-            <ul className="list-decimal text-left font-mono text-sm text-neutral-300">
-              <li>
-                {t('settings.tailscale.download')}
-                <a
-                  className="px-1"
-                  href="https://pkgs.tailscale.com/stable/tailscale_latest_riscv64.tgz"
-                  target="_blank"
-                >
-                  {t('settings.tailscale.package')}
-                </a>
-                {t('settings.tailscale.unzip')}
-              </li>
-              <li>{t('settings.tailscale.upTailscale')}</li>
-              <li>{t('settings.tailscale.upTailscaled')}</li>
-              <li>{t('settings.tailscale.refresh')}</li>
-            </ul>
-          </Card>
-        }
-      />
+        description={t('settings.tailscale.retry')}
+      >
+        <ol className="list-decimal space-y-1 pl-5 text-sm text-neutral-300">
+          <li>
+            {t('settings.tailscale.download')}
+            <a
+              className="px-1"
+              href="https://pkgs.tailscale.com/stable/tailscale_latest_riscv64.tgz"
+              target="_blank"
+            >
+              {t('settings.tailscale.package')}
+            </a>
+            {t('settings.tailscale.unzip')}
+          </li>
+          <li>{t('settings.tailscale.upTailscale')}</li>
+          <li>{t('settings.tailscale.upTailscaled')}</li>
+          <li>{t('settings.tailscale.refresh')}</li>
+        </ol>
+      </SettingSection>
     );
   }
 
   return (
-    <Card>
-      <Result
-        icon={<DownloadOutlined />}
-        subTitle={t('settings.tailscale.notInstall')}
-        extra={
-          <Button key="install" type="primary" loading={state === 'installing'} onClick={install}>
-            {state === 'installing'
-              ? t('settings.tailscale.installing')
-              : t('settings.tailscale.install')}
-          </Button>
-        }
-      />
-    </Card>
+    <SettingSection
+      title={t('settings.network.connection')}
+      description={t('settings.tailscale.notInstall')}
+    >
+      <div className="flex justify-end">
+        <Button type="primary" loading={state === 'installing'} onClick={install}>
+          {state === 'installing'
+            ? t('settings.tailscale.installing')
+            : t('settings.tailscale.install')}
+        </Button>
+      </div>
+    </SettingSection>
   );
 };

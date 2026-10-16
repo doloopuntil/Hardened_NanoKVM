@@ -1,24 +1,22 @@
 import { useEffect, useState } from 'react';
-import { LogoutOutlined } from '@ant-design/icons';
-import { Button, Divider, Popconfirm, Switch } from 'antd';
+import { Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import { Status } from './types.ts';
 
 type DeviceProps = {
   status: Status;
-  onLogout: () => void;
 };
 
-export const Device = ({ status, onLogout }: DeviceProps) => {
+export const Device = ({ status }: DeviceProps) => {
   const { t } = useTranslation();
 
   const [isRunning, setIsRunning] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isLogging, setIsLogging] = useState(false);
 
   useEffect(() => {
     setIsRunning(status.state === 'running');
@@ -34,59 +32,21 @@ export const Device = ({ status, onLogout }: DeviceProps) => {
     setIsUpdating(false);
   }
 
-  async function logout() {
-    if (isLogging) return;
-    setIsLogging(true);
-
-    const rsp = await attempt(() => api.logout());
-    if (rsp) onLogout();
-
-    setIsLogging(false);
-  }
-
   return (
-    <div className="flex flex-col space-y-6 pt-5">
-      <div className="flex justify-between">
-        <span>{t('settings.tailscale.enable')}</span>
+    <SettingSection title={t('settings.network.connection')}>
+      <SettingRow
+        label={t('settings.wireguard.tunnel')}
+        description={t('settings.tailscale.enableDesc')}
+        isSwitch
+      >
         <Switch checked={isRunning} loading={isUpdating} onClick={update} />
-      </div>
+      </SettingRow>
 
-      <div className="flex justify-between">
-        <span>{t('settings.tailscale.deviceName')}</span>
-        <span>{status.name}</span>
+      <div className="flex flex-col space-y-3">
+        <InfoRow label={t('settings.tailscale.deviceName')} value={status.name} />
+        <InfoRow label={t('settings.tailscale.deviceIP')} value={status.ip} />
+        <InfoRow label={t('settings.tailscale.account')} value={status.account} />
       </div>
-
-      <div className="flex justify-between">
-        <span>{t('settings.tailscale.deviceIP')}</span>
-        <span>{status.ip}</span>
-      </div>
-
-      <div className="flex justify-between">
-        <span>{t('settings.tailscale.account')}</span>
-        <span>{status.account}</span>
-      </div>
-      <Divider />
-
-      <div className="flex justify-center pt-3">
-        <Popconfirm
-          placement="bottom"
-          title={t('settings.tailscale.logoutDesc')}
-          okText={t('settings.tailscale.okBtn')}
-          cancelText={t('settings.tailscale.cancelBtn')}
-          onConfirm={logout}
-        >
-          <Button
-            danger
-            type="primary"
-            size="large"
-            shape="round"
-            icon={<LogoutOutlined />}
-            loading={isLogging}
-          >
-            {t('settings.tailscale.logout')}
-          </Button>
-        </Popconfirm>
-      </div>
-    </div>
+    </SettingSection>
   );
 };

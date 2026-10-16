@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { UserSwitchOutlined } from '@ant-design/icons';
-import { Button, Card } from 'antd';
+import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { SettingSection } from '@/components/setting-rows.tsx';
 
 type LoginProps = {
   onSuccess: () => void;
@@ -40,33 +40,32 @@ export const Login = ({ onSuccess }: LoginProps) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-10">
-      <Card>{t('settings.tailscale.notLogin')}</Card>
-
+    <SettingSection
+      title={t('settings.network.connection')}
+      description={t('settings.tailscale.notLogin')}
+    >
       {loginUrl === '' ? (
-        <Button
-          type="primary"
-          size="large"
-          shape="round"
-          icon={<UserSwitchOutlined />}
-          loading={isLoading}
-          onClick={login}
-        >
-          {t('settings.tailscale.login')}
-        </Button>
-      ) : (
-        <div className="flex w-full flex-col items-center justify-center space-y-5">
-          <Button type="link" href={loginUrl} target="_blank">
-            {loginUrl}
-          </Button>
-
-          <span className="text-xs text-neutral-600">{t('settings.tailscale.urlPeriod')}</span>
-
-          <Button type="primary" size="large" shape="round" onClick={onSuccess}>
-            {t('settings.tailscale.loginSuccess')}
+        <div className="flex justify-end">
+          <Button type="primary" loading={isLoading} onClick={login}>
+            {t('settings.tailscale.login')}
           </Button>
         </div>
+      ) : (
+        <>
+          <div className="flex min-w-0 flex-col space-y-1">
+            <a className="break-all text-sm" href={loginUrl} target="_blank" rel="noreferrer">
+              {loginUrl}
+            </a>
+            <span className="text-xs text-neutral-500">{t('settings.tailscale.urlPeriod')}</span>
+          </div>
+
+          <div className="flex justify-end">
+            <Button type="primary" onClick={onSuccess}>
+              {t('settings.tailscale.loginSuccess')}
+            </Button>
+          </div>
+        </>
       )}
-    </div>
+    </SettingSection>
   );
 };

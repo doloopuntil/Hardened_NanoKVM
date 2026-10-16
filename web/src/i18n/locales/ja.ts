@@ -422,7 +422,6 @@ const ja = {
         urlPeriod: 'この URL は 10 分間有効です',
         login: 'ログイン',
         loginSuccess: 'ログイン成功',
-        enable: 'Tailscale を有効化',
         deviceName: 'デバイス名',
         deviceIP: 'デバイスアドレス',
         account: 'アカウント',

@@ -409,7 +409,6 @@ const tr = {
         notLogin: 'Cihaz bağlı değil. Lütfen giriş yapıp cihazınızı hesabınıza bağlayın.',
         login: 'Giriş yap',
         loginSuccess: 'Giriş yapıldı',
-        enable: "Tailscale'i etkinleştir",
         deviceName: 'Cihaz Adı',
         deviceIP: 'Cihaz IP adresi',
         account: 'Hesap',

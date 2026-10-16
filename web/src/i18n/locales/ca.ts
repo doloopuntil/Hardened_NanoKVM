@@ -395,7 +395,6 @@ const ca = {
         urlPeriod: 'Aquesta URL és vàlida durant 10 minuts',
         login: 'Inicia sessió',
         loginSuccess: 'Sessió iniciada correctament',
-        enable: 'Activa Tailscale',
         deviceName: 'Nom del dispositiu',
         deviceIP: 'IP del dispositiu',
         account: 'Compte',

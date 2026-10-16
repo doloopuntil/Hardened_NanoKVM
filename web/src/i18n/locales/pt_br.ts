@@ -430,7 +430,6 @@ const pt_br = {
         urlPeriod: 'Esta URL é válida por 10 minutos',
         login: 'Login',
         loginSuccess: 'Login Bem-sucedido',
-        enable: 'Habilitar Tailscale',
         deviceName: 'Nome do Dispositivo',
         deviceIP: 'IP do Dispositivo',
         account: 'Conta',

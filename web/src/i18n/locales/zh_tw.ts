@@ -413,7 +413,6 @@ const zh_tw = {
         urlPeriod: '此網址有效期限為 10 分鐘',
         login: '登入',
         loginSuccess: '登入成功',
-        enable: '啟用 Tailscale',
         deviceName: '裝置名稱',
         deviceIP: '裝置 IP',
         account: '帳號',

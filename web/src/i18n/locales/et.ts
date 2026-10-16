@@ -438,7 +438,6 @@ const translations: Record<string, string> = {
   'settings.tailscale.urlPeriod': 'See URL kehtib 10 minutit',
   'settings.tailscale.login': 'Logi sisse',
   'settings.tailscale.loginSuccess': 'Sisselogimine õnnestus',
-  'settings.tailscale.enable': 'Luba Tailscale',
   'settings.tailscale.deviceName': 'Seadme nimi',
   'settings.tailscale.deviceIP': 'Seadme IP',
   'settings.tailscale.account': 'Konto',

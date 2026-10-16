@@ -420,7 +420,6 @@ const zh = {
         urlPeriod: '该链接10分钟内有效',
         login: '登录',
         loginSuccess: '登录完成',
-        enable: '启用 Tailscale',
         deviceName: '设备名称',
         deviceIP: '设备地址',
         account: '账号',

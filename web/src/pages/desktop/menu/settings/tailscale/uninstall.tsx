@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import { Trash2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -36,12 +36,9 @@ export const Uninstall = ({ onSuccess }: UninstallProps) => {
 
   return (
     <>
-      <div
-        className="flex h-[30px] cursor-pointer items-center space-x-1 rounded px-2 py-1 text-neutral-300 hover:bg-neutral-700/70"
-        onClick={() => setIsModalOpen(true)}
-      >
-        <span>{t('settings.tailscale.uninstall')}</span>
-      </div>
+      <Button danger onClick={() => setIsModalOpen(true)}>
+        {t('settings.tailscale.uninstall')}
+      </Button>
 
       <Modal
         title={title}

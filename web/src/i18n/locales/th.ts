@@ -418,7 +418,6 @@ const th = {
         urlPeriod: 'ลิงก์นี้ใช้ได้ 10 นาที',
         login: 'ล็อกอิน',
         loginSuccess: 'ล็อกอินสำเร็จ',
-        enable: 'เปิดใช้งาน Tailscale',
         deviceName: 'ชื่ออุปกรณ์',
         deviceIP: 'IP อุปกรณ์',
         account: 'บัญชีผู้ใช้',

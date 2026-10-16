@@ -418,7 +418,6 @@ const es = {
         urlPeriod: 'Esta URL es válida por 10 minutos',
         login: 'Iniciar sesión',
         loginSuccess: 'Inicio de sesión exitoso',
-        enable: 'Habilitar Tailscale',
         deviceName: 'Nombre del dispositivo',
         deviceIP: 'IP del dispositivo',
         account: 'Cuenta',

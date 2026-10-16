@@ -134,7 +134,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': 'Per a la seguretat del dispositiu, canvia la contrasenya',
     'settings.network.dns.manualServersDescription': "S'admeten servidors IPv4 i IPv6",
     'terminal.baudrate': 'Velocitat en bauds',
-    'settings.tailscale.stopDesc': "Tanca la sessió i desactiva l'inici automàtic.",
+    'settings.tailscale.stopDesc': "Atura el servei i evita que s'iniciï en arrencar",
     'terminal.unlockDesc':
       'Introdueix la contrasenya del compte web per iniciar una sessió de terminal',
     'terminal.locked': 'Massa intents, torna-ho a provar més tard',
@@ -190,7 +190,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.mdns.tip':
       "Permet accedir a aquest dispositiu pel seu nom .local. No cal si et connectes per adreça IP o si el teu DNS ja resol el nom d'amfitrió.",
     'settings.tailscale.swap.tip':
-      "Si els problemes persisteixen després d'activar l'optimització de memòria, prova d'habilitar la memòria d'intercanvi. Això estableix la mida del fitxer d'intercanvi a 256MB per defecte, que es pot ajustar a \"Configuració > Dispositiu\".",
+      "Si els problemes persisteixen després d'activar l'optimització de memòria, prova d'activar el fitxer swap.",
     'settings.tailscale.notRunning':
       "Tailscale no s'està executant. Si us plau, inicia'l per continuar.",
     'settings.tailscale.uninstallDesc': 'Estàs segur que vols desinstal·lar Tailscale?',
@@ -339,7 +339,20 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Port',
     'settings.wireguard.peer.portDescription': 'Port UDP del peer, normalment 51820',
     'settings.network.connection': 'Connexió',
-    'settings.system.time.networkTime': 'Hora de xarxa'
+    'settings.system.time.networkTime': 'Hora de xarxa',
+    'settings.tailscale.service': 'Servei',
+    'settings.tailscale.performance': 'Rendiment',
+    'settings.tailscale.restartTitle': 'Reinicia Tailscale',
+    'settings.tailscale.restartDesc': 'Reinicia el servei',
+    'settings.tailscale.restartBtn': 'Reinicia',
+    'settings.tailscale.stopTitle': 'Atura Tailscale',
+    'settings.tailscale.stopBtn': 'Atura',
+    'settings.tailscale.memory.tip':
+      "Manté baix l'ús de memòria de Tailscale, cosa que ajuda en un dispositiu amb poca RAM. Reinicia Tailscale perquè el canvi tingui efecte.",
+    'settings.tailscale.swap.title': 'Fitxer swap',
+    'settings.tailscale.enableDesc': 'Accedeix a aquest KVM mitjançant la teva xarxa Tailscale',
+    'settings.tailscale.swap.sizeTip':
+      'Això estableix la mida del fitxer a 256MB; ajusta-la a Configuració > Dispositiu'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -377,10 +390,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.diskOff': 'Vypnout virtuální disk',
     'settings.device.diskLocked': 'Vypnuto, dokud je připojen obraz, a zapnutím se připojení zruší',
     'settings.tailscale.memory.tip':
-      'Když využití paměti překročí limit, uvolňování paměti probíhá agresivněji, aby se paměť uvolnila. Aby se změna projevila, je nutné Tailscale restartovat.',
+      'Udržuje nízkou spotřebu paměti Tailscale, což pomáhá na zařízení s malou pamětí RAM. Aby se změna projevila, restartujte Tailscale.',
     'settings.tailscale.restart': 'Restartovat Tailscale?',
     'settings.tailscale.stop': 'Zastavit Tailscale?',
-    'settings.tailscale.stopDesc': 'Odhlásit a vypnout automatické spuštění.',
+    'settings.tailscale.stopDesc': 'Zastaví službu a zabrání jejímu spuštění při startu systému',
     'settings.tailscale.okBtn': 'Ano',
     'settings.tailscale.cancelBtn': 'Ne',
     'wifi.success': 'Přejděte k zařízení a zkontrolujte stav sítě NanoKVM',
@@ -577,7 +590,20 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Port',
     'settings.wireguard.peer.portDescription': 'Port UDP peeru, obvykle 51820',
     'settings.network.connection': 'Připojení',
-    'settings.system.time.networkTime': 'Síťový čas'
+    'settings.system.time.networkTime': 'Síťový čas',
+    'settings.tailscale.service': 'Služba',
+    'settings.tailscale.performance': 'Výkon',
+    'settings.tailscale.restartTitle': 'Restartovat Tailscale',
+    'settings.tailscale.restartDesc': 'Restartuje službu',
+    'settings.tailscale.restartBtn': 'Restartovat',
+    'settings.tailscale.stopTitle': 'Zastavit Tailscale',
+    'settings.tailscale.stopBtn': 'Zastavit',
+    'settings.tailscale.swap.title': 'Odkládací soubor',
+    'settings.tailscale.swap.tip':
+      'Pokud problémy přetrvávají i po zapnutí optimalizace paměti, zkuste zapnout odkládací soubor.',
+    'settings.tailscale.enableDesc': 'Přistupujte k tomuto KVM přes svou síť Tailscale',
+    'settings.tailscale.swap.sizeTip':
+      'Tím se velikost souboru nastaví na 256MB; upravit ji můžete v Nastavení > Zařízení'
   },
   da: {
     'auth.illegalPassword':
@@ -629,10 +655,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.diskLocked':
       'Slukket, mens et billede er monteret, og aktivering annullerer monteringen',
     'settings.tailscale.memory.tip':
-      'Når hukommelsesforbruget overstiger grænsen, kører garbage collection mere aggressivt for at frigøre hukommelse. Tailscale skal genstartes, for at ændringen træder i kraft.',
+      'Holder Tailscales hukommelsesforbrug lavt, hvilket hjælper på en enhed med lidt RAM. Genstart Tailscale, for at ændringen træder i kraft.',
     'settings.tailscale.restart': 'Genstart Tailscale?',
     'settings.tailscale.stop': 'Stop Tailscale?',
-    'settings.tailscale.stopDesc': 'Log ud og slå automatisk start fra.',
+    'settings.tailscale.stopDesc': 'Stopper tjenesten og forhindrer, at den starter ved opstart',
     'settings.tailscale.okBtn': 'Ja',
     'settings.tailscale.cancelBtn': 'Nej',
     'wifi.success': "Gå hen til enheden og kontrollér NanoKVM's netværksstatus",
@@ -832,7 +858,20 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Port',
     'settings.wireguard.peer.portDescription': 'Peerens UDP-port, normalt 51820',
     'settings.network.connection': 'Forbindelse',
-    'settings.system.time.networkTime': 'Netværkstid'
+    'settings.system.time.networkTime': 'Netværkstid',
+    'settings.tailscale.service': 'Tjeneste',
+    'settings.tailscale.performance': 'Ydeevne',
+    'settings.tailscale.restartTitle': 'Genstart Tailscale',
+    'settings.tailscale.restartDesc': 'Genstarter tjenesten',
+    'settings.tailscale.restartBtn': 'Genstart',
+    'settings.tailscale.stopTitle': 'Stop Tailscale',
+    'settings.tailscale.stopBtn': 'Stop',
+    'settings.tailscale.swap.title': 'Swap-fil',
+    'settings.tailscale.swap.tip':
+      'Hvis problemerne fortsætter efter aktivering af hukommelsesoptimering, prøv at aktivere swap-filen.',
+    'settings.tailscale.enableDesc': 'Få adgang til denne KVM gennem dit Tailscale-netværk',
+    'settings.tailscale.swap.sizeTip':
+      'Det sætter filstørrelsen til 256MB; juster den under Indstillinger > Enhed'
   },
   de: {
     'auth.illegalPassword':
@@ -972,7 +1011,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Bitte beachten Sie, dass Vorab-Versionen womöglich noch Fehler oder unvollständige Funktionen enthalten',
     'auth.changePasswordDesc': 'Für die Sicherheit Ihres Geräts ändern Sie bitte das Passwort',
     'settings.network.dns.manualServersDescription': 'IPv4- und IPv6-Server werden unterstützt',
-    'settings.tailscale.stopDesc': 'Abmelden und Autostart deaktivieren.',
+    'settings.tailscale.stopDesc': 'Stoppt den Dienst und verhindert den Start beim Hochfahren',
     'mouse.hidOnly.tip3':
       'NanoKVM wird nach dem Wechsel in den neuen Modus automatisch neu gestartet',
     'image.tips.tf1': 'Diese Methode wird unter Linux-Systemen unterstützt',
@@ -1103,7 +1142,25 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Port',
     'settings.wireguard.peer.portDescription': 'UDP-Port des Peers, meist 51820',
     'settings.network.connection': 'Verbindung',
-    'settings.system.time.networkTime': 'Netzwerkzeit'
+    'settings.system.time.networkTime': 'Netzwerkzeit',
+    'settings.tailscale.service': 'Dienst',
+    'settings.tailscale.performance': 'Leistung',
+    'settings.tailscale.restartTitle': 'Tailscale neu starten',
+    'settings.tailscale.restartDesc': 'Startet den Dienst neu',
+    'settings.tailscale.restartBtn': 'Neu starten',
+    'settings.tailscale.stopTitle': 'Tailscale stoppen',
+    'settings.tailscale.stopBtn': 'Stoppen',
+    'settings.tailscale.deviceName': 'Gerätename',
+    'settings.tailscale.deviceIP': 'Geräte-IP',
+    'settings.tailscale.memory.title': 'Speicheroptimierung',
+    'settings.tailscale.memory.tip':
+      'Hält den Speicherverbrauch von Tailscale niedrig, was auf einem Gerät mit wenig RAM hilft. Starten Sie Tailscale neu, damit die Änderung wirksam wird.',
+    'settings.tailscale.swap.title': 'Swap-Datei',
+    'settings.tailscale.swap.tip':
+      'Wenn die Probleme nach der Aktivierung der Speicheroptimierung weiterhin bestehen, aktivieren Sie die Swap-Datei.',
+    'settings.tailscale.enableDesc': 'Greifen Sie über Ihr Tailscale-Netzwerk auf diesen KVM zu',
+    'settings.tailscale.swap.sizeTip':
+      'Das setzt die Dateigröße auf 256MB; Sie können sie unter Einstellungen > Gerät ändern'
   },
   es: {
     'auth.illegalPassword':
@@ -1229,7 +1286,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.manualServersDescription': 'Se admiten servidores IPv4 e IPv6',
     'screen.autoTips':
       'En determinadas resoluciones pueden producirse desgarros de imagen o desplazamiento del ratón. Prueba a ajustar la resolución del host remoto o desactiva el modo automático.',
-    'settings.tailscale.stopDesc': 'Cerrar sesión y desactivar el inicio automático.',
+    'settings.tailscale.stopDesc': 'Detiene el servicio y evita que se inicie con el sistema',
     'auth.noAccount':
       'No se ha encontrado la cuenta. Por favor, recarga la página o recupera tu contraseña',
     'terminal.unlockDesc':
@@ -1349,7 +1406,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Puerto',
     'settings.wireguard.peer.portDescription': 'Puerto UDP del peer, normalmente 51820',
     'settings.network.connection': 'Conexión',
-    'settings.system.time.networkTime': 'Hora de red'
+    'settings.system.time.networkTime': 'Hora de red',
+    'settings.tailscale.service': 'Servicio',
+    'settings.tailscale.performance': 'Rendimiento',
+    'settings.tailscale.restartTitle': 'Reiniciar Tailscale',
+    'settings.tailscale.restartDesc': 'Reinicia el servicio',
+    'settings.tailscale.restartBtn': 'Reiniciar',
+    'settings.tailscale.stopTitle': 'Detener Tailscale',
+    'settings.tailscale.stopBtn': 'Detener',
+    'settings.tailscale.memory.tip':
+      'Mantiene bajo el uso de memoria de Tailscale, lo que ayuda en un dispositivo con poca RAM. Reinicia Tailscale para que el cambio surta efecto.',
+    'settings.tailscale.swap.title': 'Archivo swap',
+    'settings.tailscale.swap.tip':
+      'Si los problemas persisten después de activar la optimización de memoria, prueba a activar el archivo swap.',
+    'settings.tailscale.enableDesc': 'Accede a este KVM mediante tu red Tailscale',
+    'settings.tailscale.swap.sizeTip':
+      'Esto establece su tamaño en 256 MB; ajústalo en Ajustes > Dispositivo'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1479,7 +1551,8 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Pane tähele, et eelvaateversioonid võivad sisaldada vigu või lõpetamata funktsioone',
     'auth.changePasswordDesc': 'Seadme turvalisuse huvides muuda parool ära',
     'settings.network.dns.manualServersDescription': 'IPv4 ja IPv6 serverid on toetatud',
-    'settings.tailscale.stopDesc': 'Logi välja ja keela automaatne käivitus.',
+    'settings.tailscale.stopDesc':
+      'Peatab teenuse ja takistab selle käivitumist süsteemi käivitamisel',
     'terminal.unlockDesc': 'Terminaliseansi alustamiseks sisesta veebikonto parool',
     'terminal.locked': 'Liiga palju katseid. Proovi hiljem uuesti',
     'keyboard.dropdownEnglish': 'Inglise keel',
@@ -1586,7 +1659,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Port',
     'settings.wireguard.peer.portDescription': 'Peeri UDP-port, tavaliselt 51820',
     'settings.network.connection': 'Ühendus',
-    'settings.system.time.networkTime': 'Võrguaeg'
+    'settings.system.time.networkTime': 'Võrguaeg',
+    'settings.tailscale.service': 'Teenus',
+    'settings.tailscale.performance': 'Jõudlus',
+    'settings.tailscale.restartTitle': 'Taaskäivita Tailscale',
+    'settings.tailscale.restartDesc': 'Taaskäivitab teenuse',
+    'settings.tailscale.restartBtn': 'Taaskäivita',
+    'settings.tailscale.stopTitle': 'Peata Tailscale',
+    'settings.tailscale.stopBtn': 'Peata',
+    'settings.tailscale.memory.tip':
+      'Hoiab Tailscale’i mälukasutuse väikesena, mis aitab vähese RAM-iga seadmes. Muudatuse jõustumiseks taaskäivita Tailscale.',
+    'settings.tailscale.swap.title': 'Swap-fail',
+    'settings.tailscale.swap.tip':
+      'Kui probleemid jätkuvad pärast mälu optimeerimise lubamist, proovi lubada swap-fail.',
+    'settings.tailscale.enableDesc': 'Pääse sellele KVM-ile ligi oma Tailscale’i võrgu kaudu',
+    'settings.tailscale.swap.sizeTip':
+      'See määrab faili suuruseks 256 MB; seda saab muuta menüüs Seaded > Seade'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1718,7 +1806,8 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Huomaa, että esikatseluversiot voivat sisältää virheitä tai keskeneräisiä toimintoja',
     'auth.changePasswordDesc': 'Vaihda salasana laitteen turvallisuuden vuoksi',
     'settings.network.dns.manualServersDescription': 'IPv4- ja IPv6-palvelimet ovat tuettuja',
-    'settings.tailscale.stopDesc': 'Kirjaudu ulos ja poista automaattinen käynnistys.',
+    'settings.tailscale.stopDesc':
+      'Pysäyttää palvelun ja estää sen käynnistymisen järjestelmän käynnistyessä',
     'terminal.unlockDesc': 'Anna verkkotilin salasana käynnistääksesi terminaali-istunnon',
     'terminal.locked': 'Liikaa yrityksiä. Yritä myöhemmin uudelleen',
     'keyboard.dropdownKorean': 'Korea',
@@ -1821,7 +1910,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Portti',
     'settings.wireguard.peer.portDescription': 'Peerin UDP-portti, yleensä 51820',
     'settings.network.connection': 'Yhteys',
-    'settings.system.time.networkTime': 'Verkkoaika'
+    'settings.system.time.networkTime': 'Verkkoaika',
+    'settings.tailscale.service': 'Palvelu',
+    'settings.tailscale.performance': 'Suorituskyky',
+    'settings.tailscale.restartTitle': 'Käynnistä Tailscale uudelleen',
+    'settings.tailscale.restartDesc': 'Käynnistää palvelun uudelleen',
+    'settings.tailscale.restartBtn': 'Käynnistä uudelleen',
+    'settings.tailscale.stopTitle': 'Pysäytä Tailscale',
+    'settings.tailscale.stopBtn': 'Pysäytä',
+    'settings.tailscale.memory.tip':
+      'Pitää Tailscalen muistinkäytön alhaisena, mikä auttaa laitteella, jossa on vähän RAM-muistia. Käynnistä Tailscale uudelleen, jotta muutos tulee voimaan.',
+    'settings.tailscale.swap.title': 'Swap-tiedosto',
+    'settings.tailscale.swap.tip':
+      'Jos ongelmat jatkuvat muistin optimoinnin jälkeen, kokeile ottaa swap-tiedosto käyttöön.',
+    'settings.tailscale.enableDesc': 'Ota yhteys tähän KVM-laitteeseen Tailscale-verkkosi kautta',
+    'settings.tailscale.swap.sizeTip':
+      'Tämä asettaa tiedoston kooksi 256 Mt; voit muuttaa sitä kohdassa Asetukset > Laite'
   },
   fr: {
     'auth.illegalPassword':
@@ -1837,7 +1941,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'power.powerLong': "Bouton d'alimentation : appui long",
     'power.powerConfirm': "Procéder à l'opération d'alimentation ?",
     'settings.tailscale.run': 'Démarrer',
-    'settings.tailscale.enable': 'Activer Tailscale',
     'mouse.grab': 'Curseur de saisie',
     'settings.about.title': 'À propos de NanoKVM',
     'settings.tailscale.upTailscale': 'Téléverser tailscale dans le répertoire NanoKVM /usr/bin/',
@@ -1961,7 +2064,8 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Pour la sécurité de votre appareil, veuillez modifier le mot de passe de connexion Web',
     'settings.network.dns.manualServersDescription':
       'Les serveurs IPv4 et IPv6 sont pris en charge',
-    'settings.tailscale.stopDesc': 'Déconnecter et désactiver le démarrage automatique.',
+    'settings.tailscale.stopDesc':
+      'Arrête le service et l’empêche de démarrer au démarrage de l’appareil',
     'image.mountFailed': "Échec du montage de l'image",
     'image.tips.tf1': 'Cette méthode est adaptée aux systèmes Linux',
     'terminal.unlockDesc':
@@ -2074,7 +2178,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Port',
     'settings.wireguard.peer.portDescription': 'Port UDP du pair, généralement 51820',
     'settings.network.connection': 'Connexion',
-    'settings.system.time.networkTime': 'Heure réseau'
+    'settings.system.time.networkTime': 'Heure réseau',
+    'settings.tailscale.service': 'Service',
+    'settings.tailscale.performance': 'Performances',
+    'settings.tailscale.restartTitle': 'Redémarrer Tailscale',
+    'settings.tailscale.restartDesc': 'Redémarre le service',
+    'settings.tailscale.restartBtn': 'Redémarrer',
+    'settings.tailscale.stopTitle': 'Arrêter Tailscale',
+    'settings.tailscale.stopBtn': 'Arrêter',
+    'settings.tailscale.memory.tip':
+      'Maintient l’utilisation de la mémoire de Tailscale à un faible niveau, ce qui aide sur un appareil disposant de peu de RAM. Redémarrez Tailscale pour que le changement prenne effet.',
+    'settings.tailscale.swap.title': 'Fichier d’échange',
+    'settings.tailscale.swap.tip':
+      'Si les problèmes persistent après l’activation de l’optimisation de la mémoire, essayez d’activer le fichier d’échange.',
+    'settings.tailscale.enableDesc': 'Accédez à ce KVM par votre réseau Tailscale',
+    'settings.tailscale.swap.sizeTip':
+      'Cela définit sa taille sur 256MB ; ajustez-la dans Paramètres > Appareil'
   },
   hu: {
     'auth.illegalPassword':
@@ -2118,10 +2237,11 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.diskLocked':
       'Kikapcsolva, amíg egy képfájl csatlakoztatva van, és a bekapcsolása megszakítja a csatlakoztatást',
     'settings.tailscale.memory.tip':
-      'Ha a memóriahasználat meghaladja a korlátot, a szemétgyűjtés agresszívebben fut, hogy memóriát szabadítson fel. A módosítás érvénybe lépéséhez újra kell indítani a Tailscale-t.',
+      'Alacsonyan tartja a Tailscale memóriahasználatát, ami segít kevés RAM-mal rendelkező eszközön. A módosítás érvénybe lépéséhez indítsa újra a Tailscale-t.',
     'settings.tailscale.restart': 'Újraindítja a Tailscale-t?',
     'settings.tailscale.stop': 'Leállítja a Tailscale-t?',
-    'settings.tailscale.stopDesc': 'Kijelentkezés és az automatikus indítás kikapcsolása.',
+    'settings.tailscale.stopDesc':
+      'Leállítja a szolgáltatást, és megakadályozza az automatikus indítását rendszerindításkor',
     'settings.tailscale.okBtn': 'Igen',
     'settings.tailscale.cancelBtn': 'Nem',
     'wifi.success': 'Menjen az eszközhöz, és ellenőrizze a NanoKVM hálózati állapotát',
@@ -2329,7 +2449,20 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Port',
     'settings.wireguard.peer.portDescription': 'A partner UDP-portja, általában 51820',
     'settings.network.connection': 'Kapcsolat',
-    'settings.system.time.networkTime': 'Hálózati idő'
+    'settings.system.time.networkTime': 'Hálózati idő',
+    'settings.tailscale.service': 'Szolgáltatás',
+    'settings.tailscale.performance': 'Teljesítmény',
+    'settings.tailscale.restartTitle': 'Tailscale újraindítása',
+    'settings.tailscale.restartDesc': 'Újraindítja a szolgáltatást',
+    'settings.tailscale.restartBtn': 'Újraindítás',
+    'settings.tailscale.stopTitle': 'Tailscale leállítása',
+    'settings.tailscale.stopBtn': 'Leállítás',
+    'settings.tailscale.swap.title': 'Swap fájl',
+    'settings.tailscale.swap.tip':
+      'Ha a memóriaoptimalizálás engedélyezése után is fennállnak a problémák, próbálja meg engedélyezni a swap fájlt.',
+    'settings.tailscale.enableDesc': 'Érje el ezt a KVM-et a Tailscale-hálózatán keresztül',
+    'settings.tailscale.swap.sizeTip':
+      'Ez a fájl méretét 256MB értékre állítja; a Beállítások > Eszköz menüpontban módosíthatja'
   },
   id: {
     'auth.illegalPassword':
@@ -2376,10 +2509,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.diskLocked':
       'Mati saat image terpasang, dan mengaktifkannya membatalkan pemasangan',
     'settings.tailscale.memory.tip':
-      'Saat penggunaan memori melebihi batas, garbage collection dijalankan lebih agresif untuk membebaskan memori. Tailscale perlu dimulai ulang agar perubahan berlaku.',
+      'Menjaga penggunaan memori Tailscale tetap rendah, yang membantu pada perangkat dengan RAM terbatas. Mulai ulang Tailscale agar perubahan berlaku.',
     'settings.tailscale.restart': 'Mulai ulang Tailscale?',
     'settings.tailscale.stop': 'Hentikan Tailscale?',
-    'settings.tailscale.stopDesc': 'Keluar dan nonaktifkan mulai otomatis.',
+    'settings.tailscale.stopDesc': 'Menghentikan layanan dan mencegahnya berjalan saat boot',
     'settings.tailscale.okBtn': 'Ya',
     'settings.tailscale.cancelBtn': 'Tidak',
     'wifi.success': 'Silakan periksa status jaringan NanoKVM langsung pada perangkat',
@@ -2587,7 +2720,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.system.firewall.rules.title': 'Aturan saat ini',
     'settings.systemLog.viewer.title': 'Log sistem',
     'settings.appearance.menuBar.title': 'Bilah menu',
-    'settings.appearance.menuBar.icons': 'Ikon submenu'
+    'settings.appearance.menuBar.icons': 'Ikon submenu',
+    'settings.tailscale.service': 'Layanan',
+    'settings.tailscale.performance': 'Kinerja',
+    'settings.tailscale.restartTitle': 'Mulai ulang Tailscale',
+    'settings.tailscale.restartDesc': 'Memulai ulang layanan',
+    'settings.tailscale.restartBtn': 'Mulai ulang',
+    'settings.tailscale.stopTitle': 'Hentikan Tailscale',
+    'settings.tailscale.stopBtn': 'Hentikan',
+    'settings.tailscale.deviceName': 'Nama perangkat',
+    'settings.tailscale.deviceIP': 'IP perangkat',
+    'settings.tailscale.swap.title': 'File swap',
+    'settings.tailscale.swap.tip':
+      'Jika masalah terus berlanjut setelah mengaktifkan pengoptimalan memori, coba aktifkan file swap.',
+    'settings.tailscale.enableDesc': 'Akses KVM ini melalui jaringan Tailscale Anda',
+    'settings.tailscale.swap.sizeTip':
+      'Ini menetapkan ukuran file ke 256MB; sesuaikan di Pengaturan > Perangkat'
   },
   it: {
     'auth.illegalPassword':
@@ -2640,10 +2788,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.diskLocked':
       "Disattivato mentre un'immagine è montata, e attivarlo annulla il montaggio",
     'settings.tailscale.memory.tip':
-      "Quando l'uso della memoria supera il limite, la garbage collection viene eseguita in modo più aggressivo per liberare memoria. Per applicare la modifica è necessario riavviare Tailscale.",
+      'Mantiene basso l’uso di memoria di Tailscale, il che aiuta su un dispositivo con poca RAM. Riavvia Tailscale per applicare la modifica.',
     'settings.tailscale.restart': 'Riavviare Tailscale?',
     'settings.tailscale.stop': 'Arrestare Tailscale?',
-    'settings.tailscale.stopDesc': "Disconnetti e disattiva l'avvio automatico.",
+    'settings.tailscale.stopDesc': 'Arresta il servizio e ne impedisce l’avvio all’accensione',
     'settings.tailscale.okBtn': 'Sì',
     'wifi.success': 'Vai al dispositivo per controllare lo stato della rete di NanoKVM',
     'settings.system.firewall.enableHttpsFirst':
@@ -2838,7 +2986,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Porta',
     'settings.wireguard.peer.portDescription': 'Porta UDP del peer, di solito 51820',
     'settings.network.connection': 'Connessione',
-    'settings.system.time.networkTime': 'Ora di rete'
+    'settings.system.time.networkTime': 'Ora di rete',
+    'settings.tailscale.service': 'Servizio',
+    'settings.tailscale.performance': 'Prestazioni',
+    'settings.tailscale.restartTitle': 'Riavvia Tailscale',
+    'settings.tailscale.restartDesc': 'Riavvia il servizio',
+    'settings.tailscale.restartBtn': 'Riavvia',
+    'settings.tailscale.stopTitle': 'Arresta Tailscale',
+    'settings.tailscale.stopBtn': 'Arresta',
+    'settings.tailscale.deviceName': 'Nome dispositivo',
+    'settings.tailscale.deviceIP': 'IP dispositivo',
+    'settings.tailscale.swap.title': 'File di scambio',
+    'settings.tailscale.swap.tip':
+      'Se i problemi persistono dopo aver abilitato l’ottimizzazione della memoria, prova ad abilitare il file di scambio.',
+    'settings.tailscale.enableDesc': 'Raggiungi questo KVM tramite la tua rete Tailscale',
+    'settings.tailscale.swap.sizeTip':
+      'Questo imposta la dimensione del file su 256MB; regolala in Impostazioni > Dispositivo'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -2965,7 +3128,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'プレビューアップデートには不安定な部分や不完全な機能が含まれる場合があります',
     'auth.changePasswordDesc': 'デバイスのセキュリティのために、パスワードを変更してください',
     'settings.network.dns.manualServersDescription': 'IPv4 と IPv6 のサーバーに対応しています',
-    'settings.tailscale.stopDesc': 'ログアウトして自動起動を無効にします。',
+    'settings.tailscale.stopDesc': 'サービスを停止し、起動時に自動で開始しないようにします',
     'auth.noAccount':
       'ユーザー情報の取得に失敗しました。ページを更新してもう一度お試しいただくか、パスワードをリセットしてください',
     'auth.locked': 'ログインが多すぎます。後でもう一度お試しください',
@@ -3078,7 +3241,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'ポート',
     'settings.wireguard.peer.portDescription': 'ピアの UDP ポート。通常は 51820',
     'settings.network.connection': '接続',
-    'settings.system.time.networkTime': 'ネットワーク時刻'
+    'settings.system.time.networkTime': 'ネットワーク時刻',
+    'settings.tailscale.service': 'サービス',
+    'settings.tailscale.performance': 'パフォーマンス',
+    'settings.tailscale.restartTitle': 'Tailscale を再起動',
+    'settings.tailscale.restartDesc': 'サービスを再起動します',
+    'settings.tailscale.restartBtn': '再起動',
+    'settings.tailscale.stopTitle': 'Tailscale を停止',
+    'settings.tailscale.stopBtn': '停止',
+    'settings.tailscale.memory.tip':
+      'Tailscale のメモリ使用量を低く抑えます。RAM が少ないデバイスで効果的です。変更を反映するには Tailscale を再起動してください。',
+    'settings.tailscale.swap.title': 'スワップファイル',
+    'settings.tailscale.swap.tip':
+      'メモリ最適化を有効にしても問題が解決しない場合は、スワップファイルを有効にしてみてください。',
+    'settings.tailscale.enableDesc': 'Tailscale ネットワーク経由でこの KVM にアクセスします',
+    'settings.tailscale.swap.sizeTip':
+      'ファイルサイズは 256MB に設定されます。サイズは「設定 - デバイス」で変更できます'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -3197,7 +3375,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       '미리보기 버전에는 버그나 완성되지 않은 기능이 포함될 수 있으니 주의하세요',
     'auth.changePasswordDesc': '보안을 위해 웹 로그인 비밀번호를 변경하세요',
     'settings.network.dns.manualServersDescription': 'IPv4 및 IPv6 서버를 지원합니다',
-    'settings.tailscale.stopDesc': '로그아웃하고 자동 시작을 비활성화합니다.',
+    'settings.tailscale.stopDesc': '서비스를 중지하고 부팅 시 자동으로 시작되지 않게 합니다',
     'auth.placeholderUsername': '사용자 이름을 입력하세요',
     'auth.placeholderPassword': '비밀번호를 입력하세요',
     'auth.placeholderPassword2': '비밀번호를 다시 입력하세요',
@@ -3316,7 +3494,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': '포트',
     'settings.wireguard.peer.portDescription': '피어의 UDP 포트, 보통 51820',
     'settings.network.connection': '연결',
-    'settings.system.time.networkTime': '네트워크 시간'
+    'settings.system.time.networkTime': '네트워크 시간',
+    'settings.tailscale.service': '서비스',
+    'settings.tailscale.performance': '성능',
+    'settings.tailscale.restartTitle': 'Tailscale 다시 시작',
+    'settings.tailscale.restartDesc': '서비스를 다시 시작합니다',
+    'settings.tailscale.restartBtn': '다시 시작',
+    'settings.tailscale.stopTitle': 'Tailscale 중지',
+    'settings.tailscale.stopBtn': '중지',
+    'settings.tailscale.memory.tip':
+      'Tailscale의 메모리 사용량을 낮게 유지하며, RAM이 적은 장치에서 도움이 됩니다. 변경 사항을 적용하려면 Tailscale을 다시 시작하세요.',
+    'settings.tailscale.swap.title': '스왑 파일',
+    'settings.tailscale.swap.tip':
+      '메모리 최적화를 활성화한 후에도 문제가 지속되면 스왑 파일을 활성화해 보세요.',
+    'settings.tailscale.enableDesc': 'Tailscale 네트워크를 통해 이 KVM에 접속합니다',
+    'settings.tailscale.swap.sizeTip':
+      '파일 크기가 256MB로 설정되며, 설정 > 기기에서 조정할 수 있습니다'
   },
   nb: {
     'auth.illegalPassword':
@@ -3355,10 +3548,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.diskOff': 'Slå av den virtuelle disken',
     'settings.device.diskLocked': 'Av mens et bilde er montert, og aktivering avbryter monteringen',
     'settings.tailscale.memory.tip':
-      'Når minnebruken overskrider grensen, kjøres garbage collection mer aggressivt for å frigjøre minne. Tailscale må startes på nytt for at endringen skal tre i kraft.',
+      'Holder minnebruken til Tailscale lav, noe som hjelper på en enhet med lite RAM. Start Tailscale på nytt for at endringen skal tre i kraft.',
     'settings.tailscale.restart': 'Starte Tailscale på nytt?',
     'settings.tailscale.stop': 'Stoppe Tailscale?',
-    'settings.tailscale.stopDesc': 'Logg ut og slå av automatisk oppstart.',
+    'settings.tailscale.stopDesc': 'Stopper tjenesten og hindrer at den starter ved oppstart',
     'settings.tailscale.okBtn': 'Ja',
     'settings.tailscale.cancelBtn': 'Nei',
     'wifi.success': 'Gå til enheten og kontroller nettverksstatusen til NanoKVM',
@@ -3558,7 +3751,20 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Port',
     'settings.wireguard.peer.portDescription': 'Peerens UDP-port, vanligvis 51820',
     'settings.network.connection': 'Tilkobling',
-    'settings.system.time.networkTime': 'Nettverkstid'
+    'settings.system.time.networkTime': 'Nettverkstid',
+    'settings.tailscale.service': 'Tjeneste',
+    'settings.tailscale.performance': 'Ytelse',
+    'settings.tailscale.restartTitle': 'Start Tailscale på nytt',
+    'settings.tailscale.restartDesc': 'Starter tjenesten på nytt',
+    'settings.tailscale.restartBtn': 'Start på nytt',
+    'settings.tailscale.stopTitle': 'Stopp Tailscale',
+    'settings.tailscale.stopBtn': 'Stopp',
+    'settings.tailscale.swap.title': 'Byttefil',
+    'settings.tailscale.swap.tip':
+      'Hvis problemene vedvarer etter at du har aktivert minneoptimalisering, prøv å aktivere byttefilen.',
+    'settings.tailscale.enableDesc': 'Nå denne KVM-en gjennom ditt Tailscale-nettverk',
+    'settings.tailscale.swap.sizeTip':
+      'Dette setter filstørrelsen til 256MB; juster den i Innstillinger > Enhet'
   },
   nl: {
     'auth.illegalPassword':
@@ -3692,7 +3898,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc':
       'Voor de veiligheid van uw apparaat, wijzig alstublieft het webaanmeldingswachtwoord',
     'settings.network.dns.manualServersDescription': 'IPv4- en IPv6-servers worden ondersteund',
-    'settings.tailscale.stopDesc': 'Uitloggen en automatisch opstarten uitschakelen.',
+    'settings.tailscale.stopDesc': 'Stopt de service en voorkomt dat die bij het opstarten start',
     'terminal.unlockDesc':
       'Voer het wachtwoord van uw webaccount in om een terminalsessie te starten',
     'terminal.locked': 'Te veel pogingen. Probeer later opnieuw',
@@ -3813,7 +4019,23 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Poort',
     'settings.wireguard.peer.portDescription': 'UDP-poort van de peer, meestal 51820',
     'settings.network.connection': 'Verbinding',
-    'settings.system.time.networkTime': 'Netwerktijd'
+    'settings.system.time.networkTime': 'Netwerktijd',
+    'settings.tailscale.service': 'Service',
+    'settings.tailscale.performance': 'Prestaties',
+    'settings.tailscale.restartTitle': 'Tailscale opnieuw opstarten',
+    'settings.tailscale.restartDesc': 'Start de service opnieuw op',
+    'settings.tailscale.restartBtn': 'Opnieuw opstarten',
+    'settings.tailscale.stopTitle': 'Tailscale stoppen',
+    'settings.tailscale.stopBtn': 'Stoppen',
+    'settings.tailscale.memory.title': 'Geheugenoptimalisatie',
+    'settings.tailscale.memory.tip':
+      'Houdt het geheugengebruik van Tailscale laag, wat helpt op een apparaat met weinig RAM. Start Tailscale opnieuw op om de wijziging door te voeren.',
+    'settings.tailscale.swap.title': 'Wisselbestand',
+    'settings.tailscale.swap.tip':
+      'Als de problemen aanhouden nadat u geheugenoptimalisatie hebt ingeschakeld, probeer dan het wisselbestand in te schakelen.',
+    'settings.tailscale.enableDesc': 'Open deze KVM via uw Tailscale-netwerk',
+    'settings.tailscale.swap.sizeTip':
+      'Hiermee wordt de bestandsgrootte ingesteld op 256MB; pas deze aan via Instellingen > Apparaat'
   },
   pl: {
     'auth.illegalPassword':
@@ -3860,10 +4082,11 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.diskLocked':
       'Wyłączony, gdy obraz jest zamontowany, a włączenie anuluje zamontowanie',
     'settings.tailscale.memory.tip':
-      'Gdy użycie pamięci przekracza limit, garbage collection działa bardziej agresywnie, aby zwolnić pamięć. Aby zmiana zaczęła obowiązywać, trzeba ponownie uruchomić Tailscale.',
+      'Utrzymuje niskie zużycie pamięci przez Tailscale, co pomaga na urządzeniu z małą ilością pamięci RAM. Uruchom ponownie Tailscale, aby zmiana zaczęła obowiązywać.',
     'settings.tailscale.restart': 'Uruchomić ponownie Tailscale?',
     'settings.tailscale.stop': 'Zatrzymać Tailscale?',
-    'settings.tailscale.stopDesc': 'Wyloguj i wyłącz automatyczne uruchamianie.',
+    'settings.tailscale.stopDesc':
+      'Zatrzymuje usługę i uniemożliwia jej uruchamianie przy starcie systemu',
     'settings.tailscale.okBtn': 'Tak',
     'settings.tailscale.cancelBtn': 'Nie',
     'screen.videoWebrtcBlockedByFirewall':
@@ -4062,7 +4285,20 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Port',
     'settings.wireguard.peer.portDescription': 'Port UDP peera, zwykle 51820',
     'settings.network.connection': 'Połączenie',
-    'settings.system.time.networkTime': 'Czas sieciowy'
+    'settings.system.time.networkTime': 'Czas sieciowy',
+    'settings.tailscale.service': 'Usługa',
+    'settings.tailscale.performance': 'Wydajność',
+    'settings.tailscale.restartTitle': 'Uruchom ponownie Tailscale',
+    'settings.tailscale.restartDesc': 'Uruchamia ponownie usługę',
+    'settings.tailscale.restartBtn': 'Uruchom ponownie',
+    'settings.tailscale.stopTitle': 'Zatrzymaj Tailscale',
+    'settings.tailscale.stopBtn': 'Zatrzymaj',
+    'settings.tailscale.swap.title': 'Plik wymiany',
+    'settings.tailscale.swap.tip':
+      'Jeśli po włączeniu optymalizacji pamięci problemy nadal występują, spróbuj włączyć plik wymiany.',
+    'settings.tailscale.enableDesc': 'Połącz się z tym KVM przez swoją sieć Tailscale',
+    'settings.tailscale.swap.sizeTip':
+      'Ustawia to rozmiar pliku na 256MB; możesz go zmienić w Ustawienia > Urządzenie'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -4185,7 +4421,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Esteja ciente de que as versões de prévia podem conter bugs ou funcionalidade incompleta',
     'auth.changePasswordDesc': 'Para a segurança do seu dispositivo, por favor, mude a senha',
     'settings.network.dns.manualServersDescription': 'Servidores IPv4 e IPv6 são compatíveis',
-    'settings.tailscale.stopDesc': 'Sair e desativar a inicialização automática.',
+    'settings.tailscale.stopDesc': 'Interrompe o serviço e impede que ele inicie com o sistema',
     'terminal.unlockDesc': 'Digite a senha da conta web para iniciar uma sessão de terminal',
     'terminal.locked': 'Muitas tentativas. Tente novamente mais tarde',
     'keyboard.dropdownKorean': 'Coreano',
@@ -4289,7 +4525,25 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.portDescription': 'Porta UDP do peer, normalmente 51820',
     'settings.network.connection': 'Conexão',
     'settings.system.time.networkTime': 'Hora da rede',
-    'settings.appearance.menuBar.title': 'Barra de menu'
+    'settings.appearance.menuBar.title': 'Barra de menu',
+    'settings.tailscale.service': 'Serviço',
+    'settings.tailscale.performance': 'Desempenho',
+    'settings.tailscale.restartTitle': 'Reiniciar Tailscale',
+    'settings.tailscale.restartDesc': 'Reinicia o serviço',
+    'settings.tailscale.restartBtn': 'Reiniciar',
+    'settings.tailscale.stopTitle': 'Parar Tailscale',
+    'settings.tailscale.stopBtn': 'Parar',
+    'settings.tailscale.deviceName': 'Nome do dispositivo',
+    'settings.tailscale.deviceIP': 'IP do dispositivo',
+    'settings.tailscale.loginSuccess': 'Login bem-sucedido',
+    'settings.tailscale.memory.tip':
+      'Mantém o uso de memória do Tailscale baixo, o que ajuda em um dispositivo com pouca RAM. Reinicie o Tailscale para que a alteração tenha efeito.',
+    'settings.tailscale.swap.title': 'Arquivo de swap',
+    'settings.tailscale.swap.tip':
+      'Se os problemas persistirem após ativar a otimização de memória, tente ativar o arquivo de swap.',
+    'settings.tailscale.enableDesc': 'Acesse este KVM pela sua rede Tailscale',
+    'settings.tailscale.swap.sizeTip':
+      'Isso define o tamanho do arquivo como 256MB; ajuste-o em Configurações > Dispositivo'
   },
   ru: {
     'download.disabled':
@@ -4397,7 +4651,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Обратите внимание: в ранних версиях могут быть ошибки или незавершённый функционал',
     'auth.changePasswordDesc': 'Для безопасности вашего устройства, пожалуйста поменяйте пароль',
     'settings.network.dns.manualServersDescription': 'Поддерживаются серверы IPv4 и IPv6',
-    'settings.tailscale.stopDesc': 'Выйти и отключить автозапуск.',
+    'settings.tailscale.stopDesc': 'Останавливает службу и отключает её запуск при загрузке',
     'auth.locked': 'Слишком много входов. Повторите попытку позже',
     'auth.globalLocked': 'Система находится под защитой. Повторите попытку позже',
     'wifi.ap.authDescription': 'Пожалуйста, введите пароль AP, чтобы продолжить',
@@ -4521,7 +4775,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.portDescription': 'UDP-порт пира, обычно 51820',
     'settings.network.connection': 'Подключение',
     'settings.system.time.networkTime': 'Сетевое время',
-    'settings.systemLog.viewer.title': 'Системный лог'
+    'settings.systemLog.viewer.title': 'Системный лог',
+    'settings.tailscale.service': 'Служба',
+    'settings.tailscale.performance': 'Производительность',
+    'settings.tailscale.restartTitle': 'Перезапустить Tailscale',
+    'settings.tailscale.restartDesc': 'Перезапускает службу',
+    'settings.tailscale.restartBtn': 'Перезапустить',
+    'settings.tailscale.stopTitle': 'Остановить Tailscale',
+    'settings.tailscale.stopBtn': 'Остановить',
+    'settings.tailscale.memory.tip':
+      'Удерживает потребление памяти Tailscale на низком уровне, что помогает на устройстве с небольшим объёмом ОЗУ. Перезапустите Tailscale, чтобы изменение вступило в силу.',
+    'settings.tailscale.swap.title': 'Файл подкачки',
+    'settings.tailscale.swap.tip':
+      'Если после включения оптимизации памяти проблемы сохраняются, попробуйте включить файл подкачки.',
+    'settings.tailscale.enableDesc': 'Подключайтесь к этому KVM через вашу сеть Tailscale',
+    'settings.tailscale.swap.sizeTip':
+      'Размер файла будет установлен равным 256MB; изменить его можно в Настройки > Устройство'
   },
   se: {
     'auth.illegalPassword':
@@ -4645,7 +4914,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Observera att förhandsversioner kan innehålla buggar eller ofullständig funktionalitet',
     'auth.changePasswordDesc': 'För din enhets säkerhet, byt lösenord',
     'settings.network.dns.manualServersDescription': 'IPv4- och IPv6-servrar stöds',
-    'settings.tailscale.stopDesc': 'Logga ut och stäng av automatisk start.',
+    'settings.tailscale.stopDesc': 'Stoppar tjänsten och hindrar den från att starta vid uppstart',
     'terminal.unlockDesc': 'Ange lösenordet för webbkonto för att starta en terminalsession',
     'terminal.locked': 'För många försök. Försök igen senare',
     'keyboard.dropdownKorean': 'Koreanska',
@@ -4746,7 +5015,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Port',
     'settings.wireguard.peer.portDescription': 'Peerens UDP-port, vanligtvis 51820',
     'settings.network.connection': 'Anslutning',
-    'settings.system.time.networkTime': 'Nätverkstid'
+    'settings.system.time.networkTime': 'Nätverkstid',
+    'settings.tailscale.service': 'Tjänst',
+    'settings.tailscale.performance': 'Prestanda',
+    'settings.tailscale.restartTitle': 'Starta om Tailscale',
+    'settings.tailscale.restartDesc': 'Startar om tjänsten',
+    'settings.tailscale.restartBtn': 'Starta om',
+    'settings.tailscale.stopTitle': 'Stoppa Tailscale',
+    'settings.tailscale.stopBtn': 'Stoppa',
+    'settings.tailscale.memory.tip':
+      'Håller Tailscales minnesanvändning låg, vilket hjälper på en enhet med lite RAM. Starta om Tailscale för att ändringen ska gälla.',
+    'settings.tailscale.swap.title': 'Swap-fil',
+    'settings.tailscale.swap.tip':
+      'Om problemen kvarstår efter att du har aktiverat minnesoptimering, försök att aktivera swap-filen.',
+    'settings.tailscale.enableDesc': 'Nå den här KVM:en genom ditt Tailscale-nätverk',
+    'settings.tailscale.swap.sizeTip':
+      'Detta ställer in filstorleken till 256MB; justera den i Inställningar > Enhet'
   },
   th: {
     'auth.illegalPassword':
@@ -4839,7 +5123,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'โปรดทราบว่าการเผยแพร่ตัวอย่างอาจมีข้อบกพร่องหรือฟังก์ชันการทำงานที่ไม่สมบูรณ์',
     'auth.changePasswordDesc': 'เพื่อความปลอดภัย, โปรดเปลี่ยนรหัสผ่าน',
     'settings.network.dns.manualServersDescription': 'รองรับเซิร์ฟเวอร์ทั้ง IPv4 และ IPv6',
-    'settings.tailscale.stopDesc': 'ออกจากระบบและปิดการเริ่มอัตโนมัติ',
+    'settings.tailscale.stopDesc': 'หยุดบริการและไม่ให้เริ่มทำงานเมื่อเปิดเครื่อง',
     'keyboard.dropdownFrench': 'ภาษาฝรั่งเศส',
     'keyboard.dropdownGerman': 'ภาษาเยอรมัน',
     'keyboard.dropdownRussian': 'ภาษารัสเซีย',
@@ -4941,7 +5225,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'พอร์ต',
     'settings.wireguard.peer.portDescription': 'พอร์ต UDP ของเพียร์ ปกติคือ 51820',
     'settings.network.connection': 'การเชื่อมต่อ',
-    'settings.system.time.networkTime': 'เวลาเครือข่าย'
+    'settings.system.time.networkTime': 'เวลาเครือข่าย',
+    'settings.tailscale.service': 'บริการ',
+    'settings.tailscale.performance': 'ประสิทธิภาพ',
+    'settings.tailscale.restartTitle': 'รีสตาร์ท Tailscale',
+    'settings.tailscale.restartDesc': 'รีสตาร์ทบริการ',
+    'settings.tailscale.restartBtn': 'รีสตาร์ท',
+    'settings.tailscale.stopTitle': 'หยุด Tailscale',
+    'settings.tailscale.stopBtn': 'หยุด',
+    'settings.tailscale.memory.tip':
+      'ช่วยคุมการใช้หน่วยความจำของ Tailscale ให้ต่ำ ซึ่งมีประโยชน์กับอุปกรณ์ที่มี RAM น้อย รีสตาร์ท Tailscale เพื่อให้การเปลี่ยนแปลงมีผล',
+    'settings.tailscale.swap.title': 'ไฟล์สลับ',
+    'settings.tailscale.swap.tip':
+      'หากปัญหายังคงมีอยู่หลังจากเปิดใช้งานการเพิ่มประสิทธิภาพหน่วยความจำ ให้ลองเปิดใช้งานไฟล์สลับ',
+    'settings.tailscale.enableDesc': 'เข้าถึง KVM นี้ผ่านเครือข่าย Tailscale ของคุณ',
+    'settings.tailscale.swap.sizeTip':
+      'การตั้งค่านี้กำหนดขนาดไฟล์เป็น 256MB ปรับได้ที่ การตั้งค่า > อุปกรณ์'
   },
   tr: {
     'auth.illegalPassword':
@@ -5075,7 +5374,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'error.title': 'Bir hata oluştu',
     'wol.title': 'Ağ Üzerinden Uyandırma',
     'settings.device.ssh.description': 'SSH uzaktan erişimini etkinleştir',
-    'settings.tailscale.stopDesc': 'Çıkış yap ve otomatik başlatmayı kapat.',
+    'settings.tailscale.stopDesc': 'Hizmeti durdurur ve açılışta başlamasını engeller',
     'keyboard.tips': 'Sadece standart klavye harfleri ve sembolleri desteklenmektedir',
     'image.tips.tf1': 'Bu yöntem Linux sistemlerde desteklenmektedir',
     'terminal.unlockDesc': 'Terminal oturumu başlatmak için web hesabı parolanızı girin',
@@ -5192,7 +5491,24 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.dns.subnetMask': 'Alt ağ maskesi',
     'settings.network.ipv6.dhcpv6Client': 'DHCPv6 istemcisi',
     'settings.network.ipv6.ipAddress': 'IPv6 adresi',
-    'settings.system.time.servers.title': 'NTP sunucuları'
+    'settings.system.time.servers.title': 'NTP sunucuları',
+    'settings.tailscale.service': 'Hizmet',
+    'settings.tailscale.performance': 'Performans',
+    'settings.tailscale.restartTitle': "Tailscale'i yeniden başlat",
+    'settings.tailscale.restartDesc': 'Hizmeti yeniden başlatır',
+    'settings.tailscale.restartBtn': 'Yeniden başlat',
+    'settings.tailscale.stopTitle': "Tailscale'i durdur",
+    'settings.tailscale.stopBtn': 'Durdur',
+    'settings.tailscale.deviceName': 'Cihaz adı',
+    'picoclaw.uninstall.menuLabel': 'Kaldır',
+    'settings.tailscale.memory.tip':
+      "Tailscale'in bellek kullanımını düşük tutar; bu, RAM'i az olan cihazlarda yardımcı olur. Değişikliğin etkili olması için Tailscale'i yeniden başlatın.",
+    'settings.tailscale.swap.title': 'Swap dosyası',
+    'settings.tailscale.swap.tip':
+      'Bellek optimizasyonunu etkinleştirdikten sonra sorunlar devam ederse, swap dosyasını etkinleştirmeyi deneyin.',
+    'settings.tailscale.enableDesc': "Bu KVM'ye Tailscale ağınız üzerinden erişin",
+    'settings.tailscale.swap.sizeTip':
+      'Bu, dosya boyutunu 256MB olarak ayarlar; Ayarlar > Cihaz bölümünden değiştirebilirsiniz'
   },
   uk: {
     'auth.illegalPassword':
@@ -5332,7 +5648,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Для безпеки вашого пристрою, будь ласка, змініть пароль для входу в веб-інтерфейс',
     'settings.network.dns.manualServersDescription': 'Підтримуються сервери IPv4 та IPv6',
     'settings.device.swap.title': 'Swap',
-    'settings.tailscale.stopDesc': 'Вийти та вимкнути автозапуск.',
+    'settings.tailscale.stopDesc': 'Зупиняє службу і вимикає її запуск під час завантаження',
     'terminal.unlockDesc': 'Введіть пароль вебоблікового запису, щоб почати сеанс термінала',
     'terminal.locked': 'Забагато спроб. Спробуйте пізніше',
     'keyboard.dropdownEnglish': 'Англійська',
@@ -5440,7 +5756,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Порт',
     'settings.wireguard.peer.portDescription': 'UDP-порт піра, зазвичай 51820',
     'settings.network.connection': 'Підключення',
-    'settings.system.time.networkTime': 'Мережевий час'
+    'settings.system.time.networkTime': 'Мережевий час',
+    'settings.tailscale.service': 'Служба',
+    'settings.tailscale.performance': 'Продуктивність',
+    'settings.tailscale.restartTitle': 'Перезапустити Tailscale',
+    'settings.tailscale.restartDesc': 'Перезапускає службу',
+    'settings.tailscale.restartBtn': 'Перезапустити',
+    'settings.tailscale.stopTitle': 'Зупинити Tailscale',
+    'settings.tailscale.stopBtn': 'Зупинити',
+    'settings.tailscale.memory.tip':
+      'Утримує споживання пам’яті Tailscale на низькому рівні, що допомагає на пристрої з невеликим обсягом ОЗП. Перезапустіть Tailscale, щоб зміна набула чинності.',
+    'settings.tailscale.swap.title': 'Файл підкачки',
+    'settings.tailscale.swap.tip':
+      'Якщо проблеми не зникають після ввімкнення оптимізації пам’яті, спробуйте ввімкнути файл підкачки.',
+    'settings.tailscale.enableDesc': 'Підключайтеся до цього KVM через вашу мережу Tailscale',
+    'settings.tailscale.swap.sizeTip':
+      'Це встановлює розмір файлу 256MB; змінити його можна в Параметри > Пристрій'
   },
   vi: {
     'auth.illegalPassword':
@@ -5481,10 +5812,10 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.diskOff': 'Tắt đĩa ảo',
     'settings.device.diskLocked': 'Tắt khi đang gắn image, và bật sẽ hủy việc gắn',
     'settings.tailscale.memory.tip':
-      'Khi mức dùng bộ nhớ vượt giới hạn, garbage collection sẽ chạy quyết liệt hơn để giải phóng bộ nhớ. Cần khởi động lại Tailscale để thay đổi có hiệu lực.',
+      'Giữ mức dùng bộ nhớ của Tailscale ở mức thấp, giúp ích trên thiết bị có ít RAM. Hãy khởi động lại Tailscale để thay đổi có hiệu lực.',
     'settings.tailscale.restart': 'Khởi động lại Tailscale?',
     'settings.tailscale.stop': 'Dừng Tailscale?',
-    'settings.tailscale.stopDesc': 'Đăng xuất và tắt tự khởi động.',
+    'settings.tailscale.stopDesc': 'Dừng dịch vụ và ngăn nó tự khởi động khi bật máy',
     'settings.tailscale.okBtn': 'Có',
     'settings.tailscale.cancelBtn': 'Không',
     'wifi.success': 'Hãy đến thiết bị để kiểm tra trạng thái mạng của NanoKVM',
@@ -5681,7 +6012,22 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': 'Cổng',
     'settings.wireguard.peer.portDescription': 'Cổng UDP của peer, thường là 51820',
     'settings.network.connection': 'Kết nối',
-    'settings.system.time.networkTime': 'Giờ mạng'
+    'settings.system.time.networkTime': 'Giờ mạng',
+    'settings.tailscale.service': 'Dịch vụ',
+    'settings.tailscale.performance': 'Hiệu năng',
+    'settings.tailscale.restartTitle': 'Khởi động lại Tailscale',
+    'settings.tailscale.restartDesc': 'Khởi động lại dịch vụ',
+    'settings.tailscale.restartBtn': 'Khởi động lại',
+    'settings.tailscale.stopTitle': 'Dừng Tailscale',
+    'settings.tailscale.stopBtn': 'Dừng',
+    'settings.tailscale.deviceName': 'Tên thiết bị',
+    'settings.tailscale.deviceIP': 'IP thiết bị',
+    'settings.tailscale.swap.title': 'Tệp hoán đổi',
+    'settings.tailscale.swap.tip':
+      'Nếu sự cố vẫn tiếp diễn sau khi bật tối ưu hóa bộ nhớ, hãy thử bật tệp hoán đổi.',
+    'settings.tailscale.enableDesc': 'Truy cập KVM này qua mạng Tailscale của bạn',
+    'settings.tailscale.swap.sizeTip':
+      'Việc này đặt kích thước tệp thành 256MB; có thể điều chỉnh trong Cài đặt > Thiết bị'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -5776,7 +6122,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.previewTip': '预览版更新可能包含一些不稳定因素或未完善的功能',
     'auth.changePasswordDesc': '为了您的设备安全，请修改密码',
     'settings.network.dns.manualServersDescription': '支持 IPv4 和 IPv6 服务器',
-    'settings.tailscale.stopDesc': '退出登录并禁用开机自启。',
+    'settings.tailscale.stopDesc': '停止服务，并阻止其在开机时自动启动',
     'terminal.unlockDesc': '输入网页账户密码以启动终端会话',
     'terminal.locked': '尝试次数过多，请稍后再试',
     'image.loading': '加载中...',
@@ -5877,7 +6223,20 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': '端口',
     'settings.wireguard.peer.portDescription': '对端的 UDP 端口，通常为 51820',
     'settings.network.connection': '连接',
-    'settings.system.time.networkTime': '网络时间'
+    'settings.system.time.networkTime': '网络时间',
+    'settings.tailscale.service': '服务',
+    'settings.tailscale.performance': '性能',
+    'settings.tailscale.restartTitle': '重启 Tailscale',
+    'settings.tailscale.restartDesc': '重启服务',
+    'settings.tailscale.restartBtn': '重启',
+    'settings.tailscale.stopTitle': '停止 Tailscale',
+    'settings.tailscale.stopBtn': '停止',
+    'settings.tailscale.memory.tip':
+      '让 Tailscale 保持较低的内存占用，对 RAM 较小的设备有帮助。重启 Tailscale 后更改才会生效。',
+    'settings.tailscale.swap.title': '交换文件',
+    'settings.tailscale.swap.tip': '如果启用内存优化后问题依然存在，可以尝试启用交换文件。',
+    'settings.tailscale.enableDesc': '通过你的 Tailscale 网络访问此 KVM',
+    'settings.tailscale.swap.sizeTip': '这会将文件大小设置为 256MB，可以在「设置 - 设备」中修改'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -5979,7 +6338,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': '為了您的裝置安全，請修改登入密碼',
     'settings.network.dns.manualServersDescription': '支援 IPv4 與 IPv6 伺服器',
     'settings.device.mouseJiggler.title': '滑鼠抖動模式',
-    'settings.tailscale.stopDesc': '登出並停用開機自動啟動。',
+    'settings.tailscale.stopDesc': '停止服務，並防止其在開機時自動啟動',
     'terminal.unlockDesc': '輸入網頁帳戶密碼以啟動終端機工作階段',
     'terminal.locked': '嘗試次數過多，請稍後再試',
     'settings.about.hostnameUpdated': '已更新主機名稱。請重新啟動以生效。',
@@ -6077,6 +6436,19 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.wireguard.peer.port': '連接埠',
     'settings.wireguard.peer.portDescription': '對端的 UDP 連接埠，通常為 51820',
     'settings.network.connection': '連線',
-    'settings.system.time.networkTime': '網路時間'
+    'settings.system.time.networkTime': '網路時間',
+    'settings.tailscale.service': '服務',
+    'settings.tailscale.performance': '效能',
+    'settings.tailscale.restartTitle': '重啟 Tailscale',
+    'settings.tailscale.restartDesc': '重啟服務',
+    'settings.tailscale.restartBtn': '重啟',
+    'settings.tailscale.stopTitle': '停止 Tailscale',
+    'settings.tailscale.stopBtn': '停止',
+    'settings.tailscale.memory.tip':
+      '讓 Tailscale 保持較低的記憶體用量，對 RAM 較少的裝置有幫助。重啟 Tailscale 後變更才會生效。',
+    'settings.tailscale.swap.title': 'Swap 檔',
+    'settings.tailscale.swap.tip': '如果啟用記憶體最佳化後問題依然存在，可以嘗試啟用 Swap 檔。',
+    'settings.tailscale.enableDesc': '透過你的 Tailscale 網路存取此 KVM',
+    'settings.tailscale.swap.sizeTip': '這會將檔案大小設定為 256MB，可以在「設定 - 裝置」中修改'
   }
 };

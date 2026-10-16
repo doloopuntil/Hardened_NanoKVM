@@ -774,17 +774,26 @@ const en = {
       },
       tailscale: {
         title: 'Tailscale',
+        enableDesc: 'Reach this KVM through your Tailscale network',
+        service: 'Service',
+        performance: 'Performance',
         memory: {
           title: 'Memory optimization',
-          tip: 'When memory usage exceeds the limit, garbage collection is performed more aggressively to attempt to free up memory. A Tailscale restart is required for the change to take effect.'
+          tip: "Keeps Tailscale's memory use low, which helps on a device with little RAM. Restart Tailscale for the change to take effect."
         },
         swap: {
-          title: 'Swap memory',
-          tip: 'If issues persist after enabling memory optimization, try enabling swap memory. This sets the swap file size to 256MB by default, which can be adjusted in "Settings > Device".'
+          title: 'Swap file',
+          tip: 'If issues persist after enabling memory optimization, try enabling the swap file.',
+          sizeTip: 'This sets the file size to 256MB, adjust it in Settings > Device'
         },
+        restartTitle: 'Restart Tailscale',
+        restartDesc: 'Restart the service',
+        restartBtn: 'Restart',
         restart: 'Restart Tailscale?',
+        stopTitle: 'Stop Tailscale',
+        stopBtn: 'Stop',
         stop: 'Stop Tailscale?',
-        stopDesc: 'Log out and disable autostart.',
+        stopDesc: 'Stop the service and keep it from starting at boot',
         loading: 'Loading...',
         notInstall: 'Tailscale not found. Please install it.',
         install: 'Install',
@@ -803,9 +812,8 @@ const en = {
           'The device has not been bound yet. Please login and bind this device to your account.',
         urlPeriod: 'This url is valid for 10 minutes',
         login: 'Login',
-        loginSuccess: 'Login Success',
-        enable: 'Enable Tailscale',
-        deviceName: 'Device Name',
+        loginSuccess: 'Login success',
+        deviceName: 'Device name',
         deviceIP: 'Device IP',
         account: 'Account',
         logout: 'Logout',

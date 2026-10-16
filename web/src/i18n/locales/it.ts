@@ -413,7 +413,6 @@ const it = {
         urlPeriod: 'Questo URL è valido per 10 minuti',
         login: 'Accedi',
         loginSuccess: 'Accesso riuscito',
-        enable: 'Abilita Tailscale',
         deviceName: 'Nome Dispositivo',
         deviceIP: 'IP Dispositivo',
         account: 'Account',

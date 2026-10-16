@@ -618,7 +618,6 @@ const ru = {
         urlPeriod: 'Этот адрес действителен в течение 10 минут',
         login: 'Войти',
         loginSuccess: 'Вход выполнен',
-        enable: 'Включить Tailscale',
         deviceName: 'Имя устройства',
         deviceIP: 'IP адрес устройства',
         account: 'Аккаунт',
