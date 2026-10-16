@@ -311,7 +311,8 @@ pub async fn set_hostname(Json(req): Json<SetHostnameReq>) -> Result<impl IntoRe
     validate_hostname(&req.hostname)?;
     let old_hostname = read_trimmed(ETC_HOSTNAME_FILE).unwrap_or_default();
 
-    if old_hostname != req.hostname {
+    // replacing an empty name would insert the new one between every character
+    if !old_hostname.is_empty() && old_hostname != req.hostname {
         if let Ok(hosts) = fs::read_to_string(ETC_HOSTS_FILE) {
             fs::write(ETC_HOSTS_FILE, hosts.replace(&old_hostname, &req.hostname))?;
         }
@@ -1192,9 +1193,10 @@ fn interface_type(name: &str) -> Option<&'static str> {
     }
 }
 
+/// mDNS names the device by the first label of its host name, so host.network.net is host.local.
 fn get_mdns() -> String {
     read_trimmed(ETC_HOSTNAME_FILE)
-        .map(|hostname| format!("{hostname}.local"))
+        .map(|hostname| format!("{}.local", hostname.split('.').next().unwrap_or_default()))
         .unwrap_or_default()
 }
 
@@ -1234,20 +1236,29 @@ fn get_hardware_version() -> String {
     .to_string()
 }
 
+/// The longest host name the kernel keeps.
+const HOSTNAME_MAX_LEN: usize = 64;
+
+/// A host name, or a fully-qualified one such as host.network.net: dot-separated labels of
+/// letters, digits and hyphens.
 fn validate_hostname(hostname: &str) -> Result<()> {
-    if hostname.is_empty() || hostname.len() > 63 {
-        return Err(AppError::BadRequest("invalid hostname".to_string()));
-    }
-    if hostname.starts_with('-') || hostname.ends_with('-') {
-        return Err(AppError::BadRequest("invalid hostname".to_string()));
-    }
-    if !hostname
-        .bytes()
-        .all(|byte| byte.is_ascii_alphanumeric() || byte == b'-')
+    if hostname.is_empty()
+        || hostname.len() > HOSTNAME_MAX_LEN
+        || !hostname.split('.').all(valid_hostname_label)
     {
         return Err(AppError::BadRequest("invalid hostname".to_string()));
     }
     Ok(())
+}
+
+fn valid_hostname_label(label: &str) -> bool {
+    !label.is_empty()
+        && label.len() <= 63
+        && !label.starts_with('-')
+        && !label.ends_with('-')
+        && label
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || byte == b'-')
 }
 
 fn read_trimmed(path: &str) -> Option<String> {
@@ -1495,6 +1506,47 @@ fn remove_dir_if_exists(path: &str) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn accepts_plain_and_fully_qualified_hostnames() {
+        for name in [
+            "kvm",
+            "kvm-1",
+            "KVM",
+            "host.network.net",
+            "a.b",
+            "h1.n-2.net",
+        ] {
+            assert!(validate_hostname(name).is_ok(), "{name}");
+        }
+        // 64 bytes in all is the most the kernel keeps
+        assert!(validate_hostname(&format!("{}.{}", "a".repeat(30), "b".repeat(33))).is_ok());
+    }
+
+    #[test]
+    fn rejects_malformed_hostnames() {
+        for name in [
+            "",
+            ".",
+            ".host",
+            "host.",
+            "host..net",
+            "-host",
+            "host-",
+            "host.-net",
+            "host-.net",
+            "ho_st",
+            "host name",
+            "host.net/x",
+            "hôst",
+        ] {
+            assert!(validate_hostname(name).is_err(), "{name:?}");
+        }
+        // one label over 63 bytes, and a name over the kernel's 64
+        assert!(validate_hostname(&"a".repeat(64)).is_err());
+        assert!(validate_hostname(&format!("{}.{}", "a".repeat(64), "b")).is_err());
+        assert!(validate_hostname(&format!("{}.{}", "a".repeat(40), "b".repeat(30))).is_err());
+    }
 
     #[test]
     fn validates_numeric_pids_only() {
