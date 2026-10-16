@@ -312,21 +312,11 @@ const it = {
       device: {
         title: 'Dispositivo',
         oled: {
-          title: 'OLED',
-          0: 'Mai',
-          15: '15 sec',
-          30: '30 sec',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 ora'
+          title: 'OLED'
         },
         ssh: {},
         swap: {
           title: 'Scambia',
-          disable: 'Disabilita',
           description: 'Imposta la dimensione del file di scambio'
         },
         mouseJiggler: {
@@ -343,8 +333,7 @@ const it = {
         hdmi: {
           idleTimeoutTitle: 'Timeout cattura inattiva',
           idleTimeoutDescription:
-            'Interrompi la cattura HDMI dopo che non ci sono visualizzatori attivi per',
-          minutes: 'min'
+            'Interrompi la cattura HDMI dopo che non ci sono visualizzatori attivi per'
         },
         hidOnly: 'HID-Solo modalità',
         disk: 'Disco virtuale',

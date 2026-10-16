@@ -301,23 +301,13 @@ const da = {
       device: {
         title: 'Enhed',
         oled: {
-          title: 'OLED',
-          0: 'Aldrig',
-          15: '15 sek.',
-          30: '30 sek.',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 time'
+          title: 'OLED'
         },
         ssh: {
           description: 'Aktiver SSH fjernadgang'
         },
         swap: {
           title: 'Byt',
-          disable: 'Deaktiver',
           description: 'Indstil swap-filstørrelsen'
         },
         mouseJiggler: {
@@ -334,8 +324,7 @@ const da = {
         hdmi: {
           description: 'Aktiver HDMI/monitor output',
           idleTimeoutTitle: 'Timeout for inaktiv optagelse',
-          idleTimeoutDescription: 'Stop HDMI-optagelse efter en periode uden aktive seere på',
-          minutes: 'min'
+          idleTimeoutDescription: 'Stop HDMI-optagelse efter en periode uden aktive seere på'
         },
         hidOnly: 'HID-Kun tilstand',
         disk: 'Virtuel disk',

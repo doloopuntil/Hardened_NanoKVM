@@ -311,23 +311,13 @@ const zh = {
         title: '设备',
         oled: {
           title: 'OLED',
-          description: '设置 OLED 屏幕自动休眠时间',
-          0: '永不',
-          15: '15秒',
-          30: '30秒',
-          60: '1分钟',
-          180: '3分钟',
-          300: '5分钟',
-          600: '10分钟',
-          1800: '30分钟',
-          3600: '1小时'
+          description: '设置 OLED 屏幕自动休眠时间'
         },
         ssh: {
           description: '启用 SSH 远程访问'
         },
         swap: {
           title: '交换',
-          disable: '禁用',
           description: '设置交换文件大小'
         },
         mouseJiggler: {
@@ -339,11 +329,7 @@ const zh = {
         },
         sessionLock: {
           title: '无操作后锁定会话',
-          description: '超过该时间无操作后需要重新登录',
-          5: '5分钟',
-          15: '15分钟',
-          30: '30分钟',
-          60: '60分钟'
+          description: '超过该时间无操作后需要重新登录'
         },
         mdns: {
           description: '启用 mDNS 发现服务',
@@ -352,8 +338,7 @@ const zh = {
         hdmi: {
           description: '启用 HDMI/显示器 输出功能',
           idleTimeoutTitle: '无观看者自动停止采集',
-          idleTimeoutDescription: '没有活跃观看者后停止 HDMI 采集，0 表示永不停止',
-          minutes: '分钟'
+          idleTimeoutDescription: '没有活跃观看者后停止 HDMI 采集，0 表示永不停止'
         },
         hidOnly: 'HID-Only 模式',
         disk: '虚拟磁盘',

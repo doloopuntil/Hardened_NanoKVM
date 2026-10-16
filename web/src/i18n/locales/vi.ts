@@ -303,23 +303,13 @@ const vi = {
       device: {
         title: 'Thiết bị',
         oled: {
-          title: 'OLED',
-          0: 'Không bao giờ',
-          15: '15 sec',
-          30: '30 sec',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 giờ'
+          title: 'OLED'
         },
         ssh: {
           description: 'Kích hoạt SSH truy cập từ xa'
         },
         swap: {
           title: 'Hoán đổi',
-          disable: 'Tắt',
           description: 'Đặt kích thước tệp hoán đổi'
         },
         mouseJiggler: {
@@ -337,8 +327,7 @@ const vi = {
           description: 'Kích hoạt HDMI/đầu ra màn hình',
           idleTimeoutTitle: 'Thời gian chờ khi không hoạt động',
           idleTimeoutDescription:
-            'Dừng việc ghi hình HDMI sau khi không có người xem hoạt động trong',
-          minutes: 'phút'
+            'Dừng việc ghi hình HDMI sau khi không có người xem hoạt động trong'
         },
         hidOnly: 'HID-Chế độ chỉ',
         disk: 'Đĩa ảo',

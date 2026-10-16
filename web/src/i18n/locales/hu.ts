@@ -309,23 +309,13 @@ const hu = {
       device: {
         title: 'Eszköz',
         oled: {
-          title: 'OLED',
-          0: 'Soha',
-          15: '15 sec',
-          30: '30 sec',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 óra'
+          title: 'OLED'
         },
         ssh: {
           description: 'Engedélyezze a SSH távoli hozzáférést'
         },
         swap: {
           title: 'Csere',
-          disable: 'Letiltás',
           description: 'Állítsa be a swap fájl méretét'
         },
         mouseJiggler: {
@@ -342,8 +332,7 @@ const hu = {
         hdmi: {
           description: 'HDMI/monitor kimenet engedélyezése',
           idleTimeoutTitle: 'Inaktív rögzítés időkorlátja',
-          idleTimeoutDescription: 'A HDMI-rögzítés leállítása, ha nincs aktív néző ennyi ideig:',
-          minutes: 'perc'
+          idleTimeoutDescription: 'A HDMI-rögzítés leállítása, ha nincs aktív néző ennyi ideig:'
         },
         hidOnly: 'HID-Csak mód',
         disk: 'Virtuális lemez',

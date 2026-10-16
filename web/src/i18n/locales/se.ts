@@ -317,23 +317,13 @@ const se = {
         title: 'Enhet',
         oled: {
           title: 'OLED',
-          description: 'Stäng av OLED-skärmen efter',
-          0: 'Aldrig',
-          15: '15 sek',
-          30: '30 sek',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 timme'
+          description: 'Stäng av OLED-skärmen efter'
         },
         ssh: {
           description: 'Aktivera SSH-fjärråtkomst'
         },
         swap: {
           title: 'Swap',
-          disable: 'Inaktivera',
           description: 'Ange swap-filens storlek'
         },
         mouseJiggler: {
@@ -351,8 +341,7 @@ const se = {
           description: 'Aktivera HDMI/monitorutgång',
           idleTimeoutTitle: 'Tidsgräns för inaktiv inspelning',
           idleTimeoutDescription:
-            'Stoppa HDMI-inspelning efter att det inte har funnits aktiva tittare i',
-          minutes: 'min'
+            'Stoppa HDMI-inspelning efter att det inte har funnits aktiva tittare i'
         },
         hidOnly: 'Endast-HID-läge',
         disk: 'Virtuell disk',

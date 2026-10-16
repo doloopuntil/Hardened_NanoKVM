@@ -299,23 +299,13 @@ const ko = {
         title: '장치',
         oled: {
           title: 'OLED',
-          description: 'OLED 화면 자동 절전',
-          0: '사용 안 함',
-          15: '15초',
-          30: '30초',
-          60: '1분',
-          180: '3분',
-          300: '5분',
-          600: '10분',
-          1800: '30분',
-          3600: '1시간'
+          description: 'OLED 화면 자동 절전'
         },
         ssh: {
           description: 'SSH 원격 접속 활성화'
         },
         swap: {
           title: '스왑',
-          disable: '비활성화',
           description: '스왑 파일 크기 설정'
         },
         mouseJiggler: {
@@ -332,9 +322,7 @@ const ko = {
         hdmi: {
           description: 'HDMI/모니터 출력 활성화',
           idleTimeoutTitle: '캡처 유휴 시간 제한',
-          idleTimeoutDescription:
-            '활성 시청자가 없는 상태가 다음 시간 동안 지속되면 HDMI 캡처 중지',
-          minutes: '분'
+          idleTimeoutDescription: '활성 시청자가 없는 상태가 다음 시간 동안 지속되면 HDMI 캡처 중지'
         },
         hidOnly: 'HID 전용 모드',
         disk: '가상 디스크',

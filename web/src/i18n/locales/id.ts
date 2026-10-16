@@ -299,23 +299,13 @@ const id = {
       device: {
         title: 'Perangkat',
         oled: {
-          title: 'OLED',
-          0: 'Tidak pernah',
-          15: '15 sec',
-          30: '30 sec',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 jam'
+          title: 'OLED'
         },
         ssh: {
           description: 'Aktifkan akses jarak jauh SSH'
         },
         swap: {
           title: 'Tukar',
-          disable: 'Nonaktifkan',
           description: 'Atur ukuran file swap'
         },
         mouseJiggler: {
@@ -332,8 +322,7 @@ const id = {
         hdmi: {
           description: 'Aktifkan keluaran HDMI/monitor',
           idleTimeoutTitle: 'Batas waktu tangkapan tidak aktif',
-          idleTimeoutDescription: 'Hentikan tangkapan HDMI setelah tidak ada penonton aktif selama',
-          minutes: 'mnt'
+          idleTimeoutDescription: 'Hentikan tangkapan HDMI setelah tidak ada penonton aktif selama'
         },
         hidOnly: 'HID-Mode Hanya',
         disk: 'Disk virtual',

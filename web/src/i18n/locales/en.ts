@@ -415,18 +415,18 @@ const en = {
       },
       device: {
         title: 'Device',
+        minutes: 'min',
+        sections: {
+          connectivity: 'Connectivity',
+          hostConnection: 'Host connection',
+          inputOutput: 'Input and Output',
+          optimizations: 'Optimizations'
+        },
         oled: {
-          title: 'OLED',
+          title: 'OLED timeout',
           description: 'Turn off OLED screen after',
-          0: 'Never',
-          15: '15 sec',
-          30: '30 sec',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 hour'
+          keepOn: 'Keep OLED on',
+          keepOnDescription: 'Never turn off the OLED screen'
         },
         ssh: {
           description: 'Enable SSH remote access',
@@ -434,8 +434,9 @@ const en = {
         },
         swap: {
           title: 'Swap',
-          disable: 'Disable',
-          description: 'Set the swap file size',
+          description: 'Use a swap file when memory runs low',
+          size: 'Swap size',
+          sizeDescription: 'Set the swap file size',
           tip: 'Enabling this feature could shorten the usable life of your SD card'
         },
         mouseJiggler: {
@@ -446,12 +447,8 @@ const en = {
           relative: 'Relative Mode'
         },
         sessionLock: {
-          title: 'Lock session after inactivity',
-          description: 'Require login again after this long without activity',
-          5: '5 min',
-          15: '15 min',
-          30: '30 min',
-          60: '60 min'
+          title: 'Lock session when inactive',
+          description: 'Require login again after this long without activity'
         },
         mdns: {
           description: 'Enable mDNS discovery service',
@@ -460,8 +457,7 @@ const en = {
         hdmi: {
           description: 'Enable HDMI/monitor output',
           idleTimeoutTitle: 'Capture idle timeout',
-          idleTimeoutDescription: 'Stop HDMI capture after there are no active viewers for',
-          minutes: 'min'
+          idleTimeoutDescription: 'Stop HDMI capture after there are no active viewers for'
         },
         hidOnly: 'HID-Only Mode',
         hidOnlyDesc: 'Improve compatibility with the host if mouse or keyboard stop responding',

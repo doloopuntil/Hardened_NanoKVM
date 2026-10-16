@@ -311,23 +311,13 @@ const fr = {
         title: 'Appareil',
         oled: {
           title: 'OLED',
-          description: "Écran OLED s'éteint automatiquement",
-          0: 'Jamais',
-          15: '15 sec',
-          30: '30 sec',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 heure'
+          description: "Écran OLED s'éteint automatiquement"
         },
         ssh: {
           description: "Activer l'accès à distance SSH"
         },
         swap: {
           title: 'Échange',
-          disable: 'Désactiver',
           description: "Définir la taille du fichier d'échange"
         },
         mouseJiggler: {
@@ -344,8 +334,7 @@ const fr = {
           description: 'Activer HDMI/sortie moniteur',
           idleTimeoutTitle: "Délai d'inactivité de la capture",
           idleTimeoutDescription:
-            "Arrêter la capture HDMI lorsqu'il n'y a aucun spectateur actif pendant",
-          minutes: 'min'
+            "Arrêter la capture HDMI lorsqu'il n'y a aucun spectateur actif pendant"
         },
         hidOnly: 'HID-Mode uniquement',
         disk: 'Disque virtuel',

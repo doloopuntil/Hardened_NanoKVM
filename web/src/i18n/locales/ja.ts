@@ -315,23 +315,13 @@ const ja = {
         title: 'デバイス',
         oled: {
           title: 'OLED',
-          description: 'OLED 画面の自動スリープ時間',
-          0: '無効',
-          15: '15秒',
-          30: '30秒',
-          60: '1分',
-          180: '3分',
-          300: '5分',
-          600: '10分',
-          1800: '30分',
-          3600: '1時間'
+          description: 'OLED 画面の自動スリープ時間'
         },
         ssh: {
           description: 'SSH リモートアクセスを有効にする'
         },
         swap: {
           title: 'スワップ',
-          disable: '無効',
           description: 'スワップファイルのサイズを設定する'
         },
         mouseJiggler: {
@@ -348,8 +338,7 @@ const ja = {
           description: 'HDMI/モニター 出力機能を有効にする',
           idleTimeoutTitle: 'キャプチャのアイドルタイムアウト',
           idleTimeoutDescription:
-            'アクティブな閲覧者がいない状態が次の時間続いたら HDMI キャプチャを停止',
-          minutes: '分'
+            'アクティブな閲覧者がいない状態が次の時間続いたら HDMI キャプチャを停止'
         },
         hidOnly: 'HID-Only モード',
         disk: '仮想ディスク',

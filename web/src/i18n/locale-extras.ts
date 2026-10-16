@@ -3681,11 +3681,7 @@ const hardenedCommonKeys = [
   'settings.appearance.menuBar.remoteDownloadWarningConfirm',
   'settings.appearance.menuBar.remoteDownloadWarningCancel',
   'settings.device.sessionLock.title',
-  'settings.device.sessionLock.description',
-  'settings.device.sessionLock.5',
-  'settings.device.sessionLock.15',
-  'settings.device.sessionLock.30',
-  'settings.device.sessionLock.60'
+  'settings.device.sessionLock.description'
 ] as const;
 
 const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
@@ -3715,11 +3711,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Activa',
     'Cancel·la',
     'Bloqueja la sessió després de',
-    'Demana iniciar sessió de nou després d’aquest temps',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Demana iniciar sessió de nou després d’aquest temps'
   ],
   cz: [
     'První nastavení',
@@ -3747,11 +3739,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Povolit',
     'Zrušit',
     'Zamknout relaci po',
-    'Po této době znovu vyžadovat přihlášení',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Po této době znovu vyžadovat přihlášení'
   ],
   da: [
     'Første opsætning',
@@ -3779,11 +3767,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Aktivér',
     'Annuller',
     'Lås session efter',
-    'Kræv login igen efter denne tid',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Kræv login igen efter denne tid'
   ],
   de: [
     'Ersteinrichtung',
@@ -3811,11 +3795,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Aktivieren',
     'Abbrechen',
     'Sitzung sperren nach',
-    'Nach dieser Zeit erneut Login verlangen',
-    '5 Min.',
-    '15 Min.',
-    '30 Min.',
-    '60 Min.'
+    'Nach dieser Zeit erneut Login verlangen'
   ],
   es: [
     'Primera configuración',
@@ -3843,11 +3823,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Activar',
     'Cancelar',
     'Bloquear sesión después de',
-    'Pedir iniciar sesión de nuevo después de este tiempo',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Pedir iniciar sesión de nuevo después de este tiempo'
   ],
   et: [
     'Esmane seadistus',
@@ -3875,11 +3851,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Luba',
     'Tühista',
     'Lukusta seanss pärast',
-    'Nõua pärast seda aega uuesti sisselogimist',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Nõua pärast seda aega uuesti sisselogimist'
   ],
   fi: [
     'Ensiasetus',
@@ -3907,11 +3879,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Ota käyttöön',
     'Peruuta',
     'Lukitse istunto jälkeen',
-    'Vaadi kirjautuminen uudelleen tämän ajan jälkeen',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Vaadi kirjautuminen uudelleen tämän ajan jälkeen'
   ],
   fr: [
     'Première configuration',
@@ -3939,11 +3907,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Activer',
     'Annuler',
     'Verrouiller la session après',
-    'Redemander la connexion après ce délai',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Redemander la connexion après ce délai'
   ],
   hu: [
     'Első beállítás',
@@ -3971,11 +3935,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Engedélyezés',
     'Mégse',
     'Munkamenet zárolása ennyi idő után',
-    'Ennyi idő után új bejelentkezést kér',
-    '5 perc',
-    '15 perc',
-    '30 perc',
-    '60 perc'
+    'Ennyi idő után új bejelentkezést kér'
   ],
   id: [
     'Penyiapan pertama',
@@ -4003,11 +3963,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Aktifkan',
     'Batal',
     'Kunci sesi setelah',
-    'Minta login lagi setelah waktu ini',
-    '5 menit',
-    '15 menit',
-    '30 menit',
-    '60 menit'
+    'Minta login lagi setelah waktu ini'
   ],
   it: [
     'Prima configurazione',
@@ -4035,11 +3991,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Abilita',
     'Annulla',
     'Blocca sessione dopo',
-    'Richiedi di nuovo il login dopo questo tempo',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Richiedi di nuovo il login dopo questo tempo'
   ],
   ja: [
     '初回設定',
@@ -4067,11 +4019,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     '有効にする',
     'キャンセル',
     'セッションをロックするまで',
-    'この時間後に再ログインを要求します',
-    '5 分',
-    '15 分',
-    '30 分',
-    '60 分'
+    'この時間後に再ログインを要求します'
   ],
   ko: [
     '첫 설정',
@@ -4099,11 +4047,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     '활성화',
     '취소',
     '다음 시간 후 세션 잠금',
-    '이 시간이 지나면 다시 로그인을 요구합니다',
-    '5분',
-    '15분',
-    '30분',
-    '60분'
+    '이 시간이 지나면 다시 로그인을 요구합니다'
   ],
   nb: [
     'Første oppsett',
@@ -4131,11 +4075,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Aktiver',
     'Avbryt',
     'Lås økt etter',
-    'Krev innlogging igjen etter denne tiden',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Krev innlogging igjen etter denne tiden'
   ],
   nl: [
     'Eerste installatie',
@@ -4163,11 +4103,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Inschakelen',
     'Annuleren',
     'Sessie vergrendelen na',
-    'Na deze tijd opnieuw aanmelden vereisen',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Na deze tijd opnieuw aanmelden vereisen'
   ],
   pl: [
     'Pierwsza konfiguracja',
@@ -4195,11 +4131,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Włącz',
     'Anuluj',
     'Zablokuj sesję po',
-    'Wymagaj ponownego logowania po tym czasie',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Wymagaj ponownego logowania po tym czasie'
   ],
   pt_br: [
     'Primeira configuração',
@@ -4227,11 +4159,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Ativar',
     'Cancelar',
     'Bloquear sessão após',
-    'Exigir login novamente após este tempo',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Exigir login novamente após este tempo'
   ],
   se: [
     'Första konfiguration',
@@ -4259,11 +4187,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Aktivera',
     'Avbryt',
     'Lås session efter',
-    'Kräv inloggning igen efter denna tid',
-    '5 min',
-    '15 min',
-    '30 min',
-    '60 min'
+    'Kräv inloggning igen efter denna tid'
   ],
   th: [
     'ตั้งค่าครั้งแรก',
@@ -4291,11 +4215,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'เปิดใช้',
     'ยกเลิก',
     'ล็อกเซสชันหลังจาก',
-    'ขอให้เข้าสู่ระบบอีกครั้งหลังเวลานี้',
-    '5 นาที',
-    '15 นาที',
-    '30 นาที',
-    '60 นาที'
+    'ขอให้เข้าสู่ระบบอีกครั้งหลังเวลานี้'
   ],
   tr: [
     'İlk kurulum',
@@ -4323,11 +4243,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Etkinleştir',
     'İptal',
     'Oturumu şu süreden sonra kilitle',
-    'Bu süreden sonra yeniden giriş iste',
-    '5 dk',
-    '15 dk',
-    '30 dk',
-    '60 dk'
+    'Bu süreden sonra yeniden giriş iste'
   ],
   uk: [
     'Перше налаштування',
@@ -4355,11 +4271,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Увімкнути',
     'Скасувати',
     'Блокувати сеанс через',
-    'Вимагати повторний вхід після цього часу',
-    '5 хв',
-    '15 хв',
-    '30 хв',
-    '60 хв'
+    'Вимагати повторний вхід після цього часу'
   ],
   vi: [
     'Thiết lập lần đầu',
@@ -4387,11 +4299,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     'Bật',
     'Hủy',
     'Khóa phiên sau',
-    'Yêu cầu đăng nhập lại sau thời gian này',
-    '5 phút',
-    '15 phút',
-    '30 phút',
-    '60 phút'
+    'Yêu cầu đăng nhập lại sau thời gian này'
   ],
   zh: [
     '首次设置',
@@ -4419,11 +4327,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     '启用',
     '取消',
     '会话锁定时间',
-    '超过此时间后要求重新登录',
-    '5 分钟',
-    '15 分钟',
-    '30 分钟',
-    '60 分钟'
+    '超过此时间后要求重新登录'
   ],
   zh_tw: [
     '首次設定',
@@ -4451,11 +4355,7 @@ const hardenedCommonExtras = keyedExtras(hardenedCommonKeys, {
     '啟用',
     '取消',
     '工作階段鎖定時間',
-    '超過此時間後要求重新登入',
-    '5 分鐘',
-    '15 分鐘',
-    '30 分鐘',
-    '60 分鐘'
+    '超過此時間後要求重新登入'
   ]
 });
 
@@ -5855,10 +5755,6 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.device.sessionLock.title': 'Automatyczna blokada sesji',
     'settings.device.sessionLock.description':
       'Zablokuj aktywną sesję web po okresie bezczynności.',
-    'settings.device.sessionLock.5': '5 minut',
-    'settings.device.sessionLock.15': '15 minut',
-    'settings.device.sessionLock.30': '30 minut',
-    'settings.device.sessionLock.60': '60 minut',
     'settings.system.title': 'System',
     'settings.system.sections.time': 'Czas',
     'settings.system.sections.firewall': 'Zapora',

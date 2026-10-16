@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Select } from 'antd';
+import { Select, Space } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
@@ -15,12 +15,11 @@ export const SessionLock = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [duration, setDuration] = useState(DEFAULT_DURATION);
 
-  const options = [
-    { value: '300', label: t('settings.device.sessionLock.5') },
-    { value: '900', label: t('settings.device.sessionLock.15') },
-    { value: '1800', label: t('settings.device.sessionLock.30') },
-    { value: '3600', label: t('settings.device.sessionLock.60') }
-  ];
+  // the durations in seconds, shown in minutes beside a fixed unit label
+  const options = [300, 900, 1800, 3600].map((seconds) => ({
+    value: seconds.toString(),
+    label: (seconds / 60).toString()
+  }));
 
   const isReady = useSettingsLoad(api.getSessionLock, (rsp) => {
     const value = rsp.data?.duration?.toString();
@@ -58,14 +57,17 @@ export const SessionLock = () => {
         </span>
       </div>
 
-      <Select
-        style={{ width: 150 }}
-        value={duration}
-        options={options}
-        loading={isLoading}
-        disabled={!isReady}
-        onChange={update}
-      />
+      <Space.Compact className="shrink-0">
+        <Select
+          className="w-20 text-right"
+          value={duration}
+          options={options}
+          loading={isLoading}
+          disabled={!isReady}
+          onChange={update}
+        />
+        <Space.Addon className="w-12 text-center">{t('settings.device.minutes')}</Space.Addon>
+      </Space.Compact>
     </div>
   );
 };
