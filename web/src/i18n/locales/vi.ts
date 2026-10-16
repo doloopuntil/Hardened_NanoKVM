@@ -408,7 +408,6 @@ const vi = {
         urlPeriod: 'URL này có hiệu lực trong 10 phút',
         login: 'Đăng nhập',
         loginSuccess: 'Đăng nhập thành công',
-        enable: 'Kích hoạt Tailscale',
         deviceName: 'Tên Thiết bị',
         deviceIP: 'IP Thiết bị',
         account: 'Tài khoản',

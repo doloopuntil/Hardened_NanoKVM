@@ -414,7 +414,6 @@ const nb = {
         urlPeriod: 'Denne lenken er gyldig i 10 minutter',
         login: 'Logg inn',
         loginSuccess: 'Logget inn',
-        enable: 'Skru på Tailscale',
         deviceName: 'Enhetens navn',
         deviceIP: 'Enhetens IP',
         account: 'Konto',

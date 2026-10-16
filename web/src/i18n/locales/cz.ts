@@ -412,7 +412,6 @@ const cz = {
         urlPeriod: 'Tento odkaz je platný po dobu 10 minut',
         login: 'Přihlášení',
         loginSuccess: 'Přihlášení úspěšné',
-        enable: 'Povolit Tailscale',
         deviceName: 'Název zařízení',
         deviceIP: 'IP zařízení',
         account: 'Účet',

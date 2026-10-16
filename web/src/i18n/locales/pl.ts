@@ -402,7 +402,6 @@ const pl = {
         urlPeriod: 'Ten URL jest ważny przez 10 minut',
         login: 'Zaloguj',
         loginSuccess: 'Zalogowanie pomyślne',
-        enable: 'Włącz Tailscale',
         deviceName: 'Nazwa urządzenia',
         deviceIP: 'Adres IP urządzenia',
         account: 'Konto',

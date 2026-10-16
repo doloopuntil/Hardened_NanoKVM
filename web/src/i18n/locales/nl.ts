@@ -423,7 +423,6 @@ const nl = {
         urlPeriod: 'Deze url is 10 minuten geldig',
         login: 'Inloggen',
         loginSuccess: 'Inloggen gelukt',
-        enable: 'Tailscale inschakelen',
         deviceName: 'Apparaatnaam',
         deviceIP: 'Apparaat IP',
         account: 'Account',

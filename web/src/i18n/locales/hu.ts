@@ -412,7 +412,6 @@ const hu = {
         urlPeriod: 'Ez az url 10 percig érvényes',
         login: 'Bejelentkezés',
         loginSuccess: 'Sikeres bejelentkezés',
-        enable: 'Tailscale engedélyezése',
         deviceName: 'Eszköz neve',
         deviceIP: 'Eszköz IP',
         account: 'Fiók',

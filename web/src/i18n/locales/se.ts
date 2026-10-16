@@ -424,7 +424,6 @@ const se = {
         urlPeriod: 'Denna URL är giltig i 10 minuter',
         login: 'Logga in',
         loginSuccess: 'Inloggning lyckades',
-        enable: 'Aktivera Tailscale',
         deviceName: 'Enhetsnamn',
         deviceIP: 'Enhets-IP',
         account: 'Konto',

@@ -402,7 +402,6 @@ const ko = {
         notLogin: '이 기기는 현재 연동 되지 않았습니다. 로그인해서 계정에 이 장치를 연동하세요.',
         login: '로그인',
         loginSuccess: '로그인 성공',
-        enable: 'Tailscale 활성화',
         deviceName: '장치 이름',
         deviceIP: '장치 IP',
         account: '계정',

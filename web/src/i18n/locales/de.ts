@@ -415,7 +415,6 @@ const de = {
         urlPeriod: 'Diese URL ist für 10 Minuten gültig',
         login: 'Anmelden',
         loginSuccess: 'Anmeldung erfolgreich',
-        enable: 'Tailscale einschalten',
         deviceName: 'Geräte Name',
         deviceIP: 'Geräte IP',
         account: 'Konto',

@@ -403,7 +403,6 @@ const da = {
         urlPeriod: 'Denne URL er gyldig i 10 minutter',
         login: 'Log ind',
         loginSuccess: 'Log ind lykkedes',
-        enable: 'Aktiver Tailscale',
         deviceName: 'Enhedens navn',
         deviceIP: 'Enhedens IP',
         account: 'Konto',

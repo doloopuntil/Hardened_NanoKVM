@@ -403,7 +403,6 @@ const id = {
         urlPeriod: 'Url ini berlaku selama 10 menit',
         login: 'Masuk',
         loginSuccess: 'Berhasil masuk',
-        enable: 'Aktifkan Tailscale',
         deviceName: 'Nama Perangkat',
         deviceIP: 'IP Perangkat',
         account: 'Akun',

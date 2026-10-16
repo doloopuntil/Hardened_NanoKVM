@@ -413,7 +413,6 @@ const uk = {
         urlPeriod: 'Ця URL-адреса дійсна протягом 10 хвилин',
         login: 'Увійти',
         loginSuccess: 'Успішний вхід',
-        enable: 'Увімкнути Tailscale',
         deviceName: 'Назва пристрою',
         deviceIP: 'IP пристрою',
         account: 'Обліковий запис',

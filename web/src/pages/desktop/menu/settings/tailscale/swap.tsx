@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 export const Swap = () => {
   const { t } = useTranslation();
@@ -35,26 +36,24 @@ export const Swap = () => {
   }
 
   return (
-    <div className="flex h-[40px] cursor-pointer items-center justify-between space-x-6 rounded px-2 text-neutral-300 hover:bg-neutral-700/70">
-      <div className="flex items-center space-x-1">
-        <span>{t('settings.tailscale.swap.title')}</span>
-        <Tooltip
-          title={t('settings.tailscale.swap.tip')}
-          className="cursor-pointer text-neutral-500"
-          placement="top"
-          styles={{ root: { maxWidth: '400px' } }}
-        >
-          <CircleHelpIcon size={15} />
-        </Tooltip>
-      </div>
-
-      <Switch
-        value={isEnabled}
-        loading={isLoading}
-        disabled={!isReady}
-        size="small"
-        onChange={update}
-      />
-    </div>
+    <SettingRow
+      label={
+        <span className="inline-flex items-center gap-1">
+          {t('settings.tailscale.swap.title')}
+          <Tooltip
+            title={t('settings.tailscale.swap.sizeTip')}
+            className="cursor-pointer text-neutral-500"
+            placement="top"
+            styles={{ root: { maxWidth: '400px' } }}
+          >
+            <CircleHelpIcon size={15} />
+          </Tooltip>
+        </span>
+      }
+      description={t('settings.tailscale.swap.tip')}
+      isSwitch
+    >
+      <Switch checked={isEnabled} loading={isLoading} disabled={!isReady} onChange={update} />
+    </SettingRow>
   );
 };
