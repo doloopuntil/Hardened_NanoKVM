@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as storage from '@/lib/localstorage.ts';
 import { menuDisplayModeAtom } from '@/jotai/settings.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 export const MenuMode = () => {
   const { t } = useTranslation();
@@ -24,14 +25,10 @@ export const MenuMode = () => {
   }
 
   return (
-    <div className="mt-5 flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex min-w-0 flex-col">
-        <span className="text-neutral-400">{t('settings.appearance.menuBar.mode')}</span>
-        <span className="text-xs text-neutral-500">
-          {t('settings.appearance.menuBar.modeDesc')}
-        </span>
-      </div>
-
+    <SettingRow
+      label={t('settings.appearance.menuBar.mode')}
+      description={t('settings.appearance.menuBar.modeDesc')}
+    >
       <div className="w-full min-w-0 overflow-x-auto sm:w-auto sm:flex-none">
         <Segmented
           block
@@ -41,6 +38,6 @@ export const MenuMode = () => {
           onChange={handleChange}
         />
       </div>
-    </div>
+    </SettingRow>
   );
 };

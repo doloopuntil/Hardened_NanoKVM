@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import * as storage from '@/lib/localstorage.ts';
 import type { LayoutMode as LayoutModeValue } from '@/lib/localstorage.ts';
 import { layoutModeAtom } from '@/jotai/settings.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 export const LayoutMode = () => {
   const { t } = useTranslation();
@@ -23,12 +24,10 @@ export const LayoutMode = () => {
   }
 
   return (
-    <div className="mt-5 flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex min-w-0 flex-col space-y-1">
-        <span>{t('settings.appearance.layoutMode')}</span>
-        <span className="text-xs text-neutral-500">{t('settings.appearance.layoutModeDesc')}</span>
-      </div>
-
+    <SettingRow
+      label={t('settings.appearance.layoutMode')}
+      description={t('settings.appearance.layoutModeDesc')}
+    >
       <div className="w-full min-w-0 overflow-x-auto sm:w-auto sm:flex-none">
         <Segmented
           block
@@ -38,6 +37,6 @@ export const LayoutMode = () => {
           onChange={(value) => handleChange(value as LayoutModeValue)}
         />
       </div>
-    </div>
+    </SettingRow>
   );
 };

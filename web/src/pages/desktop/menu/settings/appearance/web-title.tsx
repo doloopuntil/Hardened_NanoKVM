@@ -7,6 +7,7 @@ import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { webTitleAtom } from '@/jotai/settings.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 export const WebTitle = () => {
   const { t } = useTranslation();
@@ -30,23 +31,20 @@ export const WebTitle = () => {
   }
 
   return (
-    <div className="mt-8 flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
-      <div className="flex min-w-0 flex-col">
-        <span>{t('settings.appearance.webTitle')}</span>
-        <span className="text-xs text-neutral-500">{t('settings.appearance.webTitleDesc')}</span>
-      </div>
-
-      <div className="w-full sm:w-auto">
-        <Input
-          disabled={isLoading || !isReady}
-          className="w-full sm:w-[180px]"
-          value={webTitle}
-          onChange={(e) => setWebTitle(e.target.value)}
-          onPressEnter={submit}
-          onBlur={submit}
-          placeholder="NanoKVM"
-        />
-      </div>
-    </div>
+    <SettingRow
+      label={t('settings.appearance.webTitle')}
+      description={t('settings.appearance.webTitleDesc')}
+      inline
+    >
+      <Input
+        disabled={isLoading || !isReady}
+        className="w-36 max-w-full text-right sm:w-48"
+        value={webTitle}
+        onChange={(e) => setWebTitle(e.target.value)}
+        onPressEnter={submit}
+        onBlur={submit}
+        placeholder="NanoKVM"
+      />
+    </SettingRow>
   );
 };

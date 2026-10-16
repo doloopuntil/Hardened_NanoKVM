@@ -20,6 +20,7 @@ import * as ls from '@/lib/localstorage.ts';
 import { menuDisabledItemsAtom } from '@/jotai/settings.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 import { Robot } from '@/components/icons/robot.tsx';
+import { SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
 export const MenuIcons = () => {
   const { t } = useTranslation();
@@ -152,35 +153,32 @@ export const MenuIcons = () => {
 
   return (
     <>
-      <div className="mt-8 flex min-w-0 flex-col space-y-5">
-        <div className="flex min-w-0 flex-col">
-          <span className="text-neutral-400">{t('settings.appearance.menuBar.icons')}</span>
-          <span className="text-xs text-neutral-500">
-            {t('settings.appearance.menuBar.iconsDesc')}
-          </span>
-        </div>
-
-        <div className="mt-5 flex flex-col space-y-5">
-          {items.map((item) => (
-            <div key={item.key} className="flex min-w-0 items-center justify-between gap-4">
-              <div className="flex min-w-0 items-center space-x-2 text-neutral-400">
-                <div className="shrink-0">{item.icon}</div>
-                <span className="min-w-0 break-words text-neutral-300">
+      <SettingSection
+        title={t('settings.appearance.menuBar.icons')}
+        description={t('settings.appearance.menuBar.iconsDesc')}
+      >
+        {items.map((item) => (
+          <SettingRow
+            key={item.key}
+            label={
+              <span className="flex min-w-0 items-center gap-2">
+                <span className="shrink-0 text-neutral-400">{item.icon}</span>
+                <span className="min-w-0 break-words">
                   {item.label ? t(item.label) : t(`${item.key}.title`)}
                 </span>
-              </div>
-
-              <Switch
-                className="shrink-0"
-                checked={itemChecked(item.key)}
-                loading={itemLoading(item.key)}
-                disabled={itemDisabled(item.key)}
-                onChange={() => updateItems(item.key)}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+              </span>
+            }
+            isSwitch
+          >
+            <Switch
+              checked={itemChecked(item.key)}
+              loading={itemLoading(item.key)}
+              disabled={itemDisabled(item.key)}
+              onChange={() => updateItems(item.key)}
+            />
+          </SettingRow>
+        ))}
+      </SettingSection>
 
       <Modal
         title={t('settings.appearance.menuBar.terminalWarningTitle')}

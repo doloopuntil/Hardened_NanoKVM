@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import languages from '@/i18n/languages.ts';
 import { setLanguage } from '@/lib/localstorage.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 export const Language = () => {
   const { t, i18n } = useTranslation();
@@ -20,20 +21,17 @@ export const Language = () => {
   }
 
   return (
-    <div className="mt-5 flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
-      <div className="flex min-w-0 flex-col space-y-1">
-        <span>{t('settings.appearance.language')}</span>
-        <span className="text-xs text-neutral-500">{t('settings.appearance.languageDesc')}</span>
-      </div>
-
-      <div className="w-full sm:w-auto">
-        <Select
-          defaultValue={i18n.language}
-          className="w-full sm:w-[180px]"
-          options={options}
-          onSelect={changeLanguage}
-        />
-      </div>
-    </div>
+    <SettingRow
+      label={t('settings.appearance.language')}
+      description={t('settings.appearance.languageDesc')}
+      inline
+    >
+      <Select
+        defaultValue={i18n.language}
+        className="w-36 max-w-full text-right sm:w-48"
+        options={options}
+        onSelect={changeLanguage}
+      />
+    </SettingRow>
   );
 };
