@@ -69,7 +69,6 @@ export const Hostname = () => {
   return (
     <div className="space-y-1">
       <InfoRow
-        inline
         label={t('settings.about.hostname')}
         value={
           editState === 'editing' ? (

@@ -3,6 +3,8 @@ import { Button, Divider } from 'antd';
 import { CheckIcon, SaveIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
+import { SettingSection } from '@/components/setting-rows.tsx';
+
 import type { SystemActionHandle, SystemActionState } from '../system/action.ts';
 import { DNS } from './dns.tsx';
 import { IPv6 } from './ipv6.tsx';
@@ -93,14 +95,14 @@ export const Network = forwardRef<SystemActionHandle, NetworkProps>(
           </>
         )}
 
-        <div className="flex flex-col space-y-8">
-          <Tls />
-          <Wifi />
-        </div>
+        <div className="flex flex-col space-y-6">
+          <SettingSection title={t('settings.network.connection')}>
+            <Tls />
+            <Wifi />
+          </SettingSection>
 
-        <Divider className="opacity-50" style={{ margin: '32px 0' }} />
+          <Divider className="opacity-50" />
 
-        <div className="flex flex-col space-y-8">
           <DNS
             ref={dnsRef}
             showFooter={false}

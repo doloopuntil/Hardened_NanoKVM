@@ -252,7 +252,7 @@ export const FirewallSettings = () => {
 
       <div className="space-y-6">
         <div className="text-neutral-400">{t('settings.system.firewall.backends')}</div>
-        <div className="space-y-4 sm:space-y-2">
+        <div className="space-y-3">
           <InfoRow
             label={t('settings.system.firewall.mode.current')}
             value={status?.backend.preferred}

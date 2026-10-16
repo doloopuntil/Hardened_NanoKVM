@@ -220,6 +220,8 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
     const statusKind = error ? 'error' : message ? 'success' : statusText ? 'warning' : '';
     const statusColor = error ? 'text-red-400' : message ? 'text-green-400' : 'text-yellow-400/80';
     const addressList = addresses.map(formatAddress).join(', ');
+    // what the interface has been given, when the address comes from SLAAC or DHCPv6
+    const liveAddress = addresses.find((item) => item.scope !== 'link');
     const statusSnapshot = useMemo<NetworkSectionStatus>(
       () => ({
         hasPending: hasChanges || needsApply,
@@ -251,7 +253,7 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
     }, [onStatusChange, statusSnapshot]);
 
     return (
-      <div className="flex flex-col space-y-5">
+      <div className="flex flex-col space-y-6">
         <div className="text-neutral-400">{t('settings.network.ipv6.title')}</div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-6">
@@ -284,57 +286,66 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
           </div>
         </div>
 
-        <div className="flex flex-col space-y-5">
+        <div className="flex flex-col space-y-3">
           <InfoRow label={t('settings.network.ipv6.interface')} value="eth0" />
+
+          {mode === 'manual' ? (
+            <>
+              <EditableInfoRow
+                label={t('settings.network.ipv6.ipAddress')}
+                value={address}
+                placeholder="fd00:1234:abcd:2::132"
+                inputWidth="w-56 sm:w-80"
+                status={address.trim() && !isValidIPv6(normalizedAddress) ? 'error' : undefined}
+                onChange={(value) => {
+                  setAddress(value);
+                  setMessage('');
+                  setError('');
+                }}
+              />
+              <EditableInfoRow
+                label={t('settings.network.ipv6.prefix')}
+                value={prefix}
+                placeholder="64"
+                inputWidth="w-20"
+                status={prefix.trim() && !isValidPrefix(trimmedPrefix) ? 'error' : undefined}
+                onChange={(value) => {
+                  setPrefix(value);
+                  setMessage('');
+                  setError('');
+                }}
+              />
+              <EditableInfoRow
+                label={t('settings.network.ipv6.router')}
+                value={router}
+                placeholder="fe80::1"
+                inputWidth="w-56 sm:w-80"
+                status={router.trim() && !isValidIPv6(normalizedRouter) ? 'error' : undefined}
+                onChange={(value) => {
+                  setRouter(value);
+                  setMessage('');
+                  setError('');
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <InfoRow label={t('settings.network.ipv6.ipAddress')} value={liveAddress?.address} />
+              <InfoRow
+                label={t('settings.network.ipv6.prefix')}
+                value={liveAddress ? String(liveAddress.prefix) : undefined}
+              />
+              <InfoRow label={t('settings.network.ipv6.router')} value={gateway} />
+            </>
+          )}
+
           <InfoRow label={t('settings.network.ipv6.state')} value={statusMessage} />
-          <InfoRow label={t('settings.network.ipv6.router')} value={gateway} />
           <InfoRow
             label={t('settings.network.ipv6.dhcpv6Client')}
             value={clientAvailable ? clientPath : t('settings.network.ipv6.notInstalled')}
           />
           <InfoRow label={t('settings.network.ipv6.addresses')} value={addressList} />
         </div>
-
-        {mode === 'manual' && (
-          <div className="flex flex-col space-y-5">
-            <EditableInfoRow
-              label={t('settings.network.ipv6.ipAddress')}
-              value={address}
-              placeholder="fd00:1234:abcd:2::132"
-              inputWidth="sm:w-80"
-              status={address.trim() && !isValidIPv6(normalizedAddress) ? 'error' : undefined}
-              onChange={(value) => {
-                setAddress(value);
-                setMessage('');
-                setError('');
-              }}
-            />
-            <EditableInfoRow
-              label={t('settings.network.ipv6.prefix')}
-              value={prefix}
-              placeholder="64"
-              inputWidth="sm:w-20"
-              status={prefix.trim() && !isValidPrefix(trimmedPrefix) ? 'error' : undefined}
-              onChange={(value) => {
-                setPrefix(value);
-                setMessage('');
-                setError('');
-              }}
-            />
-            <EditableInfoRow
-              label={t('settings.network.ipv6.router')}
-              value={router}
-              placeholder="fe80::1"
-              inputWidth="sm:w-80"
-              status={router.trim() && !isValidIPv6(normalizedRouter) ? 'error' : undefined}
-              onChange={(value) => {
-                setRouter(value);
-                setMessage('');
-                setError('');
-              }}
-            />
-          </div>
-        )}
 
         {showFooter && (hasChanges || statusText) && (
           <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">

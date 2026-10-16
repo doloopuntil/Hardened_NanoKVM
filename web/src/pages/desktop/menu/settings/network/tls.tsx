@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt, confirm } from '@/lib/feedback.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 const REDIRECT_DELAY_SECONDS = 30;
 
@@ -69,11 +70,10 @@ export const Tls = () => {
   }
 
   return (
-    <div className="flex min-w-0 items-center justify-between gap-3">
-      <div className="flex min-w-0 flex-col space-y-1">
-        <div className="flex items-center space-x-2">
-          <span>HTTPS</span>
-
+    <SettingRow
+      label={
+        <span className="flex items-center gap-2">
+          HTTPS
           <Tooltip
             title={t('settings.network.tls.tip')}
             className="cursor-pointer"
@@ -82,18 +82,12 @@ export const Tls = () => {
           >
             <CircleAlertIcon className="text-neutral-500" size={14} />
           </Tooltip>
-        </div>
-        <span className="break-words text-xs text-neutral-500">
-          {t('settings.network.tls.description')}
         </span>
-      </div>
-
-      <Switch
-        className="shrink-0"
-        checked={isEnabled}
-        loading={isLoading}
-        onChange={requestUpdate}
-      />
-    </div>
+      }
+      description={t('settings.network.tls.description')}
+      isSwitch
+    >
+      <Switch checked={isEnabled} loading={isLoading} onChange={requestUpdate} />
+    </SettingRow>
   );
 };

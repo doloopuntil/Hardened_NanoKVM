@@ -2,37 +2,22 @@ import type { ReactNode } from 'react';
 import { Input } from 'antd';
 
 // A read-only "label ... value" row, as used on the Network page. It is as tall as the
-// editable row, so switching between the two does not move the rows around. A value of several
-// lines can start at the top of the row.
+// editable row, so switching between the two does not move the rows around. The value stays on
+// the label's row, also on a phone, and a value of several lines can start at the top of the row.
 export const InfoRow = ({
   label,
   value,
-  alignStart = false,
-  inline = false
+  alignStart = false
 }: {
   label: ReactNode;
   value?: ReactNode;
   alignStart?: boolean;
-  // keeps the value on the label's row on a phone instead of under it
-  inline?: boolean;
 }) => (
   <div
-    className={
-      inline
-        ? `flex min-h-8 flex-row justify-between gap-4 ${alignStart ? 'items-start' : 'items-center'}`
-        : `flex flex-col items-start gap-1 sm:min-h-8 sm:flex-row sm:justify-between sm:gap-4 ${
-            alignStart ? 'sm:items-start' : 'sm:items-center'
-          }`
-    }
+    className={`flex min-h-8 flex-row justify-between gap-4 ${alignStart ? 'items-start' : 'items-center'}`}
   >
     <span className="shrink-0 text-sm text-neutral-300">{label}</span>
-    <div
-      className={`break-all text-sm text-neutral-500 sm:max-w-md ${
-        inline
-          ? 'min-w-0 flex-1 text-right sm:flex-none'
-          : 'w-full text-left sm:w-auto sm:text-right'
-      }`}
-    >
+    <div className="min-w-0 flex-1 break-all text-right text-sm text-neutral-500 sm:max-w-md sm:flex-none">
       {value || '-'}
     </div>
   </div>
@@ -44,25 +29,25 @@ export const EditableInfoRow = ({
   value,
   placeholder,
   status,
-  inputWidth = 'sm:w-40',
+  inputWidth = 'w-40',
   onChange
 }: {
   label: string;
   value: string;
   placeholder: string;
   status?: 'error';
-  /** Width from the sm breakpoint up, sized to the longest value the field holds. */
+  /** Width classes, sized to the longest value the field holds. */
   inputWidth?: string;
   onChange: (value: string) => void;
 }) => (
-  <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+  <div className="flex min-h-8 flex-row items-center justify-between gap-4">
     <span className="shrink-0 text-sm text-neutral-300">{label}</span>
     <Input
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       status={status}
-      className={`w-full text-right ${inputWidth}`}
+      className={`min-w-0 text-right ${inputWidth}`}
     />
   </div>
 );
