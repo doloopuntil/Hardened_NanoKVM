@@ -308,23 +308,13 @@ const cz = {
       device: {
         title: 'Zařízení',
         oled: {
-          title: 'OLED',
-          0: 'Nikdy',
-          15: '15 sec',
-          30: '30 sec',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 hodina'
+          title: 'OLED'
         },
         ssh: {
           description: 'Povolit vzdálený přístup SSH'
         },
         swap: {
           title: 'Vyměnit',
-          disable: 'Zakázat',
           description: 'Nastavte velikost odkládacího souboru'
         },
         mouseJiggler: {
@@ -341,8 +331,7 @@ const cz = {
         hdmi: {
           description: 'Povolit výstup HDMI/monitor',
           idleTimeoutTitle: 'Časový limit nečinnosti snímání',
-          idleTimeoutDescription: 'Zastavit snímání HDMI po době bez aktivních diváků',
-          minutes: 'min'
+          idleTimeoutDescription: 'Zastavit snímání HDMI po době bez aktivních diváků'
         },
         hidOnly: 'HID-Pouze režim',
         disk: 'Virtuální disk',

@@ -309,16 +309,7 @@ const tr = {
       device: {
         title: 'Cihaz',
         oled: {
-          title: 'OLED',
-          0: 'Hiçbir zaman',
-          15: '15 saniye',
-          30: '30 saniye',
-          60: '1 dakika',
-          180: '3 dakika',
-          300: '5 dakika',
-          600: '10 dakika',
-          1800: '30 dakika',
-          3600: '1 saat'
+          title: 'OLED'
         },
         ssh: {},
         swap: {
@@ -339,8 +330,7 @@ const tr = {
         hdmi: {
           idleTimeoutTitle: 'Etkin olmayan yakalama zaman aşımı',
           idleTimeoutDescription:
-            'Etkin görüntüleyici olmadığında HDMI yakalamayı şu süre sonunda durdur:',
-          minutes: 'dk'
+            'Etkin görüntüleyici olmadığında HDMI yakalamayı şu süre sonunda durdur:'
         },
         hidOnly: 'Yalnızca HID modu',
         disk: 'Sanal Disk',

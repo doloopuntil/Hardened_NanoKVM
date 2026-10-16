@@ -298,23 +298,13 @@ const pl = {
       device: {
         title: 'Urządzenie',
         oled: {
-          title: 'OLED',
-          0: 'Nigdy',
-          15: '15 sec',
-          30: '30 sec',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 godzina'
+          title: 'OLED'
         },
         ssh: {
           description: 'Włącz SSH zdalny dostęp'
         },
         swap: {
           title: 'Zamień',
-          disable: 'Wyłącz',
           description: 'Ustaw rozmiar pliku wymiany'
         },
         mouseJiggler: {
@@ -331,8 +321,7 @@ const pl = {
         hdmi: {
           description: 'Włącz HDMI/wyjście monitora',
           idleTimeoutTitle: 'Limit czasu bezczynności przechwytywania',
-          idleTimeoutDescription: 'Zatrzymaj przechwytywanie HDMI po czasie bez aktywnych widzów:',
-          minutes: 'min'
+          idleTimeoutDescription: 'Zatrzymaj przechwytywanie HDMI po czasie bez aktywnych widzów:'
         },
         hidOnly: 'HID – tylko tryb',
         disk: 'Dysk wirtualny',

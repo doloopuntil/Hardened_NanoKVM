@@ -293,23 +293,13 @@ const ca = {
         title: 'Dispositiu',
         oled: {
           title: 'OLED',
-          description: 'Apagar pantalla OLED després de',
-          0: 'Mai',
-          15: '15 s',
-          30: '30 s',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 h'
+          description: 'Apagar pantalla OLED després de'
         },
         ssh: {
           description: 'Activa accés remot per SSH'
         },
         swap: {
           title: 'Swap',
-          disable: 'Desactiva',
           description: 'Defineix la mida del fitxer swap'
         },
         mouseJiggler: {
@@ -326,8 +316,7 @@ const ca = {
           description: 'Activa la sortida HDMI',
           idleTimeoutTitle: "Temps d'espera d'inactivitat de captura",
           idleTimeoutDescription:
-            'Atura la captura HDMI després de no detectar espectadors actius durant',
-          minutes: 'min'
+            'Atura la captura HDMI després de no detectar espectadors actius durant'
         },
         hidOnly: 'Mode només HID',
         disk: 'Disc virtual',

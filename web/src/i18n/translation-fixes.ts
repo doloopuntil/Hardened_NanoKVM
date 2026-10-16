@@ -270,7 +270,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       "Elimina les marques de temps afegides per l'emissor; syslog afegeix les seves",
     'settings.systemLog.local.description':
       'Els registres actuals es mantenen a la RAM a {{path}} per evitar escriptures a la targeta SD',
-    'settings.systemLog.kernel.enabled': 'Reenvia el registre del kernel'
+    'settings.systemLog.kernel.enabled': 'Reenvia el registre del kernel',
+    'settings.device.swap.size': 'Mida del swap',
+    'settings.device.swap.description': "Utilitza un fitxer swap quan la memòria s'esgota",
+    'settings.device.swap.sizeDescription': 'Defineix la mida del fitxer swap',
+    'settings.device.sections.connectivity': 'Connectivitat',
+    'settings.device.sections.hostConnection': "Connexió amb l'amfitrió",
+    'settings.device.sections.inputOutput': 'Entrada i sortida',
+    'settings.device.sections.optimizations': 'Optimitzacions',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': "Temps d'espera de l'OLED",
+    'settings.device.oled.keepOn': "Mantén l'OLED encesa",
+    'settings.device.oled.keepOnDescription': 'No apaguis mai la pantalla OLED',
+    'settings.device.sessionLock.title': 'Bloqueja la sessió quan estigui inactiva'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -412,14 +424,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'terminal.locked': 'Příliš mnoho pokusů. Zkuste to později',
     'keyboard.dropdownKorean': 'Korejsky',
     'keyboard.dropdownJapanese': 'Japonsky',
-    'settings.device.oled.15': '15 s',
-    'settings.device.oled.30': '30 s',
-    'settings.device.oled.60': '1 min',
-    'settings.device.oled.180': '3 min',
-    'settings.device.oled.300': '5 min',
-    'settings.device.oled.600': '10 min',
-    'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 hodina',
     'keyboard.localInput': 'Vstup z klávesnice mobilu',
     'settings.network.configuration': 'Konfigurace',
     'settings.network.dns.servers': 'Servery',
@@ -448,7 +452,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Odebrat časová razítka přidaná odesílatelem; syslog přidá vlastní',
     'settings.systemLog.local.description':
       'Aktuální protokoly jsou uchovány v RAM v {{path}}, aby se zabránilo zápisům na SD kartu',
-    'settings.systemLog.kernel.enabled': 'Předávat protokol kernelu'
+    'settings.systemLog.kernel.enabled': 'Předávat protokol kernelu',
+    'settings.device.swap.size': 'Velikost swapu',
+    'settings.device.swap.description': 'Používat odkládací soubor, když dochází paměť',
+    'settings.device.swap.sizeDescription': 'Nastavte velikost odkládacího souboru',
+    'settings.device.sections.connectivity': 'Připojení',
+    'settings.device.sections.hostConnection': 'Připojení k hostiteli',
+    'settings.device.sections.inputOutput': 'Vstup a výstup',
+    'settings.device.sections.optimizations': 'Optimalizace',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': 'Časový limit OLED',
+    'settings.device.oled.keepOn': 'Nechat OLED zapnutý',
+    'settings.device.oled.keepOnDescription': 'Nikdy nevypínat obrazovku OLED',
+    'settings.device.sessionLock.title': 'Zamknout relaci při nečinnosti'
   },
   da: {
     'auth.illegalPassword':
@@ -635,7 +651,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Fjern tidsstempler tilføjet af afsenderen; syslog tilføjer sine egne',
     'settings.systemLog.local.description':
       'Aktuelle logs opbevares i RAM på {{path}} for at undgå skrivninger til SD-kortet',
-    'settings.systemLog.kernel.enabled': 'Videresend kernellog'
+    'settings.systemLog.kernel.enabled': 'Videresend kernellog',
+    'settings.device.swap.size': 'Swap-størrelse',
+    'settings.device.swap.description': 'Brug en swap-fil, når hukommelsen er ved at slippe op',
+    'settings.device.swap.sizeDescription': 'Indstil swap-filstørrelsen',
+    'settings.device.sections.connectivity': 'Forbindelser',
+    'settings.device.sections.hostConnection': 'Værtsforbindelse',
+    'settings.device.sections.inputOutput': 'Input og output',
+    'settings.device.sections.optimizations': 'Optimeringer',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': 'OLED-timeout',
+    'settings.device.oled.keepOn': 'Hold OLED tændt',
+    'settings.device.oled.keepOnDescription': 'Sluk aldrig OLED-skærmen',
+    'settings.device.sessionLock.title': 'Lås session ved inaktivitet'
   },
   de: {
     'auth.illegalPassword':
@@ -834,7 +862,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Vom Absender hinzugefügte Zeitstempel entfernen; Syslog fügt eigene hinzu',
     'settings.systemLog.local.description':
       'Aktuelle Protokolle werden im RAM unter {{path}} gehalten, um Schreibzugriffe auf die SD-Karte zu vermeiden',
-    'settings.systemLog.kernel.enabled': 'Kernelprotokoll weiterleiten'
+    'settings.systemLog.kernel.enabled': 'Kernelprotokoll weiterleiten',
+    'settings.device.swap.size': 'Swap-Größe',
+    'settings.device.swap.description': 'Eine Swap-Datei nutzen, wenn der Speicher knapp wird',
+    'settings.device.swap.sizeDescription': 'Grösse der Swap-Datei festlegen',
+    'settings.device.sections.connectivity': 'Konnektivität',
+    'settings.device.sections.hostConnection': 'Host-Verbindung',
+    'settings.device.sections.inputOutput': 'Eingabe und Ausgabe',
+    'settings.device.sections.optimizations': 'Optimierungen',
+    'settings.device.minutes': 'Min.',
+    'settings.device.oled.title': 'OLED-Timeout',
+    'settings.device.oled.keepOn': 'OLED eingeschaltet lassen',
+    'settings.device.oled.keepOnDescription': 'Den OLED-Bildschirm nie ausschalten',
+    'settings.device.sessionLock.title': 'Sitzung bei Inaktivität sperren'
   },
   es: {
     'auth.illegalPassword':
@@ -1012,7 +1052,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Elimina las marcas de tiempo añadidas por el emisor; syslog añade las suyas',
     'settings.systemLog.local.description':
       'Los registros actuales se mantienen en RAM en {{path}} para evitar escrituras en la tarjeta SD',
-    'settings.systemLog.kernel.enabled': 'Reenviar el registro del kernel'
+    'settings.systemLog.kernel.enabled': 'Reenviar el registro del kernel',
+    'settings.device.swap.size': 'Tamaño de la memoria swap',
+    'settings.device.swap.description': 'Usa un archivo swap cuando se agota la memoria',
+    'settings.device.swap.sizeDescription': 'Establece el tamaño del archivo swap',
+    'settings.device.sections.connectivity': 'Conectividad',
+    'settings.device.sections.hostConnection': 'Conexión con el host',
+    'settings.device.sections.inputOutput': 'Entrada y salida',
+    'settings.device.sections.optimizations': 'Optimizaciones',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': 'Tiempo de espera de la OLED',
+    'settings.device.oled.keepOn': 'Mantener la OLED encendida',
+    'settings.device.oled.keepOnDescription': 'No apagar nunca la pantalla OLED',
+    'settings.device.sessionLock.title': 'Bloquear sesión al estar inactiva'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1181,7 +1233,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Eemalda saatja lisatud ajatemplid; syslog lisab omad',
     'settings.systemLog.local.description':
       'Praeguseid logisid hoitakse RAM-is asukohas {{path}}, et vältida SD-kaardi kirjutusi',
-    'settings.systemLog.kernel.enabled': 'Edasta kerneli logi'
+    'settings.systemLog.kernel.enabled': 'Edasta kerneli logi',
+    'settings.device.swap.size': 'Swapi suurus',
+    'settings.device.swap.description': 'Kasuta swap-faili, kui mälu hakkab otsa saama',
+    'settings.device.swap.sizeDescription': 'Määra swap-faili suurus',
+    'settings.device.sections.connectivity': 'Ühenduvus',
+    'settings.device.sections.hostConnection': 'Hostiühendus',
+    'settings.device.sections.inputOutput': 'Sisend ja väljund',
+    'settings.device.sections.optimizations': 'Optimeerimised',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': 'OLED-i ajalõpp',
+    'settings.device.oled.keepOn': 'Hoia OLED sisselülitatuna',
+    'settings.device.oled.keepOnDescription': 'Ära lülita OLED-ekraani kunagi välja',
+    'settings.device.sessionLock.title': 'Lukusta seanss, kui ei kasutata'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1348,7 +1412,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Poista lähettäjän lisäämät aikaleimat; syslog lisää omansa',
     'settings.systemLog.local.description':
       'Nykyiset lokit säilytetään RAMissa polussa {{path}}, jotta SD-kortille ei kirjoiteta',
-    'settings.systemLog.kernel.enabled': 'Välitä kernel-loki'
+    'settings.systemLog.kernel.enabled': 'Välitä kernel-loki',
+    'settings.device.swap.size': 'Swapin koko',
+    'settings.device.swap.description': 'Käytä swap-tiedostoa, kun muisti on vähissä',
+    'settings.device.swap.sizeDescription': 'Aseta swap-tiedoston koko',
+    'settings.device.sections.connectivity': 'Yhteydet',
+    'settings.device.sections.hostConnection': 'Isäntäyhteys',
+    'settings.device.sections.inputOutput': 'Syöte ja tuloste',
+    'settings.device.sections.optimizations': 'Optimoinnit',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': 'OLEDin aikakatkaisu',
+    'settings.device.oled.keepOn': 'Pidä OLED päällä',
+    'settings.device.oled.keepOnDescription': 'Älä sammuta OLED-näyttöä koskaan',
+    'settings.device.sessionLock.title': 'Lukitse istunto, kun ei käytössä'
   },
   fr: {
     'auth.illegalPassword':
@@ -1500,14 +1576,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'image.loading': 'Chargement...',
     'keyboard.dropdownKorean': 'Coréen',
     'keyboard.dropdownJapanese': 'Japonais',
-    'settings.device.oled.15': '15 s',
-    'settings.device.oled.30': '30 s',
-    'settings.device.oled.60': '1 min',
-    'settings.device.oled.180': '3 min',
-    'settings.device.oled.300': '5 min',
-    'settings.device.oled.600': '10 min',
-    'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 heure',
     'keyboard.localInput': 'Saisie au clavier mobile',
     'settings.network.configuration': 'Configuration',
     'settings.network.dns.servers': 'Serveurs',
@@ -1539,7 +1607,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       "Supprimer les horodatages ajoutés par l'émetteur ; syslog ajoute les siens",
     'settings.systemLog.local.description':
       'Les journaux actuels sont conservés en RAM dans {{path}} pour éviter les écritures sur la carte SD',
-    'settings.systemLog.kernel.enabled': 'Transférer le journal du noyau'
+    'settings.systemLog.kernel.enabled': 'Transférer le journal du noyau',
+    'settings.device.swap.size': "Taille du fichier d'échange",
+    'settings.device.swap.description': "Utiliser un fichier d'échange quand la mémoire manque",
+    'settings.device.swap.sizeDescription': "Définir la taille du fichier d'échange",
+    'settings.device.sections.connectivity': 'Connectivité',
+    'settings.device.sections.hostConnection': "Connexion à l'hôte",
+    'settings.device.sections.inputOutput': 'Entrée et sortie',
+    'settings.device.sections.optimizations': 'Optimisations',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': "Délai de l'OLED",
+    'settings.device.oled.keepOn': "Garder l'OLED allumé",
+    'settings.device.oled.keepOnDescription': "Ne jamais éteindre l'écran OLED",
+    'settings.device.sessionLock.title': "Verrouiller la session en cas d'inactivité"
   },
   hu: {
     'auth.illegalPassword':
@@ -1696,14 +1776,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownRussian': 'Orosz',
     'keyboard.dropdownKorean': 'Koreai',
     'keyboard.dropdownJapanese': 'Japán',
-    'settings.device.oled.15': '15 mp',
-    'settings.device.oled.30': '30 mp',
-    'settings.device.oled.60': '1 perc',
-    'settings.device.oled.180': '3 perc',
-    'settings.device.oled.300': '5 perc',
-    'settings.device.oled.600': '10 perc',
-    'settings.device.oled.1800': '30 perc',
-    'settings.device.oled.3600': '1 óra',
     'keyboard.localInput': 'Mobil billentyűzet bemenete',
     'settings.network.configuration': 'Konfiguráció',
     'settings.network.dns.servers': 'Kiszolgálók',
@@ -1732,7 +1804,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'A küldő által hozzáadott időbélyegek eltávolítása; a syslog sajátot ad hozzá',
     'settings.systemLog.local.description':
       'Az aktuális naplók RAM-ban, a {{path}} útvonalon maradnak, hogy elkerülje az SD-kártya írását',
-    'settings.systemLog.kernel.enabled': 'Kernelnapló továbbítása'
+    'settings.systemLog.kernel.enabled': 'Kernelnapló továbbítása',
+    'settings.device.swap.size': 'Swap mérete',
+    'settings.device.swap.description': 'Swap fájl használata, ha fogy a memória',
+    'settings.device.swap.sizeDescription': 'Állítsa be a swap fájl méretét',
+    'settings.device.sections.connectivity': 'Kapcsolatok',
+    'settings.device.sections.hostConnection': 'Gazdagép-kapcsolat',
+    'settings.device.sections.inputOutput': 'Bemenet és kimenet',
+    'settings.device.sections.optimizations': 'Optimalizálás',
+    'settings.device.minutes': 'perc',
+    'settings.device.oled.title': 'OLED időkorlátja',
+    'settings.device.oled.keepOn': 'OLED bekapcsolva tartása',
+    'settings.device.oled.keepOnDescription': 'Az OLED képernyő sosem kapcsol ki',
+    'settings.device.sessionLock.title': 'Munkamenet zárolása inaktivitáskor'
   },
   id: {
     'auth.illegalPassword':
@@ -1886,14 +1970,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.dropdownRussian': 'Bahasa Rusia',
     'keyboard.dropdownKorean': 'Bahasa Korea',
     'keyboard.dropdownJapanese': 'Bahasa Jepang',
-    'settings.device.oled.15': '15 dtk',
-    'settings.device.oled.30': '30 dtk',
-    'settings.device.oled.60': '1 mnt',
-    'settings.device.oled.180': '3 mnt',
-    'settings.device.oled.300': '5 mnt',
-    'settings.device.oled.600': '10 mnt',
-    'settings.device.oled.1800': '30 mnt',
-    'settings.device.oled.3600': '1 jam',
     'script.delDesc': 'Apakah Anda yakin ingin menghapus data ini?',
     'settings.update.isLatest': 'Anda sudah menggunakan versi terbaru.',
     'settings.update.available': 'Ada pembaruan baru. Apakah Anda mau memperbarui?',
@@ -1925,7 +2001,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Hapus stempel waktu dari pengirim; syslog menambahkan miliknya sendiri',
     'settings.systemLog.local.description':
       'Log saat ini disimpan di RAM pada {{path}} untuk menghindari penulisan ke kartu SD',
-    'settings.systemLog.kernel.enabled': 'Teruskan log kernel'
+    'settings.systemLog.kernel.enabled': 'Teruskan log kernel',
+    'settings.device.swap.size': 'Ukuran swap',
+    'settings.device.swap.description': 'Gunakan file swap saat memori hampir habis',
+    'settings.device.swap.sizeDescription': 'Atur ukuran file swap',
+    'settings.device.sections.connectivity': 'Konektivitas',
+    'settings.device.sections.hostConnection': 'Koneksi host',
+    'settings.device.sections.inputOutput': 'Input dan output',
+    'settings.device.sections.optimizations': 'Optimasi',
+    'settings.device.minutes': 'mnt',
+    'settings.device.oled.title': 'Batas waktu OLED',
+    'settings.device.oled.keepOn': 'Biarkan OLED menyala',
+    'settings.device.oled.keepOnDescription': 'Jangan pernah mematikan layar OLED',
+    'settings.device.sessionLock.title': 'Kunci sesi saat tidak aktif'
   },
   it: {
     'auth.illegalPassword':
@@ -2076,14 +2164,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'terminal.locked': 'Troppi tentativi. Riprova più tardi',
     'keyboard.dropdownKorean': 'Coreano',
     'keyboard.dropdownJapanese': 'Giapponese',
-    'settings.device.oled.15': '15 s',
-    'settings.device.oled.30': '30 s',
-    'settings.device.oled.60': '1 min',
-    'settings.device.oled.180': '3 min',
-    'settings.device.oled.300': '5 min',
-    'settings.device.oled.600': '10 min',
-    'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 ora',
     'settings.update.offline.invalidName':
       'Formato nome file non valido. Scarica dalle versioni GitHub.',
     'keyboard.localInput': 'Input da tastiera mobile',
@@ -2114,7 +2194,20 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Rimuovi i timestamp aggiunti dal mittente; syslog aggiunge i propri',
     'settings.systemLog.local.description':
       'I log correnti sono mantenuti in RAM in {{path}} per evitare scritture sulla scheda SD',
-    'settings.systemLog.kernel.enabled': 'Inoltra il log del kernel'
+    'settings.systemLog.kernel.enabled': 'Inoltra il log del kernel',
+    'settings.device.swap.size': 'Dimensione dello swap',
+    'settings.device.swap.description':
+      'Usa un file di scambio quando la memoria sta per esaurirsi',
+    'settings.device.swap.sizeDescription': 'Imposta la dimensione del file di scambio',
+    'settings.device.sections.connectivity': 'Connettività',
+    'settings.device.sections.hostConnection': "Connessione all'host",
+    'settings.device.sections.inputOutput': 'Input e output',
+    'settings.device.sections.optimizations': 'Ottimizzazioni',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': 'Timeout OLED',
+    'settings.device.oled.keepOn': "Mantieni l'OLED acceso",
+    'settings.device.oled.keepOnDescription': 'Non spegnere mai lo schermo OLED',
+    'settings.device.sessionLock.title': 'Blocca sessione quando inattiva'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -2283,7 +2376,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       '送信側が付けたタイムスタンプを削除します。syslog が独自のものを付けます',
     'settings.systemLog.local.description':
       'SD カードへの書き込みを避けるため、現在のログは {{path}} の RAM に保持されます',
-    'settings.systemLog.kernel.enabled': 'カーネルログを転送'
+    'settings.systemLog.kernel.enabled': 'カーネルログを転送',
+    'settings.device.swap.size': 'スワップのサイズ',
+    'settings.device.swap.description': 'メモリが不足したときにスワップファイルを使用します',
+    'settings.device.swap.sizeDescription': 'スワップファイルのサイズを設定する',
+    'settings.device.sections.connectivity': '接続',
+    'settings.device.sections.hostConnection': 'ホスト接続',
+    'settings.device.sections.inputOutput': '入力と出力',
+    'settings.device.sections.optimizations': '最適化',
+    'settings.device.minutes': '分',
+    'settings.device.oled.title': 'OLED のタイムアウト',
+    'settings.device.oled.keepOn': 'OLED を常にオンにする',
+    'settings.device.oled.keepOnDescription': 'OLED 画面を消灯しません',
+    'settings.device.sessionLock.title': '非アクティブ時にセッションをロック'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -2454,7 +2559,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       '발신자가 추가한 타임스탬프를 제거합니다. syslog가 자체 타임스탬프를 추가합니다',
     'settings.systemLog.local.description':
       'SD 카드 쓰기를 피하기 위해 현재 로그는 {{path}}의 RAM에 보관됩니다',
-    'settings.systemLog.kernel.enabled': '커널 로그 전달'
+    'settings.systemLog.kernel.enabled': '커널 로그 전달',
+    'settings.device.swap.size': '스왑 크기',
+    'settings.device.swap.description': '메모리가 부족할 때 스왑 파일을 사용합니다',
+    'settings.device.swap.sizeDescription': '스왑 파일 크기 설정',
+    'settings.device.sections.connectivity': '연결',
+    'settings.device.sections.hostConnection': '호스트 연결',
+    'settings.device.sections.inputOutput': '입력 및 출력',
+    'settings.device.sections.optimizations': '최적화',
+    'settings.device.minutes': '분',
+    'settings.device.oled.title': 'OLED 시간 제한',
+    'settings.device.oled.keepOn': 'OLED 계속 켜두기',
+    'settings.device.oled.keepOnDescription': 'OLED 화면을 끄지 않습니다',
+    'settings.device.sessionLock.title': '비활성 시 세션 잠금'
   },
   nb: {
     'auth.illegalPassword':
@@ -2601,14 +2718,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'terminal.locked': 'For mange forsøk. Prøv igjen senere',
     'keyboard.dropdownKorean': 'Koreansk',
     'keyboard.dropdownJapanese': 'Japansk',
-    'settings.device.oled.15': '15 s',
-    'settings.device.oled.30': '30 s',
-    'settings.device.oled.60': '1 min',
-    'settings.device.oled.180': '3 min',
-    'settings.device.oled.300': '5 min',
-    'settings.device.oled.600': '10 min',
-    'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 time',
     'keyboard.localInput': 'Inndata fra mobiltastatur',
     'settings.network.configuration': 'Konfigurasjon',
     'settings.network.dns.servers': 'Servere',
@@ -2637,7 +2746,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Fjern tidsstempler lagt til av avsenderen; syslog legger til sine egne',
     'settings.systemLog.local.description':
       'Gjeldende logger holdes i RAM på {{path}} for å unngå skriving til SD-kortet',
-    'settings.systemLog.kernel.enabled': 'Videresend kjernelogg'
+    'settings.systemLog.kernel.enabled': 'Videresend kjernelogg',
+    'settings.device.swap.size': 'Swap-størrelse',
+    'settings.device.swap.description': 'Bruk en byttefil når minnet begynner å ta slutt',
+    'settings.device.swap.sizeDescription': 'Angi størrelsen på byttefilen',
+    'settings.device.sections.connectivity': 'Tilkobling',
+    'settings.device.sections.hostConnection': 'Vertstilkobling',
+    'settings.device.sections.inputOutput': 'Inndata og utdata',
+    'settings.device.sections.optimizations': 'Optimaliseringer',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': 'OLED-tidsavbrudd',
+    'settings.device.oled.keepOn': 'Hold OLED på',
+    'settings.device.oled.keepOnDescription': 'Slå aldri av OLED-skjermen',
+    'settings.device.sessionLock.title': 'Lås økt ved inaktivitet'
   },
   nl: {
     'auth.illegalPassword':
@@ -2777,14 +2898,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'terminal.locked': 'Te veel pogingen. Probeer later opnieuw',
     'keyboard.dropdownKorean': 'Koreaans',
     'keyboard.dropdownJapanese': 'Japans',
-    'settings.device.oled.15': '15 s',
-    'settings.device.oled.30': '30 s',
-    'settings.device.oled.60': '1 min',
-    'settings.device.oled.180': '3 min',
-    'settings.device.oled.300': '5 min',
-    'settings.device.oled.600': '10 min',
-    'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 uur',
     'mouse.hidOnly.tip1':
       'Als u de HID-Only-modus inschakelt, worden de virtuele schijf en het virtuele netwerk ontkoppeld',
     'settings.device.mdns.tip':
@@ -2831,7 +2944,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Door de afzender toegevoegde tijdstempels verwijderen; syslog voegt zijn eigen toe',
     'settings.systemLog.local.description':
       'Huidige logs worden in RAM bewaard op {{path}} om schrijven naar de SD-kaart te vermijden',
-    'settings.systemLog.kernel.enabled': 'Kernellog doorsturen'
+    'settings.systemLog.kernel.enabled': 'Kernellog doorsturen',
+    'settings.device.swap.size': 'Swap-grootte',
+    'settings.device.swap.description': 'Een wisselbestand gebruiken als het geheugen opraakt',
+    'settings.device.swap.sizeDescription': 'Stel de grootte van het wisselbestand in',
+    'settings.device.sections.connectivity': 'Connectiviteit',
+    'settings.device.sections.hostConnection': 'Hostverbinding',
+    'settings.device.sections.inputOutput': 'Invoer en uitvoer',
+    'settings.device.sections.optimizations': 'Optimalisaties',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': 'OLED-timeout',
+    'settings.device.oled.keepOn': 'OLED aanhouden',
+    'settings.device.oled.keepOnDescription': 'Het OLED-scherm nooit uitschakelen',
+    'settings.device.sessionLock.title': 'Sessie vergrendelen bij inactiviteit'
   },
   pl: {
     'auth.illegalPassword':
@@ -2970,14 +3095,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'terminal.locked': 'Zbyt wiele prób. Spróbuj ponownie później',
     'keyboard.dropdownKorean': 'Koreański',
     'keyboard.dropdownJapanese': 'Japoński',
-    'settings.device.oled.15': '15 s',
-    'settings.device.oled.30': '30 s',
-    'settings.device.oled.60': '1 min',
-    'settings.device.oled.180': '3 min',
-    'settings.device.oled.300': '5 min',
-    'settings.device.oled.600': '10 min',
-    'settings.device.oled.1800': '30 min',
-    'settings.device.oled.3600': '1 godzina',
     'keyboard.placeholder': 'Wprowadź coś',
     'keyboard.leaderKey.recorder.input': 'Naciśnij skrót...',
     'download.inputfile': 'Wprowadź plik obrazu',
@@ -3019,7 +3136,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Usuń znaczniki czasu dodane przez nadawcę; syslog dodaje własne',
     'settings.systemLog.local.description':
       'Aktualne logi są przechowywane w RAM w {{path}}, aby unikać zapisów na kartę SD',
-    'settings.systemLog.kernel.enabled': 'Przekazuj log kernela'
+    'settings.systemLog.kernel.enabled': 'Przekazuj log kernela',
+    'settings.device.swap.size': 'Rozmiar swapu',
+    'settings.device.swap.description': 'Używaj pliku wymiany, gdy brakuje pamięci',
+    'settings.device.swap.sizeDescription': 'Ustaw rozmiar pliku wymiany',
+    'settings.device.sections.connectivity': 'Łączność',
+    'settings.device.sections.hostConnection': 'Połączenie z hostem',
+    'settings.device.sections.inputOutput': 'Wejście i wyjście',
+    'settings.device.sections.optimizations': 'Optymalizacje',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': 'Limit czasu OLED',
+    'settings.device.oled.keepOn': 'Zostaw OLED włączony',
+    'settings.device.oled.keepOnDescription': 'Nigdy nie wyłączaj ekranu OLED',
+    'settings.device.sessionLock.title': 'Blokuj sesję przy braku aktywności'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -3177,7 +3306,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Remove os carimbos de data e hora adicionados pelo remetente; o syslog adiciona os seus',
     'settings.systemLog.local.description':
       'Os logs atuais ficam em RAM em {{path}} para evitar gravações no cartão SD',
-    'settings.systemLog.kernel.enabled': 'Encaminhar log do kernel'
+    'settings.systemLog.kernel.enabled': 'Encaminhar log do kernel',
+    'settings.device.swap.size': 'Tamanho do swap',
+    'settings.device.swap.description': 'Use um arquivo de swap quando a memória estiver acabando',
+    'settings.device.swap.sizeDescription': 'Defina o tamanho do arquivo de swap',
+    'settings.device.sections.connectivity': 'Conectividade',
+    'settings.device.sections.hostConnection': 'Conexão com o host',
+    'settings.device.sections.inputOutput': 'Entrada e saída',
+    'settings.device.sections.optimizations': 'Otimizações',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': 'Tempo limite do OLED',
+    'settings.device.oled.keepOn': 'Manter o OLED ligado',
+    'settings.device.oled.keepOnDescription': 'Nunca desligar a tela OLED',
+    'settings.device.sessionLock.title': 'Bloquear sessão quando inativa'
   },
   ru: {
     'download.disabled':
@@ -3338,7 +3479,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Удалять метки времени, добавленные отправителем; syslog добавляет свои',
     'settings.systemLog.local.description':
       'Текущие логи хранятся в RAM по пути {{path}}, без записи на SD-карту',
-    'settings.systemLog.kernel.enabled': 'Отправлять лог ядра'
+    'settings.systemLog.kernel.enabled': 'Отправлять лог ядра',
+    'settings.device.swap.size': 'Размер файла подкачки',
+    'settings.device.swap.description': 'Использовать файл подкачки, когда не хватает памяти',
+    'settings.device.swap.sizeDescription': 'Задать размер файла подкачки',
+    'settings.device.sections.connectivity': 'Подключение',
+    'settings.device.sections.hostConnection': 'Подключение к хосту',
+    'settings.device.sections.inputOutput': 'Ввод и вывод',
+    'settings.device.sections.optimizations': 'Оптимизация',
+    'settings.device.minutes': 'мин',
+    'settings.device.oled.title': 'Тайм-аут OLED',
+    'settings.device.oled.keepOn': 'Не выключать OLED',
+    'settings.device.oled.keepOnDescription': 'Никогда не выключать экран OLED',
+    'settings.device.sessionLock.title': 'Блокировать сессию при бездействии'
   },
   se: {
     'auth.illegalPassword':
@@ -3496,7 +3649,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Ta bort tidsstämplar som lagts till av avsändaren; syslog lägger till sina egna',
     'settings.systemLog.local.description':
       'Aktuella loggar hålls i RAM på {{path}} för att undvika skrivningar till SD-kortet',
-    'settings.systemLog.kernel.enabled': 'Vidarebefordra kärnlogg'
+    'settings.systemLog.kernel.enabled': 'Vidarebefordra kärnlogg',
+    'settings.device.swap.size': 'Swap-storlek',
+    'settings.device.swap.description': 'Använd en swap-fil när minnet börjar ta slut',
+    'settings.device.swap.sizeDescription': 'Ange swap-filens storlek',
+    'settings.device.sections.connectivity': 'Anslutning',
+    'settings.device.sections.hostConnection': 'Värdanslutning',
+    'settings.device.sections.inputOutput': 'Indata och utdata',
+    'settings.device.sections.optimizations': 'Optimeringar',
+    'settings.device.minutes': 'min',
+    'settings.device.oled.title': 'OLED-timeout',
+    'settings.device.oled.keepOn': 'Håll OLED på',
+    'settings.device.oled.keepOnDescription': 'Stäng aldrig av OLED-skärmen',
+    'settings.device.sessionLock.title': 'Lås session vid inaktivitet'
   },
   th: {
     'auth.illegalPassword':
@@ -3513,7 +3678,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.tips.change1': 'โปรดทราบว่าการดำเนินการนี้จะเปลี่ยนรหัสผ่านต่อไปนี้:',
     'auth.tips.change2': 'รหัสผ่านเว็บไซต์',
     'settings.about.application': 'เวอร์ชันแอปพลิเคชัน',
-    'settings.device.oled.180': '3 นาที',
     'settings.device.ssh.tip':
       'ตั้งรหัสผ่านที่ปลอดภัยใน บัญชี > รหัสผ่าน ก่อนเปิดใช้งานตัวเลือกนี้',
     'keyboard.shortcut.clear': 'ล้าง',
@@ -3626,7 +3790,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'ลบการประทับเวลาที่ผู้ส่งเพิ่มเข้ามา โดย syslog จะเพิ่มของตัวเอง',
     'settings.systemLog.local.description':
       'บันทึกปัจจุบันถูกเก็บไว้ใน RAM ที่ {{path}} เพื่อหลีกเลี่ยงการเขียนลงการ์ด SD',
-    'settings.systemLog.kernel.enabled': 'ส่งต่อบันทึก kernel'
+    'settings.systemLog.kernel.enabled': 'ส่งต่อบันทึก kernel',
+    'settings.device.swap.size': 'ขนาด Swap',
+    'settings.device.swap.description': 'ใช้ไฟล์สลับเมื่อหน่วยความจำเหลือน้อย',
+    'settings.device.swap.sizeDescription': 'กำหนดขนาดไฟล์สลับ',
+    'settings.device.sections.connectivity': 'การเชื่อมต่อ',
+    'settings.device.sections.hostConnection': 'การเชื่อมต่อกับโฮสต์',
+    'settings.device.sections.inputOutput': 'อินพุตและเอาต์พุต',
+    'settings.device.sections.optimizations': 'การปรับให้เหมาะสม',
+    'settings.device.minutes': 'นาที',
+    'settings.device.oled.title': 'หมดเวลา OLED',
+    'settings.device.oled.keepOn': 'เปิด OLED ไว้ตลอด',
+    'settings.device.oled.keepOnDescription': 'ไม่ปิดหน้าจอ OLED เลย',
+    'settings.device.sessionLock.title': 'ล็อกเซสชันเมื่อไม่มีการใช้งาน'
   },
   tr: {
     'auth.illegalPassword':
@@ -3647,7 +3823,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.urlPeriod': 'Adres sadece 10 dakika boyunca geçerlidir',
     'settings.device.hdmi.description': 'HDMI/Monitör çıktısını aktifleştir',
     'settings.account.logoutBtn': 'Çıkış yap',
-    'settings.device.swap.disable': 'Devre dışı bırak',
     'settings.device.diskDesc': 'SD kartı uzak ana bilgisayara bağla',
     'settings.device.diskCancelMount':
       'Sanal diski etkinleştirmek bağlı imajı iptal eder. Devam edilsin mi?',
@@ -3803,7 +3978,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Gönderenin eklediği zaman damgalarını kaldır; syslog kendisininkini ekler',
     'settings.systemLog.local.description':
       'SD karta yazmayı önlemek için geçerli günlükler RAM’de {{path}} konumunda tutulur',
-    'settings.systemLog.kernel.enabled': 'Kernel günlüğünü ilet'
+    'settings.systemLog.kernel.enabled': 'Kernel günlüğünü ilet',
+    'settings.device.swap.size': 'Swap boyutu',
+    'settings.device.swap.description': 'Bellek azaldığında bir swap dosyası kullan',
+    'settings.device.swap.sizeDescription': 'Swap dosyasının boyutunu belirle',
+    'settings.device.sections.connectivity': 'Bağlantı',
+    'settings.device.sections.hostConnection': 'Ana makine bağlantısı',
+    'settings.device.sections.inputOutput': 'Giriş ve çıkış',
+    'settings.device.sections.optimizations': 'Optimizasyonlar',
+    'settings.device.minutes': 'dk',
+    'settings.device.oled.title': 'OLED zaman aşımı',
+    'settings.device.oled.keepOn': "OLED'i açık tut",
+    'settings.device.oled.keepOnDescription': 'OLED ekranı hiç kapatma',
+    'settings.device.sessionLock.title': 'Etkin değilken oturumu kilitle'
   },
   uk: {
     'auth.illegalPassword':
@@ -3820,7 +4007,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.error': 'Непередбачена помилка',
     'settings.network.wifi.confirmBtn': 'ОК',
     'settings.device.mouseJiggler.title': 'Імітація руху миші',
-    'settings.device.swap.disable': 'Вимкнути',
     'settings.device.mouseJiggler.disable': 'Вимкнути',
     'settings.device.mdns.description': 'Увімкнути службу виявлення mDNS',
     'settings.update.preview': 'Попередні оновлення',
@@ -3982,7 +4168,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Видаляти мітки часу, додані відправником; syslog додає власні',
     'settings.systemLog.local.description':
       'Поточні журнали зберігаються в RAM за шляхом {{path}}, щоб уникати записів на SD-карту',
-    'settings.systemLog.kernel.enabled': 'Пересилати журнал ядра'
+    'settings.systemLog.kernel.enabled': 'Пересилати журнал ядра',
+    'settings.device.swap.size': 'Розмір свопу',
+    'settings.device.swap.description': "Використовувати файл свопу, коли бракує пам'яті",
+    'settings.device.swap.sizeDescription': 'Встановіть розмір файлу свопу',
+    'settings.device.sections.connectivity': 'Підключення',
+    'settings.device.sections.hostConnection': 'Підключення до хоста',
+    'settings.device.sections.inputOutput': 'Введення та виведення',
+    'settings.device.sections.optimizations': 'Оптимізація',
+    'settings.device.minutes': 'хв',
+    'settings.device.oled.title': 'Тайм-аут OLED',
+    'settings.device.oled.keepOn': 'Не вимикати OLED',
+    'settings.device.oled.keepOnDescription': 'Ніколи не вимикати екран OLED',
+    'settings.device.sessionLock.title': 'Блокувати сеанс за бездіяльності'
   },
   vi: {
     'auth.illegalPassword':
@@ -4127,14 +4325,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'terminal.locked': 'Quá nhiều lần thử. Vui lòng thử lại sau',
     'keyboard.dropdownKorean': 'Tiếng Hàn',
     'keyboard.dropdownJapanese': 'Tiếng Nhật',
-    'settings.device.oled.15': '15 giây',
-    'settings.device.oled.30': '30 giây',
-    'settings.device.oled.60': '1 phút',
-    'settings.device.oled.180': '3 phút',
-    'settings.device.oled.300': '5 phút',
-    'settings.device.oled.600': '10 phút',
-    'settings.device.oled.1800': '30 phút',
-    'settings.device.oled.3600': '1 giờ',
     'keyboard.localInput': 'Nhập liệu từ bàn phím di động',
     'settings.network.configuration': 'Cấu hình',
     'settings.network.dns.servers': 'Máy chủ',
@@ -4163,7 +4353,19 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Xóa dấu thời gian do bên gửi thêm; syslog tự thêm dấu thời gian của nó',
     'settings.systemLog.local.description':
       'Nhật ký hiện tại được giữ trong RAM tại {{path}} để tránh ghi vào thẻ SD',
-    'settings.systemLog.kernel.enabled': 'Chuyển tiếp nhật ký kernel'
+    'settings.systemLog.kernel.enabled': 'Chuyển tiếp nhật ký kernel',
+    'settings.device.swap.size': 'Kích thước Swap',
+    'settings.device.swap.description': 'Dùng tệp hoán đổi khi bộ nhớ sắp hết',
+    'settings.device.swap.sizeDescription': 'Đặt kích thước tệp hoán đổi',
+    'settings.device.sections.connectivity': 'Kết nối',
+    'settings.device.sections.hostConnection': 'Kết nối với máy chủ',
+    'settings.device.sections.inputOutput': 'Đầu vào và đầu ra',
+    'settings.device.sections.optimizations': 'Tối ưu hóa',
+    'settings.device.minutes': 'phút',
+    'settings.device.oled.title': 'Thời gian chờ OLED',
+    'settings.device.oled.keepOn': 'Giữ OLED luôn bật',
+    'settings.device.oled.keepOnDescription': 'Không bao giờ tắt màn hình OLED',
+    'settings.device.sessionLock.title': 'Khóa phiên khi không hoạt động'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -4294,7 +4496,19 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.systemLog.local.stripTimestampsDesc':
       '移除发送方添加的时间戳；syslog 会添加自己的时间戳',
     'settings.systemLog.local.description': '当前日志保存在 RAM 的 {{path}}，以避免写入 SD 卡',
-    'settings.systemLog.kernel.enabled': '转发内核日志'
+    'settings.systemLog.kernel.enabled': '转发内核日志',
+    'settings.device.swap.size': 'Swap 大小',
+    'settings.device.swap.description': '内存不足时使用交换文件',
+    'settings.device.swap.sizeDescription': '设置交换文件大小',
+    'settings.device.sections.connectivity': '连接',
+    'settings.device.sections.hostConnection': '主机连接',
+    'settings.device.sections.inputOutput': '输入与输出',
+    'settings.device.sections.optimizations': '优化',
+    'settings.device.minutes': '分钟',
+    'settings.device.oled.title': 'OLED 超时',
+    'settings.device.oled.keepOn': '保持 OLED 常亮',
+    'settings.device.oled.keepOnDescription': '从不关闭 OLED 屏幕',
+    'settings.device.sessionLock.title': '闲置时锁定会话'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -4429,6 +4643,18 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.systemLog.local.stripTimestampsDesc':
       '移除傳送端加入的時間戳記；syslog 會加入自己的時間戳記',
     'settings.systemLog.local.description': '目前記錄保存在 RAM 的 {{path}}，以避免寫入 SD 卡',
-    'settings.systemLog.kernel.enabled': '轉送核心記錄'
+    'settings.systemLog.kernel.enabled': '轉送核心記錄',
+    'settings.device.swap.size': 'Swap 大小',
+    'settings.device.swap.description': '記憶體不足時使用 Swap 檔',
+    'settings.device.swap.sizeDescription': '設定 Swap 檔大小',
+    'settings.device.sections.connectivity': '連線',
+    'settings.device.sections.hostConnection': '主機連線',
+    'settings.device.sections.inputOutput': '輸入與輸出',
+    'settings.device.sections.optimizations': '最佳化',
+    'settings.device.minutes': '分鐘',
+    'settings.device.oled.title': 'OLED 逾時',
+    'settings.device.oled.keepOn': '保持 OLED 常亮',
+    'settings.device.oled.keepOnDescription': '從不關閉 OLED 螢幕',
+    'settings.device.sessionLock.title': '閒置時鎖定工作階段'
   }
 };

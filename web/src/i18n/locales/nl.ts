@@ -318,23 +318,13 @@ const nl = {
       device: {
         title: 'Apparaat',
         oled: {
-          title: 'OLED',
-          0: 'Nooit',
-          15: '15 sec',
-          30: '30 sec',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 uur'
+          title: 'OLED'
         },
         ssh: {
           description: 'Schakel SSH externe toegang in'
         },
         swap: {
           title: 'Wisselen',
-          disable: 'Uitschakelen',
           description: 'Stel de grootte van het wisselbestand in'
         },
         mouseJiggler: {
@@ -351,8 +341,7 @@ const nl = {
           description: 'Schakel HDMI/monitoruitgang in',
           idleTimeoutTitle: 'Time-out voor inactieve opname',
           idleTimeoutDescription:
-            'HDMI-opname stoppen nadat er gedurende deze tijd geen actieve kijkers zijn:',
-          minutes: 'min'
+            'HDMI-opname stoppen nadat er gedurende deze tijd geen actieve kijkers zijn:'
         },
         hidOnly: 'HID-Alleen modus',
         disk: 'Virtuele schijf',

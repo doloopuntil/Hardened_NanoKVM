@@ -310,23 +310,13 @@ const zh_tw = {
         title: '設備',
         oled: {
           title: 'OLED',
-          description: '設定 OLED 螢幕自動睡眠時間',
-          0: '永不',
-          15: '15 秒',
-          30: '30 秒',
-          60: '1 分鐘',
-          180: '3 分鐘',
-          300: '5 分鐘',
-          600: '10 分鐘',
-          1800: '30 分鐘',
-          3600: '1 小時'
+          description: '設定 OLED 螢幕自動睡眠時間'
         },
         ssh: {
           description: '啟用 SSH 伺服器'
         },
         swap: {
           title: 'Swap',
-          disable: '停用',
           description: '設定 Swap 檔大小'
         },
         mouseJiggler: {
@@ -342,8 +332,7 @@ const zh_tw = {
         hdmi: {
           description: '啟用 HDMI/螢幕 輸出',
           idleTimeoutTitle: '擷取閒置逾時',
-          idleTimeoutDescription: '沒有活躍觀看者時，在指定時間後停止 HDMI 擷取',
-          minutes: '分鐘'
+          idleTimeoutDescription: '沒有活躍觀看者時，在指定時間後停止 HDMI 擷取'
         },
         hidOnly: 'HID-Only 模式',
         disk: '虛擬磁碟',

@@ -70,7 +70,7 @@ export const MouseJiggler = () => {
 
       {enabled ? (
         <Select
-          style={{ width: 150 }}
+          className="w-40 shrink-0 text-right"
           value={mode}
           options={options}
           loading={isLoading}

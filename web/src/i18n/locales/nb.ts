@@ -310,23 +310,13 @@ const nb = {
       device: {
         title: 'Enhet',
         oled: {
-          title: 'OLED',
-          0: 'Aldri',
-          15: '15 sec',
-          30: '30 sec',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 time'
+          title: 'OLED'
         },
         ssh: {
           description: 'Aktiver SSH ekstern tilgang'
         },
         swap: {
           title: 'Bytt',
-          disable: 'Deaktiver',
           description: 'Angi størrelsen på byttefilen'
         },
         mouseJiggler: {
@@ -343,8 +333,7 @@ const nb = {
         hdmi: {
           description: 'Aktiver HDMI/skjermutgang',
           idleTimeoutTitle: 'Tidsavbrudd for inaktivt opptak',
-          idleTimeoutDescription: 'Stopp HDMI-opptak etter at det ikke har vært aktive seere i',
-          minutes: 'min'
+          idleTimeoutDescription: 'Stopp HDMI-opptak etter at det ikke har vært aktive seere i'
         },
         hidOnly: 'HID-Bare modus',
         disk: 'Virtuell disk',

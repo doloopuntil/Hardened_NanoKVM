@@ -105,12 +105,12 @@ export const Hdmi = () => {
             </div>
 
             <InputNumber
-              style={{ width: 150 }}
+              className="w-40 shrink-0 [&_.ant-input-number-input]:!text-right"
               min={0}
               max={10080}
               precision={0}
               value={idleTimeoutInput}
-              addonAfter={t('settings.device.hdmi.minutes')}
+              addonAfter={t('settings.device.minutes')}
               disabled={isIdleTimeoutLoading || !isReady}
               onChange={setIdleTimeoutInput}
               onBlur={updateIdleTimeout}

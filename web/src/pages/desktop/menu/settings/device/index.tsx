@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 
@@ -19,21 +20,32 @@ export const Device = () => {
       <div className="text-base">{t('settings.device.title')}</div>
       <Divider className="opacity-50" />
 
-      <div className="flex flex-col space-y-8">
-        <Ssh />
-        <Mdns />
-        <Hdmi />
+      <div className="flex flex-col space-y-6">
+        <Section title={t('settings.device.sections.connectivity')}>
+          <Ssh />
+          <Mdns />
+        </Section>
+
         <Divider className="opacity-50" />
 
-        <VirtualDevices />
+        <Section title={t('settings.device.sections.hostConnection')}>
+          <VirtualDevices />
+        </Section>
+
         <Divider className="opacity-50" />
 
-        <Oled />
-        <MouseJiggler />
-        <SessionLock />
+        <Section title={t('settings.device.sections.inputOutput')}>
+          <MouseJiggler />
+          <Hdmi />
+          <Oled />
+        </Section>
+
         <Divider className="opacity-50" />
 
-        <Swap />
+        <Section title={t('settings.device.sections.optimizations')}>
+          <Swap />
+          <SessionLock />
+        </Section>
       </div>
 
       <Divider className="opacity-50" />
@@ -42,3 +54,10 @@ export const Device = () => {
     </>
   );
 };
+
+const Section = ({ title, children }: { title: string; children: ReactNode }) => (
+  <div className="flex min-w-0 flex-col space-y-6">
+    <div className="text-neutral-400">{title}</div>
+    {children}
+  </div>
+);

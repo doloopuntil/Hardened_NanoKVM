@@ -323,23 +323,13 @@ const pt_br = {
         title: 'Dispositivo',
         oled: {
           title: 'OLED',
-          description: 'Desligar tela OLED após',
-          0: 'Nunca',
-          15: '15 seg',
-          30: '30 seg',
-          60: '1 min',
-          180: '3 min',
-          300: '5 min',
-          600: '10 min',
-          1800: '30 min',
-          3600: '1 hora'
+          description: 'Desligar tela OLED após'
         },
         ssh: {
           description: 'Habilitar acesso remoto SSH'
         },
         swap: {
           title: 'Swap',
-          disable: 'Desativar',
           description: 'Defina o tamanho do arquivo de swap'
         },
         mouseJiggler: {
@@ -356,8 +346,7 @@ const pt_br = {
         hdmi: {
           description: 'Habilitar saída HDMI/monitor',
           idleTimeoutTitle: 'Tempo limite de captura inativa',
-          idleTimeoutDescription: 'Parar a captura HDMI após não haver visualizadores ativos por',
-          minutes: 'min'
+          idleTimeoutDescription: 'Parar a captura HDMI após não haver visualizadores ativos por'
         },
         hidOnly: 'Modo Somente-HID',
         disk: 'Disco Virtual',

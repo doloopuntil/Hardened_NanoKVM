@@ -312,21 +312,11 @@ const de = {
       device: {
         title: 'Gerät',
         oled: {
-          title: 'OLED',
-          0: 'Nie',
-          15: '15 Sek',
-          30: '30 Sek',
-          60: '1 Min',
-          180: '3 Min',
-          300: '5 Min',
-          600: '10 Min',
-          1800: '30 Min',
-          3600: '1 Stunde'
+          title: 'OLED'
         },
         ssh: {},
         swap: {
           title: 'Swap',
-          disable: 'Deaktivieren',
           description: 'Grösse der Swap-Datei festlegen'
         },
         mouseJiggler: {
@@ -344,8 +334,7 @@ const de = {
           description: 'HDMI/Monitor-Ausgabe aktivieren',
           idleTimeoutTitle: 'Zeitlimit für inaktive Aufnahme',
           idleTimeoutDescription:
-            'HDMI-Aufnahme stoppen, wenn keine aktiven Zuschauer vorhanden sind für',
-          minutes: 'Min.'
+            'HDMI-Aufnahme stoppen, wenn keine aktiven Zuschauer vorhanden sind für'
         },
         hidOnly: 'HID-Only Mode',
         disk: 'Virtuelle Festplatte',
