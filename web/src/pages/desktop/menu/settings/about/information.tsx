@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import type { ReactNode } from 'react';
 import { Tooltip } from 'antd';
 import { CircleHelpIcon, EthernetPortIcon, WifiIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/vm.ts';
 import { formatHardenedVersion } from '@/lib/hardened.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { InfoRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import { Hostname } from './hostname.tsx';
 
@@ -38,23 +38,6 @@ function formatUptime(seconds?: number) {
   return `${minutes}m`;
 }
 
-type InfoRowProps = {
-  label: ReactNode;
-  value: ReactNode;
-  alignStart?: boolean;
-};
-
-const InfoRow = ({ label, value, alignStart }: InfoRowProps) => (
-  <div
-    className={`flex w-full min-w-0 flex-col gap-2 sm:flex-row sm:justify-between ${
-      alignStart ? 'sm:items-start' : 'sm:items-center'
-    }`}
-  >
-    <div className="min-w-0 shrink-0 text-neutral-300 sm:max-w-[45%]">{label}</div>
-    <div className="min-w-0 break-words text-left text-neutral-300 sm:text-right">{value}</div>
-  </div>
-);
-
 export const Information = () => {
   const { t } = useTranslation();
 
@@ -63,22 +46,17 @@ export const Information = () => {
   useSettingsLoad(api.getInfo, (rsp) => setInformation(rsp.data));
 
   return (
-    <>
-      <div className="text-neutral-400">{t('settings.about.information')}</div>
-
-      <div className="mt-5 flex w-full flex-col space-y-5">
-        {/* IP list */}
+    <SettingSection title={t('settings.about.information')}>
+      <div className="space-y-3">
         <InfoRow
+          inline
           alignStart
-          label={<span>{t('settings.about.ip')}</span>}
+          label={t('settings.about.ip')}
           value={
             information?.ips && information.ips.length > 0 ? (
               <div className="flex min-w-0 flex-col space-y-1">
                 {information.ips.map((ip) => (
-                  <div
-                    key={ip.addr}
-                    className="flex min-w-0 items-center justify-start gap-2 sm:justify-end"
-                  >
+                  <div key={ip.addr} className="flex min-w-0 items-center justify-end gap-2">
                     <span className="min-w-0 break-all">{ip.addr}</span>
                     <div className="size-[16px] shrink-0 text-neutral-500">
                       {ip.type === 'Wireless' ? (
@@ -90,59 +68,50 @@ export const Information = () => {
                   </div>
                 ))}
               </div>
-            ) : (
-              <span>-</span>
-            )
+            ) : undefined
           }
         />
 
-        {/* mDNS */}
         {!!information?.mdns && (
-          <InfoRow label={<span>{t('settings.about.mdns')}</span>} value={information.mdns} />
+          <InfoRow inline label={t('settings.about.mdns')} value={information.mdns} />
         )}
 
-        {/* image version */}
         <InfoRow
+          inline
           label={
-            <div className="flex items-center space-x-2">
-              <span>{t('settings.about.image')}</span>
-              <Tooltip
-                title={t('settings.about.imageTip')}
-                className="cursor-pointer text-neutral-500"
-                placement="right"
-              >
-                <CircleHelpIcon size={15} />
-              </Tooltip>
-            </div>
+            <LabelWithTip text={t('settings.about.image')} tip={t('settings.about.imageTip')} />
           }
-          value={<span>{information ? information.image : '-'}</span>}
+          value={information?.image}
         />
 
-        {/* application version */}
         <InfoRow
+          inline
           label={
-            <div className="flex items-center space-x-2">
-              <span>{t('settings.about.application')}</span>
-              <Tooltip
-                title={t('settings.about.applicationTip')}
-                className="cursor-pointer text-neutral-500"
-                placement="right"
-              >
-                <CircleHelpIcon size={15} />
-              </Tooltip>
-            </div>
+            <LabelWithTip
+              text={t('settings.about.application')}
+              tip={t('settings.about.applicationTip')}
+            />
           }
-          value={<span>{information ? formatHardenedVersion(information.application) : '-'}</span>}
+          value={information ? formatHardenedVersion(information.application) : undefined}
         />
 
-        {/* uptime */}
         <InfoRow
-          label={<span>{t('settings.about.uptime')}</span>}
-          value={<span>{formatUptime(information?.uptime)}</span>}
+          inline
+          label={t('settings.about.uptime')}
+          value={formatUptime(information?.uptime)}
         />
 
         <Hostname />
       </div>
-    </>
+    </SettingSection>
   );
 };
+
+const LabelWithTip = ({ text, tip }: { text: string; tip: string }) => (
+  <span className="flex items-center gap-2">
+    {text}
+    <Tooltip title={tip} className="cursor-pointer text-neutral-500" placement="right">
+      <CircleHelpIcon size={15} />
+    </Tooltip>
+  </span>
+);

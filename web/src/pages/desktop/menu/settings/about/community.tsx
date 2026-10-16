@@ -2,6 +2,8 @@ import { GithubOutlined } from '@ant-design/icons';
 import { BookOpenIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
+import { SettingSection } from '@/components/setting-rows.tsx';
+
 export const Community = () => {
   const { t } = useTranslation();
 
@@ -15,14 +17,12 @@ export const Community = () => {
   ];
 
   return (
-    <>
-      <div className="text-neutral-400">{t('settings.about.community')}</div>
-
-      <div className="mt-5 flex flex-wrap gap-3">
+    <SettingSection title={t('settings.about.community')}>
+      <div className="flex flex-wrap gap-3">
         {communities.map((community) => (
           <a
             key={community.name}
-            className="flex h-[64px] w-[80px] flex-col items-center justify-center space-y-2 rounded-lg text-neutral-300 outline outline-1 outline-neutral-800 hover:bg-neutral-800 hover:text-white focus:bg-neutral-800 md:h-[72px] md:w-[100px]"
+            className="flex h-16 w-24 flex-col items-center justify-center space-y-2 rounded-lg text-neutral-300 outline outline-1 outline-neutral-800 hover:bg-neutral-800 hover:text-white focus:bg-neutral-800"
             href={community.url}
             target="_blank"
           >
@@ -31,6 +31,6 @@ export const Community = () => {
           </a>
         ))}
       </div>
-    </>
+    </SettingSection>
   );
 };

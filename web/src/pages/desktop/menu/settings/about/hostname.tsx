@@ -7,6 +7,20 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { InfoRow } from '@/components/setting-rows.tsx';
+
+// The kernel keeps at most 64 bytes of host name.
+const MAX_LENGTH = 64;
+
+// A host name, or a fully-qualified one such as host.network.net: dot-separated labels of
+// letters, digits and hyphens. The server checks the same rules.
+function isValidHostname(name: string) {
+  return (
+    name.length > 0 &&
+    name.length <= MAX_LENGTH &&
+    name.split('.').every((label) => /^[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/.test(label))
+  );
+}
 
 export const Hostname = () => {
   const { t } = useTranslation();
@@ -23,25 +37,28 @@ export const Hostname = () => {
     }
   });
 
+  const isInvalid = !isValidHostname(input.trim());
+
   function showInput() {
     setInput(hostname);
     setEditState('editing');
   }
 
   function update() {
-    if (input === hostname) {
+    const name = input.trim();
+    if (name === hostname) {
       setEditState('');
       return;
     }
 
-    if (isLoading) return;
+    if (isLoading || !isValidHostname(name)) return;
     setIsLoading(true);
 
-    attempt(() => api.setHostname(input))
+    attempt(() => api.setHostname(name))
       .then((rsp) => {
         if (!rsp) return;
 
-        setHostname(input);
+        setHostname(name);
         setEditState('edited');
       })
       .finally(() => {
@@ -51,34 +68,39 @@ export const Hostname = () => {
 
   return (
     <div className="space-y-1">
-      <div className="flex w-full min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <span className="shrink-0">{t('settings.about.hostname')}</span>
-
-        {editState === 'editing' ? (
-          <div className="flex min-w-0 items-center space-x-1">
-            <Input
-              disabled={isLoading}
-              className="min-w-0 flex-1 sm:w-[150px] sm:flex-none"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-            <Button size="small" icon={<CheckOutlined />} onClick={update} />
-            <Button size="small" icon={<CloseOutlined />} onClick={() => setEditState('')} />
-          </div>
-        ) : (
-          <div className="flex min-w-0 items-center space-x-2">
-            <span className="min-w-0 break-all">{hostname}</span>
-            <div
-              className={`size-[16px] shrink-0 text-neutral-500 ${
-                isReady ? 'cursor-pointer hover:text-blue-500' : 'cursor-not-allowed opacity-40'
-              }`}
-              onClick={isReady ? showInput : undefined}
-            >
-              <ClipboardPenIcon size={16} />
+      <InfoRow
+        inline
+        label={t('settings.about.hostname')}
+        value={
+          editState === 'editing' ? (
+            <div className="flex min-w-0 items-center space-x-1">
+              <Input
+                disabled={isLoading}
+                className="min-w-0 flex-1 text-right sm:w-64 sm:flex-none"
+                status={isInvalid ? 'error' : undefined}
+                maxLength={MAX_LENGTH}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onPressEnter={update}
+              />
+              <Button size="small" icon={<CheckOutlined />} disabled={isInvalid} onClick={update} />
+              <Button size="small" icon={<CloseOutlined />} onClick={() => setEditState('')} />
             </div>
-          </div>
-        )}
-      </div>
+          ) : (
+            <div className="flex min-w-0 items-center justify-end gap-2">
+              <span className="min-w-0 break-all">{hostname}</span>
+              <div
+                className={`size-[16px] shrink-0 text-neutral-500 ${
+                  isReady ? 'cursor-pointer hover:text-blue-500' : 'cursor-not-allowed opacity-40'
+                }`}
+                onClick={isReady ? showInput : undefined}
+              >
+                <ClipboardPenIcon size={16} />
+              </div>
+            </div>
+          )
+        }
+      />
 
       {editState === 'edited' && (
         <div className="flex w-full justify-start text-xs text-green-500 sm:justify-end">
