@@ -2,13 +2,39 @@ import type { ReactNode } from 'react';
 import { Input } from 'antd';
 
 // A read-only "label ... value" row, as used on the Network page. It is as tall as the
-// editable row, so switching between the two does not move the rows around.
-export const InfoRow = ({ label, value }: { label: string; value?: string }) => (
-  <div className="flex flex-col items-start gap-1 sm:min-h-8 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+// editable row, so switching between the two does not move the rows around. A value of several
+// lines can start at the top of the row.
+export const InfoRow = ({
+  label,
+  value,
+  alignStart = false,
+  inline = false
+}: {
+  label: ReactNode;
+  value?: ReactNode;
+  alignStart?: boolean;
+  // keeps the value on the label's row on a phone instead of under it
+  inline?: boolean;
+}) => (
+  <div
+    className={
+      inline
+        ? `flex min-h-8 flex-row justify-between gap-4 ${alignStart ? 'items-start' : 'items-center'}`
+        : `flex flex-col items-start gap-1 sm:min-h-8 sm:flex-row sm:justify-between sm:gap-4 ${
+            alignStart ? 'sm:items-start' : 'sm:items-center'
+          }`
+    }
+  >
     <span className="shrink-0 text-sm text-neutral-300">{label}</span>
-    <span className="w-full break-all text-left text-sm text-neutral-500 sm:w-auto sm:max-w-md sm:text-right">
+    <div
+      className={`break-all text-sm text-neutral-500 sm:max-w-md ${
+        inline
+          ? 'min-w-0 flex-1 text-right sm:flex-none'
+          : 'w-full text-left sm:w-auto sm:text-right'
+      }`}
+    >
       {value || '-'}
-    </span>
+    </div>
   </div>
 );
 
