@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Segmented } from 'antd';
+import { Segmented } from 'antd';
 import clsx from 'clsx';
-import { SaveIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
+import { SaveBar } from '@/components/save-bar.tsx';
 import { SettingsLoadGroup } from '@/components/settings-load-group.tsx';
 
 import { Network } from '../network';
@@ -19,7 +19,7 @@ type SystemSection = 'network' | 'time' | 'firewall' | 'systemLog';
 export const System = () => {
   const { t } = useTranslation();
   const isTouchLayout = useIsTouchLayout();
-  const [section, setSection] = useState<SystemSection>('network');
+  const [section, setSection] = useState<SystemSection>('time');
   const [actionState, setActionState] = useState<SystemActionState>(idleSystemActionState);
   const networkRef = useRef<SystemActionHandle>(null);
   const timeRef = useRef<SystemActionHandle>(null);
@@ -47,55 +47,28 @@ export const System = () => {
     }
   }
 
-  const showSaveAction =
-    (section === 'network' || section === 'time' || section === 'systemLog') &&
-    actionState.hasPending;
-  const actionStatusColor =
-    actionState.statusKind === 'error'
-      ? 'text-red-400'
-      : actionState.statusKind === 'success'
-        ? 'text-green-400'
-        : 'text-yellow-400/80';
-
   return (
     <>
       <div
         className={clsx(
-          'sticky top-0 z-20 -mx-1 mb-6 min-w-0 border-b border-neutral-700/70 bg-neutral-900/95 px-1 pb-3 pt-1 shadow-[0_10px_20px_rgba(0,0,0,0.25)] backdrop-blur',
+          'sticky top-0 z-20 -mx-1 mb-6 min-w-0 border-0 border-b border-solid border-white/[0.06] bg-neutral-900/95 px-1 pb-6 shadow-[0_10px_20px_rgba(0,0,0,0.25)] backdrop-blur',
           // the desktop layout leaves room above the header for its own title bar; the touch layout
           // has none, and the offset there pushes the header down over the first settings
           !isTouchLayout &&
             "before:absolute before:bottom-full before:left-0 before:right-0 before:h-14 before:bg-neutral-900/95 before:content-[''] sm:top-14"
         )}
       >
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="min-w-0 text-base">{t('settings.system.title')}</div>
-          <div className="flex min-w-0 flex-col items-stretch gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
-            {actionState.statusText && (
-              <span className={`min-w-0 truncate text-xs sm:max-w-[220px] ${actionStatusColor}`}>
-                {actionState.statusText}
-              </span>
-            )}
-            {showSaveAction && (
-              <Button
-                type="primary"
-                size="small"
-                icon={<SaveIcon size={14} />}
-                loading={actionState.isBusy}
-                disabled={!actionState.canSave}
-                onClick={saveActiveSection}
-              >
-                {t('settings.system.saveChanges')}
-              </Button>
-            )}
+        <div className="flex items-center justify-between gap-3">
+          <div className="shrink-0 text-base">{t('settings.system.title')}</div>
+          <div className="flex min-w-0 items-center justify-end">
             <div className="min-w-0 max-w-full overflow-x-auto">
               <Segmented
                 size="small"
                 className="min-w-max"
                 value={section}
                 options={[
-                  { value: 'network', label: t('settings.network.title') },
                   { value: 'time', label: t('settings.system.sections.time') },
+                  { value: 'network', label: t('settings.network.title') },
                   { value: 'firewall', label: t('settings.system.sections.firewall') },
                   { value: 'systemLog', label: t('settings.system.sections.systemLog') }
                 ]}
@@ -131,6 +104,18 @@ export const System = () => {
           )}
         </div>
       </SettingsLoadGroup>
+
+      {/* outside the section above, whose overflow would keep the bar from sticking */}
+      {(actionState.hasPending || actionState.statusText) && (
+        <SaveBar
+          statusText={actionState.statusText}
+          statusKind={actionState.statusKind}
+          label={t('settings.system.saveChanges')}
+          loading={actionState.isBusy}
+          disabled={!actionState.canSave}
+          onSave={actionState.hasPending ? saveActiveSection : undefined}
+        />
+      )}
     </>
   );
 };

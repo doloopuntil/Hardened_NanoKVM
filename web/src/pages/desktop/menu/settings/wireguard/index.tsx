@@ -19,6 +19,7 @@ import * as api from '@/api/system-wireguard.ts';
 import type { WireguardConfig, WireguardStatus } from '@/api/system-wireguard.ts';
 import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
+import { SaveBar } from '@/components/save-bar.tsx';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
 const POLL_MS = 5000;
@@ -370,19 +371,16 @@ export const Wireguard = () => {
           </Section>
 
           {(hasInvalid || hasPending) && (
-            <div className="sticky bottom-0 z-10 -mx-3 flex min-w-0 flex-wrap items-center justify-end gap-3 border-t border-neutral-700/70 bg-neutral-900/95 px-3 py-3 backdrop-blur">
-              <span className={`text-xs ${hasInvalid ? 'text-red-400' : 'text-yellow-400/80'}`}>
-                {hasInvalid ? t('settings.wireguard.invalid') : t('settings.wireguard.unsaved')}
-              </span>
-              <Button
-                type="primary"
-                loading={isSaving}
-                disabled={hasInvalid || isBusy}
-                onClick={() => void save()}
-              >
-                {t('settings.wireguard.save')}
-              </Button>
-            </div>
+            <SaveBar
+              statusText={
+                hasInvalid ? t('settings.wireguard.invalid') : t('settings.wireguard.unsaved')
+              }
+              statusKind={hasInvalid ? 'error' : 'warning'}
+              label={t('settings.wireguard.save')}
+              loading={isSaving}
+              disabled={hasInvalid || isBusy}
+              onSave={() => void save()}
+            />
           )}
         </div>
 
