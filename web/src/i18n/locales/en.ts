@@ -1020,7 +1020,8 @@ const en = {
       },
       config: {
         startRuntime: 'Start PicoClaw',
-        stopRuntime: 'Stop PicoClaw'
+        stopRuntime: 'Stop PicoClaw',
+        stopConfirm: 'Stop PicoClaw?'
       },
       start: {
         title: 'Start PicoClaw',

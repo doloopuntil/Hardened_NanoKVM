@@ -290,7 +290,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerNone": "No trobat",
     "picoclaw.model.apiBase": "API base URL",
     "picoclaw.model.invalid": "Cal indicar l'identificador del model, l'API base URL i la clau API",
-    "picoclaw.inputPlaceholder": "Descriu què vols que faci PicoClaw"
+    "picoclaw.inputPlaceholder": "Descriu què vols que faci PicoClaw",
+    "picoclaw.config.stopConfirm": "Aturar PicoClaw?"
   },
   cz: {
     "auth.illegalPassword": "Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka",
@@ -534,7 +535,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "Zjištěný router",
     "settings.system.time.servers.routerNone": "Nenalezen",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "Identifikátor modelu, API base URL a klíč API jsou povinné"
+    "picoclaw.model.invalid": "Identifikátor modelu, API base URL a klíč API jsou povinné",
+    "picoclaw.config.stopConfirm": "Zastavit PicoClaw?"
   },
   da: {
     "auth.illegalPassword": "Adgangskoden skal være på mindst 8 tegn og må ikke indeholde anførselstegn eller skråstreger",
@@ -788,7 +790,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "Registreret router",
     "settings.system.time.servers.routerNone": "Ikke fundet",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "Model-id, API base URL og API-nøgle er påkrævet"
+    "picoclaw.model.invalid": "Model-id, API base URL og API-nøgle er påkrævet",
+    "picoclaw.config.stopConfirm": "Stop PicoClaw?"
   },
   de: {
     "auth.illegalPassword": "Das Passwort muss mindestens 8 Zeichen lang sein und darf keine Anführungszeichen oder Schrägstriche enthalten",
@@ -1054,7 +1057,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "picoclaw.model.invalid": "Modellkennung, API base URL und API-Schlüssel sind erforderlich",
     "picoclaw.uninstall.confirmTitle": "PicoClaw deinstallieren",
     "picoclaw.install.install": "PicoClaw installieren",
-    "picoclaw.inputPlaceholder": "Beschreiben Sie, was PicoClaw tun soll"
+    "picoclaw.inputPlaceholder": "Beschreiben Sie, was PicoClaw tun soll",
+    "picoclaw.config.stopConfirm": "PicoClaw stoppen?"
   },
   es: {
     "auth.illegalPassword": "La contraseña debe tener al menos 8 caracteres y no puede contener comillas ni barras",
@@ -1298,7 +1302,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerNone": "No encontrado",
     "picoclaw.model.apiBase": "API base URL",
     "picoclaw.model.invalid": "Se requieren el identificador del modelo, API base URL y la clave API",
-    "picoclaw.inputPlaceholder": "Describe lo que quieres que haga PicoClaw"
+    "picoclaw.inputPlaceholder": "Describe lo que quieres que haga PicoClaw",
+    "picoclaw.config.stopConfirm": "¿Seguro que deseas detener PicoClaw?"
   },
   et: {
     "settings.device.diskDesc": "Ühenda SD-kaart kaugmasinasse",
@@ -1541,7 +1546,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "Sisesta SD-kaart NanoKVM-i.",
     "settings.wireguard.device": "See seade",
     "settings.system.time.servers.routerDetected": "Tuvastatud ruuter",
-    "settings.system.time.servers.routerNone": "Ei leitud"
+    "settings.system.time.servers.routerNone": "Ei leitud",
+    "picoclaw.config.stopConfirm": "Kas peatada PicoClaw?"
   },
   fi: {
     "settings.device.diskDesc": "Liitä SD-kortti etäkoneeseen",
@@ -1782,7 +1788,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "Tunnistettu reititin",
     "settings.system.time.servers.routerNone": "Ei löytynyt",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "Mallin tunniste, API base URL ja API-avain vaaditaan"
+    "picoclaw.model.invalid": "Mallin tunniste, API base URL ja API-avain vaaditaan",
+    "picoclaw.config.stopConfirm": "Pysäytetäänkö PicoClaw?"
   },
   fr: {
     "auth.illegalPassword": "Le mot de passe doit contenir au moins 8 caractères et ne peut pas contenir de guillemets ni de barres obliques",
@@ -2037,7 +2044,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerNone": "Introuvable",
     "picoclaw.model.apiBase": "API base URL",
     "picoclaw.model.invalid": "L’identifiant du modèle, l’API base URL et la clé API sont requis",
-    "picoclaw.inputPlaceholder": "Décrivez ce que vous voulez que PicoClaw fasse"
+    "picoclaw.inputPlaceholder": "Décrivez ce que vous voulez que PicoClaw fasse",
+    "picoclaw.config.stopConfirm": "Êtes-vous sûr de vouloir arrêter PicoClaw?"
   },
   hu: {
     "auth.illegalPassword": "A jelszónak legalább 8 karakter hosszúnak kell lennie, és nem tartalmazhat idézőjelet vagy törtvonalat",
@@ -2293,7 +2301,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "picoclaw.model.apiBase": "API base URL",
     "picoclaw.model.invalid": "A modellazonosító, az API base URL és az API-kulcs megadása kötelező",
     "picoclaw.uninstall.confirmTitle": "PicoClaw eltávolítása",
-    "picoclaw.inputPlaceholder": "Írja le, mit szeretne, hogy PicoClaw tegyen"
+    "picoclaw.inputPlaceholder": "Írja le, mit szeretne, hogy PicoClaw tegyen",
+    "picoclaw.config.stopConfirm": "Leállítja a PicoClaw-t?"
   },
   id: {
     "auth.illegalPassword": "Kata sandi harus minimal 8 karakter dan tidak boleh berisi tanda kutip atau garis miring",
@@ -2584,7 +2593,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "picoclaw.model.apiBase": "URL dasar API",
     "picoclaw.model.invalid": "Pengenal model, URL dasar API, dan kunci API wajib diisi",
     "picoclaw.status.runtimeStartFailed": "Gagal memulai runtime PicoClaw",
-    "picoclaw.status.runtimeStopFailed": "Gagal menghentikan runtime PicoClaw"
+    "picoclaw.status.runtimeStopFailed": "Gagal menghentikan runtime PicoClaw",
+    "picoclaw.config.stopConfirm": "Hentikan PicoClaw?"
   },
   it: {
     "auth.illegalPassword": "La password deve contenere almeno 8 caratteri e non può contenere virgolette o barre",
@@ -2841,7 +2851,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "Router rilevato",
     "settings.system.time.servers.routerNone": "Non trovato",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "Identificatore del modello, API base URL e chiave API sono obbligatori"
+    "picoclaw.model.invalid": "Identificatore del modello, API base URL e chiave API sono obbligatori",
+    "picoclaw.config.stopConfirm": "Arrestare PicoClaw?"
   },
   ja: {
     "auth.illegalPassword": "パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません",
@@ -3077,7 +3088,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "検出されたルーター",
     "settings.system.time.servers.routerNone": "見つかりません",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "モデル識別子、API base URL、API キーは必須です"
+    "picoclaw.model.invalid": "モデル識別子、API base URL、API キーは必須です",
+    "picoclaw.config.stopConfirm": "PicoClaw を停止しますか？"
   },
   ko: {
     "auth.illegalPassword": "비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다",
@@ -3329,7 +3341,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "감지된 라우터",
     "settings.system.time.servers.routerNone": "찾을 수 없음",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "모델 식별자, API base URL, API 키가 필요합니다"
+    "picoclaw.model.invalid": "모델 식별자, API base URL, API 키가 필요합니다",
+    "picoclaw.config.stopConfirm": "정말로 PicoClaw를 중지하시겠습니까?"
   },
   nb: {
     "auth.illegalPassword": "Passordet må være minst 8 tegn og kan ikke inneholde anførselstegn eller skråstreker",
@@ -3577,7 +3590,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "Oppdaget ruter",
     "settings.system.time.servers.routerNone": "Ikke funnet",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "Modellidentifikator, API base URL og API-nøkkel kreves"
+    "picoclaw.model.invalid": "Modellidentifikator, API base URL og API-nøkkel kreves",
+    "picoclaw.config.stopConfirm": "Stoppe PicoClaw?"
   },
   nl: {
     "auth.illegalPassword": "Het wachtwoord moet minstens 8 tekens bevatten en mag geen aanhalingstekens of schuine strepen bevatten",
@@ -3833,7 +3847,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerNone": "Niet gevonden",
     "picoclaw.model.apiBase": "API base URL",
     "picoclaw.model.invalid": "Model-ID, API base URL en API-sleutel zijn vereist",
-    "picoclaw.inputPlaceholder": "Beschrijf wat u wilt dat PicoClaw doet"
+    "picoclaw.inputPlaceholder": "Beschrijf wat u wilt dat PicoClaw doet",
+    "picoclaw.config.stopConfirm": "Weet u zeker dat u PicoClaw wilt stoppen?"
   },
   pl: {
     "auth.illegalPassword": "Hasło musi mieć co najmniej 8 znaków i nie może zawierać cudzysłowów ani ukośników",
@@ -4077,7 +4092,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "Wykryty router",
     "settings.system.time.servers.routerNone": "Nie znaleziono",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "Identyfikator modelu, API base URL i klucz API są wymagane"
+    "picoclaw.model.invalid": "Identyfikator modelu, API base URL i klucz API są wymagane",
+    "picoclaw.config.stopConfirm": "Zatrzymać PicoClaw?"
   },
   pt_br: {
     "auth.illegalPassword": "A senha deve ter pelo menos 8 caracteres e não pode conter aspas nem barras",
@@ -4333,7 +4349,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "Roteador detectado",
     "settings.system.time.servers.routerNone": "Não encontrado",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "Identificador do modelo, API base URL e chave API são obrigatórios"
+    "picoclaw.model.invalid": "Identificador do modelo, API base URL e chave API são obrigatórios",
+    "picoclaw.config.stopConfirm": "Parar PicoClaw?"
   },
   ru: {
     "download.disabled": "Сейчас нельзя скачивать или загружать образы, потому что хранилище недоступно для записи. Если образ смонтирован, размонтируйте его, а затем отключите виртуальный диск, чтобы хранилище снова стало доступным для записи.",
@@ -4563,7 +4580,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "Обнаружен роутер",
     "settings.system.time.servers.routerNone": "Не найден",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "Требуются идентификатор модели, API base URL и API-ключ"
+    "picoclaw.model.invalid": "Требуются идентификатор модели, API base URL и API-ключ",
+    "picoclaw.config.stopConfirm": "Вы уверены что хотите остановить PicoClaw?"
   },
   se: {
     "auth.illegalPassword": "Lösenordet måste vara minst 8 tecken och får inte innehålla citattecken eller snedstreck",
@@ -4798,7 +4816,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "Upptäckt router",
     "settings.system.time.servers.routerNone": "Hittades inte",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "Modellidentifierare, API base URL och API-nyckel krävs"
+    "picoclaw.model.invalid": "Modellidentifierare, API base URL och API-nyckel krävs",
+    "picoclaw.config.stopConfirm": "Stoppa PicoClaw?"
   },
   th: {
     "auth.illegalPassword": "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร และห้ามมีเครื่องหมายคำพูดหรือเครื่องหมายทับ",
@@ -5014,7 +5033,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "ตรวจพบเราเตอร์",
     "settings.system.time.servers.routerNone": "ไม่พบ",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "ต้องระบุรหัสโมเดล, API base URL และคีย์ API"
+    "picoclaw.model.invalid": "ต้องระบุรหัสโมเดล, API base URL และคีย์ API",
+    "picoclaw.config.stopConfirm": "คุณแน่ใจที่จะปิด PicoClaw หรือไม่?"
   },
   tr: {
     "auth.illegalPassword": "Şifre en az 8 karakter olmalı ve tırnak işareti veya eğik çizgi içermemelidir",
@@ -5296,7 +5316,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "picoclaw.model.apiBase": "API temel URL'si",
     "picoclaw.model.invalid": "Model tanımlayıcı, API temel URL'si ve API anahtarı gereklidir",
     "picoclaw.model.apiKey": "API anahtarı",
-    "picoclaw.inputPlaceholder": "PicoClaw'un ne yapmasını istediğinizi açıklayın"
+    "picoclaw.inputPlaceholder": "PicoClaw'un ne yapmasını istediğinizi açıklayın",
+    "picoclaw.config.stopConfirm": "PicoClaw'ı durdur?"
   },
   uk: {
     "auth.illegalPassword": "Пароль має містити щонайменше 8 символів і не може містити лапок чи похилих рисок",
@@ -5545,7 +5566,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "Виявлений маршрутизатор",
     "settings.system.time.servers.routerNone": "Не знайдено",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "Потрібні ідентифікатор моделі, API base URL і API-ключ"
+    "picoclaw.model.invalid": "Потрібні ідентифікатор моделі, API base URL і API-ключ",
+    "picoclaw.config.stopConfirm": "Ви впевнені, що бажаєте зупинити PicoClaw?"
   },
   vi: {
     "auth.illegalPassword": "Mật khẩu phải có ít nhất 8 ký tự và không được chứa dấu nháy hoặc dấu gạch chéo",
@@ -5805,7 +5827,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "Bộ định tuyến phát hiện được",
     "settings.system.time.servers.routerNone": "Không tìm thấy",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "Bắt buộc nhập mã định danh mô hình, API base URL và khóa API"
+    "picoclaw.model.invalid": "Bắt buộc nhập mã định danh mô hình, API base URL và khóa API",
+    "picoclaw.config.stopConfirm": "Dừng PicoClaw?"
   },
   zh: {
     "auth.illegalPassword": "密码至少 8 个字符，且不能包含引号或斜杠",
@@ -6038,7 +6061,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "检测到路由器",
     "settings.system.time.servers.routerNone": "未找到",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "模型标识、API base URL 和 API Key 不能为空"
+    "picoclaw.model.invalid": "模型标识、API base URL 和 API Key 不能为空",
+    "picoclaw.config.stopConfirm": "确定要停止 PicoClaw 吗？"
   },
   zh_tw: {
     "auth.illegalPassword": "密碼至少 8 個字元，且不能包含引號或斜線",
@@ -6269,6 +6293,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.servers.routerDetected": "偵測到路由器",
     "settings.system.time.servers.routerNone": "未找到",
     "picoclaw.model.apiBase": "API base URL",
-    "picoclaw.model.invalid": "模型標識、API base URL 和 API Key 不能為空"
+    "picoclaw.model.invalid": "模型標識、API base URL 和 API Key 不能為空",
+    "picoclaw.config.stopConfirm": "確定要停止 PicoClaw 嗎？"
   }
 };

@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { Button, Input } from 'antd';
 import { useSetAtom } from 'jotai';
-import { BookOpenIcon, CpuIcon, ExternalLinkIcon, KeyRoundIcon, LinkIcon, SaveIcon } from 'lucide-react';
+import { ExternalLinkIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
+import { MenuHeader } from '@/components/menu-rows.tsx';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 type SidebarModelConfigProps = {
   apiBase: string;
@@ -19,6 +21,15 @@ type SidebarModelConfigProps = {
   onCancel?: () => void;
   showCancel?: boolean;
 };
+
+// A field with the label and typography of a setting row, but with the input under the label:
+// the sidebar is too narrow to hold a model name or an URL beside it.
+const Field = ({ label, children }: { label: string; children: ReactNode }) => (
+  <div className="flex min-w-0 flex-col gap-1.5">
+    <span className="text-sm text-neutral-300">{label}</span>
+    {children}
+  </div>
+);
 
 export const SidebarModelConfig = ({
   apiBase,
@@ -44,85 +55,54 @@ export const SidebarModelConfig = ({
   }, [setIsKeyboardEnable]);
 
   return (
-    <div className="flex flex-1 flex-col overflow-y-auto px-5 pb-8 pt-10">
-      {/* Title */}
-      <div className="mb-1 text-sm font-semibold text-neutral-100">
-        {t('picoclaw.model.requiredTitle')}
-      </div>
-      <div className="mb-5 text-xs leading-5 text-neutral-500">
-        {t('picoclaw.model.requiredDescription')}
-        {modelName && <span className="ml-1 text-neutral-400">{modelName}</span>}
+    <div className="box-border flex flex-1 flex-col space-y-6 overflow-y-auto px-5 pb-8 pt-5">
+      <div>
+        <MenuHeader title={t('picoclaw.model.requiredTitle')} />
+        <div className="-mt-2 text-xs leading-5 text-neutral-500">
+          {t('picoclaw.model.requiredDescription')}
+          {modelName && <span className="ml-1 text-neutral-400">{modelName}</span>}
+        </div>
       </div>
 
-      {/* Documentation Link */}
-      <a
-        href="https://docs.picoclaw.io/docs/configuration/model-list/#supported-vendors-and-protocols"
-        target="_blank"
-        rel="noreferrer"
-        className="group mb-5 flex items-center justify-between rounded-lg border border-white/[0.06] bg-white/[0.02] p-3 transition-colors hover:border-white/[0.1] hover:bg-white/[0.04]"
+      <SettingRow
+        label={t('picoclaw.model.docsTitle')}
+        description={t('picoclaw.model.docsDesc')}
+        inline
       >
-        <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.04]">
-            <BookOpenIcon className="text-sky-400" size={14} />
-          </div>
-          <div>
-            <div className="text-xs font-medium text-neutral-300">
-              {t('picoclaw.model.docsTitle', 'Configuration Guide')}
-            </div>
-            <div className="mt-0.5 text-[11px] text-neutral-500">
-              {t('picoclaw.model.docsDesc', 'Supported models and protocols')}
-            </div>
-          </div>
-        </div>
-        <ExternalLinkIcon size={14} className="text-neutral-500 transition-colors group-hover:text-neutral-300" />
-      </a>
-
-      {/* Fields */}
-      <div className="space-y-4">
-        <div>
-          <label className="mb-1.5 block text-xs text-neutral-500">
-            {t('picoclaw.model.modelIdentifier')}
-          </label>
-          <Input
-            prefix={<CpuIcon size={13} className="text-neutral-500" />}
-            placeholder={t('picoclaw.model.modelIdentifierPlaceholder')}
-            value={modelIdentifier}
-            onChange={(e) => onModelIdentifierChange(e.target.value)}
-          />
-        </div>
-        <div>
-          <label className="mb-1.5 block text-xs text-neutral-500">
-            {t('picoclaw.model.apiKey')}
-          </label>
-          <Input.Password
-            prefix={<KeyRoundIcon size={13} className="text-neutral-500" />}
-            placeholder={t('picoclaw.model.apiKeyPlaceholder')}
-            value={apiKey}
-            onChange={(e) => onApiKeyChange(e.target.value)}
-          />
-        </div>
-        <div>
-          <label className="mb-1.5 block text-xs text-neutral-500">
-            {t('picoclaw.model.apiBase')}
-          </label>
-          <Input
-            prefix={<LinkIcon size={13} className="text-neutral-500" />}
-            placeholder={t('picoclaw.model.apiBasePlaceholder')}
-            value={apiBase}
-            onChange={(e) => onApiBaseChange(e.target.value)}
-          />
-        </div>
-      </div>
-
-      {/* Save */}
-      <div className="mt-6 flex justify-end gap-2">
-        {showCancel && <Button onClick={onCancel}>{t('picoclaw.cancel')}</Button>}
         <Button
-          icon={<SaveIcon size={13} />}
-          loading={isSaving}
-          onClick={() => void onSave()}
-          type="primary"
-        >
+          href="https://docs.picoclaw.io/docs/configuration/model-list/#supported-vendors-and-protocols"
+          target="_blank"
+          rel="noreferrer"
+          aria-label={t('picoclaw.model.docsTitle')}
+          icon={<ExternalLinkIcon size={14} />}
+        />
+      </SettingRow>
+
+      <Field label={t('picoclaw.model.modelIdentifier')}>
+        <Input
+          placeholder={t('picoclaw.model.modelIdentifierPlaceholder')}
+          value={modelIdentifier}
+          onChange={(e) => onModelIdentifierChange(e.target.value)}
+        />
+      </Field>
+      <Field label={t('picoclaw.model.apiKey')}>
+        <Input.Password
+          placeholder={t('picoclaw.model.apiKeyPlaceholder')}
+          value={apiKey}
+          onChange={(e) => onApiKeyChange(e.target.value)}
+        />
+      </Field>
+      <Field label={t('picoclaw.model.apiBase')}>
+        <Input
+          placeholder={t('picoclaw.model.apiBasePlaceholder')}
+          value={apiBase}
+          onChange={(e) => onApiBaseChange(e.target.value)}
+        />
+      </Field>
+
+      <div className="flex justify-end gap-2">
+        {showCancel && <Button onClick={onCancel}>{t('picoclaw.cancel')}</Button>}
+        <Button loading={isSaving} onClick={() => void onSave()} type="primary">
           {t(isSaving ? 'picoclaw.model.saving' : 'picoclaw.model.save')}
         </Button>
       </div>

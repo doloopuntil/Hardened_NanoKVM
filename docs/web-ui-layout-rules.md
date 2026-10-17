@@ -185,6 +185,15 @@ The dialogs that the entries open follow the same idea (`components/dialog-parts
 - A form in a dialog uses the `SettingRow` rows of the Settings pages.
 - A confirmation names its action in the title (rule 15), never "Attention".
 
+The PicoClaw sidebar is part of the menu bar and follows the same rules where it can:
+
+- Its header buttons are the 30px squares of the menu bar with a tooltip. Stopping the
+  assistant asks first (a Popconfirm, rule 15), because it ends a task that is running.
+- A screen that does not show the chat (install, model) reports a failure with a toast, since
+  the chat transcript is not visible there.
+- The model form is the one place that is not `SettingRow`s: the input sits under its label,
+  because the sidebar is too narrow to hold a model name or an URL beside it.
+
 ## Adding or changing a page
 
 - Start from the title and hairline, then `SettingSection`s; reach for a

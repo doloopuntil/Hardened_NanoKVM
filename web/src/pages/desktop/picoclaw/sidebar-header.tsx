@@ -1,7 +1,10 @@
-import { Button, Dropdown, MenuProps, Select } from 'antd';
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
+import { Dropdown, MenuProps, Popconfirm, Select, Tooltip } from 'antd';
+import clsx from 'clsx';
 import {
   EllipsisIcon,
   HistoryIcon,
+  Loader2Icon,
   PlayIcon,
   PowerIcon,
   SlidersHorizontalIcon,
@@ -10,7 +13,43 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import { confirm } from '@/lib/feedback.ts';
+import { popconfirmBackground } from '@/lib/popconfirm.ts';
 import { LayoutSidebarRightCollapse } from '@/components/icons/layout-sidebar-right-collapse.tsx';
+
+type HeaderButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
+  icon: ReactNode;
+  loading?: boolean;
+  // switched on, such as the history while it is open
+  active?: boolean;
+  danger?: boolean;
+};
+
+// The icon buttons of the header: the 30px square of the menu bar. Props pass on so that
+// Tooltip, Popconfirm and Dropdown can wrap one.
+const HeaderButton = forwardRef<HTMLButtonElement, HeaderButtonProps>(
+  ({ icon, loading, active, danger, disabled, className, ...props }, ref) => (
+    <button
+      ref={ref}
+      type="button"
+      disabled={disabled || loading}
+      className={clsx(
+        'box-border flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded border-0 bg-transparent p-0',
+        disabled || loading
+          ? 'cursor-not-allowed text-neutral-500'
+          : [
+              'cursor-pointer hover:bg-neutral-700/80',
+              danger ? 'text-red-400 hover:text-red-500' : 'text-neutral-300 hover:text-white',
+              active && 'bg-neutral-700/80 text-white'
+            ],
+        className
+      )}
+      {...props}
+    >
+      {loading ? <Loader2Icon size={16} className="animate-spin" /> : icon}
+    </button>
+  )
+);
+HeaderButton.displayName = 'HeaderButton';
 
 type SidebarHeaderProps = {
   isCheckingRuntime: boolean;
@@ -100,15 +139,13 @@ export const SidebarHeader = ({
       <div className="flex h-12 flex-shrink-0 items-center justify-between gap-3 pl-2 pr-4">
         {/* Left: Title */}
         <div className="flex min-w-0 items-center gap-1.5">
-          <Button
-            type="text"
-            size="small"
-            onClick={onClose}
-            title={t('menu.collapse')}
-            className="!flex !items-center !justify-center !text-neutral-400 hover:!bg-white/[0.08] hover:!text-neutral-200"
-            icon={<LayoutSidebarRightCollapse size={18} />}
-          />
-          {/* <span className="truncate text-[13px] font-medium text-neutral-200">{t('picoclaw.title')}</span> */}
+          <Tooltip title={t('menu.collapse')} mouseEnterDelay={0.6} placement="bottom">
+            <HeaderButton
+              icon={<LayoutSidebarRightCollapse size={18} />}
+              aria-label={t('menu.collapse')}
+              onClick={onClose}
+            />
+          </Tooltip>
         </div>
 
         {/* Right: Actions */}
@@ -146,41 +183,42 @@ export const SidebarHeader = ({
               {/* Start/ Stop & History Button */}
               {isRuntimeReady ? (
                 <>
-                  <Button
-                    type="text"
-                    size="small"
-                    onClick={onOpenHistory}
-                    title={t('picoclaw.history.title')}
-                    className={[
-                      '!flex !items-center !justify-center',
-                      isHistoryOpen
-                        ? '!bg-white/[0.08] !text-neutral-200'
-                        : '!text-neutral-400 hover:!bg-white/[0.08] hover:!text-neutral-200'
-                    ].join(' ')}
-                    icon={<HistoryIcon size={14} />}
-                  />
-                  <Button
-                    disabled={isTogglingRuntime}
-                    loading={isTogglingRuntime}
-                    onClick={() => void onToggleRuntime()}
-                    title={t('picoclaw.config.stopRuntime')}
-                    icon={!isTogglingRuntime ? <PowerIcon size={14} /> : undefined}
-                    type="text"
-                    size="small"
-                    className="!flex !items-center !justify-center !text-red-400 hover:!bg-white/[0.08] hover:!text-red-500"
-                  />
+                  <Tooltip title={t('picoclaw.history.title')} mouseEnterDelay={0.6}>
+                    <HeaderButton
+                      icon={<HistoryIcon size={16} />}
+                      aria-label={t('picoclaw.history.title')}
+                      active={isHistoryOpen}
+                      onClick={onOpenHistory}
+                    />
+                  </Tooltip>
+                  <Tooltip title={t('picoclaw.config.stopRuntime')} mouseEnterDelay={0.6}>
+                    <Popconfirm
+                      title={t('picoclaw.config.stopConfirm')}
+                      onConfirm={() => void onToggleRuntime()}
+                      okText={t('power.okBtn')}
+                      cancelText={t('power.cancelBtn')}
+                      placement="bottomRight"
+                      color={popconfirmBackground}
+                      disabled={isTogglingRuntime}
+                    >
+                      <HeaderButton
+                        icon={<PowerIcon size={16} />}
+                        aria-label={t('picoclaw.config.stopRuntime')}
+                        loading={isTogglingRuntime}
+                        danger
+                      />
+                    </Popconfirm>
+                  </Tooltip>
                 </>
               ) : isModelConfigured ? (
-                <Button
-                  disabled={isTogglingRuntime}
-                  loading={isTogglingRuntime}
-                  onClick={() => void onToggleRuntime()}
-                  title={t('picoclaw.config.startRuntime')}
-                  icon={!isTogglingRuntime ? <PlayIcon size={14} /> : undefined}
-                  type="text"
-                  size="small"
-                  className="!flex !items-center !justify-center !text-neutral-400 hover:!bg-white/[0.08] hover:!text-sky-400"
-                />
+                <Tooltip title={t('picoclaw.config.startRuntime')} mouseEnterDelay={0.6}>
+                  <HeaderButton
+                    icon={<PlayIcon size={16} />}
+                    aria-label={t('picoclaw.config.startRuntime')}
+                    loading={isTogglingRuntime}
+                    onClick={() => void onToggleRuntime()}
+                  />
+                </Tooltip>
               ) : null}
 
               {/* More Menu */}
@@ -191,14 +229,7 @@ export const SidebarHeader = ({
                 disabled={isUninstallingRuntime || isTogglingRuntime}
                 arrow={{ pointAtCenter: true }}
               >
-                <Button
-                  disabled={isUninstallingRuntime}
-                  loading={isUninstallingRuntime}
-                  icon={!isUninstallingRuntime ? <EllipsisIcon size={16} /> : undefined}
-                  type="text"
-                  size="small"
-                  className="!flex !items-center !justify-center !text-neutral-400 hover:!bg-white/[0.08] hover:!text-neutral-200"
-                />
+                <HeaderButton icon={<EllipsisIcon size={16} />} loading={isUninstallingRuntime} />
               </Dropdown>
             </>
           ) : null}

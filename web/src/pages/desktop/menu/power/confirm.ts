@@ -1,8 +1,8 @@
 import type { ButtonProps } from 'antd';
 
-// The background of the power menu confirmations: the grey of the selected tab in the Settings
-// sidebar (neutral-700 at half strength on the sidebar), a little lighter than the popover under it.
-export const confirmBackground = '#333333';
+// The background of the power menu confirmations, shared with the other confirmations that open
+// over a dark surface.
+export { popconfirmBackground as confirmBackground } from '@/lib/popconfirm.ts';
 
 // The Yes button of the power menu confirmations is red, because it does something to the host.
 // Its shadow is as strong as the blue one of the Popconfirms of the Settings pages: antd's red
