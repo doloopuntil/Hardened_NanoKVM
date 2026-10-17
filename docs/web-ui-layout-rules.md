@@ -130,8 +130,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 What the pages still do against the rules above. Remove an entry when it is
 fixed or turned into an accepted exception.
 
-- **Captions:** the Account Password row has none, and the editable Network
-  fields are bare on purpose for now.
+- **Captions:** the editable Network fields are bare on purpose for now.
 - **Action rows:** the Time page's Refresh and Sync now, and the Logging
   buttons, are plain button rows without captions (rule 14).
 - **Boxed content:** the log viewers (`pre` on `bg-black/50`) and the firewall

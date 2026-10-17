@@ -35,7 +35,11 @@ export const Account = ({ setIsLocked }: Props) => {
         <SettingSection title={t('auth.login')}>
           <InfoRow label={t('settings.account.webAccount')} value={username} />
 
-          <SettingRow label={t('settings.account.password')} inline>
+          <SettingRow
+            label={t('settings.account.password')}
+            description={t('settings.account.passwordDesc')}
+            inline
+          >
             <Button onClick={changePassword}>{t('settings.account.updateBtn')}</Button>
           </SettingRow>
         </SettingSection>
