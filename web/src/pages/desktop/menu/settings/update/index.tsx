@@ -18,6 +18,7 @@ import * as firewallApi from '@/api/system-firewall.ts';
 import type { FirewallStatus } from '@/api/system-firewall.ts';
 import { attempt, confirm } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
+import { PageHeader } from '@/components/page-header.tsx';
 import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import { Offline } from './offline.tsx';
@@ -628,8 +629,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
 
   return (
     <>
-      <div className="text-base">{t('settings.update.title')}</div>
-      <Divider className="opacity-50" />
+      <PageHeader title={t('settings.update.title')} />
 
       <div className="flex min-w-0 flex-col space-y-6">
         {onlineUpdatesBlocked && (

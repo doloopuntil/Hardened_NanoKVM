@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
+import { PageHeader } from '@/components/page-header.tsx';
 import { SettingSection } from '@/components/setting-rows.tsx';
 
 import { Device } from './device.tsx';
@@ -37,8 +38,7 @@ export const Tailscale = ({ setIsLocked }: TailscaleProps) => {
 
   return (
     <>
-      <div className="text-base">{t('settings.tailscale.title')}</div>
-      <Divider className="opacity-50" />
+      <PageHeader title={t('settings.tailscale.title')} />
 
       {isLoading ? (
         <div className="flex w-full items-center justify-center space-x-2 pt-5 text-neutral-500">

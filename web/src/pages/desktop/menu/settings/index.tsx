@@ -265,7 +265,7 @@ export const Settings = () => {
                   isTouchLayout ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4' : 'pb-10 pt-14'
                 )}
               >
-                <SettingsLoadGroup key={currentTab}>
+                <SettingsLoadGroup key={currentTab} slot>
                   {tabs.find((tab) => tab.id === currentTab)?.component}
                 </SettingsLoadGroup>
               </div>

@@ -19,6 +19,7 @@ import * as api from '@/api/system-wireguard.ts';
 import type { WireguardConfig, WireguardStatus } from '@/api/system-wireguard.ts';
 import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
+import { PageHeader } from '@/components/page-header.tsx';
 import { SaveBar } from '@/components/save-bar.tsx';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
@@ -190,8 +191,7 @@ export const Wireguard = () => {
 
   return (
     <>
-      <div className="text-base">{t('settings.wireguard.title')}</div>
-      <Divider className="opacity-50" />
+      <PageHeader title={t('settings.wireguard.title')} />
 
       <ConfigProvider componentDisabled={isUnavailable}>
         <div className="flex min-w-0 flex-col space-y-6">

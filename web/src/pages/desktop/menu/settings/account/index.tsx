@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import * as api from '@/api/auth.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { PageHeader } from '@/components/page-header.tsx';
 import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 import { TotpEnrollment } from '@/components/totp-enrollment.tsx';
 
@@ -28,8 +29,7 @@ export const Account = ({ setIsLocked }: Props) => {
 
   return (
     <>
-      <div className="text-base">{t('settings.account.title')}</div>
-      <Divider className="opacity-50" />
+      <PageHeader title={t('settings.account.title')} />
 
       <div className="flex min-w-0 flex-col space-y-6">
         <SettingSection title={t('auth.login')}>
