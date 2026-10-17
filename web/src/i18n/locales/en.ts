@@ -783,7 +783,7 @@ const en = {
         },
         swap: {
           title: 'Swap file',
-          tip: 'If issues persist after enabling memory optimization, try enabling the swap file.',
+          tip: 'If issues persist after enabling memory optimization, try enabling the swap file',
           sizeTip: 'This sets the file size to 256MB, adjust it in Settings > Device'
         },
         restartTitle: 'Restart Tailscale',
@@ -886,8 +886,7 @@ const en = {
           rollbackConfirmTitle: 'Rollback system update?',
           rollbackConfirmDesc:
             'This will restore files from the latest system-update backup. Reboot will be required.',
-          stagedDesc:
-            'The system update archive was downloaded and verified. You can install it now.',
+          stagedDesc: 'The system update was downloaded and verified, you can install it now',
           refresh: 'Refresh',
           releaseNotes: 'Release notes',
           systemVersion: 'System version',

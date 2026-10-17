@@ -51,7 +51,7 @@ export const System = () => {
     <>
       <div
         className={clsx(
-          'sticky top-0 z-20 -mx-1 mb-6 min-w-0 border-0 border-b border-solid border-white/[0.06] bg-neutral-900/95 px-1 pb-6 shadow-[0_10px_20px_rgba(0,0,0,0.25)] backdrop-blur',
+          'sticky top-0 z-20 mb-6 min-w-0 border-0 border-b border-solid border-white/[0.06] bg-neutral-900/95 pb-6 shadow-[0_10px_20px_rgba(0,0,0,0.25)] backdrop-blur',
           // the desktop layout leaves room above the header for its own title bar; the touch layout
           // has none, and the offset there pushes the header down over the first settings
           !isTouchLayout &&

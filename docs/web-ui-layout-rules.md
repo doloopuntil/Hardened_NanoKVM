@@ -141,12 +141,6 @@ fixed or turned into an accepted exception.
   rule asks for a red outline button in the bar at the end.
 - **Wi-Fi** uses a small round icon-only button as its control, and its dialog
   holds a framed `rounded-lg bg-neutral-800` card and fixed `w-72` inputs.
-- **System header** (`-mx-1 px-1`) makes the page 4px wider than the phone
-  viewport, so the System page can scroll sideways by 4px.
-- **Strings:** the Tailscale swap file caption ends with a full stop, and the
-  caption "downloaded and verified" (`update.system.stagedDesc`) has two
-  sentences (rule 23). The Tailscale Memory optimization caption also has two,
-  on purpose, and both end in a full stop.
 - **Captions:** the Account Password row has none, and the editable Network
   fields are bare on purpose for now.
 - **Action rows:** the Time page's Refresh and Sync now, and the Logging
