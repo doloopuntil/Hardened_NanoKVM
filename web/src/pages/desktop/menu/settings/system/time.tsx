@@ -1,13 +1,13 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { Alert, Button, ConfigProvider, Divider, Select, Switch } from 'antd';
-import { ClockIcon, RefreshCwIcon, RouterIcon } from 'lucide-react';
+import { RouterIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/system-time.ts';
 import type { TimeConfig, TimeConfigResponse } from '@/api/system-time.ts';
 import { toast } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
-import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.tsx';
+import { SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import type { SystemActionHandle, SystemActionState } from './action.ts';
 
@@ -20,12 +20,11 @@ const defaultConfig: TimeConfig = {
 };
 
 type TimeSettingsProps = {
-  showFooter?: boolean;
   onActionStateChange?: (state: SystemActionState) => void;
 };
 
 export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
-  ({ showFooter = true, onActionStateChange }, ref) => {
+  ({ onActionStateChange }, ref) => {
     const { t } = useTranslation();
 
     const [data, setData] = useState<TimeConfigResponse | null>(null);
@@ -218,12 +217,30 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
                 })}
               />
             )}
+
+            <SettingRow
+              label={t('settings.system.time.syncNow')}
+              description={t('settings.system.time.syncNowDesc')}
+              inline
+            >
+              <Button disabled={!config.ntpEnabled} loading={isSyncing} onClick={syncNow}>
+                {t('settings.system.time.syncNow')}
+              </Button>
+            </SettingRow>
           </SettingSection>
 
           <Divider className="opacity-50" />
 
           <SettingSection title={t('settings.system.time.clock.title')}>
-            <InfoRow label={t('settings.system.time.clock.current')} value={data?.currentTime} />
+            <SettingRow
+              label={t('settings.system.time.clock.current')}
+              description={data?.currentTime || '-'}
+              inline
+            >
+              <Button disabled={false} loading={isLoading} onClick={load}>
+                {t('settings.system.time.refresh')}
+              </Button>
+            </SettingRow>
 
             <SettingRow
               label={t('settings.system.time.clock.timezone')}
@@ -243,39 +260,6 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
               />
             </SettingRow>
           </SettingSection>
-
-          <Divider className="opacity-50" />
-
-          <div className="flex min-w-0 flex-wrap justify-end gap-2">
-            <Button
-              className="min-w-0"
-              icon={<RefreshCwIcon size={16} />}
-              disabled={false}
-              loading={isLoading}
-              onClick={load}
-            >
-              {t('settings.system.time.refresh')}
-            </Button>
-            <Button
-              className="min-w-0"
-              icon={<ClockIcon size={16} />}
-              disabled={!config.ntpEnabled}
-              loading={isSyncing}
-              onClick={syncNow}
-            >
-              {t('settings.system.time.syncNow')}
-            </Button>
-            {showFooter && (
-              <Button
-                type="primary"
-                loading={isSaving}
-                disabled={!hasPending || hasInvalid}
-                onClick={() => void save()}
-              >
-                {t('settings.system.time.save')}
-              </Button>
-            )}
-          </div>
         </div>
       </ConfigProvider>
     );

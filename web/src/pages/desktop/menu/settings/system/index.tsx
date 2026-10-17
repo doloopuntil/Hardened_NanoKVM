@@ -87,11 +87,7 @@ export const System = () => {
             <Network ref={networkRef} showTitle={false} onActionStateChange={updateActionState} />
           )}
           {section === 'time' && (
-            <TimeSettings
-              ref={timeRef}
-              showFooter={false}
-              onActionStateChange={updateActionState}
-            />
+            <TimeSettings ref={timeRef} onActionStateChange={updateActionState} />
           )}
           {section === 'firewall' && <FirewallSettings />}
           {section === 'systemLog' && (

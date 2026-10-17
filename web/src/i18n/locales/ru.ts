@@ -576,8 +576,7 @@ const ru = {
         viewer: {
           title: 'System Log',
           refresh: 'Обновить',
-          empty: 'Записей нет',
-          lines: '{{count}} строк'
+          empty: 'Записей нет'
         },
         level: {
           1: '1 - Alert',

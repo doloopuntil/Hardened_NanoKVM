@@ -364,7 +364,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.wifi.disconnectBtn': 'Desconnecta',
     'settings.network.wifi.connected': 'Connectat',
     'settings.account.passwordDesc':
-      "Canvia la contrasenya que s'usa per iniciar sessió a la interfície web"
+      "Canvia la contrasenya que s'usa per iniciar sessió a la interfície web",
+    'settings.system.time.syncNowDesc': 'Ajusta el rellotge amb els servidors NTP ara',
+    'settings.systemLog.viewer.linesUnit': 'línies'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -627,7 +629,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Aktualizace systému byla stažena a ověřena, můžete ji nainstalovat',
     'settings.network.wifi.disconnectBtn': 'Odpojit',
     'settings.network.wifi.connected': 'Připojeno',
-    'settings.account.passwordDesc': 'Změnit heslo používané k přihlášení do webového rozhraní'
+    'settings.account.passwordDesc': 'Změnit heslo používané k přihlášení do webového rozhraní',
+    'settings.system.time.syncNowDesc': 'Nastavit hodiny podle serverů NTP hned',
+    'settings.systemLog.viewer.linesUnit': 'řádků'
   },
   da: {
     'auth.illegalPassword':
@@ -908,7 +912,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.wifi.disconnectBtn': 'Afbryd',
     'settings.network.wifi.connected': 'Forbundet',
     'settings.account.passwordDesc':
-      'Skift den adgangskode, der bruges til at logge ind på webgrænsefladen'
+      'Skift den adgangskode, der bruges til at logge ind på webgrænsefladen',
+    'settings.system.time.syncNowDesc': 'Indstil uret fra NTP-serverne nu',
+    'settings.systemLog.viewer.linesUnit': 'linjer'
   },
   de: {
     'auth.illegalPassword':
@@ -1211,7 +1217,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.wifi.disconnectBtn': 'Trennen',
     'settings.network.wifi.connected': 'Verbunden',
     'settings.account.passwordDesc':
-      'Das Passwort ändern, mit dem Sie sich an der Weboberfläche anmelden'
+      'Das Passwort ändern, mit dem Sie sich an der Weboberfläche anmelden',
+    'settings.system.time.syncNowDesc': 'Die Uhr jetzt mit den NTP-Servern abgleichen',
+    'settings.systemLog.viewer.linesUnit': 'Zeilen'
   },
   es: {
     'auth.illegalPassword':
@@ -1488,7 +1496,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.wifi.disconnectBtn': 'Desconectar',
     'settings.network.wifi.connected': 'Conectado',
     'settings.account.passwordDesc':
-      'Cambia la contraseña que se usa para iniciar sesión en la interfaz web'
+      'Cambia la contraseña que se usa para iniciar sesión en la interfaz web',
+    'settings.system.time.syncNowDesc': 'Ajusta el reloj con los servidores NTP ahora',
+    'settings.systemLog.viewer.linesUnit': 'líneas'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1753,7 +1763,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Süsteemiuuendus on alla laaditud ja kontrollitud, nüüd saab selle paigaldada',
     'settings.network.wifi.disconnectBtn': 'Katkesta ühendus',
     'settings.network.wifi.connected': 'Ühendatud',
-    'settings.account.passwordDesc': 'Muuda parooli, millega veebiliidesesse sisse logitakse'
+    'settings.account.passwordDesc': 'Muuda parooli, millega veebiliidesesse sisse logitakse',
+    'settings.system.time.syncNowDesc': 'Sea kell NTP-serveritest kohe',
+    'settings.systemLog.viewer.linesUnit': 'rida'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -2016,7 +2028,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Järjestelmäpäivitys on ladattu ja varmennettu, voit asentaa sen nyt',
     'settings.network.wifi.disconnectBtn': 'Katkaise yhteys',
     'settings.network.wifi.connected': 'Yhdistetty',
-    'settings.account.passwordDesc': 'Vaihda salasana, jolla kirjaudutaan verkkokäyttöliittymään'
+    'settings.account.passwordDesc': 'Vaihda salasana, jolla kirjaudutaan verkkokäyttöliittymään',
+    'settings.system.time.syncNowDesc': 'Aseta kello NTP-palvelimilta nyt',
+    'settings.systemLog.viewer.linesUnit': 'riviä'
   },
   fr: {
     'auth.illegalPassword':
@@ -2297,7 +2311,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.wifi.disconnectBtn': 'Déconnecter',
     'settings.network.wifi.connected': 'Connecté',
     'settings.account.passwordDesc':
-      'Modifier le mot de passe utilisé pour se connecter à l’interface web'
+      'Modifier le mot de passe utilisé pour se connecter à l’interface web',
+    'settings.system.time.syncNowDesc': 'Régler l’horloge d’après les serveurs NTP maintenant',
+    'settings.systemLog.viewer.linesUnit': 'lignes'
   },
   hu: {
     'auth.illegalPassword':
@@ -2579,7 +2595,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.wifi.disconnectBtn': 'Leválasztás',
     'settings.network.wifi.connected': 'Csatlakoztatva',
     'settings.account.passwordDesc':
-      'A webes felületre való bejelentkezéshez használt jelszó módosítása'
+      'A webes felületre való bejelentkezéshez használt jelszó módosítása',
+    'settings.system.time.syncNowDesc': 'Az óra beállítása az NTP-kiszolgálókról most',
+    'settings.systemLog.viewer.linesUnit': 'sor'
   },
   id: {
     'auth.illegalPassword':
@@ -2873,7 +2891,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Pembaruan sistem sudah diunduh dan diverifikasi, Anda dapat memasangnya sekarang',
     'settings.network.wifi.disconnectBtn': 'Putuskan',
     'settings.network.wifi.connected': 'Terhubung',
-    'settings.account.passwordDesc': 'Ubah kata sandi yang digunakan untuk masuk ke antarmuka web'
+    'settings.account.passwordDesc': 'Ubah kata sandi yang digunakan untuk masuk ke antarmuka web',
+    'settings.system.time.syncNowDesc': 'Atur jam dari server NTP sekarang',
+    'settings.systemLog.viewer.linesUnit': 'baris'
   },
   it: {
     'auth.illegalPassword':
@@ -3153,7 +3173,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'L’aggiornamento di sistema è stato scaricato e verificato, ora puoi installarlo',
     'settings.network.wifi.disconnectBtn': 'Disconnetti',
     'settings.network.wifi.connected': 'Connesso',
-    'settings.account.passwordDesc': 'Cambia la password usata per accedere all’interfaccia web'
+    'settings.account.passwordDesc': 'Cambia la password usata per accedere all’interfaccia web',
+    'settings.system.time.syncNowDesc': 'Imposta l’orologio dai server NTP ora',
+    'settings.systemLog.viewer.linesUnit': 'righe'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -3421,7 +3443,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.wifi.disconnectBtn': '切断',
     'settings.network.wifi.connected': '接続済み',
     'settings.account.passwordDesc':
-      'ウェブインターフェースへのログインに使うパスワードを変更します'
+      'ウェブインターフェースへのログインに使うパスワードを変更します',
+    'settings.system.time.syncNowDesc': 'NTP サーバーから今すぐ時刻を設定します',
+    'settings.systemLog.viewer.linesUnit': '行'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -3686,7 +3710,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       '시스템 업데이트를 다운로드하고 검증했습니다, 지금 설치할 수 있습니다',
     'settings.network.wifi.disconnectBtn': '연결 해제',
     'settings.network.wifi.connected': '연결됨',
-    'settings.account.passwordDesc': '웹 인터페이스에 로그인할 때 사용하는 비밀번호를 변경합니다'
+    'settings.account.passwordDesc': '웹 인터페이스에 로그인할 때 사용하는 비밀번호를 변경합니다',
+    'settings.system.time.syncNowDesc': '지금 NTP 서버로 시계를 설정합니다',
+    'settings.systemLog.viewer.linesUnit': '줄'
   },
   nb: {
     'auth.illegalPassword':
@@ -3954,7 +3980,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.wifi.disconnectBtn': 'Koble fra',
     'settings.network.wifi.connected': 'Tilkoblet',
     'settings.account.passwordDesc':
-      'Endre passordet som brukes til å logge inn på webgrensesnittet'
+      'Endre passordet som brukes til å logge inn på webgrensesnittet',
+    'settings.system.time.syncNowDesc': 'Still klokken fra NTP-tjenerne nå',
+    'settings.systemLog.viewer.linesUnit': 'linjer'
   },
   nl: {
     'auth.illegalPassword':
@@ -4240,7 +4268,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.wifi.disconnectBtn': 'Verbinding verbreken',
     'settings.network.wifi.connected': 'Verbonden',
     'settings.account.passwordDesc':
-      'Wijzig het wachtwoord waarmee u zich aanmeldt bij de webinterface'
+      'Wijzig het wachtwoord waarmee u zich aanmeldt bij de webinterface',
+    'settings.system.time.syncNowDesc': 'Stel de klok nu in via de NTP-servers',
+    'settings.systemLog.viewer.linesUnit': 'regels'
   },
   pl: {
     'auth.illegalPassword':
@@ -4514,7 +4544,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Aktualizacja systemu została pobrana i zweryfikowana, możesz ją teraz zainstalować',
     'settings.network.wifi.disconnectBtn': 'Rozłącz',
     'settings.network.wifi.connected': 'Połączono',
-    'settings.account.passwordDesc': 'Zmień hasło używane do logowania do interfejsu webowego'
+    'settings.account.passwordDesc': 'Zmień hasło używane do logowania do interfejsu webowego',
+    'settings.system.time.syncNowDesc': 'Ustaw zegar według serwerów NTP teraz',
+    'settings.systemLog.viewer.linesUnit': 'linii'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -4781,7 +4813,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'A atualização do sistema foi baixada e verificada, você já pode instalá-la',
     'settings.network.wifi.disconnectBtn': 'Desconectar',
     'settings.network.wifi.connected': 'Conectado',
-    'settings.account.passwordDesc': 'Altere a senha usada para entrar na interface web'
+    'settings.account.passwordDesc': 'Altere a senha usada para entrar na interface web',
+    'settings.system.time.syncNowDesc': 'Acertar o relógio com os servidores NTP agora',
+    'settings.systemLog.viewer.linesUnit': 'linhas'
   },
   ru: {
     'download.disabled':
@@ -5039,7 +5073,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Обновление системы загружено и проверено, его можно установить',
     'settings.network.wifi.disconnectBtn': 'Отключить',
     'settings.network.wifi.connected': 'Подключено',
-    'settings.account.passwordDesc': 'Изменить пароль для входа в веб-интерфейс'
+    'settings.account.passwordDesc': 'Изменить пароль для входа в веб-интерфейс',
+    'settings.system.time.syncNowDesc': 'Установить время по серверам NTP сейчас',
+    'settings.systemLog.viewer.linesUnit': 'строк'
   },
   se: {
     'auth.illegalPassword':
@@ -5292,7 +5328,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.network.wifi.disconnectBtn': 'Koppla från',
     'settings.network.wifi.connected': 'Ansluten',
     'settings.account.passwordDesc':
-      'Ändra lösenordet som används för att logga in i webbgränssnittet'
+      'Ändra lösenordet som används för att logga in i webbgränssnittet',
+    'settings.system.time.syncNowDesc': 'Ställ klockan från NTP-servrarna nu',
+    'settings.systemLog.viewer.linesUnit': 'rader'
   },
   th: {
     'auth.illegalPassword':
@@ -5511,7 +5549,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.authenticator': 'แอปยืนยันตัวตน',
     'settings.network.wifi.disconnectBtn': 'ตัดการเชื่อมต่อ',
     'settings.network.wifi.connected': 'เชื่อมต่อแล้ว',
-    'settings.account.passwordDesc': 'เปลี่ยนรหัสผ่านที่ใช้เข้าสู่ระบบเว็บอินเทอร์เฟซ'
+    'settings.account.passwordDesc': 'เปลี่ยนรหัสผ่านที่ใช้เข้าสู่ระบบเว็บอินเทอร์เฟซ',
+    'settings.system.time.syncNowDesc': 'ตั้งเวลาจากเซิร์ฟเวอร์ NTP ทันที',
+    'settings.systemLog.viewer.linesUnit': 'บรรทัด'
   },
   tr: {
     'auth.illegalPassword':
@@ -5799,7 +5839,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Sistem güncellemesi indirildi ve doğrulandı, şimdi yükleyebilirsiniz',
     'settings.network.wifi.disconnectBtn': 'Bağlantıyı kes',
     'settings.network.wifi.connected': 'Bağlandı',
-    'settings.account.passwordDesc': 'Web arayüzüne giriş yaparken kullanılan şifreyi değiştir'
+    'settings.account.passwordDesc': 'Web arayüzüne giriş yaparken kullanılan şifreyi değiştir',
+    'settings.system.time.syncNowDesc': 'Saati şimdi NTP sunucularından ayarla',
+    'settings.systemLog.viewer.linesUnit': 'satır'
   },
   uk: {
     'auth.illegalPassword':
@@ -6073,7 +6115,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Оновлення системи завантажено й перевірено, його можна встановити',
     'settings.network.wifi.disconnectBtn': 'Від’єднати',
     'settings.network.wifi.connected': 'Підключено',
-    'settings.account.passwordDesc': 'Змінити пароль для входу у веб-інтерфейс'
+    'settings.account.passwordDesc': 'Змінити пароль для входу у веб-інтерфейс',
+    'settings.system.time.syncNowDesc': 'Встановити годинник за серверами NTP зараз',
+    'settings.systemLog.viewer.linesUnit': 'рядків'
   },
   vi: {
     'auth.illegalPassword':
@@ -6343,7 +6387,9 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Bản cập nhật hệ thống đã được tải xuống và xác minh, bạn có thể cài đặt ngay',
     'settings.network.wifi.disconnectBtn': 'Ngắt kết nối',
     'settings.network.wifi.connected': 'Đã kết nối',
-    'settings.account.passwordDesc': 'Đổi mật khẩu dùng để đăng nhập vào giao diện web'
+    'settings.account.passwordDesc': 'Đổi mật khẩu dùng để đăng nhập vào giao diện web',
+    'settings.system.time.syncNowDesc': 'Đặt đồng hồ theo máy chủ NTP ngay',
+    'settings.systemLog.viewer.linesUnit': 'dòng'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -6562,7 +6608,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.stagedDesc': '系统更新已下载并验证，现在可以安装',
     'settings.network.wifi.disconnectBtn': '断开连接',
     'settings.network.wifi.connected': '已连接',
-    'settings.account.passwordDesc': '更改登录网页界面所用的密码'
+    'settings.account.passwordDesc': '更改登录网页界面所用的密码',
+    'settings.system.time.syncNowDesc': '立即用 NTP 服务器设置时钟',
+    'settings.systemLog.viewer.linesUnit': '行'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -6785,6 +6833,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.stagedDesc': '系統更新已下載並驗證，現在可以安裝',
     'settings.network.wifi.disconnectBtn': '中斷連線',
     'settings.network.wifi.connected': '已連線',
-    'settings.account.passwordDesc': '變更登入網頁介面所用的密碼'
+    'settings.account.passwordDesc': '變更登入網頁介面所用的密碼',
+    'settings.system.time.syncNowDesc': '立即以 NTP 伺服器設定時鐘',
+    'settings.systemLog.viewer.linesUnit': '行'
   }
 };

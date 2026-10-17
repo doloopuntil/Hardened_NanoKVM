@@ -576,6 +576,7 @@ const en = {
           maxServers: 'Maximum {{count}} NTP servers allowed',
           refresh: 'Refresh',
           syncNow: 'Sync now',
+          syncNowDesc: 'Set the clock from the NTP servers now',
           save: 'Save',
           ntp: {
             title: 'NTP',
@@ -700,7 +701,7 @@ const en = {
           refresh: 'Refresh',
           empty: 'No log entries',
           truncated: 'Only the latest log data is shown',
-          lines: '{{count}} lines'
+          linesUnit: 'lines'
         },
         level: {
           1: '1 - Alert',

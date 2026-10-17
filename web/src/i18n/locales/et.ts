@@ -404,7 +404,6 @@ const translations: Record<string, string> = {
   'settings.systemLog.viewer.title': 'Süsteemilogi',
   'settings.systemLog.viewer.refresh': 'Värskenda',
   'settings.systemLog.viewer.empty': 'Logikirjeid pole',
-  'settings.systemLog.viewer.lines': '{{count}} rida',
   'settings.systemLog.level.1': '1 - Häire',
   'settings.systemLog.level.2': '2 - Kriitiline',
   'settings.systemLog.level.3': '3 - Viga',

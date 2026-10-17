@@ -1,5 +1,15 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import { Alert, Button, ConfigProvider, Divider, Input, InputNumber, Select, Switch } from 'antd';
+import {
+  Alert,
+  Button,
+  ConfigProvider,
+  Divider,
+  Input,
+  InputNumber,
+  Select,
+  Space,
+  Switch
+} from 'antd';
 import { RefreshCwIcon, SendIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -339,34 +349,36 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
 
             <Divider className="opacity-50" />
 
-            <div className="space-y-3">
-              <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="text-neutral-400">{t('settings.systemLog.viewer.title')}</div>
-                <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
-                  <Select
-                    value={lineCount}
-                    options={[100, 200, 500, 1000].map((value) => ({
-                      value,
-                      label: t('settings.systemLog.viewer.lines', { count: value })
-                    }))}
-                    disabled={false}
-                    onChange={changeLineCount}
-                    className="w-full sm:w-auto sm:min-w-32"
-                  />
-                  <div className="flex min-w-0 gap-2">
+            <div className="flex min-w-0 flex-col space-y-6">
+              <div className="text-neutral-400">{t('settings.systemLog.viewer.title')}</div>
+
+              <div className="space-y-3">
+                <div className="flex min-w-0 flex-wrap items-center justify-between gap-2">
+                  <Button
+                    icon={<SendIcon size={16} />}
+                    loading={isTesting}
+                    onClick={sendTestMessage}
+                  >
+                    {t('settings.systemLog.test')}
+                  </Button>
+
+                  <div className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-2">
+                    <Space.Compact>
+                      <Select
+                        className="w-20 text-right"
+                        value={lineCount}
+                        options={[100, 200, 500, 1000].map((value) => ({
+                          value,
+                          label: String(value)
+                        }))}
+                        onChange={changeLineCount}
+                      />
+                      <Space.Addon className="w-16 text-center">
+                        {t('settings.systemLog.viewer.linesUnit')}
+                      </Space.Addon>
+                    </Space.Compact>
                     <Button
-                      className="flex-1 sm:flex-none"
-                      icon={<SendIcon size={16} />}
-                      disabled={false}
-                      loading={isTesting}
-                      onClick={sendTestMessage}
-                    >
-                      {t('settings.systemLog.test')}
-                    </Button>
-                    <Button
-                      className="flex-1 sm:flex-none"
                       icon={<RefreshCwIcon size={16} />}
-                      disabled={false}
                       loading={isLogLoading}
                       onClick={() => refreshLog()}
                     >
@@ -374,15 +386,15 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
                     </Button>
                   </div>
                 </div>
+
+                {logTruncated && (
+                  <Alert type="info" showIcon message={t('settings.systemLog.viewer.truncated')} />
+                )}
+
+                <pre className="max-h-[360px] min-h-[260px] overflow-auto rounded bg-black/50 p-3 font-mono text-xs leading-relaxed text-neutral-200">
+                  {content || t('settings.systemLog.viewer.empty')}
+                </pre>
               </div>
-
-              {logTruncated && (
-                <Alert type="info" showIcon message={t('settings.systemLog.viewer.truncated')} />
-              )}
-
-              <pre className="max-h-[360px] min-h-[260px] overflow-auto rounded bg-black/50 p-3 font-mono text-xs leading-relaxed text-neutral-200">
-                {content || t('settings.systemLog.viewer.empty')}
-              </pre>
             </div>
           </div>
         </ConfigProvider>

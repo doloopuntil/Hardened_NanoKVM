@@ -410,7 +410,6 @@ const translations: Record<string, string> = {
   'settings.systemLog.viewer.title': 'Järjestelmäloki',
   'settings.systemLog.viewer.refresh': 'Päivitä',
   'settings.systemLog.viewer.empty': 'Ei lokimerkintöjä',
-  'settings.systemLog.viewer.lines': '{{count}} riviä',
   'settings.systemLog.level.1': '1 - Hälytys',
   'settings.systemLog.level.2': '2 - Kriittinen',
   'settings.systemLog.level.3': '3 - Virhe',

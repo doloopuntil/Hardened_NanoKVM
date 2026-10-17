@@ -131,11 +131,9 @@ What the pages still do against the rules above. Remove an entry when it is
 fixed or turned into an accepted exception.
 
 - **Captions:** the editable Network fields are bare on purpose for now.
-- **Action rows:** the Time page's Refresh and Sync now, and the Logging
-  buttons, are plain button rows without captions (rule 14).
 - **Boxed content:** the log viewers (`pre` on `bg-black/50`) and the firewall
   mode tiles are boxes on purpose; confirm them as exceptions.
 - **Dead code and strings:** the standalone `showTitle` and `showFooter` paths
-  and the Apply footers in Network, Time and Logging, the unused strings
+  and the Apply footers in Network and Logging, the unused strings
   `update.previewDesc`, `update.system.base` and `update.system.rootfs`, and
   the hard-coded English "Changelog" and "HDMI".
