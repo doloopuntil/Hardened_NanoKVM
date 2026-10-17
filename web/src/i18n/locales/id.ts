@@ -83,7 +83,6 @@ const id = {
       paste: 'Tempel',
       tips: 'Hanya huruf dan simbol keyboard standar yang didukung',
       placeholder: 'Silahkan isi',
-      submit: 'Kirimkan',
       virtual: 'Keyboard',
       readClipboard: 'Membaca dari Papan Klip',
       clipboardPermissionDenied:
@@ -115,7 +114,6 @@ const id = {
         shiftRight: 'Shift kanan',
         ctrlRight: 'Ctrl kanan',
         metaRight: 'Win kanan',
-        submit: 'Kirimkan',
         recorder: {
           rec: 'REKAM',
           activate: 'Aktifkan tombol',
@@ -161,7 +159,6 @@ const id = {
       forceEject: 'Paksa keluarkan',
       forceEjectConfirm:
         'Host telah mengunci drive optik. Memaksa pengeluaran akan memutuskan perangkat USB virtual sesaat, sehingga keyboard dan mouse dapat terputus sebentar. Lanjutkan?',
-      attention: 'Perhatian',
       deleteConfirm: 'Apakah Anda yakin ingin menghapus gambar ini?',
       tips: {
         title: 'Cara mengunggah',
@@ -202,8 +199,7 @@ const id = {
       flowControlSoft: 'Perangkat lunak',
       flowControlHard: 'Perangkat keras',
       dataBits: 'Bit data',
-      stopBits: 'Hentikan bit',
-      confirm: 'Ok'
+      stopBits: 'Hentikan bit'
     },
     wol: {
       title: 'Wake-on-LAN',

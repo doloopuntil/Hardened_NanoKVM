@@ -90,7 +90,6 @@ const de = {
       title: 'Tastatur',
       paste: 'Einfügen',
       placeholder: 'Bitte eingeben',
-      submit: 'Senden',
       virtual: 'Tastatur',
       readClipboard: 'Aus der Zwischenablage lesen',
       clipboardPermissionDenied:
@@ -125,7 +124,6 @@ const de = {
         shiftRight: 'Rechts Shift',
         ctrlRight: 'Rechts Ctrl',
         metaRight: 'Rechts Win',
-        submit: 'Senden',
         recorder: {
           rec: 'REC',
           activate: 'Tasten aktivieren',
@@ -172,7 +170,6 @@ const de = {
       forceEject: 'Auswerfen erzwingen',
       forceEjectConfirm:
         'Der Host hat das optische Laufwerk gesperrt. Beim erzwungenen Auswerfen wird das virtuelle USB-Gerät kurz getrennt, sodass Tastatur und Maus kurzzeitig ausfallen können. Fortfahren?',
-      attention: 'Achtung',
       deleteConfirm: 'Sind Sie sicher, dass Sie dieses Bild löschen möchten?',
       tips: {
         title: 'So laden Sie Dateien hoch',
@@ -212,8 +209,7 @@ const de = {
       flowControlSoft: 'Software',
       flowControlHard: 'Hardware',
       dataBits: 'Daten bits',
-      stopBits: 'Stopp bits',
-      confirm: 'Ok'
+      stopBits: 'Stopp bits'
     },
     wol: {
       title: 'Wake-on-LAN',

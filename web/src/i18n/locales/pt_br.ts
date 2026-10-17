@@ -92,7 +92,6 @@ const pt_br = {
       paste: 'Colar',
       tips: 'Apenas letras e símbolos de teclado padrão são suportados',
       placeholder: 'Por favor, digite',
-      submit: 'Enviar',
       virtual: 'Teclado',
       readClipboard: 'Ler da área de transferência',
       clipboardPermissionDenied:
@@ -129,7 +128,6 @@ const pt_br = {
         shiftRight: 'Shift direito',
         ctrlRight: 'Ctrl direito',
         metaRight: 'Win direito',
-        submit: 'Enviar',
         recorder: {
           rec: 'REC',
           activate: 'Ativar teclas',
@@ -180,7 +178,6 @@ const pt_br = {
       forceEject: 'Forçar ejeção',
       forceEjectConfirm:
         'O host bloqueou a unidade óptica. Forçar a ejeção desconecta o dispositivo USB virtual por um momento, então o teclado e o mouse podem se desconectar brevemente. Continuar?',
-      attention: 'Atenção',
       deleteConfirm: 'Tem certeza que deseja excluir esta imagem?',
       tips: {
         title: 'Como fazer upload',
@@ -222,8 +219,7 @@ const pt_br = {
       flowControlSoft: 'Software',
       flowControlHard: 'Hardware',
       dataBits: 'Bits de dados',
-      stopBits: 'Bits de parada',
-      confirm: 'Ok'
+      stopBits: 'Bits de parada'
     },
     wol: {
       title: 'Wake-on-LAN',

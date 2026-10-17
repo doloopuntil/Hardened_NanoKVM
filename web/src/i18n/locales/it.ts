@@ -92,7 +92,6 @@ const it = {
       paste: 'Incolla',
       tips: 'Sono supportati solo lettere e simboli standard della tastiera',
       placeholder: 'Inserisci testo',
-      submit: 'Invia',
       virtual: 'Tastiera',
       readClipboard: 'Leggi dagli Appunti',
       clipboardPermissionDenied:
@@ -128,7 +127,6 @@ const it = {
         shiftRight: 'Shift destro',
         ctrlRight: 'Ctrl destro',
         metaRight: 'Win destro',
-        submit: 'Invia',
         recorder: {
           rec: 'REC',
           activate: 'Attiva i tasti',
@@ -174,7 +172,6 @@ const it = {
       forceEject: "Forza l'espulsione",
       forceEjectConfirm:
         "L'host ha bloccato l'unità ottica. Forzare l'espulsione disconnette per un momento il dispositivo USB virtuale, quindi tastiera e mouse potrebbero disconnettersi brevemente. Continuare?",
-      attention: 'Attenzione',
       deleteConfirm: 'Sei sicuro di voler eliminare questa immagine?',
       tips: {
         title: 'Come caricare',
@@ -214,8 +211,7 @@ const it = {
       flowControlSoft: 'Software',
       flowControlHard: 'Hardware',
       dataBits: 'Bit di dati',
-      stopBits: 'Bit di stop',
-      confirm: 'Ok'
+      stopBits: 'Bit di stop'
     },
     wol: {
       title: 'Wake-on-LAN',

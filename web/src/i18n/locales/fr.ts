@@ -89,7 +89,6 @@ const fr = {
       paste: 'Coller',
       tips: 'Seuls les caractères et symboles standard du clavier sont pris en charge',
       placeholder: 'Veuillez saisir',
-      submit: 'Soumettre',
       virtual: 'Clavier',
       readClipboard: 'Lire le presse-papiers',
       clipboardPermissionDenied:
@@ -126,7 +125,6 @@ const fr = {
         shiftRight: 'Shift droit',
         ctrlRight: 'Ctrl droit',
         metaRight: 'Win droit',
-        submit: 'Soumettre',
         recorder: {
           rec: 'REC',
           activate: 'Activer les touches',
@@ -174,7 +172,6 @@ const fr = {
       forceEject: "Forcer l'éjection",
       forceEjectConfirm:
         "L'hôte a verrouillé le lecteur optique. Forcer l'éjection déconnecte brièvement le périphérique USB virtuel, de sorte que le clavier et la souris peuvent se déconnecter momentanément. Continuer ?",
-      attention: 'Attention',
       deleteConfirm: 'Etes-vous sûr de vouloir supprimer cette image?',
       tips: {
         title: 'Comment télécharger',
@@ -215,8 +212,7 @@ const fr = {
       flowControlSoft: 'Logiciel',
       flowControlHard: 'Matériel',
       dataBits: 'Bits de données',
-      stopBits: "Bits d'arrêt",
-      confirm: 'Ok'
+      stopBits: "Bits d'arrêt"
     },
     wol: {
       title: 'Wake-on-LAN',

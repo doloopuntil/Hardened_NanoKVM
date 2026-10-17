@@ -91,7 +91,6 @@ const nl = {
       paste: 'Plakken',
       tips: 'Alleen standaard toetsenbordletters en symbolen worden ondersteund',
       placeholder: 'Voer tekst in',
-      submit: 'Verzenden',
       virtual: 'Toetsenbord',
       readClipboard: 'Lezen vanaf het Klembord',
       clipboardPermissionDenied:
@@ -126,7 +125,6 @@ const nl = {
         shiftRight: 'Rechter Shift',
         ctrlRight: 'Rechter Ctrl',
         metaRight: 'Rechter Win',
-        submit: 'Verzenden',
         recorder: {
           rec: 'OPN',
           activate: 'Toetsen activeren',
@@ -176,7 +174,6 @@ const nl = {
       forceEject: 'Uitwerpen forceren',
       forceEjectConfirm:
         'De host heeft het optische station vergrendeld. Bij geforceerd uitwerpen wordt het virtuele USB-apparaat even losgekoppeld, waardoor het toetsenbord en de muis kort kunnen worden losgekoppeld. Doorgaan?',
-      attention: 'Let op',
       deleteConfirm: 'Weet u zeker dat u deze afbeelding wilt verwijderen?',
       tips: {
         title: 'Hoe te uploaden',
@@ -218,8 +215,7 @@ const nl = {
       flowControlSoft: 'Software',
       flowControlHard: 'Hardware',
       dataBits: 'Databits',
-      stopBits: 'Stopbits',
-      confirm: 'Ok'
+      stopBits: 'Stopbits'
     },
     wol: {
       title: 'Wake-on-LAN',

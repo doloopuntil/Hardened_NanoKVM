@@ -124,7 +124,6 @@ const nb = {
         shiftRight: 'Høyre Shift',
         ctrlRight: 'Høyre Ctrl',
         metaRight: 'Høyre Win',
-        submit: 'Lim inn',
         recorder: {
           rec: 'REC',
           activate: 'Aktiver taster',
@@ -170,7 +169,6 @@ const nb = {
       forceEject: 'Løs ut med tvang',
       forceEjectConfirm:
         'Verten har låst den optiske stasjonen. Tvungen utløsing kobler den virtuelle USB-enheten fra et øyeblikk, så tastaturet og musen kan bli koblet fra en kort stund. Vil du fortsette?',
-      attention: 'Merknad',
       deleteConfirm: 'Er du sikker på at du vil slette dette bildet?',
       tips: {
         title: 'Hvordan laste opp',
@@ -212,8 +210,7 @@ const nb = {
       flowControlSoft: 'Programvare',
       flowControlHard: 'Maskinvare',
       dataBits: 'Databiter',
-      stopBits: 'Stoppbiter',
-      confirm: 'Ok'
+      stopBits: 'Stoppbiter'
     },
     wol: {
       title: 'Wake-on-LAN',

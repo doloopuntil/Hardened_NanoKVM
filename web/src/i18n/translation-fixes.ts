@@ -270,7 +270,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Canvia la contrasenya que s'usa per iniciar sessió a la interfície web",
     "settings.system.time.syncNowDesc": "Ajusta el rellotge amb els servidors NTP ara",
     "settings.systemLog.viewer.linesUnit": "línies",
-    "settings.about.credit": "Basat en <a1>NanoKVM</a1> de Sipeed i <a2>Hardened NanoKVM</a2> de woffko"
+    "settings.about.credit": "Basat en <a1>NanoKVM</a1> de Sipeed i <a2>Hardened NanoKVM</a2> de woffko",
+    "image.mountTitle": "Munta la imatge",
+    "image.deleteTitle": "Esborra la imatge",
+    "terminal.open": "Obre el terminal",
+    "settings.device.diskEnable": "Activa el disc virtual",
+    "settings.device.networkChange": "Canvia la xarxa virtual"
   },
   cz: {
     "auth.illegalPassword": "Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka",
@@ -488,7 +493,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Změnit heslo používané k přihlášení do webového rozhraní",
     "settings.system.time.syncNowDesc": "Nastavit hodiny podle serverů NTP hned",
     "settings.systemLog.viewer.linesUnit": "řádků",
-    "settings.about.credit": "Postaveno na <a1>NanoKVM</a1> od Sipeed a <a2>Hardened NanoKVM</a2> od woffko"
+    "settings.about.credit": "Postaveno na <a1>NanoKVM</a1> od Sipeed a <a2>Hardened NanoKVM</a2> od woffko",
+    "image.mountTitle": "Připojit obraz",
+    "image.deleteTitle": "Smazat obraz",
+    "terminal.open": "Otevřít terminál",
+    "settings.device.diskEnable": "Zapnout virtuální disk",
+    "settings.device.networkChange": "Změnit virtuální síť"
   },
   da: {
     "auth.illegalPassword": "Adgangskoden skal være på mindst 8 tegn og må ikke indeholde anførselstegn eller skråstreger",
@@ -715,7 +725,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Skift den adgangskode, der bruges til at logge ind på webgrænsefladen",
     "settings.system.time.syncNowDesc": "Indstil uret fra NTP-serverne nu",
     "settings.systemLog.viewer.linesUnit": "linjer",
-    "settings.about.credit": "Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> af woffko"
+    "settings.about.credit": "Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> af woffko",
+    "image.mountTitle": "Monter diskbillede",
+    "image.deleteTitle": "Slet diskbillede",
+    "terminal.open": "Åbn terminal",
+    "settings.device.diskEnable": "Aktivér virtuel disk",
+    "settings.device.networkChange": "Skift virtuelt netværk"
   },
   de: {
     "auth.illegalPassword": "Das Passwort muss mindestens 8 Zeichen lang sein und darf keine Anführungszeichen oder Schrägstriche enthalten",
@@ -947,7 +962,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Das Passwort ändern, mit dem Sie sich an der Weboberfläche anmelden",
     "settings.system.time.syncNowDesc": "Die Uhr jetzt mit den NTP-Servern abgleichen",
     "settings.systemLog.viewer.linesUnit": "Zeilen",
-    "settings.about.credit": "Basiert auf <a1>NanoKVM</a1> von Sipeed und <a2>Hardened NanoKVM</a2> von woffko"
+    "settings.about.credit": "Basiert auf <a1>NanoKVM</a1> von Sipeed und <a2>Hardened NanoKVM</a2> von woffko",
+    "image.mountTitle": "Bild einbinden",
+    "image.deleteTitle": "Bild löschen",
+    "terminal.open": "Terminal öffnen",
+    "settings.device.diskEnable": "Virtuelle Festplatte aktivieren",
+    "settings.device.networkChange": "Virtuelles Netzwerk ändern"
   },
   es: {
     "auth.illegalPassword": "La contraseña debe tener al menos 8 caracteres y no puede contener comillas ni barras",
@@ -1161,7 +1181,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Cambia la contraseña que se usa para iniciar sesión en la interfaz web",
     "settings.system.time.syncNowDesc": "Ajusta el reloj con los servidores NTP ahora",
     "settings.systemLog.viewer.linesUnit": "líneas",
-    "settings.about.credit": "Basado en <a1>NanoKVM</a1> de Sipeed y <a2>Hardened NanoKVM</a2> de woffko"
+    "settings.about.credit": "Basado en <a1>NanoKVM</a1> de Sipeed y <a2>Hardened NanoKVM</a2> de woffko",
+    "image.mountTitle": "Montar imagen",
+    "image.deleteTitle": "Eliminar imagen",
+    "terminal.open": "Abrir consola",
+    "settings.device.diskEnable": "Activar el disco virtual",
+    "settings.device.networkChange": "Cambiar la red virtual"
   },
   et: {
     "settings.device.diskDesc": "Ühenda SD-kaart kaugmasinasse",
@@ -1379,7 +1404,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Muuda parooli, millega veebiliidesesse sisse logitakse",
     "settings.system.time.syncNowDesc": "Sea kell NTP-serveritest kohe",
     "settings.systemLog.viewer.linesUnit": "rida",
-    "settings.about.credit": "Põhineb Sipeedi <a1>NanoKVM-il</a1> ja woffko <a2>Hardened NanoKVM-il</a2>"
+    "settings.about.credit": "Põhineb Sipeedi <a1>NanoKVM-il</a1> ja woffko <a2>Hardened NanoKVM-il</a2>",
+    "image.mountTitle": "Ühenda image-fail",
+    "image.deleteTitle": "Kustuta image-fail",
+    "terminal.open": "Ava terminal",
+    "settings.device.diskEnable": "Luba virtuaalne ketas",
+    "settings.device.networkChange": "Muuda virtuaalset võrku"
   },
   fi: {
     "settings.device.diskDesc": "Liitä SD-kortti etäkoneeseen",
@@ -1593,7 +1623,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Vaihda salasana, jolla kirjaudutaan verkkokäyttöliittymään",
     "settings.system.time.syncNowDesc": "Aseta kello NTP-palvelimilta nyt",
     "settings.systemLog.viewer.linesUnit": "riviä",
-    "settings.about.credit": "Perustuu Sipeedin <a1>NanoKVM</a1>:ään ja woffkon <a2>Hardened NanoKVM</a2>:ään"
+    "settings.about.credit": "Perustuu Sipeedin <a1>NanoKVM</a1>:ään ja woffkon <a2>Hardened NanoKVM</a2>:ään",
+    "image.mountTitle": "Liitä levykuva",
+    "image.deleteTitle": "Poista levykuva",
+    "terminal.open": "Avaa pääte",
+    "settings.device.diskEnable": "Ota virtuaalilevy käyttöön",
+    "settings.device.networkChange": "Muuta virtuaaliverkkoa"
   },
   fr: {
     "auth.illegalPassword": "Le mot de passe doit contenir au moins 8 caractères et ne peut pas contenir de guillemets ni de barres obliques",
@@ -1807,7 +1842,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Modifier le mot de passe utilisé pour se connecter à l’interface web",
     "settings.system.time.syncNowDesc": "Régler l’horloge d’après les serveurs NTP maintenant",
     "settings.systemLog.viewer.linesUnit": "lignes",
-    "settings.about.credit": "Basé sur <a1>NanoKVM</a1> de Sipeed et <a2>Hardened NanoKVM</a2> de woffko"
+    "settings.about.credit": "Basé sur <a1>NanoKVM</a1> de Sipeed et <a2>Hardened NanoKVM</a2> de woffko",
+    "image.mountTitle": "Monter l'image",
+    "image.deleteTitle": "Supprimer l'image",
+    "terminal.open": "Ouvrir le terminal",
+    "settings.device.diskEnable": "Activer le disque virtuel",
+    "settings.device.networkChange": "Modifier le réseau virtuel"
   },
   hu: {
     "auth.illegalPassword": "A jelszónak legalább 8 karakter hosszúnak kell lennie, és nem tartalmazhat idézőjelet vagy törtvonalat",
@@ -2030,7 +2070,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "A webes felületre való bejelentkezéshez használt jelszó módosítása",
     "settings.system.time.syncNowDesc": "Az óra beállítása az NTP-kiszolgálókról most",
     "settings.systemLog.viewer.linesUnit": "sor",
-    "settings.about.credit": "A Sipeed <a1>NanoKVM</a1>-jére és woffko <a2>Hardened NanoKVM</a2>-jére épül"
+    "settings.about.credit": "A Sipeed <a1>NanoKVM</a1>-jére és woffko <a2>Hardened NanoKVM</a2>-jére épül",
+    "image.mountTitle": "Kép csatlakoztatása",
+    "image.deleteTitle": "Kép törlése",
+    "terminal.open": "Terminál megnyitása",
+    "settings.device.diskEnable": "Virtuális lemez engedélyezése",
+    "settings.device.networkChange": "Virtuális hálózat módosítása"
   },
   id: {
     "auth.illegalPassword": "Kata sandi harus minimal 8 karakter dan tidak boleh berisi tanda kutip atau garis miring",
@@ -2274,7 +2319,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Ubah kata sandi yang digunakan untuk masuk ke antarmuka web",
     "settings.system.time.syncNowDesc": "Atur jam dari server NTP sekarang",
     "settings.systemLog.viewer.linesUnit": "baris",
-    "settings.about.credit": "Dibangun di atas <a1>NanoKVM</a1> dari Sipeed dan <a2>Hardened NanoKVM</a2> oleh woffko"
+    "settings.about.credit": "Dibangun di atas <a1>NanoKVM</a1> dari Sipeed dan <a2>Hardened NanoKVM</a2> oleh woffko",
+    "image.mountTitle": "Pasang gambar",
+    "image.deleteTitle": "Hapus gambar",
+    "terminal.open": "Buka terminal",
+    "settings.device.diskEnable": "Aktifkan disk virtual",
+    "settings.device.networkChange": "Ubah jaringan virtual"
   },
   it: {
     "auth.illegalPassword": "La password deve contenere almeno 8 caratteri e non può contenere virgolette o barre",
@@ -2496,7 +2546,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Cambia la password usata per accedere all’interfaccia web",
     "settings.system.time.syncNowDesc": "Imposta l’orologio dai server NTP ora",
     "settings.systemLog.viewer.linesUnit": "righe",
-    "settings.about.credit": "Basato su <a1>NanoKVM</a1> di Sipeed e <a2>Hardened NanoKVM</a2> di woffko"
+    "settings.about.credit": "Basato su <a1>NanoKVM</a1> di Sipeed e <a2>Hardened NanoKVM</a2> di woffko",
+    "image.mountTitle": "Monta immagine",
+    "image.deleteTitle": "Elimina immagine",
+    "terminal.open": "Apri terminale",
+    "settings.device.diskEnable": "Abilita il disco virtuale",
+    "settings.device.networkChange": "Cambia la rete virtuale"
   },
   ja: {
     "auth.illegalPassword": "パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません",
@@ -2705,7 +2760,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "ウェブインターフェースへのログインに使うパスワードを変更します",
     "settings.system.time.syncNowDesc": "NTP サーバーから今すぐ時刻を設定します",
     "settings.systemLog.viewer.linesUnit": "行",
-    "settings.about.credit": "Sipeed の <a1>NanoKVM</a1> と woffko の <a2>Hardened NanoKVM</a2> をベースにしています"
+    "settings.about.credit": "Sipeed の <a1>NanoKVM</a1> と woffko の <a2>Hardened NanoKVM</a2> をベースにしています",
+    "image.mountTitle": "イメージをマウント",
+    "image.deleteTitle": "イメージを削除",
+    "terminal.open": "ターミナルを開く",
+    "settings.device.diskEnable": "仮想ディスクを有効化",
+    "settings.device.networkChange": "仮想ネットワークを変更"
   },
   ko: {
     "auth.illegalPassword": "비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다",
@@ -2929,7 +2989,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "웹 인터페이스에 로그인할 때 사용하는 비밀번호를 변경합니다",
     "settings.system.time.syncNowDesc": "지금 NTP 서버로 시계를 설정합니다",
     "settings.systemLog.viewer.linesUnit": "줄",
-    "settings.about.credit": "Sipeed의 <a1>NanoKVM</a1>과 woffko의 <a2>Hardened NanoKVM</a2>을 기반으로 합니다"
+    "settings.about.credit": "Sipeed의 <a1>NanoKVM</a1>과 woffko의 <a2>Hardened NanoKVM</a2>을 기반으로 합니다",
+    "image.mountTitle": "이미지 마운트",
+    "image.deleteTitle": "이미지 삭제",
+    "terminal.open": "터미널 열기",
+    "settings.device.diskEnable": "가상 디스크 활성화",
+    "settings.device.networkChange": "가상 네트워크 변경"
   },
   nb: {
     "auth.illegalPassword": "Passordet må være minst 8 tegn og kan ikke inneholde anførselstegn eller skråstreker",
@@ -2937,7 +3002,6 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.disabled": "Bilder kan ikke lastes ned eller lastes opp akkurat nå fordi lagringen ikke er skrivbar. Hvis et bilde er montert, må du avmontere det og deretter slå av den virtuelle disken slik at lagringen blir skrivbar igjen.",
     "settings.about.image": "Systembildeversjon",
     "keyboard.title": "Tastatur",
-    "keyboard.submit": "Send",
     "screen.video": "Videomodus",
     "settings.update.confirm": "Bekreft",
     "keyboard.dropdownGerman": "Tysk",
@@ -3145,7 +3209,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Endre passordet som brukes til å logge inn på webgrensesnittet",
     "settings.system.time.syncNowDesc": "Still klokken fra NTP-tjenerne nå",
     "settings.systemLog.viewer.linesUnit": "linjer",
-    "settings.about.credit": "Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> av woffko"
+    "settings.about.credit": "Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> av woffko",
+    "image.mountTitle": "Monter bilde",
+    "image.deleteTitle": "Slett bilde",
+    "terminal.open": "Åpne terminal",
+    "settings.device.diskEnable": "Aktiver virtuell disk",
+    "settings.device.networkChange": "Endre virtuelt nettverk"
   },
   nl: {
     "auth.illegalPassword": "Het wachtwoord moet minstens 8 tekens bevatten en mag geen aanhalingstekens of schuine strepen bevatten",
@@ -3366,7 +3435,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Wijzig het wachtwoord waarmee u zich aanmeldt bij de webinterface",
     "settings.system.time.syncNowDesc": "Stel de klok nu in via de NTP-servers",
     "settings.systemLog.viewer.linesUnit": "regels",
-    "settings.about.credit": "Gebouwd op <a1>NanoKVM</a1> van Sipeed en <a2>Hardened NanoKVM</a2> van woffko"
+    "settings.about.credit": "Gebouwd op <a1>NanoKVM</a1> van Sipeed en <a2>Hardened NanoKVM</a2> van woffko",
+    "image.mountTitle": "Afbeelding koppelen",
+    "image.deleteTitle": "Afbeelding verwijderen",
+    "terminal.open": "Terminal openen",
+    "settings.device.diskEnable": "Virtuele schijf inschakelen",
+    "settings.device.networkChange": "Virtueel netwerk wijzigen"
   },
   pl: {
     "auth.illegalPassword": "Hasło musi mieć co najmniej 8 znaków i nie może zawierać cudzysłowów ani ukośników",
@@ -3588,7 +3662,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Zmień hasło używane do logowania do interfejsu webowego",
     "settings.system.time.syncNowDesc": "Ustaw zegar według serwerów NTP teraz",
     "settings.systemLog.viewer.linesUnit": "linii",
-    "settings.about.credit": "Oparty na <a1>NanoKVM</a1> firmy Sipeed i <a2>Hardened NanoKVM</a2> autorstwa woffko"
+    "settings.about.credit": "Oparty na <a1>NanoKVM</a1> firmy Sipeed i <a2>Hardened NanoKVM</a2> autorstwa woffko",
+    "image.mountTitle": "Zamontuj obraz",
+    "image.deleteTitle": "Usuń obraz",
+    "terminal.open": "Otwórz terminal",
+    "settings.device.diskEnable": "Włącz dysk wirtualny",
+    "settings.device.networkChange": "Zmień sieć wirtualną"
   },
   pt_br: {
     "auth.illegalPassword": "A senha deve ter pelo menos 8 caracteres e não pode conter aspas nem barras",
@@ -3803,11 +3882,15 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Altere a senha usada para entrar na interface web",
     "settings.system.time.syncNowDesc": "Acertar o relógio com os servidores NTP agora",
     "settings.systemLog.viewer.linesUnit": "linhas",
-    "settings.about.credit": "Baseado no <a1>NanoKVM</a1> da Sipeed e no <a2>Hardened NanoKVM</a2> de woffko"
+    "settings.about.credit": "Baseado no <a1>NanoKVM</a1> da Sipeed e no <a2>Hardened NanoKVM</a2> de woffko",
+    "image.mountTitle": "Montar imagem",
+    "image.deleteTitle": "Excluir imagem",
+    "terminal.open": "Abrir terminal",
+    "settings.device.diskEnable": "Ativar disco virtual",
+    "settings.device.networkChange": "Alterar rede virtual"
   },
   ru: {
     "download.disabled": "Сейчас нельзя скачивать или загружать образы, потому что хранилище недоступно для записи. Если образ смонтирован, размонтируйте его, а затем отключите виртуальный диск, чтобы хранилище снова стало доступным для записи.",
-    "keyboard.submit": "Отправить",
     "keyboard.shortcut.title": "Сочетания клавиш",
     "settings.device.mouseJiggler.title": "Имитация движения мыши",
     "settings.device.ssh.tip": "Задайте надёжный пароль в разделе Аккаунт > Пароль перед включением этой опции",
@@ -4011,7 +4094,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Изменить пароль для входа в веб-интерфейс",
     "settings.system.time.syncNowDesc": "Установить время по серверам NTP сейчас",
     "settings.systemLog.viewer.linesUnit": "строк",
-    "settings.about.credit": "Основано на <a1>NanoKVM</a1> от Sipeed и <a2>Hardened NanoKVM</a2> от woffko"
+    "settings.about.credit": "Основано на <a1>NanoKVM</a1> от Sipeed и <a2>Hardened NanoKVM</a2> от woffko",
+    "image.mountTitle": "Смонтировать образ",
+    "image.deleteTitle": "Удалить образ",
+    "terminal.open": "Открыть терминал",
+    "settings.device.diskEnable": "Включить виртуальный диск",
+    "settings.device.networkChange": "Изменить виртуальную сеть"
   },
   se: {
     "auth.illegalPassword": "Lösenordet måste vara minst 8 tecken och får inte innehålla citattecken eller snedstreck",
@@ -4216,7 +4304,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Ändra lösenordet som används för att logga in i webbgränssnittet",
     "settings.system.time.syncNowDesc": "Ställ klockan från NTP-servrarna nu",
     "settings.systemLog.viewer.linesUnit": "rader",
-    "settings.about.credit": "Byggt på <a1>NanoKVM</a1> från Sipeed och <a2>Hardened NanoKVM</a2> av woffko"
+    "settings.about.credit": "Byggt på <a1>NanoKVM</a1> från Sipeed och <a2>Hardened NanoKVM</a2> av woffko",
+    "image.mountTitle": "Montera avbildning",
+    "image.deleteTitle": "Ta bort avbildning",
+    "terminal.open": "Öppna terminal",
+    "settings.device.diskEnable": "Aktivera virtuell disk",
+    "settings.device.networkChange": "Ändra virtuellt nätverk"
   },
   th: {
     "auth.illegalPassword": "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร และห้ามมีเครื่องหมายคำพูดหรือเครื่องหมายทับ",
@@ -4406,7 +4499,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.systemLog.viewer.linesUnit": "บรรทัด",
     "settings.account.totp.requireDescription": "ป้องกันไม่ให้ปิดการยืนยันตัวตนสองขั้นตอน และบัญชีที่ยังไม่มีต้องตั้งค่าก่อนใช้งานอุปกรณ์",
     "settings.systemLog.remote.protocol": "พอร์ต UDP ของเซิร์ฟเวอร์ syslog",
-    "settings.about.credit": "สร้างบน <a1>NanoKVM</a1> โดย Sipeed และ <a2>Hardened NanoKVM</a2> โดย woffko"
+    "settings.about.credit": "สร้างบน <a1>NanoKVM</a1> โดย Sipeed และ <a2>Hardened NanoKVM</a2> โดย woffko",
+    "image.mountTitle": "ติดตั้งอิมเมจ",
+    "image.deleteTitle": "ลบอิมเมจ",
+    "terminal.open": "เปิดเทอร์มินอล",
+    "settings.device.diskEnable": "เปิดใช้งานดิสก์จำลอง",
+    "settings.device.networkChange": "เปลี่ยนเครือข่ายจำลอง"
   },
   tr: {
     "auth.illegalPassword": "Şifre en az 8 karakter olmalı ve tırnak işareti veya eğik çizgi içermemelidir",
@@ -4642,7 +4740,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Web arayüzüne giriş yaparken kullanılan şifreyi değiştir",
     "settings.system.time.syncNowDesc": "Saati şimdi NTP sunucularından ayarla",
     "settings.systemLog.viewer.linesUnit": "satır",
-    "settings.about.credit": "Sipeed'in <a1>NanoKVM</a1> ve woffko'nun <a2>Hardened NanoKVM</a2> projeleri üzerine kurulmuştur"
+    "settings.about.credit": "Sipeed'in <a1>NanoKVM</a1> ve woffko'nun <a2>Hardened NanoKVM</a2> projeleri üzerine kurulmuştur",
+    "image.mountTitle": "İmajı bağla",
+    "image.deleteTitle": "İmajı sil",
+    "terminal.open": "Uçbirimi aç",
+    "settings.device.diskEnable": "Sanal diski etkinleştir",
+    "settings.device.networkChange": "Sanal ağı değiştir"
   },
   uk: {
     "auth.illegalPassword": "Пароль має містити щонайменше 8 символів і не може містити лапок чи похилих рисок",
@@ -4861,7 +4964,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Змінити пароль для входу у веб-інтерфейс",
     "settings.system.time.syncNowDesc": "Встановити годинник за серверами NTP зараз",
     "settings.systemLog.viewer.linesUnit": "рядків",
-    "settings.about.credit": "Створено на основі <a1>NanoKVM</a1> від Sipeed і <a2>Hardened NanoKVM</a2> від woffko"
+    "settings.about.credit": "Створено на основі <a1>NanoKVM</a1> від Sipeed і <a2>Hardened NanoKVM</a2> від woffko",
+    "image.mountTitle": "Змонтувати образ",
+    "image.deleteTitle": "Видалити образ",
+    "terminal.open": "Відкрити термінал",
+    "settings.device.diskEnable": "Увімкнути віртуальний диск",
+    "settings.device.networkChange": "Змінити віртуальну мережу"
   },
   vi: {
     "auth.illegalPassword": "Mật khẩu phải có ít nhất 8 ký tự và không được chứa dấu nháy hoặc dấu gạch chéo",
@@ -5085,7 +5193,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "Đổi mật khẩu dùng để đăng nhập vào giao diện web",
     "settings.system.time.syncNowDesc": "Đặt đồng hồ theo máy chủ NTP ngay",
     "settings.systemLog.viewer.linesUnit": "dòng",
-    "settings.about.credit": "Xây dựng trên <a1>NanoKVM</a1> của Sipeed và <a2>Hardened NanoKVM</a2> của woffko"
+    "settings.about.credit": "Xây dựng trên <a1>NanoKVM</a1> của Sipeed và <a2>Hardened NanoKVM</a2> của woffko",
+    "image.mountTitle": "Mount hình ảnh",
+    "image.deleteTitle": "Xóa hình ảnh",
+    "terminal.open": "Mở terminal",
+    "settings.device.diskEnable": "Bật đĩa ảo",
+    "settings.device.networkChange": "Thay đổi mạng ảo"
   },
   zh: {
     "auth.illegalPassword": "密码至少 8 个字符，且不能包含引号或斜杠",
@@ -5291,7 +5404,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "更改登录网页界面所用的密码",
     "settings.system.time.syncNowDesc": "立即用 NTP 服务器设置时钟",
     "settings.systemLog.viewer.linesUnit": "行",
-    "settings.about.credit": "基于 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 构建"
+    "settings.about.credit": "基于 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 构建",
+    "image.mountTitle": "挂载镜像",
+    "image.deleteTitle": "删除镜像",
+    "terminal.open": "打开终端",
+    "settings.device.diskEnable": "启用虚拟磁盘",
+    "settings.device.networkChange": "更改虚拟网卡"
   },
   zh_tw: {
     "auth.illegalPassword": "密碼至少 8 個字元，且不能包含引號或斜線",
@@ -5498,6 +5616,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.passwordDesc": "變更登入網頁介面所用的密碼",
     "settings.system.time.syncNowDesc": "立即以 NTP 伺服器設定時鐘",
     "settings.systemLog.viewer.linesUnit": "行",
-    "settings.about.credit": "基於 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 建置"
+    "settings.about.credit": "基於 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 建置",
+    "image.mountTitle": "掛載映像檔",
+    "image.deleteTitle": "刪除映像檔",
+    "terminal.open": "開啟終端機",
+    "settings.device.diskEnable": "啟用虛擬磁碟",
+    "settings.device.networkChange": "變更虛擬網卡"
   }
 };

@@ -88,7 +88,6 @@ const zh_tw = {
       paste: '貼上',
       tips: '僅支援標準鍵盤的字母和符號',
       placeholder: '請輸入內容',
-      submit: '送出',
       virtual: '虛擬鍵盤',
       readClipboard: '從剪貼簿讀取',
       clipboardPermissionDenied: '剪貼簿權限被拒絕。請允許您的瀏覽器存取剪貼簿。',
@@ -123,7 +122,6 @@ const zh_tw = {
         shiftRight: '右 Shift',
         ctrlRight: '右 Ctrl',
         metaRight: '右 Win',
-        submit: '送出',
         recorder: {
           rec: '記錄',
           activate: '啟用按鍵',
@@ -172,7 +170,6 @@ const zh_tw = {
       forceEject: '強制彈出',
       forceEjectConfirm:
         '主機已鎖定光碟機。強制彈出會使虛擬 USB 裝置短暫中斷連線，鍵盤和滑鼠可能會暫時中斷連線。是否繼續？',
-      attention: '注意',
       deleteConfirm: '確定要刪除該映像檔嗎？',
       tips: {
         title: '如何上傳',
@@ -214,8 +211,7 @@ const zh_tw = {
       flowControlSoft: '軟體',
       flowControlHard: '硬體',
       dataBits: '資料位元',
-      stopBits: '停止位元',
-      confirm: '確定'
+      stopBits: '停止位元'
     },
     wol: {
       title: 'Wake-on-LAN',

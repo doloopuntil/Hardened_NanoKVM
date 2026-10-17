@@ -84,7 +84,6 @@ const translations: Record<string, string> = {
   'keyboard.paste': 'Liitä',
   'keyboard.tips': 'Vain tavalliset näppäimistön kirjaimet ja symbolit ovat tuettuja',
   'keyboard.placeholder': 'Syötä',
-  'keyboard.submit': 'Lähetä',
   'keyboard.virtual': 'Näppäimistö',
   'keyboard.readClipboard': 'Lue leikepöydältä',
   'keyboard.clipboardPermissionDenied':
@@ -118,7 +117,6 @@ const translations: Record<string, string> = {
   'keyboard.leaderKey.shiftRight': 'Oikea Shift',
   'keyboard.leaderKey.ctrlRight': 'Oikea Ctrl',
   'keyboard.leaderKey.metaRight': 'Oikea Win',
-  'keyboard.leaderKey.submit': 'Lähetä',
   'keyboard.leaderKey.recorder.rec': 'REC',
   'keyboard.leaderKey.recorder.activate': 'Aktivoi näppäimet',
   'keyboard.leaderKey.recorder.input': 'Paina pikanäppäintä...',
@@ -157,7 +155,6 @@ const translations: Record<string, string> = {
   'image.forceEject': 'Pakota poisto',
   'image.forceEjectConfirm':
     'Etäkone on lukinnut optisen aseman. Pakotettu poisto katkaisee virtuaalisen USB-laitteen yhteyden hetkeksi, joten näppäimistö ja hiiri voivat irrota lyhyesti. Jatketaanko?',
-  'image.attention': 'Huomio',
   'image.deleteConfirm': 'Haluatko varmasti poistaa tämän levykuvan?',
   'image.tips.title': 'Latausohje',
   'image.tips.usb1': 'Yhdistä NanoKVM tietokoneeseen USB:llä.',
@@ -202,7 +199,6 @@ const translations: Record<string, string> = {
   'terminal.flowControlHard': 'Laitteistopohjainen',
   'terminal.dataBits': 'Databitit',
   'terminal.stopBits': 'Stop-bitit',
-  'terminal.confirm': 'OK',
   'wol.title': 'Wake-on-LAN',
   'wol.sending': 'Lähetetään komentoa...',
   'wol.sent': 'Komento lähetetty',

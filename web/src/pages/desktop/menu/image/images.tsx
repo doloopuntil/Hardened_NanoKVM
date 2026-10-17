@@ -123,7 +123,8 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
 
       const diskOn = !!rsp.data?.disk;
       confirm({
-        title: t('image.attention'),
+        title: t('image.mountTitle'),
+        okText: t('image.mountTitle'),
         content: (
           <div className="space-y-1">
             <p>{t(diskOn ? 'image.diskOnWarn' : 'image.diskOffWarn')}</p>
@@ -169,7 +170,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
         if (rsp.code === api.MEDIA_LOCKED_CODE) {
           confirm({
             danger: true,
-            title: t('image.attention'),
+            title: t('image.forceEject'),
             content: (
               <div className="space-y-1">
                 <p>{t('image.forceEjectConfirm')}</p>
@@ -212,7 +213,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
 
     confirm({
       danger: true,
-      title: t('image.attention'),
+      title: t('image.deleteTitle'),
       content: (
         <div className="space-y-1">
           <p>{t('image.deleteConfirm')}</p>

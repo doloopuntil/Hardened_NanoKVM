@@ -94,7 +94,6 @@ const translations: Record<string, string> = {
   'keyboard.paste': 'Kleebi',
   'keyboard.tips': 'Toetatud on ainult standardsed klaviatuuri tähed ja sümbolid',
   'keyboard.placeholder': 'Sisesta',
-  'keyboard.submit': 'Saada',
   'keyboard.virtual': 'Klaviatuur',
   'keyboard.readClipboard': 'Loe lõikepuhvrist',
   'keyboard.clipboardPermissionDenied':
@@ -123,7 +122,6 @@ const translations: Record<string, string> = {
   'keyboard.leaderKey.shiftRight': 'Parem Shift',
   'keyboard.leaderKey.ctrlRight': 'Parem Ctrl',
   'keyboard.leaderKey.metaRight': 'Parem Win',
-  'keyboard.leaderKey.submit': 'Saada',
   'keyboard.leaderKey.recorder.rec': 'REC',
   'keyboard.leaderKey.recorder.activate': 'Aktiveeri klahvid',
   'keyboard.leaderKey.recorder.input': 'Vajuta kiirklahvi...',
@@ -161,7 +159,6 @@ const translations: Record<string, string> = {
   'image.forceEject': 'Sunni väljutamine',
   'image.forceEjectConfirm':
     'Kaugmasin on optilise draivi lukustanud. Sunnitud väljutamine katkestab virtuaalse USB-seadme ühenduse korraks, mistõttu klaviatuur ja hiir võivad ajutiselt lahti ühenduda. Kas jätkata?',
-  'image.attention': 'Tähelepanu',
   'image.deleteConfirm': 'Kas oled kindel, et soovid selle image kustutada?',
   'image.tips.title': 'Kuidas üles laadida',
   'image.tips.usb1': 'Ühenda NanoKVM arvutiga USB kaudu.',
@@ -206,7 +203,6 @@ const translations: Record<string, string> = {
   'terminal.flowControlHard': 'Riistvaraline',
   'terminal.dataBits': 'Andmebitid',
   'terminal.stopBits': 'Stopbitid',
-  'terminal.confirm': 'OK',
   'wol.title': 'Wake-on-LAN',
   'wol.sending': 'Käsu saatmine...',
   'wol.sent': 'Käsk saadetud',

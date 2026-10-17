@@ -170,6 +170,21 @@ surface from the Settings pages and are built from `components/menu-rows.tsx`:
 - Rows pass their props on, so a row can sit inside a `Popconfirm` or a `Tooltip`.
 - No popover writes its own row classes, header or divider margin.
 
+The dialogs that the entries open follow the same idea (`components/dialog-parts.tsx`):
+
+- The title is the dialog's own `title`, never a hand-made heading. What the dialog
+  is about goes under it as a `DialogHint`, in small grey text.
+- The width is antd's default. There are two exceptions: the output of a script is
+  600px wide because it shows log text, and the Serial Port form is 420px because
+  it is a short column of labels and small controls.
+- A dialog has one main button, a `DialogAction`: `min-w-24`, centred under the
+  content, and named after what it does (Paste, Save, Open terminal), not Submit
+  or Ok. A close button is the same button.
+- Dialogs are centred. The one exception is a dialog with a text box, which is
+  not centred on a phone, so that the phone's keyboard does not cover the box.
+- A form in a dialog uses the `SettingRow` rows of the Settings pages.
+- A confirmation names its action in the title (rule 15), never "Attention".
+
 ## Adding or changing a page
 
 - Start from the title and hairline, then `SettingSection`s; reach for a

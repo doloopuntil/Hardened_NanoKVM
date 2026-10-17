@@ -60,7 +60,6 @@ export const Tips = () => {
       <Modal
         title={t('image.tips.title')}
         open={isModalOpen}
-        width={520}
         footer={null}
         centered
         onCancel={() => setIsModalOpen(false)}

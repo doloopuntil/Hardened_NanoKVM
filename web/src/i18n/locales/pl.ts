@@ -81,7 +81,6 @@ const pl = {
     keyboard: {
       title: 'Klawiatura',
       paste: 'Wklej',
-      submit: 'Prześlij',
       virtual: 'Klawiatura',
       readClipboard: 'Czytaj ze schowka',
       clipboardPermissionDenied:
@@ -117,7 +116,6 @@ const pl = {
         shiftRight: 'Prawy Shift',
         ctrlRight: 'Prawy Ctrl',
         metaRight: 'Prawy Win',
-        submit: 'Prześlij',
         recorder: {
           rec: 'NAGR',
           activate: 'Aktywuj klawisze'
@@ -161,7 +159,6 @@ const pl = {
       forceEject: 'Wymuś wysunięcie',
       forceEjectConfirm:
         'Host zablokował napęd optyczny. Wymuszenie wysunięcia na chwilę odłącza wirtualne urządzenie USB, więc klawiatura i mysz mogą na krótko się odłączyć. Kontynuować?',
-      attention: 'Uwaga',
       tips: {
         title: 'Jak przesłać obrazy',
         usb1: 'Podłącz urządzenie NanoKVM do komputera przez USB.',
@@ -201,8 +198,7 @@ const pl = {
       flowControlSoft: 'Programowe',
       flowControlHard: 'Sprzętowe',
       dataBits: 'Bity danych',
-      stopBits: 'Bity stopu',
-      confirm: 'Ok'
+      stopBits: 'Bity stopu'
     },
     wol: {
       title: 'Wake-on-LAN',

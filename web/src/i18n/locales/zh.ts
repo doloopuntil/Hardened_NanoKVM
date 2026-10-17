@@ -90,7 +90,6 @@ const zh = {
       paste: '粘贴',
       tips: '仅支持标准键盘的字母和符号',
       placeholder: '请输入内容',
-      submit: '确定',
       virtual: '虚拟键盘',
       readClipboard: '从剪贴板读取',
       clipboardPermissionDenied: '剪贴板权限被拒绝。请允许您的浏览器访问剪贴板。',
@@ -125,7 +124,6 @@ const zh = {
         shiftRight: '右 Shift',
         ctrlRight: '右 Ctrl',
         metaRight: '右 Win',
-        submit: '确定',
         recorder: {
           rec: '录制中',
           activate: '激活按键',
@@ -173,7 +171,6 @@ const zh = {
       forceEject: '强制弹出',
       forceEjectConfirm:
         '主机已锁定光驱。强制弹出会使虚拟 USB 设备短暂断开，键盘和鼠标可能会暂时断开连接。是否继续？',
-      attention: '注意',
       deleteConfirm: '确定要删除该镜像吗？',
       tips: {
         title: '如何上传',
@@ -212,8 +209,7 @@ const zh = {
       flowControlSoft: '软件',
       flowControlHard: '硬件',
       dataBits: '数据位',
-      stopBits: '停止位',
-      confirm: '确定'
+      stopBits: '停止位'
     },
     wol: {
       title: 'Wake-on-LAN',

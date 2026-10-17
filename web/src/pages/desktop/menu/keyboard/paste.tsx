@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Button, Divider, Input, Modal, Select } from 'antd';
+import { Button, Input, Modal, Select } from 'antd';
 import type { InputRef } from 'antd';
 import clsx from 'clsx';
 import { useSetAtom } from 'jotai';
@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { paste } from '@/api/hid';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
+import { DialogAction, DialogHint } from '@/components/dialog-parts.tsx';
 import { MenuRow } from '@/components/menu-rows.tsx';
 
 type InputStatus = '' | 'error';
@@ -208,18 +209,15 @@ export const Paste = () => {
       </MenuRow>
 
       <Modal
+        title={t('keyboard.paste')}
         open={isModalOpen}
+        // not centred on a phone, so that the phone's keyboard does not cover the text box
         centered={!isTouchLayout}
         footer={null}
         onCancel={() => setIsModalOpen(false)}
         afterOpenChange={afterOpenChange}
       >
-        <div className="flex flex-col">
-          <span className="text-xl">{t('keyboard.paste')}</span>
-          <span className="text-sm text-neutral-600">{t('keyboard.tips')}</span>
-        </div>
-
-        <Divider style={{ margin: '14px 0' }} />
+        <DialogHint>{t('keyboard.tips')}</DialogHint>
 
         <div
           className={clsx(
@@ -262,17 +260,9 @@ export const Paste = () => {
 
         {errMsg && <div className="pt-1 text-sm text-red-500">{errMsg}</div>}
 
-        <div className="flex justify-center py-5">
-          <Button
-            type="primary"
-            loading={isLoading}
-            htmlType="submit"
-            style={{ width: '300px' }}
-            onClick={submit}
-          >
-            {t('keyboard.submit')}
-          </Button>
-        </div>
+        <DialogAction loading={isLoading} htmlType="submit" onClick={submit}>
+          {t('keyboard.paste')}
+        </DialogAction>
       </Modal>
     </>
   );

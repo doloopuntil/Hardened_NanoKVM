@@ -135,7 +135,6 @@ const ru = {
         shiftRight: 'Правый Shift',
         ctrlRight: 'Правый Ctrl',
         metaRight: 'Правый Win',
-        submit: 'Вставить',
         recorder: {
           activate: 'Активировать клавиши',
           input: 'Пожалуйста, нажмите ярлык...'
@@ -195,7 +194,6 @@ const ru = {
         'Переподключайте USB-gadget только если удаленный хост не увидел смену носителя. Клавиатура и мышь могут кратко отключиться.',
       usbReconnectSuccess: 'USB переподключен',
       usbReconnectFailed: 'Не удалось переподключить USB',
-      attention: 'Внимание',
       deleteConfirm: 'Вы уверены, что хотите удалить это изображение?',
       tips: {
         title: 'Как загрузить',
@@ -243,8 +241,7 @@ const ru = {
       flowControlSoft: 'Программное',
       flowControlHard: 'Аппаратное',
       dataBits: 'Бит данных',
-      stopBits: 'Стоп-бит',
-      confirm: 'ОК'
+      stopBits: 'Стоп-бит'
     },
     wol: {
       title: 'Wake-on-LAN',

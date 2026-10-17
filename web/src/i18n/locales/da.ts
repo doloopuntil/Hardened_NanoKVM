@@ -84,7 +84,6 @@ const da = {
       paste: 'Indsæt',
       tips: 'Kun standard bogstaver og symboler er understøttet',
       placeholder: 'Indtast tekst',
-      submit: 'Send',
       virtual: 'Tastatur',
       readClipboard: 'Læs fra udklipsholder',
       clipboardPermissionDenied:
@@ -119,7 +118,6 @@ const da = {
         shiftRight: 'Højre Shift',
         ctrlRight: 'Højre Ctrl',
         metaRight: 'Højre Win',
-        submit: 'Send',
         recorder: {
           rec: 'REC',
           activate: 'Aktiver taster',
@@ -164,7 +162,6 @@ const da = {
       forceEject: 'Skub ud med tvang',
       forceEjectConfirm:
         'Værten har låst det optiske drev. Når du skubber ud med tvang, afbrydes den virtuelle USB-enhed et øjeblik, så tastaturet og musen kortvarigt kan miste forbindelsen. Vil du fortsætte?',
-      attention: 'Opmærksomhed påkrævet',
       deleteConfirm: 'Er du sikker på, at du vil slette dette billede?',
       tips: {
         title: 'Sådan uploader du',
@@ -206,8 +203,7 @@ const da = {
       flowControlSoft: 'Software',
       flowControlHard: 'Hardware',
       dataBits: 'Databits',
-      stopBits: 'Stopbit',
-      confirm: 'OK'
+      stopBits: 'Stopbit'
     },
     wol: {
       title: 'Wake-on-LAN',

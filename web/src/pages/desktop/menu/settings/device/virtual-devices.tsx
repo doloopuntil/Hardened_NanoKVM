@@ -83,7 +83,8 @@ export const VirtualDevices = () => {
 
     if (isImageMounted) {
       confirm({
-        title: t('image.attention'),
+        title: t('settings.device.diskEnable'),
+        okText: t('settings.device.diskEnable'),
         content: t('settings.device.diskCancelMount'),
         onOk: () => update('disk')
       });
@@ -101,7 +102,8 @@ export const VirtualDevices = () => {
     }
 
     confirm({
-      title: t('image.attention'),
+      title: t('settings.device.networkChange'),
+      okText: t('settings.device.networkChange'),
       content: t('settings.device.networkCancelMount'),
       onOk: () => update('network')
     });

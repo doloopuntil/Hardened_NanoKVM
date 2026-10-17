@@ -1,11 +1,13 @@
 import { ChangeEvent, useState } from 'react';
-import { Button, Input, InputNumber, Modal, Radio, RadioChangeEvent, Select } from 'antd';
+import { Input, InputNumber, Modal, Radio, RadioChangeEvent, Select } from 'antd';
 import { useSetAtom } from 'jotai';
 import { SquareTerminalIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
+import { DialogAction } from '@/components/dialog-parts.tsx';
 import { MenuRow } from '@/components/menu-rows.tsx';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 export const SerialPort = () => {
   const { t } = useTranslation();
@@ -65,48 +67,45 @@ export const SerialPort = () => {
       <Modal
         open={isModalOpen}
         centered
+        width={420}
         title={t('terminal.serial')}
         footer={null}
         onCancel={closeModal}
       >
-        <div className="mt-10 flex items-center space-x-[20px]">
-          <div className="flex w-[80px] justify-end text-neutral-400">
-            {t('terminal.serialPort')}
-          </div>
-          <div className="w-1/2">
+        <div className="flex flex-col space-y-6 pt-2">
+          <SettingRow label={t('terminal.serialPort')} inline>
             <Input
+              className="w-56 text-right"
               value={port}
               placeholder={t('terminal.serialPortPlaceholder')}
               onChange={handleInputChange}
             />
+          </SettingRow>
+
+          <div className="-mt-3 flex justify-end">
+            <Radio.Group value={port} onChange={handleRadioChange}>
+              <Radio value="/dev/ttyS1">
+                <code>/dev/ttyS1</code>
+              </Radio>
+              <Radio value="/dev/ttyS2">
+                <code>/dev/ttyS2</code>
+              </Radio>
+            </Radio.Group>
           </div>
-        </div>
-        <div className="mt-3 pl-[100px]">
-          <Radio.Group size="large" onChange={handleRadioChange}>
-            <Radio value="/dev/ttyS1">
-              <code>/dev/ttyS1</code>
-            </Radio>
-            <Radio value="/dev/ttyS2">
-              <code>/dev/ttyS2</code>
-            </Radio>
-          </Radio.Group>
-        </div>
 
-        <div className="mt-7 flex items-center space-x-[20px]">
-          <div className="flex w-[80px] justify-end text-neutral-400">{t('terminal.baudrate')}</div>
-          <InputNumber
-            controls={false}
-            min={1}
-            defaultValue={115200}
-            onChange={onInputNumberChange}
-          />
-        </div>
+          <SettingRow label={t('terminal.baudrate')} inline>
+            <InputNumber
+              className="w-32 [&_.ant-input-number-input]:!text-right"
+              controls={false}
+              min={1}
+              value={baudrate}
+              onChange={onInputNumberChange}
+            />
+          </SettingRow>
 
-        <div className="mt-7 flex items-center space-x-[20px]">
-          <div className="flex w-[80px] justify-end text-neutral-400">{t('terminal.parity')}</div>
-          <div className="w-1/2">
+          <SettingRow label={t('terminal.parity')} inline>
             <Select
-              defaultValue="none"
+              className="w-32 text-right"
               value={parity}
               onChange={setParity}
               options={[
@@ -115,16 +114,11 @@ export const SerialPort = () => {
                 { label: t('terminal.parityOdd'), value: 'odd' }
               ]}
             />
-          </div>
-        </div>
+          </SettingRow>
 
-        <div className="mt-7 flex items-center space-x-[20px]">
-          <div className="flex w-[80px] justify-end text-neutral-400">
-            {t('terminal.flowControl')}
-          </div>
-          <div className="w-1/2">
+          <SettingRow label={t('terminal.flowControl')} inline>
             <Select
-              defaultValue="none"
+              className="w-32 text-right"
               value={flowControl}
               onChange={setFlowControl}
               options={[
@@ -133,14 +127,11 @@ export const SerialPort = () => {
                 { label: t('terminal.flowControlHard'), value: 'hard' }
               ]}
             />
-          </div>
-        </div>
+          </SettingRow>
 
-        <div className="mt-7 flex items-center space-x-[20px]">
-          <div className="flex w-[80px] justify-end text-neutral-400">{t('terminal.dataBits')}</div>
-          <div className="w-1/2">
+          <SettingRow label={t('terminal.dataBits')} inline>
             <Select
-              defaultValue={8}
+              className="w-32 text-right"
               value={dataBits}
               onChange={setDataBits}
               options={[
@@ -150,14 +141,11 @@ export const SerialPort = () => {
                 { label: '8', value: 8 }
               ]}
             />
-          </div>
-        </div>
+          </SettingRow>
 
-        <div className="mt-7 flex items-center space-x-[20px]">
-          <div className="flex w-[80px] justify-end text-neutral-400">{t('terminal.stopBits')}</div>
-          <div className="w-1/2">
+          <SettingRow label={t('terminal.stopBits')} inline>
             <Select
-              defaultValue={1}
+              className="w-32 text-right"
               value={stopBits}
               onChange={setStopBits}
               options={[
@@ -165,14 +153,10 @@ export const SerialPort = () => {
                 { label: '2', value: 2 }
               ]}
             />
-          </div>
+          </SettingRow>
         </div>
 
-        <div className="mb-3 mt-12 flex justify-center">
-          <Button type="primary" onClick={submit}>
-            {t('terminal.confirm')}
-          </Button>
-        </div>
+        <DialogAction onClick={submit}>{t('terminal.open')}</DialogAction>
       </Modal>
     </>
   );

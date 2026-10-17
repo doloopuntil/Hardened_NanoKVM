@@ -114,7 +114,6 @@ const en = {
       paste: 'Paste',
       tips: 'Only standard keyboard letters and symbols are supported',
       placeholder: 'Please input',
-      submit: 'Submit',
       local: 'Mobile keyboard',
       virtual: 'On-screen keyboard',
       readClipboard: 'Read from Clipboard',
@@ -159,7 +158,6 @@ const en = {
         shiftRight: 'Right Shift',
         ctrlRight: 'Right Ctrl',
         metaRight: 'Right Win',
-        submit: 'Submit',
         recorder: {
           rec: 'REC',
           activate: 'Activate keys',
@@ -227,7 +225,8 @@ const en = {
         'Reconnect the USB gadget only if the remote host did not notice the media change. Keyboard and mouse may briefly disconnect.',
       usbReconnectSuccess: 'USB reconnected',
       usbReconnectFailed: 'USB reconnect failed',
-      attention: 'Attention',
+      mountTitle: 'Mount image',
+      deleteTitle: 'Delete image',
       deleteConfirm: 'Are you sure you want to delete this image?',
       tips: {
         title: 'How to upload',
@@ -280,7 +279,7 @@ const en = {
       flowControlHard: 'Hard',
       dataBits: 'Data bits',
       stopBits: 'Stop bits',
-      confirm: 'Ok'
+      open: 'Open terminal'
     },
     wol: {
       title: 'Wake-on-LAN',
@@ -448,6 +447,8 @@ const en = {
         disk: 'Virtual disk',
         diskDesc: 'Mount SD card on the remote host',
         diskLocked: 'Off while an image is mounted, and turning it on cancels the mount',
+        diskEnable: 'Enable virtual disk',
+        networkChange: 'Change virtual network',
         diskCancelMount: 'Enabling the virtual disk cancels the mounted image. Continue?',
         networkCancelMount:
           'Changing the virtual network restarts the USB connection. This cancels the mounted image and turns the virtual disk on. Continue?',

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
-import { Button, Card, Modal, Spin } from 'antd';
+import { Card, Modal, Spin } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/script';
+import { DialogAction } from '@/components/dialog-parts.tsx';
 
 type RunProps = {
   script: string;
@@ -46,11 +47,7 @@ export const Run = ({ script, setIsRunning }: RunProps) => {
         <Card className="h-[600px] overflow-auto whitespace-pre-line font-mono">{log}</Card>
       )}
 
-      <div className="mt-5 flex justify-center">
-        <Button type="primary" onClick={() => setIsRunning(false)}>
-          {t('script.close')}
-        </Button>
-      </div>
+      <DialogAction onClick={() => setIsRunning(false)}>{t('script.close')}</DialogAction>
     </Modal>
   );
 };

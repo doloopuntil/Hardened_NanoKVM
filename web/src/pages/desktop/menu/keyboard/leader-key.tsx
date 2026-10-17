@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Input, Modal, Switch } from 'antd';
+import { Input, Modal, Switch } from 'antd';
 import clsx from 'clsx';
 import { useAtom, useSetAtom } from 'jotai';
 import {
@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/hid.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { isKeyboardEnableAtom, leaderKeyAtom } from '@/jotai/keyboard.ts';
+import { DialogAction, DialogHint } from '@/components/dialog-parts.tsx';
 import { MenuRow } from '@/components/menu-rows.tsx';
 
 export const LeaderKey = () => {
@@ -108,20 +109,16 @@ export const LeaderKey = () => {
       </MenuRow>
 
       <Modal
-        width={510}
+        title={t('keyboard.leaderKey.title')}
         centered
         keyboard={false}
         footer={null}
         open={isModalOpen}
         onCancel={closeModal}
       >
-        <div className="my-3 flex flex-col space-y-3">
-          {/* title */}
-          <div className="flex flex-col space-y-1">
-            <span className="text-lg"> {t('keyboard.leaderKey.title')}</span>
-            <span className="text-xs text-neutral-500">{t('keyboard.leaderKey.desc')}</span>
-          </div>
+        <DialogHint>{t('keyboard.leaderKey.desc')}</DialogHint>
 
+        <div className="flex flex-col space-y-3">
           {/* Document */}
           <div className="rounded-lg bg-neutral-800 py-3">
             <div
@@ -196,13 +193,11 @@ export const LeaderKey = () => {
               </div>
             </div>
           )}
-
-          <div className="flex w-full justify-center pt-5">
-            <Button className="w-24" type="primary" loading={isLoading} onClick={submit}>
-              {t('keyboard.leaderKey.submit')}
-            </Button>
-          </div>
         </div>
+
+        <DialogAction loading={isLoading} onClick={submit}>
+          {t('keyboard.shortcut.save')}
+        </DialogAction>
       </Modal>
     </>
   );

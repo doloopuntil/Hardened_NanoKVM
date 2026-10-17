@@ -92,7 +92,6 @@ const se = {
       paste: 'Klistra in',
       tips: 'Endast standardbokstäver och symboler på tangentbordet stöds',
       placeholder: 'Ange text',
-      submit: 'Skicka',
       virtual: 'Tangentbord',
       readClipboard: 'Läs från Urklipp',
       clipboardPermissionDenied:
@@ -128,7 +127,6 @@ const se = {
         shiftRight: 'Höger Shift',
         ctrlRight: 'Höger Ctrl',
         metaRight: 'Höger Win',
-        submit: 'Skicka',
         recorder: {
           rec: 'REC',
           activate: 'Aktivera tangenter',
@@ -178,7 +176,6 @@ const se = {
       forceEject: 'Tvinga utmatning',
       forceEjectConfirm:
         'Värden har låst den optiska enheten. Tvingad utmatning kopplar bort den virtuella USB-enheten ett ögonblick, så tangentbordet och musen kan kopplas bort en kort stund. Vill du fortsätta?',
-      attention: 'Observera',
       deleteConfirm: 'Är du säker på att du vill ta bort denna avbildning?',
       tips: {
         title: 'Hur man laddar upp',
@@ -220,8 +217,7 @@ const se = {
       flowControlSoft: 'Programvara',
       flowControlHard: 'Hårdvara',
       dataBits: 'Databitar',
-      stopBits: 'Stoppbitar',
-      confirm: 'Ok'
+      stopBits: 'Stoppbitar'
     },
     wol: {
       title: 'Wake-on-LAN',

@@ -90,7 +90,6 @@ const ja = {
       paste: '貼り付け',
       tips: '標準的なキーボードの文字と記号のみをサポートしています',
       placeholder: '入力してください',
-      submit: '送信',
       virtual: '仮想キーボード',
       readClipboard: 'クリップボードから読み取る',
       clipboardPermissionDenied:
@@ -127,7 +126,6 @@ const ja = {
         shiftRight: '右 Shift',
         ctrlRight: '右 Ctrl',
         metaRight: '右 Win',
-        submit: '送信',
         recorder: {
           rec: 'REC',
           activate: 'キーを有効化',
@@ -176,7 +174,6 @@ const ja = {
       forceEject: '強制的に取り出す',
       forceEjectConfirm:
         'ホストが光学ドライブをロックしています。強制的に取り出すと、仮想 USB デバイスが一時的に切断されるため、キーボードとマウスも一時的に切断される場合があります。続行しますか？',
-      attention: '注意',
       deleteConfirm: 'このイメージを削除してもよろしいですか？',
       tips: {
         title: 'アップロード方法',
@@ -218,8 +215,7 @@ const ja = {
       flowControlSoft: 'ソフトウェア',
       flowControlHard: 'ハードウェア',
       dataBits: 'データビット',
-      stopBits: 'ストップビット',
-      confirm: 'OK'
+      stopBits: 'ストップビット'
     },
     wol: {
       title: 'Wake-on-LAN',

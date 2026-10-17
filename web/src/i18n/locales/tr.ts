@@ -90,7 +90,6 @@ const tr = {
       title: 'Klavye',
       paste: 'Yapıştır',
       placeholder: 'Girdi',
-      submit: 'Gönder',
       virtual: 'Klavye',
       readClipboard: 'Panodan Oku',
       clipboardPermissionDenied:
@@ -126,7 +125,6 @@ const tr = {
         shiftRight: 'Sağ Shift',
         ctrlRight: 'Sağ Ctrl',
         metaRight: 'Sağ Win',
-        submit: 'Gönder',
         recorder: {
           rec: 'KAYIT',
           activate: 'Tuşları etkinleştir',
@@ -174,7 +172,6 @@ const tr = {
       forceEject: 'Çıkarmayı zorla',
       forceEjectConfirm:
         'Ana bilgisayar optik sürücüyü kilitledi. Çıkarmayı zorlamak, sanal USB aygıtının bağlantısını kısa süreliğine keser; bu nedenle klavye ve fare kısa süreliğine bağlantıyı kaybedebilir. Devam edilsin mi?',
-      attention: 'Dikkat',
       deleteConfirm: 'Bu resmi silmek istediğinizden emin misiniz?',
       tips: {
         title: 'Nasıl yüklenir',
@@ -211,8 +208,7 @@ const tr = {
       flowControlSoft: 'Yazılımsal',
       flowControlHard: 'Donanımsal',
       dataBits: 'Veri bitleri',
-      stopBits: 'Dur bitleri',
-      confirm: 'Tamam'
+      stopBits: 'Dur bitleri'
     },
     wol: {
       sending: 'Komut gönderiliyor...',

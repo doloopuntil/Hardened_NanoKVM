@@ -81,7 +81,6 @@ const ko = {
       paste: '붙여넣기',
       tips: '표준 키보드 문자 및 기호만 지원됩니다',
       placeholder: '입력하세요',
-      submit: '전송',
       virtual: '키보드',
       readClipboard: '클립보드에서 읽기',
       clipboardPermissionDenied:
@@ -114,7 +113,6 @@ const ko = {
         shiftRight: '오른쪽 Shift',
         ctrlRight: '오른쪽 Ctrl',
         metaRight: '오른쪽 Win',
-        submit: '전송',
         recorder: {
           rec: 'REC',
           activate: '키 활성화',
@@ -163,7 +161,6 @@ const ko = {
       forceEject: '강제 제거',
       forceEjectConfirm:
         '호스트가 광학 드라이브를 잠갔습니다. 강제로 제거하면 가상 USB 장치가 잠시 연결 해제되므로 키보드와 마우스도 잠시 연결이 끊길 수 있습니다. 계속하시겠습니까?',
-      attention: '주의',
       deleteConfirm: '이 이미지를 제거하시겠습니까?',
       tips: {
         title: '업로드 방법',
@@ -205,8 +202,7 @@ const ko = {
       flowControlSoft: '소프트웨어',
       flowControlHard: '하드웨어',
       dataBits: '데이터 비트',
-      stopBits: '정지 비트',
-      confirm: '확인'
+      stopBits: '정지 비트'
     },
     wol: {
       title: 'Wake-on-LAN',

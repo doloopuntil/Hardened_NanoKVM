@@ -91,7 +91,6 @@ const uk = {
       paste: 'Вставити',
       tips: 'Підтримуються лише стандартні літери та символи клавіатури',
       placeholder: 'Будь ласка, введіть',
-      submit: 'Надіслати',
       virtual: 'Клавіатура',
       readClipboard: 'Читання з буфера обміну',
       clipboardPermissionDenied:
@@ -121,7 +120,6 @@ const uk = {
         shiftRight: 'Правий Shift',
         ctrlRight: 'Правий Ctrl',
         metaRight: 'Правий Win',
-        submit: 'Надіслати',
         recorder: {
           rec: 'REC',
           activate: 'Активувати клавіші',
@@ -171,7 +169,6 @@ const uk = {
       forceEject: 'Примусове виймання',
       forceEjectConfirm:
         "Хост заблокував оптичний привід. Примусове виймання на мить від'єднує віртуальний USB-пристрій, тож клавіатура й миша можуть ненадовго від'єднатися. Продовжити?",
-      attention: 'Увага',
       deleteConfirm: 'Ви впевнені, що хочете видалити це зображення?',
       tips: {
         title: 'Як завантажити',
@@ -213,8 +210,7 @@ const uk = {
       flowControlSoft: 'Програмне',
       flowControlHard: 'Апаратне',
       dataBits: 'Біти даних',
-      stopBits: 'Стопові біти',
-      confirm: 'Ок'
+      stopBits: 'Стопові біти'
     },
     wol: {
       title: 'Wake-on-LAN',

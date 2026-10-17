@@ -86,14 +86,18 @@ export const Image = () => {
         </div>
       </Tooltip>
 
-      <Modal open={isModalOpen} centered footer={null} onCancel={() => toggleModal(false)}>
-        <div className="flex items-center space-x-1">
-          <span className="text-xl font-bold">{t('image.title')}</span>
-          <Tips />
-        </div>
-
-        <Divider style={{ margin: '24px 0' }} />
-
+      <Modal
+        title={
+          <div className="flex items-center space-x-1">
+            <span>{t('image.title')}</span>
+            <Tips />
+          </div>
+        }
+        open={isModalOpen}
+        centered
+        footer={null}
+        onCancel={() => toggleModal(false)}
+      >
         <div className="flex flex-col space-y-6">
           <div className="flex items-center justify-between">
             <span>{t('image.mountMode')}</span>

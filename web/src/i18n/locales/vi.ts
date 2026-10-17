@@ -83,7 +83,6 @@ const vi = {
       paste: 'Dán',
       tips: 'Chỉ hỗ trợ các chữ cái và ký hiệu bàn phím tiêu chuẩn',
       placeholder: 'Vui lòng nhập',
-      submit: 'Gửi',
       virtual: 'Bàn phím',
       readClipboard: 'Đọc từ Clipboard',
       clipboardPermissionDenied:
@@ -118,7 +117,6 @@ const vi = {
         shiftRight: 'Shift phải',
         ctrlRight: 'Ctrl phải',
         metaRight: 'Win phải',
-        submit: 'Gửi',
         recorder: {
           rec: 'REC',
           activate: 'Kích hoạt phím',
@@ -163,7 +161,6 @@ const vi = {
       forceEject: 'Buộc đẩy ra',
       forceEjectConfirm:
         'Máy chủ đã khóa ổ đĩa quang. Buộc đẩy ra sẽ ngắt kết nối thiết bị USB ảo trong giây lát, vì vậy bàn phím và chuột có thể bị ngắt kết nối ngắn. Tiếp tục?',
-      attention: 'Chú ý',
       deleteConfirm: 'Bạn có chắc chắn muốn xóa hình ảnh này không?',
       tips: {
         title: 'Cách tải lên',
@@ -205,8 +202,7 @@ const vi = {
       flowControlSoft: 'Phần mềm',
       flowControlHard: 'Phần cứng',
       dataBits: 'Bit dữ liệu',
-      stopBits: 'Bit dừng',
-      confirm: 'OK'
+      stopBits: 'Bit dừng'
     },
     wol: {
       title: 'Wake-on-LAN',

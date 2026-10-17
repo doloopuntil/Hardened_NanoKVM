@@ -87,7 +87,6 @@ const es = {
       paste: 'Pegar',
       tips: 'Sólo están soportadas las letras y símbolos estándar del teclado',
       placeholder: 'Por favor, introduce el texto',
-      submit: 'Enviar',
       virtual: 'Teclado virtual',
       readClipboard: 'Leer del portapapeles',
       clipboardPermissionDenied:
@@ -119,7 +118,6 @@ const es = {
         shiftRight: 'Shift derecho',
         ctrlRight: 'Ctrl derecho',
         metaRight: 'Win derecho',
-        submit: 'Enviar',
         recorder: {
           rec: 'REC',
           activate: 'Activar teclas',
@@ -170,7 +168,6 @@ const es = {
       forceEject: 'Forzar expulsión',
       forceEjectConfirm:
         'El host ha bloqueado la unidad óptica. Forzar la expulsión desconecta el dispositivo USB virtual durante un momento, por lo que el teclado y el ratón pueden desconectarse brevemente. ¿Continuar?',
-      attention: 'Atención',
       deleteConfirm: '¿Estás seguro de que deseas eliminar esta imagen?',
       tips: {
         title: 'Cómo subir imágenes',
@@ -212,8 +209,7 @@ const es = {
       flowControlSoft: 'Software',
       flowControlHard: 'Hardware',
       dataBits: 'Bits de datos',
-      stopBits: 'Bits de parada',
-      confirm: 'Confirmar'
+      stopBits: 'Bits de parada'
     },
     wol: {
       title: 'Wake-on-LAN',

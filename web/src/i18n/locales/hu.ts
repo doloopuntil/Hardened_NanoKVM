@@ -92,7 +92,6 @@ const hu = {
       paste: 'Beillesztés',
       tips: 'Csak a szabványos billentyűzet betűi és szimbólumai támogatottak',
       placeholder: 'Írja be',
-      submit: 'Elküldés',
       virtual: 'Billentyűzet',
       readClipboard: 'Olvasás a vágólapról',
       clipboardPermissionDenied:
@@ -123,7 +122,6 @@ const hu = {
         shiftRight: 'Jobb Shift',
         ctrlRight: 'Jobb Ctrl',
         metaRight: 'Jobb Win',
-        submit: 'Elküldés',
         recorder: {
           rec: 'REC',
           activate: 'Billentyűk aktiválása',
@@ -169,7 +167,6 @@ const hu = {
       forceEject: 'Kényszerített kiadás',
       forceEjectConfirm:
         'A gazdagép zárolta az optikai meghajtót. A kényszerített kiadás rövid időre leválasztja a virtuális USB-eszközt, ezért a billentyűzet és az egér is átmenetileg lecsatlakozhat. Folytatja?',
-      attention: 'Figyelem',
       deleteConfirm: 'Biztosan törli ezt a képet?',
       tips: {
         title: 'Hogyan tölts fel képeket',
@@ -211,8 +208,7 @@ const hu = {
       flowControlSoft: 'Szoftveres',
       flowControlHard: 'Hardveres',
       dataBits: 'Adatbitek',
-      stopBits: 'Stop bitek',
-      confirm: 'Ok'
+      stopBits: 'Stop bitek'
     },
     wol: {
       title: 'Wake-on-LAN',

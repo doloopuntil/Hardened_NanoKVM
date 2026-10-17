@@ -85,7 +85,6 @@ const th = {
       paste: 'วาง',
       tips: 'รองรับเฉพาะตัวอักษรและสัญลักษณ์มาตรฐานของแป้นพิมพ์เท่านั้น',
       placeholder: 'กรุณาป้อน',
-      submit: 'ยืนยัน',
       virtual: 'คีบอร์ด',
       readClipboard: 'อ่านจากคลิปบอร์ด',
       clipboardPermissionDenied:
@@ -119,7 +118,6 @@ const th = {
         shiftRight: 'Shift ขวา',
         ctrlRight: 'Ctrl ขวา',
         metaRight: 'Win ขวา',
-        submit: 'ยืนยัน',
         recorder: {
           rec: 'บันทึก',
           activate: 'เปิดใช้งานปุ่ม',
@@ -171,7 +169,6 @@ const th = {
       forceEject: 'บังคับดีดออก',
       forceEjectConfirm:
         'โฮสต์ได้ล็อกไดรฟ์ออปติคัล การบังคับดีดออกจะตัดการเชื่อมต่ออุปกรณ์ USB เสมือนชั่วขณะ ทำให้คีย์บอร์ดและเมาส์อาจหลุดการเชื่อมต่อชั่วครู่ ดำเนินการต่อหรือไม่?',
-      attention: 'ความสนใจ',
       deleteConfirm: 'คุณแน่ใจหรือไม่ว่าต้องการลบภาพนี้?',
       tips: {
         title: 'วิธีการอัปโหลด',
@@ -213,8 +210,7 @@ const th = {
       flowControlSoft: 'ซอฟต์แวร์',
       flowControlHard: 'ฮาร์ดแวร์',
       dataBits: 'บิตข้อมูล',
-      stopBits: 'บิตหยุด',
-      confirm: 'ยืนยัน'
+      stopBits: 'บิตหยุด'
     },
     wol: {
       title: 'Wake-on-LAN',

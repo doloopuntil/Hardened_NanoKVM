@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { isModifier } from '@/lib/keymap.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
+import { DialogAction } from '@/components/dialog-parts.tsx';
 import { MenuRow } from '@/components/menu-rows.tsx';
 import { Kbd, KbdGroup } from '@/components/ui/kbd.tsx';
 import { ScrollArea } from '@/components/ui/scroll-area.tsx';
@@ -192,7 +193,6 @@ export const Recorder = ({
       </MenuRow>
 
       <Modal
-        width={500}
         centered
         title={t('keyboard.shortcut.title')}
         keyboard={false}
@@ -220,11 +220,7 @@ export const Recorder = ({
           <Button onClick={clearShortcut}>{t('keyboard.shortcut.clear')}</Button>
         </div>
 
-        <div className="flex w-full justify-center pb-3">
-          <Button type="primary" className="min-w-24" onClick={saveShortcut}>
-            {t('keyboard.shortcut.save')}
-          </Button>
-        </div>
+        <DialogAction onClick={saveShortcut}>{t('keyboard.shortcut.save')}</DialogAction>
 
         {shortcuts.length > 0 && (
           <>

@@ -88,7 +88,6 @@ const ca = {
       paste: 'Enganxa',
       tips: 'Només es permeten lletres i símbols estàndard',
       placeholder: 'Escriu aquí',
-      submit: 'Envia',
       virtual: 'Teclat',
       readClipboard: 'Llegir des del porta-retalls',
       clipboardPermissionDenied:
@@ -115,7 +114,6 @@ const ca = {
         shiftRight: 'Maj dreta',
         ctrlRight: 'Ctrl dret',
         metaRight: 'Win dret',
-        submit: 'Envia',
         recorder: {
           rec: 'REC',
           activate: 'Activa les tecles'
@@ -158,7 +156,6 @@ const ca = {
       mountFailed: 'Error en muntar',
       unmountFailed: "No s'ha pogut desmuntar",
       forceEject: "Força l'expulsió",
-      attention: 'Atenció',
       tips: {
         title: 'Com pujar imatges',
         usb1: 'Connecta el NanoKVM al teu ordinador via USB.',
@@ -198,8 +195,7 @@ const ca = {
       flowControlSoft: 'Programari',
       flowControlHard: 'Maquinari',
       dataBits: 'Bits de dades',
-      stopBits: 'Bits de parada',
-      confirm: "D'acord"
+      stopBits: 'Bits de parada'
     },
     wol: {
       title: 'Wake-on-LAN',

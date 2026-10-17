@@ -92,7 +92,6 @@ const cz = {
       paste: 'Vložit',
       tips: 'Podporovány jsou pouze standardní písmena a symboly klávesnice',
       placeholder: 'Zadejte text',
-      submit: 'Odeslat',
       virtual: 'Klávesnice',
       readClipboard: 'Přečíst ze schránky',
       clipboardPermissionDenied:
@@ -123,7 +122,6 @@ const cz = {
         shiftRight: 'Pravý Shift',
         ctrlRight: 'Pravý Ctrl',
         metaRight: 'Pravý Win',
-        submit: 'Odeslat',
         recorder: {
           rec: 'REC',
           activate: 'Aktivovat klávesy',
@@ -170,7 +168,6 @@ const cz = {
       forceEject: 'Vynutit vysunutí',
       forceEjectConfirm:
         'Hostitel zamkl optickou jednotku. Vynucené vysunutí na chvíli odpojí virtuální zařízení USB, takže se klávesnice a myš mohou krátce odpojit. Pokračovat?',
-      attention: 'Pozor',
       deleteConfirm: 'Opravdu chcete smazat tento obrázek?',
       tips: {
         title: 'Jak nahrát',
@@ -211,8 +208,7 @@ const cz = {
       flowControlSoft: 'Softwarové',
       flowControlHard: 'Hardwarové',
       dataBits: 'Datové bity',
-      stopBits: 'Stop bity',
-      confirm: 'OK'
+      stopBits: 'Stop bity'
     },
     wol: {
       title: 'Wake-on-LAN',
