@@ -460,7 +460,6 @@ const translations: Record<string, string> = {
   'settings.update.preview': 'Uuenduste eelvaade',
   'settings.update.previewDesc': 'Saa varajane ligipääs uutele funktsioonidele ja täiustustele',
   'settings.update.application.title': 'Rakenduse uuendus',
-  'settings.update.system.title': 'Süsteemiuuendus',
   'settings.update.system.queryFailed': 'Süsteemi versiooni hankimine nurjus',
   'settings.update.system.downloadFailed': 'Allalaadimine või verifitseerimine nurjus',
   'settings.update.system.rawEnable': 'Luba raw süsteemiuuendused',
@@ -483,7 +482,6 @@ const translations: Record<string, string> = {
     'See verifitseeritud pakett kirjutab raw boot/rootfs image failid SD-kaardi partitsioonidele ja taaskäivitab automaatselt. Kirjutamine võib võtta mitu minutit; hoia toide ühendatud.',
   'settings.update.system.rawInstallWarning':
     'Raw partitsiooniuuendustel pole automaatset rollbacki. Kui boot ebaõnnestub, taasta SD-kaart käsitsi.',
-  'settings.update.system.installed': 'paigaldatud',
   'settings.update.system.rebootRequired':
     'Selle süsteemiseisundi aktiveerimiseks on vaja taaskäivitust.',
   'settings.update.system.confirming': 'Süsteemiuuenduse booti kinnitamine...',
@@ -498,7 +496,6 @@ const translations: Record<string, string> = {
   'settings.update.system.rollbackConfirmTitle': 'Kas pöörata süsteemiuuendus tagasi?',
   'settings.update.system.rollbackConfirmDesc':
     'See taastab failid viimatisest süsteemiuuenduse varukoopiast. Vajalik on taaskäivitus.',
-  'settings.update.system.staged': 'ettevalmistatud',
   'settings.update.system.stagedDesc':
     'Süsteemiuuenduse arhiiv laaditi alla ja verifitseeriti. Saad selle nüüd paigaldada.',
   'settings.update.system.refresh': 'Värskenda',
@@ -506,8 +503,6 @@ const translations: Record<string, string> = {
   'settings.update.system.systemVersion': 'Süsteemiuuenduse versioon',
   'settings.update.system.baseImage': 'Baasimage',
   'settings.update.system.buildrootRelease': 'Buildrooti väljalase',
-  'settings.update.system.securityPatchLevel': 'Turvaparanduste tase',
-  'settings.update.system.stagedSecurityPatchLevel': 'Ettevalmistatud turvaparanduste tase',
   'settings.update.system.base': 'Baas',
   'settings.update.system.kernel': 'Kernel',
   'settings.update.system.rootfs': 'Rootfs',

@@ -46,7 +46,7 @@ images and reduces the chance of selecting the wrong disk.
 
 On a fresh Hardened image, open the device in a browser and complete the
 first-boot account setup. After first boot, update the application to the latest
-app release through **Settings > Check for Updates** when a newer app is
+app release through **Settings > System updates** when a newer app is
 available.
 
 ## Linux
@@ -177,6 +177,6 @@ After writing, remove the card only after `sync` returns.
 2. Find the IP address from your router DHCP leases, mDNS, or the NanoKVM OLED.
 3. Open the web UI in a browser.
 4. Complete first-boot account setup if prompted.
-5. Go to **Settings > Check for Updates** and install the latest application
+5. Go to **Settings > System updates** and install the latest application
    release candidate if the SD image contains an older app.
 6. Keep a known-good recovery SD image nearby before testing raw system updates.

@@ -264,7 +264,7 @@ version metadata. They are intended for system/security work that cannot be
 done by replacing `kvmapp` alone.
 
 Because raw updates write SD-card partitions, the GUI keeps them behind an
-explicit **Allow raw system updates** switch on the Check for Updates screen.
+explicit **Allow raw system updates** switch on the System updates screen.
 Enabling it means the device may require SD-card reflash recovery if the update
 is interrupted or the image is bad.
 

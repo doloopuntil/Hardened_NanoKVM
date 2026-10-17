@@ -87,7 +87,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Suma de verificació SHA-256 opcional',
     'power.powerShort': "Botó d'engegada: clic curt",
     'power.powerLong': "Botó d'engegada: clic llarg",
-    'settings.tailscale.notInstall': 'Tailscale no instal·lat. Instal·la-ho.',
+    'settings.tailscale.notInstall': 'Tailscale no instal·lat, instal·la-ho',
     'settings.tailscale.retry': 'Actualitza la pàgina i torna-ho a provar, o instal·la manualment.',
     'wifi.success': "Comprova l'estat de la xarxa del NanoKVM i visita la nova adreça IP",
     'wifi.failed': "L'operació ha fallat, torna-ho a intentar",
@@ -352,7 +352,12 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.swap.title': 'Fitxer swap',
     'settings.tailscale.enableDesc': 'Accedeix a aquest KVM mitjançant la teva xarxa Tailscale',
     'settings.tailscale.swap.sizeTip':
-      'Això estableix la mida del fitxer a 256MB; ajusta-la a Configuració > Dispositiu'
+      'Això estableix la mida del fitxer a 256MB; ajusta-la a Configuració > Dispositiu',
+    'settings.update.application.title': 'Aplicació',
+    'settings.update.sources': "Fonts d'actualització",
+    'settings.update.latestVersion': 'Última versió',
+    'settings.update.system.systemVersion': 'Versió del sistema',
+    'settings.update.title': 'Actualitzacions del sistema'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -448,7 +453,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Volitelný kontrolní součet SHA-256',
     'power.powerShort': 'Tlačítko napájení: krátký stisk',
     'power.powerLong': 'Tlačítko napájení: dlouhý stisk',
-    'settings.tailscale.notInstall': 'Tailscale nebyl nalezen. Prosím nainstalujte jej.',
+    'settings.tailscale.notInstall': 'Tailscale nebyl nalezen, prosím nainstalujte jej',
     'settings.tailscale.retry': 'Obnovte stránku a zkuste to znovu, nebo nainstalujte ručně.',
     'wifi.failed': 'Operace selhala, zkuste to znovu',
     'screen.webrtcConnectionFailed.description':
@@ -603,7 +608,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Pokud problémy přetrvávají i po zapnutí optimalizace paměti, zkuste zapnout odkládací soubor.',
     'settings.tailscale.enableDesc': 'Přistupujte k tomuto KVM přes svou síť Tailscale',
     'settings.tailscale.swap.sizeTip':
-      'Tím se velikost souboru nastaví na 256MB; upravit ji můžete v Nastavení > Zařízení'
+      'Tím se velikost souboru nastaví na 256MB; upravit ji můžete v Nastavení > Zařízení',
+    'settings.update.application.title': 'Aplikace',
+    'settings.update.sources': 'Zdroje aktualizací',
+    'settings.update.latestVersion': 'Nejnovější verze',
+    'settings.update.system.systemVersion': 'Verze systému',
+    'settings.update.title': 'Aktualizace systému'
   },
   da: {
     'auth.illegalPassword':
@@ -715,7 +725,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'power.powerShort': 'Tænd/sluk-knap: kort tryk',
     'power.powerLong': 'Tænd/sluk-knap: langt tryk',
     'settings.tailscale.notInstall':
-      'Tailscale ikke fundet. Installer det for at fuldføre opsætningen.',
+      'Tailscale ikke fundet, installer det for at fuldføre opsætningen',
     'settings.tailscale.retry': 'Opdater siden og prøv igen, eller installer manuelt.',
     'wifi.failed': 'Handlingen mislykkedes, prøv igen',
     'screen.webrtcConnectionFailed.description':
@@ -871,7 +881,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Hvis problemerne fortsætter efter aktivering af hukommelsesoptimering, prøv at aktivere swap-filen.',
     'settings.tailscale.enableDesc': 'Få adgang til denne KVM gennem dit Tailscale-netværk',
     'settings.tailscale.swap.sizeTip':
-      'Det sætter filstørrelsen til 256MB; juster den under Indstillinger > Enhed'
+      'Det sætter filstørrelsen til 256MB; juster den under Indstillinger > Enhed',
+    'settings.update.application.title': 'Applikation',
+    'settings.update.sources': 'Opdateringskilder',
+    'settings.update.latestVersion': 'Seneste version',
+    'settings.update.system.systemVersion': 'Systemversion',
+    'settings.update.title': 'Systemopdateringer'
   },
   de: {
     'auth.illegalPassword':
@@ -961,7 +976,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Optionale SHA-256-Prüfsumme',
     'power.powerShort': 'Power-Taste: kurzer Klick',
     'power.powerLong': 'Power-Taste: langer Klick',
-    'settings.tailscale.notInstall': 'Tailscale nicht gefunden. Bitte installieren.',
+    'settings.tailscale.notInstall': 'Tailscale nicht gefunden, bitte installieren',
     'settings.tailscale.retry':
       'Bitte Seite neu laden und erneut versuchen oder manuell installieren.',
     'wifi.success':
@@ -1160,7 +1175,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Wenn die Probleme nach der Aktivierung der Speicheroptimierung weiterhin bestehen, aktivieren Sie die Swap-Datei.',
     'settings.tailscale.enableDesc': 'Greifen Sie über Ihr Tailscale-Netzwerk auf diesen KVM zu',
     'settings.tailscale.swap.sizeTip':
-      'Das setzt die Dateigröße auf 256MB; Sie können sie unter Einstellungen > Gerät ändern'
+      'Das setzt die Dateigröße auf 256MB; Sie können sie unter Einstellungen > Gerät ändern',
+    'settings.update.application.title': 'Anwendung',
+    'settings.update.sources': 'Update-Quellen',
+    'settings.update.latestVersion': 'Neueste Version',
+    'settings.update.system.systemVersion': 'Systemversion',
+    'settings.update.title': 'Systemupdates'
   },
   es: {
     'auth.illegalPassword':
@@ -1239,7 +1259,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Suma de comprobación SHA-256 opcional',
     'power.powerShort': 'Botón de encendido: pulsación corta',
     'power.powerLong': 'Botón de encendido: pulsación larga',
-    'settings.tailscale.notInstall': 'Tailscale no encontrado. Por favor, instálalo.',
+    'settings.tailscale.notInstall': 'Tailscale no encontrado, por favor, instálalo',
     'settings.tailscale.retry':
       'Por favor, actualiza la página e inténtalo de nuevo, o instala manualmente.',
     'wifi.success': 'Comprueba el estado de red del NanoKVM y accede a la nueva dirección IP',
@@ -1421,7 +1441,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Si los problemas persisten después de activar la optimización de memoria, prueba a activar el archivo swap.',
     'settings.tailscale.enableDesc': 'Accede a este KVM mediante tu red Tailscale',
     'settings.tailscale.swap.sizeTip':
-      'Esto establece su tamaño en 256 MB; ajústalo en Ajustes > Dispositivo'
+      'Esto establece su tamaño en 256 MB; ajústalo en Ajustes > Dispositivo',
+    'settings.update.application.title': 'Aplicación',
+    'settings.update.sources': 'Fuentes de actualización',
+    'settings.update.latestVersion': 'Última versión',
+    'settings.update.system.systemVersion': 'Versión del sistema',
+    'settings.update.title': 'Actualizaciones del sistema'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1674,7 +1699,13 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Kui probleemid jätkuvad pärast mälu optimeerimise lubamist, proovi lubada swap-fail.',
     'settings.tailscale.enableDesc': 'Pääse sellele KVM-ile ligi oma Tailscale’i võrgu kaudu',
     'settings.tailscale.swap.sizeTip':
-      'See määrab faili suuruseks 256 MB; seda saab muuta menüüs Seaded > Seade'
+      'See määrab faili suuruseks 256 MB; seda saab muuta menüüs Seaded > Seade',
+    'settings.update.application.title': 'Rakendus',
+    'settings.update.sources': 'Uuenduste allikad',
+    'settings.update.latestVersion': 'Uusim versioon',
+    'settings.tailscale.notInstall': 'Tailscale puudub, palun paigalda',
+    'settings.update.system.systemVersion': 'Süsteemi versioon',
+    'settings.update.title': 'Süsteemiuuendused'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1925,7 +1956,13 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Jos ongelmat jatkuvat muistin optimoinnin jälkeen, kokeile ottaa swap-tiedosto käyttöön.',
     'settings.tailscale.enableDesc': 'Ota yhteys tähän KVM-laitteeseen Tailscale-verkkosi kautta',
     'settings.tailscale.swap.sizeTip':
-      'Tämä asettaa tiedoston kooksi 256 Mt; voit muuttaa sitä kohdassa Asetukset > Laite'
+      'Tämä asettaa tiedoston kooksi 256 Mt; voit muuttaa sitä kohdassa Asetukset > Laite',
+    'settings.update.application.title': 'Sovellus',
+    'settings.update.sources': 'Päivityslähteet',
+    'settings.update.latestVersion': 'Uusin versio',
+    'settings.tailscale.notInstall': 'Tailscalea ei löytynyt, asenna se',
+    'settings.update.system.systemVersion': 'Järjestelmän versio',
+    'settings.update.title': 'Järjestelmäpäivitykset'
   },
   fr: {
     'auth.illegalPassword':
@@ -2012,7 +2049,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       "Retirez la carte TF du NanoKVM. Sur la version FULL, il faut d'abord ouvrir le boîtier.",
     'auth.tips.change3': 'Mot de passe racine du système pour la connexion SSH',
     'download.sha256': 'Somme de contrôle SHA-256 facultative',
-    'settings.tailscale.notInstall': "Tailscale non trouvé. Veuillez l'installer.",
+    'settings.tailscale.notInstall': "Tailscale non trouvé, veuillez l'installer",
     'settings.tailscale.retry': 'Veuillez rafraîchir et réessayer, ou installez manuellement.',
     'wifi.success':
       'Veuillez vérifier le statut du réseau du NanoKVM et visitez la nouvelle adresse IP',
@@ -2193,7 +2230,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Si les problèmes persistent après l’activation de l’optimisation de la mémoire, essayez d’activer le fichier d’échange.',
     'settings.tailscale.enableDesc': 'Accédez à ce KVM par votre réseau Tailscale',
     'settings.tailscale.swap.sizeTip':
-      'Cela définit sa taille sur 256MB ; ajustez-la dans Paramètres > Appareil'
+      'Cela définit sa taille sur 256MB ; ajustez-la dans Paramètres > Appareil',
+    'settings.update.application.title': 'Application',
+    'settings.update.sources': 'Sources de mise à jour',
+    'settings.update.latestVersion': 'Dernière version',
+    'settings.update.system.systemVersion': 'Version du système',
+    'settings.update.title': 'Mises à jour du système'
   },
   hu: {
     'auth.illegalPassword':
@@ -2297,7 +2339,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Opcionális SHA-256 ellenőrzőösszeg',
     'power.powerShort': 'Bekapcsológomb: rövid kattintás',
     'power.powerLong': 'Bekapcsológomb: hosszú kattintás',
-    'settings.tailscale.notInstall': 'Tailscale nem található. Kérem, telepítse.',
+    'settings.tailscale.notInstall': 'Tailscale nem található, kérem, telepítse',
     'settings.tailscale.retry':
       'Frissítse az oldalt, majd próbálja újra, vagy telepítse manuálisan.',
     'wifi.failed': 'A művelet sikertelen, próbálja újra',
@@ -2462,7 +2504,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Ha a memóriaoptimalizálás engedélyezése után is fennállnak a problémák, próbálja meg engedélyezni a swap fájlt.',
     'settings.tailscale.enableDesc': 'Érje el ezt a KVM-et a Tailscale-hálózatán keresztül',
     'settings.tailscale.swap.sizeTip':
-      'Ez a fájl méretét 256MB értékre állítja; a Beállítások > Eszköz menüpontban módosíthatja'
+      'Ez a fájl méretét 256MB értékre állítja; a Beállítások > Eszköz menüpontban módosíthatja',
+    'settings.update.application.title': 'Alkalmazás',
+    'settings.update.sources': 'Frissítési források',
+    'settings.update.latestVersion': 'Legújabb verzió',
+    'settings.update.system.systemVersion': 'Rendszerverzió',
+    'settings.update.title': 'Rendszerfrissítések'
   },
   id: {
     'auth.illegalPassword':
@@ -2567,7 +2614,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.tips.change3': 'Kata sandi root sistem untuk login SSH',
     'download.sha256': 'Checksum SHA-256 opsional',
     'power.powerLong': 'Tombol daya: tekan lama',
-    'settings.tailscale.notInstall': 'Tailscale tidak ditemukan. Silakan pasang.',
+    'settings.tailscale.notInstall': 'Tailscale tidak ditemukan, silakan pasang',
     'settings.tailscale.retry': 'Harap segarkan dan coba lagi, atau instal secara manual.',
     'wifi.failed': 'Operasi gagal, silakan coba lagi',
     'screen.webrtcConnectionFailed.description': 'Periksa koneksi jaringan atau ganti mode video',
@@ -2735,7 +2782,15 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Jika masalah terus berlanjut setelah mengaktifkan pengoptimalan memori, coba aktifkan file swap.',
     'settings.tailscale.enableDesc': 'Akses KVM ini melalui jaringan Tailscale Anda',
     'settings.tailscale.swap.sizeTip':
-      'Ini menetapkan ukuran file ke 256MB; sesuaikan di Pengaturan > Perangkat'
+      'Ini menetapkan ukuran file ke 256MB; sesuaikan di Pengaturan > Perangkat',
+    'settings.update.application.title': 'Aplikasi',
+    'settings.update.sources': 'Sumber pembaruan',
+    'settings.update.latestVersion': 'Versi terbaru',
+    'settings.update.preview': 'Pratinjau pembaruan',
+    'settings.update.offline.title': 'Pembaruan offline',
+    'settings.about.application': 'Versi aplikasi',
+    'settings.update.system.systemVersion': 'Versi sistem',
+    'settings.update.title': 'Pembaruan sistem'
   },
   it: {
     'auth.illegalPassword':
@@ -2843,7 +2898,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Checksum SHA-256 facoltativo',
     'power.powerShort': 'Pulsante di accensione: clic breve',
     'power.powerLong': 'Pulsante di accensione: clic lungo',
-    'settings.tailscale.notInstall': 'Tailscale non trovato. Per favore, installalo.',
+    'settings.tailscale.notInstall': 'Tailscale non trovato, per favore, installalo',
     'settings.tailscale.retry': 'Riprova aggiornando la pagina o installa manualmente.',
     'wifi.failed': 'Operazione non riuscita, riprova',
     'screen.webrtcConnectionFailed.description':
@@ -3001,7 +3056,13 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Se i problemi persistono dopo aver abilitato l’ottimizzazione della memoria, prova ad abilitare il file di scambio.',
     'settings.tailscale.enableDesc': 'Raggiungi questo KVM tramite la tua rete Tailscale',
     'settings.tailscale.swap.sizeTip':
-      'Questo imposta la dimensione del file su 256MB; regolala in Impostazioni > Dispositivo'
+      'Questo imposta la dimensione del file su 256MB; regolala in Impostazioni > Dispositivo',
+    'settings.update.application.title': 'Applicazione',
+    'settings.update.sources': 'Fonti di aggiornamento',
+    'settings.update.latestVersion': 'Ultima versione',
+    'settings.update.title': 'Aggiornamenti di sistema',
+    'settings.about.application': 'Versione applicazione',
+    'settings.update.system.systemVersion': 'Versione sistema'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -3256,7 +3317,13 @@ export const translationFixes: Record<string, TranslationMap> = {
       'メモリ最適化を有効にしても問題が解決しない場合は、スワップファイルを有効にしてみてください。',
     'settings.tailscale.enableDesc': 'Tailscale ネットワーク経由でこの KVM にアクセスします',
     'settings.tailscale.swap.sizeTip':
-      'ファイルサイズは 256MB に設定されます。サイズは「設定 - デバイス」で変更できます'
+      'ファイルサイズは 256MB に設定されます。サイズは「設定 - デバイス」で変更できます',
+    'settings.update.application.title': 'アプリケーション',
+    'settings.update.sources': 'アップデートの取得元',
+    'settings.update.latestVersion': '最新バージョン',
+    'settings.tailscale.notInstall': 'Tailscale が見つかりません、インストールしてください',
+    'settings.update.system.systemVersion': 'システムバージョン',
+    'settings.update.title': 'システムアップデート'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -3509,7 +3576,13 @@ export const translationFixes: Record<string, TranslationMap> = {
       '메모리 최적화를 활성화한 후에도 문제가 지속되면 스왑 파일을 활성화해 보세요.',
     'settings.tailscale.enableDesc': 'Tailscale 네트워크를 통해 이 KVM에 접속합니다',
     'settings.tailscale.swap.sizeTip':
-      '파일 크기가 256MB로 설정되며, 설정 > 기기에서 조정할 수 있습니다'
+      '파일 크기가 256MB로 설정되며, 설정 > 기기에서 조정할 수 있습니다',
+    'settings.update.application.title': '애플리케이션',
+    'settings.update.sources': '업데이트 소스',
+    'settings.update.latestVersion': '최신 버전',
+    'settings.tailscale.notInstall': 'Tailscale이 없습니다, 설치해 주세요',
+    'settings.update.system.systemVersion': '시스템 버전',
+    'settings.update.title': '시스템 업데이트'
   },
   nb: {
     'auth.illegalPassword':
@@ -3607,7 +3680,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Valgfri SHA-256-sjekksum',
     'power.powerShort': 'På-knapp: kort trykk',
     'power.powerLong': 'På-knapp: langt trykk',
-    'settings.tailscale.notInstall': 'Tailscale er ikke funnet. Vennligst installer.',
+    'settings.tailscale.notInstall': 'Tailscale er ikke funnet, vennligst installer',
     'settings.tailscale.retry':
       'Vennligst last inn siden på nytt og forsøk igjen, eller installer manuelt.',
     'wifi.failed': 'Operasjonen mislyktes, prøv igjen',
@@ -3764,7 +3837,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Hvis problemene vedvarer etter at du har aktivert minneoptimalisering, prøv å aktivere byttefilen.',
     'settings.tailscale.enableDesc': 'Nå denne KVM-en gjennom ditt Tailscale-nettverk',
     'settings.tailscale.swap.sizeTip':
-      'Dette setter filstørrelsen til 256MB; juster den i Innstillinger > Enhet'
+      'Dette setter filstørrelsen til 256MB; juster den i Innstillinger > Enhet',
+    'settings.update.application.title': 'Applikasjon',
+    'settings.update.sources': 'Oppdateringskilder',
+    'settings.update.latestVersion': 'Nyeste versjon',
+    'settings.update.system.systemVersion': 'Systemversjon',
+    'settings.update.title': 'Systemoppdateringer'
   },
   nl: {
     'auth.illegalPassword':
@@ -3849,7 +3927,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Optionele SHA-256-controlesom',
     'power.powerShort': 'Aan/uit-knop: kort indrukken',
     'power.powerLong': 'Aan/uit-knop: lang indrukken',
-    'settings.tailscale.notInstall': 'Tailscale niet gevonden. Installeer a.u.b.',
+    'settings.tailscale.notInstall': 'Tailscale niet gevonden, installeer a.u.b.',
     'settings.tailscale.retry': 'Vernieuw en probeer opnieuw, of installeer handmatig.',
     'wifi.success': 'Controleer de netwerkstatus van NanoKVM en bezoek het nieuwe IP-adres',
     'wifi.failed': 'De bewerking is mislukt, probeer het opnieuw',
@@ -4035,7 +4113,13 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Als de problemen aanhouden nadat u geheugenoptimalisatie hebt ingeschakeld, probeer dan het wisselbestand in te schakelen.',
     'settings.tailscale.enableDesc': 'Open deze KVM via uw Tailscale-netwerk',
     'settings.tailscale.swap.sizeTip':
-      'Hiermee wordt de bestandsgrootte ingesteld op 256MB; pas deze aan via Instellingen > Apparaat'
+      'Hiermee wordt de bestandsgrootte ingesteld op 256MB; pas deze aan via Instellingen > Apparaat',
+    'settings.update.application.title': 'Applicatie',
+    'settings.update.sources': 'Updatebronnen',
+    'settings.update.latestVersion': 'Nieuwste versie',
+    'settings.about.application': 'Applicatieversie',
+    'settings.update.system.systemVersion': 'Systeemversie',
+    'settings.update.title': 'Systeemupdates'
   },
   pl: {
     'auth.illegalPassword':
@@ -4126,7 +4210,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Opcjonalna suma kontrolna SHA-256',
     'power.powerShort': 'Przycisk zasilania: krótkie kliknięcie',
     'power.powerLong': 'Przycisk zasilania: długie kliknięcie',
-    'settings.tailscale.notInstall': 'Nie znaleziono Tailscale. Zainstaluj go.',
+    'settings.tailscale.notInstall': 'Nie znaleziono Tailscale, zainstaluj go',
     'settings.tailscale.retry': 'Odśwież stronę i spróbuj ponownie lub zainstaluj ręcznie.',
     'wifi.success': 'Podejdź do urządzenia, aby sprawdzić stan sieci NanoKVM',
     'wifi.failed': 'Operacja nie powiodła się, spróbuj ponownie',
@@ -4298,7 +4382,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Jeśli po włączeniu optymalizacji pamięci problemy nadal występują, spróbuj włączyć plik wymiany.',
     'settings.tailscale.enableDesc': 'Połącz się z tym KVM przez swoją sieć Tailscale',
     'settings.tailscale.swap.sizeTip':
-      'Ustawia to rozmiar pliku na 256MB; możesz go zmienić w Ustawienia > Urządzenie'
+      'Ustawia to rozmiar pliku na 256MB; możesz go zmienić w Ustawienia > Urządzenie',
+    'settings.update.application.title': 'Aplikacja',
+    'settings.update.sources': 'Źródła aktualizacji',
+    'settings.update.latestVersion': 'Najnowsza wersja',
+    'settings.update.system.systemVersion': 'Wersja systemu',
+    'settings.update.title': 'Aktualizacje systemu'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -4376,7 +4465,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Checksum SHA-256 opcional',
     'power.powerShort': 'Botão de energia: clique curto',
     'power.powerLong': 'Botão de energia: clique longo',
-    'settings.tailscale.notInstall': 'Tailscale não encontrado. Por favor, instale.',
+    'settings.tailscale.notInstall': 'Tailscale não encontrado, por favor, instale',
     'settings.tailscale.retry': 'Por favor, atualize e tente novamente, ou instale manualmente.',
     'wifi.success': 'Por favor, verifique o status da rede do NanoKVM e visite o novo endereço IP',
     'wifi.failed': 'Operação falhou, por favor, tente novamente',
@@ -4543,7 +4632,14 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Se os problemas persistirem após ativar a otimização de memória, tente ativar o arquivo de swap.',
     'settings.tailscale.enableDesc': 'Acesse este KVM pela sua rede Tailscale',
     'settings.tailscale.swap.sizeTip':
-      'Isso define o tamanho do arquivo como 256MB; ajuste-o em Configurações > Dispositivo'
+      'Isso define o tamanho do arquivo como 256MB; ajuste-o em Configurações > Dispositivo',
+    'settings.update.application.title': 'Aplicativo',
+    'settings.update.sources': 'Fontes de atualização',
+    'settings.update.latestVersion': 'Versão mais recente',
+    'settings.update.title': 'Atualizações do sistema',
+    'settings.update.preview': 'Prévia das atualizações',
+    'settings.about.application': 'Versão do aplicativo',
+    'settings.update.system.systemVersion': 'Versão do sistema'
   },
   ru: {
     'download.disabled':
@@ -4603,7 +4699,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Необязательная контрольная сумма SHA-256',
     'power.powerShort': 'Кнопка питания: короткое нажатие',
     'power.powerLong': 'Кнопка питания: длинное нажатие',
-    'settings.tailscale.notInstall': 'Tailscale не найден. Пожалуйста, установите.',
+    'settings.tailscale.notInstall': 'Tailscale не найден, пожалуйста, установите',
     'settings.tailscale.retry': 'Пожалуйста, обновите и попробуйте снова или установите вручную.',
     'wifi.success':
       'Пожалуйста, проверьте сетевой статус NanoKVM и откройте в браузере новый IP адрес',
@@ -4790,7 +4886,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Если после включения оптимизации памяти проблемы сохраняются, попробуйте включить файл подкачки.',
     'settings.tailscale.enableDesc': 'Подключайтесь к этому KVM через вашу сеть Tailscale',
     'settings.tailscale.swap.sizeTip':
-      'Размер файла будет установлен равным 256MB; изменить его можно в Настройки > Устройство'
+      'Размер файла будет установлен равным 256MB; изменить его можно в Настройки > Устройство',
+    'settings.update.application.title': 'Приложение',
+    'settings.update.sources': 'Источники обновлений',
+    'settings.update.latestVersion': 'Последняя версия',
+    'settings.update.system.systemVersion': 'Версия системы',
+    'settings.update.title': 'Обновления системы'
   },
   se: {
     'auth.illegalPassword':
@@ -4870,7 +4971,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.tips.change3': 'Systemets root-lösenord för SSH-inloggning',
     'power.powerShort': 'Strömknapp: kort tryck',
     'power.powerLong': 'Strömknapp: långt tryck',
-    'settings.tailscale.notInstall': 'Tailscale hittades inte. Installera först.',
+    'settings.tailscale.notInstall': 'Tailscale hittades inte, installera först',
     'settings.tailscale.retry': 'Uppdatera sidan och försök igen, eller installera manuellt.',
     'wifi.success': 'Kontrollera nätverksstatusen för NanoKVM och besök den nya IP-adressen',
     'wifi.failed': 'Åtgärden misslyckades, försök igen',
@@ -5030,7 +5131,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Om problemen kvarstår efter att du har aktiverat minnesoptimering, försök att aktivera swap-filen.',
     'settings.tailscale.enableDesc': 'Nå den här KVM:en genom ditt Tailscale-nätverk',
     'settings.tailscale.swap.sizeTip':
-      'Detta ställer in filstorleken till 256MB; justera den i Inställningar > Enhet'
+      'Detta ställer in filstorleken till 256MB; justera den i Inställningar > Enhet',
+    'settings.update.application.title': 'Program',
+    'settings.update.sources': 'Uppdateringskällor',
+    'settings.update.latestVersion': 'Senaste version',
+    'settings.update.system.systemVersion': 'Systemversion',
+    'settings.update.title': 'Systemuppdateringar'
   },
   th: {
     'auth.illegalPassword':
@@ -5240,7 +5346,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'หากปัญหายังคงมีอยู่หลังจากเปิดใช้งานการเพิ่มประสิทธิภาพหน่วยความจำ ให้ลองเปิดใช้งานไฟล์สลับ',
     'settings.tailscale.enableDesc': 'เข้าถึง KVM นี้ผ่านเครือข่าย Tailscale ของคุณ',
     'settings.tailscale.swap.sizeTip':
-      'การตั้งค่านี้กำหนดขนาดไฟล์เป็น 256MB ปรับได้ที่ การตั้งค่า > อุปกรณ์'
+      'การตั้งค่านี้กำหนดขนาดไฟล์เป็น 256MB ปรับได้ที่ การตั้งค่า > อุปกรณ์',
+    'settings.update.application.title': 'แอปพลิเคชัน',
+    'settings.update.sources': 'แหล่งอัปเดต',
+    'settings.update.latestVersion': 'เวอร์ชันล่าสุด',
+    'settings.update.system.systemVersion': 'เวอร์ชันระบบ',
+    'settings.update.title': 'อัปเดตระบบ'
   },
   tr: {
     'auth.illegalPassword':
@@ -5255,7 +5366,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.install': 'Yükle',
     'settings.tailscale.installing': 'Yükleniyor',
     'settings.tailscale.failed': 'Yükleme başarısız oldu',
-    'settings.tailscale.notInstall': 'Tailscale bulunamadı. Lütfen yükleyin.',
+    'settings.tailscale.notInstall': 'Tailscale bulunamadı, lütfen yükleyin',
     'settings.tailscale.retry':
       'Lütfen sayfayı yenileyin ve tekrar deneyin ya da manuel olarak yükleyin.',
     'settings.tailscale.urlPeriod': 'Adres sadece 10 dakika boyunca geçerlidir',
@@ -5508,7 +5619,14 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Bellek optimizasyonunu etkinleştirdikten sonra sorunlar devam ederse, swap dosyasını etkinleştirmeyi deneyin.',
     'settings.tailscale.enableDesc': "Bu KVM'ye Tailscale ağınız üzerinden erişin",
     'settings.tailscale.swap.sizeTip':
-      'Bu, dosya boyutunu 256MB olarak ayarlar; Ayarlar > Cihaz bölümünden değiştirebilirsiniz'
+      'Bu, dosya boyutunu 256MB olarak ayarlar; Ayarlar > Cihaz bölümünden değiştirebilirsiniz',
+    'settings.update.application.title': 'Uygulama',
+    'settings.update.sources': 'Güncelleme kaynakları',
+    'settings.update.latestVersion': 'En son sürüm',
+    'settings.update.preview': 'Ön izleme güncellemeleri',
+    'settings.update.offline.title': 'Çevrimdışı güncellemeler',
+    'settings.update.system.systemVersion': 'Sistem sürümü',
+    'settings.update.title': 'Sistem güncellemeleri'
   },
   uk: {
     'auth.illegalPassword':
@@ -5599,7 +5717,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Необов’язкова контрольна сума SHA-256',
     'power.powerShort': 'Кнопка живлення: коротке натискання',
     'power.powerLong': 'Кнопка живлення: довге натискання',
-    'settings.tailscale.notInstall': 'Tailscale не знайдено. Будь ласка, встановіть його.',
+    'settings.tailscale.notInstall': 'Tailscale не знайдено, будь ласка, встановіть його',
     'settings.tailscale.retry':
       'Будь ласка, оновіть сторінку та спробуйте ще раз або встановіть вручну.',
     'wifi.success': 'Перейдіть до пристрою та перевірте стан мережі NanoKVM',
@@ -5771,7 +5889,12 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Якщо проблеми не зникають після ввімкнення оптимізації пам’яті, спробуйте ввімкнути файл підкачки.',
     'settings.tailscale.enableDesc': 'Підключайтеся до цього KVM через вашу мережу Tailscale',
     'settings.tailscale.swap.sizeTip':
-      'Це встановлює розмір файлу 256MB; змінити його можна в Параметри > Пристрій'
+      'Це встановлює розмір файлу 256MB; змінити його можна в Параметри > Пристрій',
+    'settings.update.application.title': 'Застосунок',
+    'settings.update.sources': 'Джерела оновлень',
+    'settings.update.latestVersion': 'Остання версія',
+    'settings.update.system.systemVersion': 'Версія системи',
+    'settings.update.title': 'Оновлення системи'
   },
   vi: {
     'auth.illegalPassword':
@@ -5869,7 +5992,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': 'Checksum SHA-256 tùy chọn',
     'power.powerShort': 'Nút nguồn: nhấp ngắn',
     'power.powerLong': 'Nút nguồn: nhấp dài',
-    'settings.tailscale.notInstall': 'Không tìm thấy Tailscale. Vui lòng cài đặt.',
+    'settings.tailscale.notInstall': 'Không tìm thấy Tailscale, vui lòng cài đặt',
     'settings.tailscale.retry': 'Vui lòng làm mới và thử lại, hoặc cài đặt thủ công.',
     'wifi.failed': 'Thao tác thất bại, vui lòng thử lại',
     'screen.webrtcConnectionFailed.description':
@@ -6027,7 +6150,13 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Nếu sự cố vẫn tiếp diễn sau khi bật tối ưu hóa bộ nhớ, hãy thử bật tệp hoán đổi.',
     'settings.tailscale.enableDesc': 'Truy cập KVM này qua mạng Tailscale của bạn',
     'settings.tailscale.swap.sizeTip':
-      'Việc này đặt kích thước tệp thành 256MB; có thể điều chỉnh trong Cài đặt > Thiết bị'
+      'Việc này đặt kích thước tệp thành 256MB; có thể điều chỉnh trong Cài đặt > Thiết bị',
+    'settings.update.application.title': 'Ứng dụng',
+    'settings.update.sources': 'Nguồn cập nhật',
+    'settings.update.latestVersion': 'Phiên bản mới nhất',
+    'settings.about.application': 'Phiên bản ứng dụng',
+    'settings.update.system.systemVersion': 'Phiên bản hệ thống',
+    'settings.update.title': 'Cập nhật hệ thống'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -6090,7 +6219,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': '可选的 SHA-256 校验值',
     'power.powerShort': '电源按钮：短按',
     'power.powerLong': '电源按钮：长按',
-    'settings.tailscale.notInstall': '未检测到 Tailscale，请先安装。',
+    'settings.tailscale.notInstall': '未检测到 Tailscale，请先安装',
     'settings.tailscale.retry': '请刷新后重试，或尝试手动安装。',
     'wifi.success': '请前往设备检查 NanoKVM 的网络状态',
     'wifi.failed': '操作失败，请重试',
@@ -6236,7 +6365,12 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.swap.title': '交换文件',
     'settings.tailscale.swap.tip': '如果启用内存优化后问题依然存在，可以尝试启用交换文件。',
     'settings.tailscale.enableDesc': '通过你的 Tailscale 网络访问此 KVM',
-    'settings.tailscale.swap.sizeTip': '这会将文件大小设置为 256MB，可以在「设置 - 设备」中修改'
+    'settings.tailscale.swap.sizeTip': '这会将文件大小设置为 256MB，可以在「设置 - 设备」中修改',
+    'settings.update.application.title': '应用',
+    'settings.update.sources': '更新来源',
+    'settings.update.latestVersion': '最新版本',
+    'settings.update.system.systemVersion': '系统版本',
+    'settings.update.title': '系统更新'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -6303,7 +6437,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'download.sha256': '可選的 SHA-256 檢查碼',
     'power.powerShort': '電源按鈕：短按',
     'power.powerLong': '電源按鈕：長按',
-    'settings.tailscale.notInstall': '未找到 Tailscale。請先安裝。',
+    'settings.tailscale.notInstall': '未找到 Tailscale，請先安裝',
     'settings.tailscale.retry': '請重新整理並重試，或嘗試手動安裝。',
     'wifi.success': '請檢查 NanoKVM 的網路狀態，並存取新的 IP 位址',
     'wifi.failed': '操作失敗，請重試',
@@ -6449,6 +6583,11 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.swap.title': 'Swap 檔',
     'settings.tailscale.swap.tip': '如果啟用記憶體最佳化後問題依然存在，可以嘗試啟用 Swap 檔。',
     'settings.tailscale.enableDesc': '透過你的 Tailscale 網路存取此 KVM',
-    'settings.tailscale.swap.sizeTip': '這會將檔案大小設定為 256MB，可以在「設定 - 裝置」中修改'
+    'settings.tailscale.swap.sizeTip': '這會將檔案大小設定為 256MB，可以在「設定 - 裝置」中修改',
+    'settings.update.application.title': '應用程式',
+    'settings.update.sources': '更新來源',
+    'settings.update.latestVersion': '最新版本',
+    'settings.update.system.systemVersion': '系統版本',
+    'settings.update.title': '系統更新'
   }
 };

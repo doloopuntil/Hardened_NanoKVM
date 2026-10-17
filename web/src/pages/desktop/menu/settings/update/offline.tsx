@@ -4,6 +4,7 @@ import { ExternalLinkIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/application.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 interface UpdateProps {
   status: string;
@@ -89,33 +90,30 @@ export const Offline = ({ status, setStatus, setIsLocked, setErrMsg }: UpdatePro
   }
 
   return (
-    <>
-      <div className="mt-8 flex items-center justify-between">
-        <div className="flex flex-col space-y-1">
-          <div className="flex items-center space-x-2">
-            <span>{t('settings.update.offline.title')}</span>
-
-            <a
-              className="flex items-center text-neutral-500 hover:text-blue-500"
-              href="https://github.com/woffko/Hardened_NanoKVM/releases"
-              target="_blank"
-            >
-              <ExternalLinkIcon size={15} />
-            </a>
-          </div>
-
-          <span className="text-xs text-neutral-500">{t('settings.update.offline.desc')}</span>
-        </div>
-
-        <input
-          id="file-upload"
-          ref={inputRef}
-          type="file"
-          onChange={handleFileChange}
-          className="hidden"
-        />
-        <Button onClick={handleClick}>{t('settings.update.offline.upload')}</Button>
-      </div>
-    </>
+    <SettingRow
+      label={
+        <span className="inline-flex items-center gap-1.5">
+          {t('settings.update.offline.title')}
+          <a
+            className="flex items-center text-neutral-500 hover:text-blue-500"
+            href="https://github.com/woffko/Hardened_NanoKVM/releases"
+            target="_blank"
+          >
+            <ExternalLinkIcon size={15} />
+          </a>
+        </span>
+      }
+      description={t('settings.update.offline.desc')}
+      inline
+    >
+      <input
+        id="file-upload"
+        ref={inputRef}
+        type="file"
+        onChange={handleFileChange}
+        className="hidden"
+      />
+      <Button onClick={handleClick}>{t('settings.update.offline.upload')}</Button>
+    </SettingRow>
   );
 };

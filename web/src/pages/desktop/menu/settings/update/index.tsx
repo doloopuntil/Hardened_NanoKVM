@@ -1,11 +1,6 @@
-import { useEffect, useState } from 'react';
-import {
-  CloudSyncOutlined,
-  LoadingOutlined,
-  RocketOutlined,
-  SmileOutlined
-} from '@ant-design/icons';
-import { Alert, Button, Divider, Result, Spin, Switch } from 'antd';
+import { useEffect, useState, type ReactNode } from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Alert, Button, Divider, Spin, Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 import semver from 'semver';
 
@@ -23,6 +18,7 @@ import * as firewallApi from '@/api/system-firewall.ts';
 import type { FirewallStatus } from '@/api/system-firewall.ts';
 import { attempt, confirm } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
+import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import { Offline } from './offline.tsx';
 import { Preview } from './preview.tsx';
@@ -454,17 +450,10 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       });
   }
 
-  function versionLine(label: string, value?: string) {
-    if (!value) return null;
-
-    return (
-      <div className="flex flex-col gap-1 text-xs text-neutral-500 sm:flex-row sm:justify-between sm:gap-6">
-        <span>{label}</span>
-        <span className="break-words text-left text-neutral-300 sm:max-w-[60%] sm:text-right">
-          {value}
-        </span>
-      </div>
-    );
+  function info(label: string, value?: string | null, description?: ReactNode) {
+    return value ? (
+      <InfoRow key={label} label={label} value={value} description={description} />
+    ) : null;
   }
 
   function formatBytes(value?: number) {
@@ -497,93 +486,231 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   const showSystemProgress =
     !!systemProgress && !(systemProgress.phase === 'failed' && canDownloadLatestSystemUpdate);
 
+  const refreshButton = (
+    <Button key="refresh" onClick={refreshFirewallStatus}>
+      {t('settings.update.system.refresh')}
+    </Button>
+  );
+  const releaseNotesButton = (url?: string) =>
+    url ? (
+      <Button key="release" href={url} target="_blank" rel="noreferrer">
+        {t('settings.update.system.releaseNotes')}
+      </Button>
+    ) : null;
+  const downloadButton = (
+    <Button
+      key="download"
+      type="primary"
+      disabled={onlineUpdatesBlocked}
+      onClick={downloadSystemUpdate}
+    >
+      {t('settings.update.system.downloadVerify')}
+    </Button>
+  );
+  const rollbackButton = systemRollback ? (
+    <Button key="rollback" danger onClick={confirmRollbackSystemUpdate}>
+      {t('settings.update.system.rollback')}
+    </Button>
+  ) : null;
+  const installButton = (disabled: boolean) => (
+    <Button
+      key="install"
+      type="primary"
+      danger
+      disabled={disabled}
+      onClick={confirmInstallSystemUpdate}
+    >
+      {t('settings.update.system.install')}
+    </Button>
+  );
+
+  // what the Application section says about its state, as the caption of the version
+  const applicationBusy = status === 'loading' || status === 'updating';
+  const applicationText =
+    status === 'updating'
+      ? t('settings.update.updating')
+      : status === 'latest'
+        ? t('settings.update.isLatest')
+        : status === 'outdated'
+          ? t('settings.update.available')
+          : status === 'failed'
+            ? errMsg
+            : '';
+
+  // what the System section says about its state, and the buttons that go with it
+  let systemTitle = '';
+  let systemText = '';
+  let systemBusy = false;
+  let systemError = false;
+  let systemButtons: ReactNode[] = [];
+  // the captions of the version rows; the status line says it when the row is not there
+  let versionCaption = '';
+  let stagedCaption = '';
+  let pendingCaption = '';
+  const captionVersion = (text: string) => {
+    if (systemCurrent) versionCaption = text;
+    else systemText = text;
+  };
+  if (systemStatus === 'loading') {
+    systemBusy = true;
+  } else if (systemStatus === 'downloading') {
+    systemBusy = true;
+    systemText = systemProgress?.message || t('settings.update.system.downloading');
+  } else if (
+    systemStatus === 'installing' ||
+    systemStatus === 'rollingBack' ||
+    systemStatus === 'confirming'
+  ) {
+    systemBusy = true;
+    systemText =
+      systemStatus === 'confirming'
+        ? t('settings.update.system.confirming')
+        : systemStatus === 'installing'
+          ? systemProgress?.message || t('settings.update.system.installing')
+          : t('settings.update.system.rollingBack');
+  } else if (systemStatus === 'latest' && systemCurrent) {
+    captionVersion(t('settings.update.system.isLatest'));
+    systemButtons = [refreshButton, rollbackButton];
+  } else if (systemStatus === 'staged' && systemStaged && isStagedLatest) {
+    stagedCaption = t('settings.update.system.stagedDesc');
+    systemButtons = [
+      releaseNotesButton(systemLatest?.releaseNotesUrl),
+      refreshButton,
+      installButton(!stagedAppRequirementMet || (systemStaged.destructive && !systemRawEnabled))
+    ];
+  } else if (systemStatus === 'staged' && systemStaged && !isStagedLatest && systemLatest) {
+    captionVersion(t('settings.update.system.available'));
+    systemButtons = [
+      releaseNotesButton(systemLatest.releaseNotesUrl),
+      downloadButton,
+      refreshButton
+    ];
+  } else if (systemStatus === 'installed' && systemPending) {
+    pendingCaption = t('settings.update.system.rebootRequired');
+    systemButtons = [refreshButton];
+  } else if (systemStatus === 'rolledBack' && systemRollback) {
+    systemTitle = t('settings.update.system.rollbackDone');
+    systemText = t('settings.update.system.rebootRequired');
+    systemButtons = [refreshButton];
+  } else if (systemStatus === 'confirmed') {
+    systemTitle = t('settings.update.system.confirmed');
+    systemText = t('settings.update.system.bootGood');
+    systemButtons = [refreshButton];
+  } else if (systemStatus === 'outdated' && systemCurrent && systemLatest) {
+    captionVersion(t('settings.update.system.available'));
+    systemButtons = [
+      releaseNotesButton(systemLatest.releaseNotesUrl),
+      downloadButton,
+      refreshButton,
+      rollbackButton
+    ];
+  } else if (systemStatus === 'failed') {
+    systemError = !canDownloadLatestSystemUpdate;
+    captionVersion(
+      canDownloadLatestSystemUpdate ? t('settings.update.system.available') : systemErrMsg
+    );
+    systemButtons = [
+      refreshButton,
+      canDownloadLatestSystemUpdate ? downloadButton : null,
+      systemStaged && isStagedLatest && stagedAppRequirementMet
+        ? installButton(systemStaged.destructive && !systemRawEnabled)
+        : null,
+      rollbackButton
+    ];
+  }
+  if (systemPending && systemBootHealth?.healthy && !systemBusy) {
+    systemButtons.push(
+      <Button key="confirmBoot" type="primary" onClick={confirmSystemUpdate}>
+        {t('settings.update.system.confirmBoot')}
+      </Button>
+    );
+  }
+
   return (
     <>
       <div className="text-base">{t('settings.update.title')}</div>
       <Divider className="opacity-50" />
 
-      <Preview refreshUpdates={refreshFirewallStatus} />
-      <Offline
-        status={status}
-        setStatus={setStatus}
-        setIsLocked={setIsLocked}
-        setErrMsg={setErrMsg}
-      />
-      {onlineUpdatesBlocked && (
-        <Alert
-          type="error"
-          showIcon
-          className="mb-4"
-          message={t('settings.update.paranoidBlocked')}
-          description={t('settings.update.paranoidBlockedDesc')}
-        />
-      )}
-      <Divider className="opacity-50" />
-
-      <div className="flex min-h-[320px] flex-col justify-between">
-        <div className="text-sm text-neutral-300">{t('settings.update.application.title')}</div>
-        {status === 'loading' && (
-          <div className="flex justify-center pt-24">
-            <Spin indicator={<LoadingOutlined spin />} size="large" />
-          </div>
-        )}
-
-        {status === 'updating' && (
-          <div className="flex flex-col items-center justify-center space-y-10 pb-10 pt-24">
-            <Spin size="large" />
-            <span className="text-neutral-500">{t('settings.update.updating')}</span>
-          </div>
-        )}
-
-        {status === 'latest' && (
-          <Result
-            status="success"
-            icon={<SmileOutlined />}
-            title={currentVersion}
-            subTitle={t('settings.update.isLatest')}
-            extra={[
-              <Button key="confirm" onClick={refreshFirewallStatus}>
-                {t('settings.update.title')}
-              </Button>
-            ]}
+      <div className="flex min-w-0 flex-col space-y-6">
+        {onlineUpdatesBlocked && (
+          <Alert
+            type="error"
+            showIcon
+            message={t('settings.update.paranoidBlocked')}
+            description={t('settings.update.paranoidBlockedDesc')}
           />
         )}
 
-        {status === 'outdated' && (
-          <Result
-            status="warning"
-            icon={<RocketOutlined />}
-            title={`${currentVersion} -> ${latestVersion}`}
-            subTitle={t('settings.update.available')}
-            extra={[
-              <Button key="confirm" type="primary" disabled={onlineUpdatesBlocked} onClick={update}>
-                {t('settings.update.confirm')}
-              </Button>
-            ]}
+        <SettingSection title={t('settings.update.sources')}>
+          <Preview refreshUpdates={refreshFirewallStatus} />
+          <Offline
+            status={status}
+            setStatus={setStatus}
+            setIsLocked={setIsLocked}
+            setErrMsg={setErrMsg}
           />
-        )}
-
-        {status === 'failed' && <Result subTitle={errMsg} />}
+        </SettingSection>
 
         <Divider className="opacity-50" />
-        <div className="space-y-4">
-          <div className="text-sm text-neutral-300">{t('settings.update.system.title')}</div>
-          <div className="flex flex-col items-start gap-3 rounded border border-neutral-800 px-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-            <div className="min-w-0 space-y-1">
-              <div className="text-sm text-neutral-300">
-                {t('settings.update.system.rawEnable')}
-              </div>
-              <div className="text-xs text-neutral-500">
-                {t('settings.update.system.rawEnableDesc')}
-              </div>
-            </div>
+
+        <SettingSection title={t('settings.update.application.title')}>
+          <div className="flex flex-col space-y-3">
+            <InfoRow
+              label={t('settings.about.application')}
+              description={
+                applicationBusy || applicationText ? (
+                  <span
+                    className={`inline-flex items-center gap-2 ${status === 'failed' ? 'text-red-400' : ''}`}
+                  >
+                    {applicationBusy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+                    {applicationText}
+                  </span>
+                ) : undefined
+              }
+              value={currentVersion}
+            />
+            {status === 'outdated' && (
+              <InfoRow label={t('settings.update.latestVersion')} value={latestVersion} />
+            )}
+          </div>
+
+          <StatusRow
+            buttons={
+              applicationBusy
+                ? []
+                : [
+                    refreshButton,
+                    status === 'outdated' ? (
+                      <Button
+                        key="confirm"
+                        type="primary"
+                        disabled={onlineUpdatesBlocked}
+                        onClick={update}
+                      >
+                        {t('settings.update.confirm')}
+                      </Button>
+                    ) : null
+                  ]
+            }
+          />
+        </SettingSection>
+
+        <Divider className="opacity-50" />
+
+        <SettingSection title={t('settings.system.title')}>
+          <SettingRow
+            label={t('settings.update.system.rawEnable')}
+            description={t('settings.update.system.rawEnableDesc')}
+            isSwitch
+          >
             <Switch
               checked={systemRawEnabled}
               loading={systemRawUpdating}
               disabled={rawLoadState !== 'ready'}
               onChange={changeRawSystemUpdatesEnabled}
             />
-          </div>
+          </SettingRow>
+
           {systemStaged?.destructive && !systemRawEnabled && (
             <Alert
               type="warning"
@@ -592,337 +719,121 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             />
           )}
 
-          {systemStatus === 'loading' && (
-            <div className="flex justify-center py-10">
-              <Spin indicator={<LoadingOutlined spin />} />
-            </div>
-          )}
-
-          {systemStatus === 'downloading' && (
-            <div className="flex flex-col items-center justify-center space-y-6 py-10">
-              <Spin indicator={<LoadingOutlined spin />} />
-              <span className="text-neutral-500">
-                {systemProgress?.message || t('settings.update.system.downloading')}
-              </span>
-            </div>
-          )}
-
-          {(systemStatus === 'installing' ||
-            systemStatus === 'rollingBack' ||
-            systemStatus === 'confirming') && (
-            <div className="flex flex-col items-center justify-center space-y-6 py-10">
-              <Spin indicator={<LoadingOutlined spin />} />
-              <span className="text-neutral-500">
-                {systemStatus === 'confirming'
-                  ? t('settings.update.system.confirming')
-                  : systemStatus === 'installing'
-                    ? systemProgress?.message || t('settings.update.system.installing')
-                    : t('settings.update.system.rollingBack')}
-              </span>
-            </div>
-          )}
-
-          {systemStatus === 'latest' && systemCurrent && (
-            <Result
-              status="success"
-              icon={<SmileOutlined />}
-              title={systemCurrent.version}
-              subTitle={t('settings.update.system.isLatest')}
-              extra={[
-                <Button key="refresh" onClick={refreshFirewallStatus}>
-                  {t('settings.update.system.refresh')}
-                </Button>,
-                systemRollback ? (
-                  <Button key="rollback" danger onClick={confirmRollbackSystemUpdate}>
-                    {t('settings.update.system.rollback')}
-                  </Button>
-                ) : null
-              ]}
-            />
-          )}
-
-          {systemStatus === 'staged' && systemStaged && isStagedLatest && (
-            <Result
-              status="success"
-              icon={<CloudSyncOutlined />}
-              title={`${systemStaged.version} ${t('settings.update.system.staged')}`}
-              subTitle={t('settings.update.system.stagedDesc')}
-              extra={[
-                systemLatest?.releaseNotesUrl ? (
-                  <Button
-                    key="release"
-                    href={systemLatest.releaseNotesUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {t('settings.update.system.releaseNotes')}
-                  </Button>
-                ) : null,
-                <Button key="refresh" onClick={refreshFirewallStatus}>
-                  {t('settings.update.system.refresh')}
-                </Button>,
-                <Button
-                  key="install"
-                  type="primary"
-                  danger
-                  disabled={
-                    !stagedAppRequirementMet || (systemStaged.destructive && !systemRawEnabled)
-                  }
-                  onClick={confirmInstallSystemUpdate}
-                >
-                  {t('settings.update.system.install')}
-                </Button>
-              ]}
-            />
-          )}
-
-          {systemStatus === 'staged' && systemStaged && !isStagedLatest && systemLatest && (
-            <Result
-              status="warning"
-              icon={<CloudSyncOutlined />}
-              title={`${systemStaged.version} -> ${systemLatest.version}`}
-              subTitle={t('settings.update.system.available')}
-              extra={[
-                systemLatest.releaseNotesUrl ? (
-                  <Button
-                    key="release"
-                    href={systemLatest.releaseNotesUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {t('settings.update.system.releaseNotes')}
-                  </Button>
-                ) : null,
-                <Button
-                  key="download"
-                  type="primary"
-                  disabled={onlineUpdatesBlocked}
-                  onClick={downloadSystemUpdate}
-                >
-                  {t('settings.update.system.downloadVerify')}
-                </Button>,
-                <Button key="refresh" onClick={refreshFirewallStatus}>
-                  {t('settings.update.system.refresh')}
-                </Button>
-              ]}
-            />
-          )}
-
-          {systemStatus === 'installed' && systemPending && (
-            <Result
-              status="warning"
-              icon={<CloudSyncOutlined />}
-              title={`${systemPending.version} ${t('settings.update.system.installed')}`}
-              subTitle={t('settings.update.system.rebootRequired')}
-              extra={[
-                <Button key="refresh" onClick={refreshFirewallStatus}>
-                  {t('settings.update.system.refresh')}
-                </Button>
-              ]}
-            />
-          )}
-
-          {systemStatus === 'rolledBack' && systemRollback && (
-            <Result
-              status="success"
-              icon={<CloudSyncOutlined />}
-              title={t('settings.update.system.rollbackDone')}
-              subTitle={t('settings.update.system.rebootRequired')}
-              extra={[
-                <Button key="refresh" onClick={refreshFirewallStatus}>
-                  {t('settings.update.system.refresh')}
-                </Button>
-              ]}
-            />
-          )}
-
-          {systemStatus === 'confirmed' && (
-            <Result
-              status="success"
-              icon={<CloudSyncOutlined />}
-              title={t('settings.update.system.confirmed')}
-              subTitle={t('settings.update.system.bootGood')}
-              extra={[
-                <Button key="refresh" onClick={refreshFirewallStatus}>
-                  {t('settings.update.system.refresh')}
-                </Button>
-              ]}
-            />
-          )}
-
-          {systemStatus === 'outdated' && systemCurrent && systemLatest && (
-            <Result
-              status="warning"
-              icon={<CloudSyncOutlined />}
-              title={`${systemCurrent.version} -> ${systemLatest.version}`}
-              subTitle={t('settings.update.system.available')}
-              extra={[
-                <Button
-                  key="release"
-                  href={systemLatest.releaseNotesUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t('settings.update.system.releaseNotes')}
-                </Button>,
-                <Button
-                  key="download"
-                  type="primary"
-                  disabled={onlineUpdatesBlocked}
-                  onClick={downloadSystemUpdate}
-                >
-                  {t('settings.update.system.downloadVerify')}
-                </Button>,
-                <Button key="refresh" onClick={refreshFirewallStatus}>
-                  {t('settings.update.system.refresh')}
-                </Button>,
-                systemRollback ? (
-                  <Button key="rollback" danger onClick={confirmRollbackSystemUpdate}>
-                    {t('settings.update.system.rollback')}
-                  </Button>
-                ) : null
-              ]}
-            />
-          )}
-
-          {systemStatus === 'failed' && (
-            <Result
-              status="warning"
-              icon={<CloudSyncOutlined />}
-              title={systemCurrent?.version || t('settings.update.system.title')}
-              subTitle={
-                canDownloadLatestSystemUpdate ? t('settings.update.system.available') : systemErrMsg
-              }
-              extra={[
-                <Button key="refresh" onClick={refreshFirewallStatus}>
-                  {t('settings.update.system.refresh')}
-                </Button>,
-                canDownloadLatestSystemUpdate ? (
-                  <Button
-                    key="download"
-                    type="primary"
-                    disabled={onlineUpdatesBlocked}
-                    onClick={downloadSystemUpdate}
-                  >
-                    {t('settings.update.system.downloadVerify')}
-                  </Button>
-                ) : null,
-                systemStaged && isStagedLatest && stagedAppRequirementMet ? (
-                  <Button
-                    key="install"
-                    type="primary"
-                    danger
-                    disabled={systemStaged.destructive && !systemRawEnabled}
-                    onClick={confirmInstallSystemUpdate}
-                  >
-                    {t('settings.update.system.install')}
-                  </Button>
-                ) : null,
-                systemRollback ? (
-                  <Button key="rollback" danger onClick={confirmRollbackSystemUpdate}>
-                    {t('settings.update.system.rollback')}
-                  </Button>
-                ) : null
-              ]}
-            />
-          )}
-
           {systemCurrent && (
-            <div className="space-y-2 px-2 pb-2">
-              {versionLine(t('settings.update.system.systemVersion'), systemCurrent.version)}
-              {versionLine(t('settings.update.system.baseImage'), systemCurrent.baseVersion)}
-              {versionLine(
-                t('settings.update.system.buildrootRelease'),
-                systemCurrent.rootfsVersion
+            <div className="flex flex-col space-y-3">
+              {info(
+                t('settings.update.system.systemVersion'),
+                systemCurrent.version,
+                versionCaption ? (
+                  <span className={systemError ? 'text-red-400' : undefined}>{versionCaption}</span>
+                ) : undefined
               )}
-              {systemCurrent.securityPatchLevel &&
-                versionLine(
-                  t('settings.update.system.securityPatchLevel'),
-                  systemCurrent.securityPatchLevel
-                )}
-              {versionLine(t('settings.update.system.kernel'), systemCurrent.kernelVersion)}
-              {versionLine(t('settings.update.system.target'), systemCurrent.target)}
-              {systemLatest &&
-                versionLine(t('settings.update.system.latestTarget'), systemLatest.target)}
-              {systemLatest?.requiredAppVersion &&
-                versionLine(
-                  t('settings.update.system.requiredAppVersion', {
-                    defaultValue: 'Required application version'
-                  }),
-                  systemLatest.requiredAppVersion
-                )}
-              {systemStaged &&
-                versionLine(t('settings.update.system.stagedVersion'), systemStaged.version)}
-              {systemStaged?.requiredAppVersion &&
-                versionLine(
-                  t('settings.update.system.requiredAppVersion', {
-                    defaultValue: 'Required application version'
-                  }),
-                  systemStaged.requiredAppVersion
-                )}
-              {systemStaged?.securityPatchLevel &&
-                versionLine(
-                  t('settings.update.system.stagedSecurityPatchLevel'),
-                  systemStaged.securityPatchLevel
-                )}
-              {systemStaged &&
-                versionLine(t('settings.update.system.archive'), systemStaged.archiveName)}
-              {systemStaged &&
-                versionLine(
-                  t('settings.update.system.requiredFree'),
-                  formatBytes(systemStaged.requiredFreeBytes)
-                )}
-              {systemStaged &&
-                versionLine(
-                  t('settings.update.system.fileCount'),
-                  systemStaged.fileCount.toString()
-                )}
-              {systemStaged?.destructive &&
-                versionLine(
-                  t('settings.update.system.rawImages'),
-                  systemStaged.imageCount.toString()
-                )}
+              {info(t('settings.update.latestVersion'), systemLatest?.version)}
+              {info(t('settings.update.system.baseImage'), systemCurrent.baseVersion)}
+              {info(t('settings.update.system.buildrootRelease'), systemCurrent.rootfsVersion)}
+              {info(t('settings.update.system.kernel'), systemCurrent.kernelVersion)}
+              {info(t('settings.update.system.target'), systemCurrent.target)}
+              {info(t('settings.update.system.latestTarget'), systemLatest?.target)}
+              {info(
+                t('settings.update.system.requiredAppVersion'),
+                systemLatest?.requiredAppVersion
+              )}
+              {info(
+                t('settings.update.system.stagedVersion'),
+                systemStaged?.version,
+                stagedCaption
+              )}
+              {info(
+                t('settings.update.system.requiredAppVersion'),
+                systemStaged?.requiredAppVersion
+              )}
+              {info(t('settings.update.system.archive'), systemStaged?.archiveName)}
+              {info(
+                t('settings.update.system.requiredFree'),
+                systemStaged ? formatBytes(systemStaged.requiredFreeBytes) : undefined
+              )}
+              {info(t('settings.update.system.fileCount'), systemStaged?.fileCount.toString())}
+              {info(
+                t('settings.update.system.rawImages'),
+                systemStaged?.destructive ? systemStaged.imageCount.toString() : undefined
+              )}
               {showSystemProgress &&
-                versionLine(
+                info(
                   t('settings.update.system.progress'),
                   `${systemProgress.operation}/${systemProgress.phase}`
                 )}
               {showSystemProgress &&
-                systemProgress?.message &&
-                versionLine(t('settings.update.system.progressMessage'), systemProgress.message)}
-              {systemPending &&
-                versionLine(t('settings.update.system.pendingVersion'), systemPending.version)}
+                info(t('settings.update.system.progressMessage'), systemProgress?.message)}
+              {info(
+                t('settings.update.system.pendingVersion'),
+                systemPending?.version,
+                pendingCaption
+              )}
               {systemBootHealth &&
-                versionLine(
+                info(
                   t('settings.update.system.bootHealth'),
                   systemBootHealth.healthy
                     ? t('settings.update.system.healthy')
                     : t('settings.update.system.unhealthy')
                 )}
-              {systemPending && systemBootHealth?.healthy && (
-                <div className="flex justify-end pt-2">
-                  <Button size="small" type="primary" onClick={confirmSystemUpdate}>
-                    {t('settings.update.system.confirmBoot')}
-                  </Button>
-                </div>
-              )}
-              {systemRollback &&
-                versionLine(t('settings.update.system.rollbackBackup'), systemRollback.backupId)}
+              {info(t('settings.update.system.rollbackBackup'), systemRollback?.backupId)}
             </div>
           )}
-        </div>
 
-        <div className="flex justify-center">
+          <StatusRow
+            busy={systemBusy}
+            error={systemError}
+            title={systemTitle}
+            text={systemText}
+            buttons={systemButtons}
+          />
+        </SettingSection>
+
+        <div className="flex justify-end">
           <Button
             type="link"
             size="small"
             href="https://github.com/woffko/Hardened_NanoKVM/blob/main/CHANGELOG.md"
             target="_blank"
           >
-            CHANGELOG
+            Changelog
           </Button>
         </div>
       </div>
     </>
+  );
+};
+
+type StatusRowProps = {
+  busy?: boolean;
+  error?: boolean;
+  title?: string;
+  text?: string;
+  buttons: ReactNode[];
+};
+
+// What a section says about its state, and its buttons, on one row; the buttons wrap under the
+// text on a narrow screen.
+const StatusRow = ({ busy = false, error = false, title, text, buttons }: StatusRowProps) => {
+  const shown = buttons.filter(Boolean);
+  if (!busy && !title && !text && shown.length === 0) return null;
+
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex min-w-0 flex-col space-y-1 sm:flex-1 sm:basis-60">
+        {title && <span className="text-sm text-neutral-300">{title}</span>}
+        {(busy || text) && (
+          <span
+            className={`flex items-center gap-2 break-words text-xs ${error ? 'text-red-400' : 'text-neutral-500'}`}
+          >
+            {busy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+            {text}
+          </span>
+        )}
+      </div>
+      {shown.length > 0 && (
+        <div className="ml-auto flex min-w-0 flex-wrap justify-end gap-2">{shown}</div>
+      )}
+    </div>
   );
 };

@@ -468,7 +468,6 @@ const translations: Record<string, string> = {
   'settings.update.preview': 'Päivitysten esikatselu',
   'settings.update.previewDesc': 'Saat varhaisen pääsyn uusiin ominaisuuksiin ja parannuksiin',
   'settings.update.application.title': 'Sovelluspäivitys',
-  'settings.update.system.title': 'Järjestelmäpäivitys',
   'settings.update.system.queryFailed': 'Järjestelmäversion haku epäonnistui',
   'settings.update.system.downloadFailed': 'Lataus tai varmistus epäonnistui',
   'settings.update.system.rawEnable': 'Salli raw-järjestelmäpäivitykset',
@@ -491,7 +490,6 @@ const translations: Record<string, string> = {
     'Tämä varmistettu paketti kirjoittaa raw boot/rootfs -imaget SD-kortin osioihin ja käynnistää laitteen automaattisesti uudelleen. Kirjoitus voi kestää useita minuutteja; pidä virta kytkettynä.',
   'settings.update.system.rawInstallWarning':
     'Raw-osiopäivityksille ei ole automaattista palautusta. Jos käynnistys epäonnistuu, palauta SD-kortti käsin.',
-  'settings.update.system.installed': 'asennettu',
   'settings.update.system.rebootRequired':
     'Uudelleenkäynnistys vaaditaan tämän järjestelmätilan aktivoimiseksi.',
   'settings.update.system.confirming': 'Vahvistetaan järjestelmäpäivityksen käynnistystä...',
@@ -506,7 +504,6 @@ const translations: Record<string, string> = {
   'settings.update.system.rollbackConfirmTitle': 'Palautetaanko järjestelmäpäivitys?',
   'settings.update.system.rollbackConfirmDesc':
     'Tämä palauttaa tiedostot viimeisimmästä järjestelmäpäivityksen varmuuskopiosta. Uudelleenkäynnistys vaaditaan.',
-  'settings.update.system.staged': 'valmisteltu',
   'settings.update.system.stagedDesc':
     'Järjestelmäpäivitysarkisto ladattiin ja varmistettiin. Voit asentaa sen nyt.',
   'settings.update.system.refresh': 'Päivitä',
@@ -514,8 +511,6 @@ const translations: Record<string, string> = {
   'settings.update.system.systemVersion': 'Järjestelmäpäivityksen versio',
   'settings.update.system.baseImage': 'Perusimage',
   'settings.update.system.buildrootRelease': 'Buildroot-julkaisu',
-  'settings.update.system.securityPatchLevel': 'Tietoturvapäivitysten taso',
-  'settings.update.system.stagedSecurityPatchLevel': 'Valmistellun tietoturvatason taso',
   'settings.update.system.base': 'Perus',
   'settings.update.system.kernel': 'Kernel',
   'settings.update.system.rootfs': 'Rootfs',

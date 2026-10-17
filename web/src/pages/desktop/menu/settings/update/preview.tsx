@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/application.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 interface PreviewProps {
   refreshUpdates: () => void;
@@ -40,34 +41,29 @@ export const Preview = ({ refreshUpdates }: PreviewProps) => {
   }
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-col space-y-1">
-        <div className="flex items-center space-x-2">
-          <span>{t('settings.update.preview')}</span>
-
+    <SettingRow
+      label={
+        <span className="inline-flex items-center gap-1">
+          {t('settings.update.preview')}
           <Tooltip
             title={t('settings.update.previewTip')}
-            className="cursor-pointer"
+            className="cursor-pointer text-orange-400"
             placement="top"
             styles={{ root: { maxWidth: '400px' } }}
           >
-            <CircleAlertIcon className="text-neutral-500" size={15} />
+            <CircleAlertIcon size={15} />
           </Tooltip>
-        </div>
-
-        <span className="text-xs text-neutral-500">
-          {t('settings.update.previewChannels', {
-            defaultValue: 'Controls both application and system preview channels'
-          })}
         </span>
-      </div>
-
+      }
+      description={t('settings.update.previewChannels')}
+      isSwitch
+    >
       <Switch
         checked={isEnabled}
         loading={isLoading}
         disabled={!isReady}
         onChange={setPreviewUpdates}
       />
-    </div>
+    </SettingRow>
   );
 };
