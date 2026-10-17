@@ -159,10 +159,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Fes-ho servir per al mode relatiu d’escriptori. Valors més baixos redueixen la deriva causada per l’acceleració del ratolí del host.',
     'mouse.mobile.touchSyncDesc':
       'Mou-te per qualsevol punt de l’àrea KVM. El cursor remot conserva la posició entre tocs i es manté sincronitzat amb HID absolut.',
-    'mouse.mobile.trackpadDesc':
-      'Mou un dit per desplaçar el punter remot. Toca per fer clic; pressió llarga o toc amb dos dits per al clic dret.',
-    'mouse.mobile.directDesc':
-      'Toca directament la posició de la pantalla remota. Arrossega per mantenir premut el botó esquerre.',
     'image.diskOnWarn':
       "Muntar la imatge desactiva el disc virtual, de manera que l'ordinador ja no pot accedir a /data. Vols continuar?",
     'image.diskOffWarn':
@@ -931,7 +927,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'keyboard.shortcut.title': 'Tastenkombinationen',
     'image.unmountFailed': 'Aushängen fehlgeschlagen',
     'menu.collapse': 'Menü einklappen',
-    'menu.expand': 'Menü ausklappen',
     'settings.device.ssh.tip':
       'Legen Sie unter Konto > Passwort ein starkes Passwort fest, bevor Sie diese Option aktivieren',
     'settings.tailscale.upTailscale': 'tailscale nach /usr/bin/ auf NanoKVM hochladen',
@@ -1346,8 +1341,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'screen.autoTips':
       'En determinadas resoluciones pueden producirse desgarros de imagen o desplazamiento del ratón. Prueba a ajustar la resolución del host remoto o desactiva el modo automático.',
     'settings.tailscale.stopDesc': 'Detiene el servicio y evita que se inicie con el sistema',
-    'auth.noAccount':
-      'No se ha encontrado la cuenta. Por favor, recarga la página o recupera tu contraseña',
     'terminal.unlockDesc':
       'Introduce la contraseña de tu cuenta web para iniciar una sesión de terminal',
     'terminal.locked': 'Demasiados intentos. Inténtalo más tarde',
@@ -2041,7 +2034,6 @@ export const translationFixes: Record<string, TranslationMap> = {
       "Les images ne peuvent pas être téléchargées ni téléversées pour le moment, car le stockage n'est pas accessible en écriture. Si une image est montée, démontez-la, puis désactivez le disque virtuel pour que le stockage redevienne accessible en écriture.",
     'auth.ok': 'OK',
     'power.title': 'Alimentation',
-    'power.power': 'Alimentation',
     'power.powerShort': "Bouton d'alimentation : appui court",
     'power.powerLong': "Bouton d'alimentation : appui long",
     'power.powerConfirm': "Procéder à l'opération d'alimentation ?",
@@ -2881,7 +2873,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Pembaruan sistem',
     'settings.account.totp.authenticator': 'Aplikasi autentikator',
     'settings.about.image': 'Versi gambar',
-    'settings.about.deviceKey': 'Kunci perangkat',
     'settings.appearance.webTitle': 'Judul web',
     'settings.appearance.menuBar.mode': 'Mode tampilan',
     'settings.device.mouseJiggler.title': 'Tikus jiggler',
@@ -3168,7 +3159,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': 'Versione sistema',
     'settings.account.totp.authenticator': 'App di autenticazione',
     'settings.about.image': 'Versione immagine',
-    'settings.about.deviceKey': 'Chiave dispositivo',
     'settings.update.system.stagedDesc':
       'L’aggiornamento di sistema è stato scaricato e verificato, ora puoi installarlo',
     'settings.network.wifi.disconnectBtn': 'Disconnetti',
@@ -3303,8 +3293,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.changePasswordDesc': 'デバイスのセキュリティのために、パスワードを変更してください',
     'settings.network.dns.manualServersDescription': 'IPv4 と IPv6 のサーバーに対応しています',
     'settings.tailscale.stopDesc': 'サービスを停止し、起動時に自動で開始しないようにします',
-    'auth.noAccount':
-      'ユーザー情報の取得に失敗しました。ページを更新してもう一度お試しいただくか、パスワードをリセットしてください',
     'auth.locked': 'ログインが多すぎます。後でもう一度お試しください',
     'auth.globalLocked': 'システムは保護されています。後でもう一度試してください',
     'mouse.hidOnly.tip3': 'モードを切り替えると、NanoKVM は自動的に再起動します',
@@ -3570,8 +3558,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'auth.placeholderPassword2': '비밀번호를 다시 입력하세요',
     'auth.noEmptyUsername': '사용자 이름은 비어있을 수 없습니다',
     'auth.noEmptyPassword': '비밀번호는 비어있을 수 없습니다',
-    'auth.noAccount':
-      '사용자 정보를 불러오는 데 실패했습니다. 페이지를 새로고침하거나 비밀번호를 초기화하세요',
     'auth.invalidUser': '사용자 이름이나 비밀번호가 틀렸습니다',
     'auth.locked': '로그인 횟수가 너무 많습니다. 나중에 다시 시도해 주세요',
     'auth.globalLocked': '시스템이 보호 중입니다. 나중에 다시 시도해 주세요',
@@ -4802,7 +4788,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.authenticator': 'App autenticador',
     'settings.account.webAccount': 'Nome da conta web',
     'settings.about.image': 'Versão da imagem',
-    'settings.about.deviceKey': 'Chave do dispositivo',
     'settings.appearance.webTitle': 'Título da web',
     'settings.device.mouseJiggler.title': 'Movimentador de mouse',
     'settings.device.mouseJiggler.absolute': 'Modo absoluto',
@@ -5830,7 +5815,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.authenticator': 'Kimlik doğrulama uygulaması',
     'settings.account.webAccount': 'Web hesap adı',
     'settings.about.image': 'İmaj sürümü',
-    'settings.about.deviceKey': 'Cihaz anahtarı',
     'settings.appearance.menuBar.mode': 'Görüntüleme modu',
     'settings.device.mouseJiggler.title': 'Fare oynatıcı',
     'settings.device.disk': 'Sanal disk',
@@ -5856,7 +5840,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'wol.sending': 'Надсилання команди...',
     'image.mountFailed': 'Не вдалося змонтувати образ',
     'auth.error': 'Непередбачена помилка',
-    'settings.network.wifi.confirmBtn': 'ОК',
     'settings.device.mouseJiggler.title': 'Імітація руху миші',
     'settings.device.mouseJiggler.disable': 'Вимкнути',
     'settings.device.mdns.description': 'Увімкнути службу виявлення mDNS',
@@ -6382,7 +6365,6 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Cập nhật hệ thống',
     'settings.account.totp.authenticator': 'Ứng dụng xác thực',
     'settings.about.image': 'Phiên bản hình ảnh',
-    'settings.about.deviceKey': 'Khóa thiết bị',
     'settings.update.system.stagedDesc':
       'Bản cập nhật hệ thống đã được tải xuống và xác minh, bạn có thể cài đặt ngay',
     'settings.network.wifi.disconnectBtn': 'Ngắt kết nối',

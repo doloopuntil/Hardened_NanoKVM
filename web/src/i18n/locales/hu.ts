@@ -23,8 +23,6 @@ const hu = {
       placeholderPassword2: 'Adja meg újra a jelszót',
       noEmptyUsername: 'A felhasználónév nem lehet üres',
       noEmptyPassword: 'A jelszó nem lehet üres',
-      noAccount:
-        'Nem sikerült megszerezni a felhasználói információkat, frissítse az oldalt vagy állítsa vissza a jelszót',
       invalidUser: 'Érvénytelen felhasználónév vagy jelszó',
       locked: 'Túl sok bejelentkezés, kérjük, próbálja újra később',
       globalLocked: 'A rendszer védelem alatt áll, próbálkozzon újra később',
@@ -137,7 +135,6 @@ const hu = {
       title: 'Egér',
       cursor: 'Kurzorstílus',
       default: 'Alapértelmezett kurzor',
-      pointer: 'Mutató kurzor',
       cell: 'Cella kurzor',
       text: 'Szöveg kurzor',
       grab: 'Markoló kurzor',
@@ -172,7 +169,6 @@ const hu = {
       forceEject: 'Kényszerített kiadás',
       forceEjectConfirm:
         'A gazdagép zárolta az optikai meghajtót. A kényszerített kiadás rövid időre leválasztja a virtuális USB-eszközt, ezért a billentyűzet és az egér is átmenetileg lecsatlakozhat. Folytatja?',
-      refresh: 'Frissítse a képlistát',
       attention: 'Figyelem',
       deleteConfirm: 'Biztosan törli ezt a képet?',
       tips: {
@@ -246,7 +242,6 @@ const hu = {
       showConfirm: 'Megerősítés',
       showConfirmTip: 'Az áramellátási műveletekhez külön megerősítés szükséges',
       reset: 'Újraindítás',
-      power: 'Bekapcsolás',
       resetConfirm: 'Folytatja a visszaállítási műveletet?',
       okBtn: 'Igen',
       cancelBtn: 'Nem'
@@ -262,15 +257,10 @@ const hu = {
         applicationTip: 'NanoKVM webalkalmazás verziója',
         image: 'Képfájl verzió',
         imageTip: 'NanoKVM rendszerkép verziója',
-        deviceKey: 'Eszköz kulcs',
         community: 'Közösség',
         hostname: 'Gazdanév',
         hostnameUpdated: 'Gazdanév frissítve. Az alkalmazáshoz indítsa újra.',
-        ipType: {
-          Wired: 'Vezetékes',
-          Wireless: 'Vezeték nélküli',
-          Other: 'Egyéb'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Megjelenés',
@@ -351,12 +341,10 @@ const hu = {
           apMode: 'Az AP mód engedélyezve van, csatlakozzon a Wi-Fihez a QR-kód beolvasásával',
           connect: 'Wi-Fi csatlakoztatása',
           connectDesc1: 'Adja meg a hálózat SSID-jét és jelszavát',
-          connectDesc2: 'Adja meg a jelszót a hálózathoz való csatlakozáshoz',
           disconnect: 'Biztosan bontja a hálózati kapcsolatot?',
           ssid: 'Név',
           password: 'Jelszó',
           joinBtn: 'Csatlakozás',
-          confirmBtn: 'OK',
           cancelBtn: 'Mégse'
         },
         tls: {
@@ -367,14 +355,11 @@ const hu = {
           description: 'DNS-kiszolgálók beállítása a NanoKVM számára',
           ipv4Title: 'IPv4',
           ipv4Description: 'IPv4-címzés beállítása a vezetékes interfészhez',
-          mode: 'Mód',
           dhcp: 'DHCP',
           manual: 'Kézi',
-          save: 'Mentés',
           apply: 'Alkalmaz',
           invalid: 'Adjon meg érvényes IPv4- vagy IPv6-címet',
           invalidNetwork: 'Adjon meg érvényes IPv4-címet, alhálózati maszkot és útválasztót',
-          noDhcp: 'Jelenleg nincs elérhető DHCP DNS',
           saved: 'DNS-beállítások mentve',
           redirecting: 'A hálózati beállítások mentve. Az új cím megnyitása...',
           saveFailed: 'Nem sikerült menteni a DNS-beállításokat',
@@ -429,7 +414,6 @@ const hu = {
         confirm: 'Megerősítés',
         cancel: 'Mégse',
         preview: 'Frissítések előnézete',
-        previewDesc: 'Korai hozzáférést kap az új funkciókhoz és fejlesztésekhez',
         offline: {
           title: 'Offline frissítések',
           desc: 'Frissítés helyi telepítőcsomaggal',
@@ -575,8 +559,7 @@ const hu = {
       toggle: 'Teljes képernyő váltás'
     },
     menu: {
-      collapse: 'Menü összecsukása',
-      expand: 'Bontsa ki a menüt'
+      collapse: 'Menü összecsukása'
     }
   }
 };

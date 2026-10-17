@@ -19,8 +19,6 @@ const da = {
     auth: {
       login: 'Log ind',
       placeholderUsername: 'Indtast brugernavn',
-      noAccount:
-        'Kunne ikke hente brugeroplysninger. Prøv at opdater siden eller nulstil adgangskoden',
       locked: 'For mange logins, prøv venligst igen senere',
       globalLocked: 'System under beskyttelse, prøv venligst igen senere',
       changePassword: 'Skift adgangskode',
@@ -133,7 +131,6 @@ const da = {
       title: 'Mus',
       cursor: 'Markørstil',
       default: 'Standard-markør',
-      pointer: 'Peger-markør',
       cell: 'Celle-markør',
       text: 'Tekst-markør',
       grab: 'Grib-markør',
@@ -167,7 +164,6 @@ const da = {
       forceEject: 'Skub ud med tvang',
       forceEjectConfirm:
         'Værten har låst det optiske drev. Når du skubber ud med tvang, afbrydes den virtuelle USB-enhed et øjeblik, så tastaturet og musen kortvarigt kan miste forbindelsen. Vil du fortsætte?',
-      refresh: 'Opdater billedlisten',
       attention: 'Opmærksomhed påkrævet',
       deleteConfirm: 'Er du sikker på, at du vil slette dette billede?',
       tips: {
@@ -238,7 +234,6 @@ const da = {
       showConfirm: 'Bekræftelse',
       showConfirmTip: 'Strømdrift kræver en ekstra bekræftelse',
       reset: 'Nulstillingsknap',
-      power: 'Tænd/sluk-knap',
       resetConfirm: 'Fortsæt med nulstilling?',
       powerConfirm: 'Fortsæt strømdrift?',
       okBtn: 'Ja'
@@ -254,15 +249,10 @@ const da = {
         applicationTip: 'Version af NanoKVM-webapplikationen',
         image: 'Firmware version',
         imageTip: 'Version af NanoKVM-systemimaget',
-        deviceKey: 'Enhedsnøgle',
         community: 'Fællesskab',
         hostname: 'Værtsnavn',
         hostnameUpdated: 'Værtsnavn opdateret. Genstart for at anvende.',
-        ipType: {
-          Wired: 'Kablet',
-          Wireless: 'Trådløs',
-          Other: 'Andet'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Udseende',
@@ -342,12 +332,10 @@ const da = {
           apMode: 'AP-tilstand er aktiveret, opret forbindelse til Wi-Fi ved at scanne QR-koden',
           connect: 'Tilslut Wi-Fi',
           connectDesc1: 'Indtast netværkets SSID og adgangskode',
-          connectDesc2: 'Indtast adgangskoden for at tilslutte dette netværk',
           disconnect: 'Er du sikker på, at du vil afbryde netværket?',
           ssid: 'Navn',
           password: 'Adgangskode',
           joinBtn: 'Tilslut',
-          confirmBtn: 'OK',
           cancelBtn: 'Annuller'
         },
         tls: {
@@ -358,14 +346,11 @@ const da = {
           description: 'Konfigurer DNS-servere til NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Konfigurer IPv4-adressering for det kablede interface',
-          mode: 'Tilstand',
           dhcp: 'DHCP',
           manual: 'Manuel',
-          save: 'Gem',
           apply: 'Anvend',
           invalid: 'Indtast en gyldig IPv4- eller IPv6-adresse',
           invalidNetwork: 'Indtast en gyldig IPv4-adresse, undernetmaske og router',
-          noDhcp: 'Ingen DHCP-DNS er tilgængelig i øjeblikket',
           saved: 'DNS-indstillinger gemt',
           redirecting: 'Netværksindstillinger gemt. Åbner den nye adresse...',
           saveFailed: 'DNS-indstillinger kunne ikke gemmes',
@@ -421,7 +406,6 @@ const da = {
         confirm: 'Bekræft',
         cancel: 'Annuller',
         preview: 'Forhåndsvisning af opdateringer',
-        previewDesc: 'Få tidlig adgang til nye funktioner og forbedringer',
         offline: {
           title: 'Offline opdateringer',
           desc: 'Opdatering via lokal installationspakke',
@@ -565,8 +549,7 @@ const da = {
       toggle: 'Skift fuldskærm'
     },
     menu: {
-      collapse: 'Skjul menu',
-      expand: 'Udvid menu'
+      collapse: 'Skjul menu'
     }
   }
 };

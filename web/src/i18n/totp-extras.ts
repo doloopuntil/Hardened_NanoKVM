@@ -20,8 +20,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Autenticació de dos factors',
     'settings.account.totp.description':
       "Exigeix un codi temporal d'una aplicació d'autenticació, a més de la contrasenya.",
-    'settings.account.totp.enabled': 'Activada',
-    'settings.account.totp.disabled': 'Desactivada',
     'settings.account.totp.required': 'Exigida per la política',
     'settings.account.totp.disable': 'Desactiva',
     'settings.account.totp.enableTitle': "Configura l'autenticació de dos factors",
@@ -87,8 +85,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Dvoufázové ověření',
     'settings.account.totp.description':
       'Kromě hesla vyžadovat časově omezený kód z ověřovací aplikace.',
-    'settings.account.totp.enabled': 'Zapnuto',
-    'settings.account.totp.disabled': 'Vypnuto',
     'settings.account.totp.required': 'Vyžadováno zásadami',
     'settings.account.totp.disable': 'Vypnout',
     'settings.account.totp.enableTitle': 'Nastavit dvoufázové ověření',
@@ -153,8 +149,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Totrinsgodkendelse',
     'settings.account.totp.description':
       'Kræv en tidsbaseret kode fra en godkendelsesapp ud over din adgangskode.',
-    'settings.account.totp.enabled': 'Aktiveret',
-    'settings.account.totp.disabled': 'Deaktiveret',
     'settings.account.totp.required': 'Påkrævet af politik',
     'settings.account.totp.disable': 'Deaktiver',
     'settings.account.totp.enableTitle': 'Opsæt totrinsgodkendelse',
@@ -218,8 +212,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Zwei-Faktor-Authentifizierung',
     'settings.account.totp.description':
       'Zusätzlich zum Passwort einen zeitbasierten Code aus einer Authenticator-App verlangen.',
-    'settings.account.totp.enabled': 'Aktiviert',
-    'settings.account.totp.disabled': 'Deaktiviert',
     'settings.account.totp.required': 'Per Richtlinie erforderlich',
     'settings.account.totp.disable': 'Deaktivieren',
     'settings.account.totp.enableTitle': 'Zwei-Faktor-Authentifizierung einrichten',
@@ -285,8 +277,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Autenticación en dos pasos',
     'settings.account.totp.description':
       'Exige un código temporal de una aplicación de autenticación además de la contraseña.',
-    'settings.account.totp.enabled': 'Activada',
-    'settings.account.totp.disabled': 'Desactivada',
     'settings.account.totp.required': 'Exigida por la política',
     'settings.account.totp.disable': 'Desactivar',
     'settings.account.totp.enableTitle': 'Configurar la autenticación en dos pasos',
@@ -351,8 +341,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Kaheastmeline autentimine',
     'settings.account.totp.description':
       'Nõua lisaks paroolile autentimisrakenduse ajapõhist koodi.',
-    'settings.account.totp.enabled': 'Sees',
-    'settings.account.totp.disabled': 'Väljas',
     'settings.account.totp.required': 'Nõutud eeskirjaga',
     'settings.account.totp.disable': 'Lülita välja',
     'settings.account.totp.enableTitle': 'Seadista kaheastmeline autentimine',
@@ -417,8 +405,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Kaksivaiheinen tunnistautuminen',
     'settings.account.totp.description':
       'Vaadi salasanan lisäksi todennussovelluksen aikaperusteinen koodi.',
-    'settings.account.totp.enabled': 'Käytössä',
-    'settings.account.totp.disabled': 'Pois käytöstä',
     'settings.account.totp.required': 'Vaaditaan käytännössä',
     'settings.account.totp.disable': 'Poista käytöstä',
     'settings.account.totp.enableTitle': 'Ota kaksivaiheinen tunnistautuminen käyttöön',
@@ -483,8 +469,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Authentification à deux facteurs',
     'settings.account.totp.description':
       'Exiger un code temporel d’une application d’authentification en plus du mot de passe.',
-    'settings.account.totp.enabled': 'Activée',
-    'settings.account.totp.disabled': 'Désactivée',
     'settings.account.totp.required': 'Exigée par la politique',
     'settings.account.totp.disable': 'Désactiver',
     'settings.account.totp.enableTitle': 'Configurer l’authentification à deux facteurs',
@@ -550,8 +534,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Kétfaktoros hitelesítés',
     'settings.account.totp.description':
       'A jelszó mellett időalapú kód megkövetelése egy hitelesítő alkalmazásból.',
-    'settings.account.totp.enabled': 'Bekapcsolva',
-    'settings.account.totp.disabled': 'Kikapcsolva',
     'settings.account.totp.required': 'Szabályzat írja elő',
     'settings.account.totp.disable': 'Kikapcsolás',
     'settings.account.totp.enableTitle': 'Kétfaktoros hitelesítés beállítása',
@@ -616,8 +598,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Autentikasi dua faktor',
     'settings.account.totp.description':
       'Wajibkan kode berbasis waktu dari aplikasi autentikator selain kata sandi.',
-    'settings.account.totp.enabled': 'Aktif',
-    'settings.account.totp.disabled': 'Nonaktif',
     'settings.account.totp.required': 'Diwajibkan oleh kebijakan',
     'settings.account.totp.disable': 'Nonaktifkan',
     'settings.account.totp.enableTitle': 'Siapkan autentikasi dua faktor',
@@ -682,8 +662,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Autenticazione a due fattori',
     'settings.account.totp.description':
       "Richiedi un codice temporaneo da un'app di autenticazione, oltre alla password.",
-    'settings.account.totp.enabled': 'Attiva',
-    'settings.account.totp.disabled': 'Disattivata',
     'settings.account.totp.required': 'Richiesta dai criteri',
     'settings.account.totp.disable': 'Disattiva',
     'settings.account.totp.enableTitle': "Configura l'autenticazione a due fattori",
@@ -748,8 +726,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': '二要素認証',
     'settings.account.totp.description':
       'パスワードに加えて、認証アプリの時間ベースのコードを要求します。',
-    'settings.account.totp.enabled': '有効',
-    'settings.account.totp.disabled': '無効',
     'settings.account.totp.required': 'ポリシーで必須',
     'settings.account.totp.disable': '無効にする',
     'settings.account.totp.enableTitle': '二要素認証を設定',
@@ -813,8 +789,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'auth.totp.invalidCode': '유효하지 않은 코드입니다. 다시 시도하세요.',
     'settings.account.totp.title': '2단계 인증',
     'settings.account.totp.description': '비밀번호 외에 인증 앱의 시간 기반 코드를 요구합니다.',
-    'settings.account.totp.enabled': '사용 중',
-    'settings.account.totp.disabled': '사용 안 함',
     'settings.account.totp.required': '정책상 필수',
     'settings.account.totp.disable': '끄기',
     'settings.account.totp.enableTitle': '2단계 인증 설정',
@@ -878,8 +852,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Tofaktorautentisering',
     'settings.account.totp.description':
       'Krev en tidsbasert kode fra en autentiseringsapp i tillegg til passordet.',
-    'settings.account.totp.enabled': 'Aktivert',
-    'settings.account.totp.disabled': 'Deaktivert',
     'settings.account.totp.required': 'Påkrevd av policy',
     'settings.account.totp.disable': 'Deaktiver',
     'settings.account.totp.enableTitle': 'Sett opp tofaktorautentisering',
@@ -943,8 +915,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Tweefactorauthenticatie',
     'settings.account.totp.description':
       'Vereis naast je wachtwoord een tijdgebonden code uit een authenticator-app.',
-    'settings.account.totp.enabled': 'Ingeschakeld',
-    'settings.account.totp.disabled': 'Uitgeschakeld',
     'settings.account.totp.required': 'Vereist door beleid',
     'settings.account.totp.disable': 'Uitschakelen',
     'settings.account.totp.enableTitle': 'Tweefactorauthenticatie instellen',
@@ -1009,8 +979,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Uwierzytelnianie dwuskładnikowe',
     'settings.account.totp.description':
       'Wymagaj oprócz hasła kodu czasowego z aplikacji uwierzytelniającej.',
-    'settings.account.totp.enabled': 'Włączone',
-    'settings.account.totp.disabled': 'Wyłączone',
     'settings.account.totp.required': 'Wymagane przez zasady',
     'settings.account.totp.disable': 'Wyłącz',
     'settings.account.totp.enableTitle': 'Skonfiguruj uwierzytelnianie dwuskładnikowe',
@@ -1076,8 +1044,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Autenticação em duas etapas',
     'settings.account.totp.description':
       'Exige um código temporário de um app autenticador além da senha.',
-    'settings.account.totp.enabled': 'Ativada',
-    'settings.account.totp.disabled': 'Desativada',
     'settings.account.totp.required': 'Exigida pela política',
     'settings.account.totp.disable': 'Desativar',
     'settings.account.totp.enableTitle': 'Configurar a autenticação em duas etapas',
@@ -1143,8 +1109,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Двухфакторная аутентификация',
     'settings.account.totp.description':
       'Требовать, помимо пароля, одноразовый код из приложения-аутентификатора.',
-    'settings.account.totp.enabled': 'Включена',
-    'settings.account.totp.disabled': 'Отключена',
     'settings.account.totp.required': 'Требуется политикой',
     'settings.account.totp.disable': 'Отключить',
     'settings.account.totp.enableTitle': 'Настройка двухфакторной аутентификации',
@@ -1209,8 +1173,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Tvåfaktorsautentisering',
     'settings.account.totp.description':
       'Kräv en tidsbaserad kod från en autentiseringsapp utöver lösenordet.',
-    'settings.account.totp.enabled': 'Aktiverad',
-    'settings.account.totp.disabled': 'Inaktiverad',
     'settings.account.totp.required': 'Krävs av policy',
     'settings.account.totp.disable': 'Inaktivera',
     'settings.account.totp.enableTitle': 'Konfigurera tvåfaktorsautentisering',
@@ -1274,8 +1236,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'auth.totp.invalidCode': 'รหัสนี้ไม่ถูกต้อง ลองอีกครั้ง',
     'settings.account.totp.title': 'การยืนยันตัวตนสองขั้นตอน',
     'settings.account.totp.description': 'ต้องใช้รหัสตามเวลาจากแอปยืนยันตัวตนนอกเหนือจากรหัสผ่าน',
-    'settings.account.totp.enabled': 'เปิดอยู่',
-    'settings.account.totp.disabled': 'ปิดอยู่',
     'settings.account.totp.required': 'นโยบายบังคับใช้',
     'settings.account.totp.disable': 'ปิด',
     'settings.account.totp.enableTitle': 'ตั้งค่าการยืนยันตัวตนสองขั้นตอน',
@@ -1338,8 +1298,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'İki adımlı doğrulama',
     'settings.account.totp.description':
       'Şifrenize ek olarak bir kimlik doğrulama uygulamasından zamana dayalı kod iste.',
-    'settings.account.totp.enabled': 'Etkin',
-    'settings.account.totp.disabled': 'Devre dışı',
     'settings.account.totp.required': 'İlke gereği zorunlu',
     'settings.account.totp.disable': 'Devre dışı bırak',
     'settings.account.totp.enableTitle': 'İki adımlı doğrulamayı kur',
@@ -1403,8 +1361,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Двофакторна автентифікація',
     'settings.account.totp.description':
       'Вимагати, окрім пароля, одноразовий код із застосунку-автентифікатора.',
-    'settings.account.totp.enabled': 'Увімкнено',
-    'settings.account.totp.disabled': 'Вимкнено',
     'settings.account.totp.required': 'Вимагається політикою',
     'settings.account.totp.disable': 'Вимкнути',
     'settings.account.totp.enableTitle': 'Налаштування двофакторної автентифікації',
@@ -1469,8 +1425,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'settings.account.totp.title': 'Xác thực hai yếu tố',
     'settings.account.totp.description':
       'Yêu cầu mã theo thời gian từ ứng dụng xác thực ngoài mật khẩu.',
-    'settings.account.totp.enabled': 'Đã bật',
-    'settings.account.totp.disabled': 'Đã tắt',
     'settings.account.totp.required': 'Bắt buộc theo chính sách',
     'settings.account.totp.disable': 'Tắt',
     'settings.account.totp.enableTitle': 'Thiết lập xác thực hai yếu tố',
@@ -1532,8 +1486,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'auth.totp.invalidCode': '该验证码无效，请重试。',
     'settings.account.totp.title': '两步验证',
     'settings.account.totp.description': '除密码外，还需要验证器应用生成的基于时间的验证码。',
-    'settings.account.totp.enabled': '已启用',
-    'settings.account.totp.disabled': '已停用',
     'settings.account.totp.required': '策略要求',
     'settings.account.totp.disable': '停用',
     'settings.account.totp.enableTitle': '设置两步验证',
@@ -1592,8 +1544,6 @@ export const totpLocalizedExtras: Record<string, TranslationMap> = {
     'auth.totp.invalidCode': '此驗證碼無效，請再試一次。',
     'settings.account.totp.title': '兩步驟驗證',
     'settings.account.totp.description': '除密碼外，還需要驗證器 App 產生的時間型驗證碼。',
-    'settings.account.totp.enabled': '已啟用',
-    'settings.account.totp.disabled': '已停用',
     'settings.account.totp.required': '原則要求',
     'settings.account.totp.disable': '停用',
     'settings.account.totp.enableTitle': '設定兩步驟驗證',

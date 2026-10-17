@@ -24,7 +24,6 @@ const en = {
       placeholderPassword2: 'Please enter password again',
       noEmptyUsername: 'Username required',
       noEmptyPassword: 'Password required',
-      noAccount: 'Failed to get user information, please refresh web page or reset password',
       invalidUser: 'Invalid username or password',
       locked: 'Too many logins, please try again later',
       globalLocked: 'System under protection, please try again later',
@@ -172,7 +171,6 @@ const en = {
       title: 'Mouse',
       cursor: 'Cursor style',
       default: 'Default cursor',
-      pointer: 'Pointer cursor',
       cell: 'Cell cursor',
       text: 'Text cursor',
       grab: 'Grab cursor',
@@ -190,15 +188,9 @@ const en = {
       fast: 'Fast',
       slow: 'Slow',
       mobile: {
-        title: 'Mobile pointer',
         touchSync: 'TouchSync',
         touchSyncDesc:
-          'Move anywhere on the KVM area. The remote cursor keeps its position between touches and stays synchronized with absolute HID.',
-        trackpad: 'Trackpad',
-        trackpadDesc:
-          'Move one finger to move the remote pointer. Tap to click, long press or two-finger tap for right click.',
-        direct: 'Direct touch',
-        directDesc: 'Touch the remote screen position directly. Drag to hold the left button.'
+          'Move anywhere on the KVM area. The remote cursor keeps its position between touches and stays synchronized with absolute HID.'
       },
       requestPointer: 'Using relative mode. Please click desktop to get mouse pointer.',
       resetHid: 'Reset HID',
@@ -235,7 +227,6 @@ const en = {
         'Reconnect the USB gadget only if the remote host did not notice the media change. Keyboard and mouse may briefly disconnect.',
       usbReconnectSuccess: 'USB reconnected',
       usbReconnectFailed: 'USB reconnect failed',
-      refresh: 'Refresh the image list',
       attention: 'Attention',
       deleteConfirm: 'Are you sure you want to delete this image?',
       tips: {
@@ -335,7 +326,6 @@ const en = {
       showConfirm: 'Confirmation',
       showConfirmTip: 'Power operations require an extra confirmation',
       reset: 'Reset',
-      power: 'Power',
       powerShort: 'Power button: short click',
       powerLong: 'Power button: long click',
       resetConfirm: 'Proceed reset operation?',
@@ -355,15 +345,9 @@ const en = {
         image: 'Image version',
         imageTip: 'NanoKVM system image version',
         uptime: 'Uptime',
-        deviceKey: 'Device key',
         community: 'Community',
         hostname: 'Hostname',
-        hostnameUpdated: 'Hostname updated. Reboot to apply.',
-        ipType: {
-          Wired: 'Wired',
-          Wireless: 'Wireless',
-          Other: 'Other'
-        }
+        hostnameUpdated: 'Hostname updated. Reboot to apply.'
       },
       appearance: {
         title: 'Appearance',
@@ -491,14 +475,12 @@ const en = {
           apMode: 'AP mode is enabled, connect to Wi-Fi by scanning QR code',
           connect: 'Join Wi-Fi',
           connectDesc1: 'Please enter the network ssid and password',
-          connectDesc2: 'Please enter the password to join this network',
           disconnect: 'Are you sure to disconnect the network?',
           disconnectBtn: 'Disconnect',
           connected: 'Connected',
           ssid: 'Name',
           password: 'Password',
           joinBtn: 'Join',
-          confirmBtn: 'Ok',
           cancelBtn: 'Cancel'
         },
         tls: {
@@ -516,14 +498,11 @@ const en = {
           ipv4Title: 'IPv4',
           ipv4Description: 'Configure IPv4 addressing for the wired interface',
           servers: 'Servers',
-          mode: 'Mode',
           dhcp: 'DHCP',
           manual: 'Manual',
-          save: 'Save',
           apply: 'Apply',
           invalid: 'Please enter a valid IPv4 or IPv6 address',
           invalidNetwork: 'Please enter a valid IPv4 address, subnet mask, and router',
-          noDhcp: 'No DHCP DNS is currently available',
           saved: 'DNS settings saved',
           redirecting: 'Network settings saved. Opening the new address...',
           saveFailed: 'Failed to save DNS settings',
@@ -543,7 +522,6 @@ const en = {
           slaac: 'SLAAC',
           dhcpv6: 'DHCPv6',
           manual: 'Manual',
-          apply: 'Apply',
           interface: 'Interface',
           state: 'State',
           router: 'Router',
@@ -657,7 +635,6 @@ const en = {
         }
       },
       systemLog: {
-        title: 'System log',
         saveFailed: 'Failed to save log settings',
         saved: 'Log settings saved',
         invalidHost: 'Enter a syslog server host',
@@ -841,7 +818,6 @@ const en = {
         confirm: 'Confirm',
         cancel: 'Cancel',
         preview: 'Preview updates',
-        previewDesc: 'Get early access to new features and improvements',
         previewChannels: 'Controls both application and system preview channels',
         previewTip:
           'Please be aware that preview releases may contain bugs or incomplete functionality',
@@ -895,9 +871,7 @@ const en = {
           systemVersion: 'System version',
           baseImage: 'Base image',
           buildrootRelease: 'Buildroot release',
-          base: 'Base',
           kernel: 'Kernel',
-          rootfs: 'Rootfs',
           target: 'Target',
           latestTarget: 'Latest target',
           stagedVersion: 'Staged version',
@@ -1063,8 +1037,7 @@ const en = {
       toggle: 'Toggle Fullscreen'
     },
     menu: {
-      collapse: 'Collapse Menu',
-      expand: 'Expand Menu'
+      collapse: 'Collapse Menu'
     }
   }
 };

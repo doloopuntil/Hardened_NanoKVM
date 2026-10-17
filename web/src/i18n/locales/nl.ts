@@ -23,8 +23,6 @@ const nl = {
       placeholderPassword2: 'Voer wachtwoord nogmaals in',
       noEmptyUsername: 'Gebruikersnaam mag niet leeg zijn',
       noEmptyPassword: 'Wachtwoord mag niet leeg zijn',
-      noAccount:
-        'Ophalen van gebruikersinformatie mislukt, vernieuw de webpagina of reset het wachtwoord',
       invalidUser: 'Ongeldige gebruikersnaam of wachtwoord',
       locked: 'Te veel aanmeldingen, probeer het later opnieuw',
       globalLocked: 'Systeem wordt beveiligd. Probeer het later opnieuw',
@@ -140,7 +138,6 @@ const nl = {
       title: 'Muis',
       cursor: 'Cursorstijl',
       default: 'Standaard cursor',
-      pointer: 'Aanwijzer cursor',
       cell: 'Cel cursor',
       text: 'Tekst cursor',
       grab: 'Grijp cursor',
@@ -179,7 +176,6 @@ const nl = {
       forceEject: 'Uitwerpen forceren',
       forceEjectConfirm:
         'De host heeft het optische station vergrendeld. Bij geforceerd uitwerpen wordt het virtuele USB-apparaat even losgekoppeld, waardoor het toetsenbord en de muis kort kunnen worden losgekoppeld. Doorgaan?',
-      refresh: 'Vernieuw de afbeeldingenlijst',
       attention: 'Let op',
       deleteConfirm: 'Weet u zeker dat u deze afbeelding wilt verwijderen?',
       tips: {
@@ -254,7 +250,6 @@ const nl = {
       showConfirm: 'Bevestiging',
       showConfirmTip: 'Stroombedieningen vereisen een extra bevestiging',
       reset: 'Resetten',
-      power: 'Aan/uit',
       resetConfirm: 'Doorgaan met resetten?',
       powerConfirm: 'Doorgaan met stroomvoorziening?',
       okBtn: 'Ja',
@@ -271,15 +266,10 @@ const nl = {
         applicationTip: 'Versie van de NanoKVM-webapplicatie',
         image: 'Image versie',
         imageTip: 'Versie van de NanoKVM-systeemimage',
-        deviceKey: 'Apparaat sleutel',
         community: 'Community',
         hostname: 'Hostnaam',
         hostnameUpdated: 'Hostnaam bijgewerkt. Start opnieuw op om toe te passen.',
-        ipType: {
-          Wired: 'Bedraad',
-          Wireless: 'Draadloos',
-          Other: 'Anders'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Uiterlijk',
@@ -360,11 +350,9 @@ const nl = {
           apMode: 'AP-modus is ingeschakeld, maak verbinding met Wi-Fi door de QR-code te scannen',
           connect: 'Wi-Fi verbinden',
           connectDesc1: 'Voer de netwerk-SSID en het wachtwoord in',
-          connectDesc2: 'Voer het wachtwoord in om met dit netwerk te verbinden',
           ssid: 'Naam',
           password: 'Wachtwoord',
           joinBtn: 'Verbinden',
-          confirmBtn: 'OK',
           cancelBtn: 'Annuleren'
         },
         tls: {
@@ -375,14 +363,11 @@ const nl = {
           description: 'Configureer DNS-servers voor NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Configureer IPv4-adressering voor de bekabelde interface',
-          mode: 'Modus',
           dhcp: 'DHCP',
           manual: 'Handmatig',
-          save: 'Opslaan',
           apply: 'Toepassen',
           invalid: 'Voer een geldig IPv4- of IPv6-adres in',
           invalidNetwork: 'Voer een geldig IPv4-adres, subnetmasker en router in',
-          noDhcp: 'Er is momenteel geen DHCP-DNS beschikbaar',
           saved: 'DNS-instellingen opgeslagen',
           redirecting: 'Netwerkinstellingen opgeslagen. Nieuw adres wordt geopend...',
           saveFailed: 'DNS-instellingen opslaan mislukt',
@@ -442,7 +427,6 @@ const nl = {
         confirm: 'Bevestigen',
         cancel: 'Annuleren',
         preview: 'Preview-updates',
-        previewDesc: 'Krijg vroegtijdig toegang tot nieuwe functies en verbeteringen',
         offline: {
           title: 'Offline-updates',
           desc: 'Update via lokaal installatiepakket',
@@ -587,8 +571,7 @@ const nl = {
       toggle: 'Volledig scherm schakelen'
     },
     menu: {
-      collapse: 'Menu samenvouwen',
-      expand: 'Menu uitvouwen'
+      collapse: 'Menu samenvouwen'
     }
   }
 };

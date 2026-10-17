@@ -23,8 +23,6 @@ const fr = {
       placeholderPassword2: 'Veuillez entrer votre mot de passe à nouveau',
       noEmptyUsername: "Le nom d'utilisateur ne peut pas être vide",
       noEmptyPassword: 'Le mot de passe ne peut pas être vide',
-      noAccount:
-        "Impossible de récupérer les informations de l'utilisateur, veuillez rafraîchir la page ou réinitialiser le mot de passe",
       invalidUser: "Nom d'utilisateur ou mot de passe invalide",
       locked: 'Trop de connexions, veuillez réessayer plus tard',
       globalLocked: 'Système sous protection, veuillez réessayer plus tard',
@@ -140,7 +138,6 @@ const fr = {
       title: 'Souris',
       cursor: 'Style de curseur',
       default: 'Curseur par défaut',
-      pointer: 'Curseur de la souris',
       cell: 'Curseur de cellule',
       text: 'Curseur de texte',
       hide: 'Cacher le curseur',
@@ -177,7 +174,6 @@ const fr = {
       forceEject: "Forcer l'éjection",
       forceEjectConfirm:
         "L'hôte a verrouillé le lecteur optique. Forcer l'éjection déconnecte brièvement le périphérique USB virtuel, de sorte que le clavier et la souris peuvent se déconnecter momentanément. Continuer ?",
-      refresh: 'Actualiser la liste des images',
       attention: 'Attention',
       deleteConfirm: 'Etes-vous sûr de vouloir supprimer cette image?',
       tips: {
@@ -263,15 +259,10 @@ const fr = {
         applicationTip: "Version de l'application Web NanoKVM",
         image: "Version de l'image",
         imageTip: "Version de l'image système NanoKVM",
-        deviceKey: "Clé de l'appareil",
         community: 'Communauté',
         hostname: "Nom d'hôte",
         hostnameUpdated: "Nom d'hôte mis à jour. Redémarrez pour appliquer.",
-        ipType: {
-          Wired: 'Filaire',
-          Wireless: 'Sans fil',
-          Other: 'Autre'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Apparence',
@@ -353,12 +344,10 @@ const fr = {
           apMode: 'Le mode AP est activé, connectez-vous au Wi-Fi en scannant le code QR',
           connect: 'Connecter le Wi-Fi',
           connectDesc1: 'Veuillez saisir le SSID du réseau et le mot de passe',
-          connectDesc2: 'Veuillez saisir le mot de passe pour rejoindre ce réseau',
           disconnect: 'Voulez-vous vraiment déconnecter le réseau ?',
           ssid: 'Nom',
           password: 'Mot de passe',
           joinBtn: 'Rejoindre',
-          confirmBtn: 'OK',
           cancelBtn: 'Annuler'
         },
         tls: {
@@ -369,15 +358,12 @@ const fr = {
           description: 'Configurer les serveurs DNS pour NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: "Configurer l'adressage IPv4 pour l'interface filaire",
-          mode: 'Mode',
           dhcp: 'DHCP',
           manual: 'Manuel',
-          save: 'Enregistrer',
           apply: 'Appliquer',
           invalid: 'Veuillez saisir une adresse IPv4 ou IPv6 valide',
           invalidNetwork:
             'Veuillez saisir une adresse IPv4, un masque de sous-réseau et un routeur valides',
-          noDhcp: "Aucun DNS DHCP n'est actuellement disponible",
           saved: 'Paramètres DNS enregistrés',
           redirecting: 'Paramètres réseau enregistrés. Ouverture de la nouvelle adresse...',
           saveFailed: "Échec de l'enregistrement des paramètres DNS",
@@ -436,8 +422,6 @@ const fr = {
         confirm: 'Confirmer',
         cancel: 'Annuler',
         preview: 'Aperçu des mises à jour',
-        previewDesc:
-          "Bénéficiez d'un accès anticipé aux nouvelles fonctionnalités et améliorations",
         offline: {
           title: 'Mises à jour hors ligne',
           desc: "Mise à jour via le package d'installation local",
@@ -583,8 +567,7 @@ const fr = {
       toggle: 'Basculer vers le plein écran'
     },
     menu: {
-      collapse: 'Réduire le menu',
-      expand: 'Développer le menu'
+      collapse: 'Réduire le menu'
     }
   }
 };

@@ -18,8 +18,6 @@ const id = {
     },
     auth: {
       login: 'Masuk',
-      noAccount:
-        'Gagal mendapatkan informasi user, silahkan segarkan halaman atau atur ulang sandi',
       locked: 'Terlalu banyak login, silakan coba lagi nanti',
       globalLocked: 'Sistem dalam perlindungan, silakan coba lagi nanti',
       changePassword: 'Ganti Sandi',
@@ -128,7 +126,6 @@ const id = {
     mouse: {
       cursor: 'Gaya kursor',
       default: 'Kursor bawaan',
-      pointer: 'Kursor penunjuk',
       cell: 'Kursor cell',
       text: 'Kursor teks',
       grab: 'Kursor ambil',
@@ -164,7 +161,6 @@ const id = {
       forceEject: 'Paksa keluarkan',
       forceEjectConfirm:
         'Host telah mengunci drive optik. Memaksa pengeluaran akan memutuskan perangkat USB virtual sesaat, sehingga keyboard dan mouse dapat terputus sebentar. Lanjutkan?',
-      refresh: 'Segarkan daftar gambar',
       attention: 'Perhatian',
       deleteConfirm: 'Apakah Anda yakin ingin menghapus gambar ini?',
       tips: {
@@ -235,7 +231,6 @@ const id = {
       title: 'Daya',
       showConfirm: 'Konfirmasi',
       showConfirmTip: 'Pengoperasian listrik memerlukan konfirmasi tambahan',
-      power: 'Daya',
       resetConfirm: 'Lanjutkan operasi penyetelan ulang?',
       powerConfirm: 'Lanjutkan pengoperasian listrik?',
       okBtn: 'Ya',
@@ -252,15 +247,10 @@ const id = {
         applicationTip: 'Versi aplikasi web NanoKVM',
         image: 'Version Gambar',
         imageTip: 'Versi image sistem NanoKVM',
-        deviceKey: 'Kunci Perangkat',
         community: 'Komunitas',
         hostname: 'Nama Host',
         hostnameUpdated: 'Nama host diperbarui. Nyalakan ulang untuk menerapkan.',
-        ipType: {
-          Wired: 'Berkabel',
-          Wireless: 'Nirkabel',
-          Other: 'Lainnya'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Tampilan',
@@ -341,12 +331,10 @@ const id = {
           apMode: 'Mode AP aktif, sambungkan ke Wi-Fi dengan memindai kode QR',
           connect: 'Hubungkan Wi-Fi',
           connectDesc1: 'Masukkan SSID jaringan dan kata sandi',
-          connectDesc2: 'Masukkan kata sandi untuk bergabung ke jaringan ini',
           disconnect: 'Yakin ingin memutuskan jaringan?',
           ssid: 'Nama',
           password: 'Kata sandi',
           joinBtn: 'Gabung',
-          confirmBtn: 'OK',
           cancelBtn: 'Batal'
         },
         tls: {
@@ -357,14 +345,11 @@ const id = {
           description: 'Konfigurasi server DNS untuk NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Konfigurasikan pengalamatan IPv4 untuk antarmuka kabel',
-          mode: 'Mode',
           dhcp: 'DHCP',
           manual: 'Manual',
-          save: 'Simpan',
           apply: 'Terapkan',
           invalid: 'Masukkan alamat IPv4 atau IPv6 yang valid',
           invalidNetwork: 'Masukkan alamat IPv4, subnet mask, dan router yang valid',
-          noDhcp: 'DNS DHCP saat ini tidak tersedia',
           saved: 'Pengaturan DNS disimpan',
           redirecting: 'Pengaturan jaringan disimpan. Membuka alamat baru...',
           saveFailed: 'Gagal menyimpan pengaturan DNS',
@@ -419,7 +404,6 @@ const id = {
         confirm: 'Konfirmasi',
         cancel: 'Batalkan',
         preview: 'Pratinjau Pembaruan',
-        previewDesc: 'Dapatkan akses awal ke fitur dan peningkatan baru',
         offline: {
           title: 'Pembaruan Offline',
           desc: 'Perbarui melalui paket instalasi lokal',
@@ -564,8 +548,7 @@ const id = {
       toggle: 'Beralih Layar Penuh'
     },
     menu: {
-      collapse: 'Tutup Menu',
-      expand: 'Perluas Menu'
+      collapse: 'Tutup Menu'
     }
   }
 };

@@ -18,8 +18,6 @@ const pl = {
     },
     auth: {
       login: 'Logowanie',
-      noAccount:
-        'Nie udało się uzyskać informacji o użytkowniku, odśwież stronę lub zresetuj hasło',
       locked: 'Zbyt wiele loginów, spróbuj ponownie później',
       globalLocked: 'System chroniony, spróbuj ponownie później',
       changePassword: 'Zmień Hasło',
@@ -130,7 +128,6 @@ const pl = {
       title: 'Mysz',
       cursor: 'Styl kursora',
       default: 'Domyślny kursor',
-      pointer: 'Wskazujący kursor',
       cell: 'Kursor komórki',
       text: 'Kursor tekstowy',
       grab: 'Kursor chwytania',
@@ -164,7 +161,6 @@ const pl = {
       forceEject: 'Wymuś wysunięcie',
       forceEjectConfirm:
         'Host zablokował napęd optyczny. Wymuszenie wysunięcia na chwilę odłącza wirtualne urządzenie USB, więc klawiatura i mysz mogą na krótko się odłączyć. Kontynuować?',
-      refresh: 'Odśwież listę obrazów',
       attention: 'Uwaga',
       tips: {
         title: 'Jak przesłać obrazy',
@@ -235,7 +231,6 @@ const pl = {
       showConfirm: 'Potwierdzenie',
       showConfirmTip: 'Operacje zasilania wymagają dodatkowego potwierdzenia',
       reset: 'Resetuj',
-      power: 'Zasilanie',
       resetConfirm: 'Kontynuować operację resetowania?',
       okBtn: 'Tak',
       cancelBtn: 'Nie'
@@ -251,15 +246,10 @@ const pl = {
         applicationTip: 'Wersja aplikacji web NanoKVM',
         image: 'Wersja obrazu',
         imageTip: 'Wersja obrazu systemu NanoKVM',
-        deviceKey: 'Klucz urządzenia',
         community: 'Społeczność',
         hostname: 'Nazwa hosta',
         hostnameUpdated: 'Zaktualizowano nazwę hosta. Uruchom ponownie, aby zastosować.',
-        ipType: {
-          Wired: 'Przewodowy',
-          Wireless: 'Bezprzewodowe',
-          Other: 'Inne'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Wygląd',
@@ -340,12 +330,10 @@ const pl = {
           apMode: 'Tryb AP jest włączony, połącz z Wi-Fi skanując kod QR',
           connect: 'Połącz Wi-Fi',
           connectDesc1: 'Wprowadź SSID sieci i hasło',
-          connectDesc2: 'Wprowadź hasło, aby połączyć się z tą siecią',
           disconnect: 'Czy na pewno chcesz rozłączyć sieć?',
           ssid: 'Nazwa',
           password: 'Hasło',
           joinBtn: 'Połącz',
-          confirmBtn: 'OK',
           cancelBtn: 'Anuluj'
         },
         tls: {
@@ -356,14 +344,11 @@ const pl = {
           description: 'Skonfiguruj serwery DNS dla NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Skonfiguruj adresację IPv4 dla interfejsu przewodowego',
-          mode: 'Tryb',
           dhcp: 'DHCP',
           manual: 'Ręcznie',
-          save: 'Zapisz',
           apply: 'Zastosuj',
           invalid: 'Wprowadź prawidłowy adres IPv4 lub IPv6',
           invalidNetwork: 'Wprowadź prawidłowy adres IPv4, maskę podsieci i router',
-          noDhcp: 'Brak obecnie dostępnego DNS z DHCP',
           saved: 'Ustawienia DNS zapisane',
           redirecting: 'Ustawienia sieci zapisane. Otwieranie nowego adresu...',
           saveFailed: 'Nie udało się zapisać ustawień DNS',
@@ -419,7 +404,6 @@ const pl = {
         confirm: 'Potwierdź',
         cancel: 'Anuluj',
         preview: 'Podgląd aktualizacji',
-        previewDesc: 'Uzyskaj wcześniejszy dostęp do nowych funkcji i ulepszeń',
         offline: {
           title: 'Aktualizacje offline',
           desc: 'Aktualizacja poprzez lokalny pakiet instalacyjny',
@@ -563,8 +547,7 @@ const pl = {
       toggle: 'Przełącz tryb pełnoekranowy'
     },
     menu: {
-      collapse: 'Zwiń menu',
-      expand: 'Rozwiń Menu'
+      collapse: 'Zwiń menu'
     }
   }
 };

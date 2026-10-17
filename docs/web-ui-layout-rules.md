@@ -15,7 +15,10 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 2. A page is a column of titled sections with the same faded hairline between
    them. A section is `SettingSection`: a grey sentence-case title
    (`text-neutral-400`), then its rows 24px apart.
-3. No frames, cards or bordered boxes, and no result panels with icons.
+3. No frames, cards or bordered boxes, and no result panels with icons. The
+   exceptions are the viewers of text that comes from the system (the System
+   log and the Current rules of the firewall, a dark box with monospace text)
+   and the firewall mode tiles.
 4. Read-only lines (`InfoRow`) are grouped in a `space-y-3` column. A row is at
    least 32px tall, so a line keeps its height whether it is read-only or
    editable.
@@ -30,6 +33,8 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
    phone), `InfoRow` (value grey and right-aligned; it may carry a caption),
    `EditableInfoRow` (the same row with an input) and `SettingSection`.
 7. Values are right-aligned, including the text inside inputs and tag fields.
+   Every field has a caption except the editable address fields of Network
+   (IP address, subnet mask, router, prefix), whose meaning is well understood.
 8. Inputs are sized to their content with standard Tailwind widths (`w-20`,
    `w-24`, `sm:w-36`, `sm:w-72`). The one accepted exception is the WireGuard
    public key. A unit is a fixed label beside the box (`Space.Compact` with
@@ -83,7 +88,8 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 22. Sentence case everywhere: labels, buttons, section titles and tab names.
     Only real names keep capitals: Tailscale, WireGuard, the firewall modes
     (Baseline, Moderate, Restricted, Paranoid), the key names Num Lock, Caps
-    Lock and Scroll Lock, and "HID-Only mode".
+    Lock and Scroll Lock, and "HID-Only mode". Protocol and file names (HDMI, SSH,
+    mDNS, HTTPS, Changelog) stay as they are in every language.
 23. Every text starts with a capital letter, with no parentheses and no "!".
     Captions, tooltips, toasts and field errors are one sentence without a
     final full stop. Dialogs, banners and step lists stay multi-sentence with
@@ -125,15 +131,9 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 - Check the page at desktop width and at 375px: title and hairline position,
   rows wrapping, buttons wrapping to the right, long values.
 
-## Open deviations (audit of 2026-10-17)
+## Open deviations
 
-What the pages still do against the rules above. Remove an entry when it is
-fixed or turned into an accepted exception.
-
-- **Captions:** the editable Network fields are bare on purpose for now.
-- **Boxed content:** the log viewers (`pre` on `bg-black/50`) and the firewall
-  mode tiles are boxes on purpose; confirm them as exceptions.
-- **Dead code and strings:** the standalone `showTitle` and `showFooter` paths
-  and the Apply footers in Network and Logging, the unused strings
-  `update.previewDesc`, `update.system.base` and `update.system.rootfs`, and
-  the hard-coded English "Changelog" and "HDMI".
+None at the moment. The audit of 2026-10-17 found fifteen; they were fixed or
+turned into the exceptions named in the rules above. List here what a page
+still does against the rules, and remove the entry when it is fixed or turned
+into an exception.

@@ -23,8 +23,6 @@ const pt_br = {
       placeholderPassword2: 'Por favor, digite a senha novamente',
       noEmptyUsername: 'Nome de usuário é obrigatório',
       noEmptyPassword: 'Senha é obrigatória',
-      noAccount:
-        'Falha ao obter informações do usuário, por favor atualize a página ou redefina a senha',
       invalidUser: 'Nome de usuário ou senha inválidos',
       locked: 'Muitos logins, tente novamente mais tarde',
       globalLocked: 'Sistema sob proteção, tente novamente mais tarde',
@@ -143,7 +141,6 @@ const pt_br = {
       title: 'Mouse',
       cursor: 'Estilo do cursor',
       default: 'Cursor padrão',
-      pointer: 'Cursor de ponteiro',
       cell: 'Cursor de célula',
       text: 'Cursor de texto',
       grab: 'Cursor de arrastar',
@@ -183,7 +180,6 @@ const pt_br = {
       forceEject: 'Forçar ejeção',
       forceEjectConfirm:
         'O host bloqueou a unidade óptica. Forçar a ejeção desconecta o dispositivo USB virtual por um momento, então o teclado e o mouse podem se desconectar brevemente. Continuar?',
-      refresh: 'Atualizar a lista de imagens',
       attention: 'Atenção',
       deleteConfirm: 'Tem certeza que deseja excluir esta imagem?',
       tips: {
@@ -258,7 +254,6 @@ const pt_br = {
       showConfirm: 'Confirmação',
       showConfirmTip: 'Operações de energia requerem uma confirmação extra',
       reset: 'Redefinir',
-      power: 'Energia',
       resetConfirm: 'Prosseguir com a operação de redefinição?',
       powerConfirm: 'Prosseguir com a operação de energia?',
       okBtn: 'Sim',
@@ -275,15 +270,10 @@ const pt_br = {
         applicationTip: 'Versão do aplicativo web NanoKVM',
         image: 'Versão da Imagem',
         imageTip: 'Versão da imagem do sistema NanoKVM',
-        deviceKey: 'Chave do Dispositivo',
         community: 'Comunidade',
         hostname: 'Nome do Host',
         hostnameUpdated: 'Nome do host atualizado. Reinicie para aplicar.',
-        ipType: {
-          Wired: 'Com Fio',
-          Wireless: 'Sem Fio',
-          Other: 'Outro'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Aparência',
@@ -365,12 +355,10 @@ const pt_br = {
           apMode: 'O modo AP está ativado, conecte-se ao Wi-Fi escaneando o QR code',
           connect: 'Conectar Wi-Fi',
           connectDesc1: 'Digite o SSID da rede e a senha',
-          connectDesc2: 'Digite a senha para entrar nesta rede',
           disconnect: 'Tem certeza de que deseja desconectar a rede?',
           ssid: 'Nome',
           password: 'Senha',
           joinBtn: 'Entrar',
-          confirmBtn: 'OK',
           cancelBtn: 'Cancelar'
         },
         tls: {
@@ -381,14 +369,11 @@ const pt_br = {
           description: 'Configurar servidores DNS para o NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Configure o endereçamento IPv4 para a interface cabeada',
-          mode: 'Modo',
           dhcp: 'DHCP',
           manual: 'Manual',
-          save: 'Salvar',
           apply: 'Aplicar',
           invalid: 'Insira um endereço IPv4 ou IPv6 válido',
           invalidNetwork: 'Insira um endereço IPv4, máscara de sub-rede e roteador válidos',
-          noDhcp: 'Nenhum DNS DHCP está disponível no momento',
           saved: 'Configurações de DNS salvas',
           redirecting: 'Configurações de rede salvas. Abrindo o novo endereço...',
           saveFailed: 'Falha ao salvar as configurações de DNS',
@@ -450,7 +435,6 @@ const pt_br = {
         confirm: 'Confirmar',
         cancel: 'Cancelar',
         preview: 'Prévia das Atualizações',
-        previewDesc: 'Tenha acesso antecipado a novos recursos e melhorias',
         offline: {
           title: 'Atualizações off-line',
           desc: 'Atualização através do pacote de instalação local',
@@ -595,8 +579,7 @@ const pt_br = {
       toggle: 'Alternar Tela Cheia'
     },
     menu: {
-      collapse: 'Recolher Menu',
-      expand: 'Expandir Menu'
+      collapse: 'Recolher Menu'
     }
   }
 };

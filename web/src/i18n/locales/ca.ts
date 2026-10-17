@@ -23,8 +23,6 @@ const ca = {
       placeholderPassword2: 'Torna a introduir la contrasenya',
       noEmptyUsername: "Cal introduir el nom d'usuari",
       noEmptyPassword: 'Cal introduir la contrasenya',
-      noAccount:
-        "No s'ha pogut obtenir la informació de l'usuari, actualitza la pàgina web o restableix la contrasenya",
       invalidUser: "Nom d'usuari o contrasenya invàlids",
       locked: 'Massa inicis de sessió, si us plau, torna-ho a provar més tard',
       error: 'Error inesperat',
@@ -128,7 +126,6 @@ const ca = {
       title: 'Ratolí',
       cursor: 'Estil del cursor',
       default: 'Cursor per defecte',
-      pointer: 'Cursor punter',
       cell: 'Cursor de cel·la',
       text: 'Cursor de text',
       grab: 'Cursor de mà',
@@ -161,7 +158,6 @@ const ca = {
       mountFailed: 'Error en muntar',
       unmountFailed: "No s'ha pogut desmuntar",
       forceEject: "Força l'expulsió",
-      refresh: 'Actualitza la llista',
       attention: 'Atenció',
       tips: {
         title: 'Com pujar imatges',
@@ -229,7 +225,6 @@ const ca = {
       showConfirm: 'Confirmació',
       showConfirmTip: "Les operacions d'alimentació requereixen confirmació",
       reset: 'Reinicia',
-      power: 'Encén',
       resetConfirm: 'Vols realment reiniciar?',
       powerConfirm: 'Vols realment encendre/apagar?',
       okBtn: 'Sí',
@@ -246,15 +241,10 @@ const ca = {
         applicationTip: 'Versió de la interfície web de NanoKVM',
         image: 'Versió de la imatge',
         imageTip: 'Versió del sistema NanoKVM',
-        deviceKey: 'Clau del dispositiu',
         community: 'Comunitat',
         hostname: 'Nom del dispositiu',
         hostnameUpdated: 'Nom actualitzat. Reinicia per aplicar.',
-        ipType: {
-          Wired: 'Cablejada',
-          Wireless: 'Sense fil',
-          Other: 'Altra'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Aparença',
@@ -335,12 +325,10 @@ const ca = {
           apMode: "El mode AP està activat; connecta't al Wi-Fi escanejant el codi QR",
           connect: "Connecta't a Wi-Fi",
           connectDesc1: 'Introdueix el SSID i la contrasenya de la xarxa',
-          connectDesc2: 'Introdueix la contrasenya per connectar-te a aquesta xarxa',
           disconnect: 'Segur que vols desconnectar la xarxa?',
           ssid: 'Nom',
           password: 'Contrasenya',
           joinBtn: 'Connecta',
-          confirmBtn: "D'acord",
           cancelBtn: 'Cancel·la'
         },
         tls: {
@@ -351,12 +339,9 @@ const ca = {
           description: 'Configura els servidors DNS per a NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: "Configura l'adreçament IPv4 per a la interfície cablejada",
-          mode: 'Mode',
           dhcp: 'DHCP',
           manual: 'Manual',
-          save: 'Desa',
           apply: 'Aplica',
-          noDhcp: 'No hi ha cap DNS DHCP disponible actualment',
           saved: 'Configuració DNS desada',
           redirecting: 'Configuració de xarxa desada. Obrint la nova adreça...',
           saveFailed: "No s'ha pogut desar la configuració DNS",
@@ -413,7 +398,6 @@ const ca = {
         confirm: 'Confirma',
         cancel: 'Cancel·la',
         preview: 'Versió de prova',
-        previewDesc: 'Prova noves funcions abans que ningú',
         offline: {
           title: 'Actualitzacions fora de línia',
           desc: "Actualització mitjançant el paquet d'instal·lació local",
@@ -548,8 +532,7 @@ const ca = {
       toggle: 'Pantalla completa'
     },
     menu: {
-      collapse: 'Amaga menú',
-      expand: 'Mostra menú'
+      collapse: 'Amaga menú'
     }
   }
 };

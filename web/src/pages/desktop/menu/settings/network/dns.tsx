@@ -1,7 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Divider, Segmented, Select } from 'antd';
-import { CheckIcon } from 'lucide-react';
+import { Divider, Segmented, Select } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/network.ts';
@@ -39,7 +38,6 @@ type NetworkConfig = {
 const maxServers = 6;
 
 type DNSProps = {
-  showFooter?: boolean;
   disabled?: boolean;
   onStatusChange?: (status: NetworkSectionStatus) => void;
 };
@@ -147,7 +145,7 @@ function buildRedirectURL(address: string) {
 }
 
 export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
-  ({ showFooter = true, disabled = false, onStatusChange }, ref) => {
+  ({ disabled = false, onStatusChange }, ref) => {
     const { t } = useTranslation();
 
     // How the IPv4 address is set (DHCP or static) and where the DNS servers come from are
@@ -361,7 +359,6 @@ export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
 
     const statusText = error || message || (hasChanges ? t('settings.network.dns.unsaved') : '');
     const statusKind = error ? 'error' : message ? 'success' : hasChanges ? 'warning' : '';
-    const statusColor = error ? 'text-red-400' : message ? 'text-green-400' : 'text-yellow-400/80';
     const serversDescription =
       dnsMode === 'dhcp'
         ? t('settings.network.dns.dhcpServersDescription')
@@ -600,32 +597,6 @@ export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
             </div>
           </div>
         </div>
-
-        {/* Footer: status + save button */}
-        {showFooter && (hasChanges || statusText) && (
-          <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <span className={`text-xs ${statusColor}`}>{statusText}</span>
-
-            <Button
-              className="w-full sm:w-auto"
-              type={hasChanges ? 'primary' : 'default'}
-              icon={message ? <CheckIcon size={14} /> : undefined}
-              loading={isSaving}
-              disabled={
-                isLoading ||
-                (!hasChanges && !hasInvalidServer && !hasInvalidNetwork) ||
-                hasInvalidServer ||
-                hasInvalidNetwork ||
-                isExceedMax
-              }
-              onClick={() => void save()}
-            >
-              {ipMode === 'manual'
-                ? t('settings.network.dns.apply')
-                : t('settings.network.dns.save')}
-            </Button>
-          </div>
-        )}
       </div>
     );
   }

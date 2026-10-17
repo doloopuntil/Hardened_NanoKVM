@@ -23,7 +23,6 @@ const se = {
       placeholderPassword2: 'Vänligen ange lösenordet igen',
       noEmptyUsername: 'Användarnamn krävs',
       noEmptyPassword: 'Lösenord krävs',
-      noAccount: 'Kunde inte hämta användarinformation, uppdatera sidan eller återställ lösenordet',
       invalidUser: 'Ogiltigt användarnamn eller lösenord',
       locked: 'För många inloggningar, försök igen senare',
       globalLocked: 'System under skydd, försök igen senare',
@@ -141,7 +140,6 @@ const se = {
       title: 'Mus',
       cursor: 'Markörstil',
       default: 'Standardmarkör',
-      pointer: 'Pekmarkör',
       cell: 'Cellmarkör',
       text: 'Textmarkör',
       grab: 'Greppmarkör',
@@ -180,7 +178,6 @@ const se = {
       forceEject: 'Tvinga utmatning',
       forceEjectConfirm:
         'Värden har låst den optiska enheten. Tvingad utmatning kopplar bort den virtuella USB-enheten ett ögonblick, så tangentbordet och musen kan kopplas bort en kort stund. Vill du fortsätta?',
-      refresh: 'Uppdatera avbildningslistan',
       attention: 'Observera',
       deleteConfirm: 'Är du säker på att du vill ta bort denna avbildning?',
       tips: {
@@ -252,7 +249,6 @@ const se = {
       showConfirm: 'Bekräftelse',
       showConfirmTip: 'Strömätgärder kräver extra bekräftelse',
       reset: 'Starta om',
-      power: 'Ström',
       resetConfirm: 'Utföra omstart?',
       powerConfirm: 'Utföra strömåtgärd?',
       okBtn: 'Ja',
@@ -269,15 +265,10 @@ const se = {
         applicationTip: 'NanoKVM webbapplikationsversion',
         image: 'Systemversion',
         imageTip: 'NanoKVM systemavbildningsversion',
-        deviceKey: 'Enhetsnyckel',
         community: 'Community',
         hostname: 'Värdnamn',
         hostnameUpdated: 'Värdnamn uppdaterat. Starta om för att tillämpa.',
-        ipType: {
-          Wired: 'Trådbundet',
-          Wireless: 'Trådlöst',
-          Other: 'Annat'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Utseende',
@@ -360,12 +351,10 @@ const se = {
           apMode: 'AP-läge är aktiverat, anslut till Wi-Fi genom att skanna QR-koden',
           connect: 'Anslut Wi-Fi',
           connectDesc1: 'Ange nätverkets SSID och lösenord',
-          connectDesc2: 'Ange lösenordet för att ansluta till detta nätverk',
           disconnect: 'Är du säker på att du vill koppla från nätverket?',
           ssid: 'Namn',
           password: 'Lösenord',
           joinBtn: 'Anslut',
-          confirmBtn: 'OK',
           cancelBtn: 'Avbryt'
         },
         tls: {
@@ -376,14 +365,11 @@ const se = {
           description: 'Konfigurera DNS-servrar för NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Konfigurera IPv4-adressering för det trådbundna gränssnittet',
-          mode: 'Läge',
           dhcp: 'DHCP',
           manual: 'Manuell',
-          save: 'Spara',
           apply: 'Tillämpa',
           invalid: 'Ange en giltig IPv4- eller IPv6-adress',
           invalidNetwork: 'Ange en giltig IPv4-adress, nätmask och router',
-          noDhcp: 'Ingen DHCP-DNS är tillgänglig just nu',
           saved: 'DNS-inställningar sparade',
           redirecting: 'Nätverksinställningarna har sparats. Öppnar den nya adressen...',
           saveFailed: 'Det gick inte att spara DNS-inställningar',
@@ -444,7 +430,6 @@ const se = {
         confirm: 'Bekräfta',
         cancel: 'Avbryt',
         preview: 'Förhandsvisning av uppdateringar',
-        previewDesc: 'Få tidig tillgång till nya funktioner och förbättringar',
         offline: {
           title: 'Offlineuppdateringar',
           desc: 'Uppdatera genom lokalt installationspaket',
@@ -589,8 +574,7 @@ const se = {
       toggle: 'Växla fullskärm'
     },
     menu: {
-      collapse: 'Fäll ihop menyn',
-      expand: 'Expandera menyn'
+      collapse: 'Fäll ihop menyn'
     }
   }
 };

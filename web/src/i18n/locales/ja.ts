@@ -139,7 +139,6 @@ const ja = {
       title: 'マウス',
       cursor: 'ポインター形状',
       default: 'デフォルトポインター',
-      pointer: 'ポインターカーソル',
       cell: 'セルポインター',
       text: 'テキストカーソル',
       grab: 'つかむポインター',
@@ -177,7 +176,6 @@ const ja = {
       forceEject: '強制的に取り出す',
       forceEjectConfirm:
         'ホストが光学ドライブをロックしています。強制的に取り出すと、仮想 USB デバイスが一時的に切断されるため、キーボードとマウスも一時的に切断される場合があります。続行しますか？',
-      refresh: 'イメージリストを更新',
       attention: '注意',
       deleteConfirm: 'このイメージを削除してもよろしいですか？',
       tips: {
@@ -251,7 +249,6 @@ const ja = {
       showConfirm: '確認メッセージ',
       showConfirmTip: '電源操作の確認メッセージを表示する',
       reset: 'リセット',
-      power: '電源',
       resetConfirm: '再起動を実行しますか？',
       powerConfirm: '電源操作を実行しますか？',
       okBtn: 'はい',
@@ -268,15 +265,10 @@ const ja = {
         applicationTip: 'NanoKVM ウェブアプリケーションバージョン',
         image: 'イメージバージョン',
         imageTip: 'NanoKVM システムイメージバージョン',
-        deviceKey: 'デバイスキー',
         community: 'コミュニティ',
         hostname: 'ホスト名',
         hostnameUpdated: 'ホスト名は正常に変更され、再起動後に有効になります',
-        ipType: {
-          Wired: '有線',
-          Wireless: 'ワイヤレス',
-          Other: 'その他'
-        }
+        ipType: {}
       },
       appearance: {
         title: '外観',
@@ -356,12 +348,10 @@ const ja = {
           description: 'Wi-Fi 設定',
           connect: 'Wi-Fi に接続',
           connectDesc1: 'SSID とパスワードを入力してください',
-          connectDesc2: 'このネットワークに接続するためのパスワードを入力してください',
           disconnect: 'このネットワーク接続を切断しますか？',
           ssid: 'SSID',
           password: 'パスワード',
           joinBtn: '接続',
-          confirmBtn: 'OK',
           cancelBtn: 'キャンセル'
         },
         tls: {
@@ -372,14 +362,11 @@ const ja = {
           description: 'NanoKVM の DNS サーバーを設定',
           ipv4Title: 'IPv4',
           ipv4Description: '有線インターフェースの IPv4 アドレスを設定します',
-          mode: 'モード',
           dhcp: 'DHCP',
           manual: '手動',
-          save: '保存',
           apply: '適用',
           invalid: '有効な IPv4 または IPv6 アドレスを入力してください',
           invalidNetwork: '有効な IPv4 アドレス、サブネットマスク、ルーターを入力してください',
-          noDhcp: '現在 DHCP DNS は利用できません',
           saved: 'DNS 設定を保存しました',
           redirecting: 'ネットワーク設定を保存しました。新しいアドレスを開いています...',
           saveFailed: 'DNS 設定の保存に失敗しました',
@@ -442,7 +429,6 @@ const ja = {
         confirm: 'はい',
         cancel: 'いいえ',
         preview: 'プレビューアップデート',
-        previewDesc: '新機能や改善をいち早く体験する',
         offline: {
           title: 'オフラインアップデート',
           desc: 'ローカルインストールパッケージでアップデートする',
@@ -588,8 +574,7 @@ const ja = {
       toggle: '全画面表示切り替え'
     },
     menu: {
-      collapse: 'メニューを折りたたむ',
-      expand: 'メニューを展開する'
+      collapse: 'メニューを折りたたむ'
     }
   }
 };

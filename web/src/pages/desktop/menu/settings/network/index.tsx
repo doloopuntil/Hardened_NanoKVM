@@ -1,6 +1,5 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { Button, Divider } from 'antd';
-import { CheckIcon, SaveIcon } from 'lucide-react';
+import { Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import { SettingSection } from '@/components/setting-rows.tsx';
@@ -14,12 +13,11 @@ import { idleNetworkSectionStatus } from './types.ts';
 import { Wifi } from './wifi.tsx';
 
 type NetworkProps = {
-  showTitle?: boolean;
   onActionStateChange?: (state: SystemActionState) => void;
 };
 
 export const Network = forwardRef<SystemActionHandle, NetworkProps>(
-  ({ showTitle = true, onActionStateChange }, ref) => {
+  ({ onActionStateChange }, ref) => {
     const { t } = useTranslation();
     const dnsRef = useRef<NetworkSectionHandle>(null);
     const ipv6Ref = useRef<NetworkSectionHandle>(null);
@@ -56,13 +54,6 @@ export const Network = forwardRef<SystemActionHandle, NetworkProps>(
       statuses.find((item) => item.statusKind === 'success' && item.statusText) ||
       statuses.find((item) => item.statusKind === 'warning' && item.statusText);
     const statusText = status?.statusText || (hasPending ? t('settings.network.dns.unsaved') : '');
-    const statusColor =
-      status?.statusKind === 'error'
-        ? 'text-red-400'
-        : status?.statusKind === 'success'
-          ? 'text-green-400'
-          : 'text-yellow-400/80';
-
     useImperativeHandle(ref, () => ({ save: applyNetwork }), [applyNetwork]);
 
     useEffect(() => {
@@ -88,13 +79,6 @@ export const Network = forwardRef<SystemActionHandle, NetworkProps>(
 
     return (
       <>
-        {showTitle && (
-          <>
-            <div className="text-base">{t('settings.network.title')}</div>
-            <Divider className="opacity-50" />
-          </>
-        )}
-
         <div className="flex flex-col space-y-6">
           <SettingSection title={t('settings.network.connection')}>
             <Tls />
@@ -103,41 +87,9 @@ export const Network = forwardRef<SystemActionHandle, NetworkProps>(
 
           <Divider className="opacity-50" />
 
-          <DNS
-            ref={dnsRef}
-            showFooter={false}
-            disabled={isApplying}
-            onStatusChange={setDNSStatus}
-          />
+          <DNS ref={dnsRef} disabled={isApplying} onStatusChange={setDNSStatus} />
           <Divider className="opacity-50" />
-          <IPv6
-            ref={ipv6Ref}
-            showFooter={false}
-            disabled={isApplying}
-            onStatusChange={setIPv6Status}
-          />
-
-          {!onActionStateChange && (hasPending || statusText) && (
-            <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <span className={`text-xs ${statusColor}`}>{statusText}</span>
-              <Button
-                className="w-full sm:w-auto"
-                type={hasPending ? 'primary' : 'default'}
-                icon={
-                  !hasPending && status?.statusKind === 'success' ? (
-                    <CheckIcon size={14} />
-                  ) : (
-                    <SaveIcon size={14} />
-                  )
-                }
-                loading={isApplying}
-                disabled={!canApply}
-                onClick={() => void applyNetwork()}
-              >
-                {t('settings.network.dns.apply')}
-              </Button>
-            </div>
-          )}
+          <IPv6 ref={ipv6Ref} disabled={isApplying} onStatusChange={setIPv6Status} />
         </div>
       </>
     );
