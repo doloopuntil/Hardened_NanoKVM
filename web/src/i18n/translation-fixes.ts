@@ -190,7 +190,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.mdns.tip':
       "Permet accedir a aquest dispositiu pel seu nom .local. No cal si et connectes per adreça IP o si el teu DNS ja resol el nom d'amfitrió.",
     'settings.tailscale.swap.tip':
-      "Si els problemes persisteixen després d'activar l'optimització de memòria, prova d'activar el fitxer swap.",
+      "Si els problemes persisteixen després d'activar l'optimització de memòria, prova d'activar el fitxer swap",
     'settings.tailscale.notRunning':
       "Tailscale no s'està executant. Si us plau, inicia'l per continuar.",
     'settings.tailscale.uninstallDesc': 'Estàs segur que vols desinstal·lar Tailscale?',
@@ -358,7 +358,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Última versió',
     'settings.update.system.systemVersion': 'Versió del sistema',
     'settings.update.title': 'Actualitzacions del sistema',
-    'settings.account.totp.authenticator': 'Aplicació d’autenticació'
+    'settings.account.totp.authenticator': 'Aplicació d’autenticació',
+    'settings.update.system.stagedDesc':
+      "L'actualització del sistema s'ha descarregat i verificat, ja es pot instal·lar"
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -606,7 +608,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.stopBtn': 'Zastavit',
     'settings.tailscale.swap.title': 'Odkládací soubor',
     'settings.tailscale.swap.tip':
-      'Pokud problémy přetrvávají i po zapnutí optimalizace paměti, zkuste zapnout odkládací soubor.',
+      'Pokud problémy přetrvávají i po zapnutí optimalizace paměti, zkuste zapnout odkládací soubor',
     'settings.tailscale.enableDesc': 'Přistupujte k tomuto KVM přes svou síť Tailscale',
     'settings.tailscale.swap.sizeTip':
       'Tím se velikost souboru nastaví na 256MB; upravit ji můžete v Nastavení > Zařízení',
@@ -616,7 +618,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': 'Verze systému',
     'settings.update.title': 'Aktualizace systému',
     'settings.account.totp.authenticator': 'Ověřovací aplikace',
-    'settings.device.mouseJiggler.title': 'Mouse jiggler'
+    'settings.device.mouseJiggler.title': 'Mouse jiggler',
+    'settings.update.system.stagedDesc':
+      'Aktualizace systému byla stažena a ověřena, můžete ji nainstalovat'
   },
   da: {
     'auth.illegalPassword':
@@ -881,7 +885,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.stopBtn': 'Stop',
     'settings.tailscale.swap.title': 'Swap-fil',
     'settings.tailscale.swap.tip':
-      'Hvis problemerne fortsætter efter aktivering af hukommelsesoptimering, prøv at aktivere swap-filen.',
+      'Hvis problemerne fortsætter efter aktivering af hukommelsesoptimering, prøv at aktivere swap-filen',
     'settings.tailscale.enableDesc': 'Få adgang til denne KVM gennem dit Tailscale-netværk',
     'settings.tailscale.swap.sizeTip':
       'Det sætter filstørrelsen til 256MB; juster den under Indstillinger > Enhed',
@@ -891,7 +895,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': 'Systemversion',
     'settings.update.title': 'Systemopdateringer',
     'settings.account.totp.authenticator': 'Godkendelsesapp',
-    'settings.device.mouseJiggler.title': 'Mus-jiggler'
+    'settings.device.mouseJiggler.title': 'Mus-jiggler',
+    'settings.update.system.stagedDesc':
+      'Systemopdateringen er downloadet og verificeret, du kan installere den nu'
   },
   de: {
     'auth.illegalPassword':
@@ -1177,7 +1183,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Hält den Speicherverbrauch von Tailscale niedrig, was auf einem Gerät mit wenig RAM hilft. Starten Sie Tailscale neu, damit die Änderung wirksam wird.',
     'settings.tailscale.swap.title': 'Swap-Datei',
     'settings.tailscale.swap.tip':
-      'Wenn die Probleme nach der Aktivierung der Speicheroptimierung weiterhin bestehen, aktivieren Sie die Swap-Datei.',
+      'Wenn die Probleme nach der Aktivierung der Speicheroptimierung weiterhin bestehen, aktivieren Sie die Swap-Datei',
     'settings.tailscale.enableDesc': 'Greifen Sie über Ihr Tailscale-Netzwerk auf diesen KVM zu',
     'settings.tailscale.swap.sizeTip':
       'Das setzt die Dateigröße auf 256MB; Sie können sie unter Einstellungen > Gerät ändern',
@@ -1188,7 +1194,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Systemupdates',
     'settings.account.totp.authenticator': 'Authenticator-App',
     'settings.account.webAccount': 'Name des Webkontos',
-    'settings.appearance.webTitle': 'Webtitel'
+    'settings.appearance.webTitle': 'Webtitel',
+    'settings.update.system.stagedDesc':
+      'Das Systemupdate wurde heruntergeladen und verifiziert, es kann jetzt installiert werden'
   },
   es: {
     'auth.illegalPassword':
@@ -1446,7 +1454,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Mantiene bajo el uso de memoria de Tailscale, lo que ayuda en un dispositivo con poca RAM. Reinicia Tailscale para que el cambio surta efecto.',
     'settings.tailscale.swap.title': 'Archivo swap',
     'settings.tailscale.swap.tip':
-      'Si los problemas persisten después de activar la optimización de memoria, prueba a activar el archivo swap.',
+      'Si los problemas persisten después de activar la optimización de memoria, prueba a activar el archivo swap',
     'settings.tailscale.enableDesc': 'Accede a este KVM mediante tu red Tailscale',
     'settings.tailscale.swap.sizeTip':
       'Esto establece su tamaño en 256 MB; ajústalo en Ajustes > Dispositivo',
@@ -1459,7 +1467,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.mouseJiggler.title': 'Mouse jiggler',
     'settings.device.disk': 'Disco virtual',
     'settings.device.network': 'Red virtual',
-    'settings.device.swap.title': 'Memoria swap'
+    'settings.device.swap.title': 'Memoria swap',
+    'settings.update.system.stagedDesc':
+      'La actualización del sistema se descargó y verificó, ya puedes instalarla'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1709,7 +1719,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Hoiab Tailscale’i mälukasutuse väikesena, mis aitab vähese RAM-iga seadmes. Muudatuse jõustumiseks taaskäivita Tailscale.',
     'settings.tailscale.swap.title': 'Swap-fail',
     'settings.tailscale.swap.tip':
-      'Kui probleemid jätkuvad pärast mälu optimeerimise lubamist, proovi lubada swap-fail.',
+      'Kui probleemid jätkuvad pärast mälu optimeerimise lubamist, proovi lubada swap-fail',
     'settings.tailscale.enableDesc': 'Pääse sellele KVM-ile ligi oma Tailscale’i võrgu kaudu',
     'settings.tailscale.swap.sizeTip':
       'See määrab faili suuruseks 256 MB; seda saab muuta menüüs Seaded > Seade',
@@ -1719,7 +1729,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.notInstall': 'Tailscale puudub, palun paigalda',
     'settings.update.system.systemVersion': 'Süsteemi versioon',
     'settings.update.title': 'Süsteemiuuendused',
-    'settings.account.totp.authenticator': 'Autentimisrakendus'
+    'settings.account.totp.authenticator': 'Autentimisrakendus',
+    'settings.update.system.stagedDesc':
+      'Süsteemiuuendus on alla laaditud ja kontrollitud, nüüd saab selle paigaldada'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1967,7 +1979,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Pitää Tailscalen muistinkäytön alhaisena, mikä auttaa laitteella, jossa on vähän RAM-muistia. Käynnistä Tailscale uudelleen, jotta muutos tulee voimaan.',
     'settings.tailscale.swap.title': 'Swap-tiedosto',
     'settings.tailscale.swap.tip':
-      'Jos ongelmat jatkuvat muistin optimoinnin jälkeen, kokeile ottaa swap-tiedosto käyttöön.',
+      'Jos ongelmat jatkuvat muistin optimoinnin jälkeen, kokeile ottaa swap-tiedosto käyttöön',
     'settings.tailscale.enableDesc': 'Ota yhteys tähän KVM-laitteeseen Tailscale-verkkosi kautta',
     'settings.tailscale.swap.sizeTip':
       'Tämä asettaa tiedoston kooksi 256 Mt; voit muuttaa sitä kohdassa Asetukset > Laite',
@@ -1977,7 +1989,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.notInstall': 'Tailscalea ei löytynyt, asenna se',
     'settings.update.system.systemVersion': 'Järjestelmän versio',
     'settings.update.title': 'Järjestelmäpäivitykset',
-    'settings.account.totp.authenticator': 'Todennussovellus'
+    'settings.account.totp.authenticator': 'Todennussovellus',
+    'settings.update.system.stagedDesc':
+      'Järjestelmäpäivitys on ladattu ja varmennettu, voit asentaa sen nyt'
   },
   fr: {
     'auth.illegalPassword':
@@ -2242,7 +2256,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Maintient l’utilisation de la mémoire de Tailscale à un faible niveau, ce qui aide sur un appareil disposant de peu de RAM. Redémarrez Tailscale pour que le changement prenne effet.',
     'settings.tailscale.swap.title': 'Fichier d’échange',
     'settings.tailscale.swap.tip':
-      'Si les problèmes persistent après l’activation de l’optimisation de la mémoire, essayez d’activer le fichier d’échange.',
+      'Si les problèmes persistent après l’activation de l’optimisation de la mémoire, essayez d’activer le fichier d’échange',
     'settings.tailscale.enableDesc': 'Accédez à ce KVM par votre réseau Tailscale',
     'settings.tailscale.swap.sizeTip':
       'Cela définit sa taille sur 256MB ; ajustez-la dans Paramètres > Appareil',
@@ -2252,7 +2266,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': 'Version du système',
     'settings.update.title': 'Mises à jour du système',
     'settings.account.totp.authenticator': 'Application d’authentification',
-    'settings.appearance.webTitle': 'Titre web'
+    'settings.appearance.webTitle': 'Titre web',
+    'settings.update.system.stagedDesc':
+      'La mise à jour du système a été téléchargée et vérifiée, vous pouvez l’installer'
   },
   hu: {
     'auth.illegalPassword':
@@ -2518,7 +2534,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.stopBtn': 'Leállítás',
     'settings.tailscale.swap.title': 'Swap fájl',
     'settings.tailscale.swap.tip':
-      'Ha a memóriaoptimalizálás engedélyezése után is fennállnak a problémák, próbálja meg engedélyezni a swap fájlt.',
+      'Ha a memóriaoptimalizálás engedélyezése után is fennállnak a problémák, próbálja meg engedélyezni a swap fájlt',
     'settings.tailscale.enableDesc': 'Érje el ezt a KVM-et a Tailscale-hálózatán keresztül',
     'settings.tailscale.swap.sizeTip':
       'Ez a fájl méretét 256MB értékre állítja; a Beállítások > Eszköz menüpontban módosíthatja',
@@ -2528,7 +2544,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': 'Rendszerverzió',
     'settings.update.title': 'Rendszerfrissítések',
     'settings.account.totp.authenticator': 'Hitelesítő alkalmazás',
-    'settings.device.mouseJiggler.title': 'Mouse jiggler'
+    'settings.device.mouseJiggler.title': 'Mouse jiggler',
+    'settings.update.system.stagedDesc':
+      'A rendszerfrissítés letöltve és ellenőrizve, most telepíthető'
   },
   id: {
     'auth.illegalPassword':
@@ -2798,7 +2816,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.deviceIP': 'IP perangkat',
     'settings.tailscale.swap.title': 'File swap',
     'settings.tailscale.swap.tip':
-      'Jika masalah terus berlanjut setelah mengaktifkan pengoptimalan memori, coba aktifkan file swap.',
+      'Jika masalah terus berlanjut setelah mengaktifkan pengoptimalan memori, coba aktifkan file swap',
     'settings.tailscale.enableDesc': 'Akses KVM ini melalui jaringan Tailscale Anda',
     'settings.tailscale.swap.sizeTip':
       'Ini menetapkan ukuran file ke 256MB; sesuaikan di Pengaturan > Perangkat',
@@ -2817,7 +2835,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.appearance.menuBar.mode': 'Mode tampilan',
     'settings.device.mouseJiggler.title': 'Tikus jiggler',
     'settings.device.mouseJiggler.absolute': 'Mode absolut',
-    'settings.device.mouseJiggler.relative': 'Mode relatif'
+    'settings.device.mouseJiggler.relative': 'Mode relatif',
+    'settings.update.system.stagedDesc':
+      'Pembaruan sistem sudah diunduh dan diverifikasi, Anda dapat memasangnya sekarang'
   },
   it: {
     'auth.illegalPassword':
@@ -3080,7 +3100,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.deviceIP': 'IP dispositivo',
     'settings.tailscale.swap.title': 'File di scambio',
     'settings.tailscale.swap.tip':
-      'Se i problemi persistono dopo aver abilitato l’ottimizzazione della memoria, prova ad abilitare il file di scambio.',
+      'Se i problemi persistono dopo aver abilitato l’ottimizzazione della memoria, prova ad abilitare il file di scambio',
     'settings.tailscale.enableDesc': 'Raggiungi questo KVM tramite la tua rete Tailscale',
     'settings.tailscale.swap.sizeTip':
       'Questo imposta la dimensione del file su 256MB; regolala in Impostazioni > Dispositivo',
@@ -3092,7 +3112,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': 'Versione sistema',
     'settings.account.totp.authenticator': 'App di autenticazione',
     'settings.about.image': 'Versione immagine',
-    'settings.about.deviceKey': 'Chiave dispositivo'
+    'settings.about.deviceKey': 'Chiave dispositivo',
+    'settings.update.system.stagedDesc':
+      'L’aggiornamento di sistema è stato scaricato e verificato, ora puoi installarlo'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -3344,7 +3366,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Tailscale のメモリ使用量を低く抑えます。RAM が少ないデバイスで効果的です。変更を反映するには Tailscale を再起動してください。',
     'settings.tailscale.swap.title': 'スワップファイル',
     'settings.tailscale.swap.tip':
-      'メモリ最適化を有効にしても問題が解決しない場合は、スワップファイルを有効にしてみてください。',
+      'メモリ最適化を有効にしても問題が解決しない場合は、スワップファイルを有効にしてみてください',
     'settings.tailscale.enableDesc': 'Tailscale ネットワーク経由でこの KVM にアクセスします',
     'settings.tailscale.swap.sizeTip':
       'ファイルサイズは 256MB に設定されます。サイズは「設定 - デバイス」で変更できます',
@@ -3354,7 +3376,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.notInstall': 'Tailscale が見つかりません、インストールしてください',
     'settings.update.system.systemVersion': 'システムバージョン',
     'settings.update.title': 'システムアップデート',
-    'settings.account.totp.authenticator': '認証アプリ'
+    'settings.account.totp.authenticator': '認証アプリ',
+    'settings.update.system.stagedDesc':
+      'システムアップデートはダウンロードされ検証されました、今すぐインストールできます'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -3604,7 +3628,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Tailscale의 메모리 사용량을 낮게 유지하며, RAM이 적은 장치에서 도움이 됩니다. 변경 사항을 적용하려면 Tailscale을 다시 시작하세요.',
     'settings.tailscale.swap.title': '스왑 파일',
     'settings.tailscale.swap.tip':
-      '메모리 최적화를 활성화한 후에도 문제가 지속되면 스왑 파일을 활성화해 보세요.',
+      '메모리 최적화를 활성화한 후에도 문제가 지속되면 스왑 파일을 활성화해 보세요',
     'settings.tailscale.enableDesc': 'Tailscale 네트워크를 통해 이 KVM에 접속합니다',
     'settings.tailscale.swap.sizeTip':
       '파일 크기가 256MB로 설정되며, 설정 > 기기에서 조정할 수 있습니다',
@@ -3614,7 +3638,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.notInstall': 'Tailscale이 없습니다, 설치해 주세요',
     'settings.update.system.systemVersion': '시스템 버전',
     'settings.update.title': '시스템 업데이트',
-    'settings.account.totp.authenticator': '인증 앱'
+    'settings.account.totp.authenticator': '인증 앱',
+    'settings.update.system.stagedDesc':
+      '시스템 업데이트를 다운로드하고 검증했습니다, 지금 설치할 수 있습니다'
   },
   nb: {
     'auth.illegalPassword':
@@ -3866,7 +3892,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.stopBtn': 'Stopp',
     'settings.tailscale.swap.title': 'Byttefil',
     'settings.tailscale.swap.tip':
-      'Hvis problemene vedvarer etter at du har aktivert minneoptimalisering, prøv å aktivere byttefilen.',
+      'Hvis problemene vedvarer etter at du har aktivert minneoptimalisering, prøv å aktivere byttefilen',
     'settings.tailscale.enableDesc': 'Nå denne KVM-en gjennom ditt Tailscale-nettverk',
     'settings.tailscale.swap.sizeTip':
       'Dette setter filstørrelsen til 256MB; juster den i Innstillinger > Enhet',
@@ -3876,7 +3902,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': 'Systemversjon',
     'settings.update.title': 'Systemoppdateringer',
     'settings.account.totp.authenticator': 'Autentiseringsapp',
-    'settings.device.mouseJiggler.title': 'Mus-jiggler'
+    'settings.device.mouseJiggler.title': 'Mus-jiggler',
+    'settings.update.system.stagedDesc':
+      'Systemoppdateringen er lastet ned og verifisert, du kan installere den nå'
   },
   nl: {
     'auth.illegalPassword':
@@ -4144,7 +4172,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Houdt het geheugengebruik van Tailscale laag, wat helpt op een apparaat met weinig RAM. Start Tailscale opnieuw op om de wijziging door te voeren.',
     'settings.tailscale.swap.title': 'Wisselbestand',
     'settings.tailscale.swap.tip':
-      'Als de problemen aanhouden nadat u geheugenoptimalisatie hebt ingeschakeld, probeer dan het wisselbestand in te schakelen.',
+      'Als de problemen aanhouden nadat u geheugenoptimalisatie hebt ingeschakeld, probeer dan het wisselbestand in te schakelen',
     'settings.tailscale.enableDesc': 'Open deze KVM via uw Tailscale-netwerk',
     'settings.tailscale.swap.sizeTip':
       'Hiermee wordt de bestandsgrootte ingesteld op 256MB; pas deze aan via Instellingen > Apparaat',
@@ -4156,7 +4184,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Systeemupdates',
     'settings.account.totp.authenticator': 'Authenticator-app',
     'settings.account.webAccount': 'Webaccountnaam',
-    'settings.device.network': 'Virtueel netwerk'
+    'settings.device.network': 'Virtueel netwerk',
+    'settings.update.system.stagedDesc':
+      'De systeemupdate is gedownload en geverifieerd, u kunt hem nu installeren'
   },
   pl: {
     'auth.illegalPassword':
@@ -4416,7 +4446,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.stopBtn': 'Zatrzymaj',
     'settings.tailscale.swap.title': 'Plik wymiany',
     'settings.tailscale.swap.tip':
-      'Jeśli po włączeniu optymalizacji pamięci problemy nadal występują, spróbuj włączyć plik wymiany.',
+      'Jeśli po włączeniu optymalizacji pamięci problemy nadal występują, spróbuj włączyć plik wymiany',
     'settings.tailscale.enableDesc': 'Połącz się z tym KVM przez swoją sieć Tailscale',
     'settings.tailscale.swap.sizeTip':
       'Ustawia to rozmiar pliku na 256MB; możesz go zmienić w Ustawienia > Urządzenie',
@@ -4425,7 +4455,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Najnowsza wersja',
     'settings.update.system.systemVersion': 'Wersja systemu',
     'settings.update.title': 'Aktualizacje systemu',
-    'settings.account.totp.authenticator': 'Aplikacja uwierzytelniająca'
+    'settings.account.totp.authenticator': 'Aplikacja uwierzytelniająca',
+    'settings.update.system.stagedDesc':
+      'Aktualizacja systemu została pobrana i zweryfikowana, możesz ją teraz zainstalować'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -4667,7 +4699,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Mantém o uso de memória do Tailscale baixo, o que ajuda em um dispositivo com pouca RAM. Reinicie o Tailscale para que a alteração tenha efeito.',
     'settings.tailscale.swap.title': 'Arquivo de swap',
     'settings.tailscale.swap.tip':
-      'Se os problemas persistirem após ativar a otimização de memória, tente ativar o arquivo de swap.',
+      'Se os problemas persistirem após ativar a otimização de memória, tente ativar o arquivo de swap',
     'settings.tailscale.enableDesc': 'Acesse este KVM pela sua rede Tailscale',
     'settings.tailscale.swap.sizeTip':
       'Isso define o tamanho do arquivo como 256MB; ajuste-o em Configurações > Dispositivo',
@@ -4687,7 +4719,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.mouseJiggler.absolute': 'Modo absoluto',
     'settings.device.mouseJiggler.relative': 'Modo relativo',
     'settings.device.disk': 'Disco virtual',
-    'settings.device.network': 'Rede virtual'
+    'settings.device.network': 'Rede virtual',
+    'settings.update.system.stagedDesc':
+      'A atualização do sistema foi baixada e verificada, você já pode instalá-la'
   },
   ru: {
     'download.disabled':
@@ -4931,7 +4965,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Удерживает потребление памяти Tailscale на низком уровне, что помогает на устройстве с небольшим объёмом ОЗУ. Перезапустите Tailscale, чтобы изменение вступило в силу.',
     'settings.tailscale.swap.title': 'Файл подкачки',
     'settings.tailscale.swap.tip':
-      'Если после включения оптимизации памяти проблемы сохраняются, попробуйте включить файл подкачки.',
+      'Если после включения оптимизации памяти проблемы сохраняются, попробуйте включить файл подкачки',
     'settings.tailscale.enableDesc': 'Подключайтесь к этому KVM через вашу сеть Tailscale',
     'settings.tailscale.swap.sizeTip':
       'Размер файла будет установлен равным 256MB; изменить его можно в Настройки > Устройство',
@@ -4940,7 +4974,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Последняя версия',
     'settings.update.system.systemVersion': 'Версия системы',
     'settings.update.title': 'Обновления системы',
-    'settings.account.totp.authenticator': 'Приложение-аутентификатор'
+    'settings.account.totp.authenticator': 'Приложение-аутентификатор',
+    'settings.update.system.stagedDesc':
+      'Обновление системы загружено и проверено, его можно установить'
   },
   se: {
     'auth.illegalPassword':
@@ -5177,7 +5213,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Håller Tailscales minnesanvändning låg, vilket hjälper på en enhet med lite RAM. Starta om Tailscale för att ändringen ska gälla.',
     'settings.tailscale.swap.title': 'Swap-fil',
     'settings.tailscale.swap.tip':
-      'Om problemen kvarstår efter att du har aktiverat minnesoptimering, försök att aktivera swap-filen.',
+      'Om problemen kvarstår efter att du har aktiverat minnesoptimering, försök att aktivera swap-filen',
     'settings.tailscale.enableDesc': 'Nå den här KVM:en genom ditt Tailscale-nätverk',
     'settings.tailscale.swap.sizeTip':
       'Detta ställer in filstorleken till 256MB; justera den i Inställningar > Enhet',
@@ -5187,7 +5223,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': 'Systemversion',
     'settings.update.title': 'Systemuppdateringar',
     'settings.account.totp.authenticator': 'Autentiseringsapp',
-    'settings.account.webAccount': 'Webbkontonamn'
+    'settings.account.webAccount': 'Webbkontonamn',
+    'settings.update.system.stagedDesc':
+      'Systemuppdateringen har laddats ned och verifierats, du kan installera den nu'
   },
   th: {
     'auth.illegalPassword':
@@ -5668,7 +5706,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       "Tailscale'in bellek kullanımını düşük tutar; bu, RAM'i az olan cihazlarda yardımcı olur. Değişikliğin etkili olması için Tailscale'i yeniden başlatın.",
     'settings.tailscale.swap.title': 'Swap dosyası',
     'settings.tailscale.swap.tip':
-      'Bellek optimizasyonunu etkinleştirdikten sonra sorunlar devam ederse, swap dosyasını etkinleştirmeyi deneyin.',
+      'Bellek optimizasyonunu etkinleştirdikten sonra sorunlar devam ederse, swap dosyasını etkinleştirmeyi deneyin',
     'settings.tailscale.enableDesc': "Bu KVM'ye Tailscale ağınız üzerinden erişin",
     'settings.tailscale.swap.sizeTip':
       'Bu, dosya boyutunu 256MB olarak ayarlar; Ayarlar > Cihaz bölümünden değiştirebilirsiniz',
@@ -5686,7 +5724,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.appearance.menuBar.mode': 'Görüntüleme modu',
     'settings.device.mouseJiggler.title': 'Fare oynatıcı',
     'settings.device.disk': 'Sanal disk',
-    'settings.device.network': 'Sanal ağ'
+    'settings.device.network': 'Sanal ağ',
+    'settings.update.system.stagedDesc':
+      'Sistem güncellemesi indirildi ve doğrulandı, şimdi yükleyebilirsiniz'
   },
   uk: {
     'auth.illegalPassword':
@@ -5946,7 +5986,7 @@ export const translationFixes: Record<string, TranslationMap> = {
       'Утримує споживання пам’яті Tailscale на низькому рівні, що допомагає на пристрої з невеликим обсягом ОЗП. Перезапустіть Tailscale, щоб зміна набула чинності.',
     'settings.tailscale.swap.title': 'Файл підкачки',
     'settings.tailscale.swap.tip':
-      'Якщо проблеми не зникають після ввімкнення оптимізації пам’яті, спробуйте ввімкнути файл підкачки.',
+      'Якщо проблеми не зникають після ввімкнення оптимізації пам’яті, спробуйте ввімкнути файл підкачки',
     'settings.tailscale.enableDesc': 'Підключайтеся до цього KVM через вашу мережу Tailscale',
     'settings.tailscale.swap.sizeTip':
       'Це встановлює розмір файлу 256MB; змінити його можна в Параметри > Пристрій',
@@ -5955,7 +5995,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Остання версія',
     'settings.update.system.systemVersion': 'Версія системи',
     'settings.update.title': 'Оновлення системи',
-    'settings.account.totp.authenticator': 'Застосунок-автентифікатор'
+    'settings.account.totp.authenticator': 'Застосунок-автентифікатор',
+    'settings.update.system.stagedDesc':
+      'Оновлення системи завантажено й перевірено, його можна встановити'
   },
   vi: {
     'auth.illegalPassword':
@@ -6208,7 +6250,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.deviceIP': 'IP thiết bị',
     'settings.tailscale.swap.title': 'Tệp hoán đổi',
     'settings.tailscale.swap.tip':
-      'Nếu sự cố vẫn tiếp diễn sau khi bật tối ưu hóa bộ nhớ, hãy thử bật tệp hoán đổi.',
+      'Nếu sự cố vẫn tiếp diễn sau khi bật tối ưu hóa bộ nhớ, hãy thử bật tệp hoán đổi',
     'settings.tailscale.enableDesc': 'Truy cập KVM này qua mạng Tailscale của bạn',
     'settings.tailscale.swap.sizeTip':
       'Việc này đặt kích thước tệp thành 256MB; có thể điều chỉnh trong Cài đặt > Thiết bị',
@@ -6220,7 +6262,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Cập nhật hệ thống',
     'settings.account.totp.authenticator': 'Ứng dụng xác thực',
     'settings.about.image': 'Phiên bản hình ảnh',
-    'settings.about.deviceKey': 'Khóa thiết bị'
+    'settings.about.deviceKey': 'Khóa thiết bị',
+    'settings.update.system.stagedDesc':
+      'Bản cập nhật hệ thống đã được tải xuống và xác minh, bạn có thể cài đặt ngay'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -6427,7 +6471,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.memory.tip':
       '让 Tailscale 保持较低的内存占用，对 RAM 较小的设备有帮助。重启 Tailscale 后更改才会生效。',
     'settings.tailscale.swap.title': '交换文件',
-    'settings.tailscale.swap.tip': '如果启用内存优化后问题依然存在，可以尝试启用交换文件。',
+    'settings.tailscale.swap.tip': '如果启用内存优化后问题依然存在，可以尝试启用交换文件',
     'settings.tailscale.enableDesc': '通过你的 Tailscale 网络访问此 KVM',
     'settings.tailscale.swap.sizeTip': '这会将文件大小设置为 256MB，可以在「设置 - 设备」中修改',
     'settings.update.application.title': '应用',
@@ -6435,7 +6479,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': '最新版本',
     'settings.update.system.systemVersion': '系统版本',
     'settings.update.title': '系统更新',
-    'settings.account.totp.authenticator': '验证器应用'
+    'settings.account.totp.authenticator': '验证器应用',
+    'settings.update.system.stagedDesc': '系统更新已下载并验证，现在可以安装'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -6646,7 +6691,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.tailscale.memory.tip':
       '讓 Tailscale 保持較低的記憶體用量，對 RAM 較少的裝置有幫助。重啟 Tailscale 後變更才會生效。',
     'settings.tailscale.swap.title': 'Swap 檔',
-    'settings.tailscale.swap.tip': '如果啟用記憶體最佳化後問題依然存在，可以嘗試啟用 Swap 檔。',
+    'settings.tailscale.swap.tip': '如果啟用記憶體最佳化後問題依然存在，可以嘗試啟用 Swap 檔',
     'settings.tailscale.enableDesc': '透過你的 Tailscale 網路存取此 KVM',
     'settings.tailscale.swap.sizeTip': '這會將檔案大小設定為 256MB，可以在「設定 - 裝置」中修改',
     'settings.update.application.title': '應用程式',
@@ -6654,6 +6699,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': '最新版本',
     'settings.update.system.systemVersion': '系統版本',
     'settings.update.title': '系統更新',
-    'settings.account.totp.authenticator': '驗證器 App'
+    'settings.account.totp.authenticator': '驗證器 App',
+    'settings.update.system.stagedDesc': '系統更新已下載並驗證，現在可以安裝'
   }
 };
