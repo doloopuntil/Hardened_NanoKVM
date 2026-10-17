@@ -16,10 +16,11 @@ const statusColors = {
   warning: 'text-yellow-400/80'
 };
 
-// The bar that sticks to the bottom of a settings page while it has changes to save. It reaches
-// across the padding of the settings panel, which is narrower on the desktop layout than on the
-// touch one. The wrapper's solid top padding matches the panel background (the modal colour under
-// its 50% neutral-900 layer), so the bar stays visually apart from the last control.
+// The bar that sticks to the bottom of a settings page while it has changes to save. It is as wide
+// as the content, in the colour of the panel behind it (as the System header), with a hairline
+// above it and a shadow that pushes up from there. The shadow has
+// a negative spread so that it is as wide as the bar and fades out before its sides: the scroll
+// area clips what goes beyond the content width, and a wider shadow would end in a hard edge.
 export const SaveBar = ({
   statusText,
   statusKind = 'warning',
@@ -28,18 +29,16 @@ export const SaveBar = ({
   disabled = false,
   onSave
 }: SaveBarProps) => (
-  <div className="sticky bottom-0 z-10 -mx-3 bg-[#1b1b1b] pt-3 [.settings-modal-mobile_&]:-mx-4">
-    <div className="flex min-w-0 flex-wrap items-center justify-end gap-3 border-t border-neutral-700/70 bg-neutral-900/95 px-3 py-3 [.settings-modal-mobile_&]:px-4">
-      {statusText && (
-        <span className={`min-w-0 text-xs ${statusColors[statusKind || 'warning']}`}>
-          {statusText}
-        </span>
-      )}
-      {onSave && (
-        <Button type="primary" loading={loading} disabled={disabled} onClick={onSave}>
-          {label}
-        </Button>
-      )}
-    </div>
+  <div className="sticky bottom-0 z-10 flex min-w-0 flex-wrap items-center justify-end gap-3 border-0 border-t border-solid border-white/[0.06] bg-settings-panel py-4 shadow-[0_-20px_20px_-20px_rgba(0,0,0,0.5)]">
+    {statusText && (
+      <span className={`min-w-0 text-xs ${statusColors[statusKind || 'warning']}`}>
+        {statusText}
+      </span>
+    )}
+    {onSave && (
+      <Button type="primary" loading={loading} disabled={disabled} onClick={onSave}>
+        {label}
+      </Button>
+    )}
   </div>
 );

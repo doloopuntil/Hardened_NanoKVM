@@ -54,10 +54,10 @@ export const System = () => {
           // The shadow has a negative spread, so it is as wide as the header and fades out before
           // its sides: the scroll area clips whatever goes beyond the content width, and a shadow
           // that reached it would end in a hard edge beside the title and the tabs.
-          'sticky top-0 z-20 mb-6 min-w-0 border-0 border-b border-solid border-white/[0.06] bg-[#1b1b1b] pb-6 shadow-[0_20px_20px_-20px_rgba(0,0,0,0.5)] backdrop-blur',
+          'sticky top-0 z-20 mb-6 min-w-0 border-0 border-b border-solid border-white/[0.06] bg-settings-panel pb-6 shadow-[0_20px_20px_-20px_rgba(0,0,0,0.5)] backdrop-blur',
           // the desktop layout leaves room above the header for its own title bar
           !isTouchLayout &&
-            "before:absolute before:bottom-full before:left-0 before:right-0 before:h-14 before:bg-[#1b1b1b] before:content-[''] sm:top-14",
+            "before:absolute before:bottom-full before:left-0 before:right-0 before:h-14 before:bg-settings-panel before:content-[''] sm:top-14",
           // the touch layout has no cover above; the header takes the page padding as its own, so
           // the title stays where it is at rest and keeps a strip of header colour above it when stuck
           isTouchLayout && '-mt-4 pt-4'

@@ -64,9 +64,13 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     A quick action confirms with a `Popconfirm`; a heavier one with
     `confirm()` from `lib/feedback.ts`.
 16. Unsaved changes show in the sticky `SaveBar` at the bottom, never in the
-    page header. The bar has a 12px gap above it in the panel colour
-    (`#1b1b1b`, the modal colour under its 50% layer) and reaches across the
-    panel padding on both layouts.
+    page header. The bar is as wide as the content, in the panel colour
+    (`bg-settings-panel`) like the System header, with a hairline above it and a
+    shadow that pushes up from there. A shadow needs a
+    negative spread (`-20px`) so that it is as wide as its bar: the scroll area
+    clips whatever goes beyond the width of the content, and a wider shadow ends
+    in a hard edge. The System header uses the same technique, with the shadow
+    pointing down.
 
 ## Status and feedback
 
@@ -122,8 +126,11 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 29. Layout depends on the phone class `settings-modal-mobile` (see
     `assets/styles/index.css`); use
     `[.settings-modal-mobile_&]:` for rules that differ on the touch layout.
-30. The app is dark-only. Colours that cannot come from a Tailwind token, such
-    as the save bar gap, are written as a value with a comment.
+30. The app is dark-only. The colour of the settings panel is the one
+    `settings-panel` colour of `tailwind.config.js` (the modal colour under a 50%
+    layer, as a solid colour), used by the panel itself and by whatever sticks over
+    its content, so that it hides what scrolls under it. Do not write the value
+    again.
 
 ## Adding or changing a page
 
