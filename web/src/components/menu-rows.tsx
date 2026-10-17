@@ -25,13 +25,15 @@ type MenuRowProps = Omit<HTMLAttributes<HTMLDivElement>, 'children'> & {
   icon: ReactNode;
   // an entry that is switched on shows in blue
   active?: boolean;
+  // an entry that destroys something shows in red
+  danger?: boolean;
   disabled?: boolean;
   children: ReactNode;
 };
 
 // A row that does something, or opens something: an 18px icon and a label, 30px tall.
 export const MenuRow = forwardRef<HTMLDivElement, MenuRowProps>(
-  ({ icon, active, disabled, className, children, ...props }, ref) => (
+  ({ icon, active, danger, disabled, className, children, ...props }, ref) => (
     <div
       ref={ref}
       className={clsx(
@@ -40,7 +42,7 @@ export const MenuRow = forwardRef<HTMLDivElement, MenuRowProps>(
           ? 'cursor-not-allowed text-neutral-500'
           : [
               'cursor-pointer hover:bg-neutral-700/70',
-              active ? 'text-blue-400' : 'text-neutral-300'
+              danger ? 'text-red-500' : active ? 'text-blue-400' : 'text-neutral-300'
             ],
         className
       )}

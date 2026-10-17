@@ -1,12 +1,12 @@
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
-import { Dropdown, MenuProps, Popconfirm, Select, Tooltip } from 'antd';
+import { forwardRef, useState, type ButtonHTMLAttributes, type ReactNode } from 'react';
+import { Popconfirm, Popover, Select, Tooltip } from 'antd';
 import clsx from 'clsx';
 import {
-  EllipsisIcon,
   HistoryIcon,
   Loader2Icon,
   PlayIcon,
   PowerIcon,
+  SettingsIcon,
   SlidersHorizontalIcon,
   TrashIcon
 } from 'lucide-react';
@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { confirm } from '@/lib/feedback.ts';
 import { popconfirmBackground } from '@/lib/popconfirm.ts';
 import { LayoutSidebarRightCollapse } from '@/components/icons/layout-sidebar-right-collapse.tsx';
+import { MenuRow } from '@/components/menu-rows.tsx';
 
 type HeaderButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
   icon: ReactNode;
@@ -87,6 +88,7 @@ export const SidebarHeader = ({
   onUninstallRuntime
 }: SidebarHeaderProps) => {
   const { t } = useTranslation();
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
   const isRuntimeReady = runtimeReady === true;
   const isInstalled = installed !== false;
   const isModelConfigured = modelConfigured !== false;
@@ -112,27 +114,6 @@ export const SidebarHeader = ({
       okText: t('picoclaw.uninstall.confirmOk'),
       onOk: () => onUninstallRuntime?.()
     });
-
-  const moreMenuItems: MenuProps['items'] = [
-    {
-      key: 'model-config',
-      label: <span className="text-xs">{t('picoclaw.model.menuLabel')}</span>,
-      icon: <SlidersHorizontalIcon size={14} className="text-neutral-400" />,
-      onClick: () => onOpenModelConfig?.(),
-      disabled: isUninstallingRuntime || isTogglingRuntime || !isInstalled
-    },
-    {
-      type: 'divider'
-    },
-    {
-      key: 'uninstall',
-      danger: true,
-      label: <span className="text-xs">{t('picoclaw.uninstall.menuLabel')}</span>,
-      icon: <TrashIcon size={14} />,
-      onClick: handleUninstallClick,
-      disabled: isUninstallingRuntime || isTogglingRuntime
-    }
-  ];
 
   return (
     <>
@@ -221,16 +202,46 @@ export const SidebarHeader = ({
                 </Tooltip>
               ) : null}
 
-              {/* More Menu */}
-              <Dropdown
-                menu={{ items: moreMenuItems }}
-                trigger={['click']}
-                placement="bottomRight"
-                disabled={isUninstallingRuntime || isTogglingRuntime}
-                arrow={{ pointAtCenter: true }}
-              >
-                <HeaderButton icon={<EllipsisIcon size={16} />} loading={isUninstallingRuntime} />
-              </Dropdown>
+              {/* Settings menu */}
+              <Tooltip title={t('settings.title')} mouseEnterDelay={0.6}>
+                <Popover
+                  trigger="click"
+                  placement="bottomRight"
+                  arrow={false}
+                  open={isMoreOpen}
+                  onOpenChange={setIsMoreOpen}
+                  content={
+                    <div className="min-w-44">
+                      <MenuRow
+                        icon={<SlidersHorizontalIcon size={16} />}
+                        onClick={() => {
+                          setIsMoreOpen(false);
+                          onOpenModelConfig?.();
+                        }}
+                      >
+                        {t('picoclaw.model.menuLabel')}
+                      </MenuRow>
+                      <MenuRow
+                        danger
+                        icon={<TrashIcon size={16} />}
+                        onClick={() => {
+                          setIsMoreOpen(false);
+                          handleUninstallClick();
+                        }}
+                      >
+                        {t('picoclaw.uninstall.menuLabel')}
+                      </MenuRow>
+                    </div>
+                  }
+                >
+                  <HeaderButton
+                    icon={<SettingsIcon size={16} />}
+                    aria-label={t('settings.title')}
+                    disabled={isTogglingRuntime}
+                    loading={isUninstallingRuntime}
+                  />
+                </Popover>
+              </Tooltip>
             </>
           ) : null}
         </div>

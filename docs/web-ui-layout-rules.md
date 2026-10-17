@@ -189,6 +189,8 @@ The PicoClaw sidebar is part of the menu bar and follows the same rules where it
 
 - Its header buttons are the 30px squares of the menu bar with a tooltip. Stopping the
   assistant asks first (a Popconfirm, rule 15), because it ends a task that is running.
+- The gear (Settings) menu is a popover of `MenuRow`s like the menu bar's, not an antd
+  dropdown; a row that destroys something (Uninstall) is `danger`.
 - A screen that does not show the chat (install, model) reports a failure with a toast, since
   the chat transcript is not visible there.
 - Its accent is the blue of the rest of the app (`blue-400` / `blue-500`, `blue-600` for the
