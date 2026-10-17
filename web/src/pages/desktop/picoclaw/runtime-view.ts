@@ -53,11 +53,11 @@ export function getPicoclawSidebarStatusColor(
   isInitializing: boolean
 ) {
   if (isInitializing || !runtimeStatus) {
-    return '#38bdf8';
+    return '#60a5fa';
   }
 
   if (isPicoclawRuntimeInstalling(runtimeStatus) || transportState === 'connecting') {
-    return '#38bdf8';
+    return '#60a5fa';
   }
 
   if (runtimeStatus.installed === false || runtimeStatus.model_configured === false) {
@@ -69,7 +69,7 @@ export function getPicoclawSidebarStatusColor(
   }
 
   if (transportState === 'connected' && runState === 'busy') {
-    return '#38bdf8';
+    return '#60a5fa';
   }
 
   return '#22c55e';

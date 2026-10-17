@@ -23,7 +23,7 @@ export const MarkdownContent = ({ content, className }: MarkdownContentProps) =>
           ),
           a: ({ children, href }) => (
             <a
-              className="text-sky-300 underline decoration-sky-400/40 underline-offset-2 hover:text-sky-200"
+              className="text-blue-400 underline decoration-blue-400/40 underline-offset-2 hover:text-blue-300"
               href={href}
               rel="noreferrer"
               target="_blank"

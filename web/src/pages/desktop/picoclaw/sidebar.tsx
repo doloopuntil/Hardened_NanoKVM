@@ -130,7 +130,7 @@ export const Sidebar = () => {
           <div className="flex flex-1 flex-col items-center px-6 pb-6 pt-10 text-center">
             <div className="flex flex-col items-center gap-4">
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04]">
-                <PlayIcon className="text-sky-400" size={22} />
+                <PlayIcon className="text-blue-400" size={22} />
               </div>
               <div>
                 <h3 className="mb-1 text-sm font-medium text-neutral-200">

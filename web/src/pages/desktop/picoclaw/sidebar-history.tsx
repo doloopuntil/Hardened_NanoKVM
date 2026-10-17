@@ -89,7 +89,7 @@ export const SidebarHistory = ({
                   'group box-border flex w-full items-start gap-3 rounded-2xl border px-3 py-3 text-left transition-colors',
                   isSwitching ? 'pointer-events-none opacity-60' : '',
                   isActive
-                    ? 'border-sky-400/30 bg-sky-400/10'
+                    ? 'border-blue-500/30 bg-blue-500/10'
                     : 'border-white/[0.06] bg-white/[0.03] hover:border-white/[0.1] hover:bg-white/[0.05]'
                 ].join(' ')}
               >
