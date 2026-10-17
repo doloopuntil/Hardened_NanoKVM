@@ -202,12 +202,13 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
               <SettingRow
                 label={t('settings.systemLog.kernel.consoleLevel')}
                 description={t('settings.systemLog.kernel.consoleLevelDesc')}
+                inline
               >
                 <Select
                   value={config.kernelConsoleLevel}
                   options={priorityOptions}
                   onChange={(kernelConsoleLevel) => patchConfig({ kernelConsoleLevel })}
-                  className="w-full text-right sm:w-36"
+                  className="w-32 text-right sm:w-36"
                 />
               </SettingRow>
             </div>
@@ -229,6 +230,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
               <SettingRow
                 label={t('settings.systemLog.remote.host')}
                 description={t('settings.systemLog.remote.hostDesc')}
+                inline
               >
                 <Input
                   value={config.remoteHost}
@@ -236,12 +238,13 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
                   status={hasInvalid ? 'error' : undefined}
                   disabled={!config.remoteEnabled}
                   onChange={(event) => patchConfig({ remoteHost: event.target.value })}
-                  className="w-full text-right sm:w-36"
+                  className="w-36 text-right sm:w-36"
                 />
               </SettingRow>
               <SettingRow
                 label={t('settings.systemLog.remote.port')}
                 description={t('settings.systemLog.remote.protocol')}
+                inline
               >
                 <InputNumber<number>
                   min={1}
@@ -250,7 +253,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
                   disabled={!config.remoteEnabled}
                   value={config.remotePort}
                   onChange={(value) => patchConfig({ remotePort: value || 514 })}
-                  className="w-full sm:w-20 [&_.ant-input-number-input]:!text-right"
+                  className="w-20 [&_.ant-input-number-input]:!text-right"
                 />
               </SettingRow>
             </div>
@@ -262,17 +265,19 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
               <SettingRow
                 label={t('settings.systemLog.local.priority')}
                 description={t('settings.systemLog.local.priorityDesc')}
+                inline
               >
                 <Select
                   value={config.priority}
                   options={priorityOptions}
                   onChange={(priority) => patchConfig({ priority })}
-                  className="w-full text-right sm:w-36"
+                  className="w-32 text-right sm:w-36"
                 />
               </SettingRow>
               <SettingRow
                 label={t('settings.systemLog.local.buffer')}
                 description={t('settings.systemLog.local.bufferDesc')}
+                inline
               >
                 <InputNumber<number>
                   min={16}
@@ -281,12 +286,13 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
                   value={config.bufferKb}
                   addonAfter="KiB"
                   onChange={(value) => patchConfig({ bufferKb: value || 200 })}
-                  className="w-full sm:w-28 [&_.ant-input-number-input]:!text-right"
+                  className="w-28 [&_.ant-input-number-input]:!text-right"
                 />
               </SettingRow>
               <SettingRow
                 label={t('settings.systemLog.local.rotations')}
                 description={t('settings.systemLog.local.rotationsDesc')}
+                inline
               >
                 <InputNumber<number>
                   min={0}
@@ -294,7 +300,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
                   controls={false}
                   value={config.rotations}
                   onChange={(value) => patchConfig({ rotations: value || 0 })}
-                  className="w-full sm:w-16 [&_.ant-input-number-input]:!text-right"
+                  className="w-16 [&_.ant-input-number-input]:!text-right"
                 />
               </SettingRow>
               <SettingRow
@@ -333,6 +339,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
               <div className="space-y-3">
                 <div className="flex min-w-0 flex-wrap items-center justify-between gap-2">
                   <Button
+                    className="w-full sm:w-auto"
                     icon={<SendIcon size={16} />}
                     loading={isTesting}
                     onClick={sendTestMessage}
@@ -340,10 +347,10 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
                     {t('settings.systemLog.test')}
                   </Button>
 
-                  <div className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-2">
-                    <Space.Compact>
+                  <div className="flex w-full min-w-0 items-center gap-2 sm:ml-auto sm:w-auto sm:flex-wrap sm:justify-end">
+                    <Space.Compact className="!flex min-w-0 flex-1 basis-0 sm:!inline-flex sm:flex-none sm:basis-auto">
                       <Select
-                        className="w-20 text-right"
+                        className="min-w-0 flex-1 text-right sm:w-20 sm:flex-none"
                         value={lineCount}
                         options={[100, 200, 500, 1000].map((value) => ({
                           value,
@@ -356,6 +363,7 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
                       </Space.Addon>
                     </Space.Compact>
                     <Button
+                      className="flex-1 basis-0 sm:flex-none sm:basis-auto"
                       icon={<RefreshCwIcon size={16} />}
                       loading={isLogLoading}
                       onClick={() => refreshLog()}

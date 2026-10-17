@@ -102,7 +102,11 @@ export const SettingRow = ({
       }`}
     >
       {children}
-      {error && <div className="mt-1 max-w-72 text-xs text-red-400 sm:text-right">{error}</div>}
+      {error && (
+        <div className="mt-1 w-0 min-w-full text-xs text-red-400 sm:w-auto sm:min-w-0 sm:max-w-72 sm:text-right">
+          {error}
+        </div>
+      )}
     </div>
   </div>
 );

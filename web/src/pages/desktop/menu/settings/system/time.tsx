@@ -179,9 +179,10 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
             <SettingRow
               label={t('settings.system.time.servers.title')}
               description={t('settings.system.time.servers.description')}
+              inline
             >
               <Select
-                className="w-full sm:w-72 [&_.ant-select-selection-overflow]:justify-end"
+                className="w-44 sm:w-72 [&_.ant-select-selection-overflow]:justify-end"
                 mode="tags"
                 open={false}
                 disabled={!config.ntpEnabled}
@@ -245,6 +246,7 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
             <SettingRow
               label={t('settings.system.time.clock.timezone')}
               description={t('settings.system.time.clock.description')}
+              inline
             >
               <Select
                 showSearch
@@ -256,7 +258,7 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
                     .toLowerCase()
                     .includes(input.toLowerCase())
                 }
-                className="w-full text-right sm:w-72 [&_.ant-select-selection-search-input]:text-right"
+                className="w-44 text-right sm:w-72 [&_.ant-select-selection-search-input]:text-right"
               />
             </SettingRow>
           </SettingSection>

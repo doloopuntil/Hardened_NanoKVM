@@ -43,8 +43,12 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
    switch is off. Nothing appears or disappears with a switch.
 10. A value that comes from the system (IPv4 and IPv6 outside manual mode) is
     shown read-only in the same row where the editable field would be.
-11. On a phone, switches, info rows, narrow controls and buttons stay on the
-    label's row. Wide inputs and selects go under it.
+11. On a phone, switches, info rows, buttons and the fields (inputs, selects
+    and tag boxes) stay on the label's row; the field is narrower than on the
+    desktop (`w-20` to `w-44`) and the caption wraps beside it. The one field
+    that goes under its title is the WireGuard peer public key, which is wide on
+    purpose so the whole key shows. An error message wraps to the width of its
+    field and never widens it.
 12. Long values wrap at spaces and hyphens (`break-words`); `break-all` is only
     for a single token with no spaces, such as a key or a URL.
 
