@@ -71,10 +71,10 @@ const en = {
     screen: {
       scale: 'Scale',
       title: 'Screen',
-      video: 'Video Mode',
+      video: 'Video mode',
       videoDirectTips: 'Enable HTTPS in "Settings > System > Network" to use this mode',
       videoWebrtcBlockedByFirewall:
-        'H.264 WebRTC is disabled in Restricted and Paranoid Firewall modes',
+        'H.264 WebRTC is disabled in the Restricted and Paranoid firewall modes',
       transferRunningTitle: 'Image transfer in progress',
       transferRunningDesc:
         'Changing the video mode reloads the page, which cancels the running image upload or download.',
@@ -82,7 +82,7 @@ const en = {
       resolution: 'Resolution',
       auto: 'Automatic',
       autoTips:
-        "Screen tearing or mouse offset may occur at specific resolutions. Consider adjusting the remote host's resolution or disable automatic mode.",
+        'Screen tearing or mouse offset may occur at specific resolutions, so adjust the remote host\'s resolution or turn off automatic mode',
       fps: 'FPS',
       customizeFps: 'Customize',
       quality: 'Quality',
@@ -90,9 +90,9 @@ const en = {
       qualityHigh: 'High',
       qualityMedium: 'Medium',
       qualityLow: 'Low',
-      frameDetect: 'Frame Detect',
+      frameDetect: 'Frame detect',
       frameDetectTip:
-        "Calculate the difference between frames. Stop transmitting video stream when no changes are detected on the remote host's screen.",
+        'Compares frames and stops sending video while the remote host\'s screen does not change',
       resetHdmi: 'Reset HDMI',
       webrtcConnectionFailed: {
         title: 'WebRTC connection failed',
@@ -113,12 +113,12 @@ const en = {
       title: 'Keyboard',
       paste: 'Paste',
       tips: 'Only standard keyboard letters and symbols are supported',
-      placeholder: 'Please input',
+      placeholder: 'Text to paste',
       local: 'Mobile keyboard',
       virtual: 'On-screen keyboard',
-      readClipboard: 'Read from Clipboard',
+      readClipboard: 'Read from clipboard',
       clipboardPermissionDenied:
-        'Clipboard permission denied. Please allow clipboard access in your browser.',
+        'Clipboard permission denied, allow clipboard access in your browser',
       clipboardReadError: 'Failed to read clipboard',
       dropdownEnglish: 'English',
       dropdownGerman: 'German',
@@ -138,30 +138,31 @@ const en = {
         enterFullScreen: 'Toggle full-screen mode'
       },
       leaderKey: {
-        title: 'Leader Key',
+        title: 'Leader key',
         desc: 'Bypass browser restrictions and send system shortcuts directly to the remote host',
-        howToUse: 'How to Use',
+        howToUse: 'How to use',
         simultaneous: {
-          title: 'Simultaneous Mode',
-          desc1: 'Press and hold the Leader Key, then press the shortcut.',
+          title: 'Simultaneous mode',
+          desc1: 'Press and hold the leader key, then press the shortcut.',
           desc2: 'Intuitive, but may conflict with system shortcuts.'
         },
         sequential: {
-          title: 'Sequential Mode',
+          title: 'Sequential mode',
           desc1:
-            'Press the Leader Key → press the shortcut in sequence → press the Leader Key again.',
+            'Press the leader key → press the shortcut in sequence → press the leader key again.',
           desc2: 'Requires more steps, but completely avoids system conflicts.'
         },
-        enable: 'Enable Leader Key',
-        tip: 'When assigned as a Leader Key, this key functions exclusively as a shortcut trigger and loses its default behavior.',
-        placeholder: 'Please press the Leader Key',
+        enable: 'Enable leader key',
+        tip:
+          'When assigned as a leader key, this key functions exclusively as a shortcut trigger and loses its default behavior.',
+        placeholder: 'Press the leader key',
         shiftRight: 'Right Shift',
         ctrlRight: 'Right Ctrl',
         metaRight: 'Right Win',
         recorder: {
           rec: 'REC',
           activate: 'Activate keys',
-          input: 'Please press the shortcut...'
+          input: 'Press the shortcut'
         }
       }
     },
@@ -182,15 +183,15 @@ const en = {
       speed: 'Wheel speed',
       sensitivity: 'Pointer speed',
       sensitivityDesc:
-        'Use this for desktop relative mode. Lower values reduce drift from host mouse acceleration.',
+        'For desktop relative mode: lower values reduce drift from the host\'s mouse acceleration',
       fast: 'Fast',
       slow: 'Slow',
       mobile: {
         touchSync: 'TouchSync',
         touchSyncDesc:
-          'Move anywhere on the KVM area. The remote cursor keeps its position between touches and stays synchronized with absolute HID.'
+          'Move anywhere on the KVM area; the remote cursor keeps its position between touches and stays synchronized with absolute HID'
       },
-      requestPointer: 'Using relative mode. Please click desktop to get mouse pointer.',
+      requestPointer: 'Using relative mode, click the desktop to get the mouse pointer',
       resetHid: 'Reset HID',
       hidOnly: {
         title: 'HID-Only mode',
@@ -205,7 +206,7 @@ const en = {
     image: {
       title: 'Images',
       loading: 'Loading...',
-      empty: 'Nothing Found',
+      empty: 'Nothing found',
       mountMode: 'Mount mode',
       mountFailed: 'Mount failed',
       mountDesc:
@@ -231,12 +232,12 @@ const en = {
       tips: {
         title: 'How to upload',
         usb1: 'Connect the NanoKVM to your computer via USB.',
-        usb2: 'Ensure that the virtual disk is mounted in Settings > Device > Virtual Disk.',
+        usb2: 'Ensure that the virtual disk is mounted in Settings > Device > Virtual disk.',
         usb3: 'Open the virtual disk on your computer and copy the image file to the root directory of the virtual disk.',
         scp1: 'Make sure the NanoKVM and your computer are on the same local network.',
         scp2: 'Open a terminal on your computer and use the SCP command to upload the image file to the /data directory on the NanoKVM.',
         scp3: 'Example: scp your-image-path root@your-nanokvm-ip:/data',
-        tfCard: 'TF Card',
+        tfCard: 'TF card',
         tf1: 'This method is supported on Linux system',
         tf2: 'Get the TF card from the NanoKVM. On the FULL version, disassemble the case first.',
         tf3: 'Insert the TF card into a card reader and connect it to your computer.',
@@ -248,7 +249,7 @@ const en = {
       title: 'Scripts',
       upload: 'Upload',
       run: 'Run',
-      runBackground: 'Run Background',
+      runBackground: 'Run in background',
       runFailed: 'Run failed',
       delDesc: 'Are you sure you want to delete this file?',
       delete: 'Delete',
@@ -256,18 +257,18 @@ const en = {
     },
     terminal: {
       title: 'Terminal',
-      nanokvm: 'NanoKVM Terminal',
-      serial: 'Serial Port Terminal',
+      nanokvm: 'NanoKVM terminal',
+      serial: 'Serial port terminal',
       unlockTitle: 'Unlock terminal',
       unlockDesc: 'Enter your web account password to start a terminal session',
       unlock: 'Unlock',
       unlockFailed: 'Failed to unlock terminal',
       invalidCredentials: 'Invalid username or password',
-      locked: 'Too many attempts, please try again later',
+      locked: 'Too many attempts, try again later',
       sessionClosed: 'Terminal session closed. Unlock again to reconnect.',
       sessionError: 'Terminal connection failed. Unlock again to retry.',
-      serialPort: 'Serial Port',
-      serialPortPlaceholder: 'Please enter the serial port',
+      serialPort: 'Serial port',
+      serialPortPlaceholder: 'For example /dev/ttyS1',
       baudrate: 'Baud rate',
       parity: 'Parity',
       parityNone: 'None',
@@ -285,20 +286,20 @@ const en = {
       title: 'Wake-on-LAN',
       sending: 'Sending command...',
       sent: 'Command sent',
-      input: 'Please enter the MAC',
-      ok: 'Ok'
+      input: 'MAC address',
+      ok: 'OK'
     },
     download: {
-      title: 'Image Downloader',
-      input: 'Please enter a remote image URL',
-      ok: 'Ok',
+      title: 'Image downloader',
+      input: 'Remote image URL',
+      ok: 'OK',
       disabled:
         "Images can't be downloaded or uploaded right now because the storage isn't writable. If an image is mounted, unmount it, then turn off the virtual disk to make the storage writable again.",
       diskShared: 'Turn the virtual disk off first, then use the image download',
-      mountedImage: 'This image is mounted. Unmount it before uploading a file with the same name.',
+      mountedImage: 'This image is mounted, unmount it before uploading a file with the same name',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Drop file here or click to select',
-      inputfile: 'Please enter the image file',
+      inputfile: 'Image file',
       NoISO: 'No ISO',
       complete: 'Download complete',
       uploadComplete: 'Upload complete',
@@ -306,7 +307,7 @@ const en = {
       uploading: 'Uploading',
       failed: 'Transfer failed',
       uploadFailed: 'Upload failed',
-      stalled: 'Transfer stalled. Check the connection and retry.',
+      stalled: 'Transfer stalled, check the connection and retry',
       canceled: 'Upload canceled',
       downloadCanceled: 'Download canceled',
       cancel: 'Cancel',
@@ -1029,10 +1030,10 @@ const en = {
       refresh: 'Refresh'
     },
     fullscreen: {
-      toggle: 'Toggle Fullscreen'
+      toggle: 'Toggle full screen'
     },
     menu: {
-      collapse: 'Collapse Menu'
+      collapse: 'Collapse menu'
     }
   }
 };
