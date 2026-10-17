@@ -352,10 +352,10 @@ const en = {
         mdns: 'mDNS',
         application: 'Application version',
         applicationTip: 'NanoKVM web application version',
-        image: 'Image Version',
+        image: 'Image version',
         imageTip: 'NanoKVM system image version',
         uptime: 'Uptime',
-        deviceKey: 'Device Key',
+        deviceKey: 'Device key',
         community: 'Community',
         hostname: 'Hostname',
         hostnameUpdated: 'Hostname updated. Reboot to apply.',
@@ -370,7 +370,7 @@ const en = {
         display: 'Display',
         language: 'Language',
         languageDesc: 'Select the language for the interface',
-        webTitle: 'Web Title',
+        webTitle: 'Web title',
         webTitleDesc: 'Customize the web page title',
         layoutMode: 'Interface layout',
         layoutModeDesc: 'Use the phone/touch layout in this browser',
@@ -378,7 +378,7 @@ const en = {
         layoutMobile: 'Phone',
         menuBar: {
           title: 'Menu bar',
-          mode: 'Display Mode',
+          mode: 'Display mode',
           modeDesc: 'Display menu bar on the screen',
           modeOff: 'Off',
           modeAuto: 'Auto hide',
@@ -392,7 +392,7 @@ const en = {
             'The terminal opens a root shell through the browser. Enable it only on a trusted network and turn it off when you are done.',
           terminalWarningConfirm: 'Enable',
           terminalWarningCancel: 'Cancel',
-          remoteDownload: 'Remote ISO Download',
+          remoteDownload: 'Remote ISO download',
           remoteDownloadWarningTitle: 'Enable remote ISO download?',
           remoteDownloadWarningDesc:
             'NanoKVM will fetch an ISO from a URL and write it to /data. Enable it only for trusted URLs and turn it off when you are done.',
@@ -440,11 +440,11 @@ const en = {
           tip: 'Enabling this feature could shorten the usable life of your SD card'
         },
         mouseJiggler: {
-          title: 'Mouse Jiggler',
+          title: 'Mouse jiggler',
           description: 'Prevent the remote host from sleeping',
           disable: 'Disable',
-          absolute: 'Absolute Mode',
-          relative: 'Relative Mode'
+          absolute: 'Absolute mode',
+          relative: 'Relative mode'
         },
         sessionLock: {
           title: 'Lock session when inactive',
@@ -459,11 +459,11 @@ const en = {
           idleTimeoutTitle: 'Capture idle timeout',
           idleTimeoutDescription: 'Stop HDMI capture after there are no active viewers for'
         },
-        hidOnly: 'HID-Only Mode',
+        hidOnly: 'HID-Only mode',
         hidOnlyDesc: 'Improve compatibility with the host if mouse or keyboard stop responding',
         hidOnlyTip:
-          'HID-Only Mode stops emulating virtual devices, retaining only basic HID control',
-        disk: 'Virtual Disk',
+          'HID-Only mode stops emulating virtual devices, retaining only basic HID control',
+        disk: 'Virtual disk',
         diskDesc: 'Mount SD card on the remote host',
         diskLocked: 'Off while an image is mounted, and turning it on cancels the mount',
         diskCancelMount: 'Enabling the virtual disk cancels the mounted image. Continue?',
@@ -471,9 +471,9 @@ const en = {
           'Changing the virtual network restarts the USB connection. This cancels the mounted image and turns the virtual disk on. Continue?',
         diskTransferRunning:
           'An image transfer is running. Wait for it to finish before enabling the virtual disk.',
-        network: 'Virtual Network',
+        network: 'Virtual network',
         networkDesc: 'Mount virtual network card on the remote host',
-        usbWakeup: 'USB Wakeup',
+        usbWakeup: 'USB wakeup',
         usbWakeupDesc: 'Allow keyboard or mouse events to wake the remote host',
         usbWakeupTip: 'Turn off if the host logs repeated USB wakeup messages',
         reboot: 'Reboot',
