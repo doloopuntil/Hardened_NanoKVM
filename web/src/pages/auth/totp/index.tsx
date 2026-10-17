@@ -22,7 +22,7 @@ export const Totp = () => {
     <>
       <Head title={t('settings.account.totp.title')} />
 
-      <div className="flex h-screen w-screen flex-col items-center justify-center space-y-5">
+      <div className="box-border flex min-h-dvh w-full flex-col items-center justify-center space-y-5 px-4 py-6">
         <Typography.Title level={4} className="!mb-0 text-center">
           {t('settings.account.totp.requiredTitle')}
         </Typography.Title>
@@ -30,7 +30,7 @@ export const Totp = () => {
           {t('settings.account.totp.requiredDescription')}
         </Typography.Paragraph>
 
-        <Card style={{ minWidth: 340, maxWidth: 480 }}>
+        <Card className="max-w-full" style={{ minWidth: 'min(340px, 100%)', maxWidth: 480 }}>
           <SettingsLoadGroup>
             <TotpEnrollment onEnrolled={() => navigate('/', { replace: true })} />
           </SettingsLoadGroup>

@@ -136,9 +136,13 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Technical rules
 
-27. Tailwind's preflight is off, so a border needs an explicit style
-    (`border-0 border-b border-solid border-white/[0.06]`); `border-b` alone
-    draws nothing.
+27. Tailwind's preflight is off (it clashes with antd), so a border needs an
+    explicit style (`border-0 border-b border-solid border-white/[0.06]`);
+    `border-b` alone draws nothing. Boxes also keep the browser's default
+    sizing, where padding and border add to the width and height: an element
+    with a width and padding (`w-full px-4`) needs `box-border`, or it is wider
+    than its parent. Do not switch box-sizing on globally: the menu bar popovers
+    were sized for the default, and their rows would shrink by 8px.
 28. A sticky element must not sit inside an `overflow-x-hidden` container; that
     makes the container its scroll parent and the element stops sticking.
 29. Layout depends on the phone class `settings-modal-mobile` (see
