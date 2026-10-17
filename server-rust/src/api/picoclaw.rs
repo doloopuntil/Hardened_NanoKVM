@@ -2761,6 +2761,27 @@ fn resolve_config_path() -> Result<PathBuf> {
     Ok(home.join("config.json"))
 }
 
+// PicoClaw keys an entry of .security.yml as `name:n`, where n counts the entries of the same
+// model_name before it (not its position in model_list).
+fn name_occurrence(models: &[JsonValue], index: usize) -> usize {
+    let name = models
+        .get(index)
+        .and_then(|model| model.get("model_name"))
+        .and_then(JsonValue::as_str)
+        .map(str::trim);
+    models
+        .iter()
+        .take(index)
+        .filter(|model| {
+            model
+                .get("model_name")
+                .and_then(JsonValue::as_str)
+                .map(str::trim)
+                == name
+        })
+        .count()
+}
+
 fn is_model_configured(config: &JsonValue, security: &serde_yaml::Value, model_name: &str) -> bool {
     if model_name.is_empty() {
         return false;
@@ -2804,7 +2825,7 @@ fn is_model_configured(config: &JsonValue, security: &serde_yaml::Value, model_n
         {
             return true;
         }
-        if security_has_model_key(security, model_name, idx) {
+        if security_has_model_key(security, model_name, name_occurrence(models, idx)) {
             return true;
         }
     }
@@ -2888,6 +2909,7 @@ fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Resul
             models.len() - 1
         }
     };
+    let occurrence = name_occurrence(models, updated_index);
 
     let agents = raw
         .entry("agents".to_string())
@@ -2915,7 +2937,7 @@ fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Resul
         &mut doc.security,
         &doc.security_path,
         &model_name,
-        updated_index,
+        occurrence,
         api_key,
     )?;
     Ok(model_name)
@@ -3080,6 +3102,12 @@ fn save_model_secret(
         serde_yaml::Value::String("api_keys".to_string()),
         serde_yaml::Value::Sequence(vec![serde_yaml::Value::String(api_key.to_string())]),
     );
+    // drop what an older version wrote under another index
+    let stale_prefix = format!("{model_name}:");
+    model_list.retain(|key, _| {
+        key.as_str()
+            .is_none_or(|key| key != model_name && !key.starts_with(&stale_prefix))
+    });
     model_list.insert(
         serde_yaml::Value::String(format!("{model_name}:{index}")),
         serde_yaml::Value::Mapping(entry),
@@ -3374,6 +3402,39 @@ mod tests {
             parse_sha512_digest(&raw, "picoclaw_Linux_riscv64.tar.gz").unwrap(),
             digest
         );
+    }
+
+    #[test]
+    fn security_key_counts_entries_of_the_same_name() {
+        let models = vec![
+            json!({"model_name": "gpt-5.4"}),
+            json!({"model_name": "claude-haiku-5"}),
+            json!({"model_name": "gpt-5.4"}),
+            json!({"model_name": "claude-haiku-5"}),
+        ];
+        assert_eq!(name_occurrence(&models, 1), 0);
+        assert_eq!(name_occurrence(&models, 2), 1);
+        assert_eq!(name_occurrence(&models, 3), 1);
+    }
+
+    #[test]
+    fn model_secret_replaces_keys_written_under_another_index() {
+        let dir = std::env::temp_dir().join(format!("picoclaw-secret-{}", std::process::id()));
+        let path = dir.join(".security.yml");
+        let mut security: serde_yaml::Value =
+            serde_yaml::from_str("model_list:\n  claude-haiku-5:5:\n    api_keys: [old]\n  other:0:\n    api_keys: [x]\n").unwrap();
+        save_model_secret(&mut security, &path, "claude-haiku-5", 0, "sk-new").unwrap();
+        let list = security.get("model_list").unwrap();
+        assert!(list.get("claude-haiku-5:5").is_none());
+        assert_eq!(
+            list.get("claude-haiku-5:0")
+                .unwrap()
+                .get("api_keys")
+                .unwrap()[0],
+            "sk-new"
+        );
+        assert!(list.get("other:0").is_some());
+        let _ = std::fs::remove_dir_all(dir);
     }
 
     #[test]
