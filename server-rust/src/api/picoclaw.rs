@@ -13,7 +13,7 @@ use flate2::read::GzDecoder;
 use futures_util::{SinkExt, StreamExt};
 use serde::{Deserialize, Serialize};
 use serde_json::{Map as JsonMap, Value as JsonValue, json};
-use sha2::{Digest, Sha512};
+use sha2::{Digest, Sha256};
 use std::{
     ffi::OsString,
     fs, io,
@@ -45,10 +45,12 @@ use crate::{
 
 const PICOCLAW_BINARY_PATH: &str = "/usr/bin/picoclaw";
 const PICOCLAW_CACHE_DIR: &str = "/root/.picoclaw-cache";
+// The release is pinned together with the SHA-256 of its tarball (from the release's
+// picoclaw_<version>_checksums.txt), so a changed upload fails the install. To move to a new
+// version, change the tag in the URL and the digest together.
 const PICOCLAW_DOWNLOAD_URL: &str =
-    "https://cdn.sipeed.com/nanokvm/resources/picoclaw/v0.2.8/picoclaw_Linux_riscv64.tar.gz";
-const PICOCLAW_CHECKSUM_URL: &str =
-    "https://cdn.sipeed.com/nanokvm/resources/picoclaw/v0.2.8/sha512.txt";
+    "https://github.com/sipeed/picoclaw/releases/download/v0.3.1/picoclaw_Linux_riscv64.tar.gz";
+const PICOCLAW_SHA256: &str = "5124e553c8fb6f90cd57f7478a37409d2d98531cb028ca6ead6cc6867650d58a";
 const ETC_INIT_PICOCLAW_SCRIPT: &str = "/etc/init.d/S96picoclaw";
 const KVMAPP_PICOCLAW_SCRIPT: &str = "/kvmapp/system/init.d/S96picoclaw";
 const DEFAULT_GATEWAY_HOST: &str = "127.0.0.1";
@@ -2384,23 +2386,12 @@ async fn run_install_runtime() -> Result<()> {
     let _ = fs::remove_dir_all(cache);
     fs::create_dir_all(cache)?;
 
-    set_install_progress("downloading", 5, None);
-    let checksum_path = cache.join("sha512.txt");
-    download_to(PICOCLAW_CHECKSUM_URL, &checksum_path).await?;
-    let expected_digest = parse_sha512_digest(
-        &fs::read_to_string(&checksum_path)?,
-        Path::new(PICOCLAW_DOWNLOAD_URL)
-            .file_name()
-            .and_then(|name| name.to_str())
-            .unwrap_or(""),
-    )?;
-
     set_install_progress("downloading", 10, None);
     let archive_path = cache.join("picoclaw.tar.gz");
     download_to(PICOCLAW_DOWNLOAD_URL, &archive_path).await?;
 
     set_install_progress("verifying", 82, None);
-    verify_sha512(&archive_path, &expected_digest)?;
+    verify_sha256(&archive_path, PICOCLAW_SHA256)?;
 
     set_install_progress("extracting", 85, None);
     let extracted = {
@@ -2491,38 +2482,15 @@ async fn download_to(url: &str, target: &Path) -> Result<()> {
     }
 }
 
-fn parse_sha512_digest(raw: &str, expected_name: &str) -> Result<String> {
-    let mut fallback = None;
-    for line in raw.lines() {
-        let fields: Vec<&str> = line.split_whitespace().collect();
-        if fields.is_empty() || !is_sha512_digest(fields[0]) {
-            continue;
-        }
-        if fields.len() == 1 {
-            fallback.get_or_insert_with(|| fields[0].to_ascii_lowercase());
-            continue;
-        }
-        let name = fields[fields.len() - 1].trim_start_matches('*');
-        if expected_name.is_empty() || name == expected_name {
-            return Ok(fields[0].to_ascii_lowercase());
-        }
-    }
-    fallback.ok_or_else(|| AppError::Internal("failed to parse sha512 digest".to_string()))
-}
-
-fn is_sha512_digest(value: &str) -> bool {
-    value.len() == 128 && value.bytes().all(|b| b.is_ascii_hexdigit())
-}
-
-fn verify_sha512(path: &Path, expected: &str) -> Result<()> {
+fn verify_sha256(path: &Path, expected: &str) -> Result<()> {
     let mut file = fs::File::open(path)?;
-    let mut hasher = Sha512::new();
+    let mut hasher = Sha256::new();
     io::copy(&mut file, &mut hasher)?;
     let actual = format!("{:x}", hasher.finalize());
     if actual == expected.to_ascii_lowercase() {
         Ok(())
     } else {
-        Err(AppError::Internal(format!("sha512 mismatch: got {actual}")))
+        Err(AppError::Internal(format!("sha256 mismatch: got {actual}")))
     }
 }
 
@@ -3395,13 +3363,22 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parses_sha512_for_named_archive() {
-        let digest = "a".repeat(128);
-        let raw = format!("{digest}  picoclaw_Linux_riscv64.tar.gz\n");
-        assert_eq!(
-            parse_sha512_digest(&raw, "picoclaw_Linux_riscv64.tar.gz").unwrap(),
-            digest
-        );
+    fn verifies_the_pinned_digest_of_a_file() {
+        let path = std::env::temp_dir().join(format!("picoclaw-sha-{}", std::process::id()));
+        fs::write(&path, b"abc").unwrap();
+        // SHA-256 of "abc"
+        let digest = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+        assert!(verify_sha256(&path, digest).is_ok());
+        assert!(verify_sha256(&path, &digest.to_uppercase()).is_ok());
+        assert!(verify_sha256(&path, &"0".repeat(64)).is_err());
+        let _ = fs::remove_file(path);
+    }
+
+    #[test]
+    fn pinned_digest_is_a_sha256() {
+        assert_eq!(PICOCLAW_SHA256.len(), 64);
+        assert!(PICOCLAW_SHA256.bytes().all(|b| b.is_ascii_hexdigit()));
+        assert!(PICOCLAW_DOWNLOAD_URL.ends_with("/picoclaw_Linux_riscv64.tar.gz"));
     }
 
     #[test]
