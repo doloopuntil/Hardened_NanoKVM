@@ -7,6 +7,8 @@ import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { MenuRow } from '@/components/menu-rows.tsx';
 
+import { confirmBackground, confirmOkProps } from './confirm.ts';
+
 const DEFAULT_POWER_LONG_DURATION_SECONDS = 12;
 
 type PowerLongProps = {
@@ -44,9 +46,9 @@ export const PowerLong = ({ showConfirm, isLoading, setIsLoading }: PowerLongPro
           title={t('power.powerConfirm')}
           okText={t('power.okBtn')}
           cancelText={t('power.cancelBtn')}
-          okButtonProps={{ danger: true }}
+          okButtonProps={confirmOkProps}
+          color={confirmBackground}
           onConfirm={power}
-          color="#404040"
         >
           {row}
         </Popconfirm>

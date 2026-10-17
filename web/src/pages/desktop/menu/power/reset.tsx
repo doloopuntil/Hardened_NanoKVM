@@ -6,6 +6,8 @@ import { setGpio } from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { MenuRow } from '@/components/menu-rows.tsx';
 
+import { confirmBackground, confirmOkProps } from './confirm.ts';
+
 type ResetProps = {
   showConfirm: boolean;
   isLoading: boolean;
@@ -38,9 +40,9 @@ export const Reset = ({ showConfirm, isLoading, setIsLoading }: ResetProps) => {
       title={t('power.resetConfirm')}
       okText={t('power.okBtn')}
       cancelText={t('power.cancelBtn')}
-      okButtonProps={{ danger: true }}
+      okButtonProps={confirmOkProps}
+      color={confirmBackground}
       onConfirm={reset}
-      color="#404040"
     >
       {row}
     </Popconfirm>
