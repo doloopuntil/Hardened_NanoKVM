@@ -5,7 +5,7 @@ import { useAtomValue } from 'jotai';
 import { GripVerticalIcon } from 'lucide-react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
-import { HARDENED_LOGO_SRC, HARDENED_NAME, HARDENED_SHORT_NAME } from '@/lib/hardened.ts';
+import { HARDENED_MARK_SRC, HARDENED_NAME, HARDENED_SHORT_NAME } from '@/lib/hardened.ts';
 import { keyboardLedStatusVisibleAtom, menuDisabledItemsAtom } from '@/jotai/settings.ts';
 import { useMenuBounds } from '@/hooks/useMenuBounds.ts';
 import { useMenuVisibility } from '@/hooks/useMenuVisibility.ts';
@@ -110,14 +110,10 @@ export const Menu = () => {
               {isDesktopLayout && <Divider type="vertical" />}
 
               <div
-                className="flex h-[30px] w-[32px] select-none items-center justify-center overflow-hidden rounded bg-white px-0.5 sm:w-[98px]"
+                className="flex h-[30px] w-[30px] select-none items-center justify-center"
                 title={HARDENED_NAME}
               >
-                <img
-                  src={HARDENED_LOGO_SRC}
-                  alt={HARDENED_SHORT_NAME}
-                  className="h-full w-full object-cover object-left sm:object-contain sm:object-center"
-                />
+                <img src={HARDENED_MARK_SRC} alt={HARDENED_SHORT_NAME} className="size-6" />
               </div>
               <Divider type="vertical" />
 
