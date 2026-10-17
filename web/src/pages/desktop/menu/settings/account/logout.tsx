@@ -1,4 +1,3 @@
-import { LogoutOutlined } from '@ant-design/icons';
 import { Button, Popconfirm } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -21,18 +20,14 @@ export const Logout = () => {
   }
 
   return (
-    <div className="flex justify-center pt-3">
-      <Popconfirm
-        placement="bottom"
-        title={t('settings.account.logoutDesc')}
-        okText={t('settings.account.okBtn')}
-        cancelText={t('settings.account.cancelBtn')}
-        onConfirm={logout}
-      >
-        <Button danger type="primary" size="large" shape="round" icon={<LogoutOutlined />}>
-          {t('settings.account.logoutBtn')}
-        </Button>
-      </Popconfirm>
-    </div>
+    <Popconfirm
+      placement="topRight"
+      title={t('settings.account.logoutDesc')}
+      okText={t('settings.account.okBtn')}
+      cancelText={t('settings.account.cancelBtn')}
+      onConfirm={logout}
+    >
+      <Button danger>{t('settings.account.logoutBtn')}</Button>
+    </Popconfirm>
   );
 };

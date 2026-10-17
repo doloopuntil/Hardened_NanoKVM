@@ -921,7 +921,7 @@ const en = {
       },
       account: {
         title: 'Account',
-        webAccount: 'Web Account Name',
+        webAccount: 'Web account name',
         password: 'Password',
         updateBtn: 'Change',
         logoutBtn: 'Logout',
