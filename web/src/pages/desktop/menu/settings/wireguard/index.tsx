@@ -221,7 +221,11 @@ export const Wireguard = () => {
             )}
 
             {saved.enabled && status && <StatusCard status={status} />}
+          </Section>
 
+          <Divider className="opacity-50" />
+
+          <Section title={t('settings.wireguard.device')}>
             <SettingRow
               label={
                 <span className="flex items-center gap-2">

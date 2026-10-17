@@ -692,6 +692,7 @@ const en = {
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Encrypted tunnel',
+        device: 'This device',
         description: 'Reach this KVM through a WireGuard tunnel',
         unavailable: 'WireGuard is not installed on this device',
         blocked: 'Paranoid Firewall mode blocks WireGuard',
@@ -729,7 +730,7 @@ const en = {
           removeConfirmDesc: 'WireGuard is turned off and stays off until a new key is set.'
         },
         publicKey: {
-          title: "This KVM's public key",
+          title: 'Public key',
           description: "Add it to the peer's configuration"
         },
         address: {

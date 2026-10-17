@@ -226,7 +226,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "La clau actual deixa de funcionar. Afegeix després la nova clau pública al peer.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Eliminar la clau privada?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard s'apaga i continua apagat fins que es defineixi una clau nova.",
-    "settings.wireguard.publicKey.title": "Clau pública d'aquest KVM",
+    "settings.wireguard.publicKey.title": "Clau pública",
     "settings.wireguard.publicKey.description": "Afegeix-la a la configuració del peer",
     "settings.wireguard.address.title": "Adreça",
     "settings.wireguard.address.description": "Adreça del KVM al túnel i la seva màscara",
@@ -284,7 +284,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "URL de la imatge remota",
     "wol.input": "Adreça MAC",
     "terminal.serialPortPlaceholder": "Per exemple /dev/ttyS1",
-    "image.tips.tfCard": "Targeta SD"
+    "image.tips.tfCard": "Targeta SD",
+    "settings.wireguard.device": "Aquest dispositiu"
   },
   cz: {
     "auth.illegalPassword": "Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka",
@@ -457,7 +458,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Stávající klíč přestane fungovat. Poté přidejte nový veřejný klíč do peeru.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Odebrat privátní klíč?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard se vypne a zůstane vypnutý, dokud nenastavíte nový klíč.",
-    "settings.wireguard.publicKey.title": "Veřejný klíč tohoto KVM",
+    "settings.wireguard.publicKey.title": "Veřejný klíč",
     "settings.wireguard.publicKey.description": "Přidejte jej do konfigurace peeru",
     "settings.wireguard.address.title": "Adresa",
     "settings.wireguard.address.description": "Adresa KVM v tunelu a její maska",
@@ -523,7 +524,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.inputfile": "Soubor obrazu",
     "wol.input": "MAC adresa",
     "terminal.serialPortPlaceholder": "Například /dev/ttyS1",
-    "power.resetConfirm": "Provést operaci resetování?"
+    "power.resetConfirm": "Provést operaci resetování?",
+    "settings.wireguard.device": "Toto zařízení"
   },
   da: {
     "auth.illegalPassword": "Adgangskoden skal være på mindst 8 tegn og må ikke indeholde anførselstegn eller skråstreger",
@@ -705,7 +707,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Den nuværende nøgle holder op med at virke. Tilføj bagefter den nye offentlige nøgle til peeren.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Fjerne den private nøgle?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard slås fra og forbliver slukket, indtil der angives en ny nøgle.",
-    "settings.wireguard.publicKey.title": "Denne KVM's offentlige nøgle",
+    "settings.wireguard.publicKey.title": "Offentlig nøgle",
     "settings.wireguard.publicKey.description": "Tilføj den til peerens konfiguration",
     "settings.wireguard.address.title": "Adresse",
     "settings.wireguard.address.description": "KVM-adresse i tunnelen og dens maske",
@@ -772,7 +774,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "wol.input": "MAC-adresse",
     "terminal.serialPortPlaceholder": "For eksempel /dev/ttyS1",
     "power.powerConfirm": "Udføre strømhandlingen?",
-    "power.resetConfirm": "Udføre nulstilling?"
+    "power.resetConfirm": "Udføre nulstilling?",
+    "settings.wireguard.device": "Denne enhed"
   },
   de: {
     "auth.illegalPassword": "Das Passwort muss mindestens 8 Zeichen lang sein und darf keine Anführungszeichen oder Schrägstriche enthalten",
@@ -954,7 +957,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Der aktuelle Schlüssel funktioniert dann nicht mehr. Tragen Sie anschließend den neuen öffentlichen Schlüssel beim Peer ein.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Privaten Schlüssel entfernen?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard wird ausgeschaltet und bleibt aus, bis ein neuer Schlüssel festgelegt wird.",
-    "settings.wireguard.publicKey.title": "Öffentlicher Schlüssel dieses KVM",
+    "settings.wireguard.publicKey.title": "Öffentlicher Schlüssel",
     "settings.wireguard.publicKey.description": "Tragen Sie ihn in der Konfiguration des Peers ein",
     "settings.wireguard.address.title": "Adresse",
     "settings.wireguard.address.description": "KVM-Adresse im Tunnel und ihre Maske",
@@ -1030,7 +1033,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "SD-Karte",
     "image.tips.tf3": "Stecken Sie die SD-Karte in einen Kartenleser und verbinden Sie diesen mit Ihrem Computer.",
     "image.tips.tf4": "Kopieren Sie die Image-Datei in das Verzeichnis /data auf der SD-Karte.",
-    "image.tips.tf5": "Setzen Sie die SD-Karte wieder in den NanoKVM ein."
+    "image.tips.tf5": "Setzen Sie die SD-Karte wieder in den NanoKVM ein.",
+    "settings.wireguard.device": "Dieses Gerät"
   },
   es: {
     "auth.illegalPassword": "La contraseña debe tener al menos 8 caracteres y no puede contener comillas ni barras",
@@ -1195,7 +1199,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "La clave actual deja de funcionar. Después, añade la nueva clave pública al peer.",
     "settings.wireguard.privateKey.removeConfirmTitle": "¿Quitar la clave privada?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard se apaga y sigue apagado hasta que se defina una clave nueva.",
-    "settings.wireguard.publicKey.title": "Clave pública de este KVM",
+    "settings.wireguard.publicKey.title": "Clave pública",
     "settings.wireguard.publicKey.description": "Añádela a la configuración del peer",
     "settings.wireguard.address.title": "Dirección",
     "settings.wireguard.address.description": "Dirección del KVM en el túnel y su máscara",
@@ -1268,7 +1272,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "wol.input": "Dirección MAC",
     "terminal.serialPortPlaceholder": "Por ejemplo /dev/ttyS1",
     "power.powerConfirm": "¿Ejecutar la operación de encendido?",
-    "power.resetConfirm": "¿Ejecutar la operación de reinicio?"
+    "power.resetConfirm": "¿Ejecutar la operación de reinicio?",
+    "settings.wireguard.device": "Este dispositivo"
   },
   et: {
     "settings.device.diskDesc": "Ühenda SD-kaart kaugmasinasse",
@@ -1440,7 +1445,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Praegune võti lakkab töötamast. Lisa pärast uus avalik võti peerile.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Kas eemaldada privaatvõti?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard lülitatakse välja ja jääb välja, kuni määratakse uus võti.",
-    "settings.wireguard.publicKey.title": "Selle KVM-i avalik võti",
+    "settings.wireguard.publicKey.title": "Avalik võti",
     "settings.wireguard.publicKey.description": "Lisa see peeri seadistusse",
     "settings.wireguard.address.title": "Aadress",
     "settings.wireguard.address.description": "KVM-i aadress tunnelis ja selle mask",
@@ -1508,7 +1513,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "SD-kaart",
     "image.tips.tf3": "Sisesta SD-kaart kaardilugejasse ja ühenda see arvutiga.",
     "image.tips.tf4": "Kopeeri image fail SD-kaardi /data kausta.",
-    "image.tips.tf5": "Sisesta SD-kaart NanoKVM-i."
+    "image.tips.tf5": "Sisesta SD-kaart NanoKVM-i.",
+    "settings.wireguard.device": "See seade"
   },
   fi: {
     "settings.device.diskDesc": "Liitä SD-kortti etäkoneeseen",
@@ -1676,7 +1682,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Nykyinen avain lakkaa toimimasta. Lisää uusi julkinen avain sen jälkeen peerille.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Poistetaanko yksityinen avain?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard sammutetaan, ja se pysyy pois päältä, kunnes uusi avain on asetettu.",
-    "settings.wireguard.publicKey.title": "Tämän KVM-laitteen julkinen avain",
+    "settings.wireguard.publicKey.title": "Julkinen avain",
     "settings.wireguard.publicKey.description": "Lisää se peerin asetuksiin",
     "settings.wireguard.address.title": "Osoite",
     "settings.wireguard.address.description": "KVM-laitteen osoite tunnelissa ja sen peite",
@@ -1744,7 +1750,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "SD-kortti",
     "image.tips.tf3": "Aseta SD-kortti kortinlukijaan ja yhdistä se tietokoneeseen.",
     "image.tips.tf4": "Kopioi levykuvatiedosto SD-kortin /data-hakemistoon.",
-    "image.tips.tf5": "Aseta SD-kortti NanoKVM:ään."
+    "image.tips.tf5": "Aseta SD-kortti NanoKVM:ään.",
+    "settings.wireguard.device": "Tämä laite"
   },
   fr: {
     "auth.illegalPassword": "Le mot de passe doit contenir au moins 8 caractères et ne peut pas contenir de guillemets ni de barres obliques",
@@ -1912,7 +1919,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "La clé actuelle cesse de fonctionner. Ajoutez ensuite la nouvelle clé publique au pair.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Supprimer la clé privée?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard est désactivé et le reste jusqu'à la définition d'une nouvelle clé.",
-    "settings.wireguard.publicKey.title": "Clé publique de ce KVM",
+    "settings.wireguard.publicKey.title": "Clé publique",
     "settings.wireguard.publicKey.description": "Ajoutez-la à la configuration du pair",
     "settings.wireguard.address.title": "Adresse",
     "settings.wireguard.address.description": "Adresse du KVM dans le tunnel et son masque",
@@ -1993,7 +2000,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.tailscale.restart": "Êtes-vous sûr de vouloir redémarrer Tailscale?",
     "settings.tailscale.stop": "Êtes-vous sûr de vouloir arrêter Tailscale?",
     "settings.account.totp.disableTitle": "Désactiver l’authentification à deux facteurs?",
-    "settings.account.totp.regenerateTitle": "Émettre de nouveaux codes de secours?"
+    "settings.account.totp.regenerateTitle": "Émettre de nouveaux codes de secours?",
+    "settings.wireguard.device": "Cet appareil"
   },
   hu: {
     "auth.illegalPassword": "A jelszónak legalább 8 karakter hosszúnak kell lennie, és nem tartalmazhat idézőjelet vagy törtvonalat",
@@ -2171,7 +2179,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "A jelenlegi kulcs nem fog működni. Utána adja hozzá az új nyilvános kulcsot a partnerhez.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Eltávolítja a privát kulcsot?",
     "settings.wireguard.privateKey.removeConfirmDesc": "A WireGuard kikapcsol, és kikapcsolva marad, amíg új kulcsot nem állít be.",
-    "settings.wireguard.publicKey.title": "A KVM nyilvános kulcsa",
+    "settings.wireguard.publicKey.title": "Nyilvános kulcs",
     "settings.wireguard.publicKey.description": "Adja hozzá a partner konfigurációjához",
     "settings.wireguard.address.title": "Cím",
     "settings.wireguard.address.description": "A KVM címe az alagútban és annak maszkja",
@@ -2242,7 +2250,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf3": "Helyezze a SD kártyát egy kártyaolvasóba, és csatlakoztassa a számítógépéhez.",
     "image.tips.tf4": "Másolja a képfájlt a SD kártya /data könyvtárába.",
     "image.tips.tf5": "Helyezze vissza a SD kártyát a NanoKVM-be.",
-    "power.resetConfirm": "Végrehajtja a visszaállítási műveletet?"
+    "power.resetConfirm": "Végrehajtja a visszaállítási műveletet?",
+    "settings.wireguard.device": "Ez az eszköz"
   },
   id: {
     "auth.illegalPassword": "Kata sandi harus minimal 8 karakter dan tidak boleh berisi tanda kutip atau garis miring",
@@ -2426,7 +2435,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Kunci saat ini tidak akan berfungsi lagi. Setelah itu, tambahkan kunci publik yang baru ke peer.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Hapus kunci privat?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard dimatikan dan tetap mati sampai kunci baru diatur.",
-    "settings.wireguard.publicKey.title": "Kunci publik KVM ini",
+    "settings.wireguard.publicKey.title": "Kunci publik",
     "settings.wireguard.publicKey.description": "Tambahkan ke konfigurasi peer",
     "settings.wireguard.address.title": "Alamat",
     "settings.wireguard.address.description": "Alamat KVM di dalam terowongan beserta maskernya",
@@ -2523,7 +2532,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf4": "Salin berkas gambar ke direktori /data pada Kartu SD.",
     "image.tips.tf5": "Masukkan Kartu SD ke dalam NanoKVM.",
     "power.powerConfirm": "Jalankan operasi daya?",
-    "power.resetConfirm": "Jalankan operasi penyetelan ulang?"
+    "power.resetConfirm": "Jalankan operasi penyetelan ulang?",
+    "settings.wireguard.device": "Perangkat ini"
   },
   it: {
     "auth.illegalPassword": "La password deve contenere almeno 8 caratteri e non può contenere virgolette o barre",
@@ -2697,7 +2707,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "La chiave attuale smette di funzionare. Poi aggiungi la nuova chiave pubblica al peer.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Rimuovere la chiave privata?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard viene disattivato e resta disattivato finché non viene impostata una nuova chiave.",
-    "settings.wireguard.publicKey.title": "Chiave pubblica di questo KVM",
+    "settings.wireguard.publicKey.title": "Chiave pubblica",
     "settings.wireguard.publicKey.description": "Aggiungila alla configurazione del peer",
     "settings.wireguard.address.title": "Indirizzo",
     "settings.wireguard.address.description": "Indirizzo del KVM nel tunnel e la sua maschera",
@@ -2775,7 +2785,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf3": "Inserisci la scheda SD in un lettore di schede e collegala al tuo computer.",
     "image.tips.tf4": "Copia il file immagine nella directory /data sulla scheda SD.",
     "image.tips.tf5": "Inserisci la scheda SD nel NanoKVM.",
-    "power.powerConfirm": "Eseguire l'operazione di accensione?"
+    "power.powerConfirm": "Eseguire l'operazione di accensione?",
+    "settings.wireguard.device": "Questo dispositivo"
   },
   ja: {
     "auth.illegalPassword": "パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません",
@@ -2938,7 +2949,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "現在の鍵は使えなくなります。その後、新しい公開鍵をピアに追加してください。",
     "settings.wireguard.privateKey.removeConfirmTitle": "秘密鍵を削除しますか？",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard はオフになり、新しい鍵を設定するまでオフのままです。",
-    "settings.wireguard.publicKey.title": "この KVM の公開鍵",
+    "settings.wireguard.publicKey.title": "公開鍵",
     "settings.wireguard.publicKey.description": "ピアの設定に追加してください",
     "settings.wireguard.address.title": "アドレス",
     "settings.wireguard.address.description": "トンネル内の KVM のアドレスとそのマスク",
@@ -3006,7 +3017,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "SD カード",
     "image.tips.tf3": "SD カードをカードリーダーに挿入してコンピュータに接続します；",
     "image.tips.tf4": "コンピューターから SD カードの /data ディレクトリにイメージファイルをコピーします；",
-    "image.tips.tf5": "SD カードを NanoKVM に挿入します。"
+    "image.tips.tf5": "SD カードを NanoKVM に挿入します。",
+    "settings.wireguard.device": "このデバイス"
   },
   ko: {
     "auth.illegalPassword": "비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다",
@@ -3184,7 +3196,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "현재 키는 더 이상 작동하지 않습니다. 이후 새 공개 키를 피어에 추가하세요.",
     "settings.wireguard.privateKey.removeConfirmTitle": "개인 키를 제거할까요?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard가 꺼지며, 새 키를 설정할 때까지 꺼진 상태로 유지됩니다.",
-    "settings.wireguard.publicKey.title": "이 KVM의 공개 키",
+    "settings.wireguard.publicKey.title": "공개 키",
     "settings.wireguard.publicKey.description": "피어 설정에 추가하세요",
     "settings.wireguard.address.title": "주소",
     "settings.wireguard.address.description": "터널 내 KVM 주소와 마스크",
@@ -3253,7 +3265,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf4": "이미지 파일을 SD 카드의 /data 디렉터리에 복사하세요.",
     "image.tips.tf5": "SD 카드를 NanoKVM에 삽입하세요.",
     "power.powerConfirm": "전원 작업을 실행하시겠습니까?",
-    "power.resetConfirm": "리셋 작업을 실행하시겠습니까?"
+    "power.resetConfirm": "리셋 작업을 실행하시겠습니까?",
+    "settings.wireguard.device": "이 장치"
   },
   nb: {
     "auth.illegalPassword": "Passordet må være minst 8 tegn og kan ikke inneholde anførselstegn eller skråstreker",
@@ -3423,7 +3436,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Den gjeldende nøkkelen slutter å fungere. Legg deretter den nye offentlige nøkkelen til peeren.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Fjerne den private nøkkelen?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard slås av og forblir av til en ny nøkkel er angitt.",
-    "settings.wireguard.publicKey.title": "Denne KVM-ens offentlige nøkkel",
+    "settings.wireguard.publicKey.title": "Offentlig nøkkel",
     "settings.wireguard.publicKey.description": "Legg den til i peerens konfigurasjon",
     "settings.wireguard.address.title": "Adresse",
     "settings.wireguard.address.description": "KVM-adresse i tunnelen og dens maske",
@@ -3496,7 +3509,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf4": "Kopiér arkivfilen til mappen /data på SD-kortet.",
     "image.tips.tf5": "Sett inn SD-kortet i NanoKVM-enheten.",
     "power.powerConfirm": "Utføre strømoperasjonen?",
-    "power.resetConfirm": "Utføre tilbakestilling?"
+    "power.resetConfirm": "Utføre tilbakestilling?",
+    "settings.wireguard.device": "Denne enheten"
   },
   nl: {
     "auth.illegalPassword": "Het wachtwoord moet minstens 8 tekens bevatten en mag geen aanhalingstekens of schuine strepen bevatten",
@@ -3668,7 +3682,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "De huidige sleutel werkt dan niet meer. Voeg daarna de nieuwe openbare sleutel toe aan de peer.",
     "settings.wireguard.privateKey.removeConfirmTitle": "De privésleutel verwijderen?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard wordt uitgeschakeld en blijft uit tot er een nieuwe sleutel is ingesteld.",
-    "settings.wireguard.publicKey.title": "Openbare sleutel van deze KVM",
+    "settings.wireguard.publicKey.title": "Openbare sleutel",
     "settings.wireguard.publicKey.description": "Voeg deze toe aan de configuratie van de peer",
     "settings.wireguard.address.title": "Adres",
     "settings.wireguard.address.description": "KVM-adres in de tunnel en het bijbehorende masker",
@@ -3746,7 +3760,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf4": "Kopieer het imagebestand naar de /data directory op de SD-kaart.",
     "image.tips.tf5": "Plaats de SD-kaart terug in de NanoKVM.",
     "power.powerConfirm": "Stroomactie uitvoeren?",
-    "power.resetConfirm": "Reset uitvoeren?"
+    "power.resetConfirm": "Reset uitvoeren?",
+    "settings.wireguard.device": "Dit apparaat"
   },
   pl: {
     "auth.illegalPassword": "Hasło musi mieć co najmniej 8 znaków i nie może zawierać cudzysłowów ani ukośników",
@@ -3924,7 +3939,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Obecny klucz przestanie działać. Następnie dodaj nowy klucz publiczny do peera.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Usunąć klucz prywatny?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard zostanie wyłączony i pozostanie wyłączony do czasu ustawienia nowego klucza.",
-    "settings.wireguard.publicKey.title": "Klucz publiczny tego KVM",
+    "settings.wireguard.publicKey.title": "Klucz publiczny",
     "settings.wireguard.publicKey.description": "Dodaj go do konfiguracji peera",
     "settings.wireguard.address.title": "Adres",
     "settings.wireguard.address.description": "Adres KVM w tunelu i jego maska",
@@ -3985,7 +4000,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "Adres URL zdalnego obrazu",
     "wol.input": "Adres MAC",
     "terminal.serialPortPlaceholder": "Na przykład /dev/ttyS1",
-    "wol.ok": "OK"
+    "wol.ok": "OK",
+    "settings.wireguard.device": "To urządzenie"
   },
   pt_br: {
     "auth.illegalPassword": "A senha deve ter pelo menos 8 caracteres e não pode conter aspas nem barras",
@@ -4141,7 +4157,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "A chave atual deixa de funcionar. Depois, adicione a nova chave pública ao peer.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Remover a chave privada?",
     "settings.wireguard.privateKey.removeConfirmDesc": "O WireGuard é desligado e permanece desligado até que uma nova chave seja definida.",
-    "settings.wireguard.publicKey.title": "Chave pública deste KVM",
+    "settings.wireguard.publicKey.title": "Chave pública",
     "settings.wireguard.publicKey.description": "Adicione-a à configuração do peer",
     "settings.wireguard.address.title": "Endereço",
     "settings.wireguard.address.description": "Endereço do KVM no túnel e sua máscara",
@@ -4236,7 +4252,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf4": "Copie o arquivo de imagem para o diretório /data no cartão SD.",
     "image.tips.tf5": "Insira o cartão SD no NanoKVM.",
     "power.powerConfirm": "Executar a operação de energia?",
-    "power.resetConfirm": "Executar a operação de redefinição?"
+    "power.resetConfirm": "Executar a operação de redefinição?",
+    "settings.wireguard.device": "Este dispositivo"
   },
   ru: {
     "download.disabled": "Сейчас нельзя скачивать или загружать образы, потому что хранилище недоступно для записи. Если образ смонтирован, размонтируйте его, а затем отключите виртуальный диск, чтобы хранилище снова стало доступным для записи.",
@@ -4397,7 +4414,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Текущий ключ перестанет работать. После этого добавьте новый открытый ключ на пир.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Удалить закрытый ключ?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard будет выключен и останется выключенным, пока не будет задан новый ключ.",
-    "settings.wireguard.publicKey.title": "Открытый ключ этого KVM",
+    "settings.wireguard.publicKey.title": "Открытый ключ",
     "settings.wireguard.publicKey.description": "Добавьте его в настройки пира",
     "settings.wireguard.address.title": "Адрес",
     "settings.wireguard.address.description": "Адрес KVM в туннеле и его маска",
@@ -4461,7 +4478,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "URL удалённого образа",
     "download.inputfile": "Файл образа",
     "wol.input": "MAC-адрес",
-    "terminal.serialPortPlaceholder": "Например, /dev/ttyS1"
+    "terminal.serialPortPlaceholder": "Например, /dev/ttyS1",
+    "settings.wireguard.device": "Это устройство"
   },
   se: {
     "auth.illegalPassword": "Lösenordet måste vara minst 8 tecken och får inte innehålla citattecken eller snedstreck",
@@ -4620,7 +4638,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Den nuvarande nyckeln slutar fungera. Lägg sedan till den nya publika nyckeln hos peeren.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Ta bort den privata nyckeln?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard stängs av och förblir av tills en ny nyckel har angetts.",
-    "settings.wireguard.publicKey.title": "Den här KVM:ens publika nyckel",
+    "settings.wireguard.publicKey.title": "Publik nyckel",
     "settings.wireguard.publicKey.description": "Lägg till den i peerens konfiguration",
     "settings.wireguard.address.title": "Adress",
     "settings.wireguard.address.description": "KVM-adress i tunneln och dess mask",
@@ -4691,7 +4709,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "SD-kort",
     "image.tips.tf3": "Sätt in SD-kortet i en kortläsare och anslut till din dator.",
     "image.tips.tf4": "Kopiera avbildningsfilen till /data på SD-kortet.",
-    "image.tips.tf5": "Sätt in SD-kortet i NanoKVM."
+    "image.tips.tf5": "Sätt in SD-kortet i NanoKVM.",
+    "settings.wireguard.device": "Den här enheten"
   },
   th: {
     "auth.illegalPassword": "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร และห้ามมีเครื่องหมายคำพูดหรือเครื่องหมายทับ",
@@ -4835,7 +4854,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "คีย์ปัจจุบันจะใช้งานไม่ได้ จากนั้นให้เพิ่มคีย์สาธารณะใหม่ในเพียร์",
     "settings.wireguard.privateKey.removeConfirmTitle": "ลบคีย์ส่วนตัวหรือไม่",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard จะถูกปิดและจะปิดอยู่จนกว่าจะตั้งค่าคีย์ใหม่",
-    "settings.wireguard.publicKey.title": "คีย์สาธารณะของ KVM นี้",
+    "settings.wireguard.publicKey.title": "คีย์สาธารณะ",
     "settings.wireguard.publicKey.description": "เพิ่มลงในการตั้งค่าของเพียร์",
     "settings.wireguard.address.title": "ที่อยู่",
     "settings.wireguard.address.description": "ที่อยู่ของ KVM ในอุโมงค์และมาสก์",
@@ -4902,7 +4921,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf4": "คัดลอกไฟล์อิมเมจไปยังไดเรกทอรี /data บนการ์ด SD",
     "image.tips.tf5": "ใส่การ์ด SD กลับเข้า NanoKVM",
     "power.powerConfirm": "ดำเนินการจ่ายไฟหรือไม่",
-    "power.resetConfirm": "ดำเนินการรีเซ็ตหรือไม่"
+    "power.resetConfirm": "ดำเนินการรีเซ็ตหรือไม่",
+    "settings.wireguard.device": "อุปกรณ์นี้"
   },
   tr: {
     "auth.illegalPassword": "Şifre en az 8 karakter olmalı ve tırnak işareti veya eğik çizgi içermemelidir",
@@ -5076,7 +5096,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Mevcut anahtar çalışmayı durdurur. Ardından yeni genel anahtarı eşe ekleyin.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Özel anahtar kaldırılsın mı?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard kapatılır ve yeni bir anahtar ayarlanana kadar kapalı kalır.",
-    "settings.wireguard.publicKey.title": "Bu KVM'nin genel anahtarı",
+    "settings.wireguard.publicKey.title": "Genel anahtar",
     "settings.wireguard.publicKey.description": "Eşin yapılandırmasına ekleyin",
     "settings.wireguard.address.title": "Adres",
     "settings.wireguard.address.description": "KVM'nin tünel içindeki adresi ve maskesi",
@@ -5166,7 +5186,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "wol.input": "MAC adresi",
     "terminal.serialPortPlaceholder": "Örneğin /dev/ttyS1",
     "power.powerConfirm": "Güç işlemini yürütmek istiyor musunuz?",
-    "power.resetConfirm": "Sıfırlama işlemini yürütmek istiyor musunuz?"
+    "power.resetConfirm": "Sıfırlama işlemini yürütmek istiyor musunuz?",
+    "settings.wireguard.device": "Bu cihaz"
   },
   uk: {
     "auth.illegalPassword": "Пароль має містити щонайменше 8 символів і не може містити лапок чи похилих рисок",
@@ -5340,7 +5361,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Поточний ключ перестане працювати. Після цього додайте новий відкритий ключ на пір.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Видалити приватний ключ?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard буде вимкнено, і він залишатиметься вимкненим, доки не буде задано новий ключ.",
-    "settings.wireguard.publicKey.title": "Відкритий ключ цього KVM",
+    "settings.wireguard.publicKey.title": "Відкритий ключ",
     "settings.wireguard.publicKey.description": "Додайте його до налаштувань піра",
     "settings.wireguard.address.title": "Адреса",
     "settings.wireguard.address.description": "Адреса KVM у тунелі та її маска",
@@ -5410,7 +5431,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf3": "Вставте SD карту в кардрідер і під'єднайте її до вашого комп'ютера.",
     "image.tips.tf4": "Скопіюйте файл зображення до каталогу /data на SD карті.",
     "image.tips.tf5": "Вставте SD карту в NanoKVM.",
-    "power.resetConfirm": "Виконати операцію скидання?"
+    "power.resetConfirm": "Виконати операцію скидання?",
+    "settings.wireguard.device": "Цей пристрій"
   },
   vi: {
     "auth.illegalPassword": "Mật khẩu phải có ít nhất 8 ký tự và không được chứa dấu nháy hoặc dấu gạch chéo",
@@ -5586,7 +5608,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "Khóa hiện tại sẽ ngừng hoạt động. Sau đó hãy thêm khóa công khai mới vào peer.",
     "settings.wireguard.privateKey.removeConfirmTitle": "Xóa khóa riêng?",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard sẽ bị tắt và giữ nguyên trạng thái tắt cho đến khi đặt khóa mới.",
-    "settings.wireguard.publicKey.title": "Khóa công khai của KVM này",
+    "settings.wireguard.publicKey.title": "Khóa công khai",
     "settings.wireguard.publicKey.description": "Thêm khóa này vào cấu hình của peer",
     "settings.wireguard.address.title": "Địa chỉ",
     "settings.wireguard.address.description": "Địa chỉ KVM trong đường hầm và mặt nạ của nó",
@@ -5665,7 +5687,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf4": "Sao chép tệp hình ảnh vào thư mục /data trên thẻ SD.",
     "image.tips.tf5": "Chèn thẻ SD vào NanoKVM.",
     "power.powerConfirm": "Thực hiện thao tác nguồn điện?",
-    "power.resetConfirm": "Thực hiện thao tác đặt lại?"
+    "power.resetConfirm": "Thực hiện thao tác đặt lại?",
+    "settings.wireguard.device": "Thiết bị này"
   },
   zh: {
     "auth.illegalPassword": "密码至少 8 个字符，且不能包含引号或斜杠",
@@ -5826,7 +5849,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "当前密钥将失效。之后请将新的公钥添加到对端。",
     "settings.wireguard.privateKey.removeConfirmTitle": "移除私钥？",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard 将被关闭，并保持关闭，直到设置新的密钥。",
-    "settings.wireguard.publicKey.title": "此 KVM 的公钥",
+    "settings.wireguard.publicKey.title": "公钥",
     "settings.wireguard.publicKey.description": "请将其添加到对端的配置中",
     "settings.wireguard.address.title": "地址",
     "settings.wireguard.address.description": "KVM 在隧道中的地址及其掩码",
@@ -5893,7 +5916,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.leaderKey.placeholder": "按下引导键",
     "image.tips.tfCard": "SD 卡",
     "image.tips.tf4": "从电脑上拷贝镜像文件到 SD 卡的 /data 目录下；",
-    "image.tips.tf5": "将 SD 卡重新插入 NanoKVM。"
+    "image.tips.tf5": "将 SD 卡重新插入 NanoKVM。",
+    "settings.wireguard.device": "本设备"
   },
   zh_tw: {
     "auth.illegalPassword": "密碼至少 8 個字元，且不能包含引號或斜線",
@@ -6055,7 +6079,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.wireguard.privateKey.generateConfirmDesc": "目前的金鑰將失效。之後請將新的公開金鑰加入對端。",
     "settings.wireguard.privateKey.removeConfirmTitle": "移除私鑰？",
     "settings.wireguard.privateKey.removeConfirmDesc": "WireGuard 將被關閉，並保持關閉，直到設定新的金鑰。",
-    "settings.wireguard.publicKey.title": "此 KVM 的公開金鑰",
+    "settings.wireguard.publicKey.title": "公開金鑰",
     "settings.wireguard.publicKey.description": "請將其加入對端的設定中",
     "settings.wireguard.address.title": "位址",
     "settings.wireguard.address.description": "KVM 在通道中的位址及其遮罩",
@@ -6119,6 +6143,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "映像檔的下載 URL",
     "wol.input": "MAC 位址",
     "terminal.serialPortPlaceholder": "例如 /dev/ttyS1",
-    "keyboard.leaderKey.placeholder": "按下引導鍵"
+    "keyboard.leaderKey.placeholder": "按下引導鍵",
+    "settings.wireguard.device": "本裝置"
   }
 };
