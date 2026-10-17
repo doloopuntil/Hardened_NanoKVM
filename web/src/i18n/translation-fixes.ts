@@ -357,7 +357,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': "Fonts d'actualització",
     'settings.update.latestVersion': 'Última versió',
     'settings.update.system.systemVersion': 'Versió del sistema',
-    'settings.update.title': 'Actualitzacions del sistema'
+    'settings.update.title': 'Actualitzacions del sistema',
+    'settings.account.totp.authenticator': 'Aplicació d’autenticació'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -613,7 +614,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'Zdroje aktualizací',
     'settings.update.latestVersion': 'Nejnovější verze',
     'settings.update.system.systemVersion': 'Verze systému',
-    'settings.update.title': 'Aktualizace systému'
+    'settings.update.title': 'Aktualizace systému',
+    'settings.account.totp.authenticator': 'Ověřovací aplikace'
   },
   da: {
     'auth.illegalPassword':
@@ -886,7 +888,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'Opdateringskilder',
     'settings.update.latestVersion': 'Seneste version',
     'settings.update.system.systemVersion': 'Systemversion',
-    'settings.update.title': 'Systemopdateringer'
+    'settings.update.title': 'Systemopdateringer',
+    'settings.account.totp.authenticator': 'Godkendelsesapp'
   },
   de: {
     'auth.illegalPassword':
@@ -1180,7 +1183,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'Update-Quellen',
     'settings.update.latestVersion': 'Neueste Version',
     'settings.update.system.systemVersion': 'Systemversion',
-    'settings.update.title': 'Systemupdates'
+    'settings.update.title': 'Systemupdates',
+    'settings.account.totp.authenticator': 'Authenticator-App',
+    'settings.account.webAccount': 'Name des Webkontos'
   },
   es: {
     'auth.illegalPassword':
@@ -1446,7 +1451,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'Fuentes de actualización',
     'settings.update.latestVersion': 'Última versión',
     'settings.update.system.systemVersion': 'Versión del sistema',
-    'settings.update.title': 'Actualizaciones del sistema'
+    'settings.update.title': 'Actualizaciones del sistema',
+    'settings.account.totp.authenticator': 'Aplicación de autenticación'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1705,7 +1711,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Uusim versioon',
     'settings.tailscale.notInstall': 'Tailscale puudub, palun paigalda',
     'settings.update.system.systemVersion': 'Süsteemi versioon',
-    'settings.update.title': 'Süsteemiuuendused'
+    'settings.update.title': 'Süsteemiuuendused',
+    'settings.account.totp.authenticator': 'Autentimisrakendus'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1962,7 +1969,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Uusin versio',
     'settings.tailscale.notInstall': 'Tailscalea ei löytynyt, asenna se',
     'settings.update.system.systemVersion': 'Järjestelmän versio',
-    'settings.update.title': 'Järjestelmäpäivitykset'
+    'settings.update.title': 'Järjestelmäpäivitykset',
+    'settings.account.totp.authenticator': 'Todennussovellus'
   },
   fr: {
     'auth.illegalPassword':
@@ -2235,7 +2243,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'Sources de mise à jour',
     'settings.update.latestVersion': 'Dernière version',
     'settings.update.system.systemVersion': 'Version du système',
-    'settings.update.title': 'Mises à jour du système'
+    'settings.update.title': 'Mises à jour du système',
+    'settings.account.totp.authenticator': 'Application d’authentification'
   },
   hu: {
     'auth.illegalPassword':
@@ -2509,7 +2518,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'Frissítési források',
     'settings.update.latestVersion': 'Legújabb verzió',
     'settings.update.system.systemVersion': 'Rendszerverzió',
-    'settings.update.title': 'Rendszerfrissítések'
+    'settings.update.title': 'Rendszerfrissítések',
+    'settings.account.totp.authenticator': 'Hitelesítő alkalmazás'
   },
   id: {
     'auth.illegalPassword':
@@ -2790,7 +2800,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.offline.title': 'Pembaruan offline',
     'settings.about.application': 'Versi aplikasi',
     'settings.update.system.systemVersion': 'Versi sistem',
-    'settings.update.title': 'Pembaruan sistem'
+    'settings.update.title': 'Pembaruan sistem',
+    'settings.account.totp.authenticator': 'Aplikasi autentikator'
   },
   it: {
     'auth.illegalPassword':
@@ -3062,7 +3073,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Ultima versione',
     'settings.update.title': 'Aggiornamenti di sistema',
     'settings.about.application': 'Versione applicazione',
-    'settings.update.system.systemVersion': 'Versione sistema'
+    'settings.update.system.systemVersion': 'Versione sistema',
+    'settings.account.totp.authenticator': 'App di autenticazione'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -3323,7 +3335,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': '最新バージョン',
     'settings.tailscale.notInstall': 'Tailscale が見つかりません、インストールしてください',
     'settings.update.system.systemVersion': 'システムバージョン',
-    'settings.update.title': 'システムアップデート'
+    'settings.update.title': 'システムアップデート',
+    'settings.account.totp.authenticator': '認証アプリ'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -3582,7 +3595,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': '최신 버전',
     'settings.tailscale.notInstall': 'Tailscale이 없습니다, 설치해 주세요',
     'settings.update.system.systemVersion': '시스템 버전',
-    'settings.update.title': '시스템 업데이트'
+    'settings.update.title': '시스템 업데이트',
+    'settings.account.totp.authenticator': '인증 앱'
   },
   nb: {
     'auth.illegalPassword':
@@ -3842,7 +3856,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'Oppdateringskilder',
     'settings.update.latestVersion': 'Nyeste versjon',
     'settings.update.system.systemVersion': 'Systemversjon',
-    'settings.update.title': 'Systemoppdateringer'
+    'settings.update.title': 'Systemoppdateringer',
+    'settings.account.totp.authenticator': 'Autentiseringsapp'
   },
   nl: {
     'auth.illegalPassword':
@@ -4119,7 +4134,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Nieuwste versie',
     'settings.about.application': 'Applicatieversie',
     'settings.update.system.systemVersion': 'Systeemversie',
-    'settings.update.title': 'Systeemupdates'
+    'settings.update.title': 'Systeemupdates',
+    'settings.account.totp.authenticator': 'Authenticator-app',
+    'settings.account.webAccount': 'Webaccountnaam'
   },
   pl: {
     'auth.illegalPassword':
@@ -4387,7 +4404,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'Źródła aktualizacji',
     'settings.update.latestVersion': 'Najnowsza wersja',
     'settings.update.system.systemVersion': 'Wersja systemu',
-    'settings.update.title': 'Aktualizacje systemu'
+    'settings.update.title': 'Aktualizacje systemu',
+    'settings.account.totp.authenticator': 'Aplikacja uwierzytelniająca'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -4639,7 +4657,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Atualizações do sistema',
     'settings.update.preview': 'Prévia das atualizações',
     'settings.about.application': 'Versão do aplicativo',
-    'settings.update.system.systemVersion': 'Versão do sistema'
+    'settings.update.system.systemVersion': 'Versão do sistema',
+    'settings.account.totp.authenticator': 'App autenticador',
+    'settings.account.webAccount': 'Nome da conta web'
   },
   ru: {
     'download.disabled':
@@ -4891,7 +4911,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'Источники обновлений',
     'settings.update.latestVersion': 'Последняя версия',
     'settings.update.system.systemVersion': 'Версия системы',
-    'settings.update.title': 'Обновления системы'
+    'settings.update.title': 'Обновления системы',
+    'settings.account.totp.authenticator': 'Приложение-аутентификатор'
   },
   se: {
     'auth.illegalPassword':
@@ -5136,7 +5157,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'Uppdateringskällor',
     'settings.update.latestVersion': 'Senaste version',
     'settings.update.system.systemVersion': 'Systemversion',
-    'settings.update.title': 'Systemuppdateringar'
+    'settings.update.title': 'Systemuppdateringar',
+    'settings.account.totp.authenticator': 'Autentiseringsapp',
+    'settings.account.webAccount': 'Webbkontonamn'
   },
   th: {
     'auth.illegalPassword':
@@ -5351,7 +5374,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'แหล่งอัปเดต',
     'settings.update.latestVersion': 'เวอร์ชันล่าสุด',
     'settings.update.system.systemVersion': 'เวอร์ชันระบบ',
-    'settings.update.title': 'อัปเดตระบบ'
+    'settings.update.title': 'อัปเดตระบบ',
+    'settings.account.totp.authenticator': 'แอปยืนยันตัวตน'
   },
   tr: {
     'auth.illegalPassword':
@@ -5626,7 +5650,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.preview': 'Ön izleme güncellemeleri',
     'settings.update.offline.title': 'Çevrimdışı güncellemeler',
     'settings.update.system.systemVersion': 'Sistem sürümü',
-    'settings.update.title': 'Sistem güncellemeleri'
+    'settings.update.title': 'Sistem güncellemeleri',
+    'settings.account.totp.authenticator': 'Kimlik doğrulama uygulaması',
+    'settings.account.webAccount': 'Web hesap adı'
   },
   uk: {
     'auth.illegalPassword':
@@ -5894,7 +5920,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': 'Джерела оновлень',
     'settings.update.latestVersion': 'Остання версія',
     'settings.update.system.systemVersion': 'Версія системи',
-    'settings.update.title': 'Оновлення системи'
+    'settings.update.title': 'Оновлення системи',
+    'settings.account.totp.authenticator': 'Застосунок-автентифікатор'
   },
   vi: {
     'auth.illegalPassword':
@@ -6156,7 +6183,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Phiên bản mới nhất',
     'settings.about.application': 'Phiên bản ứng dụng',
     'settings.update.system.systemVersion': 'Phiên bản hệ thống',
-    'settings.update.title': 'Cập nhật hệ thống'
+    'settings.update.title': 'Cập nhật hệ thống',
+    'settings.account.totp.authenticator': 'Ứng dụng xác thực'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -6370,7 +6398,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': '更新来源',
     'settings.update.latestVersion': '最新版本',
     'settings.update.system.systemVersion': '系统版本',
-    'settings.update.title': '系统更新'
+    'settings.update.title': '系统更新',
+    'settings.account.totp.authenticator': '验证器应用'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -6588,6 +6617,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.sources': '更新來源',
     'settings.update.latestVersion': '最新版本',
     'settings.update.system.systemVersion': '系統版本',
-    'settings.update.title': '系統更新'
+    'settings.update.title': '系統更新',
+    'settings.account.totp.authenticator': '驗證器 App'
   }
 };

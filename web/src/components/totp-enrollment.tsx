@@ -8,6 +8,7 @@ import type { TotpStatus } from '@/api/auth-totp.ts';
 import { encrypt } from '@/lib/encrypt.ts';
 import { toast } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 /** Copy text, falling back to execCommand where the Clipboard API is missing (plain HTTP). */
 async function copyText(text: string, container: HTMLElement): Promise<boolean> {
@@ -302,89 +303,70 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
     );
   }
 
+  const isEnabled = !!status?.enabled;
+
   return (
-    <>
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex min-w-0 flex-col space-y-1">
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span>{t('settings.account.totp.title')}</span>
-            {status &&
-              (status.enabled ? (
-                <Tag color="green" className="!me-0">
-                  {t('settings.account.totp.enabled')}
-                </Tag>
-              ) : (
-                <Tag className="!me-0">{t('settings.account.totp.disabled')}</Tag>
-              ))}
+    <div className="flex flex-col space-y-6">
+      <SettingRow
+        label={
+          <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
+            {t('settings.account.totp.authenticator')}
             {status?.required && !status.enabled && (
               <Tag color="blue" className="!me-0">
                 {t('settings.account.totp.required')}
               </Tag>
             )}
-          </div>
-          <span className="text-xs text-neutral-500">{t('settings.account.totp.description')}</span>
-        </div>
-
+          </span>
+        }
+        description={t('settings.account.totp.description')}
+        isSwitch
+      >
         {/* On starts the enrolment; off asks for the password. A policy that
             requires it, or an unsynchronized clock, keeps it from changing. */}
         <Switch
-          className="shrink-0"
-          checked={!!status?.enabled}
+          checked={isEnabled}
           disabled={!status || (status.enabled ? status.required : !status.clockSynced)}
           onChange={(checked) => (checked ? setIsStartingEnrolment(true) : setIsDisabling(true))}
         />
-      </div>
+      </SettingRow>
 
       {/* Codes are derived from the clock, so enrolling before NTP succeeds
           would produce a secret whose codes could never be confirmed. */}
       {status && !status.clockSynced && !status.enabled && (
-        <Alert
-          className="mt-3"
-          type="warning"
-          showIcon
-          message={t('settings.account.totp.clockUnsynced')}
+        <Alert type="warning" showIcon message={t('settings.account.totp.clockUnsynced')} />
+      )}
+
+      <SettingRow
+        label={t('settings.account.totp.requireTitle')}
+        description={t('settings.account.totp.requireDescription')}
+        isSwitch
+      >
+        <Switch
+          checked={!!status?.required}
+          disabled={!isEnabled}
+          loading={isSavingRequired}
+          onChange={changeRequired}
         />
-      )}
+      </SettingRow>
 
-      {status?.enabled && (
-        <div className="mt-6 flex items-center justify-between gap-4">
-          <div className="flex min-w-0 flex-col space-y-1">
-            <span>{t('settings.account.totp.requireTitle')}</span>
-            <span className="text-xs text-neutral-500">
-              {t('settings.account.totp.requireDescription')}
-            </span>
-          </div>
-          <Switch checked={status.required} loading={isSavingRequired} onChange={changeRequired} />
-        </div>
-      )}
+      <SettingRow
+        label={t('settings.account.totp.regenerate')}
+        description={
+          isEnabled
+            ? // Not named `count`: that would make i18next look for plural
+              // key variants that the fork's extras mechanism does not add.
+              t('settings.account.totp.remaining', { remaining: status?.backupCodesRemaining })
+            : undefined
+        }
+        inline
+      >
+        <Button disabled={!isEnabled} onClick={() => setIsRegenerating(true)}>
+          {t('settings.account.totp.generate')}
+        </Button>
+      </SettingRow>
 
-      {status?.enabled && (
-        <div className="mt-6 flex items-center justify-between gap-4">
-          <div className="flex min-w-0 flex-col space-y-1">
-            <span>{t('settings.account.totp.regenerate')}</span>
-            <span className="text-xs text-neutral-500">
-              {
-                // Not named `count`: that would make i18next look for plural
-                // key variants that the fork's extras mechanism does not add.
-                t('settings.account.totp.remaining', {
-                  remaining: status.backupCodesRemaining
-                })
-              }
-            </span>
-          </div>
-          <Button className="shrink-0" onClick={() => setIsRegenerating(true)}>
-            {t('settings.account.totp.generate')}
-          </Button>
-        </div>
-      )}
-
-      {status?.enabled && status.backupCodesRemaining === 0 && (
-        <Alert
-          className="mt-3"
-          type="warning"
-          showIcon
-          message={t('settings.account.totp.noBackupCodes')}
-        />
+      {isEnabled && status?.backupCodesRemaining === 0 && (
+        <Alert type="warning" showIcon message={t('settings.account.totp.noBackupCodes')} />
       )}
 
       <Modal
@@ -469,6 +451,6 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
           />
         </div>
       </Modal>
-    </>
+    </div>
   );
 };

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import * as api from '@/api/auth.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 import { TotpEnrollment } from '@/components/totp-enrollment.tsx';
 
 import { Logout } from './logout.tsx';
@@ -30,27 +31,27 @@ export const Account = ({ setIsLocked }: Props) => {
       <div className="text-base">{t('settings.account.title')}</div>
       <Divider className="opacity-50" />
 
-      <div className="flex flex-col space-y-8">
-        <div className="flex items-center justify-between">
-          <span>{t('settings.account.webAccount')}</span>
-          <span>{username ? username : '-'}</span>
-        </div>
+      <div className="flex min-w-0 flex-col space-y-6">
+        <SettingSection title={t('auth.login')}>
+          <InfoRow label={t('settings.account.webAccount')} value={username} />
 
-        <div className="flex items-center justify-between">
-          <span>{t('settings.account.password')}</span>
-          <Button type="primary" onClick={changePassword}>
-            {t('settings.account.updateBtn')}
-          </Button>
-        </div>
+          <SettingRow label={t('settings.account.password')} inline>
+            <Button onClick={changePassword}>{t('settings.account.updateBtn')}</Button>
+          </SettingRow>
+        </SettingSection>
 
-        <div className="flex flex-col">
+        <Divider className="opacity-50" />
+
+        <SettingSection title={t('settings.account.totp.title')}>
           <TotpEnrollment setIsLocked={setIsLocked} />
+        </SettingSection>
+
+        <Divider className="opacity-50" />
+
+        <div className="flex justify-end">
+          <Logout />
         </div>
       </div>
-
-      <Divider className="opacity-50" />
-
-      <Logout />
     </>
   );
 };

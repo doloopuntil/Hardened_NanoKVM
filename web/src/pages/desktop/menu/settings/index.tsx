@@ -52,6 +52,11 @@ export const Settings = () => {
 
   const tabs = [
     { id: 'about', icon: <BadgeInfoIcon size={16} />, component: <About /> },
+    {
+      id: 'account',
+      icon: <UserRoundIcon size={18} />,
+      component: <Account setIsLocked={setIsLocked} />
+    },
     { id: 'appearance', icon: <PaletteIcon size={16} />, component: <Appearance /> },
     { id: 'device', icon: <SmartphoneIcon size={16} />, component: <Device /> },
     { id: 'system', icon: <ServerCogIcon size={16} />, component: <System /> },
@@ -65,11 +70,6 @@ export const Settings = () => {
       id: 'update',
       icon: <CircleArrowUpIcon size={16} />,
       component: <Update setIsLocked={setIsLocked} />
-    },
-    {
-      id: 'account',
-      icon: <UserRoundIcon size={18} />,
-      component: <Account setIsLocked={setIsLocked} />
     }
   ];
 

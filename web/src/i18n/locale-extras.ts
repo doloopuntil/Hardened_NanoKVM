@@ -2501,6 +2501,7 @@ const totpFallbackExtras: TranslationMap = {
   'auth.totp.cancel': 'Back',
   'auth.totp.invalidCode': 'That code is not valid. Try again.',
   'settings.account.totp.title': 'Two-factor authentication',
+  'settings.account.totp.authenticator': 'Authenticator app',
   'settings.account.totp.description':
     'Require a time-based code from an authenticator app in addition to your password',
   'settings.account.totp.enabled': 'Enabled',
