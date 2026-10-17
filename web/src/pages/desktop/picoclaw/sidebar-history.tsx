@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import type { PicoclawSessionListItem } from '@/api/picoclaw.ts';
 import { confirm } from '@/lib/feedback.ts';
 
+import { EmptyState } from './empty-state.tsx';
+
 type SidebarHistoryProps = {
   sessions: PicoclawSessionListItem[];
   activeSessionId?: string;
@@ -52,11 +54,11 @@ export const SidebarHistory = ({
 
     if (sessions.length === 0) {
       return (
-        <div className="flex flex-1 flex-col items-center justify-center gap-2 px-6 text-center">
-          <Clock3Icon size={18} className="text-neutral-600" />
-          <span className="text-sm text-neutral-400">{t('picoclaw.history.emptyTitle')}</span>
-          <span className="text-xs text-neutral-600">{t('picoclaw.history.emptyDescription')}</span>
-        </div>
+        <EmptyState
+          icon={<Clock3Icon size={22} />}
+          title={t('picoclaw.history.emptyTitle')}
+          description={t('picoclaw.history.emptyDescription')}
+        />
       );
     }
 
