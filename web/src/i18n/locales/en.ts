@@ -910,13 +910,13 @@ const en = {
     picoclaw: {
       title: 'PicoClaw Assistant',
       empty: 'Open the panel and start a task to begin',
-      inputPlaceholder: 'Describe what you want the PicoClaw to do',
+      inputPlaceholder: 'Describe what you want PicoClaw to do',
       newConversation: 'New conversation',
       processing: 'Processing...',
       agent: {
-        defaultTitle: 'General Assistant',
+        defaultTitle: 'General assistant',
         defaultDescription: 'General chat, search, and workspace help',
-        kvmTitle: 'Remote Control',
+        kvmTitle: 'Remote control',
         kvmDescription: 'Operate the remote host through NanoKVM',
         switched: 'Agent role switched',
         switchFailed: 'Failed to switch agent role'
@@ -976,21 +976,21 @@ const en = {
           verifying: 'Verifying',
           installing: 'Installing',
           installed: 'Installed',
-          install_timeout: 'Timed Out',
+          install_timeout: 'Timed out',
           install_failed: 'Failed'
         }
       },
       model: {
         requiredTitle: 'Model configuration is required',
         requiredDescription: 'Configure the PicoClaw model before using PicoClaw chat.',
-        docsTitle: 'Configuration Guide',
+        docsTitle: 'Configuration guide',
         docsDesc: 'Supported models and protocols',
         menuLabel: 'Configure model',
-        modelIdentifier: 'Model Identifier',
+        modelIdentifier: 'Model identifier',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
-        apiKey: 'API Key',
+        apiKey: 'API key',
         apiKeyPlaceholder: 'Enter the model API key',
         save: 'Save',
         saving: 'Saving',

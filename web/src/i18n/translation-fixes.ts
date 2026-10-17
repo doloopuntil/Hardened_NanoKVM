@@ -287,7 +287,10 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "Targeta SD",
     "settings.wireguard.device": "Aquest dispositiu",
     "settings.system.time.servers.routerDetected": "Encaminador detectat",
-    "settings.system.time.servers.routerNone": "No trobat"
+    "settings.system.time.servers.routerNone": "No trobat",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Cal indicar l'identificador del model, l'API base URL i la clau API",
+    "picoclaw.inputPlaceholder": "Descriu què vols que faci PicoClaw"
   },
   cz: {
     "auth.illegalPassword": "Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka",
@@ -529,7 +532,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "Provést operaci resetování?",
     "settings.wireguard.device": "Toto zařízení",
     "settings.system.time.servers.routerDetected": "Zjištěný router",
-    "settings.system.time.servers.routerNone": "Nenalezen"
+    "settings.system.time.servers.routerNone": "Nenalezen",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Identifikátor modelu, API base URL a klíč API jsou povinné"
   },
   da: {
     "auth.illegalPassword": "Adgangskoden skal være på mindst 8 tegn og må ikke indeholde anførselstegn eller skråstreger",
@@ -781,7 +786,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "Udføre nulstilling?",
     "settings.wireguard.device": "Denne enhed",
     "settings.system.time.servers.routerDetected": "Registreret router",
-    "settings.system.time.servers.routerNone": "Ikke fundet"
+    "settings.system.time.servers.routerNone": "Ikke fundet",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Model-id, API base URL og API-nøgle er påkrævet"
   },
   de: {
     "auth.illegalPassword": "Das Passwort muss mindestens 8 Zeichen lang sein und darf keine Anführungszeichen oder Schrägstriche enthalten",
@@ -1042,7 +1049,12 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "Setzen Sie die SD-Karte wieder in den NanoKVM ein.",
     "settings.wireguard.device": "Dieses Gerät",
     "settings.system.time.servers.routerDetected": "Erkannter Router",
-    "settings.system.time.servers.routerNone": "Nicht gefunden"
+    "settings.system.time.servers.routerNone": "Nicht gefunden",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Modellkennung, API base URL und API-Schlüssel sind erforderlich",
+    "picoclaw.uninstall.confirmTitle": "PicoClaw deinstallieren",
+    "picoclaw.install.install": "PicoClaw installieren",
+    "picoclaw.inputPlaceholder": "Beschreiben Sie, was PicoClaw tun soll"
   },
   es: {
     "auth.illegalPassword": "La contraseña debe tener al menos 8 caracteres y no puede contener comillas ni barras",
@@ -1283,7 +1295,10 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "¿Ejecutar la operación de reinicio?",
     "settings.wireguard.device": "Este dispositivo",
     "settings.system.time.servers.routerDetected": "Router detectado",
-    "settings.system.time.servers.routerNone": "No encontrado"
+    "settings.system.time.servers.routerNone": "No encontrado",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Se requieren el identificador del modelo, API base URL y la clave API",
+    "picoclaw.inputPlaceholder": "Describe lo que quieres que haga PicoClaw"
   },
   et: {
     "settings.device.diskDesc": "Ühenda SD-kaart kaugmasinasse",
@@ -1765,7 +1780,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "Aseta SD-kortti NanoKVM:ään.",
     "settings.wireguard.device": "Tämä laite",
     "settings.system.time.servers.routerDetected": "Tunnistettu reititin",
-    "settings.system.time.servers.routerNone": "Ei löytynyt"
+    "settings.system.time.servers.routerNone": "Ei löytynyt",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Mallin tunniste, API base URL ja API-avain vaaditaan"
   },
   fr: {
     "auth.illegalPassword": "Le mot de passe doit contenir au moins 8 caractères et ne peut pas contenir de guillemets ni de barres obliques",
@@ -2017,7 +2034,10 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.account.totp.regenerateTitle": "Émettre de nouveaux codes de secours?",
     "settings.wireguard.device": "Cet appareil",
     "settings.system.time.servers.routerDetected": "Routeur détecté",
-    "settings.system.time.servers.routerNone": "Introuvable"
+    "settings.system.time.servers.routerNone": "Introuvable",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "L’identifiant du modèle, l’API base URL et la clé API sont requis",
+    "picoclaw.inputPlaceholder": "Décrivez ce que vous voulez que PicoClaw fasse"
   },
   hu: {
     "auth.illegalPassword": "A jelszónak legalább 8 karakter hosszúnak kell lennie, és nem tartalmazhat idézőjelet vagy törtvonalat",
@@ -2269,7 +2289,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "Végrehajtja a visszaállítási műveletet?",
     "settings.wireguard.device": "Ez az eszköz",
     "settings.system.time.servers.routerDetected": "Észlelt router",
-    "settings.system.time.servers.routerNone": "Nem található"
+    "settings.system.time.servers.routerNone": "Nem található",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "A modellazonosító, az API base URL és az API-kulcs megadása kötelező",
+    "picoclaw.uninstall.confirmTitle": "PicoClaw eltávolítása",
+    "picoclaw.inputPlaceholder": "Írja le, mit szeretne, hogy PicoClaw tegyen"
   },
   id: {
     "auth.illegalPassword": "Kata sandi harus minimal 8 karakter dan tidak boleh berisi tanda kutip atau garis miring",
@@ -2553,7 +2577,14 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "Jalankan operasi penyetelan ulang?",
     "settings.wireguard.device": "Perangkat ini",
     "settings.system.time.servers.routerDetected": "Router terdeteksi",
-    "settings.system.time.servers.routerNone": "Tidak ditemukan"
+    "settings.system.time.servers.routerNone": "Tidak ditemukan",
+    "picoclaw.install.stages.install_timeout": "Waktu habis",
+    "picoclaw.model.docsTitle": "Panduan konfigurasi",
+    "picoclaw.model.modelIdentifier": "Pengenal model",
+    "picoclaw.model.apiBase": "URL dasar API",
+    "picoclaw.model.invalid": "Pengenal model, URL dasar API, dan kunci API wajib diisi",
+    "picoclaw.status.runtimeStartFailed": "Gagal memulai runtime PicoClaw",
+    "picoclaw.status.runtimeStopFailed": "Gagal menghentikan runtime PicoClaw"
   },
   it: {
     "auth.illegalPassword": "La password deve contenere almeno 8 caratteri e non può contenere virgolette o barre",
@@ -2808,7 +2839,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.powerConfirm": "Eseguire l'operazione di accensione?",
     "settings.wireguard.device": "Questo dispositivo",
     "settings.system.time.servers.routerDetected": "Router rilevato",
-    "settings.system.time.servers.routerNone": "Non trovato"
+    "settings.system.time.servers.routerNone": "Non trovato",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Identificatore del modello, API base URL e chiave API sono obbligatori"
   },
   ja: {
     "auth.illegalPassword": "パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません",
@@ -3042,7 +3075,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "SD カードを NanoKVM に挿入します。",
     "settings.wireguard.device": "このデバイス",
     "settings.system.time.servers.routerDetected": "検出されたルーター",
-    "settings.system.time.servers.routerNone": "見つかりません"
+    "settings.system.time.servers.routerNone": "見つかりません",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "モデル識別子、API base URL、API キーは必須です"
   },
   ko: {
     "auth.illegalPassword": "비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다",
@@ -3292,7 +3327,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "리셋 작업을 실행하시겠습니까?",
     "settings.wireguard.device": "이 장치",
     "settings.system.time.servers.routerDetected": "감지된 라우터",
-    "settings.system.time.servers.routerNone": "찾을 수 없음"
+    "settings.system.time.servers.routerNone": "찾을 수 없음",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "모델 식별자, API base URL, API 키가 필요합니다"
   },
   nb: {
     "auth.illegalPassword": "Passordet må være minst 8 tegn og kan ikke inneholde anførselstegn eller skråstreker",
@@ -3538,7 +3575,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "Utføre tilbakestilling?",
     "settings.wireguard.device": "Denne enheten",
     "settings.system.time.servers.routerDetected": "Oppdaget ruter",
-    "settings.system.time.servers.routerNone": "Ikke funnet"
+    "settings.system.time.servers.routerNone": "Ikke funnet",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Modellidentifikator, API base URL og API-nøkkel kreves"
   },
   nl: {
     "auth.illegalPassword": "Het wachtwoord moet minstens 8 tekens bevatten en mag geen aanhalingstekens of schuine strepen bevatten",
@@ -3791,7 +3830,10 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "Reset uitvoeren?",
     "settings.wireguard.device": "Dit apparaat",
     "settings.system.time.servers.routerDetected": "Gedetecteerde router",
-    "settings.system.time.servers.routerNone": "Niet gevonden"
+    "settings.system.time.servers.routerNone": "Niet gevonden",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Model-ID, API base URL en API-sleutel zijn vereist",
+    "picoclaw.inputPlaceholder": "Beschrijf wat u wilt dat PicoClaw doet"
   },
   pl: {
     "auth.illegalPassword": "Hasło musi mieć co najmniej 8 znaków i nie może zawierać cudzysłowów ani ukośników",
@@ -4033,7 +4075,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "wol.ok": "OK",
     "settings.wireguard.device": "To urządzenie",
     "settings.system.time.servers.routerDetected": "Wykryty router",
-    "settings.system.time.servers.routerNone": "Nie znaleziono"
+    "settings.system.time.servers.routerNone": "Nie znaleziono",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Identyfikator modelu, API base URL i klucz API są wymagane"
   },
   pt_br: {
     "auth.illegalPassword": "A senha deve ter pelo menos 8 caracteres e não pode conter aspas nem barras",
@@ -4287,7 +4331,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "Executar a operação de redefinição?",
     "settings.wireguard.device": "Este dispositivo",
     "settings.system.time.servers.routerDetected": "Roteador detectado",
-    "settings.system.time.servers.routerNone": "Não encontrado"
+    "settings.system.time.servers.routerNone": "Não encontrado",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Identificador do modelo, API base URL e chave API são obrigatórios"
   },
   ru: {
     "download.disabled": "Сейчас нельзя скачивать или загружать образы, потому что хранилище недоступно для записи. Если образ смонтирован, размонтируйте его, а затем отключите виртуальный диск, чтобы хранилище снова стало доступным для записи.",
@@ -4515,7 +4561,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "terminal.serialPortPlaceholder": "Например, /dev/ttyS1",
     "settings.wireguard.device": "Это устройство",
     "settings.system.time.servers.routerDetected": "Обнаружен роутер",
-    "settings.system.time.servers.routerNone": "Не найден"
+    "settings.system.time.servers.routerNone": "Не найден",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Требуются идентификатор модели, API base URL и API-ключ"
   },
   se: {
     "auth.illegalPassword": "Lösenordet måste vara minst 8 tecken och får inte innehålla citattecken eller snedstreck",
@@ -4748,7 +4796,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "Sätt in SD-kortet i NanoKVM.",
     "settings.wireguard.device": "Den här enheten",
     "settings.system.time.servers.routerDetected": "Upptäckt router",
-    "settings.system.time.servers.routerNone": "Hittades inte"
+    "settings.system.time.servers.routerNone": "Hittades inte",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Modellidentifierare, API base URL och API-nyckel krävs"
   },
   th: {
     "auth.illegalPassword": "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร และห้ามมีเครื่องหมายคำพูดหรือเครื่องหมายทับ",
@@ -4962,7 +5012,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "ดำเนินการรีเซ็ตหรือไม่",
     "settings.wireguard.device": "อุปกรณ์นี้",
     "settings.system.time.servers.routerDetected": "ตรวจพบเราเตอร์",
-    "settings.system.time.servers.routerNone": "ไม่พบ"
+    "settings.system.time.servers.routerNone": "ไม่พบ",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "ต้องระบุรหัสโมเดล, API base URL และคีย์ API"
   },
   tr: {
     "auth.illegalPassword": "Şifre en az 8 karakter olmalı ve tırnak işareti veya eğik çizgi içermemelidir",
@@ -5229,7 +5281,22 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "Sıfırlama işlemini yürütmek istiyor musunuz?",
     "settings.wireguard.device": "Bu cihaz",
     "settings.system.time.servers.routerDetected": "Algılanan yönlendirici",
-    "settings.system.time.servers.routerNone": "Bulunamadı"
+    "settings.system.time.servers.routerNone": "Bulunamadı",
+    "picoclaw.uninstall.confirmTitle": "PicoClaw'ı kaldır",
+    "picoclaw.install.install": "PicoClaw'ı yükle",
+    "picoclaw.config.startRuntime": "PicoClaw'ı başlat",
+    "picoclaw.start.title": "PicoClaw'ı başlat",
+    "picoclaw.config.stopRuntime": "PicoClaw'ı durdur",
+    "picoclaw.agent.defaultTitle": "Genel asistan",
+    "picoclaw.agent.kvmTitle": "Uzaktan kontrol",
+    "picoclaw.message.screenshot": "Ekran görüntüsü",
+    "picoclaw.install.stages.install_timeout": "Zaman aşımı",
+    "picoclaw.model.docsTitle": "Yapılandırma kılavuzu",
+    "picoclaw.model.modelIdentifier": "Model tanımlayıcı",
+    "picoclaw.model.apiBase": "API temel URL'si",
+    "picoclaw.model.invalid": "Model tanımlayıcı, API temel URL'si ve API anahtarı gereklidir",
+    "picoclaw.model.apiKey": "API anahtarı",
+    "picoclaw.inputPlaceholder": "PicoClaw'un ne yapmasını istediğinizi açıklayın"
   },
   uk: {
     "auth.illegalPassword": "Пароль має містити щонайменше 8 символів і не може містити лапок чи похилих рисок",
@@ -5476,7 +5543,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "Виконати операцію скидання?",
     "settings.wireguard.device": "Цей пристрій",
     "settings.system.time.servers.routerDetected": "Виявлений маршрутизатор",
-    "settings.system.time.servers.routerNone": "Не знайдено"
+    "settings.system.time.servers.routerNone": "Не знайдено",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Потрібні ідентифікатор моделі, API base URL і API-ключ"
   },
   vi: {
     "auth.illegalPassword": "Mật khẩu phải có ít nhất 8 ký tự và không được chứa dấu nháy hoặc dấu gạch chéo",
@@ -5734,7 +5803,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.resetConfirm": "Thực hiện thao tác đặt lại?",
     "settings.wireguard.device": "Thiết bị này",
     "settings.system.time.servers.routerDetected": "Bộ định tuyến phát hiện được",
-    "settings.system.time.servers.routerNone": "Không tìm thấy"
+    "settings.system.time.servers.routerNone": "Không tìm thấy",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "Bắt buộc nhập mã định danh mô hình, API base URL và khóa API"
   },
   zh: {
     "auth.illegalPassword": "密码至少 8 个字符，且不能包含引号或斜杠",
@@ -5965,7 +6036,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "将 SD 卡重新插入 NanoKVM。",
     "settings.wireguard.device": "本设备",
     "settings.system.time.servers.routerDetected": "检测到路由器",
-    "settings.system.time.servers.routerNone": "未找到"
+    "settings.system.time.servers.routerNone": "未找到",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "模型标识、API base URL 和 API Key 不能为空"
   },
   zh_tw: {
     "auth.illegalPassword": "密碼至少 8 個字元，且不能包含引號或斜線",
@@ -6194,6 +6267,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.leaderKey.placeholder": "按下引導鍵",
     "settings.wireguard.device": "本裝置",
     "settings.system.time.servers.routerDetected": "偵測到路由器",
-    "settings.system.time.servers.routerNone": "未找到"
+    "settings.system.time.servers.routerNone": "未找到",
+    "picoclaw.model.apiBase": "API base URL",
+    "picoclaw.model.invalid": "模型標識、API base URL 和 API Key 不能為空"
   }
 };

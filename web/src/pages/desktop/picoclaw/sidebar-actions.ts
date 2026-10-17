@@ -13,6 +13,7 @@ import {
   stopRuntime,
   uninstallRuntime
 } from '@/api/picoclaw.ts';
+import { toast } from '@/lib/feedback.ts';
 import {
   clearPicoclawRuntimeInstallSnapshot,
   setPicoclawRuntimeInstallSnapshot,
@@ -173,6 +174,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
                   ? 'picoclaw.status.runtimeStopFailed'
                   : 'picoclaw.status.runtimeStartFailed'
               );
+        toast.error(errorMessage);
         setMessages((current) => [
           ...current,
           createErrorMessage({
@@ -219,6 +221,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
               ? 'picoclaw.status.runtimeStopFailed'
               : 'picoclaw.status.runtimeStartFailed'
           );
+        toast.error(errorMessage);
         setMessages((current) => [
           ...current,
           createErrorMessage({
@@ -268,6 +271,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
         (response as { message?: string; msg?: string }).message ||
         (response as { message?: string; msg?: string }).msg ||
         t('picoclaw.install.failed');
+      toast.error(errorMessage);
       setMessages((current) => [
         ...current,
         createErrorMessage({
@@ -280,6 +284,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
       setInstallSnapshot(null);
       clearPicoclawRuntimeInstallSnapshot();
       const errorMessage = error instanceof Error ? error.message : t('picoclaw.install.failed');
+      toast.error(errorMessage);
       setMessages((current) => [
         ...current,
         createErrorMessage({
@@ -298,6 +303,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
     const apiKey = modelApiKey.trim();
     const model = modelIdentifier.trim();
     if (!apiBase || !apiKey || !model) {
+      toast.warning(t('picoclaw.model.invalid'));
       setMessages((current) => [
         ...current,
         createErrorMessage({
@@ -327,6 +333,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
         (response as { message?: string; msg?: string }).message ||
         (response as { message?: string; msg?: string }).msg ||
         t('picoclaw.model.saveFailed');
+      toast.error(errorMessage);
       setMessages((current) => [
         ...current,
         createErrorMessage({
@@ -337,6 +344,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
       ]);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : t('picoclaw.model.saveFailed');
+      toast.error(errorMessage);
       setMessages((current) => [
         ...current,
         createErrorMessage({
@@ -377,6 +385,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
         (response as { message?: string; msg?: string }).message ||
         (response as { message?: string; msg?: string }).msg ||
         t('picoclaw.agent.switchFailed');
+      toast.error(errorMessage);
       setMessages((current) => [
         ...current,
         createErrorMessage({
@@ -388,6 +397,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : t('picoclaw.agent.switchFailed');
+      toast.error(errorMessage);
       setMessages((current) => [
         ...current,
         createErrorMessage({
@@ -421,6 +431,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
         (response as { message?: string; msg?: string }).message ||
         (response as { message?: string; msg?: string }).msg ||
         t('picoclaw.install.uninstallFailed');
+      toast.error(errorMessage);
       setMessages((current) => [
         ...current,
         createErrorMessage({
@@ -432,6 +443,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : t('picoclaw.install.uninstallFailed');
+      toast.error(errorMessage);
       setMessages((current) => [
         ...current,
         createErrorMessage({

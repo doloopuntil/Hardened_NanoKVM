@@ -12,6 +12,7 @@ import {
   sendStopMessage,
   type PicoclawSessionListItem
 } from '@/api/picoclaw.ts';
+import { toast } from '@/lib/feedback.ts';
 import { generateUUIDv4 } from '@/lib/picoclaw-gateway.ts';
 import type {
   PicoclawChatMessage,
@@ -204,6 +205,7 @@ export function createPicoclawSidebarSessionActions(options: PicoclawSidebarSess
           (response as { message?: string; msg?: string }).message ||
           (response as { message?: string; msg?: string }).msg ||
           t('picoclaw.history.loadFailed');
+        toast.error(errorMessage);
         setMessages((current) => [
           ...current,
           createErrorMessage({
@@ -261,6 +263,7 @@ export function createPicoclawSidebarSessionActions(options: PicoclawSidebarSess
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : t('picoclaw.history.loadFailed');
+      toast.error(errorMessage);
       setMessages((current) => [
         ...current,
         createErrorMessage({
@@ -287,6 +290,7 @@ export function createPicoclawSidebarSessionActions(options: PicoclawSidebarSess
         (response as { message?: string; msg?: string }).message ||
         (response as { message?: string; msg?: string }).msg ||
         t('picoclaw.history.deleteFailed');
+      toast.error(errorMessage);
       setMessages((current) => [
         ...current,
         createErrorMessage({
@@ -298,6 +302,7 @@ export function createPicoclawSidebarSessionActions(options: PicoclawSidebarSess
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : t('picoclaw.history.deleteFailed');
+      toast.error(errorMessage);
       setMessages((current) => [
         ...current,
         createErrorMessage({
