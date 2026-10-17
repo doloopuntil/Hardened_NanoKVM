@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Button, Dropdown, MenuProps, Modal, Select } from 'antd';
+import { Button, Dropdown, MenuProps, Select } from 'antd';
 import {
   EllipsisIcon,
   HistoryIcon,
@@ -10,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
+import { confirm } from '@/lib/feedback.ts';
 import { LayoutSidebarRightCollapse } from '@/components/icons/layout-sidebar-right-collapse.tsx';
 
 type SidebarHeaderProps = {
@@ -48,7 +48,6 @@ export const SidebarHeader = ({
   onUninstallRuntime
 }: SidebarHeaderProps) => {
   const { t } = useTranslation();
-  const [isUninstallModalVisible, setIsUninstallModalVisible] = useState(false);
   const isRuntimeReady = runtimeReady === true;
   const isInstalled = installed !== false;
   const isModelConfigured = modelConfigured !== false;
@@ -66,12 +65,14 @@ export const SidebarHeader = ({
     }
   ];
 
-  const handleUninstallClick = () => setIsUninstallModalVisible(true);
-
-  const handleConfirmUninstall = () => {
-    setIsUninstallModalVisible(false);
-    onUninstallRuntime?.();
-  };
+  const handleUninstallClick = () =>
+    confirm({
+      danger: true,
+      title: t('picoclaw.uninstall.confirmTitle'),
+      content: t('picoclaw.uninstall.confirmContent'),
+      okText: t('picoclaw.uninstall.confirmOk'),
+      onOk: () => onUninstallRuntime?.()
+    });
 
   const moreMenuItems: MenuProps['items'] = [
     {
@@ -203,20 +204,6 @@ export const SidebarHeader = ({
           ) : null}
         </div>
       </div>
-
-      <Modal
-        title={t('picoclaw.uninstall.confirmTitle')}
-        open={isUninstallModalVisible}
-        onOk={handleConfirmUninstall}
-        onCancel={() => setIsUninstallModalVisible(false)}
-        okText={t('picoclaw.uninstall.confirmOk')}
-        cancelText={t('picoclaw.uninstall.confirmCancel')}
-        okButtonProps={{ danger: true }}
-        width={400}
-        centered
-      >
-        <p className="text-sm text-neutral-400">{t('picoclaw.uninstall.confirmContent')}</p>
-      </Modal>
     </>
   );
 };

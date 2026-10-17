@@ -192,10 +192,7 @@ const nb = {
       run: 'Kjør',
       runBackground: 'Kjør i bakgrunnen',
       runFailed: 'Kjøring feilet',
-      attention: 'Merknad',
       delDesc: 'Er du sikker på at du vil slette denne filen?',
-      confirm: 'Ja',
-      cancel: 'Nei',
       delete: 'Slett',
       close: 'Lukk'
     },
@@ -330,9 +327,7 @@ const nb = {
         network: 'Virtuelt nettverk',
         networkDesc: 'Monter virtuelt nettverkskort på den eksterne verten',
         reboot: 'Start på nytt',
-        rebootDesc: 'Er du sikker på at du vil starte NanoKVM på nytt?',
-        okBtn: 'Ja',
-        cancelBtn: 'Nei'
+        rebootDesc: 'Er du sikker på at du vil starte NanoKVM på nytt?'
       },
       network: {
         title: 'Nettverk',
@@ -526,8 +521,7 @@ const nb = {
         confirmTitle: 'Avinstaller PicoClaw',
         confirmContent:
           'Er du sikker på at du vil avinstallere PicoClaw? Dette vil slette den kjørbare filen og alle konfigurasjonsfilene.',
-        confirmOk: 'Avinstaller',
-        confirmCancel: 'Avbryt'
+        confirmOk: 'Avinstaller'
       },
       history: {
         title: 'Historikk',
@@ -539,7 +533,6 @@ const nb = {
         deleteConfirmTitle: 'Slett økt',
         deleteConfirmContent: 'Er du sikker på at du vil slette "{{title}}"?',
         deleteConfirmOk: 'Slett',
-        deleteConfirmCancel: 'Avbryt',
         messageCount_one: '{{count}} melding',
         messageCount_other: '{{count}} meldinger'
       },

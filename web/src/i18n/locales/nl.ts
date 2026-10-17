@@ -198,10 +198,7 @@ const nl = {
       run: 'Uitvoeren',
       runBackground: 'Op achtergrond uitvoeren',
       runFailed: 'Uitvoeren mislukt',
-      attention: 'Let op',
       delDesc: 'Weet u zeker dat u dit bestand wilt verwijderen?',
-      confirm: 'Ja',
-      cancel: 'Nee',
       delete: 'Verwijderen',
       close: 'Sluiten'
     },
@@ -338,9 +335,7 @@ const nl = {
         network: 'Virtueel Netwerk',
         networkDesc: 'Koppel virtueel netwerk kaart aan de externe host',
         reboot: 'Opnieuw opstarten',
-        rebootDesc: 'Weet u zeker dat u NanoKVM opnieuw wilt opstarten?',
-        okBtn: 'Ja',
-        cancelBtn: 'Nee'
+        rebootDesc: 'Weet u zeker dat u NanoKVM opnieuw wilt opstarten?'
       },
       network: {
         title: 'Netwerk',
@@ -537,8 +532,7 @@ const nl = {
         confirmTitle: 'PicoClaw verwijderen',
         confirmContent:
           'Weet u zeker dat u PicoClaw wilt verwijderen? Hiermee worden het uitvoerbare bestand en alle configuratiebestanden verwijderd.',
-        confirmOk: 'Verwijderen',
-        confirmCancel: 'Annuleren'
+        confirmOk: 'Verwijderen'
       },
       history: {
         title: 'Geschiedenis',
@@ -550,7 +544,6 @@ const nl = {
         deleteConfirmTitle: 'Sessie verwijderen',
         deleteConfirmContent: 'Weet u zeker dat u "{{title}}" wilt verwijderen?',
         deleteConfirmOk: 'Verwijderen',
-        deleteConfirmCancel: 'Annuleren',
         messageCount_one: '{{count}} bericht',
         messageCount_other: '{{count}} berichten'
       },

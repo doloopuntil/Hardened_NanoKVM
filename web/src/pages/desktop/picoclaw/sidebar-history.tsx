@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
-import { Button, Modal } from 'antd';
+import { useMemo } from 'react';
+import { Button } from 'antd';
 import { Clock3Icon, MessageSquareTextIcon, Trash2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import type { PicoclawSessionListItem } from '@/api/picoclaw.ts';
+import { confirm } from '@/lib/feedback.ts';
 
 type SidebarHistoryProps = {
   sessions: PicoclawSessionListItem[];
@@ -39,7 +40,6 @@ export const SidebarHistory = ({
   onDelete
 }: SidebarHistoryProps) => {
   const { t } = useTranslation();
-  const [pendingDelete, setPendingDelete] = useState<PicoclawSessionListItem | null>(null);
 
   const content = useMemo(() => {
     if (isLoading) {
@@ -61,7 +61,7 @@ export const SidebarHistory = ({
     }
 
     return (
-      <div className="picoclaw-sidebar-scrollbar box-border flex min-h-0 w-full flex-1 flex-col overflow-x-hidden overflow-y-auto px-3 py-3">
+      <div className="picoclaw-sidebar-scrollbar box-border flex min-h-0 w-full flex-1 flex-col overflow-y-auto overflow-x-hidden px-3 py-3">
         <div className="box-border w-full max-w-full space-y-2">
           {sessions.map((session) => {
             const isActive = session.id === activeSessionId;
@@ -119,7 +119,15 @@ export const SidebarHistory = ({
                       onClick={(event) => {
                         event.preventDefault();
                         event.stopPropagation();
-                        setPendingDelete(session);
+                        confirm({
+                          danger: true,
+                          title: t('picoclaw.history.deleteConfirmTitle'),
+                          content: t('picoclaw.history.deleteConfirmContent', {
+                            title: session.title || ''
+                          }),
+                          okText: t('picoclaw.history.deleteConfirmOk'),
+                          onOk: () => onDelete(session.id)
+                        });
                       }}
                     />
                   </div>
@@ -136,30 +144,7 @@ export const SidebarHistory = ({
         </div>
       </div>
     );
-  }, [activeSessionId, isDeleting, isLoading, isSwitching, onSelect, sessions, t]);
+  }, [activeSessionId, isDeleting, isLoading, isSwitching, onDelete, onSelect, sessions, t]);
 
-  return (
-    <>
-      <div className="flex min-h-0 flex-1 flex-col">{content}</div>
-      <Modal
-        centered
-        open={pendingDelete !== null}
-        title={t('picoclaw.history.deleteConfirmTitle')}
-        okText={t('picoclaw.history.deleteConfirmOk')}
-        cancelText={t('picoclaw.history.deleteConfirmCancel')}
-        okButtonProps={{ danger: true, loading: isDeleting }}
-        onOk={() => {
-          if (!pendingDelete) {
-            return;
-          }
-          void Promise.resolve(onDelete(pendingDelete.id)).finally(() => setPendingDelete(null));
-        }}
-        onCancel={() => setPendingDelete(null)}
-      >
-        <p className="text-sm text-neutral-400">
-          {t('picoclaw.history.deleteConfirmContent', { title: pendingDelete?.title || '' })}
-        </p>
-      </Modal>
-    </>
-  );
+  return <div className="flex min-h-0 flex-1 flex-col">{content}</div>;
 };

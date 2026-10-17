@@ -183,9 +183,6 @@ const id = {
       run: 'Jalankan',
       runBackground: 'Jalankan di belakang',
       runFailed: 'Gagal menjalankan',
-      attention: 'Perhatian',
-      confirm: 'Ya',
-      cancel: 'Tidak',
       delete: 'Hapus',
       close: 'Tutup'
     },
@@ -319,9 +316,7 @@ const id = {
         network: 'Jaringan virtual',
         networkDesc: 'Pasang kartu jaringan virtual pada host jarak jauh',
         reboot: 'Mulai ulang',
-        rebootDesc: 'Apakah Anda yakin ingin me-reboot NanoKVM?',
-        okBtn: 'Ya',
-        cancelBtn: 'Tidak'
+        rebootDesc: 'Apakah Anda yakin ingin me-reboot NanoKVM?'
       },
       network: {
         title: 'Jaringan',
@@ -514,8 +509,7 @@ const id = {
         confirmTitle: 'Copot pemasangan PicoClaw',
         confirmContent:
           'Apakah Anda yakin ingin menghapus instalan PicoClaw? Ini akan menghapus semua file yang dapat dieksekusi dan konfigurasi.',
-        confirmOk: 'Copot pemasangan',
-        confirmCancel: 'Batalkan'
+        confirmOk: 'Copot pemasangan'
       },
       history: {
         title: 'Riwayat',
@@ -527,7 +521,6 @@ const id = {
         deleteConfirmTitle: 'Hapus sesi',
         deleteConfirmContent: 'Apakah Anda yakin ingin menghapus "{{title}}"?',
         deleteConfirmOk: 'Hapus',
-        deleteConfirmCancel: 'Batalkan',
         messageCount_one: '{{count}} pesan',
         messageCount_other: '{{count}} pesan'
       },

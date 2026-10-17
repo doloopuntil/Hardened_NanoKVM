@@ -192,9 +192,6 @@ const tr = {
       run: 'Çalıştır',
       runBackground: 'Arka planda çalıştır',
       runFailed: 'Çalıştırma başarısız oldu',
-      attention: 'Dikkat',
-      confirm: 'Evet',
-      cancel: 'Hayır',
       delete: 'Sil',
       close: 'Kapat'
     },
@@ -327,9 +324,7 @@ const tr = {
         network: 'Sanal Ağ',
         networkDesc: 'Sanal ağ kartını uzak ana bilgisayara bağla',
         reboot: 'Yeniden Başlat',
-        rebootDesc: "NanoKVM'i yeniden başlatmak istediğinizden emin misiniz?",
-        okBtn: 'Evet',
-        cancelBtn: 'Hayır'
+        rebootDesc: "NanoKVM'i yeniden başlatmak istediğinizden emin misiniz?"
       },
       network: {
         title: 'Ağ',
@@ -523,8 +518,7 @@ const tr = {
         confirmTitle: 'Kaldırma PicoClaw',
         confirmContent:
           "PicoClaw'yi kaldırmak istediğinizden emin misiniz? Bu, yürütülebilir dosyayı ve tüm yapılandırma dosyalarını siler.",
-        confirmOk: 'Kaldırma',
-        confirmCancel: 'İptal'
+        confirmOk: 'Kaldırma'
       },
       history: {
         title: 'Geçmiş',
@@ -536,7 +530,6 @@ const tr = {
         deleteConfirmTitle: 'Oturumu sil',
         deleteConfirmContent: '"{{title}}" silmek istediğinizden emin misiniz?',
         deleteConfirmOk: 'Sil',
-        deleteConfirmCancel: 'İptal',
         messageCount_one: '{{count}} mesaj',
         messageCount_other: '{{count}} mesaj'
       },

@@ -195,10 +195,7 @@ const fr = {
       run: 'Exécuter',
       runBackground: 'Exécuter en arrière-plan',
       runFailed: "Échec de l'exécution",
-      attention: 'Attention',
       delDesc: 'Êtes-vous sûr de vouloir supprimer ce fichier ?',
-      confirm: 'Oui',
-      cancel: 'Non',
       delete: 'Supprimer',
       close: 'Fermer'
     },
@@ -332,9 +329,7 @@ const fr = {
         network: 'Réseau virtuel',
         networkDesc: "Monter la carte réseau virtuelle sur l'hôte distant",
         reboot: 'Redémarrer',
-        rebootDesc: 'Êtes-vous sûr de vouloir redémarrer NanoKVM?',
-        okBtn: 'Oui',
-        cancelBtn: 'Non'
+        rebootDesc: 'Êtes-vous sûr de vouloir redémarrer NanoKVM?'
       },
       network: {
         title: 'Réseau',
@@ -533,8 +528,7 @@ const fr = {
         confirmTitle: 'Désinstaller PicoClaw',
         confirmContent:
           "Êtes-vous sûr de vouloir désinstaller PicoClaw? Cela supprimera l'exécutable et tous les fichiers de configuration.",
-        confirmOk: 'Désinstaller',
-        confirmCancel: 'Annuler'
+        confirmOk: 'Désinstaller'
       },
       history: {
         title: 'Historique',
@@ -546,7 +540,6 @@ const fr = {
         deleteConfirmTitle: 'Supprimer la session',
         deleteConfirmContent: 'Etes-vous sûr de vouloir supprimer « {{title}} »?',
         deleteConfirmOk: 'Supprimer',
-        deleteConfirmCancel: 'Annuler',
         messageCount_one: '{{count}} message',
         messageCount_other: '{{count}} messages'
       },

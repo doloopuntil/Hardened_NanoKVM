@@ -31,6 +31,7 @@ export const PowerShort = ({ showConfirm, isLoading, setIsLoading }: PowerShortP
           title={t('power.powerConfirm')}
           okText={t('power.okBtn')}
           cancelText={t('power.cancelBtn')}
+          okButtonProps={{ danger: true }}
           onConfirm={power}
           color="#404040"
         >

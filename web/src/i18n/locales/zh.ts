@@ -192,10 +192,7 @@ const zh = {
       run: '运行',
       runBackground: '后台运行',
       runFailed: '运行失败',
-      attention: '注意',
       delDesc: '确定要删除该文件吗？',
-      confirm: '确定',
-      cancel: '取消',
       delete: '删除',
       close: '关闭'
     },
@@ -336,9 +333,7 @@ const zh = {
         network: '虚拟网卡',
         networkDesc: '在远程主机中挂载虚拟网卡',
         reboot: '重新启动',
-        rebootDesc: '您确定要重新启动 NanoKVM 吗？',
-        okBtn: '是',
-        cancelBtn: '否'
+        rebootDesc: '您确定要重新启动 NanoKVM 吗？'
       },
       network: {
         title: '网络',
@@ -534,8 +529,7 @@ const zh = {
         menuLabel: '卸载',
         confirmTitle: '卸载 PicoClaw',
         confirmContent: '确定要卸载 PicoClaw 吗？这会删除可执行文件和所有配置文件。',
-        confirmOk: '卸载',
-        confirmCancel: '取消'
+        confirmOk: '卸载'
       },
       history: {
         title: '历史会话',
@@ -547,7 +541,6 @@ const zh = {
         deleteConfirmTitle: '删除会话',
         deleteConfirmContent: '确定要删除“{{title}}”吗？',
         deleteConfirmOk: '删除',
-        deleteConfirmCancel: '取消',
         messageCount_one: '{{count}} 条消息',
         messageCount_other: '{{count}} 条消息'
       },

@@ -31,6 +31,7 @@ export const Reset = ({ showConfirm, isLoading, setIsLoading }: ResetProps) => {
           title={t('power.resetConfirm')}
           okText={t('power.okBtn')}
           cancelText={t('power.cancelBtn')}
+          okButtonProps={{ danger: true }}
           onConfirm={reset}
           color="#404040"
         >

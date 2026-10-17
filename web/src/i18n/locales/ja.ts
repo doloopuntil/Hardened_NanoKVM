@@ -198,10 +198,7 @@ const ja = {
       run: '実行',
       runBackground: 'バックグラウンドで実行',
       runFailed: '実行に失敗しました',
-      attention: '注意',
       delDesc: 'このファイルを削除してもよろしいですか？',
-      confirm: 'はい',
-      cancel: 'いいえ',
       delete: '削除',
       close: '閉じる'
     },
@@ -337,9 +334,7 @@ const ja = {
         network: '仮想ネットワークカード',
         networkDesc: 'リモートホストに仮想ネットワークカードをマウントする',
         reboot: '再起動',
-        rebootDesc: 'NanoKVM を再起動してもよろしいですか?',
-        okBtn: 'はい',
-        cancelBtn: 'いいえ'
+        rebootDesc: 'NanoKVM を再起動してもよろしいですか?'
       },
       network: {
         title: 'ネットワーク',
@@ -540,8 +535,7 @@ const ja = {
         confirmTitle: 'PicoClaw のアンインストール',
         confirmContent:
           'PicoClaw をアンインストールしてもよろしいですか?これにより、実行可能ファイルとすべての構成ファイルが削除されます。',
-        confirmOk: 'アンインストール',
-        confirmCancel: 'キャンセル'
+        confirmOk: 'アンインストール'
       },
       history: {
         title: '履歴',
@@ -553,7 +547,6 @@ const ja = {
         deleteConfirmTitle: 'セッションを削除します',
         deleteConfirmContent: '「{{title}}」を削除してもよろしいですか?',
         deleteConfirmOk: '削除',
-        deleteConfirmCancel: 'キャンセル',
         messageCount_one: '{{count}} メッセージ',
         messageCount_other: '{{count}} メッセージ'
       },

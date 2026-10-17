@@ -191,10 +191,7 @@ const hu = {
       run: 'Futtatás',
       runBackground: 'Háttérben futtatás',
       runFailed: 'Futtatás sikertelen',
-      attention: 'Figyelem',
       delDesc: 'Biztosan törli ezt a fájlt?',
-      confirm: 'Igen',
-      cancel: 'Nem',
       delete: 'Törlés',
       close: 'Bezárás'
     },
@@ -329,9 +326,7 @@ const hu = {
         network: 'Virtuális hálózat',
         networkDesc: 'Virtuális hálózati kártya csatlakoztatása a távoli gazdagépen',
         reboot: 'Újraindítás',
-        rebootDesc: 'Biztos, hogy újra akarja indítani a NanoKVM-t?',
-        okBtn: 'Igen',
-        cancelBtn: 'Nem'
+        rebootDesc: 'Biztos, hogy újra akarja indítani a NanoKVM-t?'
       },
       network: {
         title: 'Hálózat',
@@ -525,8 +520,7 @@ const hu = {
         confirmTitle: 'Eltávolítás PicoClaw',
         confirmContent:
           'Biztosan eltávolítja a következőt: PicoClaw? Ezzel törli a végrehajtható fájlt és az összes konfigurációs fájlt.',
-        confirmOk: 'Eltávolítás',
-        confirmCancel: 'Mégse'
+        confirmOk: 'Eltávolítás'
       },
       history: {
         title: 'Előzmények',
@@ -538,7 +532,6 @@ const hu = {
         deleteConfirmTitle: 'Munkamenet törlése',
         deleteConfirmContent: 'Biztos, hogy törölni szeretné a következőt: "{{title}}"?',
         deleteConfirmOk: 'Törlés',
-        deleteConfirmCancel: 'Mégse',
         messageCount_one: '{{count}} üzenet',
         messageCount_other: '{{count}} üzenet'
       },
