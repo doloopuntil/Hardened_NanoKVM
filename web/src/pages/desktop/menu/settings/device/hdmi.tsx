@@ -7,6 +7,7 @@ import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { isHdmiEnabledAtom } from '@/jotai/screen.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 export const Hdmi = () => {
   const { t } = useTranslation();
@@ -75,50 +76,37 @@ export const Hdmi = () => {
     }, 1000);
   }
 
+  if (!isPcie) return null;
+
   return (
     <>
-      {isPcie && (
-        <div className="flex flex-col space-y-4">
-          <div className="flex items-center justify-between gap-x-4">
-            <div className="flex flex-col space-y-1">
-              <span>HDMI</span>
+      <SettingRow label="HDMI" description={t('settings.device.hdmi.description')} isSwitch>
+        <Switch
+          checked={isHdmiEnabled}
+          loading={isLoading}
+          disabled={!isReady}
+          onChange={setHdmiState}
+        />
+      </SettingRow>
 
-              <span className="text-xs text-neutral-500">
-                {t('settings.device.hdmi.description')}
-              </span>
-            </div>
-
-            <Switch
-              checked={isHdmiEnabled}
-              loading={isLoading}
-              disabled={!isReady}
-              onChange={setHdmiState}
-            />
-          </div>
-
-          <div className="flex items-center justify-between gap-x-4">
-            <div className="flex flex-col space-y-1">
-              <span>{t('settings.device.hdmi.idleTimeoutTitle')}</span>
-              <span className="text-xs text-neutral-500">
-                {t('settings.device.hdmi.idleTimeoutDescription')}
-              </span>
-            </div>
-
-            <InputNumber
-              className="w-40 shrink-0 [&_.ant-input-number-input]:!text-right"
-              min={0}
-              max={10080}
-              precision={0}
-              value={idleTimeoutInput}
-              addonAfter={t('settings.device.minutes')}
-              disabled={isIdleTimeoutLoading || !isReady}
-              onChange={setIdleTimeoutInput}
-              onBlur={updateIdleTimeout}
-              onPressEnter={updateIdleTimeout}
-            />
-          </div>
-        </div>
-      )}
+      <SettingRow
+        label={t('settings.device.hdmi.idleTimeoutTitle')}
+        description={t('settings.device.hdmi.idleTimeoutDescription')}
+        inline
+      >
+        <InputNumber
+          className="w-40 [&_.ant-input-number-input]:!text-right"
+          min={0}
+          max={10080}
+          precision={0}
+          value={idleTimeoutInput}
+          addonAfter={t('settings.device.minutes')}
+          disabled={isIdleTimeoutLoading || !isReady}
+          onChange={setIdleTimeoutInput}
+          onBlur={updateIdleTimeout}
+          onPressEnter={updateIdleTimeout}
+        />
+      </SettingRow>
     </>
   );
 };

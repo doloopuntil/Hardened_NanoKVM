@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Switch, Tooltip } from 'antd';
-import { CircleAlertIcon } from 'lucide-react';
+import { Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { LabelTip } from '@/components/label-tip.tsx';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 export const Ssh = () => {
   const { t } = useTranslation();
@@ -34,24 +35,12 @@ export const Ssh = () => {
   }
 
   return (
-    <div className="flex items-center justify-between gap-x-4">
-      <div className="flex flex-col space-y-1">
-        <div className="flex items-center space-x-2">
-          <span>SSH</span>
-
-          <Tooltip
-            title={t('settings.device.ssh.tip')}
-            className="cursor-pointer"
-            placement="right"
-            styles={{ root: { maxWidth: '400px' } }}
-          >
-            <CircleAlertIcon className="text-neutral-500" size={14} />
-          </Tooltip>
-        </div>
-        <span className="text-xs text-neutral-500">{t('settings.device.ssh.description')}</span>
-      </div>
-
+    <SettingRow
+      label={<LabelTip text="SSH" tip={t('settings.device.ssh.tip')} warning />}
+      description={t('settings.device.ssh.description')}
+      isSwitch
+    >
       <Switch checked={isEnabled} loading={isLoading} disabled={!isReady} onChange={update} />
-    </div>
+    </SettingRow>
   );
 };

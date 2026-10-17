@@ -6,6 +6,7 @@ import * as api from '@/api/vm.ts';
 import { getCsrfToken, setCsrfToken } from '@/lib/cookie.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 const DEFAULT_DURATION = '900';
 
@@ -49,15 +50,12 @@ export const SessionLock = () => {
   }
 
   return (
-    <div className="flex items-center justify-between gap-x-4">
-      <div className="flex flex-col space-y-1">
-        <span>{t('settings.device.sessionLock.title')}</span>
-        <span className="text-xs text-neutral-500">
-          {t('settings.device.sessionLock.description')}
-        </span>
-      </div>
-
-      <Space.Compact className="shrink-0">
+    <SettingRow
+      label={t('settings.device.sessionLock.title')}
+      description={t('settings.device.sessionLock.description')}
+      inline
+    >
+      <Space.Compact>
         <Select
           className="w-20 text-right"
           value={duration}
@@ -68,6 +66,6 @@ export const SessionLock = () => {
         />
         <Space.Addon className="w-12 text-center">{t('settings.device.minutes')}</Space.Addon>
       </Space.Compact>
-    </div>
+    </SettingRow>
   );
 };

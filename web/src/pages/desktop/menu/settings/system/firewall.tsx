@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
-import { Button, Divider, Segmented, Spin, Tag, Tooltip } from 'antd';
+import { Button, Divider, Segmented, Spin, Tag } from 'antd';
 import type { TFunction } from 'i18next';
 import {
-  CircleAlertIcon,
   LockKeyholeIcon,
   RefreshCwIcon,
   ShieldCheckIcon,
@@ -16,6 +15,7 @@ import * as api from '@/api/system-firewall.ts';
 import type { FirewallMode, FirewallStatus } from '@/api/system-firewall.ts';
 import { confirm, toast } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
+import { LabelTip } from '@/components/label-tip.tsx';
 import { InfoRow } from '@/components/setting-rows.tsx';
 
 type RulesTab = 'ipv4' | 'ipv6' | 'nft';
@@ -197,17 +197,15 @@ export const FirewallSettings = () => {
   return (
     <div className="flex min-w-0 flex-col space-y-6">
       <div className="min-w-0 space-y-6">
-        <div className="flex items-center space-x-2 text-neutral-400">
-          <span>{t('settings.system.firewall.mode.title')}</span>
-          {status && !status.httpsEnabled && (
-            <Tooltip
-              title={t('settings.system.firewall.httpsRequired')}
-              className="cursor-pointer"
-              placement="right"
-              styles={{ root: { maxWidth: '400px' } }}
-            >
-              <CircleAlertIcon className="text-amber-500" size={14} />
-            </Tooltip>
+        <div className="text-neutral-400">
+          {status && !status.httpsEnabled ? (
+            <LabelTip
+              text={t('settings.system.firewall.mode.title')}
+              tip={t('settings.system.firewall.httpsRequired')}
+              warning
+            />
+          ) : (
+            t('settings.system.firewall.mode.title')
           )}
         </div>
 

@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Button, Divider, Modal, Switch, Tooltip, Typography } from 'antd';
+import { Button, Divider, Modal, Switch, Typography } from 'antd';
 import { useSetAtom } from 'jotai';
-import { CircleAlertIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { statusImage } from '@/api/download.ts';
@@ -12,6 +11,8 @@ import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { notifyImageListChanged } from '@/lib/image-events.ts';
 import { closeSettingsRequestAtom } from '@/jotai/settings.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { LabelTip } from '@/components/label-tip.tsx';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 const { Paragraph } = Typography;
 
@@ -144,51 +145,31 @@ export const VirtualDevices = () => {
   }
 
   const usbWakeup = (
-    <div className="flex items-center justify-between gap-x-4">
-      <div className="flex flex-col space-y-1">
-        <div className="flex items-center space-x-2">
-          <span>{t('settings.device.usbWakeup')}</span>
-
-          <Tooltip
-            title={t('settings.device.usbWakeupTip')}
-            className="cursor-pointer"
-            placement="right"
-            styles={{ root: { maxWidth: '400px' } }}
-          >
-            <CircleAlertIcon className="text-neutral-500" size={14} />
-          </Tooltip>
-        </div>
-        <span className="text-xs text-neutral-500">{t('settings.device.usbWakeupDesc')}</span>
-      </div>
-
+    <SettingRow
+      label={
+        <LabelTip text={t('settings.device.usbWakeup')} tip={t('settings.device.usbWakeupTip')} />
+      }
+      description={t('settings.device.usbWakeupDesc')}
+      isSwitch
+    >
       <Switch
         checked={isUsbWakeupEnabled}
         loading={loading === 'wakeup'}
         disabled={!isReady}
         onChange={updateWakeup}
       />
-    </div>
+    </SettingRow>
   );
 
   const hidOnly = (
     <>
-      <div className="flex items-center justify-between gap-x-4">
-        <div className="flex flex-col space-y-1">
-          <div className="flex items-center space-x-2">
-            <span>{t('settings.device.hidOnly')}</span>
-
-            <Tooltip
-              title={t('settings.device.hidOnlyTip')}
-              className="cursor-pointer"
-              placement="right"
-              styles={{ root: { maxWidth: '400px' } }}
-            >
-              <CircleAlertIcon className="text-neutral-500" size={14} />
-            </Tooltip>
-          </div>
-          <span className="text-xs text-neutral-500">{t('settings.device.hidOnlyDesc')}</span>
-        </div>
-
+      <SettingRow
+        label={
+          <LabelTip text={t('settings.device.hidOnly')} tip={t('settings.device.hidOnlyTip')} />
+        }
+        description={t('settings.device.hidOnlyDesc')}
+        isSwitch
+      >
         {/* Both directions reboot the device, so each asks in a dialog. */}
         <Switch
           checked={isHidOnlyMode}
@@ -208,7 +189,7 @@ export const VirtualDevices = () => {
             });
           }}
         />
-      </div>
+      </SettingRow>
 
       <Modal
         open={isHidModalOpen}
@@ -247,50 +228,37 @@ export const VirtualDevices = () => {
     </>
   );
 
-  if (isHidOnlyMode) {
-    return (
-      <>
-        {hidOnly}
-        {usbWakeup}
-      </>
-    );
-  }
-
   return (
     <>
       {hidOnly}
 
-      {/* Virtual Disk */}
-      <div className="flex items-center justify-between gap-x-4">
-        <div className="flex flex-col space-y-1">
-          <span>{t('settings.device.disk')}</span>
-          <span className="text-xs text-neutral-500">
-            {isImageMounted ? t('settings.device.diskLocked') : t('settings.device.diskDesc')}
-          </span>
-        </div>
-
+      <SettingRow
+        label={t('settings.device.disk')}
+        description={
+          isImageMounted ? t('settings.device.diskLocked') : t('settings.device.diskDesc')
+        }
+        isSwitch
+      >
         <Switch
-          checked={isDiskEnabled}
+          checked={isDiskEnabled && !isHidOnlyMode}
           loading={loading === 'disk'}
-          disabled={!isReady}
+          disabled={!isReady || isHidOnlyMode}
           onChange={toggleDisk}
         />
-      </div>
+      </SettingRow>
 
-      {/* Virtual Network */}
-      <div className="flex items-center justify-between gap-x-4">
-        <div className="flex flex-col space-y-1">
-          <span>{t('settings.device.network')}</span>
-          <span className="text-xs text-neutral-500">{t('settings.device.networkDesc')}</span>
-        </div>
-
+      <SettingRow
+        label={t('settings.device.network')}
+        description={t('settings.device.networkDesc')}
+        isSwitch
+      >
         <Switch
-          checked={isNetworkEnabled}
+          checked={isNetworkEnabled && !isHidOnlyMode}
           loading={loading === 'network'}
-          disabled={!isReady}
+          disabled={!isReady || isHidOnlyMode}
           onChange={toggleNetwork}
         />
-      </div>
+      </SettingRow>
 
       {usbWakeup}
     </>

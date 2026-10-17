@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Switch, Tooltip } from 'antd';
-import { CircleAlertIcon } from 'lucide-react';
+import { Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/application.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { LabelTip } from '@/components/label-tip.tsx';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
 interface PreviewProps {
@@ -43,17 +43,11 @@ export const Preview = ({ refreshUpdates }: PreviewProps) => {
   return (
     <SettingRow
       label={
-        <span className="inline-flex items-center gap-1">
-          {t('settings.update.preview')}
-          <Tooltip
-            title={t('settings.update.previewTip')}
-            className="cursor-pointer text-orange-400"
-            placement="top"
-            styles={{ root: { maxWidth: '400px' } }}
-          >
-            <CircleAlertIcon size={15} />
-          </Tooltip>
-        </span>
+        <LabelTip
+          text={t('settings.update.preview')}
+          tip={t('settings.update.previewTip')}
+          warning
+        />
       }
       description={t('settings.update.previewChannels')}
       isSwitch
