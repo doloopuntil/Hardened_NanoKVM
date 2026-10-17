@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { paste } from '@/api/hid';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
+import { MenuRow } from '@/components/menu-rows.tsx';
 
 type InputStatus = '' | 'error';
 
@@ -65,16 +66,43 @@ export const Paste = () => {
       setIsReadingClipboard(false);
     }
   }
-  
+
   // Extended RU → EN translation including punctuation
   function translateRuToEnWithPunctuation(value: string): string {
     const letterMap: Record<string, string> = {
-      'ё': '`',
-      'й': 'q', 'ц': 'w', 'у': 'e', 'к': 'r', 'е': 't', 'н': 'y', 'г': 'u', 'ш': 'i',
-      'щ': 'o', 'з': 'p', 'х': '[', 'ъ': ']',
-      'ф': 'a', 'ы': 's', 'в': 'd', 'а': 'f', 'п': 'g', 'р': 'h', 'о': 'j', 'л': 'k',
-      'д': 'l', 'ж': ';', 'э': '\'',
-      'я': 'z', 'ч': 'x', 'с': 'c', 'м': 'v', 'и': 'b', 'т': 'n', 'ь': 'm', 'б': ',', 'ю': '.',
+      ё: '`',
+      й: 'q',
+      ц: 'w',
+      у: 'e',
+      к: 'r',
+      е: 't',
+      н: 'y',
+      г: 'u',
+      ш: 'i',
+      щ: 'o',
+      з: 'p',
+      х: '[',
+      ъ: ']',
+      ф: 'a',
+      ы: 's',
+      в: 'd',
+      а: 'f',
+      п: 'g',
+      р: 'h',
+      о: 'j',
+      л: 'k',
+      д: 'l',
+      ж: ';',
+      э: "'",
+      я: 'z',
+      ч: 'x',
+      с: 'c',
+      м: 'v',
+      и: 'b',
+      т: 'n',
+      ь: 'm',
+      б: ',',
+      ю: '.'
     };
 
     const punctuationMap: Record<string, string> = {
@@ -83,23 +111,25 @@ export const Paste = () => {
       ';': '$',
       ':': '^',
       '?': '&',
-      'Ё': '~',
+      Ё: '~',
       '/': '|',
       '.': '/',
-      ',': '?',
+      ',': '?'
     };
 
-    return Array.from(value).map((ch) => {
-      const lower = ch.toLowerCase();
-      if (letterMap[lower]) {
-        const translated = letterMap[lower];
-        return ch === lower ? translated : translated.toUpperCase();
-      }
-      if (punctuationMap[ch]) {
-        return punctuationMap[ch];
-      }
-      return ch;
-    }).join('');
+    return Array.from(value)
+      .map((ch) => {
+        const lower = ch.toLowerCase();
+        if (letterMap[lower]) {
+          const translated = letterMap[lower];
+          return ch === lower ? translated : translated.toUpperCase();
+        }
+        if (punctuationMap[ch]) {
+          return punctuationMap[ch];
+        }
+        return ch;
+      })
+      .join('');
   }
 
   function submit() {
@@ -144,11 +174,14 @@ export const Paste = () => {
         // For Russian language, allow Cyrillic letters and special characters
         // that can be typed on Russian keyboard (but not English letters)
         if (
-          (code >= 0x0410 && code <= 0x042F) || // (А-Я)
-          (code >= 0x0430 && code <= 0x044F) || // (а-я)
+          (code >= 0x0410 && code <= 0x042f) || // (А-Я)
+          (code >= 0x0430 && code <= 0x044f) || // (а-я)
           code === 0x0401 || // (Ё)
           code === 0x0451 || // (ё)
-          (code >= 0x20 && code <= 0x7E && !(code >= 0x41 && code <= 0x5A) && !(code >= 0x61 && code <= 0x7A)) // Special chars, digits, space, but not English letters
+          (code >= 0x20 &&
+            code <= 0x7e &&
+            !(code >= 0x41 && code <= 0x5a) &&
+            !(code >= 0x61 && code <= 0x7a)) // Special chars, digits, space, but not English letters
         ) {
           continue;
         }
@@ -156,12 +189,12 @@ export const Paste = () => {
       } else if (isFrench) {
         // For French, allow ASCII and Latin-1/Extended accented characters
         // (é è ê ë à â ù û ç î ï ô œ æ ° µ £ § ¨ etc.)
-        if (code <= 0x7F) continue;
-        if (code >= 0x00A0 && code <= 0x017E) continue;
+        if (code <= 0x7f) continue;
+        if (code >= 0x00a0 && code <= 0x017e) continue;
         return false;
       } else {
         // For English/German, only allow ASCII
-        if (code <= 0x7F) continue;
+        if (code <= 0x7f) continue;
         return false;
       }
     }
@@ -170,15 +203,9 @@ export const Paste = () => {
 
   return (
     <>
-      <div
-        className={clsx(
-          'flex cursor-pointer select-none items-center space-x-2 rounded py-1 pl-2 pr-5 hover:bg-neutral-700/70'
-        )}
-        onClick={() => setIsModalOpen(true)}
-      >
-        <ClipboardIcon size={18} />
-        <span>{t('keyboard.paste')}</span>
-      </div>
+      <MenuRow icon={<ClipboardIcon size={18} />} onClick={() => setIsModalOpen(true)}>
+        {t('keyboard.paste')}
+      </MenuRow>
 
       <Modal
         open={isModalOpen}

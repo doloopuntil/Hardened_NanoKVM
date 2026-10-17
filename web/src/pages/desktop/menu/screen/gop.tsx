@@ -1,8 +1,9 @@
-import { CheckIcon, SquareKanbanIcon } from 'lucide-react';
+import { SquareKanbanIcon } from 'lucide-react';
 
 import { updateScreen } from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { setGop as setCookie } from '@/lib/localstorage';
+import { MenuOption } from '@/components/menu-rows.tsx';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 
 type GopProps = {
@@ -31,16 +32,9 @@ export const Gop = ({ gop, setGop }: GopProps) => {
   const content = (
     <>
       {gopList.map((item) => (
-        <div
-          key={item.key}
-          className="flex cursor-pointer select-none items-center rounded py-1 pl-1 pr-6 hover:bg-neutral-700/70"
-          onClick={() => update(item.key)}
-        >
-          <div className="flex h-[14px] w-[20px] items-end text-blue-500">
-            {item.key === gop && <CheckIcon size={14} />}
-          </div>
-          <span>{item.label}</span>
-        </div>
+        <MenuOption key={item.key} selected={item.key === gop} onClick={() => update(item.key)}>
+          {item.label}
+        </MenuOption>
       ))}
     </>
   );

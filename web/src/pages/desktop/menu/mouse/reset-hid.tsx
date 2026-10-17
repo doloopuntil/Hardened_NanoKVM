@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/hid.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { client, MessageEvent } from '@/lib/websocket.ts';
+import { MenuRow } from '@/components/menu-rows.tsx';
 
 export const ResetHid = () => {
   const { t } = useTranslation();
@@ -29,12 +30,13 @@ export const ResetHid = () => {
   }
 
   return (
-    <div
-      className="flex h-[30px] cursor-pointer select-none items-center space-x-2 rounded px-3 text-neutral-300 hover:bg-neutral-700/70"
+    <MenuRow
+      icon={
+        <RefreshCwIcon className={clsx({ 'animate-spin text-blue-500': isResetting })} size={18} />
+      }
       onClick={resetHid}
     >
-      <RefreshCwIcon className={clsx({ 'animate-spin text-blue-500': isResetting })} size={18} />
-      <span>{t('mouse.resetHid')}</span>
-    </div>
+      {t('mouse.resetHid')}
+    </MenuRow>
   );
 };

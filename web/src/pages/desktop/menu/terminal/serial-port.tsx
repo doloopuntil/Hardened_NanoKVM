@@ -5,6 +5,7 @@ import { SquareTerminalIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
+import { MenuRow } from '@/components/menu-rows.tsx';
 
 export const SerialPort = () => {
   const { t } = useTranslation();
@@ -49,18 +50,17 @@ export const SerialPort = () => {
     }
 
     setIsModalOpen(false);
-    window.open(`/#terminal?port=${port}&baud=${baudrate}&parity=${parity}&flowControl=${flowControl}&dataBits=${dataBits}&stopBits=${stopBits}`, '_blank');
+    window.open(
+      `/#terminal?port=${port}&baud=${baudrate}&parity=${parity}&flowControl=${flowControl}&dataBits=${dataBits}&stopBits=${stopBits}`,
+      '_blank'
+    );
   }
 
   return (
     <>
-      <div
-        className="flex h-[28px] cursor-pointer select-none items-center space-x-1 rounded px-2 py-1 hover:bg-neutral-700/70"
-        onClick={openModal}
-      >
-        <SquareTerminalIcon size={14} />
-        <span>{t('terminal.serial')}</span>
-      </div>
+      <MenuRow icon={<SquareTerminalIcon size={18} />} onClick={openModal}>
+        {t('terminal.serial')}
+      </MenuRow>
 
       <Modal
         open={isModalOpen}
@@ -119,7 +119,9 @@ export const SerialPort = () => {
         </div>
 
         <div className="mt-7 flex items-center space-x-[20px]">
-          <div className="flex w-[80px] justify-end text-neutral-400">{t('terminal.flowControl')}</div>
+          <div className="flex w-[80px] justify-end text-neutral-400">
+            {t('terminal.flowControl')}
+          </div>
           <div className="w-1/2">
             <Select
               defaultValue="none"
@@ -133,7 +135,6 @@ export const SerialPort = () => {
             />
           </div>
         </div>
-
 
         <div className="mt-7 flex items-center space-x-[20px]">
           <div className="flex w-[80px] justify-end text-neutral-400">{t('terminal.dataBits')}</div>

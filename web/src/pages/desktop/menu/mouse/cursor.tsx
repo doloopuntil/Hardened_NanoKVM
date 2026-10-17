@@ -1,10 +1,10 @@
-import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { EyeOffIcon, HandIcon, MousePointerIcon, PlusIcon, TextCursorIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as ls from '@/lib/localstorage.ts';
 import { mouseStyleAtom } from '@/jotai/mouse.ts';
+import { MenuOption } from '@/components/menu-rows.tsx';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 
 export const Cursor = () => {
@@ -28,17 +28,14 @@ export const Cursor = () => {
   const content = (
     <>
       {mouseStyles.map((style) => (
-        <div
+        <MenuOption
           key={style.value}
-          className={clsx(
-            'flex cursor-pointer select-none items-center space-x-1 rounded py-1.5 pl-3 pr-6 hover:bg-neutral-700/70',
-            style.value === mouseStyle && 'text-green-500'
-          )}
+          icon={style.icon}
+          selected={style.value === mouseStyle}
           onClick={() => updateMouseStyle(style.value)}
         >
-          <div className="flex h-[14px] w-[20px] items-end">{style.icon}</div>
-          <span>{style.name}</span>
-        </div>
+          {style.name}
+        </MenuOption>
       ))}
     </>
   );

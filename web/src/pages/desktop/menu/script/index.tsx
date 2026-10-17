@@ -1,6 +1,6 @@
 import { ChangeEvent, useRef, useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Divider } from 'antd';
+import { Button } from 'antd';
 import clsx from 'clsx';
 import { ChevronRightIcon, FileJsonIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/script.ts';
 import { attempt, confirm } from '@/lib/feedback.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
+import { MenuHeader } from '@/components/menu-rows.tsx';
 
 import { Run } from './run';
 
@@ -106,9 +107,7 @@ export const Script = () => {
 
   const content = (
     <div className="min-w-[250px]">
-      <div className="flex items-center justify-between">
-        <span className="text-base font-bold text-neutral-300">{t('script.title')}</span>
-
+      <MenuHeader title={t('script.title')}>
         <input
           ref={inputRef}
           type="file"
@@ -126,8 +125,7 @@ export const Script = () => {
         >
           {t('script.upload')}
         </Button>
-      </div>
-      <Divider style={{ margin: '10px 0 15px 0' }} />
+      </MenuHeader>
 
       {scripts.map((script) => (
         <div

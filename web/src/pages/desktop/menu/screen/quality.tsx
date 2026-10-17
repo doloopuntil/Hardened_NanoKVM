@@ -1,11 +1,12 @@
 import { useAtomValue } from 'jotai';
-import { CheckIcon, SquareActivityIcon } from 'lucide-react';
+import { SquareActivityIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { updateScreen } from '@/api/vm';
 import { attempt } from '@/lib/feedback.ts';
 import { setQuality as setCookie } from '@/lib/localstorage.ts';
 import { videoModeAtom } from '@/jotai/screen.ts';
+import { MenuOption } from '@/components/menu-rows.tsx';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 
 import { BitRateMap, QualityMap } from './constants.ts';
@@ -39,16 +40,9 @@ export const Quality = ({ quality, setQuality }: QualityProps) => {
   const content = (
     <>
       {qualityList.map((item) => (
-        <div
-          key={item.key}
-          className="flex h-[30px] cursor-pointer select-none items-center rounded pl-1 pr-5 hover:bg-neutral-700/70"
-          onClick={() => update(item.key)}
-        >
-          <div className="flex h-[14px] w-[20px] items-end text-blue-500">
-            {item.key === quality && <CheckIcon size={14} />}
-          </div>
+        <MenuOption key={item.key} selected={item.key === quality} onClick={() => update(item.key)}>
           <span className="whitespace-nowrap">{item.label}</span>
-        </div>
+        </MenuOption>
       ))}
     </>
   );

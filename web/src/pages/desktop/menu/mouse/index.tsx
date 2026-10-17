@@ -12,8 +12,9 @@ import {
   scrollDirectionAtom,
   scrollIntervalAtom
 } from '@/jotai/mouse';
-import { MenuItem } from '@/components/menu-item.tsx';
 import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
+import { MenuItem } from '@/components/menu-item.tsx';
+import { MenuHeader } from '@/components/menu-rows.tsx';
 
 import { Cursor } from './cursor.tsx';
 import { Direction } from './direction.tsx';
@@ -61,25 +62,33 @@ export const Mouse = () => {
   }, []);
 
   const desktopContent = (
-    <div className="flex flex-col space-y-1">
-      <Cursor />
-      <MouseMode />
-      <PointerSensitivity />
-      <Direction />
-      <Speed />
-      <Divider style={{ margin: '10px 0' }} />
+    <div className="min-w-[200px]">
+      <MenuHeader title={t('mouse.title')} />
 
-      <ResetHid />
+      <div className="flex flex-col space-y-1">
+        <Cursor />
+        <MouseMode />
+        <PointerSensitivity />
+        <Direction />
+        <Speed />
+        <Divider style={{ margin: '10px 0' }} />
+
+        <ResetHid />
+      </div>
     </div>
   );
 
   const mobileContent = (
-    <div className="flex flex-col space-y-1">
-      <MobilePointerModeMenu />
-      <Direction />
-      <Speed />
-      <Divider style={{ margin: '10px 0' }} />
-      <ResetHid />
+    <div className="min-w-[200px]">
+      <MenuHeader title={t('mouse.title')} />
+
+      <div className="flex flex-col space-y-1">
+        <MobilePointerModeMenu />
+        <Direction />
+        <Speed />
+        <Divider style={{ margin: '10px 0' }} />
+        <ResetHid />
+      </div>
     </div>
   );
 

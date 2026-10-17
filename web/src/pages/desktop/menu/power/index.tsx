@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Divider, Switch, Tooltip } from 'antd';
+import { Switch, Tooltip } from 'antd';
 import clsx from 'clsx';
 import { LoaderCircleIcon, PowerIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/vm';
 import * as localstorage from '@/lib/localstorage.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
+import { MenuHeader } from '@/components/menu-rows.tsx';
 
 import { PowerLong } from './power-long.tsx';
 import { PowerShort } from './power-short.tsx';
@@ -64,21 +65,15 @@ export const Power = () => {
 
   const content = (
     <div className="min-w-[200px]">
-      <div className="flex items-center justify-between px-1">
-        <span className="text-base font-bold text-neutral-300">{t('power.title')}</span>
+      <MenuHeader title={t('power.title')}>
+        <Tooltip title={t('power.showConfirmTip')} placement="right">
+          <div className="flex items-center space-x-2">
+            <span className="text-xs text-neutral-400">{t('power.showConfirm')}</span>
 
-        <div className="flex items-center space-x-2">
-          <Tooltip title={t('power.showConfirmTip')} placement="right">
-            <div className="flex items-center space-x-2">
-              <span className="text-xs text-neutral-400">{t('power.showConfirm')}</span>
-
-              <Switch size="small" checked={showConfirm} onChange={updateShowConfirm} />
-            </div>
-          </Tooltip>
-        </div>
-      </div>
-
-      <Divider style={{ margin: '10px 0 15px 0' }} />
+            <Switch size="small" checked={showConfirm} onChange={updateShowConfirm} />
+          </div>
+        </Tooltip>
+      </MenuHeader>
 
       <div className="flex flex-col space-y-1">
         <Reset showConfirm={showConfirm} isLoading={isLoading} setIsLoading={setIsLoading} />

@@ -1,10 +1,11 @@
 import { ReactElement, useEffect } from 'react';
 import { useAtom } from 'jotai';
-import { CheckIcon, PercentIcon, ScalingIcon } from 'lucide-react';
+import { PercentIcon, ScalingIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as storage from '@/lib/localstorage.ts';
 import { videoScaleAtom } from '@/jotai/screen.ts';
+import { MenuOption } from '@/components/menu-rows.tsx';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 
 const ScaleList = [200, 150, 125, ...Array.from({ length: 19 }, (_, index) => 100 - index * 5)]
@@ -31,19 +32,16 @@ export const Scale = (): ReactElement => {
   const content = (
     <>
       {ScaleList.map((scale) => (
-        <div
+        <MenuOption
           key={scale.value}
-          className="flex h-[30px] cursor-pointer select-none items-center rounded pl-1 pr-5 hover:bg-neutral-700/70"
+          selected={scale.value === videoScale}
           onClick={() => update(scale.value)}
         >
-          <div className="flex h-[14px] w-[20px] items-end text-blue-500">
-            {scale.value === videoScale && <CheckIcon size={14} />}
-          </div>
           <div className="flex items-center space-x-0.5">
             <span>{scale.label}</span>
             <PercentIcon size={12} />
           </div>
-        </div>
+        </MenuOption>
       ))}
     </>
   );

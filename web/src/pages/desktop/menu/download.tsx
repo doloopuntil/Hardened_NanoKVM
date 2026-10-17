@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Button, Divider, Input, notification, Progress } from 'antd';
+import { Button, Input, notification, Progress } from 'antd';
 import type { InputRef } from 'antd';
 import clsx from 'clsx';
 import { useSetAtom } from 'jotai';
@@ -15,6 +15,7 @@ import { notifyImageListChanged } from '@/lib/image-events.ts';
 import { capitalizeFirst } from '@/lib/text.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
+import { MenuHeader } from '@/components/menu-rows.tsx';
 
 type TransferKind = 'local' | 'remote';
 type TransferStatus = '' | 'idle' | 'in_progress' | 'complete' | 'failed' | 'canceled';
@@ -558,11 +559,7 @@ export const DownloadImage = () => {
 
   const content = (
     <div key={popoverKey} className="min-w-[300px]">
-      <div className="flex items-center justify-between px-1">
-        <span className="text-base font-bold text-neutral-300">{t('download.title')}</span>
-      </div>
-
-      <Divider style={{ margin: '10px 0 10px 0' }} />
+      <MenuHeader title={t('download.title')} />
 
       {!diskEnabled ? (
         isDiskShared ? (

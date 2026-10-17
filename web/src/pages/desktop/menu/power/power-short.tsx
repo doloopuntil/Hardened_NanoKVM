@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { MenuRow } from '@/components/menu-rows.tsx';
 
 type PowerShortProps = {
   showConfirm: boolean;
@@ -23,32 +24,25 @@ export const PowerShort = ({ showConfirm, isLoading, setIsLoading }: PowerShortP
     });
   }
 
+  const row = (
+    <MenuRow icon={<PowerIcon size={18} />} onClick={showConfirm ? undefined : power}>
+      {t('power.powerShort')}
+    </MenuRow>
+  );
+
+  if (!showConfirm) return row;
+
   return (
-    <>
-      {showConfirm ? (
-        <Popconfirm
-          placement="bottomLeft"
-          title={t('power.powerConfirm')}
-          okText={t('power.okBtn')}
-          cancelText={t('power.cancelBtn')}
-          okButtonProps={{ danger: true }}
-          onConfirm={power}
-          color="#404040"
-        >
-          <div className="flex cursor-pointer select-none items-center space-x-2 rounded px-3 py-1.5 hover:bg-neutral-700/70">
-            <PowerIcon size={16} />
-            <span>{t('power.powerShort')}</span>
-          </div>
-        </Popconfirm>
-      ) : (
-        <div
-          className="flex cursor-pointer select-none items-center space-x-2 rounded px-3 py-1.5 hover:bg-neutral-700/70"
-          onClick={power}
-        >
-          <PowerIcon size={16} />
-          <span>{t('power.powerShort')}</span>
-        </div>
-      )}
-    </>
+    <Popconfirm
+      placement="bottomLeft"
+      title={t('power.powerConfirm')}
+      okText={t('power.okBtn')}
+      cancelText={t('power.cancelBtn')}
+      okButtonProps={{ danger: true }}
+      onConfirm={power}
+      color="#404040"
+    >
+      {row}
+    </Popconfirm>
   );
 };

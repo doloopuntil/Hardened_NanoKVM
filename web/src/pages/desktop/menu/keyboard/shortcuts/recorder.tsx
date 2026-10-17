@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button, Divider, Input, InputRef, Modal } from 'antd';
 import { useSetAtom } from 'jotai';
-import { KeyboardIcon, Trash2Icon } from 'lucide-react';
+import { KeyboardIcon, PlusIcon, Trash2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { isModifier } from '@/lib/keymap.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
+import { MenuRow } from '@/components/menu-rows.tsx';
 import { Kbd, KbdGroup } from '@/components/ui/kbd.tsx';
 import { ScrollArea } from '@/components/ui/scroll-area.tsx';
 
@@ -186,12 +187,9 @@ export const Recorder = ({
 
   return (
     <>
-      <div
-        className="flex h-[30px] cursor-pointer items-center space-x-1 rounded px-3 text-neutral-300 hover:bg-neutral-700/60"
-        onClick={() => setIsModalOpen(true)}
-      >
-        <span>{t('keyboard.shortcut.custom')}</span>
-      </div>
+      <MenuRow icon={<PlusIcon size={18} />} onClick={() => setIsModalOpen(true)}>
+        {t('keyboard.shortcut.custom')}
+      </MenuRow>
 
       <Modal
         width={500}

@@ -7,6 +7,7 @@ import { updateScreen } from '@/api/vm';
 import * as ls from '@/lib/localstorage';
 import { resolutionAtom, videoModeAtom } from '@/jotai/screen.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
+import { MenuHeader } from '@/components/menu-rows.tsx';
 
 import { BitRateMap, QualityMap } from './constants.ts';
 import { Fps } from './fps';
@@ -71,15 +72,19 @@ export const Screen = () => {
   }
 
   const content = (
-    <div className="flex flex-col space-y-1">
-      <VideoMode />
-      <Resolution />
-      <Quality quality={quality} setQuality={setQuality} />
-      <Fps fps={fps} setFps={setFps} />
-      <Scale />
-      {videoMode !== 'mjpeg' && <Gop gop={gop} setGop={setGop} />}
-      {videoMode === 'mjpeg' && <FrameDetect />}
-      <Reset />
+    <div className="min-w-[200px]">
+      <MenuHeader title={t('screen.title')} />
+
+      <div className="flex flex-col space-y-1">
+        <VideoMode />
+        <Resolution />
+        <Quality quality={quality} setQuality={setQuality} />
+        <Fps fps={fps} setFps={setFps} />
+        <Scale />
+        {videoMode !== 'mjpeg' && <Gop gop={gop} setGop={setGop} />}
+        {videoMode === 'mjpeg' && <FrameDetect />}
+        <Reset />
+      </div>
     </div>
   );
 

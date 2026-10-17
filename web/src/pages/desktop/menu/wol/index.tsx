@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import { Button, Divider, Input, List } from 'antd';
+import { Button, Input, List } from 'antd';
 import type { InputRef } from 'antd';
 import clsx from 'clsx';
 import { useSetAtom } from 'jotai';
@@ -10,6 +10,7 @@ import { deleteWolMac, getWolMacs, setWolMacName, wol } from '@/api/network.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
+import { MenuHeader } from '@/components/menu-rows.tsx';
 
 interface MacItem {
   name: string;
@@ -127,13 +128,9 @@ export const Wol = () => {
 
   const content = (
     <div className="min-w-[300px]">
-      <div className="flex items-center justify-between px-1">
-        <span className="text-base font-bold text-neutral-300">{t('wol.title')}</span>
-      </div>
+      <MenuHeader title={t('wol.title')} />
 
-      <Divider style={{ margin: '10px 0 10px 0' }} />
-
-      <div className="w-full space-y-1 py-3">
+      <div className="w-full space-y-1 pb-3">
         <div className="flex items-center space-x-1">
           <Input
             ref={inputRef}

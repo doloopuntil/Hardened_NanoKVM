@@ -154,6 +154,22 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     its content, so that it hides what scrolls under it. Do not write the value
     again.
 
+## Menu bar popovers
+
+The popovers of the menu bar (`web/src/pages/desktop/menu/`) are a different
+surface from the Settings pages and are built from `components/menu-rows.tsx`:
+
+- Every popover starts with `MenuHeader`: the title of the entry and a hairline.
+  What sits on the right of the title (the Upload button of Scripts, the
+  Confirmation switch of Power) is its children.
+- A row that does something or opens something is a `MenuRow`: an 18px icon and
+  a label, 30px tall. A row that opens a list of options is a `MenuSubmenu`, which
+  has the same box. An entry that is switched on shows in blue (`active`).
+- A list of options is `MenuOption` rows: a blue check in front of the chosen
+  one, nothing else marks the choice. An option may carry a small icon.
+- Rows pass their props on, so a row can sit inside a `Popconfirm` or a `Tooltip`.
+- No popover writes its own row classes, header or divider margin.
+
 ## Adding or changing a page
 
 - Start from the title and hairline, then `SettingSection`s; reach for a

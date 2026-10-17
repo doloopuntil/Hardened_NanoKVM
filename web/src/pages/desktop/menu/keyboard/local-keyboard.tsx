@@ -1,10 +1,10 @@
-import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { KeyboardIcon, SmartphoneIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { isLocalKeyboardOpenAtom } from '@/jotai/keyboard.ts';
 import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
+import { MenuRow } from '@/components/menu-rows.tsx';
 import {
   blurMobileLocalKeyboard,
   focusMobileLocalKeyboard
@@ -31,18 +31,17 @@ export const LocalKeyboard = () => {
   }
 
   return (
-    <div
-      className={clsx(
-        'flex cursor-pointer select-none items-center space-x-2 rounded py-1 pl-2 pr-5 hover:bg-neutral-700/70',
-        isLocalKeyboardOpen && 'text-blue-400'
-      )}
+    <MenuRow
+      active={isLocalKeyboardOpen}
+      icon={
+        <span className="relative flex size-[18px] items-center justify-center">
+          <KeyboardIcon size={18} />
+          <SmartphoneIcon size={10} className="absolute -right-1 -top-1 rounded bg-neutral-800" />
+        </span>
+      }
       onClick={toggleLocalKeyboard}
     >
-      <span className="relative flex h-[18px] w-[22px] items-center justify-center">
-        <KeyboardIcon size={18} />
-        <SmartphoneIcon size={10} className="absolute -right-1 -top-1 rounded bg-neutral-800" />
-      </span>
-      <span>{t('keyboard.local')}</span>
-    </div>
+      {t('keyboard.local')}
+    </MenuRow>
   );
 };

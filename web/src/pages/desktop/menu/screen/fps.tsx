@@ -1,12 +1,13 @@
 import { useRef, useState } from 'react';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Button, InputNumber } from 'antd';
-import { CheckIcon, ScanBarcodeIcon } from 'lucide-react';
+import { ScanBarcodeIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { updateScreen } from '@/api/vm';
 import { attempt } from '@/lib/feedback.ts';
 import { setFps as setCookie } from '@/lib/localstorage';
+import { MenuOption } from '@/components/menu-rows.tsx';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 
 const fpsList = [
@@ -59,38 +60,16 @@ export const Fps = ({ fps, setFps }: FpsProps) => {
     <>
       {/* default fps list */}
       {fpsList.map((item) => (
-        <div
-          key={item.key}
-          className="flex cursor-pointer select-none items-center rounded py-1.5 pl-1 hover:bg-neutral-700/70"
-          onClick={() => update(item.key)}
-        >
-          <div className="flex h-[14px] w-[20px] items-end text-blue-500">
-            {item.key === fps && <CheckIcon size={14} />}
-          </div>
-          <span>{item.label}</span>
-        </div>
+        <MenuOption key={item.key} selected={item.key === fps} onClick={() => update(item.key)}>
+          {item.label}
+        </MenuOption>
       ))}
 
       {/* customize fps */}
-      <div
-        className="flex cursor-pointer select-none items-center rounded py-1.5 pl-1 pr-5 hover:bg-neutral-700/70"
-        onClick={showCustomize}
-      >
-        {defaultFps.includes(fps) ? (
-          <>
-            <div className="flex h-[14px] w-[20px] items-end"></div>
-            <span>{t('screen.customizeFps')}</span>
-          </>
-        ) : (
-          <>
-            <div className="flex h-[14px] w-[20px] items-end text-blue-500">
-              <CheckIcon size={14} />
-            </div>
-            <span>{t('screen.customizeFps')}</span>
-            <span className="ml-1 text-xs">{`${fps} Hz`}</span>
-          </>
-        )}
-      </div>
+      <MenuOption selected={!defaultFps.includes(fps)} onClick={showCustomize}>
+        <span>{t('screen.customizeFps')}</span>
+        {!defaultFps.includes(fps) && <span className="ml-1 text-xs">{`${fps} Hz`}</span>}
+      </MenuOption>
 
       {isCustomize && (
         <div className="flex w-[140px] items-center space-x-1 py-1">

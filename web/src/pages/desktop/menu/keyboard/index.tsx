@@ -2,6 +2,7 @@ import { KeyboardIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { MenuItem } from '@/components/menu-item.tsx';
+import { MenuHeader } from '@/components/menu-rows.tsx';
 
 import { LeaderKey } from './leader-key.tsx';
 import { LocalKeyboard } from './local-keyboard.tsx';
@@ -13,12 +14,16 @@ export const Keyboard = () => {
   const { t } = useTranslation();
 
   const content = (
-    <div className="flex flex-col space-y-1">
-      <Paste />
-      <LocalKeyboard />
-      <VirtualKeyboard />
-      <Shortcuts />
-      <LeaderKey />
+    <div className="min-w-[200px]">
+      <MenuHeader title={t('keyboard.title')} />
+
+      <div className="flex flex-col space-y-1">
+        <Paste />
+        <LocalKeyboard />
+        <VirtualKeyboard />
+        <Shortcuts />
+        <LeaderKey />
+      </div>
     </div>
   );
 

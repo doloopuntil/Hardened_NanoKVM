@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { MenuRow } from '@/components/menu-rows.tsx';
 
 const DEFAULT_POWER_LONG_DURATION_SECONDS = 12;
 
@@ -28,6 +29,13 @@ export const PowerLong = ({ showConfirm, isLoading, setIsLoading }: PowerLongPro
     });
   }
 
+  const row = (
+    <MenuRow icon={<CirclePowerIcon size={18} />} onClick={showConfirm ? undefined : power}>
+      {t('power.powerLong')}
+      <span className="ml-2 text-xs text-neutral-500">{`${duration}s`}</span>
+    </MenuRow>
+  );
+
   return (
     <>
       {showConfirm ? (
@@ -40,21 +48,10 @@ export const PowerLong = ({ showConfirm, isLoading, setIsLoading }: PowerLongPro
           onConfirm={power}
           color="#404040"
         >
-          <div className="flex cursor-pointer select-none items-center space-x-2 rounded px-3 py-1.5 hover:bg-neutral-700/70">
-            <CirclePowerIcon size={16} />
-            <span>{t('power.powerLong')}</span>
-            <div className="flex h-full items-start text-xs text-neutral-500">{`${duration}s`}</div>
-          </div>
+          {row}
         </Popconfirm>
       ) : (
-        <div
-          className="flex cursor-pointer select-none items-center space-x-2 rounded px-3 py-1.5 hover:bg-neutral-700/70"
-          onClick={power}
-        >
-          <CirclePowerIcon size={16} />
-          <span>{t('power.powerLong')}</span>
-          <div className="flex h-full items-start text-xs text-neutral-500">{`${duration}s`}</div>
-        </div>
+        row
       )}
 
       <div className="px-3">

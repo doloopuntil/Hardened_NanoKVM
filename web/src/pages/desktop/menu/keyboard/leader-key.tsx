@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/hid.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { isKeyboardEnableAtom, leaderKeyAtom } from '@/jotai/keyboard.ts';
+import { MenuRow } from '@/components/menu-rows.tsx';
 
 export const LeaderKey = () => {
   const { t } = useTranslation();
@@ -102,13 +103,9 @@ export const LeaderKey = () => {
 
   return (
     <>
-      <div
-        className="flex cursor-pointer select-none items-center space-x-2 rounded py-1 pl-2 pr-5 hover:bg-neutral-700/70"
-        onClick={openModal}
-      >
-        <KeyIcon size={18} />
-        <span>{t('keyboard.leaderKey.title')}</span>
-      </div>
+      <MenuRow icon={<KeyIcon size={18} />} onClick={openModal}>
+        {t('keyboard.leaderKey.title')}
+      </MenuRow>
 
       <Modal
         width={510}

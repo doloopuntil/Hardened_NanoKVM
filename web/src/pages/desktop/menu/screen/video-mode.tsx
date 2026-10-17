@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Tooltip } from 'antd';
 import { useAtomValue } from 'jotai';
-import { CheckIcon, TvMinimalPlayIcon } from 'lucide-react';
+import { TvMinimalPlayIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as downloadApi from '@/api/download.ts';
@@ -9,6 +9,7 @@ import * as firewallApi from '@/api/system-firewall.ts';
 import { confirm } from '@/lib/feedback.ts';
 import { setVideoMode as setCookie } from '@/lib/localstorage.ts';
 import { videoModeAtom } from '@/jotai/screen.ts';
+import { MenuOption } from '@/components/menu-rows.tsx';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 
 const videoModes = [
@@ -121,10 +122,7 @@ export const VideoMode = () => {
           placement="right"
           styles={{ root: { maxWidth: '270px' } }}
         >
-          <div className="flex cursor-not-allowed select-none items-center rounded py-1.5 pl-1 pr-5 text-neutral-500 hover:bg-neutral-700/70">
-            <div className="flex h-[14px] w-[20px] items-end text-blue-500"></div>
-            <span>H.264 (Direct)</span>
-          </div>
+          <MenuOption disabled>H.264 (Direct)</MenuOption>
         </Tooltip>
       )}
 
@@ -141,19 +139,13 @@ export const VideoMode = () => {
               placement="right"
               styles={{ root: { maxWidth: '270px' } }}
             >
-              <div
-                className={
-                  mode.key === 'h264' && isWebrtcBlocked
-                    ? 'flex cursor-not-allowed select-none items-center rounded py-1.5 pl-1 pr-5 text-neutral-500 hover:bg-neutral-700/70'
-                    : 'flex cursor-pointer select-none items-center rounded py-1.5 pl-1 pr-5 hover:bg-neutral-700/70'
-                }
+              <MenuOption
+                disabled={mode.key === 'h264' && isWebrtcBlocked}
+                selected={mode.key === videoMode}
                 onClick={() => update(mode.key)}
               >
-                <div className="flex h-[14px] w-[20px] items-end text-blue-500">
-                  {mode.key === videoMode && <CheckIcon size={15} />}
-                </div>
-                <span>{mode.name}</span>
-              </div>
+                {mode.name}
+              </MenuOption>
             </Tooltip>
           )
       )}

@@ -1,6 +1,6 @@
 import { Tooltip } from 'antd';
 import { useAtom } from 'jotai';
-import { CheckIcon, CircleHelpIcon, RatioIcon } from 'lucide-react';
+import { CircleHelpIcon, RatioIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { updateScreen } from '@/api/vm';
@@ -8,6 +8,7 @@ import { Resolution as TypeResolution } from '@/types';
 import { attempt } from '@/lib/feedback.ts';
 import { setResolution as setCookie } from '@/lib/localstorage';
 import { resolutionAtom } from '@/jotai/screen.ts';
+import { MenuOption } from '@/components/menu-rows.tsx';
 import { MenuSubmenu } from '@/components/menu-submenu.tsx';
 
 const resolutions: TypeResolution[] = [
@@ -33,15 +34,11 @@ export const Resolution = () => {
   const content = (
     <>
       {resolutions.map((res) => (
-        <div
+        <MenuOption
           key={res.height}
-          className="flex cursor-pointer select-none items-center rounded py-1.5 pl-1 pr-5 hover:bg-neutral-700/70"
+          selected={res.height === resolution?.height}
           onClick={() => update(res)}
         >
-          <div className="flex h-[14px] w-[20px] items-end text-blue-500">
-            {res.height === resolution?.height && <CheckIcon size={15} />}
-          </div>
-
           {res.height === 0 ? (
             <div className="flex items-center justify-between space-x-2">
               <span>{t('screen.auto')}</span>
@@ -60,7 +57,7 @@ export const Resolution = () => {
               <span>{res.height}</span>
             </>
           )}
-        </div>
+        </MenuOption>
       ))}
     </>
   );
