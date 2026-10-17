@@ -28,7 +28,7 @@ import type {
   PicoclawTransportState
 } from '@/jotai/picoclaw.ts';
 
-import { createErrorMessage, createStatusMessage, HIDDEN_OVERLAY } from './message-utils.ts';
+import { createErrorMessage, HIDDEN_OVERLAY } from './message-utils.ts';
 
 type RuntimeStatusSetter = Dispatch<SetStateAction<PicoclawRuntimeStatus | null>>;
 type MessageSetter = Dispatch<SetStateAction<PicoclawChatMessage[]>>;
@@ -138,14 +138,9 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
           isExpectedRuntimeState(latestRuntimeStatus ?? null, isRuntimeReady)
         ) {
           setRuntimeStatus(latestRuntimeStatus ?? null);
-          setMessages((current) => [
-            ...current,
-            createStatusMessage(
-              t(
-                isRuntimeReady ? 'picoclaw.status.runtimeStopped' : 'picoclaw.status.runtimeStarted'
-              )
-            )
-          ]);
+          toast.success(
+            t(isRuntimeReady ? 'picoclaw.status.runtimeStopped' : 'picoclaw.status.runtimeStarted')
+          );
 
           if (isRuntimeReady) {
             void closeGateway();
@@ -190,12 +185,9 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
 
       if (response.code === 0) {
         setRuntimeStatus(response.data.status);
-        setMessages((current) => [
-          ...current,
-          createStatusMessage(
-            t(isRuntimeReady ? 'picoclaw.status.runtimeStopped' : 'picoclaw.status.runtimeStarted')
-          )
-        ]);
+        toast.success(
+          t(isRuntimeReady ? 'picoclaw.status.runtimeStopped' : 'picoclaw.status.runtimeStarted')
+        );
 
         if (isRuntimeReady) {
           void closeGateway();
@@ -259,12 +251,9 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
           response.data.status.status === 'installed' &&
           response.data.status.installing !== true &&
           response.data.installed === true;
-        setMessages((current) => [
-          ...current,
-          createStatusMessage(
-            installFinished ? t('picoclaw.install.success') : t('picoclaw.install.installing')
-          )
-        ]);
+        if (installFinished) {
+          toast.success(t('picoclaw.install.success'));
+        }
         await refreshState();
         return;
       }
@@ -327,7 +316,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
       if (response.code === 0) {
         setRuntimeStatus(response.data.status);
         setIsModelConfigOpen(false);
-        setMessages((current) => [...current, createStatusMessage(t('picoclaw.model.saved'))]);
+        toast.success(t('picoclaw.model.saved'));
         await refreshState();
         return;
       }
@@ -371,7 +360,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
       const response = await setPicoclawAgentProfile({ profile });
       if (response.code === 0) {
         setRuntimeStatus(response.data.status);
-        setMessages((current) => [...current, createStatusMessage(t('picoclaw.agent.switched'))]);
+        toast.success(t('picoclaw.agent.switched'));
         await refreshState();
 
         if (response.data.status?.ready === true && transportState !== 'connected') {
@@ -416,16 +405,11 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
 
   async function handleUninstallRuntime() {
     setIsUninstallRequestPending(true);
-    setMessages((current) => [...current, createStatusMessage(t('picoclaw.install.uninstalling'))]);
-
     try {
       const response = await uninstallRuntime();
       if (response.code === 0) {
         setRuntimeStatus(response.data.status);
-        setMessages((current) => [
-          ...current,
-          createStatusMessage(t('picoclaw.install.uninstalled'))
-        ]);
+        toast.success(t('picoclaw.install.uninstalled'));
         await refreshState();
         return;
       }

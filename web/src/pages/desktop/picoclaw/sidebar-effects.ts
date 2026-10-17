@@ -3,6 +3,7 @@ import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import type { TFunction } from 'i18next';
 
 import { closeGateway, connectGateway, picoclawGateway } from '@/api/picoclaw.ts';
+import { toast } from '@/lib/feedback.ts';
 import {
   clearPicoclawRuntimeInstallSnapshot,
   setPicoclawRuntimeInstallSnapshot,
@@ -180,27 +181,12 @@ export function usePicoclawSidebarLifecycle({
           return;
         }
 
-        if (nextRuntimeStatus?.installing) {
-          setMessages((current) => [
-            ...current,
-            createStatusMessage(t('picoclaw.install.installing'))
-          ]);
-          return;
-        }
-
-        if (nextRuntimeStatus?.installed === false) {
-          setMessages((current) => [
-            ...current,
-            createStatusMessage(t('picoclaw.install.requiredDescription'))
-          ]);
-          return;
-        }
-
-        if (nextRuntimeStatus?.model_configured === false) {
-          setMessages((current) => [
-            ...current,
-            createStatusMessage(t('picoclaw.model.requiredDescription'))
-          ]);
+        // the install and model screens say this themselves
+        if (
+          nextRuntimeStatus?.installing ||
+          nextRuntimeStatus?.installed === false ||
+          nextRuntimeStatus?.model_configured === false
+        ) {
           return;
         }
 
@@ -302,7 +288,7 @@ export function usePicoclawInstallSnapshotSync({
     const previous = previousInstallStateRef.current;
     if (previous.installing && !isInstalling) {
       if (runtimeStatus.installed === true) {
-        setMessages((current) => [...current, createStatusMessage(t('picoclaw.install.success'))]);
+        toast.success(t('picoclaw.install.success'));
       } else {
         setMessages((current) => [
           ...current,
