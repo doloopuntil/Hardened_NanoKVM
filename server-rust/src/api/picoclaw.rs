@@ -36,7 +36,7 @@ use tracing::debug;
 
 use crate::{
     AppError, Result,
-    api::{hid, stream},
+    api::{hid, picoclaw_sessions, stream},
     auth::token::random_token,
     error::ApiResponse,
     system::command::{self, AllowedCommand},
@@ -191,16 +191,6 @@ pub struct AgentProfileUpdateRequest {
 pub struct SessionsQuery {
     offset: Option<usize>,
     limit: Option<usize>,
-}
-
-#[derive(Debug, Serialize)]
-struct SessionListItem {
-    id: String,
-    title: String,
-    preview: String,
-    message_count: usize,
-    created: String,
-    updated: String,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -660,18 +650,52 @@ pub async fn update_agent_profile(Json(req): Json<AgentProfileUpdateRequest>) ->
     }
 }
 
+// The directory PicoClaw saves its conversations in, when it has a config to say where.
+fn sessions_dir_now() -> Option<PathBuf> {
+    let doc = load_config_document().ok()?;
+    let home = doc.config_path.parent()?.to_path_buf();
+    Some(picoclaw_sessions::sessions_dir(&doc.raw, &home))
+}
+
 pub async fn list_sessions(Query(query): Query<SessionsQuery>) -> Result<Response> {
-    let _offset = query.offset.unwrap_or(0);
-    let _limit = query.limit.unwrap_or(20);
-    Ok(Json(ApiResponse::ok(Vec::<SessionListItem>::new())).into_response())
+    let offset = query.offset.unwrap_or(0);
+    let limit = query.limit.unwrap_or(20);
+    let items = task::spawn_blocking(move || match sessions_dir_now() {
+        Some(dir) => picoclaw_sessions::list_sessions(&dir, offset, limit),
+        None => Vec::new(),
+    })
+    .await
+    .map_err(|err| AppError::Internal(format!("session list task failed: {err}")))?;
+    Ok(Json(ApiResponse::ok(items)).into_response())
 }
 
-pub async fn get_session(AxumPath(_id): AxumPath<String>) -> Result<Response> {
-    Ok(picoclaw_error(CODE_INVALID_ACTION, "session not found"))
+pub async fn get_session(AxumPath(id): AxumPath<String>) -> Result<Response> {
+    let detail = task::spawn_blocking(move || {
+        sessions_dir_now().and_then(|dir| picoclaw_sessions::load_session(&dir, &id))
+    })
+    .await
+    .map_err(|err| AppError::Internal(format!("session load task failed: {err}")))?;
+    match detail {
+        Some(detail) => Ok(Json(ApiResponse::ok(detail)).into_response()),
+        None => Ok(picoclaw_error(CODE_INVALID_ACTION, "session not found")),
+    }
 }
 
-pub async fn delete_session(AxumPath(_id): AxumPath<String>) -> Result<Response> {
-    Ok(Json(ApiResponse::ok(json!({ "deleted": true }))).into_response())
+pub async fn delete_session(AxumPath(id): AxumPath<String>) -> Result<Response> {
+    let removed = task::spawn_blocking(move || match sessions_dir_now() {
+        Some(dir) => picoclaw_sessions::delete_session(&dir, &id),
+        None => Ok(false),
+    })
+    .await
+    .map_err(|err| AppError::Internal(format!("session delete task failed: {err}")))?;
+    match removed {
+        Ok(true) => Ok(Json(ApiResponse::ok(json!({ "deleted": true }))).into_response()),
+        Ok(false) => Ok(picoclaw_error(CODE_INVALID_ACTION, "session not found")),
+        Err(err) => Ok(picoclaw_error(
+            CODE_INVALID_ACTION,
+            format!("failed to delete session: {err}"),
+        )),
+    }
 }
 
 pub async fn screenshot(
