@@ -6,18 +6,32 @@ import { Input } from 'antd';
 // the label's row, also on a phone, and a value of several lines can start at the top of the row.
 export const InfoRow = ({
   label,
+  description,
   value,
   alignStart = false
 }: {
   label: ReactNode;
+  // a caption under the label; the value then keeps to its own width and the caption gets the rest
+  description?: ReactNode;
   value?: ReactNode;
   alignStart?: boolean;
 }) => (
   <div
     className={`flex min-h-8 flex-row justify-between gap-4 ${alignStart ? 'items-start' : 'items-center'}`}
   >
-    <span className="shrink-0 text-sm text-neutral-300">{label}</span>
-    <div className="min-w-0 flex-1 break-all text-right text-sm text-neutral-500 sm:max-w-md sm:flex-none">
+    {description ? (
+      <div className="flex min-w-0 flex-1 flex-col space-y-0.5">
+        <span className="text-sm text-neutral-300">{label}</span>
+        <span className="break-words text-xs leading-snug text-neutral-500">{description}</span>
+      </div>
+    ) : (
+      <span className="shrink-0 text-sm text-neutral-300">{label}</span>
+    )}
+    <div
+      className={`min-w-0 break-words text-right text-sm text-neutral-500 ${
+        description ? 'shrink-0' : 'flex-1 sm:max-w-md sm:flex-none'
+      }`}
+    >
       {value || '-'}
     </div>
   </div>

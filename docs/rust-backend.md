@@ -182,7 +182,7 @@ For end-user flashing instructions, see
 - UI branding for Hardened NanoKVM, About-page app version display from
   `/kvmapp/version`, and an unauthenticated current-version endpoint used by
   the login screen.
-- Guarded raw system-update switch in Check for Updates. Raw boot/rootfs writes
+- Guarded raw system-update switch in System updates. Raw boot/rootfs writes
   stay disabled by default and require an explicit warning confirmation before
   `/api/system-update/install` can apply a destructive staged bundle.
 - First-boot web setup for SD-card flashes without `/etc/kvm/pwd`.

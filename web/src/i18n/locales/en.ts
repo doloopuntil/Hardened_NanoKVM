@@ -350,7 +350,7 @@ const en = {
         information: 'Information',
         ip: 'IP',
         mdns: 'mDNS',
-        application: 'Application Version',
+        application: 'Application version',
         applicationTip: 'NanoKVM web application version',
         image: 'Image Version',
         imageTip: 'NanoKVM system image version',
@@ -795,7 +795,7 @@ const en = {
         stop: 'Stop Tailscale?',
         stopDesc: 'Stop the service and keep it from starting at boot',
         loading: 'Loading...',
-        notInstall: 'Tailscale not found. Please install it.',
+        notInstall: 'Tailscale not found, please install it',
         install: 'Install',
         installing: 'Installing',
         failed: 'Install failed',
@@ -824,7 +824,9 @@ const en = {
         cancelBtn: 'No'
       },
       update: {
-        title: 'Check for Updates',
+        title: 'System updates',
+        sources: 'Update sources',
+        latestVersion: 'Latest version',
         queryFailed: 'Get version failed',
         updateFailed: 'Update failed. Please retry.',
         paranoidBlocked: 'Online updates are blocked by Paranoid Firewall mode',
@@ -835,16 +837,15 @@ const en = {
         updating: 'Update started. Please wait...',
         confirm: 'Confirm',
         cancel: 'Cancel',
-        preview: 'Preview Updates',
+        preview: 'Preview updates',
         previewDesc: 'Get early access to new features and improvements',
         previewChannels: 'Controls both application and system preview channels',
         previewTip:
           'Please be aware that preview releases may contain bugs or incomplete functionality',
         application: {
-          title: 'Application Update'
+          title: 'Application'
         },
         system: {
-          title: 'System Update',
           queryFailed: 'Get system version failed',
           appUpdateRequired:
             'Update the application to {{version}} before installing this system update',
@@ -861,7 +862,7 @@ const en = {
           isLatest: 'The base system is up to date.',
           available: 'A base-system update is available.',
           downloading: 'Downloading and verifying system update...',
-          downloadVerify: 'Download and Verify',
+          downloadVerify: 'Download and verify',
           installing: 'Installing staged system update...',
           install: 'Install',
           installFailed: 'Install failed',
@@ -872,10 +873,9 @@ const en = {
             'This verified bundle will write raw boot/rootfs images to the SD-card partitions and reboot automatically. Writing can take several minutes; keep power connected.',
           rawInstallWarning:
             'There is no automatic rollback for raw partition updates. If boot fails, recover the SD card manually.',
-          installed: 'installed',
           rebootRequired: 'Reboot is required to activate this system state.',
           confirming: 'Confirming system update boot...',
-          confirmBoot: 'Confirm Boot',
+          confirmBoot: 'Confirm boot',
           confirmFailed: 'Boot confirmation failed',
           confirmed: 'Boot confirmed',
           bootGood: 'The pending system update was marked as boot-good.',
@@ -886,16 +886,13 @@ const en = {
           rollbackConfirmTitle: 'Rollback system update?',
           rollbackConfirmDesc:
             'This will restore files from the latest system-update backup. Reboot will be required.',
-          staged: 'staged',
           stagedDesc:
             'The system update archive was downloaded and verified. You can install it now.',
           refresh: 'Refresh',
-          releaseNotes: 'Release Notes',
-          systemVersion: 'System update version',
+          releaseNotes: 'Release notes',
+          systemVersion: 'System version',
           baseImage: 'Base image',
           buildrootRelease: 'Buildroot release',
-          securityPatchLevel: 'Security backport level',
-          stagedSecurityPatchLevel: 'Staged security backport level',
           base: 'Base',
           kernel: 'Kernel',
           rootfs: 'Rootfs',
@@ -915,7 +912,7 @@ const en = {
           rollbackBackup: 'Rollback backup'
         },
         offline: {
-          title: 'Offline Updates',
+          title: 'Offline updates',
           desc: 'Update through local installation package',
           upload: 'Upload',
           invalidName: 'Invalid filename format. Please download from GitHub releases.',
