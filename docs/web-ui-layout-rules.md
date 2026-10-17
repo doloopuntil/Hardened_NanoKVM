@@ -191,6 +191,12 @@ The PicoClaw sidebar is part of the menu bar and follows the same rules where it
   assistant asks first (a Popconfirm, rule 15), because it ends a task that is running.
 - A screen that does not show the chat (install, model) reports a failure with a toast, since
   the chat transcript is not visible there.
+- Its accent is the blue of the rest of the app (`blue-400` / `blue-500`, `blue-600` for the
+  user's bubbles), not sky-blue.
+- A screen with nothing to show yet (start, install, no history, no messages) is an
+  `EmptyState`: a centred icon tile, a title, a caption and one action.
+- The result of an action (started, stopped, saved, installed) is a toast; the chat shows only
+  what happens in the session (connecting, connected, closed).
 - The model form is the one place that is not `SettingRow`s: the input sits under its label,
   because the sidebar is too narrow to hold a model name or an URL beside it.
 
