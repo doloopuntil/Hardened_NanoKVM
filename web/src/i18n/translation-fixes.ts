@@ -522,7 +522,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "URL vzdáleného obrazu",
     "download.inputfile": "Soubor obrazu",
     "wol.input": "MAC adresa",
-    "terminal.serialPortPlaceholder": "Například /dev/ttyS1"
+    "terminal.serialPortPlaceholder": "Například /dev/ttyS1",
+    "power.resetConfirm": "Provést operaci resetování?"
   },
   da: {
     "auth.illegalPassword": "Adgangskoden skal være på mindst 8 tegn og må ikke indeholde anførselstegn eller skråstreger",
@@ -769,7 +770,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "URL til fjernbillede",
     "download.inputfile": "Billedfil",
     "wol.input": "MAC-adresse",
-    "terminal.serialPortPlaceholder": "For eksempel /dev/ttyS1"
+    "terminal.serialPortPlaceholder": "For eksempel /dev/ttyS1",
+    "power.powerConfirm": "Udføre strømhandlingen?",
+    "power.resetConfirm": "Udføre nulstilling?"
   },
   de: {
     "auth.illegalPassword": "Das Passwort muss mindestens 8 Zeichen lang sein und darf keine Anführungszeichen oder Schrägstriche enthalten",
@@ -1263,7 +1266,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "URL de la imagen remota",
     "download.inputfile": "Archivo de imagen",
     "wol.input": "Dirección MAC",
-    "terminal.serialPortPlaceholder": "Por ejemplo /dev/ttyS1"
+    "terminal.serialPortPlaceholder": "Por ejemplo /dev/ttyS1",
+    "power.powerConfirm": "¿Ejecutar la operación de encendido?",
+    "power.resetConfirm": "¿Ejecutar la operación de reinicio?"
   },
   et: {
     "settings.device.diskDesc": "Ühenda SD-kaart kaugmasinasse",
@@ -1749,7 +1754,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "power.title": "Alimentation",
     "power.powerShort": "Bouton d'alimentation : appui court",
     "power.powerLong": "Bouton d'alimentation : appui long",
-    "power.powerConfirm": "Procéder à l'opération d'alimentation ?",
+    "power.powerConfirm": "Exécuter l'opération d'alimentation ?",
     "settings.tailscale.run": "Démarrer",
     "mouse.grab": "Curseur de saisie",
     "settings.about.title": "À propos de NanoKVM",
@@ -1977,7 +1982,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "Carte SD",
     "image.tips.tf3": "Insérez la carte SD dans un lecteur de carte et connectez-la à votre ordinateur.",
     "image.tips.tf4": "Copiez le fichier image dans le répertoire /data de la carte SD sur votre ordinateur.",
-    "image.tips.tf5": "Réinsérez la carte SD dans le NanoKVM."
+    "image.tips.tf5": "Réinsérez la carte SD dans le NanoKVM.",
+    "power.resetConfirm": "Exécuter l'opération de réinitialisation ?"
   },
   hu: {
     "auth.illegalPassword": "A jelszónak legalább 8 karakter hosszúnak kell lennie, és nem tartalmazhat idézőjelet vagy törtvonalat",
@@ -1987,7 +1993,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.title": "Billentyűparancsok",
     "image.mountMode": "Csatolási mód",
     "settings.tailscale.uninstall": "Tailscale eltávolítása",
-    "power.powerConfirm": "Folytatja a tápellátási műveletet?",
+    "power.powerConfirm": "Végrehajtja a tápellátási műveletet?",
     "settings.network.dns.router": "Útválasztó",
     "settings.network.ipv6.router": "Útválasztó",
     "settings.network.ipv6.invalidManual": "Adjon meg érvényes IPv6-címet, előtagot és útválasztót",
@@ -2225,7 +2231,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "wol.ok": "OK",
     "image.tips.tf3": "Helyezze a SD kártyát egy kártyaolvasóba, és csatlakoztassa a számítógépéhez.",
     "image.tips.tf4": "Másolja a képfájlt a SD kártya /data könyvtárába.",
-    "image.tips.tf5": "Helyezze vissza a SD kártyát a NanoKVM-be."
+    "image.tips.tf5": "Helyezze vissza a SD kártyát a NanoKVM-be.",
+    "power.resetConfirm": "Végrehajtja a visszaállítási műveletet?"
   },
   id: {
     "auth.illegalPassword": "Kata sandi harus minimal 8 karakter dan tidak boleh berisi tanda kutip atau garis miring",
@@ -2504,7 +2511,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "Kartu SD",
     "image.tips.tf3": "Masukkan Kartu SD ke pembaca kartu dan hubungkan ke komputer Anda.",
     "image.tips.tf4": "Salin berkas gambar ke direktori /data pada Kartu SD.",
-    "image.tips.tf5": "Masukkan Kartu SD ke dalam NanoKVM."
+    "image.tips.tf5": "Masukkan Kartu SD ke dalam NanoKVM.",
+    "power.powerConfirm": "Jalankan operasi daya?",
+    "power.resetConfirm": "Jalankan operasi penyetelan ulang?"
   },
   it: {
     "auth.illegalPassword": "La password deve contenere almeno 8 caratteri e non può contenere virgolette o barre",
@@ -2524,7 +2533,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "script.runFailed": "Esecuzione non riuscita",
     "settings.update.system.healthy": "In buono stato",
     "settings.tailscale.failed": "Installazione non riuscita",
-    "power.resetConfirm": "Procedere con l'operazione di reimpostazione?",
+    "power.resetConfirm": "Eseguire l'operazione di reimpostazione?",
     "settings.device.oled.description": "Spegni lo schermo OLED dopo",
     "screen.transferRunningTitle": "Trasferimento immagine in corso",
     "screen.transferRunningDesc": "Cambiare la modalità video ricarica la pagina e annulla il caricamento o il download dell'immagine in corso.",
@@ -2755,7 +2764,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "Scheda SD",
     "image.tips.tf3": "Inserisci la scheda SD in un lettore di schede e collegala al tuo computer.",
     "image.tips.tf4": "Copia il file immagine nella directory /data sulla scheda SD.",
-    "image.tips.tf5": "Inserisci la scheda SD nel NanoKVM."
+    "image.tips.tf5": "Inserisci la scheda SD nel NanoKVM.",
+    "power.powerConfirm": "Eseguire l'operazione di accensione?"
   },
   ja: {
     "auth.illegalPassword": "パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません",
@@ -3231,7 +3241,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "SD 카드",
     "image.tips.tf3": "SD 카드를 카드 리더기에 삽입하고 컴퓨터에 연결하세요.",
     "image.tips.tf4": "이미지 파일을 SD 카드의 /data 디렉터리에 복사하세요.",
-    "image.tips.tf5": "SD 카드를 NanoKVM에 삽입하세요."
+    "image.tips.tf5": "SD 카드를 NanoKVM에 삽입하세요.",
+    "power.powerConfirm": "전원 작업을 실행하시겠습니까?",
+    "power.resetConfirm": "리셋 작업을 실행하시겠습니까?"
   },
   nb: {
     "auth.illegalPassword": "Passordet må være minst 8 tegn og kan ikke inneholde anførselstegn eller skråstreker",
@@ -3472,7 +3484,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "SD-kort",
     "image.tips.tf3": "Sett inn SD-kortet i en kortleser og koble den til datamaskinen din.",
     "image.tips.tf4": "Kopiér arkivfilen til mappen /data på SD-kortet.",
-    "image.tips.tf5": "Sett inn SD-kortet i NanoKVM-enheten."
+    "image.tips.tf5": "Sett inn SD-kortet i NanoKVM-enheten.",
+    "power.powerConfirm": "Utføre strømoperasjonen?",
+    "power.resetConfirm": "Utføre tilbakestilling?"
   },
   nl: {
     "auth.illegalPassword": "Het wachtwoord moet minstens 8 tekens bevatten en mag geen aanhalingstekens of schuine strepen bevatten",
@@ -3720,7 +3734,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "SD-kaart",
     "image.tips.tf3": "Plaats de SD-kaart in een kaartlezer en verbind deze met uw computer.",
     "image.tips.tf4": "Kopieer het imagebestand naar de /data directory op de SD-kaart.",
-    "image.tips.tf5": "Plaats de SD-kaart terug in de NanoKVM."
+    "image.tips.tf5": "Plaats de SD-kaart terug in de NanoKVM.",
+    "power.powerConfirm": "Stroomactie uitvoeren?",
+    "power.resetConfirm": "Reset uitvoeren?"
   },
   pl: {
     "auth.illegalPassword": "Hasło musi mieć co najmniej 8 znaków i nie może zawierać cudzysłowów ani ukośników",
@@ -4208,7 +4224,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "Cartão SD",
     "image.tips.tf3": "Insira o cartão SD em um leitor de cartão e conecte-o ao seu computador.",
     "image.tips.tf4": "Copie o arquivo de imagem para o diretório /data no cartão SD.",
-    "image.tips.tf5": "Insira o cartão SD no NanoKVM."
+    "image.tips.tf5": "Insira o cartão SD no NanoKVM.",
+    "power.powerConfirm": "Executar a operação de energia?",
+    "power.resetConfirm": "Executar a operação de redefinição?"
   },
   ru: {
     "download.disabled": "Сейчас нельзя скачивать или загружать образы, потому что хранилище недоступно для записи. Если образ смонтирован, размонтируйте его, а затем отключите виртуальный диск, чтобы хранилище снова стало доступным для записи.",
@@ -4872,7 +4890,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "การ์ด SD",
     "image.tips.tf3": "ใส่การ์ด SD ลงในเครื่องอ่านการ์ดและเชื่อมต่อกับคอมพิวเตอร์ของคุณ",
     "image.tips.tf4": "คัดลอกไฟล์อิมเมจไปยังไดเรกทอรี /data บนการ์ด SD",
-    "image.tips.tf5": "ใส่การ์ด SD กลับเข้า NanoKVM"
+    "image.tips.tf5": "ใส่การ์ด SD กลับเข้า NanoKVM",
+    "power.powerConfirm": "ดำเนินการจ่ายไฟหรือไม่",
+    "power.resetConfirm": "ดำเนินการรีเซ็ตหรือไม่"
   },
   tr: {
     "auth.illegalPassword": "Şifre en az 8 karakter olmalı ve tırnak işareti veya eğik çizgi içermemelidir",
@@ -5134,7 +5154,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "Uzak imaj URL’si",
     "download.inputfile": "İmaj dosyası",
     "wol.input": "MAC adresi",
-    "terminal.serialPortPlaceholder": "Örneğin /dev/ttyS1"
+    "terminal.serialPortPlaceholder": "Örneğin /dev/ttyS1",
+    "power.powerConfirm": "Güç işlemini yürütmek istiyor musunuz?",
+    "power.resetConfirm": "Sıfırlama işlemini yürütmek istiyor musunuz?"
   },
   uk: {
     "auth.illegalPassword": "Пароль має містити щонайменше 8 символів і не може містити лапок чи похилих рисок",
@@ -5377,7 +5399,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "SD карта",
     "image.tips.tf3": "Вставте SD карту в кардрідер і під'єднайте її до вашого комп'ютера.",
     "image.tips.tf4": "Скопіюйте файл зображення до каталогу /data на SD карті.",
-    "image.tips.tf5": "Вставте SD карту в NanoKVM."
+    "image.tips.tf5": "Вставте SD карту в NanoKVM.",
+    "power.resetConfirm": "Виконати операцію скидання?"
   },
   vi: {
     "auth.illegalPassword": "Mật khẩu phải có ít nhất 8 ký tự và không được chứa dấu nháy hoặc dấu gạch chéo",
@@ -5630,7 +5653,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "Thẻ SD",
     "image.tips.tf3": "Chèn thẻ SD vào đầu đọc thẻ và kết nối với máy tính của bạn.",
     "image.tips.tf4": "Sao chép tệp hình ảnh vào thư mục /data trên thẻ SD.",
-    "image.tips.tf5": "Chèn thẻ SD vào NanoKVM."
+    "image.tips.tf5": "Chèn thẻ SD vào NanoKVM.",
+    "power.powerConfirm": "Thực hiện thao tác nguồn điện?",
+    "power.resetConfirm": "Thực hiện thao tác đặt lại?"
   },
   zh: {
     "auth.illegalPassword": "密码至少 8 个字符，且不能包含引号或斜杠",

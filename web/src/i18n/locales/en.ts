@@ -325,8 +325,8 @@ const en = {
       reset: 'Reset',
       powerShort: 'Power button: short click',
       powerLong: 'Power button: long click',
-      resetConfirm: 'Proceed reset operation?',
-      powerConfirm: 'Proceed power operation?',
+      resetConfirm: 'Execute reset operation?',
+      powerConfirm: 'Execute power operation?',
       okBtn: 'Yes',
       cancelBtn: 'No'
     },
