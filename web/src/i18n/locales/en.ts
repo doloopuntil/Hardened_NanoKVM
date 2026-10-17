@@ -924,6 +924,7 @@ const en = {
         title: 'Account',
         webAccount: 'Web account name',
         password: 'Password',
+        passwordDesc: 'Change the password used to log in to the web interface',
         updateBtn: 'Change',
         logoutBtn: 'Logout',
         logoutDesc: 'Are you sure you want to logout?',
