@@ -276,9 +276,10 @@ export const Wireguard = () => {
               label={t('settings.wireguard.address.title')}
               description={t('settings.wireguard.address.description')}
               error={errors.address ? t('settings.wireguard.invalidAddress') : undefined}
+              inline
             >
               <Input
-                className="text-right sm:w-40"
+                className="w-32 text-right sm:w-40"
                 value={draft.address}
                 placeholder="10.0.0.1/24"
                 status={errors.address ? 'error' : undefined}
@@ -307,9 +308,10 @@ export const Wireguard = () => {
               label={t('settings.wireguard.peer.server')}
               description={t('settings.wireguard.peer.serverDescription')}
               error={errors.endpointHost ? t('settings.wireguard.invalidEndpoint') : undefined}
+              inline
             >
               <Input
-                className="w-full text-right sm:w-56"
+                className="w-36 text-right sm:w-56"
                 value={draft.endpointHost}
                 placeholder="vpn.example.com"
                 status={errors.endpointHost ? 'error' : undefined}
@@ -321,9 +323,10 @@ export const Wireguard = () => {
               label={t('settings.wireguard.peer.port')}
               description={t('settings.wireguard.peer.portDescription')}
               error={errors.endpointPort ? t('settings.wireguard.invalidPort') : undefined}
+              inline
             >
               <InputNumber
-                className="w-full sm:w-20 [&_.ant-input-number-input]:!text-right"
+                className="w-20 [&_.ant-input-number-input]:!text-right"
                 controls={false}
                 min={1}
                 max={65535}
@@ -339,9 +342,10 @@ export const Wireguard = () => {
               label={t('settings.wireguard.peer.allowedIps')}
               description={t('settings.wireguard.peer.allowedIpsDescription')}
               error={errors.allowedIps ? t('settings.wireguard.invalidRanges') : undefined}
+              inline
             >
               <Select
-                className="w-full sm:w-56 [&_.ant-select-selection-overflow]:justify-end [&_.ant-select-selection-placeholder]:text-right"
+                className="w-36 sm:w-56 [&_.ant-select-selection-overflow]:justify-end [&_.ant-select-selection-placeholder]:text-right"
                 mode="tags"
                 open={false}
                 tokenSeparators={[',', ' ']}
@@ -356,9 +360,10 @@ export const Wireguard = () => {
             <SettingRow
               label={t('settings.wireguard.peer.keepalive')}
               description={t('settings.wireguard.peer.keepaliveDescription')}
+              inline
             >
               <InputNumber
-                className="w-full sm:w-20 [&_.ant-input-number-input]:!text-right"
+                className="w-24 sm:w-20 [&_.ant-input-number-input]:!text-right"
                 controls={false}
                 min={0}
                 max={65535}
