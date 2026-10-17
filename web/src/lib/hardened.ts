@@ -10,7 +10,7 @@ export function formatHardenedVersion(version?: string) {
   if (lower.startsWith('alfa') || lower.startsWith('alpha') || lower.startsWith('beta')) {
     return value;
   }
-  if (value.startsWith('2.0.')) {
+  if (value.startsWith('2.')) {
     return `beta ${value}`;
   }
   return `beta - ${value}`;
