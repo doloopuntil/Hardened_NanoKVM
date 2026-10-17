@@ -269,7 +269,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Connectat",
     "settings.account.passwordDesc": "Canvia la contrasenya que s'usa per iniciar sessió a la interfície web",
     "settings.system.time.syncNowDesc": "Ajusta el rellotge amb els servidors NTP ara",
-    "settings.systemLog.viewer.linesUnit": "línies"
+    "settings.systemLog.viewer.linesUnit": "línies",
+    "settings.about.credit": "Basat en <a1>NanoKVM</a1> de Sipeed i <a2>Hardened NanoKVM</a2> de woffko"
   },
   cz: {
     "auth.illegalPassword": "Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka",
@@ -486,7 +487,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Připojeno",
     "settings.account.passwordDesc": "Změnit heslo používané k přihlášení do webového rozhraní",
     "settings.system.time.syncNowDesc": "Nastavit hodiny podle serverů NTP hned",
-    "settings.systemLog.viewer.linesUnit": "řádků"
+    "settings.systemLog.viewer.linesUnit": "řádků",
+    "settings.about.credit": "Postaveno na <a1>NanoKVM</a1> od Sipeed a <a2>Hardened NanoKVM</a2> od woffko"
   },
   da: {
     "auth.illegalPassword": "Adgangskoden skal være på mindst 8 tegn og må ikke indeholde anførselstegn eller skråstreger",
@@ -712,7 +714,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Forbundet",
     "settings.account.passwordDesc": "Skift den adgangskode, der bruges til at logge ind på webgrænsefladen",
     "settings.system.time.syncNowDesc": "Indstil uret fra NTP-serverne nu",
-    "settings.systemLog.viewer.linesUnit": "linjer"
+    "settings.systemLog.viewer.linesUnit": "linjer",
+    "settings.about.credit": "Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> af woffko"
   },
   de: {
     "auth.illegalPassword": "Das Passwort muss mindestens 8 Zeichen lang sein und darf keine Anführungszeichen oder Schrägstriche enthalten",
@@ -943,7 +946,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Verbunden",
     "settings.account.passwordDesc": "Das Passwort ändern, mit dem Sie sich an der Weboberfläche anmelden",
     "settings.system.time.syncNowDesc": "Die Uhr jetzt mit den NTP-Servern abgleichen",
-    "settings.systemLog.viewer.linesUnit": "Zeilen"
+    "settings.systemLog.viewer.linesUnit": "Zeilen",
+    "settings.about.credit": "Basiert auf <a1>NanoKVM</a1> von Sipeed und <a2>Hardened NanoKVM</a2> von woffko"
   },
   es: {
     "auth.illegalPassword": "La contraseña debe tener al menos 8 caracteres y no puede contener comillas ni barras",
@@ -1156,7 +1160,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Conectado",
     "settings.account.passwordDesc": "Cambia la contraseña que se usa para iniciar sesión en la interfaz web",
     "settings.system.time.syncNowDesc": "Ajusta el reloj con los servidores NTP ahora",
-    "settings.systemLog.viewer.linesUnit": "líneas"
+    "settings.systemLog.viewer.linesUnit": "líneas",
+    "settings.about.credit": "Basado en <a1>NanoKVM</a1> de Sipeed y <a2>Hardened NanoKVM</a2> de woffko"
   },
   et: {
     "settings.device.diskDesc": "Ühenda SD-kaart kaugmasinasse",
@@ -1373,7 +1378,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Ühendatud",
     "settings.account.passwordDesc": "Muuda parooli, millega veebiliidesesse sisse logitakse",
     "settings.system.time.syncNowDesc": "Sea kell NTP-serveritest kohe",
-    "settings.systemLog.viewer.linesUnit": "rida"
+    "settings.systemLog.viewer.linesUnit": "rida",
+    "settings.about.credit": "Põhineb Sipeedi <a1>NanoKVM-il</a1> ja woffko <a2>Hardened NanoKVM-il</a2>"
   },
   fi: {
     "settings.device.diskDesc": "Liitä SD-kortti etäkoneeseen",
@@ -1586,7 +1592,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Yhdistetty",
     "settings.account.passwordDesc": "Vaihda salasana, jolla kirjaudutaan verkkokäyttöliittymään",
     "settings.system.time.syncNowDesc": "Aseta kello NTP-palvelimilta nyt",
-    "settings.systemLog.viewer.linesUnit": "riviä"
+    "settings.systemLog.viewer.linesUnit": "riviä",
+    "settings.about.credit": "Perustuu Sipeedin <a1>NanoKVM</a1>:ään ja woffkon <a2>Hardened NanoKVM</a2>:ään"
   },
   fr: {
     "auth.illegalPassword": "Le mot de passe doit contenir au moins 8 caractères et ne peut pas contenir de guillemets ni de barres obliques",
@@ -1799,7 +1806,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Connecté",
     "settings.account.passwordDesc": "Modifier le mot de passe utilisé pour se connecter à l’interface web",
     "settings.system.time.syncNowDesc": "Régler l’horloge d’après les serveurs NTP maintenant",
-    "settings.systemLog.viewer.linesUnit": "lignes"
+    "settings.systemLog.viewer.linesUnit": "lignes",
+    "settings.about.credit": "Basé sur <a1>NanoKVM</a1> de Sipeed et <a2>Hardened NanoKVM</a2> de woffko"
   },
   hu: {
     "auth.illegalPassword": "A jelszónak legalább 8 karakter hosszúnak kell lennie, és nem tartalmazhat idézőjelet vagy törtvonalat",
@@ -2021,7 +2029,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Csatlakoztatva",
     "settings.account.passwordDesc": "A webes felületre való bejelentkezéshez használt jelszó módosítása",
     "settings.system.time.syncNowDesc": "Az óra beállítása az NTP-kiszolgálókról most",
-    "settings.systemLog.viewer.linesUnit": "sor"
+    "settings.systemLog.viewer.linesUnit": "sor",
+    "settings.about.credit": "A Sipeed <a1>NanoKVM</a1>-jére és woffko <a2>Hardened NanoKVM</a2>-jére épül"
   },
   id: {
     "auth.illegalPassword": "Kata sandi harus minimal 8 karakter dan tidak boleh berisi tanda kutip atau garis miring",
@@ -2264,7 +2273,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Terhubung",
     "settings.account.passwordDesc": "Ubah kata sandi yang digunakan untuk masuk ke antarmuka web",
     "settings.system.time.syncNowDesc": "Atur jam dari server NTP sekarang",
-    "settings.systemLog.viewer.linesUnit": "baris"
+    "settings.systemLog.viewer.linesUnit": "baris",
+    "settings.about.credit": "Dibangun di atas <a1>NanoKVM</a1> dari Sipeed dan <a2>Hardened NanoKVM</a2> oleh woffko"
   },
   it: {
     "auth.illegalPassword": "La password deve contenere almeno 8 caratteri e non può contenere virgolette o barre",
@@ -2485,7 +2495,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Connesso",
     "settings.account.passwordDesc": "Cambia la password usata per accedere all’interfaccia web",
     "settings.system.time.syncNowDesc": "Imposta l’orologio dai server NTP ora",
-    "settings.systemLog.viewer.linesUnit": "righe"
+    "settings.systemLog.viewer.linesUnit": "righe",
+    "settings.about.credit": "Basato su <a1>NanoKVM</a1> di Sipeed e <a2>Hardened NanoKVM</a2> di woffko"
   },
   ja: {
     "auth.illegalPassword": "パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません",
@@ -2693,7 +2704,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "接続済み",
     "settings.account.passwordDesc": "ウェブインターフェースへのログインに使うパスワードを変更します",
     "settings.system.time.syncNowDesc": "NTP サーバーから今すぐ時刻を設定します",
-    "settings.systemLog.viewer.linesUnit": "行"
+    "settings.systemLog.viewer.linesUnit": "行",
+    "settings.about.credit": "Sipeed の <a1>NanoKVM</a1> と woffko の <a2>Hardened NanoKVM</a2> をベースにしています"
   },
   ko: {
     "auth.illegalPassword": "비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다",
@@ -2916,7 +2928,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "연결됨",
     "settings.account.passwordDesc": "웹 인터페이스에 로그인할 때 사용하는 비밀번호를 변경합니다",
     "settings.system.time.syncNowDesc": "지금 NTP 서버로 시계를 설정합니다",
-    "settings.systemLog.viewer.linesUnit": "줄"
+    "settings.systemLog.viewer.linesUnit": "줄",
+    "settings.about.credit": "Sipeed의 <a1>NanoKVM</a1>과 woffko의 <a2>Hardened NanoKVM</a2>을 기반으로 합니다"
   },
   nb: {
     "auth.illegalPassword": "Passordet må være minst 8 tegn og kan ikke inneholde anførselstegn eller skråstreker",
@@ -3131,7 +3144,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Tilkoblet",
     "settings.account.passwordDesc": "Endre passordet som brukes til å logge inn på webgrensesnittet",
     "settings.system.time.syncNowDesc": "Still klokken fra NTP-tjenerne nå",
-    "settings.systemLog.viewer.linesUnit": "linjer"
+    "settings.systemLog.viewer.linesUnit": "linjer",
+    "settings.about.credit": "Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> av woffko"
   },
   nl: {
     "auth.illegalPassword": "Het wachtwoord moet minstens 8 tekens bevatten en mag geen aanhalingstekens of schuine strepen bevatten",
@@ -3351,7 +3365,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Verbonden",
     "settings.account.passwordDesc": "Wijzig het wachtwoord waarmee u zich aanmeldt bij de webinterface",
     "settings.system.time.syncNowDesc": "Stel de klok nu in via de NTP-servers",
-    "settings.systemLog.viewer.linesUnit": "regels"
+    "settings.systemLog.viewer.linesUnit": "regels",
+    "settings.about.credit": "Gebouwd op <a1>NanoKVM</a1> van Sipeed en <a2>Hardened NanoKVM</a2> van woffko"
   },
   pl: {
     "auth.illegalPassword": "Hasło musi mieć co najmniej 8 znaków i nie może zawierać cudzysłowów ani ukośników",
@@ -3572,7 +3587,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Połączono",
     "settings.account.passwordDesc": "Zmień hasło używane do logowania do interfejsu webowego",
     "settings.system.time.syncNowDesc": "Ustaw zegar według serwerów NTP teraz",
-    "settings.systemLog.viewer.linesUnit": "linii"
+    "settings.systemLog.viewer.linesUnit": "linii",
+    "settings.about.credit": "Oparty na <a1>NanoKVM</a1> firmy Sipeed i <a2>Hardened NanoKVM</a2> autorstwa woffko"
   },
   pt_br: {
     "auth.illegalPassword": "A senha deve ter pelo menos 8 caracteres e não pode conter aspas nem barras",
@@ -3786,7 +3802,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Conectado",
     "settings.account.passwordDesc": "Altere a senha usada para entrar na interface web",
     "settings.system.time.syncNowDesc": "Acertar o relógio com os servidores NTP agora",
-    "settings.systemLog.viewer.linesUnit": "linhas"
+    "settings.systemLog.viewer.linesUnit": "linhas",
+    "settings.about.credit": "Baseado no <a1>NanoKVM</a1> da Sipeed e no <a2>Hardened NanoKVM</a2> de woffko"
   },
   ru: {
     "download.disabled": "Сейчас нельзя скачивать или загружать образы, потому что хранилище недоступно для записи. Если образ смонтирован, размонтируйте его, а затем отключите виртуальный диск, чтобы хранилище снова стало доступным для записи.",
@@ -3993,7 +4010,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Подключено",
     "settings.account.passwordDesc": "Изменить пароль для входа в веб-интерфейс",
     "settings.system.time.syncNowDesc": "Установить время по серверам NTP сейчас",
-    "settings.systemLog.viewer.linesUnit": "строк"
+    "settings.systemLog.viewer.linesUnit": "строк",
+    "settings.about.credit": "Основано на <a1>NanoKVM</a1> от Sipeed и <a2>Hardened NanoKVM</a2> от woffko"
   },
   se: {
     "auth.illegalPassword": "Lösenordet måste vara minst 8 tecken och får inte innehålla citattecken eller snedstreck",
@@ -4197,7 +4215,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Ansluten",
     "settings.account.passwordDesc": "Ändra lösenordet som används för att logga in i webbgränssnittet",
     "settings.system.time.syncNowDesc": "Ställ klockan från NTP-servrarna nu",
-    "settings.systemLog.viewer.linesUnit": "rader"
+    "settings.systemLog.viewer.linesUnit": "rader",
+    "settings.about.credit": "Byggt på <a1>NanoKVM</a1> från Sipeed och <a2>Hardened NanoKVM</a2> av woffko"
   },
   th: {
     "auth.illegalPassword": "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร และห้ามมีเครื่องหมายคำพูดหรือเครื่องหมายทับ",
@@ -4386,7 +4405,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.system.time.syncNowDesc": "ตั้งเวลาจากเซิร์ฟเวอร์ NTP ทันที",
     "settings.systemLog.viewer.linesUnit": "บรรทัด",
     "settings.account.totp.requireDescription": "ป้องกันไม่ให้ปิดการยืนยันตัวตนสองขั้นตอน และบัญชีที่ยังไม่มีต้องตั้งค่าก่อนใช้งานอุปกรณ์",
-    "settings.systemLog.remote.protocol": "พอร์ต UDP ของเซิร์ฟเวอร์ syslog"
+    "settings.systemLog.remote.protocol": "พอร์ต UDP ของเซิร์ฟเวอร์ syslog",
+    "settings.about.credit": "สร้างบน <a1>NanoKVM</a1> โดย Sipeed และ <a2>Hardened NanoKVM</a2> โดย woffko"
   },
   tr: {
     "auth.illegalPassword": "Şifre en az 8 karakter olmalı ve tırnak işareti veya eğik çizgi içermemelidir",
@@ -4621,7 +4641,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Bağlandı",
     "settings.account.passwordDesc": "Web arayüzüne giriş yaparken kullanılan şifreyi değiştir",
     "settings.system.time.syncNowDesc": "Saati şimdi NTP sunucularından ayarla",
-    "settings.systemLog.viewer.linesUnit": "satır"
+    "settings.systemLog.viewer.linesUnit": "satır",
+    "settings.about.credit": "Sipeed'in <a1>NanoKVM</a1> ve woffko'nun <a2>Hardened NanoKVM</a2> projeleri üzerine kurulmuştur"
   },
   uk: {
     "auth.illegalPassword": "Пароль має містити щонайменше 8 символів і не може містити лапок чи похилих рисок",
@@ -4839,7 +4860,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Підключено",
     "settings.account.passwordDesc": "Змінити пароль для входу у веб-інтерфейс",
     "settings.system.time.syncNowDesc": "Встановити годинник за серверами NTP зараз",
-    "settings.systemLog.viewer.linesUnit": "рядків"
+    "settings.systemLog.viewer.linesUnit": "рядків",
+    "settings.about.credit": "Створено на основі <a1>NanoKVM</a1> від Sipeed і <a2>Hardened NanoKVM</a2> від woffko"
   },
   vi: {
     "auth.illegalPassword": "Mật khẩu phải có ít nhất 8 ký tự và không được chứa dấu nháy hoặc dấu gạch chéo",
@@ -5062,7 +5084,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "Đã kết nối",
     "settings.account.passwordDesc": "Đổi mật khẩu dùng để đăng nhập vào giao diện web",
     "settings.system.time.syncNowDesc": "Đặt đồng hồ theo máy chủ NTP ngay",
-    "settings.systemLog.viewer.linesUnit": "dòng"
+    "settings.systemLog.viewer.linesUnit": "dòng",
+    "settings.about.credit": "Xây dựng trên <a1>NanoKVM</a1> của Sipeed và <a2>Hardened NanoKVM</a2> của woffko"
   },
   zh: {
     "auth.illegalPassword": "密码至少 8 个字符，且不能包含引号或斜杠",
@@ -5267,7 +5290,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "已连接",
     "settings.account.passwordDesc": "更改登录网页界面所用的密码",
     "settings.system.time.syncNowDesc": "立即用 NTP 服务器设置时钟",
-    "settings.systemLog.viewer.linesUnit": "行"
+    "settings.systemLog.viewer.linesUnit": "行",
+    "settings.about.credit": "基于 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 构建"
   },
   zh_tw: {
     "auth.illegalPassword": "密碼至少 8 個字元，且不能包含引號或斜線",
@@ -5473,6 +5497,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.network.wifi.connected": "已連線",
     "settings.account.passwordDesc": "變更登入網頁介面所用的密碼",
     "settings.system.time.syncNowDesc": "立即以 NTP 伺服器設定時鐘",
-    "settings.systemLog.viewer.linesUnit": "行"
+    "settings.systemLog.viewer.linesUnit": "行",
+    "settings.about.credit": "基於 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 建置"
   }
 };

@@ -1,8 +1,12 @@
 import { GithubOutlined } from '@ant-design/icons';
 import { BookOpenIcon } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { SettingSection } from '@/components/setting-rows.tsx';
+
+const SIPEED_URL = 'https://github.com/sipeed/NanoKVM';
+const WOFFKO_URL = 'https://github.com/woffko/Hardened_NanoKVM';
+const creditLinkClass = 'text-neutral-400 hover:text-neutral-200';
 
 export const Community = () => {
   const { t } = useTranslation();
@@ -31,6 +35,15 @@ export const Community = () => {
           </a>
         ))}
       </div>
+      <p className="m-0 break-words text-xs text-neutral-500">
+        <Trans
+          i18nKey="settings.about.credit"
+          components={{
+            a1: <a className={creditLinkClass} href={SIPEED_URL} target="_blank" />,
+            a2: <a className={creditLinkClass} href={WOFFKO_URL} target="_blank" />
+          }}
+        />
+      </p>
     </SettingSection>
   );
 };

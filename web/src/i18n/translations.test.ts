@@ -28,6 +28,11 @@ function placeholders(text: string): string[] {
   return [...text.matchAll(/\{\{\s*([^,}\s]+)/g)].map((m) => m[1]).sort();
 }
 
+// The <a1></a1> style tags that mark where a link goes in a sentence.
+function tags(text: string): string[] {
+  return [...text.matchAll(/<\/?([a-z][a-z0-9]*)>/g)].map((m) => m[1]).sort();
+}
+
 function words(text: string): number {
   return text.split(/\s+/).filter((word) => /[a-z]{3,}/i.test(word)).length;
 }
@@ -68,6 +73,13 @@ describe.each(translated)('%s translation', (language) => {
     const mismatched = Object.keys(english).filter(
       (key) =>
         key in strings && placeholders(strings[key]).join() !== placeholders(english[key]).join()
+    );
+    expect(mismatched).toEqual([]);
+  });
+
+  it('keeps the same link tags as English', () => {
+    const mismatched = Object.keys(english).filter(
+      (key) => key in strings && tags(strings[key]).join() !== tags(english[key]).join()
     );
     expect(mismatched).toEqual([]);
   });
