@@ -2818,6 +2818,26 @@ fn security_has_model_key(security: &serde_yaml::Value, model_name: &str, index:
     })
 }
 
+// Recent Anthropic models reject the `temperature` that PicoClaw always sends. For these models
+// PicoClaw's HTTP provider merges `extra_body` over its request body, so a null temperature
+// there leaves the field out. A value the user set themselves is kept.
+fn ensure_anthropic_extra_body(item: &mut JsonMap<String, JsonValue>, model: &str) {
+    if !model.trim().to_ascii_lowercase().starts_with("anthropic/") {
+        return;
+    }
+    let extra = item
+        .entry("extra_body".to_string())
+        .or_insert_with(|| JsonValue::Object(JsonMap::new()));
+    if !extra.is_object() {
+        *extra = JsonValue::Object(JsonMap::new());
+    }
+    extra
+        .as_object_mut()
+        .expect("extra_body object")
+        .entry("temperature".to_string())
+        .or_insert(JsonValue::Null);
+}
+
 fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Result<String> {
     let mut doc = load_config_document()?;
     let model_name = extract_model_name(model)
@@ -2856,6 +2876,7 @@ fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Resul
             );
             item.remove("api_key");
             item.remove("api_keys");
+            ensure_anthropic_extra_body(item, model);
             updated_index = Some(idx);
             break;
         }
@@ -2873,6 +2894,7 @@ fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Resul
                 "api_base".to_string(),
                 JsonValue::String(api_base.to_string()),
             );
+            ensure_anthropic_extra_body(&mut item, model);
             models.push(JsonValue::Object(item));
             models.len() - 1
         }
@@ -3379,6 +3401,27 @@ mod tests {
         assert_eq!(PICOCLAW_SHA256.len(), 64);
         assert!(PICOCLAW_SHA256.bytes().all(|b| b.is_ascii_hexdigit()));
         assert!(PICOCLAW_DOWNLOAD_URL.ends_with("/picoclaw_Linux_riscv64.tar.gz"));
+    }
+
+    #[test]
+    fn anthropic_models_get_a_null_temperature_in_extra_body() {
+        let mut item = JsonMap::new();
+        ensure_anthropic_extra_body(&mut item, "anthropic/claude-haiku-5-5");
+        assert_eq!(item["extra_body"], json!({"temperature": null}));
+
+        // other keys stay, and a temperature the user set is kept
+        let mut item = JsonMap::new();
+        item.insert(
+            "extra_body".to_string(),
+            json!({"temperature": 0.2, "top_k": 5}),
+        );
+        ensure_anthropic_extra_body(&mut item, "Anthropic/claude-haiku-5-5");
+        assert_eq!(item["extra_body"], json!({"temperature": 0.2, "top_k": 5}));
+
+        // other providers are left alone
+        let mut item = JsonMap::new();
+        ensure_anthropic_extra_body(&mut item, "openai/gpt-5.4");
+        assert!(item.get("extra_body").is_none());
     }
 
     #[test]
