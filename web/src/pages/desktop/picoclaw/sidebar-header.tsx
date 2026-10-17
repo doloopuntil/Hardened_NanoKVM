@@ -142,7 +142,7 @@ export const SidebarHeader = ({
                 disabled={isUninstallingRuntime || isTogglingRuntime || isSwitchingAgent}
                 loading={isSwitchingAgent}
                 popupMatchSelectWidth={false}
-                className="min-w-[120px] text-xs [&_.ant-select-selection-item]:text-xs [&_.ant-select-selection-item]:text-neutral-300"
+                className="min-w-[120px] [&_.ant-select-selection-item]:text-neutral-300"
                 options={agentOptions.map((option) => ({
                   value: option.value,
                   label: option.title
@@ -152,8 +152,8 @@ export const SidebarHeader = ({
                   if (!current) return option.label;
                   return (
                     <div className="py-1">
-                      <div className="text-xs font-medium text-neutral-200">{current.title}</div>
-                      <div className="mt-0.5 text-[10px] leading-snug text-neutral-500">
+                      <div className="text-sm font-medium text-neutral-200">{current.title}</div>
+                      <div className="mt-0.5 text-xs leading-snug text-neutral-500">
                         {current.description}
                       </div>
                     </div>

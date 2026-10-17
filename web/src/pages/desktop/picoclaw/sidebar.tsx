@@ -63,7 +63,7 @@ export const Sidebar = () => {
   } = useSidebar();
 
   return (
-    <aside className="picoclaw-sidebar-scrollbar flex h-full min-h-0 w-full flex-col overflow-x-hidden bg-[#0d0d0f]">
+    <aside className="flex h-full min-h-0 w-full flex-col overflow-x-hidden bg-[#0d0d0f]">
       {/* Header */}
       <SidebarHeader
         isCheckingRuntime={isInitializing}
