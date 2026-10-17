@@ -59,7 +59,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "Capturar tecles del sistema, com la tecla Windows, requereix permís de pantalla completa",
     "settings.device.diskLocked": "Desactivat mentre hi ha una imatge muntada, i activar-lo cancel·la el muntatge",
     "image.tips.usb2": "Assegura't que el disc virtual està muntat a Configuració > Dispositiu > Disc virtual.",
-    "image.tips.tf2": "Extreu la targeta TF del NanoKVM. A la versió FULL, obre primer la carcassa.",
+    "image.tips.tf2": "Extreu la targeta SD del NanoKVM. A la versió FULL, obre primer la carcassa.",
     "auth.tips.change3": "Contrasenya root del sistema per a l'inici de sessió SSH",
     "download.sha256": "Suma de verificació SHA-256 opcional",
     "power.powerShort": "Botó d'engegada: clic curt",
@@ -283,7 +283,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.placeholder": "Text per enganxar",
     "download.input": "URL de la imatge remota",
     "wol.input": "Adreça MAC",
-    "terminal.serialPortPlaceholder": "Per exemple /dev/ttyS1"
+    "terminal.serialPortPlaceholder": "Per exemple /dev/ttyS1",
+    "image.tips.tfCard": "Targeta SD"
   },
   cz: {
     "auth.illegalPassword": "Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka",
@@ -352,7 +353,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.device.ssh.tip": "Před zapnutím této možnosti nastavte silné heslo v Účet > Heslo",
     "keyboard.shortcut.captureTips": "Zachycení systémových kláves, například klávesy Windows, vyžaduje oprávnění pro celou obrazovku",
     "image.tips.usb2": "Ujistěte se, že je virtuální disk připojen v Nastavení > Zařízení > Virtuální disk.",
-    "image.tips.tf2": "Vyjměte kartu TF z NanoKVM. U verze FULL nejprve rozeberte pouzdro.",
+    "image.tips.tf2": "Vyjměte kartu SD z NanoKVM. U verze FULL nejprve rozeberte pouzdro.",
     "auth.tips.change3": "Heslo systémového uživatele root pro přihlášení přes SSH",
     "download.sha256": "Volitelný kontrolní součet SHA-256",
     "power.powerShort": "Tlačítko napájení: krátký stisk",
@@ -599,7 +600,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.device.ssh.tip": "Indstil en stærk adgangskode under Konto > Adgangskode, før du aktiverer denne indstilling",
     "keyboard.shortcut.captureTips": "Optagelse af systemtaster, såsom Windows-tasten, kræver fuldskærmstilladelse",
     "image.tips.usb2": "Sørg for, at den virtuelle disk er monteret under Indstillinger > Enhed > Virtuel disk.",
-    "image.tips.tf2": "Tag TF-kortet ud af din NanoKVM. På FULL-versionen skal du først åbne enheden.",
+    "image.tips.tf2": "Tag SD-kortet ud af din NanoKVM. På FULL-versionen skal du først åbne enheden.",
     "auth.tips.change3": "Systemets root-adgangskode til SSH-login",
     "download.sha256": "Valgfri SHA-256-kontrolsum",
     "power.powerShort": "Tænd/sluk-knap: kort tryk",
@@ -828,7 +829,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "Das Erfassen systemweiter Tasten, z. B. der Windows-Taste, erfordert die Vollbildberechtigung",
     "settings.device.diskLocked": "Aus, solange ein Image eingebunden ist, und Einschalten bricht die Einbindung ab",
     "image.tips.usb2": "Stellen Sie sicher, dass die virtuelle Festplatte unter Einstellungen > Gerät > Virtuelle Festplatte eingebunden ist.",
-    "image.tips.tf2": "Entnehmen Sie die TF-Karte aus dem NanoKVM. Bei der FULL-Version muss zuvor das Gehäuse geöffnet werden.",
+    "image.tips.tf2": "Entnehmen Sie die SD-Karte aus dem NanoKVM. Bei der FULL-Version muss zuvor das Gehäuse geöffnet werden.",
     "auth.tips.change3": "System-Root-Passwort für die SSH-Anmeldung",
     "download.sha256": "Optionale SHA-256-Prüfsumme",
     "power.powerShort": "Power-Taste: kurzer Klick",
@@ -1022,7 +1023,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "wol.input": "MAC-Adresse",
     "terminal.serialPortPlaceholder": "Zum Beispiel /dev/ttyS1",
     "keyboard.leaderKey.placeholder": "Drücken Sie die Leader-Taste",
-    "wol.ok": "OK"
+    "wol.ok": "OK",
+    "image.tips.tfCard": "SD-Karte",
+    "image.tips.tf3": "Stecken Sie die SD-Karte in einen Kartenleser und verbinden Sie diesen mit Ihrem Computer.",
+    "image.tips.tf4": "Kopieren Sie die Image-Datei in das Verzeichnis /data auf der SD-Karte.",
+    "image.tips.tf5": "Setzen Sie die SD-Karte wieder in den NanoKVM ein."
   },
   es: {
     "auth.illegalPassword": "La contraseña debe tener al menos 8 caracteres y no puede contener comillas ni barras",
@@ -1073,7 +1078,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "Capturar teclas del sistema, como la tecla Windows, requiere permiso de pantalla completa",
     "settings.device.diskLocked": "Desactivado mientras hay una imagen montada, y activarlo cancela el montaje",
     "image.tips.usb2": "Asegúrate de que el disco virtual esté montado en Ajustes > Dispositivo > Disco virtual.",
-    "image.tips.tf2": "Obtén la tarjeta TF del NanoKVM. En la versión FULL, desmonta primero la carcasa.",
+    "image.tips.tf2": "Obtén la tarjeta SD del NanoKVM. En la versión FULL, desmonta primero la carcasa.",
     "auth.tips.change3": "Contraseña root del sistema para el acceso por SSH",
     "download.sha256": "Suma de comprobación SHA-256 opcional",
     "power.powerShort": "Botón de encendido: pulsación corta",
@@ -1323,7 +1328,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.device.ssh.tip": "Määra enne selle valiku lubamist kohas Konto > Parool tugev parool",
     "keyboard.shortcut.captureTips": "Süsteemitaseme klahvide, näiteks Windowsi klahvi, salvestamiseks on vaja täisekraani luba",
     "image.tips.usb2": "Veendu, et virtuaalne ketas on ühendatud kohas Seaded > Seade > Virtuaalne ketas.",
-    "image.tips.tf2": "Võta TF-kaart NanoKVM-ist välja. FULL versiooni puhul võta enne korpus lahti.",
+    "image.tips.tf2": "Võta SD-kaart NanoKVM-ist välja. FULL versiooni puhul võta enne korpus lahti.",
     "auth.tips.change3": "Süsteemi root-parool SSH-sisselogimiseks",
     "power.powerShort": "Toitenupp: lühike vajutus",
     "power.powerLong": "Toitenupp: pikk vajutus",
@@ -1494,7 +1499,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "Kaug-image URL",
     "download.inputfile": "Image-fail",
     "wol.input": "MAC-aadress",
-    "terminal.serialPortPlaceholder": "Näiteks /dev/ttyS1"
+    "terminal.serialPortPlaceholder": "Näiteks /dev/ttyS1",
+    "image.tips.tfCard": "SD-kaart",
+    "image.tips.tf3": "Sisesta SD-kaart kaardilugejasse ja ühenda see arvutiga.",
+    "image.tips.tf4": "Kopeeri image fail SD-kaardi /data kausta.",
+    "image.tips.tf5": "Sisesta SD-kaart NanoKVM-i."
   },
   fi: {
     "settings.device.diskDesc": "Liitä SD-kortti etäkoneeseen",
@@ -1559,7 +1568,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.device.ssh.tip": "Aseta vahva salasana kohdassa Tili > Salasana ennen tämän asetuksen käyttöönottoa",
     "keyboard.shortcut.captureTips": "Järjestelmätason näppäinten, kuten Windows-näppäimen, tallennus vaatii koko näytön luvan",
     "image.tips.usb2": "Varmista, että virtuaalilevy on liitetty kohdassa Asetukset > Laite > Virtuaalilevy.",
-    "image.tips.tf2": "Ota TF-kortti NanoKVM:stä. FULL-versiossa pura ensin kotelo.",
+    "image.tips.tf2": "Ota SD-kortti NanoKVM:stä. FULL-versiossa pura ensin kotelo.",
     "auth.tips.change3": "Järjestelmän root-salasana SSH-kirjautumiseen",
     "power.powerShort": "Virtapainike: lyhyt painallus",
     "power.powerLong": "Virtapainike: pitkä painallus",
@@ -1726,7 +1735,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "Etälevykuvan URL",
     "download.inputfile": "Levykuvatiedosto",
     "wol.input": "MAC-osoite",
-    "terminal.serialPortPlaceholder": "Esimerkiksi /dev/ttyS1"
+    "terminal.serialPortPlaceholder": "Esimerkiksi /dev/ttyS1",
+    "image.tips.tfCard": "SD-kortti",
+    "image.tips.tf3": "Aseta SD-kortti kortinlukijaan ja yhdistä se tietokoneeseen.",
+    "image.tips.tf4": "Kopioi levykuvatiedosto SD-kortin /data-hakemistoon.",
+    "image.tips.tf5": "Aseta SD-kortti NanoKVM:ään."
   },
   fr: {
     "auth.illegalPassword": "Le mot de passe doit contenir au moins 8 caractères et ne peut pas contenir de guillemets ni de barres obliques",
@@ -1785,7 +1798,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "La capture de touches système, comme la touche Windows, nécessite l’autorisation du plein écran",
     "settings.device.diskLocked": "Désactivé tant qu'une image est montée, et l'activer annule le montage",
     "image.tips.usb2": "Assurez-vous que le disque virtuel est monté dans Paramètres > Appareil > Disque virtuel.",
-    "image.tips.tf2": "Retirez la carte TF du NanoKVM. Sur la version FULL, il faut d'abord ouvrir le boîtier.",
+    "image.tips.tf2": "Retirez la carte SD du NanoKVM. Sur la version FULL, il faut d'abord ouvrir le boîtier.",
     "auth.tips.change3": "Mot de passe racine du système pour la connexion SSH",
     "download.sha256": "Somme de contrôle SHA-256 facultative",
     "settings.tailscale.notInstall": "Tailscale non trouvé, veuillez l'installer",
@@ -1960,7 +1973,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.inputfile": "Fichier image",
     "wol.input": "Adresse MAC",
     "terminal.serialPortPlaceholder": "Par exemple /dev/ttyS1",
-    "wol.ok": "OK"
+    "wol.ok": "OK",
+    "image.tips.tfCard": "Carte SD",
+    "image.tips.tf3": "Insérez la carte SD dans un lecteur de carte et connectez-la à votre ordinateur.",
+    "image.tips.tf4": "Copiez le fichier image dans le répertoire /data de la carte SD sur votre ordinateur.",
+    "image.tips.tf5": "Réinsérez la carte SD dans le NanoKVM."
   },
   hu: {
     "auth.illegalPassword": "A jelszónak legalább 8 karakter hosszúnak kell lennie, és nem tartalmazhat idézőjelet vagy törtvonalat",
@@ -2031,7 +2048,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.device.ssh.tip": "Az opció engedélyezése előtt állítson be erős jelszót itt: Fiók > Jelszó",
     "keyboard.shortcut.captureTips": "A rendszerszintű billentyűk, például a Windows billentyű rögzítéséhez teljes képernyős engedély szükséges",
     "image.tips.usb2": "Győződjön meg róla, hogy a virtuális lemez csatlakoztatva van itt: Beállítások > Eszköz > Virtuális lemez.",
-    "image.tips.tf2": "Vegye ki a TF kártyát a NanoKVM-ből. A FULL verziónál először szedje szét a házat.",
+    "image.tips.tf2": "Vegye ki a SD kártyát a NanoKVM-ből. A FULL verziónál először szedje szét a házat.",
     "auth.tips.change3": "Rendszer root jelszava az SSH-bejelentkezéshez",
     "download.sha256": "Opcionális SHA-256 ellenőrzőösszeg",
     "power.powerShort": "Bekapcsológomb: rövid kattintás",
@@ -2189,7 +2206,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "terminal.open": "Terminál megnyitása",
     "settings.device.diskEnable": "Virtuális lemez engedélyezése",
     "settings.device.networkChange": "Virtuális hálózat módosítása",
-    "image.tips.tfCard": "TF kártya",
+    "image.tips.tfCard": "SD kártya",
     "terminal.nanokvm": "NanoKVM terminál",
     "keyboard.clipboardPermissionDenied": "A vágólap engedélye megtagadva, engedélyezze a vágólaphoz való hozzáférést a böngészőjében",
     "screen.autoTips": "Bizonyos felbontások esetén képernyőszakadás vagy egéreltolódás léphet fel, ezért módosítsa a távoli gép felbontását vagy kapcsolja ki az automatikus módot",
@@ -2205,7 +2222,10 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.inputfile": "Képfájl",
     "wol.input": "MAC-cím",
     "terminal.serialPortPlaceholder": "Például /dev/ttyS1",
-    "wol.ok": "OK"
+    "wol.ok": "OK",
+    "image.tips.tf3": "Helyezze a SD kártyát egy kártyaolvasóba, és csatlakoztassa a számítógépéhez.",
+    "image.tips.tf4": "Másolja a képfájlt a SD kártya /data könyvtárába.",
+    "image.tips.tf5": "Helyezze vissza a SD kártyát a NanoKVM-be."
   },
   id: {
     "auth.illegalPassword": "Kata sandi harus minimal 8 karakter dan tidak boleh berisi tanda kutip atau garis miring",
@@ -2281,7 +2301,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.device.ssh.tip": "Tetapkan kata sandi yang kuat di Akun > Kata sandi sebelum mengaktifkan opsi ini",
     "keyboard.shortcut.captureTips": "Menangkap tombol tingkat sistem, seperti tombol Windows, memerlukan izin layar penuh",
     "image.tips.usb2": "Pastikan disk virtual telah terpasang di Pengaturan > Perangkat > Disk virtual.",
-    "image.tips.tf2": "Ambil kartu TF dari NanoKVM. Pada versi FULL, bongkar casingnya terlebih dahulu.",
+    "image.tips.tf2": "Ambil kartu SD dari NanoKVM. Pada versi FULL, bongkar casingnya terlebih dahulu.",
     "auth.tips.change3": "Kata sandi root sistem untuk login SSH",
     "download.sha256": "Checksum SHA-256 opsional",
     "power.powerLong": "Tombol daya: tekan lama",
@@ -2480,7 +2500,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "URL image jarak jauh",
     "wol.input": "Alamat MAC",
     "terminal.serialPortPlaceholder": "Contoh /dev/ttyS1",
-    "wol.ok": "OK"
+    "wol.ok": "OK",
+    "image.tips.tfCard": "Kartu SD",
+    "image.tips.tf3": "Masukkan Kartu SD ke pembaca kartu dan hubungkan ke komputer Anda.",
+    "image.tips.tf4": "Salin berkas gambar ke direktori /data pada Kartu SD.",
+    "image.tips.tf5": "Masukkan Kartu SD ke dalam NanoKVM."
   },
   it: {
     "auth.illegalPassword": "La password deve contenere almeno 8 caratteri e non può contenere virgolette o barre",
@@ -2553,7 +2577,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.device.hidOnlyTip": "La modalità HID-Only smette di emulare i dispositivi virtuali, mantenendo solo il controllo di base HID",
     "settings.device.ssh.tip": "Imposta una password complessa in Account > Password prima di abilitare questa opzione",
     "keyboard.shortcut.captureTips": "La cattura dei tasti di sistema, come il tasto Windows, richiede l’autorizzazione a schermo intero",
-    "image.tips.tf2": "Recupera la scheda TF dal NanoKVM. Sulla versione FULL, smonta prima il case.",
+    "image.tips.tf2": "Recupera la scheda SD dal NanoKVM. Sulla versione FULL, smonta prima il case.",
     "auth.tips.change3": "Password root di sistema per l'accesso SSH",
     "download.sha256": "Checksum SHA-256 facoltativo",
     "power.powerShort": "Pulsante di accensione: clic breve",
@@ -2727,7 +2751,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.inputfile": "File immagine",
     "wol.input": "Indirizzo MAC",
     "terminal.serialPortPlaceholder": "Ad esempio /dev/ttyS1",
-    "wol.ok": "OK"
+    "wol.ok": "OK",
+    "image.tips.tfCard": "Scheda SD",
+    "image.tips.tf3": "Inserisci la scheda SD in un lettore di schede e collegala al tuo computer.",
+    "image.tips.tf4": "Copia il file immagine nella directory /data sulla scheda SD.",
+    "image.tips.tf5": "Inserisci la scheda SD nel NanoKVM."
   },
   ja: {
     "auth.illegalPassword": "パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません",
@@ -2780,7 +2808,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "Windows キーなどのシステムレベルのキーを取得するには、全画面表示の許可が必要です",
     "settings.device.diskLocked": "イメージのマウント中はオフで、オンにするとマウントが解除されます",
     "image.tips.usb2": "設定 > デバイス > 仮想ディスク で仮想ディスクがマウントされていることを確認してください。",
-    "image.tips.tf2": "NanoKVM から TF カードを取り出します。FULL バージョンでは、先にケースを分解してください。",
+    "image.tips.tf2": "NanoKVM から SD カードを取り出します。FULL バージョンでは、先にケースを分解してください。",
     "auth.tips.change3": "SSH ログイン用のシステム root パスワード",
     "download.sha256": "任意の SHA-256 チェックサム",
     "power.powerShort": "電源ボタン：短押し",
@@ -2954,7 +2982,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.leaderKey.recorder.input": "ショートカットキーを押してください",
     "download.input": "リモートイメージの URL",
     "wol.input": "MAC アドレス",
-    "terminal.serialPortPlaceholder": "例: /dev/ttyS1"
+    "terminal.serialPortPlaceholder": "例: /dev/ttyS1",
+    "image.tips.tfCard": "SD カード",
+    "image.tips.tf3": "SD カードをカードリーダーに挿入してコンピュータに接続します；",
+    "image.tips.tf4": "コンピューターから SD カードの /data ディレクトリにイメージファイルをコピーします；",
+    "image.tips.tf5": "SD カードを NanoKVM に挿入します。"
   },
   ko: {
     "auth.illegalPassword": "비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다",
@@ -3010,7 +3042,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "Windows 키와 같은 시스템 수준 키를 캡처하려면 전체 화면 권한이 필요합니다",
     "settings.device.diskLocked": "이미지가 마운트된 동안 꺼짐이며, 켜면 마운트가 해제됩니다",
     "image.tips.usb2": "설정 > 장치 > 가상 디스크에서 가상 디스크가 마운트되었는지 확인하세요.",
-    "image.tips.tf2": "NanoKVM에서 TF 카드를 꺼냅니다. FULL 버전은 먼저 케이스를 분해하세요.",
+    "image.tips.tf2": "NanoKVM에서 SD 카드를 꺼냅니다. FULL 버전은 먼저 케이스를 분해하세요.",
     "auth.tips.change3": "SSH 로그인용 시스템 루트 비밀번호",
     "download.sha256": "선택 사항 SHA-256 체크섬",
     "power.powerShort": "전원 버튼: 짧게 누르기",
@@ -3195,7 +3227,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.placeholder": "붙여넣을 텍스트",
     "keyboard.leaderKey.recorder.input": "단축키를 누르세요",
     "download.inputfile": "이미지 파일",
-    "terminal.serialPortPlaceholder": "예: /dev/ttyS1"
+    "terminal.serialPortPlaceholder": "예: /dev/ttyS1",
+    "image.tips.tfCard": "SD 카드",
+    "image.tips.tf3": "SD 카드를 카드 리더기에 삽입하고 컴퓨터에 연결하세요.",
+    "image.tips.tf4": "이미지 파일을 SD 카드의 /data 디렉터리에 복사하세요.",
+    "image.tips.tf5": "SD 카드를 NanoKVM에 삽입하세요."
   },
   nb: {
     "auth.illegalPassword": "Passordet må være minst 8 tegn og kan ikke inneholde anførselstegn eller skråstreker",
@@ -3262,7 +3298,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.device.ssh.tip": "Angi et sterkt passord under Konto > Passord før du aktiverer dette alternativet",
     "keyboard.shortcut.captureTips": "Registrering av systemtaster, som Windows-tasten, krever fullskjermtillatelse",
     "image.tips.usb2": "Sørg for at den virtuelle disken er montert under Innstillinger > Enhet > Virtuell disk.",
-    "image.tips.tf2": "Ta TF-kortet ut av NanoKVM-enheten. På FULL-versjonen må du demontere kabinettet først.",
+    "image.tips.tf2": "Ta SD-kortet ut av NanoKVM-enheten. På FULL-versjonen må du demontere kabinettet først.",
     "auth.tips.change3": "Systemets root-passord for SSH-innlogging",
     "download.sha256": "Valgfri SHA-256-sjekksum",
     "power.powerShort": "På-knapp: kort trykk",
@@ -3432,7 +3468,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.inputfile": "Bildefil",
     "wol.input": "MAC-adresse",
     "terminal.serialPortPlaceholder": "For eksempel /dev/ttyS1",
-    "wol.ok": "OK"
+    "wol.ok": "OK",
+    "image.tips.tfCard": "SD-kort",
+    "image.tips.tf3": "Sett inn SD-kortet i en kortleser og koble den til datamaskinen din.",
+    "image.tips.tf4": "Kopiér arkivfilen til mappen /data på SD-kortet.",
+    "image.tips.tf5": "Sett inn SD-kortet i NanoKVM-enheten."
   },
   nl: {
     "auth.illegalPassword": "Het wachtwoord moet minstens 8 tekens bevatten en mag geen aanhalingstekens of schuine strepen bevatten",
@@ -3488,7 +3528,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "Voor het vastleggen van systeemtoetsen, zoals de Windows-toets, is toestemming voor volledig scherm vereist",
     "settings.device.diskLocked": "Uit zolang een image is gekoppeld, en aanzetten breekt het koppelen af",
     "image.tips.usb2": "Zorg ervoor dat de virtuele schijf is gekoppeld in Instellingen > Apparaat > Virtuele schijf.",
-    "image.tips.tf2": "Haal de TF-kaart uit de NanoKVM. Demonteer bij de FULL-versie eerst de behuizing.",
+    "image.tips.tf2": "Haal de SD-kaart uit de NanoKVM. Demonteer bij de FULL-versie eerst de behuizing.",
     "auth.tips.change3": "Systeem root-wachtwoord voor SSH-inlog",
     "download.sha256": "Optionele SHA-256-controlesom",
     "power.powerShort": "Aan/uit-knop: kort indrukken",
@@ -3676,7 +3716,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.inputfile": "Afbeeldingsbestand",
     "wol.input": "MAC-adres",
     "terminal.serialPortPlaceholder": "Bijvoorbeeld /dev/ttyS1",
-    "wol.ok": "OK"
+    "wol.ok": "OK",
+    "image.tips.tfCard": "SD-kaart",
+    "image.tips.tf3": "Plaats de SD-kaart in een kaartlezer en verbind deze met uw computer.",
+    "image.tips.tf4": "Kopieer het imagebestand naar de /data directory op de SD-kaart.",
+    "image.tips.tf5": "Plaats de SD-kaart terug in de NanoKVM."
   },
   pl: {
     "auth.illegalPassword": "Hasło musi mieć co najmniej 8 znaków i nie może zawierać cudzysłowów ani ukośników",
@@ -3740,7 +3784,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.device.ssh.tip": "Ustaw silne hasło w Konto > Hasło przed włączeniem tej opcji",
     "keyboard.shortcut.captureTips": "Przechwytywanie klawiszy systemowych, takich jak klawisz Windows, wymaga uprawnienia do pełnego ekranu",
     "image.tips.usb2": "Upewnij się, że dysk wirtualny jest zamontowany w Ustawienia > Urządzenie > Dysk wirtualny.",
-    "image.tips.tf2": "Wyjmij kartę TF z NanoKVM. W wersji FULL najpierw zdemontuj obudowę.",
+    "image.tips.tf2": "Wyjmij kartę SD z NanoKVM. W wersji FULL najpierw zdemontuj obudowę.",
     "auth.tips.change3": "Hasło roota systemu do logowania przez SSH",
     "download.sha256": "Opcjonalna suma kontrolna SHA-256",
     "power.powerShort": "Przycisk zasilania: krótkie kliknięcie",
@@ -3965,7 +4009,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "Capturar teclas do sistema, como a tecla Windows, requer permissão de tela cheia",
     "settings.device.diskLocked": "Desligado enquanto uma imagem estiver montada, e ligá-lo cancela a montagem",
     "image.tips.usb2": "Certifique-se de que o disco virtual está montado em Configurações > Dispositivo > Disco Virtual.",
-    "image.tips.tf2": "Remova o cartão TF do NanoKVM. Na versão FULL, desmonte a caixa primeiro.",
+    "image.tips.tf2": "Remova o cartão SD do NanoKVM. Na versão FULL, desmonte a caixa primeiro.",
     "auth.tips.change3": "Senha root do sistema para login SSH",
     "download.sha256": "Checksum SHA-256 opcional",
     "power.powerShort": "Botão de energia: clique curto",
@@ -4160,7 +4204,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.inputfile": "Arquivo de imagem",
     "wol.input": "Endereço MAC",
     "terminal.serialPortPlaceholder": "Por exemplo /dev/ttyS1",
-    "wol.ok": "OK"
+    "wol.ok": "OK",
+    "image.tips.tfCard": "Cartão SD",
+    "image.tips.tf3": "Insira o cartão SD em um leitor de cartão e conecte-o ao seu computador.",
+    "image.tips.tf4": "Copie o arquivo de imagem para o diretório /data no cartão SD.",
+    "image.tips.tf5": "Insira o cartão SD no NanoKVM."
   },
   ru: {
     "download.disabled": "Сейчас нельзя скачивать или загружать образы, потому что хранилище недоступно для записи. Если образ смонтирован, размонтируйте его, а затем отключите виртуальный диск, чтобы хранилище снова стало доступным для записи.",
@@ -4196,7 +4244,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "Для захвата системных клавиш, например клавиши Windows, требуется разрешение полноэкранного режима",
     "settings.device.diskLocked": "Отключён, пока смонтирован образ, а включение отменит монтирование",
     "image.tips.usb2": "Убедитесь, что виртуальный диск подключен в разделе Настройки > Устройство > Виртуальный диск.",
-    "image.tips.tf2": "Извлеките карту TF из NanoKVM. В версии FULL сначала разберите корпус.",
+    "image.tips.tf2": "Извлеките карту SD из NanoKVM. В версии FULL сначала разберите корпус.",
     "auth.tips.change3": "Пароль системного пользователя \"root\" для входа по SSH",
     "download.sha256": "Необязательная контрольная сумма SHA-256",
     "power.powerShort": "Кнопка питания: короткое нажатие",
@@ -4439,7 +4487,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "Att fånga systemtangenter, som Windows-tangenten, kräver helskärmsbehörighet",
     "settings.device.diskLocked": "Avstängd medan en avbildning är monterad, och aktivering avbryter monteringen",
     "image.tips.usb2": "Säkerställ att den virtuella disken är monterad under Inställningar > Enhet > Virtuell disk.",
-    "image.tips.tf2": "Ta ut TF-kortet från NanoKVM. På FULL-versionen öppnar du chassit först.",
+    "image.tips.tf2": "Ta ut SD-kortet från NanoKVM. På FULL-versionen öppnar du chassit först.",
     "auth.tips.change3": "Systemets root-lösenord för SSH-inloggning",
     "power.powerShort": "Strömknapp: kort tryck",
     "power.powerLong": "Strömknapp: långt tryck",
@@ -4611,7 +4659,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.inputfile": "Bildfil",
     "wol.input": "MAC-adress",
     "terminal.serialPortPlaceholder": "Till exempel /dev/ttyS1",
-    "wol.ok": "OK"
+    "wol.ok": "OK",
+    "image.tips.tfCard": "SD-kort",
+    "image.tips.tf3": "Sätt in SD-kortet i en kortläsare och anslut till din dator.",
+    "image.tips.tf4": "Kopiera avbildningsfilen till /data på SD-kortet.",
+    "image.tips.tf5": "Sätt in SD-kortet i NanoKVM."
   },
   th: {
     "auth.illegalPassword": "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร และห้ามมีเครื่องหมายคำพูดหรือเครื่องหมายทับ",
@@ -4671,7 +4723,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "การจับปุ่มระดับระบบ เช่น ปุ่ม Windows ต้องได้รับสิทธิ์โหมดเต็มหน้าจอ",
     "settings.device.diskLocked": "ปิดอยู่ขณะเมานต์อิมเมจ และการเปิดจะยกเลิกการเมานต์",
     "image.tips.usb2": "ตรวจสอบให้แน่ใจว่าได้เปิดใช้งานดิสก์เสมือนแล้วใน การตั้งค่า > อุปกรณ์ > ดิสก์จำลอง",
-    "image.tips.tf2": "นำการ์ด TF ออกจาก NanoKVM สำหรับรุ่น FULL ให้แกะเคสออกก่อน",
+    "image.tips.tf2": "นำการ์ด SD ออกจาก NanoKVM สำหรับรุ่น FULL ให้แกะเคสออกก่อน",
     "auth.tips.change3": "รหัสผ่าน root ของระบบสำหรับเข้าสู่ระบบ SSH",
     "download.sha256": "ค่าตรวจสอบ SHA-256 แบบไม่บังคับ",
     "power.powerShort": "ปุ่มเปิด/ปิด: กดปล่อย",
@@ -4816,7 +4868,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "wol.input": "MAC Address",
     "terminal.serialPortPlaceholder": "ตัวอย่าง /dev/ttyS1",
     "terminal.locked": "พยายามมากเกินไป ลองอีกครั้งภายหลัง",
-    "keyboard.leaderKey.placeholder": "กดปุ่ม Leader"
+    "keyboard.leaderKey.placeholder": "กดปุ่ม Leader",
+    "image.tips.tfCard": "การ์ด SD",
+    "image.tips.tf3": "ใส่การ์ด SD ลงในเครื่องอ่านการ์ดและเชื่อมต่อกับคอมพิวเตอร์ของคุณ",
+    "image.tips.tf4": "คัดลอกไฟล์อิมเมจไปยังไดเรกทอรี /data บนการ์ด SD",
+    "image.tips.tf5": "ใส่การ์ด SD กลับเข้า NanoKVM"
   },
   tr: {
     "auth.illegalPassword": "Şifre en az 8 karakter olmalı ve tırnak işareti veya eğik çizgi içermemelidir",
@@ -4878,7 +4934,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "Windows tuşu gibi sistem düzeyi tuşları yakalamak için tam ekran izni gerekir",
     "settings.device.diskLocked": "Bir imaj bağlıyken kapalı, açmak ise bağlamayı iptal eder",
     "image.tips.usb2": "Sanal diskin Ayarlar > Cihaz > Sanal Disk bölümünde bağlı olduğundan emin olun.",
-    "image.tips.tf2": "NanoKVM'den TF kartı çıkarın. FULL sürümde önce kutuyu sökün.",
+    "image.tips.tf2": "NanoKVM'den SD kartı çıkarın. FULL sürümde önce kutuyu sökün.",
     "auth.tips.change3": "SSH girişi için root sistem şifresi",
     "download.sha256": "İsteğe bağlı SHA-256 sağlama toplamı",
     "power.powerShort": "Güç düğmesi: bas-çek",
@@ -5141,7 +5197,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "Для захоплення системних клавіш, наприклад клавіші Windows, потрібен дозвіл повноекранного режиму",
     "settings.device.diskLocked": "Вимкнено, поки змонтовано образ, а увімкнення скасує монтування",
     "image.tips.usb2": "Переконайтеся, що віртуальний диск змонтовано в розділі Налаштування > Пристрій > Віртуальний диск.",
-    "image.tips.tf2": "Дістаньте TF-карту з NanoKVM. У версії FULL спочатку розберіть корпус.",
+    "image.tips.tf2": "Дістаньте SD-карту з NanoKVM. У версії FULL спочатку розберіть корпус.",
     "auth.tips.change3": "Системний пароль root для входу по SSH",
     "download.sha256": "Необов’язкова контрольна сума SHA-256",
     "power.powerShort": "Кнопка живлення: коротке натискання",
@@ -5317,7 +5373,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.inputfile": "Файл образу",
     "wol.input": "MAC-адреса",
     "terminal.serialPortPlaceholder": "Наприклад, /dev/ttyS1",
-    "wol.ok": "ОК"
+    "wol.ok": "ОК",
+    "image.tips.tfCard": "SD карта",
+    "image.tips.tf3": "Вставте SD карту в кардрідер і під'єднайте її до вашого комп'ютера.",
+    "image.tips.tf4": "Скопіюйте файл зображення до каталогу /data на SD карті.",
+    "image.tips.tf5": "Вставте SD карту в NanoKVM."
   },
   vi: {
     "auth.illegalPassword": "Mật khẩu phải có ít nhất 8 ký tự và không được chứa dấu nháy hoặc dấu gạch chéo",
@@ -5390,7 +5450,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.device.ssh.tip": "Đặt mật khẩu mạnh trong Tài khoản > Mật khẩu trước khi bật tùy chọn này",
     "keyboard.shortcut.captureTips": "Việc ghi nhận các phím cấp hệ thống, như phím Windows, yêu cầu quyền toàn màn hình",
     "image.tips.usb2": "Đảm bảo rằng đĩa ảo đã được gắn kết trong Cài đặt > Thiết bị > Đĩa ảo.",
-    "image.tips.tf2": "Lấy thẻ TF ra khỏi NanoKVM. Với phiên bản FULL, hãy tháo vỏ trước.",
+    "image.tips.tf2": "Lấy thẻ SD ra khỏi NanoKVM. Với phiên bản FULL, hãy tháo vỏ trước.",
     "auth.tips.change3": "Mật khẩu root hệ thống để đăng nhập SSH",
     "download.sha256": "Checksum SHA-256 tùy chọn",
     "power.powerShort": "Nút nguồn: nhấp ngắn",
@@ -5566,7 +5626,11 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "URL của image từ xa",
     "wol.input": "Địa chỉ MAC",
     "terminal.serialPortPlaceholder": "Ví dụ /dev/ttyS1",
-    "keyboard.leaderKey.placeholder": "Nhấn phím Leader"
+    "keyboard.leaderKey.placeholder": "Nhấn phím Leader",
+    "image.tips.tfCard": "Thẻ SD",
+    "image.tips.tf3": "Chèn thẻ SD vào đầu đọc thẻ và kết nối với máy tính của bạn.",
+    "image.tips.tf4": "Sao chép tệp hình ảnh vào thư mục /data trên thẻ SD.",
+    "image.tips.tf5": "Chèn thẻ SD vào NanoKVM."
   },
   zh: {
     "auth.illegalPassword": "密码至少 8 个字符，且不能包含引号或斜杠",
@@ -5617,7 +5681,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "捕获系统级按键，如 Windows 键，需要全屏权限",
     "settings.device.diskLocked": "挂载镜像期间已关闭，开启会取消镜像挂载",
     "image.tips.usb2": "确保已在 设置 > 设备 > 虚拟磁盘 中挂载虚拟磁盘。",
-    "image.tips.tf2": "将 TF 卡从 NanoKVM 中取出。FULL 版本需要先拆开外壳。",
+    "image.tips.tf2": "将 SD 卡从 NanoKVM 中取出。FULL 版本需要先拆开外壳。",
     "auth.tips.change3": "用于 SSH 登录的系统 root 用户密码",
     "download.sha256": "可选的 SHA-256 校验值",
     "power.powerShort": "电源按钮：短按",
@@ -5661,7 +5725,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.dropdownJapanese": "日语",
     "image.tips.usb1": "将 NanoKVM 通过 USB 连接到您的电脑；",
     "image.tips.scp1": "确保 NanoKVM 和您的电脑在同一个局域网内；",
-    "image.tips.tf3": "将 TF 卡插入读卡器并连接到您的电脑；",
+    "image.tips.tf3": "将 SD 卡插入读卡器并连接到您的电脑；",
     "picoclaw.inputPlaceholder": "描述您希望 PicoClaw 执行的操作",
     "keyboard.localInput": "移动端键盘输入",
     "settings.network.configuration": "配置",
@@ -5791,7 +5855,10 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.input": "远程镜像 URL",
     "wol.input": "MAC 地址",
     "terminal.serialPortPlaceholder": "例如 /dev/ttyS1",
-    "keyboard.leaderKey.placeholder": "按下引导键"
+    "keyboard.leaderKey.placeholder": "按下引导键",
+    "image.tips.tfCard": "SD 卡",
+    "image.tips.tf4": "从电脑上拷贝镜像文件到 SD 卡的 /data 目录下；",
+    "image.tips.tf5": "将 SD 卡重新插入 NanoKVM。"
   },
   zh_tw: {
     "auth.illegalPassword": "密碼至少 8 個字元，且不能包含引號或斜線",
@@ -5845,7 +5912,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "keyboard.shortcut.captureTips": "擷取系統級按鍵，如 Windows 鍵，需要全螢幕權限",
     "settings.device.diskLocked": "掛載映像檔期間已關閉，開啟會取消映像檔掛載",
     "image.tips.usb2": "確保已在 設定 > 設備 > 虛擬磁碟 中掛載虛擬磁碟。",
-    "image.tips.tf2": "從 NanoKVM 取出 TF 卡。FULL 版本請先拆開外殼。",
+    "image.tips.tf2": "從 NanoKVM 取出 SD 卡。FULL 版本請先拆開外殼。",
     "auth.tips.change3": "用於 SSH 登入的系統 root 密碼",
     "download.sha256": "可選的 SHA-256 檢查碼",
     "power.powerShort": "電源按鈕：短按",

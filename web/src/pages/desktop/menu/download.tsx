@@ -661,7 +661,7 @@ export const DownloadImage = () => {
         {status && log && (
           <div
             className={clsx(
-              'max-w-[300px] break-words text-sm',
+              'mt-3 max-w-[300px] break-words text-sm',
               status === 'failed' ? 'text-red-500' : 'text-green-500'
             )}
           >
@@ -669,7 +669,7 @@ export const DownloadImage = () => {
           </div>
         )}
         {status === 'in_progress' && (
-          <div className="flex w-full items-center space-x-2 pt-1">
+          <div className="flex w-full items-center space-x-2 pt-3">
             <div className="min-w-0 flex-1">
               <Progress
                 percent={progress ?? 100}

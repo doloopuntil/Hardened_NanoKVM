@@ -237,12 +237,12 @@ const en = {
         scp1: 'Make sure the NanoKVM and your computer are on the same local network.',
         scp2: 'Open a terminal on your computer and use the SCP command to upload the image file to the /data directory on the NanoKVM.',
         scp3: 'Example: scp your-image-path root@your-nanokvm-ip:/data',
-        tfCard: 'TF card',
+        tfCard: 'SD card',
         tf1: 'This method is supported on Linux system',
-        tf2: 'Get the TF card from the NanoKVM. On the FULL version, disassemble the case first.',
-        tf3: 'Insert the TF card into a card reader and connect it to your computer.',
-        tf4: 'Copy the image file to the /data directory on the TF card.',
-        tf5: 'Insert the TF card into the NanoKVM.'
+        tf2: 'Get the SD card from the NanoKVM. On the FULL version, disassemble the case first.',
+        tf3: 'Insert the SD card into a card reader and connect it to your computer.',
+        tf4: 'Copy the image file to the /data directory on the SD card.',
+        tf5: 'Insert the SD card into the NanoKVM.'
       }
     },
     script: {

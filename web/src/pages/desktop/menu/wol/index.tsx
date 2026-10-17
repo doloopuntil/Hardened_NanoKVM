@@ -131,7 +131,7 @@ export const Wol = () => {
       <MenuHeader title={t('wol.title')} />
 
       <div className="w-full space-y-1 pb-3">
-        <div className="flex items-center space-x-1">
+        <div className="flex items-center space-x-2">
           <Input
             ref={inputRef}
             value={input}
