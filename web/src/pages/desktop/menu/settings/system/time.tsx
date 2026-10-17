@@ -177,6 +177,16 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
             </SettingRow>
 
             <SettingRow
+              label={t('settings.system.time.syncNow')}
+              description={t('settings.system.time.syncNowDesc')}
+              inline
+            >
+              <Button disabled={!config.ntpEnabled} loading={isSyncing} onClick={syncNow}>
+                {t('settings.system.time.syncNow')}
+              </Button>
+            </SettingRow>
+
+            <SettingRow
               label={t('settings.system.time.servers.title')}
               description={t('settings.system.time.servers.description')}
               inline
@@ -218,16 +228,6 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
                 })}
               />
             )}
-
-            <SettingRow
-              label={t('settings.system.time.syncNow')}
-              description={t('settings.system.time.syncNowDesc')}
-              inline
-            >
-              <Button disabled={!config.ntpEnabled} loading={isSyncing} onClick={syncNow}>
-                {t('settings.system.time.syncNow')}
-              </Button>
-            </SettingRow>
           </SettingSection>
 
           <Divider className="opacity-50" />

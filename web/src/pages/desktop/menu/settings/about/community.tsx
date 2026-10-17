@@ -12,7 +12,7 @@ export const Community = () => {
     {
       name: 'GitHub',
       icon: <GithubOutlined style={{ fontSize: '20px' }} width={24} height={24} />,
-      url: 'https://github.com/woffko/Hardened_NanoKVM'
+      url: 'https://github.com/doloopuntil/Hardened_NanoKVM'
     }
   ];
 

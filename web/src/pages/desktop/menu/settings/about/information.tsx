@@ -48,6 +48,8 @@ export const Information = () => {
   return (
     <SettingSection title={t('settings.about.information')}>
       <div className="space-y-3">
+        <Hostname />
+
         <InfoRow
           alignStart
           label={t('settings.about.ip')}
@@ -91,8 +93,6 @@ export const Information = () => {
         />
 
         <InfoRow label={t('settings.about.uptime')} value={formatUptime(information?.uptime)} />
-
-        <Hostname />
       </div>
     </SettingSection>
   );

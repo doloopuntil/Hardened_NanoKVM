@@ -2382,7 +2382,7 @@ const totpFallbackExtras: TranslationMap = {
   'settings.account.totp.copyFailed': 'Could not copy. Select the codes and copy them manually.',
   'settings.account.totp.requireTitle': 'Require two-factor authentication',
   'settings.account.totp.requireDescription':
-    'While on, two-factor authentication cannot be disabled, and an account without it must set it up before using the device',
+    'Prevent disabling two-factor authentication, and an account without it must set it up before using the device',
   'settings.account.totp.requireFailed': 'Could not change the requirement',
   'settings.account.totp.requiredTitle': 'Two-factor authentication is required',
   'settings.account.totp.requiredDescription':
