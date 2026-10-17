@@ -145,7 +145,7 @@ export const Sidebar = () => {
         ) : (
           <>
             <MessageList messages={messages} runState={runState} />
-            <div className="border-t border-white/[0.06] px-3 pb-3 pt-3">
+            <div className="border-0 border-t border-solid border-white/[0.06] px-3 pb-3 pt-3">
               <MessageInput
                 transportState={transportState}
                 onSend={handleSend}

@@ -88,7 +88,7 @@ export const SidebarHistory = ({
                   }
                 }}
                 className={[
-                  'group box-border flex w-full items-start gap-3 rounded-2xl border px-3 py-3 text-left transition-colors',
+                  'group box-border flex w-full items-start gap-3 rounded-2xl border border-solid px-3 py-3 text-left transition-colors',
                   isSwitching ? 'pointer-events-none opacity-60' : '',
                   isActive
                     ? 'border-blue-500/30 bg-blue-500/10'
