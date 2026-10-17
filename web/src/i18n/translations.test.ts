@@ -84,6 +84,13 @@ describe.each(translated)('%s translation', (language) => {
     expect(mismatched).toEqual([]);
   });
 
+  it('has no space before a question mark', () => {
+    const spaced = Object.keys(strings).filter((key) =>
+      /[\s\u00a0\u202f\u2009]\?/.test(strings[key])
+    );
+    expect(spaced).toEqual([]);
+  });
+
   it('does not leave sentences in English', () => {
     const untranslated = Object.keys(english).filter(
       (key) => strings[key] === english[key] && words(english[key]) >= 3 && !sameAsEnglish.has(key)
