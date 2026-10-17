@@ -1,6 +1,7 @@
 import { Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 
+import { PageHeader } from '@/components/page-header.tsx';
 import { SettingSection } from '@/components/setting-rows.tsx';
 
 import { Hdmi } from './hdmi.tsx';
@@ -18,8 +19,7 @@ export const Device = () => {
 
   return (
     <>
-      <div className="text-base">{t('settings.device.title')}</div>
-      <Divider className="opacity-50" />
+      <PageHeader title={t('settings.device.title')} />
 
       <div className="flex flex-col space-y-6">
         <SettingSection title={t('settings.device.sections.connectivity')}>

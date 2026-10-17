@@ -7,11 +7,16 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Page structure
 
-1. A page starts with its title in `text-base`, followed by
-   `<Divider className="opacity-50" />`. The title and the hairline sit at the
-   same height on every page, on the desktop and the touch layout, so a page
-   that has its own header (System) must not add padding above the title or
-   change the spacing below it.
+1. A page starts with `PageHeader` (`components/page-header.tsx`): its title in
+   `text-base` and a hairline under it, which stay in view while the page
+   scrolls, also on a page too short to scroll. The title and the hairline sit at
+   the same height on every page, on the desktop and the touch layout. What sits
+   beside the title, such as the sub-navigation of System, is the header's
+   children. The header is in the colour of the panel, and its shadow has a
+   negative spread so it fades out before its sides: the scroll area clips what
+   goes beyond the width of the content, and a wider shadow ends in a hard edge.
+   The loading and load-failure banner of the page comes right below the header
+   (`LoadBanner`), where the header's cover does not hide it.
 2. A page is a column of titled sections with the same faded hairline between
    them. A section is `SettingSection`: a grey sentence-case title
    (`text-neutral-400`), then its rows 24px apart.
@@ -65,12 +70,9 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     `confirm()` from `lib/feedback.ts`.
 16. Unsaved changes show in the sticky `SaveBar` at the bottom, never in the
     page header. The bar is as wide as the content, in the panel colour
-    (`bg-settings-panel`) like the System header, with a hairline above it and a
-    shadow that pushes up from there. A shadow needs a
-    negative spread (`-20px`) so that it is as wide as its bar: the scroll area
-    clips whatever goes beyond the width of the content, and a wider shadow ends
-    in a hard edge. The System header uses the same technique, with the shadow
-    pointing down.
+    (`bg-settings-panel`) like the page header, with a hairline above it and a
+    shadow that pushes up from there, with the same negative spread as the
+    header's.
 
 ## Status and feedback
 

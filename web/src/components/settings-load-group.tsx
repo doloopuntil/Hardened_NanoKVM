@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode
+} from 'react';
 import { Alert, Button } from 'antd';
 import { LoaderCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -7,8 +15,21 @@ import { LoadGroupContext, type LoadStatus } from '@/hooks/useSettingsLoad.ts';
 
 const LOADING_BANNER_DELAY_MS = 600;
 
-// Shows loading and failure banners for the useSettingsLoad calls below it.
-export const SettingsLoadGroup = ({ children }: { children: ReactNode }) => {
+// The banners of a group that shows them elsewhere, see `slot` and LoadBanner.
+const LoadBannerContext = createContext<ReactNode>(null);
+
+// Where a group with a slot shows its banners; a page header puts it below itself.
+export const LoadBanner = () => useContext(LoadBannerContext);
+
+// Shows loading and failure banners for the useSettingsLoad calls below it. With `slot` it hands
+// them to a LoadBanner instead of putting them above its children.
+export const SettingsLoadGroup = ({
+  children,
+  slot = false
+}: {
+  children: ReactNode;
+  slot?: boolean;
+}) => {
   const { t } = useTranslation();
 
   const [statuses, setStatuses] = useState<Record<string, LoadStatus>>({});
@@ -43,8 +64,8 @@ export const SettingsLoadGroup = ({ children }: { children: ReactNode }) => {
 
   const value = useMemo(() => ({ generation, report }), [generation, report]);
 
-  return (
-    <LoadGroupContext.Provider value={value}>
+  const banner = (
+    <>
       {isLoading && showLoading && (
         <Alert
           className="mb-6"
@@ -68,8 +89,16 @@ export const SettingsLoadGroup = ({ children }: { children: ReactNode }) => {
           }
         />
       )}
+    </>
+  );
 
-      {children}
+  return (
+    <LoadGroupContext.Provider value={value}>
+      <LoadBannerContext.Provider value={slot ? banner : null}>
+        {!slot && banner}
+
+        {children}
+      </LoadBannerContext.Provider>
     </LoadGroupContext.Provider>
   );
 };
