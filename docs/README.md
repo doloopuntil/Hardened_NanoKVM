@@ -43,6 +43,7 @@ on the
 
 - [Developer handoff](handoff.md)
 - [Rust backend status and build path](rust-backend.md)
+- [Web UI layout rules for the Settings pages](web-ui-layout-rules.md)
 - [Build and deployment notes](build-notes.md)
 - [System-update implementation plan](system-update-plan.md)
 - [Vendor SDK build path](vendor-sdk-build.md)
