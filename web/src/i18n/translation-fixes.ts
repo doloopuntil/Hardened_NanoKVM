@@ -360,7 +360,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Actualitzacions del sistema',
     'settings.account.totp.authenticator': 'Aplicació d’autenticació',
     'settings.update.system.stagedDesc':
-      "L'actualització del sistema s'ha descarregat i verificat, ja es pot instal·lar"
+      "L'actualització del sistema s'ha descarregat i verificat, ja es pot instal·lar",
+    'settings.network.wifi.disconnectBtn': 'Desconnecta',
+    'settings.network.wifi.connected': 'Connectat'
   },
   cz: {
     'auth.illegalPassword': 'Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka',
@@ -620,7 +622,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.authenticator': 'Ověřovací aplikace',
     'settings.device.mouseJiggler.title': 'Mouse jiggler',
     'settings.update.system.stagedDesc':
-      'Aktualizace systému byla stažena a ověřena, můžete ji nainstalovat'
+      'Aktualizace systému byla stažena a ověřena, můžete ji nainstalovat',
+    'settings.network.wifi.disconnectBtn': 'Odpojit',
+    'settings.network.wifi.connected': 'Připojeno'
   },
   da: {
     'auth.illegalPassword':
@@ -897,7 +901,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.authenticator': 'Godkendelsesapp',
     'settings.device.mouseJiggler.title': 'Mus-jiggler',
     'settings.update.system.stagedDesc':
-      'Systemopdateringen er downloadet og verificeret, du kan installere den nu'
+      'Systemopdateringen er downloadet og verificeret, du kan installere den nu',
+    'settings.network.wifi.disconnectBtn': 'Afbryd',
+    'settings.network.wifi.connected': 'Forbundet'
   },
   de: {
     'auth.illegalPassword':
@@ -1196,7 +1202,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.webAccount': 'Name des Webkontos',
     'settings.appearance.webTitle': 'Webtitel',
     'settings.update.system.stagedDesc':
-      'Das Systemupdate wurde heruntergeladen und verifiziert, es kann jetzt installiert werden'
+      'Das Systemupdate wurde heruntergeladen und verifiziert, es kann jetzt installiert werden',
+    'settings.network.wifi.disconnectBtn': 'Trennen',
+    'settings.network.wifi.connected': 'Verbunden'
   },
   es: {
     'auth.illegalPassword':
@@ -1469,7 +1477,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.network': 'Red virtual',
     'settings.device.swap.title': 'Memoria swap',
     'settings.update.system.stagedDesc':
-      'La actualización del sistema se descargó y verificó, ya puedes instalarla'
+      'La actualización del sistema se descargó y verificó, ya puedes instalarla',
+    'settings.network.wifi.disconnectBtn': 'Desconectar',
+    'settings.network.wifi.connected': 'Conectado'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1731,7 +1741,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Süsteemiuuendused',
     'settings.account.totp.authenticator': 'Autentimisrakendus',
     'settings.update.system.stagedDesc':
-      'Süsteemiuuendus on alla laaditud ja kontrollitud, nüüd saab selle paigaldada'
+      'Süsteemiuuendus on alla laaditud ja kontrollitud, nüüd saab selle paigaldada',
+    'settings.network.wifi.disconnectBtn': 'Katkesta ühendus',
+    'settings.network.wifi.connected': 'Ühendatud'
   },
   fi: {
     'settings.device.diskDesc': 'Liitä SD-kortti etäkoneeseen',
@@ -1991,7 +2003,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Järjestelmäpäivitykset',
     'settings.account.totp.authenticator': 'Todennussovellus',
     'settings.update.system.stagedDesc':
-      'Järjestelmäpäivitys on ladattu ja varmennettu, voit asentaa sen nyt'
+      'Järjestelmäpäivitys on ladattu ja varmennettu, voit asentaa sen nyt',
+    'settings.network.wifi.disconnectBtn': 'Katkaise yhteys',
+    'settings.network.wifi.connected': 'Yhdistetty'
   },
   fr: {
     'auth.illegalPassword':
@@ -2268,7 +2282,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.authenticator': 'Application d’authentification',
     'settings.appearance.webTitle': 'Titre web',
     'settings.update.system.stagedDesc':
-      'La mise à jour du système a été téléchargée et vérifiée, vous pouvez l’installer'
+      'La mise à jour du système a été téléchargée et vérifiée, vous pouvez l’installer',
+    'settings.network.wifi.disconnectBtn': 'Déconnecter',
+    'settings.network.wifi.connected': 'Connecté'
   },
   hu: {
     'auth.illegalPassword':
@@ -2546,7 +2562,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.authenticator': 'Hitelesítő alkalmazás',
     'settings.device.mouseJiggler.title': 'Mouse jiggler',
     'settings.update.system.stagedDesc':
-      'A rendszerfrissítés letöltve és ellenőrizve, most telepíthető'
+      'A rendszerfrissítés letöltve és ellenőrizve, most telepíthető',
+    'settings.network.wifi.disconnectBtn': 'Leválasztás',
+    'settings.network.wifi.connected': 'Csatlakoztatva'
   },
   id: {
     'auth.illegalPassword':
@@ -2837,7 +2855,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.mouseJiggler.absolute': 'Mode absolut',
     'settings.device.mouseJiggler.relative': 'Mode relatif',
     'settings.update.system.stagedDesc':
-      'Pembaruan sistem sudah diunduh dan diverifikasi, Anda dapat memasangnya sekarang'
+      'Pembaruan sistem sudah diunduh dan diverifikasi, Anda dapat memasangnya sekarang',
+    'settings.network.wifi.disconnectBtn': 'Putuskan',
+    'settings.network.wifi.connected': 'Terhubung'
   },
   it: {
     'auth.illegalPassword':
@@ -3114,7 +3134,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.about.image': 'Versione immagine',
     'settings.about.deviceKey': 'Chiave dispositivo',
     'settings.update.system.stagedDesc':
-      'L’aggiornamento di sistema è stato scaricato e verificato, ora puoi installarlo'
+      'L’aggiornamento di sistema è stato scaricato e verificato, ora puoi installarlo',
+    'settings.network.wifi.disconnectBtn': 'Disconnetti',
+    'settings.network.wifi.connected': 'Connesso'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -3378,7 +3400,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'システムアップデート',
     'settings.account.totp.authenticator': '認証アプリ',
     'settings.update.system.stagedDesc':
-      'システムアップデートはダウンロードされ検証されました、今すぐインストールできます'
+      'システムアップデートはダウンロードされ検証されました、今すぐインストールできます',
+    'settings.network.wifi.disconnectBtn': '切断',
+    'settings.network.wifi.connected': '接続済み'
   },
   ko: {
     'auth.illegalPassword': '비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다',
@@ -3640,7 +3664,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': '시스템 업데이트',
     'settings.account.totp.authenticator': '인증 앱',
     'settings.update.system.stagedDesc':
-      '시스템 업데이트를 다운로드하고 검증했습니다, 지금 설치할 수 있습니다'
+      '시스템 업데이트를 다운로드하고 검증했습니다, 지금 설치할 수 있습니다',
+    'settings.network.wifi.disconnectBtn': '연결 해제',
+    'settings.network.wifi.connected': '연결됨'
   },
   nb: {
     'auth.illegalPassword':
@@ -3904,7 +3930,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.authenticator': 'Autentiseringsapp',
     'settings.device.mouseJiggler.title': 'Mus-jiggler',
     'settings.update.system.stagedDesc':
-      'Systemoppdateringen er lastet ned og verifisert, du kan installere den nå'
+      'Systemoppdateringen er lastet ned og verifisert, du kan installere den nå',
+    'settings.network.wifi.disconnectBtn': 'Koble fra',
+    'settings.network.wifi.connected': 'Tilkoblet'
   },
   nl: {
     'auth.illegalPassword':
@@ -4186,7 +4214,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.webAccount': 'Webaccountnaam',
     'settings.device.network': 'Virtueel netwerk',
     'settings.update.system.stagedDesc':
-      'De systeemupdate is gedownload en geverifieerd, u kunt hem nu installeren'
+      'De systeemupdate is gedownload en geverifieerd, u kunt hem nu installeren',
+    'settings.network.wifi.disconnectBtn': 'Verbinding verbreken',
+    'settings.network.wifi.connected': 'Verbonden'
   },
   pl: {
     'auth.illegalPassword':
@@ -4457,7 +4487,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Aktualizacje systemu',
     'settings.account.totp.authenticator': 'Aplikacja uwierzytelniająca',
     'settings.update.system.stagedDesc':
-      'Aktualizacja systemu została pobrana i zweryfikowana, możesz ją teraz zainstalować'
+      'Aktualizacja systemu została pobrana i zweryfikowana, możesz ją teraz zainstalować',
+    'settings.network.wifi.disconnectBtn': 'Rozłącz',
+    'settings.network.wifi.connected': 'Połączono'
   },
   pt_br: {
     'auth.illegalPassword':
@@ -4721,7 +4753,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.disk': 'Disco virtual',
     'settings.device.network': 'Rede virtual',
     'settings.update.system.stagedDesc':
-      'A atualização do sistema foi baixada e verificada, você já pode instalá-la'
+      'A atualização do sistema foi baixada e verificada, você já pode instalá-la',
+    'settings.network.wifi.disconnectBtn': 'Desconectar',
+    'settings.network.wifi.connected': 'Conectado'
   },
   ru: {
     'download.disabled':
@@ -4976,7 +5010,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Обновления системы',
     'settings.account.totp.authenticator': 'Приложение-аутентификатор',
     'settings.update.system.stagedDesc':
-      'Обновление системы загружено и проверено, его можно установить'
+      'Обновление системы загружено и проверено, его можно установить',
+    'settings.network.wifi.disconnectBtn': 'Отключить',
+    'settings.network.wifi.connected': 'Подключено'
   },
   se: {
     'auth.illegalPassword':
@@ -5225,7 +5261,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.account.totp.authenticator': 'Autentiseringsapp',
     'settings.account.webAccount': 'Webbkontonamn',
     'settings.update.system.stagedDesc':
-      'Systemuppdateringen har laddats ned och verifierats, du kan installera den nu'
+      'Systemuppdateringen har laddats ned och verifierats, du kan installera den nu',
+    'settings.network.wifi.disconnectBtn': 'Koppla från',
+    'settings.network.wifi.connected': 'Ansluten'
   },
   th: {
     'auth.illegalPassword':
@@ -5441,7 +5479,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'เวอร์ชันล่าสุด',
     'settings.update.system.systemVersion': 'เวอร์ชันระบบ',
     'settings.update.title': 'อัปเดตระบบ',
-    'settings.account.totp.authenticator': 'แอปยืนยันตัวตน'
+    'settings.account.totp.authenticator': 'แอปยืนยันตัวตน',
+    'settings.network.wifi.disconnectBtn': 'ตัดการเชื่อมต่อ',
+    'settings.network.wifi.connected': 'เชื่อมต่อแล้ว'
   },
   tr: {
     'auth.illegalPassword':
@@ -5726,7 +5766,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.device.disk': 'Sanal disk',
     'settings.device.network': 'Sanal ağ',
     'settings.update.system.stagedDesc':
-      'Sistem güncellemesi indirildi ve doğrulandı, şimdi yükleyebilirsiniz'
+      'Sistem güncellemesi indirildi ve doğrulandı, şimdi yükleyebilirsiniz',
+    'settings.network.wifi.disconnectBtn': 'Bağlantıyı kes',
+    'settings.network.wifi.connected': 'Bağlandı'
   },
   uk: {
     'auth.illegalPassword':
@@ -5997,7 +6039,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Оновлення системи',
     'settings.account.totp.authenticator': 'Застосунок-автентифікатор',
     'settings.update.system.stagedDesc':
-      'Оновлення системи завантажено й перевірено, його можна встановити'
+      'Оновлення системи завантажено й перевірено, його можна встановити',
+    'settings.network.wifi.disconnectBtn': 'Від’єднати',
+    'settings.network.wifi.connected': 'Підключено'
   },
   vi: {
     'auth.illegalPassword':
@@ -6264,7 +6308,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.about.image': 'Phiên bản hình ảnh',
     'settings.about.deviceKey': 'Khóa thiết bị',
     'settings.update.system.stagedDesc':
-      'Bản cập nhật hệ thống đã được tải xuống và xác minh, bạn có thể cài đặt ngay'
+      'Bản cập nhật hệ thống đã được tải xuống và xác minh, bạn có thể cài đặt ngay',
+    'settings.network.wifi.disconnectBtn': 'Ngắt kết nối',
+    'settings.network.wifi.connected': 'Đã kết nối'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
@@ -6480,7 +6526,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': '系统版本',
     'settings.update.title': '系统更新',
     'settings.account.totp.authenticator': '验证器应用',
-    'settings.update.system.stagedDesc': '系统更新已下载并验证，现在可以安装'
+    'settings.update.system.stagedDesc': '系统更新已下载并验证，现在可以安装',
+    'settings.network.wifi.disconnectBtn': '断开连接',
+    'settings.network.wifi.connected': '已连接'
   },
   zh_tw: {
     'auth.illegalPassword': '密碼至少 8 個字元，且不能包含引號或斜線',
@@ -6700,6 +6748,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': '系統版本',
     'settings.update.title': '系統更新',
     'settings.account.totp.authenticator': '驗證器 App',
-    'settings.update.system.stagedDesc': '系統更新已下載並驗證，現在可以安裝'
+    'settings.update.system.stagedDesc': '系統更新已下載並驗證，現在可以安裝',
+    'settings.network.wifi.disconnectBtn': '中斷連線',
+    'settings.network.wifi.connected': '已連線'
   }
 };

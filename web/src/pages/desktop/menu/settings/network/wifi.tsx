@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { LockOutlined, WifiOutlined } from '@ant-design/icons';
-import { Button, Input, Modal, Switch } from 'antd';
-import { WifiIcon, WifiPenIcon } from 'lucide-react';
+import { Button, Input, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/network.ts';
-import { attempt } from '@/lib/feedback.ts';
+import { attempt, confirm } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
@@ -57,15 +56,29 @@ export const Wifi = () => {
     setStatus('');
   }
 
-  async function disconnect(enable: boolean) {
-    if (enable || status !== '') return;
+  async function disconnect() {
+    if (status !== '') return;
 
     setStatus('disconnecting');
 
     const rsp = await attempt(() => api.disconnectWifi());
-    if (rsp) setConnectedWifi('');
+    if (rsp) {
+      setConnectedWifi('');
+      setIsModalOpen(false);
+    }
 
     setStatus('');
+  }
+
+  // the link may be the one this page is loaded over
+  function confirmDisconnect() {
+    confirm({
+      danger: true,
+      title: t('settings.network.wifi.disconnect'),
+      okText: t('settings.network.wifi.disconnectBtn'),
+      cancelText: t('settings.network.wifi.cancelBtn'),
+      onOk: disconnect
+    });
   }
 
   function openModal() {
@@ -90,11 +103,7 @@ export const Wifi = () => {
         description={t('settings.network.wifi.apMode')}
         inline
       >
-        <Button shape="round" size="small" disabled>
-          <div className="flex items-center justify-center px-1.5">
-            <WifiIcon size={16} />
-          </div>
-        </Button>
+        {null}
       </SettingRow>
     );
   }
@@ -106,70 +115,47 @@ export const Wifi = () => {
         description={connectedWiFi ? connectedWiFi : t('settings.network.wifi.description')}
         inline
       >
-        <Button
-          type={connectedWiFi ? 'primary' : 'default'}
-          shape="round"
-          size="small"
-          disabled={!isReady}
-          onClick={openModal}
-        >
-          <div className="flex items-center justify-center px-1.5">
-            <WifiIcon size={16} />
-          </div>
+        <Button disabled={!isReady} onClick={openModal}>
+          {connectedWiFi ? t('settings.account.updateBtn') : t('settings.network.wifi.joinBtn')}
         </Button>
       </SettingRow>
 
       <Modal
-        closable={false}
+        title={t('settings.network.wifi.connect')}
         open={isModalOpen}
         centered={true}
         onOk={connect}
         onCancel={closeModal}
         okText={t('settings.network.wifi.joinBtn')}
         cancelText={t('settings.network.wifi.cancelBtn')}
+        okButtonProps={{ disabled: !ssid || !password }}
         confirmLoading={status === 'connecting'}
       >
-        {/* title */}
-        <div className="flex items-center space-x-5">
-          <div className="size-16">
-            <WifiPenIcon size={64} className="text-blue-400" />
-          </div>
-
-          {!connectedWiFi ? (
-            <div className="flex flex-col">
-              <span className="text-lg font-bold">{t('settings.network.wifi.connect')}</span>
-              <span className="text-xs text-neutral-400">
-                {t('settings.network.wifi.connectDesc1')}
-              </span>
-            </div>
-          ) : (
-            <div className="flex justify-center">
-              <div className="flex w-72 justify-between rounded-lg bg-neutral-800">
-                <div className="flex w-full justify-between p-3">
-                  <span>{connectedWiFi}</span>
-                  <Switch
-                    value={!!connectedWiFi}
-                    loading={status === 'disconnecting'}
-                    onChange={disconnect}
-                  />
-                </div>
-              </div>
-            </div>
+        <div className="flex flex-col space-y-4 py-2">
+          {connectedWiFi && (
+            <SettingRow
+              label={connectedWiFi}
+              description={t('settings.network.wifi.connected')}
+              inline
+            >
+              <Button danger loading={status === 'disconnecting'} onClick={confirmDisconnect}>
+                {t('settings.network.wifi.disconnectBtn')}
+              </Button>
+            </SettingRow>
           )}
-        </div>
 
-        {/* form */}
-        <div className="flex flex-col items-center space-y-3 py-6">
+          <span className="text-sm text-neutral-400">
+            {t('settings.network.wifi.connectDesc1')}
+          </span>
+
           <Input
             value={ssid}
-            className="w-72"
             prefix={<WifiOutlined />}
             placeholder={t('settings.network.wifi.ssid')}
             onChange={(e) => setSsid(e.target.value)}
           />
           <Input.Password
             value={password}
-            className="w-72"
             prefix={<LockOutlined />}
             placeholder={t('settings.network.wifi.password')}
             onChange={(e) => setPassword(e.target.value)}

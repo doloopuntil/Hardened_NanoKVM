@@ -130,8 +130,6 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 What the pages still do against the rules above. Remove an entry when it is
 fixed or turned into an accepted exception.
 
-- **Wi-Fi** uses a small round icon-only button as its control, and its dialog
-  holds a framed `rounded-lg bg-neutral-800` card and fixed `w-72` inputs.
 - **Captions:** the Account Password row has none, and the editable Network
   fields are bare on purpose for now.
 - **Action rows:** the Time page's Refresh and Sync now, and the Logging
