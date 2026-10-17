@@ -570,7 +570,8 @@ const en = {
             description: 'Use default public servers, your local router, or custom NTP servers',
             useRouter: 'Use router',
             useDefaults: 'Use defaults',
-            routerDetected: 'Detected router: {{gateway}}'
+            routerDetected: 'Detected router',
+            routerNone: 'Not found'
           }
         },
         firewall: {

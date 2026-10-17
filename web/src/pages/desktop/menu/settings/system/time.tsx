@@ -1,5 +1,5 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import { Alert, Button, ConfigProvider, Divider, Select, Switch } from 'antd';
+import { Button, ConfigProvider, Divider, Select, Switch } from 'antd';
 import { RouterIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -205,29 +205,24 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
               />
             </SettingRow>
 
-            <div className="flex min-w-0 flex-wrap justify-end gap-2">
-              <Button
-                className="min-w-0"
-                disabled={!config.ntpEnabled || !data?.gateway}
-                icon={<RouterIcon size={15} />}
-                onClick={useRouter}
-              >
-                {t('settings.system.time.servers.useRouter')}
-              </Button>
-              <Button className="min-w-0" disabled={!config.ntpEnabled} onClick={useDefaults}>
-                {t('settings.system.time.servers.useDefaults')}
-              </Button>
-            </div>
-
-            {data?.gateway && (
-              <Alert
-                type="info"
-                showIcon
-                message={t('settings.system.time.servers.routerDetected', {
-                  gateway: data.gateway
-                })}
-              />
-            )}
+            <SettingRow
+              label={t('settings.system.time.servers.routerDetected')}
+              description={data?.gateway || t('settings.system.time.servers.routerNone')}
+            >
+              <div className="flex min-w-0 flex-wrap justify-end gap-2">
+                <Button
+                  className="min-w-0"
+                  disabled={!config.ntpEnabled || !data?.gateway}
+                  icon={<RouterIcon size={15} />}
+                  onClick={useRouter}
+                >
+                  {t('settings.system.time.servers.useRouter')}
+                </Button>
+                <Button className="min-w-0" disabled={!config.ntpEnabled} onClick={useDefaults}>
+                  {t('settings.system.time.servers.useDefaults')}
+                </Button>
+              </div>
+            </SettingRow>
           </SettingSection>
 
           <Divider className="opacity-50" />

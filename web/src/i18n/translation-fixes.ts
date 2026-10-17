@@ -285,7 +285,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "wol.input": "Adreça MAC",
     "terminal.serialPortPlaceholder": "Per exemple /dev/ttyS1",
     "image.tips.tfCard": "Targeta SD",
-    "settings.wireguard.device": "Aquest dispositiu"
+    "settings.wireguard.device": "Aquest dispositiu",
+    "settings.system.time.servers.routerDetected": "Encaminador detectat",
+    "settings.system.time.servers.routerNone": "No trobat"
   },
   cz: {
     "auth.illegalPassword": "Heslo musí mít alespoň 8 znaků a nesmí obsahovat uvozovky ani lomítka",
@@ -525,7 +527,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "wol.input": "MAC adresa",
     "terminal.serialPortPlaceholder": "Například /dev/ttyS1",
     "power.resetConfirm": "Provést operaci resetování?",
-    "settings.wireguard.device": "Toto zařízení"
+    "settings.wireguard.device": "Toto zařízení",
+    "settings.system.time.servers.routerDetected": "Zjištěný router",
+    "settings.system.time.servers.routerNone": "Nenalezen"
   },
   da: {
     "auth.illegalPassword": "Adgangskoden skal være på mindst 8 tegn og må ikke indeholde anførselstegn eller skråstreger",
@@ -775,7 +779,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "terminal.serialPortPlaceholder": "For eksempel /dev/ttyS1",
     "power.powerConfirm": "Udføre strømhandlingen?",
     "power.resetConfirm": "Udføre nulstilling?",
-    "settings.wireguard.device": "Denne enhed"
+    "settings.wireguard.device": "Denne enhed",
+    "settings.system.time.servers.routerDetected": "Registreret router",
+    "settings.system.time.servers.routerNone": "Ikke fundet"
   },
   de: {
     "auth.illegalPassword": "Das Passwort muss mindestens 8 Zeichen lang sein und darf keine Anführungszeichen oder Schrägstriche enthalten",
@@ -1034,7 +1040,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf3": "Stecken Sie die SD-Karte in einen Kartenleser und verbinden Sie diesen mit Ihrem Computer.",
     "image.tips.tf4": "Kopieren Sie die Image-Datei in das Verzeichnis /data auf der SD-Karte.",
     "image.tips.tf5": "Setzen Sie die SD-Karte wieder in den NanoKVM ein.",
-    "settings.wireguard.device": "Dieses Gerät"
+    "settings.wireguard.device": "Dieses Gerät",
+    "settings.system.time.servers.routerDetected": "Erkannter Router",
+    "settings.system.time.servers.routerNone": "Nicht gefunden"
   },
   es: {
     "auth.illegalPassword": "La contraseña debe tener al menos 8 caracteres y no puede contener comillas ni barras",
@@ -1273,7 +1281,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "terminal.serialPortPlaceholder": "Por ejemplo /dev/ttyS1",
     "power.powerConfirm": "¿Ejecutar la operación de encendido?",
     "power.resetConfirm": "¿Ejecutar la operación de reinicio?",
-    "settings.wireguard.device": "Este dispositivo"
+    "settings.wireguard.device": "Este dispositivo",
+    "settings.system.time.servers.routerDetected": "Router detectado",
+    "settings.system.time.servers.routerNone": "No encontrado"
   },
   et: {
     "settings.device.diskDesc": "Ühenda SD-kaart kaugmasinasse",
@@ -1514,7 +1524,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf3": "Sisesta SD-kaart kaardilugejasse ja ühenda see arvutiga.",
     "image.tips.tf4": "Kopeeri image fail SD-kaardi /data kausta.",
     "image.tips.tf5": "Sisesta SD-kaart NanoKVM-i.",
-    "settings.wireguard.device": "See seade"
+    "settings.wireguard.device": "See seade",
+    "settings.system.time.servers.routerDetected": "Tuvastatud ruuter",
+    "settings.system.time.servers.routerNone": "Ei leitud"
   },
   fi: {
     "settings.device.diskDesc": "Liitä SD-kortti etäkoneeseen",
@@ -1751,7 +1763,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf3": "Aseta SD-kortti kortinlukijaan ja yhdistä se tietokoneeseen.",
     "image.tips.tf4": "Kopioi levykuvatiedosto SD-kortin /data-hakemistoon.",
     "image.tips.tf5": "Aseta SD-kortti NanoKVM:ään.",
-    "settings.wireguard.device": "Tämä laite"
+    "settings.wireguard.device": "Tämä laite",
+    "settings.system.time.servers.routerDetected": "Tunnistettu reititin",
+    "settings.system.time.servers.routerNone": "Ei löytynyt"
   },
   fr: {
     "auth.illegalPassword": "Le mot de passe doit contenir au moins 8 caractères et ne peut pas contenir de guillemets ni de barres obliques",
@@ -2001,7 +2015,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.tailscale.stop": "Êtes-vous sûr de vouloir arrêter Tailscale?",
     "settings.account.totp.disableTitle": "Désactiver l’authentification à deux facteurs?",
     "settings.account.totp.regenerateTitle": "Émettre de nouveaux codes de secours?",
-    "settings.wireguard.device": "Cet appareil"
+    "settings.wireguard.device": "Cet appareil",
+    "settings.system.time.servers.routerDetected": "Routeur détecté",
+    "settings.system.time.servers.routerNone": "Introuvable"
   },
   hu: {
     "auth.illegalPassword": "A jelszónak legalább 8 karakter hosszúnak kell lennie, és nem tartalmazhat idézőjelet vagy törtvonalat",
@@ -2251,7 +2267,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf4": "Másolja a képfájlt a SD kártya /data könyvtárába.",
     "image.tips.tf5": "Helyezze vissza a SD kártyát a NanoKVM-be.",
     "power.resetConfirm": "Végrehajtja a visszaállítási műveletet?",
-    "settings.wireguard.device": "Ez az eszköz"
+    "settings.wireguard.device": "Ez az eszköz",
+    "settings.system.time.servers.routerDetected": "Észlelt router",
+    "settings.system.time.servers.routerNone": "Nem található"
   },
   id: {
     "auth.illegalPassword": "Kata sandi harus minimal 8 karakter dan tidak boleh berisi tanda kutip atau garis miring",
@@ -2533,7 +2551,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "Masukkan Kartu SD ke dalam NanoKVM.",
     "power.powerConfirm": "Jalankan operasi daya?",
     "power.resetConfirm": "Jalankan operasi penyetelan ulang?",
-    "settings.wireguard.device": "Perangkat ini"
+    "settings.wireguard.device": "Perangkat ini",
+    "settings.system.time.servers.routerDetected": "Router terdeteksi",
+    "settings.system.time.servers.routerNone": "Tidak ditemukan"
   },
   it: {
     "auth.illegalPassword": "La password deve contenere almeno 8 caratteri e non può contenere virgolette o barre",
@@ -2786,7 +2806,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf4": "Copia il file immagine nella directory /data sulla scheda SD.",
     "image.tips.tf5": "Inserisci la scheda SD nel NanoKVM.",
     "power.powerConfirm": "Eseguire l'operazione di accensione?",
-    "settings.wireguard.device": "Questo dispositivo"
+    "settings.wireguard.device": "Questo dispositivo",
+    "settings.system.time.servers.routerDetected": "Router rilevato",
+    "settings.system.time.servers.routerNone": "Non trovato"
   },
   ja: {
     "auth.illegalPassword": "パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません",
@@ -3018,7 +3040,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf3": "SD カードをカードリーダーに挿入してコンピュータに接続します；",
     "image.tips.tf4": "コンピューターから SD カードの /data ディレクトリにイメージファイルをコピーします；",
     "image.tips.tf5": "SD カードを NanoKVM に挿入します。",
-    "settings.wireguard.device": "このデバイス"
+    "settings.wireguard.device": "このデバイス",
+    "settings.system.time.servers.routerDetected": "検出されたルーター",
+    "settings.system.time.servers.routerNone": "見つかりません"
   },
   ko: {
     "auth.illegalPassword": "비밀번호는 8자 이상이어야 하며 따옴표나 슬래시를 포함할 수 없습니다",
@@ -3266,7 +3290,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "SD 카드를 NanoKVM에 삽입하세요.",
     "power.powerConfirm": "전원 작업을 실행하시겠습니까?",
     "power.resetConfirm": "리셋 작업을 실행하시겠습니까?",
-    "settings.wireguard.device": "이 장치"
+    "settings.wireguard.device": "이 장치",
+    "settings.system.time.servers.routerDetected": "감지된 라우터",
+    "settings.system.time.servers.routerNone": "찾을 수 없음"
   },
   nb: {
     "auth.illegalPassword": "Passordet må være minst 8 tegn og kan ikke inneholde anførselstegn eller skråstreker",
@@ -3510,7 +3536,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "Sett inn SD-kortet i NanoKVM-enheten.",
     "power.powerConfirm": "Utføre strømoperasjonen?",
     "power.resetConfirm": "Utføre tilbakestilling?",
-    "settings.wireguard.device": "Denne enheten"
+    "settings.wireguard.device": "Denne enheten",
+    "settings.system.time.servers.routerDetected": "Oppdaget ruter",
+    "settings.system.time.servers.routerNone": "Ikke funnet"
   },
   nl: {
     "auth.illegalPassword": "Het wachtwoord moet minstens 8 tekens bevatten en mag geen aanhalingstekens of schuine strepen bevatten",
@@ -3761,7 +3789,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "Plaats de SD-kaart terug in de NanoKVM.",
     "power.powerConfirm": "Stroomactie uitvoeren?",
     "power.resetConfirm": "Reset uitvoeren?",
-    "settings.wireguard.device": "Dit apparaat"
+    "settings.wireguard.device": "Dit apparaat",
+    "settings.system.time.servers.routerDetected": "Gedetecteerde router",
+    "settings.system.time.servers.routerNone": "Niet gevonden"
   },
   pl: {
     "auth.illegalPassword": "Hasło musi mieć co najmniej 8 znaków i nie może zawierać cudzysłowów ani ukośników",
@@ -4001,7 +4031,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "wol.input": "Adres MAC",
     "terminal.serialPortPlaceholder": "Na przykład /dev/ttyS1",
     "wol.ok": "OK",
-    "settings.wireguard.device": "To urządzenie"
+    "settings.wireguard.device": "To urządzenie",
+    "settings.system.time.servers.routerDetected": "Wykryty router",
+    "settings.system.time.servers.routerNone": "Nie znaleziono"
   },
   pt_br: {
     "auth.illegalPassword": "A senha deve ter pelo menos 8 caracteres e não pode conter aspas nem barras",
@@ -4253,7 +4285,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "Insira o cartão SD no NanoKVM.",
     "power.powerConfirm": "Executar a operação de energia?",
     "power.resetConfirm": "Executar a operação de redefinição?",
-    "settings.wireguard.device": "Este dispositivo"
+    "settings.wireguard.device": "Este dispositivo",
+    "settings.system.time.servers.routerDetected": "Roteador detectado",
+    "settings.system.time.servers.routerNone": "Não encontrado"
   },
   ru: {
     "download.disabled": "Сейчас нельзя скачивать или загружать образы, потому что хранилище недоступно для записи. Если образ смонтирован, размонтируйте его, а затем отключите виртуальный диск, чтобы хранилище снова стало доступным для записи.",
@@ -4479,7 +4513,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "download.inputfile": "Файл образа",
     "wol.input": "MAC-адрес",
     "terminal.serialPortPlaceholder": "Например, /dev/ttyS1",
-    "settings.wireguard.device": "Это устройство"
+    "settings.wireguard.device": "Это устройство",
+    "settings.system.time.servers.routerDetected": "Обнаружен роутер",
+    "settings.system.time.servers.routerNone": "Не найден"
   },
   se: {
     "auth.illegalPassword": "Lösenordet måste vara minst 8 tecken och får inte innehålla citattecken eller snedstreck",
@@ -4710,7 +4746,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf3": "Sätt in SD-kortet i en kortläsare och anslut till din dator.",
     "image.tips.tf4": "Kopiera avbildningsfilen till /data på SD-kortet.",
     "image.tips.tf5": "Sätt in SD-kortet i NanoKVM.",
-    "settings.wireguard.device": "Den här enheten"
+    "settings.wireguard.device": "Den här enheten",
+    "settings.system.time.servers.routerDetected": "Upptäckt router",
+    "settings.system.time.servers.routerNone": "Hittades inte"
   },
   th: {
     "auth.illegalPassword": "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร และห้ามมีเครื่องหมายคำพูดหรือเครื่องหมายทับ",
@@ -4922,7 +4960,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "ใส่การ์ด SD กลับเข้า NanoKVM",
     "power.powerConfirm": "ดำเนินการจ่ายไฟหรือไม่",
     "power.resetConfirm": "ดำเนินการรีเซ็ตหรือไม่",
-    "settings.wireguard.device": "อุปกรณ์นี้"
+    "settings.wireguard.device": "อุปกรณ์นี้",
+    "settings.system.time.servers.routerDetected": "ตรวจพบเราเตอร์",
+    "settings.system.time.servers.routerNone": "ไม่พบ"
   },
   tr: {
     "auth.illegalPassword": "Şifre en az 8 karakter olmalı ve tırnak işareti veya eğik çizgi içermemelidir",
@@ -5187,7 +5227,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "terminal.serialPortPlaceholder": "Örneğin /dev/ttyS1",
     "power.powerConfirm": "Güç işlemini yürütmek istiyor musunuz?",
     "power.resetConfirm": "Sıfırlama işlemini yürütmek istiyor musunuz?",
-    "settings.wireguard.device": "Bu cihaz"
+    "settings.wireguard.device": "Bu cihaz",
+    "settings.system.time.servers.routerDetected": "Algılanan yönlendirici",
+    "settings.system.time.servers.routerNone": "Bulunamadı"
   },
   uk: {
     "auth.illegalPassword": "Пароль має містити щонайменше 8 символів і не може містити лапок чи похилих рисок",
@@ -5432,7 +5474,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf4": "Скопіюйте файл зображення до каталогу /data на SD карті.",
     "image.tips.tf5": "Вставте SD карту в NanoKVM.",
     "power.resetConfirm": "Виконати операцію скидання?",
-    "settings.wireguard.device": "Цей пристрій"
+    "settings.wireguard.device": "Цей пристрій",
+    "settings.system.time.servers.routerDetected": "Виявлений маршрутизатор",
+    "settings.system.time.servers.routerNone": "Не знайдено"
   },
   vi: {
     "auth.illegalPassword": "Mật khẩu phải có ít nhất 8 ký tự và không được chứa dấu nháy hoặc dấu gạch chéo",
@@ -5688,7 +5732,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tf5": "Chèn thẻ SD vào NanoKVM.",
     "power.powerConfirm": "Thực hiện thao tác nguồn điện?",
     "power.resetConfirm": "Thực hiện thao tác đặt lại?",
-    "settings.wireguard.device": "Thiết bị này"
+    "settings.wireguard.device": "Thiết bị này",
+    "settings.system.time.servers.routerDetected": "Bộ định tuyến phát hiện được",
+    "settings.system.time.servers.routerNone": "Không tìm thấy"
   },
   zh: {
     "auth.illegalPassword": "密码至少 8 个字符，且不能包含引号或斜杠",
@@ -5917,7 +5963,9 @@ export const translationFixes: Record<string, TranslationMap> =
     "image.tips.tfCard": "SD 卡",
     "image.tips.tf4": "从电脑上拷贝镜像文件到 SD 卡的 /data 目录下；",
     "image.tips.tf5": "将 SD 卡重新插入 NanoKVM。",
-    "settings.wireguard.device": "本设备"
+    "settings.wireguard.device": "本设备",
+    "settings.system.time.servers.routerDetected": "检测到路由器",
+    "settings.system.time.servers.routerNone": "未找到"
   },
   zh_tw: {
     "auth.illegalPassword": "密碼至少 8 個字元，且不能包含引號或斜線",
@@ -6144,6 +6192,8 @@ export const translationFixes: Record<string, TranslationMap> =
     "wol.input": "MAC 位址",
     "terminal.serialPortPlaceholder": "例如 /dev/ttyS1",
     "keyboard.leaderKey.placeholder": "按下引導鍵",
-    "settings.wireguard.device": "本裝置"
+    "settings.wireguard.device": "本裝置",
+    "settings.system.time.servers.routerDetected": "偵測到路由器",
+    "settings.system.time.servers.routerNone": "未找到"
   }
 };
