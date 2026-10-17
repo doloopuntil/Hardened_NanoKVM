@@ -107,7 +107,6 @@ export const Menu = () => {
                   <GripVerticalIcon size={18} />
                 </div>
               </strong>
-              {isDesktopLayout && <Divider type="vertical" />}
 
               <div
                 className="flex h-[30px] w-[30px] select-none items-center justify-center"
