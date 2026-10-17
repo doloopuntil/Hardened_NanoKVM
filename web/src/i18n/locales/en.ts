@@ -992,6 +992,7 @@ const en = {
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API key',
         apiKeyPlaceholder: 'Enter the model API key',
+        apiKeyKeepPlaceholder: 'Leave empty to keep the current key',
         save: 'Save',
         saving: 'Saving',
         saved: 'Model configuration saved',

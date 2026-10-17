@@ -42,6 +42,7 @@ type PicoclawSidebarActionOptions = {
   modelApiBase: string;
   modelApiKey: string;
   modelIdentifier: string;
+  modelKeySet: boolean;
   setRuntimeStatus: RuntimeStatusSetter;
   setMessages: MessageSetter;
   setTakeover: TakeoverSetter;
@@ -66,6 +67,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
     modelApiBase,
     modelApiKey,
     modelIdentifier,
+    modelKeySet,
     setRuntimeStatus,
     setMessages,
     setTakeover,
@@ -302,7 +304,8 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
     const apiBase = modelApiBase.trim();
     const apiKey = modelApiKey.trim();
     const model = modelIdentifier.trim();
-    if (!apiBase || !apiKey || !model) {
+    // an empty key keeps the one that is stored
+    if (!apiBase || !model || (!apiKey && !modelKeySet)) {
       toast.warning(t('picoclaw.model.invalid'));
       setMessages((current) => [
         ...current,

@@ -39,6 +39,11 @@ export type PicoclawSessionDetail = {
   updated: string;
 };
 
+// The model in use, without its key: { model, api_base, key_set }
+export function getPicoclawModelConfig() {
+  return http.get('/api/picoclaw/model/config');
+}
+
 export function setPicoclawModelConfig(data: ModelConfigRequest) {
   return http.post('/api/picoclaw/model/config', data);
 }

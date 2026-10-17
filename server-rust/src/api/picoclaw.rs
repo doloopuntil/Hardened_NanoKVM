@@ -600,6 +600,16 @@ pub async fn release_runtime_session(headers: HeaderMap) -> Result<Response> {
     .into_response())
 }
 
+pub async fn get_model_config() -> Result<Response> {
+    let stored = match load_config_document() {
+        Ok(doc) => stored_model_config(&doc.raw, &doc.security),
+        // no config yet: nothing is saved
+        Err(_) => StoredModelConfig::default(),
+    };
+    Ok(Json(ApiResponse::ok(stored)).into_response())
+}
+
+// An empty api_key keeps the key that is stored for the model.
 pub async fn update_model_config(Json(req): Json<ModelConfigUpdateRequest>) -> Result<Response> {
     let api_base = req.api_base.trim();
     let api_key = req.api_key.trim();
@@ -608,12 +618,6 @@ pub async fn update_model_config(Json(req): Json<ModelConfigUpdateRequest>) -> R
         return Ok(picoclaw_error(
             CODE_RUNTIME_UNAVAILABLE,
             "model api_base is required",
-        ));
-    }
-    if api_key.is_empty() {
-        return Ok(picoclaw_error(
-            CODE_RUNTIME_UNAVAILABLE,
-            "model api_key is required",
         ));
     }
     if model.is_empty() {
@@ -2776,28 +2780,79 @@ fn is_model_configured(config: &JsonValue, security: &serde_yaml::Value, model_n
         {
             continue;
         }
-        if model
-            .get("api_key")
-            .and_then(JsonValue::as_str)
-            .map(str::trim)
-            .filter(|value| !value.is_empty())
-            .is_some()
-        {
-            return true;
-        }
-        if model
-            .get("api_keys")
-            .and_then(JsonValue::as_array)
-            .map(|keys| !keys.is_empty())
-            .unwrap_or(false)
-        {
-            return true;
-        }
-        if security_has_model_key(security, model_name, name_occurrence(models, idx)) {
+        if entry_has_key(model, security, model_name, name_occurrence(models, idx)) {
             return true;
         }
     }
     false
+}
+
+// A key is in the entry itself (older configs) or in .security.yml under `name:n`.
+fn entry_has_key(
+    model: &JsonValue,
+    security: &serde_yaml::Value,
+    model_name: &str,
+    occurrence: usize,
+) -> bool {
+    if model
+        .get("api_key")
+        .and_then(JsonValue::as_str)
+        .map(str::trim)
+        .filter(|value| !value.is_empty())
+        .is_some()
+    {
+        return true;
+    }
+    if model
+        .get("api_keys")
+        .and_then(JsonValue::as_array)
+        .map(|keys| !keys.is_empty())
+        .unwrap_or(false)
+    {
+        return true;
+    }
+    security_has_model_key(security, model_name, occurrence)
+}
+
+// What the model form shows: the model that is in use, never its key.
+#[derive(Debug, Default, PartialEq, Serialize)]
+struct StoredModelConfig {
+    model: String,
+    api_base: String,
+    key_set: bool,
+}
+
+fn stored_model_config(config: &JsonValue, security: &serde_yaml::Value) -> StoredModelConfig {
+    let model_name = config
+        .pointer("/agents/defaults/model_name")
+        .and_then(JsonValue::as_str)
+        .unwrap_or("")
+        .trim();
+    let Some(models) = config.get("model_list").and_then(JsonValue::as_array) else {
+        return StoredModelConfig::default();
+    };
+    let Some((idx, entry)) = models.iter().enumerate().find(|(_, model)| {
+        model
+            .get("model_name")
+            .and_then(JsonValue::as_str)
+            .map(str::trim)
+            == Some(model_name)
+    }) else {
+        return StoredModelConfig::default();
+    };
+    let text = |key: &str| {
+        entry
+            .get(key)
+            .and_then(JsonValue::as_str)
+            .unwrap_or("")
+            .trim()
+            .to_string()
+    };
+    StoredModelConfig {
+        model: text("model"),
+        api_base: text("api_base"),
+        key_set: entry_has_key(entry, security, model_name, name_occurrence(models, idx)),
+    }
 }
 
 fn security_has_model_key(security: &serde_yaml::Value, model_name: &str, index: usize) -> bool {
@@ -2838,10 +2893,31 @@ fn ensure_anthropic_extra_body(item: &mut JsonMap<String, JsonValue>, model: &st
         .or_insert(JsonValue::Null);
 }
 
+// The entry that an update of `model_name` edits is the first one of that name.
+fn first_entry_has_key(config: &JsonValue, security: &serde_yaml::Value, model_name: &str) -> bool {
+    config
+        .get("model_list")
+        .and_then(JsonValue::as_array)
+        .and_then(|models| {
+            models.iter().find(|model| {
+                model
+                    .get("model_name")
+                    .and_then(JsonValue::as_str)
+                    .map(str::trim)
+                    == Some(model_name)
+            })
+        })
+        .is_some_and(|entry| entry_has_key(entry, security, model_name, 0))
+}
+
 fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Result<String> {
     let mut doc = load_config_document()?;
     let model_name = extract_model_name(model)
         .ok_or_else(|| AppError::Internal("model identifier is required".to_string()))?;
+    let keep_key = api_key.is_empty();
+    if keep_key && !first_entry_has_key(&doc.raw, &doc.security, &model_name) {
+        return Err(AppError::Internal("model api_key is required".to_string()));
+    }
     let raw = doc
         .raw
         .as_object_mut()
@@ -2874,8 +2950,10 @@ fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Resul
                 "api_base".to_string(),
                 JsonValue::String(api_base.to_string()),
             );
-            item.remove("api_key");
-            item.remove("api_keys");
+            if !keep_key {
+                item.remove("api_key");
+                item.remove("api_keys");
+            }
             ensure_anthropic_extra_body(item, model);
             updated_index = Some(idx);
             break;
@@ -2923,13 +3001,15 @@ fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Resul
     defaults.remove("model");
 
     save_json(&doc.config_path, &doc.raw)?;
-    save_model_secret(
-        &mut doc.security,
-        &doc.security_path,
-        &model_name,
-        occurrence,
-        api_key,
-    )?;
+    if !keep_key {
+        save_model_secret(
+            &mut doc.security,
+            &doc.security_path,
+            &model_name,
+            occurrence,
+            api_key,
+        )?;
+    }
     Ok(model_name)
 }
 
@@ -3422,6 +3502,90 @@ mod tests {
         let mut item = JsonMap::new();
         ensure_anthropic_extra_body(&mut item, "openai/gpt-5.4");
         assert!(item.get("extra_body").is_none());
+    }
+
+    #[test]
+    fn stored_model_config_shows_the_model_in_use_without_its_key() {
+        let config = json!({
+            "agents": {"defaults": {"model_name": "claude-haiku-5-5"}},
+            "model_list": [
+                {"model_name": "gpt-5.4", "model": "openai/gpt-5.4", "api_base": "https://a"},
+                {
+                    "model_name": "claude-haiku-5-5",
+                    "model": "anthropic/claude-haiku-5-5",
+                    "api_base": "https://api.anthropic.com/v1"
+                }
+            ]
+        });
+        let none: serde_yaml::Value = serde_yaml::from_str("model_list: {}").unwrap();
+        let stored = stored_model_config(&config, &none);
+        assert_eq!(stored.model, "anthropic/claude-haiku-5-5");
+        assert_eq!(stored.api_base, "https://api.anthropic.com/v1");
+        assert!(!stored.key_set);
+
+        let security: serde_yaml::Value =
+            serde_yaml::from_str("model_list:\n  claude-haiku-5-5:0:\n    api_keys: [k]\n")
+                .unwrap();
+        assert!(stored_model_config(&config, &security).key_set);
+        assert!(first_entry_has_key(&config, &security, "claude-haiku-5-5"));
+        assert!(!first_entry_has_key(&config, &security, "gpt-5.4"));
+
+        assert_eq!(
+            stored_model_config(&json!({}), &none),
+            StoredModelConfig::default()
+        );
+    }
+
+    // The only test that points PICOCLAW_HOME somewhere, so it cannot race another one.
+    #[test]
+    fn saving_the_model_form_keeps_the_key_when_it_is_left_empty() {
+        let dir = std::env::temp_dir().join(format!("picoclaw-form-{}", std::process::id()));
+        fs::create_dir_all(&dir).unwrap();
+        // SAFETY: no other test reads or writes this variable.
+        unsafe { std::env::set_var("PICOCLAW_HOME", &dir) };
+        fs::write(
+            dir.join("config.json"),
+            r#"{"model_list":[{"model_name":"gpt-5.4","model":"openai/gpt-5.4"}]}"#,
+        )
+        .unwrap();
+
+        // a new model needs a key
+        assert!(
+            update_model_config_file("https://api.anthropic.com/v1", "", "anthropic/x").is_err()
+        );
+
+        update_model_config_file("https://api.anthropic.com/v1", "sk-1", "anthropic/x").unwrap();
+        // the same model again without a key: the key and the other fields stay
+        update_model_config_file("https://example.test/v1", "", "anthropic/x").unwrap();
+
+        let config: JsonValue =
+            serde_json::from_slice(&fs::read(dir.join("config.json")).unwrap()).unwrap();
+        let security: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(dir.join(".security.yml")).unwrap()).unwrap();
+        let stored = stored_model_config(&config, &security);
+        assert_eq!(stored.model, "anthropic/x");
+        assert_eq!(stored.api_base, "https://example.test/v1");
+        assert!(stored.key_set);
+        assert_eq!(
+            security["model_list"]["x:0"]["api_keys"][0],
+            serde_yaml::Value::from("sk-1")
+        );
+        assert_eq!(
+            config["model_list"][1]["extra_body"],
+            json!({"temperature": null})
+        );
+
+        // a new key replaces it
+        update_model_config_file("https://example.test/v1", "sk-2", "anthropic/x").unwrap();
+        let security: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(dir.join(".security.yml")).unwrap()).unwrap();
+        assert_eq!(
+            security["model_list"]["x:0"]["api_keys"][0],
+            serde_yaml::Value::from("sk-2")
+        );
+
+        unsafe { std::env::remove_var("PICOCLAW_HOME") };
+        let _ = fs::remove_dir_all(dir);
     }
 
     #[test]

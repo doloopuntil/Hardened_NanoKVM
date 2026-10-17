@@ -12,6 +12,8 @@ type SidebarModelConfigProps = {
   apiBase: string;
   apiKey: string;
   isSaving: boolean;
+  // a key is already stored: the key field may stay empty
+  keySet: boolean;
   modelIdentifier: string;
   modelName?: string;
   onApiBaseChange: (value: string) => void;
@@ -35,6 +37,7 @@ export const SidebarModelConfig = ({
   apiBase,
   apiKey,
   isSaving,
+  keySet,
   modelIdentifier,
   modelName,
   onApiBaseChange,
@@ -57,11 +60,16 @@ export const SidebarModelConfig = ({
   return (
     <div className="box-border flex flex-1 flex-col space-y-6 overflow-y-auto px-5 pb-8 pt-5">
       <div>
-        <MenuHeader title={t('picoclaw.model.requiredTitle')} />
-        <div className="-mt-2 text-xs leading-5 text-neutral-500">
-          {t('picoclaw.model.requiredDescription')}
-          {modelName && <span className="ml-1 text-neutral-400">{modelName}</span>}
-        </div>
+        {/* opened to change the model (it has a Cancel) or because none is set up yet */}
+        <MenuHeader
+          title={t(showCancel ? 'picoclaw.model.menuLabel' : 'picoclaw.model.requiredTitle')}
+        />
+        {!showCancel && (
+          <div className="-mt-2 text-xs leading-5 text-neutral-500">
+            {t('picoclaw.model.requiredDescription')}
+            {modelName && <span className="ml-1 text-neutral-400">{modelName}</span>}
+          </div>
+        )}
       </div>
 
       <SettingRow
@@ -87,7 +95,9 @@ export const SidebarModelConfig = ({
       </Field>
       <Field label={t('picoclaw.model.apiKey')}>
         <Input.Password
-          placeholder={t('picoclaw.model.apiKeyPlaceholder')}
+          placeholder={t(
+            keySet ? 'picoclaw.model.apiKeyKeepPlaceholder' : 'picoclaw.model.apiKeyPlaceholder'
+          )}
           value={apiKey}
           onChange={(e) => onApiKeyChange(e.target.value)}
         />

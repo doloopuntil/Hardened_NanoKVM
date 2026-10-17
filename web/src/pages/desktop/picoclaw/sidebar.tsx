@@ -47,6 +47,7 @@ export const Sidebar = () => {
     modelApiBase,
     modelApiKey,
     modelIdentifier,
+    modelKeySet,
     isModelConfigOpen,
     runState,
     transportState,
@@ -106,6 +107,7 @@ export const Sidebar = () => {
             apiKey={modelApiKey}
             isSaving={isSavingModelConfig}
             modelIdentifier={modelIdentifier}
+            keySet={modelKeySet}
             modelName={runtimeStatus?.model_name}
             onApiBaseChange={handleModelApiBaseChange}
             onApiKeyChange={handleModelApiKeyChange}
