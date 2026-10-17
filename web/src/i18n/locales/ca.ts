@@ -179,10 +179,7 @@ const ca = {
       run: 'Executa',
       runBackground: 'Executa en segon pla',
       runFailed: "Error en l'execució",
-      attention: 'Atenció',
       delDesc: 'Estàs segur que vols eliminar aquest fitxer?',
-      confirm: 'Sí',
-      cancel: 'No',
       delete: 'Esborra',
       close: 'Tanca'
     },
@@ -313,9 +310,7 @@ const ca = {
         network: 'Xarxa virtual',
         networkDesc: 'Munta una targeta de xarxa virtual al dispositiu remot',
         reboot: 'Reinicia',
-        rebootDesc: 'Segur que vols reiniciar el NanoKVM?',
-        okBtn: 'Sí',
-        cancelBtn: 'No'
+        rebootDesc: 'Segur que vols reiniciar el NanoKVM?'
       },
       network: {
         title: 'Xarxa',
@@ -503,8 +498,7 @@ const ca = {
       uninstall: {
         menuLabel: 'Desinstal·la',
         confirmTitle: 'Desinstal·la PicoClaw',
-        confirmOk: 'Desinstal·la',
-        confirmCancel: 'Cancel·la'
+        confirmOk: 'Desinstal·la'
       },
       history: {
         title: 'Historial',
@@ -515,7 +509,6 @@ const ca = {
         deleteFailed: "No s'ha pogut suprimir la sessió",
         deleteConfirmTitle: 'Suprimeix la sessió',
         deleteConfirmOk: 'Esborra',
-        deleteConfirmCancel: 'Cancel·la',
         messageCount_one: '{{count}} missatge',
         messageCount_other: '{{count}} missatges'
       },

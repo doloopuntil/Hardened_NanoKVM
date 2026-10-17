@@ -36,6 +36,7 @@ export const PowerLong = ({ showConfirm, isLoading, setIsLoading }: PowerLongPro
           title={t('power.powerConfirm')}
           okText={t('power.okBtn')}
           cancelText={t('power.cancelBtn')}
+          okButtonProps={{ danger: true }}
           onConfirm={power}
           color="#404040"
         >

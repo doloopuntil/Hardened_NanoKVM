@@ -181,10 +181,7 @@ const pl = {
       upload: 'Prześlij',
       run: 'Uruchom',
       runFailed: 'Uruchomienie nie powiodło się',
-      attention: 'Uwaga',
       delDesc: 'Czy na pewno chcesz usunąć ten plik?',
-      confirm: 'Tak',
-      cancel: 'Nie',
       delete: 'Usuń',
       close: 'Zamknij'
     },
@@ -318,9 +315,7 @@ const pl = {
         network: 'Sieć wirtualna',
         networkDesc: 'Zamontuj wirtualną kartę sieciową na zdalnym hoście',
         reboot: 'Uruchom ponownie',
-        rebootDesc: 'Czy na pewno chcesz ponownie uruchomić NanoKVM?',
-        okBtn: 'Tak',
-        cancelBtn: 'Nie'
+        rebootDesc: 'Czy na pewno chcesz ponownie uruchomić NanoKVM?'
       },
       network: {
         title: 'Sieć',
@@ -513,8 +508,7 @@ const pl = {
         confirmTitle: 'Odinstaluj PicoClaw',
         confirmContent:
           'Czy na pewno chcesz odinstalować PicoClaw? Spowoduje to usunięcie pliku wykonywalnego i wszystkich plików konfiguracyjnych.',
-        confirmOk: 'Odinstaluj',
-        confirmCancel: 'Anuluj'
+        confirmOk: 'Odinstaluj'
       },
       history: {
         title: 'Historia',
@@ -526,7 +520,6 @@ const pl = {
         deleteConfirmTitle: 'Usuń sesję',
         deleteConfirmContent: 'Czy na pewno chcesz usunąć „{{title}}”?',
         deleteConfirmOk: 'Usuń',
-        deleteConfirmCancel: 'Anuluj',
         messageCount_one: '{{count}} wiadomość',
         messageCount_other: '{{count}} wiadomości'
       },

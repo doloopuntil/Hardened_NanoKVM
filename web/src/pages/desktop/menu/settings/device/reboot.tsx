@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Button, Popconfirm } from 'antd';
+import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
-import { attempt } from '@/lib/feedback.ts';
+import { attempt, confirm } from '@/lib/feedback.ts';
 
 export const Reboot = () => {
   const { t } = useTranslation();
@@ -26,17 +26,19 @@ export const Reboot = () => {
     });
   }
 
+  function confirmReboot() {
+    confirm({
+      danger: true,
+      title: t('settings.device.reboot'),
+      content: t('settings.device.rebootDesc'),
+      okText: t('settings.device.reboot'),
+      onOk: reboot
+    });
+  }
+
   return (
-    <Popconfirm
-      placement="topRight"
-      title={t('settings.device.rebootDesc')}
-      okText={t('settings.device.okBtn')}
-      cancelText={t('settings.device.cancelBtn')}
-      onConfirm={reboot}
-    >
-      <Button danger loading={isLoading}>
-        {t('settings.device.reboot')}
-      </Button>
-    </Popconfirm>
+    <Button danger loading={isLoading} onClick={confirmReboot}>
+      {t('settings.device.reboot')}
+    </Button>
   );
 };

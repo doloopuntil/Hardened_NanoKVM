@@ -251,10 +251,7 @@ const en = {
       run: 'Run',
       runBackground: 'Run Background',
       runFailed: 'Run failed',
-      attention: 'Attention',
       delDesc: 'Are you sure you want to delete this file?',
-      confirm: 'Yes',
-      cancel: 'No',
       delete: 'Delete',
       close: 'Close'
     },
@@ -461,9 +458,7 @@ const en = {
         usbWakeupDesc: 'Allow keyboard or mouse events to wake the remote host',
         usbWakeupTip: 'Turn off if the host logs repeated USB wakeup messages',
         reboot: 'Reboot',
-        rebootDesc: 'Are you sure you want to reboot NanoKVM?',
-        okBtn: 'Yes',
-        cancelBtn: 'No'
+        rebootDesc: 'Are you sure you want to reboot NanoKVM?'
       },
       network: {
         title: 'Network',
@@ -1003,8 +998,7 @@ const en = {
         confirmTitle: 'Uninstall PicoClaw',
         confirmContent:
           'Are you sure you want to uninstall PicoClaw? This will delete the executable and all configuration files.',
-        confirmOk: 'Uninstall',
-        confirmCancel: 'Cancel'
+        confirmOk: 'Uninstall'
       },
       history: {
         title: 'History',
@@ -1016,7 +1010,6 @@ const en = {
         deleteConfirmTitle: 'Delete session',
         deleteConfirmContent: 'Are you sure you want to delete "{{title}}"?',
         deleteConfirmOk: 'Delete',
-        deleteConfirmCancel: 'Cancel',
         messageCount_one: '{{count}} message',
         messageCount_other: '{{count}} messages'
       },

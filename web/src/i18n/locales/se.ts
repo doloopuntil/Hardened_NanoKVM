@@ -200,10 +200,7 @@ const se = {
       run: 'Kör',
       runBackground: 'Kör i bakgrunden',
       runFailed: 'Körning misslyckades',
-      attention: 'Observera',
       delDesc: 'Är du säker på att du vill ta bort denna fil?',
-      confirm: 'Ja',
-      cancel: 'Nej',
       delete: 'Ta bort',
       close: 'Stäng'
     },
@@ -339,9 +336,7 @@ const se = {
         network: 'Virtuellt nätverk',
         networkDesc: 'Montera virtuell nätverkskort på fjärrvärden',
         reboot: 'Starta om',
-        rebootDesc: 'Är du säker på att du vill starta om NanoKVM?',
-        okBtn: 'Ja',
-        cancelBtn: 'Nej'
+        rebootDesc: 'Är du säker på att du vill starta om NanoKVM?'
       },
       network: {
         title: 'Nätverk',
@@ -540,8 +535,7 @@ const se = {
         confirmTitle: 'Avinstallera PicoClaw',
         confirmContent:
           'Är du säker på att du vill avinstallera PicoClaw? Detta kommer att radera den körbara filen och alla konfigurationsfiler.',
-        confirmOk: 'Avinstallera',
-        confirmCancel: 'Avbryt'
+        confirmOk: 'Avinstallera'
       },
       history: {
         title: 'Historik',
@@ -553,7 +547,6 @@ const se = {
         deleteConfirmTitle: 'Ta bort session',
         deleteConfirmContent: 'Är du säker på att du vill ta bort "{{title}}"?',
         deleteConfirmOk: 'Ta bort',
-        deleteConfirmCancel: 'Avbryt',
         messageCount_one: '{{count}} meddelande',
         messageCount_other: '{{count}} meddelanden'
       },

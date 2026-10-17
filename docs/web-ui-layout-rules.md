@@ -62,12 +62,26 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 13. Buttons sit on the right. A group that wraps stays right-aligned
     (`ml-auto` on the group).
 14. An action that runs something is a row with a caption and a button
-    (Restart, Stop). Destructive or irreversible actions (Logout, Uninstall)
-    go in a bar at the end of the page, under a hairline, as red outline
-    buttons (`danger`, not `type="primary"`).
+    (Restart, Stop). Destructive, irreversible or disruptive actions (Logout,
+    Reboot, Uninstall) go in a bar at the end of the page, under a hairline, as
+    red outline buttons (`danger`, not `type="primary"`).
 15. A primary (blue) button is the one main positive action of a page or state.
-    A quick action confirms with a `Popconfirm`; a heavier one with
-    `confirm()` from `lib/feedback.ts`.
+    An action that needs a confirmation uses one of two forms, by what it costs:
+    - `Popconfirm`, with a one-line question and Yes / No, for a quick action
+      that is easy to undo (Restart Tailscale, Stop Tailscale, Account logout).
+    - `confirm()` from `lib/feedback.ts`, a dialog, for anything destructive,
+      irreversible or consequential (deleting, rebooting the KVM, leaving
+      Tailscale, uninstalling, applying a change that reboots the device or
+      drops the connection in use), and for any confirmation that needs more
+      than one line (an explanation, a file name, an alert).
+    A dialog names the action in its title and its OK button (Reboot, Delete,
+    Uninstall; the common Confirm only when no single word fits), asks the
+    question as its content, and has the common Cancel. `danger: true` is only
+    for destructive or irreversible actions, so the OK button is red; a
+    consequential action that can be undone stays plain. No confirmation is a
+    hand-built `Modal`. Exception: the confirmations of the Power menu are
+    Popconfirms with a red OK button, because a dialog is too heavy for a menu
+    item and they act on the host.
 16. Unsaved changes show in the sticky `SaveBar` at the bottom, never in the
     page header. The bar is as wide as the content, in the panel colour
     (`bg-settings-panel`) like the page header, with a hairline above it and a

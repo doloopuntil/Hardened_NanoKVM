@@ -217,10 +217,7 @@ const ru = {
       run: 'Выполнить',
       runBackground: 'Выполнить в фоне',
       runFailed: 'Не удалось выполнить',
-      attention: 'Внимание',
       delDesc: 'Вы уверены, что хотите удалить этот файл?',
-      confirm: 'Да',
-      cancel: 'Нет',
       delete: 'Удалить',
       close: 'Закрыть'
     },
@@ -395,9 +392,7 @@ const ru = {
         networkDesc: 'Смонтировать виртуальное сетевое устройство на удаленном хосте',
         usbWakeup: 'Пробуждение по USB',
         reboot: 'Перезагрузка',
-        rebootDesc: 'Вы уверены, что хотите перезагрузить NanoKVM?',
-        okBtn: 'Да',
-        cancelBtn: 'Нет'
+        rebootDesc: 'Вы уверены, что хотите перезагрузить NanoKVM?'
       },
       network: {
         title: 'Сеть',
@@ -784,8 +779,7 @@ const ru = {
         confirmTitle: 'Удалить PicoClaw',
         confirmContent:
           'Вы уверены, что хотите удалить PicoClaw? Это приведет к удалению исполняемого файла и всех файлов конфигурации.',
-        confirmOk: 'Удалить',
-        confirmCancel: 'Отмена'
+        confirmOk: 'Удалить'
       },
       history: {
         title: 'История',
@@ -795,7 +789,6 @@ const ru = {
         deleteConfirmTitle: 'Удалить сеанс',
         deleteConfirmContent: 'Вы уверены, что хотите удалить «{{title}}»?',
         deleteConfirmOk: 'Удалить',
-        deleteConfirmCancel: 'Отмена',
         messageCount_one: '{{count}} сообщение',
         messageCount_other: '{{count}} сообщения'
       },

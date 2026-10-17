@@ -192,10 +192,7 @@ const de = {
       upload: 'Hochladen',
       run: 'Ausführen',
       runBackground: 'Im Hintergrund ausführen',
-      attention: 'Achtung',
       delDesc: 'Möchten Sie diese Datei wirklich löschen?',
-      confirm: 'Ja',
-      cancel: 'Nein',
       delete: 'Löschen',
       close: 'Schliessen'
     },
@@ -330,9 +327,7 @@ const de = {
         disk: 'Virtuelle Festplatte',
         network: 'Virtuelles Netzwerk',
         reboot: 'Neustarten',
-        rebootDesc: 'Sind Sie sicher dass Sie NanoKVM neustarten möchten?',
-        okBtn: 'Ja',
-        cancelBtn: 'Nein'
+        rebootDesc: 'Sind Sie sicher dass Sie NanoKVM neustarten möchten?'
       },
       network: {
         title: 'Netzwerk',
@@ -532,8 +527,7 @@ const de = {
         confirmTitle: 'Deinstallieren PicoClaw',
         confirmContent:
           'Sind Sie sicher, dass Sie PicoClaw deinstallieren möchten? Dadurch werden die ausführbare Datei und alle Konfigurationsdateien gelöscht.',
-        confirmOk: 'Deinstallieren',
-        confirmCancel: 'Abbrechen'
+        confirmOk: 'Deinstallieren'
       },
       history: {
         title: 'Verlauf',
@@ -545,7 +539,6 @@ const de = {
         deleteConfirmTitle: 'Sitzung löschen',
         deleteConfirmContent: 'Sind Sie sicher, dass Sie „{{title}}“ löschen möchten?',
         deleteConfirmOk: 'Löschen',
-        deleteConfirmCancel: 'Abbrechen',
         messageCount_one: '{{count}} Nachricht',
         messageCount_other: '{{count}} Nachrichten'
       },

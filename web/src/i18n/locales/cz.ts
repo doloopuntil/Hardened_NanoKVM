@@ -191,10 +191,7 @@ const cz = {
       run: 'Spustit',
       runBackground: 'Spustit na pozadí',
       runFailed: 'Spuštění se nezdařilo',
-      attention: 'Pozor',
       delDesc: 'Opravdu chcete tento soubor smazat?',
-      confirm: 'Ano',
-      cancel: 'Ne',
       delete: 'Smazat',
       close: 'Zavřít'
     },
@@ -328,9 +325,7 @@ const cz = {
         network: 'Virtuální síť',
         networkDesc: 'Připojit virtuální síťovou kartu na vzdáleném hostiteli',
         reboot: 'Restartujte',
-        rebootDesc: 'Opravdu chcete restartovat NanoKVM?',
-        okBtn: 'Ano',
-        cancelBtn: 'Ne'
+        rebootDesc: 'Opravdu chcete restartovat NanoKVM?'
       },
       network: {
         title: 'Síť',
@@ -525,8 +520,7 @@ const cz = {
         confirmTitle: 'Odinstalovat PicoClaw',
         confirmContent:
           'Opravdu chcete odinstalovat PicoClaw? Tím smažete spustitelný soubor a všechny konfigurační soubory.',
-        confirmOk: 'Odinstalovat',
-        confirmCancel: 'Zrušit'
+        confirmOk: 'Odinstalovat'
       },
       history: {
         title: 'Historie',
@@ -538,7 +532,6 @@ const cz = {
         deleteConfirmTitle: 'Smazat relaci',
         deleteConfirmContent: 'Opravdu chcete smazat "{{title}}"?',
         deleteConfirmOk: 'Smazat',
-        deleteConfirmCancel: 'Zrušit',
         messageCount_one: '{{count}} zpráva',
         messageCount_other: '{{count}} zpráv'
       },

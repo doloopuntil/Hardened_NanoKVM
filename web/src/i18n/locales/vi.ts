@@ -185,10 +185,7 @@ const vi = {
       run: 'Chạy',
       runBackground: 'Chạy nền',
       runFailed: 'Chạy thất bại',
-      attention: 'Chú ý',
       delDesc: 'Bạn có chắc chắn muốn xóa tệp này không?',
-      confirm: 'Có',
-      cancel: 'Không',
       delete: 'Xóa',
       close: 'Đóng'
     },
@@ -324,9 +321,7 @@ const vi = {
         network: 'Mạng ảo',
         networkDesc: 'Gắn card mạng ảo trên máy chủ từ xa',
         reboot: 'Khởi động lại',
-        rebootDesc: 'Bạn có chắc chắn muốn khởi động lại NanoKVM không?',
-        okBtn: 'Có',
-        cancelBtn: 'Không'
+        rebootDesc: 'Bạn có chắc chắn muốn khởi động lại NanoKVM không?'
       },
       network: {
         title: 'Mạng',
@@ -523,8 +518,7 @@ const vi = {
         confirmTitle: 'Gỡ cài đặt PicoClaw',
         confirmContent:
           'Bạn có chắc chắn muốn gỡ cài đặt PicoClaw không? Thao tác này sẽ xóa tệp thực thi và tất cả các tệp cấu hình.',
-        confirmOk: 'Gỡ cài đặt',
-        confirmCancel: 'Hủy'
+        confirmOk: 'Gỡ cài đặt'
       },
       history: {
         title: 'Lịch sử',
@@ -536,7 +530,6 @@ const vi = {
         deleteConfirmTitle: 'Xóa phiên',
         deleteConfirmContent: 'Bạn có chắc chắn muốn xóa "{{title}}" không?',
         deleteConfirmOk: 'Xóa',
-        deleteConfirmCancel: 'Hủy',
         messageCount_one: '{{count}} tin nhắn',
         messageCount_other: '{{count}} tin nhắn'
       },

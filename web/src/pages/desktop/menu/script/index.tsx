@@ -1,12 +1,12 @@
 import { ChangeEvent, useRef, useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Divider, Popconfirm } from 'antd';
+import { Button, Divider } from 'antd';
 import clsx from 'clsx';
 import { ChevronRightIcon, FileJsonIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/script.ts';
-import { attempt } from '@/lib/feedback.ts';
+import { attempt, confirm } from '@/lib/feedback.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
 
 import { Run } from './run';
@@ -90,6 +90,16 @@ export const Script = () => {
     });
   }
 
+  function confirmDelete() {
+    confirm({
+      danger: true,
+      title: t('script.delete'),
+      content: t('script.delDesc'),
+      okText: t('script.delete'),
+      onOk: deleteScript
+    });
+  }
+
   function activate(script: string) {
     setCurrentScript(script === currentScript ? '' : script);
   }
@@ -146,19 +156,9 @@ export const Script = () => {
                 {t('script.runBackground')}
               </Button>
 
-              <Popconfirm
-                title={t('script.attention')}
-                description={t('script.delDesc')}
-                onConfirm={deleteScript}
-                onCancel={() => {}}
-                okText={t('script.confirm')}
-                cancelText={t('script.cancel')}
-                placement="bottom"
-              >
-                <Button danger type="primary" size="small">
-                  {t('script.delete')}
-                </Button>
-              </Popconfirm>
+              <Button danger type="primary" size="small" onClick={confirmDelete}>
+                {t('script.delete')}
+              </Button>
             </div>
           )}
         </div>

@@ -202,10 +202,7 @@ const pt_br = {
       run: 'Executar',
       runBackground: 'Executar em segundo plano',
       runFailed: 'Falha na execução',
-      attention: 'Atenção',
       delDesc: 'Tem certeza de que deseja excluir este arquivo?',
-      confirm: 'Sim',
-      cancel: 'Não',
       delete: 'Excluir',
       close: 'Fechar'
     },
@@ -343,9 +340,7 @@ const pt_br = {
         network: 'Rede Virtual',
         networkDesc: 'Montar placa de rede virtual no host remoto',
         reboot: 'Reiniciar',
-        rebootDesc: 'Tem certeza de que deseja reiniciar o NanoKVM?',
-        okBtn: 'Sim',
-        cancelBtn: 'Não'
+        rebootDesc: 'Tem certeza de que deseja reiniciar o NanoKVM?'
       },
       network: {
         title: 'Rede',
@@ -545,8 +540,7 @@ const pt_br = {
         confirmTitle: 'Desinstalar PicoClaw',
         confirmContent:
           'Tem certeza de que deseja desinstalar PicoClaw? Isso excluirá o executável e todos os arquivos de configuração.',
-        confirmOk: 'Desinstalar',
-        confirmCancel: 'Cancelar'
+        confirmOk: 'Desinstalar'
       },
       history: {
         title: 'Histórico',
@@ -558,7 +552,6 @@ const pt_br = {
         deleteConfirmTitle: 'Excluir sessão',
         deleteConfirmContent: 'Tem certeza de que deseja excluir "{{title}}"?',
         deleteConfirmOk: 'Excluir',
-        deleteConfirmCancel: 'Cancelar',
         messageCount_one: '{{count}} mensagem',
         messageCount_other: '{{count}} mensagens'
       },

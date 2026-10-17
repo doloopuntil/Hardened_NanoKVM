@@ -193,10 +193,7 @@ const uk = {
       run: 'Запустити',
       runBackground: 'Запустити у фоновому режимі',
       runFailed: 'Не вдалося запустити',
-      attention: 'Увага',
       delDesc: 'Ви впевнені, що хочете видалити цей файл?',
-      confirm: 'Так',
-      cancel: 'Ні',
       delete: 'Видалити',
       close: 'Закрити'
     },
@@ -328,9 +325,7 @@ const uk = {
         network: 'Віртуальна мережа',
         networkDesc: 'Встановити віртуальну мережеву карту на віддаленому хості',
         reboot: 'Перезавантажити',
-        rebootDesc: 'Ви впевнені, що хочете перезавантажити NanoKVM?',
-        okBtn: 'Так',
-        cancelBtn: 'Ні'
+        rebootDesc: 'Ви впевнені, що хочете перезавантажити NanoKVM?'
       },
       network: {
         title: 'Мережа',
@@ -527,8 +522,7 @@ const uk = {
         confirmTitle: 'Видалити PicoClaw',
         confirmContent:
           'Ви впевнені, що хочете видалити PicoClaw? Це призведе до видалення виконуваного файлу та всіх конфігураційних файлів.',
-        confirmOk: 'Видалити',
-        confirmCancel: 'Скасувати'
+        confirmOk: 'Видалити'
       },
       history: {
         title: 'Історія',
@@ -540,7 +534,6 @@ const uk = {
         deleteConfirmTitle: 'Видалити сеанс',
         deleteConfirmContent: 'Ви впевнені, що хочете видалити "{{title}}"?',
         deleteConfirmOk: 'Видалити',
-        deleteConfirmCancel: 'Скасувати',
         messageCount_one: '{{count}} повідомлення',
         messageCount_other: '{{count}} повідомлень'
       },

@@ -192,10 +192,7 @@ const es = {
       run: 'Ejecutar',
       runBackground: 'Ejecutar en segundo plano',
       runFailed: 'Ejecución fallida',
-      attention: 'Atención',
       delDesc: '¿Estás seguro de que deseas eliminar este archivo?',
-      confirm: 'Sí',
-      cancel: 'No',
       delete: 'Eliminar',
       close: 'Cerrar'
     },
@@ -333,9 +330,7 @@ const es = {
         network: 'Red Virtual',
         networkDesc: 'Montar tarjeta de red virtual en el host remoto',
         reboot: 'Reiniciar',
-        rebootDesc: '¿Estás seguro de que deseas reiniciar el NanoKVM?',
-        okBtn: 'Sí',
-        cancelBtn: 'No'
+        rebootDesc: '¿Estás seguro de que deseas reiniciar el NanoKVM?'
       },
       network: {
         title: 'Red',
@@ -535,8 +530,7 @@ const es = {
         confirmTitle: 'Desinstalar PicoClaw',
         confirmContent:
           '¿Está seguro de que desea desinstalar PicoClaw? Esto eliminará el ejecutable y todos los archivos de configuración.',
-        confirmOk: 'Desinstalar',
-        confirmCancel: 'Cancelar'
+        confirmOk: 'Desinstalar'
       },
       history: {
         title: 'Historial',
@@ -548,7 +542,6 @@ const es = {
         deleteConfirmTitle: 'Eliminar sesión',
         deleteConfirmContent: '¿Está seguro de que desea eliminar "{{title}}"?',
         deleteConfirmOk: 'Eliminar',
-        deleteConfirmCancel: 'Cancelar',
         messageCount_one: '{{count}} mensaje',
         messageCount_other: '{{count}} mensajes'
       },

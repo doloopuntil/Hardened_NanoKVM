@@ -193,10 +193,7 @@ const th = {
       run: 'เรียกใช้',
       runBackground: 'เรียกใช้ในพื้นหลัง',
       runFailed: 'การเรียกใช้ล้มเหลว',
-      attention: 'ความสนใจ',
       delDesc: 'คุณแน่ใจที่จะลบไฟล์นี้หรือไม่?',
-      confirm: 'ใช่',
-      cancel: 'ไม่ใช่',
       delete: 'ลบ',
       close: 'ปิด'
     },
@@ -332,9 +329,7 @@ const th = {
         network: 'เครือข่ายจำลอง',
         networkDesc: 'เปิดใช้งานอุปกรณ์เครือข่ายจำลอง',
         reboot: 'รีบูต',
-        rebootDesc: 'คุณแน่ใจหรือไม่ว่าต้องการรีบูต NanoKVM',
-        okBtn: 'ใช่',
-        cancelBtn: 'ไม่ใช่'
+        rebootDesc: 'คุณแน่ใจหรือไม่ว่าต้องการรีบูต NanoKVM'
       },
       network: {
         title: 'เครือข่าย',
@@ -539,8 +534,7 @@ const th = {
         confirmTitle: 'ถอนการติดตั้ง PicoClaw',
         confirmContent:
           'คุณแน่ใจหรือไม่ว่าต้องการถอนการติดตั้ง PicoClaw การดำเนินการนี้จะลบไฟล์ปฏิบัติการและไฟล์การกำหนดค่าทั้งหมด',
-        confirmOk: 'ถอนการติดตั้ง',
-        confirmCancel: 'ยกเลิก'
+        confirmOk: 'ถอนการติดตั้ง'
       },
       history: {
         title: 'ประวัติ',
@@ -552,7 +546,6 @@ const th = {
         deleteConfirmTitle: 'ลบเซสชัน',
         deleteConfirmContent: 'คุณแน่ใจหรือไม่ว่าต้องการลบ "{{title}}"',
         deleteConfirmOk: 'ลบ',
-        deleteConfirmCancel: 'ยกเลิก',
         messageCount_one: '{{count}} ข้อความ',
         messageCount_other: '{{count}} ข้อความ'
       },

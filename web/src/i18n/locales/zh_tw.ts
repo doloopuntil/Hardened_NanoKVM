@@ -194,10 +194,7 @@ const zh_tw = {
       run: '執行',
       runBackground: '背景執行',
       runFailed: '執行失敗',
-      attention: '注意',
       delDesc: '確定要刪除該檔案嗎？',
-      confirm: '確定',
-      cancel: '取消',
       delete: '刪除',
       close: '關閉'
     },
@@ -330,9 +327,7 @@ const zh_tw = {
         network: '虛擬網卡',
         networkDesc: '在遠端主機上新增虛擬網卡',
         reboot: '重新啟動',
-        rebootDesc: '您確定要重新啟動 NanoKVM?',
-        okBtn: '確定',
-        cancelBtn: '取消'
+        rebootDesc: '您確定要重新啟動 NanoKVM?'
       },
       network: {
         title: '網路',
@@ -528,8 +523,7 @@ const zh_tw = {
         menuLabel: '解除安裝',
         confirmTitle: '解除安裝 PicoClaw',
         confirmContent: '您確定要解除安裝 PicoClaw 嗎？這將刪除可執行檔和所有設定檔。',
-        confirmOk: '解除安裝',
-        confirmCancel: '取消'
+        confirmOk: '解除安裝'
       },
       history: {
         title: '歷史會話',
@@ -541,7 +535,6 @@ const zh_tw = {
         deleteConfirmTitle: '刪除會話',
         deleteConfirmContent: '您確定要刪除「{{title}}」嗎？',
         deleteConfirmOk: '刪除',
-        deleteConfirmCancel: '取消',
         messageCount_one: '{{count}} 則訊息',
         messageCount_other: '{{count}} 則訊息'
       },

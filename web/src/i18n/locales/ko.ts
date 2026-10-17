@@ -185,10 +185,7 @@ const ko = {
       run: '실행',
       runBackground: '백그라운드에서 실행',
       runFailed: '실행 실패',
-      attention: '주의',
       delDesc: '이 파일을 정말로 삭제합니까?',
-      confirm: '네',
-      cancel: '아니오',
       delete: '삭제',
       close: '닫기'
     },
@@ -320,9 +317,7 @@ const ko = {
         disk: '가상 디스크',
         network: '가상 네트워크',
         reboot: '재부팅',
-        rebootDesc: 'NanoKVM을 재부팅하시겠습니까?',
-        okBtn: '네',
-        cancelBtn: '아니오'
+        rebootDesc: 'NanoKVM을 재부팅하시겠습니까?'
       },
       network: {
         title: '네트워크',
@@ -518,8 +513,7 @@ const ko = {
         menuLabel: '제거',
         confirmTitle: 'PicoClaw 제거',
         confirmContent: 'PicoClaw를 정말로 제거할까요? 실행 파일과 모든 구성 파일이 삭제됩니다.',
-        confirmOk: '제거',
-        confirmCancel: '취소'
+        confirmOk: '제거'
       },
       history: {
         title: '기록',
@@ -531,7 +525,6 @@ const ko = {
         deleteConfirmTitle: '세션 삭제',
         deleteConfirmContent: '정말로 "{{title}}"를 삭제할까요?',
         deleteConfirmOk: '삭제',
-        deleteConfirmCancel: '취소',
         messageCount_one: '{{count}}개의 메시지',
         messageCount_other: '{{count}}개의 메시지'
       },

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Button, Popconfirm } from 'antd';
+import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
-import { attempt } from '@/lib/feedback.ts';
+import { attempt, confirm } from '@/lib/feedback.ts';
 
 type LogoutProps = {
   onSuccess: () => void;
@@ -24,17 +24,19 @@ export const Logout = ({ onSuccess }: LogoutProps) => {
     setIsLoading(false);
   }
 
+  function confirmLogout() {
+    confirm({
+      danger: true,
+      title: t('settings.tailscale.logout'),
+      content: t('settings.tailscale.logoutDesc'),
+      okText: t('settings.tailscale.logout'),
+      onOk: logout
+    });
+  }
+
   return (
-    <Popconfirm
-      placement="topRight"
-      title={t('settings.tailscale.logoutDesc')}
-      okText={t('settings.tailscale.okBtn')}
-      cancelText={t('settings.tailscale.cancelBtn')}
-      onConfirm={logout}
-    >
-      <Button danger loading={isLoading}>
-        {t('settings.tailscale.logout')}
-      </Button>
-    </Popconfirm>
+    <Button danger loading={isLoading} onClick={confirmLogout}>
+      {t('settings.tailscale.logout')}
+    </Button>
   );
 };
