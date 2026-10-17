@@ -493,6 +493,8 @@ const en = {
           connectDesc1: 'Please enter the network ssid and password',
           connectDesc2: 'Please enter the password to join this network',
           disconnect: 'Are you sure to disconnect the network?',
+          disconnectBtn: 'Disconnect',
+          connected: 'Connected',
           ssid: 'Name',
           password: 'Password',
           joinBtn: 'Join',
