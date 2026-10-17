@@ -22,8 +22,6 @@ const tr = {
       placeholderPassword: 'Şifre',
       noEmptyUsername: 'Kullanıcı adı gereklidir',
       noEmptyPassword: 'Şifre gereklidir',
-      noAccount:
-        'Kullanıcı verileri alınırken hata yaşandı, lütfen sayfayı yenileyiniz ya da şifrenizi sıfırlayınız',
       invalidUser: 'Yanlış kullanıcı adı ya da şifre',
       locked: 'Çok fazla giriş yapıldı, lütfen daha sonra tekrar deneyin',
       globalLocked: 'Sistem koruma altında, lütfen daha sonra tekrar deneyin',
@@ -140,7 +138,6 @@ const tr = {
       title: 'Fare',
       cursor: 'İmleç sitili',
       default: 'Varsayılan imleç',
-      pointer: 'Nokta imleç',
       cell: 'Artı imleç',
       text: 'Yazı imleç',
       grab: 'El imleç',
@@ -177,7 +174,6 @@ const tr = {
       forceEject: 'Çıkarmayı zorla',
       forceEjectConfirm:
         'Ana bilgisayar optik sürücüyü kilitledi. Çıkarmayı zorlamak, sanal USB aygıtının bağlantısını kısa süreliğine keser; bu nedenle klavye ve fare kısa süreliğine bağlantıyı kaybedebilir. Devam edilsin mi?',
-      refresh: 'Disk imajı listesini yenile',
       attention: 'Dikkat',
       deleteConfirm: 'Bu resmi silmek istediğinizden emin misiniz?',
       tips: {
@@ -245,7 +241,6 @@ const tr = {
       showConfirm: 'Doğrulama',
       showConfirmTip: 'Güç ile ilgili işlemler fazladan doğrulama gerektirir',
       reset: 'Sıfırla',
-      power: 'Güç',
       resetConfirm: 'Sıfırlama işlemine devam etmek istediğinizden emin misiniz?',
       powerConfirm: 'Güç işlemine devam etmek istediğinizden emin misiniz?',
       okBtn: 'Evet',
@@ -262,15 +257,10 @@ const tr = {
         applicationTip: 'NanoKVM web uygulaması sürümü',
         image: 'İmaj Sürümü',
         imageTip: 'NanoKVM sistem imajı sürümü',
-        deviceKey: 'Cihaz Anahtarı',
         community: 'Topluluk',
         hostname: 'Ana makine adı',
         hostnameUpdated: 'Hostname güncellendi. Uygulamak için yeniden başlatın.',
-        ipType: {
-          Wired: 'Kablolu bağlantı',
-          Wireless: 'Kablosuz bağlantı',
-          Other: 'Diğer'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Görünüm',
@@ -349,12 +339,10 @@ const tr = {
           apMode: "AP modu etkin, QR kodu tarayarak Wi-Fi'ye bağlanın",
           connect: "Wi-Fi'ye bağlan",
           connectDesc1: "Lütfen ağ SSID'sini ve parolayı girin",
-          connectDesc2: 'Bu ağa katılmak için parolayı girin',
           disconnect: 'Ağ bağlantısını kesmek istediğinizden emin misiniz?',
           ssid: 'Ad',
           password: 'Parola',
           joinBtn: 'Katıl',
-          confirmBtn: 'Tamam',
           cancelBtn: 'İptal'
         },
         tls: {
@@ -365,14 +353,11 @@ const tr = {
           description: 'NanoKVM için DNS sunucularını yapılandır',
           ipv4Title: 'IPv4',
           ipv4Description: 'Kablolu arayüz için IPv4 adreslemeyi yapılandır',
-          mode: 'Mod',
           dhcp: 'DHCP',
           manual: 'Manuel',
-          save: 'Kaydet',
           apply: 'Uygula',
           invalid: 'Geçerli bir IPv4 veya IPv6 adresi girin',
           invalidNetwork: 'Geçerli bir IPv4 adresi, alt ağ maskesi ve yönlendirici girin',
-          noDhcp: 'Şu anda DHCP DNS mevcut değil',
           saved: 'DNS ayarları kaydedildi',
           redirecting: 'Ağ ayarları kaydedildi. Yeni adres açılıyor...',
           saveFailed: 'DNS ayarları kaydedilemedi',
@@ -429,7 +414,6 @@ const tr = {
         confirm: 'Onayla',
         cancel: 'İptal',
         preview: 'Ön İzleme Güncellemeleri',
-        previewDesc: 'En son geliştirmelere ve özelliklere erken erişin',
         offline: {
           title: 'Çevrimdışı Güncellemeler',
           desc: 'Yerel kurulum paketi aracılığıyla güncelleme',
@@ -572,8 +556,7 @@ const tr = {
       toggle: 'Tam ekrana geç'
     },
     menu: {
-      collapse: 'Menüyü küçült',
-      expand: 'Menüyü genişlet'
+      collapse: 'Menüyü küçült'
     }
   }
 };

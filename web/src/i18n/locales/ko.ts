@@ -126,7 +126,6 @@ const ko = {
       title: '마우스',
       cursor: '커서 스타일',
       default: '기본 커서',
-      pointer: '포인터 커서',
       cell: '셀 커서',
       text: '텍스트 커서',
       grab: '잡기 커서',
@@ -164,7 +163,6 @@ const ko = {
       forceEject: '강제 제거',
       forceEjectConfirm:
         '호스트가 광학 드라이브를 잠갔습니다. 강제로 제거하면 가상 USB 장치가 잠시 연결 해제되므로 키보드와 마우스도 잠시 연결이 끊길 수 있습니다. 계속하시겠습니까?',
-      refresh: '이미지 목록 새로고침',
       attention: '주의',
       deleteConfirm: '이 이미지를 제거하시겠습니까?',
       tips: {
@@ -236,7 +234,6 @@ const ko = {
       showConfirm: '확인',
       showConfirmTip: '전원 작업에는 추가 확인이 필요합니다',
       reset: '리셋',
-      power: '전원',
       resetConfirm: '리셋 작업을 진행하시겠습니까?',
       powerConfirm: '전원 작업을 진행하시겠습니까?',
       okBtn: '네',
@@ -252,15 +249,10 @@ const ko = {
         applicationTip: 'NanoKVM 웹 애플리케이션 버전',
         image: '이미지 버전',
         imageTip: 'NanoKVM 시스템 이미지 버전',
-        deviceKey: '장치 키',
         community: '커뮤니티',
         hostname: '호스트 이름',
         hostnameUpdated: '호스트 이름이 업데이트되었습니다. 적용하려면 재부팅하세요.',
-        ipType: {
-          Wired: '유선',
-          Wireless: '무선',
-          Other: '기타'
-        }
+        ipType: {}
       },
       appearance: {
         title: '디자인',
@@ -340,12 +332,10 @@ const ko = {
           apMode: 'AP 모드가 활성화되었습니다. QR 코드를 스캔하여 Wi-Fi에 연결하세요',
           connect: 'Wi-Fi 연결',
           connectDesc1: '네트워크 SSID와 비밀번호를 입력하세요',
-          connectDesc2: '이 네트워크에 연결할 비밀번호를 입력하세요',
           disconnect: '네트워크 연결을 끊으시겠습니까?',
           ssid: '이름',
           password: '비밀번호',
           joinBtn: '연결',
-          confirmBtn: '확인',
           cancelBtn: '취소'
         },
         tls: {
@@ -356,14 +346,11 @@ const ko = {
           description: 'NanoKVM의 DNS 서버 설정',
           ipv4Title: 'IPv4',
           ipv4Description: '유선 인터페이스의 IPv4 주소를 설정합니다',
-          mode: '모드',
           dhcp: 'DHCP',
           manual: '수동',
-          save: '저장',
           apply: '적용',
           invalid: '유효한 IPv4 또는 IPv6 주소를 입력하세요',
           invalidNetwork: '유효한 IPv4 주소, 서브넷 마스크, 라우터를 입력하세요',
-          noDhcp: '현재 사용 가능한 DHCP DNS가 없습니다',
           saved: 'DNS 설정이 저장되었습니다',
           redirecting: '네트워크 설정이 저장되었습니다. 새 주소를 여는 중...',
           saveFailed: 'DNS 설정 저장 실패',
@@ -422,7 +409,6 @@ const ko = {
         confirm: '확인',
         cancel: '취소',
         preview: '미리보기 업데이트',
-        previewDesc: '새로운 기능과 개선 사항에 미리 접근하세요',
         offline: {
           title: '오프라인 업데이트',
           desc: '로컬 설치 패키지를 통한 업데이트',
@@ -565,8 +551,7 @@ const ko = {
       toggle: '전체 화면 전환'
     },
     menu: {
-      collapse: '메뉴 접기',
-      expand: '메뉴 펼치기'
+      collapse: '메뉴 접기'
     }
   }
 };

@@ -23,8 +23,6 @@ const cz = {
       placeholderPassword2: 'Zadejte prosím heslo znovu',
       noEmptyUsername: 'Uživatelské jméno nesmí být prázdné',
       noEmptyPassword: 'Heslo nesmí být prázdné',
-      noAccount:
-        'Nepodařilo se získat informace o uživateli, prosím obnovte stránku nebo resetujte heslo',
       invalidUser: 'Neplatné uživatelské jméno nebo heslo',
       locked: 'Příliš mnoho přihlášení, zkuste to znovu později',
       globalLocked: 'Systém je chráněn, zkuste to znovu později',
@@ -137,7 +135,6 @@ const cz = {
       title: 'Myš',
       cursor: 'Styl kurzoru',
       default: 'Výchozí kurzor',
-      pointer: 'Ukazovací kurzor',
       cell: 'Kurzor buňky',
       text: 'Textový kurzor',
       grab: 'Chytnout kurzor',
@@ -173,7 +170,6 @@ const cz = {
       forceEject: 'Vynutit vysunutí',
       forceEjectConfirm:
         'Hostitel zamkl optickou jednotku. Vynucené vysunutí na chvíli odpojí virtuální zařízení USB, takže se klávesnice a myš mohou krátce odpojit. Pokračovat?',
-      refresh: 'Obnovte seznam obrázků',
       attention: 'Pozor',
       deleteConfirm: 'Opravdu chcete smazat tento obrázek?',
       tips: {
@@ -245,7 +241,6 @@ const cz = {
       showConfirm: 'Potvrzení',
       showConfirmTip: 'Výkonové operace vyžadují další potvrzení',
       reset: 'Resetovat',
-      power: 'Napájení',
       resetConfirm: 'Pokračovat v operaci resetování?',
       okBtn: 'Ano',
       cancelBtn: 'Ne'
@@ -261,15 +256,10 @@ const cz = {
         applicationTip: 'Verze webové aplikace NanoKVM',
         image: 'Verze obrazu',
         imageTip: 'Verze systémového obrazu NanoKVM',
-        deviceKey: 'Klíč zařízení',
         community: 'Komunita',
         hostname: 'Název hostitele',
         hostnameUpdated: 'Název hostitele byl aktualizován. Pro použití restartujte.',
-        ipType: {
-          Wired: 'Kabelové',
-          Wireless: 'Bezdrátové',
-          Other: 'Jiné'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Vzhled',
@@ -350,12 +340,10 @@ const cz = {
           apMode: 'Režim AP je povolen, připojte se k Wi-Fi naskenováním QR kódu',
           connect: 'Připojit Wi-Fi',
           connectDesc1: 'Zadejte SSID sítě a heslo',
-          connectDesc2: 'Zadejte heslo pro připojení k této síti',
           disconnect: 'Opravdu chcete síť odpojit?',
           ssid: 'Název',
           password: 'Heslo',
           joinBtn: 'Připojit',
-          confirmBtn: 'OK',
           cancelBtn: 'Zrušit'
         },
         tls: {
@@ -366,14 +354,11 @@ const cz = {
           description: 'Nastavit DNS servery pro NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Nastavte adresaci IPv4 pro kabelové rozhraní',
-          mode: 'Režim',
           dhcp: 'DHCP',
           manual: 'Ručně',
-          save: 'Uložit',
           apply: 'Použít',
           invalid: 'Zadejte platnou adresu IPv4 nebo IPv6',
           invalidNetwork: 'Zadejte platnou adresu IPv4, masku podsítě a směrovač',
-          noDhcp: 'Momentálně není k dispozici žádné DHCP DNS',
           saved: 'Nastavení DNS uloženo',
           redirecting: 'Nastavení sítě uloženo. Otevírám novou adresu...',
           saveFailed: 'Nastavení DNS se nepodařilo uložit',
@@ -430,7 +415,6 @@ const cz = {
         confirm: 'Potvrdit',
         cancel: 'Zrušit',
         preview: 'Náhled aktualizací',
-        previewDesc: 'Získejte včasný přístup k novým funkcím a vylepšením',
         offline: {
           title: 'Offline aktualizace',
           desc: 'Aktualizace prostřednictvím místního instalačního balíčku',
@@ -575,8 +559,7 @@ const cz = {
       toggle: 'Přepnout na celou obrazovku'
     },
     menu: {
-      collapse: 'Sbalit nabídku',
-      expand: 'Rozbalte nabídku'
+      collapse: 'Sbalit nabídku'
     }
   }
 };

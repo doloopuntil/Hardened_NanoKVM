@@ -23,7 +23,6 @@ const zh_tw = {
       placeholderPassword2: '請再次輸入密碼',
       noEmptyUsername: '使用者名稱不能為空',
       noEmptyPassword: '密碼不能為空',
-      noAccount: '找不到使用者，請重新整理網頁或重設密碼',
       invalidUser: '使用者名稱或密碼錯誤',
       locked: '登入次數過多，請稍後重試',
       globalLocked: '系統受保護，請稍後重試',
@@ -136,7 +135,6 @@ const zh_tw = {
       title: '滑鼠',
       cursor: '游標樣式',
       default: '預設游標',
-      pointer: '懸浮游標',
       cell: '儲存格游標',
       text: '文字游標',
       grab: '抓取游標',
@@ -174,7 +172,6 @@ const zh_tw = {
       forceEject: '強制彈出',
       forceEjectConfirm:
         '主機已鎖定光碟機。強制彈出會使虛擬 USB 裝置短暫中斷連線，鍵盤和滑鼠可能會暫時中斷連線。是否繼續？',
-      refresh: '重新整理映像檔列表',
       attention: '注意',
       deleteConfirm: '確定要刪除該映像檔嗎？',
       tips: {
@@ -248,7 +245,6 @@ const zh_tw = {
       showConfirm: '顯示確認框',
       showConfirmTip: '電源操作需要二次確認',
       reset: '重新啟動',
-      power: '電源',
       resetConfirm: '確認執行重新啟動的按鍵操作嗎？',
       powerConfirm: '確認執行電源的按鍵操作嗎？',
       okBtn: '確認',
@@ -264,14 +260,9 @@ const zh_tw = {
         application: '應用程式版本',
         applicationTip: 'NanoKVM 網頁程式版本',
         image: '韌體版本',
-        deviceKey: '設備序號',
         community: '社群',
         hostname: '主機名稱',
-        ipType: {
-          Wired: '有線',
-          Wireless: '無線',
-          Other: '其他'
-        }
+        ipType: {}
       },
       appearance: {
         title: '外觀',
@@ -351,12 +342,10 @@ const zh_tw = {
           apMode: 'AP 模式已啟用，請掃描 QRCode 連接 Wi-Fi',
           connect: '連線 Wi-Fi',
           connectDesc1: '請輸入網路名稱和密碼',
-          connectDesc2: '請輸入密碼以連線此網路',
           disconnect: '是否要中斷該網路連線？',
           ssid: 'SSID 名稱',
           password: '密碼',
           joinBtn: '加入',
-          confirmBtn: '確定',
           cancelBtn: '取消'
         },
         tls: {
@@ -367,14 +356,11 @@ const zh_tw = {
           description: '設定 NanoKVM 使用的 DNS 伺服器',
           ipv4Title: 'IPv4',
           ipv4Description: '設定有線介面的 IPv4 位址',
-          mode: '模式',
           dhcp: 'DHCP',
           manual: '手動',
-          save: '儲存',
           apply: '套用',
           invalid: '請輸入有效的 IPv4 或 IPv6 位址',
           invalidNetwork: '請輸入有效的 IPv4 位址、子網路遮罩和路由器',
-          noDhcp: '目前未取得 DHCP DNS',
           saved: 'DNS 設定已儲存',
           redirecting: '網路設定已儲存。正在開啟新位址...',
           saveFailed: '儲存 DNS 設定失敗',
@@ -433,7 +419,6 @@ const zh_tw = {
         confirm: '確定',
         cancel: '取消',
         preview: '預覽更新',
-        previewDesc: '預覽版本，搶先體驗新功能和改進',
         offline: {
           title: '離線更新',
           desc: '透過本地安裝包進行更新',
@@ -577,8 +562,7 @@ const zh_tw = {
       toggle: '進入全螢幕模式'
     },
     menu: {
-      collapse: '收起選單',
-      expand: '展開選單'
+      collapse: '收起選單'
     }
   }
 };

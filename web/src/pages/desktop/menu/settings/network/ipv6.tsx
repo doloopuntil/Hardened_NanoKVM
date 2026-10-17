@@ -1,6 +1,5 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import { Button, Segmented } from 'antd';
-import { CheckIcon } from 'lucide-react';
+import { Segmented } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/network.ts';
@@ -38,7 +37,6 @@ type IPv6State = {
 };
 
 type IPv6Props = {
-  showFooter?: boolean;
   disabled?: boolean;
   onStatusChange?: (status: NetworkSectionStatus) => void;
 };
@@ -69,7 +67,7 @@ function formatAddress(address: IPv6Address) {
 }
 
 export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
-  ({ showFooter = true, disabled = false, onStatusChange }, ref) => {
+  ({ disabled = false, onStatusChange }, ref) => {
     const { t } = useTranslation();
 
     const [mode, setMode] = useState<IPv6Mode>('disabled');
@@ -218,7 +216,6 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
       message ||
       (needsApply ? statusMessage : hasChanges ? t('settings.network.ipv6.unsaved') : '');
     const statusKind = error ? 'error' : message ? 'success' : statusText ? 'warning' : '';
-    const statusColor = error ? 'text-red-400' : message ? 'text-green-400' : 'text-yellow-400/80';
     const addressList = addresses.map(formatAddress).join(', ');
     // what the interface has been given, when the address comes from SLAAC or DHCPv6
     const liveAddress = addresses.find((item) => item.scope !== 'link');
@@ -346,23 +343,6 @@ export const IPv6 = forwardRef<NetworkSectionHandle, IPv6Props>(
           />
           <InfoRow label={t('settings.network.ipv6.addresses')} value={addressList} />
         </div>
-
-        {showFooter && (hasChanges || statusText) && (
-          <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <span className={`text-xs ${statusColor}`}>{statusText}</span>
-
-            <Button
-              className="w-full sm:w-auto"
-              type={hasChanges ? 'primary' : 'default'}
-              icon={message ? <CheckIcon size={14} /> : undefined}
-              loading={isSaving}
-              disabled={!canSave}
-              onClick={() => void save()}
-            >
-              {t('settings.network.ipv6.apply')}
-            </Button>
-          </div>
-        )}
       </div>
     );
   }

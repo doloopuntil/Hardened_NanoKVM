@@ -23,7 +23,6 @@ const zh = {
       placeholderPassword2: '请再次输入密码',
       noEmptyUsername: '用户名不能为空',
       noEmptyPassword: '密码不能为空',
-      noAccount: '获取用户信息失败，请刷新重试或重置密码',
       invalidUser: '用户名或密码错误',
       locked: '登录太频繁，请稍后再试',
       globalLocked: '系统防爆破保护中，请稍后再试',
@@ -138,7 +137,6 @@ const zh = {
       title: '鼠标',
       cursor: '光标样式',
       default: '默认光标',
-      pointer: '悬浮指针',
       cell: '单元指针',
       text: '文本指针',
       grab: '抓取指针',
@@ -175,7 +173,6 @@ const zh = {
       forceEject: '强制弹出',
       forceEjectConfirm:
         '主机已锁定光驱。强制弹出会使虚拟 USB 设备短暂断开，键盘和鼠标可能会暂时断开连接。是否继续？',
-      refresh: '刷新镜像列表',
       attention: '注意',
       deleteConfirm: '确定要删除该镜像吗？',
       tips: {
@@ -246,7 +243,6 @@ const zh = {
       showConfirm: '显示确认框',
       showConfirmTip: '电源操作需要二次确认',
       reset: '重启',
-      power: '电源',
       resetConfirm: '确认执行重启操作吗？',
       powerConfirm: '确认执行电源操作吗？',
       okBtn: '确认',
@@ -264,15 +260,10 @@ const zh = {
         image: '镜像版本',
         imageTip: 'NanoKVM 系统镜像版本',
         uptime: '运行时间',
-        deviceKey: '设备码',
         community: '社区',
         hostname: '主机名',
         hostnameUpdated: '主机名修改成功，重启后生效',
-        ipType: {
-          Wired: '有线',
-          Wireless: '无线',
-          Other: '其他'
-        }
+        ipType: {}
       },
       appearance: {
         title: '外观',
@@ -357,12 +348,10 @@ const zh = {
           apMode: 'AP 模式已启用，请扫描二维码连接 Wi-Fi',
           connect: '连接 Wi-Fi',
           connectDesc1: '请输入网络名称和密码',
-          connectDesc2: '请输入密码以连接此网络',
           disconnect: '是否要断开该网络连接？',
           ssid: '名称',
           password: '密码',
           joinBtn: '加入',
-          confirmBtn: '确定',
           cancelBtn: '取消'
         },
         tls: {
@@ -373,14 +362,11 @@ const zh = {
           description: '配置 NanoKVM 使用的 DNS 服务器',
           ipv4Title: 'IPv4',
           ipv4Description: '配置有线接口的 IPv4 地址',
-          mode: '模式',
           dhcp: 'DHCP',
           manual: '手动',
-          save: '保存',
           apply: '应用',
           invalid: '请输入有效的 IPv4 或 IPv6 地址',
           invalidNetwork: '请输入有效的 IPv4 地址、子网掩码和路由器',
-          noDhcp: '当前未获取到 DHCP DNS',
           saved: 'DNS 设置已保存',
           redirecting: '网络设置已保存。正在打开新地址...',
           saveFailed: '保存 DNS 设置失败',
@@ -440,7 +426,6 @@ const zh = {
         confirm: '确定',
         cancel: '取消',
         preview: '预览更新',
-        previewDesc: '率先体验即将推出的新功能和优化',
         offline: {
           title: '离线更新',
           desc: '通过本地安装包进行更新',
@@ -583,8 +568,7 @@ const zh = {
       toggle: '切换全屏'
     },
     menu: {
-      collapse: '收起',
-      expand: '展开'
+      collapse: '收起'
     }
   }
 };

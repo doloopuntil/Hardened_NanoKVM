@@ -23,8 +23,6 @@ const nb = {
       placeholderPassword2: 'Oppgi passord igjen',
       noEmptyUsername: 'Brukernavn påkrevd',
       noEmptyPassword: 'Passord påkrevd',
-      noAccount:
-        'Kunne ikke hente brukerinformasjon. Vennligst last inn siden på nytt eller gjenopprett passord',
       invalidUser: 'Ugyldig brukernavn eller passord',
       locked: 'For mange pålogginger, vennligst prøv igjen senere',
       globalLocked: 'System under beskyttelse, prøv igjen senere',
@@ -138,7 +136,6 @@ const nb = {
       title: 'Mus',
       cursor: 'Markørstil',
       default: 'Vanlig',
-      pointer: 'Hånd',
       cell: 'Celle',
       text: 'Tekst',
       grab: 'Grip',
@@ -173,7 +170,6 @@ const nb = {
       forceEject: 'Løs ut med tvang',
       forceEjectConfirm:
         'Verten har låst den optiske stasjonen. Tvungen utløsing kobler den virtuelle USB-enheten fra et øyeblikk, så tastaturet og musen kan bli koblet fra en kort stund. Vil du fortsette?',
-      refresh: 'Oppdater bildelisten',
       attention: 'Merknad',
       deleteConfirm: 'Er du sikker på at du vil slette dette bildet?',
       tips: {
@@ -247,7 +243,6 @@ const nb = {
       showConfirm: 'Bekreftelse',
       showConfirmTip: 'Strømdrift krever en ekstra bekreftelse',
       reset: 'Reset-knapp',
-      power: 'På-knapp',
       resetConfirm: 'Fortsette tilbakestilling?',
       powerConfirm: 'Fortsette strømdrift?',
       okBtn: 'Ja',
@@ -263,15 +258,10 @@ const nb = {
         application: 'Applikasjonsversjon',
         applicationTip: 'Versjon av NanoKVM-webapplikasjonen',
         imageTip: 'Versjon av NanoKVM-systemavbildningen',
-        deviceKey: 'Enhetsnøkkel',
         community: 'Fellesskap',
         hostname: 'Vertsnavn',
         hostnameUpdated: 'Vertsnavn oppdatert. Start på nytt for å søke.',
-        ipType: {
-          Wired: 'Kablet',
-          Wireless: 'Trådløs',
-          Other: 'Annet'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Utseende',
@@ -352,12 +342,10 @@ const nb = {
           apMode: 'AP-modus er aktivert, koble til Wi-Fi ved å skanne QR-koden',
           connect: 'Koble til Wi-Fi',
           connectDesc1: 'Skriv inn nettverkets SSID og passord',
-          connectDesc2: 'Skriv inn passordet for å koble til dette nettverket',
           disconnect: 'Er du sikker på at du vil koble fra nettverket?',
           ssid: 'Navn',
           password: 'Passord',
           joinBtn: 'Koble til',
-          confirmBtn: 'OK',
           cancelBtn: 'Avbryt'
         },
         tls: {
@@ -368,14 +356,11 @@ const nb = {
           description: 'Konfigurer DNS-servere for NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Konfigurer IPv4-adressering for det kablede grensesnittet',
-          mode: 'Modus',
           dhcp: 'DHCP',
           manual: 'Manuell',
-          save: 'Lagre',
           apply: 'Bruk',
           invalid: 'Skriv inn en gyldig IPv4- eller IPv6-adresse',
           invalidNetwork: 'Skriv inn en gyldig IPv4-adresse, subnettmaske og ruter',
-          noDhcp: 'Ingen DHCP-DNS er tilgjengelig nå',
           saved: 'DNS-innstillinger lagret',
           redirecting: 'Nettverksinnstillinger lagret. Åpner den nye adressen...',
           saveFailed: 'Kunne ikke lagre DNS-innstillinger',
@@ -431,7 +416,6 @@ const nb = {
         updating: 'Oppdatering har startet. Vennligst vent...',
         cancel: 'Avbryt',
         preview: 'Forhåndsvisningsoppdateringer',
-        previewDesc: 'Få tidlig tilgang til nye funksjoner og forbedringer',
         offline: {
           title: 'Offline oppdateringer',
           desc: 'Oppdater gjennom lokal installasjonspakke',
@@ -576,8 +560,7 @@ const nb = {
       toggle: 'Veksle fullskjerm'
     },
     menu: {
-      collapse: 'Skjul meny',
-      expand: 'Utvid menyen'
+      collapse: 'Skjul meny'
     }
   }
 };

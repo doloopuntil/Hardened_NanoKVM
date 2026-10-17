@@ -23,8 +23,6 @@ const it = {
       placeholderPassword2: 'Inserisci nuovamente la password',
       noEmptyUsername: 'Il nome utente non può essere vuoto',
       noEmptyPassword: 'La password non può essere vuota',
-      noAccount:
-        'Impossibile ottenere informazioni utente, aggiorna la pagina o reimposta la password',
       invalidUser: 'Nome utente o password non validi',
       locked: 'Troppi accessi, riprova più tardi',
       globalLocked: 'Sistema sotto protezione, riprova più tardi',
@@ -142,7 +140,6 @@ const it = {
       title: 'Mouse',
       cursor: 'Stile cursore',
       default: 'Cursore predefinito',
-      pointer: 'Cursore a puntatore',
       cell: 'Cursore a cella',
       text: 'Cursore testo',
       grab: 'Cursore di presa',
@@ -177,7 +174,6 @@ const it = {
       forceEject: "Forza l'espulsione",
       forceEjectConfirm:
         "L'host ha bloccato l'unità ottica. Forzare l'espulsione disconnette per un momento il dispositivo USB virtuale, quindi tastiera e mouse potrebbero disconnettersi brevemente. Continuare?",
-      refresh: "Aggiorna l'elenco delle immagini",
       attention: 'Attenzione',
       deleteConfirm: 'Sei sicuro di voler eliminare questa immagine?',
       tips: {
@@ -249,7 +245,6 @@ const it = {
       showConfirm: 'Conferma',
       showConfirmTip: 'Le operazioni di alimentazione richiedono una conferma aggiuntiva',
       reset: 'Reimposta',
-      power: 'Accensione',
       powerConfirm: "Procedere con l'operazione di accensione?",
       okBtn: 'Sì',
       cancelBtn: 'No'
@@ -265,15 +260,10 @@ const it = {
         applicationTip: 'Versione dell’applicazione web NanoKVM',
         image: 'Versione Immagine',
         imageTip: 'Versione dell’immagine di sistema NanoKVM',
-        deviceKey: 'Chiave Dispositivo',
         community: 'Comunità',
         hostname: 'Nome host',
         hostnameUpdated: 'Nome host aggiornato. Riavviare per applicare.',
-        ipType: {
-          Wired: 'Cablato',
-          Wireless: 'Senza fili',
-          Other: 'Altro'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Aspetto',
@@ -352,12 +342,10 @@ const it = {
           apMode: 'La modalità AP è attiva, connettiti al Wi-Fi scansionando il codice QR',
           connect: 'Connetti Wi-Fi',
           connectDesc1: 'Inserisci SSID e password della rete',
-          connectDesc2: 'Inserisci la password per unirti a questa rete',
           disconnect: 'Vuoi davvero disconnettere la rete?',
           ssid: 'Nome',
           password: 'Password',
           joinBtn: 'Connetti',
-          confirmBtn: 'OK',
           cancelBtn: 'Annulla'
         },
         tls: {
@@ -368,15 +356,12 @@ const it = {
           description: 'Configura i server DNS per NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: "Configura l'indirizzamento IPv4 per l'interfaccia cablata",
-          mode: 'Modalità',
           dhcp: 'DHCP',
           manual: 'Manuale',
-          save: 'Salva',
           apply: 'Applica',
           invalid: 'Inserisci un indirizzo IPv4 o IPv6 valido',
           invalidNetwork:
             'Inserisci un indirizzo IPv4, una maschera di sottorete e un router validi',
-          noDhcp: 'Nessun DNS DHCP è attualmente disponibile',
           saved: 'Impostazioni DNS salvate',
           redirecting: 'Impostazioni di rete salvate. Apertura del nuovo indirizzo...',
           saveFailed: 'Impossibile salvare le impostazioni DNS',
@@ -432,7 +417,6 @@ const it = {
         confirm: 'Conferma',
         cancel: 'Annulla',
         preview: 'Anteprima aggiornamenti',
-        previewDesc: "Ottieni l'accesso anticipato a nuove funzionalità e miglioramenti",
         offline: {
           title: 'Aggiornamenti offline',
           desc: 'Aggiornamento tramite pacchetto di installazione locale',
@@ -577,8 +561,7 @@ const it = {
       toggle: 'Attiva/disattiva schermo intero'
     },
     menu: {
-      collapse: 'Comprimi menu',
-      expand: 'Espandi il menu'
+      collapse: 'Comprimi menu'
     }
   }
 };

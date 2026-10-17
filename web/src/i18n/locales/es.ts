@@ -131,7 +131,6 @@ const es = {
       title: 'Ratón',
       cursor: 'Estilo de cursor',
       default: 'Cursor por defecto',
-      pointer: 'Cursor de puntero',
       cell: 'Cursor de celda',
       text: 'Cursor de texto',
       grab: 'Cursor de agarre',
@@ -171,7 +170,6 @@ const es = {
       forceEject: 'Forzar expulsión',
       forceEjectConfirm:
         'El host ha bloqueado la unidad óptica. Forzar la expulsión desconecta el dispositivo USB virtual durante un momento, por lo que el teclado y el ratón pueden desconectarse brevemente. ¿Continuar?',
-      refresh: 'Actualizar la lista de imágenes',
       attention: 'Atención',
       deleteConfirm: '¿Estás seguro de que deseas eliminar esta imagen?',
       tips: {
@@ -245,7 +243,6 @@ const es = {
       showConfirm: 'Confirmación',
       showConfirmTip: 'Las operaciones de encendido requieren confirmación adicional',
       reset: 'Reiniciar',
-      power: 'Encender / Apagar',
       resetConfirm: '¿Desea proceder con la operación de reinicio?',
       powerConfirm: '¿Desea proceder con la operación de encendido?',
       okBtn: 'Sí',
@@ -262,15 +259,10 @@ const es = {
         applicationTip: 'Versión de la aplicación web NanoKVM',
         image: 'Versión de la imagen',
         imageTip: 'Versión de la imagen del sistema NanoKVM',
-        deviceKey: 'Clave del dispositivo',
         community: 'Comunidad',
         hostname: 'Nombre del host',
         hostnameUpdated: 'Nombre del host actualizado. Reinicia para aplicar.',
-        ipType: {
-          Wired: 'Cableada',
-          Wireless: 'Inalámbrica',
-          Other: 'Otra'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Apariencia',
@@ -353,12 +345,10 @@ const es = {
           apMode: 'El modo AP está activado; conéctate al Wi-Fi escaneando el código QR',
           connect: 'Conectar Wi-Fi',
           connectDesc1: 'Introduce el SSID de la red y la contraseña',
-          connectDesc2: 'Introduce la contraseña para unirte a esta red',
           disconnect: '¿Seguro que quieres desconectar la red?',
           ssid: 'Nombre',
           password: 'Contraseña',
           joinBtn: 'Unirse',
-          confirmBtn: 'Aceptar',
           cancelBtn: 'Cancelar'
         },
         tls: {
@@ -369,14 +359,11 @@ const es = {
           description: 'Configura los servidores DNS para NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Configurar direccionamiento IPv4 para la interfaz cableada',
-          mode: 'Modo',
           dhcp: 'DHCP',
           manual: 'Manual',
-          save: 'Guardar',
           apply: 'Aplicar',
           invalid: 'Introduce una dirección IPv4 o IPv6 válida',
           invalidNetwork: 'Introduce una dirección IPv4, máscara de subred y router válidos',
-          noDhcp: 'No hay DNS DHCP disponible actualmente',
           saved: 'Configuración DNS guardada',
           redirecting: 'Configuración de red guardada. Abriendo la nueva dirección...',
           saveFailed: 'No se pudo guardar la configuración DNS',
@@ -438,7 +425,6 @@ const es = {
         confirm: 'Confirmar',
         cancel: 'Cancelar',
         preview: 'Vista previa de actualizaciones',
-        previewDesc: 'Accede anticipadamente a nuevas funciones y mejoras',
         previewTip:
           'Ten en cuenta que las versiones de vista previa pueden contener errores o funcionalidades incompletas',
         offline: {
@@ -583,8 +569,7 @@ const es = {
       toggle: 'Activar/Desactivar pantalla completa'
     },
     menu: {
-      collapse: 'Colapsar menú',
-      expand: 'Expandir menú'
+      collapse: 'Colapsar menú'
     }
   }
 };

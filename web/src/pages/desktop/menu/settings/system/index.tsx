@@ -84,19 +84,14 @@ export const System = () => {
       <SettingsLoadGroup key={section}>
         <div className="min-w-0 overflow-x-hidden">
           {section === 'network' && (
-            <Network ref={networkRef} showTitle={false} onActionStateChange={updateActionState} />
+            <Network ref={networkRef} onActionStateChange={updateActionState} />
           )}
           {section === 'time' && (
             <TimeSettings ref={timeRef} onActionStateChange={updateActionState} />
           )}
           {section === 'firewall' && <FirewallSettings />}
           {section === 'systemLog' && (
-            <SystemLog
-              ref={systemLogRef}
-              showTitle={false}
-              showFooter={false}
-              onActionStateChange={updateActionState}
-            />
+            <SystemLog ref={systemLogRef} onActionStateChange={updateActionState} />
           )}
         </div>
       </SettingsLoadGroup>

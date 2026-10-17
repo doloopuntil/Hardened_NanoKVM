@@ -37,13 +37,11 @@ const defaultConfig: SystemLogConfig = {
 };
 
 type SystemLogProps = {
-  showTitle?: boolean;
-  showFooter?: boolean;
   onActionStateChange?: (state: SystemActionState) => void;
 };
 
 export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
-  ({ showTitle = true, showFooter = true, onActionStateChange }, ref) => {
+  ({ onActionStateChange }, ref) => {
     const { t } = useTranslation();
 
     const [config, setConfig] = useState<SystemLogConfig>(defaultConfig);
@@ -188,13 +186,6 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
     return (
       <>
         <ConfigProvider componentDisabled={isUnavailable}>
-          {showTitle && (
-            <>
-              <div className="text-base">{t('settings.systemLog.title')}</div>
-              <Divider className="opacity-50" />
-            </>
-          )}
-
           <div className="flex min-w-0 flex-col space-y-6">
             <div className="flex min-w-0 flex-col space-y-6">
               <div className="text-neutral-400">{t('settings.systemLog.kernel.title')}</div>
@@ -333,19 +324,6 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
                 message={t('settings.systemLog.local.description', { path: localLogFile })}
               />
             </div>
-
-            {showFooter && (
-              <div className="flex min-w-0 flex-wrap justify-end gap-2">
-                <Button
-                  type="primary"
-                  loading={isSaving}
-                  disabled={!hasPending || hasInvalid}
-                  onClick={() => void save()}
-                >
-                  {t('settings.systemLog.save')}
-                </Button>
-              </div>
-            )}
 
             <Divider className="opacity-50" />
 

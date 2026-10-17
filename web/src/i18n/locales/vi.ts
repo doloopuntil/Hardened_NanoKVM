@@ -19,8 +19,6 @@ const vi = {
     auth: {
       login: 'Đăng nhập',
       placeholderUsername: 'Vui lòng nhập tên người dùng',
-      noAccount:
-        'Không thể lấy thông tin người dùng, vui lòng làm mới trang web hoặc đặt lại mật khẩu',
       locked: 'Đăng nhập quá nhiều, vui lòng thử lại sau',
       globalLocked: 'Hệ thống đang được bảo vệ, vui lòng thử lại sau',
       changePassword: 'Đổi mật khẩu',
@@ -132,7 +130,6 @@ const vi = {
       title: 'Chuột',
       cursor: 'Kiểu con trỏ',
       default: 'Con trỏ mặc định',
-      pointer: 'Con trỏ trỏ',
       cell: 'Con trỏ ô',
       text: 'Con trỏ văn bản',
       grab: 'Con trỏ nắm',
@@ -166,7 +163,6 @@ const vi = {
       forceEject: 'Buộc đẩy ra',
       forceEjectConfirm:
         'Máy chủ đã khóa ổ đĩa quang. Buộc đẩy ra sẽ ngắt kết nối thiết bị USB ảo trong giây lát, vì vậy bàn phím và chuột có thể bị ngắt kết nối ngắn. Tiếp tục?',
-      refresh: 'Làm mới danh sách hình ảnh',
       attention: 'Chú ý',
       deleteConfirm: 'Bạn có chắc chắn muốn xóa hình ảnh này không?',
       tips: {
@@ -239,7 +235,6 @@ const vi = {
       showConfirm: 'Xác nhận',
       showConfirmTip: 'Hoạt động cấp nguồn yêu cầu xác nhận bổ sung',
       reset: 'Đặt lại',
-      power: 'Nguồn',
       resetConfirm: 'Tiến hành thao tác đặt lại?',
       powerConfirm: 'Tiếp tục vận hành nguồn điện?',
       okBtn: 'Có',
@@ -256,15 +251,10 @@ const vi = {
         applicationTip: 'Phiên bản ứng dụng web NanoKVM',
         image: 'Phiên bản Hình ảnh',
         imageTip: 'Phiên bản image hệ thống NanoKVM',
-        deviceKey: 'Khóa Thiết bị',
         community: 'Cộng đồng',
         hostname: 'Tên máy chủ',
         hostnameUpdated: 'Đã cập nhật tên máy chủ. Khởi động lại để áp dụng.',
-        ipType: {
-          Wired: 'Có dây',
-          Wireless: 'Không dây',
-          Other: 'Khác'
-        }
+        ipType: {}
       },
       appearance: {
         title: 'Giao diện',
@@ -346,12 +336,10 @@ const vi = {
           apMode: 'Chế độ AP đang bật, hãy kết nối Wi-Fi bằng cách quét mã QR',
           connect: 'Kết nối Wi-Fi',
           connectDesc1: 'Vui lòng nhập SSID mạng và mật khẩu',
-          connectDesc2: 'Vui lòng nhập mật khẩu để tham gia mạng này',
           disconnect: 'Bạn có chắc muốn ngắt kết nối mạng không?',
           ssid: 'Tên',
           password: 'Mật khẩu',
           joinBtn: 'Tham gia',
-          confirmBtn: 'OK',
           cancelBtn: 'Hủy'
         },
         tls: {
@@ -362,14 +350,11 @@ const vi = {
           description: 'Cấu hình máy chủ DNS cho NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Cấu hình địa chỉ IPv4 cho giao diện có dây',
-          mode: 'Chế độ',
           dhcp: 'DHCP',
           manual: 'Thủ công',
-          save: 'Lưu',
           apply: 'Áp dụng',
           invalid: 'Nhập địa chỉ IPv4 hoặc IPv6 hợp lệ',
           invalidNetwork: 'Nhập địa chỉ IPv4, mặt nạ mạng con và bộ định tuyến hợp lệ',
-          noDhcp: 'Hiện không có DNS DHCP khả dụng',
           saved: 'Đã lưu cài đặt DNS',
           redirecting: 'Đã lưu cài đặt mạng. Đang mở địa chỉ mới...',
           saveFailed: 'Không thể lưu cài đặt DNS',
@@ -426,7 +411,6 @@ const vi = {
         confirm: 'Xác nhận',
         cancel: 'Hủy',
         preview: 'Bản cập nhật xem trước',
-        previewDesc: 'Nhận quyền truy cập sớm vào các tính năng và cải tiến mới',
         offline: {
           title: 'Cập nhật ngoại tuyến',
           desc: 'Cập nhật thông qua gói cài đặt cục bộ',
@@ -573,8 +557,7 @@ const vi = {
       toggle: 'Chuyển đổi toàn màn hình'
     },
     menu: {
-      collapse: 'Thu gọn Menu',
-      expand: 'Mở rộng Menu'
+      collapse: 'Thu gọn Menu'
     }
   }
 };
