@@ -122,12 +122,25 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
     return status.ready === true;
   }
 
+  // The stop did not happen: pick the chat up again.
+  function resumeChat(wasStopping: boolean) {
+    if (wasStopping) {
+      void connectGateway().catch(() => undefined);
+    }
+  }
+
   async function handleStartRuntime() {
     setIsTogglingRuntime(true);
 
     try {
       const isRuntimeReady = runtimeStatus?.ready === true;
       let response;
+
+      // End the chat before its process goes away: a connection that is cut from the other
+      // side is reported as an error and reconnects by itself.
+      if (isRuntimeReady) {
+        await closeGateway();
+      }
 
       try {
         response = isRuntimeReady ? await stopRuntime() : await startRuntime();
@@ -180,6 +193,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
             raw: error
           })
         ]);
+        resumeChat(isRuntimeReady);
         return;
       }
 
@@ -224,6 +238,7 @@ export function createPicoclawSidebarActions(options: PicoclawSidebarActionOptio
             raw: response
           })
         ]);
+        resumeChat(isRuntimeReady);
       }
 
       await refreshState();
