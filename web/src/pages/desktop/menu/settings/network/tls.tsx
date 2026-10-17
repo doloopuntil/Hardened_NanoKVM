@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Switch, Tooltip } from 'antd';
-import { CircleAlertIcon } from 'lucide-react';
+import { Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt, confirm } from '@/lib/feedback.ts';
+import { LabelTip } from '@/components/label-tip.tsx';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
 const REDIRECT_DELAY_SECONDS = 30;
@@ -71,19 +71,7 @@ export const Tls = () => {
 
   return (
     <SettingRow
-      label={
-        <span className="flex items-center gap-2">
-          HTTPS
-          <Tooltip
-            title={t('settings.network.tls.tip')}
-            className="cursor-pointer"
-            placement="right"
-            styles={{ root: { maxWidth: '400px' } }}
-          >
-            <CircleAlertIcon className="text-neutral-500" size={14} />
-          </Tooltip>
-        </span>
-      }
+      label={<LabelTip text="HTTPS" tip={t('settings.network.tls.tip')} warning />}
       description={t('settings.network.tls.description')}
       isSwitch
     >

@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Switch, Tooltip } from 'antd';
-import { CircleHelpIcon } from 'lucide-react';
+import { Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { LabelTip } from '@/components/label-tip.tsx';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
 export const Swap = () => {
@@ -38,17 +38,10 @@ export const Swap = () => {
   return (
     <SettingRow
       label={
-        <span className="inline-flex items-center gap-1">
-          {t('settings.tailscale.swap.title')}
-          <Tooltip
-            title={t('settings.tailscale.swap.sizeTip')}
-            className="cursor-pointer text-neutral-500"
-            placement="top"
-            styles={{ root: { maxWidth: '400px' } }}
-          >
-            <CircleHelpIcon size={15} />
-          </Tooltip>
-        </span>
+        <LabelTip
+          text={t('settings.tailscale.swap.title')}
+          tip={t('settings.tailscale.swap.sizeTip')}
+        />
       }
       description={t('settings.tailscale.swap.tip')}
       isSwitch

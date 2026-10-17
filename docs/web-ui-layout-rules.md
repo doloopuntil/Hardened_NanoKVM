@@ -71,8 +71,9 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     installs disabled, the clock not synchronized) and goes above the
     sections.
 20. Secondary explanation goes in a tooltip behind a help icon; a warning
-    tooltip uses an orange alert icon. A caption says what a setting does; a
-    tooltip says what it costs or how it is sized.
+    tooltip uses an orange alert icon, always through `LabelTip`
+    (`components/label-tip.tsx`, tooltip above the icon). A caption says what a
+    setting does; a tooltip says what it costs or how it is sized.
 21. A control stays disabled until its own load has succeeded
     (`useSettingsLoad`), and every failed action is visible (`attempt()` and
     `toast`).
@@ -129,25 +130,12 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 What the pages still do against the rules above. Remove an entry when it is
 fixed or turned into an accepted exception.
 
-- **Device rows are hand-built** (`device/ssh`, `mdns`, `mouse-jiggler`, `hdmi`,
-  `oled`, `swap`, `session-lock`, `virtual-devices`) instead of `SettingRow`.
-  Their labels are white (`rgba(255,255,255,0.85)`) where the shared rows use
-  `text-neutral-300`, the caption spacing differs, and `device/index.tsx` has
-  its own `Section` beside `SettingSection` (rules 2 and 6).
-- **Device hides or swaps controls** (rule 9): Virtual disk and Virtual network
-  disappear in HID-Only mode, and the Mouse jiggler switch is replaced by a mode
-  select once it is on.
-- **Device Reboot** is a large round blue-red button, centred (rule 14); the
-  rule asks for a red outline button in the bar at the end.
 - **Wi-Fi** uses a small round icon-only button as its control, and its dialog
   holds a framed `rounded-lg bg-neutral-800` card and fixed `w-72` inputs.
 - **Captions:** the Account Password row has none, and the editable Network
   fields are bare on purpose for now.
 - **Action rows:** the Time page's Refresh and Sync now, and the Logging
   buttons, are plain button rows without captions (rule 14).
-- **Tooltip icons:** a neutral help icon (About, Tailscale), a neutral alert icon
-  (Device) and an orange alert icon (Updates) are all in use; the Device ones
-  open to the right, the others above.
 - **Boxed content:** the log viewers (`pre` on `bg-black/50`) and the firewall
   mode tiles are boxes on purpose; confirm them as exceptions.
 - **Dead code and strings:** the standalone `showTitle` and `showFooter` paths

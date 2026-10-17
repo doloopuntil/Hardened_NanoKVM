@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 // The device stores the timeout in seconds, with 0 for an OLED that never turns off. The menu
 // shows minutes: 0.5, 1, 2, 3, 5, 10, 15, 20, 30 and 60.
@@ -52,44 +53,39 @@ export const Oled = () => {
 
   if (!isOLEDExist) {
     return (
-      <div className="flex items-center justify-between gap-x-4">
-        <div className="flex flex-col space-y-1">
-          <span>{t('settings.device.oled.title')}</span>
-          <span className="text-xs text-neutral-500">{t('settings.device.oled.description')}</span>
-        </div>
-
+      <SettingRow
+        label={t('settings.device.oled.title')}
+        description={t('settings.device.oled.description')}
+        inline
+      >
         <span className="text-neutral-500">
           <ScreenShareOff size={16} />
         </span>
-      </div>
+      </SettingRow>
     );
   }
 
   return (
     <>
-      <div className="flex items-center justify-between gap-x-4">
-        <div className="flex flex-col space-y-1">
-          <span>{t('settings.device.oled.keepOn')}</span>
-          <span className="text-xs text-neutral-500">
-            {t('settings.device.oled.keepOnDescription')}
-          </span>
-        </div>
-
+      <SettingRow
+        label={t('settings.device.oled.keepOn')}
+        description={t('settings.device.oled.keepOnDescription')}
+        isSwitch
+      >
         <Switch
           checked={keepOn}
           loading={isLoading}
           disabled={!isReady}
           onChange={(checked) => apply(checked ? 0 : timeout, () => setKeepOn(checked))}
         />
-      </div>
+      </SettingRow>
 
-      <div className="flex items-center justify-between gap-x-4">
-        <div className="flex flex-col space-y-1">
-          <span>{t('settings.device.oled.title')}</span>
-          <span className="text-xs text-neutral-500">{t('settings.device.oled.description')}</span>
-        </div>
-
-        <Space.Compact className="shrink-0">
+      <SettingRow
+        label={t('settings.device.oled.title')}
+        description={t('settings.device.oled.description')}
+        inline
+      >
+        <Space.Compact>
           <Select
             className="w-20 text-right"
             value={timeout.toString()}
@@ -99,7 +95,7 @@ export const Oled = () => {
           />
           <Space.Addon className="w-12 text-center">{t('settings.device.minutes')}</Space.Addon>
         </Space.Compact>
-      </div>
+      </SettingRow>
     </>
   );
 };

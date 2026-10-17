@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Tooltip } from 'antd';
-import { CircleHelpIcon, EthernetPortIcon, WifiIcon } from 'lucide-react';
+import { EthernetPortIcon, WifiIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { formatHardenedVersion } from '@/lib/hardened.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { LabelTip } from '@/components/label-tip.tsx';
 import { InfoRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import { Hostname } from './hostname.tsx';
@@ -76,15 +76,13 @@ export const Information = () => {
         )}
 
         <InfoRow
-          label={
-            <LabelWithTip text={t('settings.about.image')} tip={t('settings.about.imageTip')} />
-          }
+          label={<LabelTip text={t('settings.about.image')} tip={t('settings.about.imageTip')} />}
           value={information?.image}
         />
 
         <InfoRow
           label={
-            <LabelWithTip
+            <LabelTip
               text={t('settings.about.application')}
               tip={t('settings.about.applicationTip')}
             />
@@ -99,12 +97,3 @@ export const Information = () => {
     </SettingSection>
   );
 };
-
-const LabelWithTip = ({ text, tip }: { text: string; tip: string }) => (
-  <span className="flex items-center gap-2">
-    {text}
-    <Tooltip title={tip} className="cursor-pointer text-neutral-500" placement="right">
-      <CircleHelpIcon size={15} />
-    </Tooltip>
-  </span>
-);

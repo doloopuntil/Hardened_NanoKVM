@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Select, Space, Switch, Tooltip } from 'antd';
-import { CircleAlertIcon } from 'lucide-react';
+import { Select, Space, Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
+import { LabelTip } from '@/components/label-tip.tsx';
+import { SettingRow } from '@/components/setting-rows.tsx';
 
 // The size used when swap is switched on before a size has been chosen.
 const DEFAULT_SIZE = '256';
@@ -44,40 +45,31 @@ export const Swap = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between gap-x-4">
-        <div className="flex flex-col space-y-1">
-          <div className="flex items-center space-x-2">
-            <span>{t('settings.device.swap.title')}</span>
-
-            <Tooltip
-              title={t('settings.device.swap.tip')}
-              className="cursor-pointer"
-              placement="right"
-              styles={{ root: { maxWidth: '400px' } }}
-            >
-              <CircleAlertIcon className="text-neutral-500" size={14} />
-            </Tooltip>
-          </div>
-          <span className="text-xs text-neutral-500">{t('settings.device.swap.description')}</span>
-        </div>
-
+      <SettingRow
+        label={
+          <LabelTip
+            text={t('settings.device.swap.title')}
+            tip={t('settings.device.swap.tip')}
+            warning
+          />
+        }
+        description={t('settings.device.swap.description')}
+        isSwitch
+      >
         <Switch
           checked={isEnabled}
           loading={isLoading}
           disabled={!isReady}
           onChange={(checked) => apply(checked, size)}
         />
-      </div>
+      </SettingRow>
 
-      <div className="flex items-center justify-between gap-x-4">
-        <div className="flex flex-col space-y-1">
-          <span>{t('settings.device.swap.size')}</span>
-          <span className="text-xs text-neutral-500">
-            {t('settings.device.swap.sizeDescription')}
-          </span>
-        </div>
-
-        <Space.Compact className="shrink-0">
+      <SettingRow
+        label={t('settings.device.swap.size')}
+        description={t('settings.device.swap.sizeDescription')}
+        inline
+      >
+        <Space.Compact>
           <Select
             className="w-20 text-right"
             value={size}
@@ -87,7 +79,7 @@ export const Swap = () => {
           />
           <Space.Addon className="w-12 text-center">MB</Space.Addon>
         </Space.Compact>
-      </div>
+      </SettingRow>
     </>
   );
 };

@@ -1,6 +1,7 @@
-import type { ReactNode } from 'react';
 import { Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
+
+import { SettingSection } from '@/components/setting-rows.tsx';
 
 import { Hdmi } from './hdmi.tsx';
 import { Mdns } from './mdns.tsx';
@@ -21,43 +22,38 @@ export const Device = () => {
       <Divider className="opacity-50" />
 
       <div className="flex flex-col space-y-6">
-        <Section title={t('settings.device.sections.connectivity')}>
+        <SettingSection title={t('settings.device.sections.connectivity')}>
           <Ssh />
           <Mdns />
-        </Section>
+        </SettingSection>
 
         <Divider className="opacity-50" />
 
-        <Section title={t('settings.device.sections.hostConnection')}>
+        <SettingSection title={t('settings.device.sections.hostConnection')}>
           <VirtualDevices />
-        </Section>
+        </SettingSection>
 
         <Divider className="opacity-50" />
 
-        <Section title={t('settings.device.sections.inputOutput')}>
+        <SettingSection title={t('settings.device.sections.inputOutput')}>
           <MouseJiggler />
           <Hdmi />
           <Oled />
-        </Section>
+        </SettingSection>
 
         <Divider className="opacity-50" />
 
-        <Section title={t('settings.device.sections.optimizations')}>
+        <SettingSection title={t('settings.device.sections.optimizations')}>
           <Swap />
           <SessionLock />
-        </Section>
+        </SettingSection>
       </div>
 
       <Divider className="opacity-50" />
 
-      <Reboot />
+      <div className="flex justify-end">
+        <Reboot />
+      </div>
     </>
   );
 };
-
-const Section = ({ title, children }: { title: string; children: ReactNode }) => (
-  <div className="flex min-w-0 flex-col space-y-6">
-    <div className="text-neutral-400">{title}</div>
-    {children}
-  </div>
-);
