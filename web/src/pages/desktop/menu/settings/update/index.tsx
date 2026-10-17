@@ -526,7 +526,8 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   );
 
   // what the Application section says about its state, as the caption of the version
-  const applicationBusy = status === 'loading' || status === 'updating';
+  const applicationLoading = status === 'loading';
+  const applicationBusy = status === 'updating';
   const applicationText =
     status === 'updating'
       ? t('settings.update.updating')
@@ -653,7 +654,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
 
         <Divider className="opacity-50" />
 
-        <SettingSection title={t('settings.update.application.title')}>
+        <SettingSection title={t('settings.update.application.title')} busy={applicationLoading}>
           <div className="flex flex-col space-y-3">
             <InfoRow
               label={t('settings.about.application')}
@@ -676,7 +677,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
 
           <StatusRow
             buttons={
-              applicationBusy
+              applicationBusy || applicationLoading
                 ? []
                 : [
                     refreshButton,
@@ -697,7 +698,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
 
         <Divider className="opacity-50" />
 
-        <SettingSection title={t('settings.system.title')}>
+        <SettingSection title={t('settings.system.title')} busy={systemStatus === 'loading'}>
           <SettingRow
             label={t('settings.update.system.rawEnable')}
             description={t('settings.update.system.rawEnableDesc')}
@@ -781,7 +782,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
           )}
 
           <StatusRow
-            busy={systemBusy}
+            busy={systemBusy && systemStatus !== 'loading'}
             error={systemError}
             title={systemTitle}
             text={systemText}

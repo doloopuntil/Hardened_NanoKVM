@@ -650,7 +650,7 @@ const en = {
           host: 'Server',
           hostDesc: 'Hostname or IPv4 address of the syslog server',
           port: 'Port',
-          protocol: 'UDP syslog is used by the current BusyBox syslogd'
+          protocol: 'UDP port of the syslog server'
         },
         local: {
           title: 'System log buffer',

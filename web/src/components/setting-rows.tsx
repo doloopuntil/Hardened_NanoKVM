@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Input } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Input, Spin } from 'antd';
 
 // A read-only "label ... value" row, as used on the Network page. It is as tall as the
 // editable row, so switching between the two does not move the rows around. The value stays on
@@ -111,19 +112,25 @@ export const SettingRow = ({
   </div>
 );
 
-// A titled group of settings: a grey title over the rows.
+// A titled group of settings: a grey title over the rows. `busy` puts a small spinner after the
+// title while the section's information loads.
 export const SettingSection = ({
   title,
   description,
+  busy = false,
   children
 }: {
   title: string;
   description?: string;
+  busy?: boolean;
   children: ReactNode;
 }) => (
   <div className="flex min-w-0 flex-col space-y-6">
     <div className="flex min-w-0 flex-col space-y-1">
-      <div className="text-neutral-400">{title}</div>
+      <div className="flex items-center gap-2 text-neutral-400">
+        {title}
+        {busy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+      </div>
       {description && <div className="break-words text-xs text-neutral-500">{description}</div>}
     </div>
     {children}

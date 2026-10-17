@@ -79,7 +79,9 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 17. A state message is the caption of the field it describes: up to date or
     update available under the version row, "downloaded and verified" under
     Staged version, "reboot required" under Pending version.
-18. A busy state is a small spinner with text. An error is red
+18. A busy state is a small spinner with text; while the information of a
+    section loads, the spinner sits after its title (`busy` of `SettingSection`).
+    An error is red
     (`text-red-400`). A headline above the buttons is only for a state that is
     a message in itself ("Boot confirmed").
 19. An `Alert` is for a state that blocks something (Paranoid mode, raw
