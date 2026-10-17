@@ -615,7 +615,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Nejnovější verze',
     'settings.update.system.systemVersion': 'Verze systému',
     'settings.update.title': 'Aktualizace systému',
-    'settings.account.totp.authenticator': 'Ověřovací aplikace'
+    'settings.account.totp.authenticator': 'Ověřovací aplikace',
+    'settings.device.mouseJiggler.title': 'Mouse jiggler'
   },
   da: {
     'auth.illegalPassword':
@@ -889,7 +890,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Seneste version',
     'settings.update.system.systemVersion': 'Systemversion',
     'settings.update.title': 'Systemopdateringer',
-    'settings.account.totp.authenticator': 'Godkendelsesapp'
+    'settings.account.totp.authenticator': 'Godkendelsesapp',
+    'settings.device.mouseJiggler.title': 'Mus-jiggler'
   },
   de: {
     'auth.illegalPassword':
@@ -1185,7 +1187,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': 'Systemversion',
     'settings.update.title': 'Systemupdates',
     'settings.account.totp.authenticator': 'Authenticator-App',
-    'settings.account.webAccount': 'Name des Webkontos'
+    'settings.account.webAccount': 'Name des Webkontos',
+    'settings.appearance.webTitle': 'Webtitel'
   },
   es: {
     'auth.illegalPassword':
@@ -1452,7 +1455,11 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Última versión',
     'settings.update.system.systemVersion': 'Versión del sistema',
     'settings.update.title': 'Actualizaciones del sistema',
-    'settings.account.totp.authenticator': 'Aplicación de autenticación'
+    'settings.account.totp.authenticator': 'Aplicación de autenticación',
+    'settings.device.mouseJiggler.title': 'Mouse jiggler',
+    'settings.device.disk': 'Disco virtual',
+    'settings.device.network': 'Red virtual',
+    'settings.device.swap.title': 'Memoria swap'
   },
   et: {
     'settings.device.diskDesc': 'Ühenda SD-kaart kaugmasinasse',
@@ -1989,7 +1996,7 @@ export const translationFixes: Record<string, TranslationMap> = {
     'mouse.grab': 'Curseur de saisie',
     'settings.about.title': 'À propos de NanoKVM',
     'settings.tailscale.upTailscale': 'Téléverser tailscale dans le répertoire NanoKVM /usr/bin/',
-    'settings.device.mouseJiggler.title': 'Mouse Jiggler',
+    'settings.device.mouseJiggler.title': 'Mouse jiggler',
     'settings.device.diskDesc': "Monter la carte SD sur l'hôte distant",
     'settings.device.diskCancelMount':
       "Activer le disque virtuel annule l'image montée. Continuer ?",
@@ -2244,7 +2251,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Dernière version',
     'settings.update.system.systemVersion': 'Version du système',
     'settings.update.title': 'Mises à jour du système',
-    'settings.account.totp.authenticator': 'Application d’authentification'
+    'settings.account.totp.authenticator': 'Application d’authentification',
+    'settings.appearance.webTitle': 'Titre web'
   },
   hu: {
     'auth.illegalPassword':
@@ -2519,7 +2527,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Legújabb verzió',
     'settings.update.system.systemVersion': 'Rendszerverzió',
     'settings.update.title': 'Rendszerfrissítések',
-    'settings.account.totp.authenticator': 'Hitelesítő alkalmazás'
+    'settings.account.totp.authenticator': 'Hitelesítő alkalmazás',
+    'settings.device.mouseJiggler.title': 'Mouse jiggler'
   },
   id: {
     'auth.illegalPassword':
@@ -2801,7 +2810,14 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.about.application': 'Versi aplikasi',
     'settings.update.system.systemVersion': 'Versi sistem',
     'settings.update.title': 'Pembaruan sistem',
-    'settings.account.totp.authenticator': 'Aplikasi autentikator'
+    'settings.account.totp.authenticator': 'Aplikasi autentikator',
+    'settings.about.image': 'Versi gambar',
+    'settings.about.deviceKey': 'Kunci perangkat',
+    'settings.appearance.webTitle': 'Judul web',
+    'settings.appearance.menuBar.mode': 'Mode tampilan',
+    'settings.device.mouseJiggler.title': 'Tikus jiggler',
+    'settings.device.mouseJiggler.absolute': 'Mode absolut',
+    'settings.device.mouseJiggler.relative': 'Mode relatif'
   },
   it: {
     'auth.illegalPassword':
@@ -3074,7 +3090,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.title': 'Aggiornamenti di sistema',
     'settings.about.application': 'Versione applicazione',
     'settings.update.system.systemVersion': 'Versione sistema',
-    'settings.account.totp.authenticator': 'App di autenticazione'
+    'settings.account.totp.authenticator': 'App di autenticazione',
+    'settings.about.image': 'Versione immagine',
+    'settings.about.deviceKey': 'Chiave dispositivo'
   },
   ja: {
     'auth.illegalPassword': 'パスワードは 8 文字以上で、引用符やスラッシュを含めることはできません',
@@ -3857,7 +3875,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.latestVersion': 'Nyeste versjon',
     'settings.update.system.systemVersion': 'Systemversjon',
     'settings.update.title': 'Systemoppdateringer',
-    'settings.account.totp.authenticator': 'Autentiseringsapp'
+    'settings.account.totp.authenticator': 'Autentiseringsapp',
+    'settings.device.mouseJiggler.title': 'Mus-jiggler'
   },
   nl: {
     'auth.illegalPassword':
@@ -4136,7 +4155,8 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': 'Systeemversie',
     'settings.update.title': 'Systeemupdates',
     'settings.account.totp.authenticator': 'Authenticator-app',
-    'settings.account.webAccount': 'Webaccountnaam'
+    'settings.account.webAccount': 'Webaccountnaam',
+    'settings.device.network': 'Virtueel netwerk'
   },
   pl: {
     'auth.illegalPassword':
@@ -4659,7 +4679,15 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.about.application': 'Versão do aplicativo',
     'settings.update.system.systemVersion': 'Versão do sistema',
     'settings.account.totp.authenticator': 'App autenticador',
-    'settings.account.webAccount': 'Nome da conta web'
+    'settings.account.webAccount': 'Nome da conta web',
+    'settings.about.image': 'Versão da imagem',
+    'settings.about.deviceKey': 'Chave do dispositivo',
+    'settings.appearance.webTitle': 'Título da web',
+    'settings.device.mouseJiggler.title': 'Movimentador de mouse',
+    'settings.device.mouseJiggler.absolute': 'Modo absoluto',
+    'settings.device.mouseJiggler.relative': 'Modo relativo',
+    'settings.device.disk': 'Disco virtual',
+    'settings.device.network': 'Rede virtual'
   },
   ru: {
     'download.disabled':
@@ -5652,7 +5680,13 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.update.system.systemVersion': 'Sistem sürümü',
     'settings.update.title': 'Sistem güncellemeleri',
     'settings.account.totp.authenticator': 'Kimlik doğrulama uygulaması',
-    'settings.account.webAccount': 'Web hesap adı'
+    'settings.account.webAccount': 'Web hesap adı',
+    'settings.about.image': 'İmaj sürümü',
+    'settings.about.deviceKey': 'Cihaz anahtarı',
+    'settings.appearance.menuBar.mode': 'Görüntüleme modu',
+    'settings.device.mouseJiggler.title': 'Fare oynatıcı',
+    'settings.device.disk': 'Sanal disk',
+    'settings.device.network': 'Sanal ağ'
   },
   uk: {
     'auth.illegalPassword':
@@ -6184,7 +6218,9 @@ export const translationFixes: Record<string, TranslationMap> = {
     'settings.about.application': 'Phiên bản ứng dụng',
     'settings.update.system.systemVersion': 'Phiên bản hệ thống',
     'settings.update.title': 'Cập nhật hệ thống',
-    'settings.account.totp.authenticator': 'Ứng dụng xác thực'
+    'settings.account.totp.authenticator': 'Ứng dụng xác thực',
+    'settings.about.image': 'Phiên bản hình ảnh',
+    'settings.about.deviceKey': 'Khóa thiết bị'
   },
   zh: {
     'auth.illegalPassword': '密码至少 8 个字符，且不能包含引号或斜杠',
