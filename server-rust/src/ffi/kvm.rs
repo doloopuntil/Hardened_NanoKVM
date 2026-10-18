@@ -31,6 +31,10 @@ type FreeKvmvData = unsafe extern "C" fn(*mut *mut u8) -> i32;
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
 type SetH264Gop = unsafe extern "C" fn(u8);
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
+type KvmvSetH264Fps = unsafe extern "C" fn(u8);
+#[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
+type KvmvRequestKeyframe = unsafe extern "C" fn();
+#[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
 type SetFrameDetect = unsafe extern "C" fn(u8);
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
 type KvmvDeinit = unsafe extern "C" fn();
@@ -42,6 +46,9 @@ type KvmvHdmiSignalActive = unsafe extern "C" fn() -> u8;
 // Older libkvm builds lack kvmv_hdmi_signal_active; the pointer stays None for them.
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
 static HDMI_SIGNAL_ACTIVE: OnceLock<Option<KvmvHdmiSignalActive>> = OnceLock::new();
+// Older libkvm builds lack kvmv_request_keyframe; requests are then dropped.
+#[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
+static REQUEST_KEYFRAME: OnceLock<Option<KvmvRequestKeyframe>> = OnceLock::new();
 
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
 #[cfg_attr(not(target_env = "musl"), link(name = "dl"))]
@@ -65,11 +72,11 @@ pub fn read_mjpeg(width: u16, height: u16, quality: u16) -> Result<(Vec<u8>, i32
         .read_img(width, height, 0, quality)
 }
 
-pub fn read_h264(width: u16, height: u16, bit_rate: u16) -> Result<(Vec<u8>, i32)> {
-    vision()?
-        .lock()
-        .map_err(lock_error)?
-        .read_img(width, height, 1, bit_rate)
+/// libkvm rebuilds the encoder when `fps` differs from the running channel's.
+pub fn read_h264(width: u16, height: u16, fps: u8, bit_rate: u16) -> Result<(Vec<u8>, i32)> {
+    let mut vision = vision()?.lock().map_err(lock_error)?;
+    vision.set_h264_fps(fps);
+    vision.read_img(width, height, 1, bit_rate)
 }
 
 pub fn set_frame_detect(frame: u8) -> Result<()> {
@@ -87,6 +94,12 @@ pub fn set_h264_gop(gop: u8) -> Result<()> {
 
 pub fn set_hdmi(enabled: bool) -> Result<u8> {
     Ok(vision()?.lock().map_err(lock_error)?.set_hdmi(enabled))
+}
+
+/// Asks libkvm for an IDR on the next H.264 frame. Only sets a flag in libkvm,
+/// so it does not wait for the vision lock that frame reads hold.
+pub fn request_keyframe() {
+    request_keyframe_impl();
 }
 
 /// Whether HDMI capture is enabled and a signal is present. Reads libkvm's
@@ -135,12 +148,28 @@ unsafe extern "C" {
     fn kvmv_deinit();
     fn kvmv_hdmi_control(enabled: u8) -> u8;
     fn kvmv_hdmi_signal_active() -> u8;
+    fn kvmv_set_h264_fps(fps: u8);
+    fn kvmv_request_keyframe();
 }
 
 #[cfg(all(target_arch = "riscv64", feature = "linked-libkvm"))]
 fn hdmi_signal_active_impl() -> bool {
     // SAFETY: Reads atomic state; matches server-rust/native/include/kvm_vision.h.
     unsafe { kvmv_hdmi_signal_active() != 0 }
+}
+
+#[cfg(all(target_arch = "riscv64", feature = "linked-libkvm"))]
+fn request_keyframe_impl() {
+    // SAFETY: Stores an atomic flag; matches server-rust/native/include/kvm_vision.h.
+    unsafe { kvmv_request_keyframe() }
+}
+
+#[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
+fn request_keyframe_impl() {
+    if let Some(Some(request)) = REQUEST_KEYFRAME.get() {
+        // SAFETY: Pointer was loaded from the libkvm held open by VISION for the process lifetime.
+        unsafe { request() }
+    }
 }
 
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
@@ -216,6 +245,13 @@ impl KvmVision {
         }
     }
 
+    fn set_h264_fps(&self, fps: u8) {
+        // SAFETY: Direct binding matches server-rust/native/include/kvm_vision.h.
+        unsafe {
+            kvmv_set_h264_fps(fps);
+        }
+    }
+
     fn set_hdmi(&self, enabled: bool) -> u8 {
         // SAFETY: libkvm accepts 0/1 for HDMI state.
         unsafe { kvmv_hdmi_control(u8::from(enabled)) }
@@ -270,6 +306,7 @@ struct KvmVision {
     read_img: KvmvReadImg,
     free_data: FreeKvmvData,
     set_h264_gop: SetH264Gop,
+    set_h264_fps: Option<KvmvSetH264Fps>,
     set_frame_detect: SetFrameDetect,
     deinit: KvmvDeinit,
     hdmi_control: KvmvHdmiControl,
@@ -296,12 +333,17 @@ impl KvmVision {
         let signal_active =
             unsafe { lib.symbol::<KvmvHdmiSignalActive>("kvmv_hdmi_signal_active") }.ok();
         let _ = HDMI_SIGNAL_ACTIVE.set(signal_active);
+        let set_h264_fps = unsafe { lib.symbol::<KvmvSetH264Fps>("kvmv_set_h264_fps") }.ok();
+        let request_keyframe =
+            unsafe { lib.symbol::<KvmvRequestKeyframe>("kvmv_request_keyframe") }.ok();
+        let _ = REQUEST_KEYFRAME.set(request_keyframe);
 
         let vision = Self {
             _lib: lib,
             read_img,
             free_data,
             set_h264_gop,
+            set_h264_fps,
             set_frame_detect,
             deinit,
             hdmi_control,
@@ -345,6 +387,13 @@ impl KvmVision {
         // SAFETY: Function pointer is loaded from libkvm.so and accepts a plain u8.
         unsafe {
             (self.set_h264_gop)(gop);
+        }
+    }
+
+    fn set_h264_fps(&self, fps: u8) {
+        if let Some(set_h264_fps) = self.set_h264_fps {
+            // SAFETY: Function pointer is loaded from libkvm.so and accepts a plain u8.
+            unsafe { set_h264_fps(fps) }
         }
     }
 

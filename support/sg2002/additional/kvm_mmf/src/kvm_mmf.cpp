@@ -2187,6 +2187,15 @@ void mmf_get_vi_vflip(int ch, bool *en)
 	*en = (bool)g_priv.vi_vflip[ch];
 }
 
+// Stream buffer sized from the picture: 1-8 MiB, 64 KiB aligned.
+static CVI_U32 _venc_stream_buf_size(int w, int h)
+{
+	CVI_U32 size = (CVI_U32)w * (CVI_U32)h;
+	if (size < (1u << 20)) size = 1u << 20;
+	if (size > (8u << 20)) size = 8u << 20;
+	return (size + 0xffffu) & ~0xffffu;
+}
+
 int mmf_add_venc_channel(int ch, mmf_venc_cfg_t *cfg) {
 	CVI_S32 s32Ret = CVI_SUCCESS;
 	if (ch < 0 || ch >= MMF_VENC_MAX_CHN || cfg == NULL || priv.venc[ch].is_used) {
@@ -2230,7 +2239,7 @@ int mmf_add_venc_channel(int ch, mmf_venc_cfg_t *cfg) {
 		stVencChnAttr.stVencAttr.enType = PT_H264;
 		stVencChnAttr.stVencAttr.u32MaxPicWidth = cfg->w;
 		stVencChnAttr.stVencAttr.u32MaxPicHeight = cfg->h;
-		stVencChnAttr.stVencAttr.u32BufSize = 1024 * 1024;	// 1024Kb
+		stVencChnAttr.stVencAttr.u32BufSize = _venc_stream_buf_size(cfg->w, cfg->h);
 		stVencChnAttr.stVencAttr.bByFrame = CVI_TRUE;
 		stVencChnAttr.stVencAttr.u32PicWidth = cfg->w;
 		stVencChnAttr.stVencAttr.u32PicHeight = cfg->h;
@@ -2252,17 +2261,7 @@ int mmf_add_venc_channel(int ch, mmf_venc_cfg_t *cfg) {
 		}
 		channel_created = true;
 
-		VENC_RECV_PIC_PARAM_S stRecvParam;
-		memset(&stRecvParam, 0, sizeof(stRecvParam));
-		stRecvParam.s32RecvPicNum = -1;
-		s32Ret = CVI_VENC_StartRecvFrame(ch, &stRecvParam);
-		if (s32Ret != CVI_SUCCESS) {
-			printf("CVI_VENC_StartRecvPic failed with %d\n", s32Ret);
-			rollback();
-			return s32Ret;
-		}
-		receiving_frames = true;
-
+		// The driver reads the QP limits, Iprop and start QP only at StartRecvFrame.
 		VENC_RC_PARAM_S stRcParam;
 		memset(&stRcParam, 0, sizeof(stRcParam));
 		s32Ret = CVI_VENC_GetRcParam(ch, &stRcParam);
@@ -2286,6 +2285,18 @@ int mmf_add_venc_channel(int ch, mmf_venc_cfg_t *cfg) {
 			return s32Ret;
 		}
 
+		VENC_RECV_PIC_PARAM_S stRecvParam;
+		memset(&stRecvParam, 0, sizeof(stRecvParam));
+		stRecvParam.s32RecvPicNum = -1;
+		s32Ret = CVI_VENC_StartRecvFrame(ch, &stRecvParam);
+		if (s32Ret != CVI_SUCCESS) {
+			printf("CVI_VENC_StartRecvPic failed with %d\n", s32Ret);
+			rollback();
+			return s32Ret;
+		}
+		receiving_frames = true;
+
+		// Never drop frames: a dropped reference frame breaks every frame up to the next IDR.
 		VENC_FRAMELOST_S stFL;
 		memset(&stFL, 0, sizeof(stFL));
 		s32Ret = CVI_VENC_GetFrameLostStrategy(ch, &stFL);
@@ -2294,12 +2305,26 @@ int mmf_add_venc_channel(int ch, mmf_venc_cfg_t *cfg) {
 			rollback();
 			return s32Ret;
 		}
-		stFL.enFrmLostMode = FRMLOST_PSKIP;
+		stFL.bFrmLostOpen = CVI_FALSE;
+		stFL.enFrmLostMode = FRMLOST_NORMAL;
 		s32Ret = CVI_VENC_SetFrameLostStrategy(ch, &stFL);
 		if (s32Ret != CVI_SUCCESS) {
 			printf("CVI_VENC_SetFrameLostStrategy failed with %d\n", s32Ret);
 			rollback();
 			return s32Ret;
+		}
+
+		VENC_RC_PARAM_S stRcActual;
+		memset(&stRcActual, 0, sizeof(stRcActual));
+		if (CVI_VENC_GetRcParam(ch, &stRcActual) == CVI_SUCCESS) {
+			const auto *p = &stRcActual.stParamH264Cbr;
+			fprintf(stderr,
+				"[kvm_mmf] venc %d h264 %dx%d gop=%d fps=%d/%d bitrate=%d buf=%uKiB "
+				"startqp=%d qp=%u-%u iqp=%u-%u iprop=%u-%u\n",
+				ch, cfg->w, cfg->h, cfg->gop, cfg->intput_fps, cfg->output_fps,
+				cfg->bitrate, stVencChnAttr.stVencAttr.u32BufSize >> 10,
+				stRcActual.s32FirstFrameStartQp, p->u32MinQp, p->u32MaxQp,
+				p->u32MinIQp, p->u32MaxIQp, p->u32MinIprop, p->u32MaxIprop);
 		}
 
 		break;
@@ -2601,4 +2626,16 @@ int mmf_venc_free(int ch) {
 		_mmf_release_all_vi_frames();
 	}
 	return s32Ret;
+}
+
+int mmf_venc_request_idr(int ch) {
+	if (ch < 0 || ch >= MMF_VENC_MAX_CHN || !priv.venc[ch].is_inited) {
+		return -1;
+	}
+	CVI_S32 s32Ret = CVI_VENC_RequestIDR(ch, CVI_TRUE);
+	if (s32Ret != CVI_SUCCESS) {
+		fprintf(stderr, "[kvm_mmf] CVI_VENC_RequestIDR [%d] failed with %#x\n", ch, s32Ret);
+		return s32Ret;
+	}
+	return 0;
 }

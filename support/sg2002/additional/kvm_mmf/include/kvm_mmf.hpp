@@ -67,5 +67,7 @@ int mmf_del_venc_channel_all();
 int mmf_venc_push(int ch, uint8_t *data, int w, int h, int format);
 int mmf_venc_pop(int ch, mmf_stream_t *stream);
 int mmf_venc_free(int ch);
+// Next frame is an IDR; the channel keeps running.
+int mmf_venc_request_idr(int ch);
 
 #endif // __KVM_MMF_HPP__
