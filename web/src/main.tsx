@@ -12,8 +12,13 @@ import './i18n';
 import './assets/styles/index.css';
 
 const renderApp = () => {
+  // Tooltips and Popconfirms share the spotlight colour; antd's own default (#424242) is lighter
+  // than the Settings panel needs, so they take the next step down, its secondary border grey.
+  const darkTokens = theme.getDesignToken({ algorithm: theme.darkAlgorithm });
+
   const themeConfig = {
     algorithm: theme.darkAlgorithm,
+    token: { colorBgSpotlight: darkTokens.colorBorderSecondary },
     components: {
       Collapse: {
         headerPadding: 0,

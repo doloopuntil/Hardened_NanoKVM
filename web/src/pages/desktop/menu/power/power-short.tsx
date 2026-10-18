@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { usePopconfirmColor } from '@/hooks/usePopconfirmColor.ts';
 import { MenuRow } from '@/components/menu-rows.tsx';
 
-import { confirmBackground, confirmOkProps } from './confirm.ts';
+import { confirmOkProps } from './confirm.ts';
 
 type PowerShortProps = {
   showConfirm: boolean;
@@ -16,6 +17,7 @@ type PowerShortProps = {
 
 export const PowerShort = ({ showConfirm, isLoading, setIsLoading }: PowerShortProps) => {
   const { t } = useTranslation();
+  const popconfirmColor = usePopconfirmColor();
 
   function power() {
     if (isLoading) return;
@@ -41,7 +43,7 @@ export const PowerShort = ({ showConfirm, isLoading, setIsLoading }: PowerShortP
       okText={t('power.okBtn')}
       cancelText={t('power.cancelBtn')}
       okButtonProps={confirmOkProps}
-      color={confirmBackground}
+      color={popconfirmColor}
       onConfirm={power}
     >
       {row}

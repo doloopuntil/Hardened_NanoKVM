@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/extensions/tailscale.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { usePopconfirmColor } from '@/hooks/usePopconfirmColor.ts';
 import { SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
 type ServiceProps = {
@@ -14,6 +15,7 @@ type Loading = '' | 'restarting' | 'stopping';
 
 export const Service = ({ onSuccess }: ServiceProps) => {
   const { t } = useTranslation();
+  const popconfirmColor = usePopconfirmColor();
 
   const [loading, setLoading] = useState<Loading>('');
 
@@ -35,6 +37,7 @@ export const Service = ({ onSuccess }: ServiceProps) => {
         inline
       >
         <Popconfirm
+          color={popconfirmColor}
           title={t('settings.tailscale.restart')}
           onConfirm={() => run('restarting', api.restart)}
           okText={t('settings.tailscale.okBtn')}
@@ -54,6 +57,7 @@ export const Service = ({ onSuccess }: ServiceProps) => {
         inline
       >
         <Popconfirm
+          color={popconfirmColor}
           title={t('settings.tailscale.stop')}
           description={t('settings.tailscale.stopDesc')}
           onConfirm={() => run('stopping', api.stop)}

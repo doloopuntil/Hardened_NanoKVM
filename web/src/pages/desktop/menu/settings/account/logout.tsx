@@ -5,9 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import * as api from '@/api/auth.ts';
 import { removeToken } from '@/lib/cookie.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { usePopconfirmColor } from '@/hooks/usePopconfirmColor.ts';
 
 export const Logout = () => {
   const { t } = useTranslation();
+  const popconfirmColor = usePopconfirmColor();
   const navigate = useNavigate();
 
   function logout() {
@@ -21,6 +23,7 @@ export const Logout = () => {
 
   return (
     <Popconfirm
+      color={popconfirmColor}
       placement="topRight"
       title={t('settings.account.logoutDesc')}
       okText={t('settings.account.okBtn')}

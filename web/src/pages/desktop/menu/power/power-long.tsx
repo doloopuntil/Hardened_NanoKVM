@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { usePopconfirmColor } from '@/hooks/usePopconfirmColor.ts';
 import { MenuRow } from '@/components/menu-rows.tsx';
 
-import { confirmBackground, confirmOkProps } from './confirm.ts';
+import { confirmOkProps } from './confirm.ts';
 
 const DEFAULT_POWER_LONG_DURATION_SECONDS = 12;
 
@@ -19,6 +20,7 @@ type PowerLongProps = {
 
 export const PowerLong = ({ showConfirm, isLoading, setIsLoading }: PowerLongProps) => {
   const { t } = useTranslation();
+  const popconfirmColor = usePopconfirmColor();
 
   const [duration, setDuration] = useState(DEFAULT_POWER_LONG_DURATION_SECONDS);
 
@@ -47,7 +49,7 @@ export const PowerLong = ({ showConfirm, isLoading, setIsLoading }: PowerLongPro
           okText={t('power.okBtn')}
           cancelText={t('power.cancelBtn')}
           okButtonProps={confirmOkProps}
-          color={confirmBackground}
+          color={popconfirmColor}
           onConfirm={power}
         >
           {row}
