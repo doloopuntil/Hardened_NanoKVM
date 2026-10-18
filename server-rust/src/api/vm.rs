@@ -321,7 +321,10 @@ pub async fn set_hostname(Json(req): Json<SetHostnameReq>) -> Result<impl IntoRe
     // replacing an empty name would insert the new one between every character
     if !old_hostname.is_empty() && old_hostname != req.hostname {
         if let Ok(hosts) = fs::read_to_string(ETC_HOSTS_FILE) {
-            fs::write(ETC_HOSTS_FILE, hosts.replace(&old_hostname, &req.hostname))?;
+            fs::write(
+                ETC_HOSTS_FILE,
+                replace_host_name(&hosts, &old_hostname, &req.hostname),
+            )?;
         }
     }
 
@@ -1265,6 +1268,33 @@ fn validate_hostname(hostname: &str) -> Result<()> {
     Ok(())
 }
 
+/// `hosts` with every name field equal to `old` changed to `new`. Addresses, comments and other
+/// names that merely contain `old` stay as they are.
+fn replace_host_name(hosts: &str, old: &str, new: &str) -> String {
+    let mut out = String::with_capacity(hosts.len());
+    for line in hosts.split_inclusive('\n') {
+        let (entry, comment) = line.split_at(line.find('#').unwrap_or(line.len()));
+        let mut rest = entry;
+        let mut fields = 0;
+        while !rest.is_empty() {
+            let token_len = rest.find(char::is_whitespace).unwrap_or(rest.len());
+            let (token, after) = rest.split_at(token_len);
+            if !token.is_empty() {
+                fields += 1;
+            }
+            let is_name = fields > 1 && token.eq_ignore_ascii_case(old);
+            out.push_str(if is_name { new } else { token });
+            let space_len = after
+                .find(|c: char| !c.is_whitespace())
+                .unwrap_or(after.len());
+            out.push_str(&after[..space_len]);
+            rest = &after[space_len..];
+        }
+        out.push_str(comment);
+    }
+    out
+}
+
 fn valid_hostname_label(label: &str) -> bool {
     !label.is_empty()
         && label.len() <= 63
@@ -1560,6 +1590,25 @@ mod tests {
         assert!(validate_hostname(&"a".repeat(64)).is_err());
         assert!(validate_hostname(&format!("{}.{}", "a".repeat(64), "b")).is_err());
         assert!(validate_hostname(&format!("{}.{}", "a".repeat(40), "b".repeat(30))).is_err());
+    }
+
+    #[test]
+    fn host_name_is_replaced_as_a_whole_field_only() {
+        let hosts = "127.0.0.1\tlocalhost\n127.0.1.1 local local.lan # local box\n\n  ::1 localhost local\r\n";
+        assert_eq!(
+            replace_host_name(hosts, "local", "kvm"),
+            "127.0.0.1\tlocalhost\n127.0.1.1 kvm local.lan # local box\n\n  ::1 localhost kvm\r\n"
+        );
+        assert_eq!(
+            replace_host_name("127.0.1.1 KVM\n", "kvm", "desk"),
+            "127.0.1.1 desk\n"
+        );
+        // the address column is never a name
+        assert_eq!(
+            replace_host_name("1.2.3.4 1.2.3.4\n", "1.2.3.4", "kvm"),
+            "1.2.3.4 kvm\n"
+        );
+        assert_eq!(replace_host_name("", "kvm", "desk"), "");
     }
 
     #[test]
