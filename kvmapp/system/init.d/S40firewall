@@ -5,6 +5,7 @@ SERVER_CONFIG=/etc/kvm/server.yaml
 SYSLOG_CONFIG=/etc/kvm/syslog.json
 WG_CONFIG=/etc/kvm/wireguard/kvm.conf
 WG_IFACE=wg0
+WG_LISTEN_PORT=51820
 LOCAL_IPV4_CIDRS="10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 169.254.0.0/16"
 LOCAL_IPV4_LOOPBACK_CIDRS="127.0.0.0/8"
 LOCAL_IPV6_CIDRS="fc00::/7 fe80::/10"
@@ -68,10 +69,18 @@ allow_wg_ipv4_tcp_port() {
     done
 }
 
+# Only from the tunnel's port, and only to the peer when its endpoint is an address.
 allow_wg_endpoint() {
     port="$(wg_get EndpointPort)"
     [ -n "$port" ] || return 0
-    "$1" -A OUTPUT -p udp --dport "$port" -j ACCEPT
+    host="$(wg_get EndpointHost)"
+    dest=""
+    case "$host" in
+        *:*) [ "$1" = ip6tables ] || return 0; dest="$host" ;;
+        *[!0-9.]*) ;;
+        *) [ "$1" = iptables ] || return 0; dest="$host" ;;
+    esac
+    "$1" -A OUTPUT -p udp --sport "$WG_LISTEN_PORT" --dport "$port" ${dest:+-d "$dest"} -j ACCEPT
 }
 
 local_ipv4_cidrs() {

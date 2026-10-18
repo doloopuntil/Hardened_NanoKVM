@@ -7,6 +7,8 @@ CONF=$CONF_DIR/kvm.conf
 KEY=$CONF_DIR/private.key
 IFACE=wg0
 MTU=1420
+# fixed so the firewall can tell the tunnel's packets apart (S40firewall)
+LISTEN_PORT=51820
 SELF=/etc/init.d/S45wireguard
 WATCHER_PID=/var/run/wireguard-endpoint.pid
 
@@ -85,7 +87,7 @@ start() {
     err="$(
         {
             ip link add dev "$IFACE" type wireguard &&
-                wg set "$IFACE" private-key "$KEY" peer "$pub" \
+                wg set "$IFACE" listen-port "$LISTEN_PORT" private-key "$KEY" peer "$pub" \
                     allowed-ips "$allowed" persistent-keepalive "${keepalive:-0}" &&
                 ip -4 address add "$address" dev "$IFACE" &&
                 ip link set mtu "$MTU" up dev "$IFACE"
