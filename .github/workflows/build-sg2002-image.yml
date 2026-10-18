@@ -1,4 +1,4 @@
-name: Build SG2002 recovery-SD image
+name: H-NanoKVM system image
 
 # Manual only: this rebuilds the vendor SDK, a from-scratch Buildroot toolchain, the hardened
 # 5.10.265 kernel/modules, and the SG2002 rootfs. It is multi-hour and disk-heavy; do not run it on
