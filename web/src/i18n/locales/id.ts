@@ -12,27 +12,66 @@ const id = {
     head: {
       desktop: 'Desktop jarak jauh',
       login: 'Masuk',
+      firstSetup: 'Penyiapan pertama',
       changePassword: 'Ubah Sandi',
       terminal: 'Terminal',
       wifi: 'Wi-Fi'
     },
     auth: {
       login: 'Masuk',
+      placeholderUsername: 'Silakan masukkan nama pengguna',
+      placeholderPassword: 'Silakan masukkan kata sandi',
+      placeholderPassword2: 'Silakan masukkan kata sandi lagi',
+      noEmptyUsername: 'Nama pengguna tidak boleh kosong',
+      noEmptyPassword: 'Kata sandi tidak boleh kosong',
+      invalidUser: 'Nama pengguna atau kata sandi tidak valid',
       locked: 'Terlalu banyak login, silakan coba lagi nanti',
       globalLocked: 'Sistem dalam perlindungan, silakan coba lagi nanti',
+      error: 'Terjadi kesalahan tak terduga',
       changePassword: 'Ganti Sandi',
+      changePasswordDesc: 'Untuk keamanan perangkat Anda, silakan ubah kata sandi masuk web',
+      differentPassword: 'Kata sandi tidak sesuai',
+      illegalUsername: 'Nama pengguna mengandung karakter ilegal',
+      illegalPassword:
+        'Kata sandi harus minimal 8 karakter dan tidak boleh berisi tanda kutip atau garis miring',
       forgetPassword: 'Lupa Sandi',
       ok: 'Ok',
       cancel: 'Batalkan',
       loginButtonText: 'Masuk',
+      setupTitle: 'Buat akun administrator',
+      setupDescription:
+        'Belum ada akun web pada perangkat ini. Buat akun administrator pertama untuk melanjutkan.',
+      setupRecovery: 'Jika kata sandi ini hilang, pemulihan memerlukan penulisan ulang kartu SD',
+      setupButtonText: 'Buat akun',
       tips: {
+        hardenedRecovery:
+          'Image Hardened ini tidak mendukung reset kata sandi dari tombol BOOT. Jika kata sandi hilang, tulis ulang kartu SD dan buat akun baru.',
         change1: 'Perhatikan bahwa tindakan ini akan mengubah kata sandi berikut:',
-        change2: 'Kata sandi login web'
+        change2: 'Kata sandi login web',
+        change3: 'Kata sandi root sistem untuk login SSH'
+      },
+      placeholderCurrentPassword: 'Kata sandi saat ini',
+      placeholderNewPassword: 'Kata sandi baru',
+      wrongCurrentPassword: 'Kata sandi saat ini salah',
+      totp: {
+        title: 'Autentikasi dua faktor',
+        prompt: 'Masukkan kode 6 digit dari aplikasi autentikator Anda',
+        backupPrompt: 'Masukkan salah satu kode cadangan Anda',
+        noEmptyCode: 'Masukkan kode',
+        placeholderCode: 'Kode 6 digit',
+        placeholderBackup: 'Kode cadangan',
+        verifyButtonText: 'Verifikasi',
+        useBackupCode: 'Gunakan kode cadangan',
+        useAuthenticator: 'Gunakan kode autentikator',
+        cancel: 'Kembali',
+        invalidCode: 'Kode itu tidak valid. Coba lagi.'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Konfigurasi Wi-Fi untuk NanoKVM',
+      success: 'Silakan periksa status jaringan NanoKVM langsung pada perangkat',
+      failed: 'Operasi gagal, silakan coba lagi',
       invalidMode:
         'Mode saat ini tidak mendukung pengaturan jaringan. Silakan buka perangkat Anda dan aktifkan mode konfigurasi Wi-Fi.',
       confirmBtn: 'Ok',
@@ -41,31 +80,40 @@ const id = {
         authTitle: 'Otentikasi Diperlukan',
         authDescription: 'Silakan masukkan kata sandi AP untuk melanjutkan',
         authFailed: 'Kata sandi AP tidak valid',
-        passPlaceholder: 'AP kata sandi',
+        passPlaceholder: 'Kata sandi AP',
         verifyBtn: 'Verifikasi'
       }
     },
     screen: {
       scale: 'Skala',
       title: 'Layar',
-      video: 'Mode Video',
+      video: 'Mode video',
+      videoDirectTips:
+        'Aktifkan HTTPS di "Pengaturan > Sistem > Jaringan" untuk menggunakan mode ini',
+      videoWebrtcBlockedByFirewall:
+        'H.264 WebRTC dinonaktifkan dalam mode firewall Terbatas dan Paranoid',
+      transferRunningTitle: 'Transfer image sedang berlangsung',
+      transferRunningDesc:
+        'Mengubah mode video akan memuat ulang halaman sehingga unggahan atau unduhan image yang sedang berjalan dibatalkan.',
+      transferRunningOk: 'Ubah mode',
       resolution: 'Resolusi',
       auto: 'Otomatis',
       autoTips:
-        'Tearing layar atau offset tetikus dapat terjadi pada resolusi tertentu. Pertimbangkan untuk menyesuaikan resolusi host jarak jauh atau menonaktifkan mode otomatis.',
+        'Tearing layar atau offset tetikus dapat terjadi pada resolusi tertentu, jadi sesuaikan resolusi host jarak jauh atau nonaktifkan mode otomatis',
       fps: 'FPS',
       customizeFps: 'Sesuaikan',
       quality: 'Kualitas',
-      qualityLossless: 'Tanpa Kehilangan',
+      qualityLossless: 'Tanpa kehilangan',
       qualityHigh: 'Tinggi',
       qualityMedium: 'Sedang',
       qualityLow: 'Rendah',
       frameDetect: 'Deteksi bingkai',
       frameDetectTip:
-        'Hitung selisih antar frame. Hentikan transmisi aliran video saat tidak ada perubahan yang terdeteksi di layar host jarak jauh.',
+        'Membandingkan frame dan menghentikan pengiriman video selama layar host jarak jauh tidak berubah',
       resetHdmi: 'Atur ulang HDMI',
       webrtcConnectionFailed: {
-        title: 'Koneksi WebRTC gagal'
+        title: 'Koneksi WebRTC gagal',
+        description: 'Periksa koneksi jaringan atau ganti mode video'
       },
       captureStatus: {
         hdmiError: 'Kesalahan layar HDMI',
@@ -82,28 +130,41 @@ const id = {
       title: 'Keyboard',
       paste: 'Tempel',
       tips: 'Hanya huruf dan simbol keyboard standar yang didukung',
-      placeholder: 'Silahkan isi',
-      virtual: 'Keyboard',
-      readClipboard: 'Membaca dari Papan Klip',
+      placeholder: 'Teks yang akan ditempel',
+      local: 'Keyboard seluler',
+      virtual: 'Keyboard layar',
+      readClipboard: 'Membaca dari papan klip',
       clipboardPermissionDenied:
-        'Izin papan klip ditolak. Harap izinkan akses clipboard di browser Anda.',
+        'Izin papan klip ditolak, izinkan akses papan klip di browser Anda',
       clipboardReadError: 'Gagal membaca papan klip',
       dropdownEnglish: 'Bahasa Inggris',
+      dropdownGerman: 'Bahasa Jerman',
+      dropdownFrench: 'Bahasa Prancis',
+      dropdownRussian: 'Bahasa Rusia',
+      dropdownKorean: 'Bahasa Korea',
+      dropdownJapanese: 'Bahasa Jepang',
+      localInput: 'Input papan ketik seluler',
       shortcut: {
         title: 'Pintasan',
+        custom: 'Kustom',
         capture: 'Klik di sini untuk mengambil pintasan',
-        save: 'Simpan'
+        clear: 'Hapus',
+        save: 'Simpan',
+        captureTips:
+          'Menangkap tombol tingkat sistem, seperti tombol Windows, memerlukan izin layar penuh',
+        enterFullScreen: 'Beralih ke mode layar penuh'
       },
       leaderKey: {
         title: 'Tombol Leader',
-        howToUse: 'Cara Menggunakan',
+        desc: 'Lewati batasan browser dan kirim pintasan sistem langsung ke host jarak jauh',
+        howToUse: 'Cara menggunakan',
         simultaneous: {
-          title: 'Mode Simultan',
+          title: 'Mode simultan',
           desc1: 'Tekan dan tahan tombol Leader, lalu tekan pintasan.',
           desc2: 'Intuitif, tetapi mungkin bertentangan dengan pintasan sistem.'
         },
         sequential: {
-          title: 'Mode Berurutan',
+          title: 'Mode berurutan',
           desc1:
             'Tekan tombol Leader → tekan pintasan secara berurutan → tekan tombol Leader lagi.',
           desc2: 'Memerlukan lebih banyak langkah, namun sepenuhnya menghindari konflik sistem.'
@@ -117,11 +178,12 @@ const id = {
         recorder: {
           rec: 'REKAM',
           activate: 'Aktifkan tombol',
-          input: 'Silakan tekan pintasan...'
+          input: 'Tekan pintasan'
         }
       }
     },
     mouse: {
+      title: 'Mouse',
       cursor: 'Gaya kursor',
       default: 'Kursor bawaan',
       cell: 'Kursor cell',
@@ -135,18 +197,26 @@ const id = {
       scrollUp: 'Gulir ke atas',
       scrollDown: 'Gulir ke bawah',
       speed: 'Kecepatan roda gulir',
+      sensitivity: 'Kecepatan pointer',
+      sensitivityDesc:
+        'Untuk mode relatif desktop: nilai lebih rendah mengurangi drift dari akselerasi mouse host',
       fast: 'Cepat',
       slow: 'Lambat',
-      requestPointer:
-        'Menggunakan mode relatf. Silakan klik desktop untuk mendapatkan penunjuk tetikus.',
+      mobile: {
+        touchSync: 'TouchSync',
+        touchSyncDesc:
+          'Gerakkan di mana saja pada area KVM; kursor jarak jauh mempertahankan posisinya antar sentuhan dan tetap sinkron dengan HID absolut'
+      },
+      requestPointer: 'Menggunakan mode relatif, klik desktop untuk mendapatkan penunjuk tetikus',
       resetHid: 'Setel ulang HID',
       hidOnly: {
-        title: 'Mode hanya HID',
-        tip1: 'Mengaktifkan mode HID-Hanya akan melepas U-disk virtual dan jaringan virtual',
-        tip2: 'Dalam mode HID-Only, pemasangan gambar dinonaktifkan',
+        title: 'Mode HID-Only',
+        desc: 'Jika mouse atau keyboard berhenti merespons dan mereset HID tidak membantu, mungkin ada masalah kompatibilitas antara NanoKVM dan host.',
+        tip1: 'Mengaktifkan mode HID-Only akan melepas disk virtual dan jaringan virtual',
+        tip2: 'Dalam mode HID-Only, pemasangan image dinonaktifkan',
         tip3: 'NanoKVM akan otomatis reboot setelah berpindah mode',
-        enable: 'Aktifkan mode HID-Hanya',
-        disable: 'Nonaktifkan mode HID-Hanya'
+        enable: 'Aktifkan mode HID-Only',
+        disable: 'Nonaktifkan mode HID-Only'
       }
     },
     image: {
@@ -154,24 +224,41 @@ const id = {
       loading: 'Memuat...',
       empty: 'Tidak ada yang ditemukan',
       mountMode: 'Mode pemasangan',
-      mountFailed: 'Pemasangan Gagal',
+      mountFailed: 'Pemasangan gagal',
+      mountDesc:
+        'Di beberapa sistem, perlu mengeluarkan disk virtual pada host jarak jauh sebelum memasang gambar',
+      diskOnWarn:
+        'Memasang image akan mematikan disk virtual, sehingga komputer tidak lagi dapat mengakses /data. Lanjutkan?',
+      diskOffWarn:
+        'Disk virtual sedang mati dan harus diaktifkan untuk memasang image. Perangkat USB pada komputer akan dienumerasi ulang. Lanjutkan?',
       unmountFailed: 'Pelepasan gagal',
+      unmountDesc:
+        'Pada beberapa sistem, Anda perlu mengeluarkan secara manual dari host jarak jauh sebelum melepas gambar',
       forceEject: 'Paksa keluarkan',
       forceEjectConfirm:
         'Host telah mengunci drive optik. Memaksa pengeluaran akan memutuskan perangkat USB virtual sesaat, sehingga keyboard dan mouse dapat terputus sebentar. Lanjutkan?',
+      usbReconnect: 'Sambung ulang USB',
+      usbReconnectConfirm:
+        'Sambungkan ulang gadget USB hanya jika host jarak jauh tidak mendeteksi perubahan media. Keyboard dan mouse mungkin terputus sebentar.',
+      usbReconnectSuccess: 'USB tersambung ulang',
+      usbReconnectFailed: 'Sambung ulang USB gagal',
+      mountTitle: 'Pasang gambar',
+      deleteTitle: 'Hapus gambar',
       deleteConfirm: 'Apakah Anda yakin ingin menghapus gambar ini?',
       tips: {
         title: 'Cara mengunggah',
         usb1: 'Hubungkan NanoKVM ke komputer Anda melalui USB.',
+        usb2: 'Pastikan disk virtual telah terpasang di Pengaturan > Perangkat > Disk virtual.',
         usb3: 'Buka disk virtual di komputer Anda dan salin file gambar ke direktori root disk virtual.',
         scp1: 'Pastikan NanoKVM dan komputer Anda berada di jaringan lokal yang sama.',
         scp2: 'Buka terminal di komputer Anda dan gunakan perintah SCP untuk mengunggah file gambar ke direktori /data di NanoKVM.',
         scp3: 'Contoh: scp jalur-gambar-anda root@ip-nanokvm-anda:/data',
-        tfCard: 'Kartu TF',
+        tfCard: 'Kartu SD',
         tf1: 'Metode ini didukung di sistem linux',
-        tf3: 'Masukkan Kartu TF ke pembaca kartu dan hubungkan ke komputer Anda.',
-        tf4: 'Salin berkas gambar ke direktori /data pada Kartu TF.',
-        tf5: 'Masukkan Kartu TF ke dalam NanoKVM.'
+        tf2: 'Ambil kartu SD dari NanoKVM. Pada versi FULL, bongkar casingnya terlebih dahulu.',
+        tf3: 'Masukkan Kartu SD ke pembaca kartu dan hubungkan ke komputer Anda.',
+        tf4: 'Salin berkas gambar ke direktori /data pada Kartu SD.',
+        tf5: 'Masukkan Kartu SD ke dalam NanoKVM.'
       }
     },
     script: {
@@ -180,15 +267,24 @@ const id = {
       run: 'Jalankan',
       runBackground: 'Jalankan di belakang',
       runFailed: 'Gagal menjalankan',
+      delDesc: 'Apakah Anda yakin ingin menghapus data ini?',
       delete: 'Hapus',
       close: 'Tutup'
     },
     terminal: {
       title: 'Terminal',
       nanokvm: 'Terminal NanoKVM',
-      serial: 'Terminal Port Serial',
-      serialPort: 'Port Serial',
-      serialPortPlaceholder: 'Silahkan masukkan port serial',
+      serial: 'Terminal port serial',
+      unlockTitle: 'Buka kunci terminal',
+      unlockDesc: 'Masukkan kata sandi akun web untuk memulai sesi terminal',
+      unlock: 'Buka kunci',
+      unlockFailed: 'Gagal membuka kunci terminal',
+      invalidCredentials: 'Nama pengguna atau kata sandi tidak valid',
+      locked: 'Terlalu banyak percobaan, coba lagi nanti',
+      sessionClosed: 'Sesi terminal ditutup. Buka kunci lagi untuk menyambung ulang.',
+      sessionError: 'Koneksi terminal gagal. Buka kunci lagi untuk mencoba ulang.',
+      serialPort: 'Port serial',
+      serialPortPlaceholder: 'Contoh /dev/ttyS1',
       baudrate: 'Baud rate',
       parity: 'Paritas',
       parityNone: 'Tidak ada',
@@ -199,23 +295,42 @@ const id = {
       flowControlSoft: 'Perangkat lunak',
       flowControlHard: 'Perangkat keras',
       dataBits: 'Bit data',
-      stopBits: 'Hentikan bit'
+      stopBits: 'Hentikan bit',
+      open: 'Buka terminal'
     },
     wol: {
       title: 'Wake-on-LAN',
+      sending: 'Mengirim perintah...',
       sent: 'Perintah terkirim',
-      input: 'Silahkan masukkan MAC',
-      ok: 'Ok'
+      input: 'Alamat MAC',
+      ok: 'OK'
     },
     download: {
-      title: 'Pengunduh Gambar',
-      input: 'Silakan masukkan gambar jarak jauh URL',
-      ok: 'Ok',
+      title: 'Unduh gambar',
+      input: 'URL image jarak jauh',
+      ok: 'OK',
+      disabled:
+        'Image tidak dapat diunduh atau diunggah saat ini karena penyimpanan tidak dapat ditulisi. Jika ada image yang terpasang, lepaskan, lalu matikan disk virtual agar penyimpanan dapat ditulisi lagi.',
+      diskShared: 'Matikan disk virtual terlebih dahulu, lalu gunakan unduhan image',
       mountedImage:
-        'Image ini sedang di-mount. Lepaskan mount-nya sebelum mengunggah berkas dengan nama yang sama.',
+        'Image ini sedang di-mount, lepaskan mount-nya sebelum mengunggah berkas dengan nama yang sama',
+      diskOff: 'Matikan disk virtual',
       uploadbox: 'Letakkan file di sini atau klik untuk memilih',
-      inputfile: 'Silakan masukkan File gambar',
-      NoISO: 'Tidak ada ISO',
+      inputfile: 'File gambar',
+      NoISO: 'Tidak ada image',
+      complete: 'Unduhan selesai',
+      uploadComplete: 'Unggahan selesai',
+      downloading: 'Mengunduh',
+      uploading: 'Mengunggah',
+      failed: 'Transfer gagal',
+      uploadFailed: 'Unggahan gagal',
+      stalled: 'Transfer terhenti, periksa koneksi dan coba lagi',
+      canceled: 'Unggahan dibatalkan',
+      downloadCanceled: 'Unduhan dibatalkan',
+      cancel: 'Batal',
+      remoteDisabled: 'Unduhan ISO jarak jauh dinonaktifkan di Pengaturan > Tampilan',
+      remoteFailed: 'Unduhan ISO jarak jauh gagal',
+      sha256: 'Checksum SHA-256 opsional',
       sha256Placeholder: 'Masukkan checksum SHA-256 64 karakter',
       invalidSHA256: 'SHA-256 harus berupa string heksadesimal 64 karakter',
       checksumFailed: 'Unduhan gagal: verifikasi SHA-256 gagal'
@@ -224,8 +339,11 @@ const id = {
       title: 'Daya',
       showConfirm: 'Konfirmasi',
       showConfirmTip: 'Pengoperasian listrik memerlukan konfirmasi tambahan',
-      resetConfirm: 'Lanjutkan operasi penyetelan ulang?',
-      powerConfirm: 'Lanjutkan pengoperasian listrik?',
+      reset: 'Atur ulang',
+      powerShort: 'Tombol daya: tekan sebentar',
+      powerLong: 'Tombol daya: tekan lama',
+      resetConfirm: 'Jalankan operasi penyetelan ulang?',
+      powerConfirm: 'Jalankan operasi daya?',
       okBtn: 'Ya',
       cancelBtn: 'Tidak'
     },
@@ -236,23 +354,29 @@ const id = {
         information: 'Informasi',
         ip: 'IP',
         mdns: 'mDNS',
-        application: 'Versi Aplikasi',
+        application: 'Versi aplikasi',
         applicationTip: 'Versi aplikasi web NanoKVM',
+        uptime: 'Waktu aktif',
         community: 'Komunitas',
+        credit:
+          'Dibangun di atas <a1>NanoKVM</a1> dari Sipeed dan <a2>Hardened NanoKVM</a2> oleh woffko',
         hostname: 'Nama Host',
-        hostnameReboot: 'Nyalakan ulang untuk menerapkan nama host baru?',
-        ipType: {}
+        hostnameReboot: 'Nyalakan ulang untuk menerapkan nama host baru?'
       },
       appearance: {
         title: 'Tampilan',
         display: 'Layar',
         language: 'Bahasa',
         languageDesc: 'Pilih bahasa untuk antarmuka',
-        webTitle: 'Judul Web',
+        webTitle: 'Judul web',
         webTitleDesc: 'Menyesuaikan judul halaman web',
+        layoutMode: 'Tata letak antarmuka',
+        layoutModeDesc: 'Gunakan tata letak ponsel/sentuh di browser ini',
+        layoutAuto: 'Otomatis',
+        layoutMobile: 'Ponsel',
         menuBar: {
-          title: 'Bilah Menu',
-          mode: 'Mode Tampilan',
+          title: 'Bilah menu',
+          mode: 'Mode tampilan',
           modeDesc: 'Menampilkan bilah menu di layar',
           modeOff: 'Mati',
           modeAuto: 'Sembunyikan otomatis',
@@ -260,8 +384,19 @@ const id = {
           keyboardLedStatus: 'Indikator kunci keyboard',
           keyboardLedStatusDesc:
             'Tampilkan status Num Lock, Caps Lock, dan Scroll Lock komputer jarak jauh',
-          icons: 'Ikon Submenu',
-          iconsDesc: 'Menampilkan ikon submenu di bilah menu'
+          icons: 'Ikon submenu',
+          iconsDesc: 'Menampilkan ikon submenu di bilah menu',
+          terminalWarningTitle: 'Aktifkan terminal web?',
+          terminalWarningDesc:
+            'Terminal membuka shell root melalui browser. Aktifkan hanya di jaringan tepercaya dan matikan setelah selesai.',
+          terminalWarningConfirm: 'Aktifkan',
+          terminalWarningCancel: 'Batal',
+          remoteDownload: 'Unduh ISO jarak jauh',
+          remoteDownloadWarningTitle: 'Aktifkan unduhan ISO jarak jauh?',
+          remoteDownloadWarningDesc:
+            'NanoKVM akan mengambil ISO dari URL dan menulisnya ke /data. Aktifkan hanya untuk URL tepercaya dan matikan setelah selesai.',
+          remoteDownloadWarningConfirm: 'Aktifkan',
+          remoteDownloadWarningCancel: 'Batal'
         }
       },
       keyboardLedStatus: {
@@ -279,41 +414,78 @@ const id = {
       },
       device: {
         title: 'Perangkat',
+        minutes: 'mnt',
+        sections: {
+          connectivity: 'Konektivitas',
+          hostConnection: 'Koneksi host',
+          inputOutput: 'Input dan output',
+          optimizations: 'Optimasi'
+        },
         oled: {
-          title: 'OLED'
+          title: 'Batas waktu OLED',
+          description: 'Matikan layar OLED setelah',
+          keepOn: 'Biarkan OLED menyala',
+          keepOnDescription: 'Jangan pernah mematikan layar OLED'
         },
         ssh: {
-          description: 'Aktifkan akses jarak jauh SSH'
+          description: 'Aktifkan akses jarak jauh SSH',
+          tip: 'Tetapkan kata sandi yang kuat di Akun > Kata sandi sebelum mengaktifkan opsi ini'
         },
         swap: {
-          title: 'Tukar',
-          description: 'Atur ukuran file swap'
+          title: 'Swap',
+          description: 'Gunakan file swap saat memori hampir habis',
+          size: 'Ukuran swap',
+          sizeDescription: 'Atur ukuran file swap',
+          tip: 'Mengaktifkan fitur ini dapat mempersingkat masa pakai kartu SD Anda'
         },
         mouseJiggler: {
-          title: 'Tikus Jiggler',
+          title: 'Tikus jiggler',
           description: 'Mencegah host jarak jauh tertidur',
           disable: 'Nonaktifkan',
-          absolute: 'Mode Absolut',
-          relative: 'Mode Relatif'
+          absolute: 'Mode absolut',
+          relative: 'Mode relatif'
+        },
+        sessionLock: {
+          title: 'Kunci sesi saat tidak aktif',
+          description: 'Minta login lagi setelah waktu ini'
         },
         mdns: {
           description: 'Aktifkan layanan penemuan mDNS',
-          tip: 'Mematikan jika tidak diperlukan'
+          tip: 'Memungkinkan perangkat ini dijangkau lewat nama .local. Tidak diperlukan jika Anda terhubung lewat alamat IP atau DNS Anda sudah meresolusi nama host.'
         },
         hdmi: {
           description: 'Aktifkan keluaran HDMI/monitor',
           idleTimeoutTitle: 'Batas waktu tangkapan tidak aktif',
           idleTimeoutDescription: 'Hentikan tangkapan HDMI setelah tidak ada penonton aktif selama'
         },
-        hidOnly: 'HID-Mode Hanya',
+        hidOnly: 'Mode HID-Only',
+        hidOnlyDesc:
+          'Meningkatkan kompatibilitas dengan host jika mouse atau keyboard berhenti merespons',
+        hidOnlyTip:
+          'Mode HID-Only berhenti meniru perangkat virtual dan hanya mempertahankan kontrol dasar HID',
         disk: 'Disk virtual',
+        diskDesc: 'Pasang kartu SD pada host jarak jauh',
+        diskLocked: 'Mati saat image terpasang, dan mengaktifkannya membatalkan pemasangan',
+        diskEnable: 'Aktifkan disk virtual',
+        networkChange: 'Ubah jaringan virtual',
+        diskCancelMount:
+          'Mengaktifkan disk virtual akan membatalkan image yang terpasang. Lanjutkan?',
+        networkCancelMount:
+          'Mengubah jaringan virtual akan memulai ulang koneksi USB. Ini membatalkan image yang terpasang dan mengaktifkan disk virtual. Lanjutkan?',
+        diskTransferRunning:
+          'Transfer image sedang berjalan. Tunggu sampai selesai sebelum mengaktifkan disk virtual.',
         network: 'Jaringan virtual',
         networkDesc: 'Pasang kartu jaringan virtual pada host jarak jauh',
+        usbWakeup: 'Bangunkan lewat USB',
+        usbWakeupDesc: 'Izinkan kejadian keyboard atau mouse membangunkan host jarak jauh',
+        usbWakeupTip: 'Matikan jika host mencatat pesan USB wakeup berulang',
         reboot: 'Mulai ulang',
         rebootDesc: 'Apakah Anda yakin ingin me-reboot NanoKVM?'
       },
       network: {
         title: 'Jaringan',
+        connection: 'Koneksi',
+        configuration: 'Konfigurasi',
         wifi: {
           title: 'Wi-Fi',
           description: 'Konfigurasi Wi-Fi',
@@ -321,19 +493,28 @@ const id = {
           connect: 'Hubungkan Wi-Fi',
           connectDesc1: 'Masukkan SSID jaringan dan kata sandi',
           disconnect: 'Yakin ingin memutuskan jaringan?',
+          disconnectBtn: 'Putuskan',
+          connected: 'Terhubung',
           ssid: 'Nama',
           password: 'Kata sandi',
           joinBtn: 'Gabung',
           cancelBtn: 'Batal'
         },
         tls: {
-          description: 'Aktifkan protokol HTTPS'
+          description: 'Aktifkan protokol HTTPS',
+          tip: 'Perhatian: Menggunakan HTTPS dapat meningkatkan latensi, terutama pada mode video MJPEG',
+          rebootTitle: 'NanoKVM akan dimulai ulang',
+          rebootDesc:
+            'Perubahan protokol memerlukan mulai ulang perangkat. Browser akan beralih ke alamat baru setelah {{seconds}} detik:',
+          rebootOk: 'Terapkan dan mulai ulang',
+          rebootCancel: 'Batal'
         },
         dns: {
           title: 'DNS',
           description: 'Konfigurasi server DNS untuk NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Konfigurasikan pengalamatan IPv4 untuk antarmuka kabel',
+          servers: 'Server',
           dhcp: 'DHCP',
           manual: 'Manual',
           apply: 'Terapkan',
@@ -345,25 +526,285 @@ const id = {
           unsaved: 'Perubahan belum disimpan',
           maxServers: 'Maksimal {{count}} server DNS diizinkan',
           dhcpServersDescription: 'Server DNS diperoleh otomatis dari DHCP',
+          manualServersDescription: 'Server IPv4 dan IPv6 didukung',
           interface: 'Antarmuka',
           ipAddress: 'Alamat IP',
           subnetMask: 'Subnet mask',
           router: 'Router'
+        },
+        ipv6: {
+          title: 'IPv6',
+          description: 'Konfigurasikan pengalamatan IPv6 untuk antarmuka kabel',
+          disabled: 'Dinonaktifkan',
+          slaac: 'SLAAC',
+          dhcpv6: 'DHCPv6',
+          manual: 'Manual',
+          interface: 'Antarmuka',
+          state: 'Status',
+          router: 'Router',
+          addresses: 'Alamat',
+          dhcpv6Client: 'Klien DHCPv6',
+          notInstalled: 'Belum terpasang',
+          ipAddress: 'Alamat IPv6',
+          prefix: 'Prefiks',
+          invalidManual: 'Masukkan alamat IPv6, prefiks, dan router yang valid',
+          clientMissing:
+            'Klien DHCPv6 belum terpasang. Pasang pembaruan sistem raw yang sesuai terlebih dahulu.',
+          saved: 'Pengaturan IPv6 disimpan',
+          saveFailed: 'Gagal menyimpan pengaturan IPv6',
+          unsaved: 'Perubahan belum disimpan'
+        }
+      },
+      system: {
+        title: 'Sistem',
+        sections: {
+          time: 'Waktu',
+          firewall: 'Firewall',
+          systemLog: 'Pencatatan log'
+        },
+        time: {
+          saveFailed: 'Gagal menyimpan pengaturan waktu',
+          saved: 'Pengaturan waktu disimpan',
+          syncFailed: 'Gagal menyinkronkan waktu',
+          synced: 'Waktu disinkronkan',
+          invalidServers: 'Masukkan setidaknya satu server NTP',
+          maxServers: 'Maksimum {{count}} server NTP diizinkan',
+          refresh: 'Segarkan',
+          syncNow: 'Sinkronkan sekarang',
+          syncNowDesc: 'Atur jam dari server NTP sekarang',
+          save: 'Simpan',
+          ntp: {
+            title: 'NTP',
+            description: 'Sinkronkan waktu perangkat dari server NTP yang dikonfigurasi'
+          },
+          networkTime: 'Waktu jaringan',
+          clock: {
+            title: 'Jam',
+            description: 'Atur zona waktu lokal yang digunakan log dan UI',
+            current: 'Waktu saat ini',
+            timezone: 'Zona waktu'
+          },
+          servers: {
+            title: 'Server NTP',
+            description: 'Gunakan server publik bawaan, router lokal Anda, atau server NTP kustom',
+            useRouter: 'Gunakan router',
+            useDefaults: 'Gunakan default',
+            routerDetected: 'Router terdeteksi',
+            routerNone: 'Tidak ditemukan'
+          }
+        },
+        firewall: {
+          saveFailed: 'Gagal menerapkan pengaturan firewall',
+          saved: 'Pengaturan firewall diterapkan',
+          cancel: 'Batal',
+          refresh: 'Segarkan',
+          backends: 'Backend',
+          enableHttpsFirst:
+            'Aktifkan HTTPS sebelum mengaktifkan mode firewall Terbatas atau Paranoid',
+          httpsRequired:
+            'Mode Terbatas dan Paranoid dinonaktifkan sampai HTTPS diaktifkan di Pengaturan > Sistem > Jaringan',
+          mode: {
+            title: 'Mode firewall',
+            baseline: 'Dasar',
+            baselineDesc:
+              'Profil kompatibilitas terbuka. Firewall berjalan, tetapi sumber masuk tidak dibatasi. Gunakan hanya di jaringan tepercaya.',
+            moderate: 'Sedang',
+            moderateDesc:
+              'Profil default. Mempertahankan layanan Dasar, tetapi hanya menerima koneksi masuk baru dari rentang privat, link-local, atau loopback. Akses keluar tetap terbuka.',
+            restricted: 'Terbatas',
+            restrictedDesc:
+              'Hanya HTTPS dan SSH lokal, ditambah DNS, NTP, syslog, dan pembaruan online keluar. DHCP dan lalu lintas IPv6 penting tetap tersedia. WebRTC diblokir.',
+            paranoid: 'Paranoid',
+            paranoidDesc:
+              'Akses HTTPS khusus lokal. Memblokir SSH, HTTP, pembaruan online, dan fitur jaringan keluar lainnya. Unggah pembaruan offline dan instalasi yang sudah disiapkan tetap tersedia.',
+            current: 'Saat ini',
+            default: 'Default',
+            localOnly: 'Khusus lokal',
+            openTag: 'Masuk terbuka',
+            httpsRequiredTag: 'Perlu HTTPS',
+            outboundOpen: 'Keluar terbuka',
+            outboundLimited: 'Keluar terbatas',
+            httpsOnly: 'Hanya HTTPS'
+          },
+          moderate: {
+            apply: 'Beralih ke Sedang'
+          },
+          restricted: {
+            enable: 'Aktifkan Terbatas',
+            confirmTitle: 'Aktifkan mode Terbatas?',
+            confirmDesc:
+              'Akses admin masuk akan dibatasi ke rentang private IPv4, IPv4 link-local/loopback, IPv6 link-local, atau IPv6 loopback untuk HTTPS dan SSH. Rentang sumber publik tidak diizinkan. DNS, NTP, syslog jarak jauh, pembaruan online, DHCP, koneksi yang sudah terbentuk, dan lalu lintas kontrol IPv6 penting keluar tetap tersedia. WebRTC/ICE UDP dan lalu lintas masuk/keluar lainnya akan diblokir.'
+          },
+          paranoid: {
+            enable: 'Aktifkan Paranoid',
+            confirmTitle: 'Aktifkan mode Paranoid?',
+            confirmDesc:
+              'Hanya akses HTTPS dari rentang private IPv4, IPv4 link-local/loopback, IPv6 link-local, atau IPv6 loopback yang tetap tersedia. SSH, HTTP, mDNS, NTP, unduhan GitHub, dan lalu lintas lain diblokir kecuali DHCP/kontrol IPv6 minimal.'
+          },
+          baseline: {
+            apply: 'Beralih ke Dasar',
+            confirmTitle: 'Beralih ke mode Dasar terbuka?',
+            confirmDesc:
+              'Layanan firewall tetap aktif, tetapi pembatasan rentang sumber khusus lokal dihapus. Rentang sumber publik dapat menjangkau layanan NanoKVM yang terbuka jika jaringan merutekannya.'
+          },
+          rules: {
+            title: 'Aturan saat ini',
+            empty: 'Tidak ada aturan'
+          }
+        },
+        saveChanges: 'Simpan perubahan',
+        unsaved: 'Perubahan belum disimpan'
+      },
+      systemLog: {
+        saveFailed: 'Gagal menyimpan pengaturan log',
+        saved: 'Pengaturan log disimpan',
+        invalidHost: 'Masukkan host server syslog',
+        logLoadFailed: 'Gagal memuat log',
+        save: 'Simpan',
+        test: 'Kirim log uji',
+        testSent: 'Log uji terkirim',
+        testFailed: 'Gagal mengirim log uji',
+        remote: {
+          title: 'Pencatatan log jarak jauh',
+          forward: 'Teruskan log sistem',
+          description: 'Teruskan pesan sistem ke server jarak jauh',
+          host: 'Server',
+          hostDesc: 'Nama host atau alamat IPv4 server syslog',
+          port: 'Port',
+          protocol: 'Port UDP server syslog'
+        },
+        local: {
+          title: 'Buffer log sistem',
+          description:
+            'Log saat ini disimpan di RAM pada {{path}} untuk menghindari penulisan ke kartu SD',
+          priority: 'Prioritas minimum',
+          priorityDesc: 'Tingkat urgensi minimum agar pesan dicatat',
+          buffer: 'Ukuran buffer',
+          bufferDesc: 'Ukuran log saat file dirotasi',
+          rotations: 'Rotasi',
+          rotationsDesc: 'Jumlah file log hasil rotasi yang disimpan',
+          compact: 'Output ringkas',
+          compactDesc: 'Hilangkan nama host dan facility dari setiap baris',
+          stripTimestamps: 'Hapus timestamp',
+          stripTimestampsDesc:
+            'Hapus stempel waktu dari pengirim; syslog menambahkan miliknya sendiri'
+        },
+        kernel: {
+          title: 'Pencatatan log kernel',
+          enabled: 'Teruskan log kernel',
+          enabledDesc: 'Tangkap pesan kernel ke dalam log sistem',
+          consoleLevel: 'Level konsol',
+          consoleLevelDesc: 'Tingkat urgensi minimum agar pesan kernel dicetak ke konsol'
+        },
+        viewer: {
+          title: 'Log sistem',
+          refresh: 'Segarkan',
+          empty: 'Tidak ada entri log',
+          truncated: 'Hanya data log terbaru yang ditampilkan',
+          linesUnit: 'baris'
+        },
+        level: {
+          '1': '1 - Alarm',
+          '2': '2 - Kritis',
+          '3': '3 - Kesalahan',
+          '4': '4 - Peringatan',
+          '5': '5 - Pemberitahuan',
+          '6': '6 - Info',
+          '7': '7 - Debug',
+          '8': '8 - Semua'
+        }
+      },
+      wireguard: {
+        title: 'WireGuard',
+        tunnel: 'Terowongan terenkripsi',
+        device: 'Perangkat ini',
+        description: 'Akses KVM ini melalui terowongan WireGuard',
+        unavailable: 'WireGuard tidak terpasang di perangkat ini',
+        blocked: 'Mode Firewall Paranoid memblokir WireGuard',
+        needsKey: 'Atur kunci privat sebelum mengaktifkan WireGuard',
+        saved: 'Pengaturan WireGuard disimpan',
+        save: 'Simpan perubahan',
+        unsaved: 'Perubahan belum disimpan',
+        invalid: 'Periksa kolom yang disorot',
+        invalidAddress: 'Masukkan alamat beserta maskernya, misalnya 10.0.0.1/24',
+        invalidKey: 'Masukkan kunci WireGuard sepanjang 44 karakter',
+        invalidEndpoint: 'Masukkan nama host atau alamat IP',
+        invalidPort: 'Masukkan port dari 1 sampai 65535',
+        invalidRanges: 'Gunakan rentang IPv4 seperti 10.0.0.0/24, bukan 0.0.0.0/0',
+        status: {
+          connected: 'Terhubung',
+          waiting: 'Menunggu peer',
+          stopped: 'Dihentikan',
+          handshake: 'Handshake terakhir {{time}}'
+        },
+        privateKey: {
+          title: 'Kunci privat',
+          description: 'Tetap di perangkat ini dan tidak akan ditampilkan lagi',
+          set: 'Sudah diatur',
+          notSet: 'Belum diatur',
+          setBtn: 'Atur',
+          generate: 'Buat',
+          remove: 'Hapus',
+          modalTitle: 'Atur kunci privat',
+          modalDescription: 'Kunci disimpan di perangkat ini dan tidak akan ditampilkan lagi',
+          placeholder: 'Tempel kunci privat',
+          generateConfirmTitle: 'Buat kunci privat baru?',
+          generateConfirmDesc:
+            'Kunci saat ini tidak akan berfungsi lagi. Setelah itu, tambahkan kunci publik yang baru ke peer.',
+          removeConfirmTitle: 'Hapus kunci privat?',
+          removeConfirmDesc: 'WireGuard dimatikan dan tetap mati sampai kunci baru diatur.'
+        },
+        publicKey: {
+          title: 'Kunci publik',
+          description: 'Tambahkan ke konfigurasi peer'
+        },
+        address: {
+          title: 'Alamat',
+          description: 'Alamat KVM di dalam terowongan beserta maskernya'
+        },
+        peer: {
+          title: 'Peer',
+          publicKey: 'Kunci publik',
+          publicKeyDescription: 'Kunci publik peer yang Anda hubungi',
+          server: 'Server',
+          serverDescription: 'Nama host atau alamat IP peer',
+          port: 'Port',
+          portDescription: 'Port UDP peer, biasanya 51820',
+          allowedIps: 'IP yang diizinkan',
+          allowedIpsDescription:
+            'Alamat atau rentang peer di dalam terowongan, misalnya 10.0.0.0/24',
+          keepalive: 'Keepalive',
+          keepaliveDescription: 'Detik antar paket keepalive, diperlukan di belakang router'
         }
       },
       tailscale: {
         title: 'Tailscale',
+        enableDesc: 'Akses KVM ini melalui jaringan Tailscale Anda',
+        service: 'Layanan',
+        performance: 'Kinerja',
         memory: {
-          title: 'Optimasi memori'
+          title: 'Optimasi memori',
+          tip: 'Menjaga penggunaan memori Tailscale tetap rendah, yang membantu pada perangkat dengan RAM terbatas. Mulai ulang Tailscale agar perubahan berlaku.'
         },
         swap: {
-          title: 'Tukar memori',
-          tip: 'Jika masalah terus berlanjut setelah mengaktifkan pengoptimalan memori, coba aktifkan memori swap. Ini menetapkan ukuran file swap ke 256MB secara default, yang dapat disesuaikan di "Pengaturan > Perangkat".'
+          title: 'File swap',
+          tip: 'Jika masalah terus berlanjut setelah mengaktifkan pengoptimalan memori, coba aktifkan file swap',
+          sizeTip: 'Ini menetapkan ukuran file ke 256MB; sesuaikan di Pengaturan > Perangkat'
         },
+        restartTitle: 'Mulai ulang Tailscale',
+        restartDesc: 'Memulai ulang layanan',
+        restartBtn: 'Mulai ulang',
+        restart: 'Mulai ulang Tailscale?',
+        stopTitle: 'Hentikan Tailscale',
+        stopBtn: 'Hentikan',
+        stop: 'Hentikan Tailscale?',
+        stopDesc: 'Menghentikan layanan dan mencegahnya berjalan saat boot',
         loading: 'Memuat...',
+        notInstall: 'Tailscale tidak ditemukan, silakan pasang',
         install: 'Memasang',
         installing: 'Memasangkan',
         failed: 'Gagal memasangkan',
+        retry: 'Harap segarkan dan coba lagi, atau instal secara manual.',
         download: 'Mengunduh',
         package: 'paket instalasi',
         unzip: 'dan unzip itu',
@@ -377,24 +818,101 @@ const id = {
         urlPeriod: 'Url ini berlaku selama 10 menit',
         login: 'Masuk',
         loginSuccess: 'Berhasil masuk',
-        deviceName: 'Nama Perangkat',
-        deviceIP: 'IP Perangkat',
+        deviceName: 'Nama perangkat',
+        deviceIP: 'IP perangkat',
         account: 'Akun',
         logout: 'Keluar',
         logoutDesc: 'Apakah Anda yakin ingin logout?',
         uninstall: 'Copot pemasangan Tailscale',
-        uninstallDesc: 'Apakah Anda yakin ingin menghapus instalan Tailscale?'
+        uninstallDesc: 'Apakah Anda yakin ingin menghapus instalan Tailscale?',
+        okBtn: 'Ya',
+        cancelBtn: 'Tidak'
       },
       update: {
-        title: 'Periksa pembaruan',
+        title: 'Pembaruan sistem',
+        sources: 'Sumber pembaruan',
+        latestVersion: 'Versi terbaru',
         queryFailed: 'Gagal mendapatkan versi',
         updateFailed: 'Gagal memperbarui, tolong coba lagi.',
+        paranoidBlocked: 'Pembaruan online diblokir oleh mode firewall Paranoid',
+        paranoidBlockedDesc:
+          'Pemeriksaan dan unduhan GitHub memerlukan akses jaringan keluar. Unggahan offline dan instalasi yang sudah disiapkan tetap tersedia.',
+        isLatest: 'Anda sudah menggunakan versi terbaru.',
+        available: 'Ada pembaruan baru. Apakah Anda mau memperbarui?',
         updating: 'Pembaruan dimulai. Silahkan tunggu...',
         confirm: 'Konfirmasi',
         cancel: 'Batalkan',
-        preview: 'Pratinjau Pembaruan',
+        preview: 'Pratinjau pembaruan',
+        previewChannels: 'Mengontrol saluran pratinjau aplikasi sekaligus sistem',
+        previewTip:
+          'Perlu diketahui bahwa rilis pratinjau mungkin mengandung bug atau fungsi yang tidak lengkap',
+        application: {
+          title: 'Aplikasi'
+        },
+        system: {
+          queryFailed: 'Gagal mendapatkan versi sistem',
+          appUpdateRequired:
+            'Perbarui aplikasi ke {{version}} sebelum memasang pembaruan sistem ini',
+          requiredAppVersion: 'Versi aplikasi yang diperlukan',
+          downloadFailed: 'Unduhan atau verifikasi gagal',
+          rawEnable: 'Izinkan pembaruan sistem raw',
+          rawEnableDesc:
+            'Izinkan image raw boot/rootfs terverifikasi ditulis ke kartu SD dari layar ini',
+          rawEnableConfirmTitle: 'Izinkan pembaruan sistem raw?',
+          rawEnableConfirmDesc:
+            'Pembaruan sistem raw dapat mengganti partisi boot dan rootfs. Gunakan hanya jika memiliki akses pemulihan fisik.',
+          rawInstallDisabled:
+            'Pembaruan yang disiapkan ini menulis partisi raw kartu SD. Aktifkan pembaruan sistem raw sebelum menginstalnya.',
+          isLatest: 'Sistem dasar sudah mutakhir.',
+          available: 'Pembaruan sistem dasar tersedia.',
+          downloading: 'Mengunduh dan memverifikasi pembaruan sistem...',
+          downloadVerify: 'Unduh dan verifikasi',
+          installing: 'Menginstal pembaruan sistem yang disiapkan...',
+          install: 'Instal',
+          installFailed: 'Instalasi gagal',
+          installConfirmTitle: 'Instal pembaruan sistem?',
+          installConfirmDesc:
+            'Ini akan mengganti file sistem dasar dari bundel terverifikasi. Reboot akan diperlukan.',
+          rawInstallConfirmDesc:
+            'Bundel terverifikasi ini akan menulis image raw boot/rootfs ke partisi kartu SD dan reboot otomatis. Penulisan dapat memakan beberapa menit; pastikan daya tetap tersambung.',
+          rawInstallWarning:
+            'Tidak ada rollback otomatis untuk pembaruan partisi raw. Jika boot gagal, pulihkan kartu SD secara manual.',
+          rebootRequired: 'Reboot diperlukan untuk mengaktifkan status sistem ini.',
+          confirming: 'Mengonfirmasi boot pembaruan sistem...',
+          confirmBoot: 'Konfirmasi boot',
+          confirmFailed: 'Konfirmasi boot gagal',
+          confirmed: 'Boot dikonfirmasi',
+          bootGood: 'Pembaruan sistem tertunda ditandai sebagai boot-good.',
+          rollingBack: 'Melakukan rollback pembaruan sistem...',
+          rollback: 'Rollback',
+          rollbackDone: 'Rollback disiapkan',
+          rollbackFailed: 'Rollback gagal',
+          rollbackConfirmTitle: 'Rollback pembaruan sistem?',
+          rollbackConfirmDesc:
+            'Ini akan memulihkan file dari cadangan pembaruan sistem terbaru. Reboot akan diperlukan.',
+          stagedDesc:
+            'Pembaruan sistem sudah diunduh dan diverifikasi, Anda dapat memasangnya sekarang',
+          refresh: 'Segarkan',
+          releaseNotes: 'Catatan rilis',
+          systemVersion: 'Versi sistem',
+          baseImage: 'Image dasar',
+          buildrootRelease: 'Rilis Buildroot',
+          kernel: 'Kernel',
+          stagedVersion: 'Versi yang disiapkan',
+          archive: 'Arsip',
+          requiredFree: 'Ruang kosong yang diperlukan',
+          fileCount: 'File',
+          rawImages: 'Image raw',
+          progress: 'Progres',
+          progressMessage: 'Pesan progres',
+          pendingVersion: 'Versi tertunda',
+          bootHealth: 'Kesehatan boot',
+          healthy: 'Sehat',
+          unhealthy: 'Perlu perhatian',
+          rollbackBackup: 'Cadangan rollback'
+        },
         offline: {
-          title: 'Pembaruan Offline',
+          title: 'Pembaruan offline',
           desc: 'Perbarui melalui paket instalasi lokal',
           upload: 'Mengunggah',
           invalidName: 'Format nama file tidak valid. Silakan unduh dari rilis GitHub.',
@@ -405,21 +923,73 @@ const id = {
         title: 'Akun',
         webAccount: 'Nama akun web',
         password: 'Kata sandi',
-        updateBtn: 'Update',
+        passwordDesc: 'Ubah kata sandi yang digunakan untuk masuk ke antarmuka web',
+        updateBtn: 'Ubah',
         logoutBtn: 'Keluar',
         logoutDesc: 'Apakah Anda yakin ingin logout?',
         okBtn: 'Ya',
-        cancelBtn: 'Tidak'
+        cancelBtn: 'Tidak',
+        totp: {
+          title: 'Autentikasi dua faktor',
+          authenticator: 'Aplikasi autentikator',
+          description: 'Wajibkan kode berbasis waktu dari aplikasi autentikator selain kata sandi',
+          required: 'Diwajibkan oleh kebijakan',
+          disable: 'Nonaktifkan',
+          enableTitle: 'Siapkan autentikasi dua faktor',
+          enableDescription:
+            'Konfirmasi kata sandi Anda untuk melanjutkan. Kata sandi diperlukan untuk setiap perubahan pada faktor kedua.',
+          continue: 'Lanjutkan',
+          disableTitle: 'Nonaktifkan autentikasi dua faktor?',
+          disableDescription:
+            'Akun Anda hanya akan dilindungi oleh kata sandi. Konfirmasi dengan kata sandi Anda untuk melanjutkan.',
+          disableFailed: 'Tidak dapat menonaktifkan autentikasi dua faktor',
+          passwordPlaceholder: 'Kata sandi saat ini',
+          enrollFailed: 'Tidak dapat memulai penyiapan',
+          invalidCode: 'Kode itu tidak cocok. Coba kode berikutnya.',
+          scan: 'Pindai ini dengan aplikasi autentikator Anda.',
+          manualEntry: 'Atau masukkan kunci ini secara manual:',
+          codePlaceholder: 'Masukkan kode 6 digit untuk konfirmasi',
+          confirm: 'Konfirmasi',
+          cancel: 'Batal',
+          backupTitle: 'Simpan kode cadangan Anda sekarang',
+          backupDescription:
+            'Setiap kode hanya berlaku sekali dan tidak akan ditampilkan lagi. Kode ini satu-satunya jalan masuk jika Anda kehilangan aplikasi autentikator, dan tetap berfungsi saat jam perangkat tidak tersinkronisasi.',
+          copy: 'Salin',
+          copied: 'Kode cadangan disalin',
+          savedThem: 'Sudah saya simpan',
+          remaining: 'Tersisa {{remaining}} kode cadangan',
+          clockUnsynced:
+            'Jam perangkat belum tersinkronisasi. Sinkronkan waktu di Pengaturan > Sistem > Waktu sebelum melakukan penyiapan.',
+          noBackupCodes: 'Tidak ada kode cadangan tersisa. Pilih Buat untuk membuat satu set baru.',
+          regenerate: 'Kode cadangan baru',
+          generate: 'Buat',
+          regenerateTitle: 'Buat kode cadangan baru?',
+          regenerateDescription:
+            'Kode cadangan Anda saat ini akan berhenti berfungsi. Konfirmasi dengan kata sandi Anda untuk melanjutkan.',
+          regenerateFailed: 'Tidak dapat membuat kode cadangan baru',
+          download: 'Unduh',
+          copyFailed: 'Tidak dapat menyalin. Pilih kode lalu salin secara manual.',
+          requireTitle: 'Wajibkan autentikasi dua faktor',
+          requireDescription:
+            'Mencegah autentikasi dua faktor dinonaktifkan, dan akun yang belum memilikinya harus menyiapkannya sebelum menggunakan perangkat',
+          requireFailed: 'Tidak dapat mengubah persyaratan',
+          requiredTitle: 'Autentikasi dua faktor diwajibkan',
+          requiredDescription:
+            'Perangkat ini dikonfigurasi untuk mewajibkan faktor kedua, tetapi akun Anda belum menyiapkannya. Siapkan sekarang untuk melanjutkan.'
+        }
       }
     },
     picoclaw: {
-      title: 'PicoClaw Asisten',
+      title: 'Asisten PicoClaw',
+      empty: 'Buka panel dan mulai tugas untuk memulai',
       inputPlaceholder: 'Jelaskan apa yang Anda ingin PicoClaw lakukan',
       newConversation: 'Percakapan baru',
       processing: 'Memproses...',
       agent: {
         defaultTitle: 'Asisten umum',
+        defaultDescription: 'Obrolan umum, pencarian, dan bantuan ruang kerja',
         kvmTitle: 'Kontrol jarak jauh',
+        kvmDescription: 'Operasikan host jarak jauh melalui NanoKVM',
         switched: 'Peran agen dialihkan',
         switchFailed: 'Gagal mengganti peran agen'
       },
@@ -466,6 +1036,8 @@ const id = {
         success: 'PicoClaw berhasil diinstal',
         failed: 'Gagal menginstal PicoClaw',
         uninstalling: 'Mencopot pemasangan runtime...',
+        uninstalled: 'Runtime berhasil di-uninstall',
+        uninstallFailed: 'Pencopotan pemasangan gagal',
         requiredTitle: 'PicoClaw tidak diinstal',
         requiredDescription: 'Instal PicoClaw sebelum memulai runtime PicoClaw.',
         progressDescription: 'PicoClaw sedang diunduh dan diinstal.',
@@ -532,10 +1104,10 @@ const id = {
       refresh: 'Segarkan'
     },
     fullscreen: {
-      toggle: 'Beralih Layar Penuh'
+      toggle: 'Beralih layar penuh'
     },
     menu: {
-      collapse: 'Tutup Menu'
+      collapse: 'Tutup menu'
     }
   }
 };

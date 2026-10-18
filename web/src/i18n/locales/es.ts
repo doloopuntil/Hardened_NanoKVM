@@ -12,6 +12,7 @@ const es = {
     head: {
       desktop: 'Escritorio remoto',
       login: 'Inicio de sesión',
+      firstSetup: 'Primera configuración',
       changePassword: 'Cambiar contraseña',
       terminal: 'Consola',
       wifi: 'Wi-Fi'
@@ -28,26 +29,60 @@ const es = {
       globalLocked: 'Sistema bajo protección, inténtelo nuevamente más tarde',
       error: 'Error inesperado',
       changePassword: 'Cambiar contraseña',
+      changePasswordDesc:
+        'Para la seguridad de tu dispositivo, por favor, modifica la contraseña de inicio de sesión en la web',
       differentPassword: 'Las contraseñas no coinciden',
+      illegalUsername: 'El nombre de usuario contiene caracteres no permitidos',
+      illegalPassword:
+        'La contraseña debe tener al menos 8 caracteres y no puede contener comillas ni barras',
       forgetPassword: 'Contraseña olvidada',
       ok: 'Aceptar',
       cancel: 'Cancelar',
       loginButtonText: 'Iniciar sesión',
+      setupTitle: 'Crear cuenta de administrador',
+      setupDescription:
+        'Este dispositivo aún no tiene una cuenta web. Crea la primera cuenta de administrador para continuar.',
+      setupRecovery:
+        'Si se pierde esta contraseña, la recuperación requiere volver a grabar la tarjeta SD',
+      setupButtonText: 'Crear cuenta',
       tips: {
+        hardenedRecovery:
+          'Esta imagen Hardened no permite restablecer la contraseña con el botón BOOT. Si se pierde la contraseña, vuelve a grabar la tarjeta SD y crea una cuenta nueva.',
         change1: 'Ten en cuenta que esta acción cambiará las siguientes contraseñas:',
-        change2: 'Contraseña de acceso web'
+        change2: 'Contraseña de acceso web',
+        change3: 'Contraseña root del sistema para el acceso por SSH'
+      },
+      placeholderCurrentPassword: 'Contraseña actual',
+      placeholderNewPassword: 'Contraseña nueva',
+      wrongCurrentPassword: 'La contraseña actual no es correcta',
+      totp: {
+        title: 'Autenticación en dos pasos',
+        prompt: 'Introduce el código de 6 dígitos de tu aplicación de autenticación',
+        backupPrompt: 'Introduce uno de tus códigos de respaldo',
+        noEmptyCode: 'Introduce un código',
+        placeholderCode: 'Código de 6 dígitos',
+        placeholderBackup: 'Código de respaldo',
+        verifyButtonText: 'Verificar',
+        useBackupCode: 'Usar un código de respaldo',
+        useAuthenticator: 'Usar el código de la aplicación de autenticación',
+        cancel: 'Atrás',
+        invalidCode: 'Ese código no es válido. Inténtalo de nuevo.'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Configura el Wi-Fi para el NanoKVM',
+      success: 'Comprueba el estado de red del NanoKVM y accede a la nueva dirección IP',
+      failed: 'La operación ha fallado, vuelve a intentarlo',
+      invalidMode:
+        'El modo actual no admite la configuración de red. Ve a tu dispositivo y habilita el modo de configuración Wi-Fi.',
       confirmBtn: 'Aceptar',
       finishBtn: 'Finalizado',
       ap: {
         authTitle: 'Autenticación requerida',
         authDescription: 'Por favor ingrese la contraseña AP para continuar',
         authFailed: 'Contraseña AP no válida',
-        passPlaceholder: 'AP contraseña',
+        passPlaceholder: 'Contraseña AP',
         verifyBtn: 'Verificar'
       }
     },
@@ -55,8 +90,17 @@ const es = {
       scale: 'Escala',
       title: 'Pantalla',
       video: 'Modo de vídeo',
+      videoDirectTips: 'Activa HTTPS en "Ajustes > Sistema > Red" para usar este modo',
+      videoWebrtcBlockedByFirewall:
+        'H.264 WebRTC está desactivado en los modos de firewall Restringido y Paranoico',
+      transferRunningTitle: 'Transferencia de imagen en curso',
+      transferRunningDesc:
+        'Cambiar el modo de vídeo recarga la página, lo que cancela la subida o descarga de imagen en curso.',
+      transferRunningOk: 'Cambiar modo',
       resolution: 'Resolución',
       auto: 'Automático',
+      autoTips:
+        'En determinadas resoluciones pueden producirse desgarros de imagen o desplazamiento del ratón, así que ajusta la resolución del host remoto o desactiva el modo automático',
       fps: 'FPS',
       customizeFps: 'Personalizar',
       quality: 'Calidad',
@@ -66,10 +110,11 @@ const es = {
       qualityLow: 'Bajo',
       frameDetect: 'Detectar fotogramas',
       frameDetectTip:
-        'Calcula la diferencia entre fotogramas. Para de transmitir vídeo cuando no se detectan cambios en la pantalla del host remoto.',
+        'Compara fotogramas y deja de enviar vídeo mientras la pantalla del host remoto no cambia',
       resetHdmi: 'Reiniciar HDMI',
       webrtcConnectionFailed: {
-        title: 'Error de conexión de WebRTC'
+        title: 'Error de conexión de WebRTC',
+        description: 'Comprueba la conexión de red o cambia el modo de vídeo'
       },
       captureStatus: {
         hdmiError: 'Error de imagen HDMI',
@@ -86,42 +131,55 @@ const es = {
       title: 'Teclado',
       paste: 'Pegar',
       tips: 'Sólo están soportadas las letras y símbolos estándar del teclado',
-      placeholder: 'Por favor, introduce el texto',
-      virtual: 'Teclado virtual',
+      placeholder: 'Texto para pegar',
+      local: 'Teclado móvil',
+      virtual: 'Teclado en pantalla',
       readClipboard: 'Leer del portapapeles',
       clipboardPermissionDenied:
-        'Permiso de portapapeles denegado. Por favor, permite el acceso al portapapeles en tu navegador.',
+        'Permiso de portapapeles denegado, permite el acceso al portapapeles en tu navegador',
       clipboardReadError: 'Error al leer del portapapeles',
       dropdownEnglish: 'Inglés',
       dropdownGerman: 'Alemán',
       dropdownFrench: 'Francés',
+      dropdownRussian: 'Ruso',
+      dropdownKorean: 'Coreano',
+      dropdownJapanese: 'Japonés',
+      localInput: 'Entrada del teclado móvil',
       shortcut: {
         title: 'Atajos',
         custom: 'Personalizado',
+        capture: 'Haz clic aquí para capturar el acceso directo',
         clear: 'Borrar',
-        save: 'Guardar'
+        save: 'Guardar',
+        captureTips:
+          'Capturar teclas del sistema, como la tecla Windows, requiere permiso de pantalla completa',
+        enterFullScreen: 'Alternar el modo de pantalla completa'
       },
       leaderKey: {
         title: 'Tecla líder',
+        desc: 'Omite las restricciones del navegador y envía accesos directos al sistema directamente al host remoto',
         howToUse: 'Cómo utilizar',
         simultaneous: {
-          title: 'Modo Simultáneo',
+          title: 'Modo simultáneo',
           desc1: 'Mantenga pulsada la tecla líder y luego pulse el atajo.',
           desc2: 'Intuitivo, pero puede entrar en conflicto con los atajos del sistema.'
         },
         sequential: {
-          title: 'Modo Secuencial',
+          title: 'Modo secuencial',
+          desc1:
+            'Pulsa la tecla líder → pulsa el atajo en secuencia → vuelve a pulsar la tecla líder.',
           desc2: 'Requiere más pasos, pero evita por completo conflictos del sistema.'
         },
         enable: 'Habilitar tecla líder',
         tip: 'Al asignarse como tecla líder, esta tecla funciona únicamente como activador de atajos y pierde su comportamiento predeterminado.',
+        placeholder: 'Pulsa la tecla líder',
         shiftRight: 'Shift derecho',
         ctrlRight: 'Ctrl derecho',
         metaRight: 'Win derecho',
         recorder: {
           rec: 'REC',
           activate: 'Activar teclas',
-          input: 'Por favor presione el atajo...'
+          input: 'Pulsa el atajo'
         }
       }
     },
@@ -140,18 +198,27 @@ const es = {
       scrollUp: 'Desplazarse hacia arriba',
       scrollDown: 'Desplácese hacia abajo',
       speed: 'Velocidad de la rueda de desplazamiento',
+      sensitivity: 'Velocidad del puntero',
+      sensitivityDesc:
+        'Para el modo relativo de escritorio: valores más bajos reducen la deriva causada por la aceleración del ratón del host',
       fast: 'Rápida',
       slow: 'Lenta',
+      mobile: {
+        touchSync: 'TouchSync',
+        touchSyncDesc:
+          'Muévete por cualquier punto del área KVM; el cursor remoto conserva su posición entre toques y se mantiene sincronizado con HID absoluto'
+      },
       requestPointer:
-        'Usando modo relativo. Por favor, haz clic en el escritorio para obtener el cursor del ratón.',
+        'Usando modo relativo, haz clic en el escritorio para obtener el cursor del ratón',
       resetHid: 'Restablecer HID',
       hidOnly: {
-        title: 'Modo solo HID',
-        tip1: 'Habilitar el modo sólo HID desmontará el disco virtual y la red virtual',
-        tip2: 'En modo sólo HID, el montaje de imágenes está deshabilitado',
+        title: 'Modo HID-Only',
+        desc: 'Si el ratón o el teclado dejan de responder y restablecer el HID no ayuda, podría tratarse de un problema de compatibilidad entre el NanoKVM y el host.',
+        tip1: 'Al activar el modo HID-Only se desmontarán el disco virtual y la red virtual',
+        tip2: 'En el modo HID-Only, el montaje de imágenes está desactivado',
         tip3: 'El NanoKVM se reiniciará automáticamente después de cambiar de modo',
-        enable: 'Habilitar modo sólo HID',
-        disable: 'Desactivar modo sólo HID'
+        enable: 'Activar el modo HID-Only',
+        disable: 'Desactivar el modo HID-Only'
       }
     },
     image: {
@@ -160,24 +227,37 @@ const es = {
       empty: 'No se ha encontrado nada',
       mountMode: 'Modo de montaje',
       mountFailed: 'Fallo al montar',
+      mountDesc:
+        'En algunos sistemas, es necesario expulsar el disco virtual del host remoto antes de montar una imagen',
       diskOnWarn:
         'Montar la imagen desactiva el disco virtual, por lo que el equipo ya no puede acceder a /data. ¿Continuar?',
       diskOffWarn:
         'El disco virtual está desactivado y hay que activarlo para montar la imagen. Los dispositivos USB del equipo se enumeran de nuevo. ¿Continuar?',
       unmountFailed: 'Fallo al desmontar',
+      unmountDesc:
+        'En algunos sistemas, es necesario expulsar manualmente el disco virtual desde el host remoto antes de desmontar la imagen',
       forceEject: 'Forzar expulsión',
       forceEjectConfirm:
         'El host ha bloqueado la unidad óptica. Forzar la expulsión desconecta el dispositivo USB virtual durante un momento, por lo que el teclado y el ratón pueden desconectarse brevemente. ¿Continuar?',
+      usbReconnect: 'Reconectar USB',
+      usbReconnectConfirm:
+        'Reconecta el gadget USB solo si el host remoto no detectó el cambio de medio. El teclado y el ratón pueden desconectarse brevemente.',
+      usbReconnectSuccess: 'USB reconectado',
+      usbReconnectFailed: 'Error al reconectar USB',
+      mountTitle: 'Montar imagen',
+      deleteTitle: 'Eliminar imagen',
       deleteConfirm: '¿Estás seguro de que deseas eliminar esta imagen?',
       tips: {
         title: 'Cómo subir imágenes',
         usb1: 'Conecta el NanoKVM a tu computadora mediante USB.',
+        usb2: 'Asegúrate de que el disco virtual esté montado en Ajustes > Dispositivo > Disco virtual.',
         usb3: 'Abre el disco virtual en tu computadora y copia el archivo de imagen en el directorio raíz del disco virtual.',
         scp1: 'Asegúrate de que el NanoKVM y tu computadora estén en la misma red local.',
         scp2: 'Abre una terminal en tu computadora y usa el comando SCP para subir el archivo de imagen al directorio /data en el NanoKVM.',
         scp3: 'Ejemplo: scp tu-ruta-de-imagen root@tu-ip-del-nanokvm:/data',
         tfCard: 'Tarjeta SD',
         tf1: 'Este método es compatible con el sistema Linux',
+        tf2: 'Obtén la tarjeta SD del NanoKVM. En la versión FULL, desmonta primero la carcasa.',
         tf3: 'Inserta la tarjeta SD en un lector de tarjetas y conéctalo a tu computadora.',
         tf4: 'Copia el archivo de imagen en el directorio /data de la tarjeta SD.',
         tf5: 'Inserta la tarjeta SD en el NanoKVM.'
@@ -196,9 +276,17 @@ const es = {
     terminal: {
       title: 'Consola',
       nanokvm: 'Consola del NanoKVM',
-      serial: 'Consola del Puerto Serie',
-      serialPort: 'Puerto Serie',
-      serialPortPlaceholder: 'Por favor, introduce el puerto serie',
+      serial: 'Consola del puerto serie',
+      unlockTitle: 'Desbloquear terminal',
+      unlockDesc: 'Introduce la contraseña de tu cuenta web para iniciar una sesión de terminal',
+      unlock: 'Desbloquear',
+      unlockFailed: 'No se pudo desbloquear el terminal',
+      invalidCredentials: 'Usuario o contraseña no válidos',
+      locked: 'Demasiados intentos, inténtalo más tarde',
+      sessionClosed: 'Sesión de terminal cerrada. Desbloquea de nuevo para reconectar.',
+      sessionError: 'Error de conexión del terminal. Desbloquea de nuevo para reintentar.',
+      serialPort: 'Puerto serie',
+      serialPortPlaceholder: 'Por ejemplo /dev/ttyS1',
       baudrate: 'Tasa de baudios',
       parity: 'Paridad',
       parityNone: 'Ninguna',
@@ -209,25 +297,43 @@ const es = {
       flowControlSoft: 'Software',
       flowControlHard: 'Hardware',
       dataBits: 'Bits de datos',
-      stopBits: 'Bits de parada'
+      stopBits: 'Bits de parada',
+      open: 'Abrir consola'
     },
     wol: {
       title: 'Wake-on-LAN',
       sending: 'Enviando comando...',
       sent: 'Comando enviado',
-      input: 'Por favor, introduce la dirección MAC',
+      input: 'Dirección MAC',
       ok: 'Aceptar'
     },
     download: {
-      title: 'Descargador de imágenes',
-      input: 'Por favor, introduce la URL de una imagen remota',
-      ok: 'Aceptar',
+      title: 'Descargar imágenes',
+      input: 'URL de la imagen remota',
+      ok: 'OK',
+      disabled:
+        'Ahora mismo no se pueden descargar ni subir imágenes porque el almacenamiento no es escribible. Si hay una imagen montada, desmóntala y después desactiva el disco virtual para que el almacenamiento vuelva a ser escribible.',
+      diskShared: 'Desactiva primero el disco virtual y luego usa la descarga de imágenes',
       mountedImage:
-        'Esta imagen está montada. Desmóntela antes de subir un archivo con el mismo nombre.',
+        'Esta imagen está montada, desmóntala antes de subir un archivo con el mismo nombre',
       diskOff: 'Desactivar el disco virtual',
       uploadbox: 'Suelte el archivo aquí o haga clic para seleccionar',
-      inputfile: 'Por favor ingrese el archivo de imagen',
-      NoISO: 'Sin ISO',
+      inputfile: 'Archivo de imagen',
+      NoISO: 'Sin imagen',
+      complete: 'Descarga completada',
+      uploadComplete: 'Carga completada',
+      downloading: 'Descargando',
+      uploading: 'Cargando',
+      failed: 'La transferencia falló',
+      uploadFailed: 'La carga falló',
+      stalled: 'La transferencia se detuvo, comprueba la conexión e inténtalo de nuevo',
+      canceled: 'Carga cancelada',
+      downloadCanceled: 'Descarga cancelada',
+      cancel: 'Cancelar',
+      remoteDisabled: 'La descarga remota de ISO está desactivada en Ajustes > Apariencia',
+      remoteFailed: 'La descarga remota de ISO falló',
+      sha256: 'Suma de comprobación SHA-256 opcional',
+      sha256Placeholder: 'Introduce una suma de comprobación SHA-256 de 64 caracteres',
       invalidSHA256: 'SHA-256 debe ser una cadena hexadecimal de 64 caracteres',
       checksumFailed: 'Descarga fallida: error en la verificación SHA-256'
     },
@@ -236,8 +342,10 @@ const es = {
       showConfirm: 'Confirmación',
       showConfirmTip: 'Las operaciones de encendido requieren confirmación adicional',
       reset: 'Reiniciar',
-      resetConfirm: '¿Desea proceder con la operación de reinicio?',
-      powerConfirm: '¿Desea proceder con la operación de encendido?',
+      powerShort: 'Botón de encendido: pulsación corta',
+      powerLong: 'Botón de encendido: pulsación larga',
+      resetConfirm: '¿Ejecutar la operación de reinicio?',
+      powerConfirm: '¿Ejecutar la operación de encendido?',
       okBtn: 'Sí',
       cancelBtn: 'No'
     },
@@ -250,10 +358,11 @@ const es = {
         mdns: 'mDNS',
         application: 'Versión de la aplicación',
         applicationTip: 'Versión de la aplicación web NanoKVM',
+        uptime: 'Tiempo activo',
         community: 'Comunidad',
+        credit: 'Basado en <a1>NanoKVM</a1> de Sipeed y <a2>Hardened NanoKVM</a2> de woffko',
         hostname: 'Nombre del host',
-        hostnameReboot: '¿Reiniciar para aplicar el nuevo nombre del host?',
-        ipType: {}
+        hostnameReboot: '¿Reiniciar para aplicar el nuevo nombre del host?'
       },
       appearance: {
         title: 'Apariencia',
@@ -262,6 +371,10 @@ const es = {
         languageDesc: 'Seleccionar el idioma de la interfaz',
         webTitle: 'Título web',
         webTitleDesc: 'Personaliza el título de la página web',
+        layoutMode: 'Diseño de la interfaz',
+        layoutModeDesc: 'Usar el diseño de móvil/táctil en este navegador',
+        layoutAuto: 'Automático',
+        layoutMobile: 'Móvil',
         menuBar: {
           title: 'Barra de menú',
           mode: 'Modo de visualización',
@@ -273,7 +386,18 @@ const es = {
           keyboardLedStatusDesc:
             'Mostrar el estado de Bloq Num, Bloq Mayús y Bloq Despl del equipo remoto',
           icons: 'Iconos del submenú',
-          iconsDesc: 'Mostrar iconos de submenú en la barra de menú'
+          iconsDesc: 'Mostrar iconos de submenú en la barra de menú',
+          terminalWarningTitle: '¿Activar terminal web?',
+          terminalWarningDesc:
+            'El terminal abre una shell root en el navegador. Actívalo solo en una red de confianza y desactívalo al terminar.',
+          terminalWarningConfirm: 'Activar',
+          terminalWarningCancel: 'Cancelar',
+          remoteDownload: 'Descargar ISO remota',
+          remoteDownloadWarningTitle: '¿Activar descarga remota de ISO?',
+          remoteDownloadWarningDesc:
+            'NanoKVM descargará una ISO desde una URL y la escribirá en /data. Actívalo solo para URL de confianza y desactívalo al terminar.',
+          remoteDownloadWarningConfirm: 'Activar',
+          remoteDownloadWarningCancel: 'Cancelar'
         }
       },
       keyboardLedStatus: {
@@ -291,27 +415,44 @@ const es = {
       },
       device: {
         title: 'Dispositivo',
+        minutes: 'min',
+        sections: {
+          connectivity: 'Conectividad',
+          hostConnection: 'Conexión con el host',
+          inputOutput: 'Entrada y salida',
+          optimizations: 'Optimizaciones'
+        },
         oled: {
-          title: 'OLED',
-          description: 'La pantalla OLED entra en reposo automáticamente'
+          title: 'Tiempo de espera de la OLED',
+          description: 'La pantalla OLED entra en reposo automáticamente',
+          keepOn: 'Mantener la OLED encendida',
+          keepOnDescription: 'No apagar nunca la pantalla OLED'
         },
         ssh: {
-          description: 'Habilitar acceso remoto SSH'
+          description: 'Habilitar acceso remoto SSH',
+          tip: 'Establece una contraseña segura en Cuenta > Contraseña antes de activar esta opción'
         },
         swap: {
-          title: 'Memoria Swap',
-          description: 'Establece el tamaño del archivo swap'
+          title: 'Memoria swap',
+          description: 'Usa un archivo swap cuando se agota la memoria',
+          size: 'Tamaño de la memoria swap',
+          sizeDescription: 'Establece el tamaño del archivo swap',
+          tip: 'Habilitar esta función podría acortar la vida útil de tu tarjeta SD'
         },
         mouseJiggler: {
-          title: 'Mouse Jiggler',
+          title: 'Mouse jiggler',
           description: 'Evitar que el host remoto entre en reposo',
           disable: 'Desactivar',
           absolute: 'Modo absoluto',
           relative: 'Modo relativo'
         },
+        sessionLock: {
+          title: 'Bloquear sesión al estar inactiva',
+          description: 'Pedir iniciar sesión de nuevo después de este tiempo'
+        },
         mdns: {
           description: 'Habilitar servicio de descubrimiento mDNS',
-          tip: 'Desactívalo si no es necesario'
+          tip: 'Permite acceder a este dispositivo por su nombre .local. No es necesario si te conectas por dirección IP o si tu DNS ya resuelve su nombre de host.'
         },
         hdmi: {
           description: 'Habilitar salida HDMI/monitor',
@@ -319,15 +460,33 @@ const es = {
           idleTimeoutDescription:
             'Detener la captura HDMI después de no haber espectadores activos durante'
         },
-        hidOnly: 'Modo sólo HID',
-        disk: 'Disco Virtual',
-        network: 'Red Virtual',
+        hidOnly: 'Modo HID-Only',
+        hidOnlyDesc:
+          'Mejora la compatibilidad con el host si el ratón o el teclado dejan de responder',
+        hidOnlyTip:
+          'El modo HID-Only deja de emular dispositivos virtuales y conserva solo el control básico HID',
+        disk: 'Disco virtual',
+        diskDesc: 'Montar la tarjeta SD en el host remoto',
+        diskLocked: 'Desactivado mientras hay una imagen montada, y activarlo cancela el montaje',
+        diskEnable: 'Activar el disco virtual',
+        networkChange: 'Cambiar la red virtual',
+        diskCancelMount: 'Activar el disco virtual cancela la imagen montada. ¿Continuar?',
+        networkCancelMount:
+          'Cambiar la red virtual reinicia la conexión USB. Esto cancela la imagen montada y activa el disco virtual. ¿Continuar?',
+        diskTransferRunning:
+          'Hay una transferencia de imagen en curso. Espera a que termine antes de activar el disco virtual.',
+        network: 'Red virtual',
         networkDesc: 'Montar tarjeta de red virtual en el host remoto',
+        usbWakeup: 'Activación por USB',
+        usbWakeupDesc: 'Permite que eventos de teclado o ratón despierten el host remoto',
+        usbWakeupTip: 'Desactívalo si el host registra mensajes USB wakeup repetidos',
         reboot: 'Reiniciar',
         rebootDesc: '¿Estás seguro de que deseas reiniciar el NanoKVM?'
       },
       network: {
         title: 'Red',
+        connection: 'Conexión',
+        configuration: 'Configuración',
         wifi: {
           title: 'Wi-Fi',
           description: 'Configura el Wi-Fi',
@@ -335,19 +494,28 @@ const es = {
           connect: 'Conectar Wi-Fi',
           connectDesc1: 'Introduce el SSID de la red y la contraseña',
           disconnect: '¿Seguro que quieres desconectar la red?',
+          disconnectBtn: 'Desconectar',
+          connected: 'Conectado',
           ssid: 'Nombre',
           password: 'Contraseña',
           joinBtn: 'Unirse',
           cancelBtn: 'Cancelar'
         },
         tls: {
-          description: 'Habilitar protocolo HTTPS'
+          description: 'Habilitar protocolo HTTPS',
+          tip: 'Aviso: Usar HTTPS puede aumentar la latencia, especialmente en modo de vídeo MJPEG',
+          rebootTitle: 'NanoKVM se reiniciará',
+          rebootDesc:
+            'El cambio de protocolo requiere reiniciar el dispositivo. El navegador cambiará a la nueva dirección después de {{seconds}} segundos:',
+          rebootOk: 'Aplicar y reiniciar',
+          rebootCancel: 'Cancelar'
         },
         dns: {
           title: 'DNS',
           description: 'Configura los servidores DNS para NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Configurar direccionamiento IPv4 para la interfaz cableada',
+          servers: 'Servidores',
           dhcp: 'DHCP',
           manual: 'Manual',
           apply: 'Aplicar',
@@ -359,28 +527,287 @@ const es = {
           unsaved: 'Cambios sin guardar',
           maxServers: 'Se permiten como máximo {{count}} servidores DNS',
           dhcpServersDescription: 'Los servidores DNS se obtienen automáticamente por DHCP',
+          manualServersDescription: 'Se admiten servidores IPv4 e IPv6',
           interface: 'Interfaz',
           ipAddress: 'Dirección IP',
           subnetMask: 'Máscara de subred',
           router: 'Router'
+        },
+        ipv6: {
+          title: 'IPv6',
+          description: 'Configurar direccionamiento IPv6 para la interfaz cableada',
+          disabled: 'Desactivado',
+          slaac: 'SLAAC',
+          dhcpv6: 'DHCPv6',
+          manual: 'Manual',
+          interface: 'Interfaz',
+          state: 'Estado',
+          router: 'Router',
+          addresses: 'Direcciones',
+          dhcpv6Client: 'Cliente DHCPv6',
+          notInstalled: 'No instalado',
+          ipAddress: 'Dirección IPv6',
+          prefix: 'Prefijo',
+          invalidManual: 'Introduce una dirección IPv6, un prefijo y un router válidos',
+          clientMissing:
+            'El cliente DHCPv6 no está instalado. Instala primero la actualización raw del sistema correspondiente.',
+          saved: 'Configuración IPv6 guardada',
+          saveFailed: 'No se pudo guardar la configuración IPv6',
+          unsaved: 'Cambios sin guardar'
+        }
+      },
+      system: {
+        title: 'Sistema',
+        sections: {
+          time: 'Hora',
+          firewall: 'Firewall',
+          systemLog: 'Registro'
+        },
+        time: {
+          saveFailed: 'No se pudieron guardar los ajustes de hora',
+          saved: 'Ajustes de hora guardados',
+          syncFailed: 'No se pudo sincronizar la hora',
+          synced: 'Hora sincronizada',
+          invalidServers: 'Introduce al menos un servidor NTP',
+          maxServers: 'Máximo {{count}} servidores NTP permitidos',
+          refresh: 'Actualizar',
+          syncNow: 'Sincronizar ahora',
+          syncNowDesc: 'Ajusta el reloj con los servidores NTP ahora',
+          save: 'Guardar',
+          ntp: {
+            title: 'NTP',
+            description: 'Sincronizar la hora del dispositivo desde los servidores NTP configurados'
+          },
+          networkTime: 'Hora de red',
+          clock: {
+            title: 'Reloj',
+            description: 'Definir la zona horaria local usada por los registros y la interfaz',
+            current: 'Hora actual',
+            timezone: 'Zona horaria'
+          },
+          servers: {
+            title: 'Servidores NTP',
+            description:
+              'Usa los servidores públicos predeterminados, tu router local o servidores NTP personalizados',
+            useRouter: 'Usar router',
+            useDefaults: 'Usar valores predeterminados',
+            routerDetected: 'Router detectado',
+            routerNone: 'No encontrado'
+          }
+        },
+        firewall: {
+          saveFailed: 'No se pudieron aplicar los ajustes del firewall',
+          saved: 'Ajustes del firewall aplicados',
+          cancel: 'Cancelar',
+          refresh: 'Actualizar',
+          backends: 'Backends',
+          enableHttpsFirst:
+            'Activa HTTPS antes de activar el modo de firewall Restringido o Paranoico',
+          httpsRequired:
+            'Los modos Restringido y Paranoico están desactivados hasta que se active HTTPS en Ajustes > Sistema > Red',
+          mode: {
+            title: 'Modo del firewall',
+            baseline: 'Base',
+            baselineDesc:
+              'Perfil abierto de compatibilidad. El cortafuegos está activo, pero los orígenes entrantes no se restringen. Úsalo solo en redes de confianza.',
+            moderate: 'Moderado',
+            moderateDesc:
+              'Perfil predeterminado. Mantiene los servicios de Base, pero solo acepta nuevas conexiones entrantes de rangos privados, link-local o loopback. El acceso saliente sigue abierto.',
+            restricted: 'Restringido',
+            restrictedDesc:
+              'HTTPS y SSH solo locales, más DNS, NTP, syslog y actualizaciones en línea salientes. DHCP y el tráfico IPv6 esencial siguen disponibles. WebRTC está bloqueado.',
+            paranoid: 'Paranoico',
+            paranoidDesc:
+              'Acceso HTTPS solo local. Bloquea SSH, HTTP, las actualizaciones en línea y otras funciones de red de salida. La subida de actualizaciones sin conexión y las instalaciones ya preparadas siguen disponibles.',
+            current: 'Actual',
+            default: 'Predeterminado',
+            localOnly: 'Solo local',
+            openTag: 'Entrada abierta',
+            httpsRequiredTag: 'Requiere HTTPS',
+            outboundOpen: 'Salida abierta',
+            outboundLimited: 'Salida limitada',
+            httpsOnly: 'Solo HTTPS'
+          },
+          moderate: {
+            apply: 'Cambiar a Moderado'
+          },
+          restricted: {
+            enable: 'Activar Restringido',
+            confirmTitle: '¿Activar el modo Restringido?',
+            confirmDesc:
+              'El acceso administrativo entrante se limitará a rangos private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback para HTTPS y SSH. No se permiten rangos públicos de origen. DNS, NTP, syslog remoto, actualizaciones online, DHCP, conexiones establecidas y tráfico esencial IPv6 salientes seguirán disponibles. WebRTC/ICE UDP y el resto del tráfico entrante/saliente se bloquearán.'
+          },
+          paranoid: {
+            enable: 'Activar Paranoico',
+            confirmTitle: '¿Activar el modo Paranoico?',
+            confirmDesc:
+              'Solo quedará disponible el acceso HTTPS desde rangos private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, descargas de GitHub y el resto del tráfico se bloquearán salvo el mínimo DHCP/control IPv6.'
+          },
+          baseline: {
+            apply: 'Cambiar a Base',
+            confirmTitle: '¿Cambiar al modo Base abierto?',
+            confirmDesc:
+              'El servicio de firewall sigue activo, pero se elimina la restricción a rangos de origen solo locales. Los rangos de origen públicos pueden llegar a los servicios expuestos de NanoKVM si la red los enruta.'
+          },
+          rules: {
+            title: 'Reglas actuales',
+            empty: 'Sin reglas'
+          }
+        },
+        saveChanges: 'Guardar cambios',
+        unsaved: 'Cambios sin guardar'
+      },
+      systemLog: {
+        saveFailed: 'No se pudieron guardar los ajustes de registro',
+        saved: 'Ajustes de registro guardados',
+        invalidHost: 'Introduce un host de servidor syslog',
+        logLoadFailed: 'No se pudieron cargar los registros',
+        save: 'Guardar',
+        test: 'Enviar registro de prueba',
+        testSent: 'Registro de prueba enviado',
+        testFailed: 'No se pudo enviar el registro de prueba',
+        remote: {
+          title: 'Registro remoto',
+          forward: 'Reenviar el registro del sistema',
+          description: 'Reenvía los mensajes del sistema a un servidor remoto',
+          host: 'Servidor',
+          hostDesc: 'Nombre de host o dirección IPv4 del servidor syslog',
+          port: 'Puerto',
+          protocol: 'Puerto UDP del servidor syslog'
+        },
+        local: {
+          title: 'Búfer del registro del sistema',
+          description:
+            'Los registros actuales se mantienen en RAM en {{path}} para evitar escrituras en la tarjeta SD',
+          priority: 'Prioridad mínima',
+          priorityDesc: 'Urgencia mínima para que un mensaje se registre',
+          buffer: 'Tamaño del búfer',
+          bufferDesc: 'Tamaño del registro a partir del cual se rota el archivo',
+          rotations: 'Rotaciones',
+          rotationsDesc: 'Número de archivos de registro rotados que se conservan',
+          compact: 'Salida compacta',
+          compactDesc: 'Omite el nombre de host y la facilidad de cada línea',
+          stripTimestamps: 'Quitar marcas de tiempo',
+          stripTimestampsDesc:
+            'Elimina las marcas de tiempo añadidas por el emisor; syslog añade las suyas'
+        },
+        kernel: {
+          title: 'Registro del kernel',
+          enabled: 'Reenviar el registro del kernel',
+          enabledDesc: 'Captura los mensajes del kernel en el registro del sistema',
+          consoleLevel: 'Nivel de consola',
+          consoleLevelDesc:
+            'Urgencia mínima para que un mensaje del kernel se imprima en la consola'
+        },
+        viewer: {
+          title: 'Registro del sistema',
+          refresh: 'Actualizar',
+          empty: 'No hay entradas de registro',
+          truncated: 'Solo se muestran los datos de registro más recientes',
+          linesUnit: 'líneas'
+        },
+        level: {
+          '1': '1 - Alerta',
+          '2': '2 - Crítico',
+          '3': '3 - Error',
+          '4': '4 - Advertencia',
+          '5': '5 - Aviso',
+          '6': '6 - Info',
+          '7': '7 - Debug',
+          '8': '8 - Todo'
+        }
+      },
+      wireguard: {
+        title: 'WireGuard',
+        tunnel: 'Túnel cifrado',
+        device: 'Este dispositivo',
+        description: 'Accede a este KVM mediante un túnel WireGuard',
+        unavailable: 'WireGuard no está instalado en este dispositivo',
+        blocked: 'El modo Paranoico del firewall bloquea WireGuard',
+        needsKey: 'Define una clave privada antes de activar WireGuard',
+        saved: 'Configuración de WireGuard guardada',
+        save: 'Guardar cambios',
+        unsaved: 'Cambios sin guardar',
+        invalid: 'Revisa los campos resaltados',
+        invalidAddress: 'Introduce una dirección con su máscara, como 10.0.0.1/24',
+        invalidKey: 'Introduce una clave WireGuard de 44 caracteres',
+        invalidEndpoint: 'Introduce un nombre de host o una dirección IP',
+        invalidPort: 'Introduce un puerto del 1 al 65535',
+        invalidRanges: 'Usa rangos IPv4 como 10.0.0.0/24, no 0.0.0.0/0',
+        status: {
+          connected: 'Conectado',
+          waiting: 'Esperando al peer',
+          stopped: 'Detenido',
+          handshake: 'Último handshake {{time}}'
+        },
+        privateKey: {
+          title: 'Clave privada',
+          description: 'Se queda en este dispositivo y no se vuelve a mostrar nunca',
+          set: 'Definida',
+          notSet: 'No definida',
+          setBtn: 'Definir',
+          generate: 'Generar',
+          remove: 'Quitar',
+          modalTitle: 'Definir la clave privada',
+          modalDescription: 'La clave se guarda en este dispositivo y no se vuelve a mostrar nunca',
+          placeholder: 'Pega la clave privada',
+          generateConfirmTitle: '¿Generar una clave privada nueva?',
+          generateConfirmDesc:
+            'La clave actual deja de funcionar. Después, añade la nueva clave pública al peer.',
+          removeConfirmTitle: '¿Quitar la clave privada?',
+          removeConfirmDesc:
+            'WireGuard se apaga y sigue apagado hasta que se defina una clave nueva.'
+        },
+        publicKey: {
+          title: 'Clave pública',
+          description: 'Añádela a la configuración del peer'
+        },
+        address: {
+          title: 'Dirección',
+          description: 'Dirección del KVM en el túnel y su máscara'
+        },
+        peer: {
+          title: 'Peer',
+          publicKey: 'Clave pública',
+          publicKeyDescription: 'Clave pública del peer al que te conectas',
+          server: 'Servidor',
+          serverDescription: 'Nombre de host o dirección IP del peer',
+          port: 'Puerto',
+          portDescription: 'Puerto UDP del peer, normalmente 51820',
+          allowedIps: 'IP permitidas',
+          allowedIpsDescription: 'Dirección o rango del peer en el túnel, como 10.0.0.0/24',
+          keepalive: 'Keepalive',
+          keepaliveDescription: 'Segundos entre paquetes keepalive, necesarios detrás de un router'
         }
       },
       tailscale: {
         title: 'Tailscale',
+        enableDesc: 'Accede a este KVM mediante tu red Tailscale',
+        service: 'Servicio',
+        performance: 'Rendimiento',
         memory: {
           title: 'Optimización de memoria',
-          tip: 'Cuando el uso de memoria supera el límite, la recolección de basura se ejecuta de forma más agresiva para intentar liberar memoria. Es necesario reiniciar Tailscale para que el cambio surta efecto.'
+          tip: 'Mantiene bajo el uso de memoria de Tailscale, lo que ayuda en un dispositivo con poca RAM. Reinicia Tailscale para que el cambio surta efecto.'
         },
         swap: {
-          title: 'Memoria Swap',
-          tip: 'Si los problemas persisten después de habilitar la optimización de memoria, prueba a activar la memoria swap. Esto establece el tamaño del archivo swap en 256 MB por defecto, que se puede ajustar en "Ajustes > Dispositivo".'
+          title: 'Archivo swap',
+          tip: 'Si los problemas persisten después de activar la optimización de memoria, prueba a activar el archivo swap',
+          sizeTip: 'Esto establece su tamaño en 256 MB; ajústalo en Ajustes > Dispositivo'
         },
+        restartTitle: 'Reiniciar Tailscale',
+        restartDesc: 'Reinicia el servicio',
+        restartBtn: 'Reiniciar',
         restart: '¿Seguro que deseas reiniciar Tailscale?',
+        stopTitle: 'Detener Tailscale',
+        stopBtn: 'Detener',
         stop: '¿Seguro que deseas detener Tailscale?',
+        stopDesc: 'Detiene el servicio y evita que se inicie con el sistema',
         loading: 'Cargando...',
+        notInstall: 'Tailscale no encontrado, por favor, instálalo',
         install: 'Instalar',
         installing: 'Instalando',
         failed: 'La instalación falló',
+        retry: 'Por favor, actualiza la página e inténtalo de nuevo, o instala manualmente.',
         download: 'Descargar el',
         package: 'paquete de instalación',
         unzip: 'y descomprimirlo',
@@ -405,21 +832,95 @@ const es = {
         cancelBtn: 'No'
       },
       update: {
-        title: 'Buscar actualizaciones',
+        title: 'Actualizaciones del sistema',
+        sources: 'Fuentes de actualización',
+        latestVersion: 'Última versión',
         queryFailed: 'Error al obtener la versión',
         updateFailed: 'La actualización falló. Por favor, inténtalo de nuevo.',
+        paranoidBlocked:
+          'Las actualizaciones en línea están bloqueadas por el modo de firewall Paranoico',
+        paranoidBlockedDesc:
+          'Las comprobaciones y descargas de GitHub requieren acceso de red saliente. La carga offline y las instalaciones ya preparadas siguen disponibles.',
         isLatest: 'Ya tienes la última versión.',
         available: 'Hay una actualización disponible. ¿Estás seguro de que quieres actualizar?',
         updating: 'Actualización iniciada. Por favor, espera...',
         confirm: 'Confirmar',
         cancel: 'Cancelar',
         preview: 'Vista previa de actualizaciones',
+        previewChannels:
+          'Controla tanto el canal de vista previa de la aplicación como el del sistema',
         previewTip:
           'Ten en cuenta que las versiones de vista previa pueden contener errores o funcionalidades incompletas',
+        application: {
+          title: 'Aplicación'
+        },
+        system: {
+          queryFailed: 'No se pudo obtener la versión del sistema',
+          appUpdateRequired:
+            'Actualiza la aplicación a {{version}} antes de instalar esta actualización del sistema',
+          requiredAppVersion: 'Versión de aplicación requerida',
+          downloadFailed: 'Falló la descarga o verificación',
+          rawEnable: 'Permitir actualizaciones raw del sistema',
+          rawEnableDesc:
+            'Permite escribir imágenes raw verificadas de boot/rootfs en la tarjeta SD desde esta pantalla',
+          rawEnableConfirmTitle: '¿Permitir actualizaciones raw del sistema?',
+          rawEnableConfirmDesc:
+            'Las actualizaciones raw del sistema pueden reemplazar particiones boot y rootfs. Úsalo solo con acceso físico de recuperación.',
+          rawInstallDisabled:
+            'Esta actualización preparada escribe particiones raw de la tarjeta SD. Activa las actualizaciones raw del sistema antes de instalarla.',
+          isLatest: 'El sistema base está actualizado.',
+          available: 'Hay una actualización del sistema base disponible.',
+          downloading: 'Descargando y verificando actualización del sistema...',
+          downloadVerify: 'Descargar y verificar',
+          installing: 'Instalando actualización del sistema preparada...',
+          install: 'Instalar',
+          installFailed: 'Instalación fallida',
+          installConfirmTitle: '¿Instalar actualización del sistema?',
+          installConfirmDesc:
+            'Esto reemplazará archivos del sistema base desde el paquete verificado. Será necesario reiniciar.',
+          rawInstallConfirmDesc:
+            'Este paquete verificado escribirá imágenes raw boot/rootfs en las particiones de la tarjeta SD y reiniciará automáticamente. La escritura puede tardar varios minutos; mantén la alimentación conectada.',
+          rawInstallWarning:
+            'No hay rollback automático para actualizaciones de particiones raw. Si falla el arranque, recupera la tarjeta SD manualmente.',
+          rebootRequired: 'Se requiere reiniciar para activar este estado del sistema.',
+          confirming: 'Confirmando arranque de la actualización del sistema...',
+          confirmBoot: 'Confirmar arranque',
+          confirmFailed: 'Falló la confirmación de arranque',
+          confirmed: 'Arranque confirmado',
+          bootGood: 'La actualización pendiente del sistema se marcó como boot-good.',
+          rollingBack: 'Revirtiendo actualización del sistema...',
+          rollback: 'Rollback',
+          rollbackDone: 'Rollback preparado',
+          rollbackFailed: 'Rollback fallido',
+          rollbackConfirmTitle: '¿Hacer rollback de la actualización del sistema?',
+          rollbackConfirmDesc:
+            'Esto restaurará archivos desde la última copia de la actualización del sistema. Será necesario reiniciar.',
+          stagedDesc: 'La actualización del sistema se descargó y verificó, ya puedes instalarla',
+          refresh: 'Actualizar',
+          releaseNotes: 'Notas de la versión',
+          systemVersion: 'Versión del sistema',
+          baseImage: 'Imagen base',
+          buildrootRelease: 'Versión Buildroot',
+          kernel: 'Kernel',
+          stagedVersion: 'Versión preparada',
+          archive: 'Archivo',
+          requiredFree: 'Espacio libre requerido',
+          fileCount: 'Archivos',
+          rawImages: 'Imágenes raw',
+          progress: 'Progreso',
+          progressMessage: 'Mensaje de progreso',
+          pendingVersion: 'Versión pendiente',
+          bootHealth: 'Estado de arranque',
+          healthy: 'Correcto',
+          unhealthy: 'Requiere atención',
+          rollbackBackup: 'Copia de rollback'
+        },
         offline: {
           title: 'Actualizaciones sin conexión',
           desc: 'Actualización a través del paquete de instalación local',
           upload: 'Subir',
+          invalidName:
+            'Formato de nombre de archivo no válido. Descarga desde las versiones de GitHub.',
           updateFailed: 'La actualización falló. Por favor, inténtalo de nuevo.'
         }
       },
@@ -427,21 +928,75 @@ const es = {
         title: 'Cuenta',
         webAccount: 'Nombre de la cuenta web',
         password: 'Contraseña',
-        updateBtn: 'Actualizar',
+        passwordDesc: 'Cambia la contraseña que se usa para iniciar sesión en la interfaz web',
+        updateBtn: 'Cambiar',
         logoutBtn: 'Cerrar sesión',
         logoutDesc: '¿Estás seguro de que deseas cerrar sesión?',
         okBtn: 'Sí',
-        cancelBtn: 'No'
+        cancelBtn: 'No',
+        totp: {
+          title: 'Autenticación en dos pasos',
+          authenticator: 'Aplicación de autenticación',
+          description:
+            'Exige un código temporal de una aplicación de autenticación además de la contraseña',
+          required: 'Exigida por la política',
+          disable: 'Desactivar',
+          enableTitle: 'Configurar la autenticación en dos pasos',
+          enableDescription:
+            'Confirma tu contraseña para continuar. Es necesaria para cualquier cambio del segundo factor.',
+          continue: 'Continuar',
+          disableTitle: '¿Desactivar la autenticación en dos pasos?',
+          disableDescription:
+            'Tu cuenta quedará protegida solo por la contraseña. Confirma con tu contraseña para continuar.',
+          disableFailed: 'No se pudo desactivar la autenticación en dos pasos',
+          passwordPlaceholder: 'Contraseña actual',
+          enrollFailed: 'No se pudo iniciar la configuración',
+          invalidCode: 'Ese código no coincide. Prueba con el siguiente.',
+          scan: 'Escanea esto con tu aplicación de autenticación.',
+          manualEntry: 'O introduce esta clave manualmente:',
+          codePlaceholder: 'Introduce el código de 6 dígitos para confirmar',
+          confirm: 'Confirmar',
+          cancel: 'Cancelar',
+          backupTitle: 'Guarda ahora tus códigos de respaldo',
+          backupDescription:
+            'Cada código funciona una sola vez y no se volverá a mostrar. Son la única forma de volver a entrar si pierdes tu aplicación de autenticación, y siguen funcionando cuando el reloj del dispositivo no está sincronizado.',
+          copy: 'Copiar',
+          copied: 'Códigos de respaldo copiados',
+          savedThem: 'Ya los he guardado',
+          remaining: 'Quedan {{remaining}} códigos de respaldo',
+          clockUnsynced:
+            'El reloj del dispositivo aún no está sincronizado. Sincroniza la hora en Ajustes > Sistema > Hora antes de configurarlo.',
+          noBackupCodes:
+            'No quedan códigos de respaldo. Selecciona Generar para crear un conjunto nuevo.',
+          regenerate: 'Nuevos códigos de respaldo',
+          generate: 'Generar',
+          regenerateTitle: '¿Generar nuevos códigos de respaldo?',
+          regenerateDescription:
+            'Tus códigos de respaldo actuales dejarán de funcionar. Confirma con tu contraseña para continuar.',
+          regenerateFailed: 'No se pudieron generar nuevos códigos de respaldo',
+          download: 'Descargar',
+          copyFailed: 'No se pudo copiar. Selecciona los códigos y cópialos manualmente.',
+          requireTitle: 'Exigir autenticación en dos pasos',
+          requireDescription:
+            'Impide desactivar la autenticación en dos pasos, y una cuenta que no la tenga deberá configurarla antes de usar el dispositivo',
+          requireFailed: 'No se pudo cambiar el requisito',
+          requiredTitle: 'Se requiere autenticación en dos pasos',
+          requiredDescription:
+            'Este dispositivo está configurado para exigir un segundo factor, pero tu cuenta todavía no tiene ninguno. Configúralo ahora para continuar.'
+        }
       }
     },
     picoclaw: {
-      title: 'PicoClaw Asistente',
+      title: 'Asistente PicoClaw',
+      empty: 'Abre el panel e inicia una tarea para comenzar',
       inputPlaceholder: 'Describe lo que quieres que haga el PicoClaw',
       newConversation: 'Nueva conversación',
       processing: 'Procesando...',
       agent: {
         defaultTitle: 'Asistente general',
+        defaultDescription: 'Ayuda general para chat, búsqueda y espacio de trabajo',
         kvmTitle: 'Control remoto',
+        kvmDescription: 'Opere el host remoto a través de NanoKVM',
         switched: 'Rol de agente cambiado',
         switchFailed: 'No se pudo cambiar la función del agente'
       },
@@ -488,6 +1043,8 @@ const es = {
         success: 'PicoClaw instalado correctamente',
         failed: 'Error al instalar PicoClaw',
         uninstalling: 'Desinstalando el tiempo de ejecución...',
+        uninstalled: 'El tiempo de ejecución se desinstaló exitosamente',
+        uninstallFailed: 'Falló la desinstalación',
         requiredTitle: 'PicoClaw no está instalado',
         requiredDescription:
           'Instala PicoClaw antes de iniciar el tiempo de ejecución de PicoClaw.',
@@ -505,6 +1062,7 @@ const es = {
       },
       model: {
         requiredTitle: 'Se requiere configuración del modelo',
+        requiredDescription: 'Configura el modelo PicoClaw antes de usar el chat PicoClaw.',
         docsTitle: 'Guía de configuración',
         docsDesc: 'Modelos y protocolos compatibles',
         menuLabel: 'Configurar modelo',
@@ -513,6 +1071,7 @@ const es = {
         apiBase: 'API Base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Clave API',
+        apiKeyPlaceholder: 'Introduce la clave API del modelo',
         save: 'Guardar',
         saving: 'Guardando',
         saved: 'Configuración del modelo guardada',

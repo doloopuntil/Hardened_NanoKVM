@@ -12,6 +12,7 @@ const nb = {
     head: {
       desktop: 'Eksternt skrivebord',
       login: 'Logg inn',
+      firstSetup: 'Første oppsett',
       changePassword: 'Endre passord',
       terminal: 'Terminal',
       wifi: 'Wi-Fi'
@@ -28,39 +29,79 @@ const nb = {
       globalLocked: 'System under beskyttelse, prøv igjen senere',
       error: 'Uventet feil',
       changePassword: 'Endre passord',
+      changePasswordDesc:
+        'For sikkerheten til enheten, vennligst endre passordet ditt for web-innlogging',
       differentPassword: 'Passordene er ikke like',
       illegalUsername: 'Brukernavn inneholder tegn som ikke er tillat',
+      illegalPassword:
+        'Passordet må være minst 8 tegn og kan ikke inneholde anførselstegn eller skråstreker',
       forgetPassword: 'Glemt passord',
       ok: 'Ok',
       cancel: 'Avbryt',
       loginButtonText: 'Logg inn',
+      setupTitle: 'Opprett administratorkonto',
+      setupDescription:
+        'Det finnes ingen webkonto på denne enheten ennå. Opprett den første administratorkontoen for å fortsette.',
+      setupRecovery:
+        'Hvis dette passordet mistes, krever gjenoppretting at SD-kortet skrives på nytt',
+      setupButtonText: 'Opprett konto',
       tips: {
+        hardenedRecovery:
+          'Dette Hardened-imaget støtter ikke passordtilbakestilling med BOOT-knappen. Hvis passordet mistes, skriv SD-kortet på nytt og opprett en ny konto.',
         change1: 'Merk at denne handlingen endrer følgende passord:',
-        change2: 'Passord for webinnlogging'
+        change2: 'Passord for webinnlogging',
+        change3: 'Systemets root-passord for SSH-innlogging'
+      },
+      placeholderCurrentPassword: 'Nåværende passord',
+      placeholderNewPassword: 'Nytt passord',
+      wrongCurrentPassword: 'Det nåværende passordet er feil',
+      totp: {
+        title: 'Tofaktorautentisering',
+        prompt: 'Skriv inn den 6-sifrede koden fra autentiseringsappen din',
+        backupPrompt: 'Skriv inn en av reservekodene dine',
+        noEmptyCode: 'Skriv inn en kode',
+        placeholderCode: '6-sifret kode',
+        placeholderBackup: 'Reservekode',
+        verifyButtonText: 'Bekreft',
+        useBackupCode: 'Bruk en reservekode',
+        useAuthenticator: 'Bruk kode fra autentiseringsappen',
+        cancel: 'Tilbake',
+        invalidCode: 'Koden er ugyldig. Prøv igjen.'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Konfigurer Wi-Fi for NanoKVM',
+      success: 'Gå til enheten og kontroller nettverksstatusen til NanoKVM',
+      failed: 'Operasjonen mislyktes, prøv igjen',
       invalidMode:
         'Gjeldende modus støtter ikke nettverksoppsett. Gå til enheten din og aktiver Wi-Fi konfigurasjonsmodus.',
       confirmBtn: 'Ok',
       finishBtn: 'Ferdig',
       ap: {
         authTitle: 'Autentisering kreves',
-        authDescription: 'Vennligst skriv inn AP passordet for å fortsette',
+        authDescription: 'Vennligst skriv inn AP-passordet for å fortsette',
         authFailed: 'Ugyldig AP passord',
-        passPlaceholder: 'AP passord',
+        passPlaceholder: 'AP-passord',
         verifyBtn: 'Bekreft'
       }
     },
     screen: {
       scale: 'Skala',
       title: 'Skjerm',
+      video: 'Videomodus',
+      videoDirectTips:
+        'Aktiver HTTPS under "Innstillinger > System > Nettverk" for å bruke denne modusen',
+      videoWebrtcBlockedByFirewall:
+        'H.264 WebRTC er deaktivert i brannmurmodusene Begrenset og Paranoid',
+      transferRunningTitle: 'Bildeoverføring pågår',
+      transferRunningDesc:
+        'Hvis du bytter videomodus, lastes siden på nytt, og pågående opplasting eller nedlasting av bildet avbrytes.',
+      transferRunningOk: 'Bytt modus',
       resolution: 'Oppløsning',
       auto: 'Automatisk',
       autoTips:
-        'Skjermriving eller peker-forskyvning kan oppstå ved enkelte oppløsninger. Prøv å justere den eksterne vertens oppløsning eller skru av automatisk modus.',
+        'Skjermriving eller peker-forskyvning kan oppstå ved enkelte oppløsninger, så juster den eksterne vertens oppløsning eller skru av automatisk modus',
       fps: 'FPS',
       customizeFps: 'Tilpass',
       quality: 'Kvalitet',
@@ -70,10 +111,11 @@ const nb = {
       qualityLow: 'Lav',
       frameDetect: 'Bildefrekvensoppdagelse',
       frameDetectTip:
-        'Kalkuler forskjellen mellom bilder. Stopper overføring av video når det ikke oppdages forskjell på den eksterne vertens skjerm.',
+        'Sammenligner bilder og stopper videooverføringen så lenge den eksterne vertens skjerm ikke endres',
       resetHdmi: 'Tilbakestill HDMI',
       webrtcConnectionFailed: {
-        title: 'WebRTC-tilkobling mislyktes'
+        title: 'WebRTC-tilkobling mislyktes',
+        description: 'Kontroller nettverkstilkoblingen eller bytt videomodus'
       },
       captureStatus: {
         hdmiError: 'HDMI-skjermfeil',
@@ -87,25 +129,36 @@ const nb = {
       }
     },
     keyboard: {
+      title: 'Tastatur',
       paste: 'Lim inn',
       tips: 'Kun vanlige tegn på tastatur er støttet',
-      placeholder: 'Vennligst angi teksten du vil lime inn',
-      virtual: 'Åpne tastatur',
+      placeholder: 'Tekst som skal limes inn',
+      local: 'Mobilt tastatur',
+      virtual: 'Skjermtastatur',
       readClipboard: 'Les fra utklippstavlen',
       clipboardPermissionDenied:
-        'Utklippstavle tillatelse nektet. Tillat utklippstavletilgang i nettleseren din.',
+        'Tillatelse til utklippstavlen nektet, tillat tilgang i nettleseren din',
       clipboardReadError: 'Kunne ikke lese utklippstavlen',
       dropdownEnglish: 'Engelsk',
+      dropdownGerman: 'Tysk',
       dropdownFrench: 'Fransk',
+      dropdownRussian: 'Russisk',
+      dropdownKorean: 'Koreansk',
+      dropdownJapanese: 'Japansk',
+      localInput: 'Inndata fra mobiltastatur',
       shortcut: {
         title: 'Snarveier',
         custom: 'Egendefinert',
         capture: 'Klikk her for å ta en snarvei',
         clear: 'Tøm',
-        save: 'Lagre'
+        save: 'Lagre',
+        captureTips:
+          'Registrering av systemtaster, som Windows-tasten, krever fullskjermtillatelse',
+        enterFullScreen: 'Veksle fullskjermmodus'
       },
       leaderKey: {
         title: 'Leader-tast',
+        desc: 'Omgå nettleserrestriksjoner og send systemsnarveier direkte til den eksterne verten',
         howToUse: 'Hvordan bruke',
         simultaneous: {
           title: 'Samtidig modus',
@@ -127,7 +180,7 @@ const nb = {
         recorder: {
           rec: 'REC',
           activate: 'Aktiver taster',
-          input: 'Trykk snarveien...'
+          input: 'Trykk på snarveien'
         }
       }
     },
@@ -146,17 +199,26 @@ const nb = {
       scrollUp: 'Rull opp',
       scrollDown: 'Rull ned',
       speed: 'Rullehjulhastighet',
+      sensitivity: 'Pekerhastighet',
+      sensitivityDesc:
+        'For relativ desktopmodus: lavere verdier reduserer drift fra museakselerasjon på verten',
       fast: 'Rask',
       slow: 'Sakte',
-      requestPointer: 'Bruker relativ modus. Vennligsk klikk på skrivebordet for vise musepeker.',
+      mobile: {
+        touchSync: 'TouchSync',
+        touchSyncDesc:
+          'Beveg hvor som helst i KVM-området; fjernpekeren beholder posisjonen mellom berøringer og holdes synkronisert med absolutt HID'
+      },
+      requestPointer: 'Bruker relativ modus, klikk på skrivebordet for å vise musepekeren',
       resetHid: 'Gjenopprett HID',
       hidOnly: {
-        title: 'Kun HID-modus',
-        tip1: 'Aktivering av HID-Only-modus vil demontere den virtuelle U-disken og det virtuelle nettverket',
-        tip2: 'I HID-Only-modus er bildemontering deaktivert',
+        title: 'HID-Only-modus',
+        desc: 'Hvis musen eller tastaturet slutter å svare og det ikke hjelper å tilbakestille HID, kan det være et kompatibilitetsproblem mellom NanoKVM og verten.',
+        tip1: 'Når HID-Only-modus aktiveres, avmonteres den virtuelle disken og det virtuelle nettverket',
+        tip2: 'I HID-Only-modus er montering av bilder deaktivert',
         tip3: 'NanoKVM vil automatisk starte på nytt etter bytte av modus',
         enable: 'Aktiver HID-Only-modus',
-        disable: 'Deaktiver HID-bare-modus'
+        disable: 'Deaktiver HID-Only-modus'
       }
     },
     image: {
@@ -165,23 +227,40 @@ const nb = {
       empty: 'Ingen funnet',
       mountMode: 'Monteringsmodus',
       mountFailed: 'Montering feilet',
+      mountDesc:
+        'På noen systemer er det nødvendig å koble fra den virtuelle disken på den eksterne verten før man kan montere arkivfilen',
+      diskOnWarn:
+        'Når bildet monteres, slås den virtuelle disken av, slik at datamaskinen ikke lenger får tilgang til /data. Fortsette?',
+      diskOffWarn:
+        'Den virtuelle disken er av og må aktiveres for å montere bildet. USB-enhetene på datamaskinen registreres på nytt. Fortsette?',
       unmountFailed: 'Avmontering mislyktes',
+      unmountDesc:
+        'På noen systemer må du manuelt løse ut fra den eksterne verten før du demonterer bildet',
       forceEject: 'Løs ut med tvang',
       forceEjectConfirm:
         'Verten har låst den optiske stasjonen. Tvungen utløsing kobler den virtuelle USB-enheten fra et øyeblikk, så tastaturet og musen kan bli koblet fra en kort stund. Vil du fortsette?',
+      usbReconnect: 'Koble til USB på nytt',
+      usbReconnectConfirm:
+        'Koble USB-gadgeten til på nytt bare hvis den eksterne verten ikke oppdaget medieendringen. Tastatur og mus kan kobles fra kort.',
+      usbReconnectSuccess: 'USB koblet til på nytt',
+      usbReconnectFailed: 'USB-tilkobling mislyktes',
+      mountTitle: 'Monter bilde',
+      deleteTitle: 'Slett bilde',
       deleteConfirm: 'Er du sikker på at du vil slette dette bildet?',
       tips: {
         title: 'Hvordan laste opp',
         usb1: 'Koble til NanoKVM-enheten til din datamaskin med USB.',
+        usb2: 'Sørg for at den virtuelle disken er montert under Innstillinger > Enhet > Virtuell disk.',
         usb3: 'Åpne den virtuelle disken på datamaskinen din og kopier arkivfilen til rot-mappen på den virtuelle disken.',
         scp1: 'Sikre at NanoKVM-enheten og datamaskinen din er tilkoblet det samme lokale nettverket.',
         scp2: 'Åpne en terminal på datamaskinen din og bruk SCP-kommandoen til å laste opp arkivfilen til mappen /data på NanoKVM-enheten.',
         scp3: 'Eksempel: scp sti-til-din-arkivfil root@din-nanokvm-ip:/data',
-        tfCard: 'TF-kort',
+        tfCard: 'SD-kort',
         tf1: 'Denne metoden er støttet på datamskiner med Linux',
-        tf3: 'Sett inn TF-kortet i en kortleser og koble den til datamaskinen din.',
-        tf4: 'Kopiér arkivfilen til mappen /data på TF-kortet.',
-        tf5: 'Sett inn TF-kortet i NanoKVM-enheten.'
+        tf2: 'Ta SD-kortet ut av NanoKVM-enheten. På FULL-versjonen må du demontere kabinettet først.',
+        tf3: 'Sett inn SD-kortet i en kortleser og koble den til datamaskinen din.',
+        tf4: 'Kopiér arkivfilen til mappen /data på SD-kortet.',
+        tf5: 'Sett inn SD-kortet i NanoKVM-enheten.'
       }
     },
     script: {
@@ -196,10 +275,18 @@ const nb = {
     },
     terminal: {
       title: 'Terminal',
-      nanokvm: 'NanoKVM',
-      serial: 'Seriell port',
+      nanokvm: 'NanoKVM-terminal',
+      serial: 'Terminal for seriell port',
+      unlockTitle: 'Lås opp terminal',
+      unlockDesc: 'Skriv inn passordet til webkontoen for å starte en terminaløkt',
+      unlock: 'Lås opp',
+      unlockFailed: 'Klarte ikke å låse opp terminalen',
+      invalidCredentials: 'Ugyldig brukernavn eller passord',
+      locked: 'For mange forsøk, prøv igjen senere',
+      sessionClosed: 'Terminaløkten ble lukket. Lås opp igjen for å koble til.',
+      sessionError: 'Terminaltilkobling mislyktes. Lås opp igjen for å prøve.',
       serialPort: 'Seriell port',
-      serialPortPlaceholder: 'Vennligst angi den serielle porten',
+      serialPortPlaceholder: 'For eksempel /dev/ttyS1',
       baudrate: 'Baud-rate',
       parity: 'Paritet',
       parityNone: 'Ingen',
@@ -210,24 +297,42 @@ const nb = {
       flowControlSoft: 'Programvare',
       flowControlHard: 'Maskinvare',
       dataBits: 'Databiter',
-      stopBits: 'Stoppbiter'
+      stopBits: 'Stoppbiter',
+      open: 'Åpne terminal'
     },
     wol: {
       title: 'Wake-on-LAN',
       sending: 'Sender kommando...',
       sent: 'Kommando sendt',
-      input: 'Vennligst angi MAC-adressen',
-      ok: 'Ok'
+      input: 'MAC-adresse',
+      ok: 'OK'
     },
     download: {
-      title: 'Bildedaster',
-      input: 'Vennligst skriv inn et eksternt bilde URL',
-      ok: 'Ok',
+      title: 'Last ned bilder',
+      input: 'URL til eksternt bilde',
+      ok: 'OK',
+      disabled:
+        'Bilder kan ikke lastes ned eller lastes opp akkurat nå fordi lagringen ikke er skrivbar. Hvis et bilde er montert, må du avmontere det og deretter slå av den virtuelle disken slik at lagringen blir skrivbar igjen.',
+      diskShared: 'Slå først av den virtuelle disken, og bruk deretter bildenedlastingen',
       mountedImage:
-        'Dette diskavbildet er montert. Avmonter det før du laster opp en fil med samme navn.',
+        'Dette diskavbildet er montert, avmonter det før du laster opp en fil med samme navn',
+      diskOff: 'Slå av den virtuelle disken',
       uploadbox: 'Slipp filen her eller klikk for å velge',
-      inputfile: 'Vennligst skriv inn bildefilen',
-      NoISO: 'Ingen ISO',
+      inputfile: 'Bildefil',
+      NoISO: 'Ingen image',
+      complete: 'Nedlasting fullført',
+      uploadComplete: 'Opplasting fullført',
+      downloading: 'Laster ned',
+      uploading: 'Laster opp',
+      failed: 'Overføring mislyktes',
+      uploadFailed: 'Opplasting mislyktes',
+      stalled: 'Overføringen stoppet, kontroller tilkoblingen og prøv igjen',
+      canceled: 'Opplasting avbrutt',
+      downloadCanceled: 'Nedlasting avbrutt',
+      cancel: 'Avbryt',
+      remoteDisabled: 'Ekstern ISO-nedlasting er deaktivert i Innstillinger > Utseende',
+      remoteFailed: 'Ekstern ISO-nedlasting mislyktes',
+      sha256: 'Valgfri SHA-256-sjekksum',
       sha256Placeholder: 'Skriv inn en SHA-256-kontrollsum på 64 tegn',
       invalidSHA256: 'SHA-256 må være en heksadesimal streng på 64 tegn',
       checksumFailed: 'Nedlasting mislyktes: SHA-256-verifisering mislyktes'
@@ -237,8 +342,10 @@ const nb = {
       showConfirm: 'Bekreftelse',
       showConfirmTip: 'Strømdrift krever en ekstra bekreftelse',
       reset: 'Reset-knapp',
-      resetConfirm: 'Fortsette tilbakestilling?',
-      powerConfirm: 'Fortsette strømdrift?',
+      powerShort: 'På-knapp: kort trykk',
+      powerLong: 'På-knapp: langt trykk',
+      resetConfirm: 'Utføre tilbakestilling?',
+      powerConfirm: 'Utføre strømoperasjonen?',
       okBtn: 'Ja',
       cancelBtn: 'Nei'
     },
@@ -251,10 +358,11 @@ const nb = {
         mdns: 'mDNS',
         application: 'Applikasjonsversjon',
         applicationTip: 'Versjon av NanoKVM-webapplikasjonen',
+        uptime: 'Oppetid',
         community: 'Fellesskap',
+        credit: 'Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> av woffko',
         hostname: 'Vertsnavn',
-        hostnameReboot: 'Starte på nytt for å ta i bruk det nye vertsnavnet?',
-        ipType: {}
+        hostnameReboot: 'Starte på nytt for å ta i bruk det nye vertsnavnet?'
       },
       appearance: {
         title: 'Utseende',
@@ -263,6 +371,10 @@ const nb = {
         languageDesc: 'Velg språket for grensesnittet',
         webTitle: 'Netttittel',
         webTitleDesc: 'Tilpass nettsidetittelen',
+        layoutMode: 'Grensesnittoppsett',
+        layoutModeDesc: 'Bruk telefon-/berøringsoppsett i denne nettleseren',
+        layoutAuto: 'Automatisk',
+        layoutMobile: 'Telefon',
         menuBar: {
           title: 'Menylinje',
           mode: 'Visningsmodus',
@@ -274,7 +386,18 @@ const nb = {
           keyboardLedStatusDesc:
             'Vis Num Lock-, Caps Lock- og Scroll Lock-status for den eksterne datamaskinen',
           icons: 'Undermenyikoner',
-          iconsDesc: 'Vis undermenyikoner i menylinjen'
+          iconsDesc: 'Vis undermenyikoner i menylinjen',
+          terminalWarningTitle: 'Aktivere webterminal?',
+          terminalWarningDesc:
+            'Terminalen åpner et root-shell i nettleseren. Aktiver bare på et klarert nettverk og slå av når du er ferdig.',
+          terminalWarningConfirm: 'Aktiver',
+          terminalWarningCancel: 'Avbryt',
+          remoteDownload: 'Last ned ekstern ISO',
+          remoteDownloadWarningTitle: 'Aktivere ekstern ISO-nedlasting?',
+          remoteDownloadWarningDesc:
+            'NanoKVM henter en ISO fra en URL og skriver den til /data. Aktiver bare for klarerte URL-er og slå av når du er ferdig.',
+          remoteDownloadWarningConfirm: 'Aktiver',
+          remoteDownloadWarningCancel: 'Avbryt'
         }
       },
       keyboardLedStatus: {
@@ -292,41 +415,78 @@ const nb = {
       },
       device: {
         title: 'Enhet',
+        minutes: 'min',
+        sections: {
+          connectivity: 'Tilkobling',
+          hostConnection: 'Vertstilkobling',
+          inputOutput: 'Inndata og utdata',
+          optimizations: 'Optimaliseringer'
+        },
         oled: {
-          title: 'OLED'
+          title: 'OLED-tidsavbrudd',
+          description: 'Slå av OLED-skjermen etter',
+          keepOn: 'Hold OLED på',
+          keepOnDescription: 'Slå aldri av OLED-skjermen'
         },
         ssh: {
-          description: 'Aktiver SSH ekstern tilgang'
+          description: 'Aktiver SSH ekstern tilgang',
+          tip: 'Angi et sterkt passord under Konto > Passord før du aktiverer dette alternativet'
         },
         swap: {
-          title: 'Bytt',
-          description: 'Angi størrelsen på byttefilen'
+          title: 'Swap',
+          description: 'Bruk en byttefil når minnet begynner å ta slutt',
+          size: 'Swap-størrelse',
+          sizeDescription: 'Angi størrelsen på byttefilen',
+          tip: 'Aktivering av denne funksjonen kan forkorte SD-kortets brukbare levetid'
         },
         mouseJiggler: {
-          title: 'Mus Jiggler',
+          title: 'Mus-jiggler',
           description: 'Hindre den eksterne verten fra å sove',
           disable: 'Deaktiver',
           absolute: 'Absolutt modus',
           relative: 'Relativ modus'
         },
+        sessionLock: {
+          title: 'Lås økt ved inaktivitet',
+          description: 'Krev innlogging igjen etter denne tiden'
+        },
         mdns: {
           description: 'Aktiver mDNS oppdagelsestjeneste',
-          tip: 'Slå den av hvis den ikke er nødvendig'
+          tip: 'Gjør at enheten kan nås med .local-navnet. Ikke nødvendig hvis du kobler til med IP-adresse eller DNS-en din allerede løser vertsnavnet.'
         },
         hdmi: {
           description: 'Aktiver HDMI/skjermutgang',
           idleTimeoutTitle: 'Tidsavbrudd for inaktivt opptak',
           idleTimeoutDescription: 'Stopp HDMI-opptak etter at det ikke har vært aktive seere i'
         },
-        hidOnly: 'HID-Bare modus',
+        hidOnly: 'HID-Only-modus',
+        hidOnlyDesc:
+          'Forbedrer kompatibiliteten med verten hvis musen eller tastaturet slutter å svare',
+        hidOnlyTip:
+          'HID-Only-modus slutter å emulere virtuelle enheter og beholder bare grunnleggende HID-kontroll',
         disk: 'Virtuell disk',
+        diskDesc: 'Monter SD-kortet på den eksterne verten',
+        diskLocked: 'Av mens et bilde er montert, og aktivering avbryter monteringen',
+        diskEnable: 'Aktiver virtuell disk',
+        networkChange: 'Endre virtuelt nettverk',
+        diskCancelMount:
+          'Hvis du aktiverer den virtuelle disken, avbrytes det monterte bildet. Fortsette?',
+        networkCancelMount:
+          'Hvis du endrer det virtuelle nettverket, startes USB-tilkoblingen på nytt. Dette avbryter det monterte bildet og aktiverer den virtuelle disken. Fortsette?',
+        diskTransferRunning:
+          'En bildeoverføring pågår. Vent til den er ferdig før du aktiverer den virtuelle disken.',
         network: 'Virtuelt nettverk',
         networkDesc: 'Monter virtuelt nettverkskort på den eksterne verten',
+        usbWakeup: 'USB-vekking',
+        usbWakeupDesc: 'Tillat tastatur- eller musehendelser å vekke den eksterne verten',
+        usbWakeupTip: 'Slå av hvis verten logger gjentatte USB wakeup-meldinger',
         reboot: 'Start på nytt',
         rebootDesc: 'Er du sikker på at du vil starte NanoKVM på nytt?'
       },
       network: {
         title: 'Nettverk',
+        connection: 'Tilkobling',
+        configuration: 'Konfigurasjon',
         wifi: {
           title: 'Wi-Fi',
           description: 'Konfigurer Wi-Fi',
@@ -334,19 +494,28 @@ const nb = {
           connect: 'Koble til Wi-Fi',
           connectDesc1: 'Skriv inn nettverkets SSID og passord',
           disconnect: 'Er du sikker på at du vil koble fra nettverket?',
+          disconnectBtn: 'Koble fra',
+          connected: 'Tilkoblet',
           ssid: 'Navn',
           password: 'Passord',
           joinBtn: 'Koble til',
           cancelBtn: 'Avbryt'
         },
         tls: {
-          description: 'Aktiver HTTPS-protokoll'
+          description: 'Aktiver HTTPS-protokoll',
+          tip: 'Merk: Bruk av HTTPS kan øke forsinkelsen, spesielt i MJPEG-videomodus',
+          rebootTitle: 'NanoKVM starter på nytt',
+          rebootDesc:
+            'Protokollendringen krever omstart av enheten. Nettleseren bytter til den nye adressen etter {{seconds}} sekunder:',
+          rebootOk: 'Bruk og start på nytt',
+          rebootCancel: 'Avbryt'
         },
         dns: {
           title: 'DNS',
           description: 'Konfigurer DNS-servere for NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Konfigurer IPv4-adressering for det kablede grensesnittet',
+          servers: 'Servere',
           dhcp: 'DHCP',
           manual: 'Manuell',
           apply: 'Bruk',
@@ -358,25 +527,286 @@ const nb = {
           unsaved: 'Ulagrede endringer',
           maxServers: 'Maksimalt {{count}} DNS-servere er tillatt',
           dhcpServersDescription: 'DNS-servere hentes automatisk fra DHCP',
+          manualServersDescription: 'IPv4- og IPv6-servere støttes',
           interface: 'Grensesnitt',
           ipAddress: 'IP-adresse',
           subnetMask: 'Subnettmaske',
           router: 'Ruter'
+        },
+        ipv6: {
+          title: 'IPv6',
+          description: 'Konfigurer IPv6-adressering for kablet grensesnitt',
+          disabled: 'Deaktivert',
+          slaac: 'SLAAC',
+          dhcpv6: 'DHCPv6',
+          manual: 'Manuelt',
+          interface: 'Grensesnitt',
+          state: 'Tilstand',
+          router: 'Ruter',
+          addresses: 'Adresser',
+          dhcpv6Client: 'DHCPv6-klient',
+          notInstalled: 'Ikke installert',
+          ipAddress: 'IPv6-adresse',
+          prefix: 'Prefiks',
+          invalidManual: 'Angi en gyldig IPv6-adresse, prefiks og ruter',
+          clientMissing:
+            'DHCPv6-klienten er ikke installert. Installer først den matchende raw-systemoppdateringen.',
+          saved: 'IPv6-innstillinger lagret',
+          saveFailed: 'Kunne ikke lagre IPv6-innstillinger',
+          unsaved: 'Ulagrede endringer'
+        }
+      },
+      system: {
+        title: 'System',
+        sections: {
+          time: 'Tid',
+          firewall: 'Brannmur',
+          systemLog: 'Logging'
+        },
+        time: {
+          saveFailed: 'Kunne ikke lagre tidsinnstillinger',
+          saved: 'Tidsinnstillinger lagret',
+          syncFailed: 'Kunne ikke synkronisere tid',
+          synced: 'Tid synkronisert',
+          invalidServers: 'Angi minst én NTP-server',
+          maxServers: 'Maksimalt {{count}} NTP-servere tillatt',
+          refresh: 'Oppdater',
+          syncNow: 'Synkroniser nå',
+          syncNowDesc: 'Still klokken fra NTP-tjenerne nå',
+          save: 'Lagre',
+          ntp: {
+            title: 'NTP',
+            description: 'Synkroniser enhetens tid fra konfigurerte NTP-servere'
+          },
+          networkTime: 'Nettverkstid',
+          clock: {
+            title: 'Klokke',
+            description: 'Angi lokal tidssone som brukes av logger og UI',
+            current: 'Gjeldende tid',
+            timezone: 'Tidssone'
+          },
+          servers: {
+            title: 'NTP-servere',
+            description:
+              'Bruk standard offentlige servere, din lokale ruter eller egne NTP-servere',
+            useRouter: 'Bruk ruter',
+            useDefaults: 'Bruk standarder',
+            routerDetected: 'Oppdaget ruter',
+            routerNone: 'Ikke funnet'
+          }
+        },
+        firewall: {
+          saveFailed: 'Kunne ikke bruke brannmurinnstillinger',
+          saved: 'Brannmurinnstillinger brukt',
+          cancel: 'Avbryt',
+          refresh: 'Oppdater',
+          backends: 'Backends',
+          enableHttpsFirst:
+            'Aktiver HTTPS før du aktiverer brannmurmodusen Begrenset eller Paranoid',
+          httpsRequired:
+            'Modusene Begrenset og Paranoid er deaktivert til HTTPS er aktivert under Innstillinger > System > Nettverk',
+          mode: {
+            title: 'Brannmurmodus',
+            baseline: 'Basis',
+            baselineDesc:
+              'Åpen kompatibilitetsprofil. Brannmuren kjører, men innkommende kilder er ikke begrenset. Bruk bare på pålitelige nettverk.',
+            moderate: 'Moderat',
+            moderateDesc:
+              'Standardprofil. Beholder Basis-tjenestene, men godtar bare nye innkommende tilkoblinger fra private, link-local- eller loopback-områder. Utgående tilgang forblir åpen.',
+            restricted: 'Begrenset',
+            restrictedDesc:
+              'Kun lokal HTTPS og SSH, pluss utgående DNS, NTP, syslog og nettbaserte oppdateringer. DHCP og nødvendig IPv6-trafikk forblir tilgjengelig. WebRTC er blokkert.',
+            paranoid: 'Paranoid',
+            paranoidDesc:
+              'Kun lokal HTTPS-tilgang. Blokkerer SSH, HTTP, nettbaserte oppdateringer og andre utgående nettverksfunksjoner. Opplasting av frakoblede oppdateringer og allerede klargjorte installasjoner er fortsatt tilgjengelig.',
+            current: 'Gjeldende',
+            default: 'Standard',
+            localOnly: 'Kun lokalt',
+            openTag: 'Innkommende åpen',
+            httpsRequiredTag: 'HTTPS kreves',
+            outboundOpen: 'Utgående åpen',
+            outboundLimited: 'Utgående begrenset',
+            httpsOnly: 'Kun HTTPS'
+          },
+          moderate: {
+            apply: 'Bytt til Moderat'
+          },
+          restricted: {
+            enable: 'Aktiver Begrenset',
+            confirmTitle: 'Aktivere brannmurmodusen Begrenset?',
+            confirmDesc:
+              'Innkommende administratortilgang begrenses til private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- eller IPv6 loopback-kilder for HTTPS og SSH. Offentlige kildeområder er ikke tillatt. Utgående DNS, NTP, ekstern syslog, onlineoppdateringer, DHCP, etablerte forbindelser og nødvendig IPv6-kontrolltrafikk forblir tilgjengelig. WebRTC/ICE UDP og annen inn-/utgående trafikk blokkeres.'
+          },
+          paranoid: {
+            enable: 'Aktiver Paranoid',
+            confirmTitle: 'Aktivere brannmurmodusen Paranoid?',
+            confirmDesc:
+              'Bare HTTPS-tilgang fra private IPv4, IPv4 link-local/loopback, IPv6 link-local eller IPv6 loopback forblir tilgjengelig. SSH, HTTP, mDNS, NTP, GitHub-nedlastinger og annen trafikk blokkeres bortsett fra minimal DHCP/IPv6-kontroll.'
+          },
+          baseline: {
+            apply: 'Bytt til Basis',
+            confirmTitle: 'Bytte til åpen Basis-modus?',
+            confirmDesc:
+              'Brannmurtjenesten forblir aktiv, men begrensningen til lokale kildeområder fjernes. Offentlige kildeområder kan nå eksponerte NanoKVM-tjenester hvis nettverket ruter dem.'
+          },
+          rules: {
+            title: 'Gjeldende regler',
+            empty: 'Ingen regler'
+          }
+        },
+        saveChanges: 'Lagre endringer',
+        unsaved: 'Ulagrede endringer'
+      },
+      systemLog: {
+        saveFailed: 'Kunne ikke lagre logginnstillinger',
+        saved: 'Logginnstillinger lagret',
+        invalidHost: 'Angi en syslog-serverhost',
+        logLoadFailed: 'Kunne ikke laste logger',
+        save: 'Lagre',
+        test: 'Send testlogg',
+        testSent: 'Testlogg sendt',
+        testFailed: 'Kunne ikke sende testlogg',
+        remote: {
+          title: 'Ekstern logging',
+          forward: 'Videresend systemlogg',
+          description: 'Videresend systemmeldinger til en ekstern server',
+          host: 'Server',
+          hostDesc: 'Vertsnavn eller IPv4-adresse til syslog-serveren',
+          port: 'Port',
+          protocol: 'UDP-port på syslog-serveren'
+        },
+        local: {
+          title: 'Systemloggbuffer',
+          description:
+            'Gjeldende logger holdes i RAM på {{path}} for å unngå skriving til SD-kortet',
+          priority: 'Minimumsprioritet',
+          priorityDesc: 'Minste hastegrad for at en melding logges',
+          buffer: 'Bufferstørrelse',
+          bufferDesc: 'Loggstørrelse der filen roteres',
+          rotations: 'Rotasjoner',
+          rotationsDesc: 'Antall roterte loggfiler som beholdes',
+          compact: 'Kompakt utdata',
+          compactDesc: 'Utelat vertsnavn og facility fra hver linje',
+          stripTimestamps: 'Fjern tidsstempler',
+          stripTimestampsDesc:
+            'Fjern tidsstempler lagt til av avsenderen; syslog legger til sine egne'
+        },
+        kernel: {
+          title: 'Kjernelogging',
+          enabled: 'Videresend kjernelogg',
+          enabledDesc: 'Fang opp kjernemeldinger i systemloggen',
+          consoleLevel: 'Konsollnivå',
+          consoleLevelDesc: 'Minste hastegrad for at en kjernemelding skrives ut på konsollen'
+        },
+        viewer: {
+          title: 'Systemlogg',
+          refresh: 'Oppdater',
+          empty: 'Ingen loggoppføringer',
+          truncated: 'Bare de nyeste loggdataene vises',
+          linesUnit: 'linjer'
+        },
+        level: {
+          '1': '1 - Alarm',
+          '2': '2 - Kritisk',
+          '3': '3 - Feil',
+          '4': '4 - Advarsel',
+          '5': '5 - Merknad',
+          '6': '6 - Info',
+          '7': '7 - Debug',
+          '8': '8 - Alle'
+        }
+      },
+      wireguard: {
+        title: 'WireGuard',
+        tunnel: 'Kryptert tunnel',
+        device: 'Denne enheten',
+        description: 'Nå denne KVM-en gjennom en WireGuard-tunnel',
+        unavailable: 'WireGuard er ikke installert på denne enheten',
+        blocked: 'Brannmurmodusen Paranoid blokkerer WireGuard',
+        needsKey: 'Angi en privat nøkkel før du slår på WireGuard',
+        saved: 'WireGuard-innstillingene er lagret',
+        save: 'Lagre endringer',
+        unsaved: 'Ulagrede endringer',
+        invalid: 'Kontroller de utheva feltene',
+        invalidAddress: 'Skriv inn en adresse med maske, for eksempel 10.0.0.1/24',
+        invalidKey: 'Skriv inn en WireGuard-nøkkel på 44 tegn',
+        invalidEndpoint: 'Skriv inn et vertsnavn eller en IP-adresse',
+        invalidPort: 'Skriv inn en port fra 1 til 65535',
+        invalidRanges: 'Bruk IPv4-områder som 10.0.0.0/24, ikke 0.0.0.0/0',
+        status: {
+          connected: 'Tilkoblet',
+          waiting: 'Venter på peer',
+          stopped: 'Stoppet',
+          handshake: 'Siste handshake {{time}}'
+        },
+        privateKey: {
+          title: 'Privat nøkkel',
+          description: 'Blir på denne enheten og vises aldri igjen',
+          set: 'Angitt',
+          notSet: 'Ikke angitt',
+          setBtn: 'Angi',
+          generate: 'Generer',
+          remove: 'Fjern',
+          modalTitle: 'Angi den private nøkkelen',
+          modalDescription: 'Nøkkelen lagres på denne enheten og vises aldri igjen',
+          placeholder: 'Lim inn den private nøkkelen',
+          generateConfirmTitle: 'Generere en ny privat nøkkel?',
+          generateConfirmDesc:
+            'Den gjeldende nøkkelen slutter å fungere. Legg deretter den nye offentlige nøkkelen til peeren.',
+          removeConfirmTitle: 'Fjerne den private nøkkelen?',
+          removeConfirmDesc: 'WireGuard slås av og forblir av til en ny nøkkel er angitt.'
+        },
+        publicKey: {
+          title: 'Offentlig nøkkel',
+          description: 'Legg den til i peerens konfigurasjon'
+        },
+        address: {
+          title: 'Adresse',
+          description: 'KVM-adresse i tunnelen og dens maske'
+        },
+        peer: {
+          title: 'Peer',
+          publicKey: 'Offentlig nøkkel',
+          publicKeyDescription: 'Offentlig nøkkel til peeren du kobler til',
+          server: 'Server',
+          serverDescription: 'Peerens vertsnavn eller IP-adresse',
+          port: 'Port',
+          portDescription: 'Peerens UDP-port, vanligvis 51820',
+          allowedIps: 'Tillatte IP-er',
+          allowedIpsDescription:
+            'Peerens adresse eller område i tunnelen, for eksempel 10.0.0.0/24',
+          keepalive: 'Keepalive',
+          keepaliveDescription: 'Sekunder mellom keepalive-pakker, nødvendig bak en ruter'
         }
       },
       tailscale: {
         title: 'Tailscale',
+        enableDesc: 'Nå denne KVM-en gjennom ditt Tailscale-nettverk',
+        service: 'Tjeneste',
+        performance: 'Ytelse',
         memory: {
-          title: 'Minneoptimalisering'
+          title: 'Minneoptimalisering',
+          tip: 'Holder minnebruken til Tailscale lav, noe som hjelper på en enhet med lite RAM. Start Tailscale på nytt for at endringen skal tre i kraft.'
         },
         swap: {
-          title: 'Bytt minne',
-          tip: 'Hvis problemene vedvarer etter at du har aktivert minneoptimalisering, prøv å aktivere swap-minne. Dette setter swap-filstørrelsen til 256MB som standard, som kan justeres i "Innstillinger > Enhet".'
+          title: 'Byttefil',
+          tip: 'Hvis problemene vedvarer etter at du har aktivert minneoptimalisering, prøv å aktivere byttefilen',
+          sizeTip: 'Dette setter filstørrelsen til 256MB; juster den i Innstillinger > Enhet'
         },
+        restartTitle: 'Start Tailscale på nytt',
+        restartDesc: 'Starter tjenesten på nytt',
+        restartBtn: 'Start på nytt',
+        restart: 'Starte Tailscale på nytt?',
+        stopTitle: 'Stopp Tailscale',
+        stopBtn: 'Stopp',
+        stop: 'Stoppe Tailscale?',
+        stopDesc: 'Stopper tjenesten og hindrer at den starter ved oppstart',
         loading: 'Laster...',
+        notInstall: 'Tailscale er ikke funnet, vennligst installer',
         install: 'Installér',
         installing: 'Installerer',
         failed: 'Installering feilet',
+        retry: 'Vennligst last inn siden på nytt og forsøk igjen, eller installer manuelt.',
         download: 'Last ned',
         package: 'installasjonspakken',
         unzip: 'og pakk den ut',
@@ -396,17 +826,92 @@ const nb = {
         logout: 'Logg ut',
         logoutDesc: 'Er du sikker på at du vil logge ut?',
         uninstall: 'Avinstaller Tailscale',
-        uninstallDesc: 'Er du sikker på at du vil avinstallere Tailscale?'
+        uninstallDesc: 'Er du sikker på at du vil avinstallere Tailscale?',
+        okBtn: 'Ja',
+        cancelBtn: 'Nei'
       },
       update: {
-        title: 'Se etter oppdatering',
+        title: 'Systemoppdateringer',
+        sources: 'Oppdateringskilder',
+        latestVersion: 'Nyeste versjon',
         queryFailed: 'Kunne ikke hente versjon',
         updateFailed: 'En feil oppstod under oppdatering. Vennligst forsøk igjen.',
+        paranoidBlocked: 'Onlineoppdateringer blokkeres av brannmurmodusen Paranoid',
+        paranoidBlockedDesc:
+          'GitHub-kontroller og nedlastinger krever utgående nettverkstilgang. Offline-opplasting og allerede klargjorte installasjoner er fortsatt tilgjengelige.',
         isLatest: 'Du har siste versjon allerede.',
         available: 'En oppdatering er tilgjengelig. Er du sikker på at du ønsker å oppdatere?',
         updating: 'Oppdatering har startet. Vennligst vent...',
+        confirm: 'Bekreft',
         cancel: 'Avbryt',
         preview: 'Forhåndsvisningsoppdateringer',
+        previewChannels: 'Styrer både forhåndsvisningskanalene for applikasjonen og systemet',
+        previewTip:
+          'Vær oppmerksom på at forhåndsvisningsutgivelser kan inneholde feil eller ufullstendig funksjonalitet',
+        application: {
+          title: 'Applikasjon'
+        },
+        system: {
+          queryFailed: 'Kunne ikke hente systemversjon',
+          appUpdateRequired:
+            'Oppdater applikasjonen til {{version}} før du installerer denne systemoppdateringen',
+          requiredAppVersion: 'Påkrevd applikasjonsversjon',
+          downloadFailed: 'Nedlasting eller verifisering mislyktes',
+          rawEnable: 'Tillat raw systemoppdateringer',
+          rawEnableDesc:
+            'Tillat at verifiserte raw boot/rootfs-images skrives til SD-kortet fra denne skjermen',
+          rawEnableConfirmTitle: 'Tillate raw systemoppdateringer?',
+          rawEnableConfirmDesc:
+            'Raw systemoppdateringer kan erstatte boot- og rootfs-partisjoner. Bruk bare med fysisk gjenopprettingstilgang.',
+          rawInstallDisabled:
+            'Denne klargjorte oppdateringen skriver raw SD-kortpartisjoner. Aktiver raw systemoppdateringer før installasjon.',
+          isLatest: 'Basissystemet er oppdatert.',
+          available: 'En oppdatering av basissystemet er tilgjengelig.',
+          downloading: 'Laster ned og verifiserer systemoppdatering...',
+          downloadVerify: 'Last ned og verifiser',
+          installing: 'Installerer klargjort systemoppdatering...',
+          install: 'Installer',
+          installFailed: 'Installasjon mislyktes',
+          installConfirmTitle: 'Installere systemoppdatering?',
+          installConfirmDesc:
+            'Dette erstatter basissystemfiler fra den verifiserte pakken. Omstart kreves.',
+          rawInstallConfirmDesc:
+            'Denne verifiserte pakken skriver raw boot/rootfs-images til SD-kortpartisjonene og starter automatisk på nytt. Skriving kan ta flere minutter; hold strømmen tilkoblet.',
+          rawInstallWarning:
+            'Det finnes ingen automatisk rollback for raw partisjonsoppdateringer. Hvis boot feiler, gjenopprett SD-kortet manuelt.',
+          rebootRequired: 'Omstart kreves for å aktivere denne systemtilstanden.',
+          confirming: 'Bekrefter boot av systemoppdatering...',
+          confirmBoot: 'Bekreft boot',
+          confirmFailed: 'Bootbekreftelse mislyktes',
+          confirmed: 'Boot bekreftet',
+          bootGood: 'Den ventende systemoppdateringen ble merket som boot-good.',
+          rollingBack: 'Ruller tilbake systemoppdatering...',
+          rollback: 'Rollback',
+          rollbackDone: 'Rollback klargjort',
+          rollbackFailed: 'Rollback mislyktes',
+          rollbackConfirmTitle: 'Rollback systemoppdatering?',
+          rollbackConfirmDesc:
+            'Dette gjenoppretter filer fra den siste systemoppdateringskopien. Omstart kreves.',
+          stagedDesc: 'Systemoppdateringen er lastet ned og verifisert, du kan installere den nå',
+          refresh: 'Oppdater',
+          releaseNotes: 'Versjonsnotater',
+          systemVersion: 'Systemversjon',
+          baseImage: 'Baseimage',
+          buildrootRelease: 'Buildroot-utgivelse',
+          kernel: 'Kernel',
+          stagedVersion: 'Klargjort versjon',
+          archive: 'Arkiv',
+          requiredFree: 'Påkrevd ledig plass',
+          fileCount: 'Filer',
+          rawImages: 'Raw images',
+          progress: 'Fremdrift',
+          progressMessage: 'Fremdriftsmelding',
+          pendingVersion: 'Ventende versjon',
+          bootHealth: 'Boothelse',
+          healthy: 'Frisk',
+          unhealthy: 'Trenger oppmerksomhet',
+          rollbackBackup: 'Rollback-sikkerhetskopi'
+        },
         offline: {
           title: 'Offline oppdateringer',
           desc: 'Oppdater gjennom lokal installasjonspakke',
@@ -419,21 +924,74 @@ const nb = {
         title: 'Konto',
         webAccount: 'Navn på webkonto',
         password: 'Passord',
-        updateBtn: 'Update',
+        passwordDesc: 'Endre passordet som brukes til å logge inn på webgrensesnittet',
+        updateBtn: 'Endre',
         logoutBtn: 'Logg ut',
         logoutDesc: 'Er du sikker på at du vil logge ut?',
         okBtn: 'Ja',
-        cancelBtn: 'Nei'
+        cancelBtn: 'Nei',
+        totp: {
+          title: 'Tofaktorautentisering',
+          authenticator: 'Autentiseringsapp',
+          description: 'Krev en tidsbasert kode fra en autentiseringsapp i tillegg til passordet',
+          required: 'Påkrevd av policy',
+          disable: 'Deaktiver',
+          enableTitle: 'Sett opp tofaktorautentisering',
+          enableDescription:
+            'Bekreft passordet ditt for å fortsette. Det kreves for enhver endring av den andre faktoren.',
+          continue: 'Fortsett',
+          disableTitle: 'Deaktivere tofaktorautentisering?',
+          disableDescription:
+            'Kontoen din blir bare beskyttet av passordet. Bekreft med passordet ditt for å fortsette.',
+          disableFailed: 'Kunne ikke deaktivere tofaktorautentisering',
+          passwordPlaceholder: 'Nåværende passord',
+          enrollFailed: 'Kunne ikke starte oppsettet',
+          invalidCode: 'Koden stemmer ikke. Prøv den neste.',
+          scan: 'Skann dette med autentiseringsappen din.',
+          manualEntry: 'Eller skriv inn denne nøkkelen manuelt:',
+          codePlaceholder: 'Skriv inn den 6-sifrede koden for å bekrefte',
+          confirm: 'Bekreft',
+          cancel: 'Avbryt',
+          backupTitle: 'Lagre reservekodene dine nå',
+          backupDescription:
+            'Hver kode fungerer bare én gang og vises ikke igjen. De er den eneste veien inn hvis du mister autentiseringsappen, og de fungerer også når enhetens klokke ikke er synkronisert.',
+          copy: 'Kopier',
+          copied: 'Reservekoder kopiert',
+          savedThem: 'Jeg har lagret dem',
+          remaining: '{{remaining}} reservekoder igjen',
+          clockUnsynced:
+            'Enhetens klokke er ikke synkronisert ennå. Synkroniser tiden i Innstillinger > System > Tid før du setter opp.',
+          noBackupCodes:
+            'Det er ingen reservekoder igjen. Velg Generer for å utstede et nytt sett.',
+          regenerate: 'Nye reservekoder',
+          generate: 'Generer',
+          regenerateTitle: 'Utstede nye reservekoder?',
+          regenerateDescription:
+            'De nåværende reservekodene dine slutter å fungere. Bekreft med passordet ditt for å fortsette.',
+          regenerateFailed: 'Kunne ikke utstede nye reservekoder',
+          download: 'Last ned',
+          copyFailed: 'Kunne ikke kopiere. Marker kodene og kopier dem manuelt.',
+          requireTitle: 'Krev tofaktorautentisering',
+          requireDescription:
+            'Hindrer at tofaktorautentisering deaktiveres, og en konto uten den må sette den opp før enheten kan brukes',
+          requireFailed: 'Kunne ikke endre kravet',
+          requiredTitle: 'Tofaktorautentisering er påkrevd',
+          requiredDescription:
+            'Denne enheten er satt opp til å kreve en andre faktor, men kontoen din har ikke satt opp noen ennå. Sett den opp nå for å fortsette.'
+        }
       }
     },
     picoclaw: {
       title: 'PicoClaw Assistent',
+      empty: 'Åpne panelet og start en oppgave for å begynne',
       inputPlaceholder: 'Beskriv hva du vil at PicoClaw skal gjøre',
       newConversation: 'Ny samtale',
       processing: 'Behandler...',
       agent: {
         defaultTitle: 'Generell assistent',
+        defaultDescription: 'Generell chat-, søk- og arbeidsområdehjelp',
         kvmTitle: 'Fjernstyring',
+        kvmDescription: 'Betjen den eksterne verten gjennom NanoKVM',
         switched: 'Agentrolle byttet',
         switchFailed: 'Kunne ikke bytte agentrolle'
       },
@@ -480,6 +1038,8 @@ const nb = {
         success: 'PicoClaw installert vellykket',
         failed: 'Kunne ikke installere PicoClaw',
         uninstalling: 'Avinstallerer runtime...',
+        uninstalled: 'Runtime ble avinstallert',
+        uninstallFailed: 'Avinstallering mislyktes',
         requiredTitle: 'PicoClaw er ikke installert',
         requiredDescription: 'Installer PicoClaw før du starter PicoClaw runtime.',
         progressDescription: 'PicoClaw blir lastet ned og installert.',

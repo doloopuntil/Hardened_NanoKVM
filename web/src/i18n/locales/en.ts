@@ -49,6 +49,22 @@ const en = {
         change1: 'Please note that this action will change the following passwords:',
         change2: 'Web login password',
         change3: 'System root password for SSH login'
+      },
+      placeholderCurrentPassword: 'Current password',
+      placeholderNewPassword: 'New password',
+      wrongCurrentPassword: 'Current password is incorrect',
+      totp: {
+        title: 'Two-factor authentication',
+        prompt: 'Enter the 6-digit code from your authenticator app',
+        backupPrompt: 'Enter one of your backup codes',
+        noEmptyCode: 'Enter a code',
+        placeholderCode: '6-digit code',
+        placeholderBackup: 'Backup code',
+        verifyButtonText: 'Verify',
+        useBackupCode: 'Use a backup code',
+        useAuthenticator: 'Use authenticator code',
+        cancel: 'Back',
+        invalidCode: 'That code is not valid. Try again.'
       }
     },
     wifi: {
@@ -82,7 +98,7 @@ const en = {
       resolution: 'Resolution',
       auto: 'Automatic',
       autoTips:
-        'Screen tearing or mouse offset may occur at specific resolutions, so adjust the remote host\'s resolution or turn off automatic mode',
+        "Screen tearing or mouse offset may occur at specific resolutions, so adjust the remote host's resolution or turn off automatic mode",
       fps: 'FPS',
       customizeFps: 'Customize',
       quality: 'Quality',
@@ -92,7 +108,7 @@ const en = {
       qualityLow: 'Low',
       frameDetect: 'Frame detect',
       frameDetectTip:
-        'Compares frames and stops sending video while the remote host\'s screen does not change',
+        "Compares frames and stops sending video while the remote host's screen does not change",
       resetHdmi: 'Reset HDMI',
       webrtcConnectionFailed: {
         title: 'WebRTC connection failed',
@@ -153,8 +169,7 @@ const en = {
           desc2: 'Requires more steps, but completely avoids system conflicts.'
         },
         enable: 'Enable leader key',
-        tip:
-          'When assigned as a leader key, this key functions exclusively as a shortcut trigger and loses its default behavior.',
+        tip: 'When assigned as a leader key, this key functions exclusively as a shortcut trigger and loses its default behavior.',
         placeholder: 'Press the leader key',
         shiftRight: 'Right Shift',
         ctrlRight: 'Right Ctrl',
@@ -183,7 +198,7 @@ const en = {
       speed: 'Wheel speed',
       sensitivity: 'Pointer speed',
       sensitivityDesc:
-        'For desktop relative mode: lower values reduce drift from the host\'s mouse acceleration',
+        "For desktop relative mode: lower values reduce drift from the host's mouse acceleration",
       fast: 'Fast',
       slow: 'Slow',
       mobile: {
@@ -300,7 +315,7 @@ const en = {
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Drop file here or click to select',
       inputfile: 'Image file',
-      NoISO: 'No ISO',
+      NoISO: 'No image',
       complete: 'Download complete',
       uploadComplete: 'Upload complete',
       downloading: 'Downloading',
@@ -629,7 +644,9 @@ const en = {
             title: 'Current rules',
             empty: 'No rules'
           }
-        }
+        },
+        saveChanges: 'Save changes',
+        unsaved: 'Unsaved changes'
       },
       systemLog: {
         saveFailed: 'Failed to save log settings',
@@ -678,14 +695,14 @@ const en = {
           linesUnit: 'lines'
         },
         level: {
-          1: '1 - Alert',
-          2: '2 - Critical',
-          3: '3 - Error',
-          4: '4 - Warning',
-          5: '5 - Notice',
-          6: '6 - Info',
-          7: '7 - Debug',
-          8: '8 - All'
+          '1': '1 - Alert',
+          '2': '2 - Critical',
+          '3': '3 - Error',
+          '4': '4 - Warning',
+          '5': '5 - Notice',
+          '6': '6 - Info',
+          '7': '7 - Debug',
+          '8': '8 - All'
         }
       },
       wireguard: {
@@ -900,7 +917,56 @@ const en = {
         logoutBtn: 'Logout',
         logoutDesc: 'Are you sure you want to logout?',
         okBtn: 'Yes',
-        cancelBtn: 'No'
+        cancelBtn: 'No',
+        totp: {
+          title: 'Two-factor authentication',
+          authenticator: 'Authenticator app',
+          description:
+            'Require a time-based code from an authenticator app in addition to your password',
+          required: 'Required by policy',
+          disable: 'Disable',
+          enableTitle: 'Set up two-factor authentication',
+          enableDescription:
+            'Confirm your password to continue. It is required for any change to the second factor.',
+          continue: 'Continue',
+          disableTitle: 'Disable two-factor authentication?',
+          disableDescription:
+            'Your account will be protected by its password alone. Confirm with your password to continue.',
+          disableFailed: 'Could not disable two-factor authentication',
+          passwordPlaceholder: 'Current password',
+          enrollFailed: 'Could not start enrolment',
+          invalidCode: 'That code does not match. Try the next one.',
+          scan: 'Scan this with your authenticator app.',
+          manualEntry: 'Or enter this key manually:',
+          codePlaceholder: 'Enter the 6-digit code to confirm',
+          confirm: 'Confirm',
+          cancel: 'Cancel',
+          backupTitle: 'Save your backup codes now',
+          backupDescription:
+            'Each code works once and will not be shown again. They are the only way back in if you lose your authenticator, and they keep working when the device clock is not synchronized.',
+          copy: 'Copy',
+          copied: 'Backup codes copied',
+          savedThem: "I've saved them",
+          remaining: '{{remaining}} backup codes remaining',
+          clockUnsynced:
+            'The device clock is not synchronized yet. Synchronize time in Settings > System > Time before enrolling.',
+          noBackupCodes: 'No backup codes remain. Select Generate to issue a new set.',
+          regenerate: 'New backup codes',
+          generate: 'Generate',
+          regenerateTitle: 'Issue new backup codes?',
+          regenerateDescription:
+            'Your current backup codes will stop working. Confirm with your password to continue.',
+          regenerateFailed: 'Could not issue new backup codes',
+          download: 'Download',
+          copyFailed: 'Could not copy. Select the codes and copy them manually.',
+          requireTitle: 'Require two-factor authentication',
+          requireDescription:
+            'Prevent disabling two-factor authentication, and an account without it must set it up before using the device',
+          requireFailed: 'Could not change the requirement',
+          requiredTitle: 'Two-factor authentication is required',
+          requiredDescription:
+            'This device is configured to require a second factor, but your account has not enrolled one yet. Set it up now to continue.'
+        }
       }
     },
     picoclaw: {

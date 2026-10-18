@@ -121,12 +121,12 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     final full stop. Dialogs, banners and step lists stay multi-sentence with
     full stops.
 24. Menu paths read "Settings > Device > Virtual disk".
-25. Every new or changed English string needs all 25 languages. English lives
-    in `web/src/i18n/locales/en.ts` (or `locale-extras.ts` for the two-factor
-    strings), the other languages in `translation-fixes.ts`, the last layer.
-    Compare the effective strings of every language before and after a change
-    to prove that nothing else moved; `translations.test.ts` checks that no
-    language misses a key or has an extra one.
+25. Every new or changed English string needs all 25 languages. Every language
+    is one file in `web/src/i18n/locales/`, with the keys in the order of
+    `en.ts`; there are no overlay layers. Compare the effective strings of
+    every language before and after a change to prove that nothing else moved;
+    `translations.test.ts` checks that no language misses a key or has an
+    extra one, and that the copy rules hold.
 
 ## Order
 

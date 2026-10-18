@@ -12,6 +12,7 @@ const zh_tw = {
     head: {
       desktop: '遠端桌面',
       login: '登入',
+      firstSetup: '首次設定',
       changePassword: '更改密碼',
       terminal: '終端機',
       wifi: 'Wi-Fi'
@@ -28,20 +29,47 @@ const zh_tw = {
       globalLocked: '系統受保護，請稍後重試',
       error: '非預期性錯誤',
       changePassword: '更改密碼',
+      changePasswordDesc: '為了您的裝置安全，請修改登入密碼',
       differentPassword: '密碼不一致',
       illegalUsername: '使用者名稱包含非法字元',
+      illegalPassword: '密碼至少 8 個字元，且不能包含引號或斜線',
       forgetPassword: '忘記密碼',
       ok: '確定',
       cancel: '取消',
       loginButtonText: '登入',
+      setupTitle: '建立管理員帳戶',
+      setupDescription: '此裝置尚無網頁帳戶。請建立第一個管理員帳戶以繼續。',
+      setupRecovery: '如果此密碼遺失，復原需要重新寫入 SD 卡',
+      setupButtonText: '建立帳戶',
       tips: {
+        hardenedRecovery:
+          '此 Hardened 映像檔不支援透過 BOOT 按鈕重設密碼。如果密碼遺失，請重新寫入 SD 卡並建立新帳戶。',
         change1: '請注意，此操作將同時更新下列密碼：',
-        change2: '網頁登入密碼'
+        change2: '網頁登入密碼',
+        change3: '用於 SSH 登入的系統 root 密碼'
+      },
+      placeholderCurrentPassword: '目前密碼',
+      placeholderNewPassword: '新密碼',
+      wrongCurrentPassword: '目前密碼不正確',
+      totp: {
+        title: '兩步驟驗證',
+        prompt: '請輸入驗證器 App 中的 6 位數驗證碼',
+        backupPrompt: '請輸入其中一個備用碼',
+        noEmptyCode: '請輸入驗證碼',
+        placeholderCode: '6 位數驗證碼',
+        placeholderBackup: '備用碼',
+        verifyButtonText: '驗證',
+        useBackupCode: '使用備用碼',
+        useAuthenticator: '使用驗證器 App 的驗證碼',
+        cancel: '返回',
+        invalidCode: '此驗證碼無效，請再試一次。'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: '設定 NanoKVM Wi-Fi',
+      success: '請檢查 NanoKVM 的網路狀態，並存取新的 IP 位址',
+      failed: '操作失敗，請重試',
       invalidMode: '目前模式不支援設定網路。請先前往裝置啟用 Wi-Fi 配置模式。',
       confirmBtn: '確定',
       finishBtn: '完成',
@@ -54,11 +82,18 @@ const zh_tw = {
       }
     },
     screen: {
+      scale: '縮放',
       title: '螢幕',
+      video: '影片模式',
+      videoDirectTips: '本模式需先啟用 HTTPS，請前往「設定 > 系統 > 網路」中開啟',
+      videoWebrtcBlockedByFirewall: 'H.264 WebRTC 在受限和偏執防火牆模式下已停用',
+      transferRunningTitle: '映像檔傳輸進行中',
+      transferRunningDesc: '切換影片模式會重新載入頁面，並取消正在進行的映像檔上傳或下載。',
+      transferRunningOk: '切換模式',
       resolution: '解析度',
       auto: '自動',
       autoTips:
-        '在某些特定解析度下可能會出現畫面撕裂或滑鼠偏移的情況。請調整遠端主機的解析度或停用自動模式。',
+        '在某些特定解析度下可能會出現畫面撕裂或滑鼠偏移，請調整遠端主機的解析度或停用自動模式',
       fps: '更新頻率',
       customizeFps: '自定義',
       quality: '品質',
@@ -67,10 +102,11 @@ const zh_tw = {
       qualityMedium: '中',
       qualityLow: '低',
       frameDetect: '影格檢測',
-      frameDetectTip: '計算影格之間的差異。當遠端主機畫面未偵測到任何變更時，停止視訊傳輸串流。',
+      frameDetectTip: '比較影格，並在遠端主機畫面未變動時停止傳輸視訊',
       resetHdmi: '重置 HDMI',
       webrtcConnectionFailed: {
-        title: 'WebRTC 連線失敗'
+        title: 'WebRTC 連線失敗',
+        description: '請檢查網路連線或切換影片模式'
       },
       captureStatus: {
         hdmiError: 'HDMI 畫面異常',
@@ -87,24 +123,31 @@ const zh_tw = {
       title: '鍵盤',
       paste: '貼上',
       tips: '僅支援標準鍵盤的字母和符號',
-      placeholder: '請輸入內容',
-      virtual: '虛擬鍵盤',
+      placeholder: '要貼上的文字',
+      local: '行動鍵盤',
+      virtual: '螢幕鍵盤',
       readClipboard: '從剪貼簿讀取',
-      clipboardPermissionDenied: '剪貼簿權限被拒絕。請允許您的瀏覽器存取剪貼簿。',
+      clipboardPermissionDenied: '剪貼簿權限被拒絕，請允許您的瀏覽器存取剪貼簿',
       clipboardReadError: '無法讀取剪貼簿',
       dropdownEnglish: '英語',
       dropdownGerman: '德語',
       dropdownFrench: '法語',
       dropdownRussian: '俄語',
+      dropdownKorean: '韓語',
+      dropdownJapanese: '日語',
+      localInput: '行動裝置鍵盤輸入',
       shortcut: {
         title: '快捷鍵',
         custom: '自定義',
         capture: '點選此處錄製快捷鍵',
         clear: '清空',
-        save: '儲存'
+        save: '儲存',
+        captureTips: '擷取系統級按鍵，如 Windows 鍵，需要全螢幕權限',
+        enterFullScreen: '切換全螢幕模式'
       },
       leaderKey: {
         title: '引導鍵',
+        desc: '繞過瀏覽器限制並將系統捷徑直接傳送到遠端主機',
         howToUse: '如何使用',
         simultaneous: {
           title: '同步模式',
@@ -118,14 +161,14 @@ const zh_tw = {
         },
         enable: '啟用引導鍵',
         tip: '設為引導鍵後，該按鍵將僅用於觸發快捷鍵，不再作為普通按鍵使用。',
-        placeholder: '請按下引導鍵',
+        placeholder: '按下引導鍵',
         shiftRight: '右 Shift',
         ctrlRight: '右 Ctrl',
         metaRight: '右 Win',
         recorder: {
           rec: '記錄',
           activate: '啟用按鍵',
-          input: '請按快捷鍵...'
+          input: '按下快捷鍵'
         }
       }
     },
@@ -144,14 +187,22 @@ const zh_tw = {
       scrollUp: '向上',
       scrollDown: '向下',
       speed: '滾輪速度',
+      sensitivity: '指標速度',
+      sensitivityDesc: '用於桌面相對模式：較低數值可減少主機滑鼠加速造成的漂移',
       fast: '快',
       slow: '慢',
-      requestPointer: '正在使用滑鼠相對模式。請按一下桌面以取得滑鼠游標。',
+      mobile: {
+        touchSync: 'TouchSync',
+        touchSyncDesc:
+          '可在 KVM 區域任意位置移動，遠端游標會在兩次觸控之間保持位置，並與絕對 HID 保持同步'
+      },
+      requestPointer: '正在使用滑鼠相對模式，請按一下桌面以取得滑鼠游標',
       resetHid: '重設 HID',
       hidOnly: {
         title: 'HID-Only 模式',
-        tip1: '啟用 HID-Only 模式將會停用虛擬磁碟和虛擬網卡的功能',
-        tip2: '在 HID-Only 模式下，映像檔掛載功能將被停用',
+        desc: '如果滑鼠或鍵盤停止回應，且重設 HID 無效，可能是 NanoKVM 與主機之間存在相容性問題。',
+        tip1: '啟用 HID-Only 模式將卸載虛擬磁碟和虛擬網路',
+        tip2: '在 HID-Only 模式下，映像檔掛載會被停用',
         tip3: 'NanoKVM 將在切換模式後自動重新啟動',
         enable: '啟用 HID-Only 模式',
         disable: '停用 HID-Only 模式'
@@ -163,23 +214,34 @@ const zh_tw = {
       empty: '未找到任何內容',
       mountMode: '掛載模式',
       mountFailed: '掛載失敗',
+      mountDesc: '在某些系統中，需要在遠端主機中彈出虛擬硬碟後再掛載映像檔',
       diskOnWarn: '掛載映像檔會關閉虛擬磁碟，電腦將無法再存取 /data 目錄。是否繼續？',
       diskOffWarn:
         '虛擬磁碟目前已關閉，需要先開啟才能掛載映像檔，電腦上的 USB 裝置會短暫斷開重連。是否繼續？',
       unmountFailed: '解除安裝失敗',
+      unmountDesc: '在某些系統中，需要在遠端主機中手動彈出後再解除安裝映像',
       forceEject: '強制彈出',
       forceEjectConfirm:
         '主機已鎖定光碟機。強制彈出會使虛擬 USB 裝置短暫中斷連線，鍵盤和滑鼠可能會暫時中斷連線。是否繼續？',
+      usbReconnect: '重新連接 USB',
+      usbReconnectConfirm:
+        '僅在遠端主機未偵測到媒體變更時才重新連接 USB gadget。鍵盤和滑鼠可能會短暫中斷。',
+      usbReconnectSuccess: 'USB 已重新連接',
+      usbReconnectFailed: 'USB 重新連接失敗',
+      mountTitle: '掛載映像檔',
+      deleteTitle: '刪除映像檔',
       deleteConfirm: '確定要刪除該映像檔嗎？',
       tips: {
         title: '如何上傳',
         usb1: '透過 USB 將 NanoKVM 連接到您的電腦。',
+        usb2: '確保已在 設定 > 設備 > 虛擬磁碟 中掛載虛擬磁碟。',
         usb3: '開啟電腦上的虛擬磁碟，將映象檔案複製到虛擬磁碟的根目錄下。',
         scp1: '確保 NanoKVM 和您的電腦位於同一區域網路。',
         scp2: '開啟電腦上的終端機，使用 SCP 指令將映像檔案上傳到 NanoKVM 的 /data 目錄下。',
         scp3: '範例：scp your-image-path root@your-nanokvm-ip:/data',
         tfCard: 'microSD 卡',
         tf1: '此方法適用於 Linux 系統',
+        tf2: '從 NanoKVM 取出 SD 卡。FULL 版本請先拆開外殼。',
         tf3: '使用 USB 讀卡機將 microSD 卡連接至電腦。',
         tf4: '將映像檔複製到 microSD 卡的 /data 目錄下。',
         tf5: '將 microSD 卡重新插回 NanoKVM。'
@@ -199,8 +261,16 @@ const zh_tw = {
       title: '終端機',
       nanokvm: 'NanoKVM 終端機',
       serial: 'Serial Port 終端機',
+      unlockTitle: '解鎖終端機',
+      unlockDesc: '輸入網頁帳戶密碼以啟動終端機工作階段',
+      unlock: '解鎖',
+      unlockFailed: '解鎖終端機失敗',
+      invalidCredentials: '使用者名稱或密碼無效',
+      locked: '嘗試次數過多，稍後再試',
+      sessionClosed: '終端機工作階段已關閉。請重新解鎖以連線。',
+      sessionError: '終端機連線失敗。請重新解鎖後重試。',
       serialPort: '序列埠',
-      serialPortPlaceholder: '請輸入 Serial Port',
+      serialPortPlaceholder: '例如 /dev/ttyS1',
       baudrate: '鮑率',
       parity: '同位檢查',
       parityNone: 'None',
@@ -211,24 +281,41 @@ const zh_tw = {
       flowControlSoft: '軟體',
       flowControlHard: '硬體',
       dataBits: '資料位元',
-      stopBits: '停止位元'
+      stopBits: '停止位元',
+      open: '開啟終端機'
     },
     wol: {
       title: 'Wake-on-LAN',
       sending: '發送指令中...',
       sent: '指令已發送',
-      input: '請輸入 MAC 位址',
+      input: 'MAC 位址',
       ok: '確定'
     },
     download: {
-      title: '下载映像檔',
-      input: '請輸入映像檔的下載 URL',
-      ok: '確定',
+      title: '下載映像檔',
+      input: '映像檔的下載 URL',
+      ok: 'OK',
+      disabled:
+        '目前無法下載或上傳映像檔，因為儲存空間不可寫入。若映像檔已掛載，請先卸載，然後關閉虛擬磁碟，讓儲存空間恢復可寫入。',
       diskShared: '請先關閉虛擬磁碟功能，再使用映像檔下載功能',
-      mountedImage: '此映像檔已掛載。上傳同名檔案前請先卸載。',
+      mountedImage: '此映像檔已掛載，上傳同名檔案前請先卸載',
       diskOff: '關閉虛擬磁碟功能',
       uploadbox: '將檔案拖曳到此處或按一下選擇',
-      NoISO: '無 ISO',
+      inputfile: '映像檔',
+      NoISO: '無映像檔',
+      complete: '下載完成',
+      uploadComplete: '上傳完成',
+      downloading: '正在下載',
+      uploading: '正在上傳',
+      failed: '傳輸失敗',
+      uploadFailed: '上傳失敗',
+      stalled: '傳輸已停滯，請檢查連線後重試',
+      canceled: '上傳已取消',
+      downloadCanceled: '下載已取消',
+      cancel: '取消',
+      remoteDisabled: '遠端 ISO 下載已在 設定 > 外觀 中停用',
+      remoteFailed: '遠端 ISO 下載失敗',
+      sha256: '可選的 SHA-256 檢查碼',
       sha256Placeholder: '請輸入 64 位元 SHA-256 校驗和',
       invalidSHA256: 'SHA-256 必須是 64 位元十六進位字串',
       checksumFailed: '下載失敗：SHA-256 校驗失敗'
@@ -238,6 +325,8 @@ const zh_tw = {
       showConfirm: '顯示確認框',
       showConfirmTip: '電源操作需要二次確認',
       reset: '重新啟動',
+      powerShort: '電源按鈕：短按',
+      powerLong: '電源按鈕：長按',
       resetConfirm: '確認執行重新啟動的按鍵操作嗎？',
       powerConfirm: '確認執行電源的按鍵操作嗎？',
       okBtn: '確認',
@@ -252,9 +341,11 @@ const zh_tw = {
         mdns: 'mDNS',
         application: '應用程式版本',
         applicationTip: 'NanoKVM 網頁程式版本',
+        uptime: '執行時間',
         community: '社群',
+        credit: '基於 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 建置',
         hostname: '主機名稱',
-        ipType: {}
+        hostnameReboot: '是否重新啟動以套用新的主機名稱？'
       },
       appearance: {
         title: '外觀',
@@ -263,6 +354,10 @@ const zh_tw = {
         languageDesc: '選擇介面語言',
         webTitle: '網頁標題',
         webTitleDesc: '自訂網頁標題',
+        layoutMode: '介面佈局',
+        layoutModeDesc: '在此瀏覽器中使用手機/觸控佈局',
+        layoutAuto: '自動',
+        layoutMobile: '手機',
         menuBar: {
           title: '選單列',
           mode: '顯示方式',
@@ -273,7 +368,18 @@ const zh_tw = {
           keyboardLedStatus: '鍵盤鎖定狀態指示燈',
           keyboardLedStatusDesc: '顯示遠端電腦的 Num Lock、Caps Lock 與 Scroll Lock 狀態',
           icons: '選單圖示',
-          iconsDesc: '是否在選單欄中顯示子選單圖示'
+          iconsDesc: '是否在選單欄中顯示子選單圖示',
+          terminalWarningTitle: '啟用網頁終端機？',
+          terminalWarningDesc:
+            '終端機會在瀏覽器中開啟 root shell。僅在可信網路中啟用，完成後請關閉。',
+          terminalWarningConfirm: '啟用',
+          terminalWarningCancel: '取消',
+          remoteDownload: '遠端 ISO 下載',
+          remoteDownloadWarningTitle: '啟用遠端 ISO 下載？',
+          remoteDownloadWarningDesc:
+            'NanoKVM 將從 URL 取得 ISO 並寫入 /data。僅對可信 URL 啟用，完成後請關閉。',
+          remoteDownloadWarningConfirm: '啟用',
+          remoteDownloadWarningCancel: '取消'
         }
       },
       keyboardLedStatus: {
@@ -291,26 +397,44 @@ const zh_tw = {
       },
       device: {
         title: '設備',
+        minutes: '分鐘',
+        sections: {
+          connectivity: '連線',
+          hostConnection: '主機連線',
+          inputOutput: '輸入與輸出',
+          optimizations: '最佳化'
+        },
         oled: {
-          title: 'OLED',
-          description: '設定 OLED 螢幕自動睡眠時間'
+          title: 'OLED 逾時',
+          description: '設定 OLED 螢幕自動睡眠時間',
+          keepOn: '保持 OLED 常亮',
+          keepOnDescription: '從不關閉 OLED 螢幕'
         },
         ssh: {
-          description: '啟用 SSH 伺服器'
+          description: '啟用 SSH 伺服器',
+          tip: '啟用此選項前，請在 帳號 > 密碼 中設定強密碼'
         },
         swap: {
           title: 'Swap',
-          description: '設定 Swap 檔大小'
+          description: '記憶體不足時使用 Swap 檔',
+          size: 'Swap 大小',
+          sizeDescription: '設定 Swap 檔大小',
+          tip: '啟用此功能可能會減少SD卡的使用壽命'
         },
         mouseJiggler: {
+          title: '滑鼠抖動模式',
           description: '避免遠端主機進入休眠狀態',
           disable: '停用',
           absolute: '絕對模式',
           relative: '相對模式'
         },
+        sessionLock: {
+          title: '閒置時鎖定工作階段',
+          description: '超過此時間後要求重新登入'
+        },
         mdns: {
           description: '啟用 mDNS 發現服務',
-          tip: '若無需求，建議關閉此功能'
+          tip: '允許透過 .local 名稱存取此裝置。如果您透過 IP 位址連線，或 DNS 已能解析其主機名稱，則無需開啟。'
         },
         hdmi: {
           description: '啟用 HDMI/螢幕 輸出',
@@ -318,14 +442,29 @@ const zh_tw = {
           idleTimeoutDescription: '沒有活躍觀看者時，在指定時間後停止 HDMI 擷取'
         },
         hidOnly: 'HID-Only 模式',
+        hidOnlyDesc: '當滑鼠或鍵盤停止回應時，改善與主機的相容性',
+        hidOnlyTip: 'HID-Only 模式會停止模擬虛擬設備，僅保留基礎 HID 控制',
         disk: '虛擬磁碟',
+        diskDesc: '在遠端主機上掛載 SD 卡',
+        diskLocked: '掛載映像檔期間已關閉，開啟會取消映像檔掛載',
+        diskEnable: '啟用虛擬磁碟',
+        networkChange: '變更虛擬網卡',
+        diskCancelMount: '開啟虛擬磁碟會取消目前掛載的映像檔，是否繼續？',
+        networkCancelMount:
+          '更改虛擬網卡會重新啟動 USB 連線。這會取消目前掛載的映像檔並開啟虛擬磁碟。是否繼續？',
+        diskTransferRunning: '映像檔傳輸正在進行。請等待其完成後再啟用虛擬磁碟。',
         network: '虛擬網卡',
         networkDesc: '在遠端主機上新增虛擬網卡',
+        usbWakeup: 'USB 喚醒',
+        usbWakeupDesc: '允許鍵盤或滑鼠事件喚醒遠端主機',
+        usbWakeupTip: '如果主機反覆記錄 USB wakeup 訊息，請關閉',
         reboot: '重新啟動',
         rebootDesc: '您確定要重新啟動 NanoKVM?'
       },
       network: {
         title: '網路',
+        connection: '連線',
+        configuration: '設定',
         wifi: {
           title: 'Wi-Fi',
           description: '設定 Wi-Fi',
@@ -333,19 +472,27 @@ const zh_tw = {
           connect: '連線 Wi-Fi',
           connectDesc1: '請輸入網路名稱和密碼',
           disconnect: '是否要中斷該網路連線？',
+          disconnectBtn: '中斷連線',
+          connected: '已連線',
           ssid: 'SSID 名稱',
           password: '密碼',
           joinBtn: '加入',
           cancelBtn: '取消'
         },
         tls: {
-          description: '啟用 HTTPS 協議'
+          description: '啟用 HTTPS 協議',
+          tip: '啟用 HTTPS 可以提高安全性，但可能會增加傳輸延遲，特別是使用 MJPEG 格式傳輸時',
+          rebootTitle: 'NanoKVM 將重新啟動',
+          rebootDesc: '通訊協定變更需要重新啟動裝置。瀏覽器將在 {{seconds}} 秒後切換到新位址：',
+          rebootOk: '套用並重新啟動',
+          rebootCancel: '取消'
         },
         dns: {
           title: 'DNS',
           description: '設定 NanoKVM 使用的 DNS 伺服器',
           ipv4Title: 'IPv4',
           ipv4Description: '設定有線介面的 IPv4 位址',
+          servers: '伺服器',
           dhcp: 'DHCP',
           manual: '手動',
           apply: '套用',
@@ -357,33 +504,285 @@ const zh_tw = {
           unsaved: '有未儲存的變更',
           maxServers: '最多允許 {{count}} 個 DNS 伺服器',
           dhcpServersDescription: 'DNS 伺服器由 DHCP 自動取得',
+          manualServersDescription: '支援 IPv4 與 IPv6 伺服器',
           interface: '介面',
           ipAddress: 'IP 位址',
           subnetMask: '子網路遮罩',
           router: '路由器'
+        },
+        ipv6: {
+          title: 'IPv6',
+          description: '為有線介面設定 IPv6 位址',
+          disabled: '已停用',
+          slaac: 'SLAAC',
+          dhcpv6: 'DHCPv6',
+          manual: '手動',
+          interface: '介面',
+          state: '狀態',
+          router: '路由器',
+          addresses: '位址',
+          dhcpv6Client: 'DHCPv6 客戶端',
+          notInstalled: '未安裝',
+          ipAddress: 'IPv6 位址',
+          prefix: '前綴',
+          invalidManual: '請輸入有效的 IPv6 位址、前綴和路由器',
+          clientMissing: '尚未安裝 DHCPv6 客戶端。請先安裝相符的 raw 系統更新。',
+          saved: 'IPv6 設定已儲存',
+          saveFailed: '儲存 IPv6 設定失敗',
+          unsaved: '未儲存的變更'
+        }
+      },
+      system: {
+        title: '系統',
+        sections: {
+          time: '時間',
+          firewall: '防火牆',
+          systemLog: '記錄'
+        },
+        time: {
+          saveFailed: '儲存時間設定失敗',
+          saved: '時間設定已儲存',
+          syncFailed: '同步時間失敗',
+          synced: '時間已同步',
+          invalidServers: '請至少輸入一個 NTP 伺服器',
+          maxServers: '最多允許 {{count}} 個 NTP 伺服器',
+          refresh: '重新整理',
+          syncNow: '立即同步',
+          syncNowDesc: '立即以 NTP 伺服器設定時鐘',
+          save: '儲存',
+          ntp: {
+            title: 'NTP',
+            description: '從已設定的 NTP 伺服器同步裝置時間'
+          },
+          networkTime: '網路時間',
+          clock: {
+            title: '時鐘',
+            description: '設定記錄和介面使用的本地時區',
+            current: '目前時間',
+            timezone: '時區'
+          },
+          servers: {
+            title: 'NTP 伺服器',
+            description: '使用預設公用伺服器、本機路由器或自訂 NTP 伺服器',
+            useRouter: '使用路由器',
+            useDefaults: '使用預設值',
+            routerDetected: '偵測到路由器',
+            routerNone: '未找到'
+          }
+        },
+        firewall: {
+          saveFailed: '套用防火牆設定失敗',
+          saved: '防火牆設定已套用',
+          cancel: '取消',
+          refresh: '重新整理',
+          backends: '後端',
+          enableHttpsFirst: '請先啟用 HTTPS，再啟用受限或偏執防火牆模式',
+          httpsRequired: '在「設定 > 系統 > 網路」中啟用 HTTPS 之前，受限和偏執模式無法使用',
+          mode: {
+            title: '防火牆模式',
+            baseline: '基準',
+            baselineDesc:
+              '開放的相容設定檔。防火牆正在執行，但不限制傳入來源。僅在可信任的網路中使用。',
+            moderate: '適中',
+            moderateDesc:
+              '預設設定檔。保留基準的服務，但僅接受來自私有、連結本機或迴路範圍的新傳入連線。輸出存取保持開放。',
+            restricted: '受限',
+            restrictedDesc:
+              '僅限本機的 HTTPS 和 SSH，以及輸出的 DNS、NTP、syslog 和線上更新。DHCP 和必要的 IPv6 流量仍然可用。WebRTC 已封鎖。',
+            paranoid: '偏執',
+            paranoidDesc:
+              '僅限本機的 HTTPS 存取。封鎖 SSH、HTTP、線上更新和其他傳出網路功能。離線更新上傳和已暫存的安裝仍然可用。',
+            current: '目前',
+            default: '預設',
+            localOnly: '僅限本機',
+            openTag: '傳入開放',
+            httpsRequiredTag: '需要 HTTPS',
+            outboundOpen: '傳出開放',
+            outboundLimited: '傳出受限',
+            httpsOnly: '僅 HTTPS'
+          },
+          moderate: {
+            apply: '切換到適中'
+          },
+          restricted: {
+            enable: '啟用受限',
+            confirmTitle: '啟用受限防火牆模式？',
+            confirmDesc:
+              '輸入管理存取會限制為 HTTPS 和 SSH 使用 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 來源範圍。不允許公開來源範圍。輸出 DNS、NTP、遠端 syslog、線上更新、DHCP、已建立連線和必要的 IPv6 控制流量仍可使用。WebRTC/ICE UDP 以及其他輸入/輸出流量會被阻擋。'
+          },
+          paranoid: {
+            enable: '啟用偏執',
+            confirmTitle: '啟用偏執防火牆模式？',
+            confirmDesc:
+              '僅保留來自 private IPv4、IPv4 link-local/loopback、IPv6 link-local 或 IPv6 loopback 來源範圍的 HTTPS 存取。SSH、HTTP、mDNS、NTP、GitHub 下載和其他流量將被阻擋，只保留最小 DHCP/IPv6 控制流量。'
+          },
+          baseline: {
+            apply: '切換到基準',
+            confirmTitle: '切換到開放的基準模式？',
+            confirmDesc:
+              '防火牆服務維持啟用，但會取消僅限本機來源範圍的限制。若網路會路由，公開來源範圍可能存取暴露的 NanoKVM 服務。'
+          },
+          rules: {
+            title: '目前規則',
+            empty: '沒有規則'
+          }
+        },
+        saveChanges: '儲存變更',
+        unsaved: '未儲存的變更'
+      },
+      systemLog: {
+        saveFailed: '儲存記錄設定失敗',
+        saved: '記錄設定已儲存',
+        invalidHost: '請輸入 syslog 伺服器主機',
+        logLoadFailed: '載入記錄失敗',
+        save: '儲存',
+        test: '傳送測試記錄',
+        testSent: '測試記錄已傳送',
+        testFailed: '傳送測試記錄失敗',
+        remote: {
+          title: '遠端記錄',
+          forward: '轉送系統記錄',
+          description: '將系統訊息轉送到遠端伺服器',
+          host: '伺服器',
+          hostDesc: 'syslog 伺服器的主機名稱或 IPv4 位址',
+          port: '連接埠',
+          protocol: 'syslog 伺服器的 UDP 連接埠'
+        },
+        local: {
+          title: '系統記錄緩衝區',
+          description: '目前記錄保存在 RAM 的 {{path}}，以避免寫入 SD 卡',
+          priority: '最低優先級',
+          priorityDesc: '訊息被記錄所需的最低緊急程度',
+          buffer: '緩衝區大小',
+          bufferDesc: '記錄檔達到此大小時進行輪替',
+          rotations: '輪替',
+          rotationsDesc: '保留的已輪替記錄檔數量',
+          compact: '精簡輸出',
+          compactDesc: '在每一行省略主機名稱和 facility',
+          stripTimestamps: '移除時間戳記',
+          stripTimestampsDesc: '移除傳送端加入的時間戳記；syslog 會加入自己的時間戳記'
+        },
+        kernel: {
+          title: '核心記錄',
+          enabled: '轉送核心記錄',
+          enabledDesc: '將核心訊息記錄到系統記錄',
+          consoleLevel: '主控台層級',
+          consoleLevelDesc: '核心訊息輸出到主控台所需的最低緊急程度'
+        },
+        viewer: {
+          title: '系統記錄',
+          refresh: '重新整理',
+          empty: '沒有記錄項目',
+          truncated: '僅顯示最新的記錄資料',
+          linesUnit: '行'
+        },
+        level: {
+          '1': '1 - 警報',
+          '2': '2 - 嚴重',
+          '3': '3 - 錯誤',
+          '4': '4 - 警告',
+          '5': '5 - 通知',
+          '6': '6 - 資訊',
+          '7': '7 - 偵錯',
+          '8': '8 - 全部'
+        }
+      },
+      wireguard: {
+        title: 'WireGuard',
+        tunnel: '加密通道',
+        device: '本裝置',
+        description: '透過 WireGuard 通道存取此 KVM',
+        unavailable: '此裝置上未安裝 WireGuard',
+        blocked: '防火牆偏執模式會封鎖 WireGuard',
+        needsKey: '開啟 WireGuard 之前請先設定私鑰',
+        saved: 'WireGuard 設定已儲存',
+        save: '儲存變更',
+        unsaved: '未儲存的變更',
+        invalid: '請檢查標示的欄位',
+        invalidAddress: '請輸入含遮罩的位址，例如 10.0.0.1/24',
+        invalidKey: '請輸入 44 個字元的 WireGuard 金鑰',
+        invalidEndpoint: '請輸入主機名稱或 IP 位址',
+        invalidPort: '請輸入 1 到 65535 之間的連接埠',
+        invalidRanges: '請使用 10.0.0.0/24 這樣的 IPv4 範圍，不能使用 0.0.0.0/0',
+        status: {
+          connected: '已連線',
+          waiting: '正在等待對端',
+          stopped: '已停止',
+          handshake: '上次交握 {{time}}'
+        },
+        privateKey: {
+          title: '私鑰',
+          description: '僅儲存在此裝置上，不會再次顯示',
+          set: '已設定',
+          notSet: '未設定',
+          setBtn: '設定',
+          generate: '產生',
+          remove: '移除',
+          modalTitle: '設定私鑰',
+          modalDescription: '金鑰會儲存在此裝置上，不會再次顯示',
+          placeholder: '貼上私鑰',
+          generateConfirmTitle: '產生新的私鑰？',
+          generateConfirmDesc: '目前的金鑰將失效。之後請將新的公開金鑰加入對端。',
+          removeConfirmTitle: '移除私鑰？',
+          removeConfirmDesc: 'WireGuard 將被關閉，並保持關閉，直到設定新的金鑰。'
+        },
+        publicKey: {
+          title: '公開金鑰',
+          description: '請將其加入對端的設定中'
+        },
+        address: {
+          title: '位址',
+          description: 'KVM 在通道中的位址及其遮罩'
+        },
+        peer: {
+          title: '對端',
+          publicKey: '公開金鑰',
+          publicKeyDescription: '您所連線的對端的公開金鑰',
+          server: '伺服器',
+          serverDescription: '對端的主機名稱或 IP 位址',
+          port: '連接埠',
+          portDescription: '對端的 UDP 連接埠，通常為 51820',
+          allowedIps: '允許的 IP',
+          allowedIpsDescription: '對端在通道中的位址或範圍，例如 10.0.0.0/24',
+          keepalive: '保持連線',
+          keepaliveDescription: '保持連線封包的傳送間隔秒數，位於路由器之後時需要'
         }
       },
       tailscale: {
         title: 'Tailscale',
+        enableDesc: '透過你的 Tailscale 網路存取此 KVM',
+        service: '服務',
+        performance: '效能',
         memory: {
           title: '記憶體最佳化',
-          tip: '當記憶體使用量超過限制時，會更積極的進行垃圾回收來嘗試釋放記憶體。若使用 Tailscale 建議設定為 50MB，於重啟 Tailscale 後生效。'
+          tip: '讓 Tailscale 保持較低的記憶體用量，對 RAM 較少的裝置有幫助。重啟 Tailscale 後變更才會生效。'
         },
         swap: {
-          title: 'Swap',
-          tip: '如果啟用記憶體最佳化後依然存在問題，可以嘗試開啟 Swap。啟用後會將交換檔案設定為 256MB，可以在「設定 - 裝置」中修改該選項。'
+          title: 'Swap 檔',
+          tip: '如果啟用記憶體最佳化後問題依然存在，可以嘗試啟用 Swap 檔',
+          sizeTip: '這會將檔案大小設定為 256MB，可以在「設定 - 裝置」中修改'
         },
+        restartTitle: '重啟 Tailscale',
+        restartDesc: '重啟服務',
+        restartBtn: '重啟',
         restart: '確定要重啟 Tailscale 嗎？',
+        stopTitle: '停止 Tailscale',
+        stopBtn: '停止',
         stop: '確定要停止 Tailscale 嗎？',
+        stopDesc: '停止服務，並防止其在開機時自動啟動',
         loading: '載入中...',
+        notInstall: '未找到 Tailscale，請先安裝',
         install: '安裝',
         installing: '安裝中',
         failed: '安裝失敗',
+        retry: '請重新整理並重試，或嘗試手動安裝。',
         download: '下載',
         package: '安裝包',
         unzip: '並解壓縮它',
         upTailscale: '將 Tailscale 上傳到 NanoKVM 的 /usr/bin/ 資料夾',
+        upTailscaled: '將 tailscaled 上傳到 NanoKVM 的 /usr/sbin/ 資料夾',
         refresh: '重新整理頁面',
+        notRunning: 'Tailscale 尚未執行，請先啟動以繼續',
         run: '啟動',
         notLogin: '設備尚未綁定。請登入並將該裝置綁定到您的帳戶。',
         urlPeriod: '此網址有效期限為 10 分鐘',
@@ -400,15 +799,79 @@ const zh_tw = {
         cancelBtn: '取消'
       },
       update: {
-        title: '檢查更新',
+        title: '系統更新',
+        sources: '更新來源',
+        latestVersion: '最新版本',
         queryFailed: '取得版本號失敗',
         updateFailed: '更新失敗。請重試。',
+        paranoidBlocked: '線上更新被偏執防火牆模式阻擋',
+        paranoidBlockedDesc: 'GitHub 檢查與下載需要輸出網路存取。離線上傳和已暫存的安裝仍可使用。',
         isLatest: '您已經是最新版本。',
         available: '發現有可用更新。您確定要更新嗎？',
         updating: '更新中，請稍候...',
         confirm: '確定',
         cancel: '取消',
         preview: '預覽更新',
+        previewChannels: '同時控制應用程式與系統的預覽通道',
+        previewTip: '請注意，預覽版本可能包含一些不穩定因素或未完善的功能',
+        application: {
+          title: '應用程式'
+        },
+        system: {
+          queryFailed: '取得系統版本失敗',
+          appUpdateRequired: '請先將應用程式更新到 {{version}}，再安裝此系統更新',
+          requiredAppVersion: '所需應用程式版本',
+          downloadFailed: '下載或驗證失敗',
+          rawEnable: '允許 raw 系統更新',
+          rawEnableDesc: '允許從此畫面將已驗證的 raw boot/rootfs 映像檔寫入 SD 卡',
+          rawEnableConfirmTitle: '允許 raw 系統更新？',
+          rawEnableConfirmDesc:
+            'raw 系統更新可以取代 boot 和 rootfs 分割區。僅在有實體復原存取時使用。',
+          rawInstallDisabled: '此已暫存更新會寫入 SD 卡 raw 分割區。安裝前請啟用 raw 系統更新。',
+          isLatest: '基礎系統已是最新。',
+          available: '有可用的基礎系統更新。',
+          downloading: '正在下載並驗證系統更新...',
+          downloadVerify: '下載並驗證',
+          installing: '正在安裝已暫存的系統更新...',
+          install: '安裝',
+          installFailed: '安裝失敗',
+          installConfirmTitle: '安裝系統更新？',
+          installConfirmDesc: '這會用已驗證套件中的檔案取代基礎系統檔案。需要重新啟動。',
+          rawInstallConfirmDesc:
+            '此已驗證套件會將 raw boot/rootfs 映像檔寫入 SD 卡分割區並自動重新啟動。寫入可能需要數分鐘；請保持供電。',
+          rawInstallWarning: 'raw 分割區更新沒有自動 rollback。如果開機失敗，請手動復原 SD 卡。',
+          rebootRequired: '需要重新啟動以啟用此系統狀態。',
+          confirming: '正在確認系統更新開機...',
+          confirmBoot: '確認開機',
+          confirmFailed: '開機確認失敗',
+          confirmed: '開機已確認',
+          bootGood: '待處理的系統更新已標記為 boot-good。',
+          rollingBack: '正在 rollback 系統更新...',
+          rollback: 'Rollback',
+          rollbackDone: 'Rollback 已準備',
+          rollbackFailed: 'Rollback 失敗',
+          rollbackConfirmTitle: 'Rollback 系統更新？',
+          rollbackConfirmDesc: '這會從最新系統更新備份還原檔案。需要重新啟動。',
+          stagedDesc: '系統更新已下載並驗證，現在可以安裝',
+          refresh: '重新整理',
+          releaseNotes: '版本資訊',
+          systemVersion: '系統版本',
+          baseImage: '基礎映像檔',
+          buildrootRelease: 'Buildroot 版本',
+          kernel: 'Kernel',
+          stagedVersion: '已暫存版本',
+          archive: '封存',
+          requiredFree: '所需可用空間',
+          fileCount: '檔案',
+          rawImages: 'raw 映像檔',
+          progress: '進度',
+          progressMessage: '進度訊息',
+          pendingVersion: '待處理版本',
+          bootHealth: '開機狀態',
+          healthy: '正常',
+          unhealthy: '需要注意',
+          rollbackBackup: 'Rollback 備份'
+        },
         offline: {
           title: '離線更新',
           desc: '透過本地安裝包進行更新',
@@ -421,21 +884,67 @@ const zh_tw = {
         title: '帳號',
         webAccount: '網頁帳號',
         password: '密碼',
+        passwordDesc: '變更登入網頁介面所用的密碼',
         updateBtn: '修改',
         logoutBtn: '登出',
         logoutDesc: '您確定要登出嗎?',
         okBtn: '確定',
-        cancelBtn: '取消'
+        cancelBtn: '取消',
+        totp: {
+          title: '兩步驟驗證',
+          authenticator: '驗證器 App',
+          description: '除密碼外，還需要驗證器 App 產生的時間型驗證碼',
+          required: '原則要求',
+          disable: '停用',
+          enableTitle: '設定兩步驟驗證',
+          enableDescription: '請確認密碼以繼續。每次變更第二重驗證都需要密碼。',
+          continue: '繼續',
+          disableTitle: '停用兩步驟驗證？',
+          disableDescription: '您的帳號將僅由密碼保護。請以密碼確認以繼續。',
+          disableFailed: '無法停用兩步驟驗證',
+          passwordPlaceholder: '目前密碼',
+          enrollFailed: '無法開始設定',
+          invalidCode: '驗證碼不相符，請試試下一個。',
+          scan: '請用驗證器 App 掃描此 QR Code。',
+          manualEntry: '或手動輸入此金鑰：',
+          codePlaceholder: '輸入 6 位數驗證碼以確認',
+          confirm: '確認',
+          cancel: '取消',
+          backupTitle: '請立即儲存您的備用碼',
+          backupDescription:
+            '每個備用碼只能使用一次，且不會再次顯示。如果您遺失驗證器 App，這是重新登入的唯一方式；即使裝置時鐘未同步，它們也能使用。',
+          copy: '複製',
+          copied: '已複製備用碼',
+          savedThem: '我已儲存',
+          remaining: '剩餘 {{remaining}} 個備用碼',
+          clockUnsynced: '裝置時鐘尚未同步。設定前請先在 設定 > 系統 > 時間 中同步時間。',
+          noBackupCodes: '已沒有備用碼。請選擇「產生」以重新產生一組。',
+          regenerate: '新備用碼',
+          generate: '產生',
+          regenerateTitle: '產生新備用碼？',
+          regenerateDescription: '目前的備用碼將失效。請以密碼確認以繼續。',
+          regenerateFailed: '無法產生新備用碼',
+          download: '下載',
+          copyFailed: '無法複製。請選取備用碼後手動複製。',
+          requireTitle: '強制兩步驟驗證',
+          requireDescription: '禁止停用兩步驟驗證，尚未設定的帳號必須先設定才能使用裝置',
+          requireFailed: '無法變更該要求',
+          requiredTitle: '需要兩步驟驗證',
+          requiredDescription: '此裝置要求第二重驗證，但您的帳號尚未設定。請立即設定以繼續。'
+        }
       }
     },
     picoclaw: {
       title: 'PicoClaw 助理',
+      empty: '打開面板並啟動一個任務來開始',
       inputPlaceholder: '描述您希望 PicoClaw 執行的操作',
       newConversation: '新對話',
       processing: '正在處理...',
       agent: {
         defaultTitle: '通用助理',
+        defaultDescription: '一般聊天、搜尋和工作區域幫助',
         kvmTitle: '遠端控制',
+        kvmDescription: '透過 NanoKVM 操作遠端主機',
         switched: '代理角色已切換',
         switchFailed: '代理角色切換失敗'
       },
@@ -482,6 +991,8 @@ const zh_tw = {
         success: 'PicoClaw 安裝成功',
         failed: 'PicoClaw 安裝失敗',
         uninstalling: '正在解除安裝 Runtime...',
+        uninstalled: 'Runtime 解除安裝成功',
+        uninstallFailed: '解除安裝失敗',
         requiredTitle: 'PicoClaw 未安裝',
         requiredDescription: '在啟動 PicoClaw Runtime 之前，請先安裝 PicoClaw。',
         progressDescription: '正在下載並安裝 PicoClaw。',

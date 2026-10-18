@@ -12,6 +12,7 @@ const se = {
     head: {
       desktop: 'Fjärrskrivbord',
       login: 'Logga in',
+      firstSetup: 'Första konfiguration',
       changePassword: 'Byt lösenord',
       terminal: 'Terminal',
       wifi: 'Wi-Fi'
@@ -28,29 +29,58 @@ const se = {
       globalLocked: 'System under skydd, försök igen senare',
       error: 'Oväntat fel',
       changePassword: 'Byt lösenord',
+      changePasswordDesc: 'För din enhets säkerhet, byt lösenord',
       differentPassword: 'Lösenorden matchar inte',
       illegalUsername: 'Användarnamnet innehåller ogiltiga tecken',
+      illegalPassword:
+        'Lösenordet måste vara minst 8 tecken och får inte innehålla citattecken eller snedstreck',
       forgetPassword: 'Glömt lösenord',
       ok: 'Ok',
       cancel: 'Avbryt',
       loginButtonText: 'Logga in',
+      setupTitle: 'Skapa administratörskonto',
+      setupDescription:
+        'Det finns inget webbkonto på den här enheten ännu. Skapa det första administratörskontot för att fortsätta.',
+      setupRecovery: 'Om lösenordet förloras kräver återställning att SD-kortet skrivs om',
+      setupButtonText: 'Skapa konto',
       tips: {
+        hardenedRecovery:
+          'Denna Hardened-image stöder inte lösenordsåterställning via BOOT-knappen. Om lösenordet förloras, skriv om SD-kortet och skapa ett nytt konto.',
         change1: 'Observera att denna åtgärd ändrar följande lösenord:',
-        change2: 'Webbinloggningslösenord'
+        change2: 'Webbinloggningslösenord',
+        change3: 'Systemets root-lösenord för SSH-inloggning'
+      },
+      placeholderCurrentPassword: 'Nuvarande lösenord',
+      placeholderNewPassword: 'Nytt lösenord',
+      wrongCurrentPassword: 'Det nuvarande lösenordet är fel',
+      totp: {
+        title: 'Tvåfaktorsautentisering',
+        prompt: 'Ange den sexsiffriga koden från din autentiseringsapp',
+        backupPrompt: 'Ange en av dina reservkoder',
+        noEmptyCode: 'Ange en kod',
+        placeholderCode: 'Sexsiffrig kod',
+        placeholderBackup: 'Reservkod',
+        verifyButtonText: 'Verifiera',
+        useBackupCode: 'Använd en reservkod',
+        useAuthenticator: 'Använd kod från autentiseringsappen',
+        cancel: 'Tillbaka',
+        invalidCode: 'Koden är ogiltig. Försök igen.'
       }
     },
     wifi: {
       title: 'Wi-Fi',
       description: 'Konfigurera Wi-Fi för NanoKVM',
+      success: 'Kontrollera nätverksstatusen för NanoKVM och besök den nya IP-adressen',
+      failed: 'Åtgärden misslyckades, försök igen',
       invalidMode:
         'Det aktuella läget stöder inte nätverksinstallation. Gå till din enhet och aktivera Wi-Fi konfigurationsläge.',
       confirmBtn: 'Ok',
       finishBtn: 'Färdig',
       ap: {
         authTitle: 'Autentisering krävs',
-        authDescription: 'Ange lösenordet AP för att fortsätta',
+        authDescription: 'Ange AP-lösenordet för att fortsätta',
         authFailed: 'Ogiltigt AP lösenord',
-        passPlaceholder: 'AP lösenord',
+        passPlaceholder: 'AP-lösenord',
         verifyBtn: 'Verifiera'
       }
     },
@@ -58,10 +88,18 @@ const se = {
       scale: 'Skala',
       title: 'Skärm',
       video: 'Videoläge',
+      videoDirectTips:
+        'Aktivera HTTPS under "Inställningar > System > Nätverk" för att använda detta läge',
+      videoWebrtcBlockedByFirewall:
+        'H.264 WebRTC är inaktiverat i brandväggslägena Begränsad och Paranoid',
+      transferRunningTitle: 'Avbildningsöverföring pågår',
+      transferRunningDesc:
+        'Om du byter videoläge laddas sidan om, och den pågående uppladdningen eller nedladdningen av avbildningen avbryts.',
+      transferRunningOk: 'Byt läge',
       resolution: 'Upplösning',
       auto: 'Automatisk',
       autoTips:
-        'Skärmtear eller musförskjutning kan förekomma vid vissa upplösningar. Överväg att justera fjärrvärdens upplösning eller inaktivera automatiskt läge.',
+        'Skärmtear eller musförskjutning kan förekomma vid vissa upplösningar, så justera fjärrvärdens upplösning eller inaktivera automatiskt läge',
       fps: 'FPS',
       customizeFps: 'Anpassa',
       quality: 'Kvalitet',
@@ -71,10 +109,11 @@ const se = {
       qualityLow: 'Låg',
       frameDetect: 'Ramdetection',
       frameDetectTip:
-        'Beräkna skillnaden mellan ramar. Sluta skicka videoström när inga förändringar upptäcks på fjärrvärdens skärm.',
+        'Jämför ramar och slutar skicka video så länge fjärrvärdens skärm inte ändras',
       resetHdmi: 'Återställ HDMI',
       webrtcConnectionFailed: {
-        title: 'WebRTC-anslutningen misslyckades'
+        title: 'WebRTC-anslutningen misslyckades',
+        description: 'Kontrollera nätverksanslutningen eller byt videoläge'
       },
       captureStatus: {
         hdmiError: 'HDMI-skärmfel',
@@ -91,24 +130,32 @@ const se = {
       title: 'Tangentbord',
       paste: 'Klistra in',
       tips: 'Endast standardbokstäver och symboler på tangentbordet stöds',
-      placeholder: 'Ange text',
-      virtual: 'Tangentbord',
+      placeholder: 'Text att klistra in',
+      local: 'Mobilt tangentbord',
+      virtual: 'Skärmtangentbord',
       readClipboard: 'Läs från Urklipp',
       clipboardPermissionDenied:
-        'Behörighet till Urklipp nekad. Vänligen tillåt åtkomst till Urklipp i din webbläsare.',
+        'Behörighet till Urklipp nekad, tillåt åtkomst till Urklipp i din webbläsare',
       clipboardReadError: 'Misslyckades med att läsa Urklipp',
       dropdownEnglish: 'Engelska',
       dropdownGerman: 'Tyska',
       dropdownFrench: 'Franska',
+      dropdownRussian: 'Ryska',
+      dropdownKorean: 'Koreanska',
+      dropdownJapanese: 'Japanska',
+      localInput: 'Inmatning från mobiltangentbord',
       shortcut: {
         title: 'Genvägar',
         custom: 'Anpassad',
         capture: 'Klicka här för att fånga genväg',
         clear: 'Rensa',
-        save: 'Spara'
+        save: 'Spara',
+        captureTips: 'Att fånga systemtangenter, som Windows-tangenten, kräver helskärmsbehörighet',
+        enterFullScreen: 'Växla helskärmsläge'
       },
       leaderKey: {
         title: 'Leader-tangent',
+        desc: 'Gå förbi webbläsarbegränsningar och skicka systemgenvägar direkt till fjärrvärden',
         howToUse: 'Hur man använder',
         simultaneous: {
           title: 'Samtidigt läge',
@@ -130,7 +177,7 @@ const se = {
         recorder: {
           rec: 'REC',
           activate: 'Aktivera tangenter',
-          input: 'Vänligen tryck på genvägen...'
+          input: 'Tryck på genvägen'
         }
       }
     },
@@ -149,17 +196,26 @@ const se = {
       scrollUp: 'Scrolla uppåt',
       scrollDown: 'Scrolla ner',
       speed: 'Rullhjulshastighet',
+      sensitivity: 'Pekarhastighet',
+      sensitivityDesc:
+        'För relativt skrivbordsläge: lägre värden minskar drift från värdens musacceleration',
       fast: 'Snabb',
       slow: 'Långsam',
-      requestPointer: 'Använder relativt läge. Klicka på skrivbordet för att få muspekaren.',
+      mobile: {
+        touchSync: 'TouchSync',
+        touchSyncDesc:
+          'Rör dig var som helst i KVM-området; fjärrpekaren behåller sin position mellan beröringar och hålls synkroniserad med absolut HID'
+      },
+      requestPointer: 'Använder relativt läge, klicka på skrivbordet för att få muspekaren',
       resetHid: 'Återställ HID',
       hidOnly: {
-        title: 'Endast HID-läge',
-        tip1: 'Aktivering av Endast-HID-läge avmonterar den virtuella U-disken och nätverket',
-        tip2: 'I Endast-HID-läge är avbildningsmontering inaktiverat',
+        title: 'HID-Only-läge',
+        desc: 'Om musen eller tangentbordet slutar svara och det inte hjälper att återställa HID kan det vara ett kompatibilitetsproblem mellan NanoKVM och värden.',
+        tip1: 'När HID-Only-läge aktiveras avmonteras den virtuella disken och det virtuella nätverket',
+        tip2: 'I HID-Only-läge är montering av avbildningar inaktiverad',
         tip3: 'NanoKVM kommer automatiskt att starta om efter lägesbyte',
-        enable: 'Aktivera Endast-HID-läge',
-        disable: 'Inaktivera Endast-HID-läge'
+        enable: 'Aktivera HID-Only-läge',
+        disable: 'Inaktivera HID-Only-läge'
       }
     },
     image: {
@@ -168,27 +224,40 @@ const se = {
       empty: 'Inget hittades',
       mountMode: 'Monteringsläge',
       mountFailed: 'Montering misslyckades',
+      mountDesc:
+        'I vissa system måste den virtuella disken avmonteras på fjärrvärden innan avbildningen monteras',
       diskOnWarn:
         'Montering av avbildningen stänger av den virtuella disken, så datorn kommer inte åt /data. Fortsätta?',
       diskOffWarn:
         'Den virtuella disken är avstängd och måste aktiveras för att montera avbildningen. Datorns USB-enheter ansluts på nytt. Fortsätta?',
       unmountFailed: 'Avmontering misslyckades',
+      unmountDesc:
+        'I vissa system måste du manuellt mata ut från fjärrvärden innan du avmonterar avbildningen',
       forceEject: 'Tvinga utmatning',
       forceEjectConfirm:
         'Värden har låst den optiska enheten. Tvingad utmatning kopplar bort den virtuella USB-enheten ett ögonblick, så tangentbordet och musen kan kopplas bort en kort stund. Vill du fortsätta?',
+      usbReconnect: 'Återanslut USB',
+      usbReconnectConfirm:
+        'Återanslut USB-gadgeten endast om fjärrvärden inte upptäckte mediebytet. Tangentbord och mus kan kopplas från kortvarigt.',
+      usbReconnectSuccess: 'USB återansluten',
+      usbReconnectFailed: 'USB-återanslutning misslyckades',
+      mountTitle: 'Montera avbildning',
+      deleteTitle: 'Ta bort avbildning',
       deleteConfirm: 'Är du säker på att du vill ta bort denna avbildning?',
       tips: {
         title: 'Hur man laddar upp',
         usb1: 'Anslut NanoKVM till din dator via USB.',
+        usb2: 'Säkerställ att den virtuella disken är monterad under Inställningar > Enhet > Virtuell disk.',
         usb3: 'Öppna den virtuella disken på din dator och kopiera avbildningsfilen till rotkatalogen.',
         scp1: 'Säkerställ att NanoKVM och din dator är på samma lokala nätverk.',
         scp2: 'Öppna en terminal på din dator och använd SCP-kommandot för att ladda upp avbildningen till /data på NanoKVM.',
         scp3: 'Exempel: scp din-avbildningssökväg root@din-nanokvm-ip:/data',
-        tfCard: 'TF-kort',
+        tfCard: 'SD-kort',
         tf1: 'Denna metod stöds på Linux-system',
-        tf3: 'Sätt in TF-kortet i en kortläsare och anslut till din dator.',
-        tf4: 'Kopiera avbildningsfilen till /data på TF-kortet.',
-        tf5: 'Sätt in TF-kortet i NanoKVM.'
+        tf2: 'Ta ut SD-kortet från NanoKVM. På FULL-versionen öppnar du chassit först.',
+        tf3: 'Sätt in SD-kortet i en kortläsare och anslut till din dator.',
+        tf4: 'Kopiera avbildningsfilen till /data på SD-kortet.',
+        tf5: 'Sätt in SD-kortet i NanoKVM.'
       }
     },
     script: {
@@ -203,10 +272,18 @@ const se = {
     },
     terminal: {
       title: 'Terminal',
-      nanokvm: 'NanoKVM Terminal',
+      nanokvm: 'NanoKVM-terminal',
       serial: 'Serieport-terminal',
+      unlockTitle: 'Lås upp terminal',
+      unlockDesc: 'Ange lösenordet för webbkonto för att starta en terminalsession',
+      unlock: 'Lås upp',
+      unlockFailed: 'Kunde inte låsa upp terminalen',
+      invalidCredentials: 'Ogiltigt användarnamn eller lösenord',
+      locked: 'För många försök, försök igen senare',
+      sessionClosed: 'Terminalsessionen stängdes. Lås upp igen för att ansluta.',
+      sessionError: 'Terminalanslutningen misslyckades. Lås upp igen för att försöka.',
       serialPort: 'Serieport',
-      serialPortPlaceholder: 'Ange serieport',
+      serialPortPlaceholder: 'Till exempel /dev/ttyS1',
       baudrate: 'Baudhastighet',
       parity: 'Paritet',
       parityNone: 'Ingen',
@@ -217,31 +294,53 @@ const se = {
       flowControlSoft: 'Programvara',
       flowControlHard: 'Hårdvara',
       dataBits: 'Databitar',
-      stopBits: 'Stoppbitar'
+      stopBits: 'Stoppbitar',
+      open: 'Öppna terminal'
     },
     wol: {
       title: 'Wake-on-LAN',
       sending: 'Skickar kommando...',
       sent: 'Kommando skickat',
-      input: 'Ange MAC-adress',
-      ok: 'Ok'
+      input: 'MAC-adress',
+      ok: 'OK'
     },
     download: {
-      title: 'Avbildningshämtare',
-      input: 'Ange en fjärravbildnings-URL',
-      ok: 'Ok',
+      title: 'Hämta avbildningar',
+      input: 'URL till fjärravbildning',
+      ok: 'OK',
+      disabled:
+        'Avbildningar kan inte laddas ned eller laddas upp just nu eftersom lagringen inte är skrivbar. Om en avbildning är monterad, avmontera den och stäng sedan av den virtuella disken så att lagringen blir skrivbar igen.',
+      diskShared: 'Stäng av den virtuella disken först och använd sedan nedladdningen',
       mountedImage:
-        'Den här diskavbilden är monterad. Avmontera den innan du laddar upp en fil med samma namn.',
+        'Den här diskavbilden är monterad, avmontera den innan du laddar upp en fil med samma namn',
       diskOff: 'Stäng av den virtuella disken',
       uploadbox: 'Släpp filen här eller klicka för att välja',
-      inputfile: 'Vänligen ange bildfilen',
-      NoISO: 'Ingen ISO'
+      inputfile: 'Bildfil',
+      NoISO: 'Ingen image',
+      complete: 'Nedladdningen är klar',
+      uploadComplete: 'Uppladdningen är klar',
+      downloading: 'Laddar ned',
+      uploading: 'Laddar upp',
+      failed: 'Överföringen misslyckades',
+      uploadFailed: 'Uppladdningen misslyckades',
+      stalled: 'Överföringen har fastnat, kontrollera anslutningen och försök igen',
+      canceled: 'Uppladdningen avbröts',
+      downloadCanceled: 'Nedladdning avbruten',
+      cancel: 'Avbryt',
+      remoteDisabled: 'Fjärrnedladdning av ISO är inaktiverad i Inställningar > Utseende',
+      remoteFailed: 'Fjärrnedladdning av ISO misslyckades',
+      sha256: 'Valfri SHA-256-kontrollsumma',
+      sha256Placeholder: 'Ange en SHA-256-kontrollsumma på 64 tecken',
+      invalidSHA256: 'SHA-256 måste vara en hexadecimal sträng på 64 tecken',
+      checksumFailed: 'Nedladdningen misslyckades: SHA-256-verifieringen misslyckades'
     },
     power: {
       title: 'Ström',
       showConfirm: 'Bekräftelse',
       showConfirmTip: 'Strömätgärder kräver extra bekräftelse',
       reset: 'Starta om',
+      powerShort: 'Strömknapp: kort tryck',
+      powerLong: 'Strömknapp: långt tryck',
       resetConfirm: 'Utföra omstart?',
       powerConfirm: 'Utföra strömåtgärd?',
       okBtn: 'Ja',
@@ -256,10 +355,11 @@ const se = {
         mdns: 'mDNS',
         application: 'Applikationsversion',
         applicationTip: 'NanoKVM webbapplikationsversion',
+        uptime: 'Drifttid',
         community: 'Community',
+        credit: 'Byggt på <a1>NanoKVM</a1> från Sipeed och <a2>Hardened NanoKVM</a2> av woffko',
         hostname: 'Värdnamn',
-        hostnameReboot: 'Starta om för att tillämpa det nya värdnamnet?',
-        ipType: {}
+        hostnameReboot: 'Starta om för att tillämpa det nya värdnamnet?'
       },
       appearance: {
         title: 'Utseende',
@@ -268,6 +368,10 @@ const se = {
         languageDesc: 'Välj språk för gränssnittet',
         webTitle: 'Webbtitel',
         webTitleDesc: 'Anpassa webbsidans titel',
+        layoutMode: 'Gränssnittslayout',
+        layoutModeDesc: 'Använd telefon-/touchlayout i den här webbläsaren',
+        layoutAuto: 'Automatiskt',
+        layoutMobile: 'Telefon',
         menuBar: {
           title: 'Menyrad',
           mode: 'Visningsläge',
@@ -279,7 +383,18 @@ const se = {
           keyboardLedStatusDesc:
             'Visa Num Lock-, Caps Lock- och Scroll Lock-status för fjärrdatorn',
           icons: 'Undermenyikoner',
-          iconsDesc: 'Visa undermenyikoner i menyraden'
+          iconsDesc: 'Visa undermenyikoner i menyraden',
+          terminalWarningTitle: 'Aktivera webbterminal?',
+          terminalWarningDesc:
+            'Terminalen öppnar ett root-shell i webbläsaren. Aktivera endast på ett betrott nätverk och stäng av när du är klar.',
+          terminalWarningConfirm: 'Aktivera',
+          terminalWarningCancel: 'Avbryt',
+          remoteDownload: 'Hämta ISO på distans',
+          remoteDownloadWarningTitle: 'Aktivera fjärrnedladdning av ISO?',
+          remoteDownloadWarningDesc:
+            'NanoKVM hämtar en ISO från en URL och skriver den till /data. Aktivera endast för betrodda URL:er och stäng av när du är klar.',
+          remoteDownloadWarningConfirm: 'Aktivera',
+          remoteDownloadWarningCancel: 'Avbryt'
         }
       },
       keyboardLedStatus: {
@@ -297,16 +412,29 @@ const se = {
       },
       device: {
         title: 'Enhet',
+        minutes: 'min',
+        sections: {
+          connectivity: 'Anslutning',
+          hostConnection: 'Värdanslutning',
+          inputOutput: 'Indata och utdata',
+          optimizations: 'Optimeringar'
+        },
         oled: {
-          title: 'OLED',
-          description: 'Stäng av OLED-skärmen efter'
+          title: 'OLED-timeout',
+          description: 'Stäng av OLED-skärmen efter',
+          keepOn: 'Håll OLED på',
+          keepOnDescription: 'Stäng aldrig av OLED-skärmen'
         },
         ssh: {
-          description: 'Aktivera SSH-fjärråtkomst'
+          description: 'Aktivera SSH-fjärråtkomst',
+          tip: 'Ställ in ett starkt lösenord under Konto > Lösenord innan du aktiverar det här alternativet'
         },
         swap: {
           title: 'Swap',
-          description: 'Ange swap-filens storlek'
+          description: 'Använd en swap-fil när minnet börjar ta slut',
+          size: 'Swap-storlek',
+          sizeDescription: 'Ange swap-filens storlek',
+          tip: 'Aktivering av denna funktion kan förkorta livslängden på ditt SD-kort'
         },
         mouseJiggler: {
           title: 'Musvickare',
@@ -315,9 +443,13 @@ const se = {
           absolute: 'Absolut läge',
           relative: 'Relativt läge'
         },
+        sessionLock: {
+          title: 'Lås session vid inaktivitet',
+          description: 'Kräv inloggning igen efter denna tid'
+        },
         mdns: {
           description: 'Aktivera mDNS-upptäckningstjänst',
-          tip: 'Stäng av om det inte behövs'
+          tip: 'Gör att enheten kan nås via sitt .local-namn. Behövs inte om du ansluter via IP-adress eller din DNS redan löser värdnamnet.'
         },
         hdmi: {
           description: 'Aktivera HDMI/monitorutgång',
@@ -325,15 +457,34 @@ const se = {
           idleTimeoutDescription:
             'Stoppa HDMI-inspelning efter att det inte har funnits aktiva tittare i'
         },
-        hidOnly: 'Endast-HID-läge',
+        hidOnly: 'HID-Only-läge',
+        hidOnlyDesc:
+          'Förbättrar kompatibiliteten med värden om musen eller tangentbordet slutar svara',
+        hidOnlyTip:
+          'HID-Only-läge slutar emulera virtuella enheter och behåller bara grundläggande HID-kontroll',
         disk: 'Virtuell disk',
+        diskDesc: 'Montera SD-kortet på fjärrvärden',
+        diskLocked: 'Avstängd medan en avbildning är monterad, och aktivering avbryter monteringen',
+        diskEnable: 'Aktivera virtuell disk',
+        networkChange: 'Ändra virtuellt nätverk',
+        diskCancelMount:
+          'Om du aktiverar den virtuella disken avbryts den monterade avbildningen. Fortsätta?',
+        networkCancelMount:
+          'Om du ändrar det virtuella nätverket startas USB-anslutningen om. Det avbryter den monterade avbildningen och aktiverar den virtuella disken. Fortsätta?',
+        diskTransferRunning:
+          'En avbildningsöverföring pågår. Vänta tills den är klar innan du aktiverar den virtuella disken.',
         network: 'Virtuellt nätverk',
         networkDesc: 'Montera virtuell nätverkskort på fjärrvärden',
+        usbWakeup: 'USB-väckning',
+        usbWakeupDesc: 'Tillåt tangentbords- eller mushändelser att väcka fjärrvärden',
+        usbWakeupTip: 'Stäng av om värden loggar upprepade USB wakeup-meddelanden',
         reboot: 'Starta om',
         rebootDesc: 'Är du säker på att du vill starta om NanoKVM?'
       },
       network: {
         title: 'Nätverk',
+        connection: 'Anslutning',
+        configuration: 'Konfiguration',
         wifi: {
           title: 'Wi-Fi',
           description: 'Konfigurera Wi-Fi',
@@ -341,19 +492,28 @@ const se = {
           connect: 'Anslut Wi-Fi',
           connectDesc1: 'Ange nätverkets SSID och lösenord',
           disconnect: 'Är du säker på att du vill koppla från nätverket?',
+          disconnectBtn: 'Koppla från',
+          connected: 'Ansluten',
           ssid: 'Namn',
           password: 'Lösenord',
           joinBtn: 'Anslut',
           cancelBtn: 'Avbryt'
         },
         tls: {
-          description: 'Aktivera HTTPS-protokoll'
+          description: 'Aktivera HTTPS-protokoll',
+          tip: 'Observera: Användning av HTTPS kan öka fördröjningen, särskilt med MJPEG-läge',
+          rebootTitle: 'NanoKVM startar om',
+          rebootDesc:
+            'Protokolländringen kräver omstart av enheten. Webbläsaren byter till den nya adressen efter {{seconds}} sekunder:',
+          rebootOk: 'Verkställ och starta om',
+          rebootCancel: 'Avbryt'
         },
         dns: {
           title: 'DNS',
           description: 'Konfigurera DNS-servrar för NanoKVM',
           ipv4Title: 'IPv4',
           ipv4Description: 'Konfigurera IPv4-adressering för det trådbundna gränssnittet',
+          servers: 'Servrar',
           dhcp: 'DHCP',
           manual: 'Manuell',
           apply: 'Tillämpa',
@@ -365,28 +525,286 @@ const se = {
           unsaved: 'Osparade ändringar',
           maxServers: 'Maximalt {{count}} DNS-servrar tillåtna',
           dhcpServersDescription: 'DNS-servrar hämtas automatiskt från DHCP',
+          manualServersDescription: 'IPv4- och IPv6-servrar stöds',
           interface: 'Gränssnitt',
           ipAddress: 'IP-adress',
           subnetMask: 'Subnätmask',
           router: 'Router'
+        },
+        ipv6: {
+          title: 'IPv6',
+          description: 'Konfigurera IPv6-adressering för det trådbundna gränssnittet',
+          disabled: 'Inaktiverad',
+          slaac: 'SLAAC',
+          dhcpv6: 'DHCPv6',
+          manual: 'Manuell',
+          interface: 'Gränssnitt',
+          state: 'Tillstånd',
+          router: 'Router',
+          addresses: 'Adresser',
+          dhcpv6Client: 'DHCPv6-klient',
+          notInstalled: 'Inte installerad',
+          ipAddress: 'IPv6-adress',
+          prefix: 'Prefix',
+          invalidManual: 'Ange en giltig IPv6-adress, prefix och router',
+          clientMissing:
+            'DHCPv6-klienten är inte installerad. Installera först den matchande raw-systemuppdateringen.',
+          saved: 'IPv6-inställningar sparade',
+          saveFailed: 'Det gick inte att spara IPv6-inställningar',
+          unsaved: 'Osparade ändringar'
+        }
+      },
+      system: {
+        title: 'System',
+        sections: {
+          time: 'Tid',
+          firewall: 'Brandvägg',
+          systemLog: 'Loggning'
+        },
+        time: {
+          saveFailed: 'Kunde inte spara tidsinställningar',
+          saved: 'Tidsinställningar sparade',
+          syncFailed: 'Kunde inte synkronisera tid',
+          synced: 'Tid synkroniserad',
+          invalidServers: 'Ange minst en NTP-server',
+          maxServers: 'Högst {{count}} NTP-servrar tillåtna',
+          refresh: 'Uppdatera',
+          syncNow: 'Synkronisera nu',
+          syncNowDesc: 'Ställ klockan från NTP-servrarna nu',
+          save: 'Spara',
+          ntp: {
+            title: 'NTP',
+            description: 'Synkronisera enhetens tid från konfigurerade NTP-servrar'
+          },
+          networkTime: 'Nätverkstid',
+          clock: {
+            title: 'Klocka',
+            description: 'Ange lokal tidszon som används av loggar och gränssnittet',
+            current: 'Aktuell tid',
+            timezone: 'Tidszon'
+          },
+          servers: {
+            title: 'NTP-servrar',
+            description: 'Använd standardservrarna, din lokala router eller egna NTP-servrar',
+            useRouter: 'Använd router',
+            useDefaults: 'Använd standardvärden',
+            routerDetected: 'Upptäckt router',
+            routerNone: 'Hittades inte'
+          }
+        },
+        firewall: {
+          saveFailed: 'Kunde inte tillämpa brandväggsinställningar',
+          saved: 'Brandväggsinställningar tillämpade',
+          cancel: 'Avbryt',
+          refresh: 'Uppdatera',
+          backends: 'Backends',
+          enableHttpsFirst:
+            'Aktivera HTTPS innan du aktiverar brandväggsläget Begränsad eller Paranoid',
+          httpsRequired:
+            'Lägena Begränsad och Paranoid är inaktiverade tills HTTPS har aktiverats under Inställningar > System > Nätverk',
+          mode: {
+            title: 'Brandväggsläge',
+            baseline: 'Bas',
+            baselineDesc:
+              'Öppen kompatibilitetsprofil. Brandväggen körs, men inkommande källor begränsas inte. Använd bara i betrodda nätverk.',
+            moderate: 'Måttlig',
+            moderateDesc:
+              'Standardprofil. Behåller Bas-tjänsterna men tar bara emot nya inkommande anslutningar från privata, link-local- eller loopback-intervall. Utgående åtkomst förblir öppen.',
+            restricted: 'Begränsad',
+            restrictedDesc:
+              'Endast lokal HTTPS och SSH, plus utgående DNS, NTP, syslog och onlineuppdateringar. DHCP och nödvändig IPv6-trafik förblir tillgänglig. WebRTC är blockerat.',
+            paranoid: 'Paranoid',
+            paranoidDesc:
+              'Endast lokal HTTPS-åtkomst. Blockerar SSH, HTTP, onlineuppdateringar och andra utgående nätverksfunktioner. Uppladdning av offlineuppdateringar och redan förberedda installationer är fortfarande tillgängliga.',
+            current: 'Aktuell',
+            default: 'Standard',
+            localOnly: 'Endast lokalt',
+            openTag: 'Inkommande öppen',
+            httpsRequiredTag: 'HTTPS krävs',
+            outboundOpen: 'Utgående öppen',
+            outboundLimited: 'Utgående begränsad',
+            httpsOnly: 'Endast HTTPS'
+          },
+          moderate: {
+            apply: 'Byt till Måttlig'
+          },
+          restricted: {
+            enable: 'Aktivera Begränsad',
+            confirmTitle: 'Aktivera brandväggsläget Begränsad?',
+            confirmDesc:
+              'Inkommande administratörsåtkomst begränsas till private IPv4-, IPv4 link-local/loopback-, IPv6 link-local- eller IPv6 loopback-källor för HTTPS och SSH. Offentliga källintervall tillåts inte. Utgående DNS, NTP, fjärr-syslog, onlineuppdateringar, DHCP, etablerade anslutningar och nödvändig IPv6-kontrolltrafik förblir tillgängliga. WebRTC/ICE UDP och annan in-/utgående trafik blockeras.'
+          },
+          paranoid: {
+            enable: 'Aktivera Paranoid',
+            confirmTitle: 'Aktivera brandväggsläget Paranoid?',
+            confirmDesc:
+              'Endast HTTPS-åtkomst från private IPv4, IPv4 link-local/loopback, IPv6 link-local eller IPv6 loopback är tillgänglig. SSH, HTTP, mDNS, NTP, GitHub-nedladdningar och annan trafik blockeras utom minimal DHCP/IPv6-kontroll.'
+          },
+          baseline: {
+            apply: 'Byt till Bas',
+            confirmTitle: 'Byta till öppet läge Bas?',
+            confirmDesc:
+              'Brandväggstjänsten förblir aktiv, men begränsningen till lokala källintervall tas bort. Offentliga källintervall kan nå exponerade NanoKVM-tjänster om nätverket routar dem.'
+          },
+          rules: {
+            title: 'Aktuella regler',
+            empty: 'Inga regler'
+          }
+        },
+        saveChanges: 'Spara ändringar',
+        unsaved: 'Osparade ändringar'
+      },
+      systemLog: {
+        saveFailed: 'Kunde inte spara logginställningar',
+        saved: 'Logginställningar sparade',
+        invalidHost: 'Ange en syslog-serverhost',
+        logLoadFailed: 'Kunde inte läsa in loggar',
+        save: 'Spara',
+        test: 'Skicka testlogg',
+        testSent: 'Testlogg skickad',
+        testFailed: 'Kunde inte skicka testlogg',
+        remote: {
+          title: 'Fjärrloggning',
+          forward: 'Vidarebefordra systemlogg',
+          description: 'Vidarebefordra systemmeddelanden till en fjärrserver',
+          host: 'Server',
+          hostDesc: 'Värdnamn eller IPv4-adress till syslog-servern',
+          port: 'Port',
+          protocol: 'UDP-port på syslog-servern'
+        },
+        local: {
+          title: 'Systemloggbuffert',
+          description:
+            'Aktuella loggar hålls i RAM på {{path}} för att undvika skrivningar till SD-kortet',
+          priority: 'Minsta prioritet',
+          priorityDesc: 'Lägsta brådskandegrad för att ett meddelande ska loggas',
+          buffer: 'Buffertstorlek',
+          bufferDesc: 'Loggstorlek där filen roteras',
+          rotations: 'Rotationer',
+          rotationsDesc: 'Antal roterade loggfiler som sparas',
+          compact: 'Kompakt utdata',
+          compactDesc: 'Utelämna värdnamn och facility från varje rad',
+          stripTimestamps: 'Ta bort tidsstämplar',
+          stripTimestampsDesc:
+            'Ta bort tidsstämplar som lagts till av avsändaren; syslog lägger till sina egna'
+        },
+        kernel: {
+          title: 'Kärnloggning',
+          enabled: 'Vidarebefordra kärnlogg',
+          enabledDesc: 'Fånga kärnmeddelanden i systemloggen',
+          consoleLevel: 'Konsolnivå',
+          consoleLevelDesc:
+            'Lägsta brådskandegrad för att ett kärnmeddelande ska skrivas ut på konsolen'
+        },
+        viewer: {
+          title: 'Systemlogg',
+          refresh: 'Uppdatera',
+          empty: 'Inga loggposter',
+          truncated: 'Endast de senaste loggdata visas',
+          linesUnit: 'rader'
+        },
+        level: {
+          '1': '1 - Alarm',
+          '2': '2 - Kritisk',
+          '3': '3 - Fel',
+          '4': '4 - Varning',
+          '5': '5 - Notis',
+          '6': '6 - Info',
+          '7': '7 - Debug',
+          '8': '8 - Alla'
+        }
+      },
+      wireguard: {
+        title: 'WireGuard',
+        tunnel: 'Krypterad tunnel',
+        device: 'Den här enheten',
+        description: 'Nå den här KVM:en genom en WireGuard-tunnel',
+        unavailable: 'WireGuard är inte installerat på den här enheten',
+        blocked: 'Brandväggsläget Paranoid blockerar WireGuard',
+        needsKey: 'Ange en privat nyckel innan du slår på WireGuard',
+        saved: 'WireGuard-inställningarna sparades',
+        save: 'Spara ändringar',
+        unsaved: 'Osparade ändringar',
+        invalid: 'Kontrollera de markerade fälten',
+        invalidAddress: 'Ange en adress med mask, till exempel 10.0.0.1/24',
+        invalidKey: 'Ange en WireGuard-nyckel på 44 tecken',
+        invalidEndpoint: 'Ange ett värdnamn eller en IP-adress',
+        invalidPort: 'Ange en port från 1 till 65535',
+        invalidRanges: 'Använd IPv4-intervall som 10.0.0.0/24, inte 0.0.0.0/0',
+        status: {
+          connected: 'Ansluten',
+          waiting: 'Väntar på peer',
+          stopped: 'Stoppad',
+          handshake: 'Senaste handshake {{time}}'
+        },
+        privateKey: {
+          title: 'Privat nyckel',
+          description: 'Stannar på den här enheten och visas aldrig igen',
+          set: 'Angiven',
+          notSet: 'Inte angiven',
+          setBtn: 'Ange',
+          generate: 'Generera',
+          remove: 'Ta bort',
+          modalTitle: 'Ange den privata nyckeln',
+          modalDescription: 'Nyckeln sparas på den här enheten och visas aldrig igen',
+          placeholder: 'Klistra in den privata nyckeln',
+          generateConfirmTitle: 'Generera en ny privat nyckel?',
+          generateConfirmDesc:
+            'Den nuvarande nyckeln slutar fungera. Lägg sedan till den nya publika nyckeln hos peeren.',
+          removeConfirmTitle: 'Ta bort den privata nyckeln?',
+          removeConfirmDesc: 'WireGuard stängs av och förblir av tills en ny nyckel har angetts.'
+        },
+        publicKey: {
+          title: 'Publik nyckel',
+          description: 'Lägg till den i peerens konfiguration'
+        },
+        address: {
+          title: 'Adress',
+          description: 'KVM-adress i tunneln och dess mask'
+        },
+        peer: {
+          title: 'Peer',
+          publicKey: 'Publik nyckel',
+          publicKeyDescription: 'Publik nyckel för peeren du ansluter till',
+          server: 'Server',
+          serverDescription: 'Peerens värdnamn eller IP-adress',
+          port: 'Port',
+          portDescription: 'Peerens UDP-port, vanligtvis 51820',
+          allowedIps: 'Tillåtna IP-adresser',
+          allowedIpsDescription:
+            'Peerens adress eller intervall i tunneln, till exempel 10.0.0.0/24',
+          keepalive: 'Keepalive',
+          keepaliveDescription: 'Sekunder mellan keepalive-paket, behövs bakom en router'
         }
       },
       tailscale: {
         title: 'Tailscale',
+        enableDesc: 'Nå den här KVM:en genom ditt Tailscale-nätverk',
+        service: 'Tjänst',
+        performance: 'Prestanda',
         memory: {
           title: 'Minnesoptimering',
-          tip: 'När minnesanvändningen överskrider gränsen utförs aggressivare skräpsamling för att frigöra minne. Rekommenderas att sättas till 75 MB om du använder Tailscale. Omstart krävs för att det ska gälla.'
+          tip: 'Håller Tailscales minnesanvändning låg, vilket hjälper på en enhet med lite RAM. Starta om Tailscale för att ändringen ska gälla.'
         },
         swap: {
-          title: 'Byt minne',
-          tip: 'Om problemen kvarstår efter att du har aktiverat minnesoptimering, försök att aktivera utbyte av minne. Detta ställer in växlingsfilens storlek till 256MB som standard, vilket kan justeras i "Inställningar > Enhet".'
+          title: 'Swap-fil',
+          tip: 'Om problemen kvarstår efter att du har aktiverat minnesoptimering, försök att aktivera swap-filen',
+          sizeTip: 'Detta ställer in filstorleken till 256MB; justera den i Inställningar > Enhet'
         },
+        restartTitle: 'Starta om Tailscale',
+        restartDesc: 'Startar om tjänsten',
+        restartBtn: 'Starta om',
         restart: 'Starta om Tailscale?',
+        stopTitle: 'Stoppa Tailscale',
+        stopBtn: 'Stoppa',
         stop: 'Stoppa Tailscale?',
+        stopDesc: 'Stoppar tjänsten och hindrar den från att starta vid uppstart',
         loading: 'Laddar...',
+        notInstall: 'Tailscale hittades inte, installera först',
         install: 'Installera',
         installing: 'Installerar',
         failed: 'Installationen misslyckades',
+        retry: 'Uppdatera sidan och försök igen, eller installera manuellt.',
         download: 'Ladda ner',
         package: 'installationspaketet',
         unzip: 'och packa upp det',
@@ -410,15 +828,88 @@ const se = {
         cancelBtn: 'Nej'
       },
       update: {
-        title: 'Sök efter uppdateringar',
+        title: 'Systemuppdateringar',
+        sources: 'Uppdateringskällor',
+        latestVersion: 'Senaste version',
         queryFailed: 'Kunde inte hämta version',
         updateFailed: 'Uppdatering misslyckades. Försök igen.',
+        paranoidBlocked: 'Onlineuppdateringar blockeras av brandväggsläget Paranoid',
+        paranoidBlockedDesc:
+          'GitHub-kontroller och nedladdningar kräver utgående nätverksåtkomst. Offlineuppladdning och redan förberedda installationer är fortsatt tillgängliga.',
         isLatest: 'Du har redan den senaste versionen.',
         available: 'En uppdatering finns tillgänglig. Vill du uppdatera nu?',
         updating: 'Uppdatering påbörjad. Vänta...',
         confirm: 'Bekräfta',
         cancel: 'Avbryt',
         preview: 'Förhandsvisning av uppdateringar',
+        previewChannels: 'Styr både förhandsgranskningskanalerna för programmet och systemet',
+        previewTip:
+          'Observera att förhandsversioner kan innehålla buggar eller ofullständig funktionalitet',
+        application: {
+          title: 'Program'
+        },
+        system: {
+          queryFailed: 'Kunde inte hämta systemversion',
+          appUpdateRequired:
+            'Uppdatera programmet till {{version}} innan du installerar den här systemuppdateringen',
+          requiredAppVersion: 'Programversion som krävs',
+          downloadFailed: 'Nedladdning eller verifiering misslyckades',
+          rawEnable: 'Tillåt raw systemuppdateringar',
+          rawEnableDesc:
+            'Tillåt att verifierade raw boot/rootfs-images skrivs till SD-kortet från denna skärm',
+          rawEnableConfirmTitle: 'Tillåt raw systemuppdateringar?',
+          rawEnableConfirmDesc:
+            'Raw systemuppdateringar kan ersätta boot- och rootfs-partitioner. Använd endast med fysisk återställningsåtkomst.',
+          rawInstallDisabled:
+            'Denna förberedda uppdatering skriver raw SD-kortpartitioner. Aktivera raw systemuppdateringar före installation.',
+          isLatest: 'Bassystemet är uppdaterat.',
+          available: 'En uppdatering av bassystemet är tillgänglig.',
+          downloading: 'Laddar ned och verifierar systemuppdatering...',
+          downloadVerify: 'Ladda ned och verifiera',
+          installing: 'Installerar förberedd systemuppdatering...',
+          install: 'Installera',
+          installFailed: 'Installation misslyckades',
+          installConfirmTitle: 'Installera systemuppdatering?',
+          installConfirmDesc:
+            'Detta ersätter bassystemfiler från det verifierade paketet. Omstart krävs.',
+          rawInstallConfirmDesc:
+            'Detta verifierade paket skriver raw boot/rootfs-images till SD-kortets partitioner och startar om automatiskt. Skrivning kan ta flera minuter; håll strömmen ansluten.',
+          rawInstallWarning:
+            'Det finns ingen automatisk rollback för raw partitionsuppdateringar. Om boot misslyckas, återställ SD-kortet manuellt.',
+          rebootRequired: 'Omstart krävs för att aktivera detta systemtillstånd.',
+          confirming: 'Bekräftar boot av systemuppdatering...',
+          confirmBoot: 'Bekräfta boot',
+          confirmFailed: 'Bootbekräftelse misslyckades',
+          confirmed: 'Boot bekräftad',
+          bootGood: 'Den väntande systemuppdateringen markerades som boot-good.',
+          rollingBack: 'Rullar tillbaka systemuppdatering...',
+          rollback: 'Rollback',
+          rollbackDone: 'Rollback förberedd',
+          rollbackFailed: 'Rollback misslyckades',
+          rollbackConfirmTitle: 'Rollback systemuppdatering?',
+          rollbackConfirmDesc:
+            'Detta återställer filer från den senaste systemuppdateringskopian. Omstart krävs.',
+          stagedDesc:
+            'Systemuppdateringen har laddats ned och verifierats, du kan installera den nu',
+          refresh: 'Uppdatera',
+          releaseNotes: 'Versionsnoteringar',
+          systemVersion: 'Systemversion',
+          baseImage: 'Basimage',
+          buildrootRelease: 'Buildroot-utgåva',
+          kernel: 'Kernel',
+          stagedVersion: 'Förberedd version',
+          archive: 'Arkiv',
+          requiredFree: 'Krävt ledigt utrymme',
+          fileCount: 'Filer',
+          rawImages: 'Raw images',
+          progress: 'Förlopp',
+          progressMessage: 'Förloppsmeddelande',
+          pendingVersion: 'Väntande version',
+          bootHealth: 'Bootstatus',
+          healthy: 'Frisk',
+          unhealthy: 'Kräver uppmärksamhet',
+          rollbackBackup: 'Rollback-säkerhetskopia'
+        },
         offline: {
           title: 'Offlineuppdateringar',
           desc: 'Uppdatera genom lokalt installationspaket',
@@ -429,23 +920,76 @@ const se = {
       },
       account: {
         title: 'Konto',
-        webAccount: 'Webbkonto-namn',
+        webAccount: 'Webbkontonamn',
         password: 'Lösenord',
+        passwordDesc: 'Ändra lösenordet som används för att logga in i webbgränssnittet',
         updateBtn: 'Byt',
         logoutBtn: 'Logga ut',
         logoutDesc: 'Är du säker på att du vill logga ut?',
         okBtn: 'Ja',
-        cancelBtn: 'Nej'
+        cancelBtn: 'Nej',
+        totp: {
+          title: 'Tvåfaktorsautentisering',
+          authenticator: 'Autentiseringsapp',
+          description: 'Kräv en tidsbaserad kod från en autentiseringsapp utöver lösenordet',
+          required: 'Krävs av policy',
+          disable: 'Inaktivera',
+          enableTitle: 'Konfigurera tvåfaktorsautentisering',
+          enableDescription:
+            'Bekräfta ditt lösenord för att fortsätta. Det krävs vid varje ändring av den andra faktorn.',
+          continue: 'Fortsätt',
+          disableTitle: 'Inaktivera tvåfaktorsautentisering?',
+          disableDescription:
+            'Ditt konto skyddas då bara av lösenordet. Bekräfta med ditt lösenord för att fortsätta.',
+          disableFailed: 'Det gick inte att inaktivera tvåfaktorsautentisering',
+          passwordPlaceholder: 'Nuvarande lösenord',
+          enrollFailed: 'Det gick inte att starta konfigurationen',
+          invalidCode: 'Koden stämmer inte. Försök med nästa.',
+          scan: 'Skanna detta med din autentiseringsapp.',
+          manualEntry: 'Eller ange den här nyckeln manuellt:',
+          codePlaceholder: 'Ange den sexsiffriga koden för att bekräfta',
+          confirm: 'Bekräfta',
+          cancel: 'Avbryt',
+          backupTitle: 'Spara dina reservkoder nu',
+          backupDescription:
+            'Varje kod fungerar bara en gång och visas inte igen. De är den enda vägen in om du förlorar din autentiseringsapp, och de fungerar även när enhetens klocka inte är synkroniserad.',
+          copy: 'Kopiera',
+          copied: 'Reservkoder kopierade',
+          savedThem: 'Jag har sparat dem',
+          remaining: '{{remaining}} reservkoder kvar',
+          clockUnsynced:
+            'Enhetens klocka är inte synkroniserad än. Synkronisera tiden i Inställningar > System > Tid innan du konfigurerar.',
+          noBackupCodes:
+            'Det finns inga reservkoder kvar. Välj Skapa för att utfärda en ny uppsättning.',
+          regenerate: 'Nya reservkoder',
+          generate: 'Skapa',
+          regenerateTitle: 'Utfärda nya reservkoder?',
+          regenerateDescription:
+            'Dina nuvarande reservkoder slutar fungera. Bekräfta med ditt lösenord för att fortsätta.',
+          regenerateFailed: 'Det gick inte att utfärda nya reservkoder',
+          download: 'Ladda ned',
+          copyFailed: 'Det gick inte att kopiera. Markera koderna och kopiera dem manuellt.',
+          requireTitle: 'Kräv tvåfaktorsautentisering',
+          requireDescription:
+            'Förhindrar att tvåfaktorsautentisering inaktiveras, och ett konto utan den måste konfigurera den innan enheten kan användas',
+          requireFailed: 'Det gick inte att ändra kravet',
+          requiredTitle: 'Tvåfaktorsautentisering krävs',
+          requiredDescription:
+            'Den här enheten är inställd på att kräva en andra faktor, men ditt konto har inte konfigurerat någon än. Konfigurera den nu för att fortsätta.'
+        }
       }
     },
     picoclaw: {
       title: 'PicoClaw Assistent',
+      empty: 'Öppna panelen och starta en uppgift för att börja',
       inputPlaceholder: 'Beskriv vad du vill att PicoClaw ska göra',
       newConversation: 'Ny konversation',
       processing: 'Bearbetar...',
       agent: {
         defaultTitle: 'Allmän assistent',
+        defaultDescription: 'Allmän hjälp för chatt, sökning och arbetsyta',
         kvmTitle: 'Fjärrstyrning',
+        kvmDescription: 'Manövrera fjärrvärden genom NanoKVM',
         switched: 'Agentroll bytte',
         switchFailed: 'Det gick inte att byta agentroll'
       },
@@ -492,6 +1036,8 @@ const se = {
         success: 'PicoClaw har installerats framgångsrikt',
         failed: 'Det gick inte att installera PicoClaw',
         uninstalling: 'Avinstallerar runtime...',
+        uninstalled: 'Runtime avinstallerades framgångsrikt',
+        uninstallFailed: 'Avinstallationen misslyckades',
         requiredTitle: 'PicoClaw är inte installerad',
         requiredDescription: 'Installera PicoClaw innan du startar PicoClaw runtime.',
         progressDescription: 'PicoClaw laddas ner och installeras.',
