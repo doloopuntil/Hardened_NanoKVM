@@ -10,7 +10,7 @@ The corresponding native sources are under `support/sg2002/additional/kvm`,
 `kvm_mmf`, `vision`, and `peripheral`. The Rust FFI mutex serializes calls made
 by Rust, but native capture/detection threads still have their own lifecycle.
 Known native lifecycle, VENC, bounds, and hardware-error findings are tracked in
-[`docs/native-code-audit.md`](../../docs/native-code-audit.md).
+[`docs/native-code-audit.md`](../../docs/archive/native-code-audit.md).
 
 The Rust server is the only supported backend for these runtime assets.
 
@@ -217,7 +217,7 @@ in it is character-for-character identical except one -- the compiler's
 `__FILE__`-embedded absolute source path. raw.12's copy has
 `/home/w0w/Hardened_NanoKVM/build/vendor/...`; `w0w` is the maintainer's
 own local username, matching the hardcoded path already found in
-`docs/build-notes.md` (`NanoKVM_PATH=/home/w0w/...`) and the old default
+the old `docs/build-notes.md` (`NanoKVM_PATH=/home/w0w/...`, since removed) and the old default
 toolchain path in `scripts/prepare-kernel-5.10.265-vendor-runtime.sh` --
 raw.12 was built on the maintainer's own machine, not any CI. This
 pipeline's build has `/home/runner/work/Hardened_NanoKVM/...` instead, the

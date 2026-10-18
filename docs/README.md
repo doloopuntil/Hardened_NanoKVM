@@ -1,49 +1,76 @@
-# Hardened NanoKVM Documentation
+# Hardened NanoKVM documentation
 
-The current published release is app `2.0.42 RC12` with Preview system
-`0.3.0-raw.12`, Buildroot `2026.05.1`, and Linux `5.10.265-tag-`.
-The stable system channel remains `0.2.23-raw.1`.
+Current for **system 0.4.0 / application 2.1.0**. Every current page starts with
+a small header: `status`, the release it `applies-to`, and when it was
+`last-checked`. Pages in `archive/` are historical records and are not
+maintained.
 
-RC12 release source is maintained on
-[`security/kernel-5.10.265`](https://github.com/woffko/Hardened_NanoKVM/tree/security/kernel-5.10.265).
-The default branch carries the public documentation index but is not the RC12
-source baseline.
+## Guides
 
-## Install And Recovery
+For people running the device.
 
-- [RC12 combined release notes](releases/rc12-2.0.42-raw.12.md)
-- [Manual app 2.0.42 key-transition notes](releases/2.0.42-key-transition.md)
-- [SD-card flashing guide](sd-card-flashing.md)
-- [System-update channels and bundle format](system-update-github-releases.md)
-- [Visible release and channel archive](release-archive.md)
+- [Install: flash an SD card](guide/install.md), including the first boot
+- [Updates](guide/updates.md): application and system updates (channels for 0.4.0 pending)
+- [Sign-in and two-factor](guide/sign-in.md)
+- [Firewall modes](guide/firewall.md)
+- [WireGuard](guide/wireguard.md)
+- [Tailscale](guide/tailscale.md)
+- [Virtual media](guide/virtual-media.md): mounting images, the virtual disk, uploads and downloads
+- [USB devices, keyboard and mouse](guide/usb-and-input.md), including HID-only mode
+- [Power control and hardware](guide/power-and-hardware.md)
+- [PicoClaw assistant](guide/picoclaw.md)
 
-Existing installations must install the manual app `2.0.42` bridge through
-authenticated Offline Update before enabling Preview and installing raw.12.
-A freshly written RC12 SD image already contains app `2.0.42` and the
-production trust set.
+## Reference
 
-## Security And Acceptance
-
-- [Production-key transition engineering record](key-transition-2026q3.md)
-- [RC12 physical gates and evidence hashes](rc12-final-physical-gates.md)
-- [Native C/C++ audit](native-code-audit.md)
-- [Current security-risk inventory](security-risk-inventory.md)
-
-The RC12 full image passed initial partition expansion, authenticated
-browser/runtime checks, two post-expansion reboots, a pristine raw.10 recovery
-boot, and final return to the accepted RC12 card. Retained vendor components
-with `NOASSERTION` licensing metadata remain an explicitly documented
-limitation rather than a resolved claim.
-
-Detailed Buildroot and SG2002 kernel-port records live with the release source
-on the
-[`security/kernel-5.10.265` documentation tree](https://github.com/woffko/Hardened_NanoKVM/tree/security/kernel-5.10.265/docs).
+- [Backend API](reference/api.md): every route and WebSocket
+- [Server configuration](reference/config.md): `/etc/kvm/server.yaml`
+- [Files on the device](reference/device-files.md)
+- [Init scripts](reference/init-scripts.md)
+- [Security model](reference/security-model.md): controls and open items
+- [System-update bundles and channels](reference/system-update-bundles.md)
 
 ## Development
 
-- [Developer handoff](handoff.md)
-- [Rust backend status and build path](rust-backend.md)
-- [Web UI layout rules for the Settings pages](web-ui-layout-rules.md)
-- [Build and deployment notes](build-notes.md)
-- [System-update implementation plan](system-update-plan.md)
-- [Vendor SDK build path](vendor-sdk-build.md)
+- [Rust backend](development/backend.md): what is implemented, two-factor design
+- [Build and deploy the server](development/cross-build.md), including a Docker cross-build
+- [Web UI](development/web.md)
+- [Web UI layout rules](development/web-ui-layout-rules.md), including the copy rules
+- [CI image build](development/ci-image-build.md): rebuilding the SD image from source
+- [Testing](development/testing.md)
+- [Native runtime libraries](../server-rust/native/README.md): provenance of every native file
+- [AGENTS.md](../AGENTS.md): commands and rules for coding agents
+
+## Releases
+
+- [Changelog](../CHANGELOG.md)
+- [System 0.4.0 / application 2.1.0](releases/0.4.0.md) (unreleased)
+- [RC12: application 2.0.42 / system 0.3.0-raw.12](releases/rc12-2.0.42-raw.12.md)
+  and its [key transition](releases/2.0.42-key-transition.md)
+- [RC11: application 2.0.40 / system 0.3.0-raw.10](releases/rc11-2.0.40-raw.10.md)
+
+## Archive
+
+Engineering records from the RC9 to RC12 work in woffko/Hardened_NanoKVM, kept
+for provenance:
+
+- Kernel 5.10.265 port: [plan](archive/vendor-kernel-5.10-security-plan.md),
+  [recovery candidate](archive/kernel-5.10.265-recovery-candidate.md), hardening
+  batches ([dmesg](archive/kernel-5.10.265-phase3-dmesg-restrict.md),
+  [user namespaces](archive/kernel-5.10.265-phase3-userns-disable.md),
+  [SLUB freelist](archive/kernel-5.10.265-phase3-slab-freelist.md),
+  [init-on-alloc](archive/kernel-5.10.265-phase3-init-on-alloc.md))
+- Buildroot port: [2026.05 port log](archive/latest-buildroot-port.md),
+  [raw.11 security maintenance](archive/security-maintenance-raw11.md),
+  [newer-Buildroot study](archive/new-buildroot-sysupgrade-study.md),
+  [2023.11 backport plan](archive/buildroot-2023-security-backport-plan.md),
+  [vendor SDK build](archive/vendor-sdk-build.md)
+- Updates and releases: [update plan](archive/system-update-plan.md),
+  [update safety notes](archive/system-update-live-inventory.md),
+  [key transition](archive/key-transition-2026q3.md),
+  [release channel archive](archive/release-archive.md)
+- Acceptance: [raw.9 checklist](archive/raw9-physical-acceptance-checklist.md),
+  [RC12 physical gates](archive/rc12-final-physical-gates.md)
+- Native code: [C/C++ audit and remediation](archive/native-code-audit.md),
+  [kvm_system migration plan](archive/kvm-system-rust-migration-plan.md)
+- Working notes: [developer handoff](archive/handoff.md),
+  [sysupgrade build trace](archive/current-sysupgrade-build-trace.md)

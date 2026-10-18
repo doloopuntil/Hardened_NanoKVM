@@ -1,5 +1,62 @@
 # Changelog
 
+Release notes with full detail are in [docs/releases/](docs/releases/).
+
+## Hardened NanoKVM system 0.4.0 / application 2.1.0 (unreleased)
+
+Built on RC12; the image is rebuilt from source in CI. Not yet published.
+
+### Added
+
+- WireGuard tunnel to one peer, with firewall rules for the tunnel.
+- TOTP two-factor sign-in with backup codes and a require policy.
+- HID-only mode switch, keyboard lock LEDs, HDMI signal state and capture idle
+  timeout.
+- Read-only image mounts, one writer for `/data`, SHA-256 checks, download
+  progress and cancel.
+- Fixed DNS servers on DHCP, fully qualified host names, Power menu hidden on a
+  Lite.
+- PicoClaw 0.3.1 with a redesigned sidebar, model settings and history.
+- `nano`, `picocom`, `wireguard-tools`; BusyBox `tar` with gzip.
+
+### Changed
+
+- The SD image, kernel, modules and native video libraries are built from source
+  in CI.
+- Settings pages, menu bar dialogs and translations follow one set of layout and
+  copy rules.
+- MAC addresses and the USB serial number are derived from the chip ID.
+- Several sipeed/NanoKVM improvements ported (zero-copy H.264, shared H.264
+  capture, Direct flow control, WebRTC retry).
+
+### Security
+
+- Changing the password needs the current one; idle-based session lock.
+- Restricted mode lets out only the tunnel's packets to the WireGuard peer.
+- A stored PicoClaw key is not reused for another API server.
+
+See [docs/releases/0.4.0.md](docs/releases/0.4.0.md).
+
+## Hardened NanoKVM 2.0.42 RC12 / system 0.3.0-raw.12 (2026-08-28)
+
+Combined application, raw system update and SD image: Buildroot 2026.05.1 with
+the SG2002 port of Linux 5.10.265 and kernel hardening (dmesg restriction, user
+namespaces off, SLUB freelist randomisation, init-on-allocation), plus the
+production update-key transition. See
+[docs/releases/rc12-2.0.42-raw.12.md](docs/releases/rc12-2.0.42-raw.12.md) and
+[docs/releases/2.0.42-key-transition.md](docs/releases/2.0.42-key-transition.md).
+
+## Hardened NanoKVM 2.0.40 RC11 / system 0.3.0-raw.10 (2026-08-21)
+
+First Buildroot 2026.05.1 userspace, still on vendor kernel 5.10.4. See
+[docs/releases/rc11-2.0.40-raw.10.md](docs/releases/rc11-2.0.40-raw.10.md).
+
+## Hardened NanoKVM 2.0.34 RC10 (2026-07-11)
+
+Application-only update for the RC9 system. Fixes the 26 findings of the native
+C/C++ audit and packages rebuilt `libkvm`, `libkvm_mmf` and `kvm_system`. See
+[docs/archive/native-code-audit.md](docs/archive/native-code-audit.md).
+
 ## Hardened NanoKVM 2.0.33 RC9.1 (2026-07-11)
 
 Application-only update for the RC9 raw/system baseline. Raw system-update
