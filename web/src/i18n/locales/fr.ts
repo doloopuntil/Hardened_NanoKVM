@@ -41,7 +41,7 @@ const fr = {
       loginButtonText: 'Connexion',
       setupTitle: 'Créer un compte administrateur',
       setupDescription:
-        'Aucun compte web n’existe encore sur cet appareil. Créez le premier compte administrateur pour continuer.',
+        "Aucun compte web n'existe encore sur cet appareil. Créez le premier compte administrateur pour continuer.",
       setupRecovery:
         'Si ce mot de passe est perdu, la récupération nécessite de réécrire la carte SD',
       setupButtonText: 'Créer le compte',
@@ -57,16 +57,16 @@ const fr = {
       wrongCurrentPassword: 'Le mot de passe actuel est incorrect',
       totp: {
         title: 'Authentification à deux facteurs',
-        prompt: 'Saisissez le code à 6 chiffres de votre application d’authentification',
-        backupPrompt: 'Saisissez l’un de vos codes de secours',
+        prompt: "Saisissez le code à 6 chiffres de votre application d'authentification",
+        backupPrompt: "Saisissez l'un de vos codes de secours",
         noEmptyCode: 'Saisissez un code',
         placeholderCode: 'Code à 6 chiffres',
         placeholderBackup: 'Code de secours',
         verifyButtonText: 'Vérifier',
         useBackupCode: 'Utiliser un code de secours',
-        useAuthenticator: 'Utiliser le code de l’application d’authentification',
+        useAuthenticator: "Utiliser le code de l'application d'authentification",
         cancel: 'Retour',
-        invalidCode: 'Ce code n’est pas valide. Réessayez.'
+        invalidCode: "Ce code n'est pas valide. Réessayez."
       }
     },
     wifi: {
@@ -117,14 +117,14 @@ const fr = {
         description: 'Vérifiez la connexion réseau ou changez de mode vidéo'
       },
       captureStatus: {
-        hdmiError: 'Erreur d’image HDMI',
-        unsupportedResolution: 'La résolution actuelle n’est pas prise en charge',
-        retrieving: 'Récupération de l’image...',
+        hdmiError: "Erreur d'image HDMI",
+        unsupportedResolution: "La résolution actuelle n'est pas prise en charge",
+        retrieving: "Récupération de l'image...",
         changingResolution: 'Changement de résolution...',
-        updateFailed: 'L’image ne peut pas être mise à jour pour le moment',
-        videoError: 'Erreur d’affichage vidéo',
+        updateFailed: "L'image ne peut pas être mise à jour pour le moment",
+        videoError: "Erreur d'affichage vidéo",
         noHdmi: 'Aucun signal HDMI détecté',
-        unavailable: 'L’image ne peut pas être affichée pour le moment'
+        unavailable: "L'image ne peut pas être affichée pour le moment"
       }
     },
     keyboard: {
@@ -133,7 +133,7 @@ const fr = {
       tips: 'Seuls les caractères et symboles standard du clavier sont pris en charge',
       placeholder: 'Texte à coller',
       local: 'Clavier mobile',
-      virtual: 'Clavier à l’écran',
+      virtual: "Clavier à l'écran",
       readClipboard: 'Lire le presse-papiers',
       clipboardPermissionDenied:
         "Accès au presse-papiers refusé, autorisez l'accès dans votre navigateur",
@@ -152,7 +152,7 @@ const fr = {
         clear: 'Effacer',
         save: 'Enregistrer',
         captureTips:
-          'La capture de touches système, comme la touche Windows, nécessite l’autorisation du plein écran',
+          "La capture de touches système, comme la touche Windows, nécessite l'autorisation du plein écran",
         enterFullScreen: 'Basculer en mode plein écran'
       },
       leaderKey: {
@@ -167,11 +167,11 @@ const fr = {
         sequential: {
           title: 'Mode séquentiel',
           desc1:
-            'Appuyez sur la touche Leader → appuyez sur le raccourci dans l’ordre → appuyez à nouveau sur la touche Leader.',
+            "Appuyez sur la touche Leader → appuyez sur le raccourci dans l'ordre → appuyez à nouveau sur la touche Leader.",
           desc2: "Nécessite plus d'étapes, mais évite complètement les conflits système."
         },
         enable: 'Activer la touche Leader',
-        tip: 'Lorsqu’elle est définie comme touche Leader, cette touche sert uniquement de déclencheur de raccourci et perd son comportement par défaut.',
+        tip: "Lorsqu'elle est définie comme touche Leader, cette touche sert uniquement de déclencheur de raccourci et perd son comportement par défaut.",
         placeholder: 'Appuyez sur la touche Leader',
         shiftRight: 'Shift droit',
         ctrlRight: 'Ctrl droit',
@@ -200,22 +200,22 @@ const fr = {
       speed: 'Vitesse de la molette',
       sensitivity: 'Vitesse du pointeur',
       sensitivityDesc:
-        'Pour le mode relatif sur bureau : les valeurs plus basses réduisent la dérive due à l’accélération souris de l’hôte',
+        "Pour le mode relatif sur bureau : les valeurs plus basses réduisent la dérive due à l'accélération souris de l'hôte",
       fast: 'Rapide',
       slow: 'Lent',
       mobile: {
         touchSync: 'TouchSync',
         touchSyncDesc:
-          'Déplacez-vous n’importe où dans la zone KVM ; le curseur distant garde sa position entre les touchers et reste synchronisé avec le HID absolu'
+          "Déplacez-vous n'importe où dans la zone KVM ; le curseur distant garde sa position entre les touchers et reste synchronisé avec le HID absolu"
       },
       requestPointer:
         'Mode relatif actif, cliquez sur le bureau pour capturer le pointeur de la souris',
       resetHid: 'Réinitialiser le périphérique HID',
       hidOnly: {
         title: 'Mode HID-Only',
-        desc: 'Si la souris ou le clavier ne répondent plus et que la réinitialisation du HID n’y change rien, il peut s’agir d’un problème de compatibilité entre le NanoKVM et l’hôte.',
-        tip1: 'L’activation du mode HID-Only démonte le disque virtuel et le réseau virtuel',
-        tip2: 'En mode HID-Only, le montage d’images est désactivé',
+        desc: "Si la souris ou le clavier ne répondent plus et que la réinitialisation du HID n'y change rien, il peut s'agir d'un problème de compatibilité entre le NanoKVM et l'hôte.",
+        tip1: "L'activation du mode HID-Only démonte le disque virtuel et le réseau virtuel",
+        tip2: "En mode HID-Only, le montage d'images est désactivé",
         tip3: 'NanoKVM redémarrera automatiquement après avoir changé de mode',
         enable: 'Activer le mode HID-Only',
         disable: 'Désactiver le mode HID-Only'
@@ -241,7 +241,7 @@ const fr = {
         "L'hôte a verrouillé le lecteur optique. Forcer l'éjection déconnecte brièvement le périphérique USB virtuel, de sorte que le clavier et la souris peuvent se déconnecter momentanément. Continuer?",
       usbReconnect: 'Reconnecter USB',
       usbReconnectConfirm:
-        'Reconnectez le gadget USB seulement si l’hôte distant n’a pas détecté le changement de média. Le clavier et la souris peuvent se déconnecter brièvement.',
+        "Reconnectez le gadget USB seulement si l'hôte distant n'a pas détecté le changement de média. Le clavier et la souris peuvent se déconnecter brièvement.",
       usbReconnectSuccess: 'USB reconnecté',
       usbReconnectFailed: 'Échec de la reconnexion USB',
       mountTitle: "Monter l'image",
@@ -281,7 +281,7 @@ const fr = {
       unlockDesc: 'Saisissez le mot de passe du compte web pour démarrer une session terminal',
       unlock: 'Déverrouiller',
       unlockFailed: 'Échec du déverrouillage du terminal',
-      invalidCredentials: 'Nom d’utilisateur ou mot de passe invalide',
+      invalidCredentials: "Nom d'utilisateur ou mot de passe invalide",
       locked: 'Trop de tentatives, réessayez plus tard',
       sessionClosed: 'Session terminal fermée. Déverrouillez à nouveau pour vous reconnecter.',
       sessionError: 'Échec de la connexion au terminal. Déverrouillez à nouveau pour réessayer.',
@@ -309,7 +309,7 @@ const fr = {
     },
     download: {
       title: 'Télécharger des images',
-      input: 'URL de l’image distante',
+      input: "URL de l'image distante",
       ok: 'OK',
       disabled:
         "Les images ne peuvent pas être téléchargées ni téléversées pour le moment, car le stockage n'est pas accessible en écriture. Si une image est montée, démontez-la, puis désactivez le disque virtuel pour que le stockage redevienne accessible en écriture.",
@@ -383,7 +383,7 @@ const fr = {
           modeAlways: 'Toujours visible',
           keyboardLedStatus: 'Indicateurs de verrouillage du clavier',
           keyboardLedStatusDesc:
-            'Afficher l’état de Verr Num, Verr Maj et Arrêt défil du poste distant',
+            "Afficher l'état de Verr Num, Verr Maj et Arrêt défil du poste distant",
           icons: 'Icônes du sous-menu',
           iconsDesc: 'Afficher les icônes des sous-menus dans la barre de menus',
           terminalWarningTitle: 'Activer le terminal web?',
@@ -394,7 +394,7 @@ const fr = {
           remoteDownload: 'Télécharger une ISO distante',
           remoteDownloadWarningTitle: 'Activer le téléchargement ISO distant?',
           remoteDownloadWarningDesc:
-            'NanoKVM téléchargera une ISO depuis une URL et l’écrira dans /data. Activez seulement pour des URL de confiance et désactivez ensuite.',
+            "NanoKVM téléchargera une ISO depuis une URL et l'écrira dans /data. Activez seulement pour des URL de confiance et désactivez ensuite.",
           remoteDownloadWarningConfirm: 'Activer',
           remoteDownloadWarningCancel: 'Annuler'
         }
@@ -451,7 +451,7 @@ const fr = {
         },
         mdns: {
           description: 'Activer le service de découverte mDNS',
-          tip: 'Permet d’accéder à cet appareil par son nom .local. Inutile si vous vous connectez par adresse IP ou si votre DNS résout déjà son nom d’hôte.'
+          tip: "Permet d'accéder à cet appareil par son nom .local. Inutile si vous vous connectez par adresse IP ou si votre DNS résout déjà son nom d'hôte."
         },
         hdmi: {
           description: 'Activer HDMI/sortie moniteur',
@@ -461,9 +461,9 @@ const fr = {
         },
         hidOnly: 'Mode HID-Only',
         hidOnlyDesc:
-          'Améliore la compatibilité avec l’hôte si la souris ou le clavier ne répondent plus',
+          "Améliore la compatibilité avec l'hôte si la souris ou le clavier ne répondent plus",
         hidOnlyTip:
-          'Le mode HID-Only cesse d’émuler les périphériques virtuels et ne conserve que le contrôle HID de base',
+          "Le mode HID-Only cesse d'émuler les périphériques virtuels et ne conserve que le contrôle HID de base",
         disk: 'Disque virtuel',
         diskDesc: "Monter la carte SD sur l'hôte distant",
         diskLocked: "Désactivé tant qu'une image est montée, et l'activer annule le montage",
@@ -477,8 +477,8 @@ const fr = {
         network: 'Réseau virtuel',
         networkDesc: "Monter la carte réseau virtuelle sur l'hôte distant",
         usbWakeup: 'Réveil USB',
-        usbWakeupDesc: 'Autorise le clavier ou la souris à réveiller l’hôte distant',
-        usbWakeupTip: 'Désactivez si l’hôte journalise des messages USB wakeup répétés',
+        usbWakeupDesc: "Autorise le clavier ou la souris à réveiller l'hôte distant",
+        usbWakeupTip: "Désactivez si l'hôte journalise des messages USB wakeup répétés",
         reboot: 'Redémarrer',
         rebootDesc: 'Êtes-vous sûr de vouloir redémarrer NanoKVM?'
       },
@@ -564,24 +564,24 @@ const fr = {
           systemLog: 'Journalisation'
         },
         time: {
-          saveFailed: 'Échec de l’enregistrement des paramètres d’heure',
-          saved: 'Paramètres d’heure enregistrés',
-          syncFailed: 'Échec de la synchronisation de l’heure',
+          saveFailed: "Échec de l'enregistrement des paramètres d'heure",
+          saved: "Paramètres d'heure enregistrés",
+          syncFailed: "Échec de la synchronisation de l'heure",
           synced: 'Heure synchronisée',
           invalidServers: 'Saisissez au moins un serveur NTP',
           maxServers: '{{count}} serveurs NTP maximum autorisés',
           refresh: 'Actualiser',
           syncNow: 'Synchroniser maintenant',
-          syncNowDesc: 'Régler l’horloge d’après les serveurs NTP maintenant',
+          syncNowDesc: "Régler l'horloge d'après les serveurs NTP maintenant",
           save: 'Enregistrer',
           ntp: {
             title: 'NTP',
-            description: 'Synchroniser l’heure de l’appareil depuis les serveurs NTP configurés'
+            description: "Synchroniser l'heure de l'appareil depuis les serveurs NTP configurés"
           },
           networkTime: 'Heure réseau',
           clock: {
             title: 'Horloge',
-            description: 'Définir le fuseau horaire local utilisé par les journaux et l’interface',
+            description: "Définir le fuseau horaire local utilisé par les journaux et l'interface",
             current: 'Heure actuelle',
             timezone: 'Fuseau horaire'
           },
@@ -596,7 +596,7 @@ const fr = {
           }
         },
         firewall: {
-          saveFailed: 'Échec de l’application des paramètres du pare-feu',
+          saveFailed: "Échec de l'application des paramètres du pare-feu",
           saved: 'Paramètres du pare-feu appliqués',
           cancel: 'Annuler',
           refresh: 'Actualiser',
@@ -635,13 +635,13 @@ const fr = {
             enable: 'Activer Restreint',
             confirmTitle: 'Activer le mode Restreint?',
             confirmDesc:
-              'L’accès administrateur entrant sera limité aux plages private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback pour HTTPS et SSH. Les plages publiques ne sont pas autorisées. DNS, NTP, syslog distant, mises à jour en ligne, DHCP, connexions établies et trafic de contrôle IPv6 essentiel sortants restent disponibles. WebRTC/ICE UDP et les autres trafics entrants/sortants seront bloqués.'
+              "L'accès administrateur entrant sera limité aux plages private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback pour HTTPS et SSH. Les plages publiques ne sont pas autorisées. DNS, NTP, syslog distant, mises à jour en ligne, DHCP, connexions établies et trafic de contrôle IPv6 essentiel sortants restent disponibles. WebRTC/ICE UDP et les autres trafics entrants/sortants seront bloqués."
           },
           paranoid: {
             enable: 'Activer Paranoïaque',
             confirmTitle: 'Activer le mode Paranoïaque?',
             confirmDesc:
-              'Seul l’accès HTTPS depuis les plages private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback restera disponible. SSH, HTTP, mDNS, NTP, téléchargements GitHub et le reste du trafic seront bloqués sauf le minimum DHCP/contrôle IPv6.'
+              "Seul l'accès HTTPS depuis les plages private IPv4, IPv4 link-local/loopback, IPv6 link-local ou IPv6 loopback restera disponible. SSH, HTTP, mDNS, NTP, téléchargements GitHub et le reste du trafic seront bloqués sauf le minimum DHCP/contrôle IPv6."
           },
           baseline: {
             apply: 'Passer à Base',
@@ -658,14 +658,14 @@ const fr = {
         unsaved: 'Modifications non enregistrées'
       },
       systemLog: {
-        saveFailed: 'Échec de l’enregistrement des paramètres de journal',
+        saveFailed: "Échec de l'enregistrement des paramètres de journal",
         saved: 'Paramètres de journal enregistrés',
         invalidHost: 'Saisissez un hôte de serveur syslog',
         logLoadFailed: 'Échec du chargement des journaux',
         save: 'Enregistrer',
         test: 'Envoyer un journal de test',
         testSent: 'Journal de test envoyé',
-        testFailed: 'Échec de l’envoi du journal de test',
+        testFailed: "Échec de l'envoi du journal de test",
         remote: {
           title: 'Journalisation distante',
           forward: 'Transférer le journal système',
@@ -788,11 +788,11 @@ const fr = {
         performance: 'Performances',
         memory: {
           title: 'Optimisation de la mémoire',
-          tip: 'Maintient l’utilisation de la mémoire de Tailscale à un faible niveau, ce qui aide sur un appareil disposant de peu de RAM. Redémarrez Tailscale pour que le changement prenne effet.'
+          tip: "Maintient l'utilisation de la mémoire de Tailscale à un faible niveau, ce qui aide sur un appareil disposant de peu de RAM. Redémarrez Tailscale pour que le changement prenne effet."
         },
         swap: {
-          title: 'Fichier d’échange',
-          tip: 'Si les problèmes persistent après l’activation de l’optimisation de la mémoire, essayez d’activer le fichier d’échange',
+          title: "Fichier d'échange",
+          tip: "Si les problèmes persistent après l'activation de l'optimisation de la mémoire, essayez d'activer le fichier d'échange",
           sizeTip: 'Cela définit sa taille sur 256MB ; ajustez-la dans Paramètres > Appareil'
         },
         restartTitle: 'Redémarrer Tailscale',
@@ -802,7 +802,7 @@ const fr = {
         stopTitle: 'Arrêter Tailscale',
         stopBtn: 'Arrêter',
         stop: 'Êtes-vous sûr de vouloir arrêter Tailscale?',
-        stopDesc: 'Arrête le service et l’empêche de démarrer au démarrage de l’appareil',
+        stopDesc: "Arrête le service et l'empêche de démarrer au démarrage de l'appareil",
         loading: 'Chargement...',
         notInstall: "Tailscale non trouvé, veuillez l'installer",
         install: 'Installer',
@@ -836,11 +836,11 @@ const fr = {
         title: 'Mises à jour du système',
         sources: 'Sources de mise à jour',
         latestVersion: 'Dernière version',
-        queryFailed: 'Impossible de vérifier les mises à jour. Veuillez réessayer',
+        queryFailed: "Impossible d'obtenir la version",
         updateFailed: 'Mise à jour échouée. Veuillez réessayer.',
         paranoidBlocked: 'Les mises à jour en ligne sont bloquées par le mode pare-feu Paranoïaque',
         paranoidBlockedDesc:
-          'Les vérifications et téléchargements GitHub nécessitent un accès réseau sortant. L’envoi offline et les installations déjà préparées restent disponibles.',
+          "Les vérifications et téléchargements GitHub nécessitent un accès réseau sortant. L'envoi offline et les installations déjà préparées restent disponibles.",
         isLatest: 'Vous avez déjà la dernière version.',
         available: 'Une mise à jour est disponible. Voulez-vous vraiment mettre à jour?',
         updating: 'Mise à jour en cours. Veuillez patienter...',
@@ -861,26 +861,26 @@ const fr = {
           downloadFailed: 'Échec du téléchargement ou de la vérification',
           rawEnable: 'Autoriser les mises à jour système raw',
           rawEnableDesc:
-            'Autorise l’écriture d’images raw boot/rootfs vérifiées sur la carte SD depuis cet écran',
+            "Autorise l'écriture d'images raw boot/rootfs vérifiées sur la carte SD depuis cet écran",
           rawEnableConfirmTitle: 'Autoriser les mises à jour système raw?',
           rawEnableConfirmDesc:
             'Les mises à jour système raw peuvent remplacer les partitions boot et rootfs. À utiliser seulement avec un accès physique de récupération.',
           rawInstallDisabled:
-            'Cette mise à jour préparée écrit des partitions raw de la carte SD. Activez les mises à jour système raw avant de l’installer.',
+            "Cette mise à jour préparée écrit des partitions raw de la carte SD. Activez les mises à jour système raw avant de l'installer.",
           isLatest: 'Le système de base est à jour.',
           available: 'Une mise à jour du système de base est disponible.',
           downloading: 'Téléchargement et vérification de la mise à jour système...',
           downloadVerify: 'Télécharger et vérifier',
           installing: 'Installation de la mise à jour système préparée...',
           install: 'Installer',
-          installFailed: 'Échec de l’installation',
+          installFailed: "Échec de l'installation",
           installConfirmTitle: 'Installer la mise à jour système?',
           installConfirmDesc:
             'Cela remplacera les fichiers du système de base depuis le paquet vérifié. Un redémarrage sera nécessaire.',
           rawInstallConfirmDesc:
-            'Ce paquet vérifié écrira les images raw boot/rootfs sur les partitions de la carte SD et redémarrera automatiquement. L’écriture peut prendre plusieurs minutes; gardez l’alimentation connectée.',
+            "Ce paquet vérifié écrira les images raw boot/rootfs sur les partitions de la carte SD et redémarrera automatiquement. L'écriture peut prendre plusieurs minutes; gardez l'alimentation connectée.",
           rawInstallWarning:
-            'Il n’y a pas de rollback automatique pour les mises à jour de partitions raw. Si le démarrage échoue, récupérez la carte SD manuellement.',
+            "Il n'y a pas de rollback automatique pour les mises à jour de partitions raw. Si le démarrage échoue, récupérez la carte SD manuellement.",
           rebootRequired: 'Un redémarrage est nécessaire pour activer cet état système.',
           confirming: 'Confirmation du démarrage de la mise à jour système...',
           confirmBoot: 'Confirmer le démarrage',
@@ -895,7 +895,7 @@ const fr = {
           rollbackConfirmDesc:
             'Cela restaurera les fichiers depuis la dernière sauvegarde de mise à jour système. Un redémarrage sera nécessaire.',
           stagedDesc:
-            'La mise à jour du système a été téléchargée et vérifiée, vous pouvez l’installer',
+            "La mise à jour du système a été téléchargée et vérifiée, vous pouvez l'installer",
           refresh: 'Actualiser',
           releaseNotes: 'Notes de version',
           systemVersion: 'Version du système',
@@ -928,7 +928,7 @@ const fr = {
         title: 'Compte',
         webAccount: 'Nom du compte Web',
         password: 'Mot de passe',
-        passwordDesc: 'Modifier le mot de passe utilisé pour se connecter à l’interface web',
+        passwordDesc: "Modifier le mot de passe utilisé pour se connecter à l'interface web",
         updateBtn: 'Modifier',
         logoutBtn: 'Déconnexion',
         logoutDesc: 'Êtes-vous sûr de vouloir vous déconnecter?',
@@ -936,36 +936,36 @@ const fr = {
         cancelBtn: 'Non',
         totp: {
           title: 'Authentification à deux facteurs',
-          authenticator: 'Application d’authentification',
+          authenticator: "Application d'authentification",
           description:
-            'Exiger un code temporel d’une application d’authentification en plus du mot de passe',
+            "Exiger un code temporel d'une application d'authentification en plus du mot de passe",
           required: 'Exigée par la politique',
           disable: 'Désactiver',
-          enableTitle: 'Configurer l’authentification à deux facteurs',
+          enableTitle: "Configurer l'authentification à deux facteurs",
           enableDescription:
             'Confirmez votre mot de passe pour continuer. Il est requis pour toute modification du second facteur.',
           continue: 'Continuer',
-          disableTitle: 'Désactiver l’authentification à deux facteurs?',
+          disableTitle: "Désactiver l'authentification à deux facteurs?",
           disableDescription:
             'Votre compte ne sera plus protégé que par son mot de passe. Confirmez avec votre mot de passe pour continuer.',
-          disableFailed: 'Impossible de désactiver l’authentification à deux facteurs',
+          disableFailed: "Impossible de désactiver l'authentification à deux facteurs",
           passwordPlaceholder: 'Mot de passe actuel',
           enrollFailed: 'Impossible de démarrer la configuration',
           invalidCode: 'Ce code ne correspond pas. Essayez le suivant.',
-          scan: 'Scannez ceci avec votre application d’authentification.',
+          scan: "Scannez ceci avec votre application d'authentification.",
           manualEntry: 'Ou saisissez cette clé manuellement :',
           codePlaceholder: 'Saisissez le code à 6 chiffres pour confirmer',
           confirm: 'Confirmer',
           cancel: 'Annuler',
           backupTitle: 'Enregistrez vos codes de secours maintenant',
           backupDescription:
-            'Chaque code ne fonctionne qu’une fois et ne sera plus affiché. Ils sont le seul moyen de revenir si vous perdez votre application d’authentification, et ils continuent de fonctionner quand l’horloge de l’appareil n’est pas synchronisée.',
+            "Chaque code ne fonctionne qu'une fois et ne sera plus affiché. Ils sont le seul moyen de revenir si vous perdez votre application d'authentification, et ils continuent de fonctionner quand l'horloge de l'appareil n'est pas synchronisée.",
           copy: 'Copier',
           copied: 'Codes de secours copiés',
           savedThem: 'Je les ai enregistrés',
           remaining: '{{remaining}} codes de secours restants',
           clockUnsynced:
-            'L’horloge de l’appareil n’est pas encore synchronisée. Synchronisez l’heure dans Paramètres > Système > Heure avant la configuration.',
+            "L'horloge de l'appareil n'est pas encore synchronisée. Synchronisez l'heure dans Paramètres > Système > Heure avant la configuration.",
           noBackupCodes:
             'Il ne reste aucun code de secours. Sélectionnez Générer pour en émettre un nouveau jeu.',
           regenerate: 'Nouveaux codes de secours',
@@ -973,16 +973,16 @@ const fr = {
           regenerateTitle: 'Émettre de nouveaux codes de secours?',
           regenerateDescription:
             'Vos codes de secours actuels cesseront de fonctionner. Confirmez avec votre mot de passe pour continuer.',
-          regenerateFailed: 'Impossible d’émettre de nouveaux codes de secours',
+          regenerateFailed: "Impossible d'émettre de nouveaux codes de secours",
           download: 'Télécharger',
           copyFailed: 'Copie impossible. Sélectionnez les codes et copiez-les manuellement.',
-          requireTitle: 'Exiger l’authentification à deux facteurs',
+          requireTitle: "Exiger l'authentification à deux facteurs",
           requireDescription:
-            'Empêche la désactivation de l’authentification à deux facteurs, et un compte qui n’en dispose pas doit la configurer avant d’utiliser l’appareil',
-          requireFailed: 'Impossible de modifier l’exigence',
-          requiredTitle: 'L’authentification à deux facteurs est requise',
+            "Empêche la désactivation de l'authentification à deux facteurs, et un compte qui n'en dispose pas doit la configurer avant d'utiliser l'appareil",
+          requireFailed: "Impossible de modifier l'exigence",
+          requiredTitle: "L'authentification à deux facteurs est requise",
           requiredDescription:
-            'Cet appareil est configuré pour exiger un second facteur, mais votre compte n’en a pas encore. Configurez-le maintenant pour continuer.'
+            "Cet appareil est configuré pour exiger un second facteur, mais votre compte n'en a pas encore. Configurez-le maintenant pour continuer."
         }
       }
     },
@@ -1067,7 +1067,7 @@ const fr = {
         menuLabel: 'Configurer le modèle',
         modelIdentifier: 'Identifiant du modèle',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Clé API',
         apiKeyPlaceholder: 'Saisissez la clé API du modèle',
@@ -1075,7 +1075,7 @@ const fr = {
         saving: 'Enregistrement',
         saved: 'Configuration du modèle enregistrée',
         saveFailed: "Échec de l'enregistrement de la configuration du modèle",
-        invalid: 'L’identifiant du modèle, l’API Base URL et la clé API sont requis'
+        invalid: "L'identifiant du modèle, l'API Base URL et la clé API sont requis"
       },
       uninstall: {
         menuLabel: 'Désinstaller',

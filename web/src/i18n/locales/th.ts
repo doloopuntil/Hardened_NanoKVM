@@ -1040,7 +1040,7 @@ const th = {
         menuLabel: 'กำหนดค่าโมเดล',
         modelIdentifier: 'ตัวระบุรุ่น',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'คีย์ API',
         apiKeyPlaceholder: 'ป้อนคีย์ API ของโมเดล',

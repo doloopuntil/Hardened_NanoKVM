@@ -10,7 +10,7 @@ const hu = {
       retry: 'Újra'
     },
     head: {
-      desktop: 'Távoli Asztal',
+      desktop: 'Távoli asztal',
       login: 'Bejelentkezés',
       firstSetup: 'Első beállítás',
       changePassword: 'Jelszó megváltoztatása',
@@ -351,7 +351,7 @@ const hu = {
     settings: {
       title: 'Beállítások',
       about: {
-        title: 'NanoKVM Névjegy',
+        title: 'NanoKVM névjegy',
         information: 'Információ',
         ip: 'IP',
         mdns: 'mDNS',
@@ -986,7 +986,7 @@ const hu = {
       }
     },
     picoclaw: {
-      title: 'PicoClaw Asszisztens',
+      title: 'PicoClaw asszisztens',
       empty: 'Nyissa meg a panelt, és indítsa el a feladatot',
       inputPlaceholder: 'Írja le, mit szeretne tenni az PicoClaw-val',
       newConversation: 'Új beszélgetés',
@@ -1067,7 +1067,7 @@ const hu = {
         menuLabel: 'Modell konfigurálása',
         modelIdentifier: 'Modellazonosító',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-kulcs',
         apiKeyPlaceholder: 'Adja meg a modell API-kulcsát',

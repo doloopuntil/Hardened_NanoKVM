@@ -133,10 +133,10 @@ const se = {
       placeholder: 'Text att klistra in',
       local: 'Mobilt tangentbord',
       virtual: 'Skärmtangentbord',
-      readClipboard: 'Läs från Urklipp',
+      readClipboard: 'Läs från urklipp',
       clipboardPermissionDenied:
         'Behörighet till Urklipp nekad, tillåt åtkomst till Urklipp i din webbläsare',
-      clipboardReadError: 'Misslyckades med att läsa Urklipp',
+      clipboardReadError: 'Misslyckades med att läsa urklipp',
       dropdownEnglish: 'Engelska',
       dropdownGerman: 'Tyska',
       dropdownFrench: 'Franska',
@@ -980,7 +980,7 @@ const se = {
       }
     },
     picoclaw: {
-      title: 'PicoClaw Assistent',
+      title: 'PicoClaw-assistent',
       empty: 'Öppna panelen och starta en uppgift för att börja',
       inputPlaceholder: 'Beskriv vad du vill att PicoClaw ska göra',
       newConversation: 'Ny konversation',
@@ -1060,7 +1060,7 @@ const se = {
         menuLabel: 'Konfigurera modell',
         modelIdentifier: 'Modellidentifierare',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-nyckel',
         apiKeyPlaceholder: 'Ange modellens API-nyckel',
@@ -1068,7 +1068,7 @@ const se = {
         saving: 'Sparar',
         saved: 'Modellkonfiguration sparad',
         saveFailed: 'Det gick inte att spara modellkonfigurationen',
-        invalid: 'Modellidentifierare, API Base URL och API-nyckel krävs'
+        invalid: 'Modellidentifierare, API base URL och API-nyckel krävs'
       },
       uninstall: {
         menuLabel: 'Avinstallera',

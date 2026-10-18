@@ -10,10 +10,10 @@ const en = {
       retry: 'Retry'
     },
     head: {
-      desktop: 'Remote Desktop',
+      desktop: 'Remote desktop',
       login: 'Login',
-      firstSetup: 'First Setup',
-      changePassword: 'Change Password',
+      firstSetup: 'First setup',
+      changePassword: 'Change password',
       terminal: 'Terminal',
       wifi: 'Wi-Fi'
     },
@@ -28,13 +28,13 @@ const en = {
       locked: 'Too many logins, please try again later',
       globalLocked: 'System under protection, please try again later',
       error: 'Unexpected error',
-      changePassword: 'Change Password',
+      changePassword: 'Change password',
       changePasswordDesc: 'For the security of your device, please change the password',
       differentPassword: 'Passwords do not match',
       illegalUsername: 'Username contains illegal characters',
       illegalPassword:
         'Password must be at least 8 characters and cannot contain quotes or slashes',
-      forgetPassword: 'Forgot Password',
+      forgetPassword: 'Forgot password',
       ok: 'Ok',
       cancel: 'Cancel',
       loginButtonText: 'Login',
@@ -77,7 +77,7 @@ const en = {
       confirmBtn: 'Ok',
       finishBtn: 'Finished',
       ap: {
-        authTitle: 'Authentication Required',
+        authTitle: 'Authentication required',
         authDescription: 'Please enter the AP password to continue',
         authFailed: 'Invalid AP password',
         passPlaceholder: 'AP password',
@@ -632,7 +632,7 @@ const en = {
             enable: 'Enable Paranoid',
             confirmTitle: 'Enable Paranoid Firewall mode?',
             confirmDesc:
-              'Only HTTPS access from private IPv4, IPv4 link-local/loopback, IPv6 link-local, or IPv6 loopback source ranges will remain available. Public source ranges are not allowed. SSH, HTTP, mDNS, NTP, GitHub downloads, and other inbound/outbound traffic will be blocked except for minimal DHCP/IPv6 control traffic.'
+              'Only HTTPS access from private IPv4, IPv4 link-local/loopback, IPv6 link-local, or IPv6 loopback source ranges will remain available. SSH, HTTP, mDNS, NTP, GitHub downloads, and other inbound/outbound traffic will be blocked except for minimal DHCP/IPv6 control traffic.'
           },
           baseline: {
             apply: 'Switch to Baseline',
@@ -711,7 +711,7 @@ const en = {
         device: 'This device',
         description: 'Reach this KVM through a WireGuard tunnel',
         unavailable: 'WireGuard is not installed on this device',
-        blocked: 'Paranoid Firewall mode blocks WireGuard',
+        blocked: 'Paranoid firewall mode blocks WireGuard',
         needsKey: 'Set a private key before turning WireGuard on',
         saved: 'WireGuard settings saved',
         save: 'Save changes',
@@ -822,7 +822,7 @@ const en = {
         title: 'System updates',
         sources: 'Update sources',
         latestVersion: 'Latest version',
-        queryFailed: 'Get version failed',
+        queryFailed: "Couldn't get the version",
         updateFailed: 'Update failed. Please retry.',
         paranoidBlocked: 'Online updates are blocked by Paranoid Firewall mode',
         paranoidBlockedDesc:
@@ -970,15 +970,15 @@ const en = {
       }
     },
     picoclaw: {
-      title: 'PicoClaw Assistant',
+      title: 'PicoClaw assistant',
       empty: 'Open the panel and start a task to begin',
       inputPlaceholder: 'Describe what you want the PicoClaw to do',
       newConversation: 'New conversation',
       processing: 'Processing...',
       agent: {
-        defaultTitle: 'General Assistant',
+        defaultTitle: 'General assistant',
         defaultDescription: 'General chat, search, and workspace help',
-        kvmTitle: 'Remote Control',
+        kvmTitle: 'Remote control',
         kvmDescription: 'Operate the remote host through NanoKVM',
         switched: 'Agent role switched',
         switchFailed: 'Failed to switch agent role'
@@ -1038,21 +1038,21 @@ const en = {
           verifying: 'Verifying',
           installing: 'Installing',
           installed: 'Installed',
-          install_timeout: 'Timed Out',
+          install_timeout: 'Timed out',
           install_failed: 'Failed'
         }
       },
       model: {
         requiredTitle: 'Model configuration is required',
         requiredDescription: 'Configure the PicoClaw model before using PicoClaw chat.',
-        docsTitle: 'Configuration Guide',
+        docsTitle: 'Configuration guide',
         docsDesc: 'Supported models and protocols',
         menuLabel: 'Configure model',
-        modelIdentifier: 'Model Identifier',
+        modelIdentifier: 'Model identifier',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
-        apiKey: 'API Key',
+        apiKey: 'API key',
         apiKeyPlaceholder: 'Enter the model API key',
         save: 'Save',
         saving: 'Saving',

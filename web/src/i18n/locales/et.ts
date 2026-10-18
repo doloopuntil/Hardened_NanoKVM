@@ -767,12 +767,12 @@ const et = {
       },
       tailscale: {
         title: 'Tailscale',
-        enableDesc: 'Pääse sellele KVM-ile ligi oma Tailscale’i võrgu kaudu',
+        enableDesc: "Pääse sellele KVM-ile ligi oma Tailscale'i võrgu kaudu",
         service: 'Teenus',
         performance: 'Jõudlus',
         memory: {
           title: 'Mälu optimeerimine',
-          tip: 'Hoiab Tailscale’i mälukasutuse väikesena, mis aitab vähese RAM-iga seadmes. Muudatuse jõustumiseks taaskäivita Tailscale.'
+          tip: "Hoiab Tailscale'i mälukasutuse väikesena, mis aitab vähese RAM-iga seadmes. Muudatuse jõustumiseks taaskäivita Tailscale."
         },
         swap: {
           title: 'Swap-fail',

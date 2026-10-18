@@ -13,7 +13,7 @@ const pl = {
       desktop: 'Zdalny pulpit',
       login: 'Logowanie',
       firstSetup: 'Pierwsza konfiguracja',
-      changePassword: 'Zmień Hasło',
+      changePassword: 'Zmień hasło',
       terminal: 'Terminal',
       wifi: 'Wi-Fi'
     },
@@ -28,13 +28,13 @@ const pl = {
       locked: 'Zbyt wiele loginów, spróbuj ponownie później',
       globalLocked: 'System chroniony, spróbuj ponownie później',
       error: 'Niespodziewany błąd',
-      changePassword: 'Zmień Hasło',
+      changePassword: 'Zmień hasło',
       changePasswordDesc: 'Dla bezpieczeństwa twojego urządzenia zmień hasło do logowania w sieci',
       differentPassword: 'Hasła nie zgadzają się',
       illegalUsername: 'Nazwa użytkownika zawiera niedozwolone znaki',
       illegalPassword:
         'Hasło musi mieć co najmniej 8 znaków i nie może zawierać cudzysłowów ani ukośników',
-      forgetPassword: 'Zapomiałeś hasła?',
+      forgetPassword: 'Nie pamiętasz hasła',
       ok: 'Ok',
       cancel: 'Anuluj',
       loginButtonText: 'Zaloguj się',
@@ -251,7 +251,7 @@ const pl = {
         usb1: 'Podłącz urządzenie NanoKVM do komputera przez USB.',
         usb2: 'Upewnij się, że dysk wirtualny jest zamontowany w Ustawienia > Urządzenie > Dysk wirtualny.',
         usb3: 'Otwórz dysk wirtualny na swoim komputerze i skopiuj plik obrazu do katalogu głównego dysku wirtualnego.',
-        scp1: 'Upewnij się że NanoKVM i twój komputer są na tej samej sieci lokalnej.',
+        scp1: 'Upewnij się, że NanoKVM i twój komputer są w tej samej sieci lokalnej.',
         scp2: 'Otwórz terminal na komputerze i użyj komendę SCP aby przesłać obraz do katalogu /data na NanoKVM.',
         scp3: 'Przykład: scp lokalizacja-zrodlowego-obrazu root@ip-twojego-nanokvm:/data',
         tfCard: 'Karta SD',
@@ -448,11 +448,11 @@ const pl = {
         },
         sessionLock: {
           title: 'Blokuj sesję przy braku aktywności',
-          description: 'Zablokuj aktywną sesję web po okresie bezczynności.'
+          description: 'Zablokuj aktywną sesję po okresie bezczynności'
         },
         mdns: {
           description: 'Włącz usługę wykrywania mDNS',
-          tip: 'Umożliwia dostęp do urządzenia przez nazwę .local. Niepotrzebne, jeśli łączysz się przez adres IP lub Twój DNS już rozwiązuje nazwę hosta.'
+          tip: 'Umożliwia dostęp do urządzenia przez nazwę .local. Niepotrzebne, jeśli łączysz się przez adres IP lub twój DNS już rozwiązuje nazwę hosta.'
         },
         hdmi: {
           description: 'Włącz HDMI/wyjście monitora',
@@ -1060,7 +1060,7 @@ const pl = {
         menuLabel: 'Skonfiguruj model',
         modelIdentifier: 'Identyfikator modelu',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Klucz API',
         apiKeyPlaceholder: 'Wprowadź klucz API modelu',

@@ -80,7 +80,7 @@ const es = {
       finishBtn: 'Finalizado',
       ap: {
         authTitle: 'Autenticación requerida',
-        authDescription: 'Por favor ingrese la contraseña AP para continuar',
+        authDescription: 'Introduce la contraseña AP para continuar',
         authFailed: 'Contraseña AP no válida',
         passPlaceholder: 'Contraseña AP',
         verifyBtn: 'Verificar'
@@ -317,7 +317,7 @@ const es = {
       mountedImage:
         'Esta imagen está montada, desmóntala antes de subir un archivo con el mismo nombre',
       diskOff: 'Desactivar el disco virtual',
-      uploadbox: 'Suelte el archivo aquí o haga clic para seleccionar',
+      uploadbox: 'Suelta el archivo aquí o haz clic para seleccionar',
       inputfile: 'Archivo de imagen',
       NoISO: 'Sin imagen',
       complete: 'Descarga completada',
@@ -1068,7 +1068,7 @@ const es = {
         menuLabel: 'Configurar modelo',
         modelIdentifier: 'Identificador de modelo',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Clave API',
         apiKeyPlaceholder: 'Introduce la clave API del modelo',

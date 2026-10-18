@@ -1052,7 +1052,7 @@ const cz = {
         menuLabel: 'Konfigurace modelu',
         modelIdentifier: 'Identifikátor modelu',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Klíč API',
         apiKeyPlaceholder: 'Zadejte klíč API modelu',

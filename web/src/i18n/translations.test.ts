@@ -37,6 +37,24 @@ function words(text: string): number {
   return text.split(/\s+/).filter((word) => /[a-z]{3,}/i.test(word)).length;
 }
 
+// Texts that rightly start in lower case: units, technical terms, file names and sentence fragments
+// that are put together in code.
+const lowerCaseStarts = new Set([
+  'settings.about.mdns',
+  'settings.device.minutes',
+  'settings.device.mdns.description',
+  'settings.systemLog.viewer.linesUnit',
+  'settings.tailscale.package',
+  'settings.tailscale.unzip',
+  'settings.tailscale.upTailscale',
+  'settings.tailscale.upTailscaled',
+  'image.tips.tfCard',
+  'image.tips.tf3',
+  'image.tips.tf5',
+  'picoclaw.model.modelIdentifierPlaceholder',
+  'picoclaw.model.apiBasePlaceholder'
+]);
+
 const english = flatten(resources.en.translation);
 const translated = Object.keys(resources).filter((language) => language !== 'en');
 
@@ -89,6 +107,47 @@ describe.each(translated)('%s translation', (language) => {
       /[\s\u00a0\u202f\u2009]\?/.test(strings[key])
     );
     expect(spaced).toEqual([]);
+  });
+
+  it('has no parentheses and no exclamation mark', () => {
+    const found = Object.keys(strings).filter((key) => /[()（）!！]/.test(strings[key]));
+    expect(found).toEqual([]);
+  });
+
+  it('starts every text with a capital letter', () => {
+    const lower = Object.keys(strings).filter((key) => {
+      const first = strings[key].replace(/^[¿¡"'«“„<]+/, '')[0];
+      return (
+        !lowerCaseStarts.has(key) &&
+        first !== undefined &&
+        first !== first.toUpperCase() &&
+        first.toLowerCase() !== first.toUpperCase()
+      );
+    });
+    expect(lower).toEqual([]);
+  });
+
+  it('uses the straight apostrophe', () => {
+    const curly = Object.keys(strings).filter((key) => /\p{L}\u2019\p{L}/u.test(strings[key]));
+    expect(curly).toEqual([]);
+  });
+
+  it('has no doubled or edge spaces', () => {
+    const spaced = Object.keys(strings).filter((key) => /^\s|\s$|\s{2}/.test(strings[key]));
+    expect(spaced).toEqual([]);
+  });
+
+  // Thai writes no full stops or question marks
+  it.skipIf(language === 'th')('ends with a full stop or a question mark as English does', () => {
+    // "Min." is the German abbreviation, the full stop belongs to it
+    const abbreviations = new Set(['settings.device.minutes']);
+    const ending = (text: string) =>
+      /[.。]$/.test(text.trim()) ? '.' : /[?？]$/.test(text.trim()) ? '?' : '';
+    const different = Object.keys(english).filter(
+      (key) =>
+        key in strings && !abbreviations.has(key) && ending(strings[key]) !== ending(english[key])
+    );
+    expect(different).toEqual([]);
   });
 
   it('does not leave sentences in English', () => {

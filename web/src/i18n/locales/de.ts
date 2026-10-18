@@ -994,7 +994,7 @@ const de = {
       }
     },
     picoclaw: {
-      title: 'PicoClaw Assistent',
+      title: 'PicoClaw-Assistent',
       empty: 'Öffnen Sie das Bedienfeld und starten Sie eine Aufgabe',
       inputPlaceholder: 'Beschreiben Sie, was der PicoClaw tun soll',
       newConversation: 'Neues Gespräch',
@@ -1075,7 +1075,7 @@ const de = {
         menuLabel: 'Modell konfigurieren',
         modelIdentifier: 'Modell-ID',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-Schlüssel',
         apiKeyPlaceholder: 'API-Schlüssel des Modells eingeben',

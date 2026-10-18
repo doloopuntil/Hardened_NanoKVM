@@ -10,10 +10,10 @@ const pt_br = {
       retry: 'Tentar novamente'
     },
     head: {
-      desktop: 'Área de Trabalho Remota',
+      desktop: 'Área de trabalho remota',
       login: 'Login',
       firstSetup: 'Primeira configuração',
-      changePassword: 'Mudar Senha',
+      changePassword: 'Mudar senha',
       terminal: 'Terminal',
       wifi: 'Wi-Fi'
     },
@@ -28,7 +28,7 @@ const pt_br = {
       locked: 'Muitos logins, tente novamente mais tarde',
       globalLocked: 'Sistema sob proteção, tente novamente mais tarde',
       error: 'Erro inesperado',
-      changePassword: 'Mudar Senha',
+      changePassword: 'Mudar senha',
       changePasswordDesc: 'Para a segurança do seu dispositivo, por favor, mude a senha',
       differentPassword: 'Senhas não conferem',
       illegalUsername: 'Nome de usuário contém caracteres inválidos',
@@ -359,7 +359,7 @@ const pt_br = {
         uptime: 'Tempo ativo',
         community: 'Comunidade',
         credit: 'Baseado no <a1>NanoKVM</a1> da Sipeed e no <a2>Hardened NanoKVM</a2> de woffko',
-        hostname: 'Nome do Host',
+        hostname: 'Nome do host',
         hostnameReboot: 'Reiniciar para aplicar o novo nome do host?'
       },
       appearance: {
@@ -1059,7 +1059,7 @@ const pt_br = {
         menuLabel: 'Configurar modelo',
         modelIdentifier: 'Identificador do modelo',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Chave API',
         apiKeyPlaceholder: 'Insira a chave API do modelo',

@@ -982,7 +982,7 @@ const nb = {
       }
     },
     picoclaw: {
-      title: 'PicoClaw Assistent',
+      title: 'PicoClaw-assistent',
       empty: 'Åpne panelet og start en oppgave for å begynne',
       inputPlaceholder: 'Beskriv hva du vil at PicoClaw skal gjøre',
       newConversation: 'Ny samtale',
@@ -1062,7 +1062,7 @@ const nb = {
         menuLabel: 'Konfigurer modell',
         modelIdentifier: 'Modellidentifikator',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-nøkkel',
         apiKeyPlaceholder: 'Skriv inn modellens API-nøkkel',
@@ -1070,7 +1070,7 @@ const nb = {
         saving: 'Lagrer',
         saved: 'Modellkonfigurasjon lagret',
         saveFailed: 'Kunne ikke lagre modellkonfigurasjonen',
-        invalid: 'Modellidentifikator, API Base URL og API-nøkkel kreves'
+        invalid: 'Modellidentifikator, API base URL og API-nøkkel kreves'
       },
       uninstall: {
         menuLabel: 'Avinstaller',

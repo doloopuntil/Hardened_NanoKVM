@@ -199,13 +199,13 @@ const ca = {
       speed: 'Velocitat de desplaçament',
       sensitivity: 'Velocitat del punter',
       sensitivityDesc:
-        'Per al mode relatiu d’escriptori: valors més baixos redueixen la deriva causada per l’acceleració del ratolí del host',
+        "Per al mode relatiu d'escriptori: valors més baixos redueixen la deriva causada per l'acceleració del ratolí del host",
       fast: 'Ràpida',
       slow: 'Lenta',
       mobile: {
         touchSync: 'TouchSync',
         touchSyncDesc:
-          'Mou-te per qualsevol punt de l’àrea KVM; el cursor remot conserva la posició entre tocs i es manté sincronitzat amb HID absolut'
+          "Mou-te per qualsevol punt de l'àrea KVM; el cursor remot conserva la posició entre tocs i es manté sincronitzat amb HID absolut"
       },
       requestPointer: "Estàs usant el mode relatiu, fes clic a l'escriptori per obtenir el punter",
       resetHid: 'Restablir HID',
@@ -240,7 +240,7 @@ const ca = {
       usbReconnectConfirm:
         'Reconnecta el gadget USB només si el host remot no ha detectat el canvi de mitjà. El teclat i el ratolí es poden desconnectar breument.',
       usbReconnectSuccess: 'USB reconnectat',
-      usbReconnectFailed: 'No s’ha pogut reconnectar USB',
+      usbReconnectFailed: "No s'ha pogut reconnectar USB",
       mountTitle: 'Munta la imatge',
       deleteTitle: 'Esborra la imatge',
       deleteConfirm: 'Estàs segur que vols suprimir aquesta imatge?',
@@ -277,8 +277,8 @@ const ca = {
       unlockTitle: 'Desbloqueja el terminal',
       unlockDesc: 'Introdueix la contrasenya del compte web per iniciar una sessió de terminal',
       unlock: 'Desbloqueja',
-      unlockFailed: 'No s’ha pogut desbloquejar el terminal',
-      invalidCredentials: 'Nom d’usuari o contrasenya no vàlids',
+      unlockFailed: "No s'ha pogut desbloquejar el terminal",
+      invalidCredentials: "Nom d'usuari o contrasenya no vàlids",
       locked: 'Massa intents, torna-ho a provar més tard',
       sessionClosed: 'Sessió de terminal tancada. Desbloqueja de nou per reconnectar.',
       sessionError: 'La connexió del terminal ha fallat. Desbloqueja de nou per reintentar.',
@@ -323,12 +323,12 @@ const ca = {
       uploading: 'Pujant',
       failed: 'La transferència ha fallat',
       uploadFailed: 'La pujada ha fallat',
-      stalled: 'La transferència s’ha aturat, comprova la connexió i torna-ho a provar',
+      stalled: "La transferència s'ha aturat, comprova la connexió i torna-ho a provar",
       canceled: 'Pujada cancel·lada',
       downloadCanceled: 'Descàrrega cancel·lada',
       cancel: 'Cancel·la',
-      remoteDisabled: 'La descàrrega remota d’ISO està desactivada a Configuració > Aparença',
-      remoteFailed: 'La descàrrega remota d’ISO ha fallat',
+      remoteDisabled: "La descàrrega remota d'ISO està desactivada a Configuració > Aparença",
+      remoteFailed: "La descàrrega remota d'ISO ha fallat",
       sha256: 'Suma de verificació SHA-256 opcional',
       sha256Placeholder: 'Introdueix una suma de verificació SHA-256 de 64 caràcters',
       invalidSHA256: 'SHA-256 ha de ser una cadena hexadecimal de 64 caràcters',
@@ -381,7 +381,7 @@ const ca = {
           modeAlways: 'Sempre visible',
           keyboardLedStatus: 'Indicadors de bloqueig del teclat',
           keyboardLedStatusDesc:
-            'Mostra l’estat de Bloq Num, Bloq Maj i Bloq Despl de l’ordinador remot',
+            "Mostra l'estat de Bloq Num, Bloq Maj i Bloq Despl de l'ordinador remot",
           icons: 'Icones del submenú',
           iconsDesc: 'Mostra les icones del submenú a la barra de menús',
           terminalWarningTitle: 'Vols activar el terminal web?',
@@ -390,9 +390,9 @@ const ca = {
           terminalWarningConfirm: 'Activa',
           terminalWarningCancel: 'Cancel·la',
           remoteDownload: 'Descarrega ISO remota',
-          remoteDownloadWarningTitle: 'Vols activar la descàrrega remota d’ISO?',
+          remoteDownloadWarningTitle: "Vols activar la descàrrega remota d'ISO?",
           remoteDownloadWarningDesc:
-            "NanoKVM baixarà una ISO des d’un URL i l’escriurà a /data. Activa'l només per a URL de confiança i desactiva'l en acabar.",
+            "NanoKVM baixarà una ISO des d'un URL i l'escriurà a /data. Activa'l només per a URL de confiança i desactiva'l en acabar.",
           remoteDownloadWarningConfirm: 'Activa',
           remoteDownloadWarningCancel: 'Cancel·la'
         }
@@ -445,7 +445,7 @@ const ca = {
         },
         sessionLock: {
           title: 'Bloqueja la sessió quan estigui inactiva',
-          description: 'Demana iniciar sessió de nou després d’aquest temps'
+          description: "Demana iniciar sessió de nou després d'aquest temps"
         },
         mdns: {
           description: 'Activa descobriment mDNS',
@@ -564,7 +564,7 @@ const ca = {
         },
         time: {
           saveFailed: "No s'han pogut desar els paràmetres d'hora",
-          saved: 'Paràmetres d’hora desats',
+          saved: "Paràmetres d'hora desats",
           syncFailed: "No s'ha pogut sincronitzar l'hora",
           synced: 'Hora sincronitzada',
           invalidServers: 'Introdueix almenys un servidor NTP',
@@ -640,7 +640,7 @@ const ca = {
             enable: 'Activa Paranoic',
             confirmTitle: 'Vols activar el mode Paranoic?',
             confirmDesc:
-              'Només quedarà disponible l’accés HTTPS des de rangs private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, descàrregues de GitHub i la resta de trànsit quedaran bloquejats excepte el mínim DHCP/control IPv6.'
+              "Només quedarà disponible l'accés HTTPS des de rangs private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, descàrregues de GitHub i la resta de trànsit quedaran bloquejats excepte el mínim DHCP/control IPv6."
           },
           baseline: {
             apply: 'Canvia a Base',
@@ -852,46 +852,46 @@ const ca = {
           title: 'Aplicació'
         },
         system: {
-          queryFailed: 'No s’ha pogut obtenir la versió del sistema',
+          queryFailed: "No s'ha pogut obtenir la versió del sistema",
           appUpdateRequired:
             "Actualitza l'aplicació a {{version}} abans d'instal·lar aquesta actualització del sistema",
           requiredAppVersion: "Versió d'aplicació necessària",
           downloadFailed: 'La descàrrega o verificació ha fallat',
           rawEnable: 'Permet actualitzacions raw del sistema',
           rawEnableDesc:
-            'Permet escriure imatges raw verificades de boot/rootfs a la targeta SD des d’aquesta pantalla',
+            "Permet escriure imatges raw verificades de boot/rootfs a la targeta SD des d'aquesta pantalla",
           rawEnableConfirmTitle: 'Permetre actualitzacions raw del sistema?',
           rawEnableConfirmDesc:
             'Les actualitzacions raw poden substituir les particions boot i rootfs. Fes-ho servir només si tens accés físic de recuperació.',
           rawInstallDisabled:
-            'Aquesta actualització preparada escriu particions raw de la targeta SD. Activa les actualitzacions raw del sistema abans d’instal·lar-la.',
+            "Aquesta actualització preparada escriu particions raw de la targeta SD. Activa les actualitzacions raw del sistema abans d'instal·lar-la.",
           isLatest: 'El sistema base està actualitzat.',
           available: 'Hi ha una actualització del sistema base disponible.',
-          downloading: 'Descarregant i verificant l’actualització del sistema...',
+          downloading: "Descarregant i verificant l'actualització del sistema...",
           downloadVerify: 'Descarrega i verifica',
-          installing: 'Instal·lant l’actualització del sistema preparada...',
+          installing: "Instal·lant l'actualització del sistema preparada...",
           install: 'Instal·la',
           installFailed: 'La instal·lació ha fallat',
-          installConfirmTitle: 'Instal·lar l’actualització del sistema?',
+          installConfirmTitle: "Instal·lar l'actualització del sistema?",
           installConfirmDesc:
             'Això substituirà fitxers del sistema base des del paquet verificat. Caldrà reiniciar.',
           rawInstallConfirmDesc:
-            'Aquest paquet verificat escriurà imatges raw boot/rootfs a les particions de la targeta SD i reiniciarà automàticament. L’escriptura pot trigar uns minuts; mantén l’alimentació connectada.',
+            "Aquest paquet verificat escriurà imatges raw boot/rootfs a les particions de la targeta SD i reiniciarà automàticament. L'escriptura pot trigar uns minuts; mantén l'alimentació connectada.",
           rawInstallWarning:
-            'No hi ha rollback automàtic per a actualitzacions de particions raw. Si l’arrencada falla, recupera la targeta SD manualment.',
+            "No hi ha rollback automàtic per a actualitzacions de particions raw. Si l'arrencada falla, recupera la targeta SD manualment.",
           rebootRequired: 'Cal reiniciar per activar aquest estat del sistema.',
-          confirming: 'Confirmant l’arrencada de l’actualització del sistema...',
-          confirmBoot: 'Confirma l’arrencada',
-          confirmFailed: 'La confirmació d’arrencada ha fallat',
+          confirming: "Confirmant l'arrencada de l'actualització del sistema...",
+          confirmBoot: "Confirma l'arrencada",
+          confirmFailed: "La confirmació d'arrencada ha fallat",
           confirmed: 'Arrencada confirmada',
-          bootGood: 'L’actualització de sistema pendent s’ha marcat com a boot-good.',
-          rollingBack: 'Fent rollback de l’actualització del sistema...',
+          bootGood: "L'actualització de sistema pendent s'ha marcat com a boot-good.",
+          rollingBack: "Fent rollback de l'actualització del sistema...",
           rollback: 'Rollback',
           rollbackDone: 'Rollback preparat',
           rollbackFailed: 'Rollback fallat',
-          rollbackConfirmTitle: 'Fer rollback de l’actualització del sistema?',
+          rollbackConfirmTitle: "Fer rollback de l'actualització del sistema?",
           rollbackConfirmDesc:
-            'Això restaurarà fitxers des de l’última còpia del sistema. Caldrà reiniciar.',
+            "Això restaurarà fitxers des de l'última còpia del sistema. Caldrà reiniciar.",
           stagedDesc:
             "L'actualització del sistema s'ha descarregat i verificat, ja es pot instal·lar",
           refresh: 'Actualitza',
@@ -908,7 +908,7 @@ const ca = {
           progress: 'Progrés',
           progressMessage: 'Missatge de progrés',
           pendingVersion: 'Versió pendent',
-          bootHealth: 'Estat d’arrencada',
+          bootHealth: "Estat d'arrencada",
           healthy: 'Correcte',
           unhealthy: 'Requereix atenció',
           rollbackBackup: 'Còpia de rollback'
@@ -933,7 +933,7 @@ const ca = {
         cancelBtn: 'No',
         totp: {
           title: 'Autenticació de dos factors',
-          authenticator: 'Aplicació d’autenticació',
+          authenticator: "Aplicació d'autenticació",
           description:
             "Exigeix un codi temporal d'una aplicació d'autenticació, a més de la contrasenya",
           required: 'Exigida per la política',
@@ -950,7 +950,7 @@ const ca = {
           enrollFailed: "No s'ha pogut iniciar la configuració",
           invalidCode: 'Aquest codi no coincideix. Prova el següent.',
           scan: "Escaneja-ho amb l'aplicació d'autenticació.",
-          manualEntry: 'O introduïu aquesta clau manualment:',
+          manualEntry: 'O introdueix aquesta clau manualment:',
           codePlaceholder: 'Introdueix el codi de 6 dígits per confirmar',
           confirm: 'Confirma',
           cancel: 'Cancel·la',
@@ -1064,7 +1064,7 @@ const ca = {
         menuLabel: 'Configura el model',
         modelIdentifier: 'Identificador del model',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Clau API',
         apiKeyPlaceholder: 'Introdueix la clau API del model',

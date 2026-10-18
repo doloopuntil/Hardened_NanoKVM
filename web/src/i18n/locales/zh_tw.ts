@@ -644,9 +644,9 @@ const zh_tw = {
           forward: '轉送系統記錄',
           description: '將系統訊息轉送到遠端伺服器',
           host: '伺服器',
-          hostDesc: 'syslog 伺服器的主機名稱或 IPv4 位址',
+          hostDesc: 'Syslog 伺服器的主機名稱或 IPv4 位址',
           port: '連接埠',
-          protocol: 'syslog 伺服器的 UDP 連接埠'
+          protocol: 'Syslog 伺服器的 UDP 連接埠'
         },
         local: {
           title: '系統記錄緩衝區',
@@ -782,7 +782,7 @@ const zh_tw = {
         upTailscale: '將 Tailscale 上傳到 NanoKVM 的 /usr/bin/ 資料夾',
         upTailscaled: '將 tailscaled 上傳到 NanoKVM 的 /usr/sbin/ 資料夾',
         refresh: '重新整理頁面',
-        notRunning: 'Tailscale 尚未執行，請先啟動以繼續',
+        notRunning: 'Tailscale 尚未執行。請先啟動以繼續。',
         run: '啟動',
         notLogin: '設備尚未綁定。請登入並將該裝置綁定到您的帳戶。',
         urlPeriod: '此網址有效期限為 10 分鐘',
@@ -826,7 +826,7 @@ const zh_tw = {
           rawEnableDesc: '允許從此畫面將已驗證的 raw boot/rootfs 映像檔寫入 SD 卡',
           rawEnableConfirmTitle: '允許 raw 系統更新？',
           rawEnableConfirmDesc:
-            'raw 系統更新可以取代 boot 和 rootfs 分割區。僅在有實體復原存取時使用。',
+            'Raw 系統更新可以取代 boot 和 rootfs 分割區。僅在有實體復原存取時使用。',
           rawInstallDisabled: '此已暫存更新會寫入 SD 卡 raw 分割區。安裝前請啟用 raw 系統更新。',
           isLatest: '基礎系統已是最新。',
           available: '有可用的基礎系統更新。',
@@ -839,7 +839,7 @@ const zh_tw = {
           installConfirmDesc: '這會用已驗證套件中的檔案取代基礎系統檔案。需要重新啟動。',
           rawInstallConfirmDesc:
             '此已驗證套件會將 raw boot/rootfs 映像檔寫入 SD 卡分割區並自動重新啟動。寫入可能需要數分鐘；請保持供電。',
-          rawInstallWarning: 'raw 分割區更新沒有自動 rollback。如果開機失敗，請手動復原 SD 卡。',
+          rawInstallWarning: 'Raw 分割區更新沒有自動 rollback。如果開機失敗，請手動復原 SD 卡。',
           rebootRequired: '需要重新啟動以啟用此系統狀態。',
           confirming: '正在確認系統更新開機...',
           confirmBoot: '確認開機',
@@ -863,7 +863,7 @@ const zh_tw = {
           archive: '封存',
           requiredFree: '所需可用空間',
           fileCount: '檔案',
-          rawImages: 'raw 映像檔',
+          rawImages: 'Raw 映像檔',
           progress: '進度',
           progressMessage: '進度訊息',
           pendingVersion: '待處理版本',
@@ -877,7 +877,7 @@ const zh_tw = {
           desc: '透過本地安裝包進行更新',
           upload: '上傳',
           invalidName: '檔名格式錯誤，請前往 GitHub 釋出頁下載安裝包。',
-          updateFailed: '更新失敗，請重試'
+          updateFailed: '更新失敗。請重試。'
         }
       },
       account: {
@@ -1015,7 +1015,7 @@ const zh_tw = {
         menuLabel: '設定模型',
         modelIdentifier: '模型標識符',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API Key',
         apiKeyPlaceholder: '請輸入模型 API Key',

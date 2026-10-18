@@ -13,7 +13,7 @@ const id = {
       desktop: 'Desktop jarak jauh',
       login: 'Masuk',
       firstSetup: 'Penyiapan pertama',
-      changePassword: 'Ubah Sandi',
+      changePassword: 'Ubah sandi',
       terminal: 'Terminal',
       wifi: 'Wi-Fi'
     },
@@ -28,13 +28,13 @@ const id = {
       locked: 'Terlalu banyak login, silakan coba lagi nanti',
       globalLocked: 'Sistem dalam perlindungan, silakan coba lagi nanti',
       error: 'Terjadi kesalahan tak terduga',
-      changePassword: 'Ganti Sandi',
+      changePassword: 'Ganti sandi',
       changePasswordDesc: 'Untuk keamanan perangkat Anda, silakan ubah kata sandi masuk web',
       differentPassword: 'Kata sandi tidak sesuai',
       illegalUsername: 'Nama pengguna mengandung karakter ilegal',
       illegalPassword:
         'Kata sandi harus minimal 8 karakter dan tidak boleh berisi tanda kutip atau garis miring',
-      forgetPassword: 'Lupa Sandi',
+      forgetPassword: 'Lupa sandi',
       ok: 'Ok',
       cancel: 'Batalkan',
       loginButtonText: 'Masuk',
@@ -77,7 +77,7 @@ const id = {
       confirmBtn: 'Ok',
       finishBtn: 'Selesai',
       ap: {
-        authTitle: 'Otentikasi Diperlukan',
+        authTitle: 'Otentikasi diperlukan',
         authDescription: 'Silakan masukkan kata sandi AP untuk melanjutkan',
         authFailed: 'Kata sandi AP tidak valid',
         passPlaceholder: 'Kata sandi AP',
@@ -360,7 +360,7 @@ const id = {
         community: 'Komunitas',
         credit:
           'Dibangun di atas <a1>NanoKVM</a1> dari Sipeed dan <a2>Hardened NanoKVM</a2> oleh woffko',
-        hostname: 'Nama Host',
+        hostname: 'Nama host',
         hostnameReboot: 'Nyalakan ulang untuk menerapkan nama host baru?'
       },
       appearance: {
@@ -833,7 +833,7 @@ const id = {
         sources: 'Sumber pembaruan',
         latestVersion: 'Versi terbaru',
         queryFailed: 'Gagal mendapatkan versi',
-        updateFailed: 'Gagal memperbarui, tolong coba lagi.',
+        updateFailed: 'Gagal memperbarui. Silakan coba lagi.',
         paranoidBlocked: 'Pembaruan online diblokir oleh mode firewall Paranoid',
         paranoidBlockedDesc:
           'Pemeriksaan dan unduhan GitHub memerlukan akses jaringan keluar. Unggahan offline dan instalasi yang sudah disiapkan tetap tersedia.',
@@ -916,7 +916,7 @@ const id = {
           desc: 'Perbarui melalui paket instalasi lokal',
           upload: 'Mengunggah',
           invalidName: 'Format nama file tidak valid. Silakan unduh dari rilis GitHub.',
-          updateFailed: 'Gagal memperbarui, tolong coba lagi.'
+          updateFailed: 'Gagal memperbarui. Silakan coba lagi.'
         }
       },
       account: {
@@ -1048,19 +1048,19 @@ const id = {
           verifying: 'Memverifikasi',
           installing: 'Memasangkan',
           installed: 'Terpasang',
-          install_timeout: 'Waktu Habis',
+          install_timeout: 'Waktu habis',
           install_failed: 'Gagal'
         }
       },
       model: {
         requiredTitle: 'Konfigurasi model diperlukan',
         requiredDescription: 'Konfigurasikan model PicoClaw sebelum menggunakan obrolan PicoClaw.',
-        docsTitle: 'Panduan Konfigurasi',
+        docsTitle: 'Panduan konfigurasi',
         docsDesc: 'Model dan protokol yang didukung',
         menuLabel: 'Konfigurasi model',
-        modelIdentifier: 'Pengenal Model',
+        modelIdentifier: 'Pengenal model',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Kunci API',
         apiKeyPlaceholder: 'Masukkan kunci API model',

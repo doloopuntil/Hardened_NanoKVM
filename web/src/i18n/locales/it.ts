@@ -10,10 +10,10 @@ const it = {
       retry: 'Riprova'
     },
     head: {
-      desktop: 'Desktop Remoto',
+      desktop: 'Desktop remoto',
       login: 'Accesso',
       firstSetup: 'Prima configurazione',
-      changePassword: 'Cambia Password',
+      changePassword: 'Cambia password',
       terminal: 'Terminale',
       wifi: 'Wi-Fi'
     },
@@ -28,7 +28,7 @@ const it = {
       locked: 'Troppi accessi, riprova più tardi',
       globalLocked: 'Sistema sotto protezione, riprova più tardi',
       error: 'Errore imprevisto',
-      changePassword: 'Cambia Password',
+      changePassword: 'Cambia password',
       changePasswordDesc:
         'Per la sicurezza del tuo dispositivo, modifica la password di accesso web',
       differentPassword: 'Le password non corrispondono',
@@ -153,7 +153,7 @@ const it = {
         clear: 'Cancella',
         save: 'Salva',
         captureTips:
-          'La cattura dei tasti di sistema, come il tasto Windows, richiede l’autorizzazione a schermo intero',
+          "La cattura dei tasti di sistema, come il tasto Windows, richiede l'autorizzazione a schermo intero",
         enterFullScreen: 'Attiva/disattiva la modalità a schermo intero'
       },
       leaderKey: {
@@ -201,13 +201,13 @@ const it = {
       speed: 'Velocità della rotellina',
       sensitivity: 'Velocità puntatore',
       sensitivityDesc:
-        'Per la modalità relativa desktop: valori più bassi riducono la deriva causata dall’accelerazione del mouse dell’host',
+        "Per la modalità relativa desktop: valori più bassi riducono la deriva causata dall'accelerazione del mouse dell'host",
       fast: 'Veloce',
       slow: 'Lento',
       mobile: {
         touchSync: 'TouchSync',
         touchSyncDesc:
-          'Muoviti ovunque nell’area KVM; il cursore remoto mantiene la posizione tra i tocchi e resta sincronizzato con HID assoluto'
+          "Muoviti ovunque nell'area KVM; il cursore remoto mantiene la posizione tra i tocchi e resta sincronizzato con HID assoluto"
       },
       requestPointer:
         'Usando la modalità relativa, clicca sul desktop per ottenere il puntatore del mouse',
@@ -242,7 +242,7 @@ const it = {
         "L'host ha bloccato l'unità ottica. Forzare l'espulsione disconnette per un momento il dispositivo USB virtuale, quindi tastiera e mouse potrebbero disconnettersi brevemente. Continuare?",
       usbReconnect: 'Ricollega USB',
       usbReconnectConfirm:
-        'Ricollega il gadget USB solo se l’host remoto non ha rilevato il cambio del supporto. Tastiera e mouse potrebbero disconnettersi brevemente.',
+        "Ricollega il gadget USB solo se l'host remoto non ha rilevato il cambio del supporto. Tastiera e mouse potrebbero disconnettersi brevemente.",
       usbReconnectSuccess: 'USB ricollegato',
       usbReconnectFailed: 'Ricollegamento USB non riuscito',
       mountTitle: 'Monta immagine',
@@ -279,7 +279,7 @@ const it = {
       nanokvm: 'Terminale NanoKVM',
       serial: 'Terminale porta seriale',
       unlockTitle: 'Sblocca terminale',
-      unlockDesc: 'Inserisci la password dell’account web per avviare una sessione terminale',
+      unlockDesc: "Inserisci la password dell'account web per avviare una sessione terminale",
       unlock: 'Sblocca',
       unlockFailed: 'Impossibile sbloccare il terminale',
       invalidCredentials: 'Nome utente o password non validi',
@@ -358,7 +358,7 @@ const it = {
         ip: 'IP',
         mdns: 'mDNS',
         application: 'Versione applicazione',
-        applicationTip: 'Versione dell’applicazione web NanoKVM',
+        applicationTip: "Versione dell'applicazione web NanoKVM",
         uptime: 'Tempo di attività',
         community: 'Comunità',
         credit: 'Basato su <a1>NanoKVM</a1> di Sipeed e <a2>Hardened NanoKVM</a2> di woffko',
@@ -477,10 +477,10 @@ const it = {
         diskTransferRunning:
           'Un trasferimento di immagine è in corso. Attendi che termini prima di abilitare il disco virtuale.',
         network: 'Rete virtuale',
-        networkDesc: 'Monta la scheda di rete virtuale sull’host remoto',
+        networkDesc: "Monta la scheda di rete virtuale sull'host remoto",
         usbWakeup: 'Risveglio USB',
-        usbWakeupDesc: 'Consente a tastiera o mouse di riattivare l’host remoto',
-        usbWakeupTip: 'Disattiva se l’host registra messaggi USB wakeup ripetuti',
+        usbWakeupDesc: "Consente a tastiera o mouse di riattivare l'host remoto",
+        usbWakeupTip: "Disattiva se l'host registra messaggi USB wakeup ripetuti",
         reboot: 'Riavvia',
         rebootDesc: 'Sei sicuro di voler riavviare NanoKVM?'
       },
@@ -566,19 +566,19 @@ const it = {
           systemLog: 'Logging'
         },
         time: {
-          saveFailed: 'Impossibile salvare le impostazioni dell’ora',
-          saved: 'Impostazioni dell’ora salvate',
-          syncFailed: 'Impossibile sincronizzare l’ora',
+          saveFailed: "Impossibile salvare le impostazioni dell'ora",
+          saved: "Impostazioni dell'ora salvate",
+          syncFailed: "Impossibile sincronizzare l'ora",
           synced: 'Ora sincronizzata',
           invalidServers: 'Inserisci almeno un server NTP',
           maxServers: 'Massimo {{count}} server NTP consentiti',
           refresh: 'Aggiorna',
           syncNow: 'Sincronizza ora',
-          syncNowDesc: 'Imposta l’orologio dai server NTP ora',
+          syncNowDesc: "Imposta l'orologio dai server NTP ora",
           save: 'Salva',
           ntp: {
             title: 'NTP',
-            description: 'Sincronizza l’ora del dispositivo dai server NTP configurati'
+            description: "Sincronizza l'ora del dispositivo dai server NTP configurati"
           },
           networkTime: 'Ora di rete',
           clock: {
@@ -637,13 +637,13 @@ const it = {
             enable: 'Abilita Ristretta',
             confirmTitle: 'Abilitare la modalità Ristretta?',
             confirmDesc:
-              'L’accesso amministrativo in ingresso sarà limitato agli intervalli private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback per HTTPS e SSH. Gli intervalli pubblici non sono consentiti. DNS, NTP, syslog remoto, aggiornamenti online, DHCP, connessioni stabilite e traffico essenziale IPv6 in uscita resteranno disponibili. WebRTC/ICE UDP e altro traffico in ingresso/uscita saranno bloccati.'
+              "L'accesso amministrativo in ingresso sarà limitato agli intervalli private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback per HTTPS e SSH. Gli intervalli pubblici non sono consentiti. DNS, NTP, syslog remoto, aggiornamenti online, DHCP, connessioni stabilite e traffico essenziale IPv6 in uscita resteranno disponibili. WebRTC/ICE UDP e altro traffico in ingresso/uscita saranno bloccati."
           },
           paranoid: {
             enable: 'Abilita Paranoica',
             confirmTitle: 'Abilitare la modalità Paranoica?',
             confirmDesc:
-              'Resterà disponibile solo l’accesso HTTPS da intervalli private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, download da GitHub e altro traffico saranno bloccati salvo il minimo DHCP/controllo IPv6.'
+              "Resterà disponibile solo l'accesso HTTPS da intervalli private IPv4, IPv4 link-local/loopback, IPv6 link-local o IPv6 loopback. SSH, HTTP, mDNS, NTP, download da GitHub e altro traffico saranno bloccati salvo il minimo DHCP/controllo IPv6."
           },
           baseline: {
             apply: 'Passa a Base',
@@ -662,7 +662,7 @@ const it = {
       systemLog: {
         saveFailed: 'Impossibile salvare le impostazioni dei log',
         saved: 'Impostazioni dei log salvate',
-        invalidHost: 'Inserisci l’host del server syslog',
+        invalidHost: "Inserisci l'host del server syslog",
         logLoadFailed: 'Impossibile caricare i log',
         save: 'Salva',
         test: 'Invia log di prova',
@@ -789,11 +789,11 @@ const it = {
         performance: 'Prestazioni',
         memory: {
           title: 'Ottimizzazione memoria',
-          tip: 'Mantiene basso l’uso di memoria di Tailscale, il che aiuta su un dispositivo con poca RAM. Riavvia Tailscale per applicare la modifica.'
+          tip: "Mantiene basso l'uso di memoria di Tailscale, il che aiuta su un dispositivo con poca RAM. Riavvia Tailscale per applicare la modifica."
         },
         swap: {
           title: 'File di scambio',
-          tip: 'Se i problemi persistono dopo aver abilitato l’ottimizzazione della memoria, prova ad abilitare il file di scambio',
+          tip: "Se i problemi persistono dopo aver abilitato l'ottimizzazione della memoria, prova ad abilitare il file di scambio",
           sizeTip:
             'Questo imposta la dimensione del file su 256MB; regolala in Impostazioni > Dispositivo'
         },
@@ -804,7 +804,7 @@ const it = {
         stopTitle: 'Arresta Tailscale',
         stopBtn: 'Arresta',
         stop: 'Arrestare Tailscale?',
-        stopDesc: 'Arresta il servizio e ne impedisce l’avvio all’accensione',
+        stopDesc: "Arresta il servizio e ne impedisce l'avvio all'accensione",
         loading: 'Caricamento...',
         notInstall: 'Tailscale non trovato, per favore, installalo',
         install: 'Installa',
@@ -869,36 +869,36 @@ const it = {
           rawEnableConfirmDesc:
             'Gli aggiornamenti raw del sistema possono sostituire le partizioni boot e rootfs. Usare solo con accesso fisico per il recupero.',
           rawInstallDisabled:
-            'Questo aggiornamento preparato scrive partizioni raw della scheda SD. Abilitare gli aggiornamenti raw del sistema prima dell’installazione.',
+            "Questo aggiornamento preparato scrive partizioni raw della scheda SD. Abilitare gli aggiornamenti raw del sistema prima dell'installazione.",
           isLatest: 'Il sistema base è aggiornato.',
           available: 'È disponibile un aggiornamento del sistema base.',
-          downloading: 'Download e verifica dell’aggiornamento di sistema...',
+          downloading: "Download e verifica dell'aggiornamento di sistema...",
           downloadVerify: 'Scarica e verifica',
-          installing: 'Installazione dell’aggiornamento di sistema preparato...',
+          installing: "Installazione dell'aggiornamento di sistema preparato...",
           install: 'Installa',
           installFailed: 'Installazione non riuscita',
-          installConfirmTitle: 'Installare l’aggiornamento di sistema?',
+          installConfirmTitle: "Installare l'aggiornamento di sistema?",
           installConfirmDesc:
             'Questo sostituirà i file del sistema base dal pacchetto verificato. Sarà necessario riavviare.',
           rawInstallConfirmDesc:
-            'Questo pacchetto verificato scriverà immagini raw boot/rootfs sulle partizioni della scheda SD e riavvierà automaticamente. La scrittura può richiedere diversi minuti; mantenere l’alimentazione collegata.',
+            "Questo pacchetto verificato scriverà immagini raw boot/rootfs sulle partizioni della scheda SD e riavvierà automaticamente. La scrittura può richiedere diversi minuti; mantenere l'alimentazione collegata.",
           rawInstallWarning:
-            'Non esiste rollback automatico per aggiornamenti di partizioni raw. Se l’avvio fallisce, recuperare manualmente la scheda SD.',
+            "Non esiste rollback automatico per aggiornamenti di partizioni raw. Se l'avvio fallisce, recuperare manualmente la scheda SD.",
           rebootRequired: 'È necessario riavviare per attivare questo stato del sistema.',
-          confirming: 'Conferma dell’avvio dell’aggiornamento di sistema...',
+          confirming: "Conferma dell'avvio dell'aggiornamento di sistema...",
           confirmBoot: 'Conferma avvio',
           confirmFailed: 'Conferma avvio non riuscita',
           confirmed: 'Avvio confermato',
-          bootGood: 'L’aggiornamento di sistema in sospeso è stato segnato come boot-good.',
-          rollingBack: 'Rollback dell’aggiornamento di sistema...',
+          bootGood: "L'aggiornamento di sistema in sospeso è stato segnato come boot-good.",
+          rollingBack: "Rollback dell'aggiornamento di sistema...",
           rollback: 'Rollback',
           rollbackDone: 'Rollback preparato',
           rollbackFailed: 'Rollback non riuscito',
-          rollbackConfirmTitle: 'Eseguire rollback dell’aggiornamento di sistema?',
+          rollbackConfirmTitle: "Eseguire rollback dell'aggiornamento di sistema?",
           rollbackConfirmDesc:
-            'Questo ripristinerà i file dall’ultimo backup dell’aggiornamento di sistema. Sarà necessario riavviare.',
+            "Questo ripristinerà i file dall'ultimo backup dell'aggiornamento di sistema. Sarà necessario riavviare.",
           stagedDesc:
-            'L’aggiornamento di sistema è stato scaricato e verificato, ora puoi installarlo',
+            "L'aggiornamento di sistema è stato scaricato e verificato, ora puoi installarlo",
           refresh: 'Aggiorna',
           releaseNotes: 'Note di rilascio',
           systemVersion: 'Versione sistema',
@@ -930,7 +930,7 @@ const it = {
         title: 'Account',
         webAccount: 'Nome account web',
         password: 'Password',
-        passwordDesc: 'Cambia la password usata per accedere all’interfaccia web',
+        passwordDesc: "Cambia la password usata per accedere all'interfaccia web",
         updateBtn: 'Cambia',
         logoutBtn: 'Esci',
         logoutDesc: 'Sei sicuro di voler uscire?',
@@ -1070,7 +1070,7 @@ const it = {
         menuLabel: 'Configura modello',
         modelIdentifier: 'Identificatore del modello',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Chiave API',
         apiKeyPlaceholder: 'Inserisci la chiave API del modello',

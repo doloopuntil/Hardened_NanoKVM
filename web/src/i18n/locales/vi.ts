@@ -1056,7 +1056,7 @@ const vi = {
         menuLabel: 'Cấu hình mô hình',
         modelIdentifier: 'Định danh mô hình',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Khóa API',
         apiKeyPlaceholder: 'Nhập khóa API của mô hình',

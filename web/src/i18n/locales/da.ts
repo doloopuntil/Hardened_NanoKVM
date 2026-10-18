@@ -391,7 +391,7 @@ const da = {
           remoteDownload: 'Hent ekstern ISO',
           remoteDownloadWarningTitle: 'Aktivér ekstern ISO-download?',
           remoteDownloadWarningDesc:
-            'NanoKVM henter en ISO fra en URL og skriver den til /data. Aktivér kun for betroede URL’er og slå fra, når du er færdig.',
+            "NanoKVM henter en ISO fra en URL og skriver den til /data. Aktivér kun for betroede URL'er og slå fra, når du er færdig.",
           remoteDownloadWarningConfirm: 'Aktivér',
           remoteDownloadWarningCancel: 'Annuller'
         }
@@ -978,7 +978,7 @@ const da = {
       }
     },
     picoclaw: {
-      title: 'PicoClaw Assistent',
+      title: 'PicoClaw-assistent',
       empty: 'Åbn panelet og start en opgave for at begynde',
       inputPlaceholder: 'Beskriv, hvad du vil have PicoClaw til at gøre',
       newConversation: 'Ny samtale',
@@ -1058,7 +1058,7 @@ const da = {
         menuLabel: 'Konfigurer model',
         modelIdentifier: 'Modelidentifikator',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-nøgle',
         apiKeyPlaceholder: 'Indtast modellens API-nøgle',

@@ -247,17 +247,17 @@ const ja = {
       deleteConfirm: 'このイメージを削除してもよろしいですか？',
       tips: {
         title: 'アップロード方法',
-        usb1: 'NanoKVM を USB 経由でコンピュータに接続します；',
+        usb1: 'NanoKVM を USB 経由でコンピュータに接続します。',
         usb2: '設定 > デバイス > 仮想ディスク で仮想ディスクがマウントされていることを確認してください。',
         usb3: 'コンピュータ上で仮想ディスクを開き、イメージファイルを仮想ディスクのルートディレクトリにコピーします。',
-        scp1: 'NanoKVM とコンピュータが同じローカルエリアネットワークに接続されていることを確認します；',
+        scp1: 'NanoKVM とコンピュータが同じローカルエリアネットワークに接続されていることを確認します。',
         scp2: 'コンピュータでターミナルを開き、SCP コマンドを使用してイメージファイルを NanoKVM の /data ディレクトリにアップロードします。',
         scp3: '例：scp your-image-path root@your-nanokvm-ip:/data',
         tfCard: 'SD カード',
         tf1: 'この方法は Linux システムでサポートされています',
         tf2: 'NanoKVM から SD カードを取り出します。FULL バージョンでは、先にケースを分解してください。',
-        tf3: 'SD カードをカードリーダーに挿入してコンピュータに接続します；',
-        tf4: 'コンピューターから SD カードの /data ディレクトリにイメージファイルをコピーします；',
+        tf3: 'SD カードをカードリーダーに挿入してコンピュータに接続します。',
+        tf4: 'コンピューターから SD カードの /data ディレクトリにイメージファイルをコピーします。',
         tf5: 'SD カードを NanoKVM に挿入します。'
       }
     },
@@ -641,7 +641,7 @@ const ja = {
             enable: 'パラノイドを有効化',
             confirmTitle: 'パラノイドモードを有効にしますか?',
             confirmDesc:
-              'private IPv4、IPv4 link-local/loopback、IPv6 link-local、IPv6 loopback の送信元範囲からの HTTPS アクセスのみが残ります。SSH、HTTP、mDNS、NTP、GitHub ダウンロード、その他の通信は最小限の DHCP/IPv6 制御通信を除きブロックされます。'
+              'Private IPv4、IPv4 link-local/loopback、IPv6 link-local、IPv6 loopback の送信元範囲からの HTTPS アクセスのみが残ります。SSH、HTTP、mDNS、NTP、GitHub ダウンロード、その他の通信は最小限の DHCP/IPv6 制御通信を除きブロックされます。'
           },
           baseline: {
             apply: 'ベースラインに切り替え',
@@ -660,7 +660,7 @@ const ja = {
       systemLog: {
         saveFailed: 'ログ設定の保存に失敗しました',
         saved: 'ログ設定を保存しました',
-        invalidHost: 'syslog サーバーのホストを入力してください',
+        invalidHost: 'Syslog サーバーのホストを入力してください',
         logLoadFailed: 'ログの読み込みに失敗しました',
         save: '保存',
         test: 'テストログを送信',
@@ -671,9 +671,9 @@ const ja = {
           forward: 'システムログを転送',
           description: 'システムメッセージをリモートサーバーへ転送します',
           host: 'サーバー',
-          hostDesc: 'syslog サーバーのホスト名または IPv4 アドレス',
+          hostDesc: 'Syslog サーバーのホスト名または IPv4 アドレス',
           port: 'ポート',
-          protocol: 'syslog サーバーの UDP ポート'
+          protocol: 'Syslog サーバーの UDP ポート'
         },
         local: {
           title: 'システムログバッファ',
@@ -814,7 +814,7 @@ const ja = {
         upTailscale: 'tailscale ファイルを NanoKVM の /usr/bin ディレクトリにアップロードします',
         upTailscaled: 'tailscaled ファイルを NanoKVM の /usr/sbin ディレクトリにアップロードします',
         refresh: 'ページを更新します',
-        notRunning: 'Tailscale はまだ実行されていません。起動操作を実行してください',
+        notRunning: 'Tailscale はまだ実行されていません。起動操作を実行してください。',
         run: '起動',
         notLogin:
           'このデバイスはまだバインドされていません。ログインしてデバイスをアカウントにバインドしてください。',
@@ -857,12 +857,12 @@ const ja = {
             'このシステム更新をインストールする前に、アプリケーションを {{version}} に更新してください',
           requiredAppVersion: '必要なアプリケーションバージョン',
           downloadFailed: 'ダウンロードまたは検証に失敗しました',
-          rawEnable: 'raw システム更新を許可',
+          rawEnable: 'Raw システム更新を許可',
           rawEnableDesc:
             '検証済み raw boot/rootfs イメージをこの画面から SD カードに書き込めるようにします',
-          rawEnableConfirmTitle: 'raw システム更新を許可しますか?',
+          rawEnableConfirmTitle: 'Raw システム更新を許可しますか?',
           rawEnableConfirmDesc:
-            'raw システム更新は boot/rootfs パーティションを置き換えることがあります。物理的な復旧手段がある場合のみ使用してください。',
+            'Raw システム更新は boot/rootfs パーティションを置き換えることがあります。物理的な復旧手段がある場合のみ使用してください。',
           rawInstallDisabled:
             'この準備済み更新は raw SD カードパーティションを書き込みます。インストール前に raw システム更新を有効にしてください。',
           isLatest: 'ベースシステムは最新です。',
@@ -878,7 +878,7 @@ const ja = {
           rawInstallConfirmDesc:
             'この検証済みバンドルは raw boot/rootfs イメージを SD カードパーティションに書き込み、自動的に再起動します。書き込みには数分かかる場合があります。電源を接続したままにしてください。',
           rawInstallWarning:
-            'raw パーティション更新には自動 rollback がありません。起動に失敗した場合は SD カードを手動で復旧してください。',
+            'Raw パーティション更新には自動 rollback がありません。起動に失敗した場合は SD カードを手動で復旧してください。',
           rebootRequired: 'このシステム状態を有効にするには再起動が必要です。',
           confirming: 'システム更新の起動を確認しています...',
           confirmBoot: '起動を確認',
@@ -904,7 +904,7 @@ const ja = {
           archive: 'アーカイブ',
           requiredFree: '必要な空き容量',
           fileCount: 'ファイル',
-          rawImages: 'raw イメージ',
+          rawImages: 'Raw イメージ',
           progress: '進行状況',
           progressMessage: '進行メッセージ',
           pendingVersion: '保留中のバージョン',
@@ -1065,7 +1065,7 @@ const ja = {
         menuLabel: 'モデルの構成',
         modelIdentifier: 'モデル識別子',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API キー',
         apiKeyPlaceholder: 'モデルの API キーを入力してください',

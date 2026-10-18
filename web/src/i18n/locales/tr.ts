@@ -19,7 +19,7 @@ const tr = {
     },
     auth: {
       login: 'Giriş',
-      placeholderUsername: 'Kullanıcı Adı',
+      placeholderUsername: 'Kullanıcı adı',
       placeholderPassword: 'Şifre',
       placeholderPassword2: 'Şifrenizi tekrar girin',
       noEmptyUsername: 'Kullanıcı adı gereklidir',
@@ -77,7 +77,7 @@ const tr = {
       confirmBtn: 'Tamam',
       finishBtn: 'Bitti',
       ap: {
-        authTitle: 'Kimlik Doğrulaması Gerekli',
+        authTitle: 'Kimlik doğrulaması gerekli',
         authDescription: 'Devam etmek için lütfen AP şifresini girin',
         authFailed: 'Geçersiz AP şifresi',
         passPlaceholder: 'AP şifresi',
@@ -206,7 +206,7 @@ const tr = {
           'KVM alanının herhangi bir yerinde hareket edin; uzak imleç dokunuşlar arasında konumunu korur ve mutlak HID ile senkron kalır'
       },
       requestPointer: 'Bağıl fare modu kullanılıyor, imleci almak için masaüstüne tıklayın',
-      resetHid: 'HID’yi sıfırla',
+      resetHid: "HID'yi sıfırla",
       hidOnly: {
         title: 'HID-Only modu',
         desc: "Fare veya klavye yanıt vermeyi bırakır ve HID'i sıfırlamak yardımcı olmazsa, NanoKVM ile ana bilgisayar arasında bir uyumluluk sorunu olabilir.",
@@ -218,7 +218,7 @@ const tr = {
       }
     },
     image: {
-      title: 'Disk İmajları',
+      title: 'Disk imajları',
       loading: 'Yükleniyor...',
       empty: 'Hiçbir şey bulunamadı',
       mountMode: 'Montaj modu',
@@ -235,9 +235,9 @@ const tr = {
       forceEject: 'Çıkarmayı zorla',
       forceEjectConfirm:
         'Ana bilgisayar optik sürücüyü kilitledi. Çıkarmayı zorlamak, sanal USB aygıtının bağlantısını kısa süreliğine keser; bu nedenle klavye ve fare kısa süreliğine bağlantıyı kaybedebilir. Devam edilsin mi?',
-      usbReconnect: 'USB’yi yeniden bağla',
+      usbReconnect: "USB'yi yeniden bağla",
       usbReconnectConfirm:
-        'USB gadget’ı yalnızca uzak makine medya değişikliğini fark etmediyse yeniden bağlayın. Klavye ve fare kısa süreli kesilebilir.',
+        "USB gadget'ı yalnızca uzak makine medya değişikliğini fark etmediyse yeniden bağlayın. Klavye ve fare kısa süreli kesilebilir.",
       usbReconnectSuccess: 'USB yeniden bağlandı',
       usbReconnectFailed: 'USB yeniden bağlanamadı',
       mountTitle: 'İmajı bağla',
@@ -305,7 +305,7 @@ const tr = {
     },
     download: {
       title: 'Disk imajı indir',
-      input: 'Uzak imaj URL’si',
+      input: "Uzak imaj URL'si",
       ok: 'OK',
       disabled:
         'Depolama yazılabilir olmadığı için şu anda imaj indirilemiyor veya yüklenemiyor. Bir imaj bağlıysa bağlantısını kaldırın, ardından depolamayı yeniden yazılabilir yapmak için sanal diski kapatın.',
@@ -347,7 +347,7 @@ const tr = {
     settings: {
       title: 'Ayarlar',
       about: {
-        title: 'NanoKVM Hakkında',
+        title: 'NanoKVM hakkında',
         information: 'Bilgi',
         ip: 'IP',
         mdns: 'mDNS',
@@ -391,7 +391,7 @@ const tr = {
           remoteDownload: 'Uzak ISO indir',
           remoteDownloadWarningTitle: 'Uzak ISO indirme etkinleştirilsin mi?',
           remoteDownloadWarningDesc:
-            'NanoKVM bir URL’den ISO alıp /data içine yazar. Yalnızca güvenilir URL’ler için etkinleştirin ve işiniz bitince kapatın.',
+            "NanoKVM bir URL'den ISO alıp /data içine yazar. Yalnızca güvenilir URL'ler için etkinleştirin ve işiniz bitince kapatın.",
           remoteDownloadWarningConfirm: 'Etkinleştir',
           remoteDownloadWarningCancel: 'İptal'
         }
@@ -475,7 +475,7 @@ const tr = {
         usbWakeup: 'USB ile uyandırma',
         usbWakeupDesc: 'Klavye veya fare olaylarının uzak makineyi uyandırmasına izin verir',
         usbWakeupTip: 'Makine tekrarlayan USB wakeup iletileri kaydediyorsa kapatın',
-        reboot: 'Yeniden Başlat',
+        reboot: 'Yeniden başlat',
         rebootDesc: "NanoKVM'i yeniden başlatmak istediğinizden emin misiniz?"
       },
       network: {
@@ -673,7 +673,7 @@ const tr = {
         local: {
           title: 'Sistem günlüğü tamponu',
           description:
-            'SD karta yazmayı önlemek için geçerli günlükler RAM’de {{path}} konumunda tutulur',
+            "SD karta yazmayı önlemek için geçerli günlükler RAM'de {{path}} konumunda tutulur",
           priority: 'En düşük öncelik',
           priorityDesc: 'Bir iletinin günlüğe kaydedilmesi için en düşük aciliyet',
           buffer: 'Tampon boyutu',
@@ -979,15 +979,15 @@ const tr = {
       }
     },
     picoclaw: {
-      title: 'PicoClaw Asistanı',
+      title: 'PicoClaw asistanı',
       empty: 'Paneli açın ve başlamak için bir görevi başlatın',
       inputPlaceholder: "PicoClaw'nin ne yapmasını istediğinizi açıklayın",
       newConversation: 'Yeni görüşme',
       processing: 'İşleniyor...',
       agent: {
-        defaultTitle: 'Genel Asistan',
+        defaultTitle: 'Genel asistan',
         defaultDescription: 'Genel sohbet, arama ve çalışma alanı yardımı',
-        kvmTitle: 'Uzaktan Kontrol',
+        kvmTitle: 'Uzaktan kontrol',
         kvmDescription: 'Uzak ana bilgisayarı NanoKVM aracılığıyla çalıştırın',
         switched: 'Temsilci rolü değiştirildi',
         switchFailed: 'Temsilci rolü değiştirilemedi'
@@ -1024,7 +1024,7 @@ const tr = {
       message: {
         toolAction: 'Eylem',
         observation: 'Gözlem',
-        screenshot: 'Ekran Görüntüsü'
+        screenshot: 'Ekran görüntüsü'
       },
       overlay: {
         locked: 'PicoClaw cihazı kontrol ediyor. Manuel giriş duraklatıldı.'
@@ -1047,21 +1047,21 @@ const tr = {
           verifying: 'Doğrulanıyor',
           installing: 'Yükleniyor',
           installed: 'Yüklendi',
-          install_timeout: 'Zaman Aşımı',
+          install_timeout: 'Zaman aşımı',
           install_failed: 'Başarısız'
         }
       },
       model: {
         requiredTitle: 'Model yapılandırması gerekli',
         requiredDescription: 'PicoClaw sohbetini kullanmadan önce PicoClaw modelini yapılandırın.',
-        docsTitle: 'Yapılandırma Kılavuzu',
+        docsTitle: 'Yapılandırma kılavuzu',
         docsDesc: 'Desteklenen modeller ve protokoller',
         menuLabel: 'Modeli yapılandır',
-        modelIdentifier: 'Model Tanımlayıcı',
+        modelIdentifier: 'Model tanımlayıcı',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
-        apiKey: 'API Anahtarı',
+        apiKey: 'API anahtarı',
         apiKeyPlaceholder: 'Model API anahtarını girin',
         save: 'Kaydet',
         saving: 'Kaydediliyor',
@@ -1090,11 +1090,11 @@ const tr = {
         messageCount_other: '{{count}} mesaj'
       },
       config: {
-        startRuntime: "PicoClaw'ı Başlat",
-        stopRuntime: "PicoClaw'ı Durdur"
+        startRuntime: "PicoClaw'ı başlat",
+        stopRuntime: "PicoClaw'ı durdur"
       },
       start: {
-        title: "PicoClaw'ı Başlat",
+        title: "PicoClaw'ı başlat",
         description: "PicoClaw yardımcısını kullanmaya başlamak için runtime'ı başlatın."
       }
     },

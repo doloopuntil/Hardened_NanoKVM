@@ -232,17 +232,17 @@ const zh = {
       deleteConfirm: '确定要删除该镜像吗？',
       tips: {
         title: '如何上传',
-        usb1: '将 NanoKVM 通过 USB 连接到您的电脑；',
+        usb1: '将 NanoKVM 通过 USB 连接到您的电脑。',
         usb2: '确保已在 设置 > 设备 > 虚拟磁盘 中挂载虚拟磁盘。',
         usb3: '在电脑上打开虚拟硬盘，将镜像文件拷贝到虚拟硬盘的根目录下。',
-        scp1: '确保 NanoKVM 和您的电脑在同一个局域网内；',
+        scp1: '确保 NanoKVM 和您的电脑在同一个局域网内。',
         scp2: '在电脑上打开终端软件，使用 SCP 命令将镜像文件上传到 NanoKVM 的 /data 目录。',
         scp3: '示例：scp your-image-path root@your-nanokvm-ip:/data',
         tfCard: 'SD 卡',
         tf1: '该方式适用于 Linux 系统',
         tf2: '将 SD 卡从 NanoKVM 中取出。FULL 版本需要先拆开外壳。',
-        tf3: '将 SD 卡插入读卡器并连接到您的电脑；',
-        tf4: '从电脑上拷贝镜像文件到 SD 卡的 /data 目录下；',
+        tf3: '将 SD 卡插入读卡器并连接到您的电脑。',
+        tf4: '从电脑上拷贝镜像文件到 SD 卡的 /data 目录下。',
         tf5: '将 SD 卡重新插入 NanoKVM。'
       }
     },
@@ -642,9 +642,9 @@ const zh = {
           forward: '转发系统日志',
           description: '将系统消息转发到远程服务器',
           host: '服务器',
-          hostDesc: 'syslog 服务器的主机名或 IPv4 地址',
+          hostDesc: 'Syslog 服务器的主机名或 IPv4 地址',
           port: '端口',
-          protocol: 'syslog 服务器的 UDP 端口'
+          protocol: 'Syslog 服务器的 UDP 端口'
         },
         local: {
           title: '系统日志缓冲区',
@@ -780,7 +780,7 @@ const zh = {
         upTailscale: '将 tailscale 上传到 NanoKVM 的 /usr/bin/ 目录',
         upTailscaled: '将 tailscaled 上传到 NanoKVM 的 /usr/sbin/ 目录',
         refresh: '刷新页面',
-        notRunning: 'Tailscale 尚未运行，请先执行启动操作',
+        notRunning: 'Tailscale 尚未运行。请先执行启动操作。',
         run: '启动',
         notLogin: '该设备尚未绑定，请点击登录并将这台设备绑定到您的账号。',
         urlPeriod: '该链接10分钟内有效',
@@ -801,7 +801,7 @@ const zh = {
         sources: '更新来源',
         latestVersion: '最新版本',
         queryFailed: '获取版本号失败',
-        updateFailed: '更新失败，请重试',
+        updateFailed: '更新失败。请重试。',
         paranoidBlocked: '在线更新被偏执防火墙模式阻止',
         paranoidBlockedDesc: 'GitHub 检查和下载需要出站网络访问。离线上传和已暂存的安装仍可使用。',
         isLatest: '已经是最新版本。',
@@ -824,7 +824,7 @@ const zh = {
           rawEnableDesc: '允许从此页面将已验证的 raw boot/rootfs 镜像写入 SD 卡',
           rawEnableConfirmTitle: '允许 raw 系统更新？',
           rawEnableConfirmDesc:
-            'raw 系统更新可以替换 boot 和 rootfs 分区。仅在有物理恢复访问时使用。',
+            'Raw 系统更新可以替换 boot 和 rootfs 分区。仅在有物理恢复访问时使用。',
           rawInstallDisabled: '此已暂存更新会写入 SD 卡 raw 分区。安装前请启用 raw 系统更新。',
           isLatest: '基础系统已是最新。',
           available: '有可用的基础系统更新。',
@@ -837,7 +837,7 @@ const zh = {
           installConfirmDesc: '这将用已验证包中的文件替换基础系统文件。需要重启。',
           rawInstallConfirmDesc:
             '此已验证包会将 raw boot/rootfs 镜像写入 SD 卡分区并自动重启。写入可能需要数分钟；请保持供电。',
-          rawInstallWarning: 'raw 分区更新没有自动 rollback。如果启动失败，请手动恢复 SD 卡。',
+          rawInstallWarning: 'Raw 分区更新没有自动 rollback。如果启动失败，请手动恢复 SD 卡。',
           rebootRequired: '需要重启以激活此系统状态。',
           confirming: '正在确认系统更新启动...',
           confirmBoot: '确认启动',
@@ -861,7 +861,7 @@ const zh = {
           archive: '归档',
           requiredFree: '所需可用空间',
           fileCount: '文件',
-          rawImages: 'raw 镜像',
+          rawImages: 'Raw 镜像',
           progress: '进度',
           progressMessage: '进度消息',
           pendingVersion: '待处理版本',
@@ -875,7 +875,7 @@ const zh = {
           desc: '通过本地安装包进行更新',
           upload: '上传',
           invalidName: '文件名格式错误，请前往 GitHub 发布页下载安装包。',
-          updateFailed: '更新失败，请重试'
+          updateFailed: '更新失败。请重试。'
         }
       },
       account: {
@@ -1013,7 +1013,7 @@ const zh = {
         menuLabel: '配置模型',
         modelIdentifier: '模型标识',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API Key',
         apiKeyPlaceholder: '请输入模型 API Key',

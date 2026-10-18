@@ -630,7 +630,7 @@ const ko = {
             enable: '파라노이드 활성화',
             confirmTitle: '파라노이드 모드를 활성화할까요?',
             confirmDesc:
-              'private IPv4, IPv4 link-local/loopback, IPv6 link-local 또는 IPv6 loopback 원본 범위의 HTTPS 접근만 남습니다. SSH, HTTP, mDNS, NTP, GitHub 다운로드 및 기타 트래픽은 최소 DHCP/IPv6 제어 트래픽을 제외하고 차단됩니다.'
+              'Private IPv4, IPv4 link-local/loopback, IPv6 link-local 또는 IPv6 loopback 원본 범위의 HTTPS 접근만 남습니다. SSH, HTTP, mDNS, NTP, GitHub 다운로드 및 기타 트래픽은 최소 DHCP/IPv6 제어 트래픽을 제외하고 차단됩니다.'
           },
           baseline: {
             apply: '베이스라인으로 전환',
@@ -649,7 +649,7 @@ const ko = {
       systemLog: {
         saveFailed: '로그 설정을 저장하지 못했습니다',
         saved: '로그 설정이 저장되었습니다',
-        invalidHost: 'syslog 서버 호스트를 입력하세요',
+        invalidHost: 'Syslog 서버 호스트를 입력하세요',
         logLoadFailed: '로그를 불러오지 못했습니다',
         save: '저장',
         test: '테스트 로그 보내기',
@@ -660,9 +660,9 @@ const ko = {
           forward: '시스템 로그 전달',
           description: '시스템 메시지를 원격 서버로 전달합니다',
           host: '서버',
-          hostDesc: 'syslog 서버의 호스트 이름 또는 IPv4 주소',
+          hostDesc: 'Syslog 서버의 호스트 이름 또는 IPv4 주소',
           port: '포트',
-          protocol: 'syslog 서버의 UDP 포트'
+          protocol: 'Syslog 서버의 UDP 포트'
         },
         local: {
           title: '시스템 로그 버퍼',
@@ -670,7 +670,7 @@ const ko = {
           priority: '최소 우선순위',
           priorityDesc: '메시지를 기록하기 위한 최소 긴급도',
           buffer: '버퍼 크기',
-          bufferDesc: '파일을 순환(로테이션)시키는 로그 크기',
+          bufferDesc: '파일이 순환되는 로그 크기',
           rotations: '회전',
           rotationsDesc: '보관할 순환된 로그 파일 수',
           compact: '간결한 출력',
@@ -842,12 +842,12 @@ const ko = {
             '이 시스템 업데이트를 설치하기 전에 애플리케이션을 {{version}} 버전으로 업데이트하세요',
           requiredAppVersion: '필요한 애플리케이션 버전',
           downloadFailed: '다운로드 또는 검증 실패',
-          rawEnable: 'raw 시스템 업데이트 허용',
+          rawEnable: 'Raw 시스템 업데이트 허용',
           rawEnableDesc:
             '이 화면에서 검증된 raw boot/rootfs 이미지를 SD 카드에 쓸 수 있도록 허용합니다',
-          rawEnableConfirmTitle: 'raw 시스템 업데이트를 허용할까요?',
+          rawEnableConfirmTitle: 'Raw 시스템 업데이트를 허용할까요?',
           rawEnableConfirmDesc:
-            'raw 시스템 업데이트는 boot 및 rootfs 파티션을 교체할 수 있습니다. 물리적 복구 접근이 있을 때만 사용하세요.',
+            'Raw 시스템 업데이트는 boot 및 rootfs 파티션을 교체할 수 있습니다. 물리적 복구 접근이 있을 때만 사용하세요.',
           rawInstallDisabled:
             '이 준비된 업데이트는 raw SD 카드 파티션을 씁니다. 설치 전에 raw 시스템 업데이트를 활성화하세요.',
           isLatest: '기본 시스템이 최신입니다.',
@@ -862,7 +862,7 @@ const ko = {
           rawInstallConfirmDesc:
             '이 검증된 번들은 raw boot/rootfs 이미지를 SD 카드 파티션에 쓰고 자동으로 재부팅합니다. 쓰기에는 몇 분이 걸릴 수 있으니 전원을 유지하세요.',
           rawInstallWarning:
-            'raw 파티션 업데이트에는 자동 rollback이 없습니다. 부팅이 실패하면 SD 카드를 수동으로 복구하세요.',
+            'Raw 파티션 업데이트에는 자동 rollback이 없습니다. 부팅이 실패하면 SD 카드를 수동으로 복구하세요.',
           rebootRequired: '이 시스템 상태를 활성화하려면 재부팅이 필요합니다.',
           confirming: '시스템 업데이트 부팅 확인 중...',
           confirmBoot: '부팅 확인',
@@ -887,7 +887,7 @@ const ko = {
           archive: '아카이브',
           requiredFree: '필요한 여유 공간',
           fileCount: '파일',
-          rawImages: 'raw 이미지',
+          rawImages: 'Raw 이미지',
           progress: '진행률',
           progressMessage: '진행 메시지',
           pendingVersion: '대기 중인 버전',
@@ -1044,7 +1044,7 @@ const ko = {
         menuLabel: '모델 구성',
         modelIdentifier: '모델 식별자',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API 키',
         apiKeyPlaceholder: '모델 API 키를 입력하세요',

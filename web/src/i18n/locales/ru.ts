@@ -25,8 +25,8 @@ const ru = {
       noEmptyUsername: 'Имя пользователя не может быть пустым',
       noEmptyPassword: 'Пароль не может быть пустым',
       invalidUser: 'Неверное имя пользователя или пароль',
-      locked: 'Слишком много входов. Повторите попытку позже',
-      globalLocked: 'Система находится под защитой. Повторите попытку позже',
+      locked: 'Слишком много входов, повторите попытку позже',
+      globalLocked: 'Система находится под защитой, повторите попытку позже',
       error: 'Непредвиденная ошибка',
       changePassword: 'Изменить пароль',
       changePasswordDesc: 'Для безопасности вашего устройства, пожалуйста поменяйте пароль',
@@ -34,7 +34,7 @@ const ru = {
       illegalUsername: 'Имя пользователя содержит недопустимые символы',
       illegalPassword:
         'Пароль должен быть не короче 8 символов и не должен содержать кавычки или слэши',
-      forgetPassword: 'Забыли пароль?',
+      forgetPassword: 'Забыли пароль',
       ok: 'ОК',
       cancel: 'Отмена',
       loginButtonText: 'Войти',
@@ -639,7 +639,7 @@ const ru = {
             enable: 'Включить «Параноидальный»',
             confirmTitle: 'Включить режим брандмауэра «Параноидальный»?',
             confirmDesc:
-              'Останется доступ только по HTTPS из private IPv4, IPv4 link-local/loopback, IPv6 link-local или IPv6 loopback source ranges. Публичные source ranges не разрешаются. SSH, HTTP, mDNS, NTP, загрузки с GitHub и прочий входящий/исходящий трафик будут заблокированы, кроме минимального DHCP/IPv6 control traffic.'
+              'Останется доступ только по HTTPS из частных диапазонов IPv4, link-local/loopback IPv4, link-local IPv6 или loopback IPv6. SSH, HTTP, mDNS, NTP, загрузки с GitHub и прочий входящий и исходящий трафик будут заблокированы, кроме минимального служебного трафика DHCP/IPv6.'
           },
           baseline: {
             apply: 'Переключить на «Базовый»',
@@ -1059,7 +1059,7 @@ const ru = {
         menuLabel: 'Настройка модели',
         modelIdentifier: 'Идентификатор модели',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-ключ',
         apiKeyPlaceholder: 'Введите API-ключ модели',

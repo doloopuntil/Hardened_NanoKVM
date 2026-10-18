@@ -26,7 +26,7 @@ const nl = {
       noEmptyPassword: 'Wachtwoord mag niet leeg zijn',
       invalidUser: 'Ongeldige gebruikersnaam of wachtwoord',
       locked: 'Te veel aanmeldingen, probeer het later opnieuw',
-      globalLocked: 'Systeem wordt beveiligd. Probeer het later opnieuw',
+      globalLocked: 'Systeem wordt beveiligd, probeer het later opnieuw',
       error: 'Onverwachte fout',
       changePassword: 'Wachtwoord wijzigen',
       changePasswordDesc:
@@ -396,7 +396,7 @@ const nl = {
           remoteDownload: 'ISO op afstand downloaden',
           remoteDownloadWarningTitle: 'ISO-download op afstand inschakelen?',
           remoteDownloadWarningDesc:
-            'NanoKVM haalt een ISO op van een URL en schrijft die naar /data. Schakel alleen in voor vertrouwde URL’s en schakel daarna weer uit.',
+            "NanoKVM haalt een ISO op van een URL en schrijft die naar /data. Schakel alleen in voor vertrouwde URL's en schakel daarna weer uit.",
           remoteDownloadWarningConfirm: 'Inschakelen',
           remoteDownloadWarningCancel: 'Annuleren'
         }
@@ -590,7 +590,7 @@ const nl = {
           servers: {
             title: 'NTP-servers',
             description:
-              'Gebruik de standaard openbare servers, je lokale router of eigen NTP-servers',
+              'Gebruik de standaard openbare servers, uw lokale router of eigen NTP-servers',
             useRouter: 'Router gebruiken',
             useDefaults: 'Standaarden gebruiken',
             routerDetected: 'Gedetecteerde router',
@@ -805,7 +805,7 @@ const nl = {
         stop: 'Weet u zeker dat u Tailscale wilt stoppen?',
         stopDesc: 'Stopt de service en voorkomt dat die bij het opstarten start',
         loading: 'Laden...',
-        notInstall: 'Tailscale niet gevonden, installeer a.u.b.',
+        notInstall: 'Tailscale niet gevonden, installeer het',
         install: 'Installeren',
         installing: 'Installeren bezig',
         failed: 'Installatie mislukt',
@@ -986,7 +986,7 @@ const nl = {
       }
     },
     picoclaw: {
-      title: 'PicoClaw Assistent',
+      title: 'PicoClaw-assistent',
       empty: 'Open het paneel en start een taak om te beginnen',
       inputPlaceholder: 'Beschrijf wat u wilt dat de PicoClaw doet',
       newConversation: 'Nieuw gesprek',
@@ -1066,7 +1066,7 @@ const nl = {
         menuLabel: 'Model configureren',
         modelIdentifier: 'Modelidentificatie',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-sleutel',
         apiKeyPlaceholder: 'Voer de API-sleutel van het model in',

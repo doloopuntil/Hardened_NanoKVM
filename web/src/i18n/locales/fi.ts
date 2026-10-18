@@ -980,7 +980,7 @@ const fi = {
     picoclaw: {
       title: 'PicoClaw-avustaja',
       empty: 'Avaa paneeli ja käynnistä tehtävä aloittaaksesi',
-      inputPlaceholder: 'Kuvaile, mitä haluat PicoClaw’n tekevän',
+      inputPlaceholder: "Kuvaile, mitä haluat PicoClaw'n tekevän",
       newConversation: 'Uusi keskustelu',
       processing: 'Käsitellään...',
       agent: {
@@ -1030,9 +1030,9 @@ const fi = {
       },
       install: {
         install: 'Asenna PicoClaw',
-        installing: 'Asennetaan PicoClaw’ta',
+        installing: "Asennetaan PicoClaw'ta",
         success: 'PicoClaw asennettu onnistuneesti',
-        failed: 'PicoClaw’n asennus epäonnistui',
+        failed: "PicoClaw'n asennus epäonnistui",
         uninstalling: 'Poistetaan runtimea...',
         uninstalled: 'Runtime poistettu onnistuneesti',
         uninstallFailed: 'Poisto epäonnistui',
@@ -1058,7 +1058,7 @@ const fi = {
         menuLabel: 'Määritä malli',
         modelIdentifier: 'Mallin tunniste',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API Base URL',
+        apiBase: 'API base URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-avain',
         apiKeyPlaceholder: 'Syötä mallin API-avain',
@@ -1072,7 +1072,7 @@ const fi = {
         menuLabel: 'Poista',
         confirmTitle: 'Poista PicoClaw',
         confirmContent:
-          'Haluatko varmasti poistaa PicoClaw’n? Tämä poistaa suoritettavan tiedoston ja kaikki määritystiedostot.',
+          "Haluatko varmasti poistaa PicoClaw'n? Tämä poistaa suoritettavan tiedoston ja kaikki määritystiedostot.",
         confirmOk: 'Poista'
       },
       history: {
