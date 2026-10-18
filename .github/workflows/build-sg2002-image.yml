@@ -51,7 +51,7 @@ jobs:
         run: make vendor-sdk
 
       # lt6911_sensor_ctl.c's chip-ID I2C probe never succeeds on this board (confirmed on real
-      # hardware, 100% failure over a 10s retry window); HDMI works without it, so it's removed.
+      # hardware); HDMI works without it, so it's removed.
       - name: Apply tracked vendor SDK middleware patches
         run: |
           git -C build/vendor/LicheeRV-Nano-Build apply --check \
