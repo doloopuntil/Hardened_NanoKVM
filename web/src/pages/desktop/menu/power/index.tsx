@@ -52,7 +52,7 @@ export const Power = () => {
     <div
       className={clsx(
         'h-[18px] w-[18px]',
-        isPowerOn ? 'text-green-600' : 'text-neutral-300 hover:text-white'
+        isPowerOn ? 'text-red-400 hover:text-red-500' : 'text-green-600 hover:text-green-500'
       )}
     >
       {isLoading ? (
