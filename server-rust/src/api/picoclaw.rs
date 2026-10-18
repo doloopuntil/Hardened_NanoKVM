@@ -1314,11 +1314,13 @@ fn capture_screenshot_blocking(
 ) -> std::result::Result<(Vec<u8>, ScreenshotMeta), PicoclawErrorData> {
     let (_width, _height, _quality, source_width, source_height) =
         resolve_screenshot_request(&query);
-    let Some(frame) = stream::latest_mjpeg_frame(CACHED_FRAME_MAX_AGE) else {
-        return Err(PicoclawErrorData::new(
-            CODE_SCREENSHOT_FAILED,
-            "no cached MJPEG frame available",
-        ));
+    // The cache is filled by the video stream, which sends nothing for a screen that does not
+    // change when frame detect is on, and nothing at all when nobody watches it. Then take a
+    // frame of our own.
+    let frame = match stream::latest_mjpeg_frame(CACHED_FRAME_MAX_AGE) {
+        Some(frame) => frame,
+        None => stream::capture_mjpeg_frame_now()
+            .map_err(|err| PicoclawErrorData::new(CODE_SCREENSHOT_FAILED, err))?,
     };
 
     Ok((
