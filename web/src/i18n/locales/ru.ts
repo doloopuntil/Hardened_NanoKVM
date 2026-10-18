@@ -740,7 +740,6 @@ const ru = {
         installing: 'Установка PicoClaw',
         success: 'PicoClaw успешно установлен',
         failed: 'Не удалось установить PicoClaw',
-        uninstalling: 'Удаление runtime...',
         requiredTitle: 'PicoClaw не установлен',
         requiredDescription: 'Установите PicoClaw перед запуском runtime PicoClaw.',
         progressDescription: 'PicoClaw загружается и устанавливается.',
@@ -772,7 +771,6 @@ const ru = {
         invalid: 'Требуются идентификатор модели, API Base URL и API-ключ'
       },
       uninstall: {
-        menuLabel: 'Удалить',
         confirmTitle: 'Удалить PicoClaw',
         confirmContent:
           'Вы уверены, что хотите удалить PicoClaw? Это приведет к удалению исполняемого файла и всех файлов конфигурации.',

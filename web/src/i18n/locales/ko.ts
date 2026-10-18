@@ -472,7 +472,6 @@ const ko = {
         installing: 'PicoClaw 설치 중',
         success: 'PicoClaw가 성공적으로 설치되었습니다',
         failed: 'PicoClaw 설치에 실패했습니다',
-        uninstalling: '런타임 삭제 중...',
         requiredTitle: 'PicoClaw가 설치되지 않았습니다',
         requiredDescription: 'PicoClaw 런타임을 시작하기 전에 PicoClaw를 설치하세요.',
         progressDescription: 'PicoClaw가 다운로드되고 설치되고 있습니다.',
@@ -506,7 +505,6 @@ const ko = {
         invalid: '모델 식별자, API Base URL, API 키가 필요합니다'
       },
       uninstall: {
-        menuLabel: '제거',
         confirmTitle: 'PicoClaw 제거',
         confirmContent: 'PicoClaw를 정말로 제거할까요? 실행 파일과 모든 구성 파일이 삭제됩니다.',
         confirmOk: '제거'

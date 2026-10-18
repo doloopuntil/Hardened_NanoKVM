@@ -490,7 +490,6 @@ const nl = {
         installing: 'PicoClaw installeren',
         success: 'PicoClaw is succesvol geïnstalleerd',
         failed: 'Kan PicoClaw niet installeren',
-        uninstalling: 'Runtime verwijderen...',
         requiredTitle: 'PicoClaw is niet geïnstalleerd',
         requiredDescription: 'Installeer PicoClaw voordat u de runtime van PicoClaw start.',
         progressDescription: 'PicoClaw wordt gedownload en geïnstalleerd.',
@@ -524,7 +523,6 @@ const nl = {
         invalid: 'Model-ID, API Base URL en API-sleutel zijn vereist'
       },
       uninstall: {
-        menuLabel: 'Verwijderen',
         confirmTitle: 'PicoClaw verwijderen',
         confirmContent:
           'Weet u zeker dat u PicoClaw wilt verwijderen? Hiermee worden het uitvoerbare bestand en alle configuratiebestanden verwijderd.',

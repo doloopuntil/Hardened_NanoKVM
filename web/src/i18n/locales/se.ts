@@ -493,7 +493,6 @@ const se = {
         installing: 'Installerar PicoClaw',
         success: 'PicoClaw har installerats framgångsrikt',
         failed: 'Det gick inte att installera PicoClaw',
-        uninstalling: 'Avinstallerar runtime...',
         requiredTitle: 'PicoClaw är inte installerad',
         requiredDescription: 'Installera PicoClaw innan du startar PicoClaw runtime.',
         progressDescription: 'PicoClaw laddas ner och installeras.',
@@ -527,7 +526,6 @@ const se = {
         invalid: 'Modellidentifierare, API Base URL och API-nyckel krävs'
       },
       uninstall: {
-        menuLabel: 'Avinstallera',
         confirmTitle: 'Avinstallera PicoClaw',
         confirmContent:
           'Är du säker på att du vill avinstallera PicoClaw? Detta kommer att radera den körbara filen och alla konfigurationsfiler.',

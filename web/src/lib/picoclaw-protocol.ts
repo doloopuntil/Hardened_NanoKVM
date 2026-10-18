@@ -10,6 +10,20 @@ export type GatewayToolCall = {
   explanation?: string;
 };
 
+// The codes the server closes a chat connection with when something is wrong, and the translated
+// text that says what it is. The server's own reason is English.
+const CLOSE_ERRORS: Record<number, { code: string; key: string }> = {
+  4001: { code: 'AI_LOCK_HELD', key: 'picoclaw.error.lockHeld' },
+  4002: { code: 'RUNTIME_UNAVAILABLE', key: 'picoclaw.connection.runtime.unavailable' },
+  4003: { code: 'AUTH_FAILED', key: 'picoclaw.error.authFailed' },
+  4004: { code: 'AI_TAKEN_OVER', key: 'picoclaw.error.takenOver' },
+  4005: { code: 'UPSTREAM_CLOSED', key: 'picoclaw.error.upstreamClosed' }
+};
+
+export function closeErrorFor(closeCode: number): { code: string; key: string } | undefined {
+  return CLOSE_ERRORS[closeCode];
+}
+
 export type GatewayMessageKind = 'text' | 'thought' | 'tool_calls';
 
 export function messageKindOf(payload: Record<string, unknown>): GatewayMessageKind {

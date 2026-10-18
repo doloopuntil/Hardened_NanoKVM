@@ -484,7 +484,6 @@ const de = {
         installing: 'Installation von PicoClaw',
         success: 'PicoClaw erfolgreich installiert',
         failed: 'Installation von PicoClaw fehlgeschlagen',
-        uninstalling: 'Runtime wird deinstalliert...',
         requiredTitle: 'PicoClaw ist nicht installiert',
         requiredDescription: 'Installieren Sie PicoClaw, bevor Sie die PicoClaw Runtime starten.',
         progressDescription: 'PicoClaw wird heruntergeladen und installiert.',
@@ -519,7 +518,6 @@ const de = {
         invalid: 'Modellkennung, API Base URL und API-Schlüssel sind erforderlich'
       },
       uninstall: {
-        menuLabel: 'Deinstallieren',
         confirmTitle: 'Deinstallieren PicoClaw',
         confirmContent:
           'Sind Sie sicher, dass Sie PicoClaw deinstallieren möchten? Dadurch werden die ausführbare Datei und alle Konfigurationsdateien gelöscht.',

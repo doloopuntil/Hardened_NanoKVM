@@ -476,7 +476,6 @@ const tr = {
         installing: 'PicoClaw yükleniyor',
         success: 'PicoClaw başarıyla yüklendi',
         failed: 'PicoClaw yüklenemedi',
-        uninstalling: 'Runtime kaldırılıyor...',
         requiredTitle: 'PicoClaw kurulu değil',
         requiredDescription: "PicoClaw runtime'ı başlatmadan önce PicoClaw'ı yükleyin.",
         progressDescription: 'PicoClaw indiriliyor ve kuruluyor.',
@@ -510,7 +509,6 @@ const tr = {
         invalid: 'Model tanımlayıcı, API Base URL ve API anahtarı gereklidir'
       },
       uninstall: {
-        menuLabel: 'Kaldırma',
         confirmTitle: 'Kaldırma PicoClaw',
         confirmContent:
           "PicoClaw'yi kaldırmak istediğinizden emin misiniz? Bu, yürütülebilir dosyayı ve tüm yapılandırma dosyalarını siler.",

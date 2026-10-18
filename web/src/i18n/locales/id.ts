@@ -467,7 +467,6 @@ const id = {
         installing: 'Menginstal PicoClaw',
         success: 'PicoClaw berhasil diinstal',
         failed: 'Gagal menginstal PicoClaw',
-        uninstalling: 'Mencopot pemasangan runtime...',
         requiredTitle: 'PicoClaw tidak diinstal',
         requiredDescription: 'Instal PicoClaw sebelum memulai runtime PicoClaw.',
         progressDescription: 'PicoClaw sedang diunduh dan diinstal.',
@@ -501,7 +500,6 @@ const id = {
         invalid: 'Pengidentifikasi model, API Base URL, dan kunci API wajib diisi'
       },
       uninstall: {
-        menuLabel: 'Copot pemasangan',
         confirmTitle: 'Copot pemasangan PicoClaw',
         confirmContent:
           'Apakah Anda yakin ingin menghapus instalan PicoClaw? Ini akan menghapus semua file yang dapat dieksekusi dan konfigurasi.',

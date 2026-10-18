@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { messageKindOf, toolCallsFromPayload } from './picoclaw-protocol.ts';
+import { closeErrorFor, messageKindOf, toolCallsFromPayload } from './picoclaw-protocol.ts';
 
 describe('messageKindOf', () => {
   it('tells tool calls and thoughts from text', () => {
@@ -9,6 +9,16 @@ describe('messageKindOf', () => {
     expect(messageKindOf({ thought: true })).toBe('thought');
     expect(messageKindOf({ content: 'hello' })).toBe('text');
     expect(messageKindOf({ kind: 'something else' })).toBe('text');
+  });
+});
+
+describe('closeErrorFor', () => {
+  it('knows the codes of the server and says them in the translation', () => {
+    expect(closeErrorFor(4001)).toEqual({ code: 'AI_LOCK_HELD', key: 'picoclaw.error.lockHeld' });
+    expect(closeErrorFor(4004)?.key).toBe('picoclaw.error.takenOver');
+    expect(closeErrorFor(4005)?.key).toBe('picoclaw.error.upstreamClosed');
+    expect(closeErrorFor(4002)?.key).toBe('picoclaw.connection.runtime.unavailable');
+    expect(closeErrorFor(1006)).toBeUndefined();
   });
 });
 

@@ -229,7 +229,7 @@ export const SidebarHeader = ({
                           handleUninstallClick();
                         }}
                       >
-                        {t('picoclaw.uninstall.menuLabel')}
+                        {t('picoclaw.uninstall.confirmTitle')}
                       </MenuRow>
                     </div>
                   }

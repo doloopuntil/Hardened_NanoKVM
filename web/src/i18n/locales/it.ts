@@ -479,7 +479,6 @@ const it = {
         installing: 'Installazione PicoClaw',
         success: 'PicoClaw installato correttamente',
         failed: 'Impossibile installare PicoClaw',
-        uninstalling: 'Disinstallazione del runtime in corso...',
         requiredTitle: 'PicoClaw non è installato',
         requiredDescription: 'Installa PicoClaw prima di avviare il runtime PicoClaw.',
         progressDescription: 'PicoClaw è in fase di download e installazione.',
@@ -514,7 +513,6 @@ const it = {
         invalid: 'Identificatore del modello, API Base URL e chiave API sono obbligatori'
       },
       uninstall: {
-        menuLabel: 'Disinstalla',
         confirmTitle: 'Disinstalla PicoClaw',
         confirmContent:
           "Sei sicuro di voler disinstallare PicoClaw? Ciò eliminerà l'eseguibile e tutti i file di configurazione.",

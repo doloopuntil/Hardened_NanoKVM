@@ -477,7 +477,6 @@ const hu = {
         installing: 'PicoClaw telepítése folyamatban',
         success: 'PicoClaw sikeresen telepítve',
         failed: 'Nem sikerült telepíteni PicoClaw',
-        uninstalling: 'Runtime eltávolítása...',
         requiredTitle: 'PicoClaw nincs telepítve',
         requiredDescription:
           'Telepítse a PicoClaw alkalmazást a PicoClaw Runtime elindítása előtt.',
@@ -512,7 +511,6 @@ const hu = {
         invalid: 'A modellazonosító, az API Base URL és az API-kulcs megadása kötelező'
       },
       uninstall: {
-        menuLabel: 'Eltávolítás',
         confirmTitle: 'Eltávolítás PicoClaw',
         confirmContent:
           'Biztosan eltávolítja a következőt: PicoClaw? Ezzel törli a végrehajtható fájlt és az összes konfigurációs fájlt.',

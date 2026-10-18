@@ -1,4 +1,7 @@
+import i18n from 'i18next';
+
 import {
+  closeErrorFor,
   messageKindOf,
   toolCallsFromPayload,
   type GatewayToolCall
@@ -92,14 +95,6 @@ type SendMessageOptions = {
   trackState?: boolean;
 };
 
-const CLOSE_ERRORS: Record<number, string> = {
-  4001: 'AI_LOCK_HELD',
-  4002: 'RUNTIME_UNAVAILABLE',
-  4003: 'AUTH_FAILED',
-  4004: 'AI_TAKEN_OVER',
-  4005: 'UPSTREAM_CLOSED'
-};
-
 export function generateUUIDv4() {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID();
@@ -190,11 +185,12 @@ class PicoClawGateway {
         this.ws = null;
 
         if (event.code !== 1000) {
-          const code = CLOSE_ERRORS[event.code] || 'UNKNOWN';
-          if (code !== 'UNKNOWN') {
+          const closeError = closeErrorFor(event.code);
+          if (closeError) {
             this.emit('error', {
-              code,
-              message: event.reason || code
+              code: closeError.code,
+              message: i18n.t(closeError.key),
+              raw: { code: event.code, reason: event.reason }
             });
           }
         }
@@ -368,7 +364,7 @@ class PicoClawGateway {
     } catch {
       this.emit('error', {
         code: 'INVALID_MESSAGE',
-        message: 'Failed to parse gateway message',
+        message: i18n.t('common.actionFailed'),
         raw: rawData
       });
       return;
@@ -390,7 +386,7 @@ class PicoClawGateway {
       this.setRunState('idle');
       this.emit('error', {
         code: String(message.code || 'ERROR'),
-        message: String(message.message || 'Gateway error'),
+        message: String(message.message || i18n.t('common.actionFailed')),
         raw: message
       });
       return;

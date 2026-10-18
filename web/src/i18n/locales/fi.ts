@@ -549,7 +549,6 @@ const translations: Record<string, string> = {
   'picoclaw.install.installing': 'Asennetaan PicoClaw’ta',
   'picoclaw.install.success': 'PicoClaw asennettu onnistuneesti',
   'picoclaw.install.failed': 'PicoClaw’n asennus epäonnistui',
-  'picoclaw.install.uninstalling': 'Poistetaan runtimea...',
   'picoclaw.install.requiredTitle': 'PicoClaw ei ole asennettu',
   'picoclaw.install.requiredDescription': 'Asenna PicoClaw ennen PicoClaw-runtimen käynnistämistä.',
   'picoclaw.install.progressDescription': 'PicoClaw ladataan ja asennetaan.',
@@ -577,7 +576,6 @@ const translations: Record<string, string> = {
   'picoclaw.model.saved': 'Mallin määritys tallennettu',
   'picoclaw.model.saveFailed': 'Mallin määrityksen tallennus epäonnistui',
   'picoclaw.model.invalid': 'Mallin tunniste, API Base URL ja API-avain vaaditaan',
-  'picoclaw.uninstall.menuLabel': 'Poista',
   'picoclaw.uninstall.confirmTitle': 'Poista PicoClaw',
   'picoclaw.uninstall.confirmContent':
     'Haluatko varmasti poistaa PicoClaw’n? Tämä poistaa suoritettavan tiedoston ja kaikki määritystiedostot.',

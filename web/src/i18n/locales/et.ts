@@ -539,7 +539,6 @@ const translations: Record<string, string> = {
   'picoclaw.install.installing': 'PicoClaw paigaldamine',
   'picoclaw.install.success': 'PicoClaw paigaldatud edukalt',
   'picoclaw.install.failed': 'PicoClaw paigaldamine nurjus',
-  'picoclaw.install.uninstalling': 'Runtime eemaldamine...',
   'picoclaw.install.requiredTitle': 'PicoClaw pole paigaldatud',
   'picoclaw.install.requiredDescription': 'Paigalda PicoClaw enne PicoClaw runtime käivitamist.',
   'picoclaw.install.progressDescription': 'PicoClaw laaditakse alla ja paigaldatakse.',
@@ -568,7 +567,6 @@ const translations: Record<string, string> = {
   'picoclaw.model.saved': 'Mudeli konfiguratsioon salvestatud',
   'picoclaw.model.saveFailed': 'Mudeli konfiguratsiooni salvestamine nurjus',
   'picoclaw.model.invalid': 'Mudeli identifikaator, API baas-URL ja API võti on nõutavad',
-  'picoclaw.uninstall.menuLabel': 'Eemalda',
   'picoclaw.uninstall.confirmTitle': 'Eemalda PicoClaw',
   'picoclaw.uninstall.confirmContent':
     'Kas oled kindel, et soovid PicoClaw eemaldada? See kustutab käivitatava faili ja kõik konfiguratsioonifailid.',

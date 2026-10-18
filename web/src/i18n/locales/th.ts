@@ -490,7 +490,6 @@ const th = {
         installing: 'กำลังติดตั้ง PicoClaw',
         success: 'PicoClaw ติดตั้งสำเร็จแล้ว',
         failed: 'ไม่สามารถติดตั้ง PicoClaw',
-        uninstalling: 'กำลังถอนการติดตั้ง Runtime...',
         uninstalled: 'ถอนการติดตั้ง Runtime สำเร็จแล้ว',
         uninstallFailed: 'การถอนการติดตั้งล้มเหลว',
         requiredTitle: 'PicoClaw ไม่ได้ติดตั้ง',
@@ -526,7 +525,6 @@ const th = {
         invalid: 'ต้องระบุรหัสโมเดล, API Base URL และคีย์ API'
       },
       uninstall: {
-        menuLabel: 'ถอนการติดตั้ง',
         confirmTitle: 'ถอนการติดตั้ง PicoClaw',
         confirmContent:
           'คุณแน่ใจหรือไม่ว่าต้องการถอนการติดตั้ง PicoClaw การดำเนินการนี้จะลบไฟล์ปฏิบัติการและไฟล์การกำหนดค่าทั้งหมด',

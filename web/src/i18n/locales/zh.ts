@@ -488,7 +488,6 @@ const zh = {
         installing: '正在安装 PicoClaw',
         success: 'PicoClaw 安装成功',
         failed: 'PicoClaw 安装失败',
-        uninstalling: '正在卸载运行时...',
         requiredTitle: '未安装 PicoClaw',
         requiredDescription: '在启动 PicoClaw 运行时之前，需要先下载安装 PicoClaw。',
         progressDescription: '正在下载并安装 PicoClaw。',
@@ -522,7 +521,6 @@ const zh = {
         invalid: '模型标识、API Base URL 和 API Key 不能为空'
       },
       uninstall: {
-        menuLabel: '卸载',
         confirmTitle: '卸载 PicoClaw',
         confirmContent: '确定要卸载 PicoClaw 吗？这会删除可执行文件和所有配置文件。',
         confirmOk: '卸载'

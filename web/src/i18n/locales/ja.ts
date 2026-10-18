@@ -492,7 +492,6 @@ const ja = {
         installing: 'PicoClaw をインストールしています',
         success: 'PicoClaw は正常にインストールされました',
         failed: 'PicoClaw のインストールに失敗しました',
-        uninstalling: 'ランタイムをアンインストールしています...',
         requiredTitle: 'PicoClaw がインストールされていません',
         requiredDescription:
           'PicoClaw ランタイムを開始する前に PicoClaw をインストールしてください。',
@@ -527,7 +526,6 @@ const ja = {
         invalid: 'モデル識別子、API Base URL、API キーは必須です'
       },
       uninstall: {
-        menuLabel: 'アンインストール',
         confirmTitle: 'PicoClaw のアンインストール',
         confirmContent:
           'PicoClaw をアンインストールしてもよろしいですか?これにより、実行可能ファイルとすべての構成ファイルが削除されます。',

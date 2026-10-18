@@ -475,7 +475,6 @@ const vi = {
         installing: 'Đang cài đặt PicoClaw',
         success: 'PicoClaw cài đặt thành công',
         failed: 'Không cài đặt được PicoClaw',
-        uninstalling: 'Đang gỡ cài đặt runtime...',
         requiredTitle: 'PicoClaw chưa được cài đặt',
         requiredDescription: 'Cài đặt PicoClaw trước khi bắt đầu runtime PicoClaw.',
         progressDescription: 'PicoClaw đang được tải xuống và cài đặt.',
@@ -510,7 +509,6 @@ const vi = {
         invalid: 'Bắt buộc nhập mã định danh mô hình, API Base URL và khóa API'
       },
       uninstall: {
-        menuLabel: 'Gỡ cài đặt',
         confirmTitle: 'Gỡ cài đặt PicoClaw',
         confirmContent:
           'Bạn có chắc chắn muốn gỡ cài đặt PicoClaw không? Thao tác này sẽ xóa tệp thực thi và tất cả các tệp cấu hình.',

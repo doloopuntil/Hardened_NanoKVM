@@ -909,7 +909,7 @@ const en = {
     },
     picoclaw: {
       title: 'PicoClaw Assistant',
-      empty: 'Open the panel and start a task to begin',
+      empty: 'Describe a task to get started',
       inputPlaceholder: 'Describe what you want PicoClaw to do',
       newConversation: 'New conversation',
       processing: 'Processing...',
@@ -950,6 +950,12 @@ const en = {
           busy: 'Busy'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw is in use in another window',
+        takenOver: 'Another window took over PicoClaw',
+        authFailed: 'PicoClaw refused the connection',
+        upstreamClosed: 'The connection to PicoClaw was lost'
+      },
       tool: {
         screenshot: 'Taking a screenshot',
         loadImage: 'Looking at the screenshot',
@@ -977,8 +983,7 @@ const en = {
         installing: 'Installing PicoClaw',
         success: 'PicoClaw installed successfully',
         failed: 'Failed to install PicoClaw',
-        uninstalling: 'Uninstalling runtime...',
-        uninstalled: 'Runtime uninstalled successfully',
+        uninstalled: 'PicoClaw uninstalled successfully',
         uninstallFailed: 'Uninstall failed',
         requiredTitle: 'PicoClaw is not installed',
         requiredDescription: 'Install PicoClaw before starting the PicoClaw runtime.',
@@ -1014,7 +1019,6 @@ const en = {
         invalid: 'Model identifier, API base URL, and API key are required'
       },
       uninstall: {
-        menuLabel: 'Uninstall',
         confirmTitle: 'Uninstall PicoClaw',
         confirmContent:
           'Are you sure you want to uninstall PicoClaw? This will delete the executable and all configuration files.',

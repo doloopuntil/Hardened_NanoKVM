@@ -470,7 +470,6 @@ const da = {
         installing: 'Installation af PicoClaw',
         success: 'PicoClaw installeret korrekt',
         failed: 'Kunne ikke installere PicoClaw',
-        uninstalling: 'Afinstallerer runtime...',
         requiredTitle: 'PicoClaw er ikke installeret',
         requiredDescription: 'Installer PicoClaw før start af PicoClaw runtime.',
         progressDescription: 'PicoClaw bliver downloadet og installeret.',
@@ -504,7 +503,6 @@ const da = {
         invalid: 'Model-id, API Base URL og API-nøgle er påkrævet'
       },
       uninstall: {
-        menuLabel: 'Afinstaller',
         confirmTitle: 'Afinstaller PicoClaw',
         confirmContent:
           'Er du sikker på, at du vil afinstallere PicoClaw? Dette vil slette den eksekverbare fil og alle konfigurationsfiler.',

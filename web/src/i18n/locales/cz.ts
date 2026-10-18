@@ -478,7 +478,6 @@ const cz = {
         installing: 'Instalace PicoClaw',
         success: 'PicoClaw úspěšně nainstalováno',
         failed: 'Nepodařilo se nainstalovat PicoClaw',
-        uninstalling: 'Odinstalování běhového prostředí...',
         requiredTitle: 'PicoClaw není nainstalováno',
         requiredDescription: 'Nainstalujte PicoClaw před spuštěním běhového prostředí PicoClaw.',
         progressDescription: 'PicoClaw se stahuje a instaluje.',
@@ -512,7 +511,6 @@ const cz = {
         invalid: 'Identifikátor modelu, API Base URL a klíč API jsou povinné'
       },
       uninstall: {
-        menuLabel: 'Odinstalovat',
         confirmTitle: 'Odinstalovat PicoClaw',
         confirmContent:
           'Opravdu chcete odinstalovat PicoClaw? Tím smažete spustitelný soubor a všechny konfigurační soubory.',

@@ -460,7 +460,6 @@ const ca = {
         installing: 'Instal·lant PicoClaw',
         success: 'PicoClaw instal·lat correctament',
         failed: "No s'ha pogut instal·lar PicoClaw",
-        uninstalling: "S'està desinstal·lant el temps d'execució...",
         requiredTitle: 'PicoClaw no està instal·lat',
         requiredDescription: "Instal·leu PicoClaw abans d'iniciar el temps d'execució de PicoClaw.",
         progressDescription: "PicoClaw s'està baixant i instal·lant.",
@@ -492,7 +491,6 @@ const ca = {
         invalid: "Cal indicar l'identificador del model, l'API Base URL i la clau API"
       },
       uninstall: {
-        menuLabel: 'Desinstal·la',
         confirmTitle: 'Desinstal·la PicoClaw',
         confirmOk: 'Desinstal·la'
       },
