@@ -242,8 +242,6 @@ const vi = {
         mdns: 'mDNS',
         application: 'Phiên bản Ứng dụng',
         applicationTip: 'Phiên bản ứng dụng web NanoKVM',
-        image: 'Phiên bản Hình ảnh',
-        imageTip: 'Phiên bản image hệ thống NanoKVM',
         community: 'Cộng đồng',
         hostname: 'Tên máy chủ',
         hostnameUpdated: 'Đã cập nhật tên máy chủ. Khởi động lại để áp dụng.',

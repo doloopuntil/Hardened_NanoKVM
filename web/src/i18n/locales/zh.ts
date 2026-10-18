@@ -250,8 +250,6 @@ const zh = {
         mdns: 'mDNS',
         application: '应用版本',
         applicationTip: 'NanoKVM 网页应用版本',
-        image: '镜像版本',
-        imageTip: 'NanoKVM 系统镜像版本',
         uptime: '运行时间',
         community: '社区',
         hostname: '主机名',

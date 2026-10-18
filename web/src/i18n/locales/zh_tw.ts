@@ -252,7 +252,6 @@ const zh_tw = {
         mdns: 'mDNS',
         application: '應用程式版本',
         applicationTip: 'NanoKVM 網頁程式版本',
-        image: '韌體版本',
         community: '社群',
         hostname: '主機名稱',
         ipType: {}

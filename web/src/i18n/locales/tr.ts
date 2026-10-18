@@ -248,8 +248,6 @@ const tr = {
         mdns: 'mDNS',
         application: 'Uygulama sürümü',
         applicationTip: 'NanoKVM web uygulaması sürümü',
-        image: 'İmaj Sürümü',
-        imageTip: 'NanoKVM sistem imajı sürümü',
         community: 'Topluluk',
         hostname: 'Ana makine adı',
         hostnameUpdated: 'Hostname güncellendi. Uygulamak için yeniden başlatın.',

@@ -240,8 +240,6 @@ const ko = {
         ip: 'IP',
         mdns: 'mDNS',
         applicationTip: 'NanoKVM 웹 애플리케이션 버전',
-        image: '이미지 버전',
-        imageTip: 'NanoKVM 시스템 이미지 버전',
         community: '커뮤니티',
         hostname: '호스트 이름',
         hostnameUpdated: '호스트 이름이 업데이트되었습니다. 적용하려면 재부팅하세요.',

@@ -89,8 +89,8 @@ export const Hostname = () => {
             <div className="flex min-w-0 items-center justify-end gap-2">
               <span className="min-w-0 break-all">{hostname}</span>
               <div
-                className={`size-[16px] shrink-0 text-neutral-500 ${
-                  isReady ? 'cursor-pointer hover:text-blue-500' : 'cursor-not-allowed opacity-40'
+                className={`size-[16px] shrink-0 text-blue-500 ${
+                  isReady ? 'cursor-pointer hover:text-blue-400' : 'cursor-not-allowed opacity-40'
                 }`}
                 onClick={isReady ? showInput : undefined}
               >

@@ -250,8 +250,6 @@ const uk = {
         mdns: 'mDNS',
         application: 'Версія додатка',
         applicationTip: 'Версія веб-додатка NanoKVM',
-        image: 'Версія образу',
-        imageTip: 'Версія системного образу NanoKVM',
         community: 'Спільнота',
         hostname: "Ім'я вузла",
         hostnameUpdated: "Ім'я вузла оновлено. Перезавантажте систему, щоб застосувати зміни.",

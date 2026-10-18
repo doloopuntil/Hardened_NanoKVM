@@ -247,8 +247,6 @@ const cz = {
         mdns: 'mDNS',
         application: 'Verze aplikace',
         applicationTip: 'Verze webové aplikace NanoKVM',
-        image: 'Verze obrazu',
-        imageTip: 'Verze systémového obrazu NanoKVM',
         community: 'Komunita',
         hostname: 'Název hostitele',
         hostnameUpdated: 'Název hostitele byl aktualizován. Pro použití restartujte.',

@@ -256,8 +256,6 @@ const se = {
         mdns: 'mDNS',
         application: 'Applikationsversion',
         applicationTip: 'NanoKVM webbapplikationsversion',
-        image: 'Systemversion',
-        imageTip: 'NanoKVM systemavbildningsversion',
         community: 'Community',
         hostname: 'Värdnamn',
         hostnameUpdated: 'Värdnamn uppdaterat. Starta om för att tillämpa.',

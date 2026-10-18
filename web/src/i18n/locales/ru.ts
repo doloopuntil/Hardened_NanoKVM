@@ -294,8 +294,6 @@ const ru = {
         mdns: 'Доменное имя mDNS',
         application: 'Версия ПО',
         applicationTip: 'Версия веб-программы NanoKVM',
-        image: 'Версия прошивки',
-        imageTip: 'Версия системного образа NanoKVM',
         uptime: 'Время работы',
         community: 'Сообщество',
         hostname: 'Имя хоста',

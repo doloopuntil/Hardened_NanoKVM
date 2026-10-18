@@ -226,8 +226,6 @@ const translations: Record<string, string> = {
   'settings.about.mdns': 'mDNS',
   'settings.about.application': 'Sovelluksen versio',
   'settings.about.applicationTip': 'NanoKVM-verkkosovelluksen versio',
-  'settings.about.image': 'Imagen versio',
-  'settings.about.imageTip': 'NanoKVM-järjestelmäimagen versio',
   'settings.about.uptime': 'Käyntiaika',
   'settings.about.community': 'Yhteisö',
   'settings.about.hostname': 'Isäntänimi',

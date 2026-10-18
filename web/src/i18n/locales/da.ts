@@ -241,8 +241,6 @@ const da = {
         mdns: 'mDNS',
         application: 'Program version',
         applicationTip: 'Version af NanoKVM-webapplikationen',
-        image: 'Firmware version',
-        imageTip: 'Version af NanoKVM-systemimaget',
         community: 'Fællesskab',
         hostname: 'Værtsnavn',
         hostnameUpdated: 'Værtsnavn opdateret. Genstart for at anvende.',

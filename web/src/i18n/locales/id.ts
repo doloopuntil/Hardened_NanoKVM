@@ -238,8 +238,6 @@ const id = {
         mdns: 'mDNS',
         application: 'Versi Aplikasi',
         applicationTip: 'Versi aplikasi web NanoKVM',
-        image: 'Version Gambar',
-        imageTip: 'Versi image sistem NanoKVM',
         community: 'Komunitas',
         hostname: 'Nama Host',
         hostnameUpdated: 'Nama host diperbarui. Nyalakan ulang untuk menerapkan.',

@@ -250,8 +250,6 @@ const th = {
         ip: 'IP',
         mdns: 'mDNS',
         applicationTip: 'เวอร์ชั่นเว็บ NanoKVM',
-        image: 'เวอร์ชั่น Image ระบบ',
-        imageTip: 'เวอร์ชั่น Image ระบบ NanoKVM',
         community: 'ชุมชน',
         hostname: 'ชื่อโฮสต์',
         hostnameUpdated: 'อัปเดตชื่อโฮสต์แล้ว รีบูตเพื่อใช้',

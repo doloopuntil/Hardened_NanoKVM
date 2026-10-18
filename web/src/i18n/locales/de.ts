@@ -251,8 +251,6 @@ const de = {
         mdns: 'mDNS',
         application: 'Applikations-Version',
         applicationTip: 'NanoKVM Web Applikations-Version',
-        image: 'Systemabbild-Version',
-        imageTip: 'NanoKVM Systemabbild-Version',
         community: 'Community',
         hostname: 'Hostname',
         hostnameUpdated: 'Hostname aktualisiert. Neustarten um zu übernehmen.',

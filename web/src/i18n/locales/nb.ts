@@ -251,7 +251,6 @@ const nb = {
         mdns: 'mDNS',
         application: 'Applikasjonsversjon',
         applicationTip: 'Versjon av NanoKVM-webapplikasjonen',
-        imageTip: 'Versjon av NanoKVM-systemavbildningen',
         community: 'Fellesskap',
         hostname: 'Vertsnavn',
         hostnameUpdated: 'Vertsnavn oppdatert. Start på nytt for å søke.',

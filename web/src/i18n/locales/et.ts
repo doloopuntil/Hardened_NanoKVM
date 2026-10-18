@@ -228,8 +228,6 @@ const translations: Record<string, string> = {
   'settings.about.information': 'Teave',
   'settings.about.application': 'Rakenduse versioon',
   'settings.about.applicationTip': 'NanoKVM veebirakenduse versioon',
-  'settings.about.image': 'Image versioon',
-  'settings.about.imageTip': 'NanoKVM süsteemi image versioon',
   'settings.about.uptime': 'Tööaeg',
   'settings.about.community': 'Kogukond',
   'settings.about.hostname': 'Hostinimi',

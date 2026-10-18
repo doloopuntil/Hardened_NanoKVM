@@ -339,8 +339,6 @@ const en = {
         mdns: 'mDNS',
         application: 'Application version',
         applicationTip: 'NanoKVM web application version',
-        image: 'Image version',
-        imageTip: 'NanoKVM system image version',
         uptime: 'Uptime',
         community: 'Community',
         credit: 'Built on <a1>NanoKVM</a1> by Sipeed and <a2>Hardened NanoKVM</a2> by woffko',

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { EthernetPortIcon, WifiIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
+import { getSystemVersion } from '@/api/application.ts';
 import * as api from '@/api/vm.ts';
 import { formatHardenedVersion } from '@/lib/hardened.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
@@ -20,7 +21,6 @@ type IP = {
 type Info = {
   ips: IP[];
   mdns: string;
-  image: string;
   application: string;
   uptime?: number;
   deviceKey: string;
@@ -42,8 +42,10 @@ export const Information = () => {
   const { t } = useTranslation();
 
   const [information, setInformation] = useState<Info>();
+  const [systemVersion, setSystemVersion] = useState<string>();
 
   useSettingsLoad(api.getInfo, (rsp) => setInformation(rsp.data));
+  useSettingsLoad(getSystemVersion, (rsp) => setSystemVersion(rsp.data?.current?.version));
 
   return (
     <SettingSection title={t('settings.about.information')}>
@@ -51,7 +53,7 @@ export const Information = () => {
         <Hostname />
 
         <InfoRow
-          alignStart
+          alignStart={(information?.ips.length ?? 0) > 1}
           label={t('settings.about.ip')}
           value={
             information?.ips && information.ips.length > 0 ? (
@@ -77,10 +79,7 @@ export const Information = () => {
           <InfoRow label={t('settings.about.mdns')} value={information.mdns} />
         )}
 
-        <InfoRow
-          label={<LabelTip text={t('settings.about.image')} tip={t('settings.about.imageTip')} />}
-          value={information?.image}
-        />
+        <InfoRow label={t('settings.update.system.systemVersion')} value={systemVersion} />
 
         <InfoRow
           label={

@@ -232,8 +232,6 @@ const ca = {
         mdns: 'mDNS',
         application: 'Versió aplicació',
         applicationTip: 'Versió de la interfície web de NanoKVM',
-        image: 'Versió de la imatge',
-        imageTip: 'Versió del sistema NanoKVM',
         community: 'Comunitat',
         hostname: 'Nom del dispositiu',
         hostnameUpdated: 'Nom actualitzat. Reinicia per aplicar.',

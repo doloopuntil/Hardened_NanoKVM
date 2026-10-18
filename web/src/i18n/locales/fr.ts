@@ -250,8 +250,6 @@ const fr = {
         mdns: 'mDNS',
         application: "Version de l'application",
         applicationTip: "Version de l'application Web NanoKVM",
-        image: "Version de l'image",
-        imageTip: "Version de l'image système NanoKVM",
         community: 'Communauté',
         hostname: "Nom d'hôte",
         hostnameUpdated: "Nom d'hôte mis à jour. Redémarrez pour appliquer.",

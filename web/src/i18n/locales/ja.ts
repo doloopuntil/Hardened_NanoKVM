@@ -256,8 +256,6 @@ const ja = {
         mdns: 'mDNS',
         application: 'アプリケーションバージョン',
         applicationTip: 'NanoKVM ウェブアプリケーションバージョン',
-        image: 'イメージバージョン',
-        imageTip: 'NanoKVM システムイメージバージョン',
         community: 'コミュニティ',
         hostname: 'ホスト名',
         hostnameUpdated: 'ホスト名は正常に変更され、再起動後に有効になります',

@@ -257,8 +257,6 @@ const nl = {
         mdns: 'mDNS',
         application: 'Applicatie versie',
         applicationTip: 'Versie van de NanoKVM-webapplicatie',
-        image: 'Image versie',
-        imageTip: 'Versie van de NanoKVM-systeemimage',
         community: 'Community',
         hostname: 'Hostnaam',
         hostnameUpdated: 'Hostnaam bijgewerkt. Start opnieuw op om toe te passen.',

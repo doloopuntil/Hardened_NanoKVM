@@ -248,8 +248,6 @@ const hu = {
         mdns: 'mDNS',
         application: 'Alkalmazás verzió',
         applicationTip: 'NanoKVM webalkalmazás verziója',
-        image: 'Képfájl verzió',
-        imageTip: 'NanoKVM rendszerkép verziója',
         community: 'Közösség',
         hostname: 'Gazdanév',
         hostnameUpdated: 'Gazdanév frissítve. Az alkalmazáshoz indítsa újra.',
