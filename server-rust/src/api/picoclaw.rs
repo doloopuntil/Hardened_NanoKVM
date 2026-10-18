@@ -78,6 +78,9 @@ const CODE_PICOCLAW_LOCK_HELD: &str = "AI_LOCK_HELD";
 const CODE_INVALID_ACTION: &str = "INVALID_ACTION";
 const CODE_SCREENSHOT_FAILED: &str = "SCREENSHOT_FAILED";
 const CODE_HID_WRITE_FAILED: &str = "HID_WRITE_FAILED";
+const CODE_MOUSE_UNAVAILABLE: &str = "MOUSE_UNAVAILABLE";
+// How long a mouse that did not take a report is not tried again.
+const MOUSE_UNAVAILABLE_FOR: Duration = Duration::from_secs(15);
 const CODE_RUNTIME_UNAVAILABLE: &str = "RUNTIME_UNAVAILABLE";
 const CODE_RUNTIME_START_FAILED: &str = "RUNTIME_START_FAILED";
 const CODE_SESSION_ID_MISSING: &str = "SESSION_ID_MISSING";
@@ -1635,6 +1638,51 @@ fn mouse_button(button: &str) -> std::result::Result<u8, PicoclawErrorData> {
     }
 }
 
+// Whether the host is reading the mouse. A host without a desktop or a mouse driver (a console
+// only machine) does not, and then every write waits out the retries of the HID layer, six
+// seconds for one action. The first failure is remembered for a while so that the next
+// actions are refused at once, and the agent is told to use the keyboard.
+struct MouseGate(Mutex<Option<Instant>>);
+
+impl MouseGate {
+    const fn new() -> Self {
+        Self(Mutex::new(None))
+    }
+
+    fn blocked(&self, now: Instant) -> bool {
+        self.0
+            .lock()
+            .ok()
+            .and_then(|until| *until)
+            .is_some_and(|until| now < until)
+    }
+
+    fn block(&self, now: Instant) {
+        if let Ok(mut until) = self.0.lock() {
+            *until = Some(now + MOUSE_UNAVAILABLE_FOR);
+        }
+    }
+
+    fn clear(&self) {
+        if let Ok(mut until) = self.0.lock() {
+            *until = None;
+        }
+    }
+}
+
+static MOUSE_GATE: MouseGate = MouseGate::new();
+
+fn mouse_unavailable_error(cause: Option<io::Error>) -> PicoclawErrorData {
+    let mut message = "the host is not reading the mouse (a host with no desktop or mouse driver \
+        does not); mouse actions fail until it does. Do not retry them: use the keyboard (Tab, \
+        Enter, the arrow keys, shortcuts)"
+        .to_string();
+    if let Some(cause) = cause {
+        message.push_str(&format!(" [{cause}]"));
+    }
+    PicoclawErrorData::new(CODE_MOUSE_UNAVAILABLE, message)
+}
+
 fn send_mouse_move_with_button(
     x: f64,
     y: f64,
@@ -1651,13 +1699,19 @@ fn send_mouse_move_with_button(
         (absolute_y >> 8) as u8,
         (wheel as i8) as u8,
     ];
-    hid_ws::write_absolute_mouse_report(&report).map_err(|err| {
-        PicoclawErrorData::new(
-            CODE_HID_WRITE_FAILED,
-            format!("failed to write HID mouse report: {err}"),
-        )
-    })?;
-    Ok(1)
+    if MOUSE_GATE.blocked(Instant::now()) {
+        return Err(mouse_unavailable_error(None));
+    }
+    match hid_ws::write_absolute_mouse_report_once(&report) {
+        Ok(()) => {
+            MOUSE_GATE.clear();
+            Ok(1)
+        }
+        Err(err) => {
+            MOUSE_GATE.block(Instant::now());
+            Err(mouse_unavailable_error(Some(err)))
+        }
+    }
 }
 
 fn send_keyboard_report(report: &[u8; 8]) -> std::result::Result<usize, PicoclawErrorData> {
@@ -1686,8 +1740,11 @@ fn release_all_hid_state() {
 // For code that already runs on a blocking thread.
 fn release_all_hid_state_now() {
     let _ = hid_ws::write_keyboard_report(&[0; 8]);
-    let _ = hid_ws::write_relative_mouse_report(&[0; 4]);
-    let _ = hid_ws::write_absolute_mouse_report(&[0; 6]);
+    // a mouse that is known not to be read has nothing to release, and the writes would wait
+    if !MOUSE_GATE.blocked(Instant::now()) {
+        let _ = hid_ws::write_relative_mouse_report(&[0; 4]);
+        let _ = hid_ws::write_absolute_mouse_report(&[0; 6]);
+    }
 }
 
 fn normalize_hotkey_keys(
@@ -3726,6 +3783,35 @@ mod tests {
             ensure_pico_allow_from(&mut pico);
             assert_eq!(pico["allow_from"], kept);
         }
+    }
+
+    #[test]
+    fn a_mouse_that_did_not_take_a_report_is_refused_for_a_while() {
+        let gate = MouseGate::new();
+        let now = Instant::now();
+        assert!(!gate.blocked(now));
+
+        gate.block(now);
+        assert!(gate.blocked(now));
+        assert!(gate.blocked(now + MOUSE_UNAVAILABLE_FOR - Duration::from_millis(1)));
+        assert!(!gate.blocked(now + MOUSE_UNAVAILABLE_FOR));
+
+        gate.block(now);
+        gate.clear();
+        assert!(!gate.blocked(now));
+    }
+
+    #[test]
+    fn the_agent_is_told_to_use_the_keyboard_when_the_mouse_is_not_read() {
+        let err = mouse_unavailable_error(Some(io::Error::new(
+            io::ErrorKind::TimedOut,
+            "HID write timed out",
+        )));
+        assert_eq!(err.code, "MOUSE_UNAVAILABLE");
+        assert!(err.message.contains("Do not retry"));
+        assert!(err.message.contains("use the keyboard"));
+        assert!(err.message.contains("HID write timed out"));
+        assert!(!mouse_unavailable_error(None).message.contains('['));
     }
 
     #[test]

@@ -131,6 +131,23 @@ impl HidDevices {
         self.write_device(&self.absolute_mouse, HID_MOUSE_ABSOLUTE, report)
     }
 
+    // One attempt with the short write timeout: no waiting for the device to come back and no
+    // USB recovery. For callers that would rather know at once that the host is not reading.
+    fn write_absolute_mouse_once(&self, report: &[u8]) -> io::Result<()> {
+        let mut guard = self
+            .absolute_mouse
+            .lock()
+            .map_err(|_| io::Error::other("hid device lock poisoned"))?;
+        if guard.is_none() {
+            *guard = Some(open_hid(HID_MOUSE_ABSOLUTE)?);
+        }
+        let result = write_with_timeout(guard.as_mut().expect("hid file is open"), report);
+        if result.is_err() {
+            *guard = None;
+        }
+        result
+    }
+
     fn write_device(
         &self,
         slot: &Mutex<Option<File>>,
@@ -243,6 +260,12 @@ pub fn write_relative_mouse_report(report: &[u8]) -> io::Result<()> {
 
 pub fn write_absolute_mouse_report(report: &[u8]) -> io::Result<()> {
     HID.write_absolute_mouse(report)
+}
+
+/// Like `write_absolute_mouse_report`, but a single attempt: it fails after the short write
+/// timeout instead of retrying for seconds when the host is not reading the mouse.
+pub fn write_absolute_mouse_report_once(report: &[u8]) -> io::Result<()> {
+    HID.write_absolute_mouse_once(report)
 }
 
 pub fn close_cached_hid_devices() -> io::Result<()> {
