@@ -253,7 +253,7 @@ const de = {
         applicationTip: 'NanoKVM Web Applikations-Version',
         community: 'Community',
         hostname: 'Hostname',
-        hostnameUpdated: 'Hostname aktualisiert. Neustarten um zu übernehmen.',
+        hostnameReboot: 'Neu starten, um den neuen Hostnamen zu übernehmen?',
         ipType: {}
       },
       appearance: {

@@ -258,7 +258,7 @@ const ja = {
         applicationTip: 'NanoKVM ウェブアプリケーションバージョン',
         community: 'コミュニティ',
         hostname: 'ホスト名',
-        hostnameUpdated: 'ホスト名は正常に変更され、再起動後に有効になります',
+        hostnameReboot: '新しいホスト名を適用するために再起動しますか?',
         ipType: {}
       },
       appearance: {

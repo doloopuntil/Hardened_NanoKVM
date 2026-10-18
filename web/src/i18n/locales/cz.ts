@@ -249,7 +249,7 @@ const cz = {
         applicationTip: 'Verze webové aplikace NanoKVM',
         community: 'Komunita',
         hostname: 'Název hostitele',
-        hostnameUpdated: 'Název hostitele byl aktualizován. Pro použití restartujte.',
+        hostnameReboot: 'Restartovat, aby se použil nový název hostitele?',
         ipType: {}
       },
       appearance: {

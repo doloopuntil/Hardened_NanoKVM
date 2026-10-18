@@ -252,7 +252,7 @@ const uk = {
         applicationTip: 'Версія веб-додатка NanoKVM',
         community: 'Спільнота',
         hostname: "Ім'я вузла",
-        hostnameUpdated: "Ім'я вузла оновлено. Перезавантажте систему, щоб застосувати зміни.",
+        hostnameReboot: "Перезавантажити, щоб застосувати нове ім'я вузла?",
         ipType: {}
       },
       appearance: {

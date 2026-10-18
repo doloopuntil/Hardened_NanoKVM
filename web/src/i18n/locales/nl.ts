@@ -259,7 +259,7 @@ const nl = {
         applicationTip: 'Versie van de NanoKVM-webapplicatie',
         community: 'Community',
         hostname: 'Hostnaam',
-        hostnameUpdated: 'Hostnaam bijgewerkt. Start opnieuw op om toe te passen.',
+        hostnameReboot: 'Opnieuw opstarten om de nieuwe hostnaam toe te passen?',
         ipType: {}
       },
       appearance: {

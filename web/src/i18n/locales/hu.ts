@@ -250,7 +250,7 @@ const hu = {
         applicationTip: 'NanoKVM webalkalmazás verziója',
         community: 'Közösség',
         hostname: 'Gazdanév',
-        hostnameUpdated: 'Gazdanév frissítve. Az alkalmazáshoz indítsa újra.',
+        hostnameReboot: 'Újraindítja az új gazdanév alkalmazásához?',
         ipType: {}
       },
       appearance: {

@@ -250,7 +250,7 @@ const tr = {
         applicationTip: 'NanoKVM web uygulaması sürümü',
         community: 'Topluluk',
         hostname: 'Ana makine adı',
-        hostnameUpdated: 'Hostname güncellendi. Uygulamak için yeniden başlatın.',
+        hostnameReboot: 'Yeni ana makine adını uygulamak için yeniden başlatılsın mı?',
         ipType: {}
       },
       appearance: {

@@ -243,7 +243,7 @@ const da = {
         applicationTip: 'Version af NanoKVM-webapplikationen',
         community: 'Fællesskab',
         hostname: 'Værtsnavn',
-        hostnameUpdated: 'Værtsnavn opdateret. Genstart for at anvende.',
+        hostnameReboot: 'Genstart for at anvende det nye værtsnavn?',
         ipType: {}
       },
       appearance: {

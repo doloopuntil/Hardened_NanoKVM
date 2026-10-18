@@ -240,7 +240,7 @@ const id = {
         applicationTip: 'Versi aplikasi web NanoKVM',
         community: 'Komunitas',
         hostname: 'Nama Host',
-        hostnameUpdated: 'Nama host diperbarui. Nyalakan ulang untuk menerapkan.',
+        hostnameReboot: 'Nyalakan ulang untuk menerapkan nama host baru?',
         ipType: {}
       },
       appearance: {

@@ -231,7 +231,7 @@ const translations: Record<string, string> = {
   'settings.about.uptime': 'Tööaeg',
   'settings.about.community': 'Kogukond',
   'settings.about.hostname': 'Hostinimi',
-  'settings.about.hostnameUpdated': 'Hostinimi uuendatud. Rakendamiseks taaskäivita.',
+  'settings.about.hostnameReboot': 'Kas taaskäivitada, et uus hostinimi rakendada?',
   'settings.appearance.title': 'Välimus',
   'settings.appearance.display': 'Kuva',
   'settings.appearance.language': 'Keel',

@@ -343,7 +343,7 @@ const en = {
         community: 'Community',
         credit: 'Built on <a1>NanoKVM</a1> by Sipeed and <a2>Hardened NanoKVM</a2> by woffko',
         hostname: 'Hostname',
-        hostnameUpdated: 'Hostname updated. Reboot to apply.'
+        hostnameReboot: 'Reboot to apply the new hostname?'
       },
       appearance: {
         title: 'Appearance',

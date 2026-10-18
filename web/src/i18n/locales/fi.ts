@@ -229,8 +229,8 @@ const translations: Record<string, string> = {
   'settings.about.uptime': 'Käyntiaika',
   'settings.about.community': 'Yhteisö',
   'settings.about.hostname': 'Isäntänimi',
-  'settings.about.hostnameUpdated':
-    'Isäntänimi päivitetty. Käynnistä uudelleen ottaaksesi käyttöön.',
+  'settings.about.hostnameReboot':
+    'Käynnistetäänkö uudelleen uuden isäntänimen käyttöönottamiseksi?',
   'settings.appearance.title': 'Ulkoasu',
   'settings.appearance.display': 'Näyttö',
   'settings.appearance.language': 'Kieli',

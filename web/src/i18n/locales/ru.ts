@@ -297,8 +297,7 @@ const ru = {
         uptime: 'Время работы',
         community: 'Сообщество',
         hostname: 'Имя хоста',
-        hostnameUpdated:
-          'Имя хоста изменено. Перезагрузите NanoKVM, чтобы настройки вступили в силу.',
+        hostnameReboot: 'Перезагрузить, чтобы применить новое имя хоста?',
         ipType: {}
       },
       appearance: {

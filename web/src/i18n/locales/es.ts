@@ -252,7 +252,7 @@ const es = {
         applicationTip: 'Versión de la aplicación web NanoKVM',
         community: 'Comunidad',
         hostname: 'Nombre del host',
-        hostnameUpdated: 'Nombre del host actualizado. Reinicia para aplicar.',
+        hostnameReboot: '¿Reiniciar para aplicar el nuevo nombre del host?',
         ipType: {}
       },
       appearance: {

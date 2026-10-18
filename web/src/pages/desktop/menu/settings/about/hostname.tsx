@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Input } from 'antd';
+import { Button, Input, Popconfirm } from 'antd';
 import { ClipboardPenIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt } from '@/lib/feedback.ts';
+import { usePopconfirmColor } from '@/hooks/usePopconfirmColor.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 import { InfoRow } from '@/components/setting-rows.tsx';
 
@@ -24,10 +25,12 @@ function isValidHostname(name: string) {
 
 export const Hostname = () => {
   const { t } = useTranslation();
+  const popconfirmColor = usePopconfirmColor();
 
   const [isLoading, setIsLoading] = useState(false);
   const [hostname, setHostname] = useState('');
 
+  // 'edited' asks whether to reboot, as the new name only applies after a reboot
   const [editState, setEditState] = useState<'' | 'editing' | 'edited'>('');
   const [input, setInput] = useState('');
 
@@ -66,26 +69,44 @@ export const Hostname = () => {
       });
   }
 
+  function reboot() {
+    return attempt(() => api.reboot()).then((rsp) => {
+      setEditState('');
+      if (rsp) setTimeout(() => window.location.reload(), 30000);
+    });
+  }
+
   return (
-    <div className="space-y-1">
-      <InfoRow
-        label={t('settings.about.hostname')}
-        value={
-          editState === 'editing' ? (
-            <div className="flex min-w-0 items-center space-x-1">
-              <Input
-                disabled={isLoading}
-                className="min-w-0 flex-1 text-right sm:w-64 sm:flex-none"
-                status={isInvalid ? 'error' : undefined}
-                maxLength={MAX_LENGTH}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onPressEnter={update}
-              />
-              <Button size="small" icon={<CheckOutlined />} disabled={isInvalid} onClick={update} />
-              <Button size="small" icon={<CloseOutlined />} onClick={() => setEditState('')} />
-            </div>
-          ) : (
+    <InfoRow
+      label={t('settings.about.hostname')}
+      value={
+        editState === 'editing' ? (
+          <div className="flex min-w-0 items-center space-x-1">
+            <Input
+              disabled={isLoading}
+              className="min-w-0 flex-1 text-right sm:w-64 sm:flex-none"
+              status={isInvalid ? 'error' : undefined}
+              maxLength={MAX_LENGTH}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onPressEnter={update}
+            />
+            <Button size="small" icon={<CheckOutlined />} disabled={isInvalid} onClick={update} />
+            <Button size="small" icon={<CloseOutlined />} onClick={() => setEditState('')} />
+          </div>
+        ) : (
+          <Popconfirm
+            open={editState === 'edited'}
+            placement="bottomRight"
+            color={popconfirmColor}
+            title={t('settings.about.hostnameReboot')}
+            okText={t('settings.device.reboot')}
+            cancelText={t('common.cancel')}
+            okButtonProps={{ danger: true }}
+            onConfirm={reboot}
+            onCancel={() => setEditState('')}
+            onOpenChange={(open) => !open && setEditState('')}
+          >
             <div className="flex min-w-0 items-center justify-end gap-2">
               <span className="min-w-0 break-all">{hostname}</span>
               <div
@@ -97,15 +118,9 @@ export const Hostname = () => {
                 <ClipboardPenIcon size={16} />
               </div>
             </div>
-          )
-        }
-      />
-
-      {editState === 'edited' && (
-        <div className="flex w-full justify-start text-xs text-green-500 sm:justify-end">
-          {t('settings.about.hostnameUpdated')}
-        </div>
-      )}
-    </div>
+          </Popconfirm>
+        )
+      }
+    />
   );
 };

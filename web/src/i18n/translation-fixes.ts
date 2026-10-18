@@ -6052,7 +6052,7 @@ export const translationFixes: Record<string, TranslationMap> =
     "settings.tailscale.stopDesc": "停止服務，並防止其在開機時自動啟動",
     "terminal.unlockDesc": "輸入網頁帳戶密碼以啟動終端機工作階段",
     "terminal.locked": "嘗試次數過多，稍後再試",
-    "settings.about.hostnameUpdated": "已更新主機名稱。請重新啟動以生效。",
+    "settings.about.hostnameReboot": "是否重新啟動以套用新的主機名稱？",
     "keyboard.dropdownKorean": "韓語",
     "keyboard.dropdownJapanese": "日語",
     "settings.tailscale.notRunning": "Tailscale 尚未執行，請先啟動以繼續",

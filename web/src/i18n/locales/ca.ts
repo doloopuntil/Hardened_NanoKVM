@@ -234,7 +234,7 @@ const ca = {
         applicationTip: 'Versió de la interfície web de NanoKVM',
         community: 'Comunitat',
         hostname: 'Nom del dispositiu',
-        hostnameUpdated: 'Nom actualitzat. Reinicia per aplicar.',
+        hostnameReboot: 'Vols reiniciar per aplicar el nou nom del host?',
         ipType: {}
       },
       appearance: {

@@ -253,7 +253,7 @@ const nb = {
         applicationTip: 'Versjon av NanoKVM-webapplikasjonen',
         community: 'Fellesskap',
         hostname: 'Vertsnavn',
-        hostnameUpdated: 'Vertsnavn oppdatert. Start på nytt for å søke.',
+        hostnameReboot: 'Starte på nytt for å ta i bruk det nye vertsnavnet?',
         ipType: {}
       },
       appearance: {

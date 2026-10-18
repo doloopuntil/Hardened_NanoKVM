@@ -253,7 +253,7 @@ const zh = {
         uptime: '运行时间',
         community: '社区',
         hostname: '主机名',
-        hostnameUpdated: '主机名修改成功，重启后生效',
+        hostnameReboot: '是否重启以应用新的主机名？',
         ipType: {}
       },
       appearance: {

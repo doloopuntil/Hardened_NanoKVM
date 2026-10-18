@@ -252,7 +252,7 @@ const th = {
         applicationTip: 'เวอร์ชั่นเว็บ NanoKVM',
         community: 'ชุมชน',
         hostname: 'ชื่อโฮสต์',
-        hostnameUpdated: 'อัปเดตชื่อโฮสต์แล้ว รีบูตเพื่อใช้',
+        hostnameReboot: 'รีบูตเพื่อใช้ชื่อโฮสต์ใหม่หรือไม่',
         ipType: {}
       },
       appearance: {

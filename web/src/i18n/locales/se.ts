@@ -258,7 +258,7 @@ const se = {
         applicationTip: 'NanoKVM webbapplikationsversion',
         community: 'Community',
         hostname: 'Värdnamn',
-        hostnameUpdated: 'Värdnamn uppdaterat. Starta om för att tillämpa.',
+        hostnameReboot: 'Starta om för att tillämpa det nya värdnamnet?',
         ipType: {}
       },
       appearance: {

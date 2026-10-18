@@ -244,7 +244,7 @@ const vi = {
         applicationTip: 'Phiên bản ứng dụng web NanoKVM',
         community: 'Cộng đồng',
         hostname: 'Tên máy chủ',
-        hostnameUpdated: 'Đã cập nhật tên máy chủ. Khởi động lại để áp dụng.',
+        hostnameReboot: 'Khởi động lại để áp dụng tên máy chủ mới?',
         ipType: {}
       },
       appearance: {
