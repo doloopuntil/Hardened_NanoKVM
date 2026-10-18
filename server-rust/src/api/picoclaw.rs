@@ -63,6 +63,11 @@ const DEFAULT_PING_INTERVAL_MS: i32 = 30_000;
 const DEFAULT_MAX_MESSAGE_BYTES: usize = 1024 * 1024;
 const PICOCLAW_DOWNLOAD_TIMEOUT: Duration = Duration::from_secs(10 * 60);
 const PICOCLAW_START_TIMEOUT: Duration = Duration::from_secs(15);
+// How long the gateway may take to listen after the process has started: a few seconds on the
+// device's CPU.
+const PICOCLAW_READY_TIMEOUT: Duration = Duration::from_secs(20);
+const PICOCLAW_READY_POLL: Duration = Duration::from_millis(500);
+const PICOCLAW_LOG_FILE: &str = "/tmp/picoclaw.log";
 const PICOCLAW_STOP_TIMEOUT: Duration = Duration::from_secs(15);
 const PICOCLAW_ONBOARD_TIMEOUT: Duration = Duration::from_secs(60);
 const INTERNAL_TOKEN_HEADER: &str = "X-NanoKVM-Internal-Token";
@@ -2371,15 +2376,64 @@ async fn start_runtime_inner() -> std::result::Result<(String, String), String> 
     let (command, output) = run_script("start", PICOCLAW_START_TIMEOUT)
         .await
         .map_err(|err| err.to_string())?;
-    time::sleep(Duration::from_millis(1500)).await;
-    let status = refresh_runtime_status().await;
-    if status.ready {
-        Ok((command, output))
-    } else {
-        Err(status
-            .last_error
-            .unwrap_or_else(|| "failed to start picoclaw runtime".to_string()))
+
+    // Wait until the gateway listens. A fixed pause and one check reported a failure for a
+    // runtime that was only a second away from being up.
+    let started = Instant::now();
+    loop {
+        time::sleep(PICOCLAW_READY_POLL).await;
+        let status = refresh_runtime_status().await;
+        if status.ready {
+            return Ok((command, output));
+        }
+        let gone = started.elapsed() > Duration::from_secs(2) && !picoclaw_process_running();
+        if gone || started.elapsed() >= PICOCLAW_READY_TIMEOUT {
+            let reason = status
+                .last_error
+                .unwrap_or_else(|| "failed to start picoclaw runtime".to_string());
+            // PicoClaw says why it stopped in its own log
+            return Err(
+                match fs::read_to_string(PICOCLAW_LOG_FILE)
+                    .ok()
+                    .and_then(|log| last_error_line(&log))
+                {
+                    Some(line) => format!("{reason}: {line}"),
+                    None => reason,
+                },
+            );
+        }
     }
+}
+
+// Whether a process called picoclaw exists.
+fn picoclaw_process_running() -> bool {
+    let Ok(entries) = fs::read_dir("/proc") else {
+        return true;
+    };
+    entries.flatten().any(|entry| {
+        entry
+            .file_name()
+            .to_string_lossy()
+            .bytes()
+            .all(|b| b.is_ascii_digit())
+            && fs::read_to_string(entry.path().join("comm"))
+                .map(|comm| comm.trim() == "picoclaw")
+                .unwrap_or(false)
+    })
+}
+
+// The last error PicoClaw logged: its "ERR" lines end in `error="..."` or `> message`.
+fn last_error_line(log: &str) -> Option<String> {
+    let line = log.lines().rev().find(|line| line.contains(" ERR "))?;
+    let message = match line.find("error=\"") {
+        Some(at) => line[at + "error=\"".len()..]
+            .split("\" ")
+            .next()
+            .unwrap_or(line),
+        None => line.split(" > ").nth(1).unwrap_or(line),
+    };
+    let message: String = message.trim().chars().take(300).collect();
+    (!message.is_empty()).then_some(message)
 }
 
 async fn stop_runtime_inner() -> std::result::Result<(String, String), String> {
@@ -3619,6 +3673,23 @@ mod tests {
 
         unsafe { std::env::remove_var("PICOCLAW_HOME") };
         let _ = fs::remove_dir_all(dir);
+    }
+
+    #[test]
+    fn the_last_error_of_the_picoclaw_log_is_shown() {
+        let log = r#"21:28:03 INF gateway gateway.go:90 > starting
+21:28:04 ERR gateway gateway.go:136 > Gateway startup failed error="error creating provider: api_key is required for anthropic protocol (model: anthropic/x)" allow_empty=false config_path=/root/.picoclaw/config.json
+21:28:05 INF gateway gateway.go:91 > exiting
+"#;
+        assert_eq!(
+            last_error_line(log).unwrap(),
+            "error creating provider: api_key is required for anthropic protocol (model: anthropic/x)"
+        );
+        assert_eq!(
+            last_error_line("22:00:00 ERR agent pipeline.go:1 > it broke\n").unwrap(),
+            "it broke"
+        );
+        assert!(last_error_line("22:00:00 INF all good\n").is_none());
     }
 
     #[test]
