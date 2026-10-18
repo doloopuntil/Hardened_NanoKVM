@@ -14,9 +14,6 @@ env:
   BUILDROOT_VERSION: "2026.05.1"
   RUST_VERSION: "1.99.0"
   LICHEERV_NANO_SDK_SHA: d88d58feca49ef15f4cc7bd1f27dbf17dc25f85e
-  # Published app 2.0.42 bridge archive: docs/releases/rc12-2.0.42-raw.12.md
-  KVMAPP_2_0_42_ARCHIVE_URL: https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-0.3.0-raw.12/hardened-nanokvm-kvmapp-2.0.42.tar.gz
-  KVMAPP_2_0_42_ARCHIVE_SHA256: aa0cd78c1b2e9951f216826c44b4b7ff2fb211fc1980540366f8f5b1f7e0dd20
   # Pinned in scripts/rehydrate-vendor-kernel-5.10.265-merge.sh, verified against the canonical
   # git.kernel.org stable tree's peeled tag commits.
   STABLE_5_10_4_COMMIT: b1313fe517ca3703119dcc99ef3bbf75ab42bcfb
@@ -131,7 +128,8 @@ jobs:
           if-no-files-found: error
 
   # Isolated, independent of vendor-sdk: a completely separate toolchain (MaixCDK + Sophgo's RISC-V
-  # musl gcc), building libkvm.so/libkvm_mmf.so from this repository's support/sg2002 sources.
+  # musl gcc), building libkvm.so/libkvm_mmf.so and kvm_system from this repository's
+  # support/sg2002 sources.
   # libkvm_mmf.so statically compiles in its own frozen copy of the LT6911 sensor driver (see
   # server-rust/native/README.md) -- the vendor-sdk-stock patch above never reaches the code that
   # actually runs; this is the job that does.
@@ -204,15 +202,30 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/build/native-libkvm"
           cp "$DL_LIB/libkvm.so" "$DL_LIB/libkvm_mmf.so" "$GITHUB_WORKSPACE/build/native-libkvm/"
 
+      # Reuses the MaixCDK components the libkvm build just installed.
+      - name: Build kvm_system via MaixCDK
+        run: |
+          cd "$GITHUB_WORKSPACE/support/sg2002"
+
+          # The VI state reader that pairs with libkvm's shared state writer.
+          grep -q "vi_state_shared::read_state" kvm_system/main/lib/system_state/system_state.cpp
+
+          ./build kvm_system
+
+          BIN="$GITHUB_WORKSPACE/support/sg2002/kvm_system/dist/kvm_system_release/kvm_system"
+          test -s "$BIN"
+          file "$BIN"
+          cp "$BIN" "$GITHUB_WORKSPACE/build/native-libkvm/kvm_system"
+
       # MaixCDK's CMake build embeds a build-host RPATH (e.g.
       # /home/runner/NanoKVM/support/sg2002/kvm_vision_test/build/kvm_mmf) into libkvm.so by
       # default -- register_component(DYNAMIC) doesn't set CMAKE_SKIP_RPATH. scripts/package-
       # rust-kvmapp.sh hard-fails on any RPATH/RUNPATH in these two libraries (a real portability/
       # security check, not something to work around by disabling it), so strip it here instead,
       # the same way the previously-published binaries must have been prepared.
-      - name: Strip build-host RPATH from libkvm.so + libkvm_mmf.so
+      - name: Strip build-host RPATH from libkvm.so + libkvm_mmf.so + kvm_system
         run: |
-          for lib in libkvm.so libkvm_mmf.so; do
+          for lib in libkvm.so libkvm_mmf.so kvm_system; do
             LIB="$GITHUB_WORKSPACE/build/native-libkvm/$lib"
             if patchelf --print-rpath "$LIB" | grep -q .; then
               patchelf --remove-rpath "$LIB"
@@ -236,6 +249,18 @@ jobs:
           else
             echo "libopencv_video.so.409 not NEEDED by this build; nothing to trim"
           fi
+
+      # kvm_system must run with only what the image already has.
+      - name: Check kvm_system's loader and libraries
+        run: |
+          BIN="$GITHUB_WORKSPACE/build/native-libkvm/kvm_system"
+          readelf -l "$BIN" | grep -q "interpreter: /lib/ld-musl-riscv64v0p7_xthead.so.1"
+          for lib in $(patchelf --print-needed "$BIN"); do
+            case "$lib" in
+              libstdc++.so.6|libgcc_s.so.1|libc.so) ;;
+              *) echo "unexpected NEEDED entry in kvm_system: $lib" >&2; exit 1 ;;
+            esac
+          done
 
       # The build-image job downloads this by name -- this is the actual handoff, not just a
       # diagnostic copy (kept separate from actions/cache deliberately; see that job's download
@@ -752,20 +777,6 @@ jobs:
             /lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 \
             /lib64xthead/lp64d/libgcc_s.so.1 /lib64v0p7_xthead/lp64d/libgcc_s.so.1
 
-      # kvm_system is retained, never rebuilt here -- it has nothing to do with the LT6911 driver
-      # (confirmed: no reference to it anywhere in its own binary, static or dynamic) so there's no
-      # bug in it to fix by bringing MaixCDK into scope. Reuse the exact binary already accepted and
-      # published in app 2.0.42. Provenance: docs/latest-buildroot-port.md.
-      - name: Fetch published kvm_system helper (app 2.0.42)
-        run: |
-          curl --fail --location --retry 2 \
-            --output /tmp/kvmapp-2.0.42.tar.gz \
-            "$KVMAPP_2_0_42_ARCHIVE_URL"
-          echo "$KVMAPP_2_0_42_ARCHIVE_SHA256  /tmp/kvmapp-2.0.42.tar.gz" | sha256sum -c -
-          mkdir -p /tmp/kvmapp-2.0.42
-          tar -xzf /tmp/kvmapp-2.0.42.tar.gz -C /tmp/kvmapp-2.0.42
-          test -s /tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system
-
       # Overwrites the checked-in server-rust/native/dl_lib/ copies (which still carry app 2.0.42's
       # libkvm_mmf.so, with the LT6911 probe's dead code intact) with the build-native-libkvm job's
       # freshly-built ones for this run only -- git's own copies are left untouched. This is where
@@ -783,7 +794,7 @@ jobs:
           server-rust/scripts/build-linked-libkvm.sh
           RUST_TARGET=riscv64gc-unknown-linux-musl \
             APP_VERSION="$(cat kvmapp/version)" \
-            KVM_SYSTEM_SOURCE=/tmp/kvmapp-2.0.42/kvmapp/kvm_system/kvm_system \
+            KVM_SYSTEM_SOURCE="$GITHUB_WORKSPACE/build/native-libkvm/kvm_system" \
             scripts/package-rust-kvmapp.sh
 
       # libc.so, the 4 GCC runtime libs, the 2 T-Head loaders, and libsns_lt6911.so all come from
