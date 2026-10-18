@@ -76,8 +76,8 @@ jobs:
           retention-days: 2
           if-no-files-found: error
 
-  # Isolated: the most expensive, most fragile stage (~14 GiB, long compile), rarely changes once
-  # cached -- a failure below should never force redoing this.
+  # Isolated: the most expensive, most fragile stage (~14 GiB, long compile). Hands build-image
+  # only the files it reads, small enough to cache, so a cache hit skips the stock build.
   vendor-sdk:
     needs: [vendor-sdk-source]
     runs-on: ubuntu-latest
@@ -86,7 +86,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Bump the version when the stock build changes in a way the hashed files do not show.
+      - name: Restore the stock vendor SDK handoff
+        id: stock-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/vendor-sdk/vendor-sdk.tar.zst
+          key: vendor-sdk-stock-v1-${{ env.LICHEERV_NANO_SDK_SHA }}-${{ hashFiles('scripts/bootstrap-vendor-sdk.sh', 'scripts/build-vendor-sdk-stock.sh', 'buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/**') }}
+
       - name: Install host build dependencies
+        if: steps.stock-cache.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -95,12 +104,14 @@ jobs:
             dosfstools mtools file libssl-dev pkg-config e2fsprogs zstd
 
       - name: Download vendor SDK source
+        if: steps.stock-cache.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v4
         with:
           name: vendor-sdk-source
           path: ${{ runner.temp }}/vendor-sdk-source
 
       - name: Unpack vendor SDK source
+        if: steps.stock-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p build
           tar -I zstd -xf "$RUNNER_TEMP/vendor-sdk-source/vendor-sdk-source.tar.zst" -C build
@@ -108,15 +119,46 @@ jobs:
           test -d build/vendor/LicheeRV-Nano-Build/.git
 
       - name: Build stock vendor SDK image
+        if: steps.stock-cache.outputs.cache-hit != 'true'
         run: make vendor-sdk-stock
 
-      # Tarred because artifacts drop file permissions and symlinks.
+      # Only what build-image reads: the stock rootfs.sd (runtime files), boot.sd and fip.bin,
+      # the ramdisk inputs and keys for the boot FIT, the vendor mkimage with the host/ libraries
+      # it loads, and the boot logo. Tarred because artifacts drop permissions and symlinks.
       - name: Package vendor SDK for build-image
+        if: steps.stock-cache.outputs.cache-hit != 'true'
         run: |
+          SDK=vendor/LicheeRV-Nano-Build
+          OUT=$SDK/install/soc_sg2002_licheervnano_sd
+          MKIMAGE=$SDK/build/tools/common/prebuild/mkimage
+          set -- \
+            "$OUT/rawimages/rootfs.sd" \
+            "$OUT/rawimages/boot.sd" \
+            "$OUT/fip.bin" \
+            "$SDK/ramdisk/build/sg2002_licheervnano_sd/workspace/boot.cpio" \
+            "$SDK/ramdisk/build/sg2002_licheervnano_sd/workspace/multi.its" \
+            "$SDK/ramdisk/keys" \
+            "$MKIMAGE" \
+            "$SDK/build/tools/common/sd_tools/logo.jpeg"
+          cd build
+          for path in "$@"; do
+            test -e "$path" || { echo "missing from the stock build: $path" >&2; exit 1; }
+          done
+          du -sh "$SDK/host" || true
+          for lib in $(LD_LIBRARY_PATH="$PWD/$SDK/host" ldd "$MKIMAGE" | awk '{ print $3 }' | grep "^$PWD/$SDK/host/" || true); do
+            set -- "$@" "${lib#"$PWD/"}"
+          done
+          printf '%s\n' "$@"
           mkdir -p "$RUNNER_TEMP/vendor-sdk"
-          tar -I 'zstd -T0 -3' -cf "$RUNNER_TEMP/vendor-sdk/vendor-sdk.tar.zst" -C build vendor
+          tar -h -I 'zstd -T0 -10' -cf "$RUNNER_TEMP/vendor-sdk/vendor-sdk.tar.zst" "$@"
           ls -l "$RUNNER_TEMP/vendor-sdk"
-          df -h /
+
+      - name: Save the stock vendor SDK handoff
+        if: steps.stock-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/vendor-sdk/vendor-sdk.tar.zst
+          key: ${{ steps.stock-cache.outputs.cache-primary-key }}
 
       - name: Upload vendor SDK
         uses: actions/upload-artifact@v4
