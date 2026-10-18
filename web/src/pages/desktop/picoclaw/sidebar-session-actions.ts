@@ -24,7 +24,12 @@ import type {
   PicoclawTransportState
 } from '@/jotai/picoclaw.ts';
 
-import { createErrorMessage, createStatusMessage, HIDDEN_OVERLAY } from './message-utils.ts';
+import {
+  createErrorMessage,
+  createStatusMessage,
+  HIDDEN_OVERLAY,
+  sessionMessagesToChat
+} from './message-utils.ts';
 import { canConnectGateway } from './runtime-view.ts';
 
 type RuntimeStatusSetter = Dispatch<SetStateAction<PicoclawRuntimeStatus | null>>;
@@ -39,6 +44,8 @@ type PicoclawSidebarSessionActionOptions = {
   activeSessionId: string;
   isFreshConversation: boolean;
   isSwitchingSession: boolean;
+  // a history list is already loaded
+  hasHistory: boolean;
   refreshState: () => Promise<PicoclawRuntimeStatus | null>;
   setMessages: MessageSetter;
   setTakeover: TakeoverSetter;
@@ -65,6 +72,7 @@ export function createPicoclawSidebarSessionActions(options: PicoclawSidebarSess
     activeSessionId,
     isFreshConversation,
     isSwitchingSession,
+    hasHistory,
     refreshState,
     setMessages,
     setTakeover,
@@ -82,8 +90,11 @@ export function createPicoclawSidebarSessionActions(options: PicoclawSidebarSess
     setRuntimeStatus
   } = options;
 
+  // The list that is already there stays on screen while the new one is fetched.
   async function loadHistorySessions() {
-    setIsLoadingHistory(true);
+    if (!hasHistory) {
+      setIsLoadingHistory(true);
+    }
     try {
       const response = await listPicoclawSessions({ limit: 100 });
       if (response.code === 0) {
@@ -217,14 +228,7 @@ export function createPicoclawSidebarSessionActions(options: PicoclawSidebarSess
         return;
       }
 
-      const loadedMessages = (response.data.messages || []).map(
-        (message: { role: 'user' | 'assistant'; content: string }, index: number) => ({
-          id: `${response.data.id}-${index}`,
-          kind: message.role,
-          text: message.content,
-          createdAt: Date.now() + index
-        })
-      );
+      const loadedMessages = sessionMessagesToChat(response.data.id, response.data.messages || []);
 
       const closePromise = closeGateway();
       setMessages(loadedMessages);
@@ -239,6 +243,8 @@ export function createPicoclawSidebarSessionActions(options: PicoclawSidebarSess
       setOverlay(HIDDEN_OVERLAY);
       setTransportState('disconnected');
       setRunState('idle');
+      // The chat is switched. Connecting can take a while, and the history is not locked for it.
+      setIsSwitchingSession(false);
 
       await closePromise;
       const nextRuntimeStatus = await refreshState();

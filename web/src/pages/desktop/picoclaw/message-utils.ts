@@ -12,6 +12,19 @@ export const HIDDEN_OVERLAY = {
   message: ''
 } as const;
 
+// The messages of a saved session, as the chat shows them.
+export function sessionMessagesToChat(
+  sessionId: string,
+  messages: { role: 'user' | 'assistant'; content: string }[]
+): PicoclawChatMessage[] {
+  return messages.map((message, index) => ({
+    id: `${sessionId}-${index}`,
+    kind: message.role,
+    text: message.content,
+    createdAt: Date.now() + index
+  }));
+}
+
 export function createStatusMessage(text: string): PicoclawChatMessage {
   return {
     id: generateUUIDv4(),
