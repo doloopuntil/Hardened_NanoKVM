@@ -168,7 +168,7 @@ export const Settings = () => {
         style={
           isTouchLayout
             ? { maxWidth: 'none', margin: 0, paddingBottom: 0, top: 0 }
-            : { maxWidth: '1080px' }
+            : { maxWidth: '1024px' }
         }
         styles={{
           content: {
@@ -261,7 +261,7 @@ export const Settings = () => {
               <div
                 className={clsx(
                   'min-w-0',
-                  isTouchLayout ? 'w-full max-w-full' : 'w-full max-w-[600px]',
+                  isTouchLayout ? 'w-full max-w-full' : 'w-full max-w-2xl',
                   isTouchLayout ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4' : 'pb-10 pt-14'
                 )}
               >
