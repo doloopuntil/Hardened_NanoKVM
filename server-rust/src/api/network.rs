@@ -16,7 +16,7 @@ use crate::{
 };
 
 const WOL_MAC_FILE: &str = "/etc/kvm/cache/wol";
-const WIFI_EXIST_FILE: &str = "/etc/kvm/wifi_exist";
+pub(crate) const WIFI_EXIST_FILE: &str = "/etc/kvm/wifi_exist";
 const WIFI_AP_MODE_FILE: &str = "/tmp/wifiap";
 const WIFI_SSID_FILE: &str = "/etc/kvm/wifi.ssid";
 const WIFI_PASSWORD_FILE: &str = "/etc/kvm/wifi.pass";

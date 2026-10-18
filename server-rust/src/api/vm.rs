@@ -105,6 +105,8 @@ pub struct InfoRsp {
 #[derive(Debug, Serialize)]
 pub struct HardwareRsp {
     pub version: String,
+    /// Looks like a NanoKVM Lite: no OLED, no Wi-Fi and so most likely no ATX board.
+    pub lite: bool,
 }
 
 #[derive(Debug, Serialize)]
@@ -298,6 +300,11 @@ pub async fn get_info() -> Result<impl IntoResponse> {
 pub async fn get_hardware() -> Result<impl IntoResponse> {
     Ok(Json(ApiResponse::ok(HardwareRsp {
         version: get_hardware_version(),
+        lite: looks_like_lite(
+            read_trimmed(HARDWARE_VERSION_FILE).as_deref(),
+            Path::new(OLED_EXIST_FILE).exists(),
+            Path::new(crate::api::network::WIFI_EXIST_FILE).exists(),
+        ),
     })))
 }
 
@@ -1226,6 +1233,13 @@ fn get_uptime_seconds() -> u64 {
         .unwrap_or_default()
 }
 
+/// The boot detection files a Lite under `beta`, as it has no OLED to tell the other boards by.
+/// Neither it nor the Full lists Wi-Fi, so a missing Wi-Fi chip only rules out a Full whose OLED
+/// failed. The ATX board, the thing the web UI cares about, cannot be detected.
+fn looks_like_lite(hardware: Option<&str>, has_oled: bool, has_wifi: bool) -> bool {
+    hardware == Some("beta") && !has_oled && !has_wifi
+}
+
 fn get_hardware_version() -> String {
     match read_trimmed(HARDWARE_VERSION_FILE).as_deref() {
         Some("beta") => "Beta",
@@ -1554,6 +1568,16 @@ mod tests {
         assert!(!valid_pid(""));
         assert!(!valid_pid("12x45"));
         assert!(!valid_pid("1;reboot"));
+    }
+
+    #[test]
+    fn lite_is_a_beta_board_without_oled_and_wifi() {
+        assert!(looks_like_lite(Some("beta"), false, false));
+        assert!(!looks_like_lite(Some("beta"), true, false));
+        assert!(!looks_like_lite(Some("beta"), false, true));
+        assert!(!looks_like_lite(Some("alpha"), false, false));
+        assert!(!looks_like_lite(Some("pcie"), false, false));
+        assert!(!looks_like_lite(None, false, false));
     }
 
     #[test]
