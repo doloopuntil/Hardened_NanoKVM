@@ -357,17 +357,9 @@ jobs:
           df -h /
 
       # Rehydrating the hardened kernel needs real history from the upstream stable tree (not just
-      # two tag tips) to merge the vendor's 5.10.4 snapshot with 5.10.265. Large but content-pinned;
-      # cache it.
-      - name: Cache Linux stable kernel history for rehydration
-        id: cache-stable-kernel
-        uses: actions/cache@v4
-        with:
-          path: build/latestbuildroot/kernel-stable-5.10-rehydrate
-          key: linux-stable-5.10-${{ env.STABLE_5_10_4_COMMIT }}-${{ env.STABLE_5_10_265_COMMIT }}
-
+      # two tag tips) to merge the vendor's 5.10.4 snapshot with 5.10.265. Not cached: at ~3 GB per
+      # branch it evicted the other caches, and the clone takes only a few minutes.
       - name: Clone Linux stable kernel history
-        if: steps.cache-stable-kernel.outputs.cache-hit != 'true'
         run: |
           git clone --single-branch --branch linux-5.10.y \
             https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git \
