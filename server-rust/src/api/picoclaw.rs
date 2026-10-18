@@ -33,6 +33,7 @@ use tokio_tungstenite::{
     },
 };
 use tracing::debug;
+use url::Url;
 
 use crate::{
     AppError, Result,
@@ -3040,20 +3041,31 @@ fn ensure_anthropic_extra_body(item: &mut JsonMap<String, JsonValue>, model: &st
 }
 
 // The entry that an update of `model_name` edits is the first one of that name.
-fn first_entry_has_key(config: &JsonValue, security: &serde_yaml::Value, model_name: &str) -> bool {
+fn first_entry<'a>(config: &'a JsonValue, model_name: &str) -> Option<&'a JsonValue> {
     config
         .get("model_list")
-        .and_then(JsonValue::as_array)
-        .and_then(|models| {
-            models.iter().find(|model| {
-                model
-                    .get("model_name")
-                    .and_then(JsonValue::as_str)
-                    .map(str::trim)
-                    == Some(model_name)
-            })
+        .and_then(JsonValue::as_array)?
+        .iter()
+        .find(|model| {
+            model
+                .get("model_name")
+                .and_then(JsonValue::as_str)
+                .map(str::trim)
+                == Some(model_name)
         })
+}
+
+fn first_entry_has_key(config: &JsonValue, security: &serde_yaml::Value, model_name: &str) -> bool {
+    first_entry(config, model_name)
         .is_some_and(|entry| entry_has_key(entry, security, model_name, 0))
+}
+
+// A kept key may only go to the scheme, host and port it was saved for.
+fn same_origin(a: &str, b: &str) -> bool {
+    match (Url::parse(a.trim()), Url::parse(b.trim())) {
+        (Ok(a), Ok(b)) => a.origin().is_tuple() && a.origin() == b.origin(),
+        _ => false,
+    }
 }
 
 fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Result<String> {
@@ -3061,8 +3073,19 @@ fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Resul
     let model_name = extract_model_name(model)
         .ok_or_else(|| AppError::Internal("model identifier is required".to_string()))?;
     let keep_key = api_key.is_empty();
-    if keep_key && !first_entry_has_key(&doc.raw, &doc.security, &model_name) {
-        return Err(AppError::Internal("model api_key is required".to_string()));
+    if keep_key {
+        if !first_entry_has_key(&doc.raw, &doc.security, &model_name) {
+            return Err(AppError::Internal("model api_key is required".to_string()));
+        }
+        let saved_base = first_entry(&doc.raw, &model_name)
+            .and_then(|entry| entry.get("api_base"))
+            .and_then(JsonValue::as_str)
+            .unwrap_or("");
+        if !same_origin(saved_base, api_base) {
+            return Err(AppError::Internal(
+                "enter the API key again: the API base points to another server".to_string(),
+            ));
+        }
     }
     let raw = doc
         .raw
@@ -3718,8 +3741,10 @@ mod tests {
         );
 
         update_model_config_file("https://api.anthropic.com/v1", "sk-1", "anthropic/x").unwrap();
+        // a kept key does not follow the API base to another server
+        assert!(update_model_config_file("https://example.test/v1", "", "anthropic/x").is_err());
         // the same model again without a key: the key and the other fields stay
-        update_model_config_file("https://example.test/v1", "", "anthropic/x").unwrap();
+        update_model_config_file("https://api.anthropic.com/v2", "", "anthropic/x").unwrap();
 
         let config: JsonValue =
             serde_json::from_slice(&fs::read(dir.join("config.json")).unwrap()).unwrap();
@@ -3727,7 +3752,7 @@ mod tests {
             serde_yaml::from_slice(&fs::read(dir.join(".security.yml")).unwrap()).unwrap();
         let stored = stored_model_config(&config, &security);
         assert_eq!(stored.model, "anthropic/x");
-        assert_eq!(stored.api_base, "https://example.test/v1");
+        assert_eq!(stored.api_base, "https://api.anthropic.com/v2");
         assert!(stored.key_set);
         assert_eq!(
             security["model_list"]["x:0"]["api_keys"][0],
@@ -3749,6 +3774,23 @@ mod tests {
 
         unsafe { std::env::remove_var("PICOCLAW_HOME") };
         let _ = fs::remove_dir_all(dir);
+    }
+
+    #[test]
+    fn same_origin_compares_scheme_host_and_port() {
+        assert!(same_origin("https://api.a.com/v1", "https://api.a.com/v2"));
+        assert!(same_origin(
+            "https://api.a.com/v1",
+            " https://API.a.com:443/x "
+        ));
+        assert!(!same_origin("https://api.a.com/v1", "http://api.a.com/v1"));
+        assert!(!same_origin(
+            "https://api.a.com/v1",
+            "https://api.a.com:8443/v1"
+        ));
+        assert!(!same_origin("https://api.a.com/v1", "https://evil.test/v1"));
+        assert!(!same_origin("", "https://api.a.com/v1"));
+        assert!(!same_origin("not a url", "not a url"));
     }
 
     #[test]
