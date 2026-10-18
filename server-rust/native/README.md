@@ -59,7 +59,7 @@ against vendor-sdk-stock's: byte-for-byte identical, same probe. `/mnt/system/us
 correctly patched, but nothing in the running process tree (`kvm_system`,
 `libkvm.so`, `libkvm_mmf.so`) loads it.
 
-`.github/workflows/build-sg2002-image.yml`'s `build-native-libkvm` job
+`.github/workflows/system-image.yml`'s `build-native-libkvm` job
 builds `libkvm.so`/`libkvm_mmf.so` from this repository's own
 `support/sg2002/additional/` sources via MaixCDK instead of reusing the
 prebuilt app 2.0.42 archive copies, applying the LT6911 patch to MaixCDK's
@@ -157,7 +157,7 @@ harmless, since the bytes matched) via
 which ran *after* `hardened-nanokvm-kvmapp.mk` had already installed
 this directory's own content.
 
-`build-sg2002-image.yml`'s "Extract vendor runtime staging bundle" step
+`system-image.yml`'s "Extract vendor runtime staging bundle" step
 no longer dumps `/kvmapp/server/dl_lib` wholesale -- the 5 files this
 directory doesn't carry (`libc.so` and the 4 GCC runtime libs) no longer
 come from raw.12 at all; see below. Final image content is unchanged
@@ -187,7 +187,7 @@ originally sourced this content from, not a generic toolchain package.
 Checked all 8 remaining raw.12-only files against it on a real run: **7 are
 byte-identical** -- `libc.so`, all 4 GCC runtime libs, and both T-Head
 loaders (`ld-musl-riscv64xthead.so.1`, `ld-musl-riscv64v0p7_xthead.so.1`).
-`build-sg2002-image.yml` now sources all 7 from vendor-sdk-stock's own
+`system-image.yml` now sources all 7 from vendor-sdk-stock's own
 `rootfs.sd` instead of raw.12, hard-failing if any isn't found (unlike the
 diagnostic that discovered these paths, this is production extraction).
 
@@ -237,7 +237,7 @@ deliberately, and only for this one file; every other file
 embeds its own copy of the LT6911 driver" above: this file is shipped for
 provenance but isn't actually what drives HDMI capture at runtime.
 
-`build-sg2002-image.yml` now sources all 8 files from `vendor-sdk-stock`'s
+`system-image.yml` now sources all 8 files from `vendor-sdk-stock`'s
 own `rootfs.sd`. No file shipped in the final image comes from raw.12.
 
 ## The module-tree structure: also closed, needed no image at all
@@ -256,7 +256,7 @@ and the 3 media module names are already known constants -- the complete
 already placing artifacts at these exact relative paths; nothing needed
 extracting them from somewhere else in the first place.
 
-`build-sg2002-image.yml` now builds this structure as an empty-file
+`system-image.yml` now builds this structure as an empty-file
 skeleton straight from the manifests, no network fetch involved.
 `hardened-source-media-provenance.txt` (a plain-text record: source
 commits, a device-acceptance marker, a redistribution note) is

@@ -53,9 +53,9 @@ few inputs.
 
 ## The image workflow
 
-For a change to `.github/workflows/build-sg2002-image.yml` or a script it calls:
+For a change to `.github/workflows/system-image.yml` or a script it calls:
 
-1. Parse the YAML: `ruby -ryaml -e 'YAML.load_file(".github/workflows/build-sg2002-image.yml")'`.
+1. Parse the YAML: `ruby -ryaml -e 'YAML.load_file(".github/workflows/system-image.yml")'`.
 2. Extract each step's `run:` block and check it with `bash -n`.
 3. If anything other than comments changed, dispatch a real run
    ([CI image build](ci-image-build.md)) and wait for it before calling the

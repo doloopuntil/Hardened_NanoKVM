@@ -2,7 +2,7 @@
 status: current
 applies-to: system 0.4.0 / app 2.1.0
 last-checked: 2026-10-18
-source: .github/workflows/build-sg2002-image.yml
+source: .github/workflows/system-image.yml
 ---
 
 # CI image build
@@ -10,7 +10,7 @@ source: .github/workflows/build-sg2002-image.yml
 ## Run it
 
 ```sh
-gh workflow run build-sg2002-image.yml --ref <branch>
+gh workflow run system-image.yml --ref <branch>
 ```
 
 The run takes several hours. When it finishes, the `sg2002-recovery-sd-image`
@@ -25,7 +25,7 @@ and `EXPECTED_SYSTEM_VERSION` / `EXPECTED_KVMAPP_VERSION` in the workflow.
 
 ## What it builds
 
-`.github/workflows/build-sg2002-image.yml` rebuilds the SG2002 recovery-SD
+`.github/workflows/system-image.yml` rebuilds the SG2002 recovery-SD
 image from scratch on `ubuntu-latest`: the vendor SDK, a from-scratch
 Buildroot toolchain, the hardened Linux 5.10.265 kernel and every kernel
 module, the `kvmapp` application bridge, and the final rootfs/boot/recovery
@@ -144,7 +144,7 @@ turned out not to need any image at all:
 encodes the full destination path for all 30 external modules (`3rd/`
 included), `in-tree-modules.txt` gives the other 24, and the 3 media
 module names are already known constants -- the complete structure,
-entirely from files already tracked in this repo. `build-sg2002-image.yml`
+entirely from files already tracked in this repo. `system-image.yml`
 now builds this as an empty-file skeleton straight from the manifests, no
 network fetch involved; `hardened-source-media-provenance.txt` is
 regenerated from already-pinned values the same way.

@@ -9,7 +9,7 @@ Firmware for the SG2002 NanoKVM: a Rust web server (`server-rust/`) that
 replaces upstream's Go server, the React UI (`web/`), the application package
 installed to `/kvmapp` (`kvmapp/`), a Buildroot external tree
 (`buildroot-external/`), and native video code (`support/sg2002/`). The whole SD
-image is built by `.github/workflows/build-sg2002-image.yml`.
+image is built by `.github/workflows/system-image.yml`.
 
 ## Commands
 
@@ -22,7 +22,7 @@ corepack pnpm --dir web test
 corepack pnpm --dir web lint
 corepack pnpm --dir web build
 sh -n kvmapp/system/init.d/<script>
-gh workflow run build-sg2002-image.yml --ref <branch>   # multi-hour full image build
+gh workflow run system-image.yml --ref <branch>   # multi-hour full image build
 ```
 
 Details and known failures: [docs/development/testing.md](docs/development/testing.md).
