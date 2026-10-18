@@ -2,3 +2,7 @@
 # CONFIG_HTTPD is not set
 # CONFIG_TELNETD is not set
 # CONFIG_FTPD is not set
+
+# gzip, gunzip and zcat are in the image, but tar did not call them: `tar -czf` and `tar -xzf` failed.
+CONFIG_FEATURE_SEAMLESS_GZ=y
+CONFIG_FEATURE_TAR_AUTODETECT=y
