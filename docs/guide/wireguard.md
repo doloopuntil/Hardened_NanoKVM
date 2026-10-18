@@ -1,5 +1,5 @@
 ---
-status: current, not yet verified on hardware in Restricted mode
+status: current
 applies-to: system 0.4.0 / app 2.1.0
 last-checked: 2026-10-18
 ---
@@ -65,14 +65,18 @@ learns the address from the first handshake.
   ranges, and outbound UDP is allowed from the KVM's WireGuard port (`51820`) to
   the peer's port, and only to the peer's address when **Server** is an IP
   address.
+- Connections the KVM opens to the peer follow the mode's usual outbound rules:
+  in Restricted mode only HTTPS, DNS, NTP and remote syslog go out, so for
+  example SSH from the KVM to the peer is blocked.
 - Paranoid mode blocks WireGuard; the page refuses to turn it on.
 
 See [Firewall modes](firewall.md).
 
 ## Notes
 
-- If **Server** is a host name, the KVM resolves it again whenever the peer has
-  been silent for three minutes, so a peer behind dynamic DNS keeps working.
+- Whenever the peer has been silent for three minutes, the KVM sets the endpoint
+  again from **Server**, resolving a host name afresh, so a peer behind dynamic
+  DNS keeps working.
 - **Generate** replaces the key: add the new public key to the peer. **Remove**
   deletes the key and turns WireGuard off.
 - Changes to the settings and the key are written to the system log.
