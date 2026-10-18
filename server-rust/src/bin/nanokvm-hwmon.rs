@@ -102,7 +102,6 @@ struct StreamSnapshot {
 #[derive(Debug, Serialize)]
 struct MarkerSnapshot {
     oled_exists: bool,
-    frame_detect_marker: bool,
     watchdog_enabled: bool,
     watchdog_temp: bool,
     wifi_exists: bool,
@@ -442,7 +441,6 @@ fn collect_stream() -> StreamSnapshot {
 fn collect_markers() -> MarkerSnapshot {
     MarkerSnapshot {
         oled_exists: Path::new("/etc/kvm/oled_exist").exists(),
-        frame_detect_marker: Path::new("/etc/kvm/frame_detact").exists(),
         watchdog_enabled: Path::new("/etc/kvm/watchdog").exists(),
         watchdog_temp: Path::new("/tmp/watchdog").exists(),
         wifi_exists: Path::new("/etc/kvm/wifi_exist").exists(),

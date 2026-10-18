@@ -60,10 +60,9 @@ runtime_log() {
 
 cleanup_legacy_app_artifacts() {
     mkdir -p /etc/kvm /kvmapp/kvm
-    touch /etc/kvm/frame_detact 2>/dev/null || true
-
     rm -f \
         /boot/logo.jpeg \
+        /etc/kvm/frame_detact \
         /etc/init.d/S02udisk \
         /etc/init.d/S04backlight \
         /etc/init.d/S05tp \
