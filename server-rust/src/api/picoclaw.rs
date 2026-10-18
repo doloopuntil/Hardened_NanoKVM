@@ -1462,13 +1462,13 @@ fn execute_actions_blocking(
     let mut total_writes = 0;
     for (idx, action) in actions.iter().enumerate() {
         if let Err(err) = ensure_session_lock(session_id) {
-            release_all_hid_state();
+            release_all_hid_state_now();
             return Err(err.with_index(idx));
         }
         match execute_action_blocking(action) {
             Ok(writes) => total_writes += writes,
             Err(err) => {
-                release_all_hid_state();
+                release_all_hid_state_now();
                 return Err(err.with_index(idx));
             }
         }
@@ -1670,7 +1670,16 @@ fn to_absolute_hid_coord(normalized: f64) -> u16 {
     (f64::from(0x7fff) * normalized).floor() as u16 + 1
 }
 
+// Let go of every key and mouse button, without making the caller wait. When the host is not
+// reading the USB device a write retries for seconds (and may reset the gadget), and called from
+// an async handler that stalled the server thread and every request queued behind it: closing
+// the chat of a conversation took four seconds, and so did everything else.
 fn release_all_hid_state() {
+    let _ = task::spawn_blocking(release_all_hid_state_now);
+}
+
+// For code that already runs on a blocking thread.
+fn release_all_hid_state_now() {
     let _ = hid_ws::write_keyboard_report(&[0; 8]);
     let _ = hid_ws::write_relative_mouse_report(&[0; 4]);
     let _ = hid_ws::write_absolute_mouse_report(&[0; 6]);
