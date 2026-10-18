@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-19
 ---
 
 # Build and deploy the server
@@ -36,6 +36,23 @@ CI pins Rust `1.99.0` (`RUST_VERSION` in `.github/workflows/system-image.yml`);
 use the same version locally. The link step uses the position-independent C
 runtime objects (`Scrt1.o`, `crtbeginS.o`, `crtendS.o`) because newer Rust no
 longer links with the non-PIC `crt1.o`.
+
+### Code generation
+
+- **T-Head extensions.** The script builds for the SG2002's C906 core with its
+  T-Head extensions (`THEAD_FEATURES`: `xtheadba`, `xtheadbb`, `xtheadbs`,
+  `xtheadcondmov`, `xtheadmemidx`, `xtheadmempair`, `xtheadmac`). LLVM, and so
+  `rustc`, has no C906 CPU model, so they are enabled one by one; `rustc` warns
+  that they are unstable. The binary does not run on other RISC-V cores.
+- **Optimisation.** The release profile optimises for size (`opt-level = "z"`)
+  because the init script runs the server from tmpfs, so its size is RAM. The
+  crates that video passes through (TLS, WebSocket, SRTP and their ciphers) are
+  built at `opt-level = 3` in `server-rust/Cargo.toml`; that costs about 0.2 MB,
+  where `-O3` for everything costs about 3 MB.
+- **Ciphers.** The TLS server prefers ChaCha20-Poly1305 over the client's order,
+  because the C906 has no AES instructions. Measured on the device with `ring`
+  and 16 KiB records: AES-128-GCM 3.3 MB/s at `"z"` and 5.1 MB/s at `-O3` with
+  the extensions, ChaCha20-Poly1305 9.3 and 22.6 MB/s.
 
 ### Cross-building in Docker (macOS or Linux)
 

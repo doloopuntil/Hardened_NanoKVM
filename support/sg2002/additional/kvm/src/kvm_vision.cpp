@@ -43,7 +43,9 @@
 #define default_venc_type       VENC_MJPEG
 #define default_mjpeg_qlty      60
 #define default_h264_qlty       1000
-#define default_h264_gop        30
+#define default_h264_fps        30
+#define h264_idr_seconds        10      // IDR interval; clients get IDRs on request
+#define h264_idr_min_gap_ms     500     // requested IDRs are coalesced to this rate
 #define fresh_frame_discard_count 5
 
 #define kvmv_data_buffer_size   4
@@ -1607,19 +1609,37 @@ int jpg_dump(kvmv_data_t* dump_to, image::Image *raw)
 	return 0;
 }
 
-uint8_t kvmvenc_gop = default_h264_gop;
+// 0: h264_idr_seconds at the stream fps; otherwise the GOP the user chose.
+static std::atomic<uint8_t> kvmvenc_gop{0};
+static std::atomic<uint8_t> kvmvenc_fps{default_h264_fps};
+static std::atomic<bool> keyframe_requested{false};
+static uint64_t last_requested_idr_ms = 0;  // under vi_mutex
 kvm_venc_t kvm_venc;
 mmf_venc_cfg_t cfg;
-void init_venc_h264(uint16_t _width, uint16_t _height, uint16_t _qlty)
+
+static uint64_t monotonic_ms()
+{
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return (uint64_t)ts.tv_sec * 1000 + (uint64_t)ts.tv_nsec / 1000000;
+}
+
+static int h264_gop_for_fps(int fps)
+{
+    uint8_t gop = kvmvenc_gop.load(std::memory_order_relaxed);
+    return gop != 0 ? gop : fps * h264_idr_seconds;
+}
+
+void init_venc_h264(uint16_t _width, uint16_t _height, uint16_t _qlty, int _fps)
 {
     cfg.type = 2; //1, h265, 2, h264
     cfg.w = _width;
     cfg.h = _height;
     cfg.fmt = mmf_invert_format_to_mmf(image::Format::FMT_YVU420SP);
     cfg.jpg_quality = 0;       // unused
-    cfg.gop = kvmvenc_gop;
-    cfg.intput_fps = 60;
-    cfg.output_fps = 60;
+    cfg.gop = h264_gop_for_fps(_fps);
+    cfg.intput_fps = _fps;
+    cfg.output_fps = _fps;
     cfg.bitrate = _qlty;  // 码率
 
     kvm_venc.mmf_venc_chn = default_venc_chn;
@@ -1633,6 +1653,9 @@ void init_venc_h264(uint16_t _width, uint16_t _height, uint16_t _qlty)
         err::check_raise(err::ERR_RUNTIME, "mmf venc init failed!");
     }
     kvm_venc.enc_h264_init = 1;
+    // A new channel starts with an IDR, which answers any pending request.
+    keyframe_requested.store(false, std::memory_order_relaxed);
+    last_requested_idr_ms = monotonic_ms();
 
 	// init_kvm_h264_stream(&kvm_h264_stream, mmf_stream_buf);
 	// init_h264_stream_struct(&kvm_h264_stream);
@@ -1691,11 +1714,36 @@ int h264_stream_dump(kvmv_data_t* dump_to, mmf_stream_t* dump_from)
     }
 }
 
+// The capture path rebuilds the encoder when the GOP changes.
 void set_h264_gop(uint8_t _gop)
 {
-    kvm_venc.enc_h264_init = 0; // call
-    kvmvenc_gop = maxmin_data(100, 1, (int)_gop);
-    debug("[kvmv] set_h264_gop = %d\n", kvmvenc_gop);
+    kvmvenc_gop.store(maxmin_data(100, 1, (int)_gop), std::memory_order_relaxed);
+    debug("[kvmv] set_h264_gop = %d\n", kvmvenc_gop.load(std::memory_order_relaxed));
+}
+
+// The capture path rebuilds the encoder when the fps changes.
+void kvmv_set_h264_fps(uint8_t _fps)
+{
+    kvmvenc_fps.store(maxmin_data(60, 1, (int)_fps), std::memory_order_relaxed);
+}
+
+// Lock-free; the capture path issues the IDR under vi_mutex.
+void kvmv_request_keyframe(void)
+{
+    keyframe_requested.store(true, std::memory_order_relaxed);
+}
+
+// Called under vi_mutex with a running channel.
+static void issue_requested_keyframe()
+{
+    if (!keyframe_requested.load(std::memory_order_relaxed)) return;
+    uint64_t now = monotonic_ms();
+    if (now - last_requested_idr_ms < h264_idr_min_gap_ms) return;
+    if (!keyframe_requested.exchange(false, std::memory_order_relaxed)) return;
+    last_requested_idr_ms = now;
+    if (mmf_venc_request_idr(kvm_venc.mmf_venc_chn) == 0) {
+        fprintf(stderr, "[kvmv] requested h264 IDR\n");
+    }
 }
 
 void set_frame_detact(uint8_t _frame_detact)
@@ -1715,13 +1763,15 @@ int8_t raw_to_h264(image::Image *raw, kvmv_data_t* ret_stream, uint16_t _qlty)
 		// start_time = time::time_ms();
 		// log::info("getimg: %d \r\n", (int)(time::time_ms()));
     mmf_stream_t _stream = {0};
-    if(kvm_venc.enc_h264_init != 1 || raw->width() != kvm_venc.kvm_venc_cfg.w || raw->height() != kvm_venc.kvm_venc_cfg.h || _qlty != kvm_venc.kvm_venc_cfg.bitrate){
+    int fps = kvmvenc_fps.load(std::memory_order_relaxed);
+    if(kvm_venc.enc_h264_init != 1 || raw->width() != kvm_venc.kvm_venc_cfg.w || raw->height() != kvm_venc.kvm_venc_cfg.h || _qlty != kvm_venc.kvm_venc_cfg.bitrate ||
+       fps != kvm_venc.kvm_venc_cfg.output_fps || h264_gop_for_fps(fps) != kvm_venc.kvm_venc_cfg.gop){
 		debug("[kvmv]init_venc_h264	enc_h264_init = %d; raw->width() = %d | %d raw->height() = %d | %d \n",
 				kvm_venc.enc_h264_init,
 				raw->width(), kvm_venc.kvm_venc_cfg.w,
 				raw->height(), kvm_venc.kvm_venc_cfg.h);
 
-		init_venc_h264(raw->width(), raw->height(), _qlty);
+		init_venc_h264(raw->width(), raw->height(), _qlty, fps);
         debug("[kvmv]init_venc_h264 finish enc_h264_init = %d; raw->width() = %d | %d raw->height() = %d | %d \n",
 				kvm_venc.enc_h264_init,
 				raw->width(), kvm_venc.kvm_venc_cfg.w,
@@ -1733,6 +1783,7 @@ int8_t raw_to_h264(image::Image *raw, kvmv_data_t* ret_stream, uint16_t _qlty)
 		// }
     }
 	// log::info("init(): %d \r\n", (int)(time::time_ms() - start_time));
+    issue_requested_keyframe();
     if (mmf_venc_push(kvm_venc.mmf_venc_chn, (uint8_t *)raw->data(), raw->width(), raw->height(), mmf_invert_format_to_mmf(raw->format()))) {
         mmf_del_venc_channel(kvm_venc.mmf_venc_chn);
         kvm_venc.enc_h264_init = 0;
