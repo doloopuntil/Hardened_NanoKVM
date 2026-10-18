@@ -3300,6 +3300,7 @@ fn ensure_startup_defaults() -> Result<()> {
     let pico = ensure_object_path(raw, &["channel_list", "pico"]);
     pico.insert("type".to_string(), JsonValue::String("pico".to_string()));
     pico.insert("enabled".to_string(), JsonValue::Bool(true));
+    ensure_pico_allow_from(pico);
     let settings = ensure_object_path(raw, &["channel_list", "pico", "settings"]);
     settings.insert("allow_token_query".to_string(), JsonValue::Bool(false));
     settings.insert(
@@ -3327,6 +3328,22 @@ fn ensure_startup_defaults() -> Result<()> {
     headers.insert(INTERNAL_TOKEN_HEADER.to_string(), JsonValue::String(token));
     save_json(&doc.config_path, &doc.raw)?;
     save_yaml(&doc.security_path, &doc.security)
+}
+
+// PicoClaw logs a security warning on every start while the channel's allow_from is empty. The
+// channel only listens on 127.0.0.1 and wants a token, so "everyone" is what is meant: say so
+// with "*", which is how PicoClaw wants open access to be acknowledged. A list that was set is
+// kept.
+fn ensure_pico_allow_from(pico: &mut JsonMap<String, JsonValue>) {
+    let unset = match pico.get("allow_from") {
+        None | Some(JsonValue::Null) => true,
+        Some(JsonValue::Array(list)) => list.is_empty(),
+        Some(JsonValue::String(text)) => text.trim().is_empty(),
+        Some(_) => false,
+    };
+    if unset {
+        pico.insert("allow_from".to_string(), json!(["*"]));
+    }
 }
 
 fn ensure_object_path<'a>(
@@ -3690,6 +3707,25 @@ mod tests {
             "it broke"
         );
         assert!(last_error_line("22:00:00 INF all good\n").is_none());
+    }
+
+    #[test]
+    fn the_pico_channel_acknowledges_open_access_unless_a_list_is_set() {
+        for before in [
+            json!({}),
+            json!({"allow_from": []}),
+            json!({"allow_from": null}),
+        ] {
+            let mut pico = before.as_object().unwrap().clone();
+            ensure_pico_allow_from(&mut pico);
+            assert_eq!(pico["allow_from"], json!(["*"]));
+        }
+        for kept in [json!(["42"]), json!("42"), json!(["*"])] {
+            let mut pico = JsonMap::new();
+            pico.insert("allow_from".to_string(), kept.clone());
+            ensure_pico_allow_from(&mut pico);
+            assert_eq!(pico["allow_from"], kept);
+        }
     }
 
     #[test]
