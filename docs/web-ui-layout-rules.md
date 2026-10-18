@@ -197,6 +197,10 @@ The PicoClaw sidebar is part of the menu bar and follows the same rules where it
   user's bubbles), not sky-blue.
 - A screen with nothing to show yet (start, install, no history, no messages) is an
   `EmptyState`: a centred icon tile, a title, a caption and one action.
+- What the agent does while it works shows in the chat as Action boxes (one per tool call of
+  PicoClaw: taking a screenshot, typing, pressing keys), and "Processing..." stays on for the
+  whole run. PicoClaw does not say when a run is over: a text message ends it unless a tool call
+  follows within 1.5 s (see `lib/picoclaw-gateway.ts`).
 - The result of an action (started, stopped, saved, installed) is a toast; the chat shows only
   what happens in the session (connecting, connected, closed).
 - The model form is the one place that is not `SettingRow`s: the input sits under its label,

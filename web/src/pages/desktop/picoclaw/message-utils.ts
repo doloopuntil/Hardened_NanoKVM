@@ -65,6 +65,17 @@ export function createToolActionMessage(action: GatewayToolAction): PicoclawChat
   };
 }
 
+// A line of what the agent is doing, shown in the Action box.
+export function createToolCallMessage(id: string, text: string): PicoclawChatMessage {
+  return {
+    id,
+    kind: 'tool_action',
+    text,
+    action: text,
+    createdAt: Date.now()
+  };
+}
+
 export function createObservationMessage(observation: GatewayObservation): PicoclawChatMessage {
   return {
     id: observation.id,

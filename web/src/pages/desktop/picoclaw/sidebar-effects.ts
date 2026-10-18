@@ -31,11 +31,13 @@ import {
   createObservationMessage,
   createStatusMessage,
   createToolActionMessage,
+  createToolCallMessage,
   HIDDEN_OVERLAY,
   retainLatestObservationScreenshot,
   sessionMessagesToChat
 } from './message-utils.ts';
 import { canConnectGateway, isPicoclawRuntimeInstalling } from './runtime-view.ts';
+import { summarizeToolCall } from './tool-call-summary.ts';
 
 type MessageSetter = Dispatch<SetStateAction<PicoclawChatMessage[]>>;
 type TakeoverSetter = Dispatch<SetStateAction<PicoclawTakeoverState>>;
@@ -115,6 +117,10 @@ export function usePicoclawGatewayEvents({
       }),
       picoclawGateway.on('run_state', (state) => {
         setRunState(state);
+        // what the agent was doing on the screen is no longer true
+        if (state === 'idle') {
+          setOverlay(HIDDEN_OVERLAY);
+        }
       }),
       picoclawGateway.on('assistant_message', (message) => {
         setMessages((current) => {
@@ -139,6 +145,26 @@ export function usePicoclawGatewayEvents({
           y: action.y,
           action: action.action
         });
+      }),
+      picoclawGateway.on('tool_calls', ({ id, calls }) => {
+        const lines = calls.map((call, index) =>
+          createToolCallMessage(`${id}:${call.id || index}`, summarizeToolCall(call, t))
+        );
+        // an update of the message sends the same calls again
+        setMessages((current) => {
+          const known = new Set(current.map((item) => item.id));
+          const fresh = lines.filter((line) => !known.has(line.id));
+          return fresh.length > 0 ? [...current, ...fresh] : current;
+        });
+
+        const last = lines[lines.length - 1]?.text?.split('\n')[0].replace(/`/g, '');
+        if (last) {
+          setOverlay({
+            visible: true,
+            message: `${t('picoclaw.overlay.locked')} · ${last}`,
+            action: last
+          });
+        }
       }),
       picoclawGateway.on('observation', (observation) => {
         setMessages((current) =>

@@ -1,0 +1,53 @@
+import { describe, expect, it } from 'vitest';
+
+import { messageKindOf, toolCallsFromPayload } from './picoclaw-protocol.ts';
+
+describe('messageKindOf', () => {
+  it('tells tool calls and thoughts from text', () => {
+    expect(messageKindOf({ kind: 'tool_calls' })).toBe('tool_calls');
+    expect(messageKindOf({ kind: ' Thought ' })).toBe('thought');
+    expect(messageKindOf({ thought: true })).toBe('thought');
+    expect(messageKindOf({ content: 'hello' })).toBe('text');
+    expect(messageKindOf({ kind: 'something else' })).toBe('text');
+  });
+});
+
+describe('toolCallsFromPayload', () => {
+  it('reads the calls PicoClaw sends', () => {
+    const calls = toolCallsFromPayload({
+      kind: 'tool_calls',
+      tool_calls: [
+        {
+          id: 'toolu_1',
+          type: 'function',
+          function: { name: 'mcp_nanokvm_kvm_screenshot', arguments: '{}' }
+        },
+        {
+          function: { name: 'mcp_nanokvm_kvm_actions', arguments: '{"actions":[' },
+          extra_content: { tool_feedback_explanation: '  List the logs  ' }
+        }
+      ]
+    });
+
+    expect(calls).toEqual([
+      {
+        id: 'toolu_1',
+        name: 'mcp_nanokvm_kvm_screenshot',
+        arguments: '{}',
+        explanation: undefined
+      },
+      {
+        id: '1',
+        name: 'mcp_nanokvm_kvm_actions',
+        arguments: '{"actions":[',
+        explanation: 'List the logs'
+      }
+    ]);
+  });
+
+  it('ignores a payload without calls or with odd entries', () => {
+    expect(toolCallsFromPayload({})).toEqual([]);
+    expect(toolCallsFromPayload({ tool_calls: 'x' })).toEqual([]);
+    expect(toolCallsFromPayload({ tool_calls: [null, 3] })).toEqual([]);
+  });
+});

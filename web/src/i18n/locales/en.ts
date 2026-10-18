@@ -950,6 +950,20 @@ const en = {
           busy: 'Busy'
         }
       },
+      tool: {
+        screenshot: 'Taking a screenshot',
+        loadImage: 'Looking at the screenshot',
+        actions: 'Controlling the host',
+        generic: 'Using {{name}}',
+        type: 'Typing {{text}}',
+        hotkey: 'Pressing {{keys}}',
+        click: 'Clicking',
+        doubleClick: 'Double-clicking',
+        move: 'Moving the mouse',
+        drag: 'Dragging',
+        scroll: 'Scrolling',
+        wait: 'Waiting'
+      },
       message: {
         toolAction: 'Action',
         observation: 'Observation',
