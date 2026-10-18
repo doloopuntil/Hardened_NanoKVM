@@ -4,8 +4,12 @@ name: Compare kvm_system builds
 # compare it with the binary published in app 2.0.42, then build this ref's source for the same
 # report. Remove this workflow once the comparison has been reviewed.
 
+# workflow_dispatch needs the file on the default branch, so pushes to this file run it too.
 on:
   workflow_dispatch: {}
+  push:
+    branches: [feat/hardened-system-0.4.0-full]
+    paths: [.github/workflows/compare-kvm-system.yml]
 
 env:
   MAIXCDK_SHA: 5b0aa5b1a8c91d213433189cfab8c999775fa13a
