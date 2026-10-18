@@ -870,8 +870,6 @@ const en = {
           baseImage: 'Base image',
           buildrootRelease: 'Buildroot release',
           kernel: 'Kernel',
-          target: 'Target',
-          latestTarget: 'Latest target',
           stagedVersion: 'Staged version',
           archive: 'Archive',
           requiredFree: 'Required free space',

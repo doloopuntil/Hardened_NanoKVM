@@ -484,8 +484,6 @@ const translations: Record<string, string> = {
   'settings.update.system.baseImage': 'Perusimage',
   'settings.update.system.buildrootRelease': 'Buildroot-julkaisu',
   'settings.update.system.kernel': 'Kernel',
-  'settings.update.system.target': 'Kohde',
-  'settings.update.system.latestTarget': 'Uusin kohde',
   'settings.update.system.stagedVersion': 'Valmisteltu versio',
   'settings.update.system.archive': 'Arkisto',
   'settings.update.system.requiredFree': 'Vaadittu vapaa tila',

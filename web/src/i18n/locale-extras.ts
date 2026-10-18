@@ -4180,7 +4180,6 @@ const systemUpdateKeys = [
   'settings.update.system.installing',
   'settings.update.system.isLatest',
   'settings.update.system.kernel',
-  'settings.update.system.latestTarget',
   'settings.update.system.pendingVersion',
   'settings.update.system.progress',
   'settings.update.system.progressMessage',
@@ -4207,7 +4206,6 @@ const systemUpdateKeys = [
   'settings.update.system.stagedDesc',
   'settings.update.system.stagedVersion',
   'settings.update.system.systemVersion',
-  'settings.update.system.target',
   'settings.update.system.unhealthy'
 ] as const;
 
@@ -4237,7 +4235,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Instal·lant l’actualització del sistema preparada...',
     'El sistema base està actualitzat.',
     'Kernel',
-    'Objectiu més recent',
     'Versió pendent',
     'Progrés',
     'Missatge de progrés',
@@ -4264,7 +4261,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'L’arxiu d’actualització del sistema s’ha descarregat i verificat. Ara el podeu instal·lar.',
     'Versió preparada',
     'Versió d’actualització del sistema',
-    'Objectiu',
     'Requereix atenció'
   ],
   cz: [
@@ -4292,7 +4288,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Instaluje se připravená aktualizace systému...',
     'Základní systém je aktuální.',
     'Kernel',
-    'Nejnovější cíl',
     'Čekající verze',
     'Průběh',
     'Zpráva průběhu',
@@ -4319,7 +4314,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Archiv aktualizace systému byl stažen a ověřen. Nyní jej můžete nainstalovat.',
     'Připravená verze',
     'Verze aktualizace systému',
-    'Cíl',
     'Vyžaduje pozornost'
   ],
   da: [
@@ -4347,7 +4341,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Installerer klargjort systemopdatering...',
     'Basissystemet er opdateret.',
     'Kernel',
-    'Seneste mål',
     'Afventende version',
     'Fremdrift',
     'Fremdriftsmeddelelse',
@@ -4374,7 +4367,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Systemopdateringsarkivet blev downloadet og verificeret. Du kan installere det nu.',
     'Klargjort version',
     'Systemopdateringsversion',
-    'Mål',
     'Kræver opmærksomhed'
   ],
   de: [
@@ -4402,7 +4394,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Vorbereitetes Systemupdate wird installiert...',
     'Das Basissystem ist aktuell.',
     'Kernel',
-    'Neuestes Ziel',
     'Ausstehende Version',
     'Fortschritt',
     'Fortschrittsmeldung',
@@ -4429,7 +4420,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Das Systemupdate-Archiv wurde heruntergeladen und verifiziert. Es kann jetzt installiert werden.',
     'Vorbereitete Version',
     'Systemupdate-Version',
-    'Ziel',
     'Benötigt Aufmerksamkeit'
   ],
   es: [
@@ -4457,7 +4447,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Instalando actualización del sistema preparada...',
     'El sistema base está actualizado.',
     'Kernel',
-    'Objetivo más reciente',
     'Versión pendiente',
     'Progreso',
     'Mensaje de progreso',
@@ -4484,7 +4473,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'El archivo de actualización del sistema se descargó y verificó. Ahora puedes instalarlo.',
     'Versión preparada',
     'Versión de actualización del sistema',
-    'Objetivo',
     'Requiere atención'
   ],
   fr: [
@@ -4512,7 +4500,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Installation de la mise à jour système préparée...',
     'Le système de base est à jour.',
     'Kernel',
-    'Cible la plus récente',
     'Version en attente',
     'Progression',
     'Message de progression',
@@ -4539,7 +4526,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'L’archive de mise à jour système a été téléchargée et vérifiée. Vous pouvez maintenant l’installer.',
     'Version préparée',
     'Version de mise à jour système',
-    'Cible',
     'Nécessite une attention'
   ],
   hu: [
@@ -4567,7 +4553,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Előkészített rendszerfrissítés telepítése...',
     'Az alaprendszer naprakész.',
     'Kernel',
-    'Legújabb cél',
     'Függőben lévő verzió',
     'Folyamat',
     'Folyamatüzenet',
@@ -4594,7 +4579,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'A rendszerfrissítési archívum letöltve és ellenőrizve. Most telepítheti.',
     'Előkészített verzió',
     'Rendszerfrissítés verziója',
-    'Cél',
     'Figyelmet igényel'
   ],
   id: [
@@ -4622,7 +4606,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Menginstal pembaruan sistem yang disiapkan...',
     'Sistem dasar sudah mutakhir.',
     'Kernel',
-    'Target terbaru',
     'Versi tertunda',
     'Progres',
     'Pesan progres',
@@ -4649,7 +4632,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Arsip pembaruan sistem telah diunduh dan diverifikasi. Anda dapat menginstalnya sekarang.',
     'Versi yang disiapkan',
     'Versi pembaruan sistem',
-    'Target',
     'Perlu perhatian'
   ],
   it: [
@@ -4677,7 +4659,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Installazione dell’aggiornamento di sistema preparato...',
     'Il sistema base è aggiornato.',
     'Kernel',
-    'Target più recente',
     'Versione in sospeso',
     'Avanzamento',
     'Messaggio di avanzamento',
@@ -4704,7 +4685,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'L’archivio dell’aggiornamento di sistema è stato scaricato e verificato. Ora può essere installato.',
     'Versione preparata',
     'Versione aggiornamento di sistema',
-    'Target',
     'Richiede attenzione'
   ],
   ja: [
@@ -4732,7 +4712,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     '準備済みシステム更新をインストールしています...',
     'ベースシステムは最新です。',
     'Kernel',
-    '最新ターゲット',
     '保留中のバージョン',
     '進行状況',
     '進行メッセージ',
@@ -4759,7 +4738,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'システム更新アーカイブはダウンロードされ検証されました。今すぐインストールできます。',
     '準備済みバージョン',
     'システム更新バージョン',
-    'ターゲット',
     '注意が必要'
   ],
   ko: [
@@ -4787,7 +4765,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     '준비된 시스템 업데이트 설치 중...',
     '기본 시스템이 최신입니다.',
     'Kernel',
-    '최신 대상',
     '대기 중인 버전',
     '진행률',
     '진행 메시지',
@@ -4814,7 +4791,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     '시스템 업데이트 아카이브가 다운로드되고 검증되었습니다. 지금 설치할 수 있습니다.',
     '준비된 버전',
     '시스템 업데이트 버전',
-    '대상',
     '주의 필요'
   ],
   nb: [
@@ -4842,7 +4818,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Installerer klargjort systemoppdatering...',
     'Basissystemet er oppdatert.',
     'Kernel',
-    'Nyeste mål',
     'Ventende versjon',
     'Fremdrift',
     'Fremdriftsmelding',
@@ -4869,7 +4844,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Systemoppdateringsarkivet ble lastet ned og verifisert. Du kan installere det nå.',
     'Klargjort versjon',
     'Systemoppdateringsversjon',
-    'Mål',
     'Trenger oppmerksomhet'
   ],
   nl: [
@@ -4897,7 +4871,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Voorbereide systeemupdate installeren...',
     'Het basissysteem is up-to-date.',
     'Kernel',
-    'Laatste doel',
     'Wachtende versie',
     'Voortgang',
     'Voortgangsbericht',
@@ -4924,7 +4897,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Het systeemupdate-archief is gedownload en geverifieerd. U kunt het nu installeren.',
     'Voorbereide versie',
     'Systeemupdateversie',
-    'Doel',
     'Aandacht vereist'
   ],
   pt_br: [
@@ -4952,7 +4924,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Instalando atualização do sistema preparada...',
     'O sistema base está atualizado.',
     'Kernel',
-    'Destino mais recente',
     'Versão pendente',
     'Progresso',
     'Mensagem de progresso',
@@ -4979,7 +4950,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'O arquivo de atualização do sistema foi baixado e verificado. Você pode instalá-lo agora.',
     'Versão preparada',
     'Versão de atualização do sistema',
-    'Destino',
     'Requer atenção'
   ],
   se: [
@@ -5007,7 +4977,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Installerar förberedd systemuppdatering...',
     'Bassystemet är uppdaterat.',
     'Kernel',
-    'Senaste mål',
     'Väntande version',
     'Förlopp',
     'Förloppsmeddelande',
@@ -5034,7 +5003,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Systemuppdateringsarkivet har laddats ned och verifierats. Du kan installera det nu.',
     'Förberedd version',
     'Systemuppdateringsversion',
-    'Mål',
     'Kräver uppmärksamhet'
   ],
   th: [
@@ -5062,7 +5030,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'กำลังติดตั้งอัปเดตระบบที่เตรียมไว้...',
     'ระบบพื้นฐานเป็นเวอร์ชันล่าสุดแล้ว',
     'Kernel',
-    'เป้าหมายล่าสุด',
     'เวอร์ชันที่รออยู่',
     'ความคืบหน้า',
     'ข้อความความคืบหน้า',
@@ -5089,7 +5056,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'ดาวน์โหลดและตรวจสอบไฟล์อัปเดตระบบแล้ว ตอนนี้ติดตั้งได้',
     'เวอร์ชันที่เตรียมไว้',
     'เวอร์ชันอัปเดตระบบ',
-    'เป้าหมาย',
     'ต้องตรวจสอบ'
   ],
   tr: [
@@ -5117,7 +5083,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Hazırlanmış sistem güncellemesi yükleniyor...',
     'Temel sistem güncel.',
     'Kernel',
-    'En son hedef',
     'Bekleyen sürüm',
     'İlerleme',
     'İlerleme iletisi',
@@ -5144,7 +5109,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Sistem güncelleme arşivi indirildi ve doğrulandı. Şimdi yükleyebilirsiniz.',
     'Hazırlanmış sürüm',
     'Sistem güncelleme sürümü',
-    'Hedef',
     'Dikkat gerekiyor'
   ],
   uk: [
@@ -5172,7 +5136,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Встановлення підготовленого оновлення системи...',
     'Базова система актуальна.',
     'Kernel',
-    'Найновіша ціль',
     'Очікувана версія',
     'Прогрес',
     'Повідомлення прогресу',
@@ -5199,7 +5162,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Архів оновлення системи завантажено й перевірено. Тепер його можна встановити.',
     'Підготовлена версія',
     'Версія оновлення системи',
-    'Ціль',
     'Потребує уваги'
   ],
   vi: [
@@ -5227,7 +5189,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Đang cài đặt cập nhật hệ thống đã chuẩn bị...',
     'Hệ thống nền đã cập nhật.',
     'Kernel',
-    'Mục tiêu mới nhất',
     'Phiên bản đang chờ',
     'Tiến trình',
     'Thông báo tiến trình',
@@ -5254,7 +5215,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     'Kho lưu trữ cập nhật hệ thống đã được tải xuống và xác minh. Bạn có thể cài đặt ngay.',
     'Phiên bản đã chuẩn bị',
     'Phiên bản cập nhật hệ thống',
-    'Mục tiêu',
     'Cần chú ý'
   ],
   zh: [
@@ -5282,7 +5242,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     '正在安装已暂存的系统更新...',
     '基础系统已是最新。',
     'Kernel',
-    '最新目标',
     '待处理版本',
     '进度',
     '进度消息',
@@ -5309,7 +5268,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     '系统更新归档已下载并验证。现在可以安装。',
     '已暂存版本',
     '系统更新版本',
-    '目标',
     '需要注意'
   ],
   zh_tw: [
@@ -5337,7 +5295,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     '正在安裝已暫存的系統更新...',
     '基礎系統已是最新。',
     'Kernel',
-    '最新目標',
     '待處理版本',
     '進度',
     '進度訊息',
@@ -5364,7 +5321,6 @@ const systemUpdateExtras = keyedExtras(systemUpdateKeys, {
     '系統更新封存已下載並驗證。現在可以安裝。',
     '已暫存版本',
     '系統更新版本',
-    '目標',
     '需要注意'
   ]
 });
@@ -5505,8 +5461,6 @@ const legacyExtras: Record<string, TranslationMap> = {
     'settings.update.system.baseImage': 'Obraz bazowy',
     'settings.update.system.buildrootRelease': 'Wydanie Buildroot',
     'settings.update.system.kernel': 'Kernel',
-    'settings.update.system.target': 'Cel',
-    'settings.update.system.latestTarget': 'Najnowszy cel',
     'settings.update.system.stagedVersion': 'Wersja przygotowana',
     'settings.update.system.archive': 'Archiwum',
     'settings.update.system.requiredFree': 'Wymagane wolne miejsce',

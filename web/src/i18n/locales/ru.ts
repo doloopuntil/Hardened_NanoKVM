@@ -653,8 +653,6 @@ const ru = {
           baseImage: 'Базовый образ',
           buildrootRelease: 'Релиз Buildroot',
           kernel: 'Ядро',
-          target: 'Цель',
-          latestTarget: 'Цель обновления',
           stagedVersion: 'Подготовленная версия',
           archive: 'Архив',
           requiredFree: 'Нужно свободного места',

@@ -475,8 +475,6 @@ const translations: Record<string, string> = {
   'settings.update.system.baseImage': 'Baasimage',
   'settings.update.system.buildrootRelease': 'Buildrooti väljalase',
   'settings.update.system.kernel': 'Kernel',
-  'settings.update.system.target': 'Siht',
-  'settings.update.system.latestTarget': 'Uusim siht',
   'settings.update.system.stagedVersion': 'Ettevalmistatud versioon',
   'settings.update.system.archive': 'Arhiiv',
   'settings.update.system.requiredFree': 'Vajalik vaba ruum',
