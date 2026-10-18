@@ -22,7 +22,7 @@ SD-card images. Install those through the web GUI updater instead.
 - Use a known-good microSD card, ideally 16 GB or larger.
 - Get an image. For system `0.4.0`, the image is the `sg2002-recovery-sd-image`
   artifact of the **H-NanoKVM system image** workflow run on
-  `feat/hardened-system-0.4.0` (see [CI image build](../development/ci-image-build.md));
+  `main` (see [CI image build](../development/ci-image-build.md));
   its `_reports/SHA256SUMS` lists the image checksum. Published release downloads
   for 0.4.0 are not set up yet. Older images (up to RC12, system `0.3.0-raw.12`)
   are on the woffko release page: <https://github.com/woffko/Hardened_NanoKVM/releases>.
