@@ -121,11 +121,15 @@ Copy the reviewed output into `server-rust/native/dl_lib/` before running the
 linked Rust build and packaging. `scripts/package-rust-kvmapp.sh` packages that
 directory as `/kvmapp/server/dl_lib`.
 
-For retained `kvm_system` changes, use the existing generated MaixCDK build:
+For `kvm_system` changes, build it the way CI does:
 
 ```sh
-make -C support/sg2002/kvm_system/build -j16
+cd support/sg2002
+./build kvm_system
 ```
+
+The binary is `support/sg2002/kvm_system/dist/kvm_system_release/kvm_system`;
+pass it to the package script as `KVM_SYSTEM_SOURCE`.
 
 The package script consumes
 `support/sg2002/kvm_system/build/kvm_system` by default. Never let packaging

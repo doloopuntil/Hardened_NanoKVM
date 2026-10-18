@@ -43,10 +43,10 @@ feature breaks after this change, this is the first thing to revert.
 
 ## libkvm_mmf.so statically embeds its own copy of the LT6911 driver
 
-The LT6911 sensor-id-probe-retry patch applied to `vendor-sdk-stock`'s
-checkout of `sipeed/LicheeRV-Nano-Build` (see
-`buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/`)
-never reached the code actually driving HDMI capture. `libkvm_mmf.so` is
+The LT6911 patch applied to `vendor-sdk-stock`'s checkout of
+`sipeed/LicheeRV-Nano-Build`
+(`buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch`)
+does not reach the code actually driving HDMI capture by itself. `libkvm_mmf.so` is
 built by MaixCDK (`support/sg2002/additional/kvm_mmf/CMakeLists.txt`)
 against a *second*, independent copy of the same upstream sensor source --
 `sipeed/MaixCDK`'s own `components/3rd_party/sophgo-middleware/` checkout
@@ -55,8 +55,7 @@ against a *second*, independent copy of the same upstream sensor source --
 `NEEDED` entries don't include it, and the compiled-in `__FILE__` string
 in `libkvm_mmf.so` points at `.../MaixCDK/components/3rd_party/...`, not
 the vendor-sdk-stock path). Diffed MaixCDK's copy of `lt6911_sensor_ctl.c`
-against vendor-sdk-stock's: byte-for-byte identical, same dead code, same
-unpatched probe timing. `/mnt/system/usr/lib/libsns_lt6911.so` is real and
+against vendor-sdk-stock's: byte-for-byte identical, same probe. `/mnt/system/usr/lib/libsns_lt6911.so` is real and
 correctly patched, but nothing in the running process tree (`kvm_system`,
 `libkvm.so`, `libkvm_mmf.so`) loads it.
 
@@ -70,15 +69,11 @@ release on a fresh boot), and the job checks for them before building.
 `woffko/Hardened_NanoKVM`'s own published `libkvm_mmf.so` still contains the
 same unpatched `read sensor id error.`/`Sensor ID Mismatch!` strings.
 
-Verified on real hardware in two rounds. First, a retry loop (confirmed
-genuinely executing via matching syslog line numbers, not a stale build)
-still failed every I2C transaction across a ~100ms window. Widened to
-~10s (20 retries x 500ms): still 100% failure, zero exceptions -- not a
-timing problem, the I2C bus never responds on this board at all. HDMI
-capture works regardless. `lt6911-sensor-id-probe-removed.patch` now
-removes the chip-ID I2C probe from `lt6911_probe()` entirely (PinMux
-only) instead of retrying further or leaving the vendor's own dead-code
-no-op in place.
+On real hardware the chip-ID I2C read never succeeds on this board, at any
+timing, while HDMI capture works without it.
+`lt6911-sensor-id-probe-removed.patch` therefore removes the probe from
+`lt6911_probe()` entirely (PinMux only); verified on hardware: no LT6911
+errors in syslog and no boot delay.
 
 ## /mnt/system/usr: pruned to the one file dl_lib doesn't cover
 
@@ -230,8 +225,8 @@ same compiled logic and data, different build-path debug string that's
 never dereferenced as a real path at runtime.
 
 That was true when this file was first traced. It no longer is, deliberately:
-`lt6911_probe()`'s chip-ID I2C read never succeeded on real hardware (100%
-failure over a 10s retry window) and logged a scary-looking (if already
+`lt6911_probe()`'s chip-ID I2C read never succeeded on real hardware and
+logged a scary-looking (if already
 non-fatal; both its own failure paths were already dead code) error on
 every cold boot. `buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch`
 removes that I2C probe entirely, applied to the vendor SDK checkout before

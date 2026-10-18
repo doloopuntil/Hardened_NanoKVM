@@ -67,8 +67,8 @@ everything that already succeeded.
   (`build/vendor`) is uploaded as the `vendor-sdk` artifact, which only
   `build-image` consumes.
 - **`build-native-libkvm`** -- independent of the vendor SDK. Builds
-  `libkvm.so` and `libkvm_mmf.so` from `support/sg2002` with MaixCDK and
-  Sophgo's RISC-V musl toolchain; uploads `native-libkvm-build`.
+  `libkvm.so`, `libkvm_mmf.so` and `kvm_system` from `support/sg2002` with
+  MaixCDK and Sophgo's RISC-V musl toolchain; uploads `native-libkvm-build`.
 - **`build-kernel`** (`needs: vendor-sdk-source`) -- rehydrates the 5.10.265
   kernel source and builds it. Uploads `kernel-build` (source plus build
   tree, for the module builds) and `kernel-boot` (the `Image`, the DTB and
@@ -110,30 +110,28 @@ scope" below). **The pipeline no longer fetches this archive at all.**
 | ~32 CVI/ISP/audio middleware libraries in `dl_lib` (`libcvi_*`, `libisp*`, `libae`/`af`/`awb`, `libaac*`, `libcli.so`, `libini.so`, etc.) | Already checked into `server-rust/native/dl_lib` since before this fork tracked raw.12 at all; diffed byte-for-byte against raw.12 and confirmed identical; the CI pipeline no longer extracts them from raw.12 | `server-rust/native/README.md` ("dl_lib's CVI/ISP/audio middleware") |
 | `libc.so` + 4 GCC runtime libs (`libstdc++.so.6.0.28`, `libgcc_s.so.1`, `libgomp.so.1.0.0`, `libatomic.so.1.2.0`) | Sourced from this pipeline's own `vendor-sdk-stock` build instead -- verified byte-identical on a real run | workflow step "Source the remaining runtime files from our own vendor-sdk-stock build"; `server-rust/native/README.md` |
 | 2 T-Head musl loaders (`ld-musl-riscv64xthead.so.1`, `ld-musl-riscv64v0p7_xthead.so.1`) | Same as above -- byte-identical to `vendor-sdk-stock`'s own copies | same |
-| `libsns_lt6911.so` (LT6911 HDMI sensor plugin) | Sourced from `vendor-sdk-stock` too, from real checked-in C source in the pinned vendor SDK commit (`middleware/v2/component/isp/sensor/cv182x/lontium_lt6911/`, `sg200x` symlinked to `cv182x`). No longer byte-identical to an unmodified vendor build, deliberately: `vendor-sdk-patches/lt6911-sensor-id-probe-retry.patch` retries the chip-ID probe for ~100ms instead of judging it from one read 50us after PinMux, closing a scary-looking but already-non-fatal boot-time error. Every other file `vendor-sdk-stock` produces is untouched | `server-rust/native/README.md` ("libc.so, GCC runtime, loaders, and libsns_lt6911.so"); `buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-retry.patch` |
+| `libsns_lt6911.so` (LT6911 HDMI sensor plugin) | Sourced from `vendor-sdk-stock` too, from real checked-in C source in the pinned vendor SDK commit (`middleware/v2/component/isp/sensor/cv182x/lontium_lt6911/`, `sg200x` symlinked to `cv182x`). No longer byte-identical to an unmodified vendor build, deliberately: `vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch` removes the chip-ID probe, which never succeeds on this board while HDMI capture works without it. Every other file `vendor-sdk-stock` produces is untouched | `server-rust/native/README.md` ("libc.so, GCC runtime, loaders, and libsns_lt6911.so"); `buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch` |
 
 **No file shipped in the final image still comes from raw.12.** The
 kernel/rootfs closure work, the `dl_lib` middleware closure, and this last
 round together account for every file the pipeline ever pulled from it.
 
-### Explicitly out of scope: `kvm_system`
+### `kvm_system`: built from source too
 
-`kvm_system` is sourced from the published `kvmapp` **app-package** archive
-(`hardened-nanokvm-kvmapp-2.0.42.tar.gz`), a separate artifact from the
-raw.12 system archive this document tracks. This is deliberate, not a gap in
-this effort: the Hardened NanoKVM maintainer applied 26 real hardening
-findings to `kvm_system` and did a one-time rebuild, so upstream's own
-unpatched binary is a genuinely different build (confirmed by hash/size
-mismatch), not an interchangeable source. Rebuilding it from source needs
-the separate MaixCDK toolchain, out of scope for this pipeline. This mirrors
-how `sipeed/NanoKVM`'s own release pipeline works: their `package.yml`
-rebuilds `kvm_system` via MaixCDK as part of `make release-build`, but there
-is no standalone "rebuild kvm_system" workflow to reuse, and no CI in
-`woffko/Hardened_NanoKVM` to compare against either way.
+`kvm_system` used to be the one exception: it was taken from the published
+`kvmapp` app-package archive (`hardened-nanokvm-kvmapp-2.0.42.tar.gz`), because
+the maintainer's build carried the 26 native-audit fixes and rebuilding it
+needed MaixCDK, which the pipeline did not have. Once the `build-native-libkvm`
+job brought MaixCDK in for `libkvm`, the same job could run `./build kvm_system`.
+It now does, strips the build-host RPATH, and checks that the binary uses the
+T-Head musl loader and needs only `libstdc++`, `libgcc_s` and `libc`.
 
-Since then the `build-native-libkvm` job has brought MaixCDK into the pipeline
-for `libkvm`, so building `kvm_system` the same way is now possible future work
-rather than a toolchain gap.
+Before switching, a one-off workflow built `kvm_system` from the RC10 source
+(`26a2986`) with the same pins: every code and data section matched the
+published 2.0.42 binary byte for byte; only an `$ORIGIN/dl_lib` RPATH differed,
+which the job strips. The current source differs from RC10 only by sipeed's
+shared VI-state reader, so the image now ships both halves of that port. With
+this, the pipeline downloads no published Hardened artifact at all.
 
 ### The module-tree structure: closed too, no image needed at all
 

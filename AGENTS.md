@@ -50,10 +50,12 @@ Details and known failures: [docs/development/testing.md](docs/development/testi
   [docs/development/web-ui-layout-rules.md](docs/development/web-ui-layout-rules.md).
 - **Tailwind preflight is off**: borders need `border-solid`; elements with width
   and padding need `box-border`.
-- **Image workflow**: do not reintroduce downloads of the published raw.12
-  system; `kvm_system` from the 2.0.42 archive and the `build/rc12-run` path
-  name are deliberate exceptions. Change the workflow only with a real CI run to
-  prove it ([docs/development/ci-image-build.md](docs/development/ci-image-build.md)).
+- **Image workflow**: do not reintroduce downloads of published Hardened
+  artifacts (the raw.12 system, the 2.0.42 app archive); `libkvm` and
+  `kvm_system` are built from source. The `build/rc12-run` path name is a
+  deliberate leftover. Change the workflow
+  only with a real CI run to prove it
+  ([docs/development/ci-image-build.md](docs/development/ci-image-build.md)).
 - **Update channels** in `application.rs` and `system_update.rs` still point at
   `woffko/Hardened_NanoKVM`; this is a known open decision, not a bug to fix
   silently.

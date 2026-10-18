@@ -49,8 +49,6 @@ behaviour is in the guides ([sign-in](../guide/sign-in.md),
   limited, so a stolen session could use them to guess the password.
 - The login lockout is per address and user, with no global counter.
 - Remote ISO download has no allowlist of sources; it stays off by default.
-- `kvm_system` is still taken from the published app 2.0.42 archive rather than
-  built from source ([CI image build](../development/ci-image-build.md)).
 - Retained vendor components with `NOASSERTION` licence metadata remain a
   documented limitation.
 
