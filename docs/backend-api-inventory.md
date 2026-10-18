@@ -107,7 +107,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | Method          | Path                       | Rust Status                                                                                                        |
 | --------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | GET             | `/api/vm/info`             | Implemented; includes image version, application version, hostname, IP, mDNS, and uptime.                          |
-| GET             | `/api/vm/hardware`         | Implemented.                                                                                                       |
+| GET             | `/api/vm/hardware`         | Implemented; reports the board family and `lite`, a guess (beta, no OLED, no Wi-Fi) the web UI uses to hide Power. |
 | GET/POST        | `/api/vm/hostname`         | Implemented.                                                                                                       |
 | GET/POST        | `/api/vm/web-title`        | Implemented.                                                                                                       |
 | GET/POST        | `/api/vm/gpio`             | Implemented.                                                                                                       |

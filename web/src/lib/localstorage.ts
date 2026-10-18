@@ -251,6 +251,11 @@ export function setMenuDisabledItems(items: string[]) {
   localStorage.setItem(MENU_DISABLED_ITEMS_KEY, value);
 }
 
+// Whether the menu icons were ever customised on this browser.
+export function hasMenuDisabledItems(): boolean {
+  return localStorage.getItem(MENU_DISABLED_ITEMS_KEY) !== null;
+}
+
 export function getMenuDisabledItems(): string[] {
   const value = localStorage.getItem(MENU_DISABLED_ITEMS_KEY);
   return value ? JSON.parse(value) : [];

@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 
+import { getHardware } from '@/api/vm.ts';
+import { attempt } from '@/lib/feedback.ts';
 import {
   getKeyboardLedStatusVisible,
   getMenuDisabledItems,
-  getMenuDisplayMode
+  getMenuDisplayMode,
+  hasMenuDisabledItems
 } from '@/lib/localstorage.ts';
 import {
   keyboardLedStatusVisibleAtom,
@@ -74,7 +77,23 @@ export function useMenuVisibility(): MenuVisibilityState {
       setIsMenuExpanded(false);
     }
 
-    setIsInitialized(true);
+    // A Lite has no ATX board, so its Power menu does nothing: hide it until the icons are
+    // customised, from where on the saved choice decides. The menu waits for the answer to not
+    // show the button for a moment.
+    if (hasMenuDisabledItems()) {
+      setIsInitialized(true);
+    } else {
+      const fallback = setTimeout(() => setIsInitialized(true), 1500);
+
+      attempt(() => getHardware(), { quiet: true })
+        .then((rsp) => {
+          if (rsp?.data?.lite) setMenuDisabledItems([...items, 'power']);
+        })
+        .finally(() => {
+          clearTimeout(fallback);
+          setIsInitialized(true);
+        });
+    }
 
     return () => {
       stopCountdown();
