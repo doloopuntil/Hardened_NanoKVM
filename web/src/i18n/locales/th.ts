@@ -961,7 +961,7 @@ const th = {
     },
     picoclaw: {
       title: 'ผู้ช่วย PicoClaw',
-      empty: 'เปิดแผงควบคุมและเริ่มงานเพื่อเริ่มต้น',
+      empty: 'อธิบายงานเพื่อเริ่มต้น',
       inputPlaceholder: 'อธิบายสิ่งที่คุณต้องการให้ PicoClaw ทำ',
       newConversation: 'บทสนทนาใหม่',
       processing: 'กำลังประมวลผล...',
@@ -1002,6 +1002,26 @@ const th = {
           busy: 'ไม่ว่าง'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw กำลังถูกใช้งานในหน้าต่างอื่น',
+        takenOver: 'หน้าต่างอื่นเข้าควบคุม PicoClaw แล้ว',
+        authFailed: 'PicoClaw ปฏิเสธการเชื่อมต่อ',
+        upstreamClosed: 'การเชื่อมต่อกับ PicoClaw ขาดหาย'
+      },
+      tool: {
+        screenshot: 'กำลังจับภาพหน้าจอ',
+        loadImage: 'กำลังดูภาพหน้าจอ',
+        actions: 'กำลังควบคุมโฮสต์',
+        generic: 'กำลังใช้ {{name}}',
+        type: 'กำลังพิมพ์ {{text}}',
+        hotkey: 'กำลังกด {{keys}}',
+        click: 'กำลังคลิก',
+        doubleClick: 'กำลังดับเบิลคลิก',
+        move: 'กำลังเลื่อนเมาส์',
+        drag: 'กำลังลาก',
+        scroll: 'กำลังเลื่อน',
+        wait: 'กำลังรอ'
+      },
       message: {
         toolAction: 'การกระทำ',
         observation: 'การสังเกต',
@@ -1015,8 +1035,7 @@ const th = {
         installing: 'กำลังติดตั้ง PicoClaw',
         success: 'PicoClaw ติดตั้งสำเร็จแล้ว',
         failed: 'ไม่สามารถติดตั้ง PicoClaw',
-        uninstalling: 'กำลังถอนการติดตั้ง Runtime...',
-        uninstalled: 'ถอนการติดตั้ง Runtime สำเร็จแล้ว',
+        uninstalled: 'ถอนการติดตั้ง PicoClaw สำเร็จแล้ว',
         uninstallFailed: 'การถอนการติดตั้งล้มเหลว',
         requiredTitle: 'PicoClaw ไม่ได้ติดตั้ง',
         requiredDescription: 'ติดตั้ง PicoClaw ก่อนที่จะเริ่ม Runtime PicoClaw',
@@ -1040,18 +1059,18 @@ const th = {
         menuLabel: 'กำหนดค่าโมเดล',
         modelIdentifier: 'ตัวระบุรุ่น',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'URL ฐานของ API',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'คีย์ API',
         apiKeyPlaceholder: 'ป้อนคีย์ API ของโมเดล',
+        apiKeyKeepPlaceholder: 'เว้นว่างไว้เพื่อใช้คีย์ปัจจุบัน',
         save: 'บันทึก',
         saving: 'กำลังบันทึก',
         saved: 'บันทึกการกำหนดค่าโมเดลแล้ว',
         saveFailed: 'ไม่สามารถบันทึกการกำหนดค่าโมเดลได้',
-        invalid: 'ต้องระบุรหัสโมเดล, API Base URL และคีย์ API'
+        invalid: 'ต้องระบุรหัสโมเดล, URL ฐานของ API และคีย์ API'
       },
       uninstall: {
-        menuLabel: 'ถอนการติดตั้ง',
         confirmTitle: 'ถอนการติดตั้ง PicoClaw',
         confirmContent:
           'คุณแน่ใจหรือไม่ว่าต้องการถอนการติดตั้ง PicoClaw การดำเนินการนี้จะลบไฟล์ปฏิบัติการและไฟล์การกำหนดค่าทั้งหมด',
@@ -1072,7 +1091,8 @@ const th = {
       },
       config: {
         startRuntime: 'เริ่ม PicoClaw',
-        stopRuntime: 'หยุด PicoClaw'
+        stopRuntime: 'หยุด PicoClaw',
+        stopConfirm: 'คุณแน่ใจที่จะปิด PicoClaw หรือไม่?'
       },
       start: {
         title: 'เริ่ม PicoClaw',

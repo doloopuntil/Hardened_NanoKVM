@@ -2,7 +2,8 @@ import { useMemo, useRef, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 
-import type { PicoclawSessionListItem } from '@/api/picoclaw.ts';
+import { getPicoclawModelConfig, type PicoclawSessionListItem } from '@/api/picoclaw.ts';
+import { toastLoadFailed } from '@/lib/feedback.ts';
 import {
   getPicoclawRuntimeInstallSnapshot,
   type PicoclawRuntimeInstallSnapshot
@@ -50,6 +51,7 @@ export const useSidebar = () => {
   const [modelApiBase, setModelApiBase] = useState('');
   const [modelApiKey, setModelApiKey] = useState('');
   const [modelIdentifier, setModelIdentifier] = useState('');
+  const [modelKeySet, setModelKeySet] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
   const [isModelConfigOpen, setIsModelConfigOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -72,12 +74,12 @@ export const useSidebar = () => {
   const isRuntimeInstallActive = isRuntimeStatusInstalling || isSnapshotInstalling;
   const isInstallingRuntime = isInstallRequestPending || isRuntimeInstallActive;
   const installProgress = isRuntimeStatusInstalling
-    ? runtimeStatus?.install_progress ?? installSnapshot?.installProgress
+    ? (runtimeStatus?.install_progress ?? installSnapshot?.installProgress)
     : isSnapshotInstalling
       ? installSnapshot?.installProgress
       : undefined;
   const installStage = isRuntimeStatusInstalling
-    ? runtimeStatus?.install_stage ?? installSnapshot?.installStage
+    ? (runtimeStatus?.install_stage ?? installSnapshot?.installStage)
     : isSnapshotInstalling
       ? installSnapshot?.installStage
       : undefined;
@@ -89,6 +91,7 @@ export const useSidebar = () => {
     modelApiBase,
     modelApiKey,
     modelIdentifier,
+    modelKeySet,
     setRuntimeStatus,
     setMessages,
     setTakeover,
@@ -113,6 +116,7 @@ export const useSidebar = () => {
     activeSessionId,
     isFreshConversation,
     isSwitchingSession,
+    hasHistory: historySessions.length > 0,
     refreshState: refreshStateRef.current,
     setMessages,
     setTakeover,
@@ -145,6 +149,7 @@ export const useSidebar = () => {
     setActiveSessionId,
     setIsFreshConversation,
     setMessages,
+    setHistorySessions,
     setIsInitializing,
     setTakeover,
     setOverlay,
@@ -165,6 +170,25 @@ export const useSidebar = () => {
       getPicoclawSidebarConnectionLabel(runtimeStatus, transportState, runState, isInitializing, t),
     [isInitializing, runState, runtimeStatus, t, transportState]
   );
+  // The form shows the model that is in use. Its key is never sent back: the field stays empty
+  // and an empty field keeps the stored key. Without a key the model is only a default.
+  async function loadStoredModelConfig() {
+    try {
+      const rsp = await getPicoclawModelConfig();
+      if (rsp.code !== 0) {
+        toastLoadFailed();
+        return;
+      }
+      setModelKeySet(rsp.data.key_set === true);
+      if (rsp.data.key_set) {
+        setModelIdentifier(rsp.data.model);
+        setModelApiBase(rsp.data.api_base);
+      }
+    } catch {
+      toastLoadFailed();
+    }
+  }
+
   const statusColor = useMemo(
     () => getPicoclawSidebarStatusColor(runtimeStatus, transportState, runState, isInitializing),
     [isInitializing, runState, runtimeStatus, transportState]
@@ -193,7 +217,9 @@ export const useSidebar = () => {
     handleOpenHistory: sessionActions.handleOpenHistory,
     handleOpenModelConfig: () => {
       setIsHistoryOpen(false);
+      setModelApiKey('');
       setIsModelConfigOpen(true);
+      void loadStoredModelConfig();
     },
     handleSaveModelConfig: actions.handleSaveModelConfig,
     handleSelectHistorySession: sessionActions.handleSelectHistorySession,
@@ -215,6 +241,7 @@ export const useSidebar = () => {
     modelApiBase,
     modelApiKey,
     modelIdentifier,
+    modelKeySet,
     isModelConfigOpen,
     runState,
     runtimeStatus,

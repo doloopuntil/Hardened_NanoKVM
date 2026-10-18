@@ -985,7 +985,7 @@ const ja = {
     },
     picoclaw: {
       title: 'PicoClaw アシスタント',
-      empty: 'パネルを開いてタスクを開始して開始します',
+      empty: 'タスクを入力して開始してください',
       inputPlaceholder: 'PicoClaw に実行してほしいことを説明してください',
       newConversation: '新しい会話',
       processing: '処理中...',
@@ -1026,6 +1026,26 @@ const ja = {
           busy: 'ビジー'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw は別のウィンドウで使用中です',
+        takenOver: '別のウィンドウが PicoClaw を引き継ぎました',
+        authFailed: 'PicoClaw が接続を拒否しました',
+        upstreamClosed: 'PicoClaw との接続が失われました'
+      },
+      tool: {
+        screenshot: 'スクリーンショットを撮影中',
+        loadImage: 'スクリーンショットを確認中',
+        actions: 'ホストを操作中',
+        generic: '{{name}} を使用中',
+        type: '{{text}} を入力中',
+        hotkey: '{{keys}} を押しています',
+        click: 'クリック中',
+        doubleClick: 'ダブルクリック中',
+        move: 'マウスを移動中',
+        drag: 'ドラッグ中',
+        scroll: 'スクロール中',
+        wait: '待機中'
+      },
       message: {
         toolAction: 'アクション',
         observation: '観察',
@@ -1039,8 +1059,7 @@ const ja = {
         installing: 'PicoClaw をインストールしています',
         success: 'PicoClaw は正常にインストールされました',
         failed: 'PicoClaw のインストールに失敗しました',
-        uninstalling: 'ランタイムをアンインストールしています...',
-        uninstalled: 'ランタイムは正常にアンインストールされました',
+        uninstalled: 'PicoClaw は正常にアンインストールされました',
         uninstallFailed: 'アンインストールに失敗しました',
         requiredTitle: 'PicoClaw がインストールされていません',
         requiredDescription:
@@ -1065,18 +1084,18 @@ const ja = {
         menuLabel: 'モデルの構成',
         modelIdentifier: 'モデル識別子',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'API ベース URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API キー',
         apiKeyPlaceholder: 'モデルの API キーを入力してください',
+        apiKeyKeepPlaceholder: '空のままにすると現在のキーが保持されます',
         save: '保存',
         saving: '保存中',
         saved: 'モデル構成が保存されました',
         saveFailed: 'モデル構成の保存に失敗しました',
-        invalid: 'モデル識別子、API Base URL、API キーは必須です'
+        invalid: 'モデル識別子、API ベース URL、API キーは必須です'
       },
       uninstall: {
-        menuLabel: 'アンインストール',
         confirmTitle: 'PicoClaw のアンインストール',
         confirmContent:
           'PicoClaw をアンインストールしてもよろしいですか?これにより、実行可能ファイルとすべての構成ファイルが削除されます。',
@@ -1097,7 +1116,8 @@ const ja = {
       },
       config: {
         startRuntime: 'PicoClaw を開始',
-        stopRuntime: 'PicoClaw を停止'
+        stopRuntime: 'PicoClaw を停止',
+        stopConfirm: 'PicoClaw を停止しますか？'
       },
       start: {
         title: 'PicoClaw を開始',

@@ -12,6 +12,19 @@ export const HIDDEN_OVERLAY = {
   message: ''
 } as const;
 
+// The messages of a saved session, as the chat shows them.
+export function sessionMessagesToChat(
+  sessionId: string,
+  messages: { role: 'user' | 'assistant'; content: string }[]
+): PicoclawChatMessage[] {
+  return messages.map((message, index) => ({
+    id: `${sessionId}-${index}`,
+    kind: message.role,
+    text: message.content,
+    createdAt: Date.now() + index
+  }));
+}
+
 export function createStatusMessage(text: string): PicoclawChatMessage {
   return {
     id: generateUUIDv4(),
@@ -49,6 +62,17 @@ export function createToolActionMessage(action: GatewayToolAction): PicoclawChat
     action: action.action,
     createdAt: Date.now(),
     raw: action.raw
+  };
+}
+
+// A line of what the agent is doing, shown in the Action box.
+export function createToolCallMessage(id: string, text: string): PicoclawChatMessage {
+  return {
+    id,
+    kind: 'tool_action',
+    text,
+    action: text,
+    createdAt: Date.now()
   };
 }
 

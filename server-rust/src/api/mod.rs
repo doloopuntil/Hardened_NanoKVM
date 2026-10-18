@@ -8,6 +8,7 @@ pub mod download;
 pub mod hid;
 pub mod network;
 pub mod picoclaw;
+pub mod picoclaw_sessions;
 pub mod script;
 pub mod storage;
 pub mod stream;

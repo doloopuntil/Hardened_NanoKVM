@@ -995,8 +995,8 @@ const de = {
     },
     picoclaw: {
       title: 'PicoClaw-Assistent',
-      empty: 'Öffnen Sie das Bedienfeld und starten Sie eine Aufgabe',
-      inputPlaceholder: 'Beschreiben Sie, was der PicoClaw tun soll',
+      empty: 'Beschreiben Sie eine Aufgabe, um zu beginnen',
+      inputPlaceholder: 'Beschreiben Sie, was PicoClaw tun soll',
       newConversation: 'Neues Gespräch',
       processing: 'Wird verarbeitet...',
       agent: {
@@ -1036,6 +1036,26 @@ const de = {
           busy: 'Beschäftigt'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw wird in einem anderen Fenster verwendet',
+        takenOver: 'Ein anderes Fenster hat PicoClaw übernommen',
+        authFailed: 'PicoClaw hat die Verbindung abgelehnt',
+        upstreamClosed: 'Die Verbindung zu PicoClaw wurde unterbrochen'
+      },
+      tool: {
+        screenshot: 'Erstelle einen Screenshot',
+        loadImage: 'Sehe mir den Screenshot an',
+        actions: 'Steuere den Host',
+        generic: 'Verwende {{name}}',
+        type: 'Tippe {{text}}',
+        hotkey: 'Drücke {{keys}}',
+        click: 'Klicke',
+        doubleClick: 'Doppelklicke',
+        move: 'Bewege die Maus',
+        drag: 'Ziehe',
+        scroll: 'Scrolle',
+        wait: 'Warte'
+      },
       message: {
         toolAction: 'Aktion',
         observation: 'Beobachtung',
@@ -1045,12 +1065,11 @@ const de = {
         locked: 'PicoClaw steuert das Gerät. Die manuelle Eingabe wird angehalten.'
       },
       install: {
-        install: 'Installieren Sie PicoClaw',
+        install: 'PicoClaw installieren',
         installing: 'Installation von PicoClaw',
         success: 'PicoClaw erfolgreich installiert',
         failed: 'Installation von PicoClaw fehlgeschlagen',
-        uninstalling: 'Runtime wird deinstalliert...',
-        uninstalled: 'Runtime erfolgreich deinstalliert',
+        uninstalled: 'PicoClaw erfolgreich deinstalliert',
         uninstallFailed: 'Deinstallation fehlgeschlagen',
         requiredTitle: 'PicoClaw ist nicht installiert',
         requiredDescription: 'Installieren Sie PicoClaw, bevor Sie die PicoClaw Runtime starten.',
@@ -1075,19 +1094,19 @@ const de = {
         menuLabel: 'Modell konfigurieren',
         modelIdentifier: 'Modell-ID',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'API-Basis-URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-Schlüssel',
         apiKeyPlaceholder: 'API-Schlüssel des Modells eingeben',
+        apiKeyKeepPlaceholder: 'Leer lassen, um den aktuellen Schlüssel zu behalten',
         save: 'Speichern',
         saving: 'Speichern',
         saved: 'Modellkonfiguration gespeichert',
         saveFailed: 'Modellkonfiguration konnte nicht gespeichert werden',
-        invalid: 'Modellkennung, API Base URL und API-Schlüssel sind erforderlich'
+        invalid: 'Modellkennung, API-Basis-URL und API-Schlüssel sind erforderlich'
       },
       uninstall: {
-        menuLabel: 'Deinstallieren',
-        confirmTitle: 'Deinstallieren PicoClaw',
+        confirmTitle: 'PicoClaw deinstallieren',
         confirmContent:
           'Sind Sie sicher, dass Sie PicoClaw deinstallieren möchten? Dadurch werden die ausführbare Datei und alle Konfigurationsdateien gelöscht.',
         confirmOk: 'Deinstallieren'
@@ -1107,7 +1126,8 @@ const de = {
       },
       config: {
         startRuntime: 'PicoClaw starten',
-        stopRuntime: 'PicoClaw stoppen'
+        stopRuntime: 'PicoClaw stoppen',
+        stopConfirm: 'PicoClaw stoppen?'
       },
       start: {
         title: 'PicoClaw starten',

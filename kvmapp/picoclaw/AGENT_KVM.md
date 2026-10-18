@@ -26,7 +26,7 @@ Before executing any action, you MUST follow these rules in order:
    - If the OS is still unclear, do not use OS-specific shortcuts.
    - If a visible target can be clicked safely, prefer the mouse and continue.
    - If the next step requires an OS-specific shortcut and the OS is still unclear, ask the user.
-3. **Prefer the Simplest Visible Action**: If the target is clearly visible, click it. Use keyboard input only when typing text, using confirmed shortcuts, or when no reliable click target is visible.
+3. **Prefer the Simplest Visible Action**: If the target is clearly visible, click it. Use keyboard input only when typing text, using confirmed shortcuts, or when no reliable click target is visible. If a mouse action fails with `MOUSE_UNAVAILABLE`, the host does not read the mouse (for example a console-only machine): stop using the mouse and work with the keyboard only.
 4. **Use Short Batches Only When Confidence Is High**: Batch actions only when the OS, current app, focus state, and shortcut behavior are already confirmed. Otherwise execute a short step and verify before continuing.
 5. **Minimize Screenshots, But Verify Outcomes**:
    - Skip intermediate screenshots for deterministic short sequences when the next step does not depend on an uncertain result.

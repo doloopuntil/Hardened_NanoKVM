@@ -968,7 +968,7 @@ const et = {
     },
     picoclaw: {
       title: 'PicoClaw assistent',
-      empty: 'Alustamiseks ava paneel ja käivita ülesanne',
+      empty: 'Alustamiseks kirjelda ülesannet',
       inputPlaceholder: 'Kirjelda, mida PicoClaw peaks tegema',
       newConversation: 'Uus vestlus',
       processing: 'Töötlemine...',
@@ -1009,6 +1009,26 @@ const et = {
           busy: 'Hõivatud'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw on kasutusel teises aknas',
+        takenOver: "Teine aken võttis PicoClaw'i üle",
+        authFailed: 'PicoClaw keeldus ühendusest',
+        upstreamClosed: "Ühendus PicoClaw'iga katkes"
+      },
+      tool: {
+        screenshot: 'Teen ekraanipildi',
+        loadImage: 'Vaatan ekraanipilti',
+        actions: 'Juhin hosti',
+        generic: 'Kasutan: {{name}}',
+        type: 'Kirjutan {{text}}',
+        hotkey: 'Vajutan {{keys}}',
+        click: 'Klõpsan',
+        doubleClick: 'Topeltklõpsan',
+        move: 'Liigutan hiirt',
+        drag: 'Lohistan',
+        scroll: 'Kerin',
+        wait: 'Ootan'
+      },
       message: {
         toolAction: 'Toiming',
         observation: 'Vaatlus',
@@ -1022,8 +1042,7 @@ const et = {
         installing: 'PicoClaw paigaldamine',
         success: 'PicoClaw paigaldatud edukalt',
         failed: 'PicoClaw paigaldamine nurjus',
-        uninstalling: 'Runtime eemaldamine...',
-        uninstalled: 'Runtime edukalt eemaldatud',
+        uninstalled: 'PicoClaw edukalt eemaldatud',
         uninstallFailed: 'Eemaldamine nurjus',
         requiredTitle: 'PicoClaw pole paigaldatud',
         requiredDescription: 'Paigalda PicoClaw enne PicoClaw runtime käivitamist.',
@@ -1051,6 +1070,7 @@ const et = {
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API võti',
         apiKeyPlaceholder: 'Sisesta mudeli API võti',
+        apiKeyKeepPlaceholder: 'Jäta tühjaks, et praegune võti säiliks',
         save: 'Salvesta',
         saving: 'Salvestamine',
         saved: 'Mudeli konfiguratsioon salvestatud',
@@ -1058,7 +1078,6 @@ const et = {
         invalid: 'Mudeli identifikaator, API baas-URL ja API võti on nõutavad'
       },
       uninstall: {
-        menuLabel: 'Eemalda',
         confirmTitle: 'Eemalda PicoClaw',
         confirmContent:
           'Kas oled kindel, et soovid PicoClaw eemaldada? See kustutab käivitatava faili ja kõik konfiguratsioonifailid.',
@@ -1079,7 +1098,8 @@ const et = {
       },
       config: {
         startRuntime: 'Käivita PicoClaw',
-        stopRuntime: 'Peata PicoClaw'
+        stopRuntime: 'Peata PicoClaw',
+        stopConfirm: 'Kas peatada PicoClaw?'
       },
       start: {
         title: 'Käivita PicoClaw',

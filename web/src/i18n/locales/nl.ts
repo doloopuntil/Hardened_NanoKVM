@@ -987,8 +987,8 @@ const nl = {
     },
     picoclaw: {
       title: 'PicoClaw-assistent',
-      empty: 'Open het paneel en start een taak om te beginnen',
-      inputPlaceholder: 'Beschrijf wat u wilt dat de PicoClaw doet',
+      empty: 'Beschrijf een taak om te beginnen',
+      inputPlaceholder: 'Beschrijf wat u wilt dat PicoClaw doet',
       newConversation: 'Nieuw gesprek',
       processing: 'Verwerken...',
       agent: {
@@ -1028,6 +1028,26 @@ const nl = {
           busy: 'Bezet'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw wordt in een ander venster gebruikt',
+        takenOver: 'Een ander venster heeft PicoClaw overgenomen',
+        authFailed: 'PicoClaw heeft de verbinding geweigerd',
+        upstreamClosed: 'De verbinding met PicoClaw is verbroken'
+      },
+      tool: {
+        screenshot: 'Een schermafbeelding maken',
+        loadImage: 'De schermafbeelding bekijken',
+        actions: 'De host bedienen',
+        generic: '{{name}} gebruiken',
+        type: '{{text}} typen',
+        hotkey: '{{keys}} indrukken',
+        click: 'Klikken',
+        doubleClick: 'Dubbelklikken',
+        move: 'De muis bewegen',
+        drag: 'Slepen',
+        scroll: 'Scrollen',
+        wait: 'Wachten'
+      },
       message: {
         toolAction: 'Actie',
         observation: 'Observatie',
@@ -1041,8 +1061,7 @@ const nl = {
         installing: 'PicoClaw installeren',
         success: 'PicoClaw is succesvol geïnstalleerd',
         failed: 'Kan PicoClaw niet installeren',
-        uninstalling: 'Runtime verwijderen...',
-        uninstalled: 'Runtime is succesvol verwijderd',
+        uninstalled: 'PicoClaw is succesvol verwijderd',
         uninstallFailed: 'Verwijderen mislukt',
         requiredTitle: 'PicoClaw is niet geïnstalleerd',
         requiredDescription: 'Installeer PicoClaw voordat u de runtime van PicoClaw start.',
@@ -1066,18 +1085,18 @@ const nl = {
         menuLabel: 'Model configureren',
         modelIdentifier: 'Modelidentificatie',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'API-basis-URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-sleutel',
         apiKeyPlaceholder: 'Voer de API-sleutel van het model in',
+        apiKeyKeepPlaceholder: 'Laat leeg om de huidige sleutel te behouden',
         save: 'Opslaan',
         saving: 'Opslaan',
         saved: 'Modelconfiguratie opgeslagen',
         saveFailed: 'Kan de modelconfiguratie niet opslaan',
-        invalid: 'Model-ID, API Base URL en API-sleutel zijn vereist'
+        invalid: 'Model-ID, API-basis-URL en API-sleutel zijn vereist'
       },
       uninstall: {
-        menuLabel: 'Verwijderen',
         confirmTitle: 'PicoClaw verwijderen',
         confirmContent:
           'Weet u zeker dat u PicoClaw wilt verwijderen? Hiermee worden het uitvoerbare bestand en alle configuratiebestanden verwijderd.',
@@ -1098,7 +1117,8 @@ const nl = {
       },
       config: {
         startRuntime: 'Start PicoClaw',
-        stopRuntime: 'Stop PicoClaw'
+        stopRuntime: 'Stop PicoClaw',
+        stopConfirm: 'Weet u zeker dat u PicoClaw wilt stoppen?'
       },
       start: {
         title: 'Start PicoClaw',

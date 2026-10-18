@@ -297,7 +297,7 @@ fn compatibility_routes() -> Router<AppState> {
         )
         .route(
             "/api/picoclaw/model/config",
-            post(picoclaw::update_model_config),
+            get(picoclaw::get_model_config).post(picoclaw::update_model_config),
         )
         .route(
             "/api/picoclaw/agent/profile",

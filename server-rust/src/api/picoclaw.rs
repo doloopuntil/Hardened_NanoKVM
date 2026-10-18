@@ -13,7 +13,7 @@ use flate2::read::GzDecoder;
 use futures_util::{SinkExt, StreamExt};
 use serde::{Deserialize, Serialize};
 use serde_json::{Map as JsonMap, Value as JsonValue, json};
-use sha2::{Digest, Sha512};
+use sha2::{Digest, Sha256};
 use std::{
     ffi::OsString,
     fs, io,
@@ -36,7 +36,7 @@ use tracing::debug;
 
 use crate::{
     AppError, Result,
-    api::{hid, stream},
+    api::{hid, picoclaw_sessions, stream},
     auth::token::random_token,
     error::ApiResponse,
     system::command::{self, AllowedCommand},
@@ -45,10 +45,12 @@ use crate::{
 
 const PICOCLAW_BINARY_PATH: &str = "/usr/bin/picoclaw";
 const PICOCLAW_CACHE_DIR: &str = "/root/.picoclaw-cache";
+// The release is pinned together with the SHA-256 of its tarball (from the release's
+// picoclaw_<version>_checksums.txt), so a changed upload fails the install. To move to a new
+// version, change the tag in the URL and the digest together.
 const PICOCLAW_DOWNLOAD_URL: &str =
-    "https://cdn.sipeed.com/nanokvm/resources/picoclaw/v0.2.8/picoclaw_Linux_riscv64.tar.gz";
-const PICOCLAW_CHECKSUM_URL: &str =
-    "https://cdn.sipeed.com/nanokvm/resources/picoclaw/v0.2.8/sha512.txt";
+    "https://github.com/sipeed/picoclaw/releases/download/v0.3.1/picoclaw_Linux_riscv64.tar.gz";
+const PICOCLAW_SHA256: &str = "5124e553c8fb6f90cd57f7478a37409d2d98531cb028ca6ead6cc6867650d58a";
 const ETC_INIT_PICOCLAW_SCRIPT: &str = "/etc/init.d/S96picoclaw";
 const KVMAPP_PICOCLAW_SCRIPT: &str = "/kvmapp/system/init.d/S96picoclaw";
 const DEFAULT_GATEWAY_HOST: &str = "127.0.0.1";
@@ -61,6 +63,11 @@ const DEFAULT_PING_INTERVAL_MS: i32 = 30_000;
 const DEFAULT_MAX_MESSAGE_BYTES: usize = 1024 * 1024;
 const PICOCLAW_DOWNLOAD_TIMEOUT: Duration = Duration::from_secs(10 * 60);
 const PICOCLAW_START_TIMEOUT: Duration = Duration::from_secs(15);
+// How long the gateway may take to listen after the process has started: a few seconds on the
+// device's CPU.
+const PICOCLAW_READY_TIMEOUT: Duration = Duration::from_secs(20);
+const PICOCLAW_READY_POLL: Duration = Duration::from_millis(500);
+const PICOCLAW_LOG_FILE: &str = "/tmp/picoclaw.log";
 const PICOCLAW_STOP_TIMEOUT: Duration = Duration::from_secs(15);
 const PICOCLAW_ONBOARD_TIMEOUT: Duration = Duration::from_secs(60);
 const INTERNAL_TOKEN_HEADER: &str = "X-NanoKVM-Internal-Token";
@@ -71,6 +78,9 @@ const CODE_PICOCLAW_LOCK_HELD: &str = "AI_LOCK_HELD";
 const CODE_INVALID_ACTION: &str = "INVALID_ACTION";
 const CODE_SCREENSHOT_FAILED: &str = "SCREENSHOT_FAILED";
 const CODE_HID_WRITE_FAILED: &str = "HID_WRITE_FAILED";
+const CODE_MOUSE_UNAVAILABLE: &str = "MOUSE_UNAVAILABLE";
+// How long a mouse that did not take a report is not tried again.
+const MOUSE_UNAVAILABLE_FOR: Duration = Duration::from_secs(15);
 const CODE_RUNTIME_UNAVAILABLE: &str = "RUNTIME_UNAVAILABLE";
 const CODE_RUNTIME_START_FAILED: &str = "RUNTIME_START_FAILED";
 const CODE_SESSION_ID_MISSING: &str = "SESSION_ID_MISSING";
@@ -189,16 +199,6 @@ pub struct AgentProfileUpdateRequest {
 pub struct SessionsQuery {
     offset: Option<usize>,
     limit: Option<usize>,
-}
-
-#[derive(Debug, Serialize)]
-struct SessionListItem {
-    id: String,
-    title: String,
-    preview: String,
-    message_count: usize,
-    created: String,
-    updated: String,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -598,6 +598,16 @@ pub async fn release_runtime_session(headers: HeaderMap) -> Result<Response> {
     .into_response())
 }
 
+pub async fn get_model_config() -> Result<Response> {
+    let stored = match load_config_document() {
+        Ok(doc) => stored_model_config(&doc.raw, &doc.security),
+        // no config yet: nothing is saved
+        Err(_) => StoredModelConfig::default(),
+    };
+    Ok(Json(ApiResponse::ok(stored)).into_response())
+}
+
+// An empty api_key keeps the key that is stored for the model.
 pub async fn update_model_config(Json(req): Json<ModelConfigUpdateRequest>) -> Result<Response> {
     let api_base = req.api_base.trim();
     let api_key = req.api_key.trim();
@@ -606,12 +616,6 @@ pub async fn update_model_config(Json(req): Json<ModelConfigUpdateRequest>) -> R
         return Ok(picoclaw_error(
             CODE_RUNTIME_UNAVAILABLE,
             "model api_base is required",
-        ));
-    }
-    if api_key.is_empty() {
-        return Ok(picoclaw_error(
-            CODE_RUNTIME_UNAVAILABLE,
-            "model api_key is required",
         ));
     }
     if model.is_empty() {
@@ -654,18 +658,52 @@ pub async fn update_agent_profile(Json(req): Json<AgentProfileUpdateRequest>) ->
     }
 }
 
+// The directory PicoClaw saves its conversations in, when it has a config to say where.
+fn sessions_dir_now() -> Option<PathBuf> {
+    let doc = load_config_document().ok()?;
+    let home = doc.config_path.parent()?.to_path_buf();
+    Some(picoclaw_sessions::sessions_dir(&doc.raw, &home))
+}
+
 pub async fn list_sessions(Query(query): Query<SessionsQuery>) -> Result<Response> {
-    let _offset = query.offset.unwrap_or(0);
-    let _limit = query.limit.unwrap_or(20);
-    Ok(Json(ApiResponse::ok(Vec::<SessionListItem>::new())).into_response())
+    let offset = query.offset.unwrap_or(0);
+    let limit = query.limit.unwrap_or(20);
+    let items = task::spawn_blocking(move || match sessions_dir_now() {
+        Some(dir) => picoclaw_sessions::list_sessions(&dir, offset, limit),
+        None => Vec::new(),
+    })
+    .await
+    .map_err(|err| AppError::Internal(format!("session list task failed: {err}")))?;
+    Ok(Json(ApiResponse::ok(items)).into_response())
 }
 
-pub async fn get_session(AxumPath(_id): AxumPath<String>) -> Result<Response> {
-    Ok(picoclaw_error(CODE_INVALID_ACTION, "session not found"))
+pub async fn get_session(AxumPath(id): AxumPath<String>) -> Result<Response> {
+    let detail = task::spawn_blocking(move || {
+        sessions_dir_now().and_then(|dir| picoclaw_sessions::load_session(&dir, &id))
+    })
+    .await
+    .map_err(|err| AppError::Internal(format!("session load task failed: {err}")))?;
+    match detail {
+        Some(detail) => Ok(Json(ApiResponse::ok(detail)).into_response()),
+        None => Ok(picoclaw_error(CODE_INVALID_ACTION, "session not found")),
+    }
 }
 
-pub async fn delete_session(AxumPath(_id): AxumPath<String>) -> Result<Response> {
-    Ok(Json(ApiResponse::ok(json!({ "deleted": true }))).into_response())
+pub async fn delete_session(AxumPath(id): AxumPath<String>) -> Result<Response> {
+    let removed = task::spawn_blocking(move || match sessions_dir_now() {
+        Some(dir) => picoclaw_sessions::delete_session(&dir, &id),
+        None => Ok(false),
+    })
+    .await
+    .map_err(|err| AppError::Internal(format!("session delete task failed: {err}")))?;
+    match removed {
+        Ok(true) => Ok(Json(ApiResponse::ok(json!({ "deleted": true }))).into_response()),
+        Ok(false) => Ok(picoclaw_error(CODE_INVALID_ACTION, "session not found")),
+        Err(err) => Ok(picoclaw_error(
+            CODE_INVALID_ACTION,
+            format!("failed to delete session: {err}"),
+        )),
+    }
 }
 
 pub async fn screenshot(
@@ -1276,11 +1314,13 @@ fn capture_screenshot_blocking(
 ) -> std::result::Result<(Vec<u8>, ScreenshotMeta), PicoclawErrorData> {
     let (_width, _height, _quality, source_width, source_height) =
         resolve_screenshot_request(&query);
-    let Some(frame) = stream::latest_mjpeg_frame(CACHED_FRAME_MAX_AGE) else {
-        return Err(PicoclawErrorData::new(
-            CODE_SCREENSHOT_FAILED,
-            "no cached MJPEG frame available",
-        ));
+    // The cache is filled by the video stream, which sends nothing for a screen that does not
+    // change when frame detect is on, and nothing at all when nobody watches it. Then take a
+    // frame of our own.
+    let frame = match stream::latest_mjpeg_frame(CACHED_FRAME_MAX_AGE) {
+        Some(frame) => frame,
+        None => stream::capture_mjpeg_frame_now()
+            .map_err(|err| PicoclawErrorData::new(CODE_SCREENSHOT_FAILED, err))?,
     };
 
     Ok((
@@ -1432,13 +1472,13 @@ fn execute_actions_blocking(
     let mut total_writes = 0;
     for (idx, action) in actions.iter().enumerate() {
         if let Err(err) = ensure_session_lock(session_id) {
-            release_all_hid_state();
+            release_all_hid_state_now();
             return Err(err.with_index(idx));
         }
         match execute_action_blocking(action) {
             Ok(writes) => total_writes += writes,
             Err(err) => {
-                release_all_hid_state();
+                release_all_hid_state_now();
                 return Err(err.with_index(idx));
             }
         }
@@ -1600,6 +1640,51 @@ fn mouse_button(button: &str) -> std::result::Result<u8, PicoclawErrorData> {
     }
 }
 
+// Whether the host is reading the mouse. A host without a desktop or a mouse driver (a console
+// only machine) does not, and then every write waits out the retries of the HID layer, six
+// seconds for one action. The first failure is remembered for a while so that the next
+// actions are refused at once, and the agent is told to use the keyboard.
+struct MouseGate(Mutex<Option<Instant>>);
+
+impl MouseGate {
+    const fn new() -> Self {
+        Self(Mutex::new(None))
+    }
+
+    fn blocked(&self, now: Instant) -> bool {
+        self.0
+            .lock()
+            .ok()
+            .and_then(|until| *until)
+            .is_some_and(|until| now < until)
+    }
+
+    fn block(&self, now: Instant) {
+        if let Ok(mut until) = self.0.lock() {
+            *until = Some(now + MOUSE_UNAVAILABLE_FOR);
+        }
+    }
+
+    fn clear(&self) {
+        if let Ok(mut until) = self.0.lock() {
+            *until = None;
+        }
+    }
+}
+
+static MOUSE_GATE: MouseGate = MouseGate::new();
+
+fn mouse_unavailable_error(cause: Option<io::Error>) -> PicoclawErrorData {
+    let mut message = "the host is not reading the mouse (a host with no desktop or mouse driver \
+        does not); mouse actions fail until it does. Do not retry them: use the keyboard (Tab, \
+        Enter, the arrow keys, shortcuts)"
+        .to_string();
+    if let Some(cause) = cause {
+        message.push_str(&format!(" [{cause}]"));
+    }
+    PicoclawErrorData::new(CODE_MOUSE_UNAVAILABLE, message)
+}
+
 fn send_mouse_move_with_button(
     x: f64,
     y: f64,
@@ -1616,13 +1701,19 @@ fn send_mouse_move_with_button(
         (absolute_y >> 8) as u8,
         (wheel as i8) as u8,
     ];
-    hid_ws::write_absolute_mouse_report(&report).map_err(|err| {
-        PicoclawErrorData::new(
-            CODE_HID_WRITE_FAILED,
-            format!("failed to write HID mouse report: {err}"),
-        )
-    })?;
-    Ok(1)
+    if MOUSE_GATE.blocked(Instant::now()) {
+        return Err(mouse_unavailable_error(None));
+    }
+    match hid_ws::write_absolute_mouse_report_once(&report) {
+        Ok(()) => {
+            MOUSE_GATE.clear();
+            Ok(1)
+        }
+        Err(err) => {
+            MOUSE_GATE.block(Instant::now());
+            Err(mouse_unavailable_error(Some(err)))
+        }
+    }
 }
 
 fn send_keyboard_report(report: &[u8; 8]) -> std::result::Result<usize, PicoclawErrorData> {
@@ -1640,10 +1731,22 @@ fn to_absolute_hid_coord(normalized: f64) -> u16 {
     (f64::from(0x7fff) * normalized).floor() as u16 + 1
 }
 
+// Let go of every key and mouse button, without making the caller wait. When the host is not
+// reading the USB device a write retries for seconds (and may reset the gadget), and called from
+// an async handler that stalled the server thread and every request queued behind it: closing
+// the chat of a conversation took four seconds, and so did everything else.
 fn release_all_hid_state() {
+    let _ = task::spawn_blocking(release_all_hid_state_now);
+}
+
+// For code that already runs on a blocking thread.
+fn release_all_hid_state_now() {
     let _ = hid_ws::write_keyboard_report(&[0; 8]);
-    let _ = hid_ws::write_relative_mouse_report(&[0; 4]);
-    let _ = hid_ws::write_absolute_mouse_report(&[0; 6]);
+    // a mouse that is known not to be read has nothing to release, and the writes would wait
+    if !MOUSE_GATE.blocked(Instant::now()) {
+        let _ = hid_ws::write_relative_mouse_report(&[0; 4]);
+        let _ = hid_ws::write_absolute_mouse_report(&[0; 6]);
+    }
 }
 
 fn normalize_hotkey_keys(
@@ -2332,15 +2435,64 @@ async fn start_runtime_inner() -> std::result::Result<(String, String), String> 
     let (command, output) = run_script("start", PICOCLAW_START_TIMEOUT)
         .await
         .map_err(|err| err.to_string())?;
-    time::sleep(Duration::from_millis(1500)).await;
-    let status = refresh_runtime_status().await;
-    if status.ready {
-        Ok((command, output))
-    } else {
-        Err(status
-            .last_error
-            .unwrap_or_else(|| "failed to start picoclaw runtime".to_string()))
+
+    // Wait until the gateway listens. A fixed pause and one check reported a failure for a
+    // runtime that was only a second away from being up.
+    let started = Instant::now();
+    loop {
+        time::sleep(PICOCLAW_READY_POLL).await;
+        let status = refresh_runtime_status().await;
+        if status.ready {
+            return Ok((command, output));
+        }
+        let gone = started.elapsed() > Duration::from_secs(2) && !picoclaw_process_running();
+        if gone || started.elapsed() >= PICOCLAW_READY_TIMEOUT {
+            let reason = status
+                .last_error
+                .unwrap_or_else(|| "failed to start picoclaw runtime".to_string());
+            // PicoClaw says why it stopped in its own log
+            return Err(
+                match fs::read_to_string(PICOCLAW_LOG_FILE)
+                    .ok()
+                    .and_then(|log| last_error_line(&log))
+                {
+                    Some(line) => format!("{reason}: {line}"),
+                    None => reason,
+                },
+            );
+        }
     }
+}
+
+// Whether a process called picoclaw exists.
+fn picoclaw_process_running() -> bool {
+    let Ok(entries) = fs::read_dir("/proc") else {
+        return true;
+    };
+    entries.flatten().any(|entry| {
+        entry
+            .file_name()
+            .to_string_lossy()
+            .bytes()
+            .all(|b| b.is_ascii_digit())
+            && fs::read_to_string(entry.path().join("comm"))
+                .map(|comm| comm.trim() == "picoclaw")
+                .unwrap_or(false)
+    })
+}
+
+// The last error PicoClaw logged: its "ERR" lines end in `error="..."` or `> message`.
+fn last_error_line(log: &str) -> Option<String> {
+    let line = log.lines().rev().find(|line| line.contains(" ERR "))?;
+    let message = match line.find("error=\"") {
+        Some(at) => line[at + "error=\"".len()..]
+            .split("\" ")
+            .next()
+            .unwrap_or(line),
+        None => line.split(" > ").nth(1).unwrap_or(line),
+    };
+    let message: String = message.trim().chars().take(300).collect();
+    (!message.is_empty()).then_some(message)
 }
 
 async fn stop_runtime_inner() -> std::result::Result<(String, String), String> {
@@ -2384,23 +2536,12 @@ async fn run_install_runtime() -> Result<()> {
     let _ = fs::remove_dir_all(cache);
     fs::create_dir_all(cache)?;
 
-    set_install_progress("downloading", 5, None);
-    let checksum_path = cache.join("sha512.txt");
-    download_to(PICOCLAW_CHECKSUM_URL, &checksum_path).await?;
-    let expected_digest = parse_sha512_digest(
-        &fs::read_to_string(&checksum_path)?,
-        Path::new(PICOCLAW_DOWNLOAD_URL)
-            .file_name()
-            .and_then(|name| name.to_str())
-            .unwrap_or(""),
-    )?;
-
     set_install_progress("downloading", 10, None);
     let archive_path = cache.join("picoclaw.tar.gz");
     download_to(PICOCLAW_DOWNLOAD_URL, &archive_path).await?;
 
     set_install_progress("verifying", 82, None);
-    verify_sha512(&archive_path, &expected_digest)?;
+    verify_sha256(&archive_path, PICOCLAW_SHA256)?;
 
     set_install_progress("extracting", 85, None);
     let extracted = {
@@ -2491,38 +2632,15 @@ async fn download_to(url: &str, target: &Path) -> Result<()> {
     }
 }
 
-fn parse_sha512_digest(raw: &str, expected_name: &str) -> Result<String> {
-    let mut fallback = None;
-    for line in raw.lines() {
-        let fields: Vec<&str> = line.split_whitespace().collect();
-        if fields.is_empty() || !is_sha512_digest(fields[0]) {
-            continue;
-        }
-        if fields.len() == 1 {
-            fallback.get_or_insert_with(|| fields[0].to_ascii_lowercase());
-            continue;
-        }
-        let name = fields[fields.len() - 1].trim_start_matches('*');
-        if expected_name.is_empty() || name == expected_name {
-            return Ok(fields[0].to_ascii_lowercase());
-        }
-    }
-    fallback.ok_or_else(|| AppError::Internal("failed to parse sha512 digest".to_string()))
-}
-
-fn is_sha512_digest(value: &str) -> bool {
-    value.len() == 128 && value.bytes().all(|b| b.is_ascii_hexdigit())
-}
-
-fn verify_sha512(path: &Path, expected: &str) -> Result<()> {
+fn verify_sha256(path: &Path, expected: &str) -> Result<()> {
     let mut file = fs::File::open(path)?;
-    let mut hasher = Sha512::new();
+    let mut hasher = Sha256::new();
     io::copy(&mut file, &mut hasher)?;
     let actual = format!("{:x}", hasher.finalize());
     if actual == expected.to_ascii_lowercase() {
         Ok(())
     } else {
-        Err(AppError::Internal(format!("sha512 mismatch: got {actual}")))
+        Err(AppError::Internal(format!("sha256 mismatch: got {actual}")))
     }
 }
 
@@ -2761,6 +2879,27 @@ fn resolve_config_path() -> Result<PathBuf> {
     Ok(home.join("config.json"))
 }
 
+// PicoClaw keys an entry of .security.yml as `name:n`, where n counts the entries of the same
+// model_name before it (not its position in model_list).
+fn name_occurrence(models: &[JsonValue], index: usize) -> usize {
+    let name = models
+        .get(index)
+        .and_then(|model| model.get("model_name"))
+        .and_then(JsonValue::as_str)
+        .map(str::trim);
+    models
+        .iter()
+        .take(index)
+        .filter(|model| {
+            model
+                .get("model_name")
+                .and_then(JsonValue::as_str)
+                .map(str::trim)
+                == name
+        })
+        .count()
+}
+
 fn is_model_configured(config: &JsonValue, security: &serde_yaml::Value, model_name: &str) -> bool {
     if model_name.is_empty() {
         return false;
@@ -2787,28 +2926,79 @@ fn is_model_configured(config: &JsonValue, security: &serde_yaml::Value, model_n
         {
             continue;
         }
-        if model
-            .get("api_key")
-            .and_then(JsonValue::as_str)
-            .map(str::trim)
-            .filter(|value| !value.is_empty())
-            .is_some()
-        {
-            return true;
-        }
-        if model
-            .get("api_keys")
-            .and_then(JsonValue::as_array)
-            .map(|keys| !keys.is_empty())
-            .unwrap_or(false)
-        {
-            return true;
-        }
-        if security_has_model_key(security, model_name, idx) {
+        if entry_has_key(model, security, model_name, name_occurrence(models, idx)) {
             return true;
         }
     }
     false
+}
+
+// A key is in the entry itself (older configs) or in .security.yml under `name:n`.
+fn entry_has_key(
+    model: &JsonValue,
+    security: &serde_yaml::Value,
+    model_name: &str,
+    occurrence: usize,
+) -> bool {
+    if model
+        .get("api_key")
+        .and_then(JsonValue::as_str)
+        .map(str::trim)
+        .filter(|value| !value.is_empty())
+        .is_some()
+    {
+        return true;
+    }
+    if model
+        .get("api_keys")
+        .and_then(JsonValue::as_array)
+        .map(|keys| !keys.is_empty())
+        .unwrap_or(false)
+    {
+        return true;
+    }
+    security_has_model_key(security, model_name, occurrence)
+}
+
+// What the model form shows: the model that is in use, never its key.
+#[derive(Debug, Default, PartialEq, Serialize)]
+struct StoredModelConfig {
+    model: String,
+    api_base: String,
+    key_set: bool,
+}
+
+fn stored_model_config(config: &JsonValue, security: &serde_yaml::Value) -> StoredModelConfig {
+    let model_name = config
+        .pointer("/agents/defaults/model_name")
+        .and_then(JsonValue::as_str)
+        .unwrap_or("")
+        .trim();
+    let Some(models) = config.get("model_list").and_then(JsonValue::as_array) else {
+        return StoredModelConfig::default();
+    };
+    let Some((idx, entry)) = models.iter().enumerate().find(|(_, model)| {
+        model
+            .get("model_name")
+            .and_then(JsonValue::as_str)
+            .map(str::trim)
+            == Some(model_name)
+    }) else {
+        return StoredModelConfig::default();
+    };
+    let text = |key: &str| {
+        entry
+            .get(key)
+            .and_then(JsonValue::as_str)
+            .unwrap_or("")
+            .trim()
+            .to_string()
+    };
+    StoredModelConfig {
+        model: text("model"),
+        api_base: text("api_base"),
+        key_set: entry_has_key(entry, security, model_name, name_occurrence(models, idx)),
+    }
 }
 
 fn security_has_model_key(security: &serde_yaml::Value, model_name: &str, index: usize) -> bool {
@@ -2829,10 +3019,51 @@ fn security_has_model_key(security: &serde_yaml::Value, model_name: &str, index:
     })
 }
 
+// Recent Anthropic models reject the `temperature` that PicoClaw always sends. For these models
+// PicoClaw's HTTP provider merges `extra_body` over its request body, so a null temperature
+// there leaves the field out. A value the user set themselves is kept.
+fn ensure_anthropic_extra_body(item: &mut JsonMap<String, JsonValue>, model: &str) {
+    if !model.trim().to_ascii_lowercase().starts_with("anthropic/") {
+        return;
+    }
+    let extra = item
+        .entry("extra_body".to_string())
+        .or_insert_with(|| JsonValue::Object(JsonMap::new()));
+    if !extra.is_object() {
+        *extra = JsonValue::Object(JsonMap::new());
+    }
+    extra
+        .as_object_mut()
+        .expect("extra_body object")
+        .entry("temperature".to_string())
+        .or_insert(JsonValue::Null);
+}
+
+// The entry that an update of `model_name` edits is the first one of that name.
+fn first_entry_has_key(config: &JsonValue, security: &serde_yaml::Value, model_name: &str) -> bool {
+    config
+        .get("model_list")
+        .and_then(JsonValue::as_array)
+        .and_then(|models| {
+            models.iter().find(|model| {
+                model
+                    .get("model_name")
+                    .and_then(JsonValue::as_str)
+                    .map(str::trim)
+                    == Some(model_name)
+            })
+        })
+        .is_some_and(|entry| entry_has_key(entry, security, model_name, 0))
+}
+
 fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Result<String> {
     let mut doc = load_config_document()?;
     let model_name = extract_model_name(model)
         .ok_or_else(|| AppError::Internal("model identifier is required".to_string()))?;
+    let keep_key = api_key.is_empty();
+    if keep_key && !first_entry_has_key(&doc.raw, &doc.security, &model_name) {
+        return Err(AppError::Internal("model api_key is required".to_string()));
+    }
     let raw = doc
         .raw
         .as_object_mut()
@@ -2865,8 +3096,11 @@ fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Resul
                 "api_base".to_string(),
                 JsonValue::String(api_base.to_string()),
             );
-            item.remove("api_key");
-            item.remove("api_keys");
+            if !keep_key {
+                item.remove("api_key");
+                item.remove("api_keys");
+            }
+            ensure_anthropic_extra_body(item, model);
             updated_index = Some(idx);
             break;
         }
@@ -2884,10 +3118,12 @@ fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Resul
                 "api_base".to_string(),
                 JsonValue::String(api_base.to_string()),
             );
+            ensure_anthropic_extra_body(&mut item, model);
             models.push(JsonValue::Object(item));
             models.len() - 1
         }
     };
+    let occurrence = name_occurrence(models, updated_index);
 
     let agents = raw
         .entry("agents".to_string())
@@ -2911,13 +3147,15 @@ fn update_model_config_file(api_base: &str, api_key: &str, model: &str) -> Resul
     defaults.remove("model");
 
     save_json(&doc.config_path, &doc.raw)?;
-    save_model_secret(
-        &mut doc.security,
-        &doc.security_path,
-        &model_name,
-        updated_index,
-        api_key,
-    )?;
+    if !keep_key {
+        save_model_secret(
+            &mut doc.security,
+            &doc.security_path,
+            &model_name,
+            occurrence,
+            api_key,
+        )?;
+    }
     Ok(model_name)
 }
 
@@ -3080,6 +3318,12 @@ fn save_model_secret(
         serde_yaml::Value::String("api_keys".to_string()),
         serde_yaml::Value::Sequence(vec![serde_yaml::Value::String(api_key.to_string())]),
     );
+    // drop what an older version wrote under another index
+    let stale_prefix = format!("{model_name}:");
+    model_list.retain(|key, _| {
+        key.as_str()
+            .is_none_or(|key| key != model_name && !key.starts_with(&stale_prefix))
+    });
     model_list.insert(
         serde_yaml::Value::String(format!("{model_name}:{index}")),
         serde_yaml::Value::Mapping(entry),
@@ -3115,6 +3359,7 @@ fn ensure_startup_defaults() -> Result<()> {
     let pico = ensure_object_path(raw, &["channel_list", "pico"]);
     pico.insert("type".to_string(), JsonValue::String("pico".to_string()));
     pico.insert("enabled".to_string(), JsonValue::Bool(true));
+    ensure_pico_allow_from(pico);
     let settings = ensure_object_path(raw, &["channel_list", "pico", "settings"]);
     settings.insert("allow_token_query".to_string(), JsonValue::Bool(false));
     settings.insert(
@@ -3142,6 +3387,22 @@ fn ensure_startup_defaults() -> Result<()> {
     headers.insert(INTERNAL_TOKEN_HEADER.to_string(), JsonValue::String(token));
     save_json(&doc.config_path, &doc.raw)?;
     save_yaml(&doc.security_path, &doc.security)
+}
+
+// PicoClaw logs a security warning on every start while the channel's allow_from is empty. The
+// channel only listens on 127.0.0.1 and wants a token, so "everyone" is what is meant: say so
+// with "*", which is how PicoClaw wants open access to be acknowledged. A list that was set is
+// kept.
+fn ensure_pico_allow_from(pico: &mut JsonMap<String, JsonValue>) {
+    let unset = match pico.get("allow_from") {
+        None | Some(JsonValue::Null) => true,
+        Some(JsonValue::Array(list)) => list.is_empty(),
+        Some(JsonValue::String(text)) => text.trim().is_empty(),
+        Some(_) => false,
+    };
+    if unset {
+        pico.insert("allow_from".to_string(), json!(["*"]));
+    }
 }
 
 fn ensure_object_path<'a>(
@@ -3367,13 +3628,225 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parses_sha512_for_named_archive() {
-        let digest = "a".repeat(128);
-        let raw = format!("{digest}  picoclaw_Linux_riscv64.tar.gz\n");
-        assert_eq!(
-            parse_sha512_digest(&raw, "picoclaw_Linux_riscv64.tar.gz").unwrap(),
-            digest
+    fn verifies_the_pinned_digest_of_a_file() {
+        let path = std::env::temp_dir().join(format!("picoclaw-sha-{}", std::process::id()));
+        fs::write(&path, b"abc").unwrap();
+        // SHA-256 of "abc"
+        let digest = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+        assert!(verify_sha256(&path, digest).is_ok());
+        assert!(verify_sha256(&path, &digest.to_uppercase()).is_ok());
+        assert!(verify_sha256(&path, &"0".repeat(64)).is_err());
+        let _ = fs::remove_file(path);
+    }
+
+    #[test]
+    fn pinned_digest_is_a_sha256() {
+        assert_eq!(PICOCLAW_SHA256.len(), 64);
+        assert!(PICOCLAW_SHA256.bytes().all(|b| b.is_ascii_hexdigit()));
+        assert!(PICOCLAW_DOWNLOAD_URL.ends_with("/picoclaw_Linux_riscv64.tar.gz"));
+    }
+
+    #[test]
+    fn anthropic_models_get_a_null_temperature_in_extra_body() {
+        let mut item = JsonMap::new();
+        ensure_anthropic_extra_body(&mut item, "anthropic/claude-haiku-5-5");
+        assert_eq!(item["extra_body"], json!({"temperature": null}));
+
+        // other keys stay, and a temperature the user set is kept
+        let mut item = JsonMap::new();
+        item.insert(
+            "extra_body".to_string(),
+            json!({"temperature": 0.2, "top_k": 5}),
         );
+        ensure_anthropic_extra_body(&mut item, "Anthropic/claude-haiku-5-5");
+        assert_eq!(item["extra_body"], json!({"temperature": 0.2, "top_k": 5}));
+
+        // other providers are left alone
+        let mut item = JsonMap::new();
+        ensure_anthropic_extra_body(&mut item, "openai/gpt-5.4");
+        assert!(item.get("extra_body").is_none());
+    }
+
+    #[test]
+    fn stored_model_config_shows_the_model_in_use_without_its_key() {
+        let config = json!({
+            "agents": {"defaults": {"model_name": "claude-haiku-5-5"}},
+            "model_list": [
+                {"model_name": "gpt-5.4", "model": "openai/gpt-5.4", "api_base": "https://a"},
+                {
+                    "model_name": "claude-haiku-5-5",
+                    "model": "anthropic/claude-haiku-5-5",
+                    "api_base": "https://api.anthropic.com/v1"
+                }
+            ]
+        });
+        let none: serde_yaml::Value = serde_yaml::from_str("model_list: {}").unwrap();
+        let stored = stored_model_config(&config, &none);
+        assert_eq!(stored.model, "anthropic/claude-haiku-5-5");
+        assert_eq!(stored.api_base, "https://api.anthropic.com/v1");
+        assert!(!stored.key_set);
+
+        let security: serde_yaml::Value =
+            serde_yaml::from_str("model_list:\n  claude-haiku-5-5:0:\n    api_keys: [k]\n")
+                .unwrap();
+        assert!(stored_model_config(&config, &security).key_set);
+        assert!(first_entry_has_key(&config, &security, "claude-haiku-5-5"));
+        assert!(!first_entry_has_key(&config, &security, "gpt-5.4"));
+
+        assert_eq!(
+            stored_model_config(&json!({}), &none),
+            StoredModelConfig::default()
+        );
+    }
+
+    // The only test that points PICOCLAW_HOME somewhere, so it cannot race another one.
+    #[test]
+    fn saving_the_model_form_keeps_the_key_when_it_is_left_empty() {
+        let dir = std::env::temp_dir().join(format!("picoclaw-form-{}", std::process::id()));
+        fs::create_dir_all(&dir).unwrap();
+        // SAFETY: no other test reads or writes this variable.
+        unsafe { std::env::set_var("PICOCLAW_HOME", &dir) };
+        fs::write(
+            dir.join("config.json"),
+            r#"{"model_list":[{"model_name":"gpt-5.4","model":"openai/gpt-5.4"}]}"#,
+        )
+        .unwrap();
+
+        // a new model needs a key
+        assert!(
+            update_model_config_file("https://api.anthropic.com/v1", "", "anthropic/x").is_err()
+        );
+
+        update_model_config_file("https://api.anthropic.com/v1", "sk-1", "anthropic/x").unwrap();
+        // the same model again without a key: the key and the other fields stay
+        update_model_config_file("https://example.test/v1", "", "anthropic/x").unwrap();
+
+        let config: JsonValue =
+            serde_json::from_slice(&fs::read(dir.join("config.json")).unwrap()).unwrap();
+        let security: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(dir.join(".security.yml")).unwrap()).unwrap();
+        let stored = stored_model_config(&config, &security);
+        assert_eq!(stored.model, "anthropic/x");
+        assert_eq!(stored.api_base, "https://example.test/v1");
+        assert!(stored.key_set);
+        assert_eq!(
+            security["model_list"]["x:0"]["api_keys"][0],
+            serde_yaml::Value::from("sk-1")
+        );
+        assert_eq!(
+            config["model_list"][1]["extra_body"],
+            json!({"temperature": null})
+        );
+
+        // a new key replaces it
+        update_model_config_file("https://example.test/v1", "sk-2", "anthropic/x").unwrap();
+        let security: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(dir.join(".security.yml")).unwrap()).unwrap();
+        assert_eq!(
+            security["model_list"]["x:0"]["api_keys"][0],
+            serde_yaml::Value::from("sk-2")
+        );
+
+        unsafe { std::env::remove_var("PICOCLAW_HOME") };
+        let _ = fs::remove_dir_all(dir);
+    }
+
+    #[test]
+    fn the_last_error_of_the_picoclaw_log_is_shown() {
+        let log = r#"21:28:03 INF gateway gateway.go:90 > starting
+21:28:04 ERR gateway gateway.go:136 > Gateway startup failed error="error creating provider: api_key is required for anthropic protocol (model: anthropic/x)" allow_empty=false config_path=/root/.picoclaw/config.json
+21:28:05 INF gateway gateway.go:91 > exiting
+"#;
+        assert_eq!(
+            last_error_line(log).unwrap(),
+            "error creating provider: api_key is required for anthropic protocol (model: anthropic/x)"
+        );
+        assert_eq!(
+            last_error_line("22:00:00 ERR agent pipeline.go:1 > it broke\n").unwrap(),
+            "it broke"
+        );
+        assert!(last_error_line("22:00:00 INF all good\n").is_none());
+    }
+
+    #[test]
+    fn the_pico_channel_acknowledges_open_access_unless_a_list_is_set() {
+        for before in [
+            json!({}),
+            json!({"allow_from": []}),
+            json!({"allow_from": null}),
+        ] {
+            let mut pico = before.as_object().unwrap().clone();
+            ensure_pico_allow_from(&mut pico);
+            assert_eq!(pico["allow_from"], json!(["*"]));
+        }
+        for kept in [json!(["42"]), json!("42"), json!(["*"])] {
+            let mut pico = JsonMap::new();
+            pico.insert("allow_from".to_string(), kept.clone());
+            ensure_pico_allow_from(&mut pico);
+            assert_eq!(pico["allow_from"], kept);
+        }
+    }
+
+    #[test]
+    fn a_mouse_that_did_not_take_a_report_is_refused_for_a_while() {
+        let gate = MouseGate::new();
+        let now = Instant::now();
+        assert!(!gate.blocked(now));
+
+        gate.block(now);
+        assert!(gate.blocked(now));
+        assert!(gate.blocked(now + MOUSE_UNAVAILABLE_FOR - Duration::from_millis(1)));
+        assert!(!gate.blocked(now + MOUSE_UNAVAILABLE_FOR));
+
+        gate.block(now);
+        gate.clear();
+        assert!(!gate.blocked(now));
+    }
+
+    #[test]
+    fn the_agent_is_told_to_use_the_keyboard_when_the_mouse_is_not_read() {
+        let err = mouse_unavailable_error(Some(io::Error::new(
+            io::ErrorKind::TimedOut,
+            "HID write timed out",
+        )));
+        assert_eq!(err.code, "MOUSE_UNAVAILABLE");
+        assert!(err.message.contains("Do not retry"));
+        assert!(err.message.contains("use the keyboard"));
+        assert!(err.message.contains("HID write timed out"));
+        assert!(!mouse_unavailable_error(None).message.contains('['));
+    }
+
+    #[test]
+    fn security_key_counts_entries_of_the_same_name() {
+        let models = vec![
+            json!({"model_name": "gpt-5.4"}),
+            json!({"model_name": "claude-haiku-5"}),
+            json!({"model_name": "gpt-5.4"}),
+            json!({"model_name": "claude-haiku-5"}),
+        ];
+        assert_eq!(name_occurrence(&models, 1), 0);
+        assert_eq!(name_occurrence(&models, 2), 1);
+        assert_eq!(name_occurrence(&models, 3), 1);
+    }
+
+    #[test]
+    fn model_secret_replaces_keys_written_under_another_index() {
+        let dir = std::env::temp_dir().join(format!("picoclaw-secret-{}", std::process::id()));
+        let path = dir.join(".security.yml");
+        let mut security: serde_yaml::Value =
+            serde_yaml::from_str("model_list:\n  claude-haiku-5:5:\n    api_keys: [old]\n  other:0:\n    api_keys: [x]\n").unwrap();
+        save_model_secret(&mut security, &path, "claude-haiku-5", 0, "sk-new").unwrap();
+        let list = security.get("model_list").unwrap();
+        assert!(list.get("claude-haiku-5:5").is_none());
+        assert_eq!(
+            list.get("claude-haiku-5:0")
+                .unwrap()
+                .get("api_keys")
+                .unwrap()[0],
+            "sk-new"
+        );
+        assert!(list.get("other:0").is_some());
+        let _ = std::fs::remove_dir_all(dir);
     }
 
     #[test]

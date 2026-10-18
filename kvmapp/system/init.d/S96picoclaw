@@ -117,6 +117,10 @@ start_service() {
     return 1
   fi
 
+  # The skill is a managed copy: bring it up to date with the one that came with this image.
+  # (AGENT.md is not: it holds the profile the user chose.)
+  sync_kvm_control_skill >/dev/null 2>&1 || true
+
   "$BIN_PATH" gateway >>"$LOG_FILE" 2>&1 &
 }
 

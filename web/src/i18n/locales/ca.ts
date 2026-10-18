@@ -985,8 +985,8 @@ const ca = {
     },
     picoclaw: {
       title: 'Assistent PicoClaw',
-      empty: 'Obre el tauler i inicia una tasca per començar',
-      inputPlaceholder: 'Descriu què vols que faci el PicoClaw',
+      empty: 'Descriu una tasca per començar',
+      inputPlaceholder: 'Descriu què vols que faci PicoClaw',
       newConversation: 'Nova conversa',
       processing: "S'està processant...",
       agent: {
@@ -1026,6 +1026,26 @@ const ca = {
           busy: 'Ocupat'
         }
       },
+      error: {
+        lockHeld: "PicoClaw s'està fent servir en una altra finestra",
+        takenOver: 'Una altra finestra ha pres el control de PicoClaw',
+        authFailed: 'PicoClaw ha rebutjat la connexió',
+        upstreamClosed: "S'ha perdut la connexió amb PicoClaw"
+      },
+      tool: {
+        screenshot: 'Fent una captura de pantalla',
+        loadImage: 'Mirant la captura de pantalla',
+        actions: "Controlant l'amfitrió",
+        generic: 'Fent servir {{name}}',
+        type: 'Escrivint {{text}}',
+        hotkey: 'Prement {{keys}}',
+        click: 'Fent clic',
+        doubleClick: 'Fent doble clic',
+        move: 'Movent el ratolí',
+        drag: 'Arrossegant',
+        scroll: 'Desplaçant',
+        wait: 'Esperant'
+      },
       message: {
         toolAction: 'Acció',
         observation: 'Observació',
@@ -1039,8 +1059,7 @@ const ca = {
         installing: 'Instal·lant PicoClaw',
         success: 'PicoClaw instal·lat correctament',
         failed: "No s'ha pogut instal·lar PicoClaw",
-        uninstalling: "S'està desinstal·lant el temps d'execució...",
-        uninstalled: "El temps d'execució s'ha desinstal·lat correctament",
+        uninstalled: 'PicoClaw desinstal·lat correctament',
         uninstallFailed: 'La desinstal·lació ha fallat',
         requiredTitle: 'PicoClaw no està instal·lat',
         requiredDescription: "Instal·leu PicoClaw abans d'iniciar el temps d'execució de PicoClaw.",
@@ -1064,18 +1083,18 @@ const ca = {
         menuLabel: 'Configura el model',
         modelIdentifier: 'Identificador del model',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: "URL base de l'API",
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Clau API',
         apiKeyPlaceholder: 'Introdueix la clau API del model',
+        apiKeyKeepPlaceholder: 'Deixa-ho buit per mantenir la clau actual',
         save: 'Desa',
         saving: "S'està desant",
         saved: "S'ha desat la configuració del model",
         saveFailed: "No s'ha pogut desar la configuració del model",
-        invalid: "Cal indicar l'identificador del model, l'API Base URL i la clau API"
+        invalid: "Cal indicar l'identificador del model, l'URL base de l'API i la clau API"
       },
       uninstall: {
-        menuLabel: 'Desinstal·la',
         confirmTitle: 'Desinstal·la PicoClaw',
         confirmContent:
           "Estàs segur que vols desinstal·lar PicoClaw? Això suprimirà l'executable i tots els fitxers de configuració.",
@@ -1096,7 +1115,8 @@ const ca = {
       },
       config: {
         startRuntime: 'Inicia PicoClaw',
-        stopRuntime: 'Atura PicoClaw'
+        stopRuntime: 'Atura PicoClaw',
+        stopConfirm: 'Aturar PicoClaw?'
       },
       start: {
         title: 'Inicia PicoClaw',

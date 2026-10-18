@@ -1,3 +1,11 @@
+import i18n from 'i18next';
+
+import {
+  closeErrorFor,
+  messageKindOf,
+  toolCallsFromPayload,
+  type GatewayToolCall
+} from '@/lib/picoclaw-protocol.ts';
 import { clearPicoclawSessionId, setPicoclawSessionId } from '@/lib/picoclaw-storage.ts';
 import { getBaseUrl } from '@/lib/service.ts';
 
@@ -35,6 +43,13 @@ export type GatewayToolAction = {
   raw: Record<string, unknown>;
 };
 
+export type GatewayToolCalls = {
+  // the id of the message, which the ids of its calls are built from
+  id: string;
+  calls: GatewayToolCall[];
+  raw: Record<string, unknown>;
+};
+
 export type GatewayObservation = {
   id: string;
   text?: string;
@@ -59,6 +74,7 @@ type GatewayEventMap = {
   run_state: GatewayRunState;
   assistant_message: GatewayAssistantMessage;
   tool_action: GatewayToolAction;
+  tool_calls: GatewayToolCalls;
   observation: GatewayObservation;
   error: GatewayError;
   close: GatewayClose;
@@ -79,14 +95,6 @@ type SendMessageOptions = {
   trackState?: boolean;
 };
 
-const CLOSE_ERRORS: Record<number, string> = {
-  4001: 'AI_LOCK_HELD',
-  4002: 'RUNTIME_UNAVAILABLE',
-  4003: 'AUTH_FAILED',
-  4004: 'AI_TAKEN_OVER',
-  4005: 'UPSTREAM_CLOSED'
-};
-
 export function generateUUIDv4() {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID();
@@ -99,6 +107,15 @@ export function generateUUIDv4() {
   });
 }
 
+// PicoClaw says nothing when a run is over: it stops its typing signal with the first message,
+// also an interim one such as "I'll list the logs", and the agent goes on to work. A text message
+// is taken as the last one when no tool call follows it within this time (the call is sent right
+// after the text).
+const RUN_END_GRACE_MS = 1500;
+// A run that says nothing for this long is taken as over, so that a lost message cannot leave
+// the chat busy for good.
+const RUN_SILENCE_LIMIT_MS = 2 * 60 * 1000;
+
 class PicoClawGateway {
   private ws: WebSocket | null = null;
   private listeners = new Map<EventName, Set<Listener<EventName>>>();
@@ -109,6 +126,8 @@ class PicoClawGateway {
   private reconnectAttempts = 0;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private explicitClose = false;
+  private runEndTimer: ReturnType<typeof setTimeout> | null = null;
+  private runSilenceTimer: ReturnType<typeof setTimeout> | null = null;
 
   public connect(options: ConnectOptions = {}) {
     if (options.sessionId) {
@@ -166,11 +185,12 @@ class PicoClawGateway {
         this.ws = null;
 
         if (event.code !== 1000) {
-          const code = CLOSE_ERRORS[event.code] || 'UNKNOWN';
-          if (code !== 'UNKNOWN') {
+          const closeError = closeErrorFor(event.code);
+          if (closeError) {
             this.emit('error', {
-              code,
-              message: event.reason || code
+              code: closeError.code,
+              message: i18n.t(closeError.key),
+              raw: { code: event.code, reason: event.reason }
             });
           }
         }
@@ -309,7 +329,28 @@ class PicoClawGateway {
   }
 
   private setRunState(state: GatewayRunState) {
+    this.clearRunTimers();
+    if (state === 'busy') {
+      this.runSilenceTimer = setTimeout(() => this.setRunState('idle'), RUN_SILENCE_LIMIT_MS);
+    }
     this.emit('run_state', state);
+  }
+
+  // The last message was text: the run is over unless the agent goes on within the grace time.
+  private endRunSoon() {
+    this.clearRunTimers();
+    this.runEndTimer = setTimeout(() => this.setRunState('idle'), RUN_END_GRACE_MS);
+  }
+
+  private clearRunTimers() {
+    if (this.runEndTimer) {
+      clearTimeout(this.runEndTimer);
+      this.runEndTimer = null;
+    }
+    if (this.runSilenceTimer) {
+      clearTimeout(this.runSilenceTimer);
+      this.runSilenceTimer = null;
+    }
   }
 
   private handleMessage(rawData: string | ArrayBuffer | Blob) {
@@ -323,7 +364,7 @@ class PicoClawGateway {
     } catch {
       this.emit('error', {
         code: 'INVALID_MESSAGE',
-        message: 'Failed to parse gateway message',
+        message: i18n.t('common.actionFailed'),
         raw: rawData
       });
       return;
@@ -345,18 +386,32 @@ class PicoClawGateway {
       this.setRunState('idle');
       this.emit('error', {
         code: String(message.code || 'ERROR'),
-        message: String(message.message || 'Gateway error'),
+        message: String(message.message || i18n.t('common.actionFailed')),
         raw: message
       });
       return;
     }
     if (type === 'message.create' || type === 'message.update') {
-      this.setRunState('idle');
-      this.emit('assistant_message', {
-        id: String(message.id || generateUUIDv4()),
-        text: extractText(message),
-        raw: message
-      });
+      const payload = (message.payload || {}) as Record<string, unknown>;
+      const kind = messageKindOf(payload);
+      const id = String(message.id || generateUUIDv4());
+
+      if (kind === 'tool_calls') {
+        // the agent is acting: it is not done
+        this.setRunState('busy');
+        const calls = toolCallsFromPayload(payload);
+        if (calls.length > 0) {
+          this.emit('tool_calls', { id, calls, raw: message });
+        }
+        return;
+      }
+
+      this.emit('assistant_message', { id, text: extractText(message), raw: message });
+      if (kind === 'thought') {
+        this.setRunState('busy');
+      } else {
+        this.endRunSoon();
+      }
       return;
     }
 

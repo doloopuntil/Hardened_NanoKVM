@@ -981,7 +981,7 @@ const id = {
     },
     picoclaw: {
       title: 'Asisten PicoClaw',
-      empty: 'Buka panel dan mulai tugas untuk memulai',
+      empty: 'Jelaskan tugas untuk memulai',
       inputPlaceholder: 'Jelaskan apa yang Anda ingin PicoClaw lakukan',
       newConversation: 'Percakapan baru',
       processing: 'Memproses...',
@@ -1001,9 +1001,9 @@ const id = {
         disconnected: 'Sesi PicoClaw ditutup',
         stopped: 'Permintaan penghentian terkirim',
         runtimeStarted: 'Runtime PicoClaw dimulai',
-        runtimeStartFailed: 'Gagal memulai Runtime PicoClaw',
+        runtimeStartFailed: 'Gagal memulai runtime PicoClaw',
         runtimeStopped: 'Runtime PicoClaw dihentikan',
-        runtimeStopFailed: 'Gagal menghentikan Runtime PicoClaw'
+        runtimeStopFailed: 'Gagal menghentikan runtime PicoClaw'
       },
       connection: {
         runtime: {
@@ -1022,6 +1022,26 @@ const id = {
           busy: 'Sibuk'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw sedang digunakan di jendela lain',
+        takenOver: 'Jendela lain mengambil alih PicoClaw',
+        authFailed: 'PicoClaw menolak koneksi',
+        upstreamClosed: 'Koneksi ke PicoClaw terputus'
+      },
+      tool: {
+        screenshot: 'Mengambil tangkapan layar',
+        loadImage: 'Melihat tangkapan layar',
+        actions: 'Mengendalikan host',
+        generic: 'Menggunakan {{name}}',
+        type: 'Mengetik {{text}}',
+        hotkey: 'Menekan {{keys}}',
+        click: 'Mengeklik',
+        doubleClick: 'Mengeklik dua kali',
+        move: 'Menggerakkan mouse',
+        drag: 'Menyeret',
+        scroll: 'Menggulir',
+        wait: 'Menunggu'
+      },
       message: {
         toolAction: 'Aksi',
         observation: 'Pengamatan',
@@ -1035,8 +1055,7 @@ const id = {
         installing: 'Menginstal PicoClaw',
         success: 'PicoClaw berhasil diinstal',
         failed: 'Gagal menginstal PicoClaw',
-        uninstalling: 'Mencopot pemasangan runtime...',
-        uninstalled: 'Runtime berhasil di-uninstall',
+        uninstalled: 'PicoClaw berhasil dicopot pemasangannya',
         uninstallFailed: 'Pencopotan pemasangan gagal',
         requiredTitle: 'PicoClaw tidak diinstal',
         requiredDescription: 'Instal PicoClaw sebelum memulai runtime PicoClaw.',
@@ -1060,18 +1079,18 @@ const id = {
         menuLabel: 'Konfigurasi model',
         modelIdentifier: 'Pengenal model',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'URL dasar API',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Kunci API',
         apiKeyPlaceholder: 'Masukkan kunci API model',
+        apiKeyKeepPlaceholder: 'Biarkan kosong untuk mempertahankan kunci saat ini',
         save: 'Simpan',
         saving: 'Menyimpan',
         saved: 'Konfigurasi model disimpan',
         saveFailed: 'Gagal menyimpan konfigurasi model',
-        invalid: 'Pengidentifikasi model, API Base URL, dan kunci API wajib diisi'
+        invalid: 'Pengenal model, URL dasar API, dan kunci API wajib diisi'
       },
       uninstall: {
-        menuLabel: 'Copot pemasangan',
         confirmTitle: 'Copot pemasangan PicoClaw',
         confirmContent:
           'Apakah Anda yakin ingin menghapus instalan PicoClaw? Ini akan menghapus semua file yang dapat dieksekusi dan konfigurasi.',
@@ -1092,7 +1111,8 @@ const id = {
       },
       config: {
         startRuntime: 'Mulai PicoClaw',
-        stopRuntime: 'Hentikan PicoClaw'
+        stopRuntime: 'Hentikan PicoClaw',
+        stopConfirm: 'Hentikan PicoClaw?'
       },
       start: {
         title: 'Mulai PicoClaw',

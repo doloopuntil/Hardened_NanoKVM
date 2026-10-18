@@ -980,8 +980,8 @@ const tr = {
     },
     picoclaw: {
       title: 'PicoClaw asistanı',
-      empty: 'Paneli açın ve başlamak için bir görevi başlatın',
-      inputPlaceholder: "PicoClaw'nin ne yapmasını istediğinizi açıklayın",
+      empty: 'Başlamak için bir görevi açıklayın',
+      inputPlaceholder: "PicoClaw'un ne yapmasını istediğinizi açıklayın",
       newConversation: 'Yeni görüşme',
       processing: 'İşleniyor...',
       agent: {
@@ -1021,6 +1021,26 @@ const tr = {
           busy: 'Meşgul'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw başka bir pencerede kullanılıyor',
+        takenOver: "Başka bir pencere PicoClaw'ın denetimini devraldı",
+        authFailed: 'PicoClaw bağlantıyı reddetti',
+        upstreamClosed: 'PicoClaw ile bağlantı kesildi'
+      },
+      tool: {
+        screenshot: 'Ekran görüntüsü alınıyor',
+        loadImage: 'Ekran görüntüsüne bakılıyor',
+        actions: 'Ana bilgisayar kontrol ediliyor',
+        generic: '{{name}} kullanılıyor',
+        type: '{{text}} yazılıyor',
+        hotkey: '{{keys}} basılıyor',
+        click: 'Tıklanıyor',
+        doubleClick: 'Çift tıklanıyor',
+        move: 'Fare hareket ettiriliyor',
+        drag: 'Sürükleniyor',
+        scroll: 'Kaydırılıyor',
+        wait: 'Bekleniyor'
+      },
       message: {
         toolAction: 'Eylem',
         observation: 'Gözlem',
@@ -1030,12 +1050,11 @@ const tr = {
         locked: 'PicoClaw cihazı kontrol ediyor. Manuel giriş duraklatıldı.'
       },
       install: {
-        install: 'Yükle PicoClaw',
+        install: "PicoClaw'ı yükle",
         installing: 'PicoClaw yükleniyor',
         success: 'PicoClaw başarıyla yüklendi',
         failed: 'PicoClaw yüklenemedi',
-        uninstalling: 'Runtime kaldırılıyor...',
-        uninstalled: 'Runtime başarıyla kaldırıldı',
+        uninstalled: 'PicoClaw başarıyla kaldırıldı',
         uninstallFailed: 'Kaldırma başarısız oldu',
         requiredTitle: 'PicoClaw kurulu değil',
         requiredDescription: "PicoClaw runtime'ı başlatmadan önce PicoClaw'ı yükleyin.",
@@ -1059,19 +1078,19 @@ const tr = {
         menuLabel: 'Modeli yapılandır',
         modelIdentifier: 'Model tanımlayıcı',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: "API temel URL'si",
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API anahtarı',
         apiKeyPlaceholder: 'Model API anahtarını girin',
+        apiKeyKeepPlaceholder: 'Mevcut anahtarı korumak için boş bırakın',
         save: 'Kaydet',
         saving: 'Kaydediliyor',
         saved: 'Model yapılandırması kaydedildi',
         saveFailed: 'Model yapılandırması kaydedilemedi',
-        invalid: 'Model tanımlayıcı, API Base URL ve API anahtarı gereklidir'
+        invalid: "Model tanımlayıcı, API temel URL'si ve API anahtarı gereklidir"
       },
       uninstall: {
-        menuLabel: 'Kaldır',
-        confirmTitle: 'Kaldırma PicoClaw',
+        confirmTitle: "PicoClaw'ı kaldır",
         confirmContent:
           "PicoClaw'yi kaldırmak istediğinizden emin misiniz? Bu, yürütülebilir dosyayı ve tüm yapılandırma dosyalarını siler.",
         confirmOk: 'Kaldırma'
@@ -1091,7 +1110,8 @@ const tr = {
       },
       config: {
         startRuntime: "PicoClaw'ı başlat",
-        stopRuntime: "PicoClaw'ı durdur"
+        stopRuntime: "PicoClaw'ı durdur",
+        stopConfirm: "PicoClaw'ı durdur?"
       },
       start: {
         title: "PicoClaw'ı başlat",

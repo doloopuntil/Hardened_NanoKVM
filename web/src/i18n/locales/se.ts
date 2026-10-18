@@ -981,7 +981,7 @@ const se = {
     },
     picoclaw: {
       title: 'PicoClaw-assistent',
-      empty: 'Öppna panelen och starta en uppgift för att börja',
+      empty: 'Beskriv en uppgift för att börja',
       inputPlaceholder: 'Beskriv vad du vill att PicoClaw ska göra',
       newConversation: 'Ny konversation',
       processing: 'Bearbetar...',
@@ -1022,6 +1022,26 @@ const se = {
           busy: 'Upptagen'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw används i ett annat fönster',
+        takenOver: 'Ett annat fönster tog över PicoClaw',
+        authFailed: 'PicoClaw avvisade anslutningen',
+        upstreamClosed: 'Anslutningen till PicoClaw bröts'
+      },
+      tool: {
+        screenshot: 'Tar en skärmdump',
+        loadImage: 'Tittar på skärmdumpen',
+        actions: 'Styr värden',
+        generic: 'Använder {{name}}',
+        type: 'Skriver {{text}}',
+        hotkey: 'Trycker på {{keys}}',
+        click: 'Klickar',
+        doubleClick: 'Dubbelklickar',
+        move: 'Flyttar musen',
+        drag: 'Drar',
+        scroll: 'Rullar',
+        wait: 'Väntar'
+      },
       message: {
         toolAction: 'Åtgärd',
         observation: 'Observation',
@@ -1035,8 +1055,7 @@ const se = {
         installing: 'Installerar PicoClaw',
         success: 'PicoClaw har installerats framgångsrikt',
         failed: 'Det gick inte att installera PicoClaw',
-        uninstalling: 'Avinstallerar runtime...',
-        uninstalled: 'Runtime avinstallerades framgångsrikt',
+        uninstalled: 'PicoClaw har avinstallerats',
         uninstallFailed: 'Avinstallationen misslyckades',
         requiredTitle: 'PicoClaw är inte installerad',
         requiredDescription: 'Installera PicoClaw innan du startar PicoClaw runtime.',
@@ -1060,18 +1079,18 @@ const se = {
         menuLabel: 'Konfigurera modell',
         modelIdentifier: 'Modellidentifierare',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'API-bas-URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-nyckel',
         apiKeyPlaceholder: 'Ange modellens API-nyckel',
+        apiKeyKeepPlaceholder: 'Lämna tomt för att behålla nuvarande nyckel',
         save: 'Spara',
         saving: 'Sparar',
         saved: 'Modellkonfiguration sparad',
         saveFailed: 'Det gick inte att spara modellkonfigurationen',
-        invalid: 'Modellidentifierare, API base URL och API-nyckel krävs'
+        invalid: 'Modellidentifierare, API-bas-URL och API-nyckel krävs'
       },
       uninstall: {
-        menuLabel: 'Avinstallera',
         confirmTitle: 'Avinstallera PicoClaw',
         confirmContent:
           'Är du säker på att du vill avinstallera PicoClaw? Detta kommer att radera den körbara filen och alla konfigurationsfiler.',
@@ -1092,7 +1111,8 @@ const se = {
       },
       config: {
         startRuntime: 'Starta PicoClaw',
-        stopRuntime: 'Stoppa PicoClaw'
+        stopRuntime: 'Stoppa PicoClaw',
+        stopConfirm: 'Stoppa PicoClaw?'
       },
       start: {
         title: 'Starta PicoClaw',

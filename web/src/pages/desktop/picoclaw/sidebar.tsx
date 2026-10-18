@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { picoclawChatOpenAtom } from '@/jotai/picoclaw.ts';
 
+import { EmptyState } from './empty-state.tsx';
 import { MessageInput } from './message-input.tsx';
 import { MessageList } from './message-list.tsx';
 import { SidebarHeader } from './sidebar-header.tsx';
@@ -47,6 +48,7 @@ export const Sidebar = () => {
     modelApiBase,
     modelApiKey,
     modelIdentifier,
+    modelKeySet,
     isModelConfigOpen,
     runState,
     transportState,
@@ -61,7 +63,7 @@ export const Sidebar = () => {
   } = useSidebar();
 
   return (
-    <aside className="picoclaw-sidebar-scrollbar flex h-full min-h-0 w-full flex-col overflow-x-hidden bg-[#0d0d0f]">
+    <aside className="flex h-full min-h-0 w-full flex-col overflow-x-hidden bg-[#0d0d0f]">
       {/* Header */}
       <SidebarHeader
         isCheckingRuntime={isInitializing}
@@ -106,6 +108,7 @@ export const Sidebar = () => {
             apiKey={modelApiKey}
             isSaving={isSavingModelConfig}
             modelIdentifier={modelIdentifier}
+            keySet={modelKeySet}
             modelName={runtimeStatus?.model_name}
             onApiBaseChange={handleModelApiBaseChange}
             onApiKeyChange={handleModelApiKeyChange}
@@ -125,38 +128,29 @@ export const Sidebar = () => {
             onDelete={handleDeleteHistorySession}
           />
         ) : !runtimeStatus?.ready ? (
-          <div className="flex flex-1 flex-col items-center px-6 pb-6 pt-10 text-center">
-            <div className="flex flex-col items-center gap-4">
-              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04]">
-                <PlayIcon className="text-sky-400" size={22} />
-              </div>
-              <div>
-                <h3 className="mb-1 text-sm font-medium text-neutral-200">
-                  {t('picoclaw.start.title')}
-                </h3>
-                <p className="text-xs text-neutral-500">{t('picoclaw.start.description')}</p>
-              </div>
-              <Button
-                type="primary"
-                icon={<PlayIcon size={14} />}
-                loading={isTogglingRuntime}
-                onClick={() => void handleStartRuntime()}
-              >
-                {t('picoclaw.config.startRuntime')}
-              </Button>
-            </div>
-          </div>
+          <EmptyState
+            icon={<PlayIcon className="text-blue-400" size={22} />}
+            title={t('picoclaw.start.title')}
+            description={t('picoclaw.start.description')}
+          >
+            <Button
+              type="primary"
+              icon={<PlayIcon size={14} />}
+              loading={isTogglingRuntime}
+              onClick={() => void handleStartRuntime()}
+            >
+              {t('picoclaw.config.startRuntime')}
+            </Button>
+          </EmptyState>
         ) : (
           <>
             <MessageList messages={messages} runState={runState} />
-            <div className="border-t border-white/[0.06] px-3 pb-3 pt-3">
-              <MessageInput
-                transportState={transportState}
-                onSend={handleSend}
-                onNewConversation={handleNewConversation}
-                disableNewConversation={isFreshConversation}
-              />
-            </div>
+            <MessageInput
+              transportState={transportState}
+              onSend={handleSend}
+              onNewConversation={handleNewConversation}
+              disableNewConversation={isFreshConversation}
+            />
           </>
         )}
       </div>

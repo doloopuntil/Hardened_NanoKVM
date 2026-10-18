@@ -987,8 +987,8 @@ const hu = {
     },
     picoclaw: {
       title: 'PicoClaw asszisztens',
-      empty: 'Nyissa meg a panelt, és indítsa el a feladatot',
-      inputPlaceholder: 'Írja le, mit szeretne tenni az PicoClaw-val',
+      empty: 'Írjon le egy feladatot a kezdéshez',
+      inputPlaceholder: 'Írja le, mit szeretne, hogy PicoClaw tegyen',
       newConversation: 'Új beszélgetés',
       processing: 'Feldolgozás...',
       agent: {
@@ -1028,6 +1028,26 @@ const hu = {
           busy: 'Elfoglalt'
         }
       },
+      error: {
+        lockHeld: 'A PicoClaw egy másik ablakban van használatban',
+        takenOver: 'Egy másik ablak átvette a PicoClaw irányítását',
+        authFailed: 'A PicoClaw elutasította a kapcsolatot',
+        upstreamClosed: 'A PicoClaw kapcsolata megszakadt'
+      },
+      tool: {
+        screenshot: 'Képernyőkép készítése',
+        loadImage: 'A képernyőkép megtekintése',
+        actions: 'A gazdagép vezérlése',
+        generic: '{{name}} használata',
+        type: 'Beírás: {{text}}',
+        hotkey: 'Lenyomás: {{keys}}',
+        click: 'Kattintás',
+        doubleClick: 'Dupla kattintás',
+        move: 'Az egér mozgatása',
+        drag: 'Húzás',
+        scroll: 'Görgetés',
+        wait: 'Várakozás'
+      },
       message: {
         toolAction: 'Akció',
         observation: 'Megfigyelés',
@@ -1041,8 +1061,7 @@ const hu = {
         installing: 'PicoClaw telepítése folyamatban',
         success: 'PicoClaw sikeresen telepítve',
         failed: 'Nem sikerült telepíteni PicoClaw',
-        uninstalling: 'Runtime eltávolítása...',
-        uninstalled: 'A Runtime sikeresen eltávolítva',
+        uninstalled: 'A PicoClaw sikeresen eltávolítva',
         uninstallFailed: 'Az eltávolítás nem sikerült',
         requiredTitle: 'PicoClaw nincs telepítve',
         requiredDescription:
@@ -1067,19 +1086,19 @@ const hu = {
         menuLabel: 'Modell konfigurálása',
         modelIdentifier: 'Modellazonosító',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'API alap-URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-kulcs',
         apiKeyPlaceholder: 'Adja meg a modell API-kulcsát',
+        apiKeyKeepPlaceholder: 'Hagyja üresen a jelenlegi kulcs megtartásához',
         save: 'Mentés',
         saving: 'Mentés',
         saved: 'A modell konfigurációja mentve',
         saveFailed: 'Nem sikerült menteni a modellkonfigurációt',
-        invalid: 'A modellazonosító, az API Base URL és az API-kulcs megadása kötelező'
+        invalid: 'A modellazonosító, az API alap-URL és az API-kulcs megadása kötelező'
       },
       uninstall: {
-        menuLabel: 'Eltávolítás',
-        confirmTitle: 'Eltávolítás PicoClaw',
+        confirmTitle: 'PicoClaw eltávolítása',
         confirmContent:
           'Biztosan eltávolítja a következőt: PicoClaw? Ezzel törli a végrehajtható fájlt és az összes konfigurációs fájlt.',
         confirmOk: 'Eltávolítás'
@@ -1099,7 +1118,8 @@ const hu = {
       },
       config: {
         startRuntime: 'PicoClaw indítása',
-        stopRuntime: 'PicoClaw leállítása'
+        stopRuntime: 'PicoClaw leállítása',
+        stopConfirm: 'Leállítja a PicoClaw-t?'
       },
       start: {
         title: 'PicoClaw indítása',

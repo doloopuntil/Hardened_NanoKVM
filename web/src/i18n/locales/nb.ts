@@ -983,7 +983,7 @@ const nb = {
     },
     picoclaw: {
       title: 'PicoClaw-assistent',
-      empty: 'Åpne panelet og start en oppgave for å begynne',
+      empty: 'Beskriv en oppgave for å begynne',
       inputPlaceholder: 'Beskriv hva du vil at PicoClaw skal gjøre',
       newConversation: 'Ny samtale',
       processing: 'Behandler...',
@@ -1024,6 +1024,26 @@ const nb = {
           busy: 'Opptatt'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw er i bruk i et annet vindu',
+        takenOver: 'Et annet vindu overtok PicoClaw',
+        authFailed: 'PicoClaw avviste tilkoblingen',
+        upstreamClosed: 'Tilkoblingen til PicoClaw ble brutt'
+      },
+      tool: {
+        screenshot: 'Tar et skjermbilde',
+        loadImage: 'Ser på skjermbildet',
+        actions: 'Styrer verten',
+        generic: 'Bruker {{name}}',
+        type: 'Skriver {{text}}',
+        hotkey: 'Trykker {{keys}}',
+        click: 'Klikker',
+        doubleClick: 'Dobbeltklikker',
+        move: 'Flytter musen',
+        drag: 'Drar',
+        scroll: 'Ruller',
+        wait: 'Venter'
+      },
       message: {
         toolAction: 'Handling',
         observation: 'Observasjon',
@@ -1037,8 +1057,7 @@ const nb = {
         installing: 'Installerer PicoClaw',
         success: 'PicoClaw installert vellykket',
         failed: 'Kunne ikke installere PicoClaw',
-        uninstalling: 'Avinstallerer runtime...',
-        uninstalled: 'Runtime ble avinstallert',
+        uninstalled: 'PicoClaw ble avinstallert',
         uninstallFailed: 'Avinstallering mislyktes',
         requiredTitle: 'PicoClaw er ikke installert',
         requiredDescription: 'Installer PicoClaw før du starter PicoClaw runtime.',
@@ -1062,18 +1081,18 @@ const nb = {
         menuLabel: 'Konfigurer modell',
         modelIdentifier: 'Modellidentifikator',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'API-basis-URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-nøkkel',
         apiKeyPlaceholder: 'Skriv inn modellens API-nøkkel',
+        apiKeyKeepPlaceholder: 'La stå tom for å beholde nåværende nøkkel',
         save: 'Lagre',
         saving: 'Lagrer',
         saved: 'Modellkonfigurasjon lagret',
         saveFailed: 'Kunne ikke lagre modellkonfigurasjonen',
-        invalid: 'Modellidentifikator, API base URL og API-nøkkel kreves'
+        invalid: 'Modellidentifikator, API-basis-URL og API-nøkkel kreves'
       },
       uninstall: {
-        menuLabel: 'Avinstaller',
         confirmTitle: 'Avinstaller PicoClaw',
         confirmContent:
           'Er du sikker på at du vil avinstallere PicoClaw? Dette vil slette den kjørbare filen og alle konfigurasjonsfilene.',
@@ -1094,7 +1113,8 @@ const nb = {
       },
       config: {
         startRuntime: 'Start PicoClaw',
-        stopRuntime: 'Stopp PicoClaw'
+        stopRuntime: 'Stopp PicoClaw',
+        stopConfirm: 'Stoppe PicoClaw?'
       },
       start: {
         title: 'Start PicoClaw',

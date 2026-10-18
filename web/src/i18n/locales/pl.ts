@@ -981,7 +981,7 @@ const pl = {
     },
     picoclaw: {
       title: 'Asystent PicoClaw',
-      empty: 'Otwórz panel i rozpocznij zadanie',
+      empty: 'Opisz zadanie, aby zacząć',
       inputPlaceholder: 'Opisz, co chcesz, aby PicoClaw zrobił',
       newConversation: 'Nowa rozmowa',
       processing: 'Przetwarzanie...',
@@ -1022,6 +1022,26 @@ const pl = {
           busy: 'Zajęty'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw jest używany w innym oknie',
+        takenOver: 'Inne okno przejęło PicoClaw',
+        authFailed: 'PicoClaw odrzucił połączenie',
+        upstreamClosed: 'Utracono połączenie z PicoClaw'
+      },
+      tool: {
+        screenshot: 'Robię zrzut ekranu',
+        loadImage: 'Oglądam zrzut ekranu',
+        actions: 'Steruję hostem',
+        generic: 'Używam: {{name}}',
+        type: 'Wpisuję {{text}}',
+        hotkey: 'Naciskam {{keys}}',
+        click: 'Klikam',
+        doubleClick: 'Klikam dwukrotnie',
+        move: 'Przesuwam mysz',
+        drag: 'Przeciągam',
+        scroll: 'Przewijam',
+        wait: 'Czekam'
+      },
       message: {
         toolAction: 'Akcja',
         observation: 'Obserwacja',
@@ -1035,8 +1055,7 @@ const pl = {
         installing: 'Instalowanie PicoClaw',
         success: 'PicoClaw zainstalowano pomyślnie',
         failed: 'Nie udało się zainstalować PicoClaw',
-        uninstalling: 'Odinstalowywanie runtime...',
-        uninstalled: 'Runtime został pomyślnie odinstalowany',
+        uninstalled: 'PicoClaw został pomyślnie odinstalowany',
         uninstallFailed: 'Odinstalowanie nie powiodło się',
         requiredTitle: 'PicoClaw nie jest zainstalowany',
         requiredDescription: 'Zainstaluj PicoClaw przed uruchomieniem runtime PicoClaw.',
@@ -1060,18 +1079,18 @@ const pl = {
         menuLabel: 'Skonfiguruj model',
         modelIdentifier: 'Identyfikator modelu',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'Bazowy adres URL API',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Klucz API',
         apiKeyPlaceholder: 'Wprowadź klucz API modelu',
+        apiKeyKeepPlaceholder: 'Pozostaw puste, aby zachować bieżący klucz',
         save: 'Zapisz',
         saving: 'Zapisywanie',
         saved: 'Konfiguracja modelu została zapisana',
         saveFailed: 'Nie udało się zapisać konfiguracji modelu',
-        invalid: 'Identyfikator modelu, API Base URL i klucz API są wymagane'
+        invalid: 'Identyfikator modelu, bazowy adres URL API i klucz API są wymagane'
       },
       uninstall: {
-        menuLabel: 'Odinstaluj',
         confirmTitle: 'Odinstaluj PicoClaw',
         confirmContent:
           'Czy na pewno chcesz odinstalować PicoClaw? Spowoduje to usunięcie pliku wykonywalnego i wszystkich plików konfiguracyjnych.',
@@ -1092,7 +1111,8 @@ const pl = {
       },
       config: {
         startRuntime: 'Uruchom PicoClaw',
-        stopRuntime: 'Zatrzymaj PicoClaw'
+        stopRuntime: 'Zatrzymaj PicoClaw',
+        stopConfirm: 'Zatrzymać PicoClaw?'
       },
       start: {
         title: 'Uruchom PicoClaw',

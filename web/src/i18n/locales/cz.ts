@@ -973,7 +973,7 @@ const cz = {
     },
     picoclaw: {
       title: 'Asistent PicoClaw',
-      empty: 'Otevřete panel a spusťte úlohu',
+      empty: 'Popište úlohu a začněte',
       inputPlaceholder: 'Popište, co chcete, aby PicoClaw dělal',
       newConversation: 'Nová konverzace',
       processing: 'Zpracovává se...',
@@ -1014,6 +1014,26 @@ const cz = {
           busy: 'Zaneprázdněn'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw se používá v jiném okně',
+        takenOver: 'Jiné okno převzalo PicoClaw',
+        authFailed: 'PicoClaw odmítl připojení',
+        upstreamClosed: 'Spojení s PicoClaw bylo ztraceno'
+      },
+      tool: {
+        screenshot: 'Pořizuji snímek obrazovky',
+        loadImage: 'Prohlížím snímek obrazovky',
+        actions: 'Ovládám hostitele',
+        generic: 'Používám {{name}}',
+        type: 'Píšu {{text}}',
+        hotkey: 'Mačkám {{keys}}',
+        click: 'Klikám',
+        doubleClick: 'Dvojklik',
+        move: 'Posouvám myš',
+        drag: 'Přetahuji',
+        scroll: 'Posouvám obsah',
+        wait: 'Čekám'
+      },
       message: {
         toolAction: 'Akce',
         observation: 'Pozorování',
@@ -1027,8 +1047,7 @@ const cz = {
         installing: 'Instalace PicoClaw',
         success: 'PicoClaw úspěšně nainstalováno',
         failed: 'Nepodařilo se nainstalovat PicoClaw',
-        uninstalling: 'Odinstalování běhového prostředí...',
-        uninstalled: 'Běhové prostředí bylo úspěšně odinstalováno',
+        uninstalled: 'PicoClaw byl úspěšně odinstalován',
         uninstallFailed: 'Odinstalace se nezdařila',
         requiredTitle: 'PicoClaw není nainstalováno',
         requiredDescription: 'Nainstalujte PicoClaw před spuštěním běhového prostředí PicoClaw.',
@@ -1052,18 +1071,18 @@ const cz = {
         menuLabel: 'Konfigurace modelu',
         modelIdentifier: 'Identifikátor modelu',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'Základní URL API',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Klíč API',
         apiKeyPlaceholder: 'Zadejte klíč API modelu',
+        apiKeyKeepPlaceholder: 'Nechte prázdné pro zachování aktuálního klíče',
         save: 'Uložit',
         saving: 'Ukládání',
         saved: 'Konfigurace modelu uložena',
         saveFailed: 'Nepodařilo se uložit konfiguraci modelu',
-        invalid: 'Identifikátor modelu, API Base URL a klíč API jsou povinné'
+        invalid: 'Identifikátor modelu, základní URL API a klíč API jsou povinné'
       },
       uninstall: {
-        menuLabel: 'Odinstalovat',
         confirmTitle: 'Odinstalovat PicoClaw',
         confirmContent:
           'Opravdu chcete odinstalovat PicoClaw? Tím smažete spustitelný soubor a všechny konfigurační soubory.',
@@ -1084,7 +1103,8 @@ const cz = {
       },
       config: {
         startRuntime: 'Spustit PicoClaw',
-        stopRuntime: 'Zastavit PicoClaw'
+        stopRuntime: 'Zastavit PicoClaw',
+        stopConfirm: 'Zastavit PicoClaw?'
       },
       start: {
         title: 'Spustit PicoClaw',

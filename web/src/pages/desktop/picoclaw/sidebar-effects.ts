@@ -2,7 +2,15 @@ import { useEffect } from 'react';
 import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import type { TFunction } from 'i18next';
 
-import { closeGateway, connectGateway, picoclawGateway } from '@/api/picoclaw.ts';
+import {
+  closeGateway,
+  connectGateway,
+  getPicoclawSession,
+  listPicoclawSessions,
+  picoclawGateway,
+  type PicoclawSessionListItem
+} from '@/api/picoclaw.ts';
+import { toast } from '@/lib/feedback.ts';
 import {
   clearPicoclawRuntimeInstallSnapshot,
   setPicoclawRuntimeInstallSnapshot,
@@ -23,10 +31,13 @@ import {
   createObservationMessage,
   createStatusMessage,
   createToolActionMessage,
+  createToolCallMessage,
   HIDDEN_OVERLAY,
-  retainLatestObservationScreenshot
+  retainLatestObservationScreenshot,
+  sessionMessagesToChat
 } from './message-utils.ts';
 import { canConnectGateway, isPicoclawRuntimeInstalling } from './runtime-view.ts';
+import { summarizeToolCall } from './tool-call-summary.ts';
 
 type MessageSetter = Dispatch<SetStateAction<PicoclawChatMessage[]>>;
 type TakeoverSetter = Dispatch<SetStateAction<PicoclawTakeoverState>>;
@@ -47,6 +58,7 @@ type LifecycleOptions = {
   setActiveSessionId: Dispatch<SetStateAction<string>>;
   setIsFreshConversation: Dispatch<SetStateAction<boolean>>;
   setMessages: MessageSetter;
+  setHistorySessions: Dispatch<SetStateAction<PicoclawSessionListItem[]>>;
   setIsInitializing: Dispatch<SetStateAction<boolean>>;
   setTakeover: TakeoverSetter;
   setOverlay: Dispatch<SetStateAction<PicoclawOverlayState>>;
@@ -105,6 +117,10 @@ export function usePicoclawGatewayEvents({
       }),
       picoclawGateway.on('run_state', (state) => {
         setRunState(state);
+        // what the agent was doing on the screen is no longer true
+        if (state === 'idle') {
+          setOverlay(HIDDEN_OVERLAY);
+        }
       }),
       picoclawGateway.on('assistant_message', (message) => {
         setMessages((current) => {
@@ -130,6 +146,26 @@ export function usePicoclawGatewayEvents({
           action: action.action
         });
       }),
+      picoclawGateway.on('tool_calls', ({ id, calls }) => {
+        const lines = calls.map((call, index) =>
+          createToolCallMessage(`${id}:${call.id || index}`, summarizeToolCall(call, t))
+        );
+        // an update of the message sends the same calls again
+        setMessages((current) => {
+          const known = new Set(current.map((item) => item.id));
+          const fresh = lines.filter((line) => !known.has(line.id));
+          return fresh.length > 0 ? [...current, ...fresh] : current;
+        });
+
+        const last = lines[lines.length - 1]?.text?.split('\n')[0].replace(/`/g, '');
+        if (last) {
+          setOverlay({
+            visible: true,
+            message: `${t('picoclaw.overlay.locked')} · ${last}`,
+            action: last
+          });
+        }
+      }),
       picoclawGateway.on('observation', (observation) => {
         setMessages((current) =>
           retainLatestObservationScreenshot([...current, createObservationMessage(observation)])
@@ -154,12 +190,32 @@ export function usePicoclawGatewayEvents({
   }, [setActiveSessionId, setMessages, setOverlay, setRunState, setTakeover, setTransportState, t]);
 }
 
+// The messages of the newest saved session, if there is one with something in it.
+async function loadNewestSession(
+  rsp: { code: number; data?: PicoclawSessionListItem[] } | null
+): Promise<{ id: string; messages: PicoclawChatMessage[] } | undefined> {
+  const newest = rsp?.code === 0 ? rsp.data?.[0] : undefined;
+  if (!newest) {
+    return undefined;
+  }
+  try {
+    const detail = await getPicoclawSession(newest.id);
+    if (detail.code !== 0 || !detail.data?.messages?.length) {
+      return undefined;
+    }
+    return { id: newest.id, messages: sessionMessagesToChat(newest.id, detail.data.messages) };
+  } catch {
+    return undefined;
+  }
+}
+
 export function usePicoclawSidebarLifecycle({
   t,
   refreshStateRef,
   setActiveSessionId,
   setIsFreshConversation,
   setMessages,
+  setHistorySessions,
   setIsInitializing,
   setTakeover,
   setOverlay,
@@ -174,33 +230,21 @@ export function usePicoclawSidebarLifecycle({
       setActiveSessionId(nextSessionId);
       setIsFreshConversation(true);
       setMessages([]);
+      // The newest saved chat is the one to continue. It is asked for while the runtime is
+      // checked, so that it is ready when the chat connects.
+      const newestRequest = listPicoclawSessions({ limit: 1 }).catch(() => null);
       try {
         const nextRuntimeStatus = await refreshStateRef.current();
         if (cancelled) {
           return;
         }
 
-        if (nextRuntimeStatus?.installing) {
-          setMessages((current) => [
-            ...current,
-            createStatusMessage(t('picoclaw.install.installing'))
-          ]);
-          return;
-        }
-
-        if (nextRuntimeStatus?.installed === false) {
-          setMessages((current) => [
-            ...current,
-            createStatusMessage(t('picoclaw.install.requiredDescription'))
-          ]);
-          return;
-        }
-
-        if (nextRuntimeStatus?.model_configured === false) {
-          setMessages((current) => [
-            ...current,
-            createStatusMessage(t('picoclaw.model.requiredDescription'))
-          ]);
+        // the install and model screens say this themselves
+        if (
+          nextRuntimeStatus?.installing ||
+          nextRuntimeStatus?.installed === false ||
+          nextRuntimeStatus?.model_configured === false
+        ) {
           return;
         }
 
@@ -208,12 +252,32 @@ export function usePicoclawSidebarLifecycle({
           return;
         }
 
+        const newest = await loadNewestSession(await newestRequest);
+        if (cancelled) {
+          return;
+        }
+        if (newest) {
+          setMessages(newest.messages);
+          setActiveSessionId(newest.id);
+          setIsFreshConversation(false);
+        }
+        // the list of the history is wanted next
+        void listPicoclawSessions({ limit: 100 })
+          .then((rsp) => {
+            if (!cancelled && rsp.code === 0) {
+              setHistorySessions(rsp.data || []);
+            }
+          })
+          .catch(() => undefined);
+
         setMessages((current) => [
           ...current,
           createStatusMessage(t('picoclaw.status.connecting'))
         ]);
+        // The chat is shown now; the input is enabled once the connection is up.
+        setIsInitializing(false);
         try {
-          await connectGateway();
+          await connectGateway(newest?.id ?? nextSessionId);
         } catch {
           // handled by gateway events
         }
@@ -302,7 +366,7 @@ export function usePicoclawInstallSnapshotSync({
     const previous = previousInstallStateRef.current;
     if (previous.installing && !isInstalling) {
       if (runtimeStatus.installed === true) {
-        setMessages((current) => [...current, createStatusMessage(t('picoclaw.install.success'))]);
+        toast.success(t('picoclaw.install.success'));
       } else {
         setMessages((current) => [
           ...current,

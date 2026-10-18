@@ -60,7 +60,7 @@ export const ActionOverlay = () => {
         top: rect.top + 12
       }}
     >
-      <div className="rounded-full bg-neutral-950/85 px-3 py-1 text-xs text-sky-100 shadow-lg ring-1 ring-sky-400/30">
+      <div className="rounded-full bg-neutral-950/85 px-3 py-1 text-xs text-blue-100 shadow-lg ring-1 ring-blue-400/30">
         {overlay.message || t('picoclaw.overlay.locked')}
       </div>
     </div>

@@ -983,7 +983,7 @@ const uk = {
     },
     picoclaw: {
       title: 'Помічник PicoClaw',
-      empty: 'Для початку відкрийте панель і запустіть завдання',
+      empty: 'Опишіть завдання, щоб почати',
       inputPlaceholder: 'Опишіть, що ви хочете, щоб PicoClaw зробив',
       newConversation: 'Нова розмова',
       processing: 'Обробка...',
@@ -1024,6 +1024,26 @@ const uk = {
           busy: 'Зайнятий'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw використовується в іншому вікні',
+        takenOver: 'Інше вікно перейняло PicoClaw',
+        authFailed: 'PicoClaw відхилив підключення',
+        upstreamClosed: "З'єднання з PicoClaw втрачено"
+      },
+      tool: {
+        screenshot: 'Роблю знімок екрана',
+        loadImage: 'Дивлюся на знімок екрана',
+        actions: 'Керую хостом',
+        generic: 'Використовую {{name}}',
+        type: 'Вводжу {{text}}',
+        hotkey: 'Натискаю {{keys}}',
+        click: 'Клікаю',
+        doubleClick: 'Двічі клікаю',
+        move: 'Рухаю мишу',
+        drag: 'Перетягую',
+        scroll: 'Прокручую',
+        wait: 'Чекаю'
+      },
       message: {
         toolAction: 'Дія',
         observation: 'Спостереження',
@@ -1037,8 +1057,7 @@ const uk = {
         installing: 'Встановлення PicoClaw',
         success: 'PicoClaw успішно встановлено',
         failed: 'Не вдалося встановити PicoClaw',
-        uninstalling: 'Видалення runtime...',
-        uninstalled: 'Runtime успішно видалено',
+        uninstalled: 'PicoClaw успішно видалено',
         uninstallFailed: 'Помилка видалення',
         requiredTitle: 'PicoClaw не встановлено',
         requiredDescription: 'Встановіть PicoClaw перед запуском runtime PicoClaw.',
@@ -1062,18 +1081,18 @@ const uk = {
         menuLabel: 'Налаштувати модель',
         modelIdentifier: 'Ідентифікатор моделі',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'Базовий URL API',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-ключ',
         apiKeyPlaceholder: 'Введіть API-ключ моделі',
+        apiKeyKeepPlaceholder: 'Залиште порожнім, щоб зберегти поточний ключ',
         save: 'Зберегти',
         saving: 'Збереження',
         saved: 'Конфігурацію моделі збережено',
         saveFailed: 'Не вдалося зберегти конфігурацію моделі',
-        invalid: 'Потрібні ідентифікатор моделі, API Base URL і API-ключ'
+        invalid: 'Потрібні ідентифікатор моделі, базовий URL API і API-ключ'
       },
       uninstall: {
-        menuLabel: 'Видалити',
         confirmTitle: 'Видалити PicoClaw',
         confirmContent:
           'Ви впевнені, що хочете видалити PicoClaw? Це призведе до видалення виконуваного файлу та всіх конфігураційних файлів.',
@@ -1094,7 +1113,8 @@ const uk = {
       },
       config: {
         startRuntime: 'Запустити PicoClaw',
-        stopRuntime: 'Зупинити PicoClaw'
+        stopRuntime: 'Зупинити PicoClaw',
+        stopConfirm: 'Ви впевнені, що бажаєте зупинити PicoClaw?'
       },
       start: {
         title: 'Запустити PicoClaw',

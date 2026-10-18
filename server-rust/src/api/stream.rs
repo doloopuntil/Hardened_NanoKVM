@@ -16,7 +16,7 @@ use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
     fs, io,
-    sync::atomic::{AtomicBool, AtomicUsize, Ordering},
+    sync::atomic::{AtomicBool, AtomicU8, AtomicUsize, Ordering},
     sync::{Arc, LazyLock, Mutex},
     time::{Duration, Instant},
 };
@@ -74,6 +74,9 @@ static H264_SOURCE: LazyLock<StreamFanout<H264Frame>> =
     LazyLock::new(|| StreamFanout::new("direct", 16));
 static H264_DIRECT_CONSUMERS: AtomicUsize = AtomicUsize::new(0);
 static H264_WEBRTC_CONSUMERS: AtomicUsize = AtomicUsize::new(0);
+// What libkvm was last told to detect frame changes with: 0 is off, which it starts as. Everything
+// that changes it goes through `apply_frame_detect`, so this is what libkvm does now.
+static FRAME_DETECT: AtomicU8 = AtomicU8::new(0);
 static MJPEG_FIRST_READ_LOGGED: AtomicBool = AtomicBool::new(false);
 static MJPEG_FIRST_SUCCESS_LOGGED: AtomicBool = AtomicBool::new(false);
 static MJPEG_FIRST_ERROR_LOGGED: AtomicBool = AtomicBool::new(false);
@@ -810,10 +813,16 @@ fn h264_direct_producer_action(
     }
 }
 
+fn apply_frame_detect(value: u8) -> Result<()> {
+    kvm::set_frame_detect(value)?;
+    FRAME_DETECT.store(value, Ordering::Relaxed);
+    Ok(())
+}
+
 pub async fn update_frame_detect(
     Json(req): Json<UpdateFrameDetectReq>,
 ) -> Result<impl IntoResponse> {
-    kvm::set_frame_detect(if req.enabled {
+    apply_frame_detect(if req.enabled {
         FRAME_DETECT_INTERVAL
     } else {
         0
@@ -823,9 +832,9 @@ pub async fn update_frame_detect(
 
 pub async fn stop_frame_detect(Json(req): Json<StopFrameDetectReq>) -> Result<impl IntoResponse> {
     let duration = Duration::from_secs(req.duration.unwrap_or(10).max(1));
-    kvm::set_frame_detect(0)?;
+    apply_frame_detect(0)?;
     time::sleep(duration).await;
-    kvm::set_frame_detect(FRAME_DETECT_INTERVAL)?;
+    apply_frame_detect(FRAME_DETECT_INTERVAL)?;
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
@@ -1103,6 +1112,38 @@ fn clear_h264_safe_mode() {
 pub fn latest_mjpeg_frame(max_age: Duration) -> Option<LatestMjpegFrame> {
     let frame = LATEST_MJPEG_FRAME.lock().ok()?.clone()?;
     (frame.captured_at.elapsed() <= max_age).then_some(frame)
+}
+
+/// One frame, read now. The stream does not produce frames while nobody watches it, and with
+/// frame detect on it produces none while the screen does not change (libkvm answers 5 to every
+/// read), so the cache can be empty or old when a frame is wanted, for instance by the agent that
+/// looks at a screen that has stopped moving. Frame detect is paused for this one read and put
+/// back as it was. Only in MJPEG mode: reading MJPEG while H.264 runs would switch libkvm's encoder.
+pub fn capture_mjpeg_frame_now() -> std::result::Result<LatestMjpegFrame, String> {
+    let screen = current_screen();
+    if screen.mode != StreamMode::Mjpeg {
+        return Err(
+            "screenshots need the MJPEG video mode (Screen > Video mode); the video is H.264 now"
+                .to_string(),
+        );
+    }
+
+    let detect = FRAME_DETECT.load(Ordering::Relaxed);
+    if detect != 0 {
+        kvm::set_frame_detect(0).map_err(|err| err.to_string())?;
+    }
+    let read = kvm::read_mjpeg(screen.width, screen.height, screen.quality);
+    if detect != 0 {
+        let _ = kvm::set_frame_detect(detect);
+    }
+
+    let (data, result) = read.map_err(|err| err.to_string())?;
+    if result < 0 || data.is_empty() {
+        return Err(format!("no frame from the HDMI capture (code {result})"));
+    }
+    set_latest_mjpeg_frame(&data, screen.width, screen.height);
+    latest_mjpeg_frame(Duration::from_secs(1))
+        .ok_or_else(|| "the captured frame is gone".to_string())
 }
 
 pub fn h264_frame_duration(fps: u64) -> Duration {

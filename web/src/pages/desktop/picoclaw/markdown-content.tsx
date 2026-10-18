@@ -23,7 +23,7 @@ export const MarkdownContent = ({ content, className }: MarkdownContentProps) =>
           ),
           a: ({ children, href }) => (
             <a
-              className="text-sky-300 underline decoration-sky-400/40 underline-offset-2 hover:text-sky-200"
+              className="text-blue-400 underline decoration-blue-400/40 underline-offset-2 hover:text-blue-300"
               href={href}
               rel="noreferrer"
               target="_blank"
@@ -70,10 +70,14 @@ export const MarkdownContent = ({ content, className }: MarkdownContentProps) =>
             </div>
           ),
           th: ({ children }) => (
-            <th className="border-b border-white/10 px-2 py-1 font-semibold">{children}</th>
+            <th className="border-0 border-b border-solid border-white/10 px-2 py-1 font-semibold">
+              {children}
+            </th>
           ),
           td: ({ children }) => (
-            <td className="border-b border-white/5 px-2 py-1 align-top">{children}</td>
+            <td className="border-0 border-b border-solid border-white/5 px-2 py-1 align-top">
+              {children}
+            </td>
           )
         }}
       >

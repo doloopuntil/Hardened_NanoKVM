@@ -965,7 +965,7 @@ const ko = {
     },
     picoclaw: {
       title: 'PicoClaw 어시스턴트',
-      empty: '패널을 열고 작업을 시작하세요',
+      empty: '작업을 설명하여 시작하세요',
       inputPlaceholder: 'PicoClaw가 무엇을 하기를 원하는지 설명하세요',
       newConversation: '새 대화',
       processing: '처리 중...',
@@ -1006,6 +1006,26 @@ const ko = {
           busy: '작업 중'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw가 다른 창에서 사용 중입니다',
+        takenOver: '다른 창이 PicoClaw를 인계받았습니다',
+        authFailed: 'PicoClaw가 연결을 거부했습니다',
+        upstreamClosed: 'PicoClaw와의 연결이 끊어졌습니다'
+      },
+      tool: {
+        screenshot: '스크린샷을 찍는 중',
+        loadImage: '스크린샷을 확인하는 중',
+        actions: '호스트를 제어하는 중',
+        generic: '{{name}} 사용 중',
+        type: '{{text}} 입력 중',
+        hotkey: '{{keys}} 누르는 중',
+        click: '클릭하는 중',
+        doubleClick: '더블 클릭하는 중',
+        move: '마우스를 이동하는 중',
+        drag: '드래그하는 중',
+        scroll: '스크롤하는 중',
+        wait: '대기 중'
+      },
       message: {
         toolAction: '동작',
         observation: '관찰',
@@ -1019,8 +1039,7 @@ const ko = {
         installing: 'PicoClaw 설치 중',
         success: 'PicoClaw가 성공적으로 설치되었습니다',
         failed: 'PicoClaw 설치에 실패했습니다',
-        uninstalling: '런타임 삭제 중...',
-        uninstalled: '런타임 삭제에 성공했습니다',
+        uninstalled: 'PicoClaw를 성공적으로 제거했습니다',
         uninstallFailed: '삭제에 실패했습니다',
         requiredTitle: 'PicoClaw가 설치되지 않았습니다',
         requiredDescription: 'PicoClaw 런타임을 시작하기 전에 PicoClaw를 설치하세요.',
@@ -1044,18 +1063,18 @@ const ko = {
         menuLabel: '모델 구성',
         modelIdentifier: '모델 식별자',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'API 기본 URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API 키',
         apiKeyPlaceholder: '모델 API 키를 입력하세요',
+        apiKeyKeepPlaceholder: '비워 두면 현재 키가 유지됩니다',
         save: '저장',
         saving: '저장 중',
         saved: '모델 구성이 저장되었습니다',
         saveFailed: '모델 구성 저장에 실패했습니다',
-        invalid: '모델 식별자, API Base URL, API 키가 필요합니다'
+        invalid: '모델 식별자, API 기본 URL, API 키가 필요합니다'
       },
       uninstall: {
-        menuLabel: '제거',
         confirmTitle: 'PicoClaw 제거',
         confirmContent: 'PicoClaw를 정말로 제거할까요? 실행 파일과 모든 구성 파일이 삭제됩니다.',
         confirmOk: '제거'
@@ -1075,7 +1094,8 @@ const ko = {
       },
       config: {
         startRuntime: 'PicoClaw 시작',
-        stopRuntime: 'PicoClaw 중지'
+        stopRuntime: 'PicoClaw 중지',
+        stopConfirm: '정말로 PicoClaw를 중지하시겠습니까?'
       },
       start: {
         title: 'PicoClaw 시작',

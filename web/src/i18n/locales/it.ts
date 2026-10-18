@@ -990,7 +990,7 @@ const it = {
     },
     picoclaw: {
       title: 'Assistente PicoClaw',
-      empty: "Apri il pannello e avvia un'attività per iniziare",
+      empty: "Descrivi un'attività per iniziare",
       inputPlaceholder: 'Descrivi cosa vuoi che PicoClaw faccia',
       newConversation: 'Nuova conversazione',
       processing: 'In elaborazione...',
@@ -1031,6 +1031,26 @@ const it = {
           busy: 'Occupato'
         }
       },
+      error: {
+        lockHeld: "PicoClaw è in uso in un'altra finestra",
+        takenOver: "Un'altra finestra ha preso il controllo di PicoClaw",
+        authFailed: 'PicoClaw ha rifiutato la connessione',
+        upstreamClosed: 'La connessione a PicoClaw è andata persa'
+      },
+      tool: {
+        screenshot: 'Acquisizione dello schermo',
+        loadImage: 'Osservo lo schermo',
+        actions: "Controllo dell'host",
+        generic: 'Uso di {{name}}',
+        type: 'Digitazione di {{text}}',
+        hotkey: 'Pressione di {{keys}}',
+        click: 'Clic',
+        doubleClick: 'Doppio clic',
+        move: 'Spostamento del mouse',
+        drag: 'Trascinamento',
+        scroll: 'Scorrimento',
+        wait: 'Attesa'
+      },
       message: {
         toolAction: 'Azione',
         observation: 'Osservazione',
@@ -1044,8 +1064,7 @@ const it = {
         installing: 'Installazione PicoClaw',
         success: 'PicoClaw installato correttamente',
         failed: 'Impossibile installare PicoClaw',
-        uninstalling: 'Disinstallazione del runtime in corso...',
-        uninstalled: 'Runtime disinstallato correttamente',
+        uninstalled: 'PicoClaw disinstallato correttamente',
         uninstallFailed: 'Disinstallazione non riuscita',
         requiredTitle: 'PicoClaw non è installato',
         requiredDescription: 'Installa PicoClaw prima di avviare il runtime PicoClaw.',
@@ -1070,18 +1089,18 @@ const it = {
         menuLabel: 'Configura modello',
         modelIdentifier: 'Identificatore del modello',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: "URL di base dell'API",
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Chiave API',
         apiKeyPlaceholder: 'Inserisci la chiave API del modello',
+        apiKeyKeepPlaceholder: 'Lascia vuoto per mantenere la chiave attuale',
         save: 'Salva',
         saving: 'Salvataggio',
         saved: 'Configurazione del modello salvata',
         saveFailed: 'Impossibile salvare la configurazione del modello',
-        invalid: 'Identificatore del modello, API Base URL e chiave API sono obbligatori'
+        invalid: "Identificatore del modello, URL di base dell'API e chiave API sono obbligatori"
       },
       uninstall: {
-        menuLabel: 'Disinstalla',
         confirmTitle: 'Disinstalla PicoClaw',
         confirmContent:
           "Sei sicuro di voler disinstallare PicoClaw? Ciò eliminerà l'eseguibile e tutti i file di configurazione.",
@@ -1102,7 +1121,8 @@ const it = {
       },
       config: {
         startRuntime: 'Avvia PicoClaw',
-        stopRuntime: 'Arresta PicoClaw'
+        stopRuntime: 'Arresta PicoClaw',
+        stopConfirm: 'Arrestare PicoClaw?'
       },
       start: {
         title: 'Avvia PicoClaw',

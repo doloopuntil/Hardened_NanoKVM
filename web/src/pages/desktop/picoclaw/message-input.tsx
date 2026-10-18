@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
+import clsx from 'clsx';
 import { useSetAtom } from 'jotai';
-import { PlusIcon, SendIcon } from 'lucide-react';
+import { SendIcon, SquarePenIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
@@ -43,9 +44,15 @@ export const MessageInput = ({
   }
 
   return (
-    <div className="relative">
+    <div
+      className={clsx(
+        // the panel at the bottom of the sidebar, as wide as the sidebar
+        'box-border flex shrink-0 flex-col border-0 border-t border-solid border-white/[0.06] bg-white/[0.04] transition-colors focus-within:bg-white/[0.06]',
+        !isReady && 'opacity-40'
+      )}
+    >
       <textarea
-        rows={3}
+        rows={4}
         value={value}
         disabled={!isReady}
         placeholder={isReady ? t('picoclaw.inputPlaceholder') : '...'}
@@ -69,24 +76,31 @@ export const MessageInput = ({
             void submit();
           }
         }}
-        className="w-full resize-none rounded-2xl border border-white/[0.08] bg-white/[0.04] px-4 py-3 pr-12 text-sm text-neutral-100 placeholder-neutral-600 outline-none transition-colors focus:border-white/[0.15] focus:bg-white/[0.06] disabled:opacity-40"
+        className="box-border block w-full resize-none border-0 bg-transparent px-4 py-3 text-sm text-neutral-100 placeholder-neutral-600 outline-none [font-family:inherit]"
       />
-      <Button
-        type="text"
-        icon={<PlusIcon size={14} />}
-        onClick={() => void onNewConversation()}
-        disabled={disableNewConversation}
-        className="absolute bottom-2.5 right-11 !flex !h-7 !w-7 !items-center !justify-center !rounded-lg !border !border-white/[0.08]"
-        title={t('picoclaw.newConversation')}
-      />
-      <Button
-        type="primary"
-        icon={<SendIcon size={14} />}
-        onClick={() => void submit()}
-        disabled={!isReady || !value.trim()}
-        className="absolute bottom-2.5 right-2.5 !flex !h-7 !w-7 !items-center !justify-center !rounded-lg"
-        title={t('picoclaw.send')}
-      />
+      {/* Under the text, so that neither the text nor its scrollbar runs below the buttons. Like the
+          save bar of the Settings: a hairline above and a shadow that pushes up from there. */}
+      <div className="relative z-10 flex items-center justify-end gap-2 border-0 border-t border-solid border-white/[0.06] p-2.5 shadow-[0_-20px_20px_-20px_rgba(0,0,0,0.5)]">
+        <Tooltip title={t('picoclaw.newConversation')} mouseEnterDelay={0.6}>
+          <Button
+            icon={<SquarePenIcon size={14} />}
+            aria-label={t('picoclaw.newConversation')}
+            onClick={() => void onNewConversation()}
+            disabled={disableNewConversation}
+            className="!flex !h-7 !w-7 !items-center !justify-center !rounded-lg"
+          />
+        </Tooltip>
+        <Tooltip title={t('picoclaw.send')} mouseEnterDelay={0.6}>
+          <Button
+            type="primary"
+            icon={<SendIcon size={14} />}
+            aria-label={t('picoclaw.send')}
+            onClick={() => void submit()}
+            disabled={!isReady || !value.trim()}
+            className="!flex !h-7 !w-7 !items-center !justify-center !rounded-lg"
+          />
+        </Tooltip>
+      </div>
     </div>
   );
 };

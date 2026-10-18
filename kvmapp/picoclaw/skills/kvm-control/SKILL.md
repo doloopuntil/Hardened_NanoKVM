@@ -84,6 +84,7 @@ Use these templates for common sequences. Choose mouse or keyboard based on what
 
 - `screenshot` captures the HDMI frame seen by NanoKVM, which should correspond to the downstream remote host.
 - For quick verification screenshots, use `--width 480 --quality 40`. Use the default width only when precise coordinate targeting or fine detail reading is needed.
+- If a mouse action (`click`, `double-click`, `move`, `drag`, `scroll`) fails with `MOUSE_UNAVAILABLE`, the host is not reading the mouse, which is the case for a machine without a desktop or a mouse driver, such as a console-only Linux. Do not retry any mouse action: they keep failing for the next seconds. Continue with the keyboard only (`type`, `type-enter`, `hotkey` with Tab, Enter, the arrow keys, Escape or confirmed shortcuts). If the task cannot be done without the mouse, say so to the user.
 - `type` is the safest way to enter normal text.
 - `hotkey --keys` expects a comma-separated list. Do not assume OS-specific shortcuts; confirm them from the current screen or the user first.
 - Prefer the built-in macro commands for common deterministic flows:

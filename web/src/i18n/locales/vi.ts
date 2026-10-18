@@ -976,7 +976,7 @@ const vi = {
     },
     picoclaw: {
       title: 'Trợ lý PicoClaw',
-      empty: 'Mở bảng điều khiển và bắt đầu một nhiệm vụ',
+      empty: 'Mô tả một nhiệm vụ để bắt đầu',
       inputPlaceholder: 'Mô tả những gì bạn muốn PicoClaw làm',
       newConversation: 'Cuộc trò chuyện mới',
       processing: 'Đang xử lý...',
@@ -1017,6 +1017,26 @@ const vi = {
           busy: 'Bận'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw đang được dùng ở cửa sổ khác',
+        takenOver: 'Cửa sổ khác đã tiếp quản PicoClaw',
+        authFailed: 'PicoClaw đã từ chối kết nối',
+        upstreamClosed: 'Đã mất kết nối với PicoClaw'
+      },
+      tool: {
+        screenshot: 'Đang chụp ảnh màn hình',
+        loadImage: 'Đang xem ảnh màn hình',
+        actions: 'Đang điều khiển máy chủ',
+        generic: 'Đang dùng {{name}}',
+        type: 'Đang nhập {{text}}',
+        hotkey: 'Đang nhấn {{keys}}',
+        click: 'Đang nhấp',
+        doubleClick: 'Đang nhấp đúp',
+        move: 'Đang di chuyển chuột',
+        drag: 'Đang kéo',
+        scroll: 'Đang cuộn',
+        wait: 'Đang chờ'
+      },
       message: {
         toolAction: 'Hành động',
         observation: 'Quan sát',
@@ -1030,8 +1050,7 @@ const vi = {
         installing: 'Đang cài đặt PicoClaw',
         success: 'PicoClaw cài đặt thành công',
         failed: 'Không cài đặt được PicoClaw',
-        uninstalling: 'Đang gỡ cài đặt runtime...',
-        uninstalled: 'Đã gỡ cài đặt thành công runtime',
+        uninstalled: 'Đã gỡ cài đặt thành công PicoClaw',
         uninstallFailed: 'Gỡ cài đặt không thành công',
         requiredTitle: 'PicoClaw chưa được cài đặt',
         requiredDescription: 'Cài đặt PicoClaw trước khi bắt đầu runtime PicoClaw.',
@@ -1056,18 +1075,18 @@ const vi = {
         menuLabel: 'Cấu hình mô hình',
         modelIdentifier: 'Định danh mô hình',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'URL cơ sở của API',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'Khóa API',
         apiKeyPlaceholder: 'Nhập khóa API của mô hình',
+        apiKeyKeepPlaceholder: 'Để trống để giữ khóa hiện tại',
         save: 'Lưu',
         saving: 'Đang lưu',
         saved: 'Đã lưu cấu hình mô hình',
         saveFailed: 'Không lưu được cấu hình mô hình',
-        invalid: 'Bắt buộc nhập mã định danh mô hình, API Base URL và khóa API'
+        invalid: 'Bắt buộc nhập mã định danh mô hình, URL cơ sở của API và khóa API'
       },
       uninstall: {
-        menuLabel: 'Gỡ cài đặt',
         confirmTitle: 'Gỡ cài đặt PicoClaw',
         confirmContent:
           'Bạn có chắc chắn muốn gỡ cài đặt PicoClaw không? Thao tác này sẽ xóa tệp thực thi và tất cả các tệp cấu hình.',
@@ -1088,7 +1107,8 @@ const vi = {
       },
       config: {
         startRuntime: 'Bắt đầu PicoClaw',
-        stopRuntime: 'Dừng PicoClaw'
+        stopRuntime: 'Dừng PicoClaw',
+        stopConfirm: 'Dừng PicoClaw?'
       },
       start: {
         title: 'Bắt đầu PicoClaw',

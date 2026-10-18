@@ -979,7 +979,7 @@ const fi = {
     },
     picoclaw: {
       title: 'PicoClaw-avustaja',
-      empty: 'Avaa paneeli ja käynnistä tehtävä aloittaaksesi',
+      empty: 'Aloita kuvaamalla tehtävä',
       inputPlaceholder: "Kuvaile, mitä haluat PicoClaw'n tekevän",
       newConversation: 'Uusi keskustelu',
       processing: 'Käsitellään...',
@@ -1020,6 +1020,26 @@ const fi = {
           busy: 'Varattu'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw on käytössä toisessa ikkunassa',
+        takenOver: "Toinen ikkuna otti PicoClaw'n haltuunsa",
+        authFailed: 'PicoClaw hylkäsi yhteyden',
+        upstreamClosed: "Yhteys PicoClaw'iin katkesi"
+      },
+      tool: {
+        screenshot: 'Otetaan kuvakaappaus',
+        loadImage: 'Katsotaan kuvakaappausta',
+        actions: 'Ohjataan isäntää',
+        generic: 'Käytetään: {{name}}',
+        type: 'Kirjoitetaan {{text}}',
+        hotkey: 'Painetaan {{keys}}',
+        click: 'Napsautetaan',
+        doubleClick: 'Kaksoisnapsautetaan',
+        move: 'Siirretään hiirtä',
+        drag: 'Vedetään',
+        scroll: 'Vieritetään',
+        wait: 'Odotetaan'
+      },
       message: {
         toolAction: 'Toiminto',
         observation: 'Havainto',
@@ -1033,8 +1053,7 @@ const fi = {
         installing: "Asennetaan PicoClaw'ta",
         success: 'PicoClaw asennettu onnistuneesti',
         failed: "PicoClaw'n asennus epäonnistui",
-        uninstalling: 'Poistetaan runtimea...',
-        uninstalled: 'Runtime poistettu onnistuneesti',
+        uninstalled: 'PicoClaw poistettu onnistuneesti',
         uninstallFailed: 'Poisto epäonnistui',
         requiredTitle: 'PicoClaw ei ole asennettu',
         requiredDescription: 'Asenna PicoClaw ennen PicoClaw-runtimen käynnistämistä.',
@@ -1058,18 +1077,18 @@ const fi = {
         menuLabel: 'Määritä malli',
         modelIdentifier: 'Mallin tunniste',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'API:n perus-URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API-avain',
         apiKeyPlaceholder: 'Syötä mallin API-avain',
+        apiKeyKeepPlaceholder: 'Jätä tyhjäksi säilyttääksesi nykyisen avaimen',
         save: 'Tallenna',
         saving: 'Tallennetaan',
         saved: 'Mallin määritys tallennettu',
         saveFailed: 'Mallin määrityksen tallennus epäonnistui',
-        invalid: 'Mallin tunniste, API Base URL ja API-avain vaaditaan'
+        invalid: 'Mallin tunniste, API:n perus-URL ja API-avain vaaditaan'
       },
       uninstall: {
-        menuLabel: 'Poista',
         confirmTitle: 'Poista PicoClaw',
         confirmContent:
           "Haluatko varmasti poistaa PicoClaw'n? Tämä poistaa suoritettavan tiedoston ja kaikki määritystiedostot.",
@@ -1090,7 +1109,8 @@ const fi = {
       },
       config: {
         startRuntime: 'Käynnistä PicoClaw',
-        stopRuntime: 'Pysäytä PicoClaw'
+        stopRuntime: 'Pysäytä PicoClaw',
+        stopConfirm: 'Pysäytetäänkö PicoClaw?'
       },
       start: {
         title: 'Käynnistä PicoClaw',

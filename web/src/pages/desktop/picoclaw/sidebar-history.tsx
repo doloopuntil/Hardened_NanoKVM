@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import { Button } from 'antd';
-import { Clock3Icon, MessageSquareTextIcon, Trash2Icon } from 'lucide-react';
+import { Clock3Icon, Loader2Icon, MessageSquareTextIcon, Trash2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import type { PicoclawSessionListItem } from '@/api/picoclaw.ts';
 import { confirm } from '@/lib/feedback.ts';
+
+import { EmptyState } from './empty-state.tsx';
 
 type SidebarHistoryProps = {
   sessions: PicoclawSessionListItem[];
@@ -52,16 +54,16 @@ export const SidebarHistory = ({
 
     if (sessions.length === 0) {
       return (
-        <div className="flex flex-1 flex-col items-center justify-center gap-2 px-6 text-center">
-          <Clock3Icon size={18} className="text-neutral-600" />
-          <span className="text-sm text-neutral-400">{t('picoclaw.history.emptyTitle')}</span>
-          <span className="text-xs text-neutral-600">{t('picoclaw.history.emptyDescription')}</span>
-        </div>
+        <EmptyState
+          icon={<Clock3Icon size={22} />}
+          title={t('picoclaw.history.emptyTitle')}
+          description={t('picoclaw.history.emptyDescription')}
+        />
       );
     }
 
     return (
-      <div className="picoclaw-sidebar-scrollbar box-border flex min-h-0 w-full flex-1 flex-col overflow-y-auto overflow-x-hidden px-3 py-3">
+      <div className="box-border flex min-h-0 w-full flex-1 flex-col overflow-y-auto overflow-x-hidden px-3 py-3">
         <div className="box-border w-full max-w-full space-y-2">
           {sessions.map((session) => {
             const isActive = session.id === activeSessionId;
@@ -86,10 +88,10 @@ export const SidebarHistory = ({
                   }
                 }}
                 className={[
-                  'group box-border flex w-full items-start gap-3 rounded-2xl border px-3 py-3 text-left transition-colors',
+                  'group box-border flex w-full items-start gap-3 rounded-2xl border border-solid px-3 py-3 text-left transition-colors',
                   isSwitching ? 'pointer-events-none opacity-60' : '',
                   isActive
-                    ? 'border-sky-400/30 bg-sky-400/10'
+                    ? 'border-blue-500/30 bg-blue-500/10'
                     : 'border-white/[0.06] bg-white/[0.03] hover:border-white/[0.1] hover:bg-white/[0.05]'
                 ].join(' ')}
               >
@@ -146,5 +148,15 @@ export const SidebarHistory = ({
     );
   }, [activeSessionId, isDeleting, isLoading, isSwitching, onDelete, onSelect, sessions, t]);
 
-  return <div className="flex min-h-0 flex-1 flex-col">{content}</div>;
+  return (
+    <div className="relative flex min-h-0 flex-1 flex-col">
+      {content}
+      {/* the cards are dimmed and locked while a conversation is being opened: say so */}
+      {isSwitching && (
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-center pt-6">
+          <Loader2Icon className="animate-spin text-neutral-300" size={24} />
+        </div>
+      )}
+    </div>
+  );
 };

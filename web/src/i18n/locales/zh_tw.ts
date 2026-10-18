@@ -936,7 +936,7 @@ const zh_tw = {
     },
     picoclaw: {
       title: 'PicoClaw 助理',
-      empty: '打開面板並啟動一個任務來開始',
+      empty: '描述一個任務即可開始',
       inputPlaceholder: '描述您希望 PicoClaw 執行的操作',
       newConversation: '新對話',
       processing: '正在處理...',
@@ -977,6 +977,26 @@ const zh_tw = {
           busy: '忙'
         }
       },
+      error: {
+        lockHeld: 'PicoClaw 正在另一個視窗中使用',
+        takenOver: '另一個視窗已接管 PicoClaw',
+        authFailed: 'PicoClaw 拒絕了連線',
+        upstreamClosed: '與 PicoClaw 的連線已中斷'
+      },
+      tool: {
+        screenshot: '正在擷取螢幕',
+        loadImage: '正在查看螢幕截圖',
+        actions: '正在控制主機',
+        generic: '正在使用 {{name}}',
+        type: '正在輸入 {{text}}',
+        hotkey: '正在按 {{keys}}',
+        click: '正在點擊',
+        doubleClick: '正在按兩下',
+        move: '正在移動滑鼠',
+        drag: '正在拖曳',
+        scroll: '正在捲動',
+        wait: '正在等待'
+      },
       message: {
         toolAction: '行動',
         observation: '觀察',
@@ -990,8 +1010,7 @@ const zh_tw = {
         installing: '正在安裝 PicoClaw',
         success: 'PicoClaw 安裝成功',
         failed: 'PicoClaw 安裝失敗',
-        uninstalling: '正在解除安裝 Runtime...',
-        uninstalled: 'Runtime 解除安裝成功',
+        uninstalled: 'PicoClaw 解除安裝成功',
         uninstallFailed: '解除安裝失敗',
         requiredTitle: 'PicoClaw 未安裝',
         requiredDescription: '在啟動 PicoClaw Runtime 之前，請先安裝 PicoClaw。',
@@ -1015,18 +1034,18 @@ const zh_tw = {
         menuLabel: '設定模型',
         modelIdentifier: '模型標識符',
         modelIdentifierPlaceholder: 'openai/gpt-5.4',
-        apiBase: 'API base URL',
+        apiBase: 'API 基礎 URL',
         apiBasePlaceholder: 'https://api.example.com/v1',
         apiKey: 'API Key',
         apiKeyPlaceholder: '請輸入模型 API Key',
+        apiKeyKeepPlaceholder: '留空則保留目前的金鑰',
         save: '儲存',
         saving: '儲存中',
         saved: '模型設定已儲存',
         saveFailed: '儲存模型設定失敗',
-        invalid: '模型標識、API Base URL 和 API Key 不能為空'
+        invalid: '模型標識、API 基礎 URL 和 API Key 不能為空'
       },
       uninstall: {
-        menuLabel: '解除安裝',
         confirmTitle: '解除安裝 PicoClaw',
         confirmContent: '您確定要解除安裝 PicoClaw 嗎？這將刪除可執行檔和所有設定檔。',
         confirmOk: '解除安裝'
@@ -1046,7 +1065,8 @@ const zh_tw = {
       },
       config: {
         startRuntime: '啟動 PicoClaw',
-        stopRuntime: '停止 PicoClaw'
+        stopRuntime: '停止 PicoClaw',
+        stopConfirm: '確定要停止 PicoClaw 嗎？'
       },
       start: {
         title: '啟動 PicoClaw',
