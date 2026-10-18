@@ -1,5 +1,5 @@
-# Hardened NanoKVM web UI
+# H-NanoKVM web UI
 
-The React frontend of Hardened NanoKVM. How to build, test and develop it is in
+The React frontend of H-NanoKVM. How to build, test and develop it is in
 [docs/development/web.md](../docs/development/web.md); the layout and copy rules
 are in [docs/development/web-ui-layout-rules.md](../docs/development/web-ui-layout-rules.md).

@@ -4,6 +4,7 @@ import { Helmet, HelmetData } from 'react-helmet-async';
 
 import { getWebTitle } from '@/api/vm.ts';
 import { existToken } from '@/lib/cookie.ts';
+import { HARDENED_NAME } from '@/lib/hardened.ts';
 import { webTitleAtom } from '@/jotai/settings.ts';
 
 type HeadProps = {
@@ -29,7 +30,7 @@ export const Head = ({ title = '', description = '' }: HeadProps = {}) => {
   return (
     <Helmet
       helmetData={helmetData}
-      title={webTitle ? webTitle : title ? `${title} - NanoKVM` : undefined}
+      title={webTitle ? webTitle : title ? `${title} - ${HARDENED_NAME}` : undefined}
       defaultTitle={webTitle}
     >
       <meta name="description" content={description} />

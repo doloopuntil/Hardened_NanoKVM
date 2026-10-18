@@ -242,7 +242,7 @@ export const Login = (): ReactElement => {
         >
           <div className="flex flex-col items-center justify-center pb-5">
             <div
-              className={`hardened-login-logo flex h-[96px] w-[260px] cursor-pointer items-center justify-center overflow-hidden rounded bg-white shadow-lg ${
+              className={`hardened-login-logo flex h-[72px] w-[300px] cursor-pointer items-center justify-center rounded ${
                 logoPressed ? 'hardened-login-logo--active' : ''
               }`}
               onClick={pressLogo}
@@ -254,8 +254,7 @@ export const Login = (): ReactElement => {
                 className="h-full w-full object-contain"
               />
             </div>
-            <div className="mt-3 text-lg font-semibold text-neutral-100">{HARDENED_NAME}</div>
-            <div className="mt-1 text-xs text-neutral-500">{displayVersion}</div>
+            <div className="mt-3 text-xs text-neutral-500">{displayVersion}</div>
           </div>
           {isSetup && (
             <div className="mb-5 flex flex-col gap-2 text-center">

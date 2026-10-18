@@ -1,10 +1,13 @@
-# Hardened NanoKVM
+# H-NanoKVM
 
 <p align="center">
-  <img src="web/public/hardened-logo.png" alt="Hardened NanoKVM logo" width="720">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="web/public/hardened-logo-dark.svg">
+    <img src="web/public/hardened-logo.svg" alt="H-NanoKVM logo" width="720">
+  </picture>
 </p>
 
-Hardened NanoKVM is a security-focused firmware for the
+H-NanoKVM (Hardened NanoKVM) is a security-focused firmware for the
 [Sipeed NanoKVM](https://github.com/sipeed/NanoKVM) (Cube Lite, Cube Full and
 PCIe, all SG2002 based). It keeps the NanoKVM hardware support, the native video
 pipeline and the familiar web UI, and replaces the rest: a Rust web server
@@ -20,7 +23,7 @@ updates, and a locked-down default configuration. It builds on
 
 ## Coming from sipeed/NanoKVM
 
-| | sipeed/NanoKVM | Hardened NanoKVM |
+| | sipeed/NanoKVM | H-NanoKVM |
 | --- | --- | --- |
 | Web server | Go (`server/`) | Rust (`server-rust/`), same API and UI |
 | Base system | Vendor SDK, Buildroot 2023.11, Linux 5.10.4 | Buildroot 2026.05.1, Linux 5.10.265 with kernel hardening |
@@ -99,7 +102,7 @@ docs/               Documentation
 
 ## Hardware
 
-Hardened NanoKVM runs on the SG2002-based NanoKVM Cube Lite, Cube Full and PCIe.
+H-NanoKVM runs on the SG2002-based NanoKVM Cube Lite, Cube Full and PCIe.
 It does not support the NanoKVM Pro or NanoKVM-USB. Hardware documentation,
 schematics and the original images are on the
 [Sipeed wiki](https://wiki.sipeed.com/hardware/en/kvm/NanoKVM/introduction.html)
