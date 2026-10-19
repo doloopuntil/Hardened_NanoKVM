@@ -29,8 +29,6 @@ type KvmvReadImg = unsafe extern "C" fn(u16, u16, u8, u16, *mut *mut u8, *mut u3
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
 type FreeKvmvData = unsafe extern "C" fn(*mut *mut u8) -> i32;
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
-type SetH264Gop = unsafe extern "C" fn(u8);
-#[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
 type KvmvSetH264Fps = unsafe extern "C" fn(u8);
 #[cfg(not(all(target_arch = "riscv64", feature = "linked-libkvm")))]
 type KvmvRequestKeyframe = unsafe extern "C" fn();
@@ -87,11 +85,6 @@ pub fn set_frame_detect(frame: u8) -> Result<()> {
     Ok(())
 }
 
-pub fn set_h264_gop(gop: u8) -> Result<()> {
-    vision()?.lock().map_err(lock_error)?.set_h264_gop(gop);
-    Ok(())
-}
-
 pub fn set_hdmi(enabled: bool) -> Result<u8> {
     Ok(vision()?.lock().map_err(lock_error)?.set_hdmi(enabled))
 }
@@ -141,8 +134,6 @@ unsafe extern "C" {
         data_size: *mut u32,
     ) -> i32;
     fn free_kvmv_data(data: *mut *mut u8) -> i32;
-    #[link_name = "set_h264_gop"]
-    fn kvm_set_h264_gop(gop: u8);
     #[link_name = "set_frame_detact"]
     fn kvm_set_frame_detect(frame: u8);
     fn kvmv_deinit();
@@ -238,13 +229,6 @@ impl KvmVision {
         }
     }
 
-    fn set_h264_gop(&self, gop: u8) {
-        // SAFETY: Direct binding matches server-rust/native/include/kvm_vision.h.
-        unsafe {
-            kvm_set_h264_gop(gop);
-        }
-    }
-
     fn set_h264_fps(&self, fps: u8) {
         // SAFETY: Direct binding matches server-rust/native/include/kvm_vision.h.
         unsafe {
@@ -305,7 +289,6 @@ struct KvmVision {
     _lib: Library,
     read_img: KvmvReadImg,
     free_data: FreeKvmvData,
-    set_h264_gop: SetH264Gop,
     set_h264_fps: Option<KvmvSetH264Fps>,
     set_frame_detect: SetFrameDetect,
     deinit: KvmvDeinit,
@@ -326,7 +309,6 @@ impl KvmVision {
         let init = unsafe { lib.symbol::<KvmvInit>("kvmv_init")? };
         let read_img = unsafe { lib.symbol::<KvmvReadImg>("kvmv_read_img")? };
         let free_data = unsafe { lib.symbol::<FreeKvmvData>("free_kvmv_data")? };
-        let set_h264_gop = unsafe { lib.symbol::<SetH264Gop>("set_h264_gop")? };
         let set_frame_detect = unsafe { lib.symbol::<SetFrameDetect>("set_frame_detact")? };
         let deinit = unsafe { lib.symbol::<KvmvDeinit>("kvmv_deinit")? };
         let hdmi_control = unsafe { lib.symbol::<KvmvHdmiControl>("kvmv_hdmi_control")? };
@@ -342,7 +324,6 @@ impl KvmVision {
             _lib: lib,
             read_img,
             free_data,
-            set_h264_gop,
             set_h264_fps,
             set_frame_detect,
             deinit,
@@ -380,13 +361,6 @@ impl KvmVision {
         // SAFETY: Function pointer is loaded from libkvm.so and accepts a plain u8.
         unsafe {
             (self.set_frame_detect)(frame);
-        }
-    }
-
-    fn set_h264_gop(&self, gop: u8) {
-        // SAFETY: Function pointer is loaded from libkvm.so and accepts a plain u8.
-        unsafe {
-            (self.set_h264_gop)(gop);
         }
     }
 

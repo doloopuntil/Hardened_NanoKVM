@@ -12,7 +12,6 @@ import { MenuHeader } from '@/components/menu-rows.tsx';
 import { BitRateMap, QualityMap } from './constants.ts';
 import { Fps } from './fps';
 import { FrameDetect } from './frame-detect';
-import { Gop } from './gop.tsx';
 import { Quality } from './quality';
 import { Reset } from './reset.tsx';
 import { Resolution } from './resolution';
@@ -26,7 +25,6 @@ export const Screen = () => {
   const resolution = useAtomValue(resolutionAtom);
   const [fps, setFps] = useState(30);
   const [quality, setQuality] = useState(2);
-  const [gop, setGop] = useState(30);
 
   useEffect(() => {
     updateScreen('type', videoMode === 'mjpeg' ? 0 : 1);
@@ -35,7 +33,6 @@ export const Screen = () => {
     }
     updateQuality();
     updateFps();
-    updateGop();
   }, []);
 
   async function updateQuality() {
@@ -61,16 +58,6 @@ export const Screen = () => {
     }
   }
 
-  async function updateGop() {
-    const cookieGop = ls.getGop();
-    if (!cookieGop) return;
-
-    const rsp = await updateScreen('gop', cookieGop);
-    if (rsp.code === 0) {
-      setGop(cookieGop);
-    }
-  }
-
   const content = (
     <div className="min-w-[200px]">
       <MenuHeader title={t('screen.title')} />
@@ -81,7 +68,6 @@ export const Screen = () => {
         <Quality quality={quality} setQuality={setQuality} />
         <Fps fps={fps} setFps={setFps} />
         <Scale />
-        {videoMode !== 'mjpeg' && <Gop gop={gop} setGop={setGop} />}
         {videoMode === 'mjpeg' && <FrameDetect />}
         <Reset />
       </div>

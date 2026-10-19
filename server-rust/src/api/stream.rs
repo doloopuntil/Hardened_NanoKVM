@@ -47,7 +47,6 @@ const SCREEN_TYPE_FILE: &str = "/kvmapp/kvm/type";
 const SCREEN_FPS_FILE: &str = "/kvmapp/kvm/fps";
 const SCREEN_QUALITY_FILE: &str = "/kvmapp/kvm/qlty";
 const SCREEN_RESOLUTION_FILE: &str = "/kvmapp/kvm/res";
-const SCREEN_GOP_FILE: &str = "/kvmapp/kvm/gop";
 const H264_SAFE_MODE_FILE: &str = "/etc/kvm/h264_safe_mode";
 const MJPEG_FAILURE_LIMIT: usize = 3;
 const MJPEG_FAILURE_BACKOFF: Duration = Duration::from_millis(500);
@@ -95,7 +94,6 @@ struct Screen {
     fps: u64,
     quality: u16,
     bit_rate: u16,
-    gop: u8,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -442,7 +440,6 @@ impl Default for Screen {
             fps: 30,
             quality: 80,
             bit_rate: 3000,
-            gop: 30,
         };
 
         if matches!(read_trimmed(SCREEN_TYPE_FILE).as_deref(), Some("h264")) {
@@ -456,11 +453,6 @@ impl Default for Screen {
         }
         if let Some(value) = read_i32(SCREEN_FPS_FILE) {
             screen.fps = validate_fps(value);
-        }
-        if let Some(value) = read_i32(SCREEN_GOP_FILE).and_then(|value| u8::try_from(value).ok()) {
-            if (1..=100).contains(&value) {
-                screen.gop = value;
-            }
         }
 
         screen
@@ -866,13 +858,6 @@ pub fn set_screen_value(kind: &str, value: i32) -> Result<()> {
         "fps" => {
             screen.fps = validate_fps(value);
             write_screen_file(SCREEN_FPS_FILE, &value.to_string())?;
-        }
-        "gop" => {
-            let gop = u8::try_from(value).unwrap_or(30);
-            let gop = if (1..=100).contains(&gop) { gop } else { 30 };
-            screen.gop = gop;
-            kvm::set_h264_gop(gop)?;
-            write_screen_file(SCREEN_GOP_FILE, &gop.to_string())?;
         }
         _ => return Err(AppError::BadRequest(format!("invalid screen type {kind}"))),
     }
@@ -1303,7 +1288,6 @@ mod tests {
             fps: 30,
             quality: 80,
             bit_rate: 3000,
-            gop: 30,
         };
         normalize_screen(&mut screen);
 
@@ -1320,7 +1304,6 @@ mod tests {
             fps: 30,
             quality: 80,
             bit_rate: 3000,
-            gop: 30,
         };
 
         normalize_screen(&mut screen);

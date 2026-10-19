@@ -1609,8 +1609,6 @@ int jpg_dump(kvmv_data_t* dump_to, image::Image *raw)
 	return 0;
 }
 
-// 0: h264_idr_seconds at the stream fps; otherwise the GOP the user chose.
-static std::atomic<uint8_t> kvmvenc_gop{0};
 static std::atomic<uint8_t> kvmvenc_fps{default_h264_fps};
 static std::atomic<bool> keyframe_requested{false};
 static uint64_t last_requested_idr_ms = 0;  // under vi_mutex
@@ -1626,8 +1624,7 @@ static uint64_t monotonic_ms()
 
 static int h264_gop_for_fps(int fps)
 {
-    uint8_t gop = kvmvenc_gop.load(std::memory_order_relaxed);
-    return gop != 0 ? gop : fps * h264_idr_seconds;
+    return fps * h264_idr_seconds;
 }
 
 void init_venc_h264(uint16_t _width, uint16_t _height, uint16_t _qlty, int _fps)
@@ -1712,13 +1709,6 @@ int h264_stream_dump(kvmv_data_t* dump_to, mmf_stream_t* dump_from)
         debug("[kvmv]venc error!\r\n");
         return IMG_VENC_ERROR;
     }
-}
-
-// The capture path rebuilds the encoder when the GOP changes.
-void set_h264_gop(uint8_t _gop)
-{
-    kvmvenc_gop.store(maxmin_data(100, 1, (int)_gop), std::memory_order_relaxed);
-    debug("[kvmv] set_h264_gop = %d\n", kvmvenc_gop.load(std::memory_order_relaxed));
 }
 
 // The capture path rebuilds the encoder when the fps changes.

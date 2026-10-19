@@ -341,7 +341,6 @@ ensure_kvm_state_files() {
     # keeps listening on TCP but stops answering HTTP. Always boot into MJPEG;
     # users can still select H.264 explicitly after the UI is reachable.
     printf 'mjpeg\n' > /kvmapp/kvm/type
-    [ -f /kvmapp/kvm/gop ] || printf '50\n' > /kvmapp/kvm/gop
     [ -f /kvmapp/kvm/state ] || printf '0\n' > /kvmapp/kvm/state
     [ -f /kvmapp/kvm/width ] || printf '1920\n' > /kvmapp/kvm/width
     [ -f /kvmapp/kvm/height ] || printf '1080\n' > /kvmapp/kvm/height

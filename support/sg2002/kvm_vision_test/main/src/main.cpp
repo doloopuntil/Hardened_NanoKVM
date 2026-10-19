@@ -18,7 +18,6 @@ int main(int argc, char* argv[])
 	kvmv_hdmi_control(1);
 
 	kvmv_init(0);
-	set_h264_gop(30);
 
 	uint16_t get_fream_count = 0;
 
