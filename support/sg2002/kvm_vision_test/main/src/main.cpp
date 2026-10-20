@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 
 	kvmv_init(0);
 
-	uint16_t get_fream_count = 0;
+	uint16_t get_frame_count = 0;
 
 	while(!app::need_exit()){
 #ifdef NOT_GET_IMG
@@ -30,17 +30,17 @@ int main(int argc, char* argv[])
 		uint32_t kvmv_img_data_size = 0;
 		int ret = IMG_NOT_EXIST;
 
-		printf("KVM-Vison Get Fream ...\n");
+		printf("KVM-Vision Get Frame ...\n");
 		
 		start_time = time::time_ms();
-		if(get_fream_count < 1){
-			get_fream_count ++;
+		if(get_frame_count < 1){
+			get_frame_count ++;
 			ret = kvmv_read_img(1920, 1080, 1, 3000, &p_kvmv_img_data, &kvmv_img_data_size);
-		} else if(get_fream_count >= 1 && get_fream_count < 2){
-			get_fream_count ++;
+		} else if(get_frame_count >= 1 && get_frame_count < 2){
+			get_frame_count ++;
 			ret = kvmv_read_img(0, 0, 0, 60, &p_kvmv_img_data, &kvmv_img_data_size);
 		} else {
-			get_fream_count = 0;
+			get_frame_count = 0;
 			continue;
 		}
 		
