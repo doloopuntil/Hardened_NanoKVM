@@ -157,6 +157,19 @@ boot, with none of them on the library path.
 The checked-in `libkvm.so` still lists them as `NEEDED`; CI replaces both
 `libkvm*.so` files with fresh builds that do not.
 
+## Middleware built from source
+
+CI builds `libsys.so`, `libvenc.so`, `libvdec.so`, `libvpu.so` and
+`libini.so` from the vendor SDK's `middleware/v2` source with
+`scripts/build-sdk-middleware.sh`, and ships those instead of the checked-in
+copies. The checked-in copies are MaixCDK's prebuilts: the source build must
+keep every symbol they export. It compiles against the SDK `osdrv` uapi
+headers, which are byte-identical to the `uapi/` copy those prebuilts were
+built with, so the driver interface is unchanged. The SDK source is slightly
+newer than MaixCDK's:
+- `libsys` adds `ionFree2`;
+- `libvpu` starts the VI debug thread only when `VI_DBG_HANDLER_ENABLE` is set.
+
 ## dl_lib's CVI/ISP/audio middleware: no longer extracted from raw.12
 
 The ~32 CVI/ISP/audio middleware libraries checked into this directory
