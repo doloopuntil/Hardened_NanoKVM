@@ -16,9 +16,12 @@ use std::{
     os::unix::fs::{OpenOptionsExt, PermissionsExt},
     path::{Path, PathBuf},
     sync::{LazyLock, Mutex},
-    time::Duration,
+    time::{Duration, Instant},
 };
-use tokio::{io::AsyncWriteExt, sync::watch};
+use tokio::{
+    io::{AsyncWriteExt, BufWriter},
+    sync::watch,
+};
 use url::Url;
 
 use crate::{
@@ -48,6 +51,9 @@ const SHA256_HEADER: &str = "x-sha256-sum";
 const CHECKSUM_QUEUE_CHUNKS: usize = 8;
 const SHA256_MISMATCH: &str = "sha256 mismatch";
 const REMOTE_PROGRESS_INTERVAL: Duration = Duration::from_secs(1);
+const UPLOAD_PROGRESS_INTERVAL: Duration = Duration::from_secs(1);
+// Batches the ~16 KiB request chunks into fewer blocking-pool writes.
+const UPLOAD_WRITE_BUFFER: usize = 256 * 1024;
 const CANCELED_CODE: i32 = -499;
 
 /// Image whose remote download failed the checksum; reported once by the status
@@ -228,8 +234,9 @@ pub async fn upload_image_file(
         let target = safe_upload_target(&state.config.paths.image_directory, &filename)?;
         ensure_not_mounted(&target)?;
         let mut temp = TempUpload::create(&state.config.paths.image_directory, &filename)?;
-        let mut file = temp.open()?;
+        let mut file = BufWriter::with_capacity(UPLOAD_WRITE_BUFFER, temp.open()?);
         let mut total = 0_usize;
+        let mut reported = Instant::now();
         let checksum = expected_sha256.map(|_| ChecksumWorker::spawn());
         let mut field = field;
 
@@ -246,7 +253,10 @@ pub async fn upload_image_file(
                 worker.feed(chunk.clone()).await?;
             }
             file.write_all(&chunk).await?;
-            guard.update(&filename, total as u64, content_length)?;
+            if reported.elapsed() >= UPLOAD_PROGRESS_INTERVAL {
+                guard.update(&filename, total as u64, content_length)?;
+                reported = Instant::now();
+            }
         }
         file.flush().await?;
         drop(file);

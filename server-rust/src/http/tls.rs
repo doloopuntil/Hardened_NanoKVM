@@ -13,7 +13,11 @@ use axum::{
     serve::{IncomingStream, Listener},
 };
 use rcgen::{CertifiedKey, generate_simple_self_signed};
-use tokio::{net::TcpListener, time};
+use tokio::{
+    net::{TcpListener, TcpStream},
+    sync::mpsc,
+    time,
+};
 use tokio_rustls::{
     TlsAcceptor,
     rustls::{
@@ -30,9 +34,13 @@ use crate::{AppError, Result};
 #[derive(Debug, Clone, Copy)]
 pub struct ClientAddr(pub SocketAddr);
 
+/// A client gets this long to finish its handshake before the connection is dropped.
+const TLS_HANDSHAKE_TIMEOUT: Duration = Duration::from_secs(10);
+const READY_QUEUE: usize = 16;
+
 pub struct TlsListener {
-    listener: TcpListener,
-    acceptor: TlsAcceptor,
+    local_addr: SocketAddr,
+    ready: mpsc::Receiver<(TlsStream<TcpStream>, SocketAddr)>,
 }
 
 impl Connected<IncomingStream<'_, TcpListener>> for ClientAddr {
@@ -42,40 +50,63 @@ impl Connected<IncomingStream<'_, TcpListener>> for ClientAddr {
 }
 
 impl TlsListener {
-    pub fn new(listener: TcpListener, config: ServerConfig) -> Self {
-        Self {
+    /// Handshakes run in their own tasks, so a slow or silent client does not hold
+    /// up the connections behind it.
+    pub fn new(listener: TcpListener, config: ServerConfig) -> io::Result<Self> {
+        let local_addr = listener.local_addr()?;
+        let (tx, ready) = mpsc::channel(READY_QUEUE);
+        tokio::spawn(accept_loop(
             listener,
-            acceptor: TlsAcceptor::from(Arc::new(config)),
-        }
+            TlsAcceptor::from(Arc::new(config)),
+            tx,
+        ));
+        Ok(Self { local_addr, ready })
+    }
+}
+
+async fn accept_loop(
+    listener: TcpListener,
+    acceptor: TlsAcceptor,
+    ready: mpsc::Sender<(TlsStream<TcpStream>, SocketAddr)>,
+) {
+    while !ready.is_closed() {
+        let (stream, addr) = match listener.accept().await {
+            Ok(stream) => stream,
+            Err(err) => {
+                warn!(error = ?err, "failed to accept tcp connection");
+                time::sleep(Duration::from_secs(1)).await;
+                continue;
+            }
+        };
+
+        let acceptor = acceptor.clone();
+        let ready = ready.clone();
+        tokio::spawn(async move {
+            match time::timeout(TLS_HANDSHAKE_TIMEOUT, acceptor.accept(stream)).await {
+                Ok(Ok(stream)) => {
+                    let _ = ready.send((stream, addr)).await;
+                }
+                Ok(Err(err)) => warn!(%addr, error = ?err, "failed to accept tls connection"),
+                Err(_) => warn!(%addr, "tls handshake timed out"),
+            }
+        });
     }
 }
 
 impl Listener for TlsListener {
-    type Io = TlsStream<tokio::net::TcpStream>;
+    type Io = TlsStream<TcpStream>;
     type Addr = SocketAddr;
 
     async fn accept(&mut self) -> (Self::Io, Self::Addr) {
-        loop {
-            let (stream, addr) = match self.listener.accept().await {
-                Ok(stream) => stream,
-                Err(err) => {
-                    warn!(error = ?err, "failed to accept tcp connection");
-                    time::sleep(Duration::from_secs(1)).await;
-                    continue;
-                }
-            };
-
-            match self.acceptor.accept(stream).await {
-                Ok(stream) => return (stream, addr),
-                Err(err) => {
-                    warn!(%addr, error = ?err, "failed to accept tls connection");
-                }
-            }
+        match self.ready.recv().await {
+            Some(conn) => conn,
+            // The accept loop only ends once this receiver is gone.
+            None => std::future::pending().await,
         }
     }
 
     fn local_addr(&self) -> io::Result<Self::Addr> {
-        self.listener.local_addr()
+        Ok(self.local_addr)
     }
 }
 
@@ -255,5 +286,44 @@ mod tests {
     async fn a_client_without_chacha20_still_gets_aes_gcm() {
         let suite = negotiated_suite(&[CipherSuite::TLS13_AES_128_GCM_SHA256]).await;
         assert_eq!(suite, CipherSuite::TLS13_AES_128_GCM_SHA256);
+    }
+
+    #[tokio::test]
+    async fn a_silent_client_does_not_hold_up_other_handshakes() {
+        use tokio_rustls::{
+            TlsConnector,
+            rustls::{ClientConfig, RootCertStore, pki_types::ServerName},
+        };
+
+        install_crypto_provider();
+        let dir = tempfile::tempdir().unwrap();
+        let cert = dir.path().join("server.crt");
+        let key = dir.path().join("server.key");
+        generate_self_signed_cert(&cert, &key).unwrap();
+        let tcp = TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let addr = tcp.local_addr().unwrap();
+        let mut listener = TlsListener::new(tcp, load_server_config(&cert, &key).unwrap()).unwrap();
+
+        let mut roots = RootCertStore::empty();
+        for der in CertificateDer::pem_file_iter(&cert).unwrap() {
+            roots.add(der.unwrap()).unwrap();
+        }
+        let client = ClientConfig::builder()
+            .with_root_certificates(roots)
+            .with_no_client_auth();
+
+        // Connects first and never sends a ClientHello.
+        let _silent = TcpStream::connect(addr).await.unwrap();
+        let handshake = tokio::spawn(async move {
+            let stream = TcpStream::connect(addr).await.unwrap();
+            TlsConnector::from(Arc::new(client))
+                .connect(ServerName::try_from("localhost").unwrap(), stream)
+                .await
+                .unwrap()
+        });
+
+        let accepted = time::timeout(Duration::from_secs(5), listener.accept()).await;
+        assert!(accepted.is_ok(), "the silent client blocked the handshake");
+        handshake.await.unwrap();
     }
 }

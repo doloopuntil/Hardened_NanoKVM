@@ -514,7 +514,7 @@ start_watchdog() {
             # without the server being hung, so allow more time and more misses.
             if transfer_in_progress; then
                 check_time=10
-                max_failures=12
+                max_failures=6
                 in_transfer=1
             else
                 check_time=3
@@ -524,9 +524,13 @@ start_watchdog() {
                 in_transfer=0
             fi
 
+            marker_before=$(cat "$TRANSFER_MARKER" 2>/dev/null)
             check_start=$(date +%s)
             if health_check "$check_time"; then
                 failures=0
+            elif [ "$in_transfer" = 1 ] && [ "$(cat "$TRANSFER_MARKER" 2>/dev/null)" != "$marker_before" ]; then
+                # The server moved the transfer on during the check, so it is not hung.
+                runtime_log "NanoKVM-Server health check missed during an active transfer; not counted"
             else
                 failures=$((failures + 1))
                 runtime_log "NanoKVM-Server health check failed ($failures/$max_failures)"
