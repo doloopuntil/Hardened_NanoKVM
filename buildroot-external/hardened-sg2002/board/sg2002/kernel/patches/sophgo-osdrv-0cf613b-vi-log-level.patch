@@ -1,0 +1,13 @@
+diff --git a/interdrv/v2/vi/chip/cv181x/vi.c b/interdrv/v2/vi/chip/cv181x/vi.c
+index 5b43ee7f..af8f8c34 100644
+--- a/interdrv/v2/vi/chip/cv181x/vi.c
++++ b/interdrv/v2/vi/chip/cv181x/vi.c
+@@ -52,7 +52,7 @@
+ /*******************************************************
+  *  Global variables
+  ******************************************************/
+-u32 vi_log_lv = VI_ERR | VI_WARN | VI_NOTICE | VI_INFO | VI_DBG;
++u32 vi_log_lv = 0;
+ module_param(vi_log_lv, int, 0644);
+ 
+ #ifdef PORTING_TEST //test only
