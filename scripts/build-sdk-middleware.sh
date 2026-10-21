@@ -39,7 +39,8 @@ cp "$SDK_DIR"/osdrv/interdrv/v2/include/common/uapi/linux/* "$KINC/linux/"
 cp "$SDK_DIR"/osdrv/interdrv/v2/include/chip/mars/uapi/linux/* "$KINC/linux/"
 cp "$SDK_DIR"/linux_5.10/drivers/staging/android/uapi/ion*.h "$KINC/linux/"
 
-CFLAGS="$OPT_FLAGS -mcpu=c906fdv -march=rv64imafdcv0p7xthead -mcmodel=medany -mabi=lp64d"
+# No vector extension: nothing we ship needs XTheadVector.
+CFLAGS="$OPT_FLAGS -mcpu=c906fd -march=rv64imafdcxthead -mcmodel=medany -mabi=lp64d"
 CFLAGS="$CFLAGS -std=gnu11 -fPIC -ffunction-sections -fdata-sections -mno-ldd"
 CFLAGS="$CFLAGS -DARCH_SG200X -D__SOC_MARS__ -ffile-prefix-map=$SDK_DIR=/usr/src/sdk"
 MW_INC=$MW/include

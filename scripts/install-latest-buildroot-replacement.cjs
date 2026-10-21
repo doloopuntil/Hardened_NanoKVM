@@ -496,7 +496,7 @@ printf 'SYSLOG_CMDLINE=%s\\n' "$(tr '\\0' ' ' < "/proc/$SYSLOG_PID/cmdline" 2>/d
 	for PROC in /proc/[0-9]*; do
 	  CMD="$(tr '\\0' ' ' < "$PROC/cmdline" 2>/dev/null || true)"
 	  case "$CMD" in
-	    /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PROCESS_COUNT=$((KVM_PROCESS_COUNT + 1)); KVM_PID="\${PROC##*/}" ;;
+	    /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PROCESS_COUNT=$((KVM_PROCESS_COUNT + 1)); KVM_PID="\${PROC##*/}" ;;
 	  esac
 	done
 	printf 'KVM_SYSTEM_PID=%s\\n' "$KVM_PID"
@@ -507,7 +507,7 @@ if [ -n "$KVM_PID" ]; then
 else
   printf 'KVM_SYSTEM_THREADS=0\\n'
 fi
-/lib/ld-musl-riscv64v0p7_xthead.so.1 --library-path \
+/lib/ld-musl-riscv64xthead.so.1 --library-path \
   /kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd \
   --list /tmp/kvm_system/kvm_system >/tmp/hardened-kvm-system-postflight.txt 2>&1
 printf 'KVM_SYSTEM_LIST_RC=0\\n'

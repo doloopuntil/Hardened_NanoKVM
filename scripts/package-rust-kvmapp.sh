@@ -113,7 +113,7 @@ rm -f "$KVMAPP_STAGE/kvm_system/kvm_stream" \
 restore_kvm_system_helper
 
 if readelf -d "$KVMAPP_STAGE/kvm_system/kvm_system" 2>/dev/null | grep -Eq '\((RPATH|RUNPATH)\)'; then
-  echo "kvm_system must not contain RPATH/RUNPATH; Buildroot target sanitization corrupts this vendor v0p7 ELF" >&2
+  echo "kvm_system must not contain RPATH/RUNPATH; Buildroot target sanitization corrupts this vendor xthead ELF" >&2
   exit 1
 fi
 

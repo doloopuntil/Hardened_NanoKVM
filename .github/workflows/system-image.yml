@@ -210,6 +210,13 @@ jobs:
           cp /tmp/lt6911_sensor_ctl.c.patched "$LT6911_FILE"
           ! grep -q "LT6911_CHIP_ID_ADDR_H)" "$LT6911_FILE"
 
+      # Nothing we ship needs XTheadVector: build for the scalar xthead multilib and loader.
+      - name: Build MaixCDK projects without the vector extension
+        run: |
+          YAML="$HOME/MaixCDK/platforms/maixcam.yaml"
+          sed -i 's/-mcpu=c906fdv -march=rv64imafdcv0p7xthead/-mcpu=c906fd -march=rv64imafdcxthead/g' "$YAML"
+          ! grep -q v0p7 "$YAML"
+
       # Only the middleware sources and the uapi headers it compiles against.
       - name: Fetch the SDK middleware source
         run: |
@@ -315,7 +322,8 @@ jobs:
       - name: Check kvm_system's loader and libraries
         run: |
           BIN="$GITHUB_WORKSPACE/build/native-libkvm/kvm_system"
-          readelf -l "$BIN" | grep -q "interpreter: /lib/ld-musl-riscv64v0p7_xthead.so.1"
+          readelf -l "$BIN" | grep -q "interpreter: /lib/ld-musl-riscv64xthead.so.1"
+          ! readelf -A "$BIN" | grep -q v0p7
           for lib in $(patchelf --print-needed "$BIN"); do
             case "$lib" in
               libstdc++.so.6|libgcc_s.so.1|libc.so) ;;
@@ -885,9 +893,6 @@ jobs:
             /lib64xthead/lp64d/libatomic.so.1.2.0 /lib64v0p7_xthead/lp64d/libatomic.so.1.2.0
           scripts/extract-vendor-sdk-stock-file.sh \
             "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" /lib/ld-musl-riscv64xthead.so.1
-          scripts/extract-vendor-sdk-stock-file.sh \
-            "$RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" \
-            /lib/ld-musl-riscv64v0p7_xthead.so.1
           scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/system/usr/lib/libsns_lt6911.so" \
             /mnt/system/usr/lib/libsns_lt6911.so
 

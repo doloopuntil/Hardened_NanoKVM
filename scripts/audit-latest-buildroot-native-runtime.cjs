@@ -69,7 +69,7 @@ KVM_PID=''
 for PROC in /proc/[0-9]*; do
   CMD="$(tr '\\0' ' ' < "$PROC/cmdline" 2>/dev/null || true)"
   case "$CMD" in
-    /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PID="\${PROC##*/}"; break ;;
+    /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PID="\${PROC##*/}"; break ;;
   esac
 done
 
@@ -90,7 +90,7 @@ rm -f /tmp/hardened-backend-list.txt
 printf 'BACKEND_LIST_END\\n'
 printf 'BACKEND_LIST_RC=%s\\n' "$BACKEND_LIST_RC"
 printf 'KVM_SYSTEM_LIST_BEGIN\\n'
-/lib/ld-musl-riscv64v0p7_xthead.so.1 --library-path "$LIBPATH" --list /tmp/kvm_system/kvm_system >/tmp/hardened-kvm-system-list.txt 2>&1
+/lib/ld-musl-riscv64xthead.so.1 --library-path "$LIBPATH" --list /tmp/kvm_system/kvm_system >/tmp/hardened-kvm-system-list.txt 2>&1
 KVM_SYSTEM_LIST_RC=$?
 cat /tmp/hardened-kvm-system-list.txt
 rm -f /tmp/hardened-kvm-system-list.txt

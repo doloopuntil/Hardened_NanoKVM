@@ -89,8 +89,6 @@ extract_library /lib/libc.so \
 	libc.so fbc494806cad67edbf4584221bdc481593fa04b317d9405cf3418aad9a9500c4
 extract_file /lib/ld-musl-riscv64xthead.so.1 \
 	"$OUTPUT_DIR/loaders/ld-musl-riscv64xthead.so.1" e966ce689d386af715ec2ca558a90661731cd875192af91749b52475629cb7d2
-extract_file /lib/ld-musl-riscv64v0p7_xthead.so.1 \
-	"$OUTPUT_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" 8e4f81c0280b2337abea47bf151259f6fa3bf3261578dee8bba30f83c60fe7e8
 
 find "$OUTPUT_DIR" -type f -exec touch -d '@0' {} +
 find "$OUTPUT_DIR" -type d -exec touch -d '@0' {} +
