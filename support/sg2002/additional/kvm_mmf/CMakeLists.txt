@@ -62,6 +62,8 @@ set_property(SOURCE ${middleware_dynamic_lib_file} PROPERTY GENERATED 1)
 
 list(APPEND ADD_DEFINITIONS_PRIVATE -DSENSOR_LONTIUM_LT6911
                                 -DSENSOR2_TYPE=LONTIUM_LT6911_2M_60FPS_8BIT)
+# Video path: speed over the MinSizeRel default (-Os).
+list(APPEND ADD_DEFINITIONS_PRIVATE -O2)
 
 
 register_component(DYNAMIC)

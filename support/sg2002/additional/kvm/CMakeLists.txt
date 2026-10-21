@@ -1,6 +1,8 @@
 list(APPEND ADD_REQUIREMENTS vision basic peripheral)
 list(APPEND ADD_INCLUDE "include")
 list(APPEND ADD_LINK_DEFINITIONS_PRIVATE -Wl,--as-needed)
+# Video path: speed over the MinSizeRel default (-Os).
+list(APPEND ADD_DEFINITIONS_PRIVATE -O2)
 
 append_srcs_dir(ADD_SRCS "src")
 

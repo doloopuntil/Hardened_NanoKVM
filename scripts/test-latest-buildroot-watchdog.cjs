@@ -143,7 +143,7 @@ WATCHDOG_PID="$(cat /tmp/nanokvm-watchdog.pid)"
 KVM_PID=''
 for PROC in /proc/[0-9]*; do
   CMD="$(tr '\0' ' ' < "$PROC/cmdline" 2>/dev/null || true)"
-  case "$CMD" in /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PID="$(basename "$PROC")"; break ;; esac
+  case "$CMD" in /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PID="$(basename "$PROC")"; break ;; esac
 done
 kill -0 "$BACKEND_PID"
 kill -0 "$WATCHDOG_PID"
@@ -185,7 +185,7 @@ WATCHDOG_PID="$(cat /tmp/nanokvm-watchdog.pid)"
 KVM_PID=''
 for PROC in /proc/[0-9]*; do
   CMD="$(tr '\0' ' ' < "$PROC/cmdline" 2>/dev/null || true)"
-  case "$CMD" in /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PID="$(basename "$PROC")"; break ;; esac
+  case "$CMD" in /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PID="$(basename "$PROC")"; break ;; esac
 done
 kill -0 "$BACKEND_PID"
 kill -0 "$WATCHDOG_PID"

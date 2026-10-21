@@ -193,7 +193,7 @@ KVM_PROCESS_COUNT=0
 for PROC in /proc/[0-9]*; do
   CMD="$(tr '\\0' ' ' < "$PROC/cmdline" 2>/dev/null || true)"
   case "$CMD" in
-    /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PROCESS_COUNT=$((KVM_PROCESS_COUNT + 1)); KVM_PID="\${PROC##*/}" ;;
+    /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PROCESS_COUNT=$((KVM_PROCESS_COUNT + 1)); KVM_PID="\${PROC##*/}" ;;
   esac
 done
 test -n "$KVM_PID"
@@ -222,7 +222,7 @@ printf 'MODULE_JPEG=%s\\n' "$(grep -q '^soph_jpeg ' /proc/modules && echo loaded
 printf 'MODULE_VC_DRIVER=%s\\n' "$(grep -q '^soph_vc_driver ' /proc/modules && echo loaded || echo missing)"
 printf 'DNS_TOTAL=%s\\n' "$(awk '$1 == \"nameserver\" { count++ } END { print count + 0 }' /etc/resolv.conf)"
 printf 'DNS_UNIQUE=%s\\n' "$(awk '$1 == \"nameserver\" { seen[$2]=1 } END { for (item in seen) count++; print count + 0 }' /etc/resolv.conf)"
-/lib/ld-musl-riscv64v0p7_xthead.so.1 --library-path \
+/lib/ld-musl-riscv64xthead.so.1 --library-path \
   /kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd \
   --list /tmp/kvm_system/kvm_system >/tmp/hardened-kvm-system-reboot-soak.txt 2>&1
 printf 'KVM_SYSTEM_LIST_RC=0\\n'

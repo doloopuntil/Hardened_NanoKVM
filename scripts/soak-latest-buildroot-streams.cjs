@@ -214,7 +214,7 @@ KVM_COUNT=0
 for PROC in /proc/[0-9]*; do
   CMD="$(tr '\\0' ' ' < "$PROC/cmdline" 2>/dev/null || true)"
   case "$CMD" in
-    /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_COUNT=$((KVM_COUNT + 1)) ;;
+    /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_COUNT=$((KVM_COUNT + 1)) ;;
   esac
 done
 PATTERN='oops|panic|segfault|BUG:|module_put|fail to allocate ion|Invalid buffer|already inited|Unknown symbol|disagrees about version|invalid module format|VPSS.*(fail|error)|VENC.*(fail|error)'
@@ -465,7 +465,7 @@ KVM_PID=''
 for PROC in /proc/[0-9]*; do
   CMD="$(tr '\\0' ' ' < "$PROC/cmdline" 2>/dev/null || true)"
   case "$CMD" in
-    /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PID="\${PROC##*/}"; break ;;
+    /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PID="\${PROC##*/}"; break ;;
   esac
 done
 test -n "$KVM_PID"

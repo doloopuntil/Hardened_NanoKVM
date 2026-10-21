@@ -209,7 +209,7 @@ BACKEND_PID="$(cat /tmp/nanokvm-server.pid 2>/dev/null || true)"
 KVM_COUNT=0
 for PROC in /proc/[0-9]*; do
   CMD="$(tr '\\0' ' ' < "$PROC/cmdline" 2>/dev/null || true)"
-  case "$CMD" in /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_COUNT=$((KVM_COUNT + 1));; esac
+  case "$CMD" in /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_COUNT=$((KVM_COUNT + 1));; esac
 done
 HDMI_BLOCK="$(sed -n '/"hdmi"[[:space:]]*:/,/^[[:space:]]*},/p' /tmp/nanokvm-hwmon-state.json 2>/dev/null || true)"
 printf 'BACKEND_RUNNING=%s\\n' "$([ -n "$BACKEND_PID" ] && kill -0 "$BACKEND_PID" 2>/dev/null && echo yes || echo no)"

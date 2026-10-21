@@ -185,7 +185,7 @@ KVM_PID=''
 for PROC in /proc/[0-9]*; do
   CMD="$(tr '\0' ' ' < "$PROC/cmdline" 2>/dev/null || true)"
   case "$CMD" in
-    /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PID="$(basename "$PROC")"; break ;;
+    /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*) KVM_PID="$(basename "$PROC")"; break ;;
   esac
 done
 NOW="$(date +%s)"

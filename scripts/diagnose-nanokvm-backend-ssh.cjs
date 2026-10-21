@@ -81,7 +81,7 @@ for PROC in /proc/[0-9]*; do
   CMD="$(tr '\\0' ' ' < "$PROC/cmdline" 2>/dev/null || true)"
   case "$CMD" in
     /lib/ld-musl-riscv64xthead.so.1*'/tmp/server/NanoKVM-Server'*) printf '%s %s\\n' "\${PROC##*/}" "$CMD" ;;
-    /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*) printf '%s %s\\n' "\${PROC##*/}" "$CMD" ;;
+    /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*) printf '%s %s\\n' "\${PROC##*/}" "$CMD" ;;
   esac
 done
 printf 'PROCESS_CMDLINES_END\\n'
