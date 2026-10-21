@@ -358,8 +358,8 @@ static int _free_leak_memory_of_ion(void)
 		if (sscanf(line, "%*d %19s %19s %*d %19s",
 			alloc_buf_size_str, phy_addr_str, buffer_name) == 3) {
 			printf("[ION] %s  %s  %s\r\n", alloc_buf_size_str, phy_addr_str, buffer_name);
-			// ISP_SHARED_BUFFER_0 may still be owned by kvm_system while the
-			// server starts. Releasing it here makes SAMPLE_PLAT_VI_INIT fail.
+			// Other buffers may still be owned by kvm_system while the server
+			// starts; releasing them here makes VI init fail.
 			if (strcmp(buffer_name, "VI_DMA_BUF"))
 				continue;
 			struct sys_ion_data_new ion_data = {
@@ -667,6 +667,194 @@ static int cvi_rgb2nv21(uint8_t *src, int input_w, int input_h)
 	return 0;
 }
 
+#include <sys/ioctl.h>
+#include <linux/vi_uapi.h>
+#include <linux/vi_isp.h>
+
+// The VI driver routes YUV input around the ISP, so LT6911 needs no ISP or 3A.
+static bool _mmf_vi_no_isp(const SAMPLE_VI_CONFIG_S *cfg)
+{
+	if (cfg->s32WorkingViNum <= 0)
+		return false;
+	for (CVI_S32 i = 0; i < cfg->s32WorkingViNum; i++) {
+		if (cfg->astViInfo[i].stSnsInfo.enSnsType != LONTIUM_LT6911_2M_60FPS_8BIT)
+			return false;
+	}
+	return true;
+}
+
+// SAMPLE_COMM_VI_StartSensor without the ISP and AE callback registration.
+static CVI_S32 _mmf_vi_start_sensor_no_isp(SAMPLE_VI_CONFIG_S *cfg)
+{
+	for (CVI_S32 i = 0; i < cfg->s32WorkingViNum; i++) {
+		SAMPLE_VI_INFO_S *info = &cfg->astViInfo[i];
+		VI_PIPE pipe = info->stPipeInfo.aPipe[0];
+		CVI_U32 sns_id = info->stSnsInfo.s32SnsId;
+
+		if (pipe < 0 || pipe >= VI_MAX_PIPE_NUM)
+			return CVI_FAILURE;
+		if (SAMPLE_COMM_ISP_SetSnsObj(sns_id, info->stSnsInfo.enSnsType) != CVI_SUCCESS ||
+			SAMPLE_COMM_ISP_SetSnsInit(sns_id, info->stSnsInfo.u8HwSync) != CVI_SUCCESS ||
+			SAMPLE_COMM_ISP_PatchSnsObj(sns_id, &info->stSnsInfo) != CVI_SUCCESS)
+			return CVI_FAILURE;
+	}
+	return SAMPLE_COMM_ISP_SetSensorMode(cfg);
+}
+
+// From libsys (cvi_base.h, not on the include path).
+extern "C" CVI_S32 get_vi_fd(void);
+
+// What libisp's isp_sns_info_init sends: without it the CSI bridge size stays 0.
+static CVI_S32 _mmf_vi_set_snr_info(SAMPLE_VI_CONFIG_S *cfg)
+{
+	static ISP_SNS_SYNC_INFO_S sync;
+
+	for (CVI_S32 i = 0; i < cfg->s32WorkingViNum; i++) {
+		SAMPLE_VI_INFO_S *info = &cfg->astViInfo[i];
+		VI_PIPE pipe = info->stPipeInfo.aPipe[0];
+		ISP_SNS_OBJ_S *obj = (ISP_SNS_OBJ_S *)SAMPLE_COMM_ISP_GetSnsObj(info->stSnsInfo.s32SnsId);
+		ISP_SENSOR_EXP_FUNC_S funcs;
+		ISP_PUB_ATTR_S pub;
+		struct cvi_isp_snr_info snr;
+		struct vi_ext_control ec;
+
+		if (obj == CVI_NULL || obj->pfnExpSensorCb == CVI_NULL)
+			return CVI_FAILURE;
+		memset(&funcs, 0, sizeof(funcs));
+		obj->pfnExpSensorCb(&funcs);
+		memset(&sync, 0, sizeof(sync));
+		if (funcs.pfn_cmos_get_sns_reg_info == CVI_NULL ||
+			funcs.pfn_cmos_get_sns_reg_info(pipe, &sync) != CVI_SUCCESS)
+			return CVI_FAILURE;
+		if (SAMPLE_COMM_ISP_GetIspAttrBySns(info->stSnsInfo.enSnsType, &pub) != CVI_SUCCESS)
+			return CVI_FAILURE;
+
+		memset(&snr, 0, sizeof(snr));
+		snr.raw_num = pipe;
+		snr.color_mode = pub.enBayer;
+		snr.snr_fmt.frm_num = sync.ispCfg.frm_num;
+		for (CVI_U32 n = 0; n < sync.ispCfg.frm_num && n < MAX_WDR_FRAME_NUM; n++) {
+			const ISP_WDR_SIZE_S *s = &sync.ispCfg.img_size[n];
+			struct active_size_s *d = &snr.snr_fmt.img_size[n];
+
+			d->width = s->stSnsSize.u32Width;
+			d->height = s->stSnsSize.u32Height;
+			d->start_x = s->stWndRect.s32X;
+			d->start_y = s->stWndRect.s32Y;
+			d->active_w = s->stWndRect.u32Width;
+			d->active_h = s->stWndRect.u32Height;
+			d->max_width = s->stMaxSize.u32Width;
+			d->max_height = s->stMaxSize.u32Height;
+		}
+
+		memset(&ec, 0, sizeof(ec));
+		ec.id = VI_IOCTL_SET_SNR_INFO;
+		ec.ptr = &snr;
+		if (ioctl(get_vi_fd(), VI_IOC_S_CTRL, &ec) < 0) {
+			SAMPLE_PRT("VI_IOCTL_SET_SNR_INFO failed: %s\n", strerror(errno));
+			return CVI_FAILURE;
+		}
+		SAMPLE_PRT("snr info pipe %d: %ux%u active %ux%u\n", pipe,
+			snr.snr_fmt.img_size[0].width, snr.snr_fmt.img_size[0].height,
+			snr.snr_fmt.img_size[0].active_w, snr.snr_fmt.img_size[0].active_h);
+	}
+	return CVI_SUCCESS;
+}
+
+// SAMPLE_PLAT_VI_INIT without SAMPLE_COMM_VI_CreateIsp. The caller cleans up on failure.
+static CVI_S32 _mmf_vi_init_no_isp(SAMPLE_VI_CONFIG_S *cfg)
+{
+	PIC_SIZE_E enPicSize;
+	SIZE_S stSize;
+	VI_PIPE_ATTR_S stPipeAttr;
+	CVI_S32 s32Ret;
+
+	s32Ret = SAMPLE_COMM_VI_GetSizeBySensor(cfg->astViInfo[0].stSnsInfo.enSnsType, &enPicSize);
+	if (s32Ret != CVI_SUCCESS)
+		return s32Ret;
+	s32Ret = SAMPLE_COMM_SYS_GetPicSize(enPicSize, &stSize);
+	if (s32Ret != CVI_SUCCESS)
+		return s32Ret;
+
+	s32Ret = _mmf_vi_start_sensor_no_isp(cfg);
+	if (s32Ret != CVI_SUCCESS) {
+		SAMPLE_PRT("start sensor failed with %#x\n", s32Ret);
+		return s32Ret;
+	}
+	for (CVI_S32 i = 0; i < cfg->s32WorkingViNum; i++) {
+		s32Ret = SAMPLE_COMM_VI_StartDev(&cfg->astViInfo[i]);
+		if (s32Ret != CVI_SUCCESS) {
+			SAMPLE_PRT("VI_StartDev failed with %#x\n", s32Ret);
+			return s32Ret;
+		}
+	}
+	// The probe muxes the lane pins: before it, the receiver logs a burst of ECC errors.
+	s32Ret = SAMPLE_COMM_VI_SensorProbe(cfg);
+	if (s32Ret != CVI_SUCCESS) {
+		SAMPLE_PRT("sensor probe failed with %#x\n", s32Ret);
+		return s32Ret;
+	}
+	s32Ret = SAMPLE_COMM_VI_StartMIPI(cfg);
+	if (s32Ret != CVI_SUCCESS) {
+		SAMPLE_PRT("start MIPI failed with %#x\n", s32Ret);
+		return s32Ret;
+	}
+
+	memset(&stPipeAttr, 0, sizeof(stPipeAttr));
+	stPipeAttr.bYuvSkip = CVI_FALSE;
+	stPipeAttr.u32MaxW = stSize.u32Width;
+	stPipeAttr.u32MaxH = stSize.u32Height;
+	stPipeAttr.enPixFmt = PIXEL_FORMAT_RGB_BAYER_12BPP;
+	stPipeAttr.enBitWidth = DATA_BITWIDTH_12;
+	stPipeAttr.stFrameRate.s32SrcFrameRate = -1;
+	stPipeAttr.stFrameRate.s32DstFrameRate = -1;
+	stPipeAttr.bNrEn = CVI_TRUE;
+	stPipeAttr.enCompressMode = cfg->astViInfo[0].stChnInfo.enCompressMode;
+
+	for (CVI_S32 i = 0; i < cfg->s32WorkingViNum; i++) {
+		SAMPLE_VI_INFO_S *info = &cfg->astViInfo[cfg->as32WorkingViId[i]];
+
+		stPipeAttr.bYuvBypassPath = SAMPLE_COMM_VI_GetYuvBypassSts(info->stSnsInfo.enSnsType);
+		for (CVI_S32 j = 0; j < WDR_MAX_PIPE_NUM; j++) {
+			VI_PIPE pipe = info->stPipeInfo.aPipe[j];
+
+			if (pipe < 0 || pipe >= VI_MAX_PIPE_NUM)
+				continue;
+			s32Ret = CVI_VI_CreatePipe(pipe, &stPipeAttr);
+			if (s32Ret == CVI_SUCCESS)
+				s32Ret = CVI_VI_StartPipe(pipe);
+			if (s32Ret == CVI_SUCCESS)
+				s32Ret = CVI_VI_GetPipeAttr(pipe, &stPipeAttr);
+			if (s32Ret != CVI_SUCCESS) {
+				SAMPLE_PRT("VI pipe %d start failed with %#x\n", pipe, s32Ret);
+				return s32Ret;
+			}
+		}
+	}
+
+	s32Ret = _mmf_vi_set_snr_info(cfg);
+	if (s32Ret != CVI_SUCCESS) {
+		SAMPLE_PRT("set sensor info failed with %#x\n", s32Ret);
+		return s32Ret;
+	}
+
+	s32Ret = SAMPLE_COMM_VI_StartViChn(cfg);
+	if (s32Ret != CVI_SUCCESS)
+		SAMPLE_PRT("VI_StartViChn failed with %#x\n", s32Ret);
+	return s32Ret;
+}
+
+static CVI_S32 _mmf_vi_init(SAMPLE_VI_CONFIG_S *cfg)
+{
+	// No ISP or 3A libraries are linked: only the LT6911 path exists.
+	if (!_mmf_vi_no_isp(cfg)) {
+		SAMPLE_PRT("only the LT6911 input is supported\n");
+		return CVI_FAILURE;
+	}
+	SAMPLE_PRT("LT6911 input: ISP and 3A skipped\n");
+	return _mmf_vi_init_no_isp(cfg);
+}
+
 static int _try_release_sys(void)
 {
 	CVI_S32 s32Ret = CVI_FAILURE;
@@ -688,12 +876,6 @@ static int _try_release_sys(void)
 	s32Ret = SAMPLE_COMM_VI_IniToViCfg(&stIniCfg, &stViConfig);
 	if (s32Ret != CVI_SUCCESS) {
 		SAMPLE_PRT("SAMPLE_COMM_VI_IniToViCfg failed with %#x\n", s32Ret);
-		return s32Ret;
-	}
-
-	s32Ret = SAMPLE_COMM_VI_DestroyIsp(&stViConfig);
-	if (s32Ret != CVI_SUCCESS) {
-		SAMPLE_PRT("SAMPLE_COMM_VI_DestroyIsp failed with %#x\n", s32Ret);
 		return s32Ret;
 	}
 
@@ -739,7 +921,6 @@ int _try_release_vpss_all(void)
 static void _mmf_sys_exit(void)
 {
 	if (g_stViConfig.s32WorkingViNum != 0) {
-		SAMPLE_COMM_VI_DestroyIsp(&g_stViConfig);
 		SAMPLE_COMM_VI_DestroyVi(&g_stViConfig);
 	}
 	SAMPLE_COMM_SYS_Exit();
@@ -1020,7 +1201,7 @@ static CVI_S32 _mmf_init(bool check_stale)
 		goto _need_exit_sys_and_deinit_vi;
 	}
 
-	s32Ret = SAMPLE_PLAT_VI_INIT(&stViConfig);
+	s32Ret = _mmf_vi_init(&stViConfig);
 	if (s32Ret != CVI_SUCCESS) {
 		SAMPLE_PRT("vi init failed. s32Ret: 0x%x !\n", s32Ret);
 		SAMPLE_PRT("Please try to check if the camera is working.\n");

@@ -222,6 +222,33 @@ jobs:
           cp /tmp/lt6911_sensor_ctl.c.patched "$LT6911_FILE"
           ! grep -q "LT6911_CHIP_ID_ADDR_H)" "$LT6911_FILE"
 
+      # Only the middleware sources and the uapi headers it compiles against.
+      - name: Fetch the SDK middleware source
+        run: |
+          SDK="$RUNNER_TEMP/sdk-middleware"
+          git init -q "$SDK"
+          git -C "$SDK" remote add origin https://github.com/sipeed/LicheeRV-Nano-Build.git
+          git -C "$SDK" sparse-checkout set --no-cone \
+            /middleware/v2/Makefile.param /middleware/v2/include/ \
+            /middleware/v2/modules/sys/ /middleware/v2/modules/venc/ /middleware/v2/modules/vdec/ \
+            /middleware/v2/modules/vpu/ /middleware/v2/modules/bin/include/ \
+            /middleware/v2/modules/isp/include/ /middleware/v2/3rdparty/inih/ \
+            /osdrv/interdrv/v2/include/ /linux_5.10/drivers/staging/android/uapi/
+          git -C "$SDK" fetch -q --depth 1 --filter=blob:none origin "$LICHEERV_NANO_SDK_SHA"
+          git -C "$SDK" checkout -q FETCH_HEAD
+          [ "$(git -C "$SDK" rev-parse HEAD)" = "$LICHEERV_NANO_SDK_SHA" ]
+
+      # Replaces MaixCDK's prebuilt libsys/libvenc/libvdec/libvpu/libini, so libkvm_mmf.so links
+      # against these and the image ships them. They must keep every export of the old prebuilts.
+      - name: Build the Sophgo middleware from source
+        run: |
+          OUT="$GITHUB_WORKSPACE/build/native-libkvm/middleware"
+          scripts/build-sdk-middleware.sh "$RUNNER_TEMP/sdk-middleware" "$OUT" \
+            /usr/local/host-tools/gcc/riscv64-linux-musl-x86_64/bin server-rust/native/dl_lib
+          MW_LIB="$HOME/MaixCDK/components/3rd_party/sophgo-middleware/sophgo-middleware/v2/lib"
+          cp "$OUT/libsys.so" "$OUT/libvenc.so" "$OUT/libvdec.so" "$OUT/libvpu.so" "$MW_LIB/"
+          cp "$OUT/libini.so" "$MW_LIB/3rd/"
+
       # ./build's own first-time logic (no $MAIXCDK_PATH/components/kvm yet, always true on this
       # fresh clone) copies support/sg2002/additional/{kvm,kvm_mmf,vision,peripheral bits} into
       # MaixCDK and answers its interactive platform prompt with "2" (maixcam) via heredoc -- the
@@ -817,10 +844,13 @@ jobs:
       # libkvm_mmf.so, with the LT6911 probe's dead code intact) with the build-native-libkvm job's
       # freshly-built ones for this run only -- git's own copies are left untouched. This is where
       # the LT6911 patch actually reaches the code that runs.
-      - name: Use freshly-built libkvm.so + libkvm_mmf.so
+      - name: Use freshly-built libkvm.so, libkvm_mmf.so and middleware
         run: |
           cp build/native-libkvm/libkvm.so server-rust/native/dl_lib/libkvm.so
           cp build/native-libkvm/libkvm_mmf.so server-rust/native/dl_lib/libkvm_mmf.so
+          for lib in libsys.so libvenc.so libvdec.so libvpu.so libini.so; do
+            cp "build/native-libkvm/middleware/$lib" "server-rust/native/dl_lib/$lib"
+          done
 
       - name: Build Hardened kvmapp bridge
         run: |
