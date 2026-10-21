@@ -29,8 +29,6 @@ env:
   # frozen copy of the LT6911 sensor driver -- the vendor-sdk-stock patch above never reaches the
   # code that actually runs; see server-rust/native/README.md.
   MAIXCDK_SHA: 5b0aa5b1a8c91d213433189cfab8c999775fa13a
-  SOPHGO_HOST_TOOLS_URL: https://sophon-file.sophon.cn/sophon-prod-s3/drive/23/03/07/16/host-tools.tar.gz
-  SOPHGO_HOST_TOOLS_SHA256: ff9a58e8e192b20ea42e1d729c42d2219523209706cb3f0cf134582f6c70f805
 
 jobs:
   # Just the two pinned checkouts (SDK, host-tools) plus the tracked patch. The kernel and module
@@ -171,9 +169,8 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
-  # Isolated, independent of vendor-sdk: a completely separate toolchain (MaixCDK + Sophgo's RISC-V
-  # musl gcc), building libkvm.so/libkvm_mmf.so and kvm_system from this repository's
-  # support/sg2002 sources.
+  # Isolated, independent of vendor-sdk: one toolchain (MaixCDK's pinned Xuantie musl gcc) builds
+  # the SDK middleware, libkvm.so/libkvm_mmf.so and kvm_system from source.
   # libkvm_mmf.so statically compiles in its own frozen copy of the LT6911 sensor driver (see
   # server-rust/native/README.md) -- the vendor-sdk-stock patch above never reaches the code that
   # actually runs; this is the job that does.
@@ -190,15 +187,6 @@ jobs:
           sudo apt-get install -y \
             build-essential cmake git curl python3 python3-venv python3-pip \
             autoconf automake libtool patchelf patch file
-
-      - name: Install Sophgo RISC-V musl toolchain
-        run: |
-          curl --fail --location --retry 2 \
-            --output /tmp/host-tools.tar.gz "$SOPHGO_HOST_TOOLS_URL"
-          echo "$SOPHGO_HOST_TOOLS_SHA256  /tmp/host-tools.tar.gz" | sha256sum -c -
-          sudo tar -C /usr/local -xzf /tmp/host-tools.tar.gz
-          rm -f /tmp/host-tools.tar.gz
-          echo "/usr/local/host-tools/gcc/riscv64-linux-musl-x86_64/bin" >> "$GITHUB_PATH"
 
       - name: Fetch MaixCDK
         run: |
@@ -240,11 +228,13 @@ jobs:
 
       # Replaces MaixCDK's prebuilt libsys/libvenc/libvdec/libvpu/libini, so libkvm_mmf.so links
       # against these and the image ships them. They must keep every export of the old prebuilts.
+      # Same toolchain as the MaixCDK build below, which reuses the fetched copy.
       - name: Build the Sophgo middleware from source
         run: |
           OUT="$GITHUB_WORKSPACE/build/native-libkvm/middleware"
-          scripts/build-sdk-middleware.sh "$RUNNER_TEMP/sdk-middleware" "$OUT" \
-            /usr/local/host-tools/gcc/riscv64-linux-musl-x86_64/bin server-rust/native/dl_lib
+          TOOLCHAIN_BIN="$(scripts/fetch-maixcdk-toolchain.sh "$HOME/MaixCDK")"
+          SDK_MIDDLEWARE_OPT_FLAGS=-O2 scripts/build-sdk-middleware.sh "$RUNNER_TEMP/sdk-middleware" "$OUT" \
+            "$TOOLCHAIN_BIN" server-rust/native/dl_lib
           MW_LIB="$HOME/MaixCDK/components/3rd_party/sophgo-middleware/sophgo-middleware/v2/lib"
           cp "$OUT/libsys.so" "$OUT/libvenc.so" "$OUT/libvdec.so" "$OUT/libvpu.so" "$MW_LIB/"
           cp "$OUT/libini.so" "$MW_LIB/3rd/"

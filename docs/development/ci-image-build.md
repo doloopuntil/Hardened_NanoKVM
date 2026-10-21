@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-20
+last-checked: 2026-10-21
 source: .github/workflows/system-image.yml
 ---
 
@@ -67,8 +67,9 @@ everything that already succeeded.
   (`build/vendor`) is uploaded as the `vendor-sdk` artifact, which only
   `build-image` consumes.
 - **`build-native-libkvm`** -- independent of the vendor SDK. Builds
-  `libkvm.so`, `libkvm_mmf.so` and `kvm_system` from `support/sg2002` with
-  MaixCDK and Sophgo's RISC-V musl toolchain; uploads `native-libkvm-build`.
+  the SDK middleware, `libkvm.so`, `libkvm_mmf.so` and `kvm_system` with one
+  toolchain: the one MaixCDK pins (Xuantie GCC 10.2, musl), fetched by
+  `scripts/fetch-maixcdk-toolchain.sh`. Uploads `native-libkvm-build`.
 - **`build-kernel`** (`needs: vendor-sdk-source`) -- rehydrates the 5.10.265
   kernel source and builds it. Uploads `kernel-build` (source plus build
   tree, for the module builds) and `kernel-boot` (the `Image`, the DTB and
@@ -102,12 +103,12 @@ scope" below). **The pipeline no longer fetches this archive at all.**
 | Content | How it's sourced now | Evidence |
 | --- | --- | --- |
 | All 57 kernel modules (24 in-tree, 30 external, 3 media) | Rebuilt from source: in-tree modules from this pipeline's own kernel build; 30 external CVITEK/WiFi/BT/touch modules from the vendor SDK's `osdrv` tree; 3 media modules from a 3-stage chain across the vendor SDK and public `sophgo/osdrv` at two pinned commits | `support/sg2002/kernel/5.10.265/manifests/external-modules.txt`; workflow steps "Rebuild external CVITEK kernel modules from source" through "Substitute freshly-built modules into the runtime staging dir" |
-| `libkvm.so` / `libkvm_mmf.so` | Built from source by the `build-native-libkvm` job: `support/sg2002` compiled with a pinned MaixCDK and Sophgo's RISC-V musl toolchain (the LT6911 chip-ID probe removed). `libkvm_mmf.so` starts LT6911 capture without the ISP and links no ISP/3A library. The Rust backend links against the result. Never depended on raw.12 either way | job `build-native-libkvm`; `server-rust/scripts/build-linked-libkvm.sh` |
+| `libkvm.so` / `libkvm_mmf.so` | Built from source by the `build-native-libkvm` job: `support/sg2002` compiled with a pinned MaixCDK and its musl toolchain (the LT6911 chip-ID probe removed). The video-path components (`kvm`, `kvm_mmf`, `vision`) build at `-O2`; the rest keeps MaixCDK's `MinSizeRel` (`-Os`). `libkvm_mmf.so` starts LT6911 capture without the ISP and links no ISP/3A library. The Rust backend links against the result. Never depended on raw.12 either way | job `build-native-libkvm`; `server-rust/scripts/build-linked-libkvm.sh` |
 | 4 OpenCV modules (`core`/`highgui`/`imgcodecs`/`imgproc`) | Sourced from `sipeed/NanoKVM` upstream (GPL-3.0), verified near-byte-identical (same MaixCDK toolchain build) | workflow step "Source OpenCV core/highgui/imgcodecs/imgproc from upstream"; `server-rust/native/README.md` |
 | 6 OpenCV/protobuf modules (`video`/`dnn`/`calib3d`/`features2d`/`flann`/`protobuf`) | Deleted entirely -- proven via exhaustive symbol-table analysis that `libkvm.so` calls nothing from them, after a `patchelf --remove-needed` patch | `server-rust/native/README.md` ("libkvm.so: removed video NEEDED entry") |
 | `/mnt/system/usr/bin` (49 CVITEK sample/test binaries) | Deleted entirely -- no static or `dlopen()` reference anywhere in tracked source | `server-rust/native/README.md` ("/mnt/system/usr") |
 | `/mnt/system/usr/lib` minus one file (32 files incl. `3rd/`) | Deleted entirely -- proven redundant against `dl_lib`'s search-path priority | same |
-| `libsys.so`, `libvenc.so`, `libvdec.so`, `libvpu.so`, `libini.so` | Built from source in `build-native-libkvm`: `middleware/v2` of the pinned vendor SDK, with the SDK's own flags, by `scripts/build-sdk-middleware.sh`. Each must keep every export of the checked-in prebuilt it replaces. `libkvm_mmf.so` links against them and the image ships them | workflow steps "Fetch the SDK middleware source" and "Build the Sophgo middleware from source" |
+| `libsys.so`, `libvenc.so`, `libvdec.so`, `libvpu.so`, `libini.so` | Built from source in `build-native-libkvm`: `middleware/v2` of the pinned vendor SDK, with the SDK's flags but `-O2` instead of `-Os`, by `scripts/build-sdk-middleware.sh`. Each must keep every export of the checked-in prebuilt it replaces. `libkvm_mmf.so` links against them and the image ships them | workflow steps "Fetch the SDK middleware source" and "Build the Sophgo middleware from source" |
 | ~19 other CVI/audio middleware libraries in `dl_lib` (`libcvi_*`, `libaac*`, `libcli.so`, etc.). The 8 closed ISP/3A libraries (`libisp*`, `libae`/`af`/`awb`, `libcvi_bin*`, `libcvi_ispd2`) are removed | Already checked into `server-rust/native/dl_lib` since before this fork tracked raw.12 at all; diffed byte-for-byte against raw.12 and confirmed identical; the CI pipeline no longer extracts them from raw.12 | `server-rust/native/README.md` ("dl_lib's CVI/ISP/audio middleware") |
 | `libc.so` + 4 GCC runtime libs (`libstdc++.so.6.0.28`, `libgcc_s.so.1`, `libgomp.so.1.0.0`, `libatomic.so.1.2.0`) | Sourced from this pipeline's own `vendor-sdk-stock` build instead -- verified byte-identical on a real run | workflow step "Source the remaining runtime files from our own vendor-sdk-stock build"; `server-rust/native/README.md` |
 | 2 T-Head musl loaders (`ld-musl-riscv64xthead.so.1`, `ld-musl-riscv64v0p7_xthead.so.1`) | Same as above -- byte-identical to `vendor-sdk-stock`'s own copies | same |
