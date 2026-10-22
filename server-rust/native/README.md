@@ -87,7 +87,7 @@ like unpruned vendor SDK carry-forward, not load-bearing content.
 
 Provenance: same as the loaders and `auto.sh` above -- extracted wholesale
 via `debugfs rdump /mnt/system` from `make vendor-sdk-stock`'s own build
-output in `scripts/prepare-latest-buildroot-sg2002-vendor-runtime.sh`,
+output by the old local runtime-extraction script (since removed),
 frozen into the vendor-runtime staging bundle, carried forward unchanged
 since.
 
@@ -213,7 +213,7 @@ release strip would remove -- promising, but unconfirmed from that repo.
 
 The actual answer was `make vendor-sdk-stock` (the `sg2002_licheervnano_sd`
 defconfig, already built and cached by the `vendor-sdk` CI job) -- the
-same real on-device build `prepare-latest-buildroot-sg2002-vendor-runtime.sh`
+same real on-device build the old local runtime-extraction script
 originally sourced this content from, not a generic toolchain package.
 Checked all 8 remaining raw.12-only files against it on a real run: **7 are
 byte-identical** -- `libc.so`, all 4 GCC runtime libs, and both T-Head
@@ -244,7 +244,7 @@ in it is character-for-character identical except one -- the compiler's
 `/home/w0w/Hardened_NanoKVM/build/vendor/...`; `w0w` is the maintainer's
 own local username, matching the hardcoded path already found in
 the old `docs/build-notes.md` (`NanoKVM_PATH=/home/w0w/...`, since removed) and the old default
-toolchain path in `scripts/prepare-kernel-5.10.265-vendor-runtime.sh` --
+toolchain path in the old local 5.10.265 runtime-staging script --
 raw.12 was built on the maintainer's own machine, not any CI. This
 pipeline's build has `/home/runner/work/Hardened_NanoKVM/...` instead, the
 standard GitHub Actions runner path. The differing path length cascades:
@@ -303,7 +303,7 @@ tracked source; `sdk-release` is a static, unread version string;
 `root/` doesn't exist in raw.12 at all any more. None are reproduced.
 
 One narrower, genuine content dependency came up while closing this:
-`build-historical-sophgo-vc-driver.sh` used to diff `soph_vc_driver.ko`'s
+the old local `soph_vc_driver.ko` build script used to diff `soph_vc_driver.ko`'s
 module parameters (`modinfo -F parm`) against an "old" reference copy
 pulled from raw.12 -- a real diagnostic, not a structural lookup, since
 `modinfo` needs an actual valid compiled module. That comparison has been
