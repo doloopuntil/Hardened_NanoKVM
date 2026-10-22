@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Divider } from 'antd';
 import { useAtomValue } from 'jotai';
 import { MonitorIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -69,6 +70,7 @@ export const Screen = () => {
         <Fps fps={fps} setFps={setFps} />
         <Scale />
         {videoMode === 'mjpeg' && <FrameDetect />}
+        <Divider style={{ margin: '10px 0' }} />
         <Reset />
       </div>
     </div>
