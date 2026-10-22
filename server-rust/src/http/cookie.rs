@@ -9,6 +9,17 @@ pub fn session_cookie(token: &str, max_age_secs: u64, secure: bool) -> Result<He
     build_session_cookie(Some(token), max_age_secs, secure)
 }
 
+/// A session cookie without Max-Age, which the browser drops when it closes.
+pub fn session_only_cookie(token: &str, secure: bool) -> Result<HeaderValue> {
+    let mut value = format!("{SESSION_COOKIE_NAME}={token}; Path=/; HttpOnly; SameSite=Lax");
+    if secure {
+        value.push_str("; Secure");
+    }
+
+    HeaderValue::from_str(&value)
+        .map_err(|err| AppError::Internal(format!("failed to build cookie: {err}")))
+}
+
 pub fn expired_session_cookie(secure: bool) -> Result<HeaderValue> {
     build_session_cookie(None, 0, secure)
 }
@@ -66,6 +77,17 @@ mod tests {
         assert!(value.contains("HttpOnly"));
         assert!(value.contains("SameSite=Lax"));
         assert!(!value.contains("Secure"));
+    }
+
+    #[test]
+    fn session_only_cookie_has_no_lifetime() {
+        let cookie = session_only_cookie("abc", true).unwrap();
+        let value = cookie.to_str().unwrap();
+        assert!(value.contains("nano-kvm-token=abc"));
+        assert!(!value.contains("Max-Age"));
+        assert!(!value.contains("Expires"));
+        assert!(value.contains("HttpOnly"));
+        assert!(value.contains("Secure"));
     }
 
     #[test]

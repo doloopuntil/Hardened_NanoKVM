@@ -83,6 +83,8 @@ pub struct Security {
     pub require_csrf: bool,
     pub websocket_origin_check: bool,
     pub access_token_duration: u64,
+    /// Issue the session cookie without a lifetime, so the browser drops it on close.
+    pub logout_on_browser_close: bool,
     pub refresh_token_duration: u64,
     pub revoke_tokens_on_password_change: bool,
     pub allow_unsigned_updates: bool,
@@ -189,6 +191,7 @@ impl Default for Security {
             require_csrf: true,
             websocket_origin_check: true,
             access_token_duration: 900,
+            logout_on_browser_close: true,
             refresh_token_duration: 604_800,
             revoke_tokens_on_password_change: true,
             allow_unsigned_updates: false,

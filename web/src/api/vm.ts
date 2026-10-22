@@ -150,6 +150,11 @@ export function setSessionLock(duration: number) {
   return http.post('/api/vm/session-lock', { duration });
 }
 
+// set whether the session ends when the browser closes
+export function setLogoutOnBrowserClose(enabled: boolean) {
+  return http.post('/api/vm/session-lock', { logoutOnBrowserClose: enabled });
+}
+
 // slide the session lock while the user is active
 export function touchSession() {
   return http.post('/api/vm/session-lock/touch');

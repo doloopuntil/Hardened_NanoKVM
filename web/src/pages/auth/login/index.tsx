@@ -96,7 +96,7 @@ export const Login = (): ReactElement => {
 
     setMsg('');
     if (rsp.data.csrfToken) {
-      setCsrfToken(rsp.data.csrfToken, rsp.data.expiresAt);
+      setCsrfToken(rsp.data.csrfToken, rsp.data.expiresAt, rsp.data.logoutOnBrowserClose);
     }
 
     // Policy requires a second factor this account has not enrolled. Login is

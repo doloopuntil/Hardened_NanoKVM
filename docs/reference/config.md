@@ -44,6 +44,7 @@ are still accepted.
 | `security.websocket_origin_check` | `true` | Reject WebSockets from another origin. |
 | `security.allowed_origins` | empty | Extra origins to accept, for a reverse proxy. |
 | `security.access_token_duration` | `900` | Seconds. |
+| `security.logout_on_browser_close` | `true` | Session cookie without a lifetime. |
 | `security.refresh_token_duration` | `604800` | Seconds. |
 | `security.revoke_tokens_on_password_change` | `true` | |
 | `security.require_totp` | `false` | Require a second factor; see [Sign-in and two-factor](../guide/sign-in.md). |
@@ -56,7 +57,7 @@ are still accepted.
 | --- | --- | --- |
 | `security.allow_terminal` | `false` | The Terminal menu. |
 | `security.allow_remote_image_download` | `false` | Settings > Appearance. |
-| `security.allow_raw_system_updates` | `false` | Settings > System updates. |
+| `security.allow_raw_system_updates` | `false` | Settings > System > Updates. |
 | `security.allow_unsigned_updates` | `false` | Not in the UI. Accepts update metadata without a valid signature; never on a real device. |
 
 ## Paths
