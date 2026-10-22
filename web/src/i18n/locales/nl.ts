@@ -91,7 +91,7 @@ const nl = {
       title: 'Scherm',
       video: 'Videomodus',
       videoDirectTips:
-        'Schakel HTTPS in bij "Instellingen > Systeem > Netwerk" om deze modus te gebruiken',
+        'Schakel HTTPS in bij "Instellingen > Netwerken > Diensten" om deze modus te gebruiken',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC is uitgeschakeld in de firewallmodi Beperkt en Paranoïde',
       transferRunningTitle: 'Image-overdracht bezig',
@@ -353,7 +353,7 @@ const nl = {
     settings: {
       title: 'Instellingen',
       about: {
-        title: 'Over NanoKVM',
+        title: 'Over',
         information: 'Informatie',
         ip: 'IP',
         mdns: 'mDNS',
@@ -420,8 +420,7 @@ const nl = {
         sections: {
           connectivity: 'Connectiviteit',
           hostConnection: 'Hostverbinding',
-          inputOutput: 'Invoer en uitvoer',
-          optimizations: 'Optimalisaties'
+          inputOutput: 'Invoer en uitvoer'
         },
         oled: {
           title: 'OLED-timeout',
@@ -560,10 +559,16 @@ const nl = {
       },
       system: {
         title: 'Systeem',
+        performance: {
+          memory: 'Geheugen'
+        },
         sections: {
           time: 'Tijd',
           firewall: 'Firewall',
-          systemLog: 'Logging'
+          systemLog: 'Logging',
+          performance: 'Prestaties',
+          services: 'Diensten',
+          webInterface: 'Webinterface'
         },
         time: {
           saveFailed: 'Kan tijdinstellingen niet opslaan',
@@ -573,7 +578,7 @@ const nl = {
           invalidServers: 'Voer ten minste één NTP-server in',
           maxServers: 'Maximaal {{count}} NTP-servers toegestaan',
           refresh: 'Vernieuwen',
-          syncNow: 'Nu synchroniseren',
+          syncNow: 'Synchroniseren',
           syncNowDesc: 'Stel de klok nu in via de NTP-servers',
           save: 'Opslaan',
           ntp: {
@@ -593,8 +598,8 @@ const nl = {
               'Gebruik de standaard openbare servers, uw lokale router of eigen NTP-servers',
             useRouter: 'Router gebruiken',
             useDefaults: 'Standaarden gebruiken',
-            routerDetected: 'Gedetecteerde router',
-            routerNone: 'Niet gevonden'
+            presets: 'Servervoorinstellingen',
+            presetsDesc: 'Vervang de serverlijst door een voorinstelling'
           }
         },
         firewall: {
@@ -606,7 +611,7 @@ const nl = {
           enableHttpsFirst:
             'Schakel HTTPS in voordat u de firewallmodus Beperkt of Paranoïde inschakelt',
           httpsRequired:
-            'De modi Beperkt en Paranoïde zijn uitgeschakeld totdat HTTPS is ingeschakeld bij Instellingen > Systeem > Netwerk',
+            'De modi Beperkt en Paranoïde zijn uitgeschakeld totdat HTTPS is ingeschakeld bij Instellingen > Netwerken > Diensten',
           mode: {
             title: 'Firewallmodus',
             baseline: 'Basis',
@@ -718,6 +723,9 @@ const nl = {
           '8': '8 - Alles'
         }
       },
+      networking: {
+        title: 'Netwerken'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Versleutelde tunnel',
@@ -794,7 +802,7 @@ const nl = {
           title: 'Wisselbestand',
           tip: 'Als de problemen aanhouden nadat u geheugenoptimalisatie hebt ingeschakeld, probeer dan het wisselbestand in te schakelen',
           sizeTip:
-            'Hiermee wordt de bestandsgrootte ingesteld op 256MB; pas deze aan via Instellingen > Apparaat'
+            'Hiermee wordt de bestandsgrootte ingesteld op 256MB; pas deze aan via Instellingen > Systeem > Prestaties'
         },
         restartTitle: 'Tailscale opnieuw opstarten',
         restartDesc: 'Start de service opnieuw op',
@@ -834,7 +842,7 @@ const nl = {
         cancelBtn: 'Nee'
       },
       update: {
-        title: 'Systeemupdates',
+        title: 'Updates',
         sources: 'Updatebronnen',
         latestVersion: 'Nieuwste versie',
         queryFailed: 'Ophalen versie mislukt',
@@ -946,6 +954,13 @@ const nl = {
         logoutDesc: 'Weet u zeker dat u wilt uitloggen?',
         okBtn: 'Ja',
         cancelBtn: 'Nee',
+        session: {
+          title: 'Sessie'
+        },
+        logoutOnClose: {
+          title: 'Uitloggen als de browser wordt gesloten',
+          description: 'Beëindig de sessie wanneer de browser wordt gesloten in plaats van haar open te houden'
+        },
         totp: {
           title: 'Tweefactorauthenticatie',
           authenticator: 'Authenticator-app',

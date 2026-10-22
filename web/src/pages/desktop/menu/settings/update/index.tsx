@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
 import { Alert, Button, Divider, Spin, Switch } from 'antd';
+import { LoaderCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import semver from 'semver';
 
@@ -672,7 +672,12 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                   <span
                     className={`inline-flex items-center gap-2 ${status === 'failed' ? 'text-red-400' : ''}`}
                   >
-                    {applicationBusy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+                    {applicationBusy && (
+                      <Spin
+                        size="small"
+                        indicator={<LoaderCircleIcon className="animate-spin" size={14} />}
+                      />
+                    )}
                     {applicationText}
                   </span>
                 ) : undefined
@@ -842,7 +847,12 @@ const StatusRow = ({ busy = false, error = false, title, text, buttons }: Status
           <span
             className={`flex items-center gap-2 break-words text-xs ${error ? 'text-red-400' : 'text-neutral-500'}`}
           >
-            {busy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+            {busy && (
+              <Spin
+                size="small"
+                indicator={<LoaderCircleIcon className="animate-spin" size={14} />}
+              />
+            )}
             {text}
           </span>
         )}

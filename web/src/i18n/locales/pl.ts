@@ -89,7 +89,7 @@ const pl = {
       scale: 'Skala',
       title: 'Ekran',
       video: 'Tryb wideo',
-      videoDirectTips: 'Włącz HTTPS w „Ustawienia > System > Sieć”, aby korzystać z tego trybu',
+      videoDirectTips: 'Włącz HTTPS w „Ustawienia > Sieć > Usługi”, aby korzystać z tego trybu',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC jest wyłączony w trybach zapory Ograniczony i Paranoidalny',
       transferRunningTitle: 'Trwa przesyłanie obrazu',
@@ -351,7 +351,7 @@ const pl = {
     settings: {
       title: 'Ustawienia',
       about: {
-        title: 'NanoKVM - informacje',
+        title: 'Informacje',
         information: 'Informacje o systemie',
         ip: 'IP',
         mdns: 'mDNS',
@@ -419,8 +419,7 @@ const pl = {
         sections: {
           connectivity: 'Łączność',
           hostConnection: 'Połączenie z hostem',
-          inputOutput: 'Wejście i wyjście',
-          optimizations: 'Optymalizacje'
+          inputOutput: 'Wejście i wyjście'
         },
         oled: {
           title: 'Limit czasu OLED',
@@ -556,10 +555,16 @@ const pl = {
       },
       system: {
         title: 'System',
+        performance: {
+          memory: 'Pamięć'
+        },
         sections: {
           time: 'Czas',
           firewall: 'Zapora',
-          systemLog: 'Logowanie'
+          systemLog: 'Logowanie',
+          performance: 'Wydajność',
+          services: 'Usługi',
+          webInterface: 'Interfejs WWW'
         },
         time: {
           saveFailed: 'Nie udało się zapisać ustawień czasu',
@@ -569,7 +574,7 @@ const pl = {
           invalidServers: 'Wprowadź co najmniej jeden serwer NTP',
           maxServers: 'Dozwolona maksymalna liczba serwerów NTP: {{count}}',
           refresh: 'Odśwież',
-          syncNow: 'Synchronizuj teraz',
+          syncNow: 'Synchronizuj',
           syncNowDesc: 'Ustaw zegar według serwerów NTP teraz',
           save: 'Zapisz',
           ntp: {
@@ -589,8 +594,8 @@ const pl = {
               'Użyj domyślnych serwerów publicznych, lokalnego routera lub własnych serwerów NTP',
             useRouter: 'Użyj routera',
             useDefaults: 'Użyj domyślnych',
-            routerDetected: 'Wykryty router',
-            routerNone: 'Nie znaleziono'
+            presets: 'Ustawienia wstępne serwerów',
+            presetsDesc: 'Zastąp listę serwerów ustawieniem wstępnym'
           }
         },
         firewall: {
@@ -601,7 +606,7 @@ const pl = {
           backends: 'Backendy',
           enableHttpsFirst: 'Włącz HTTPS przed włączeniem trybu Ograniczony lub Paranoidalny',
           httpsRequired:
-            'Tryby Ograniczony i Paranoidalny są niedostępne, dopóki HTTPS nie zostanie włączony w Ustawienia > System > Sieć',
+            'Tryby Ograniczony i Paranoidalny są niedostępne, dopóki HTTPS nie zostanie włączony w Ustawienia > Sieć > Usługi',
           mode: {
             title: 'Tryb zapory',
             baseline: 'Podstawowy',
@@ -712,6 +717,9 @@ const pl = {
           '8': '8 - Wszystko'
         }
       },
+      networking: {
+        title: 'Sieć'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Szyfrowany tunel',
@@ -788,7 +796,7 @@ const pl = {
         swap: {
           title: 'Plik wymiany',
           tip: 'Jeśli po włączeniu optymalizacji pamięci problemy nadal występują, spróbuj włączyć plik wymiany',
-          sizeTip: 'Ustawia to rozmiar pliku na 256MB; możesz go zmienić w Ustawienia > Urządzenie'
+          sizeTip: 'Ustawia to rozmiar pliku na 256MB; możesz go zmienić w Ustawienia > System > Wydajność'
         },
         restartTitle: 'Uruchom ponownie Tailscale',
         restartDesc: 'Uruchamia ponownie usługę',
@@ -828,7 +836,7 @@ const pl = {
         cancelBtn: 'Nie'
       },
       update: {
-        title: 'Aktualizacje systemu',
+        title: 'Aktualizacje',
         sources: 'Źródła aktualizacji',
         latestVersion: 'Najnowsza wersja',
         queryFailed: 'Uzyskanie wersji nie powiodło się',
@@ -940,6 +948,13 @@ const pl = {
         logoutDesc: 'Czy na pewno chcesz się wylogować?',
         okBtn: 'Tak',
         cancelBtn: 'Nie',
+        session: {
+          title: 'Sesja'
+        },
+        logoutOnClose: {
+          title: 'Wyloguj po zamknięciu przeglądarki',
+          description: 'Zakończ sesję po zamknięciu przeglądarki zamiast utrzymywać ją otwartą'
+        },
         totp: {
           title: 'Uwierzytelnianie dwuskładnikowe',
           authenticator: 'Aplikacja uwierzytelniająca',

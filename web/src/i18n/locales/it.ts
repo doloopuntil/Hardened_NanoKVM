@@ -91,7 +91,7 @@ const it = {
       title: 'Schermo',
       video: 'Modalità video',
       videoDirectTips:
-        'Abilita HTTPS in "Impostazioni > Sistema > Rete" per utilizzare questa modalità',
+        'Abilita HTTPS in "Impostazioni > Rete > Servizi" per utilizzare questa modalità',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC è disattivato nelle modalità firewall Ristretta e Paranoica',
       transferRunningTitle: 'Trasferimento immagine in corso',
@@ -353,7 +353,7 @@ const it = {
     settings: {
       title: 'Impostazioni',
       about: {
-        title: 'Informazioni su NanoKVM',
+        title: 'Informazioni',
         information: 'Informazioni',
         ip: 'IP',
         mdns: 'mDNS',
@@ -420,8 +420,7 @@ const it = {
         sections: {
           connectivity: 'Connettività',
           hostConnection: "Connessione all'host",
-          inputOutput: 'Input e output',
-          optimizations: 'Ottimizzazioni'
+          inputOutput: 'Input e output'
         },
         oled: {
           title: 'Timeout OLED',
@@ -560,10 +559,16 @@ const it = {
       },
       system: {
         title: 'Sistema',
+        performance: {
+          memory: 'Memoria'
+        },
         sections: {
           time: 'Ora',
           firewall: 'Firewall',
-          systemLog: 'Logging'
+          systemLog: 'Logging',
+          performance: 'Prestazioni',
+          services: 'Servizi',
+          webInterface: 'Interfaccia web'
         },
         time: {
           saveFailed: "Impossibile salvare le impostazioni dell'ora",
@@ -573,7 +578,7 @@ const it = {
           invalidServers: 'Inserisci almeno un server NTP',
           maxServers: 'Massimo {{count}} server NTP consentiti',
           refresh: 'Aggiorna',
-          syncNow: 'Sincronizza ora',
+          syncNow: 'Sincronizza',
           syncNowDesc: "Imposta l'orologio dai server NTP ora",
           save: 'Salva',
           ntp: {
@@ -593,8 +598,8 @@ const it = {
               'Usa i server pubblici predefiniti, il router locale o server NTP personalizzati',
             useRouter: 'Usa router',
             useDefaults: 'Usa predefiniti',
-            routerDetected: 'Router rilevato',
-            routerNone: 'Non trovato'
+            presets: 'Server predefiniti',
+            presetsDesc: "Sostituisce l'elenco dei server con un valore predefinito"
           }
         },
         firewall: {
@@ -606,7 +611,7 @@ const it = {
           enableHttpsFirst:
             'Abilita HTTPS prima di abilitare la modalità firewall Ristretta o Paranoica',
           httpsRequired:
-            'Le modalità Ristretta e Paranoica sono disattivate finché HTTPS non viene abilitato in Impostazioni > Sistema > Rete',
+            'Le modalità Ristretta e Paranoica sono disattivate finché HTTPS non viene abilitato in Impostazioni > Rete > Servizi',
           mode: {
             title: 'Modalità firewall',
             baseline: 'Base',
@@ -718,6 +723,9 @@ const it = {
           '8': '8 - Tutto'
         }
       },
+      networking: {
+        title: 'Rete'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Tunnel cifrato',
@@ -795,7 +803,7 @@ const it = {
           title: 'File di scambio',
           tip: "Se i problemi persistono dopo aver abilitato l'ottimizzazione della memoria, prova ad abilitare il file di scambio",
           sizeTip:
-            'Questo imposta la dimensione del file su 256MB; regolala in Impostazioni > Dispositivo'
+            'Questo imposta la dimensione del file su 256MB; regolala in Impostazioni > Sistema > Prestazioni'
         },
         restartTitle: 'Riavvia Tailscale',
         restartDesc: 'Riavvia il servizio',
@@ -835,7 +843,7 @@ const it = {
         cancelBtn: 'No'
       },
       update: {
-        title: 'Aggiornamenti di sistema',
+        title: 'Aggiornamenti',
         sources: 'Fonti di aggiornamento',
         latestVersion: 'Ultima versione',
         queryFailed: 'Impossibile ottenere la versione',
@@ -948,6 +956,13 @@ const it = {
         logoutDesc: 'Sei sicuro di voler uscire?',
         okBtn: 'Sì',
         cancelBtn: 'No',
+        session: {
+          title: 'Sessione'
+        },
+        logoutOnClose: {
+          title: 'Disconnetti alla chiusura del browser',
+          description: 'Termina la sessione quando il browser viene chiuso invece di mantenerla aperta'
+        },
         totp: {
           title: 'Autenticazione a due fattori',
           authenticator: 'App di autenticazione',

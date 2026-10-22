@@ -89,7 +89,7 @@ const hu = {
       title: 'Képernyő',
       video: 'Videó mód',
       videoDirectTips:
-        'Ennek a módnak a használatához engedélyezze a HTTPS-t a „Beállítások > Rendszer > Hálózat” menüpontban',
+        'Ennek a módnak a használatához engedélyezze a HTTPS-t a „Beállítások > Hálózat > Szolgáltatások” menüpontban',
       videoWebrtcBlockedByFirewall:
         'A H.264 WebRTC le van tiltva Korlátozott és Paranoid tűzfal módban',
       transferRunningTitle: 'Képfájl-átvitel folyamatban',
@@ -351,7 +351,7 @@ const hu = {
     settings: {
       title: 'Beállítások',
       about: {
-        title: 'NanoKVM névjegy',
+        title: 'Névjegy',
         information: 'Információ',
         ip: 'IP',
         mdns: 'mDNS',
@@ -418,8 +418,7 @@ const hu = {
         sections: {
           connectivity: 'Kapcsolatok',
           hostConnection: 'Gazdagép-kapcsolat',
-          inputOutput: 'Bemenet és kimenet',
-          optimizations: 'Optimalizálás'
+          inputOutput: 'Bemenet és kimenet'
         },
         oled: {
           title: 'OLED időkorlátja',
@@ -559,10 +558,16 @@ const hu = {
       },
       system: {
         title: 'Rendszer',
+        performance: {
+          memory: 'Memória'
+        },
         sections: {
           time: 'Idő',
           firewall: 'Tűzfal',
-          systemLog: 'Naplózás'
+          systemLog: 'Naplózás',
+          performance: 'Teljesítmény',
+          services: 'Szolgáltatások',
+          webInterface: 'Webes felület'
         },
         time: {
           saveFailed: 'Nem sikerült menteni az időbeállításokat',
@@ -572,7 +577,7 @@ const hu = {
           invalidServers: 'Adjon meg legalább egy NTP-szervert',
           maxServers: 'Legfeljebb {{count}} NTP-szerver engedélyezett',
           refresh: 'Frissítés',
-          syncNow: 'Szinkronizálás most',
+          syncNow: 'Szinkronizálás',
           syncNowDesc: 'Az óra beállítása az NTP-kiszolgálókról most',
           save: 'Mentés',
           ntp: {
@@ -592,8 +597,8 @@ const hu = {
               'Használja az alapértelmezett nyilvános szervereket, a helyi routert vagy egyéni NTP-szervereket',
             useRouter: 'Router használata',
             useDefaults: 'Alapértékek használata',
-            routerDetected: 'Észlelt router',
-            routerNone: 'Nem található'
+            presets: 'Kiszolgáló-előbeállítások',
+            presetsDesc: 'A kiszolgálólista cseréje egy előbeállításra'
           }
         },
         firewall: {
@@ -605,7 +610,7 @@ const hu = {
           enableHttpsFirst:
             'A Korlátozott vagy Paranoid tűzfalmód engedélyezése előtt engedélyezze a HTTPS-t',
           httpsRequired:
-            'A Korlátozott és Paranoid mód le van tiltva, amíg a HTTPS nincs engedélyezve a Beállítások > Rendszer > Hálózat alatt',
+            'A Korlátozott és Paranoid mód le van tiltva, amíg a HTTPS nincs engedélyezve a Beállítások > Hálózat > Szolgáltatások alatt',
           mode: {
             title: 'Tűzfal mód',
             baseline: 'Alap',
@@ -717,6 +722,9 @@ const hu = {
           '8': '8 - Mind'
         }
       },
+      networking: {
+        title: 'Hálózat'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Titkosított alagút',
@@ -794,7 +802,7 @@ const hu = {
           title: 'Swap fájl',
           tip: 'Ha a memóriaoptimalizálás engedélyezése után is fennállnak a problémák, próbálja meg engedélyezni a swap fájlt',
           sizeTip:
-            'Ez a fájl méretét 256MB értékre állítja; a Beállítások > Eszköz menüpontban módosíthatja'
+            'Ez a fájl méretét 256MB értékre állítja; a Beállítások > Rendszer > Teljesítmény menüpontban módosíthatja'
         },
         restartTitle: 'Tailscale újraindítása',
         restartDesc: 'Újraindítja a szolgáltatást',
@@ -835,7 +843,7 @@ const hu = {
         cancelBtn: 'Nem'
       },
       update: {
-        title: 'Rendszerfrissítések',
+        title: 'Frissítések',
         sources: 'Frissítési források',
         latestVersion: 'Legújabb verzió',
         queryFailed: 'Verzió lekérdezése sikertelen',
@@ -946,6 +954,13 @@ const hu = {
         logoutDesc: 'Biztos, hogy ki szeretne jelentkezni?',
         okBtn: 'Igen',
         cancelBtn: 'Nem',
+        session: {
+          title: 'Munkamenet'
+        },
+        logoutOnClose: {
+          title: 'Kijelentkezés a böngésző bezárásakor',
+          description: 'A munkamenet befejezése a böngésző bezárásakor, nyitva tartás helyett'
+        },
         totp: {
           title: 'Kétfaktoros hitelesítés',
           authenticator: 'Hitelesítő alkalmazás',

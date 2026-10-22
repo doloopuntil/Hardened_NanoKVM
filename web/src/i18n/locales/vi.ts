@@ -88,7 +88,7 @@ const vi = {
       scale: 'Tỷ lệ',
       title: 'Màn hình',
       video: 'Chế độ video',
-      videoDirectTips: 'Bật HTTPS trong "Cài đặt > Hệ thống > Mạng" để sử dụng chế độ này',
+      videoDirectTips: 'Bật HTTPS trong "Cài đặt > Mạng > Dịch vụ" để sử dụng chế độ này',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC bị tắt trong các chế độ tường lửa Hạn chế và Hoang tưởng',
       transferRunningTitle: 'Đang truyền image',
@@ -345,7 +345,7 @@ const vi = {
     settings: {
       title: 'Cài đặt',
       about: {
-        title: 'Giới thiệu về NanoKVM',
+        title: 'Giới thiệu',
         information: 'Thông tin',
         ip: 'IP',
         mdns: 'mDNS',
@@ -412,8 +412,7 @@ const vi = {
         sections: {
           connectivity: 'Kết nối',
           hostConnection: 'Kết nối với máy chủ',
-          inputOutput: 'Đầu vào và đầu ra',
-          optimizations: 'Tối ưu hóa'
+          inputOutput: 'Đầu vào và đầu ra'
         },
         oled: {
           title: 'Thời gian chờ OLED',
@@ -551,10 +550,16 @@ const vi = {
       },
       system: {
         title: 'Hệ thống',
+        performance: {
+          memory: 'Bộ nhớ'
+        },
         sections: {
           time: 'Thời gian',
           firewall: 'Tường lửa',
-          systemLog: 'Ghi nhật ký'
+          systemLog: 'Ghi nhật ký',
+          performance: 'Hiệu năng',
+          services: 'Dịch vụ',
+          webInterface: 'Giao diện web'
         },
         time: {
           saveFailed: 'Không thể lưu cài đặt thời gian',
@@ -564,7 +569,7 @@ const vi = {
           invalidServers: 'Nhập ít nhất một máy chủ NTP',
           maxServers: 'Cho phép tối đa {{count}} máy chủ NTP',
           refresh: 'Làm mới',
-          syncNow: 'Đồng bộ ngay',
+          syncNow: 'Đồng bộ',
           syncNowDesc: 'Đặt đồng hồ theo máy chủ NTP ngay',
           save: 'Lưu',
           ntp: {
@@ -584,8 +589,8 @@ const vi = {
               'Dùng máy chủ công cộng mặc định, bộ định tuyến cục bộ hoặc máy chủ NTP tùy chỉnh',
             useRouter: 'Dùng bộ định tuyến',
             useDefaults: 'Dùng mặc định',
-            routerDetected: 'Bộ định tuyến phát hiện được',
-            routerNone: 'Không tìm thấy'
+            presets: 'Máy chủ đặt trước',
+            presetsDesc: 'Thay danh sách máy chủ bằng một cấu hình đặt trước'
           }
         },
         firewall: {
@@ -596,7 +601,7 @@ const vi = {
           backends: 'Backend',
           enableHttpsFirst: 'Hãy bật HTTPS trước khi bật chế độ tường lửa Hạn chế hoặc Hoang tưởng',
           httpsRequired:
-            'Các chế độ Hạn chế và Hoang tưởng bị tắt cho đến khi HTTPS được bật trong Cài đặt > Hệ thống > Mạng',
+            'Các chế độ Hạn chế và Hoang tưởng bị tắt cho đến khi HTTPS được bật trong Cài đặt > Mạng > Dịch vụ',
           mode: {
             title: 'Chế độ tường lửa',
             baseline: 'Cơ bản',
@@ -707,6 +712,9 @@ const vi = {
           '8': '8 - Tất cả'
         }
       },
+      networking: {
+        title: 'Mạng'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Đường hầm mã hóa',
@@ -783,7 +791,7 @@ const vi = {
           title: 'Tệp hoán đổi',
           tip: 'Nếu sự cố vẫn tiếp diễn sau khi bật tối ưu hóa bộ nhớ, hãy thử bật tệp hoán đổi',
           sizeTip:
-            'Việc này đặt kích thước tệp thành 256MB; có thể điều chỉnh trong Cài đặt > Thiết bị'
+            'Việc này đặt kích thước tệp thành 256MB; có thể điều chỉnh trong Cài đặt > Hệ thống > Hiệu năng'
         },
         restartTitle: 'Khởi động lại Tailscale',
         restartDesc: 'Khởi động lại dịch vụ',
@@ -823,7 +831,7 @@ const vi = {
         cancelBtn: 'Không'
       },
       update: {
-        title: 'Cập nhật hệ thống',
+        title: 'Cập nhật',
         sources: 'Nguồn cập nhật',
         latestVersion: 'Phiên bản mới nhất',
         queryFailed: 'Lấy phiên bản thất bại',
@@ -936,6 +944,13 @@ const vi = {
         logoutDesc: 'Bạn có chắc chắn muốn đăng xuất không?',
         okBtn: 'Có',
         cancelBtn: 'Không',
+        session: {
+          title: 'Phiên'
+        },
+        logoutOnClose: {
+          title: 'Đăng xuất khi đóng trình duyệt',
+          description: 'Kết thúc phiên khi đóng trình duyệt thay vì giữ phiên mở'
+        },
         totp: {
           title: 'Xác thực hai yếu tố',
           authenticator: 'Ứng dụng xác thực',

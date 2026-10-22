@@ -24,7 +24,7 @@ init scripts and helpers shipped with it, the update keys and the version file. 
 does not touch the boot partition, the root filesystem or the kernel. Backend and
 web UI fixes ship this way.
 
-In **Settings > System updates**:
+In **Settings > System > Updates**:
 
 - **Application** checks the online channel. The device accepts an update only
   when its `latest.json` carries a valid signature and the downloaded archive
@@ -64,7 +64,7 @@ with a key of your own and upload it.
 1. Create a key pair on your computer and keep the private half there:
    `openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:3072 -out local.pem`, then
    `openssl pkey -in local.pem -pubout -out local.pub.pem`.
-2. In **Settings > System updates**, choose **Set key** under **Local update key**,
+2. In **Settings > System > Updates**, choose **Set key** under **Local update key**,
    paste `local.pub.pem` and enter your password. The device now trusts that key
    for uploaded bundles only; the online channels never use it.
 3. Build the metadata with

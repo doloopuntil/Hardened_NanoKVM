@@ -89,7 +89,7 @@ const id = {
       title: 'Layar',
       video: 'Mode video',
       videoDirectTips:
-        'Aktifkan HTTPS di "Pengaturan > Sistem > Jaringan" untuk menggunakan mode ini',
+        'Aktifkan HTTPS di "Pengaturan > Jaringan > Layanan" untuk menggunakan mode ini',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC dinonaktifkan dalam mode firewall Terbatas dan Paranoid',
       transferRunningTitle: 'Transfer image sedang berlangsung',
@@ -350,7 +350,7 @@ const id = {
     settings: {
       title: 'Pengaturan',
       about: {
-        title: 'Tentang NanoKVM',
+        title: 'Tentang',
         information: 'Informasi',
         ip: 'IP',
         mdns: 'mDNS',
@@ -418,8 +418,7 @@ const id = {
         sections: {
           connectivity: 'Konektivitas',
           hostConnection: 'Koneksi host',
-          inputOutput: 'Input dan output',
-          optimizations: 'Optimasi'
+          inputOutput: 'Input dan output'
         },
         oled: {
           title: 'Batas waktu OLED',
@@ -557,10 +556,16 @@ const id = {
       },
       system: {
         title: 'Sistem',
+        performance: {
+          memory: 'Memori'
+        },
         sections: {
           time: 'Waktu',
           firewall: 'Firewall',
-          systemLog: 'Pencatatan log'
+          systemLog: 'Pencatatan log',
+          performance: 'Kinerja',
+          services: 'Layanan',
+          webInterface: 'Antarmuka web'
         },
         time: {
           saveFailed: 'Gagal menyimpan pengaturan waktu',
@@ -570,7 +575,7 @@ const id = {
           invalidServers: 'Masukkan setidaknya satu server NTP',
           maxServers: 'Maksimum {{count}} server NTP diizinkan',
           refresh: 'Segarkan',
-          syncNow: 'Sinkronkan sekarang',
+          syncNow: 'Sinkronkan',
           syncNowDesc: 'Atur jam dari server NTP sekarang',
           save: 'Simpan',
           ntp: {
@@ -589,8 +594,8 @@ const id = {
             description: 'Gunakan server publik bawaan, router lokal Anda, atau server NTP kustom',
             useRouter: 'Gunakan router',
             useDefaults: 'Gunakan default',
-            routerDetected: 'Router terdeteksi',
-            routerNone: 'Tidak ditemukan'
+            presets: 'Preset server',
+            presetsDesc: 'Ganti daftar server dengan preset'
           }
         },
         firewall: {
@@ -602,7 +607,7 @@ const id = {
           enableHttpsFirst:
             'Aktifkan HTTPS sebelum mengaktifkan mode firewall Terbatas atau Paranoid',
           httpsRequired:
-            'Mode Terbatas dan Paranoid dinonaktifkan sampai HTTPS diaktifkan di Pengaturan > Sistem > Jaringan',
+            'Mode Terbatas dan Paranoid dinonaktifkan sampai HTTPS diaktifkan di Pengaturan > Jaringan > Layanan',
           mode: {
             title: 'Mode firewall',
             baseline: 'Dasar',
@@ -714,6 +719,9 @@ const id = {
           '8': '8 - Semua'
         }
       },
+      networking: {
+        title: 'Jaringan'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Terowongan terenkripsi',
@@ -789,7 +797,7 @@ const id = {
         swap: {
           title: 'File swap',
           tip: 'Jika masalah terus berlanjut setelah mengaktifkan pengoptimalan memori, coba aktifkan file swap',
-          sizeTip: 'Ini menetapkan ukuran file ke 256MB; sesuaikan di Pengaturan > Perangkat'
+          sizeTip: 'Ini menetapkan ukuran file ke 256MB; sesuaikan di Pengaturan > Sistem > Kinerja'
         },
         restartTitle: 'Mulai ulang Tailscale',
         restartDesc: 'Memulai ulang layanan',
@@ -829,7 +837,7 @@ const id = {
         cancelBtn: 'Tidak'
       },
       update: {
-        title: 'Pembaruan sistem',
+        title: 'Pembaruan',
         sources: 'Sumber pembaruan',
         latestVersion: 'Versi terbaru',
         queryFailed: 'Gagal mendapatkan versi',
@@ -941,6 +949,13 @@ const id = {
         logoutDesc: 'Apakah Anda yakin ingin logout?',
         okBtn: 'Ya',
         cancelBtn: 'Tidak',
+        session: {
+          title: 'Sesi'
+        },
+        logoutOnClose: {
+          title: 'Keluar saat peramban ditutup',
+          description: 'Akhiri sesi saat peramban ditutup, bukan membiarkannya tetap terbuka'
+        },
         totp: {
           title: 'Autentikasi dua faktor',
           authenticator: 'Aplikasi autentikator',

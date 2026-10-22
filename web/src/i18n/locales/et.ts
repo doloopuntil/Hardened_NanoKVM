@@ -88,7 +88,7 @@ const et = {
       scale: 'Skaala',
       title: 'Ekraan',
       video: 'Videorežiim',
-      videoDirectTips: 'Selle režiimi kasutamiseks luba HTTPS menüüs "Seaded > Süsteem > Võrk"',
+      videoDirectTips: 'Selle režiimi kasutamiseks luba HTTPS menüüs "Seaded > Võrgundus > Teenused"',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC on tulemüürirežiimides Piiratud ja Paranoiline keelatud',
       transferRunningTitle: "Image'i edastus käib",
@@ -344,7 +344,7 @@ const et = {
     settings: {
       title: 'Seaded',
       about: {
-        title: 'NanoKVM-ist',
+        title: 'Teave',
         information: 'Teave',
         ip: 'IP',
         mdns: 'mDNS',
@@ -410,8 +410,7 @@ const et = {
         sections: {
           connectivity: 'Ühenduvus',
           hostConnection: 'Hostiühendus',
-          inputOutput: 'Sisend ja väljund',
-          optimizations: 'Optimeerimised'
+          inputOutput: 'Sisend ja väljund'
         },
         oled: {
           title: 'OLED-i ajalõpp',
@@ -547,10 +546,16 @@ const et = {
       },
       system: {
         title: 'Süsteem',
+        performance: {
+          memory: 'Mälu'
+        },
         sections: {
           time: 'Aeg',
           firewall: 'Tulemüür',
-          systemLog: 'Logimine'
+          systemLog: 'Logimine',
+          performance: 'Jõudlus',
+          services: 'Teenused',
+          webInterface: 'Veebiliides'
         },
         time: {
           saveFailed: 'Ajaseadete salvestamine nurjus',
@@ -560,7 +565,7 @@ const et = {
           invalidServers: 'Sisesta vähemalt üks NTP-server',
           maxServers: 'Lubatud on kuni {{count}} NTP-serverit',
           refresh: 'Värskenda',
-          syncNow: 'Sünkrooni kohe',
+          syncNow: 'Sünkroniseeri',
           syncNowDesc: 'Sea kell NTP-serveritest kohe',
           save: 'Salvesta',
           ntp: {
@@ -580,8 +585,8 @@ const et = {
               'Kasuta avalikke vaikeservereid, kohalikku ruuterit või enda NTP-servereid',
             useRouter: 'Kasuta ruuterit',
             useDefaults: 'Kasuta vaikeväärtusi',
-            routerDetected: 'Tuvastatud ruuter',
-            routerNone: 'Ei leitud'
+            presets: 'Serverite eelseaded',
+            presetsDesc: 'Asenda serverite loend eelseadega'
           }
         },
         firewall: {
@@ -592,7 +597,7 @@ const et = {
           backends: 'Backendid',
           enableHttpsFirst: 'Luba HTTPS enne tulemüüri režiimi Piiratud või Paranoiline lubamist',
           httpsRequired:
-            'Režiimid Piiratud ja Paranoiline on keelatud, kuni HTTPS on lubatud menüüs Seaded > Süsteem > Võrk',
+            'Režiimid Piiratud ja Paranoiline on keelatud, kuni HTTPS on lubatud menüüs Seaded > Võrgundus > Teenused',
           mode: {
             title: 'Tulemüüri režiim',
             baseline: 'Baas',
@@ -703,6 +708,9 @@ const et = {
           '8': '8 - Kõik'
         }
       },
+      networking: {
+        title: 'Võrgundus'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Krüpteeritud tunnel',
@@ -777,7 +785,7 @@ const et = {
         swap: {
           title: 'Swap-fail',
           tip: 'Kui probleemid jätkuvad pärast mälu optimeerimise lubamist, proovi lubada swap-fail',
-          sizeTip: 'See määrab faili suuruseks 256 MB; seda saab muuta menüüs Seaded > Seade'
+          sizeTip: 'See määrab faili suuruseks 256 MB; seda saab muuta menüüs Seaded > Süsteem > Jõudlus'
         },
         restartTitle: 'Taaskäivita Tailscale',
         restartDesc: 'Taaskäivitab teenuse',
@@ -816,7 +824,7 @@ const et = {
         cancelBtn: 'Ei'
       },
       update: {
-        title: 'Süsteemiuuendused',
+        title: 'Uuendused',
         sources: 'Uuenduste allikad',
         latestVersion: 'Uusim versioon',
         queryFailed: 'Versiooni hankimine nurjus',
@@ -928,6 +936,13 @@ const et = {
         logoutDesc: 'Kas oled kindel, et soovid välja logida?',
         okBtn: 'Jah',
         cancelBtn: 'Ei',
+        session: {
+          title: 'Seanss'
+        },
+        logoutOnClose: {
+          title: 'Logi välja, kui brauser suletakse',
+          description: 'Lõpeta seanss brauseri sulgemisel, selle asemel et seda avatuna hoida'
+        },
         totp: {
           title: 'Kaheastmeline autentimine',
           authenticator: 'Autentimisrakendus',

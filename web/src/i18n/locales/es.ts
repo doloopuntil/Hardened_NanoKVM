@@ -90,7 +90,7 @@ const es = {
       scale: 'Escala',
       title: 'Pantalla',
       video: 'Modo de vídeo',
-      videoDirectTips: 'Activa HTTPS en "Ajustes > Sistema > Red" para usar este modo',
+      videoDirectTips: 'Activa HTTPS en "Ajustes > Redes > Servicios" para usar este modo',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC está desactivado en los modos de firewall Restringido y Paranoico',
       transferRunningTitle: 'Transferencia de imagen en curso',
@@ -352,7 +352,7 @@ const es = {
     settings: {
       title: 'Ajustes',
       about: {
-        title: 'Sobre NanoKVM',
+        title: 'Acerca de',
         information: 'Información',
         ip: 'IP',
         mdns: 'mDNS',
@@ -419,8 +419,7 @@ const es = {
         sections: {
           connectivity: 'Conectividad',
           hostConnection: 'Conexión con el host',
-          inputOutput: 'Entrada y salida',
-          optimizations: 'Optimizaciones'
+          inputOutput: 'Entrada y salida'
         },
         oled: {
           title: 'Tiempo de espera de la OLED',
@@ -558,10 +557,16 @@ const es = {
       },
       system: {
         title: 'Sistema',
+        performance: {
+          memory: 'Memoria'
+        },
         sections: {
           time: 'Hora',
           firewall: 'Firewall',
-          systemLog: 'Registro'
+          systemLog: 'Registro',
+          performance: 'Rendimiento',
+          services: 'Servicios',
+          webInterface: 'Interfaz web'
         },
         time: {
           saveFailed: 'No se pudieron guardar los ajustes de hora',
@@ -571,7 +576,7 @@ const es = {
           invalidServers: 'Introduce al menos un servidor NTP',
           maxServers: 'Máximo {{count}} servidores NTP permitidos',
           refresh: 'Actualizar',
-          syncNow: 'Sincronizar ahora',
+          syncNow: 'Sincronizar',
           syncNowDesc: 'Ajusta el reloj con los servidores NTP ahora',
           save: 'Guardar',
           ntp: {
@@ -591,8 +596,8 @@ const es = {
               'Usa los servidores públicos predeterminados, tu router local o servidores NTP personalizados',
             useRouter: 'Usar router',
             useDefaults: 'Usar valores predeterminados',
-            routerDetected: 'Router detectado',
-            routerNone: 'No encontrado'
+            presets: 'Servidores predefinidos',
+            presetsDesc: 'Sustituye la lista de servidores por una predefinida'
           }
         },
         firewall: {
@@ -604,7 +609,7 @@ const es = {
           enableHttpsFirst:
             'Activa HTTPS antes de activar el modo de firewall Restringido o Paranoico',
           httpsRequired:
-            'Los modos Restringido y Paranoico están desactivados hasta que se active HTTPS en Ajustes > Sistema > Red',
+            'Los modos Restringido y Paranoico están desactivados hasta que se active HTTPS en Ajustes > Redes > Servicios',
           mode: {
             title: 'Modo del firewall',
             baseline: 'Base',
@@ -717,6 +722,9 @@ const es = {
           '8': '8 - Todo'
         }
       },
+      networking: {
+        title: 'Redes'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Túnel cifrado',
@@ -792,7 +800,7 @@ const es = {
         swap: {
           title: 'Archivo swap',
           tip: 'Si los problemas persisten después de activar la optimización de memoria, prueba a activar el archivo swap',
-          sizeTip: 'Esto establece su tamaño en 256 MB; ajústalo en Ajustes > Dispositivo'
+          sizeTip: 'Esto establece su tamaño en 256 MB; ajústalo en Ajustes > Sistema > Rendimiento'
         },
         restartTitle: 'Reiniciar Tailscale',
         restartDesc: 'Reinicia el servicio',
@@ -832,7 +840,7 @@ const es = {
         cancelBtn: 'No'
       },
       update: {
-        title: 'Actualizaciones del sistema',
+        title: 'Actualizaciones',
         sources: 'Fuentes de actualización',
         latestVersion: 'Última versión',
         queryFailed: 'Error al obtener la versión',
@@ -946,6 +954,13 @@ const es = {
         logoutDesc: '¿Estás seguro de que deseas cerrar sesión?',
         okBtn: 'Sí',
         cancelBtn: 'No',
+        session: {
+          title: 'Sesión'
+        },
+        logoutOnClose: {
+          title: 'Cerrar sesión al cerrar el navegador',
+          description: 'Finaliza la sesión cuando se cierra el navegador en lugar de mantenerla abierta'
+        },
         totp: {
           title: 'Autenticación en dos pasos',
           authenticator: 'Aplicación de autenticación',

@@ -1,23 +1,40 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Segmented } from 'antd';
+import { Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import { PageHeader } from '@/components/page-header.tsx';
 import { SaveBar } from '@/components/save-bar.tsx';
+import { SettingSection } from '@/components/setting-rows.tsx';
 import { SettingsLoadGroup } from '@/components/settings-load-group.tsx';
 
 import { Network } from '../network';
 import { SystemLog } from '../system-log';
+import { Update } from '../update';
 import type { SystemActionHandle, SystemActionState } from './action';
 import { idleSystemActionState } from './action';
 import { FirewallSettings } from './firewall';
+import { Mdns } from './mdns';
+import { Ssh } from './ssh';
+import { Swap } from './swap';
 import { TimeSettings } from './time';
+import { Tls } from './tls';
 
-type SystemSection = 'network' | 'time' | 'firewall' | 'systemLog';
+export type SystemSection =
+  | 'time'
+  | 'network'
+  | 'firewall'
+  | 'systemLog'
+  | 'performance'
+  | 'services'
+  | 'updates';
 
-export const System = () => {
+type SystemProps = {
+  section: SystemSection;
+  setIsLocked: (locked: boolean) => void;
+};
+
+export const System = ({ section, setIsLocked }: SystemProps) => {
   const { t } = useTranslation();
-  const [section, setSection] = useState<SystemSection>('time');
   const [actionState, setActionState] = useState<SystemActionState>(idleSystemActionState);
   const networkRef = useRef<SystemActionHandle>(null);
   const timeRef = useRef<SystemActionHandle>(null);
@@ -45,24 +62,24 @@ export const System = () => {
     }
   }
 
+  const titles: Record<SystemSection, string> = {
+    time: t('settings.system.sections.time'),
+    network: t('settings.network.title'),
+    firewall: t('settings.system.sections.firewall'),
+    systemLog: t('settings.system.sections.systemLog'),
+    performance: t('settings.system.sections.performance'),
+    services: t('settings.system.sections.services'),
+    updates: t('settings.update.title')
+  };
+
+  // the updates page has its own header and load handling
+  if (section === 'updates') {
+    return <Update setIsLocked={setIsLocked} />;
+  }
+
   return (
     <>
-      <PageHeader title={t('settings.system.title')}>
-        <div className="min-w-0 max-w-full overflow-x-auto">
-          <Segmented
-            size="small"
-            className="min-w-max"
-            value={section}
-            options={[
-              { value: 'time', label: t('settings.system.sections.time') },
-              { value: 'network', label: t('settings.network.title') },
-              { value: 'firewall', label: t('settings.system.sections.firewall') },
-              { value: 'systemLog', label: t('settings.system.sections.systemLog') }
-            ]}
-            onChange={(value) => setSection(value as SystemSection)}
-          />
-        </div>
-      </PageHeader>
+      <PageHeader title={titles[section]} />
 
       {/* The load banner is part of the section, below the sticky header; the group of the whole
           tab would put it above the header, where the header's cover hides it. */}
@@ -77,6 +94,25 @@ export const System = () => {
           {section === 'firewall' && <FirewallSettings />}
           {section === 'systemLog' && (
             <SystemLog ref={systemLogRef} onActionStateChange={updateActionState} />
+          )}
+          {section === 'services' && (
+            <div className="flex flex-col space-y-6">
+              <SettingSection title={t('settings.system.sections.webInterface')}>
+                <Tls />
+              </SettingSection>
+
+              <Divider className="opacity-50" />
+
+              <SettingSection title={t('settings.device.sections.connectivity')}>
+                <Ssh />
+                <Mdns />
+              </SettingSection>
+            </div>
+          )}
+          {section === 'performance' && (
+            <SettingSection title={t('settings.system.performance.memory')}>
+              <Swap />
+            </SettingSection>
           )}
         </div>
       </SettingsLoadGroup>

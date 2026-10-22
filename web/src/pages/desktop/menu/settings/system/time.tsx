@@ -1,6 +1,5 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { Button, ConfigProvider, Divider, Select, Switch } from 'antd';
-import { RouterIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/system-time.ts';
@@ -177,16 +176,6 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
             </SettingRow>
 
             <SettingRow
-              label={t('settings.system.time.syncNow')}
-              description={t('settings.system.time.syncNowDesc')}
-              inline
-            >
-              <Button disabled={!config.ntpEnabled} loading={isSyncing} onClick={syncNow}>
-                {t('settings.system.time.syncNow')}
-              </Button>
-            </SettingRow>
-
-            <SettingRow
               label={t('settings.system.time.servers.title')}
               description={t('settings.system.time.servers.description')}
               inline
@@ -206,22 +195,33 @@ export const TimeSettings = forwardRef<SystemActionHandle, TimeSettingsProps>(
             </SettingRow>
 
             <SettingRow
-              label={t('settings.system.time.servers.routerDetected')}
-              description={data?.gateway || t('settings.system.time.servers.routerNone')}
+              label={t('settings.system.time.servers.presets')}
+              description={t('settings.system.time.servers.presetsDesc')}
             >
               <div className="flex min-w-0 flex-wrap justify-end gap-2">
                 <Button
                   className="min-w-0"
                   disabled={!config.ntpEnabled || !data?.gateway}
-                  icon={<RouterIcon size={15} />}
                   onClick={useRouter}
                 >
-                  {t('settings.system.time.servers.useRouter')}
+                  {data?.gateway
+                    ? `${t('settings.system.time.servers.useRouter')} ${data.gateway}`
+                    : t('settings.system.time.servers.useRouter')}
                 </Button>
                 <Button className="min-w-0" disabled={!config.ntpEnabled} onClick={useDefaults}>
                   {t('settings.system.time.servers.useDefaults')}
                 </Button>
               </div>
+            </SettingRow>
+
+            <SettingRow
+              label={t('settings.system.time.syncNow')}
+              description={t('settings.system.time.syncNowDesc')}
+              inline
+            >
+              <Button disabled={!config.ntpEnabled} loading={isSyncing} onClick={syncNow}>
+                {t('settings.system.time.syncNow')}
+              </Button>
             </SettingRow>
           </SettingSection>
 

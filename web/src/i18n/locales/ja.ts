@@ -88,7 +88,7 @@ const ja = {
       title: '画面',
       video: 'ビデオモード',
       videoDirectTips:
-        'このモードを使用するには「設定 > システム > ネットワーク」で HTTPS を有効にしてください',
+        'このモードを使用するには「設定 > ネットワーク > サービス」で HTTPS を有効にしてください',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC は制限付き/パラノイドファイアウォールモードでは無効です',
       transferRunningTitle: 'イメージ転送中',
@@ -351,7 +351,7 @@ const ja = {
     settings: {
       title: '設定',
       about: {
-        title: 'NanoKVM について',
+        title: 'バージョン情報',
         information: '情報',
         ip: 'IP',
         mdns: 'mDNS',
@@ -419,8 +419,7 @@ const ja = {
         sections: {
           connectivity: '接続',
           hostConnection: 'ホスト接続',
-          inputOutput: '入力と出力',
-          optimizations: '最適化'
+          inputOutput: '入力と出力'
         },
         oled: {
           title: 'OLED のタイムアウト',
@@ -558,10 +557,16 @@ const ja = {
       },
       system: {
         title: 'システム',
+        performance: {
+          memory: 'メモリ'
+        },
         sections: {
           time: '時刻',
           firewall: 'ファイアウォール',
-          systemLog: 'ログ記録'
+          systemLog: 'ログ記録',
+          performance: 'パフォーマンス',
+          services: 'サービス',
+          webInterface: 'Webインターフェース'
         },
         time: {
           saveFailed: '時刻設定の保存に失敗しました',
@@ -571,7 +576,7 @@ const ja = {
           invalidServers: '少なくとも 1 つの NTP サーバーを入力してください',
           maxServers: '最大 {{count}} 個の NTP サーバーを指定できます',
           refresh: '更新',
-          syncNow: '今すぐ同期',
+          syncNow: '同期',
           syncNowDesc: 'NTP サーバーから今すぐ時刻を設定します',
           save: '保存',
           ntp: {
@@ -591,8 +596,8 @@ const ja = {
               '既定の公開サーバー、ローカルルーター、またはカスタム NTP サーバーを使用します',
             useRouter: 'ルーターを使用',
             useDefaults: '既定値を使用',
-            routerDetected: '検出されたルーター',
-            routerNone: '見つかりません'
+            presets: 'サーバーのプリセット',
+            presetsDesc: 'サーバー一覧をプリセットに置き換えます'
           }
         },
         firewall: {
@@ -604,7 +609,7 @@ const ja = {
           enableHttpsFirst:
             '制限付きまたはパラノイドファイアウォールモードを有効にする前に HTTPS を有効にしてください',
           httpsRequired:
-            'HTTPS が「設定 > システム > ネットワーク」で有効になるまで、制限付きモードとパラノイドモードは無効です',
+            'HTTPS が「設定 > ネットワーク > サービス」で有効になるまで、制限付きモードとパラノイドモードは無効です',
           mode: {
             title: 'ファイアウォールモード',
             baseline: 'ベースライン',
@@ -716,6 +721,9 @@ const ja = {
           '8': '8 - すべて'
         }
       },
+      networking: {
+        title: 'ネットワーク'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: '暗号化トンネル',
@@ -792,7 +800,7 @@ const ja = {
           title: 'スワップファイル',
           tip: 'メモリ最適化を有効にしても問題が解決しない場合は、スワップファイルを有効にしてみてください',
           sizeTip:
-            'ファイルサイズは 256MB に設定されます。サイズは「設定 - デバイス」で変更できます'
+            'ファイルサイズは 256MB に設定されます。サイズは「設定 > システム > パフォーマンス」で変更できます'
         },
         restartTitle: 'Tailscale を再起動',
         restartDesc: 'サービスを再起動します',
@@ -832,7 +840,7 @@ const ja = {
         cancelBtn: 'いいえ'
       },
       update: {
-        title: 'システムアップデート',
+        title: 'アップデート',
         sources: 'アップデートの取得元',
         latestVersion: '最新バージョン',
         queryFailed: 'バージョン番号の取得に失敗しました',
@@ -944,6 +952,13 @@ const ja = {
         logoutDesc: 'ログアウトしてもよろしいですか？',
         okBtn: 'はい',
         cancelBtn: 'いいえ',
+        session: {
+          title: 'セッション'
+        },
+        logoutOnClose: {
+          title: 'ブラウザを閉じたらログアウト',
+          description: 'セッションを開いたままにせず、ブラウザを閉じたときに終了します'
+        },
         totp: {
           title: '二要素認証',
           authenticator: '認証アプリ',

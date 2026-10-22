@@ -85,7 +85,7 @@ const zh_tw = {
       scale: '縮放',
       title: '螢幕',
       video: '影片模式',
-      videoDirectTips: '本模式需先啟用 HTTPS，請前往「設定 > 系統 > 網路」中開啟',
+      videoDirectTips: '本模式需先啟用 HTTPS，請前往「設定 > 網路 > 服務」中開啟',
       videoWebrtcBlockedByFirewall: 'H.264 WebRTC 在受限和偏執防火牆模式下已停用',
       transferRunningTitle: '映像檔傳輸進行中',
       transferRunningDesc: '切換影片模式會重新載入頁面，並取消正在進行的映像檔上傳或下載。',
@@ -335,7 +335,7 @@ const zh_tw = {
     settings: {
       title: '設定',
       about: {
-        title: '關於 NanoKVM',
+        title: '關於',
         information: '資訊',
         ip: 'IP',
         mdns: 'mDNS',
@@ -401,8 +401,7 @@ const zh_tw = {
         sections: {
           connectivity: '連線',
           hostConnection: '主機連線',
-          inputOutput: '輸入與輸出',
-          optimizations: '最佳化'
+          inputOutput: '輸入與輸出'
         },
         oled: {
           title: 'OLED 逾時',
@@ -534,10 +533,16 @@ const zh_tw = {
       },
       system: {
         title: '系統',
+        performance: {
+          memory: '記憶體'
+        },
         sections: {
           time: '時間',
           firewall: '防火牆',
-          systemLog: '記錄'
+          systemLog: '記錄',
+          performance: '效能',
+          services: '服務',
+          webInterface: '網頁介面'
         },
         time: {
           saveFailed: '儲存時間設定失敗',
@@ -547,7 +552,7 @@ const zh_tw = {
           invalidServers: '請至少輸入一個 NTP 伺服器',
           maxServers: '最多允許 {{count}} 個 NTP 伺服器',
           refresh: '重新整理',
-          syncNow: '立即同步',
+          syncNow: '同步',
           syncNowDesc: '立即以 NTP 伺服器設定時鐘',
           save: '儲存',
           ntp: {
@@ -566,8 +571,8 @@ const zh_tw = {
             description: '使用預設公用伺服器、本機路由器或自訂 NTP 伺服器',
             useRouter: '使用路由器',
             useDefaults: '使用預設值',
-            routerDetected: '偵測到路由器',
-            routerNone: '未找到'
+            presets: '伺服器預設',
+            presetsDesc: '以預設值取代伺服器清單'
           }
         },
         firewall: {
@@ -577,7 +582,7 @@ const zh_tw = {
           refresh: '重新整理',
           backends: '後端',
           enableHttpsFirst: '請先啟用 HTTPS，再啟用受限或偏執防火牆模式',
-          httpsRequired: '在「設定 > 系統 > 網路」中啟用 HTTPS 之前，受限和偏執模式無法使用',
+          httpsRequired: '在「設定 > 網路 > 服務」中啟用 HTTPS 之前，受限和偏執模式無法使用',
           mode: {
             title: '防火牆模式',
             baseline: '基準',
@@ -687,6 +692,9 @@ const zh_tw = {
           '8': '8 - 全部'
         }
       },
+      networking: {
+        title: '網路'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: '加密通道',
@@ -760,7 +768,7 @@ const zh_tw = {
         swap: {
           title: 'Swap 檔',
           tip: '如果啟用記憶體最佳化後問題依然存在，可以嘗試啟用 Swap 檔',
-          sizeTip: '這會將檔案大小設定為 256MB，可以在「設定 - 裝置」中修改'
+          sizeTip: '這會將檔案大小設定為 256MB，可以在「設定 > 系統 > 效能」中修改'
         },
         restartTitle: '重啟 Tailscale',
         restartDesc: '重啟服務',
@@ -799,7 +807,7 @@ const zh_tw = {
         cancelBtn: '取消'
       },
       update: {
-        title: '系統更新',
+        title: '更新',
         sources: '更新來源',
         latestVersion: '最新版本',
         queryFailed: '取得版本號失敗',
@@ -902,6 +910,13 @@ const zh_tw = {
         logoutDesc: '您確定要登出嗎?',
         okBtn: '確定',
         cancelBtn: '取消',
+        session: {
+          title: '工作階段'
+        },
+        logoutOnClose: {
+          title: '關閉瀏覽器時登出',
+          description: '關閉瀏覽器時結束工作階段，而不是保持登入狀態'
+        },
         totp: {
           title: '兩步驟驗證',
           authenticator: '驗證器 App',

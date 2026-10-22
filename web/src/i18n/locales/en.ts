@@ -88,7 +88,7 @@ const en = {
       scale: 'Scale',
       title: 'Screen',
       video: 'Video mode',
-      videoDirectTips: 'Enable HTTPS in "Settings > System > Network" to use this mode',
+      videoDirectTips: 'Enable HTTPS in "Settings > Networking > Services" to use this mode',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC is disabled in the Restricted and Paranoid firewall modes',
       transferRunningTitle: 'Image transfer in progress',
@@ -348,7 +348,7 @@ const en = {
     settings: {
       title: 'Settings',
       about: {
-        title: 'About NanoKVM',
+        title: 'About',
         information: 'Information',
         ip: 'IP',
         mdns: 'mDNS',
@@ -414,8 +414,7 @@ const en = {
         sections: {
           connectivity: 'Connectivity',
           hostConnection: 'Host connection',
-          inputOutput: 'Input and output',
-          optimizations: 'Optimizations'
+          inputOutput: 'Input and output'
         },
         oled: {
           title: 'OLED timeout',
@@ -551,10 +550,16 @@ const en = {
       },
       system: {
         title: 'System',
+        performance: {
+          memory: 'Memory'
+        },
         sections: {
           time: 'Time',
           firewall: 'Firewall',
-          systemLog: 'Logging'
+          systemLog: 'Logging',
+          performance: 'Performance',
+          services: 'Services',
+          webInterface: 'Web interface'
         },
         time: {
           saveFailed: 'Failed to save time settings',
@@ -564,7 +569,7 @@ const en = {
           invalidServers: 'Enter at least one NTP server',
           maxServers: 'Maximum {{count}} NTP servers allowed',
           refresh: 'Refresh',
-          syncNow: 'Sync now',
+          syncNow: 'Synchronize',
           syncNowDesc: 'Set the clock from the NTP servers now',
           save: 'Save',
           ntp: {
@@ -583,8 +588,8 @@ const en = {
             description: 'Use default public servers, your local router, or custom NTP servers',
             useRouter: 'Use router',
             useDefaults: 'Use defaults',
-            routerDetected: 'Detected router',
-            routerNone: 'Not found'
+            presets: 'Server presets',
+            presetsDesc: 'Replace the server list with a preset'
           }
         },
         firewall: {
@@ -595,7 +600,7 @@ const en = {
           backends: 'Backends',
           enableHttpsFirst: 'Enable HTTPS before enabling Restricted or Paranoid Firewall mode',
           httpsRequired:
-            'Restricted and Paranoid modes are disabled until HTTPS is enabled in Settings > System > Network',
+            'Restricted and Paranoid modes are disabled until HTTPS is enabled in Settings > Networking > Services',
           mode: {
             title: 'Firewall mode',
             baseline: 'Baseline',
@@ -705,6 +710,9 @@ const en = {
           '8': '8 - All'
         }
       },
+      networking: {
+        title: 'Networking'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Encrypted tunnel',
@@ -779,7 +787,7 @@ const en = {
         swap: {
           title: 'Swap file',
           tip: 'If issues persist after enabling memory optimization, try enabling the swap file',
-          sizeTip: 'This sets the file size to 256MB, adjust it in Settings > Device'
+          sizeTip: 'This sets the file size to 256MB, adjust it in Settings > System > Performance'
         },
         restartTitle: 'Restart Tailscale',
         restartDesc: 'Restart the service',
@@ -819,7 +827,7 @@ const en = {
         cancelBtn: 'No'
       },
       update: {
-        title: 'System updates',
+        title: 'Updates',
         sources: 'Update sources',
         latestVersion: 'Latest version',
         queryFailed: "Couldn't get the version",
@@ -930,6 +938,13 @@ const en = {
         logoutDesc: 'Are you sure you want to logout?',
         okBtn: 'Yes',
         cancelBtn: 'No',
+        session: {
+          title: 'Session'
+        },
+        logoutOnClose: {
+          title: 'Log out when the browser closes',
+          description: 'End the session when the browser is closed instead of keeping it open'
+        },
         totp: {
           title: 'Two-factor authentication',
           authenticator: 'Authenticator app',

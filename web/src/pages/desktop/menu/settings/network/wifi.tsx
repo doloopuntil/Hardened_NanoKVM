@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { LockOutlined, WifiOutlined } from '@ant-design/icons';
 import { Button, Input, Modal } from 'antd';
+import { LockIcon, WifiIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/network.ts';
@@ -150,13 +150,13 @@ export const Wifi = () => {
 
           <Input
             value={ssid}
-            prefix={<WifiOutlined />}
+            prefix={<WifiIcon size={14} />}
             placeholder={t('settings.network.wifi.ssid')}
             onChange={(e) => setSsid(e.target.value)}
           />
           <Input.Password
             value={password}
-            prefix={<LockOutlined />}
+            prefix={<LockIcon size={14} />}
             placeholder={t('settings.network.wifi.password')}
             onChange={(e) => setPassword(e.target.value)}
           />

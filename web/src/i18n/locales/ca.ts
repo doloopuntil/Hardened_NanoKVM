@@ -89,7 +89,7 @@ const ca = {
       scale: 'Escala',
       title: 'Pantalla',
       video: 'Mode de vídeo',
-      videoDirectTips: 'Activa HTTPS a "Configuració > Sistema > Xarxa" per utilitzar aquest mode',
+      videoDirectTips: 'Activa HTTPS a "Configuració > Xarxes > Serveis" per utilitzar aquest mode',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC està desactivat en els modes de tallafoc Restringit i Paranoic',
       transferRunningTitle: "Transferència d'imatge en curs",
@@ -349,7 +349,7 @@ const ca = {
     settings: {
       title: 'Configuració',
       about: {
-        title: 'Sobre NanoKVM',
+        title: 'Quant a',
         information: 'Informació',
         ip: 'IP',
         mdns: 'mDNS',
@@ -416,8 +416,7 @@ const ca = {
         sections: {
           connectivity: 'Connectivitat',
           hostConnection: "Connexió amb l'amfitrió",
-          inputOutput: 'Entrada i sortida',
-          optimizations: 'Optimitzacions'
+          inputOutput: 'Entrada i sortida'
         },
         oled: {
           title: "Temps d'espera de l'OLED",
@@ -557,10 +556,16 @@ const ca = {
       },
       system: {
         title: 'Sistema',
+        performance: {
+          memory: 'Memòria'
+        },
         sections: {
           time: 'Hora',
           firewall: 'Tallafoc',
-          systemLog: 'Registre'
+          systemLog: 'Registre',
+          performance: 'Rendiment',
+          services: 'Serveis',
+          webInterface: 'Interfície web'
         },
         time: {
           saveFailed: "No s'han pogut desar els paràmetres d'hora",
@@ -570,7 +575,7 @@ const ca = {
           invalidServers: 'Introdueix almenys un servidor NTP',
           maxServers: 'Es permeten com a màxim {{count}} servidors NTP',
           refresh: 'Actualitza',
-          syncNow: 'Sincronitza ara',
+          syncNow: 'Sincronitza',
           syncNowDesc: 'Ajusta el rellotge amb els servidors NTP ara',
           save: 'Desa',
           ntp: {
@@ -590,8 +595,8 @@ const ca = {
               'Fes servir els servidors públics per defecte, el teu encaminador local o servidors NTP personalitzats',
             useRouter: 'Fes servir encaminador',
             useDefaults: 'Fes servir valors per defecte',
-            routerDetected: 'Encaminador detectat',
-            routerNone: 'No trobat'
+            presets: 'Predefinits de servidors',
+            presetsDesc: 'Substitueix la llista de servidors per un valor predefinit'
           }
         },
         firewall: {
@@ -603,7 +608,7 @@ const ca = {
           enableHttpsFirst:
             "Activa HTTPS abans d'activar el mode de tallafoc Restringit o Paranoic",
           httpsRequired:
-            "Els modes Restringit i Paranoic estan desactivats fins que s'activi HTTPS a Configuració > Sistema > Xarxa",
+            "Els modes Restringit i Paranoic estan desactivats fins que s'activi HTTPS a Configuració > Xarxes > Serveis",
           mode: {
             title: 'Mode del tallafoc',
             baseline: 'Base',
@@ -716,6 +721,9 @@ const ca = {
           '8': '8 - Tot'
         }
       },
+      networking: {
+        title: 'Xarxes'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Túnel xifrat',
@@ -792,7 +800,7 @@ const ca = {
           title: 'Fitxer swap',
           tip: "Si els problemes persisteixen després d'activar l'optimització de memòria, prova d'activar el fitxer swap",
           sizeTip:
-            'Això estableix la mida del fitxer a 256MB; ajusta-la a Configuració > Dispositiu'
+            'Això estableix la mida del fitxer a 256MB; ajusta-la a Configuració > Sistema > Rendiment'
         },
         restartTitle: 'Reinicia Tailscale',
         restartDesc: 'Reinicia el servei',
@@ -831,7 +839,7 @@ const ca = {
         cancelBtn: 'No'
       },
       update: {
-        title: 'Actualitzacions del sistema',
+        title: 'Actualitzacions',
         sources: "Fonts d'actualització",
         latestVersion: 'Última versió',
         queryFailed: 'Error en obtenir la versió',
@@ -943,6 +951,13 @@ const ca = {
         logoutDesc: 'Segur que vols tancar sessió?',
         okBtn: 'Sí',
         cancelBtn: 'No',
+        session: {
+          title: 'Sessió'
+        },
+        logoutOnClose: {
+          title: 'Tanca la sessió en tancar el navegador',
+          description: 'Finalitza la sessió quan es tanca el navegador en lloc de mantenir-la oberta'
+        },
         totp: {
           title: 'Autenticació de dos factors',
           authenticator: "Aplicació d'autenticació",

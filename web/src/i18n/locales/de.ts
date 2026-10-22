@@ -91,7 +91,7 @@ const de = {
       title: 'Bildschirm',
       video: 'Videomodus',
       videoDirectTips:
-        'Aktivieren Sie HTTPS unter „Einstellungen > System > Netzwerk“, um diesen Modus zu verwenden',
+        'Aktivieren Sie HTTPS unter „Einstellungen > Netzwerk > Dienste“, um diesen Modus zu verwenden',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC ist in den Firewall-Modi Eingeschränkt und Paranoid deaktiviert',
       transferRunningTitle: 'Image-Übertragung läuft',
@@ -354,7 +354,7 @@ const de = {
     settings: {
       title: 'Einstellungen',
       about: {
-        title: 'Über NanoKVM',
+        title: 'Über',
         information: 'Informationen',
         ip: 'IP',
         mdns: 'mDNS',
@@ -421,8 +421,7 @@ const de = {
         sections: {
           connectivity: 'Konnektivität',
           hostConnection: 'Host-Verbindung',
-          inputOutput: 'Eingabe und Ausgabe',
-          optimizations: 'Optimierungen'
+          inputOutput: 'Eingabe und Ausgabe'
         },
         oled: {
           title: 'OLED-Timeout',
@@ -562,10 +561,16 @@ const de = {
       },
       system: {
         title: 'System',
+        performance: {
+          memory: 'Arbeitsspeicher'
+        },
         sections: {
           time: 'Zeit',
           firewall: 'Firewall',
-          systemLog: 'Protokollierung'
+          systemLog: 'Protokollierung',
+          performance: 'Leistung',
+          services: 'Dienste',
+          webInterface: 'Weboberfläche'
         },
         time: {
           saveFailed: 'Zeiteinstellungen konnten nicht gespeichert werden',
@@ -575,7 +580,7 @@ const de = {
           invalidServers: 'Mindestens einen NTP-Server eingeben',
           maxServers: 'Maximal {{count}} NTP-Server erlaubt',
           refresh: 'Aktualisieren',
-          syncNow: 'Jetzt synchronisieren',
+          syncNow: 'Synchronisieren',
           syncNowDesc: 'Die Uhr jetzt mit den NTP-Servern abgleichen',
           save: 'Speichern',
           ntp: {
@@ -595,8 +600,8 @@ const de = {
               'Öffentliche Standardserver, den lokalen Router oder eigene NTP-Server verwenden',
             useRouter: 'Router verwenden',
             useDefaults: 'Standardwerte verwenden',
-            routerDetected: 'Erkannter Router',
-            routerNone: 'Nicht gefunden'
+            presets: 'Server-Voreinstellungen',
+            presetsDesc: 'Serverliste durch eine Voreinstellung ersetzen'
           }
         },
         firewall: {
@@ -608,7 +613,7 @@ const de = {
           enableHttpsFirst:
             'HTTPS aktivieren, bevor der Firewall-Modus Eingeschränkt oder Paranoid aktiviert wird',
           httpsRequired:
-            'Die Modi Eingeschränkt und Paranoid sind deaktiviert, bis HTTPS unter Einstellungen > System > Netzwerk aktiviert wird',
+            'Die Modi Eingeschränkt und Paranoid sind deaktiviert, bis HTTPS unter Einstellungen > Netzwerk > Dienste aktiviert wird',
           mode: {
             title: 'Firewallmodus',
             baseline: 'Basis',
@@ -721,6 +726,9 @@ const de = {
           '8': '8 - Alle'
         }
       },
+      networking: {
+        title: 'Netzwerk'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Verschlüsselter Tunnel',
@@ -799,7 +807,7 @@ const de = {
           title: 'Swap-Datei',
           tip: 'Wenn die Probleme nach der Aktivierung der Speicheroptimierung weiterhin bestehen, aktivieren Sie die Swap-Datei',
           sizeTip:
-            'Das setzt die Dateigröße auf 256MB; Sie können sie unter Einstellungen > Gerät ändern'
+            'Das setzt die Dateigröße auf 256MB; Sie können sie unter Einstellungen > System > Leistung ändern'
         },
         restartTitle: 'Tailscale neu starten',
         restartDesc: 'Startet den Dienst neu',
@@ -839,7 +847,7 @@ const de = {
         cancelBtn: 'Nein'
       },
       update: {
-        title: 'Systemupdates',
+        title: 'Updates',
         sources: 'Update-Quellen',
         latestVersion: 'Neueste Version',
         queryFailed: 'Version konnte nicht abgefragt werden',
@@ -953,6 +961,13 @@ const de = {
         logoutDesc: 'Möchten Sie sich wirklich abmelden?',
         okBtn: 'Ja',
         cancelBtn: 'Nein',
+        session: {
+          title: 'Sitzung'
+        },
+        logoutOnClose: {
+          title: 'Abmelden, wenn der Browser geschlossen wird',
+          description: 'Sitzung beenden, sobald der Browser geschlossen wird, statt sie offen zu halten'
+        },
         totp: {
           title: 'Zwei-Faktor-Authentifizierung',
           authenticator: 'Authenticator-App',

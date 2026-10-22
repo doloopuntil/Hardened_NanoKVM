@@ -89,7 +89,7 @@ const se = {
       title: 'Skärm',
       video: 'Videoläge',
       videoDirectTips:
-        'Aktivera HTTPS under "Inställningar > System > Nätverk" för att använda detta läge',
+        'Aktivera HTTPS under "Inställningar > Nätverk > Tjänster" för att använda detta läge',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC är inaktiverat i brandväggslägena Begränsad och Paranoid',
       transferRunningTitle: 'Avbildningsöverföring pågår',
@@ -349,7 +349,7 @@ const se = {
     settings: {
       title: 'Inställningar',
       about: {
-        title: 'Om NanoKVM',
+        title: 'Om',
         information: 'Information',
         ip: 'IP',
         mdns: 'mDNS',
@@ -416,8 +416,7 @@ const se = {
         sections: {
           connectivity: 'Anslutning',
           hostConnection: 'Värdanslutning',
-          inputOutput: 'Indata och utdata',
-          optimizations: 'Optimeringar'
+          inputOutput: 'Indata och utdata'
         },
         oled: {
           title: 'OLED-timeout',
@@ -556,10 +555,16 @@ const se = {
       },
       system: {
         title: 'System',
+        performance: {
+          memory: 'Minne'
+        },
         sections: {
           time: 'Tid',
           firewall: 'Brandvägg',
-          systemLog: 'Loggning'
+          systemLog: 'Loggning',
+          performance: 'Prestanda',
+          services: 'Tjänster',
+          webInterface: 'Webbgränssnitt'
         },
         time: {
           saveFailed: 'Kunde inte spara tidsinställningar',
@@ -569,7 +574,7 @@ const se = {
           invalidServers: 'Ange minst en NTP-server',
           maxServers: 'Högst {{count}} NTP-servrar tillåtna',
           refresh: 'Uppdatera',
-          syncNow: 'Synkronisera nu',
+          syncNow: 'Synkronisera',
           syncNowDesc: 'Ställ klockan från NTP-servrarna nu',
           save: 'Spara',
           ntp: {
@@ -588,8 +593,8 @@ const se = {
             description: 'Använd standardservrarna, din lokala router eller egna NTP-servrar',
             useRouter: 'Använd router',
             useDefaults: 'Använd standardvärden',
-            routerDetected: 'Upptäckt router',
-            routerNone: 'Hittades inte'
+            presets: 'Serverförval',
+            presetsDesc: 'Ersätt serverlistan med ett förval'
           }
         },
         firewall: {
@@ -601,7 +606,7 @@ const se = {
           enableHttpsFirst:
             'Aktivera HTTPS innan du aktiverar brandväggsläget Begränsad eller Paranoid',
           httpsRequired:
-            'Lägena Begränsad och Paranoid är inaktiverade tills HTTPS har aktiverats under Inställningar > System > Nätverk',
+            'Lägena Begränsad och Paranoid är inaktiverade tills HTTPS har aktiverats under Inställningar > Nätverk > Tjänster',
           mode: {
             title: 'Brandväggsläge',
             baseline: 'Bas',
@@ -714,6 +719,9 @@ const se = {
           '8': '8 - Alla'
         }
       },
+      networking: {
+        title: 'Nätverk'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Krypterad tunnel',
@@ -789,7 +797,7 @@ const se = {
         swap: {
           title: 'Swap-fil',
           tip: 'Om problemen kvarstår efter att du har aktiverat minnesoptimering, försök att aktivera swap-filen',
-          sizeTip: 'Detta ställer in filstorleken till 256MB; justera den i Inställningar > Enhet'
+          sizeTip: 'Detta ställer in filstorleken till 256MB; justera den i Inställningar > System > Prestanda'
         },
         restartTitle: 'Starta om Tailscale',
         restartDesc: 'Startar om tjänsten',
@@ -828,7 +836,7 @@ const se = {
         cancelBtn: 'Nej'
       },
       update: {
-        title: 'Systemuppdateringar',
+        title: 'Uppdateringar',
         sources: 'Uppdateringskällor',
         latestVersion: 'Senaste version',
         queryFailed: 'Kunde inte hämta version',
@@ -940,6 +948,13 @@ const se = {
         logoutDesc: 'Är du säker på att du vill logga ut?',
         okBtn: 'Ja',
         cancelBtn: 'Nej',
+        session: {
+          title: 'Session'
+        },
+        logoutOnClose: {
+          title: 'Logga ut när webbläsaren stängs',
+          description: 'Avsluta sessionen när webbläsaren stängs i stället för att hålla den öppen'
+        },
         totp: {
           title: 'Tvåfaktorsautentisering',
           authenticator: 'Autentiseringsapp',

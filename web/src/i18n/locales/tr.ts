@@ -89,7 +89,7 @@ const tr = {
       title: 'Ekran',
       video: 'Görüntü modu',
       videoDirectTips:
-        'Bu modu kullanmak için "Ayarlar > Sistem > Ağ" bölümünde HTTPS\'i etkinleştirin',
+        'Bu modu kullanmak için "Ayarlar > Ağ > Hizmetler" bölümünde HTTPS\'i etkinleştirin',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC, Kısıtlı ve Paranoyak güvenlik duvarı modlarında devre dışıdır',
       transferRunningTitle: 'İmaj aktarımı sürüyor',
@@ -347,7 +347,7 @@ const tr = {
     settings: {
       title: 'Ayarlar',
       about: {
-        title: 'NanoKVM hakkında',
+        title: 'Hakkında',
         information: 'Bilgi',
         ip: 'IP',
         mdns: 'mDNS',
@@ -415,8 +415,7 @@ const tr = {
         sections: {
           connectivity: 'Bağlantı',
           hostConnection: 'Ana makine bağlantısı',
-          inputOutput: 'Giriş ve çıkış',
-          optimizations: 'Optimizasyonlar'
+          inputOutput: 'Giriş ve çıkış'
         },
         oled: {
           title: 'OLED zaman aşımı',
@@ -553,10 +552,16 @@ const tr = {
       },
       system: {
         title: 'Sistem',
+        performance: {
+          memory: 'Bellek'
+        },
         sections: {
           time: 'Saat',
           firewall: 'Güvenlik duvarı',
-          systemLog: 'Günlük kaydı'
+          systemLog: 'Günlük kaydı',
+          performance: 'Performans',
+          services: 'Hizmetler',
+          webInterface: 'Web arayüzü'
         },
         time: {
           saveFailed: 'Saat ayarları kaydedilemedi',
@@ -566,7 +571,7 @@ const tr = {
           invalidServers: 'En az bir NTP sunucusu girin',
           maxServers: 'En fazla {{count}} NTP sunucusuna izin verilir',
           refresh: 'Yenile',
-          syncNow: 'Şimdi eşitle',
+          syncNow: 'Eşitle',
           syncNowDesc: 'Saati şimdi NTP sunucularından ayarla',
           save: 'Kaydet',
           ntp: {
@@ -586,8 +591,8 @@ const tr = {
               'Varsayılan genel sunucuları, yerel yönlendiricinizi veya özel NTP sunucularını kullanın',
             useRouter: 'Yönlendiriciyi kullan',
             useDefaults: 'Varsayılanları kullan',
-            routerDetected: 'Algılanan yönlendirici',
-            routerNone: 'Bulunamadı'
+            presets: 'Sunucu ön ayarları',
+            presetsDesc: 'Sunucu listesini bir ön ayarla değiştir'
           }
         },
         firewall: {
@@ -599,7 +604,7 @@ const tr = {
           enableHttpsFirst:
             "Kısıtlı veya Paranoyak güvenlik duvarı modunu etkinleştirmeden önce HTTPS'i etkinleştirin",
           httpsRequired:
-            'Kısıtlı ve Paranoyak modları, HTTPS Ayarlar > Sistem > Ağ bölümünde etkinleştirilene kadar devre dışıdır',
+            'Kısıtlı ve Paranoyak modları, HTTPS Ayarlar > Ağ > Hizmetler bölümünde etkinleştirilene kadar devre dışıdır',
           mode: {
             title: 'Güvenlik duvarı modu',
             baseline: 'Temel',
@@ -711,6 +716,9 @@ const tr = {
           '8': '8 - Tümü'
         }
       },
+      networking: {
+        title: 'Ağ'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Şifreli tünel',
@@ -788,7 +796,7 @@ const tr = {
           title: 'Swap dosyası',
           tip: 'Bellek optimizasyonunu etkinleştirdikten sonra sorunlar devam ederse, swap dosyasını etkinleştirmeyi deneyin',
           sizeTip:
-            'Bu, dosya boyutunu 256MB olarak ayarlar; Ayarlar > Cihaz bölümünden değiştirebilirsiniz'
+            'Bu, dosya boyutunu 256MB olarak ayarlar; Ayarlar > Sistem > Performans bölümünden değiştirebilirsiniz'
         },
         restartTitle: "Tailscale'i yeniden başlat",
         restartDesc: 'Hizmeti yeniden başlatır',
@@ -827,7 +835,7 @@ const tr = {
         cancelBtn: 'Hayır'
       },
       update: {
-        title: 'Sistem güncellemeleri',
+        title: 'Güncellemeler',
         sources: 'Güncelleme kaynakları',
         latestVersion: 'En son sürüm',
         queryFailed: 'Sürüm bilgisi alınamadı',
@@ -939,6 +947,13 @@ const tr = {
         logoutDesc: 'Çıkış yapmak istediğinizden emin misiniz?',
         okBtn: 'Evet',
         cancelBtn: 'Hayır',
+        session: {
+          title: 'Oturum'
+        },
+        logoutOnClose: {
+          title: 'Tarayıcı kapanınca oturumu kapat',
+          description: 'Oturumu açık tutmak yerine tarayıcı kapatıldığında sonlandır'
+        },
         totp: {
           title: 'İki adımlı doğrulama',
           authenticator: 'Kimlik doğrulama uygulaması',

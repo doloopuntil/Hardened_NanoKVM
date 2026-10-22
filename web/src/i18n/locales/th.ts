@@ -87,7 +87,7 @@ const th = {
       scale: 'สเกล',
       title: 'หน้าจอ',
       video: 'โหมดวีดีโอ',
-      videoDirectTips: 'เปิดใช้งาน HTTPS ใน "การตั้งค่า > ระบบ > เครือข่าย" เพื่อใช้โหมดนี้',
+      videoDirectTips: 'เปิดใช้งาน HTTPS ใน "การตั้งค่า > เครือข่าย > บริการ" เพื่อใช้โหมดนี้',
       videoWebrtcBlockedByFirewall: 'H.264 WebRTC ถูกปิดใช้งานในโหมดไฟร์วอลล์ จำกัด และ หวาดระแวง',
       transferRunningTitle: 'กำลังถ่ายโอนอิมเมจ',
       transferRunningDesc:
@@ -343,7 +343,7 @@ const th = {
     settings: {
       title: 'การตั้งค่า',
       about: {
-        title: 'เกี่ยวกับ NanoKVM',
+        title: 'เกี่ยวกับ',
         information: 'ข้อมูล',
         ip: 'IP',
         mdns: 'mDNS',
@@ -410,8 +410,7 @@ const th = {
         sections: {
           connectivity: 'การเชื่อมต่อ',
           hostConnection: 'การเชื่อมต่อกับโฮสต์',
-          inputOutput: 'อินพุตและเอาต์พุต',
-          optimizations: 'การปรับให้เหมาะสม'
+          inputOutput: 'อินพุตและเอาต์พุต'
         },
         oled: {
           title: 'หมดเวลา OLED',
@@ -545,10 +544,16 @@ const th = {
       },
       system: {
         title: 'ระบบ',
+        performance: {
+          memory: 'หน่วยความจำ'
+        },
         sections: {
           time: 'เวลา',
           firewall: 'ไฟร์วอลล์',
-          systemLog: 'การบันทึกล็อก'
+          systemLog: 'การบันทึกล็อก',
+          performance: 'ประสิทธิภาพ',
+          services: 'บริการ',
+          webInterface: 'อินเทอร์เฟซเว็บ'
         },
         time: {
           saveFailed: 'บันทึกการตั้งค่าเวลาไม่สำเร็จ',
@@ -558,7 +563,7 @@ const th = {
           invalidServers: 'ป้อนเซิร์ฟเวอร์ NTP อย่างน้อยหนึ่งรายการ',
           maxServers: 'อนุญาตเซิร์ฟเวอร์ NTP ได้สูงสุด {{count}} รายการ',
           refresh: 'รีเฟรช',
-          syncNow: 'ซิงโครไนซ์ตอนนี้',
+          syncNow: 'ซิงโครไนซ์',
           syncNowDesc: 'ตั้งเวลาจากเซิร์ฟเวอร์ NTP ทันที',
           save: 'บันทึก',
           ntp: {
@@ -578,8 +583,8 @@ const th = {
               'ใช้เซิร์ฟเวอร์สาธารณะเริ่มต้น เราเตอร์ในเครือข่ายของคุณ หรือเซิร์ฟเวอร์ NTP ที่กำหนดเอง',
             useRouter: 'ใช้เราเตอร์',
             useDefaults: 'ใช้ค่าเริ่มต้น',
-            routerDetected: 'ตรวจพบเราเตอร์',
-            routerNone: 'ไม่พบ'
+            presets: 'ค่าเซิร์ฟเวอร์ที่ตั้งไว้ล่วงหน้า',
+            presetsDesc: 'แทนที่รายการเซิร์ฟเวอร์ด้วยค่าที่ตั้งไว้ล่วงหน้า'
           }
         },
         firewall: {
@@ -590,7 +595,7 @@ const th = {
           backends: 'แบ็กเอนด์',
           enableHttpsFirst: 'เปิดใช้งาน HTTPS ก่อนเปิดโหมดไฟร์วอลล์ จำกัด หรือ หวาดระแวง',
           httpsRequired:
-            'โหมด จำกัด และ หวาดระแวง จะถูกปิดใช้งานจนกว่าจะเปิด HTTPS ที่ การตั้งค่า > ระบบ > เครือข่าย',
+            'โหมด จำกัด และ หวาดระแวง จะถูกปิดใช้งานจนกว่าจะเปิด HTTPS ที่ การตั้งค่า > เครือข่าย > บริการ',
           mode: {
             title: 'โหมดไฟร์วอลล์',
             baseline: 'พื้นฐาน',
@@ -701,6 +706,9 @@ const th = {
           '8': '8 - ทั้งหมด'
         }
       },
+      networking: {
+        title: 'เครือข่าย'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'อุโมงค์เข้ารหัส',
@@ -775,7 +783,7 @@ const th = {
         swap: {
           title: 'ไฟล์สลับ',
           tip: 'หากปัญหายังคงมีอยู่หลังจากเปิดใช้งานการเพิ่มประสิทธิภาพหน่วยความจำ ให้ลองเปิดใช้งานไฟล์สลับ',
-          sizeTip: 'การตั้งค่านี้กำหนดขนาดไฟล์เป็น 256MB ปรับได้ที่ การตั้งค่า > อุปกรณ์'
+          sizeTip: 'การตั้งค่านี้กำหนดขนาดไฟล์เป็น 256MB ปรับได้ที่ การตั้งค่า > ระบบ > ประสิทธิภาพ'
         },
         restartTitle: 'รีสตาร์ท Tailscale',
         restartDesc: 'รีสตาร์ทบริการ',
@@ -814,7 +822,7 @@ const th = {
         cancelBtn: 'ไม่ใช่'
       },
       update: {
-        title: 'อัปเดตระบบ',
+        title: 'อัปเดต',
         sources: 'แหล่งอัปเดต',
         latestVersion: 'เวอร์ชันล่าสุด',
         queryFailed: 'ไม่สามารถรับข้อมูลเวอร์ชันได้',
@@ -921,6 +929,13 @@ const th = {
         logoutDesc: 'คุณแน่ใจที่จะออกจากระบบหรือไม่?',
         okBtn: 'ใช่',
         cancelBtn: 'ไม่ใช่',
+        session: {
+          title: 'เซสชัน'
+        },
+        logoutOnClose: {
+          title: 'ออกจากระบบเมื่อปิดเบราว์เซอร์',
+          description: 'สิ้นสุดเซสชันเมื่อปิดเบราว์เซอร์ แทนที่จะคงไว้'
+        },
         totp: {
           title: 'การยืนยันตัวตนสองขั้นตอน',
           authenticator: 'แอปยืนยันตัวตน',

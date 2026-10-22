@@ -90,7 +90,7 @@ const fr = {
       scale: 'Échelle',
       title: 'Écran',
       video: 'Mode vidéo',
-      videoDirectTips: 'Activez HTTPS dans « Paramètres > Système > Réseau » pour utiliser ce mode',
+      videoDirectTips: 'Activez HTTPS dans « Paramètres > Réseau > Services » pour utiliser ce mode',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC est désactivé dans les modes de pare-feu Restreint et Paranoïaque',
       transferRunningTitle: "Transfert d'image en cours",
@@ -351,7 +351,7 @@ const fr = {
     settings: {
       title: 'Paramètres',
       about: {
-        title: 'À propos de NanoKVM',
+        title: 'À propos',
         information: 'Informations',
         ip: 'IP',
         mdns: 'mDNS',
@@ -418,8 +418,7 @@ const fr = {
         sections: {
           connectivity: 'Connectivité',
           hostConnection: "Connexion à l'hôte",
-          inputOutput: 'Entrée et sortie',
-          optimizations: 'Optimisations'
+          inputOutput: 'Entrée et sortie'
         },
         oled: {
           title: "Délai de l'OLED",
@@ -558,10 +557,16 @@ const fr = {
       },
       system: {
         title: 'Système',
+        performance: {
+          memory: 'Mémoire'
+        },
         sections: {
           time: 'Heure',
           firewall: 'Pare-feu',
-          systemLog: 'Journalisation'
+          systemLog: 'Journalisation',
+          performance: 'Performances',
+          services: 'Services',
+          webInterface: 'Interface web'
         },
         time: {
           saveFailed: "Échec de l'enregistrement des paramètres d'heure",
@@ -571,7 +576,7 @@ const fr = {
           invalidServers: 'Saisissez au moins un serveur NTP',
           maxServers: '{{count}} serveurs NTP maximum autorisés',
           refresh: 'Actualiser',
-          syncNow: 'Synchroniser maintenant',
+          syncNow: 'Synchroniser',
           syncNowDesc: "Régler l'horloge d'après les serveurs NTP maintenant",
           save: 'Enregistrer',
           ntp: {
@@ -591,8 +596,8 @@ const fr = {
               'Utiliser les serveurs publics par défaut, votre routeur local ou des serveurs NTP personnalisés',
             useRouter: 'Utiliser le routeur',
             useDefaults: 'Utiliser les valeurs par défaut',
-            routerDetected: 'Routeur détecté',
-            routerNone: 'Introuvable'
+            presets: 'Serveurs prédéfinis',
+            presetsDesc: 'Remplace la liste des serveurs par un préréglage'
           }
         },
         firewall: {
@@ -604,7 +609,7 @@ const fr = {
           enableHttpsFirst:
             "Activez HTTPS avant d'activer le mode pare-feu Restreint ou Paranoïaque",
           httpsRequired:
-            "Les modes Restreint et Paranoïaque sont désactivés tant que HTTPS n'est pas activé dans Paramètres > Système > Réseau",
+            "Les modes Restreint et Paranoïaque sont désactivés tant que HTTPS n'est pas activé dans Paramètres > Réseau > Services",
           mode: {
             title: 'Mode du pare-feu',
             baseline: 'Base',
@@ -717,6 +722,9 @@ const fr = {
           '8': '8 - Tout'
         }
       },
+      networking: {
+        title: 'Réseau'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Tunnel chiffré',
@@ -793,7 +801,7 @@ const fr = {
         swap: {
           title: "Fichier d'échange",
           tip: "Si les problèmes persistent après l'activation de l'optimisation de la mémoire, essayez d'activer le fichier d'échange",
-          sizeTip: 'Cela définit sa taille sur 256MB ; ajustez-la dans Paramètres > Appareil'
+          sizeTip: 'Cela définit sa taille sur 256MB ; ajustez-la dans Paramètres > Système > Performances'
         },
         restartTitle: 'Redémarrer Tailscale',
         restartDesc: 'Redémarre le service',
@@ -833,7 +841,7 @@ const fr = {
         cancelBtn: 'Non'
       },
       update: {
-        title: 'Mises à jour du système',
+        title: 'Mises à jour',
         sources: 'Sources de mise à jour',
         latestVersion: 'Dernière version',
         queryFailed: "Impossible d'obtenir la version",
@@ -946,6 +954,13 @@ const fr = {
         logoutDesc: 'Êtes-vous sûr de vouloir vous déconnecter?',
         okBtn: 'Oui',
         cancelBtn: 'Non',
+        session: {
+          title: 'Session'
+        },
+        logoutOnClose: {
+          title: 'Se déconnecter à la fermeture du navigateur',
+          description: 'Terminer la session à la fermeture du navigateur au lieu de la garder ouverte'
+        },
         totp: {
           title: 'Authentification à deux facteurs',
           authenticator: "Application d'authentification",

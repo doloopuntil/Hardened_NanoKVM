@@ -88,7 +88,7 @@ const cz = {
       scale: 'Měřítko',
       title: 'Obrazovka',
       video: 'Režim videa',
-      videoDirectTips: 'Chcete-li používat tento režim, povolte HTTPS v "Nastavení > Systém > Síť"',
+      videoDirectTips: 'Chcete-li používat tento režim, povolte HTTPS v "Nastavení > Síť > Služby"',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC je v režimech firewallu Omezený a Paranoidní vypnuto',
       transferRunningTitle: 'Probíhá přenos obrazu',
@@ -348,7 +348,7 @@ const cz = {
     settings: {
       title: 'Nastavení',
       about: {
-        title: 'O NanoKVM',
+        title: 'O aplikaci',
         information: 'Informace',
         ip: 'IP',
         mdns: 'mDNS',
@@ -415,8 +415,7 @@ const cz = {
         sections: {
           connectivity: 'Připojení',
           hostConnection: 'Připojení k hostiteli',
-          inputOutput: 'Vstup a výstup',
-          optimizations: 'Optimalizace'
+          inputOutput: 'Vstup a výstup'
         },
         oled: {
           title: 'Časový limit OLED',
@@ -553,10 +552,16 @@ const cz = {
       },
       system: {
         title: 'Systém',
+        performance: {
+          memory: 'Paměť'
+        },
         sections: {
           time: 'Čas',
           firewall: 'Firewall',
-          systemLog: 'Protokolování'
+          systemLog: 'Protokolování',
+          performance: 'Výkon',
+          services: 'Služby',
+          webInterface: 'Webové rozhraní'
         },
         time: {
           saveFailed: 'Nepodařilo se uložit nastavení času',
@@ -566,7 +571,7 @@ const cz = {
           invalidServers: 'Zadejte alespoň jeden server NTP',
           maxServers: 'Povoleno je maximálně {{count}} serverů NTP',
           refresh: 'Obnovit',
-          syncNow: 'Synchronizovat nyní',
+          syncNow: 'Synchronizovat',
           syncNowDesc: 'Nastavit hodiny podle serverů NTP hned',
           save: 'Uložit',
           ntp: {
@@ -585,8 +590,8 @@ const cz = {
             description: 'Použijte výchozí veřejné servery, místní router nebo vlastní servery NTP',
             useRouter: 'Použít router',
             useDefaults: 'Použít výchozí',
-            routerDetected: 'Zjištěný router',
-            routerNone: 'Nenalezen'
+            presets: 'Předvolby serverů',
+            presetsDesc: 'Nahradí seznam serverů předvolbou'
           }
         },
         firewall: {
@@ -597,7 +602,7 @@ const cz = {
           backends: 'Backendy',
           enableHttpsFirst: 'Před zapnutím režimu firewallu Omezený nebo Paranoidní zapněte HTTPS',
           httpsRequired:
-            'Režimy Omezený a Paranoidní jsou vypnuté, dokud není HTTPS zapnuto v Nastavení > Systém > Síť',
+            'Režimy Omezený a Paranoidní jsou vypnuté, dokud není HTTPS zapnuto v Nastavení > Síť > Služby',
           mode: {
             title: 'Režim firewallu',
             baseline: 'Základní',
@@ -708,6 +713,9 @@ const cz = {
           '8': '8 - Vše'
         }
       },
+      networking: {
+        title: 'Síť'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Šifrovaný tunel',
@@ -783,7 +791,7 @@ const cz = {
           title: 'Odkládací soubor',
           tip: 'Pokud problémy přetrvávají i po zapnutí optimalizace paměti, zkuste zapnout odkládací soubor',
           sizeTip:
-            'Tím se velikost souboru nastaví na 256MB; upravit ji můžete v Nastavení > Zařízení'
+            'Tím se velikost souboru nastaví na 256MB; upravit ji můžete v Nastavení > Systém > Výkon'
         },
         restartTitle: 'Restartovat Tailscale',
         restartDesc: 'Restartuje službu',
@@ -823,7 +831,7 @@ const cz = {
         cancelBtn: 'Ne'
       },
       update: {
-        title: 'Aktualizace systému',
+        title: 'Aktualizace',
         sources: 'Zdroje aktualizací',
         latestVersion: 'Nejnovější verze',
         queryFailed: 'Nepodařilo se získat verzi',
@@ -934,6 +942,13 @@ const cz = {
         logoutDesc: 'Opravdu se chcete odhlásit?',
         okBtn: 'Ano',
         cancelBtn: 'Ne',
+        session: {
+          title: 'Relace'
+        },
+        logoutOnClose: {
+          title: 'Odhlásit při zavření prohlížeče',
+          description: 'Ukončit relaci po zavření prohlížeče místo jejího ponechání otevřené'
+        },
         totp: {
           title: 'Dvoufázové ověření',
           authenticator: 'Ověřovací aplikace',

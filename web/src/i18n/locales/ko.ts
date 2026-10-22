@@ -87,7 +87,7 @@ const ko = {
       scale: '배율',
       title: '화면',
       video: '비디오 모드',
-      videoDirectTips: '이 모드를 사용하려면 "설정 > 시스템 > 네트워크"에서 HTTPS를 활성화하세요',
+      videoDirectTips: '이 모드를 사용하려면 "설정 > 네트워킹 > 서비스"에서 HTTPS를 활성화하세요',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC는 제한 및 파라노이드 방화벽 모드에서 비활성화됩니다',
       transferRunningTitle: '이미지 전송 중',
@@ -346,7 +346,7 @@ const ko = {
     settings: {
       title: '설정',
       about: {
-        title: 'NanoKVM 정보',
+        title: '정보',
         information: '정보',
         ip: 'IP',
         mdns: 'mDNS',
@@ -412,8 +412,7 @@ const ko = {
         sections: {
           connectivity: '연결',
           hostConnection: '호스트 연결',
-          inputOutput: '입력 및 출력',
-          optimizations: '최적화'
+          inputOutput: '입력 및 출력'
         },
         oled: {
           title: 'OLED 시간 제한',
@@ -548,10 +547,16 @@ const ko = {
       },
       system: {
         title: '시스템',
+        performance: {
+          memory: '메모리'
+        },
         sections: {
           time: '시간',
           firewall: '방화벽',
-          systemLog: '로깅'
+          systemLog: '로깅',
+          performance: '성능',
+          services: '서비스',
+          webInterface: '웹 인터페이스'
         },
         time: {
           saveFailed: '시간 설정을 저장하지 못했습니다',
@@ -561,7 +566,7 @@ const ko = {
           invalidServers: 'NTP 서버를 하나 이상 입력하세요',
           maxServers: '최대 {{count}}개의 NTP 서버가 허용됩니다',
           refresh: '새로 고침',
-          syncNow: '지금 동기화',
+          syncNow: '동기화',
           syncNowDesc: '지금 NTP 서버로 시계를 설정합니다',
           save: '저장',
           ntp: {
@@ -580,8 +585,8 @@ const ko = {
             description: '기본 공용 서버, 로컬 라우터 또는 사용자 지정 NTP 서버를 사용합니다',
             useRouter: '라우터 사용',
             useDefaults: '기본값 사용',
-            routerDetected: '감지된 라우터',
-            routerNone: '찾을 수 없음'
+            presets: '서버 프리셋',
+            presetsDesc: '서버 목록을 프리셋으로 바꿉니다'
           }
         },
         firewall: {
@@ -593,7 +598,7 @@ const ko = {
           enableHttpsFirst:
             '제한 또는 파라노이드 방화벽 모드를 활성화하기 전에 HTTPS를 활성화하세요',
           httpsRequired:
-            '설정 > 시스템 > 네트워크에서 HTTPS를 활성화하기 전까지 제한 및 파라노이드 모드는 비활성화됩니다',
+            '설정 > 네트워킹 > 서비스에서 HTTPS를 활성화하기 전까지 제한 및 파라노이드 모드는 비활성화됩니다',
           mode: {
             title: '방화벽 모드',
             baseline: '베이스라인',
@@ -704,6 +709,9 @@ const ko = {
           '8': '8 - 모두'
         }
       },
+      networking: {
+        title: '네트워킹'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: '암호화 터널',
@@ -778,7 +786,7 @@ const ko = {
         swap: {
           title: '스왑 파일',
           tip: '메모리 최적화를 활성화한 후에도 문제가 지속되면 스왑 파일을 활성화해 보세요',
-          sizeTip: '파일 크기가 256MB로 설정되며, 설정 > 기기에서 조정할 수 있습니다'
+          sizeTip: '파일 크기가 256MB로 설정되며, 설정 > 시스템 > 성능에서 조정할 수 있습니다'
         },
         restartTitle: 'Tailscale 다시 시작',
         restartDesc: '서비스를 다시 시작합니다',
@@ -817,7 +825,7 @@ const ko = {
         cancelBtn: '아니오'
       },
       update: {
-        title: '시스템 업데이트',
+        title: '업데이트',
         sources: '업데이트 소스',
         latestVersion: '최신 버전',
         queryFailed: '버전 확인 실패',
@@ -926,6 +934,13 @@ const ko = {
         logoutDesc: '정말로 로그아웃 하시겠습니까?',
         okBtn: '네',
         cancelBtn: '아니오',
+        session: {
+          title: '세션'
+        },
+        logoutOnClose: {
+          title: '브라우저를 닫으면 로그아웃',
+          description: '세션을 유지하지 않고 브라우저를 닫을 때 종료합니다'
+        },
         totp: {
           title: '2단계 인증',
           authenticator: '인증 앱',

@@ -89,7 +89,7 @@ const fi = {
       title: 'Näyttö',
       video: 'Videotila',
       videoDirectTips:
-        'Ota HTTPS käyttöön kohdassa "Asetukset > Järjestelmä > Verkko" käyttääksesi tätä tilaa',
+        'Ota HTTPS käyttöön kohdassa "Asetukset > Verkko > Palvelut" käyttääksesi tätä tilaa',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC on poistettu käytöstä palomuuritiloissa Rajoitettu ja Paranoidi',
       transferRunningTitle: 'Levykuvan siirto käynnissä',
@@ -352,7 +352,7 @@ const fi = {
     settings: {
       title: 'Asetukset',
       about: {
-        title: 'Tietoja NanoKVM:stä',
+        title: 'Tietoja',
         information: 'Tiedot',
         ip: 'IP',
         mdns: 'mDNS',
@@ -418,8 +418,7 @@ const fi = {
         sections: {
           connectivity: 'Yhteydet',
           hostConnection: 'Isäntäyhteys',
-          inputOutput: 'Syöte ja tuloste',
-          optimizations: 'Optimoinnit'
+          inputOutput: 'Syöte ja tuloste'
         },
         oled: {
           title: 'OLEDin aikakatkaisu',
@@ -556,10 +555,16 @@ const fi = {
       },
       system: {
         title: 'Järjestelmä',
+        performance: {
+          memory: 'Muisti'
+        },
         sections: {
           time: 'Aika',
           firewall: 'Palomuuri',
-          systemLog: 'Lokitus'
+          systemLog: 'Lokitus',
+          performance: 'Suorituskyky',
+          services: 'Palvelut',
+          webInterface: 'Verkkokäyttöliittymä'
         },
         time: {
           saveFailed: 'Aika-asetusten tallennus epäonnistui',
@@ -569,7 +574,7 @@ const fi = {
           invalidServers: 'Syötä vähintään yksi NTP-palvelin',
           maxServers: 'Enintään {{count}} NTP-palvelinta sallittu',
           refresh: 'Päivitä',
-          syncNow: 'Synkronoi nyt',
+          syncNow: 'Synkronoi',
           syncNowDesc: 'Aseta kello NTP-palvelimilta nyt',
           save: 'Tallenna',
           ntp: {
@@ -589,8 +594,8 @@ const fi = {
               'Käytä julkisia oletuspalvelimia, paikallista reititintä tai omia NTP-palvelimia',
             useRouter: 'Käytä reititintä',
             useDefaults: 'Käytä oletuksia',
-            routerDetected: 'Tunnistettu reititin',
-            routerNone: 'Ei löytynyt'
+            presets: 'Palvelinten esiasetukset',
+            presetsDesc: 'Korvaa palvelinluettelo esiasetuksella'
           }
         },
         firewall: {
@@ -602,7 +607,7 @@ const fi = {
           enableHttpsFirst:
             'Ota HTTPS käyttöön ennen palomuuritilan Rajoitettu tai Paranoidi käyttöönottoa',
           httpsRequired:
-            'Tilat Rajoitettu ja Paranoidi ovat pois käytöstä, kunnes HTTPS otetaan käyttöön kohdassa Asetukset > Järjestelmä > Verkko',
+            'Tilat Rajoitettu ja Paranoidi ovat pois käytöstä, kunnes HTTPS otetaan käyttöön kohdassa Asetukset > Verkko > Palvelut',
           mode: {
             title: 'Palomuuritila',
             baseline: 'Perus',
@@ -713,6 +718,9 @@ const fi = {
           '8': '8 - Kaikki'
         }
       },
+      networking: {
+        title: 'Verkko'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Salattu tunneli',
@@ -789,7 +797,7 @@ const fi = {
           title: 'Swap-tiedosto',
           tip: 'Jos ongelmat jatkuvat muistin optimoinnin jälkeen, kokeile ottaa swap-tiedosto käyttöön',
           sizeTip:
-            'Tämä asettaa tiedoston kooksi 256 Mt; voit muuttaa sitä kohdassa Asetukset > Laite'
+            'Tämä asettaa tiedoston kooksi 256 Mt; voit muuttaa sitä kohdassa Asetukset > Järjestelmä > Suorituskyky'
         },
         restartTitle: 'Käynnistä Tailscale uudelleen',
         restartDesc: 'Käynnistää palvelun uudelleen',
@@ -828,7 +836,7 @@ const fi = {
         cancelBtn: 'Ei'
       },
       update: {
-        title: 'Järjestelmäpäivitykset',
+        title: 'Päivitykset',
         sources: 'Päivityslähteet',
         latestVersion: 'Uusin versio',
         queryFailed: 'Version haku epäonnistui',
@@ -939,6 +947,13 @@ const fi = {
         logoutDesc: 'Haluatko varmasti kirjautua ulos?',
         okBtn: 'Kyllä',
         cancelBtn: 'Ei',
+        session: {
+          title: 'Istunto'
+        },
+        logoutOnClose: {
+          title: 'Kirjaudu ulos selaimen sulkeutuessa',
+          description: 'Päätä istunto, kun selain suljetaan, sen sijaan että se pidetään auki'
+        },
         totp: {
           title: 'Kaksivaiheinen tunnistautuminen',
           authenticator: 'Todennussovellus',
