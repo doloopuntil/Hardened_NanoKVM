@@ -912,6 +912,18 @@ const vi = {
           invalidName:
             'Định dạng tên tệp không hợp lệ. Vui lòng tải xuống từ bản phát hành GitHub.',
           updateFailed: 'Cập nhật thất bại. Vui lòng thử lại.'
+        },
+        local: {
+          title: 'Tải lên gói hệ thống',
+          desc: 'Cài đặt gói hệ thống từ máy tính này. Chọn tệp lưu trữ, system-latest.json và chữ ký của nó.',
+          choose: 'Chọn tệp',
+          missingFiles: 'Chọn tệp lưu trữ và system-latest.json.',
+          keyTitle: 'Khóa cập nhật cục bộ',
+          keyDesc: 'Khóa công khai định dạng PEM được phép ký các gói hệ thống do bạn tự xây dựng',
+          keyNone: 'Chưa đặt khóa',
+          keySet: 'Đặt khóa',
+          keyRemove: 'Xóa',
+          signer: 'Được ký bởi'
         }
       },
       account: {

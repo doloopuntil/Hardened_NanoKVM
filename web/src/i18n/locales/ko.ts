@@ -902,6 +902,18 @@ const ko = {
           upload: '업로드',
           invalidName: '유효하지 않은 파일 이름 형식입니다. GitHub 릴리즈에서 다운로드하세요.',
           updateFailed: '업데이트에 실패했습니다. 재시도하세요.'
+        },
+        local: {
+          title: '시스템 번들 업로드',
+          desc: '이 컴퓨터에서 시스템 번들을 설치합니다. 아카이브, system-latest.json 및 서명을 선택하세요.',
+          choose: '파일 선택',
+          missingFiles: '아카이브와 system-latest.json을 선택하세요.',
+          keyTitle: '로컬 업데이트 키',
+          keyDesc: '직접 빌드한 시스템 번들에 서명할 수 있는 PEM 형식의 공개 키',
+          keyNone: '설정된 키 없음',
+          keySet: '키 설정',
+          keyRemove: '제거',
+          signer: '서명자'
         }
       },
       account: {

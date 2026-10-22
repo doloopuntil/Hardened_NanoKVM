@@ -915,6 +915,18 @@ const pt_br = {
           upload: 'Upload',
           invalidName: 'Formato de nome de arquivo inválido. Faça download das versões do GitHub.',
           updateFailed: 'Falha na atualização. Por favor, tente novamente.'
+        },
+        local: {
+          title: 'Enviar pacote do sistema',
+          desc: 'Instalar um pacote do sistema a partir deste computador. Selecione o arquivo, system-latest.json e sua assinatura.',
+          choose: 'Escolher arquivos',
+          missingFiles: 'Selecione o arquivo e system-latest.json.',
+          keyTitle: 'Chave de atualização local',
+          keyDesc: 'Chave pública em formato PEM que pode assinar pacotes do sistema compilados por você',
+          keyNone: 'Nenhuma chave definida',
+          keySet: 'Definir chave',
+          keyRemove: 'Remover',
+          signer: 'Assinado por'
         }
       },
       account: {

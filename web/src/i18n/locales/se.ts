@@ -916,6 +916,18 @@ const se = {
           upload: 'Ladda upp',
           invalidName: 'Ogiltigt filnamnsformat. Ladda ner från GitHub-versioner.',
           updateFailed: 'Uppdatering misslyckades. Försök igen.'
+        },
+        local: {
+          title: 'Ladda upp systempaket',
+          desc: 'Installera ett systempaket från den här datorn. Välj arkivet, system-latest.json och dess signatur.',
+          choose: 'Välj filer',
+          missingFiles: 'Välj arkivet och system-latest.json.',
+          keyTitle: 'Lokal uppdateringsnyckel',
+          keyDesc: 'Publik nyckel i PEM-format som får signera systempaket du bygger själv',
+          keyNone: 'Ingen nyckel angiven',
+          keySet: 'Ange nyckel',
+          keyRemove: 'Ta bort',
+          signer: 'Signerad av'
         }
       },
       account: {

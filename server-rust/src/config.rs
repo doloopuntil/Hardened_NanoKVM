@@ -111,6 +111,7 @@ pub struct Paths {
     pub image_directory: PathBuf,
     pub update_cache_dir: PathBuf,
     pub system_update_public_key: PathBuf,
+    pub system_update_local_public_key: PathBuf,
 }
 
 impl Default for Config {
@@ -211,6 +212,7 @@ impl Default for Paths {
             image_directory: PathBuf::from("/data"),
             update_cache_dir: PathBuf::from("/data/.hardened-kvmcache"),
             system_update_public_key: PathBuf::from("/etc/kvm/system-update-signing.pub.pem"),
+            system_update_local_public_key: PathBuf::from("/etc/kvm/system-update-local.pub.pem"),
         }
     }
 }

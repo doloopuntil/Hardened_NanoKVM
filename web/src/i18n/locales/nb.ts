@@ -918,6 +918,18 @@ const nb = {
           upload: 'Last opp',
           invalidName: 'Ugyldig filnavnformat. Last ned fra GitHub-utgivelser.',
           updateFailed: 'En feil oppstod under oppdatering. Vennligst forsøk igjen.'
+        },
+        local: {
+          title: 'Last opp systempakke',
+          desc: 'Installer en systempakke fra denne datamaskinen. Velg arkivet, system-latest.json og signaturen.',
+          choose: 'Velg filer',
+          missingFiles: 'Velg arkivet og system-latest.json.',
+          keyTitle: 'Lokal oppdateringsnøkkel',
+          keyDesc: 'Offentlig nøkkel i PEM-format som kan signere systempakker du bygger selv',
+          keyNone: 'Ingen nøkkel angitt',
+          keySet: 'Angi nøkkel',
+          keyRemove: 'Fjern',
+          signer: 'Signert av'
         }
       },
       account: {

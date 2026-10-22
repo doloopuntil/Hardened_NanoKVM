@@ -924,6 +924,18 @@ const it = {
           upload: 'Carica',
           invalidName: 'Formato nome file non valido. Scarica dalle versioni GitHub.',
           updateFailed: 'Aggiornamento fallito. Riprova.'
+        },
+        local: {
+          title: 'Carica pacchetto di sistema',
+          desc: "Installa un pacchetto di sistema da questo computer. Seleziona l'archivio, system-latest.json e la sua firma.",
+          choose: 'Scegli i file',
+          missingFiles: "Seleziona l'archivio e system-latest.json.",
+          keyTitle: 'Chiave di aggiornamento locale',
+          keyDesc: 'Chiave pubblica in formato PEM che può firmare i pacchetti di sistema creati da te',
+          keyNone: 'Nessuna chiave impostata',
+          keySet: 'Imposta chiave',
+          keyRemove: 'Rimuovi',
+          signer: 'Firmato da'
         }
       },
       account: {

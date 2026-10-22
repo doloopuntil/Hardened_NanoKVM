@@ -915,6 +915,18 @@ const fi = {
           upload: 'Lataa',
           invalidName: 'Virheellinen tiedostonimi. Lataa GitHub releases -sivulta.',
           updateFailed: 'Päivitys epäonnistui. Yritä uudelleen.'
+        },
+        local: {
+          title: 'Lataa järjestelmäpaketti',
+          desc: 'Asenna järjestelmäpaketti tältä tietokoneelta. Valitse arkisto, system-latest.json ja sen allekirjoitus.',
+          choose: 'Valitse tiedostot',
+          missingFiles: 'Valitse arkisto ja system-latest.json.',
+          keyTitle: 'Paikallinen päivitysavain',
+          keyDesc: 'PEM-muotoinen julkinen avain, jolla saa allekirjoittaa itse rakennetut järjestelmäpaketit',
+          keyNone: 'Avainta ei ole asetettu',
+          keySet: 'Aseta avain',
+          keyRemove: 'Poista',
+          signer: 'Allekirjoittaja'
         }
       },
       account: {

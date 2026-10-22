@@ -60,6 +60,17 @@ pub fn build(state: AppState) -> Router {
         .route("/api/system-update/status", get(system_update::status))
         .route("/api/system-update/download", post(system_update::download))
         .route("/api/system-update/install", post(system_update::install))
+        .route(
+            "/api/system-update/upload",
+            post(system_update::local::upload)
+                .layer(DefaultBodyLimit::max(2 * 1024 * 1024 * 1024 + 1024 * 1024)),
+        )
+        .route(
+            "/api/system-update/local-key",
+            get(system_update::local::get_local_key)
+                .put(system_update::local::set_local_key)
+                .delete(system_update::local::remove_local_key),
+        )
         .route("/api/system-update/rollback", post(system_update::rollback))
         .route("/api/system-update/confirm", post(system_update::confirm))
         .route(

@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-22
 source: server-rust/src/config.rs
 ---
 
@@ -68,6 +68,7 @@ are still accepted.
 | `paths.web_root` | `/kvmapp/server/web` |
 | `paths.image_directory` | `/data` |
 | `paths.update_cache_dir` | `/data/.hardened-kvmcache` |
+| `paths.system_update_local_public_key` | `/etc/kvm/system-update-local.pub.pem` (set from the UI; trusted only for uploaded system bundles) |
 | `paths.system_update_public_key` | `/etc/kvm/system-update-signing.pub.pem` (copied from `/kvmapp/system/keys/` by `S95nanokvm`) |
 
 Other settings live in their own files; see [Device files](device-files.md).

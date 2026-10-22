@@ -929,6 +929,18 @@ const de = {
           invalidName:
             'Ungültiges Dateinamenformat. Bitte laden Sie von den GitHub-Releases herunter.',
           updateFailed: 'Aktualisierung fehlgeschlagen. Bitte versuchen Sie es erneut.'
+        },
+        local: {
+          title: 'Systempaket hochladen',
+          desc: 'Ein Systempaket von diesem Computer installieren. Archiv, system-latest.json und die Signatur auswählen.',
+          choose: 'Dateien auswählen',
+          missingFiles: 'Archiv und system-latest.json auswählen.',
+          keyTitle: 'Lokaler Update-Schlüssel',
+          keyDesc: 'Öffentlicher Schlüssel im PEM-Format, der selbst erstellte Systempakete signieren darf',
+          keyNone: 'Kein Schlüssel gesetzt',
+          keySet: 'Schlüssel setzen',
+          keyRemove: 'Entfernen',
+          signer: 'Signiert von'
         }
       },
       account: {

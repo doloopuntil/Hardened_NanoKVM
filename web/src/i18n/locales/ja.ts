@@ -920,6 +920,18 @@ const ja = {
           invalidName:
             'ファイル名の形式が正しくありません。GitHub リリースページにアクセスしてインストールパッケージをダウンロードしてください。',
           updateFailed: 'アップデートに失敗しました。もう一度お試しください。'
+        },
+        local: {
+          title: 'システムバンドルをアップロード',
+          desc: 'このコンピューターからシステムバンドルをインストールします。アーカイブ、system-latest.json、その署名を選択してください。',
+          choose: 'ファイルを選択',
+          missingFiles: 'アーカイブと system-latest.json を選択してください。',
+          keyTitle: 'ローカル更新キー',
+          keyDesc: '自作のシステムバンドルへの署名を許可する PEM 形式の公開鍵',
+          keyNone: 'キーが未設定です',
+          keySet: 'キーを設定',
+          keyRemove: '削除',
+          signer: '署名者'
         }
       },
       account: {

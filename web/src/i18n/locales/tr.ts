@@ -915,6 +915,18 @@ const tr = {
           upload: 'Yükle',
           invalidName: 'Geçersiz dosya adı biçimi. Lütfen GitHub sürümlerinden indirin.',
           updateFailed: 'Güncelleme başarısız oldu. Lütfen tekrar deneyin.'
+        },
+        local: {
+          title: 'Sistem paketini yükle',
+          desc: 'Bu bilgisayardan bir sistem paketi kur. Arşivi, system-latest.json dosyasını ve imzasını seçin.',
+          choose: 'Dosya seç',
+          missingFiles: 'Arşivi ve system-latest.json dosyasını seçin.',
+          keyTitle: 'Yerel güncelleme anahtarı',
+          keyDesc: 'Kendi oluşturduğunuz sistem paketlerini imzalayabilen PEM biçiminde genel anahtar',
+          keyNone: 'Anahtar ayarlanmadı',
+          keySet: 'Anahtarı ayarla',
+          keyRemove: 'Kaldır',
+          signer: 'İmzalayan'
         }
       },
       account: {

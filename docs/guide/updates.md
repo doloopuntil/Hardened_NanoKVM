@@ -1,7 +1,7 @@
 ---
 status: current, channels pending
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-22
 ---
 
 # Updates
@@ -55,6 +55,30 @@ the Buildroot userspace or the init scripts installed in the root filesystem.
   restored before SSH and the server start. Once the server reports healthy, the
   boot watchdog confirms the update. If health checks fail after boot, it rolls
   back.
+
+### Updating from a bundle you built
+
+To update without the release channel or an SD-card reflash, sign the bundle
+with a key of your own and upload it.
+
+1. Create a key pair on your computer and keep the private half there:
+   `openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:3072 -out local.pem`, then
+   `openssl pkey -in local.pem -pubout -out local.pub.pem`.
+2. In **Settings > System updates**, choose **Set key** under **Local update key**,
+   paste `local.pub.pem` and enter your password. The device now trusts that key
+   for uploaded bundles only; the online channels never use it.
+3. Build the metadata with
+   `SYSTEM_UPDATE_SIGNING_KEY=local.pem SYSTEM_UPDATE_SIGNATURE_KEY_ID=local CHANNEL=dev scripts/create-system-update-metadata.sh <version> hardened-system-<version> <archive> system-latest.json`.
+   This also writes `system-latest.json.sig`.
+4. Choose **Upload system bundle** and select the archive, `system-latest.json`
+   and `system-latest.json.sig` together. The device verifies the signature, the
+   archive digests and every payload hash, then stages the bundle. Install it as
+   usual.
+
+Bundles signed by the local key may repeat or lower the installed version, so a
+development build can be reinstalled. Bundles signed by a release key must still
+be newer. Choose **Remove** to withdraw the key. Registering and removing it
+needs your password and is written to the system log.
 
 Keep a recovery card ready and the power connected. A system update does not
 recover by itself from a device that cannot boot at all; reflash the card then.

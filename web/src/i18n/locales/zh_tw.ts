@@ -878,6 +878,18 @@ const zh_tw = {
           upload: '上傳',
           invalidName: '檔名格式錯誤，請前往 GitHub 釋出頁下載安裝包。',
           updateFailed: '更新失敗。請重試。'
+        },
+        local: {
+          title: '上傳系統套件',
+          desc: '從此電腦安裝系統套件。請選擇封存檔、system-latest.json 及其簽章。',
+          choose: '選擇檔案',
+          missingFiles: '請選擇封存檔和 system-latest.json。',
+          keyTitle: '本機更新金鑰',
+          keyDesc: '可為您自行建置的系統套件簽署的 PEM 格式公開金鑰',
+          keyNone: '未設定金鑰',
+          keySet: '設定金鑰',
+          keyRemove: '移除',
+          signer: '簽署者'
         }
       },
       account: {

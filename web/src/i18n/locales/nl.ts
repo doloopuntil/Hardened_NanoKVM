@@ -922,6 +922,18 @@ const nl = {
           upload: 'Uploaden',
           invalidName: 'Ongeldig bestandsnaamformaat. Download de versie van GitHub-releases.',
           updateFailed: 'Update mislukt. Probeer het opnieuw.'
+        },
+        local: {
+          title: 'Systeempakket uploaden',
+          desc: 'Een systeempakket vanaf deze computer installeren. Selecteer het archief, system-latest.json en de handtekening.',
+          choose: 'Bestanden kiezen',
+          missingFiles: 'Selecteer het archief en system-latest.json.',
+          keyTitle: 'Lokale updatesleutel',
+          keyDesc: 'Openbare sleutel in PEM-indeling die zelfgebouwde systeempakketten mag ondertekenen',
+          keyNone: 'Geen sleutel ingesteld',
+          keySet: 'Sleutel instellen',
+          keyRemove: 'Verwijderen',
+          signer: 'Ondertekend door'
         }
       },
       account: {

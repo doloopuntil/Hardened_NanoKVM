@@ -35,6 +35,7 @@ export type SystemStagedUpdate = {
   target: string;
   channel: string;
   archiveName: string;
+  signer?: string | null;
   size: number;
   sha256: string;
   stagedAt: number;
@@ -135,6 +136,35 @@ export function installSystemUpdate() {
     url: '/api/system-update/install',
     timeout: 60 * 60 * 1000
   });
+}
+
+// stage a system bundle uploaded from this computer
+export function uploadSystemUpdate(data: FormData) {
+  return http.request({
+    method: 'post',
+    url: '/api/system-update/upload',
+    data,
+    timeout: 45 * 60 * 1000
+  });
+}
+
+// get the locally registered system update key
+export function getLocalUpdateKey() {
+  return http.get('/api/system-update/local-key');
+}
+
+// register the key that may sign locally built system bundles
+export function setLocalUpdateKey(password: string, publicKey: string) {
+  return http.request({
+    method: 'put',
+    url: '/api/system-update/local-key',
+    data: { password, publicKey }
+  });
+}
+
+// remove the locally registered system update key
+export function removeLocalUpdateKey(password: string) {
+  return http.delete('/api/system-update/local-key', { password });
 }
 
 // rollback the latest base-system update backup

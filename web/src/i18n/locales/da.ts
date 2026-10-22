@@ -914,6 +914,18 @@ const da = {
           upload: 'Upload',
           invalidName: 'Ugyldigt filnavnsformat. Download venligst fra GitHub-udgivelser.',
           updateFailed: 'Opdatering fejlede. Prøv igen.'
+        },
+        local: {
+          title: 'Upload systempakke',
+          desc: 'Installer en systempakke fra denne computer. Vælg arkivet, system-latest.json og dens signatur.',
+          choose: 'Vælg filer',
+          missingFiles: 'Vælg arkivet og system-latest.json.',
+          keyTitle: 'Lokal opdateringsnøgle',
+          keyDesc: 'Offentlig nøgle i PEM-format, der må signere systempakker, du selv bygger',
+          keyNone: 'Ingen nøgle angivet',
+          keySet: 'Angiv nøgle',
+          keyRemove: 'Fjern',
+          signer: 'Signeret af'
         }
       },
       account: {

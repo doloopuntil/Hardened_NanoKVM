@@ -1,7 +1,7 @@
 ---
 status: current for the format; channel state is woffko's as of RC12
 applies-to: system-update metadata format 2
-last-checked: 2026-10-18
+last-checked: 2026-10-22
 ---
 
 # System-update bundles and channels
@@ -89,6 +89,20 @@ carry `signature_algorithm: "unsigned"` and `signature_key_id: "unsigned"`.
 Production stable/preview channel metadata must use
 `signature_algorithm: "sha256-rsa-pkcs1-v1_5"` and a non-`unsigned`
 `signature_key_id`.
+
+## Uploaded bundles
+
+`POST /api/system-update/upload` (multipart fields `metadata`, `signature`, `file`)
+stages a bundle without the network. `signature_key_id` selects the verifier:
+
+- `local`: the key at `paths.system_update_local_public_key`, registered with
+  `PUT /api/system-update/local-key`. Version and downgrade checks are skipped.
+- any other id: the bundled keyring and policy, as for the online channels.
+  The bundle must be newer than the installed system.
+- `unsigned`: only with `security.allow_unsigned_updates`.
+
+Target, required application version, archive digests and payload hashes are
+checked as for downloads. The staged record keeps the signer, shown in the UI.
 
 ## Current Published System Releases
 

@@ -904,6 +904,18 @@ const et = {
           upload: 'Laadi üles',
           invalidName: 'Vigane failinime vorming. Laadi fail alla GitHub releases lehelt.',
           updateFailed: 'Uuendamine nurjus. Proovi uuesti.'
+        },
+        local: {
+          title: 'Laadi süsteemipakett üles',
+          desc: 'Paigalda süsteemipakett sellest arvutist. Vali arhiiv, system-latest.json ja selle allkiri.',
+          choose: 'Vali failid',
+          missingFiles: 'Vali arhiiv ja system-latest.json.',
+          keyTitle: 'Kohalik värskendusvõti',
+          keyDesc: 'PEM-vormingus avalik võti, millega tohib allkirjastada ise ehitatud süsteemipakette',
+          keyNone: 'Võtit pole määratud',
+          keySet: 'Määra võti',
+          keyRemove: 'Eemalda',
+          signer: 'Allkirjastaja'
         }
       },
       account: {

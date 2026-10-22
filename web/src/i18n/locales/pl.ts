@@ -916,6 +916,18 @@ const pl = {
           upload: 'Prześlij',
           invalidName: 'Nieprawidłowy format nazwy pliku. Pobierz z wydań GitHub.',
           updateFailed: 'Aktualizacja nie powiodła się. Spróbuj ponownie.'
+        },
+        local: {
+          title: 'Prześlij pakiet systemowy',
+          desc: 'Zainstaluj pakiet systemowy z tego komputera. Wybierz archiwum, system-latest.json i jego podpis.',
+          choose: 'Wybierz pliki',
+          missingFiles: 'Wybierz archiwum i system-latest.json.',
+          keyTitle: 'Lokalny klucz aktualizacji',
+          keyDesc: 'Klucz publiczny w formacie PEM, który może podpisywać samodzielnie zbudowane pakiety systemowe',
+          keyNone: 'Nie ustawiono klucza',
+          keySet: 'Ustaw klucz',
+          keyRemove: 'Usuń',
+          signer: 'Podpisał'
         }
       },
       account: {

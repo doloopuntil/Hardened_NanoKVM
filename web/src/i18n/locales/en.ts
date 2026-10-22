@@ -906,6 +906,18 @@ const en = {
           upload: 'Upload',
           invalidName: 'Invalid filename format. Please download from GitHub releases.',
           updateFailed: 'Update failed. Please retry.'
+        },
+        local: {
+          title: 'Upload system bundle',
+          desc: 'Install a system bundle from this computer. Select the archive, system-latest.json and its signature.',
+          choose: 'Choose files',
+          missingFiles: 'Select the archive and system-latest.json.',
+          keyTitle: 'Local update key',
+          keyDesc: 'Public key in PEM format that may sign system bundles you build yourself',
+          keyNone: 'No key set',
+          keySet: 'Set key',
+          keyRemove: 'Remove',
+          signer: 'Signed by'
         }
       },
       account: {

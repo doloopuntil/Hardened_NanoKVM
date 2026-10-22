@@ -876,6 +876,18 @@ const zh = {
           upload: '上传',
           invalidName: '文件名格式错误，请前往 GitHub 发布页下载安装包。',
           updateFailed: '更新失败。请重试。'
+        },
+        local: {
+          title: '上传系统包',
+          desc: '从此计算机安装系统包。请选择归档文件、system-latest.json 及其签名。',
+          choose: '选择文件',
+          missingFiles: '请选择归档文件和 system-latest.json。',
+          keyTitle: '本地更新密钥',
+          keyDesc: '可为您自行构建的系统包签名的 PEM 格式公钥',
+          keyNone: '未设置密钥',
+          keySet: '设置密钥',
+          keyRemove: '移除',
+          signer: '签名者'
         }
       },
       account: {

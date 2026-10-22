@@ -919,6 +919,18 @@ const ca = {
           upload: 'Puja',
           invalidName: "Format de nom de fitxer no vàlid. Baixa'l des de les versions de GitHub.",
           updateFailed: 'Error en actualitzar. Torna-ho a intentar.'
+        },
+        local: {
+          title: 'Puja un paquet del sistema',
+          desc: "Instal·la un paquet del sistema des d'aquest ordinador. Selecciona l'arxiu, system-latest.json i la seva signatura.",
+          choose: 'Tria fitxers',
+          missingFiles: "Selecciona l'arxiu i system-latest.json.",
+          keyTitle: "Clau d'actualització local",
+          keyDesc: 'Clau pública en format PEM que pot signar els paquets del sistema que compilis tu mateix',
+          keyNone: 'Cap clau definida',
+          keySet: 'Defineix la clau',
+          keyRemove: 'Elimina',
+          signer: 'Signat per'
         }
       },
       account: {

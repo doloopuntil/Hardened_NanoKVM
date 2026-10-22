@@ -922,6 +922,18 @@ const es = {
           invalidName:
             'Formato de nombre de archivo no válido. Descarga desde las versiones de GitHub.',
           updateFailed: 'La actualización falló. Por favor, inténtalo de nuevo.'
+        },
+        local: {
+          title: 'Subir paquete del sistema',
+          desc: 'Instalar un paquete del sistema desde este equipo. Seleccione el archivo, system-latest.json y su firma.',
+          choose: 'Elegir archivos',
+          missingFiles: 'Seleccione el archivo y system-latest.json.',
+          keyTitle: 'Clave de actualización local',
+          keyDesc: 'Clave pública en formato PEM que puede firmar los paquetes del sistema que usted compile',
+          keyNone: 'Sin clave definida',
+          keySet: 'Definir clave',
+          keyRemove: 'Quitar',
+          signer: 'Firmado por'
         }
       },
       account: {

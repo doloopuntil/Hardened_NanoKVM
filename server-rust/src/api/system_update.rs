@@ -29,6 +29,8 @@ use crate::{
     update::{archive::extract_tar_gz_safe, keys::resolve_update_public_key},
 };
 
+pub mod local;
+
 const SYSTEM_VERSION_FILE: &str = "/etc/kvm/system-version.json";
 const BOOT_VERSION_FILE: &str = "/boot/ver";
 const KERNEL_RELEASE_FILE: &str = "/proc/sys/kernel/osrelease";
@@ -137,6 +139,8 @@ pub struct SystemStagedUpdate {
     pub target: String,
     pub channel: String,
     pub archive_name: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub signer: Option<String>,
     pub size: u64,
     pub sha256: String,
     pub staged_at: u64,
@@ -267,6 +271,8 @@ struct SystemStageRecord {
     staged_at: u64,
     latest: SystemLatest,
     manifest: SystemManifest,
+    #[serde(default)]
+    signer: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -588,6 +594,7 @@ pub async fn download(State(state): State<AppState>) -> Result<impl IntoResponse
                 staged_at: now_unix_seconds(),
                 latest: latest_for_verify,
                 manifest,
+                signer: None,
             };
             write_stage_record(&stage_dir_for_verify, &record)?;
             Ok(staged_summary(&record))
@@ -2541,6 +2548,7 @@ fn staged_summary(record: &SystemStageRecord) -> SystemStagedUpdate {
         target: record.latest.target.clone(),
         channel: record.latest.channel.clone(),
         archive_name: record.latest.name.clone(),
+        signer: record.signer.clone(),
         size: record.latest.size,
         sha256: record.latest.sha256.clone(),
         staged_at: record.staged_at,
@@ -3846,6 +3854,7 @@ mod tests {
             staged_at: 123,
             latest: valid_latest(),
             manifest: valid_raw_manifest(),
+            signer: None,
         };
         let staged = staged_summary(&record);
         let mut current = SystemVersion {

@@ -917,6 +917,18 @@ const id = {
           upload: 'Mengunggah',
           invalidName: 'Format nama file tidak valid. Silakan unduh dari rilis GitHub.',
           updateFailed: 'Gagal memperbarui. Silakan coba lagi.'
+        },
+        local: {
+          title: 'Unggah paket sistem',
+          desc: 'Pasang paket sistem dari komputer ini. Pilih arsip, system-latest.json, dan tanda tangannya.',
+          choose: 'Pilih berkas',
+          missingFiles: 'Pilih arsip dan system-latest.json.',
+          keyTitle: 'Kunci pembaruan lokal',
+          keyDesc: 'Kunci publik berformat PEM yang boleh menandatangani paket sistem yang Anda bangun sendiri',
+          keyNone: 'Kunci belum diatur',
+          keySet: 'Atur kunci',
+          keyRemove: 'Hapus',
+          signer: 'Ditandatangani oleh'
         }
       },
       account: {

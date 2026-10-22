@@ -910,6 +910,18 @@ const cz = {
           upload: 'Nahrát',
           invalidName: 'Neplatný formát souboru. Stáhněte si prosím z vydání GitHubu.',
           updateFailed: 'Aktualizace se nezdařila. Zkuste to prosím znovu.'
+        },
+        local: {
+          title: 'Nahrát systémový balíček',
+          desc: 'Nainstalovat systémový balíček z tohoto počítače. Vyberte archiv, system-latest.json a jeho podpis.',
+          choose: 'Vybrat soubory',
+          missingFiles: 'Vyberte archiv a system-latest.json.',
+          keyTitle: 'Místní aktualizační klíč',
+          keyDesc: 'Veřejný klíč ve formátu PEM, který smí podepisovat systémové balíčky, které si sami sestavíte',
+          keyNone: 'Žádný klíč nenastaven',
+          keySet: 'Nastavit klíč',
+          keyRemove: 'Odebrat',
+          signer: 'Podepsal'
         }
       },
       account: {

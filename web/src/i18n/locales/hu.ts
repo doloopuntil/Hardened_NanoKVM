@@ -922,6 +922,18 @@ const hu = {
           upload: 'Feltöltés',
           invalidName: 'Érvénytelen fájlnévformátum. Kérjük, töltse le a GitHub kiadásaiból.',
           updateFailed: 'Frissítés sikertelen. Kérem, próbálja újra.'
+        },
+        local: {
+          title: 'Rendszercsomag feltöltése',
+          desc: 'Rendszercsomag telepítése erről a számítógépről. Válassza ki az archívumot, a system-latest.json fájlt és az aláírását.',
+          choose: 'Fájlok kiválasztása',
+          missingFiles: 'Válassza ki az archívumot és a system-latest.json fájlt.',
+          keyTitle: 'Helyi frissítési kulcs',
+          keyDesc: 'PEM formátumú nyilvános kulcs, amely aláírhatja az Ön által készített rendszercsomagokat',
+          keyNone: 'Nincs kulcs beállítva',
+          keySet: 'Kulcs beállítása',
+          keyRemove: 'Eltávolítás',
+          signer: 'Aláíró'
         }
       },
       account: {

@@ -21,6 +21,7 @@ import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
 import { PageHeader } from '@/components/page-header.tsx';
 import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
+import { LocalKeyRow, SystemUpload } from './local.tsx';
 import { Offline } from './offline.tsx';
 import { Preview } from './preview.tsx';
 
@@ -457,6 +458,14 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     ) : null;
   }
 
+  function handleUploadedSystemUpdate(data: any) {
+    setSystemCurrent(data.current);
+    setSystemLatest(data.latest);
+    setSystemStaged(data.staged);
+    setSystemStatus('staged');
+    refreshSystemUpdateStatus();
+  }
+
   function formatBytes(value?: number) {
     if (!value) return '';
     if (value >= 1024 * 1024) return `${(value / 1024 / 1024).toFixed(1)} MiB`;
@@ -465,7 +474,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   }
 
   function stagedMatchesLatest(staged: SystemStagedUpdate | null, latest: SystemLatest | null) {
-    if (!staged || !latest) return true;
+    if (!staged || !latest || staged.signer) return true;
 
     return (
       staged.version === latest.version &&
@@ -712,6 +721,13 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             />
           </SettingRow>
 
+          <SystemUpload
+            disabled={systemBusy}
+            onStaged={handleUploadedSystemUpdate}
+            setBusy={setIsLocked}
+          />
+          <LocalKeyRow />
+
           {systemStaged?.destructive && !systemRawEnabled && (
             <Alert
               type="warning"
@@ -747,6 +763,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                 systemStaged?.requiredAppVersion
               )}
               {info(t('settings.update.system.archive'), systemStaged?.archiveName)}
+              {info(t('settings.update.local.signer'), systemStaged?.signer ?? undefined)}
               {info(
                 t('settings.update.system.requiredFree'),
                 systemStaged ? formatBytes(systemStaged.requiredFreeBytes) : undefined
