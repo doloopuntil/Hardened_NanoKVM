@@ -5,6 +5,7 @@
 use axum::{
     Extension, Json,
     extract::{Multipart, State},
+    http::{HeaderMap, header},
     response::IntoResponse,
 };
 use base64::{Engine as _, engine::general_purpose::STANDARD};
@@ -30,6 +31,7 @@ const PEM_END: &str = "-----END PUBLIC KEY-----";
 const MAX_LOCAL_KEY_BYTES: usize = 8 * 1024;
 const MAX_UPLOAD_METADATA_BYTES: usize = 64 * 1024;
 const MAX_UPLOAD_SIGNATURE_BYTES: usize = 16 * 1024;
+const FREE_SPACE_MARGIN: u64 = 64 * 1024 * 1024;
 const UPLOAD_PART_NAME: &str = "upload.part";
 const UPLOAD_ARCHIVE_NAME: &str = "upload-archive.part";
 const BUNDLE_OVERHEAD_BYTES: u64 = 1024 * 1024;
@@ -106,6 +108,7 @@ pub async fn remove_local_key(
 pub async fn upload(
     State(state): State<AppState>,
     Extension(CurrentSession(session)): Extension<CurrentSession>,
+    headers: HeaderMap,
     mut multipart: Multipart,
 ) -> Result<impl IntoResponse> {
     if system_firewall::paranoid_mode_enabled() {
@@ -128,11 +131,16 @@ pub async fn upload(
     })
     .await?;
 
+    let upload_len = headers
+        .get(header::CONTENT_LENGTH)
+        .and_then(|value| value.to_str().ok())
+        .and_then(|value| value.parse::<u64>().ok());
     let staged = stage_upload(
         &config,
         &current,
         &stage_dir,
         &mut multipart,
+        upload_len,
         guard,
         &session.username,
     )
@@ -154,9 +162,17 @@ async fn stage_upload(
     current: &SystemVersion,
     stage_dir: &Path,
     multipart: &mut Multipart,
+    upload_len: Option<u64>,
     guard: UpdateGuard,
     username: &str,
 ) -> Result<SystemDownloadRsp> {
+    // The bundle and the archive unpacked from it exist together for a moment.
+    if let Some(len) = upload_len {
+        ensure_free_space(
+            stage_dir,
+            len.saturating_mul(2).saturating_add(FREE_SPACE_MARGIN),
+        )?;
+    }
     let parts = receive_upload(stage_dir, multipart).await?;
 
     let latest: SystemLatest = serde_json::from_slice(&parts.metadata)
@@ -393,6 +409,20 @@ async fn authorize_upload(
     Ok(key_id.to_string())
 }
 
+fn ensure_free_space(dir: &Path, needed: u64) -> Result<()> {
+    let stat = nix::sys::statvfs::statvfs(dir)
+        .map_err(|err| AppError::Internal(format!("failed to read free space: {err}")))?;
+    let available = (stat.blocks_available() as u64).saturating_mul(stat.fragment_size() as u64);
+    if available < needed {
+        return Err(AppError::BadRequest(format!(
+            "not enough free space for the upload: {} MiB needed, {} MiB free",
+            needed.div_ceil(1024 * 1024),
+            available / (1024 * 1024)
+        )));
+    }
+    Ok(())
+}
+
 fn local_public_key_path(path: &Path) -> Result<PathBuf> {
     let metadata = fs::symlink_metadata(path).map_err(|_| {
         AppError::BadRequest("no local update key is registered on this device".to_string())
@@ -586,6 +616,13 @@ MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEq7aF5pQ3Z0m1b0v2eB9mYk4Qw3xV\n\
         assert!(unwrap_bundle(&bundle, dir.path()).is_err());
         write_bundle(&bundle, &[(ARCHIVE, b"x")]);
         assert!(unwrap_bundle(&bundle, dir.path()).is_err());
+    }
+
+    #[test]
+    fn free_space_check_refuses_more_than_the_disk_holds() {
+        let dir = tempfile::tempdir().unwrap();
+        assert!(ensure_free_space(dir.path(), 1).is_ok());
+        assert!(ensure_free_space(dir.path(), u64::MAX).is_err());
     }
 
     #[test]

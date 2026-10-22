@@ -98,7 +98,8 @@ the network. The file is a plain or gzip-compressed tar built by
 `system-latest.json`, `system-latest.json.sig` (omitted for unsigned metadata)
 and the system archive. Any other entry rejects the upload. The inner archive
 stays gzip-compressed, so the wrapper is normally a plain `.tar`. Peak disk use
-is about twice the bundle while it is unpacked. `signature_key_id` selects the
+is about twice the bundle while it is unpacked; the upload is refused up front
+when `Content-Length` times two plus 64 MiB exceeds the free space on `/data`. `signature_key_id` selects the
 verifier:
 
 - `local`: the key at `paths.system_update_local_public_key`, registered with
