@@ -7,6 +7,7 @@ pub mod cpu_clock;
 pub mod direct_flow;
 pub mod download;
 pub mod hid;
+pub mod monitor;
 pub mod network;
 pub mod picoclaw;
 pub mod picoclaw_sessions;

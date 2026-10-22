@@ -214,3 +214,24 @@ export function setTLS(enabled: boolean) {
 export function reboot() {
   return http.post('/api/vm/system/reboot');
 }
+
+export type MonitorDisk = { mount: string; totalBytes: number; usedBytes: number };
+
+export type MonitorData = {
+  cpuMhz: number | null;
+  videoMhz: number | null;
+  overdrive: boolean;
+  temperatureC: number | null;
+  memory: {
+    totalKb: number;
+    usedKb: number;
+    swapTotalKb: number;
+    swapUsedKb: number;
+  } | null;
+  disks: MonitorDisk[];
+};
+
+// live readings for Settings > System > Monitor
+export function getMonitor(): Promise<{ code: number; msg: string; data?: MonitorData }> {
+  return http.get('/api/vm/monitor');
+}

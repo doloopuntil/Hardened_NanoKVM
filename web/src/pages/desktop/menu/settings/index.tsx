@@ -3,6 +3,7 @@ import { Badge, Modal, Tooltip } from 'antd';
 import clsx from 'clsx';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
+  ActivityIcon,
   BrickWallIcon,
   ChevronDownIcon,
   ChevronRightIcon,
@@ -139,6 +140,7 @@ export const Settings = () => {
           <GaugeIcon size={14} />,
           t('settings.system.sections.performance')
         ),
+        systemTab('monitor', <ActivityIcon size={14} />, t('settings.system.sections.monitor')),
         systemTab('updates', <CircleArrowUpIcon size={14} />, t('settings.update.title'))
       ]
     }

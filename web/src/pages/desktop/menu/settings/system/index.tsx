@@ -14,6 +14,7 @@ import type { SystemActionHandle, SystemActionState } from './action';
 import { idleSystemActionState } from './action';
 import { FirewallSettings } from './firewall';
 import { Mdns } from './mdns';
+import { Monitor } from './monitor';
 import { Overdrive } from './overdrive';
 import { Ssh } from './ssh';
 import { Swap } from './swap';
@@ -26,6 +27,7 @@ export type SystemSection =
   | 'firewall'
   | 'systemLog'
   | 'performance'
+  | 'monitor'
   | 'services'
   | 'updates';
 
@@ -69,6 +71,7 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
     firewall: t('settings.system.sections.firewall'),
     systemLog: t('settings.system.sections.systemLog'),
     performance: t('settings.system.sections.performance'),
+    monitor: t('settings.system.sections.monitor'),
     services: t('settings.system.sections.services'),
     updates: t('settings.update.title')
   };
@@ -110,6 +113,7 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
               </SettingSection>
             </div>
           )}
+          {section === 'monitor' && <Monitor />}
           {section === 'performance' && (
             <div className="flex flex-col space-y-6">
               <SettingSection title={t('settings.system.performance.processor')}>
