@@ -918,9 +918,9 @@ const pt_br = {
         },
         local: {
           title: 'Enviar pacote do sistema',
-          desc: 'Instalar um pacote do sistema a partir deste computador. Selecione o arquivo, system-latest.json e sua assinatura.',
-          choose: 'Escolher arquivos',
-          missingFiles: 'Selecione o arquivo e system-latest.json.',
+          desc: 'Instalar um pacote do sistema a partir deste computador. Um único arquivo contém o pacote e seus metadados assinados.',
+          choose: 'Escolher arquivo',
+          invalidFile: 'Selecione um pacote do sistema terminado em .tar ou .tar.gz.',
           keyTitle: 'Chave de atualização local',
           keyDesc: 'Chave pública em formato PEM que pode assinar pacotes do sistema compilados por você',
           keyNone: 'Nenhuma chave definida',

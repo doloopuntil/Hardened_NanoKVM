@@ -918,9 +918,9 @@ const tr = {
         },
         local: {
           title: 'Sistem paketini yükle',
-          desc: 'Bu bilgisayardan bir sistem paketi kur. Arşivi, system-latest.json dosyasını ve imzasını seçin.',
+          desc: 'Bu bilgisayardan bir sistem paketi kur. Tek bir dosya arşivi ve imzalı üst verilerini içerir.',
           choose: 'Dosya seç',
-          missingFiles: 'Arşivi ve system-latest.json dosyasını seçin.',
+          invalidFile: 'Uzantısı .tar veya .tar.gz olan bir sistem paketi seçin.',
           keyTitle: 'Yerel güncelleme anahtarı',
           keyDesc: 'Kendi oluşturduğunuz sistem paketlerini imzalayabilen PEM biçiminde genel anahtar',
           keyNone: 'Anahtar ayarlanmadı',

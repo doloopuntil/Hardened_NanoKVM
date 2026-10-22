@@ -915,9 +915,9 @@ const vi = {
         },
         local: {
           title: 'Tải lên gói hệ thống',
-          desc: 'Cài đặt gói hệ thống từ máy tính này. Chọn tệp lưu trữ, system-latest.json và chữ ký của nó.',
+          desc: 'Cài đặt gói hệ thống từ máy tính này. Một tệp chứa tệp lưu trữ và siêu dữ liệu đã ký của nó.',
           choose: 'Chọn tệp',
-          missingFiles: 'Chọn tệp lưu trữ và system-latest.json.',
+          invalidFile: 'Chọn một gói hệ thống có đuôi .tar hoặc .tar.gz.',
           keyTitle: 'Khóa cập nhật cục bộ',
           keyDesc: 'Khóa công khai định dạng PEM được phép ký các gói hệ thống do bạn tự xây dựng',
           keyNone: 'Chưa đặt khóa',

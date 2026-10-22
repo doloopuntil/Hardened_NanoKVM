@@ -907,9 +907,9 @@ const et = {
         },
         local: {
           title: 'Laadi süsteemipakett üles',
-          desc: 'Paigalda süsteemipakett sellest arvutist. Vali arhiiv, system-latest.json ja selle allkiri.',
-          choose: 'Vali failid',
-          missingFiles: 'Vali arhiiv ja system-latest.json.',
+          desc: 'Paigalda süsteemipakett sellest arvutist. Üks fail sisaldab arhiivi ja selle allkirjastatud metaandmeid.',
+          choose: 'Vali fail',
+          invalidFile: 'Vali süsteemipakett, mille laiend on .tar või .tar.gz.',
           keyTitle: 'Kohalik värskendusvõti',
           keyDesc: 'PEM-vormingus avalik võti, millega tohib allkirjastada ise ehitatud süsteemipakette',
           keyNone: 'Võtit pole määratud',

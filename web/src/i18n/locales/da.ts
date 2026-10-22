@@ -917,9 +917,9 @@ const da = {
         },
         local: {
           title: 'Upload systempakke',
-          desc: 'Installer en systempakke fra denne computer. Vælg arkivet, system-latest.json og dens signatur.',
-          choose: 'Vælg filer',
-          missingFiles: 'Vælg arkivet og system-latest.json.',
+          desc: 'Installer en systempakke fra denne computer. Én fil indeholder arkivet og de signerede metadata.',
+          choose: 'Vælg fil',
+          invalidFile: 'Vælg en systempakke, der ender på .tar eller .tar.gz.',
           keyTitle: 'Lokal opdateringsnøgle',
           keyDesc: 'Offentlig nøgle i PEM-format, der må signere systempakker, du selv bygger',
           keyNone: 'Ingen nøgle angivet',

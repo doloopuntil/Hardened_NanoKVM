@@ -932,9 +932,9 @@ const de = {
         },
         local: {
           title: 'Systempaket hochladen',
-          desc: 'Ein Systempaket von diesem Computer installieren. Archiv, system-latest.json und die Signatur auswählen.',
-          choose: 'Dateien auswählen',
-          missingFiles: 'Archiv und system-latest.json auswählen.',
+          desc: 'Ein Systempaket von diesem Computer installieren. Eine Datei enthält das Archiv und seine signierten Metadaten.',
+          choose: 'Datei auswählen',
+          invalidFile: 'Ein Systempaket mit der Endung .tar oder .tar.gz auswählen.',
           keyTitle: 'Lokaler Update-Schlüssel',
           keyDesc: 'Öffentlicher Schlüssel im PEM-Format, der selbst erstellte Systempakete signieren darf',
           keyNone: 'Kein Schlüssel gesetzt',

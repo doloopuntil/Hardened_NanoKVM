@@ -927,9 +927,9 @@ const it = {
         },
         local: {
           title: 'Carica pacchetto di sistema',
-          desc: "Installa un pacchetto di sistema da questo computer. Seleziona l'archivio, system-latest.json e la sua firma.",
-          choose: 'Scegli i file',
-          missingFiles: "Seleziona l'archivio e system-latest.json.",
+          desc: "Installa un pacchetto di sistema da questo computer. Un solo file contiene l'archivio e i suoi metadati firmati.",
+          choose: 'Scegli il file',
+          invalidFile: 'Seleziona un pacchetto di sistema che termina con .tar o .tar.gz.',
           keyTitle: 'Chiave di aggiornamento locale',
           keyDesc: 'Chiave pubblica in formato PEM che può firmare i pacchetti di sistema creati da te',
           keyNone: 'Nessuna chiave impostata',

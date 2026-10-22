@@ -925,9 +925,9 @@ const es = {
         },
         local: {
           title: 'Subir paquete del sistema',
-          desc: 'Instalar un paquete del sistema desde este equipo. Seleccione el archivo, system-latest.json y su firma.',
-          choose: 'Elegir archivos',
-          missingFiles: 'Seleccione el archivo y system-latest.json.',
+          desc: 'Instalar un paquete del sistema desde este equipo. Un solo archivo contiene el archivo comprimido y sus metadatos firmados.',
+          choose: 'Elegir archivo',
+          invalidFile: 'Seleccione un paquete del sistema que termine en .tar o .tar.gz.',
           keyTitle: 'Clave de actualización local',
           keyDesc: 'Clave pública en formato PEM que puede firmar los paquetes del sistema que usted compile',
           keyNone: 'Sin clave definida',

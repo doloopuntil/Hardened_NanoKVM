@@ -881,9 +881,9 @@ const zh_tw = {
         },
         local: {
           title: '上傳系統套件',
-          desc: '從此電腦安裝系統套件。請選擇封存檔、system-latest.json 及其簽章。',
+          desc: '從此電腦安裝系統套件。一個檔案包含封存檔及其已簽署的中繼資料。',
           choose: '選擇檔案',
-          missingFiles: '請選擇封存檔和 system-latest.json。',
+          invalidFile: '請選擇以 .tar 或 .tar.gz 結尾的系統套件。',
           keyTitle: '本機更新金鑰',
           keyDesc: '可為您自行建置的系統套件簽署的 PEM 格式公開金鑰',
           keyNone: '未設定金鑰',

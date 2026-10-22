@@ -70,10 +70,11 @@ with a key of your own and upload it.
 3. Build the metadata with
    `SYSTEM_UPDATE_SIGNING_KEY=local.pem SYSTEM_UPDATE_SIGNATURE_KEY_ID=local CHANNEL=dev scripts/create-system-update-metadata.sh <version> hardened-system-<version> <archive> system-latest.json`.
    This also writes `system-latest.json.sig`.
-4. Choose **Upload system bundle** and select the archive, `system-latest.json`
-   and `system-latest.json.sig` together. The device verifies the signature, the
-   archive digests and every payload hash, then stages the bundle. Install it as
-   usual.
+4. Wrap the three files into one bundle with
+   `scripts/create-system-update-bundle.sh <archive> system-latest.json system-latest.json.sig <version>.bundle.tar`.
+5. Choose **Upload system bundle** and select the `.bundle.tar`. The device
+   verifies the signature, the archive digests and every payload hash, then
+   stages the bundle. Install it as usual.
 
 Bundles signed by the local key may repeat or lower the installed version, so a
 development build can be reinstalled. Bundles signed by a release key must still

@@ -909,9 +909,9 @@ const en = {
         },
         local: {
           title: 'Upload system bundle',
-          desc: 'Install a system bundle from this computer. Select the archive, system-latest.json and its signature.',
-          choose: 'Choose files',
-          missingFiles: 'Select the archive and system-latest.json.',
+          desc: 'Install a system bundle from this computer. One file holds the archive and its signed metadata.',
+          choose: 'Choose file',
+          invalidFile: 'Select a system bundle ending in .tar or .tar.gz.',
           keyTitle: 'Local update key',
           keyDesc: 'Public key in PEM format that may sign system bundles you build yourself',
           keyNone: 'No key set',

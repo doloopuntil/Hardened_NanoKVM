@@ -12,6 +12,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::{
     fs,
+    io::{self, Read},
     os::unix::fs::PermissionsExt,
     path::{Path, PathBuf},
 };
@@ -30,6 +31,8 @@ const MAX_LOCAL_KEY_BYTES: usize = 8 * 1024;
 const MAX_UPLOAD_METADATA_BYTES: usize = 64 * 1024;
 const MAX_UPLOAD_SIGNATURE_BYTES: usize = 16 * 1024;
 const UPLOAD_PART_NAME: &str = "upload.part";
+const UPLOAD_ARCHIVE_NAME: &str = "upload-archive.part";
+const BUNDLE_OVERHEAD_BYTES: u64 = 1024 * 1024;
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -97,9 +100,9 @@ pub async fn remove_local_key(
 
 /// Stage a system bundle uploaded from the browser.
 ///
-/// Multipart fields: `metadata` (system-latest.json), `signature` (its
-/// detached signature, absent for unsigned metadata) and `file` (the archive).
-/// The staged result is installed through the normal install route.
+/// The multipart field `file` is one bundle (`.tar`, or gzip-compressed) that
+/// holds `system-latest.json`, its detached `system-latest.json.sig` (absent
+/// for unsigned metadata) and the system archive. The staged result is installed through the normal install route.
 pub async fn upload(
     State(state): State<AppState>,
     Extension(CurrentSession(session)): Extension<CurrentSession>,
@@ -221,77 +224,141 @@ struct UploadParts {
 }
 
 async fn receive_upload(stage_dir: &Path, multipart: &mut Multipart) -> Result<UploadParts> {
-    let mut archive = None;
-    let mut metadata = None;
-    let mut signature = None;
+    let mut bundle = None;
 
     while let Some(mut field) = multipart
         .next_field()
         .await
         .map_err(|err| AppError::BadRequest(format!("invalid multipart data: {err}")))?
     {
-        match field.name() {
-            Some("metadata") => {
-                metadata = Some(read_small_field(&mut field, MAX_UPLOAD_METADATA_BYTES).await?);
+        if field.name() != Some("file") {
+            continue;
+        }
+        let target = stage_dir.join(UPLOAD_PART_NAME);
+        let mut file = tokio_fs::File::create(&target).await?;
+        let mut written = 0_u64;
+        while let Some(chunk) = field
+            .chunk()
+            .await
+            .map_err(|err| AppError::BadRequest(format!("invalid multipart data: {err}")))?
+        {
+            written = written.saturating_add(chunk.len() as u64);
+            if written > MAX_SYSTEM_UPDATE_BYTES + BUNDLE_OVERHEAD_BYTES {
+                return Err(AppError::BadRequest(
+                    "system update bundle is too large".to_string(),
+                ));
             }
-            Some("signature") => {
-                signature = Some(read_small_field(&mut field, MAX_UPLOAD_SIGNATURE_BYTES).await?);
+            file.write_all(&chunk).await?;
+        }
+        file.sync_all().await?;
+        if written == 0 {
+            return Err(AppError::BadRequest(
+                "empty system update bundle".to_string(),
+            ));
+        }
+        bundle = Some(target);
+    }
+
+    let bundle = bundle
+        .ok_or_else(|| AppError::BadRequest("no system update bundle uploaded".to_string()))?;
+    let stage_dir = stage_dir.to_path_buf();
+    task::spawn_blocking(move || {
+        let parts = unwrap_bundle(&bundle, &stage_dir);
+        let _ = fs::remove_file(&bundle);
+        parts
+    })
+    .await
+    .map_err(|err| AppError::Internal(format!("bundle unwrap task failed: {err}")))?
+}
+
+/// Unpack the outer bundle: `system-latest.json`, an optional
+/// `system-latest.json.sig` and exactly one system archive. Nothing else is
+/// accepted, and entry names are matched exactly, never joined into a path.
+fn unwrap_bundle(bundle: &Path, stage_dir: &Path) -> Result<UploadParts> {
+    let mut magic = [0_u8; 2];
+    fs::File::open(bundle)?.read_exact(&mut magic)?;
+    let file = fs::File::open(bundle)?;
+    let reader: Box<dyn Read> = if magic == [0x1f, 0x8b] {
+        Box::new(flate2::read::GzDecoder::new(file))
+    } else {
+        Box::new(file)
+    };
+
+    let mut metadata = None;
+    let mut signature = None;
+    let mut archive = None;
+    let mut tar = tar::Archive::new(reader);
+    for entry in tar
+        .entries()
+        .map_err(|err| AppError::BadRequest(format!("invalid system update bundle: {err}")))?
+    {
+        let mut entry = entry
+            .map_err(|err| AppError::BadRequest(format!("invalid system update bundle: {err}")))?;
+        if !entry.header().entry_type().is_file() {
+            return Err(AppError::BadRequest(
+                "system update bundle may hold regular files only".to_string(),
+            ));
+        }
+        let name = entry
+            .path()
+            .ok()
+            .and_then(|path| {
+                path.to_str()
+                    .map(|name| name.trim_start_matches("./").to_string())
+            })
+            .ok_or_else(|| {
+                AppError::BadRequest("invalid system update bundle entry".to_string())
+            })?;
+        match name.as_str() {
+            "system-latest.json" => {
+                metadata = Some(read_bounded(&mut entry, MAX_UPLOAD_METADATA_BYTES, &name)?);
             }
-            Some("file") => {
-                let target = stage_dir.join(UPLOAD_PART_NAME);
-                let mut file = tokio_fs::File::create(&target).await?;
-                let mut written = 0_u64;
-                while let Some(chunk) = field
-                    .chunk()
-                    .await
-                    .map_err(|err| AppError::BadRequest(format!("invalid multipart data: {err}")))?
-                {
-                    written = written.saturating_add(chunk.len() as u64);
-                    if written > MAX_SYSTEM_UPDATE_BYTES {
-                        return Err(AppError::BadRequest(
-                            "system update archive is too large".to_string(),
-                        ));
-                    }
-                    file.write_all(&chunk).await?;
-                }
-                file.sync_all().await?;
-                if written == 0 {
+            "system-latest.json.sig" => {
+                signature = Some(read_bounded(&mut entry, MAX_UPLOAD_SIGNATURE_BYTES, &name)?);
+            }
+            _ if archive.is_none() && validate_system_archive_name(&name).is_ok() => {
+                let target = stage_dir.join(UPLOAD_ARCHIVE_NAME);
+                let mut out = fs::File::create(&target)?;
+                let copied = io::copy(
+                    &mut (&mut entry).take(MAX_SYSTEM_UPDATE_BYTES + 1),
+                    &mut out,
+                )?;
+                if copied == 0 || copied > MAX_SYSTEM_UPDATE_BYTES {
                     return Err(AppError::BadRequest(
-                        "empty system update archive".to_string(),
+                        "invalid system update archive size".to_string(),
                     ));
                 }
+                out.sync_all()?;
                 archive = Some(target);
             }
-            _ => {}
+            _ => {
+                return Err(AppError::BadRequest(format!(
+                    "unexpected entry in system update bundle: {name}"
+                )));
+            }
         }
     }
 
     Ok(UploadParts {
         archive: archive
-            .ok_or_else(|| AppError::BadRequest("no system update archive uploaded".to_string()))?,
-        metadata: metadata
-            .filter(|data| !data.is_empty())
-            .ok_or_else(|| AppError::BadRequest("missing system update metadata".to_string()))?,
+            .ok_or_else(|| AppError::BadRequest("bundle holds no system archive".to_string()))?,
+        metadata: metadata.filter(|data| !data.is_empty()).ok_or_else(|| {
+            AppError::BadRequest("bundle holds no system-latest.json".to_string())
+        })?,
         signature: signature.filter(|data| !data.is_empty()),
     })
 }
 
-async fn read_small_field(
-    field: &mut axum::extract::multipart::Field<'_>,
-    limit: usize,
-) -> Result<Vec<u8>> {
+fn read_bounded(reader: &mut impl Read, limit: usize, name: &str) -> Result<Vec<u8>> {
     let mut data = Vec::new();
-    while let Some(chunk) = field
-        .chunk()
-        .await
-        .map_err(|err| AppError::BadRequest(format!("invalid multipart data: {err}")))?
-    {
-        if data.len() + chunk.len() > limit {
-            return Err(AppError::BadRequest(
-                "uploaded metadata field is too large".to_string(),
-            ));
-        }
-        data.extend_from_slice(&chunk);
+    reader
+        .take(limit as u64 + 1)
+        .read_to_end(&mut data)
+        .map_err(|err| AppError::BadRequest(format!("invalid system update bundle: {err}")))?;
+    if data.len() > limit {
+        return Err(AppError::BadRequest(format!(
+            "{name} in the system update bundle is too large"
+        )));
     }
     Ok(data)
 }
@@ -455,6 +522,70 @@ MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEq7aF5pQ3Z0m1b0v2eB9mYk4Qw3xV\n\
         assert!(parse_public_key_pem(&KEY.replace("PUBLIC KEY", "PRIVATE KEY")).is_err());
         assert!(parse_public_key_pem(&KEY.replace("MFkw", "MF!w")).is_err());
         assert!(parse_public_key_pem(&"A".repeat(MAX_LOCAL_KEY_BYTES + 1)).is_err());
+    }
+
+    fn write_bundle(path: &Path, entries: &[(&str, &[u8])]) {
+        let mut builder = tar::Builder::new(fs::File::create(path).unwrap());
+        for (name, data) in entries {
+            let mut header = tar::Header::new_gnu();
+            header.set_size(data.len() as u64);
+            header.set_mode(0o644);
+            header.set_cksum();
+            builder.append_data(&mut header, name, *data).unwrap();
+        }
+        builder.finish().unwrap();
+    }
+
+    const ARCHIVE: &str = "hardened-nanokvm-system-0.1.0.tar.gz";
+
+    #[test]
+    fn bundle_unwraps_metadata_signature_and_archive() {
+        let dir = tempfile::tempdir().unwrap();
+        let bundle = dir.path().join("b.tar");
+        write_bundle(
+            &bundle,
+            &[
+                ("system-latest.json", b"{}"),
+                ("system-latest.json.sig", b"sig"),
+                (ARCHIVE, b"payload"),
+            ],
+        );
+        let parts = unwrap_bundle(&bundle, dir.path()).unwrap();
+        assert_eq!(parts.metadata, b"{}");
+        assert_eq!(parts.signature.as_deref(), Some(&b"sig"[..]));
+        assert_eq!(fs::read(parts.archive).unwrap(), b"payload");
+    }
+
+    #[test]
+    fn bundle_without_signature_is_unsigned_candidate() {
+        let dir = tempfile::tempdir().unwrap();
+        let bundle = dir.path().join("b.tar");
+        write_bundle(&bundle, &[("system-latest.json", b"{}"), (ARCHIVE, b"x")]);
+        assert!(
+            unwrap_bundle(&bundle, dir.path())
+                .unwrap()
+                .signature
+                .is_none()
+        );
+    }
+
+    #[test]
+    fn bundle_rejects_extra_or_missing_entries() {
+        let dir = tempfile::tempdir().unwrap();
+        let bundle = dir.path().join("b.tar");
+        write_bundle(
+            &bundle,
+            &[
+                ("system-latest.json", b"{}"),
+                (ARCHIVE, b"x"),
+                ("extra.txt", b"x"),
+            ],
+        );
+        assert!(unwrap_bundle(&bundle, dir.path()).is_err());
+        write_bundle(&bundle, &[("system-latest.json", b"{}")]);
+        assert!(unwrap_bundle(&bundle, dir.path()).is_err());
+        write_bundle(&bundle, &[(ARCHIVE, b"x")]);
+        assert!(unwrap_bundle(&bundle, dir.path()).is_err());
     }
 
     #[test]

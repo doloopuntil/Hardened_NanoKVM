@@ -922,9 +922,9 @@ const ca = {
         },
         local: {
           title: 'Puja un paquet del sistema',
-          desc: "Instal·la un paquet del sistema des d'aquest ordinador. Selecciona l'arxiu, system-latest.json i la seva signatura.",
-          choose: 'Tria fitxers',
-          missingFiles: "Selecciona l'arxiu i system-latest.json.",
+          desc: "Instal·la un paquet del sistema des d'aquest ordinador. Un sol fitxer conté l'arxiu i les seves metadades signades.",
+          choose: 'Tria el fitxer',
+          invalidFile: 'Selecciona un paquet del sistema que acabi en .tar o .tar.gz.',
           keyTitle: "Clau d'actualització local",
           keyDesc: 'Clau pública en format PEM que pot signar els paquets del sistema que compilis tu mateix',
           keyNone: 'Cap clau definida',

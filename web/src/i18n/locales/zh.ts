@@ -879,9 +879,9 @@ const zh = {
         },
         local: {
           title: '上传系统包',
-          desc: '从此计算机安装系统包。请选择归档文件、system-latest.json 及其签名。',
+          desc: '从此计算机安装系统包。一个文件包含归档文件及其已签名的元数据。',
           choose: '选择文件',
-          missingFiles: '请选择归档文件和 system-latest.json。',
+          invalidFile: '请选择以 .tar 或 .tar.gz 结尾的系统包。',
           keyTitle: '本地更新密钥',
           keyDesc: '可为您自行构建的系统包签名的 PEM 格式公钥',
           keyNone: '未设置密钥',

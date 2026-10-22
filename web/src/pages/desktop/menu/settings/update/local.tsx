@@ -14,35 +14,25 @@ type UploadProps = {
   setBusy: (busy: boolean) => void;
 };
 
-// Pick the archive, system-latest.json and its signature out of what was selected.
-function sortFiles(files: File[]) {
-  return {
-    archive: files.find((f) => f.name.endsWith('.tar.gz')),
-    metadata: files.find((f) => f.name.endsWith('.json')),
-    signature: files.find((f) => f.name.endsWith('.sig'))
-  };
-}
-
 export const SystemUpload = ({ disabled, onStaged, setBusy }: UploadProps) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files ?? []);
+    const file = e.target.files?.[0];
     e.target.value = '';
-    const { archive, metadata, signature } = sortFiles(files);
-    if (!archive || !metadata) {
-      setError(t('settings.update.local.missingFiles'));
+    if (!file) return;
+
+    if (!/\.tar(\.gz)?$/.test(file.name)) {
+      setError(t('settings.update.local.invalidFile'));
       return;
     }
 
     setError('');
     setBusy(true);
     const data = new FormData();
-    data.append('metadata', metadata);
-    if (signature) data.append('signature', signature);
-    data.append('file', archive);
+    data.append('file', file);
 
     const rsp = await attempt(() => api.uploadSystemUpdate(data));
     setBusy(false);
@@ -58,8 +48,7 @@ export const SystemUpload = ({ disabled, onStaged, setBusy }: UploadProps) => {
       <input
         ref={inputRef}
         type="file"
-        multiple
-        accept=".gz,.json,.sig"
+        accept=".tar,.gz"
         onChange={handleChange}
         className="hidden"
       />

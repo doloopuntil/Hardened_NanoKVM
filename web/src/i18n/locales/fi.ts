@@ -918,9 +918,9 @@ const fi = {
         },
         local: {
           title: 'Lataa järjestelmäpaketti',
-          desc: 'Asenna järjestelmäpaketti tältä tietokoneelta. Valitse arkisto, system-latest.json ja sen allekirjoitus.',
-          choose: 'Valitse tiedostot',
-          missingFiles: 'Valitse arkisto ja system-latest.json.',
+          desc: 'Asenna järjestelmäpaketti tältä tietokoneelta. Yksi tiedosto sisältää arkiston ja sen allekirjoitetut metatiedot.',
+          choose: 'Valitse tiedosto',
+          invalidFile: 'Valitse järjestelmäpaketti, jonka pääte on .tar tai .tar.gz.',
           keyTitle: 'Paikallinen päivitysavain',
           keyDesc: 'PEM-muotoinen julkinen avain, jolla saa allekirjoittaa itse rakennetut järjestelmäpaketit',
           keyNone: 'Avainta ei ole asetettu',

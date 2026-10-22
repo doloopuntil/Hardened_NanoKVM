@@ -921,9 +921,9 @@ const nb = {
         },
         local: {
           title: 'Last opp systempakke',
-          desc: 'Installer en systempakke fra denne datamaskinen. Velg arkivet, system-latest.json og signaturen.',
-          choose: 'Velg filer',
-          missingFiles: 'Velg arkivet og system-latest.json.',
+          desc: 'Installer en systempakke fra denne datamaskinen. Én fil inneholder arkivet og de signerte metadataene.',
+          choose: 'Velg fil',
+          invalidFile: 'Velg en systempakke som slutter på .tar eller .tar.gz.',
           keyTitle: 'Lokal oppdateringsnøkkel',
           keyDesc: 'Offentlig nøkkel i PEM-format som kan signere systempakker du bygger selv',
           keyNone: 'Ingen nøkkel angitt',

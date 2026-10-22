@@ -919,9 +919,9 @@ const se = {
         },
         local: {
           title: 'Ladda upp systempaket',
-          desc: 'Installera ett systempaket från den här datorn. Välj arkivet, system-latest.json och dess signatur.',
-          choose: 'Välj filer',
-          missingFiles: 'Välj arkivet och system-latest.json.',
+          desc: 'Installera ett systempaket från den här datorn. En fil innehåller arkivet och dess signerade metadata.',
+          choose: 'Välj fil',
+          invalidFile: 'Välj ett systempaket som slutar på .tar eller .tar.gz.',
           keyTitle: 'Lokal uppdateringsnyckel',
           keyDesc: 'Publik nyckel i PEM-format som får signera systempaket du bygger själv',
           keyNone: 'Ingen nyckel angiven',

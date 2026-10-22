@@ -905,9 +905,9 @@ const ko = {
         },
         local: {
           title: '시스템 번들 업로드',
-          desc: '이 컴퓨터에서 시스템 번들을 설치합니다. 아카이브, system-latest.json 및 서명을 선택하세요.',
+          desc: '이 컴퓨터에서 시스템 번들을 설치합니다. 파일 하나에 아카이브와 서명된 메타데이터가 들어 있습니다.',
           choose: '파일 선택',
-          missingFiles: '아카이브와 system-latest.json을 선택하세요.',
+          invalidFile: '.tar 또는 .tar.gz로 끝나는 시스템 번들을 선택하세요.',
           keyTitle: '로컬 업데이트 키',
           keyDesc: '직접 빌드한 시스템 번들에 서명할 수 있는 PEM 형식의 공개 키',
           keyNone: '설정된 키 없음',

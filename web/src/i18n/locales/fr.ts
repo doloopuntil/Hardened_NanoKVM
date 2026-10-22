@@ -925,9 +925,9 @@ const fr = {
         },
         local: {
           title: 'Téléverser un paquet système',
-          desc: "Installer un paquet système depuis cet ordinateur. Sélectionnez l'archive, system-latest.json et sa signature.",
-          choose: 'Choisir des fichiers',
-          missingFiles: "Sélectionnez l'archive et system-latest.json.",
+          desc: "Installer un paquet système depuis cet ordinateur. Un seul fichier contient l'archive et ses métadonnées signées.",
+          choose: 'Choisir un fichier',
+          invalidFile: 'Sélectionnez un paquet système se terminant par .tar ou .tar.gz.',
           keyTitle: 'Clé de mise à jour locale',
           keyDesc: 'Clé publique au format PEM autorisée à signer les paquets système que vous créez vous-même',
           keyNone: 'Aucune clé définie',

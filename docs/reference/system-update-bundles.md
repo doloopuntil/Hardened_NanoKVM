@@ -92,8 +92,14 @@ Production stable/preview channel metadata must use
 
 ## Uploaded bundles
 
-`POST /api/system-update/upload` (multipart fields `metadata`, `signature`, `file`)
-stages a bundle without the network. `signature_key_id` selects the verifier:
+`POST /api/system-update/upload` (multipart field `file`) stages a bundle without
+the network. The file is a plain or gzip-compressed tar built by
+`scripts/create-system-update-bundle.sh` with exactly these regular files:
+`system-latest.json`, `system-latest.json.sig` (omitted for unsigned metadata)
+and the system archive. Any other entry rejects the upload. The inner archive
+stays gzip-compressed, so the wrapper is normally a plain `.tar`. Peak disk use
+is about twice the bundle while it is unpacked. `signature_key_id` selects the
+verifier:
 
 - `local`: the key at `paths.system_update_local_public_key`, registered with
   `PUT /api/system-update/local-key`. Version and downgrade checks are skipped.

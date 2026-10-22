@@ -925,9 +925,9 @@ const nl = {
         },
         local: {
           title: 'Systeempakket uploaden',
-          desc: 'Een systeempakket vanaf deze computer installeren. Selecteer het archief, system-latest.json en de handtekening.',
-          choose: 'Bestanden kiezen',
-          missingFiles: 'Selecteer het archief en system-latest.json.',
+          desc: 'Een systeempakket vanaf deze computer installeren. Eén bestand bevat het archief en de ondertekende metagegevens.',
+          choose: 'Bestand kiezen',
+          invalidFile: 'Selecteer een systeempakket dat eindigt op .tar of .tar.gz.',
           keyTitle: 'Lokale updatesleutel',
           keyDesc: 'Openbare sleutel in PEM-indeling die zelfgebouwde systeempakketten mag ondertekenen',
           keyNone: 'Geen sleutel ingesteld',

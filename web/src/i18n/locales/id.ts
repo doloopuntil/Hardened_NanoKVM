@@ -920,9 +920,9 @@ const id = {
         },
         local: {
           title: 'Unggah paket sistem',
-          desc: 'Pasang paket sistem dari komputer ini. Pilih arsip, system-latest.json, dan tanda tangannya.',
+          desc: 'Pasang paket sistem dari komputer ini. Satu berkas berisi arsip dan metadata yang sudah ditandatangani.',
           choose: 'Pilih berkas',
-          missingFiles: 'Pilih arsip dan system-latest.json.',
+          invalidFile: 'Pilih paket sistem berakhiran .tar atau .tar.gz.',
           keyTitle: 'Kunci pembaruan lokal',
           keyDesc: 'Kunci publik berformat PEM yang boleh menandatangani paket sistem yang Anda bangun sendiri',
           keyNone: 'Kunci belum diatur',

@@ -919,9 +919,9 @@ const pl = {
         },
         local: {
           title: 'Prześlij pakiet systemowy',
-          desc: 'Zainstaluj pakiet systemowy z tego komputera. Wybierz archiwum, system-latest.json i jego podpis.',
-          choose: 'Wybierz pliki',
-          missingFiles: 'Wybierz archiwum i system-latest.json.',
+          desc: 'Zainstaluj pakiet systemowy z tego komputera. Jeden plik zawiera archiwum i jego podpisane metadane.',
+          choose: 'Wybierz plik',
+          invalidFile: 'Wybierz pakiet systemowy z rozszerzeniem .tar lub .tar.gz.',
           keyTitle: 'Lokalny klucz aktualizacji',
           keyDesc: 'Klucz publiczny w formacie PEM, który może podpisywać samodzielnie zbudowane pakiety systemowe',
           keyNone: 'Nie ustawiono klucza',

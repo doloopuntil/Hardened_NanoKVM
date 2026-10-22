@@ -913,9 +913,9 @@ const cz = {
         },
         local: {
           title: 'Nahrát systémový balíček',
-          desc: 'Nainstalovat systémový balíček z tohoto počítače. Vyberte archiv, system-latest.json a jeho podpis.',
-          choose: 'Vybrat soubory',
-          missingFiles: 'Vyberte archiv a system-latest.json.',
+          desc: 'Nainstalovat systémový balíček z tohoto počítače. Jeden soubor obsahuje archiv a jeho podepsaná metadata.',
+          choose: 'Vybrat soubor',
+          invalidFile: 'Vyberte systémový balíček s příponou .tar nebo .tar.gz.',
           keyTitle: 'Místní aktualizační klíč',
           keyDesc: 'Veřejný klíč ve formátu PEM, který smí podepisovat systémové balíčky, které si sami sestavíte',
           keyNone: 'Žádný klíč nenastaven',
