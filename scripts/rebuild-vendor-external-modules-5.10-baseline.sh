@@ -28,6 +28,7 @@ CANDIDATE_PATCHES=(
 	"$PATCH_DIR/sophgo-osdrv-0cf613b-linux-5.10.265-compat.patch"
 	"$PATCH_DIR/sophgo-osdrv-0cf613b-lt-int.patch"
 	"$PATCH_DIR/sophgo-osdrv-0cf613b-vi-log-level.patch"
+	"$PATCH_DIR/sophgo-osdrv-0cf613b-vi-dci-yuv-bypass.patch"
 )
 # Built with interdrv in candidate mode; packaged separately from the 30-module inventory.
 MEDIA_MODULES=(soph_vcodec.ko soph_jpeg.ko soph_vc_driver.ko)
