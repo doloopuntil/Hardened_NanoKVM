@@ -277,6 +277,10 @@ jobs:
           cp -r "$MPI/modules/ive/include" "$MW/modules/ive/include"
           cp -r "$MPI/component/panel/cv181x" "$MW/component/panel/cv181x"
           grep -q "define MO_TBL_SIZE 2048" "$MW/uapi/linux/vi_uapi.h"
+          # Our sample_common_sensor.c override maps ini sensor names by index into this enum.
+          sns_names() { sed -n '/^static const char \*snsr_type_name/,/^};/p' "$1"; }
+          diff <(sns_names "$MPI/sample/common/sample_common_sensor.c") \
+            <(sns_names support/sg2002/additional/sophgo-middleware/v2/sample/common/sample_common_sensor.c)
 
       # ./build's own first-time logic (no $MAIXCDK_PATH/components/kvm yet, always true on this
       # fresh clone) copies support/sg2002/additional/{kvm,kvm_mmf,vision,peripheral bits} into
