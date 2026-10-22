@@ -556,6 +556,16 @@ const fi = {
       system: {
         title: 'Järjestelmä',
         performance: {
+          processor: 'Suoritin',
+          overdrive: {
+            title: 'Ylikellotus',
+            description: 'Käynnistä valmistajan määrittämillä korkeammilla suorittimen ja videon kellotaajuuksilla',
+            tip: 'Jos laite ei käynnisty ylikellotuksella, SD-kortti on kirjoitettava uudelleen',
+            pending: 'Tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen',
+            unavailable: 'Ei sisälly tähän järjestelmäkuvaan',
+            confirmTitle: 'Otetaanko ylikellotus käyttöön?',
+            confirmText: 'Jos laite ei käynnisty ylikellotuksella, sinun on kirjoitettava SD-kortti uudelleen sen palauttamiseksi. Muutos tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen.'
+          },
           memory: 'Muisti'
         },
         sections: {

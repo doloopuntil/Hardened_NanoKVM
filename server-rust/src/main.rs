@@ -4,6 +4,7 @@ use axum::{
     response::Redirect,
 };
 use nanokvm_rust_server::{
+    api::cpu_clock,
     config::Config,
     ffi::kvm,
     hdmi_idle,
@@ -57,6 +58,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     config.log_runtime_warnings();
     install_runtime_boot_scripts();
     install_runtime_update_trust(&config);
+    cpu_clock::reconcile_at_startup();
     initialize_kvm();
     hdmi_idle::start();
     hid_ws::start_keyboard_led_reader();

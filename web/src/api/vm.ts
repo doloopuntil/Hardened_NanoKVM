@@ -115,6 +115,16 @@ export function setSwap(size: number) {
   return http.post('/api/vm/swap', { size });
 }
 
+// get the boot clock profile
+export function getOverdrive() {
+  return http.get('/api/vm/overdrive');
+}
+
+// choose the boot clock profile; it applies after a reboot
+export function setOverdrive(enabled: boolean) {
+  return http.post('/api/vm/overdrive', { enabled });
+}
+
 // get mouse jiggler
 export function getMouseJiggler() {
   return http.get('/api/vm/mouse-jiggler');

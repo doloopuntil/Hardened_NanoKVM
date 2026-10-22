@@ -558,6 +558,16 @@ const es = {
       system: {
         title: 'Sistema',
         performance: {
+          processor: 'Procesador',
+          overdrive: {
+            title: 'Overdrive de reloj',
+            description: 'Arrancar con las frecuencias más altas de procesador y vídeo especificadas por el fabricante',
+            tip: 'Si el dispositivo no arranca con overdrive, hay que volver a grabar la tarjeta SD',
+            pending: 'Se aplica tras el próximo reinicio',
+            unavailable: 'No incluido en esta imagen del sistema',
+            confirmTitle: '¿Activar el overdrive de reloj?',
+            confirmText: 'Si el dispositivo no arranca con overdrive, tendrá que volver a grabar la tarjeta SD para recuperarlo. El cambio se aplica tras el próximo reinicio.'
+          },
           memory: 'Memoria'
         },
         sections: {

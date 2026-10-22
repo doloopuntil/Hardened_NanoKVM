@@ -558,6 +558,16 @@ const ja = {
       system: {
         title: 'システム',
         performance: {
+          processor: 'プロセッサ',
+          overdrive: {
+            title: 'クロックのオーバードライブ',
+            description: 'メーカー指定の高いプロセッサとビデオのクロックで起動します',
+            tip: 'オーバードライブで起動しない場合は、SD カードの書き直しが必要です',
+            pending: '次回の再起動後に反映されます',
+            unavailable: 'このシステムイメージには含まれていません',
+            confirmTitle: 'クロックのオーバードライブを有効にしますか？',
+            confirmText: 'オーバードライブで起動しない場合は、復旧のために SD カードを書き直す必要があります。変更は次回の再起動後に反映されます。'
+          },
           memory: 'メモリ'
         },
         sections: {

@@ -10,7 +10,8 @@ VENDOR_OUTPUT_DIR="${HARDENED_SG2002_VENDOR_OUTPUT_DIR:-$VENDOR_SDK_DIR/install/
 EXTERNAL_DIR="${HARDENED_SG2002_EXTERNAL_DIR:-$ROOT/buildroot-external/hardened-sg2002}"
 OUTPUT_DIR="${HARDENED_SG2002_SD_OUTPUT_DIR:-$PROBE_ROOT/sg2002-sd-image-${BUILDROOT_VERSION}-raw11}"
 ROOTFS_IMAGE="${HARDENED_SG2002_ROOTFS_IMAGE:-$CONFIG_OUTPUT_DIR/images/rootfs.ext2}"
-FIP_IMAGE="${HARDENED_SG2002_FIP_IMAGE:-$VENDOR_OUTPUT_DIR/fip.bin}"
+FIP_STD_IMAGE="${HARDENED_SG2002_FIP_STD_IMAGE:-$VENDOR_OUTPUT_DIR/fip.bin}"
+FIP_OD_IMAGE="${HARDENED_SG2002_FIP_OD_IMAGE:-$VENDOR_OUTPUT_DIR/fip.od.bin}"
 BOOT_IMAGE="${HARDENED_SG2002_BOOT_IMAGE:-$VENDOR_OUTPUT_DIR/rawimages/boot.sd}"
 LOGO_IMAGE="${HARDENED_SG2002_LOGO_IMAGE:-$VENDOR_SDK_DIR/build/tools/common/sd_tools/logo.jpeg}"
 GENIMAGE="$CONFIG_OUTPUT_DIR/host/bin/genimage"
@@ -32,7 +33,8 @@ require_file() {
 
 require_file "$ROOTFS_IMAGE"
 require_file "$GENIMAGE"
-require_file "$FIP_IMAGE"
+require_file "$FIP_STD_IMAGE"
+require_file "$FIP_OD_IMAGE"
 require_file "$BOOT_IMAGE"
 require_file "$LOGO_IMAGE"
 require_file "$EXTERNAL_DIR/board/sg2002/genimage.cfg"
@@ -60,7 +62,9 @@ if [ -e "$OUTPUT_DIR" ]; then
 fi
 
 mkdir -p "$OUTPUT_DIR/root" "$OUTPUT_DIR/tmp" "$OUTPUT_DIR/input/rawimages" "$OUTPUT_DIR/images"
-cp "$FIP_IMAGE" "$OUTPUT_DIR/input/fip.bin"
+cp "$FIP_STD_IMAGE" "$OUTPUT_DIR/input/fip.bin"
+cp "$FIP_STD_IMAGE" "$OUTPUT_DIR/input/fip.std.bin"
+cp "$FIP_OD_IMAGE" "$OUTPUT_DIR/input/fip.od.bin"
 cp "$BOOT_IMAGE" "$OUTPUT_DIR/input/rawimages/boot.sd"
 cp "$ROOTFS_IMAGE" "$OUTPUT_DIR/input/rootfs.sd"
 cp "$LOGO_IMAGE" "$OUTPUT_DIR/input/logo.jpeg"

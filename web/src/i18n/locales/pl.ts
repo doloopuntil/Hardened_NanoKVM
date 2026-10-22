@@ -556,6 +556,16 @@ const pl = {
       system: {
         title: 'System',
         performance: {
+          processor: 'Procesor',
+          overdrive: {
+            title: 'Podkręcanie',
+            description: 'Uruchom z wyższymi taktowaniami procesora i wideo określonymi przez producenta',
+            tip: 'Jeśli urządzenie nie uruchomi się z podkręcaniem, trzeba ponownie zapisać kartę SD',
+            pending: 'Zadziała po następnym restarcie',
+            unavailable: 'Nie ma tego w tym obrazie systemu',
+            confirmTitle: 'Włączyć podkręcanie?',
+            confirmText: 'Jeśli urządzenie nie uruchomi się z podkręcaniem, aby je przywrócić, trzeba ponownie zapisać kartę SD. Zmiana zadziała po następnym restarcie.'
+          },
           memory: 'Pamięć'
         },
         sections: {

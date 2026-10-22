@@ -560,6 +560,16 @@ const nl = {
       system: {
         title: 'Systeem',
         performance: {
+          processor: 'Processor',
+          overdrive: {
+            title: 'Overklokken',
+            description: 'Opstarten met de hogere klokfrequenties voor processor en video die de fabrikant specificeert',
+            tip: 'Als het apparaat met overklokken niet start, moet de SD-kaart opnieuw worden beschreven',
+            pending: 'Gaat in na de volgende herstart',
+            unavailable: 'Niet opgenomen in dit systeemimage',
+            confirmTitle: 'Overklokken inschakelen?',
+            confirmText: 'Als het apparaat met overklokken niet start, moet u de SD-kaart opnieuw beschrijven om het te herstellen. De wijziging gaat in na de volgende herstart.'
+          },
           memory: 'Geheugen'
         },
         sections: {

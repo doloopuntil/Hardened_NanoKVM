@@ -554,6 +554,16 @@ const da = {
       system: {
         title: 'System',
         performance: {
+          processor: 'Processor',
+          overdrive: {
+            title: 'Overclocking',
+            description: 'Start med de højere processor- og videofrekvenser, som producenten har specificeret',
+            tip: 'Hvis enheden ikke starter med overclocking, skal SD-kortet flashes igen',
+            pending: 'Træder i kraft efter næste genstart',
+            unavailable: 'Ikke med i dette systemaftryk',
+            confirmTitle: 'Aktivér overclocking?',
+            confirmText: 'Hvis enheden ikke starter med overclocking, skal du flashe SD-kortet igen for at gendanne den. Ændringen træder i kraft efter næste genstart.'
+          },
           memory: 'Hukommelse'
         },
         sections: {

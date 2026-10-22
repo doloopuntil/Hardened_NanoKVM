@@ -553,6 +553,16 @@ const cz = {
       system: {
         title: 'Systém',
         performance: {
+          processor: 'Procesor',
+          overdrive: {
+            title: 'Přetaktování',
+            description: 'Spustit s vyššími frekvencemi procesoru a videa podle specifikace výrobce',
+            tip: 'Pokud se zařízení s přetaktováním nespustí, je nutné znovu zapsat kartu SD',
+            pending: 'Použije se po příštím restartu',
+            unavailable: 'Není součástí tohoto systémového obrazu',
+            confirmTitle: 'Zapnout přetaktování?',
+            confirmText: 'Pokud se zařízení s přetaktováním nespustí, musíte kartu SD znovu zapsat, abyste ho obnovili. Změna se použije po příštím restartu.'
+          },
           memory: 'Paměť'
         },
         sections: {

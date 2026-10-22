@@ -93,7 +93,7 @@ grep -Fq '$(NANOKVM_KVMAPP_SOURCE_DIR)/server/dl_lib/libkvm_mmf.so' "$VENDOR_MK"
 grep -Fq 'vendor-runtime-source-media-v1' "$VENDOR_MK"
 grep -Fq 'vendor-runtime-source-media-v1' \
 	"$ROOT/scripts/build-latest-buildroot-sg2002-rootfs.sh"
-grep -Fq 'HARDENED_SG2002_FIP_IMAGE' \
+grep -Fq 'HARDENED_SG2002_FIP_STD_IMAGE' \
 	"$ROOT/scripts/assemble-latest-buildroot-sg2002-sd-image.sh"
 grep -Fq 'HARDENED_SG2002_BOOT_IMAGE' \
 	"$ROOT/scripts/assemble-latest-buildroot-sg2002-sd-image.sh"

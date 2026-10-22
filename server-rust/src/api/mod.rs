@@ -3,6 +3,7 @@ pub mod account_totp;
 pub mod application;
 pub mod autostart;
 pub mod compatibility;
+pub mod cpu_clock;
 pub mod direct_flow;
 pub mod download;
 pub mod hid;

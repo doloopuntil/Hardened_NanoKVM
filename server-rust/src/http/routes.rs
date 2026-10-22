@@ -8,9 +8,9 @@ use tower_http::{services::ServeDir, trace::TraceLayer};
 
 use crate::{
     api::{
-        account, account_totp, application, autostart, compatibility, download, hid, network,
-        picoclaw, script, storage, stream, system_firewall, system_log, system_time, system_update,
-        tailscale, vm, webrtc_stream, wireguard,
+        account, account_totp, application, autostart, compatibility, cpu_clock, download, hid,
+        network, picoclaw, script, storage, stream, system_firewall, system_log, system_time,
+        system_update, tailscale, vm, webrtc_stream, wireguard,
     },
     http::middleware::{picoclaw_internal, protected},
     security::headers::security_headers,
@@ -153,6 +153,10 @@ pub fn build(state: AppState) -> Router {
             get(vm::get_memory_limit).post(vm::set_memory_limit),
         )
         .route("/api/vm/swap", get(vm::get_swap).post(vm::set_swap))
+        .route(
+            "/api/vm/overdrive",
+            get(cpu_clock::get_overdrive).post(cpu_clock::set_overdrive),
+        )
         .route(
             "/api/vm/mouse-jiggler",
             get(vm::get_mouse_jiggler).post(vm::set_mouse_jiggler),

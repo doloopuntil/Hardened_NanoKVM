@@ -562,6 +562,16 @@ const de = {
       system: {
         title: 'System',
         performance: {
+          processor: 'Prozessor',
+          overdrive: {
+            title: 'Übertaktung',
+            description: 'Mit den höheren, vom Hersteller spezifizierten Prozessor- und Videotaktraten starten',
+            tip: 'Startet das Gerät mit Übertaktung nicht, muss die SD-Karte neu beschrieben werden',
+            pending: 'Gilt nach dem nächsten Neustart',
+            unavailable: 'Nicht in diesem Systemabbild enthalten',
+            confirmTitle: 'Übertaktung aktivieren?',
+            confirmText: 'Startet das Gerät mit Übertaktung nicht, müssen Sie die SD-Karte neu beschreiben, um es wiederherzustellen. Die Änderung gilt nach dem nächsten Neustart.'
+          },
           memory: 'Arbeitsspeicher'
         },
         sections: {

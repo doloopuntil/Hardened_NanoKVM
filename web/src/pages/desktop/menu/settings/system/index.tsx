@@ -14,6 +14,7 @@ import type { SystemActionHandle, SystemActionState } from './action';
 import { idleSystemActionState } from './action';
 import { FirewallSettings } from './firewall';
 import { Mdns } from './mdns';
+import { Overdrive } from './overdrive';
 import { Ssh } from './ssh';
 import { Swap } from './swap';
 import { TimeSettings } from './time';
@@ -110,9 +111,17 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
             </div>
           )}
           {section === 'performance' && (
-            <SettingSection title={t('settings.system.performance.memory')}>
-              <Swap />
-            </SettingSection>
+            <div className="flex flex-col space-y-6">
+              <SettingSection title={t('settings.system.performance.processor')}>
+                <Overdrive />
+              </SettingSection>
+
+              <Divider className="opacity-50" />
+
+              <SettingSection title={t('settings.system.performance.memory')}>
+                <Swap />
+              </SettingSection>
+            </div>
           )}
         </div>
       </SettingsLoadGroup>

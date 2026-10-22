@@ -548,6 +548,16 @@ const ko = {
       system: {
         title: '시스템',
         performance: {
+          processor: '프로세서',
+          overdrive: {
+            title: '클럭 오버드라이브',
+            description: '제조업체가 지정한 더 높은 프로세서 및 비디오 클럭으로 부팅합니다',
+            tip: '오버드라이브로 장치가 시작되지 않으면 SD 카드를 다시 기록해야 합니다',
+            pending: '다음 재부팅 후 적용됩니다',
+            unavailable: '이 시스템 이미지에는 포함되어 있지 않습니다',
+            confirmTitle: '클럭 오버드라이브를 사용하시겠습니까?',
+            confirmText: '오버드라이브로 장치가 시작되지 않으면 복구를 위해 SD 카드를 다시 기록해야 합니다. 변경 사항은 다음 재부팅 후 적용됩니다.'
+          },
           memory: '메모리'
         },
         sections: {

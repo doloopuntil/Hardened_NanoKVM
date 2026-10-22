@@ -560,6 +560,16 @@ const it = {
       system: {
         title: 'Sistema',
         performance: {
+          processor: 'Processore',
+          overdrive: {
+            title: 'Overdrive del clock',
+            description: 'Avvia con le frequenze di processore e video più alte specificate dal produttore',
+            tip: 'Se il dispositivo non si avvia con l\'overdrive, la scheda SD va riscritta',
+            pending: 'Si applica dopo il prossimo riavvio',
+            unavailable: 'Non incluso in questa immagine di sistema',
+            confirmTitle: 'Attivare l\'overdrive del clock?',
+            confirmText: 'Se il dispositivo non si avvia con l\'overdrive, dovrai riscrivere la scheda SD per ripristinarlo. La modifica si applica dopo il prossimo riavvio.'
+          },
           memory: 'Memoria'
         },
         sections: {

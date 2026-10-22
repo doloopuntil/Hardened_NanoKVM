@@ -534,6 +534,16 @@ const zh_tw = {
       system: {
         title: '系統',
         performance: {
+          processor: '處理器',
+          overdrive: {
+            title: '時脈超頻',
+            description: '以製造商指定的更高處理器與視訊時脈頻率啟動',
+            tip: '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡',
+            pending: '下次重新啟動後生效',
+            unavailable: '此系統映像不包含該選項',
+            confirmTitle: '啟用時脈超頻？',
+            confirmText: '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡才能復原。變更將在下次重新啟動後生效。'
+          },
           memory: '記憶體'
         },
         sections: {

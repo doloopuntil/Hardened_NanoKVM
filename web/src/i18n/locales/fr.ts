@@ -558,6 +558,16 @@ const fr = {
       system: {
         title: 'Système',
         performance: {
+          processor: 'Processeur',
+          overdrive: {
+            title: 'Overdrive de fréquence',
+            description: 'Démarrer avec les fréquences de processeur et de vidéo plus élevées définies par le fabricant',
+            tip: 'Si l\'appareil ne démarre pas avec l\'overdrive, la carte SD doit être reflashée',
+            pending: 'S\'applique après le prochain redémarrage',
+            unavailable: 'Absent de cette image système',
+            confirmTitle: 'Activer l\'overdrive de fréquence?',
+            confirmText: 'Si l\'appareil ne démarre pas avec l\'overdrive, vous devrez reflasher la carte SD pour le récupérer. Le changement s\'applique après le prochain redémarrage.'
+          },
           memory: 'Mémoire'
         },
         sections: {

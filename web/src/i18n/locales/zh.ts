@@ -533,6 +533,16 @@ const zh = {
       system: {
         title: '系统',
         performance: {
+          processor: '处理器',
+          overdrive: {
+            title: '时钟超频',
+            description: '以制造商指定的更高处理器和视频时钟频率启动',
+            tip: '如果设备在超频下无法启动，必须重新刷写 SD 卡',
+            pending: '下次重启后生效',
+            unavailable: '此系统镜像不包含该选项',
+            confirmTitle: '启用时钟超频？',
+            confirmText: '如果设备在超频下无法启动，必须重新刷写 SD 卡才能恢复。更改将在下次重启后生效。'
+          },
           memory: '内存'
         },
         sections: {

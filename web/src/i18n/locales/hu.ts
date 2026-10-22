@@ -559,6 +559,16 @@ const hu = {
       system: {
         title: 'Rendszer',
         performance: {
+          processor: 'Processzor',
+          overdrive: {
+            title: 'Órajel-túlhajtás',
+            description: 'Indítás a gyártó által megadott magasabb processzor- és videóórajelekkel',
+            tip: 'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írni',
+            pending: 'A következő újraindítás után lép életbe',
+            unavailable: 'Nem része ennek a rendszerképnek',
+            confirmTitle: 'Bekapcsolja az órajel-túlhajtást?',
+            confirmText: 'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írnia a helyreállításhoz. A módosítás a következő újraindítás után lép életbe.'
+          },
           memory: 'Memória'
         },
         sections: {

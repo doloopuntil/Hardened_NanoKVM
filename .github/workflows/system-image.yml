@@ -122,7 +122,8 @@ jobs:
         if: steps.stock-cache.outputs.cache-hit != 'true'
         run: make vendor-sdk-stock
 
-      # Only what build-image reads: the stock rootfs.sd (runtime files), boot.sd and fip.bin,
+      # Only what build-image reads: the stock rootfs.sd (runtime files), boot.sd, fip.bin (standard
+      # clocks) and fip.od.bin (overdrive),
       # the ramdisk inputs and keys for the boot FIT, the vendor mkimage with the host/ libraries
       # it loads, and the boot logo. Tarred because artifacts drop permissions and symlinks.
       - name: Package vendor SDK for build-image
@@ -135,6 +136,7 @@ jobs:
             "$OUT/rawimages/rootfs.sd" \
             "$OUT/rawimages/boot.sd" \
             "$OUT/fip.bin" \
+            "$OUT/fip.od.bin" \
             "$SDK/ramdisk/build/sg2002_licheervnano_sd/workspace/boot.cpio" \
             "$SDK/ramdisk/build/sg2002_licheervnano_sd/workspace/multi.its" \
             "$SDK/ramdisk/keys" \

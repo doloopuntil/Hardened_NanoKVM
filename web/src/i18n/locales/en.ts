@@ -551,6 +551,16 @@ const en = {
       system: {
         title: 'System',
         performance: {
+          processor: 'Processor',
+          overdrive: {
+            title: 'Clock overdrive',
+            description: 'Boot with higher processor and video clock speeds specified by the manufacturer',
+            tip: 'If the device does not start with overdrive, the SD card must be reflashed',
+            pending: 'Applies after the next reboot',
+            unavailable: 'Not included in this system image',
+            confirmTitle: 'Enable clock overdrive?',
+            confirmText: 'If the device does not start with overdrive, you must reflash the SD card to recover it. The change applies after the next reboot.'
+          },
           memory: 'Memory'
         },
         sections: {

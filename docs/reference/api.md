@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-22
 source: server-rust/src/http/routes.rs
 ---
 
@@ -141,6 +141,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | GET/POST        | `/api/vm/session-lock`     | Implemented; supports 5, 15, 30, and 60 minute durations and `logoutOnBrowserClose`; retimes the session. |
 | GET/POST        | `/api/vm/memory/limit`     | Implemented.                                                                                                       |
 | GET/POST        | `/api/vm/swap`             | Implemented.                                                                                                       |
+| GET/POST        | `/api/vm/overdrive`        | Implemented. Reads or sets the boot clock profile (`available`, `enabled`, `active`); applies after a reboot.      |
 | GET/POST        | `/api/vm/mouse-jiggler`    | Implemented.                                                                                                       |
 | POST            | `/api/vm/tls`              | Implemented; generates self-signed certs when needed and restarts service.                                         |
 | GET/POST/DELETE | `/api/vm/autostart*`       | Implemented with basename/path validation and size limits.                                                         |

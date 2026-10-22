@@ -551,6 +551,16 @@ const vi = {
       system: {
         title: 'Hệ thống',
         performance: {
+          processor: 'Bộ xử lý',
+          overdrive: {
+            title: 'Overdrive xung nhịp',
+            description: 'Khởi động với xung nhịp bộ xử lý và video cao hơn do nhà sản xuất quy định',
+            tip: 'Nếu thiết bị không khởi động được với overdrive, thẻ SD phải được ghi lại',
+            pending: 'Có hiệu lực sau lần khởi động lại tiếp theo',
+            unavailable: 'Không có trong bản hệ thống này',
+            confirmTitle: 'Bật overdrive xung nhịp?',
+            confirmText: 'Nếu thiết bị không khởi động được với overdrive, bạn phải ghi lại thẻ SD để khôi phục. Thay đổi có hiệu lực sau lần khởi động lại tiếp theo.'
+          },
           memory: 'Bộ nhớ'
         },
         sections: {

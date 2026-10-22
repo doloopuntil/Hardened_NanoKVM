@@ -558,6 +558,16 @@ const nb = {
       system: {
         title: 'System',
         performance: {
+          processor: 'Prosessor',
+          overdrive: {
+            title: 'Overklokking',
+            description: 'Start med den høyere klokkehastigheten for prosessor og video som produsenten har spesifisert',
+            tip: 'Hvis enheten ikke starter med overklokking, må SD-kortet flashes på nytt',
+            pending: 'Gjelder etter neste omstart',
+            unavailable: 'Ikke med i dette systembildet',
+            confirmTitle: 'Slå på overklokking?',
+            confirmText: 'Hvis enheten ikke starter med overklokking, må du flashe SD-kortet på nytt for å gjenopprette den. Endringen gjelder etter neste omstart.'
+          },
           memory: 'Minne'
         },
         sections: {

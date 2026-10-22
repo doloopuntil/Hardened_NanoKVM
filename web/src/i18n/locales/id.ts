@@ -557,6 +557,16 @@ const id = {
       system: {
         title: 'Sistem',
         performance: {
+          processor: 'Prosesor',
+          overdrive: {
+            title: 'Clock overdrive',
+            description: 'Booting dengan kecepatan clock prosesor dan video yang lebih tinggi sesuai spesifikasi pabrikan',
+            tip: 'Jika perangkat tidak menyala dengan overdrive, kartu SD harus ditulis ulang',
+            pending: 'Berlaku setelah reboot berikutnya',
+            unavailable: 'Tidak termasuk dalam image sistem ini',
+            confirmTitle: 'Aktifkan clock overdrive?',
+            confirmText: 'Jika perangkat tidak menyala dengan overdrive, Anda harus menulis ulang kartu SD untuk memulihkannya. Perubahan berlaku setelah reboot berikutnya.'
+          },
           memory: 'Memori'
         },
         sections: {

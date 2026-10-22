@@ -557,6 +557,16 @@ const ca = {
       system: {
         title: 'Sistema',
         performance: {
+          processor: 'Processador',
+          overdrive: {
+            title: 'Sobreesforç de rellotge',
+            description: 'Arrenca amb les freqüències més altes de processador i de vídeo especificades pel fabricant',
+            tip: 'Si el dispositiu no arrenca amb el sobreesforç, cal tornar a gravar la targeta SD',
+            pending: 'S\'aplica després del proper reinici',
+            unavailable: 'No inclòs en aquesta imatge del sistema',
+            confirmTitle: 'Activar el sobreesforç de rellotge?',
+            confirmText: 'Si el dispositiu no arrenca amb el sobreesforç, haureu de tornar a gravar la targeta SD per recuperar-lo. El canvi s\'aplica després del proper reinici.'
+          },
           memory: 'Memòria'
         },
         sections: {

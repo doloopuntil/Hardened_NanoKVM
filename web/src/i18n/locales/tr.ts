@@ -553,6 +553,16 @@ const tr = {
       system: {
         title: 'Sistem',
         performance: {
+          processor: 'İşlemci',
+          overdrive: {
+            title: 'Saat hız aşırtma',
+            description: 'Üreticinin belirlediği daha yüksek işlemci ve video saat hızlarıyla başlat',
+            tip: 'Cihaz hız aşırtmayla başlamazsa SD kartın yeniden yazılması gerekir',
+            pending: 'Sonraki yeniden başlatmadan sonra uygulanır',
+            unavailable: 'Bu sistem imajına dahil değil',
+            confirmTitle: 'Saat hız aşırtma etkinleştirilsin mi?',
+            confirmText: 'Cihaz hız aşırtmayla başlamazsa kurtarmak için SD kartı yeniden yazmanız gerekir. Değişiklik sonraki yeniden başlatmadan sonra uygulanır.'
+          },
           memory: 'Bellek'
         },
         sections: {

@@ -555,6 +555,16 @@ const pt_br = {
       system: {
         title: 'Sistema',
         performance: {
+          processor: 'Processador',
+          overdrive: {
+            title: 'Overdrive de clock',
+            description: 'Iniciar com as frequências mais altas de processador e vídeo especificadas pelo fabricante',
+            tip: 'Se o dispositivo não iniciar com overdrive, o cartão SD precisa ser regravado',
+            pending: 'Aplicado após a próxima reinicialização',
+            unavailable: 'Não incluído nesta imagem do sistema',
+            confirmTitle: 'Ativar o overdrive de clock?',
+            confirmText: 'Se o dispositivo não iniciar com overdrive, você precisará regravar o cartão SD para recuperá-lo. A alteração é aplicada após a próxima reinicialização.'
+          },
           memory: 'Memória'
         },
         sections: {
