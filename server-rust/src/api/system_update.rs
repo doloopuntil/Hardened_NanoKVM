@@ -1597,7 +1597,23 @@ kmsg() {{\n\
 }}\n\
 log() {{\n\
   NOW=$($BB date '+%Y-%m-%d %H:%M:%S' 2>/dev/null || $BB echo unknown)\n\
-  $BB printf '%s %s\\n' \"$NOW\" \"$1\" >> \"$LOG\" || kmsg \"$1\"\n\
+  # fsync each line: a line still in the page cache is lost when a hang ends in a cold reboot\n\
+  $BB printf '%s %s\\n' \"$NOW\" \"$1\" | $BB dd of=\"$LOG\" oflag=append conv=notrunc,fsync >/dev/null 2>&1 \\\n\
+    || $BB printf '%s %s\\n' \"$NOW\" \"$1\" >> \"$LOG\" || kmsg \"$1\"\n\
+  kmsg \"$1\"\n\
+}}\n\
+watch_write() {{\n\
+  # log the writer's progress every 10 seconds, so a stall shows where the bytes stopped\n\
+  WPID=\"$1\"\n\
+  WSTART=$($BB date +%s 2>/dev/null || $BB echo 0)\n\
+  while $BB kill -0 \"$WPID\" >/dev/null 2>&1; do\n\
+    $BB sleep 10\n\
+    $BB kill -0 \"$WPID\" >/dev/null 2>&1 || break\n\
+    WNOW=$($BB date +%s 2>/dev/null || $BB echo 0)\n\
+    WROTE=$($BB grep -m1 '^wchar' \"/proc/$WPID/io\" 2>/dev/null || $BB echo 'wchar: unknown')\n\
+    MEM=$($BB grep -E '^(MemFree|Dirty|Writeback):' /proc/meminfo 2>/dev/null | $BB tr -s ' \\n' ' ')\n\
+    log \"still writing after $((WNOW - WSTART))s, $WROTE, $MEM\"\n\
+  done\n\
 }}\n\
 progress() {{\n\
   NOW=$($BB date +%s 2>/dev/null || $BB echo 0)\n\
@@ -1626,8 +1642,10 @@ force_reboot_now() {{\n\
   # After raw partition writes the current rootfs has been overwritten under\n\
   # the running kernel. Avoid execing /bin/busybox or /sbin/reboot from that\n\
   # filesystem; use shell builtins and kernel sysrq instead.\n\
+  log 'rebooting: syncing before the restart'\n\
   if [ -w /proc/sysrq-trigger ]; then\n\
     echo s > /proc/sysrq-trigger 2>/dev/null || true\n\
+    log 'rebooting: sysrq u remounts read-only, so the log ends here, then sysrq b'\n\
     echo u > /proc/sysrq-trigger 2>/dev/null || true\n\
     echo b > /proc/sysrq-trigger 2>/dev/null || true\n\
   fi\n\
@@ -1910,8 +1928,13 @@ log 'testing compressed {} payload'\n\
 $BB gzip -t {} >> \"$LOG\" 2>&1 || fail 'failed to verify compressed {}'\n\
 log 'streaming compressed {} to {}'\n\
 RAW_WRITE_STARTED=1\n\
-$BB gzip -dc {} > {} || fail 'failed to write {}'\n\
-$BB sync\n",
+$BB gzip -dc {} > {} &\n\
+GZ_PID=$!\n\
+watch_write \"$GZ_PID\"\n\
+wait \"$GZ_PID\" || fail 'failed to write {}'\n\
+log '{} image data written, syncing'\n\
+$BB sync\n\
+log '{} image synced'\n",
                 shell_quote(&message),
                 image.label,
                 payload,
@@ -1920,6 +1943,8 @@ $BB sync\n",
                 image.device,
                 payload,
                 device,
+                image.label,
+                image.label,
                 image.label
             ));
         } else {
@@ -3831,6 +3856,8 @@ mod tests {
         assert!(script.contains("/etc/kvm"));
         assert!(script.contains("/etc/default/syslogd"));
         assert!(script.contains("/etc/default/klogd"));
+        assert!(script.contains("watch_write"));
+        assert!(script.contains("oflag=append conv=notrunc,fsync"));
         assert!(script.contains("etc/default/syslogd"));
         assert!(script.contains("etc/default/klogd"));
         assert!(script.contains("/etc/passwd"));
@@ -3902,6 +3929,22 @@ mod tests {
 
         assert!(script.contains("$BB gzip -t"));
         assert!(script.contains("$BB gzip -dc"));
+        // the generated shell must at least parse
+        let script_path = temp.path().join("raw-update.sh");
+        fs::write(&script_path, &script).unwrap();
+        let parsed = std::process::Command::new("sh")
+            .arg("-n")
+            .arg(&script_path)
+            .output()
+            .expect("sh -n");
+        assert!(
+            parsed.status.success(),
+            "raw updater script does not parse: {}",
+            String::from_utf8_lossy(&parsed.stderr)
+        );
+        assert!(script.contains("watch_write \"$GZ_PID\""));
+        assert!(script.contains("ROOTFS image data written, syncing"));
+        assert!(script.contains("BOOT image synced"));
         assert!(script.contains("images/rootfs.sd.gz"));
         assert!(script.contains("images/boot.vfat.gz"));
     }
