@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button, Input, Modal } from 'antd';
+import { Button, Input, Modal, Progress } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/application.ts';
-import { attempt } from '@/lib/feedback.ts';
+import { getVirtualDevice, updateVirtualDevice } from '@/api/virtual-device.ts';
+import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { SettingRow } from '@/components/setting-rows.tsx';
+
+function megabytes(bytes: number) {
+  return `${Math.round(bytes / (1024 * 1024))} MB`;
+}
 
 type LocalKey = { configured: boolean; fingerprint?: string | null };
 
@@ -18,6 +23,8 @@ export const SystemUpload = ({ disabled, onStaged, setBusy }: UploadProps) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
+  // bytes sent so far, or undefined while nothing is being uploaded
+  const [sent, setSent] = useState<{ loaded: number; total: number }>();
 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -30,32 +37,119 @@ export const SystemUpload = ({ disabled, onStaged, setBusy }: UploadProps) => {
     }
 
     setError('');
+
+    // /data is read-only while the virtual disk serves it to the host, and the bundle is staged
+    // there, so the disk has to go off first
+    const rsp = await attempt(() => getVirtualDevice(), { quiet: true });
+    if (rsp?.data?.disk) {
+      confirm({
+        title: t('settings.update.local.diskTitle'),
+        content: t('settings.update.local.diskWarn'),
+        okText: t('download.diskOff'),
+        onOk: () => {
+          void turnDiskOffAndUpload(file);
+        }
+      });
+      return;
+    }
+
+    await upload(file);
+  }
+
+  async function turnDiskOffAndUpload(file: File) {
+    setBusy(true);
+    const rsp = await attempt(() => updateVirtualDevice('disk'));
+    setBusy(false);
+    if (rsp) await upload(file);
+  }
+
+  async function upload(file: File) {
     setBusy(true);
     const data = new FormData();
     data.append('file', file);
 
-    const rsp = await attempt(() => api.uploadSystemUpdate(data));
-    setBusy(false);
-    if (rsp?.data) onStaged(rsp.data);
+    // Ask first: the server refuses an upload before reading it (read-only /data, no space, an
+    // update running), and the browser would only see a connection reset instead of the reason.
+    try {
+      const check = await api.checkSystemUpload(file.size);
+      if (check.code !== 0) {
+        showFailure(check.msg);
+        setBusy(false);
+        return;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    // Not `attempt`: a network failure or a raw server error must stay readable here, since the
+    // upload is the one step that can fail in the browser before the request is sent.
+    try {
+      setSent({ loaded: 0, total: file.size });
+      const rsp = await api.uploadSystemUpdate(data, (loaded, total) =>
+        setSent({ loaded, total: total || file.size })
+      );
+      if (rsp.code === 0 && rsp.data) {
+        onStaged(rsp.data);
+      } else {
+        showFailure(rsp.msg);
+      }
+    } catch (err) {
+      console.log(err);
+      const failure = err as {
+        response?: { data?: { msg?: string }; status?: number };
+        message?: string;
+      };
+      showFailure(
+        failure.response?.data?.msg ??
+          (failure.response?.status ? `HTTP ${failure.response.status}` : failure.message)
+      );
+    } finally {
+      setSent(undefined);
+      setBusy(false);
+    }
   }
 
+  function showFailure(detail?: string) {
+    const text = detail ? `${t('common.actionFailed')}: ${detail}` : t('common.actionFailed');
+    setError(text);
+    toast.error(t('common.actionFailed'), { description: detail, key: `upload:${detail ?? ''}` });
+  }
+
+  const percent = sent && sent.total > 0 ? Math.floor((sent.loaded / sent.total) * 100) : 0;
+  const isVerifying = !!sent && sent.total > 0 && sent.loaded >= sent.total;
+
   return (
-    <SettingRow
-      label={t('settings.update.local.title')}
-      description={error || t('settings.update.local.desc')}
-      inline
-    >
-      <input
-        ref={inputRef}
-        type="file"
-        accept=".tar,.gz"
-        onChange={handleChange}
-        className="hidden"
-      />
-      <Button disabled={disabled} onClick={() => inputRef.current?.click()}>
-        {t('settings.update.local.choose')}
-      </Button>
-    </SettingRow>
+    <>
+      <SettingRow
+        label={t('settings.update.local.title')}
+        description={error || t('settings.update.local.desc')}
+        inline
+      >
+        <input
+          ref={inputRef}
+          type="file"
+          accept=".tar,.gz"
+          onChange={handleChange}
+          className="hidden"
+        />
+        <Button disabled={disabled} onClick={() => inputRef.current?.click()}>
+          {t('settings.update.local.choose')}
+        </Button>
+      </SettingRow>
+      {sent && (
+        <div className="flex min-w-0 flex-col gap-1">
+          <Progress percent={percent} size="small" showInfo={false} status="active" />
+          <span className="text-xs text-neutral-500">
+            {isVerifying
+              ? t('settings.update.local.verifying')
+              : `${t('settings.update.local.uploading')} ${t('settings.system.monitor.sizeOf', {
+                  used: megabytes(sent.loaded),
+                  total: megabytes(sent.total)
+                })}`}
+          </span>
+        </div>
+      )}
+    </>
   );
 };
 

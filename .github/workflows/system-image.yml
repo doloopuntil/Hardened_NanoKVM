@@ -976,6 +976,29 @@ jobs:
           MCOPY="$(command -v mcopy)" \
             scripts/assemble-kernel-5.10.265-recovery-sd-image.sh
 
+      # The unsigned raw update archive, plus a script that signs it with a local key anywhere
+      # (see docs/guide/updates.md), so a device can be updated without an SD-card reflash.
+      - name: Package the unsigned system-update archive
+        run: |
+          # the base version with the run number as its last part, so every build is newer than
+          # the one before and can be uploaded and installed over it
+          SYSTEM_VERSION="${EXPECTED_SYSTEM_VERSION%.*}.${{ github.run_number }}" \
+          KERNEL_VERSION="$EXPECTED_KERNEL_RELEASE" \
+          SECURITY_PATCH_LEVEL="$EXPECTED_SECURITY_PATCH_LEVEL" \
+          BUILDROOT_VERSION="$BUILDROOT_VERSION" \
+          REQUIRED_APP_VERSION=2.0.41 \
+            scripts/package-local-system-update.sh \
+            "$RUN_ROOT/recovery/assembly/images/hardened-sg2002-port.img" \
+            "$RUN_ROOT/system-update"
+
+      - name: Upload the system-update archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: system-update-archive
+          path: build/rc12-run/system-update/**
+          retention-days: 14
+          if-no-files-found: error
+
       - name: Upload recovery-SD image and reports
         if: always()
         uses: actions/upload-artifact@v4

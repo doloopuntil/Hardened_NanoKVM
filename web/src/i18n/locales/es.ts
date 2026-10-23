@@ -969,6 +969,11 @@ const es = {
           desc: 'Instalar un paquete del sistema desde este equipo. Un solo archivo contiene el archivo comprimido y sus metadatos firmados.',
           choose: 'Elegir archivo',
           invalidFile: 'Seleccione un paquete del sistema que termine en .tar o .tar.gz.',
+          diskTitle: '¿Desactivar el disco virtual?',
+          diskWarn:
+            'El paquete del sistema se guarda en /data, que es de solo lectura mientras el disco virtual está activado. Al desactivarlo, el equipo ya no puede acceder a /data. ¿Continuar?',
+          uploading: 'Subiendo',
+          verifying: 'Verificando y preparando el paquete',
           keyTitle: 'Clave de actualización local',
           keyDesc: 'Clave pública en formato PEM que puede firmar los paquetes del sistema que usted compile',
           keyNone: 'Sin clave definida',

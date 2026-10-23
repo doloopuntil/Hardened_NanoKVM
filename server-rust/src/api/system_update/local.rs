@@ -4,7 +4,7 @@
 
 use axum::{
     Extension, Json,
-    extract::{Multipart, State},
+    extract::{Multipart, Query, State},
     http::{HeaderMap, header},
     response::IntoResponse,
 };
@@ -100,6 +100,45 @@ pub async fn remove_local_key(
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
+#[derive(Debug, Deserialize)]
+pub struct UploadCheckQuery {
+    size: Option<u64>,
+}
+
+/// Runs the checks the upload makes before it reads any data, so the browser can
+/// refuse a file with a readable message. A rejection after the browser has
+/// started sending the body reaches it as a bare connection reset instead.
+pub async fn upload_check(
+    State(state): State<AppState>,
+    Query(query): Query<UploadCheckQuery>,
+) -> Result<impl IntoResponse> {
+    upload_preflight(&state.config.paths.update_cache_dir, query.size)?;
+    Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+fn upload_preflight(cache_dir: &Path, upload_len: Option<u64>) -> Result<()> {
+    if system_firewall::paranoid_mode_enabled() {
+        return Err(AppError::BadRequest(
+            system_firewall::paranoid_blocked_message().to_string(),
+        ));
+    }
+    crate::api::storage::ensure_writable(cache_dir)?;
+    if SYSTEM_UPDATE_LOCK.lock().map(|busy| *busy).unwrap_or(false) {
+        return Err(AppError::Conflict(
+            "system update already in progress".to_string(),
+        ));
+    }
+    if let Some(len) = upload_len {
+        ensure_free_space(cache_dir, upload_space_needed(len))?;
+    }
+    Ok(())
+}
+
+// The bundle and the archive unpacked from it exist together for a moment.
+fn upload_space_needed(len: u64) -> u64 {
+    len.saturating_mul(2).saturating_add(FREE_SPACE_MARGIN)
+}
+
 /// Stage a system bundle uploaded from the browser.
 ///
 /// The multipart field `file` is one bundle (`.tar`, or gzip-compressed) that
@@ -166,12 +205,8 @@ async fn stage_upload(
     guard: UpdateGuard,
     username: &str,
 ) -> Result<SystemDownloadRsp> {
-    // The bundle and the archive unpacked from it exist together for a moment.
     if let Some(len) = upload_len {
-        ensure_free_space(
-            stage_dir,
-            len.saturating_mul(2).saturating_add(FREE_SPACE_MARGIN),
-        )?;
+        ensure_free_space(stage_dir, upload_space_needed(len))?;
     }
     let parts = receive_upload(stage_dir, multipart).await?;
 
@@ -410,7 +445,15 @@ async fn authorize_upload(
 }
 
 fn ensure_free_space(dir: &Path, needed: u64) -> Result<()> {
-    let stat = nix::sys::statvfs::statvfs(dir)
+    // the staging folder may not exist yet; the filesystem under it is what counts
+    let mut probe = dir;
+    while !probe.exists() {
+        match probe.parent() {
+            Some(parent) => probe = parent,
+            None => break,
+        }
+    }
+    let stat = nix::sys::statvfs::statvfs(probe)
         .map_err(|err| AppError::Internal(format!("failed to read free space: {err}")))?;
     let available = (stat.blocks_available() as u64).saturating_mul(stat.fragment_size() as u64);
     if available < needed {
@@ -532,6 +575,21 @@ fn verify_password(state: &AppState, username: &str, password: &str) -> Result<(
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn upload_needs_twice_the_bundle_plus_a_margin() {
+        assert_eq!(upload_space_needed(0), FREE_SPACE_MARGIN);
+        assert_eq!(upload_space_needed(100), 200 + FREE_SPACE_MARGIN);
+        assert_eq!(upload_space_needed(u64::MAX), u64::MAX);
+    }
+
+    #[test]
+    fn free_space_is_read_from_the_nearest_existing_folder() {
+        let missing = std::env::temp_dir().join("hardened-no-such-dir/a/b");
+        assert!(ensure_free_space(&missing, 1).is_ok());
+        let err = ensure_free_space(&missing, u64::MAX).unwrap_err();
+        assert!(err.to_string().contains("not enough free space"));
+    }
+
     use super::*;
 
     const KEY: &str = "-----BEGIN PUBLIC KEY-----\n\

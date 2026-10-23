@@ -23,6 +23,7 @@ if [ "$SIGNATURE" != "-" ]; then
   set -- "$@" system-latest.json.sig
 fi
 
-# Plain tar: the system archive inside is already gzip-compressed.
-tar -C "$WORK" -cf "$OUTPUT" "$@"
+# Plain tar: the system archive inside is already gzip-compressed. COPYFILE_DISABLE stops macOS
+# tar from adding ._name entries for extended attributes, which the device rejects.
+COPYFILE_DISABLE=1 tar -C "$WORK" -cf "$OUTPUT" "$@"
 echo "wrote $OUTPUT"

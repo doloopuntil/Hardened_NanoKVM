@@ -962,6 +962,11 @@ const pt_br = {
           desc: 'Instalar um pacote do sistema a partir deste computador. Um único arquivo contém o pacote e seus metadados assinados.',
           choose: 'Escolher arquivo',
           invalidFile: 'Selecione um pacote do sistema terminado em .tar ou .tar.gz.',
+          diskTitle: 'Desligar o disco virtual?',
+          diskWarn:
+            'O pacote do sistema é salvo em /data, que fica somente leitura enquanto o disco virtual está ligado. Ao desligá-lo, o computador não pode mais acessar /data. Continuar?',
+          uploading: 'Enviando',
+          verifying: 'Verificando e preparando o pacote',
           keyTitle: 'Chave de atualização local',
           keyDesc: 'Chave pública em formato PEM que pode assinar pacotes do sistema compilados por você',
           keyNone: 'Nenhuma chave definida',

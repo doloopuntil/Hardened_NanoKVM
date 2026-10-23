@@ -951,6 +951,11 @@ const et = {
           desc: 'Paigalda süsteemipakett sellest arvutist. Üks fail sisaldab arhiivi ja selle allkirjastatud metaandmeid.',
           choose: 'Vali fail',
           invalidFile: 'Vali süsteemipakett, mille laiend on .tar või .tar.gz.',
+          diskTitle: 'Kas lülitada virtuaalne ketas välja?',
+          diskWarn:
+            'Süsteemipakett salvestatakse kataloogi /data, mis on kirjutuskaitstud, kui virtuaalne ketas on sees. Väljalülitamisel ei pääse arvuti enam kataloogile /data ligi. Kas jätkata?',
+          uploading: 'Üleslaadimine',
+          verifying: 'Paketi kontrollimine ja ettevalmistamine',
           keyTitle: 'Kohalik värskendusvõti',
           keyDesc: 'PEM-vormingus avalik võti, millega tohib allkirjastada ise ehitatud süsteemipakette',
           keyNone: 'Võtit pole määratud',

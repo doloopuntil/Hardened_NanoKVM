@@ -962,6 +962,11 @@ const fi = {
           desc: 'Asenna järjestelmäpaketti tältä tietokoneelta. Yksi tiedosto sisältää arkiston ja sen allekirjoitetut metatiedot.',
           choose: 'Valitse tiedosto',
           invalidFile: 'Valitse järjestelmäpaketti, jonka pääte on .tar tai .tar.gz.',
+          diskTitle: 'Sammutetaanko virtuaalilevy?',
+          diskWarn:
+            'Järjestelmäpaketti tallennetaan hakemistoon /data, joka on vain luettavissa, kun virtuaalilevy on päällä. Kun virtuaalilevy sammutetaan, tietokone ei enää pääse hakemistoon /data. Jatketaanko?',
+          uploading: 'Lähetetään',
+          verifying: 'Tarkistetaan ja valmistellaan pakettia',
           keyTitle: 'Paikallinen päivitysavain',
           keyDesc: 'PEM-muotoinen julkinen avain, jolla saa allekirjoittaa itse rakennetut järjestelmäpaketit',
           keyNone: 'Avainta ei ole asetettu',

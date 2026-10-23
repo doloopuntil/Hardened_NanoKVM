@@ -1,5 +1,5 @@
-import { http } from '@/lib/http.ts';
 import { getCsrfToken } from '@/lib/cookie.ts';
+import { http } from '@/lib/http.ts';
 import { getBaseUrl } from '@/lib/service.ts';
 
 export type SystemVersion = {
@@ -138,13 +138,23 @@ export function installSystemUpdate() {
   });
 }
 
+// ask whether a system bundle of this size can be uploaded, before sending it; a refusal after
+// the browser starts sending reaches it only as a connection reset
+export function checkSystemUpload(size: number) {
+  return http.get('/api/system-update/upload-check', { size });
+}
+
 // stage a system bundle uploaded from this computer
-export function uploadSystemUpdate(data: FormData) {
+export function uploadSystemUpdate(
+  data: FormData,
+  onProgress?: (loaded: number, total: number) => void
+) {
   return http.request({
     method: 'post',
     url: '/api/system-update/upload',
     data,
-    timeout: 45 * 60 * 1000
+    timeout: 45 * 60 * 1000,
+    onUploadProgress: (event) => onProgress?.(event.loaded, event.total ?? 0)
   });
 }
 

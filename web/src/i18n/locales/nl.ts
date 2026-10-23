@@ -969,6 +969,11 @@ const nl = {
           desc: 'Een systeempakket vanaf deze computer installeren. Eén bestand bevat het archief en de ondertekende metagegevens.',
           choose: 'Bestand kiezen',
           invalidFile: 'Selecteer een systeempakket dat eindigt op .tar of .tar.gz.',
+          diskTitle: 'Virtuele schijf uitschakelen?',
+          diskWarn:
+            'Het systeempakket wordt opgeslagen op /data, dat alleen-lezen is zolang de virtuele schijf aanstaat. Na het uitschakelen heeft de computer geen toegang meer tot /data. Doorgaan?',
+          uploading: 'Uploaden',
+          verifying: 'Pakket controleren en klaarzetten',
           keyTitle: 'Lokale updatesleutel',
           keyDesc: 'Openbare sleutel in PEM-indeling die zelfgebouwde systeempakketten mag ondertekenen',
           keyNone: 'Geen sleutel ingesteld',

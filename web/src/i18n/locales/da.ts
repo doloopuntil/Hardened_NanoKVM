@@ -961,6 +961,11 @@ const da = {
           desc: 'Installer en systempakke fra denne computer. Én fil indeholder arkivet og de signerede metadata.',
           choose: 'Vælg fil',
           invalidFile: 'Vælg en systempakke, der ender på .tar eller .tar.gz.',
+          diskTitle: 'Slukke den virtuelle disk?',
+          diskWarn:
+            'Systempakken gemmes på /data, som er skrivebeskyttet, mens den virtuelle disk er tændt. Når den virtuelle disk slukkes, har computeren ikke længere adgang til /data. Fortsæt?',
+          uploading: 'Uploader',
+          verifying: 'Verificerer og klargør pakken',
           keyTitle: 'Lokal opdateringsnøgle',
           keyDesc: 'Offentlig nøgle i PEM-format, der må signere systempakker, du selv bygger',
           keyNone: 'Ingen nøgle angivet',

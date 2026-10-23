@@ -971,6 +971,11 @@ const it = {
           desc: "Installa un pacchetto di sistema da questo computer. Un solo file contiene l'archivio e i suoi metadati firmati.",
           choose: 'Scegli il file',
           invalidFile: 'Seleziona un pacchetto di sistema che termina con .tar o .tar.gz.',
+          diskTitle: 'Disattivare il disco virtuale?',
+          diskWarn:
+            'Il pacchetto di sistema viene salvato in /data, che è di sola lettura mentre il disco virtuale è attivo. Disattivandolo, il computer non potrà più accedere a /data. Continuare?',
+          uploading: 'Caricamento',
+          verifying: 'Verifica e preparazione del pacchetto',
           keyTitle: 'Chiave di aggiornamento locale',
           keyDesc: 'Chiave pubblica in formato PEM che può firmare i pacchetti di sistema creati da te',
           keyNone: 'Nessuna chiave impostata',

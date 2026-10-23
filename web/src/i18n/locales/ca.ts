@@ -966,6 +966,11 @@ const ca = {
           desc: "Instal·la un paquet del sistema des d'aquest ordinador. Un sol fitxer conté l'arxiu i les seves metadades signades.",
           choose: 'Tria el fitxer',
           invalidFile: 'Selecciona un paquet del sistema que acabi en .tar o .tar.gz.',
+          diskTitle: 'Apagar el disc virtual?',
+          diskWarn:
+            'Un paquet del sistema es desa a /data, que és de només lectura mentre el disc virtual està activat. Si l\'apagues, l\'ordinador ja no pot accedir a /data. Vols continuar?',
+          uploading: 'Pujant',
+          verifying: 'Verificant i preparant el paquet',
           keyTitle: "Clau d'actualització local",
           keyDesc: 'Clau pública en format PEM que pot signar els paquets del sistema que compilis tu mateix',
           keyNone: 'Cap clau definida',

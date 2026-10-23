@@ -11,10 +11,20 @@ TAG="$2"
 ARCHIVE="$3"
 OUTPUT="$4"
 NAME=$(basename "$ARCHIVE")
+
+# sha256sum is missing on macOS, which has shasum instead.
+sha256_of() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$1" | awk '{print $1}'
+  else
+    shasum -a 256 "$1" | awk '{print $1}'
+  fi
+}
+
 TARGET="${TARGET:-sg2002-licheervnano-sd}"
 CHANNEL="${CHANNEL:-stable}"
 SIZE=$(wc -c < "$ARCHIVE" | tr -d ' ')
-SHA256=$(sha256sum "$ARCHIVE" | awk '{print $1}')
+SHA256=$(sha256_of "$ARCHIVE")
 SHA512=$(openssl dgst -sha512 -binary "$ARCHIVE" | base64 | tr -d '\n')
 URL="https://github.com/woffko/Hardened_NanoKVM/releases/download/$TAG/$NAME"
 RELEASE_NOTES_URL="https://github.com/woffko/Hardened_NanoKVM/releases/tag/$TAG"
@@ -147,7 +157,7 @@ $(if [ -n "$REQUIRED_APP_VERSION" ]; then printf '  "required_app_version": "%s"
 }
 EOF
 
-sha256sum "$OUTPUT" > "$OUTPUT.sha256"
+printf '%s  %s\n' "$(sha256_of "$OUTPUT")" "$OUTPUT" > "$OUTPUT.sha256"
 
 if [ -n "$SIGNING_KEY" ]; then
   [ -f "$SIGNING_KEY" ] || {
@@ -155,7 +165,7 @@ if [ -n "$SIGNING_KEY" ]; then
     exit 1
   }
   openssl dgst -sha256 -sign "$SIGNING_KEY" -out "$OUTPUT.sig" "$OUTPUT"
-  base64 "$OUTPUT.sig" | tr -d '\n' > "$OUTPUT.sig.base64"
+  base64 < "$OUTPUT.sig" | tr -d '\n' > "$OUTPUT.sig.base64"
 fi
 
 echo "$OUTPUT"

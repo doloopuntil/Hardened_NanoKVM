@@ -963,6 +963,11 @@ const se = {
           desc: 'Installera ett systempaket från den här datorn. En fil innehåller arkivet och dess signerade metadata.',
           choose: 'Välj fil',
           invalidFile: 'Välj ett systempaket som slutar på .tar eller .tar.gz.',
+          diskTitle: 'Stänga av den virtuella disken?',
+          diskWarn:
+            'Systempaketet sparas på /data, som är skrivskyddat medan den virtuella disken är på. När den stängs av kommer datorn inte åt /data. Fortsätta?',
+          uploading: 'Laddar upp',
+          verifying: 'Verifierar och förbereder paketet',
           keyTitle: 'Lokal uppdateringsnyckel',
           keyDesc: 'Publik nyckel i PEM-format som får signera systempaket du bygger själv',
           keyNone: 'Ingen nyckel angiven',

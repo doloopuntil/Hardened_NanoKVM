@@ -964,6 +964,11 @@ const id = {
           desc: 'Pasang paket sistem dari komputer ini. Satu berkas berisi arsip dan metadata yang sudah ditandatangani.',
           choose: 'Pilih berkas',
           invalidFile: 'Pilih paket sistem berakhiran .tar atau .tar.gz.',
+          diskTitle: 'Matikan disk virtual?',
+          diskWarn:
+            'Paket sistem disimpan di /data, yang bersifat hanya-baca selama disk virtual menyala. Setelah dimatikan, komputer tidak lagi dapat mengakses /data. Lanjutkan?',
+          uploading: 'Mengunggah',
+          verifying: 'Memverifikasi dan menyiapkan paket',
           keyTitle: 'Kunci pembaruan lokal',
           keyDesc: 'Kunci publik berformat PEM yang boleh menandatangani paket sistem yang Anda bangun sendiri',
           keyNone: 'Kunci belum diatur',

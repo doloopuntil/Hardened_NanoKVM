@@ -962,6 +962,11 @@ const tr = {
           desc: 'Bu bilgisayardan bir sistem paketi kur. Tek bir dosya arşivi ve imzalı üst verilerini içerir.',
           choose: 'Dosya seç',
           invalidFile: 'Uzantısı .tar veya .tar.gz olan bir sistem paketi seçin.',
+          diskTitle: 'Sanal disk kapatılsın mı?',
+          diskWarn:
+            'Sistem paketi /data dizinine kaydedilir; sanal disk açıkken bu dizin salt okunurdur. Kapatıldığında bilgisayar /data dizinine erişemez. Devam edilsin mi?',
+          uploading: 'Yükleniyor',
+          verifying: 'Paket doğrulanıyor ve hazırlanıyor',
           keyTitle: 'Yerel güncelleme anahtarı',
           keyDesc: 'Kendi oluşturduğunuz sistem paketlerini imzalayabilen PEM biçiminde genel anahtar',
           keyNone: 'Anahtar ayarlanmadı',

@@ -969,6 +969,11 @@ const fr = {
           desc: "Installer un paquet système depuis cet ordinateur. Un seul fichier contient l'archive et ses métadonnées signées.",
           choose: 'Choisir un fichier',
           invalidFile: 'Sélectionnez un paquet système se terminant par .tar ou .tar.gz.',
+          diskTitle: 'Désactiver le disque virtuel?',
+          diskWarn:
+            'Le paquet système est enregistré dans /data, qui est en lecture seule tant que le disque virtuel est activé. Le désactiver empêche l\'ordinateur d\'accéder à /data. Continuer?',
+          uploading: 'Envoi en cours',
+          verifying: 'Vérification et préparation du paquet',
           keyTitle: 'Clé de mise à jour locale',
           keyDesc: 'Clé publique au format PEM autorisée à signer les paquets système que vous créez vous-même',
           keyNone: 'Aucune clé définie',

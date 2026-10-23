@@ -957,6 +957,11 @@ const cz = {
           desc: 'Nainstalovat systémový balíček z tohoto počítače. Jeden soubor obsahuje archiv a jeho podepsaná metadata.',
           choose: 'Vybrat soubor',
           invalidFile: 'Vyberte systémový balíček s příponou .tar nebo .tar.gz.',
+          diskTitle: 'Vypnout virtuální disk?',
+          diskWarn:
+            'Balíček systému se ukládá do /data, které je při zapnutém virtuálním disku jen pro čtení. Po vypnutí virtuálního disku už počítač nebude mít přístup k /data. Pokračovat?',
+          uploading: 'Nahrávání',
+          verifying: 'Ověřování a příprava balíčku',
           keyTitle: 'Místní aktualizační klíč',
           keyDesc: 'Veřejný klíč ve formátu PEM, který smí podepisovat systémové balíčky, které si sami sestavíte',
           keyNone: 'Žádný klíč nenastaven',

@@ -1,7 +1,7 @@
 ---
 status: current, channels pending
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-22
+last-checked: 2026-10-23
 ---
 
 # Updates
@@ -55,6 +55,24 @@ the Buildroot userspace or the init scripts installed in the root filesystem.
   restored before SSH and the server start. Once the server reports healthy, the
   boot watchdog confirms the update. If health checks fail after boot, it rolls
   back.
+
+### Updating from a CI build
+
+Each image build also publishes an unsigned system-update archive, as the
+`system-update-archive` artifact of the workflow run. Its version is the base
+system version with the run number as the last part, such as `0.4.57`, so each
+build is newer than the one before. To install it without an SD-card reflash:
+
+1. Create a key pair and set the public half as the local update key, as in
+   steps 1 and 2 below.
+2. Download the `system-update-archive` artifact and unpack it.
+3. In the unpacked folder, run `sh sign-local-system-update.sh /path/to/local.pem`.
+   It needs only `sh`, `openssl` and `tar`, so it works on macOS without Docker,
+   and writes `<version>.bundle.tar` next to the script.
+4. Choose **Upload system bundle** and select that file. Install it as usual.
+
+The archive holds raw boot and rootfs images, which have no automatic rollback.
+Keep a way to reflash the SD card.
 
 ### Updating from a bundle you built
 
