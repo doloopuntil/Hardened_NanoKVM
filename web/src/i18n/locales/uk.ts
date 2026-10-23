@@ -572,18 +572,16 @@ const uk = {
           memory: 'Пам\'ять'
         },
         monitor: {
-          processorClock: 'Частота процесора',
-          videoClock: 'Частота відео',
-          videoEncoder: 'Відеокодер',
+          processorClock: 'Підсистема CPU',
+          videoClock: 'Відеопідсистема',
+          videoClockCaption: 'Тактова частота відео',
+          cpuClockCaption: 'Тактова частота CPU',
           overdrive: 'Розгін',
-          overdriveOn: 'Розгін увімкнено',
-          standardClock: 'Стандартна частота',
           temperature: 'Температура',
           lastMinutes: 'Останні 5 хвилин',
           ram: 'RAM',
           off: 'Вимкнено',
-          ramHistory: 'Історія RAM',
-          percentUsedHistory: 'Використано у відсотках, останні 5 хвилин',
+          ramHistory: 'Використання RAM',
           percent: '{{percent}} відсотків',
           percentUsed: '{{percent}} відсотків використано',
           sizeOf: '{{used}} із {{total}}',
@@ -832,7 +830,7 @@ const uk = {
         swap: {
           title: 'Файл підкачки',
           tip: "Якщо проблеми не зникають після ввімкнення оптимізації пам'яті, спробуйте ввімкнути файл підкачки",
-          sizeTip: 'Це встановлює розмір файлу 256MB; змінити його можна в Параметри > Система > Продуктивність'
+          sizeTip: 'Це встановлює розмір файлу 128MB; змінити його можна в Параметри > Система > Продуктивність'
         },
         restartTitle: 'Перезапустити Tailscale',
         restartDesc: 'Перезапускає службу',

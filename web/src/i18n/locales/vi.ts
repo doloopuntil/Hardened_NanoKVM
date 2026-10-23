@@ -564,18 +564,16 @@ const vi = {
           memory: 'Bộ nhớ'
         },
         monitor: {
-          processorClock: 'Xung nhịp bộ xử lý',
-          videoClock: 'Xung nhịp video',
-          videoEncoder: 'Bộ mã hóa video',
+          processorClock: 'Hệ thống con CPU',
+          videoClock: 'Hệ thống con video',
+          videoClockCaption: 'Tần số xung nhịp video',
+          cpuClockCaption: 'Tần số xung nhịp CPU',
           overdrive: 'Overdrive',
-          overdriveOn: 'Overdrive xung nhịp đang bật',
-          standardClock: 'Tốc độ xung nhịp tiêu chuẩn',
           temperature: 'Nhiệt độ',
           lastMinutes: '5 phút gần nhất',
           ram: 'RAM',
           off: 'Tắt',
-          ramHistory: 'Lịch sử RAM',
-          percentUsedHistory: 'Phần trăm đã dùng, 5 phút gần nhất',
+          ramHistory: 'Mức sử dụng RAM',
           percent: '{{percent}} phần trăm',
           percentUsed: 'Đã dùng {{percent}} phần trăm',
           sizeOf: '{{used}} trên {{total}}',
@@ -824,7 +822,7 @@ const vi = {
           title: 'Tệp hoán đổi',
           tip: 'Nếu sự cố vẫn tiếp diễn sau khi bật tối ưu hóa bộ nhớ, hãy thử bật tệp hoán đổi',
           sizeTip:
-            'Việc này đặt kích thước tệp thành 256MB; có thể điều chỉnh trong Cài đặt > Hệ thống > Hiệu năng'
+            'Việc này đặt kích thước tệp thành 128MB; có thể điều chỉnh trong Cài đặt > Hệ thống > Hiệu năng'
         },
         restartTitle: 'Khởi động lại Tailscale',
         restartDesc: 'Khởi động lại dịch vụ',

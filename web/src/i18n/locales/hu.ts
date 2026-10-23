@@ -572,18 +572,16 @@ const hu = {
           memory: 'Memória'
         },
         monitor: {
-          processorClock: 'Processzor órajele',
-          videoClock: 'Videó órajele',
-          videoEncoder: 'Videókódoló',
+          processorClock: 'CPU alrendszer',
+          videoClock: 'Videó alrendszer',
+          videoClockCaption: 'Videó órajel-frekvenciája',
+          cpuClockCaption: 'CPU órajel-frekvenciája',
           overdrive: 'Túlhajtás',
-          overdriveOn: 'Az órajel-túlhajtás be van kapcsolva',
-          standardClock: 'Szokásos órajel',
           temperature: 'Hőmérséklet',
           lastMinutes: 'Utolsó 5 perc',
           ram: 'RAM',
           off: 'Ki',
-          ramHistory: 'RAM előzmények',
-          percentUsedHistory: 'Használat százalékban, utolsó 5 perc',
+          ramHistory: 'RAM-használat',
           percent: '{{percent}} százalék',
           percentUsed: '{{percent}} százalék használatban',
           sizeOf: '{{used}} / {{total}}',
@@ -835,7 +833,7 @@ const hu = {
           title: 'Swap fájl',
           tip: 'Ha a memóriaoptimalizálás engedélyezése után is fennállnak a problémák, próbálja meg engedélyezni a swap fájlt',
           sizeTip:
-            'Ez a fájl méretét 256MB értékre állítja; a Beállítások > Rendszer > Teljesítmény menüpontban módosíthatja'
+            'Ez a fájl méretét 128MB értékre állítja; a Beállítások > Rendszer > Teljesítmény menüpontban módosíthatja'
         },
         restartTitle: 'Tailscale újraindítása',
         restartDesc: 'Újraindítja a szolgáltatást',

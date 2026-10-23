@@ -9,7 +9,7 @@ import { LabelTip } from '@/components/label-tip.tsx';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
 // The size used when swap is switched on before a size has been chosen.
-const DEFAULT_SIZE = '256';
+const DEFAULT_SIZE = '128';
 
 export const Swap = () => {
   const { t } = useTranslation();

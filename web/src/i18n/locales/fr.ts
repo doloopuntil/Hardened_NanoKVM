@@ -571,18 +571,16 @@ const fr = {
           memory: 'Mémoire'
         },
         monitor: {
-          processorClock: 'Fréquence du processeur',
-          videoClock: 'Fréquence vidéo',
-          videoEncoder: 'Encodeur vidéo',
+          processorClock: 'Sous-système CPU',
+          videoClock: 'Sous-système vidéo',
+          videoClockCaption: 'Fréquence d\'horloge vidéo',
+          cpuClockCaption: 'Fréquence d\'horloge du CPU',
           overdrive: 'Overdrive',
-          overdriveOn: 'L\'overdrive de fréquence est activé',
-          standardClock: 'Fréquence standard',
           temperature: 'Température',
           lastMinutes: '5 dernières minutes',
           ram: 'RAM',
           off: 'Désactivé',
-          ramHistory: 'Historique de la RAM',
-          percentUsedHistory: 'Pourcentage utilisé, 5 dernières minutes',
+          ramHistory: 'Utilisation de la RAM',
           percent: '{{percent}} pour cent',
           percentUsed: '{{percent}} pour cent utilisé',
           sizeOf: '{{used}} sur {{total}}',
@@ -834,7 +832,7 @@ const fr = {
         swap: {
           title: "Fichier d'échange",
           tip: "Si les problèmes persistent après l'activation de l'optimisation de la mémoire, essayez d'activer le fichier d'échange",
-          sizeTip: 'Cela définit sa taille sur 256MB ; ajustez-la dans Paramètres > Système > Performances'
+          sizeTip: 'Cela définit sa taille sur 128MB ; ajustez-la dans Paramètres > Système > Performances'
         },
         restartTitle: 'Redémarrer Tailscale',
         restartDesc: 'Redémarre le service',

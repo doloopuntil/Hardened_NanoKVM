@@ -570,18 +570,16 @@ const ca = {
           memory: 'Memòria'
         },
         monitor: {
-          processorClock: 'Rellotge del processador',
-          videoClock: 'Rellotge de vídeo',
-          videoEncoder: 'Codificador de vídeo',
+          processorClock: 'Subsistema de CPU',
+          videoClock: 'Subsistema de vídeo',
+          videoClockCaption: 'Freqüència del rellotge de vídeo',
+          cpuClockCaption: 'Freqüència del rellotge de la CPU',
           overdrive: 'Sobreesforç',
-          overdriveOn: 'El sobreesforç de rellotge està activat',
-          standardClock: 'Velocitat de rellotge estàndard',
           temperature: 'Temperatura',
           lastMinutes: 'Últims 5 minuts',
           ram: 'RAM',
           off: 'Desactivat',
-          ramHistory: 'Historial de la RAM',
-          percentUsedHistory: 'Percentatge d\'ús, últims 5 minuts',
+          ramHistory: 'Utilització de la RAM',
           percent: '{{percent}} per cent',
           percentUsed: '{{percent}} per cent en ús',
           sizeOf: '{{used}} de {{total}}',
@@ -833,7 +831,7 @@ const ca = {
           title: 'Fitxer swap',
           tip: "Si els problemes persisteixen després d'activar l'optimització de memòria, prova d'activar el fitxer swap",
           sizeTip:
-            'Això estableix la mida del fitxer a 256MB; ajusta-la a Configuració > Sistema > Rendiment'
+            'Això estableix la mida del fitxer a 128MB; ajusta-la a Configuració > Sistema > Rendiment'
         },
         restartTitle: 'Reinicia Tailscale',
         restartDesc: 'Reinicia el servei',

@@ -573,18 +573,16 @@ const it = {
           memory: 'Memoria'
         },
         monitor: {
-          processorClock: 'Clock del processore',
-          videoClock: 'Clock video',
-          videoEncoder: 'Encoder video',
+          processorClock: 'Sottosistema CPU',
+          videoClock: 'Sottosistema video',
+          videoClockCaption: 'Frequenza di clock video',
+          cpuClockCaption: 'Frequenza di clock della CPU',
           overdrive: 'Overdrive',
-          overdriveOn: 'L\'overdrive del clock è attivo',
-          standardClock: 'Velocità di clock standard',
           temperature: 'Temperatura',
           lastMinutes: 'Ultimi 5 minuti',
           ram: 'RAM',
           off: 'Disattivato',
-          ramHistory: 'Cronologia della RAM',
-          percentUsedHistory: 'Percentuale usata, ultimi 5 minuti',
+          ramHistory: 'Utilizzo della RAM',
           percent: '{{percent}} per cento',
           percentUsed: '{{percent}} per cento usato',
           sizeOf: '{{used}} di {{total}}',
@@ -836,7 +834,7 @@ const it = {
           title: 'File di scambio',
           tip: "Se i problemi persistono dopo aver abilitato l'ottimizzazione della memoria, prova ad abilitare il file di scambio",
           sizeTip:
-            'Questo imposta la dimensione del file su 256MB; regolala in Impostazioni > Sistema > Prestazioni'
+            'Questo imposta la dimensione del file su 128MB; regolala in Impostazioni > Sistema > Prestazioni'
         },
         restartTitle: 'Riavvia Tailscale',
         restartDesc: 'Riavvia il servizio',

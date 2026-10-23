@@ -569,18 +569,16 @@ const fi = {
           memory: 'Muisti'
         },
         monitor: {
-          processorClock: 'Suorittimen kellotaajuus',
-          videoClock: 'Videon kellotaajuus',
-          videoEncoder: 'Videokooderi',
+          processorClock: 'CPU-alijärjestelmä',
+          videoClock: 'Videoalijärjestelmä',
+          videoClockCaption: 'Videon kellotaajuus',
+          cpuClockCaption: 'CPU:n kellotaajuus',
           overdrive: 'Ylikellotus',
-          overdriveOn: 'Ylikellotus on päällä',
-          standardClock: 'Normaali kellotaajuus',
           temperature: 'Lämpötila',
           lastMinutes: 'Viimeiset 5 minuuttia',
           ram: 'RAM',
           off: 'Pois',
-          ramHistory: 'RAM-historia',
-          percentUsedHistory: 'Käytetty prosentteina, viimeiset 5 minuuttia',
+          ramHistory: 'RAM-muistin käyttö',
           percent: '{{percent}} prosenttia',
           percentUsed: '{{percent}} prosenttia käytössä',
           sizeOf: '{{used}} / {{total}}',
@@ -830,7 +828,7 @@ const fi = {
           title: 'Swap-tiedosto',
           tip: 'Jos ongelmat jatkuvat muistin optimoinnin jälkeen, kokeile ottaa swap-tiedosto käyttöön',
           sizeTip:
-            'Tämä asettaa tiedoston kooksi 256 Mt; voit muuttaa sitä kohdassa Asetukset > Järjestelmä > Suorituskyky'
+            'Tämä asettaa tiedoston kooksi 128 Mt; voit muuttaa sitä kohdassa Asetukset > Järjestelmä > Suorituskyky'
         },
         restartTitle: 'Käynnistä Tailscale uudelleen',
         restartDesc: 'Käynnistää palvelun uudelleen',

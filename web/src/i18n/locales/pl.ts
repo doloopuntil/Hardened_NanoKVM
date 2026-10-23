@@ -569,18 +569,16 @@ const pl = {
           memory: 'Pamięć'
         },
         monitor: {
-          processorClock: 'Taktowanie procesora',
-          videoClock: 'Taktowanie wideo',
-          videoEncoder: 'Enkoder wideo',
+          processorClock: 'Podsystem CPU',
+          videoClock: 'Podsystem wideo',
+          videoClockCaption: 'Częstotliwość taktowania wideo',
+          cpuClockCaption: 'Częstotliwość taktowania CPU',
           overdrive: 'Podkręcanie',
-          overdriveOn: 'Podkręcanie jest włączone',
-          standardClock: 'Standardowe taktowanie',
           temperature: 'Temperatura',
           lastMinutes: 'Ostatnie 5 minut',
           ram: 'RAM',
           off: 'Wyłączone',
-          ramHistory: 'Historia RAM',
-          percentUsedHistory: 'Zajęte w procentach, ostatnie 5 minut',
+          ramHistory: 'Wykorzystanie RAM',
           percent: '{{percent}} procent',
           percentUsed: '{{percent}} procent zajęte',
           sizeOf: '{{used}} z {{total}}',
@@ -829,7 +827,7 @@ const pl = {
         swap: {
           title: 'Plik wymiany',
           tip: 'Jeśli po włączeniu optymalizacji pamięci problemy nadal występują, spróbuj włączyć plik wymiany',
-          sizeTip: 'Ustawia to rozmiar pliku na 256MB; możesz go zmienić w Ustawienia > System > Wydajność'
+          sizeTip: 'Ustawia to rozmiar pliku na 128MB; możesz go zmienić w Ustawienia > System > Wydajność'
         },
         restartTitle: 'Uruchom ponownie Tailscale',
         restartDesc: 'Uruchamia ponownie usługę',

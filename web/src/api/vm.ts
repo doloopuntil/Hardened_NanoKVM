@@ -217,6 +217,12 @@ export function reboot() {
 
 export type MonitorDisk = { mount: string; totalBytes: number; usedBytes: number };
 
+export type MonitorSample = {
+  seq: number;
+  temperatureC: number | null;
+  memoryPercent: number | null;
+};
+
 export type MonitorData = {
   cpuMhz: number | null;
   videoMhz: number | null;
@@ -229,9 +235,16 @@ export type MonitorData = {
     swapUsedKb: number;
   } | null;
   disks: MonitorDisk[];
+  epoch: number;
+  latestSeq: number;
+  samples: MonitorSample[];
 };
 
-// live readings for Settings > System > Monitor
-export function getMonitor(): Promise<{ code: number; msg: string; data?: MonitorData }> {
-  return http.get('/api/vm/monitor');
+// live readings for Settings > System > Monitor; `since` and `epoch` name the newest sample the
+// page has, and the server then sends only the newer ones
+export function getMonitor(
+  since?: number,
+  epoch?: number
+): Promise<{ code: number; msg: string; data?: MonitorData }> {
+  return http.get('/api/vm/monitor', since === undefined ? undefined : { since, epoch });
 }

@@ -566,18 +566,16 @@ const cz = {
           memory: 'Paměť'
         },
         monitor: {
-          processorClock: 'Frekvence procesoru',
-          videoClock: 'Frekvence videa',
-          videoEncoder: 'Videoenkodér',
+          processorClock: 'Subsystém CPU',
+          videoClock: 'Subsystém videa',
+          videoClockCaption: 'Frekvence hodin videa',
+          cpuClockCaption: 'Frekvence hodin CPU',
           overdrive: 'Přetaktování',
-          overdriveOn: 'Přetaktování je zapnuté',
-          standardClock: 'Standardní frekvence',
           temperature: 'Teplota',
           lastMinutes: 'Posledních 5 minut',
           ram: 'RAM',
           off: 'Vypnuto',
-          ramHistory: 'Historie RAM',
-          percentUsedHistory: 'Využito v procentech, posledních 5 minut',
+          ramHistory: 'Využití RAM',
           percent: '{{percent}} procent',
           percentUsed: '{{percent}} procent využito',
           sizeOf: '{{used}} z {{total}}',
@@ -824,7 +822,7 @@ const cz = {
           title: 'Odkládací soubor',
           tip: 'Pokud problémy přetrvávají i po zapnutí optimalizace paměti, zkuste zapnout odkládací soubor',
           sizeTip:
-            'Tím se velikost souboru nastaví na 256MB; upravit ji můžete v Nastavení > Systém > Výkon'
+            'Tím se velikost souboru nastaví na 128MB; upravit ji můžete v Nastavení > Systém > Výkon'
         },
         restartTitle: 'Restartovat Tailscale',
         restartDesc: 'Restartuje službu',

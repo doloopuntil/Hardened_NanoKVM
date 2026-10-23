@@ -569,18 +569,16 @@ const ru = {
           memory: 'Память'
         },
         monitor: {
-          processorClock: 'Частота процессора',
-          videoClock: 'Частота видео',
-          videoEncoder: 'Видеокодер',
+          processorClock: 'Подсистема CPU',
+          videoClock: 'Видеоподсистема',
+          videoClockCaption: 'Тактовая частота видео',
+          cpuClockCaption: 'Тактовая частота CPU',
           overdrive: 'Разгон',
-          overdriveOn: 'Разгон включён',
-          standardClock: 'Стандартная частота',
           temperature: 'Температура',
           lastMinutes: 'Последние 5 минут',
           ram: 'RAM',
           off: 'Выключено',
-          ramHistory: 'История RAM',
-          percentUsedHistory: 'Использовано в процентах, последние 5 минут',
+          ramHistory: 'Использование RAM',
           percent: '{{percent}} процентов',
           percentUsed: '{{percent}} процентов занято',
           sizeOf: '{{used}} из {{total}}',
@@ -830,7 +828,7 @@ const ru = {
           title: 'Файл подкачки',
           tip: 'Если после включения оптимизации памяти проблемы сохраняются, попробуйте включить файл подкачки',
           sizeTip:
-            'Размер файла будет установлен равным 256MB; изменить его можно в Настройки > Система > Производительность'
+            'Размер файла будет установлен равным 128MB; изменить его можно в Настройки > Система > Производительность'
         },
         restartTitle: 'Перезапустить Tailscale',
         restartDesc: 'Перезапускает службу',

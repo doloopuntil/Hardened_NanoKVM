@@ -573,18 +573,16 @@ const nl = {
           memory: 'Geheugen'
         },
         monitor: {
-          processorClock: 'Processorklok',
-          videoClock: 'Videoklok',
-          videoEncoder: 'Videoencoder',
+          processorClock: 'CPU-subsysteem',
+          videoClock: 'Videosubsysteem',
+          videoClockCaption: 'Videoklokfrequentie',
+          cpuClockCaption: 'CPU-klokfrequentie',
           overdrive: 'Overklokken',
-          overdriveOn: 'Overklokken staat aan',
-          standardClock: 'Standaard klokfrequentie',
           temperature: 'Temperatuur',
           lastMinutes: 'Laatste 5 minuten',
           ram: 'RAM',
           off: 'Uit',
-          ramHistory: 'RAM-geschiedenis',
-          percentUsedHistory: 'Procent gebruikt, laatste 5 minuten',
+          ramHistory: 'RAM-gebruik',
           percent: '{{percent}} procent',
           percentUsed: '{{percent}} procent gebruikt',
           sizeOf: '{{used}} van {{total}}',
@@ -835,7 +833,7 @@ const nl = {
           title: 'Wisselbestand',
           tip: 'Als de problemen aanhouden nadat u geheugenoptimalisatie hebt ingeschakeld, probeer dan het wisselbestand in te schakelen',
           sizeTip:
-            'Hiermee wordt de bestandsgrootte ingesteld op 256MB; pas deze aan via Instellingen > Systeem > Prestaties'
+            'Hiermee wordt de bestandsgrootte ingesteld op 128MB; pas deze aan via Instellingen > Systeem > Prestaties'
         },
         restartTitle: 'Tailscale opnieuw opstarten',
         restartDesc: 'Start de service opnieuw op',

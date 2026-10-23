@@ -564,18 +564,16 @@ const en = {
           memory: 'Memory'
         },
         monitor: {
-          processorClock: 'Processor clock',
-          videoClock: 'Video clock',
-          videoEncoder: 'Video encoder',
+          processorClock: 'CPU subsystem',
+          videoClock: 'Video subsystem',
+          videoClockCaption: 'Video clock frequency',
+          cpuClockCaption: 'CPU clock frequency',
           overdrive: 'Overdrive',
-          overdriveOn: 'Clock overdrive is on',
-          standardClock: 'Standard clock speed',
           temperature: 'Temperature',
           lastMinutes: 'Last 5 minutes',
           ram: 'RAM',
           off: 'Off',
-          ramHistory: 'RAM history',
-          percentUsedHistory: 'Percent used, last 5 minutes',
+          ramHistory: 'RAM utilization',
           percent: '{{percent}} percent',
           percentUsed: '{{percent}} percent used',
           sizeOf: '{{used}} of {{total}}',
@@ -820,7 +818,7 @@ const en = {
         swap: {
           title: 'Swap file',
           tip: 'If issues persist after enabling memory optimization, try enabling the swap file',
-          sizeTip: 'This sets the file size to 256MB, adjust it in Settings > System > Performance'
+          sizeTip: 'This sets the file size to 128MB, adjust it in Settings > System > Performance'
         },
         restartTitle: 'Restart Tailscale',
         restartDesc: 'Restart the service',

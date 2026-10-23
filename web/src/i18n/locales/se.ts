@@ -569,18 +569,16 @@ const se = {
           memory: 'Minne'
         },
         monitor: {
-          processorClock: 'Processorklocka',
-          videoClock: 'Videoklocka',
-          videoEncoder: 'Videokodare',
+          processorClock: 'CPU-delsystem',
+          videoClock: 'Videodelsystem',
+          videoClockCaption: 'Videoklockfrekvens',
+          cpuClockCaption: 'CPU-klockfrekvens',
           overdrive: 'Överklockning',
-          overdriveOn: 'Överklockning är på',
-          standardClock: 'Standardklockfrekvens',
           temperature: 'Temperatur',
           lastMinutes: 'Senaste 5 minuterna',
           ram: 'RAM',
           off: 'Av',
-          ramHistory: 'RAM-historik',
-          percentUsedHistory: 'Procent använt, senaste 5 minuterna',
+          ramHistory: 'RAM-användning',
           percent: '{{percent}} procent',
           percentUsed: '{{percent}} procent använt',
           sizeOf: '{{used}} av {{total}}',
@@ -830,7 +828,7 @@ const se = {
         swap: {
           title: 'Swap-fil',
           tip: 'Om problemen kvarstår efter att du har aktiverat minnesoptimering, försök att aktivera swap-filen',
-          sizeTip: 'Detta ställer in filstorleken till 256MB; justera den i Inställningar > System > Prestanda'
+          sizeTip: 'Detta ställer in filstorleken till 128MB; justera den i Inställningar > System > Prestanda'
         },
         restartTitle: 'Starta om Tailscale',
         restartDesc: 'Startar om tjänsten',

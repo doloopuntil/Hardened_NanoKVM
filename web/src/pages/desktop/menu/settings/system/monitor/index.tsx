@@ -72,9 +72,6 @@ export const Monitor = () => {
   const swapOn = !!memory && memory.swapTotalKb > 0;
   const disk = (mount: string) => data?.disks.find((item) => item.mount === mount);
 
-  const cpuCaption = data?.overdrive
-    ? t('settings.system.monitor.overdriveOn')
-    : t('settings.system.monitor.standardClock');
   const tag = data?.overdrive ? (
     <OverdriveTag text={t('settings.system.monitor.overdrive')} />
   ) : null;
@@ -116,14 +113,14 @@ export const Monitor = () => {
           <div className="flex min-w-0 flex-col gap-5">
             <ReadingRow
               label={t('settings.system.monitor.processorClock')}
-              caption={cpuCaption}
+              caption={t('settings.system.monitor.cpuClockCaption')}
               value={data?.cpuMhz != null ? `${data.cpuMhz}` : DASH}
               unit={data?.cpuMhz != null ? 'MHz' : undefined}
               extra={tag}
             />
             <ReadingRow
               label={t('settings.system.monitor.videoClock')}
-              caption={t('settings.system.monitor.videoEncoder')}
+              caption={t('settings.system.monitor.videoClockCaption')}
               value={data?.videoMhz != null ? `${data.videoMhz}` : DASH}
               unit={data?.videoMhz != null ? 'MHz' : undefined}
               extra={tag}
@@ -185,7 +182,7 @@ export const Monitor = () => {
             />
             <History
               label={t('settings.system.monitor.ramHistory')}
-              caption={t('settings.system.monitor.percentUsedHistory')}
+              caption={t('settings.system.monitor.lastMinutes')}
               value={memory ? `${Math.round(memoryPercent)}` : DASH}
               unit={memory ? '%' : ''}
               tone={memoryTone}

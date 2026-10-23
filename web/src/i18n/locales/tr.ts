@@ -566,18 +566,16 @@ const tr = {
           memory: 'Bellek'
         },
         monitor: {
-          processorClock: 'İşlemci saat hızı',
-          videoClock: 'Video saat hızı',
-          videoEncoder: 'Video kodlayıcı',
+          processorClock: 'CPU alt sistemi',
+          videoClock: 'Video alt sistemi',
+          videoClockCaption: 'Video saat frekansı',
+          cpuClockCaption: 'CPU saat frekansı',
           overdrive: 'Hız aşırtma',
-          overdriveOn: 'Hız aşırtma açık',
-          standardClock: 'Standart saat hızı',
           temperature: 'Sıcaklık',
           lastMinutes: 'Son 5 dakika',
           ram: 'RAM',
           off: 'Kapalı',
-          ramHistory: 'RAM geçmişi',
-          percentUsedHistory: 'Kullanılan yüzde, son 5 dakika',
+          ramHistory: 'RAM kullanımı',
           percent: 'Yüzde {{percent}}',
           percentUsed: 'Yüzde {{percent}} kullanılıyor',
           sizeOf: '{{used}} / {{total}}',
@@ -829,7 +827,7 @@ const tr = {
           title: 'Swap dosyası',
           tip: 'Bellek optimizasyonunu etkinleştirdikten sonra sorunlar devam ederse, swap dosyasını etkinleştirmeyi deneyin',
           sizeTip:
-            'Bu, dosya boyutunu 256MB olarak ayarlar; Ayarlar > Sistem > Performans bölümünden değiştirebilirsiniz'
+            'Bu, dosya boyutunu 128MB olarak ayarlar; Ayarlar > Sistem > Performans bölümünden değiştirebilirsiniz'
         },
         restartTitle: "Tailscale'i yeniden başlat",
         restartDesc: 'Hizmeti yeniden başlatır',

@@ -558,18 +558,16 @@ const th = {
           memory: 'หน่วยความจำ'
         },
         monitor: {
-          processorClock: 'ความเร็วสัญญาณนาฬิกาตัวประมวลผล',
-          videoClock: 'ความเร็วสัญญาณนาฬิกาวิดีโอ',
-          videoEncoder: 'ตัวเข้ารหัสวิดีโอ',
+          processorClock: 'ระบบย่อย CPU',
+          videoClock: 'ระบบย่อยวิดีโอ',
+          videoClockCaption: 'ความถี่สัญญาณนาฬิกาวิดีโอ',
+          cpuClockCaption: 'ความถี่สัญญาณนาฬิกา CPU',
           overdrive: 'โอเวอร์ไดรฟ์',
-          overdriveOn: 'เปิดใช้โอเวอร์ไดรฟ์ของสัญญาณนาฬิกาอยู่',
-          standardClock: 'ความเร็วสัญญาณนาฬิกามาตรฐาน',
           temperature: 'อุณหภูมิ',
           lastMinutes: '5 นาทีล่าสุด',
           ram: 'RAM',
           off: 'ปิด',
-          ramHistory: 'ประวัติ RAM',
-          percentUsedHistory: 'เปอร์เซ็นต์ที่ใช้ 5 นาทีล่าสุด',
+          ramHistory: 'การใช้งาน RAM',
           percent: '{{percent}} เปอร์เซ็นต์',
           percentUsed: 'ใช้ไปแล้ว {{percent}} เปอร์เซ็นต์',
           sizeOf: '{{used}} จาก {{total}}',
@@ -816,7 +814,7 @@ const th = {
         swap: {
           title: 'ไฟล์สลับ',
           tip: 'หากปัญหายังคงมีอยู่หลังจากเปิดใช้งานการเพิ่มประสิทธิภาพหน่วยความจำ ให้ลองเปิดใช้งานไฟล์สลับ',
-          sizeTip: 'การตั้งค่านี้กำหนดขนาดไฟล์เป็น 256MB ปรับได้ที่ การตั้งค่า > ระบบ > ประสิทธิภาพ'
+          sizeTip: 'การตั้งค่านี้กำหนดขนาดไฟล์เป็น 128MB ปรับได้ที่ การตั้งค่า > ระบบ > ประสิทธิภาพ'
         },
         restartTitle: 'รีสตาร์ท Tailscale',
         restartDesc: 'รีสตาร์ทบริการ',

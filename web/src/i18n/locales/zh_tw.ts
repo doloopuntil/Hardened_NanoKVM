@@ -547,18 +547,16 @@ const zh_tw = {
           memory: '記憶體'
         },
         monitor: {
-          processorClock: '處理器時脈',
-          videoClock: '視訊時脈',
-          videoEncoder: '視訊編碼器',
+          processorClock: 'CPU 子系統',
+          videoClock: '視訊子系統',
+          videoClockCaption: '視訊時脈頻率',
+          cpuClockCaption: 'CPU 時脈頻率',
           overdrive: '超頻',
-          overdriveOn: '時脈超頻已開啟',
-          standardClock: '標準時脈速度',
           temperature: '溫度',
           lastMinutes: '最近 5 分鐘',
           ram: 'RAM',
           off: '關閉',
-          ramHistory: 'RAM 歷史',
-          percentUsedHistory: '已用百分比，最近 5 分鐘',
+          ramHistory: 'RAM 使用率',
           percent: '{{percent}} %',
           percentUsed: '已用 {{percent}} %',
           sizeOf: '{{used}} / {{total}}',
@@ -801,7 +799,7 @@ const zh_tw = {
         swap: {
           title: 'Swap 檔',
           tip: '如果啟用記憶體最佳化後問題依然存在，可以嘗試啟用 Swap 檔',
-          sizeTip: '這會將檔案大小設定為 256MB，可以在「設定 > 系統 > 效能」中修改'
+          sizeTip: '這會將檔案大小設定為 128MB，可以在「設定 > 系統 > 效能」中修改'
         },
         restartTitle: '重啟 Tailscale',
         restartDesc: '重啟服務',

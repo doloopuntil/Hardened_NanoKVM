@@ -546,18 +546,16 @@ const zh = {
           memory: '内存'
         },
         monitor: {
-          processorClock: '处理器时钟',
-          videoClock: '视频时钟',
-          videoEncoder: '视频编码器',
+          processorClock: 'CPU 子系统',
+          videoClock: '视频子系统',
+          videoClockCaption: '视频时钟频率',
+          cpuClockCaption: 'CPU 时钟频率',
           overdrive: '超频',
-          overdriveOn: '时钟超频已开启',
-          standardClock: '标准时钟速度',
           temperature: '温度',
           lastMinutes: '最近 5 分钟',
           ram: 'RAM',
           off: '关闭',
-          ramHistory: 'RAM 历史',
-          percentUsedHistory: '已用百分比，最近 5 分钟',
+          ramHistory: 'RAM 利用率',
           percent: '{{percent}} %',
           percentUsed: '已用 {{percent}} %',
           sizeOf: '{{used}} / {{total}}',
@@ -799,7 +797,7 @@ const zh = {
         swap: {
           title: '交换文件',
           tip: '如果启用内存优化后问题依然存在，可以尝试启用交换文件',
-          sizeTip: '这会将文件大小设置为 256MB，可以在「设置 > 系统 > 性能」中修改'
+          sizeTip: '这会将文件大小设置为 128MB，可以在「设置 > 系统 > 性能」中修改'
         },
         restartTitle: '重启 Tailscale',
         restartDesc: '重启服务',

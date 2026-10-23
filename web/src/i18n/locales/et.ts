@@ -560,18 +560,16 @@ const et = {
           memory: 'Mälu'
         },
         monitor: {
-          processorClock: 'Protsessori taktsagedus',
-          videoClock: 'Video taktsagedus',
-          videoEncoder: 'Videokooder',
+          processorClock: 'CPU alamsüsteem',
+          videoClock: 'Video alamsüsteem',
+          videoClockCaption: 'Video taktsagedus',
+          cpuClockCaption: 'CPU taktsagedus',
           overdrive: 'Ülekiirendus',
-          overdriveOn: 'Ülekiirendus on sees',
-          standardClock: 'Standardne taktsagedus',
           temperature: 'Temperatuur',
           lastMinutes: 'Viimased 5 minutit',
           ram: 'RAM',
           off: 'Väljas',
-          ramHistory: 'RAM-i ajalugu',
-          percentUsedHistory: 'Kasutatud protsentides, viimased 5 minutit',
+          ramHistory: 'RAM-i kasutus',
           percent: '{{percent}} protsenti',
           percentUsed: '{{percent}} protsenti kasutusel',
           sizeOf: '{{used}} / {{total}}',
@@ -818,7 +816,7 @@ const et = {
         swap: {
           title: 'Swap-fail',
           tip: 'Kui probleemid jätkuvad pärast mälu optimeerimise lubamist, proovi lubada swap-fail',
-          sizeTip: 'See määrab faili suuruseks 256 MB; seda saab muuta menüüs Seaded > Süsteem > Jõudlus'
+          sizeTip: 'See määrab faili suuruseks 128 MB; seda saab muuta menüüs Seaded > Süsteem > Jõudlus'
         },
         restartTitle: 'Taaskäivita Tailscale',
         restartDesc: 'Taaskäivitab teenuse',

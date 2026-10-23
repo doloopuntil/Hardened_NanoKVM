@@ -575,18 +575,16 @@ const de = {
           memory: 'Arbeitsspeicher'
         },
         monitor: {
-          processorClock: 'Prozessortakt',
-          videoClock: 'Videotakt',
-          videoEncoder: 'Video-Encoder',
+          processorClock: 'CPU-Subsystem',
+          videoClock: 'Video-Subsystem',
+          videoClockCaption: 'Video-Taktfrequenz',
+          cpuClockCaption: 'CPU-Taktfrequenz',
           overdrive: 'Übertaktet',
-          overdriveOn: 'Übertaktung ist aktiv',
-          standardClock: 'Standardtakt',
           temperature: 'Temperatur',
           lastMinutes: 'Letzte 5 Minuten',
           ram: 'RAM',
           off: 'Aus',
-          ramHistory: 'RAM-Verlauf',
-          percentUsedHistory: 'Belegt in Prozent, letzte 5 Minuten',
+          ramHistory: 'RAM-Auslastung',
           percent: '{{percent}} Prozent',
           percentUsed: '{{percent}} Prozent belegt',
           sizeOf: '{{used}} von {{total}}',
@@ -840,7 +838,7 @@ const de = {
           title: 'Swap-Datei',
           tip: 'Wenn die Probleme nach der Aktivierung der Speicheroptimierung weiterhin bestehen, aktivieren Sie die Swap-Datei',
           sizeTip:
-            'Das setzt die Dateigröße auf 256MB; Sie können sie unter Einstellungen > System > Leistung ändern'
+            'Das setzt die Dateigröße auf 128MB; Sie können sie unter Einstellungen > System > Leistung ändern'
         },
         restartTitle: 'Tailscale neu starten',
         restartDesc: 'Startet den Dienst neu',

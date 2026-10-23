@@ -570,18 +570,16 @@ const id = {
           memory: 'Memori'
         },
         monitor: {
-          processorClock: 'Clock prosesor',
-          videoClock: 'Clock video',
-          videoEncoder: 'Encoder video',
+          processorClock: 'Subsistem CPU',
+          videoClock: 'Subsistem video',
+          videoClockCaption: 'Frekuensi clock video',
+          cpuClockCaption: 'Frekuensi clock CPU',
           overdrive: 'Overdrive',
-          overdriveOn: 'Clock overdrive aktif',
-          standardClock: 'Kecepatan clock standar',
           temperature: 'Suhu',
           lastMinutes: '5 menit terakhir',
           ram: 'RAM',
           off: 'Mati',
-          ramHistory: 'Riwayat RAM',
-          percentUsedHistory: 'Persen terpakai, 5 menit terakhir',
+          ramHistory: 'Pemakaian RAM',
           percent: '{{percent}} persen',
           percentUsed: '{{percent}} persen terpakai',
           sizeOf: '{{used}} dari {{total}}',
@@ -830,7 +828,7 @@ const id = {
         swap: {
           title: 'File swap',
           tip: 'Jika masalah terus berlanjut setelah mengaktifkan pengoptimalan memori, coba aktifkan file swap',
-          sizeTip: 'Ini menetapkan ukuran file ke 256MB; sesuaikan di Pengaturan > Sistem > Kinerja'
+          sizeTip: 'Ini menetapkan ukuran file ke 128MB; sesuaikan di Pengaturan > Sistem > Kinerja'
         },
         restartTitle: 'Mulai ulang Tailscale',
         restartDesc: 'Memulai ulang layanan',

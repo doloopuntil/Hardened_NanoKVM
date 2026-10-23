@@ -561,18 +561,16 @@ const ko = {
           memory: '메모리'
         },
         monitor: {
-          processorClock: '프로세서 클럭',
-          videoClock: '비디오 클럭',
-          videoEncoder: '비디오 인코더',
+          processorClock: 'CPU 서브시스템',
+          videoClock: '비디오 서브시스템',
+          videoClockCaption: '비디오 클럭 주파수',
+          cpuClockCaption: 'CPU 클럭 주파수',
           overdrive: '오버드라이브',
-          overdriveOn: '클럭 오버드라이브가 켜져 있습니다',
-          standardClock: '표준 클럭 속도',
           temperature: '온도',
           lastMinutes: '최근 5분',
           ram: 'RAM',
           off: '꺼짐',
-          ramHistory: 'RAM 기록',
-          percentUsedHistory: '사용률, 최근 5분',
+          ramHistory: 'RAM 사용률',
           percent: '{{percent}} 퍼센트',
           percentUsed: '{{percent}} 퍼센트 사용',
           sizeOf: '{{used}} / {{total}}',
@@ -819,7 +817,7 @@ const ko = {
         swap: {
           title: '스왑 파일',
           tip: '메모리 최적화를 활성화한 후에도 문제가 지속되면 스왑 파일을 활성화해 보세요',
-          sizeTip: '파일 크기가 256MB로 설정되며, 설정 > 시스템 > 성능에서 조정할 수 있습니다'
+          sizeTip: '파일 크기가 128MB로 설정되며, 설정 > 시스템 > 성능에서 조정할 수 있습니다'
         },
         restartTitle: 'Tailscale 다시 시작',
         restartDesc: '서비스를 다시 시작합니다',

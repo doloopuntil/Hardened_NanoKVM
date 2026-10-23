@@ -571,18 +571,16 @@ const ja = {
           memory: 'メモリ'
         },
         monitor: {
-          processorClock: 'プロセッサクロック',
-          videoClock: 'ビデオクロック',
-          videoEncoder: 'ビデオエンコーダー',
+          processorClock: 'CPU サブシステム',
+          videoClock: 'ビデオサブシステム',
+          videoClockCaption: 'ビデオクロック周波数',
+          cpuClockCaption: 'CPU クロック周波数',
           overdrive: 'オーバードライブ',
-          overdriveOn: 'クロックのオーバードライブが有効です',
-          standardClock: '標準のクロック速度',
           temperature: '温度',
           lastMinutes: '直近 5 分',
           ram: 'RAM',
           off: 'オフ',
-          ramHistory: 'RAM の履歴',
-          percentUsedHistory: '使用率、直近 5 分',
+          ramHistory: 'RAM 使用率',
           percent: '{{percent}} パーセント',
           percentUsed: '{{percent}} パーセント使用',
           sizeOf: '{{used}} / {{total}}',
@@ -833,7 +831,7 @@ const ja = {
           title: 'スワップファイル',
           tip: 'メモリ最適化を有効にしても問題が解決しない場合は、スワップファイルを有効にしてみてください',
           sizeTip:
-            'ファイルサイズは 256MB に設定されます。サイズは「設定 > システム > パフォーマンス」で変更できます'
+            'ファイルサイズは 128MB に設定されます。サイズは「設定 > システム > パフォーマンス」で変更できます'
         },
         restartTitle: 'Tailscale を再起動',
         restartDesc: 'サービスを再起動します',

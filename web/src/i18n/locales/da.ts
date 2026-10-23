@@ -567,18 +567,16 @@ const da = {
           memory: 'Hukommelse'
         },
         monitor: {
-          processorClock: 'Processorfrekvens',
-          videoClock: 'Videofrekvens',
-          videoEncoder: 'Videoencoder',
+          processorClock: 'CPU-delsystem',
+          videoClock: 'Videodelsystem',
+          videoClockCaption: 'Videoclockfrekvens',
+          cpuClockCaption: 'CPU-clockfrekvens',
           overdrive: 'Overclocking',
-          overdriveOn: 'Overclocking er slået til',
-          standardClock: 'Standardfrekvens',
           temperature: 'Temperatur',
           lastMinutes: 'Seneste 5 minutter',
           ram: 'RAM',
           off: 'Fra',
-          ramHistory: 'RAM-historik',
-          percentUsedHistory: 'Procent brugt, seneste 5 minutter',
+          ramHistory: 'RAM-forbrug',
           percent: '{{percent}} procent',
           percentUsed: '{{percent}} procent brugt',
           sizeOf: '{{used}} af {{total}}',
@@ -828,7 +826,7 @@ const da = {
         swap: {
           title: 'Swap-fil',
           tip: 'Hvis problemerne fortsætter efter aktivering af hukommelsesoptimering, prøv at aktivere swap-filen',
-          sizeTip: 'Det sætter filstørrelsen til 256MB; juster den under Indstillinger > System > Ydelse'
+          sizeTip: 'Det sætter filstørrelsen til 128MB; juster den under Indstillinger > System > Ydelse'
         },
         restartTitle: 'Genstart Tailscale',
         restartDesc: 'Genstarter tjenesten',

@@ -571,18 +571,16 @@ const nb = {
           memory: 'Minne'
         },
         monitor: {
-          processorClock: 'Prosessorklokke',
-          videoClock: 'Videoklokke',
-          videoEncoder: 'Videokoder',
+          processorClock: 'CPU-delsystem',
+          videoClock: 'Videodelsystem',
+          videoClockCaption: 'Videoklokkefrekvens',
+          cpuClockCaption: 'CPU-klokkefrekvens',
           overdrive: 'Overklokking',
-          overdriveOn: 'Overklokking er på',
-          standardClock: 'Standard klokkehastighet',
           temperature: 'Temperatur',
           lastMinutes: 'Siste 5 minutter',
           ram: 'RAM',
           off: 'Av',
-          ramHistory: 'RAM-historikk',
-          percentUsedHistory: 'Prosent brukt, siste 5 minutter',
+          ramHistory: 'RAM-bruk',
           percent: '{{percent}} prosent',
           percentUsed: '{{percent}} prosent brukt',
           sizeOf: '{{used}} av {{total}}',
@@ -832,7 +830,7 @@ const nb = {
         swap: {
           title: 'Byttefil',
           tip: 'Hvis problemene vedvarer etter at du har aktivert minneoptimalisering, prøv å aktivere byttefilen',
-          sizeTip: 'Dette setter filstørrelsen til 256MB; juster den i Innstillinger > System > Ytelse'
+          sizeTip: 'Dette setter filstørrelsen til 128MB; juster den i Innstillinger > System > Ytelse'
         },
         restartTitle: 'Start Tailscale på nytt',
         restartDesc: 'Starter tjenesten på nytt',

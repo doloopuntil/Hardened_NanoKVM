@@ -568,18 +568,16 @@ const pt_br = {
           memory: 'Memória'
         },
         monitor: {
-          processorClock: 'Clock do processador',
-          videoClock: 'Clock de vídeo',
-          videoEncoder: 'Codificador de vídeo',
+          processorClock: 'Subsistema da CPU',
+          videoClock: 'Subsistema de vídeo',
+          videoClockCaption: 'Frequência de clock de vídeo',
+          cpuClockCaption: 'Frequência de clock da CPU',
           overdrive: 'Overdrive',
-          overdriveOn: 'O overdrive de clock está ativado',
-          standardClock: 'Velocidade de clock padrão',
           temperature: 'Temperatura',
           lastMinutes: 'Últimos 5 minutos',
           ram: 'RAM',
           off: 'Desativado',
-          ramHistory: 'Histórico da RAM',
-          percentUsedHistory: 'Percentual usado, últimos 5 minutos',
+          ramHistory: 'Utilização da RAM',
           percent: '{{percent}} por cento',
           percentUsed: '{{percent}} por cento usado',
           sizeOf: '{{used}} de {{total}}',
@@ -829,7 +827,7 @@ const pt_br = {
           title: 'Arquivo de swap',
           tip: 'Se os problemas persistirem após ativar a otimização de memória, tente ativar o arquivo de swap',
           sizeTip:
-            'Isso define o tamanho do arquivo como 256MB; ajuste-o em Configurações > Sistema > Desempenho'
+            'Isso define o tamanho do arquivo como 128MB; ajuste-o em Configurações > Sistema > Desempenho'
         },
         restartTitle: 'Reiniciar Tailscale',
         restartDesc: 'Reinicia o serviço',
