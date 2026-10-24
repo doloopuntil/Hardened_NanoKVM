@@ -6,6 +6,9 @@ export const TEMP_CRIT_C = 105;
 // No vendor figure exists for memory, so these are our own marks.
 export const MEMORY_WARN_PERCENT = 80;
 export const MEMORY_CRIT_PERCENT = 90;
+// The only core is busy all the time while the video streams, so the marks sit near the top.
+export const CPU_WARN_PERCENT = 90;
+export const CPU_CRIT_PERCENT = 95;
 
 // How many one-second readings the sparklines keep: five minutes.
 export const HISTORY_LENGTH = 300;
@@ -57,6 +60,10 @@ export const TONE_COLORS: Record<Tone, string> = {
   warn: '#faad14',
   crit: '#ff4d4f'
 };
+
+// The two shares of the CPU load bar; teal stays apart from the blue of the other bars.
+export const CPU_USER_COLOR = 'bg-blue-600';
+export const CPU_SYSTEM_COLOR = 'bg-teal-600';
 
 export const VALUE_COLORS: Record<Tone, string> = {
   normal: 'text-neutral-200',

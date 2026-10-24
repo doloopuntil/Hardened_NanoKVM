@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { Tone } from './scale';
+import { CPU_SYSTEM_COLOR, CPU_USER_COLOR, type Tone } from './scale';
 
 const BAR_COLORS: Record<Tone, string> = {
   normal: 'bg-blue-600',
@@ -45,6 +45,48 @@ export const Meter = ({
     </div>
   </div>
 );
+
+// A bar made of two shares, such as the user and system time of the CPU.
+export const SplitMeter = ({
+  label,
+  caption,
+  value,
+  first,
+  second
+}: {
+  label: string;
+  caption: string;
+  value: string;
+  first: number;
+  second: number;
+}) => {
+  const firstWidth = Math.min(100, Math.max(0, first));
+  const secondWidth = Math.min(100 - firstWidth, Math.max(0, second));
+  return (
+    <div className="flex min-w-0 flex-col md:min-h-14">
+      <div className="flex items-end justify-between gap-4">
+        <div className="flex min-w-0 flex-col space-y-0.5">
+          <span className="text-sm text-neutral-300">{label}</span>
+          <span className="break-words text-xs text-neutral-500">{caption}</span>
+        </div>
+        <div className="shrink-0 whitespace-nowrap text-[15px] tabular-nums text-neutral-200">
+          {value}
+        </div>
+      </div>
+      <div
+        role="progressbar"
+        aria-label={label}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(firstWidth + secondWidth)}
+        className="mt-2 flex h-2 overflow-hidden rounded bg-neutral-700/60"
+      >
+        <div className={`h-full ${CPU_USER_COLOR}`} style={{ width: `${firstWidth}%` }} />
+        <div className={`h-full ${CPU_SYSTEM_COLOR}`} style={{ width: `${secondWidth}%` }} />
+      </div>
+    </div>
+  );
+};
 
 // A value on the right with a label and caption on the left; `extra` sits after the label.
 export const ReadingRow = ({

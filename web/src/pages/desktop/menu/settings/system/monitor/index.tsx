@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next';
 
 import { SettingSection } from '@/components/setting-rows.tsx';
 
-import { Meter, ReadingRow } from './meter';
+import { Meter, SplitMeter } from './meter';
 import {
+  CPU_CRIT_PERCENT,
+  CPU_WARN_PERCENT,
   formatBytes,
   formatMegabytes,
   MEMORY_CRIT_PERCENT,
@@ -22,12 +24,6 @@ import { Sparkline } from './sparkline';
 import { useMonitor } from './use-monitor';
 
 const DASH = '-';
-
-const OverdriveTag = ({ text }: { text: string }) => (
-  <span className="ml-2 rounded border border-solid border-orange-900 px-1.5 text-[11px] text-orange-400">
-    {text}
-  </span>
-);
 
 // A reading with a history line under it; the value takes the colour of the line.
 const History = ({
@@ -62,7 +58,8 @@ const History = ({
 
 export const Monitor = () => {
   const { t } = useTranslation();
-  const { data, temperatures, memoryPercents, unavailable } = useMonitor();
+  const { data, temperatures, memoryPercents, swapPercents, cpuPercents, unavailable } =
+    useMonitor();
 
   const temperature = data?.temperatureC ?? undefined;
   const temperatureTone = toneFor(temperature, TEMP_WARN_C, TEMP_CRIT_C);
@@ -70,11 +67,12 @@ export const Monitor = () => {
   const memoryPercent = memory ? percent(memory.usedKb, memory.totalKb) : 0;
   const memoryTone = toneFor(memoryPercent, MEMORY_WARN_PERCENT, MEMORY_CRIT_PERCENT);
   const swapOn = !!memory && memory.swapTotalKb > 0;
+  const swapPercentNow = swapOn ? percent(memory.swapUsedKb, memory.swapTotalKb) : 0;
+  const swapTone = toneFor(swapPercentNow, MEMORY_WARN_PERCENT, MEMORY_CRIT_PERCENT);
+  const cpu = data?.cpu;
+  const cpuPercent = cpu ? Math.min(100, cpu.userPercent + cpu.systemPercent) : undefined;
+  const cpuTone = toneFor(cpuPercent, CPU_WARN_PERCENT, CPU_CRIT_PERCENT);
   const disk = (mount: string) => data?.disks.find((item) => item.mount === mount);
-
-  const tag = data?.overdrive ? (
-    <OverdriveTag text={t('settings.system.monitor.overdrive')} />
-  ) : null;
 
   function storage(mount: string, title: string, label: string) {
     const item = disk(mount);
@@ -111,20 +109,35 @@ export const Monitor = () => {
       <div className="grid min-w-0 grid-cols-1 gap-x-14 gap-y-7 md:grid-cols-2">
         <SettingSection title={t('settings.system.performance.processor')}>
           <div className="flex min-w-0 flex-col gap-5">
-            <ReadingRow
-              label={t('settings.system.monitor.processorClock')}
-              caption={t('settings.system.monitor.cpuClockCaption')}
-              value={data?.cpuMhz != null ? `${data.cpuMhz}` : DASH}
-              unit={data?.cpuMhz != null ? 'MHz' : undefined}
-              extra={tag}
+            <SplitMeter
+              label={t('settings.system.monitor.cpuLoad')}
+              caption={
+                cpu
+                  ? t('settings.system.monitor.cpuLoadCaption', {
+                      user: Math.round(cpu.userPercent),
+                      system: Math.round(cpu.systemPercent)
+                    })
+                  : t('settings.system.monitor.unavailable')
+              }
+              value={cpuPercent !== undefined ? `${Math.round(cpuPercent)} %` : DASH}
+              first={cpu?.userPercent ?? 0}
+              second={cpu?.systemPercent ?? 0}
             />
-            <ReadingRow
-              label={t('settings.system.monitor.videoClock')}
-              caption={t('settings.system.monitor.videoClockCaption')}
-              value={data?.videoMhz != null ? `${data.videoMhz}` : DASH}
-              unit={data?.videoMhz != null ? 'MHz' : undefined}
-              extra={tag}
-            />
+            <History
+              label={t('settings.system.monitor.cpuUtilization')}
+              caption={t('settings.system.monitor.lastMinutes')}
+              value={cpuPercent !== undefined ? `${Math.round(cpuPercent)}` : DASH}
+              unit={cpuPercent !== undefined ? '%' : ''}
+              tone={cpuTone}
+            >
+              <Sparkline
+                label={t('settings.system.monitor.cpuUtilization')}
+                values={cpuPercents}
+                axis={percentAxis}
+                warn={CPU_WARN_PERCENT}
+                crit={CPU_CRIT_PERCENT}
+              />
+            </History>
             <History
               label={t('settings.system.monitor.temperature')}
               caption={t('settings.system.monitor.lastMinutes')}
@@ -161,25 +174,6 @@ export const Monitor = () => {
               percent={memoryPercent}
               tone={memoryTone}
             />
-            <Meter
-              label={t('settings.device.swap.title')}
-              caption={
-                swapOn
-                  ? t('settings.system.monitor.percent', {
-                      percent: Math.round(percent(memory.swapUsedKb, memory.swapTotalKb))
-                    })
-                  : t('settings.system.monitor.off')
-              }
-              value={
-                swapOn
-                  ? t('settings.system.monitor.sizeOf', {
-                      used: formatMegabytes(memory.swapUsedKb),
-                      total: formatMegabytes(memory.swapTotalKb)
-                    })
-                  : DASH
-              }
-              percent={swapOn ? percent(memory.swapUsedKb, memory.swapTotalKb) : 0}
-            />
             <History
               label={t('settings.system.monitor.ramHistory')}
               caption={t('settings.system.monitor.lastMinutes')}
@@ -190,6 +184,27 @@ export const Monitor = () => {
               <Sparkline
                 label={t('settings.system.monitor.ramHistory')}
                 values={memoryPercents}
+                axis={percentAxis}
+                warn={MEMORY_WARN_PERCENT}
+                crit={MEMORY_CRIT_PERCENT}
+              />
+            </History>
+            <History
+              label={t('settings.system.monitor.swapUtilization')}
+              caption={
+                swapOn
+                  ? t('settings.system.monitor.swapSizeLastMinutes', {
+                      size: formatMegabytes(memory.swapTotalKb)
+                    })
+                  : t('settings.system.monitor.off')
+              }
+              value={swapOn ? `${Math.round(swapPercentNow)}` : DASH}
+              unit={swapOn ? '%' : ''}
+              tone={swapTone}
+            >
+              <Sparkline
+                label={t('settings.system.monitor.swapUtilization')}
+                values={swapOn ? swapPercents : []}
                 axis={percentAxis}
                 warn={MEMORY_WARN_PERCENT}
                 crit={MEMORY_CRIT_PERCENT}

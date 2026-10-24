@@ -16,6 +16,7 @@ use tokio::task;
 use crate::{AppError, Result, error::ApiResponse};
 
 const MEMINFO_FILE: &str = "/proc/meminfo";
+const STAT_FILE: &str = "/proc/stat";
 const THERMAL_FILE: &str = "/sys/class/thermal/thermal_zone0/temp";
 const CLK_SUMMARY_FILE: &str = "/sys/kernel/debug/clk/clk_summary";
 const CPU_CLOCK: &str = "clk_c906_0";
@@ -62,6 +63,8 @@ pub struct MonitorRsp {
     overdrive: bool,
     temperature_c: Option<f64>,
     memory: Option<Memory>,
+    /// Share of the last second the CPU spent on user and on system work.
+    cpu: Option<CpuLoad>,
     disks: Vec<Disk>,
     /// Start time of this server run; samples of another run are not comparable.
     epoch: u64,
@@ -75,12 +78,41 @@ struct Sample {
     seq: u64,
     temperature_c: Option<f64>,
     memory_percent: Option<f64>,
+    /// Absent while swap is off.
+    swap_percent: Option<f64>,
+    /// User plus system work.
+    cpu_percent: Option<f64>,
+}
+
+#[derive(Debug, Clone, Copy, Serialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
+struct CpuLoad {
+    user_percent: f64,
+    system_percent: f64,
+}
+
+/// One round of readings the sampler takes.
+#[derive(Debug, Default)]
+struct Reading {
+    temperature_c: Option<f64>,
+    memory_percent: Option<f64>,
+    swap_percent: Option<f64>,
+    cpu: Option<CpuLoad>,
+}
+
+/// The jiffy counters of /proc/stat that the load is made of.
+#[derive(Debug, Clone, Copy, PartialEq)]
+struct CpuTimes {
+    user: u64,
+    system: u64,
+    total: u64,
 }
 
 /// The last `HISTORY_LEN` samples, numbered from 1.
 struct History {
     next_seq: u64,
     samples: VecDeque<Sample>,
+    cpu: Option<CpuLoad>,
 }
 
 impl History {
@@ -88,18 +120,24 @@ impl History {
         Self {
             next_seq: 1,
             samples: VecDeque::new(),
+            cpu: None,
         }
     }
 
-    fn push(&mut self, temperature_c: Option<f64>, memory_percent: Option<f64>) {
+    fn push(&mut self, reading: Reading) {
         if self.samples.len() == HISTORY_LEN {
             self.samples.pop_front();
         }
         self.samples.push_back(Sample {
             seq: self.next_seq,
-            temperature_c,
-            memory_percent,
+            temperature_c: reading.temperature_c,
+            memory_percent: reading.memory_percent,
+            swap_percent: reading.swap_percent,
+            cpu_percent: reading
+                .cpu
+                .map(|cpu| round_tenth(cpu.user_percent + cpu.system_percent)),
         });
+        self.cpu = reading.cpu;
         self.next_seq += 1;
     }
 
@@ -138,8 +176,9 @@ pub fn start_sampler() {
     let spawned = thread::Builder::new()
         .name("monitor-sampler".to_string())
         .spawn(|| {
+            let mut previous = None;
             loop {
-                record_sample();
+                record_sample(&mut previous);
                 thread::sleep(SAMPLE_INTERVAL);
             }
         });
@@ -148,20 +187,38 @@ pub fn start_sampler() {
     }
 }
 
-fn record_sample() {
+fn record_sample(previous: &mut Option<CpuTimes>) {
     let temperature_c = fs::read_to_string(THERMAL_FILE)
         .ok()
         .and_then(|text| parse_temperature(&text))
         .map(round_tenth);
-    let memory_percent = fs::read_to_string(MEMINFO_FILE)
+    let memory = fs::read_to_string(MEMINFO_FILE)
         .ok()
         .and_then(|text| parse_meminfo(&text))
-        .filter(|memory| memory.total_kb > 0)
-        .map(|memory| round_tenth(memory.used_kb as f64 * 100.0 / memory.total_kb as f64));
+        .filter(|memory| memory.total_kb > 0);
+    let times = fs::read_to_string(STAT_FILE)
+        .ok()
+        .and_then(|text| parse_cpu_times(&text));
+    let cpu = previous
+        .zip(times)
+        .and_then(|(before, now)| cpu_load(before, now));
+    *previous = times;
+
+    let reading = Reading {
+        temperature_c,
+        memory_percent: memory
+            .as_ref()
+            .map(|m| round_tenth(m.used_kb as f64 * 100.0 / m.total_kb as f64)),
+        swap_percent: memory
+            .as_ref()
+            .filter(|m| m.swap_total_kb > 0)
+            .map(|m| round_tenth(m.swap_used_kb as f64 * 100.0 / m.swap_total_kb as f64)),
+        cpu,
+    };
     HISTORY
         .lock()
         .unwrap_or_else(|err| err.into_inner())
-        .push(temperature_c, memory_percent);
+        .push(reading);
 }
 
 fn round_tenth(value: f64) -> f64 {
@@ -194,10 +251,14 @@ pub async fn get_monitor(Query(query): Query<MonitorQuery>) -> Result<impl IntoR
 
 fn snapshot(query: &MonitorQuery) -> MonitorRsp {
     let clocks = cached_clocks();
-    let (latest_seq, samples) = {
+    let (latest_seq, samples, cpu) = {
         let history = HISTORY.lock().unwrap_or_else(|err| err.into_inner());
         let same_run = query.epoch.is_none_or(|run| run == epoch());
-        (history.latest_seq(), history.since(query.since, same_run))
+        (
+            history.latest_seq(),
+            history.since(query.since, same_run),
+            history.cpu,
+        )
     };
     MonitorRsp {
         cpu_mhz: clocks.cpu_mhz,
@@ -209,6 +270,7 @@ fn snapshot(query: &MonitorQuery) -> MonitorRsp {
         memory: fs::read_to_string(MEMINFO_FILE)
             .ok()
             .and_then(|text| parse_meminfo(&text)),
+        cpu,
         disks: ["/", "/data"].iter().filter_map(|m| disk(m)).collect(),
         epoch: epoch(),
         latest_seq,
@@ -247,6 +309,39 @@ fn disk(mount: &'static str) -> Option<Disk> {
 fn parse_temperature(text: &str) -> Option<f64> {
     let milli: i64 = text.trim().parse().ok()?;
     Some(milli as f64 / 1000.0)
+}
+
+// The first line of /proc/stat: user nice system idle iowait irq softirq steal. User includes
+// nice; system includes interrupts and stolen time. Waiting for I/O counts as idle for the load
+// but still as time passed. Guest time is already part of user.
+fn parse_cpu_times(text: &str) -> Option<CpuTimes> {
+    let mut fields = text.lines().next()?.strip_prefix("cpu")?.split_whitespace();
+    let mut next = || -> Option<u64> { fields.next()?.parse().ok() };
+    let user = next()?;
+    let nice = next()?;
+    let system = next()?;
+    let idle = next()?;
+    let iowait = next().unwrap_or(0);
+    let irq = next().unwrap_or(0);
+    let softirq = next().unwrap_or(0);
+    let steal = next().unwrap_or(0);
+    let system_all = system + irq + softirq + steal;
+    Some(CpuTimes {
+        user: user + nice,
+        system: system_all,
+        total: user + nice + system_all + idle + iowait,
+    })
+}
+
+fn cpu_load(before: CpuTimes, now: CpuTimes) -> Option<CpuLoad> {
+    let total = now.total.checked_sub(before.total).filter(|&t| t > 0)? as f64;
+    let share = |now: u64, before: u64| {
+        round_tenth((now.saturating_sub(before) as f64 * 100.0 / total).min(100.0))
+    };
+    Some(CpuLoad {
+        user_percent: share(now.user, before.user),
+        system_percent: share(now.system, before.system),
+    })
 }
 
 fn meminfo_kb(text: &str, key: &str) -> Option<u64> {
@@ -300,7 +395,10 @@ mod tests {
     fn filled(count: u64) -> History {
         let mut history = History::new();
         for i in 0..count {
-            history.push(Some(i as f64), None);
+            history.push(Reading {
+                temperature_c: Some(i as f64),
+                ..Reading::default()
+            });
         }
         history
     }
@@ -329,6 +427,67 @@ mod tests {
         assert_eq!(history.since(Some(40), true).len(), 5);
         // the page asks about another run of the server
         assert_eq!(history.since(Some(3), false).len(), 5);
+    }
+
+    #[test]
+    fn cpu_load_is_the_share_of_the_interval() {
+        let before = parse_cpu_times("cpu  100 0 50 800 50 0 0 0 0 0\ncpu0 1 2 3\n").unwrap();
+        let now = parse_cpu_times("cpu  130 0 65 880 75 0 0 0 0 0\n").unwrap();
+        // 150 jiffies passed: 30 user, 15 system, 105 idle or waiting
+        assert_eq!(
+            cpu_load(before, now),
+            Some(CpuLoad {
+                user_percent: 20.0,
+                system_percent: 10.0,
+            })
+        );
+    }
+
+    #[test]
+    fn cpu_load_counts_nice_as_user_and_interrupts_as_system() {
+        let before = parse_cpu_times("cpu 0 0 0 0 0 0 0 0\n").unwrap();
+        let now = parse_cpu_times("cpu 10 10 10 50 0 10 10 0\n").unwrap();
+        let load = cpu_load(before, now).unwrap();
+        assert_eq!(load.user_percent, 20.0);
+        assert_eq!(load.system_percent, 30.0);
+    }
+
+    #[test]
+    fn a_real_stat_line_is_parsed() {
+        // from a device: ten columns, a lot of softirq time
+        let text = "cpu  30804 0 50733 97237 1966 0 24040 0 0 0\ncpu0 30804 0 50733 97237 1966 0 24040 0 0 0\n";
+        assert_eq!(
+            parse_cpu_times(text),
+            Some(CpuTimes {
+                user: 30804,
+                system: 74773,
+                total: 204780,
+            })
+        );
+    }
+
+    #[test]
+    fn cpu_load_needs_time_to_have_passed() {
+        let times = parse_cpu_times("cpu 1 2 3 4\n").unwrap();
+        assert_eq!(cpu_load(times, times), None);
+        assert_eq!(parse_cpu_times("intr 5\n"), None);
+    }
+
+    #[test]
+    fn a_sample_carries_the_total_cpu_and_swap() {
+        let mut history = History::new();
+        history.push(Reading {
+            swap_percent: Some(12.5),
+            cpu: Some(CpuLoad {
+                user_percent: 30.0,
+                system_percent: 10.5,
+            }),
+            ..Reading::default()
+        });
+        let sample = history.samples[0];
+        assert_eq!(sample.cpu_percent, Some(40.5));
+        assert_eq!(sample.swap_percent, Some(12.5));
+        assert_eq!(history.cpu.unwrap().user_percent, 30.0);
     }
 
     #[test]

@@ -6,7 +6,13 @@ import { HISTORY_LENGTH } from './scale';
 function samples(from: number, to: number): Sample[] {
   const list: Sample[] = [];
   for (let seq = from; seq <= to; seq++) {
-    list.push({ seq, temperatureC: 50 + seq, memoryPercent: 40 });
+    list.push({
+      seq,
+      temperatureC: 50 + seq,
+      memoryPercent: 40,
+      swapPercent: null,
+      cpuPercent: seq % 100
+    });
   }
   return list;
 }
@@ -43,10 +49,12 @@ describe('applySamples', () => {
 
   it('skips readings the device could not take', () => {
     const history = applySamples(emptyHistory, 7, 2, [
-      { seq: 1, temperatureC: null, memoryPercent: 40 },
-      { seq: 2, temperatureC: 55, memoryPercent: null }
+      { seq: 1, temperatureC: null, memoryPercent: 40, swapPercent: null, cpuPercent: null },
+      { seq: 2, temperatureC: 55, memoryPercent: null, swapPercent: 5, cpuPercent: 30 }
     ]);
     expect(history.temperatures).toEqual([55]);
     expect(history.memoryPercents).toEqual([40]);
+    expect(history.swapPercents).toEqual([5]);
+    expect(history.cpuPercents).toEqual([30]);
   });
 });

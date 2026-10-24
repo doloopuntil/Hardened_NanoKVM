@@ -12,10 +12,18 @@ export type MonitorState = {
   data?: MonitorData;
   temperatures: number[];
   memoryPercents: number[];
+  swapPercents: number[];
+  cpuPercents: number[];
   unavailable: boolean;
 };
 
-const empty: MonitorState = { temperatures: [], memoryPercents: [], unavailable: false };
+const empty: MonitorState = {
+  temperatures: [],
+  memoryPercents: [],
+  swapPercents: [],
+  cpuPercents: [],
+  unavailable: false
+};
 
 // Polls once a second while the page is open and visible. The server keeps the last five
 // minutes of readings, so the first answer fills the graphs and each later one adds only what
@@ -43,8 +51,15 @@ export function useMonitor(): MonitorState {
           const data = rsp.data;
           failures = 0;
           history = applySamples(history, data.epoch, data.latestSeq, data.samples);
-          const { temperatures, memoryPercents } = history;
-          setState({ data, temperatures, memoryPercents, unavailable: false });
+          const { temperatures, memoryPercents, swapPercents, cpuPercents } = history;
+          setState({
+            data,
+            temperatures,
+            memoryPercents,
+            swapPercents,
+            cpuPercents,
+            unavailable: false
+          });
         } catch (err) {
           if (stopped) return;
           failures += 1;

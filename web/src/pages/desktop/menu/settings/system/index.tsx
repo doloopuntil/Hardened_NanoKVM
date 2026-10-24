@@ -12,6 +12,7 @@ import { SystemLog } from '../system-log';
 import { Update } from '../update';
 import type { SystemActionHandle, SystemActionState } from './action';
 import { idleSystemActionState } from './action';
+import { Clocks } from './clocks';
 import { FirewallSettings } from './firewall';
 import { Mdns } from './mdns';
 import { Monitor } from './monitor';
@@ -118,6 +119,7 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
             <div className="flex flex-col space-y-6">
               <SettingSection title={t('settings.system.performance.processor')}>
                 <Overdrive />
+                <Clocks />
               </SettingSection>
 
               <Divider className="opacity-50" />

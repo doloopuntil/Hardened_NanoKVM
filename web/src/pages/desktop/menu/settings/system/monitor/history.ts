@@ -4,6 +4,8 @@ export type Sample = {
   seq: number;
   temperatureC: number | null;
   memoryPercent: number | null;
+  swapPercent: number | null;
+  cpuPercent: number | null;
 };
 
 export type History = {
@@ -12,9 +14,17 @@ export type History = {
   lastSeq: number;
   temperatures: number[];
   memoryPercents: number[];
+  swapPercents: number[];
+  cpuPercents: number[];
 };
 
-export const emptyHistory: History = { lastSeq: 0, temperatures: [], memoryPercents: [] };
+export const emptyHistory: History = {
+  lastSeq: 0,
+  temperatures: [],
+  memoryPercents: [],
+  swapPercents: [],
+  cpuPercents: []
+};
 
 function keepNewest(values: number[]): number[] {
   return values.length > HISTORY_LENGTH ? values.slice(-HISTORY_LENGTH) : values;
@@ -38,15 +48,21 @@ export function applySamples(
 
   const temperatures = [...base.temperatures];
   const memoryPercents = [...base.memoryPercents];
+  const swapPercents = [...base.swapPercents];
+  const cpuPercents = [...base.cpuPercents];
   for (const sample of fresh) {
     if (sample.temperatureC !== null) temperatures.push(sample.temperatureC);
     if (sample.memoryPercent !== null) memoryPercents.push(sample.memoryPercent);
+    if (sample.swapPercent !== null) swapPercents.push(sample.swapPercent);
+    if (sample.cpuPercent !== null) cpuPercents.push(sample.cpuPercent);
   }
 
   return {
     epoch,
     lastSeq: fresh[fresh.length - 1].seq,
     temperatures: keepNewest(temperatures),
-    memoryPercents: keepNewest(memoryPercents)
+    memoryPercents: keepNewest(memoryPercents),
+    swapPercents: keepNewest(swapPercents),
+    cpuPercents: keepNewest(cpuPercents)
   };
 }

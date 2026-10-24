@@ -221,6 +221,8 @@ export type MonitorSample = {
   seq: number;
   temperatureC: number | null;
   memoryPercent: number | null;
+  swapPercent: number | null;
+  cpuPercent: number | null;
 };
 
 export type MonitorData = {
@@ -234,6 +236,7 @@ export type MonitorData = {
     swapTotalKb: number;
     swapUsedKb: number;
   } | null;
+  cpu: { userPercent: number; systemPercent: number } | null;
   disks: MonitorDisk[];
   epoch: number;
   latestSeq: number;
