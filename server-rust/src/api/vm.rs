@@ -262,8 +262,11 @@ pub struct SetMemoryLimitReq {
 }
 
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SwapRsp {
     pub size: i64,
+    /// What a swap file may take: the free space of the root filesystem plus the current file.
+    pub available_mb: i64,
 }
 
 #[derive(Debug, Deserialize)]
@@ -1079,6 +1082,7 @@ pub async fn set_memory_limit(Json(req): Json<SetMemoryLimitReq>) -> Result<impl
 pub async fn get_swap() -> Result<impl IntoResponse> {
     Ok(Json(ApiResponse::ok(SwapRsp {
         size: get_swap_size(),
+        available_mb: swap_available_mb(),
     })))
 }
 
@@ -1093,6 +1097,11 @@ pub async fn set_swap(Json(req): Json<SetSwapReq>) -> Result<impl IntoResponse> 
         disable_swap().await?;
         disable_swap_inittab()?;
     } else {
+        if !swap_fits(req.size, swap_available_mb()) {
+            return Err(AppError::BadRequest(
+                "not enough free space for the swap file".to_string(),
+            ));
+        }
         enable_swap(req.size).await?;
         enable_swap_inittab()?;
     }
@@ -1346,9 +1355,23 @@ fn get_swap_size() -> i64 {
         .unwrap_or(0)
 }
 
+// Free space the root filesystem keeps after the swap file is made.
+const SWAP_FREE_MARGIN_MB: i64 = 32;
+
+fn swap_fits(size: i64, available_mb: i64) -> bool {
+    size + SWAP_FREE_MARGIN_MB <= available_mb
+}
+
+fn swap_available_mb() -> i64 {
+    let free = nix::sys::statvfs::statvfs("/")
+        .map(|stat| (stat.blocks_available() as u64 * stat.fragment_size() as u64) >> 20)
+        .unwrap_or(0) as i64;
+    free + get_swap_size()
+}
+
 fn validate_swap_size(size: i64) -> Result<()> {
     match size {
-        0 | 64 | 128 | 256 | 512 => Ok(()),
+        0 | 64 | 128 | 256 => Ok(()),
         _ => Err(AppError::BadRequest("invalid swap size".to_string())),
     }
 }
@@ -1664,7 +1687,16 @@ mod tests {
         assert!(validate_swap_size(0).is_ok());
         assert!(validate_swap_size(64).is_ok());
         assert!(validate_swap_size(256).is_ok());
+        assert!(validate_swap_size(512).is_err());
         assert!(validate_swap_size(123).is_err());
+    }
+
+    #[test]
+    fn a_swap_file_leaves_free_space_behind() {
+        assert!(swap_fits(128, 200));
+        assert!(swap_fits(128, 160));
+        assert!(!swap_fits(128, 159));
+        assert!(!swap_fits(256, 110));
     }
 
     #[test]

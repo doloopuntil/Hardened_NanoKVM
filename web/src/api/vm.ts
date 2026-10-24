@@ -105,7 +105,7 @@ export function disableSSH() {
   return http.post('/api/vm/ssh/disable');
 }
 
-// get swap file size
+// get the swap file size and the space a swap file may take
 export function getSwap() {
   return http.get('/api/vm/swap');
 }
