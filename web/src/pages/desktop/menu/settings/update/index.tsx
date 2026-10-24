@@ -651,21 +651,10 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
           />
         )}
 
-        <SettingSection title={t('settings.update.sources')}>
-          <Offline
-            status={status}
-            setStatus={setStatus}
-            setIsLocked={setIsLocked}
-            setErrMsg={setErrMsg}
-          />
-        </SettingSection>
-
-        <Divider className="opacity-50" />
-
         <SettingSection title={t('settings.update.application.title')} busy={applicationLoading}>
           <div className="flex flex-col space-y-3">
             <InfoRow
-              label={t('settings.about.application')}
+              label={t('settings.update.currentVersion')}
               description={
                 applicationBusy || applicationText ? (
                   <span
@@ -707,43 +696,22 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                   ]
             }
           />
+
+          <Offline
+            status={status}
+            setStatus={setStatus}
+            setIsLocked={setIsLocked}
+            setErrMsg={setErrMsg}
+          />
         </SettingSection>
 
         <Divider className="opacity-50" />
 
         <SettingSection title={t('settings.system.title')} busy={systemStatus === 'loading'}>
-          <SettingRow
-            label={t('settings.update.system.rawEnable')}
-            description={t('settings.update.system.rawEnableDesc')}
-            isSwitch
-          >
-            <Switch
-              checked={systemRawEnabled}
-              loading={systemRawUpdating}
-              disabled={rawLoadState !== 'ready'}
-              onChange={changeRawSystemUpdatesEnabled}
-            />
-          </SettingRow>
-
-          <SystemUpload
-            disabled={systemBusy}
-            onStaged={handleUploadedSystemUpdate}
-            setBusy={setIsLocked}
-          />
-          <LocalKeyRow />
-
-          {systemStaged?.destructive && !systemRawEnabled && (
-            <Alert
-              type="warning"
-              showIcon
-              message={t('settings.update.system.rawInstallDisabled')}
-            />
-          )}
-
           {systemCurrent && (
             <div className="flex flex-col space-y-3">
               {info(
-                t('settings.update.system.systemVersion'),
+                t('settings.update.currentVersion'),
                 systemCurrent.version,
                 versionCaption ? (
                   <span className={systemError ? 'text-red-400' : undefined}>{versionCaption}</span>
@@ -807,6 +775,34 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             text={systemText}
             buttons={systemButtons}
           />
+
+          {systemStaged?.destructive && !systemRawEnabled && (
+            <Alert
+              type="warning"
+              showIcon
+              message={t('settings.update.system.rawInstallDisabled')}
+            />
+          )}
+
+          <SettingRow
+            label={t('settings.update.system.rawEnable')}
+            description={t('settings.update.system.rawEnableDesc')}
+            isSwitch
+          >
+            <Switch
+              checked={systemRawEnabled}
+              loading={systemRawUpdating}
+              disabled={rawLoadState !== 'ready'}
+              onChange={changeRawSystemUpdatesEnabled}
+            />
+          </SettingRow>
+
+          <SystemUpload
+            disabled={systemBusy}
+            onStaged={handleUploadedSystemUpdate}
+            setBusy={setIsLocked}
+          />
+          <LocalKeyRow />
         </SettingSection>
 
         <div className="flex justify-end">

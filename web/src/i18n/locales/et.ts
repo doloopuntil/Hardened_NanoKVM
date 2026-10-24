@@ -884,7 +884,7 @@ const et = {
       },
       update: {
         title: 'Uuendused',
-        sources: 'Uuenduste allikad',
+        currentVersion: 'Praegune versioon',
         latestVersion: 'Uusim versioon',
         queryFailed: 'Versiooni hankimine nurjus',
         updateFailed: 'Uuendamine nurjus',

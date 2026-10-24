@@ -895,7 +895,7 @@ const da = {
       },
       update: {
         title: 'Opdateringer',
-        sources: 'Opdateringskilder',
+        currentVersion: 'Nuværende version',
         latestVersion: 'Seneste version',
         queryFailed: 'Opdateringskontrol mislykkedes',
         updateFailed: 'Opdatering fejlede',

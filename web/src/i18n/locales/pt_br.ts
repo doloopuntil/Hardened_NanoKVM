@@ -895,7 +895,7 @@ const pt_br = {
       },
       update: {
         title: 'Atualizações',
-        sources: 'Fontes de atualização',
+        currentVersion: 'Versão atual',
         latestVersion: 'Versão mais recente',
         queryFailed: 'Falha ao obter a versão',
         updateFailed: 'Falha na atualização',

@@ -896,7 +896,7 @@ const se = {
       },
       update: {
         title: 'Uppdateringar',
-        sources: 'Uppdateringskällor',
+        currentVersion: 'Nuvarande version',
         latestVersion: 'Senaste version',
         queryFailed: 'Kunde inte hämta version',
         updateFailed: 'Uppdatering misslyckades',

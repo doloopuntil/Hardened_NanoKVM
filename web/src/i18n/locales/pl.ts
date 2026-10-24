@@ -896,7 +896,7 @@ const pl = {
       },
       update: {
         title: 'Aktualizacje',
-        sources: 'Źródła aktualizacji',
+        currentVersion: 'Bieżąca wersja',
         latestVersion: 'Najnowsza wersja',
         queryFailed: 'Uzyskanie wersji nie powiodło się',
         updateFailed: 'Aktualizacja nie powiodła się',

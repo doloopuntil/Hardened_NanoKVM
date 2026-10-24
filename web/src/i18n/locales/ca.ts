@@ -898,7 +898,7 @@ const ca = {
       },
       update: {
         title: 'Actualitzacions',
-        sources: "Fonts d'actualització",
+        currentVersion: 'Versió actual',
         latestVersion: 'Última versió',
         queryFailed: 'Error en obtenir la versió',
         updateFailed: 'Error en actualitzar',

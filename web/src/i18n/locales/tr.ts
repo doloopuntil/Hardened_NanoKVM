@@ -894,7 +894,7 @@ const tr = {
       },
       update: {
         title: 'Güncellemeler',
-        sources: 'Güncelleme kaynakları',
+        currentVersion: 'Geçerli sürüm',
         latestVersion: 'En son sürüm',
         queryFailed: 'Sürüm bilgisi alınamadı',
         updateFailed: 'Güncelleme başarısız oldu',

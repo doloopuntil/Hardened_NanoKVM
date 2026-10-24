@@ -899,7 +899,7 @@ const nb = {
       },
       update: {
         title: 'Oppdateringer',
-        sources: 'Oppdateringskilder',
+        currentVersion: 'Gjeldende versjon',
         latestVersion: 'Nyeste versjon',
         queryFailed: 'Kunne ikke hente versjon',
         updateFailed: 'En feil oppstod under oppdatering',

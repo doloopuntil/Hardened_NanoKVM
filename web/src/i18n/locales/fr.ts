@@ -902,7 +902,7 @@ const fr = {
       },
       update: {
         title: 'Mises à jour',
-        sources: 'Sources de mise à jour',
+        currentVersion: 'Version actuelle',
         latestVersion: 'Dernière version',
         queryFailed: "Impossible d'obtenir la version",
         updateFailed: 'Mise à jour échouée',

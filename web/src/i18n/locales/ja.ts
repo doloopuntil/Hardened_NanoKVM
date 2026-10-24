@@ -898,7 +898,7 @@ const ja = {
       },
       update: {
         title: 'アップデート',
-        sources: 'アップデートの取得元',
+        currentVersion: '現在のバージョン',
         latestVersion: '最新バージョン',
         queryFailed: 'バージョン番号の取得に失敗しました',
         updateFailed: 'アップデートに失敗しました',

@@ -881,7 +881,7 @@ const th = {
       },
       update: {
         title: 'อัปเดต',
-        sources: 'แหล่งอัปเดต',
+        currentVersion: 'เวอร์ชันปัจจุบัน',
         latestVersion: 'เวอร์ชันล่าสุด',
         queryFailed: 'ไม่สามารถรับข้อมูลเวอร์ชันได้',
         updateFailed: 'การอัปเดตล้มเหลว',

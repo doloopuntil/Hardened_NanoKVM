@@ -864,7 +864,7 @@ const zh_tw = {
       },
       update: {
         title: '更新',
-        sources: '更新來源',
+        currentVersion: '目前版本',
         latestVersion: '最新版本',
         queryFailed: '取得版本號失敗',
         updateFailed: '更新失敗',

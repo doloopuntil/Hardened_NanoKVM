@@ -895,7 +895,7 @@ const ru = {
       },
       update: {
         title: 'Обновления',
-        sources: 'Источники обновлений',
+        currentVersion: 'Текущая версия',
         latestVersion: 'Последняя версия',
         queryFailed: 'Получить версию не удалось',
         updateFailed: 'Обновление не удалось',

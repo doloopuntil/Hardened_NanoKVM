@@ -906,7 +906,7 @@ const de = {
       },
       update: {
         title: 'Updates',
-        sources: 'Update-Quellen',
+        currentVersion: 'Aktuelle Version',
         latestVersion: 'Neueste Version',
         queryFailed: 'Version konnte nicht abgefragt werden',
         updateFailed: 'Aktualisierung fehlgeschlagen',

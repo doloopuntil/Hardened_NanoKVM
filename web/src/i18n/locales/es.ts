@@ -899,7 +899,7 @@ const es = {
       },
       update: {
         title: 'Actualizaciones',
-        sources: 'Fuentes de actualización',
+        currentVersion: 'Versión actual',
         latestVersion: 'Última versión',
         queryFailed: 'Error al obtener la versión',
         updateFailed: 'La actualización falló',

@@ -886,7 +886,7 @@ const en = {
       },
       update: {
         title: 'Updates',
-        sources: 'Update sources',
+        currentVersion: 'Current version',
         latestVersion: 'Latest version',
         queryFailed: "Couldn't get the version",
         updateFailed: 'Update failed',

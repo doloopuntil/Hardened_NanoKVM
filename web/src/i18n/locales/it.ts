@@ -902,7 +902,7 @@ const it = {
       },
       update: {
         title: 'Aggiornamenti',
-        sources: 'Fonti di aggiornamento',
+        currentVersion: 'Versione attuale',
         latestVersion: 'Ultima versione',
         queryFailed: 'Impossibile ottenere la versione',
         updateFailed: 'Aggiornamento fallito',

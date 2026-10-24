@@ -896,7 +896,7 @@ const id = {
       },
       update: {
         title: 'Pembaruan',
-        sources: 'Sumber pembaruan',
+        currentVersion: 'Versi saat ini',
         latestVersion: 'Versi terbaru',
         queryFailed: 'Gagal mendapatkan versi',
         updateFailed: 'Gagal memperbarui',

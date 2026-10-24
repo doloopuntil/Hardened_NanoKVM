@@ -899,7 +899,7 @@ const uk = {
       },
       update: {
         title: 'Оновлення',
-        sources: 'Джерела оновлень',
+        currentVersion: 'Поточна версія',
         latestVersion: 'Остання версія',
         queryFailed: 'Не вдалося отримати версію',
         updateFailed: 'Оновлення не вдалося',

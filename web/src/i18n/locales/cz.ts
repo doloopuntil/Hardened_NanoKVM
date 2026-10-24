@@ -890,7 +890,7 @@ const cz = {
       },
       update: {
         title: 'Aktualizace',
-        sources: 'Zdroje aktualizací',
+        currentVersion: 'Aktuální verze',
         latestVersion: 'Nejnovější verze',
         queryFailed: 'Nepodařilo se získat verzi',
         updateFailed: 'Aktualizace se nezdařila',

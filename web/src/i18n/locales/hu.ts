@@ -901,7 +901,7 @@ const hu = {
       },
       update: {
         title: 'Frissítések',
-        sources: 'Frissítési források',
+        currentVersion: 'Jelenlegi verzió',
         latestVersion: 'Legújabb verzió',
         queryFailed: 'Verzió lekérdezése sikertelen',
         updateFailed: 'Frissítés sikertelen',

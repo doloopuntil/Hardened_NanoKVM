@@ -895,7 +895,7 @@ const fi = {
       },
       update: {
         title: 'Päivitykset',
-        sources: 'Päivityslähteet',
+        currentVersion: 'Nykyinen versio',
         latestVersion: 'Uusin versio',
         queryFailed: 'Version haku epäonnistui',
         updateFailed: 'Päivitys epäonnistui',
