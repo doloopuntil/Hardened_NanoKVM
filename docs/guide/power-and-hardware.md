@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-22
+last-checked: 2026-10-24
 ---
 
 # Power control and hardware
@@ -31,6 +31,16 @@ icons in **Settings > Appearance > Menu bar**, your choice decides instead.
 - **OLED timeout** turns the screen off after a set time, or never.
 - **Swap** (**Settings > System > Performance**) adds a swap file when memory runs
   low; it wears the SD card faster.
+
+## Monitor and CPU load
+
+**Settings > System > Monitor** shows the CPU load, temperature, RAM, swap and disk
+use once a second, with five minutes of history kept on the device. The CPU load
+bar splits user time from system time; interrupt handling counts as system time.
+The figure comes from `/proc/stat`, not from `/proc/loadavg`: the load average
+stays near 7 on an idle device, because the vendor video and ISP kernel threads
+(`vi_event_handle`, `cvitask_isp_*`, `cvitask_vc_*`) wait in uninterruptible sleep
+and each adds 1.0. Read the Monitor, not `uptime`.
 
 ## Host name
 
