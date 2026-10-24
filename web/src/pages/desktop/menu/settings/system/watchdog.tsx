@@ -58,7 +58,11 @@ export const Watchdog = () => {
       </SettingRow>
 
       {reason && (
-        <InfoRow label={t(`${base}.lastRestart`)} value={t(`${base}.${REASON_KEYS[reason]}`)} />
+        <InfoRow
+          label={t(`${base}.lastRestart`)}
+          description={t(`${base}.lastRestartCaption`)}
+          value={t(`${base}.${REASON_KEYS[reason]}`)}
+        />
       )}
     </>
   );
