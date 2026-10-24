@@ -568,6 +568,7 @@ const et = {
             unavailable: 'Pole selles süsteemitõmmises',
             notRunning: 'Praegu ei tööta',
             lastRestart: 'Viimane taaskäivitus',
+            lastRestartCaption: 'Viimane põhjus, miks süsteem taaskäivitus',
             reasonPowerOn: 'Toite sisselülitus',
             reasonRestart: 'Taaskäivitus soovitud',
             reasonWatchdog: 'Valvekoera lähtestus',

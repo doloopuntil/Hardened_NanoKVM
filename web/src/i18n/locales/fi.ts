@@ -577,6 +577,7 @@ const fi = {
             unavailable: 'Ei sisälly tähän järjestelmäkuvaan',
             notRunning: 'Ei ole käynnissä tällä hetkellä',
             lastRestart: 'Viimeisin uudelleenkäynnistys',
+            lastRestartCaption: 'Viimeisin syy järjestelmän uudelleenkäynnistykseen',
             reasonPowerOn: 'Virran kytkentä',
             reasonRestart: 'Uudelleenkäynnistystä pyydetty',
             reasonWatchdog: 'Vahtikoiran nollaus',

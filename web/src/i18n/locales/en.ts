@@ -572,6 +572,7 @@ const en = {
             unavailable: 'Not included in this system image',
             notRunning: 'Not running at the moment',
             lastRestart: 'Last restart',
+            lastRestartCaption: 'Most recent reason why the system restarted',
             reasonPowerOn: 'Power on',
             reasonRestart: 'Restart requested',
             reasonWatchdog: 'Watchdog reset',

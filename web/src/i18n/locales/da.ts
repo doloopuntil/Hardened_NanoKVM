@@ -575,6 +575,7 @@ const da = {
             unavailable: 'Ikke inkluderet i dette systemaftryk',
             notRunning: 'Kører ikke i øjeblikket',
             lastRestart: 'Seneste genstart',
+            lastRestartCaption: 'Seneste årsag til, at systemet blev genstartet',
             reasonPowerOn: 'Tændt',
             reasonRestart: 'Genstart anmodet',
             reasonWatchdog: 'Watchdog-nulstilling',

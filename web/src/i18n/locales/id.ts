@@ -578,6 +578,7 @@ const id = {
             unavailable: 'Tidak disertakan dalam citra sistem ini',
             notRunning: 'Tidak berjalan saat ini',
             lastRestart: 'Mulai ulang terakhir',
+            lastRestartCaption: 'Alasan terbaru sistem dimulai ulang',
             reasonPowerOn: 'Daya menyala',
             reasonRestart: 'Mulai ulang diminta',
             reasonWatchdog: 'Reset watchdog',

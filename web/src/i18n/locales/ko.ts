@@ -568,6 +568,7 @@ const ko = {
             unavailable: '이 시스템 이미지에 포함되어 있지 않습니다',
             notRunning: '현재 실행 중이 아닙니다',
             lastRestart: '마지막 재시작',
+            lastRestartCaption: '시스템이 가장 최근에 다시 시작된 이유',
             reasonPowerOn: '전원 켜짐',
             reasonRestart: '재시작 요청',
             reasonWatchdog: '워치독 리셋',

@@ -579,6 +579,7 @@ const nb = {
             unavailable: 'Ikke inkludert i dette systembildet',
             notRunning: 'Kjører ikke for øyeblikket',
             lastRestart: 'Siste omstart',
+            lastRestartCaption: 'Siste årsak til at systemet startet på nytt',
             reasonPowerOn: 'Strøm på',
             reasonRestart: 'Omstart forespurt',
             reasonWatchdog: 'Watchdog-tilbakestilling',

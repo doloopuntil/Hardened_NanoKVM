@@ -578,6 +578,7 @@ const ca = {
             unavailable: 'No inclòs en aquesta imatge del sistema',
             notRunning: "No s'està executant ara mateix",
             lastRestart: 'Últim reinici',
+            lastRestartCaption: "Motiu més recent pel qual s'ha reiniciat el sistema",
             reasonPowerOn: 'Engegada',
             reasonRestart: 'Reinici sol·licitat',
             reasonWatchdog: 'Reinici del watchdog',

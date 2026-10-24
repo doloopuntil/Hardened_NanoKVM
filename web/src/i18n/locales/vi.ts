@@ -572,6 +572,7 @@ const vi = {
             unavailable: 'Không có trong ảnh hệ thống này',
             notRunning: 'Hiện không chạy',
             lastRestart: 'Lần khởi động lại gần nhất',
+            lastRestartCaption: 'Lý do gần nhất khiến hệ thống khởi động lại',
             reasonPowerOn: 'Bật nguồn',
             reasonRestart: 'Yêu cầu khởi động lại',
             reasonWatchdog: 'Watchdog đặt lại',

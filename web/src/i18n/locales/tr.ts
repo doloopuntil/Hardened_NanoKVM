@@ -574,6 +574,7 @@ const tr = {
             unavailable: 'Bu sistem imajına dahil değil',
             notRunning: 'Şu anda çalışmıyor',
             lastRestart: 'Son yeniden başlatma',
+            lastRestartCaption: 'Sistemin yeniden başlatılmasının en son nedeni',
             reasonPowerOn: 'Güç açıldı',
             reasonRestart: 'Yeniden başlatma istendi',
             reasonWatchdog: 'Watchdog sıfırlaması',

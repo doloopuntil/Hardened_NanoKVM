@@ -580,6 +580,7 @@ const uk = {
             unavailable: 'Не входить до цього образу системи',
             notRunning: 'Зараз не працює',
             lastRestart: 'Останній перезапуск',
+            lastRestartCaption: 'Остання причина перезапуску системи',
             reasonPowerOn: 'Увімкнення живлення',
             reasonRestart: 'Запит на перезапуск',
             reasonWatchdog: 'Скидання сторожовим таймером',

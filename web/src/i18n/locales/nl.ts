@@ -581,6 +581,7 @@ const nl = {
             unavailable: 'Niet opgenomen in dit systeemimage',
             notRunning: 'Draait momenteel niet',
             lastRestart: 'Laatste herstart',
+            lastRestartCaption: 'Meest recente reden waarom het systeem opnieuw is opgestart',
             reasonPowerOn: 'Ingeschakeld',
             reasonRestart: 'Herstart aangevraagd',
             reasonWatchdog: 'Watchdog-reset',

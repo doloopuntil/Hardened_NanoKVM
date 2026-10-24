@@ -577,6 +577,7 @@ const se = {
             unavailable: 'Ingår inte i den här systemavbilden',
             notRunning: 'Körs inte just nu',
             lastRestart: 'Senaste omstart',
+            lastRestartCaption: 'Senaste orsaken till att systemet startade om',
             reasonPowerOn: 'Påslagning',
             reasonRestart: 'Omstart begärd',
             reasonWatchdog: 'Watchdog-återställning',

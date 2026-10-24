@@ -579,6 +579,7 @@ const hu = {
             unavailable: 'Nem része ennek a rendszerképnek',
             notRunning: 'Jelenleg nem fut',
             lastRestart: 'Utolsó újraindítás',
+            lastRestartCaption: 'A rendszer legutóbbi újraindulásának oka',
             reasonPowerOn: 'Bekapcsolás',
             reasonRestart: 'Kért újraindítás',
             reasonWatchdog: 'Watchdog-alaphelyzet',

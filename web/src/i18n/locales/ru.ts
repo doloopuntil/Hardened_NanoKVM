@@ -577,6 +577,7 @@ const ru = {
             unavailable: 'Не входит в этот образ системы',
             notRunning: 'Сейчас не работает',
             lastRestart: 'Последний перезапуск',
+            lastRestartCaption: 'Последняя причина перезапуска системы',
             reasonPowerOn: 'Включение питания',
             reasonRestart: 'Запрошен перезапуск',
             reasonWatchdog: 'Сброс сторожевым таймером',

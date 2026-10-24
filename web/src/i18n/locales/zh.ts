@@ -552,6 +552,7 @@ const zh = {
             unavailable: '此系统镜像未包含',
             notRunning: '当前未运行',
             lastRestart: '上次重启',
+            lastRestartCaption: '系统最近一次重启的原因',
             reasonPowerOn: '上电',
             reasonRestart: '请求重启',
             reasonWatchdog: '看门狗复位',

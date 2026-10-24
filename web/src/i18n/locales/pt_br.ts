@@ -576,6 +576,7 @@ const pt_br = {
             unavailable: 'Não incluído nesta imagem do sistema',
             notRunning: 'Não está em execução no momento',
             lastRestart: 'Última reinicialização',
+            lastRestartCaption: 'Motivo mais recente da reinicialização do sistema',
             reasonPowerOn: 'Ligado',
             reasonRestart: 'Reinicialização solicitada',
             reasonWatchdog: 'Reinício pelo watchdog',

@@ -583,6 +583,7 @@ const de = {
             unavailable: 'Nicht in diesem Systemabbild enthalten',
             notRunning: 'Läuft momentan nicht',
             lastRestart: 'Letzter Neustart',
+            lastRestartCaption: 'Letzter Grund, warum das System neu gestartet wurde',
             reasonPowerOn: 'Einschalten',
             reasonRestart: 'Neustart angefordert',
             reasonWatchdog: 'Watchdog-Reset',

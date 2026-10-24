@@ -578,6 +578,7 @@ const ja = {
             unavailable: 'このシステムイメージには含まれていません',
             notRunning: '現在は動作していません',
             lastRestart: '前回の再起動',
+            lastRestartCaption: 'システムが最後に再起動した理由',
             reasonPowerOn: '電源投入',
             reasonRestart: '再起動の要求',
             reasonWatchdog: 'ウォッチドッグによるリセット',

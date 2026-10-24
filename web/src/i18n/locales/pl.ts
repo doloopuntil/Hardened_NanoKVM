@@ -577,6 +577,7 @@ const pl = {
             unavailable: 'Nie zawarto w tym obrazie systemu',
             notRunning: 'Obecnie nie działa',
             lastRestart: 'Ostatni restart',
+            lastRestartCaption: 'Najnowsza przyczyna ponownego uruchomienia systemu',
             reasonPowerOn: 'Włączenie zasilania',
             reasonRestart: 'Zażądano restartu',
             reasonWatchdog: 'Reset przez watchdog',

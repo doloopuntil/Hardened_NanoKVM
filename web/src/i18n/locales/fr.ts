@@ -580,6 +580,7 @@ const fr = {
             unavailable: 'Non inclus dans cette image système',
             notRunning: 'Ne fonctionne pas actuellement',
             lastRestart: 'Dernier redémarrage',
+            lastRestartCaption: 'Motif le plus récent du redémarrage du système',
             reasonPowerOn: 'Mise sous tension',
             reasonRestart: 'Redémarrage demandé',
             reasonWatchdog: 'Réinitialisation par le chien de garde',

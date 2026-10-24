@@ -553,6 +553,7 @@ const zh_tw = {
             unavailable: '此系統映像檔未包含',
             notRunning: '目前未執行',
             lastRestart: '上次重新啟動',
+            lastRestartCaption: '系統最近一次重新啟動的原因',
             reasonPowerOn: '上電',
             reasonRestart: '要求重新啟動',
             reasonWatchdog: '看門狗重設',

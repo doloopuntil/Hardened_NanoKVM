@@ -574,6 +574,7 @@ const cz = {
             unavailable: 'Není součástí tohoto systémového obrazu',
             notRunning: 'Momentálně neběží',
             lastRestart: 'Poslední restart',
+            lastRestartCaption: 'Nejnovější důvod, proč se systém restartoval',
             reasonPowerOn: 'Zapnutí napájení',
             reasonRestart: 'Vyžádaný restart',
             reasonWatchdog: 'Reset watchdogem',

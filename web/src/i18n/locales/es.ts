@@ -579,6 +579,7 @@ const es = {
             unavailable: 'No incluido en esta imagen del sistema',
             notRunning: 'No se está ejecutando ahora',
             lastRestart: 'Último reinicio',
+            lastRestartCaption: 'Motivo más reciente por el que se reinició el sistema',
             reasonPowerOn: 'Encendido',
             reasonRestart: 'Reinicio solicitado',
             reasonWatchdog: 'Reinicio del watchdog',

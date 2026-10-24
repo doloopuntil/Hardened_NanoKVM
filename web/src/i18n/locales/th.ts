@@ -566,6 +566,7 @@ const th = {
             unavailable: 'ไม่รวมอยู่ในอิมเมจระบบนี้',
             notRunning: 'ไม่ได้ทำงานอยู่ในขณะนี้',
             lastRestart: 'การรีสตาร์ทล่าสุด',
+            lastRestartCaption: 'เหตุผลล่าสุดที่ระบบรีสตาร์ท',
             reasonPowerOn: 'เปิดเครื่อง',
             reasonRestart: 'มีการร้องขอรีสตาร์ท',
             reasonWatchdog: 'รีเซ็ตโดยวอตช์ด็อก',
