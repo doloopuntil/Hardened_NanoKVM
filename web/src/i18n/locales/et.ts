@@ -88,7 +88,8 @@ const et = {
       scale: 'Skaala',
       title: 'Ekraan',
       video: 'Videorežiim',
-      videoDirectTips: 'Selle režiimi kasutamiseks luba HTTPS menüüs "Seaded > Süsteem > Võrk"',
+      videoDirectTips:
+        'Selle režiimi kasutamiseks luba HTTPS menüüs "Seaded > Võrgundus > Teenused"',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC on tulemüürirežiimides Piiratud ja Paranoiline keelatud',
       transferRunningTitle: "Image'i edastus käib",
@@ -344,7 +345,7 @@ const et = {
     settings: {
       title: 'Seaded',
       about: {
-        title: 'NanoKVM-ist',
+        title: 'Teave',
         information: 'Teave',
         ip: 'IP',
         mdns: 'mDNS',
@@ -410,8 +411,7 @@ const et = {
         sections: {
           connectivity: 'Ühenduvus',
           hostConnection: 'Hostiühendus',
-          inputOutput: 'Sisend ja väljund',
-          optimizations: 'Optimeerimised'
+          inputOutput: 'Sisend ja väljund'
         },
         oled: {
           title: 'OLED-i ajalõpp',
@@ -547,10 +547,56 @@ const et = {
       },
       system: {
         title: 'Süsteem',
+        performance: {
+          processor: 'Protsessor',
+          overdrive: {
+            title: 'Ülekiirendus',
+            description: 'Käivita tootja määratud kõrgemate protsessori ja video taktsagedustega',
+            tip: 'Kui seade ülekiirendusega ei käivitu, tuleb SD-kaart uuesti kirjutada',
+            pending: 'Rakendub pärast järgmist taaskäivitust',
+            unavailable: 'Pole selles süsteemipildis',
+            keepTitle: 'Säilita overdrive pärast värskendusi',
+            keepDescription:
+              'Süsteemivärskendus viib seadme tagasi standardsagedustele, kui see pole sisse lülitatud',
+            confirmTitle: 'Kas lülitada ülekiirendus sisse?',
+            confirmText:
+              'Kui seade ülekiirendusega ei käivitu, peate selle taastamiseks SD-kaardi uuesti kirjutama. Muudatus rakendub pärast järgmist taaskäivitust.'
+          },
+          memory: 'Mälu'
+        },
+        monitor: {
+          processorClock: 'CPU alamsüsteem',
+          videoClock: 'Video alamsüsteem',
+          videoClockCaption: 'Video taktsagedus',
+          cpuClockCaption: 'CPU taktsagedus',
+          overdrive: 'Ülekiirendus',
+          temperature: 'Temperatuur',
+          lastMinutes: 'Viimased 5 minutit',
+          ram: 'RAM',
+          off: 'Väljas',
+          ramHistory: 'RAM-i kasutus',
+          cpuLoad: 'Protsessori koormus',
+          cpuLoadCaption: 'Kasutaja {{user}} protsenti, süsteem {{system}} protsenti',
+          cpuUtilization: 'Protsessori kasutus',
+          swapUtilization: 'Saalimisruumi kasutus',
+          swapSizeLastMinutes: '{{size}}, viimased 5 minutit',
+          percent: '{{percent}} protsenti',
+          percentUsed: '{{percent}} protsenti kasutusel',
+          sizeOf: '{{used}} / {{total}}',
+          systemPartition: 'Süsteemipartitsioon',
+          dataPartition: 'Andmepartitsioon',
+          unavailable: 'Pole saadaval',
+          noReadings: 'Seade ei anna mõõtmistulemusi',
+          refresh: 'Uueneb iga sekund, kui see leht on avatud'
+        },
         sections: {
           time: 'Aeg',
           firewall: 'Tulemüür',
-          systemLog: 'Logimine'
+          systemLog: 'Logimine',
+          performance: 'Jõudlus',
+          monitor: 'Seire',
+          services: 'Teenused',
+          webInterface: 'Veebiliides'
         },
         time: {
           saveFailed: 'Ajaseadete salvestamine nurjus',
@@ -560,7 +606,7 @@ const et = {
           invalidServers: 'Sisesta vähemalt üks NTP-server',
           maxServers: 'Lubatud on kuni {{count}} NTP-serverit',
           refresh: 'Värskenda',
-          syncNow: 'Sünkrooni kohe',
+          syncNow: 'Sünkroniseeri',
           syncNowDesc: 'Sea kell NTP-serveritest kohe',
           save: 'Salvesta',
           ntp: {
@@ -580,8 +626,8 @@ const et = {
               'Kasuta avalikke vaikeservereid, kohalikku ruuterit või enda NTP-servereid',
             useRouter: 'Kasuta ruuterit',
             useDefaults: 'Kasuta vaikeväärtusi',
-            routerDetected: 'Tuvastatud ruuter',
-            routerNone: 'Ei leitud'
+            presets: 'Serverite eelseaded',
+            presetsDesc: 'Asenda serverite loend eelseadega'
           }
         },
         firewall: {
@@ -592,7 +638,7 @@ const et = {
           backends: 'Backendid',
           enableHttpsFirst: 'Luba HTTPS enne tulemüüri režiimi Piiratud või Paranoiline lubamist',
           httpsRequired:
-            'Režiimid Piiratud ja Paranoiline on keelatud, kuni HTTPS on lubatud menüüs Seaded > Süsteem > Võrk',
+            'Režiimid Piiratud ja Paranoiline on keelatud, kuni HTTPS on lubatud menüüs Seaded > Võrgundus > Teenused',
           mode: {
             title: 'Tulemüüri režiim',
             baseline: 'Baas',
@@ -703,6 +749,9 @@ const et = {
           '8': '8 - Kõik'
         }
       },
+      networking: {
+        title: 'Võrgundus'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Krüpteeritud tunnel',
@@ -777,7 +826,8 @@ const et = {
         swap: {
           title: 'Swap-fail',
           tip: 'Kui probleemid jätkuvad pärast mälu optimeerimise lubamist, proovi lubada swap-fail',
-          sizeTip: 'See määrab faili suuruseks 256 MB; seda saab muuta menüüs Seaded > Seade'
+          sizeTip:
+            'See määrab faili suuruseks 128 MB; seda saab muuta menüüs Seaded > Süsteem > Jõudlus'
         },
         restartTitle: 'Taaskäivita Tailscale',
         restartDesc: 'Taaskäivitab teenuse',
@@ -816,7 +866,7 @@ const et = {
         cancelBtn: 'Ei'
       },
       update: {
-        title: 'Süsteemiuuendused',
+        title: 'Uuendused',
         sources: 'Uuenduste allikad',
         latestVersion: 'Uusim versioon',
         queryFailed: 'Versiooni hankimine nurjus',
@@ -864,6 +914,13 @@ const et = {
             'See verifitseeritud pakett kirjutab raw boot/rootfs image failid SD-kaardi partitsioonidele ja taaskäivitab automaatselt. Kirjutamine võib võtta mitu minutit; hoia toide ühendatud.',
           rawInstallWarning:
             'Raw partitsiooniuuendustel pole automaatset rollbacki. Kui boot ebaõnnestub, taasta SD-kaart käsitsi.',
+          rawWaitTitle: 'Süsteemivärskenduse paigaldamine',
+          rawWaitWriting: 'Uut süsteemi kirjutatakse SD-kaardile',
+          rawWaitRestarting: 'Seade taaskäivitub. See leht laaditakse uuesti, kui seade on tagasi.',
+          rawWaitDesc:
+            'See võtab umbes kolm minutit. Hoia toide ühendatud ja ära sulge seda lehte.',
+          rawWaitSlow:
+            'See võtab oodatust kauem aega. Oota veel mõni minut, enne kui toite katkestad.',
           rebootRequired: 'Selle süsteemiseisundi aktiveerimiseks on vaja taaskäivitust.',
           confirming: 'Süsteemiuuenduse booti kinnitamine...',
           confirmBoot: 'Kinnita boot',
@@ -904,6 +961,24 @@ const et = {
           upload: 'Laadi üles',
           invalidName: 'Vigane failinime vorming. Laadi fail alla GitHub releases lehelt.',
           updateFailed: 'Uuendamine nurjus. Proovi uuesti.'
+        },
+        local: {
+          title: 'Laadi süsteemipakett üles',
+          desc: 'Paigalda süsteemipakett sellest arvutist. Üks fail sisaldab arhiivi ja selle allkirjastatud metaandmeid.',
+          choose: 'Vali fail',
+          invalidFile: 'Vali süsteemipakett, mille laiend on .tar või .tar.gz.',
+          diskTitle: 'Kas lülitada virtuaalne ketas välja?',
+          diskWarn:
+            'Süsteemipakett salvestatakse kataloogi /data, mis on kirjutuskaitstud, kui virtuaalne ketas on sees. Väljalülitamisel ei pääse arvuti enam kataloogile /data ligi. Kas jätkata?',
+          uploading: 'Üleslaadimine',
+          verifying: 'Paketi kontrollimine ja ettevalmistamine',
+          keyTitle: 'Kohalik värskendusvõti',
+          keyDesc:
+            'PEM-vormingus avalik võti, millega tohib allkirjastada ise ehitatud süsteemipakette',
+          keyNone: 'Võtit pole määratud',
+          keySet: 'Määra võti',
+          keyRemove: 'Eemalda',
+          signer: 'Allkirjastaja'
         }
       },
       account: {
@@ -916,6 +991,13 @@ const et = {
         logoutDesc: 'Kas oled kindel, et soovid välja logida?',
         okBtn: 'Jah',
         cancelBtn: 'Ei',
+        session: {
+          title: 'Seanss'
+        },
+        logoutOnClose: {
+          title: 'Logi välja, kui brauser suletakse',
+          description: 'Lõpeta seanss brauseri sulgemisel, selle asemel et seda avatuna hoida'
+        },
         totp: {
           title: 'Kaheastmeline autentimine',
           authenticator: 'Autentimisrakendus',

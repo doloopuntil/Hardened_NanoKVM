@@ -85,7 +85,7 @@ const zh_tw = {
       scale: '縮放',
       title: '螢幕',
       video: '影片模式',
-      videoDirectTips: '本模式需先啟用 HTTPS，請前往「設定 > 系統 > 網路」中開啟',
+      videoDirectTips: '本模式需先啟用 HTTPS，請前往「設定 > 網路 > 服務」中開啟',
       videoWebrtcBlockedByFirewall: 'H.264 WebRTC 在受限和偏執防火牆模式下已停用',
       transferRunningTitle: '映像檔傳輸進行中',
       transferRunningDesc: '切換影片模式會重新載入頁面，並取消正在進行的映像檔上傳或下載。',
@@ -335,7 +335,7 @@ const zh_tw = {
     settings: {
       title: '設定',
       about: {
-        title: '關於 NanoKVM',
+        title: '關於',
         information: '資訊',
         ip: 'IP',
         mdns: 'mDNS',
@@ -401,8 +401,7 @@ const zh_tw = {
         sections: {
           connectivity: '連線',
           hostConnection: '主機連線',
-          inputOutput: '輸入與輸出',
-          optimizations: '最佳化'
+          inputOutput: '輸入與輸出'
         },
         oled: {
           title: 'OLED 逾時',
@@ -534,10 +533,55 @@ const zh_tw = {
       },
       system: {
         title: '系統',
+        performance: {
+          processor: '處理器',
+          overdrive: {
+            title: '時脈超頻',
+            description: '以製造商指定的更高處理器與視訊時脈頻率啟動',
+            tip: '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡',
+            pending: '下次重新啟動後生效',
+            unavailable: '此系統映像不包含該選項',
+            keepTitle: '更新後保持超頻',
+            keepDescription: '除非開啟此項，否則系統更新後裝置將恢復為標準時脈',
+            confirmTitle: '啟用時脈超頻？',
+            confirmText:
+              '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡才能復原。變更將在下次重新啟動後生效。'
+          },
+          memory: '記憶體'
+        },
+        monitor: {
+          processorClock: 'CPU 子系統',
+          videoClock: '視訊子系統',
+          videoClockCaption: '視訊時脈頻率',
+          cpuClockCaption: 'CPU 時脈頻率',
+          overdrive: '超頻',
+          temperature: '溫度',
+          lastMinutes: '最近 5 分鐘',
+          ram: 'RAM',
+          off: '關閉',
+          ramHistory: 'RAM 使用率',
+          cpuLoad: 'CPU 負載',
+          cpuLoadCaption: '使用者 {{user}} 百分比，系統 {{system}} 百分比',
+          cpuUtilization: 'CPU 使用率',
+          swapUtilization: '交換空間使用率',
+          swapSizeLastMinutes: '{{size}}，最近 5 分鐘',
+          percent: '{{percent}} %',
+          percentUsed: '已用 {{percent}} %',
+          sizeOf: '{{used}} / {{total}}',
+          systemPartition: '系統分區',
+          dataPartition: '資料分區',
+          unavailable: '無法使用',
+          noReadings: '裝置未回傳讀數',
+          refresh: '此頁面開啟期間每秒更新一次'
+        },
         sections: {
           time: '時間',
           firewall: '防火牆',
-          systemLog: '記錄'
+          systemLog: '記錄',
+          performance: '效能',
+          monitor: '監控',
+          services: '服務',
+          webInterface: '網頁介面'
         },
         time: {
           saveFailed: '儲存時間設定失敗',
@@ -547,7 +591,7 @@ const zh_tw = {
           invalidServers: '請至少輸入一個 NTP 伺服器',
           maxServers: '最多允許 {{count}} 個 NTP 伺服器',
           refresh: '重新整理',
-          syncNow: '立即同步',
+          syncNow: '同步',
           syncNowDesc: '立即以 NTP 伺服器設定時鐘',
           save: '儲存',
           ntp: {
@@ -566,8 +610,8 @@ const zh_tw = {
             description: '使用預設公用伺服器、本機路由器或自訂 NTP 伺服器',
             useRouter: '使用路由器',
             useDefaults: '使用預設值',
-            routerDetected: '偵測到路由器',
-            routerNone: '未找到'
+            presets: '伺服器預設',
+            presetsDesc: '以預設值取代伺服器清單'
           }
         },
         firewall: {
@@ -577,7 +621,7 @@ const zh_tw = {
           refresh: '重新整理',
           backends: '後端',
           enableHttpsFirst: '請先啟用 HTTPS，再啟用受限或偏執防火牆模式',
-          httpsRequired: '在「設定 > 系統 > 網路」中啟用 HTTPS 之前，受限和偏執模式無法使用',
+          httpsRequired: '在「設定 > 網路 > 服務」中啟用 HTTPS 之前，受限和偏執模式無法使用',
           mode: {
             title: '防火牆模式',
             baseline: '基準',
@@ -687,6 +731,9 @@ const zh_tw = {
           '8': '8 - 全部'
         }
       },
+      networking: {
+        title: '網路'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: '加密通道',
@@ -760,7 +807,7 @@ const zh_tw = {
         swap: {
           title: 'Swap 檔',
           tip: '如果啟用記憶體最佳化後問題依然存在，可以嘗試啟用 Swap 檔',
-          sizeTip: '這會將檔案大小設定為 256MB，可以在「設定 - 裝置」中修改'
+          sizeTip: '這會將檔案大小設定為 128MB，可以在「設定 > 系統 > 效能」中修改'
         },
         restartTitle: '重啟 Tailscale',
         restartDesc: '重啟服務',
@@ -799,7 +846,7 @@ const zh_tw = {
         cancelBtn: '取消'
       },
       update: {
-        title: '系統更新',
+        title: '更新',
         sources: '更新來源',
         latestVersion: '最新版本',
         queryFailed: '取得版本號失敗',
@@ -840,6 +887,11 @@ const zh_tw = {
           rawInstallConfirmDesc:
             '此已驗證套件會將 raw boot/rootfs 映像檔寫入 SD 卡分割區並自動重新啟動。寫入可能需要數分鐘；請保持供電。',
           rawInstallWarning: 'Raw 分割區更新沒有自動 rollback。如果開機失敗，請手動復原 SD 卡。',
+          rawWaitTitle: '正在安裝系統更新',
+          rawWaitWriting: '正在將新系統寫入 SD 卡',
+          rawWaitRestarting: '裝置正在重新啟動。裝置恢復後，此頁面將自動重新載入。',
+          rawWaitDesc: '這大約需要三分鐘。請保持電源連接，且不要關閉此頁面。',
+          rawWaitSlow: '耗時比預期更久。請再等待幾分鐘，然後再斷電。',
           rebootRequired: '需要重新啟動以啟用此系統狀態。',
           confirming: '正在確認系統更新開機...',
           confirmBoot: '確認開機',
@@ -878,6 +930,23 @@ const zh_tw = {
           upload: '上傳',
           invalidName: '檔名格式錯誤，請前往 GitHub 釋出頁下載安裝包。',
           updateFailed: '更新失敗。請重試。'
+        },
+        local: {
+          title: '上傳系統套件',
+          desc: '從此電腦安裝系統套件。一個檔案包含封存檔及其已簽署的中繼資料。',
+          choose: '選擇檔案',
+          invalidFile: '請選擇以 .tar 或 .tar.gz 結尾的系統套件。',
+          diskTitle: '是否關閉虛擬磁碟功能？',
+          diskWarn:
+            '系統套件會儲存到 /data 目錄，而虛擬磁碟開啟時該目錄為唯讀。關閉虛擬磁碟後，電腦將無法再存取 /data 目錄。是否繼續？',
+          uploading: '正在上傳',
+          verifying: '正在驗證並準備系統套件',
+          keyTitle: '本機更新金鑰',
+          keyDesc: '可為您自行建置的系統套件簽署的 PEM 格式公開金鑰',
+          keyNone: '未設定金鑰',
+          keySet: '設定金鑰',
+          keyRemove: '移除',
+          signer: '簽署者'
         }
       },
       account: {
@@ -890,6 +959,13 @@ const zh_tw = {
         logoutDesc: '您確定要登出嗎?',
         okBtn: '確定',
         cancelBtn: '取消',
+        session: {
+          title: '工作階段'
+        },
+        logoutOnClose: {
+          title: '關閉瀏覽器時登出',
+          description: '關閉瀏覽器時結束工作階段，而不是保持登入狀態'
+        },
         totp: {
           title: '兩步驟驗證',
           authenticator: '驗證器 App',

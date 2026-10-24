@@ -91,7 +91,7 @@ const nb = {
       title: 'Skjerm',
       video: 'Videomodus',
       videoDirectTips:
-        'Aktiver HTTPS under "Innstillinger > System > Nettverk" for å bruke denne modusen',
+        'Aktiver HTTPS under "Innstillinger > Nettverk > Tjenester" for å bruke denne modusen',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC er deaktivert i brannmurmodusene Begrenset og Paranoid',
       transferRunningTitle: 'Bildeoverføring pågår',
@@ -352,7 +352,7 @@ const nb = {
     settings: {
       title: 'Innstillinger',
       about: {
-        title: 'Om NanoKVM',
+        title: 'Om',
         information: 'Informasjon',
         ip: 'IP',
         mdns: 'mDNS',
@@ -419,8 +419,7 @@ const nb = {
         sections: {
           connectivity: 'Tilkobling',
           hostConnection: 'Vertstilkobling',
-          inputOutput: 'Inndata og utdata',
-          optimizations: 'Optimaliseringer'
+          inputOutput: 'Inndata og utdata'
         },
         oled: {
           title: 'OLED-tidsavbrudd',
@@ -558,10 +557,57 @@ const nb = {
       },
       system: {
         title: 'System',
+        performance: {
+          processor: 'Prosessor',
+          overdrive: {
+            title: 'Overklokking',
+            description:
+              'Start med den høyere klokkehastigheten for prosessor og video som produsenten har spesifisert',
+            tip: 'Hvis enheten ikke starter med overklokking, må SD-kortet flashes på nytt',
+            pending: 'Gjelder etter neste omstart',
+            unavailable: 'Ikke med i dette systembildet',
+            keepTitle: 'Behold overdrive etter oppdateringer',
+            keepDescription:
+              'En systemoppdatering setter enheten tilbake til standardklokkene med mindre dette er slått på',
+            confirmTitle: 'Slå på overklokking?',
+            confirmText:
+              'Hvis enheten ikke starter med overklokking, må du flashe SD-kortet på nytt for å gjenopprette den. Endringen gjelder etter neste omstart.'
+          },
+          memory: 'Minne'
+        },
+        monitor: {
+          processorClock: 'CPU-delsystem',
+          videoClock: 'Videodelsystem',
+          videoClockCaption: 'Videoklokkefrekvens',
+          cpuClockCaption: 'CPU-klokkefrekvens',
+          overdrive: 'Overklokking',
+          temperature: 'Temperatur',
+          lastMinutes: 'Siste 5 minutter',
+          ram: 'RAM',
+          off: 'Av',
+          ramHistory: 'RAM-bruk',
+          cpuLoad: 'CPU-belastning',
+          cpuLoadCaption: 'Bruker {{user}} prosent, system {{system}} prosent',
+          cpuUtilization: 'CPU-utnyttelse',
+          swapUtilization: 'Swap-utnyttelse',
+          swapSizeLastMinutes: '{{size}}, siste 5 minutter',
+          percent: '{{percent}} prosent',
+          percentUsed: '{{percent}} prosent brukt',
+          sizeOf: '{{used}} av {{total}}',
+          systemPartition: 'Systempartisjon',
+          dataPartition: 'Datapartisjon',
+          unavailable: 'Ikke tilgjengelig',
+          noReadings: 'Enheten returnerer ingen målinger',
+          refresh: 'Oppdateres hvert sekund mens denne siden er åpen'
+        },
         sections: {
           time: 'Tid',
           firewall: 'Brannmur',
-          systemLog: 'Logging'
+          systemLog: 'Logging',
+          performance: 'Ytelse',
+          monitor: 'Overvåking',
+          services: 'Tjenester',
+          webInterface: 'Nettgrensesnitt'
         },
         time: {
           saveFailed: 'Kunne ikke lagre tidsinnstillinger',
@@ -571,7 +617,7 @@ const nb = {
           invalidServers: 'Angi minst én NTP-server',
           maxServers: 'Maksimalt {{count}} NTP-servere tillatt',
           refresh: 'Oppdater',
-          syncNow: 'Synkroniser nå',
+          syncNow: 'Synkroniser',
           syncNowDesc: 'Still klokken fra NTP-tjenerne nå',
           save: 'Lagre',
           ntp: {
@@ -591,8 +637,8 @@ const nb = {
               'Bruk standard offentlige servere, din lokale ruter eller egne NTP-servere',
             useRouter: 'Bruk ruter',
             useDefaults: 'Bruk standarder',
-            routerDetected: 'Oppdaget ruter',
-            routerNone: 'Ikke funnet'
+            presets: 'Serverforvalg',
+            presetsDesc: 'Erstatt serverlisten med et forvalg'
           }
         },
         firewall: {
@@ -604,7 +650,7 @@ const nb = {
           enableHttpsFirst:
             'Aktiver HTTPS før du aktiverer brannmurmodusen Begrenset eller Paranoid',
           httpsRequired:
-            'Modusene Begrenset og Paranoid er deaktivert til HTTPS er aktivert under Innstillinger > System > Nettverk',
+            'Modusene Begrenset og Paranoid er deaktivert til HTTPS er aktivert under Innstillinger > Nettverk > Tjenester',
           mode: {
             title: 'Brannmurmodus',
             baseline: 'Basis',
@@ -716,6 +762,9 @@ const nb = {
           '8': '8 - Alle'
         }
       },
+      networking: {
+        title: 'Nettverk'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Kryptert tunnel',
@@ -791,7 +840,8 @@ const nb = {
         swap: {
           title: 'Byttefil',
           tip: 'Hvis problemene vedvarer etter at du har aktivert minneoptimalisering, prøv å aktivere byttefilen',
-          sizeTip: 'Dette setter filstørrelsen til 256MB; juster den i Innstillinger > Enhet'
+          sizeTip:
+            'Dette setter filstørrelsen til 128MB; juster den i Innstillinger > System > Ytelse'
         },
         restartTitle: 'Start Tailscale på nytt',
         restartDesc: 'Starter tjenesten på nytt',
@@ -831,7 +881,7 @@ const nb = {
         cancelBtn: 'Nei'
       },
       update: {
-        title: 'Systemoppdateringer',
+        title: 'Oppdateringer',
         sources: 'Oppdateringskilder',
         latestVersion: 'Nyeste versjon',
         queryFailed: 'Kunne ikke hente versjon',
@@ -879,6 +929,14 @@ const nb = {
             'Denne verifiserte pakken skriver raw boot/rootfs-images til SD-kortpartisjonene og starter automatisk på nytt. Skriving kan ta flere minutter; hold strømmen tilkoblet.',
           rawInstallWarning:
             'Det finnes ingen automatisk rollback for raw partisjonsoppdateringer. Hvis boot feiler, gjenopprett SD-kortet manuelt.',
+          rawWaitTitle: 'Installerer systemoppdatering',
+          rawWaitWriting: 'Skriver det nye systemet til SD-kortet',
+          rawWaitRestarting:
+            'Enheten starter på nytt. Denne siden lastes inn på nytt når den er tilbake.',
+          rawWaitDesc:
+            'Dette tar omtrent tre minutter. La strømmen være tilkoblet og ikke lukk denne siden.',
+          rawWaitSlow:
+            'Dette tar lengre tid enn forventet. Vent noen minutter til før du kobler fra strømmen.',
           rebootRequired: 'Omstart kreves for å aktivere denne systemtilstanden.',
           confirming: 'Bekrefter boot av systemoppdatering...',
           confirmBoot: 'Bekreft boot',
@@ -918,6 +976,23 @@ const nb = {
           upload: 'Last opp',
           invalidName: 'Ugyldig filnavnformat. Last ned fra GitHub-utgivelser.',
           updateFailed: 'En feil oppstod under oppdatering. Vennligst forsøk igjen.'
+        },
+        local: {
+          title: 'Last opp systempakke',
+          desc: 'Installer en systempakke fra denne datamaskinen. Én fil inneholder arkivet og de signerte metadataene.',
+          choose: 'Velg fil',
+          invalidFile: 'Velg en systempakke som slutter på .tar eller .tar.gz.',
+          diskTitle: 'Slå av den virtuelle disken?',
+          diskWarn:
+            'Systempakken lagres på /data, som er skrivebeskyttet mens den virtuelle disken er på. Når den slås av, får ikke datamaskinen lenger tilgang til /data. Fortsette?',
+          uploading: 'Laster opp',
+          verifying: 'Verifiserer og klargjør pakken',
+          keyTitle: 'Lokal oppdateringsnøkkel',
+          keyDesc: 'Offentlig nøkkel i PEM-format som kan signere systempakker du bygger selv',
+          keyNone: 'Ingen nøkkel angitt',
+          keySet: 'Angi nøkkel',
+          keyRemove: 'Fjern',
+          signer: 'Signert av'
         }
       },
       account: {
@@ -930,6 +1005,13 @@ const nb = {
         logoutDesc: 'Er du sikker på at du vil logge ut?',
         okBtn: 'Ja',
         cancelBtn: 'Nei',
+        session: {
+          title: 'Økt'
+        },
+        logoutOnClose: {
+          title: 'Logg ut når nettleseren lukkes',
+          description: 'Avslutt økten når nettleseren lukkes, i stedet for å holde den åpen'
+        },
         totp: {
           title: 'Tofaktorautentisering',
           authenticator: 'Autentiseringsapp',

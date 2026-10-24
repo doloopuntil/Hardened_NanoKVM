@@ -39,11 +39,7 @@ use crate::{
     error::ApiResponse,
     ffi::kvm,
     hdmi_idle,
-    http::{
-        cookie::{session_cookie, session_cookie_secure},
-        middleware::CurrentSession,
-        tls,
-    },
+    http::{middleware::CurrentSession, tls},
     state::{AppState, is_allowed_session_lock_duration},
     system::command::{AllowedCommand, run_allowed},
     ws::{hid as hid_ws, origin::validate_ws_origin},
@@ -180,11 +176,15 @@ pub struct SessionLockRsp {
     pub duration: u64,
     #[serde(rename = "expiresAt", skip_serializing_if = "Option::is_none")]
     pub expires_at: Option<u64>,
+    #[serde(rename = "logoutOnBrowserClose")]
+    pub logout_on_browser_close: bool,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct SetSessionLockReq {
-    pub duration: u64,
+    pub duration: Option<u64>,
+    #[serde(rename = "logoutOnBrowserClose")]
+    pub logout_on_browser_close: Option<bool>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -891,6 +891,7 @@ pub async fn get_session_lock(State(state): State<AppState>) -> Result<impl Into
     Ok(Json(ApiResponse::ok(SessionLockRsp {
         duration: state.session_lock_duration(),
         expires_at: None,
+        logout_on_browser_close: state.logout_on_browser_close(),
     })))
 }
 
@@ -910,6 +911,7 @@ pub async fn touch_session_lock(
             Json(ApiResponse::ok(SessionLockRsp {
                 duration,
                 expires_at: None,
+                logout_on_browser_close: state.logout_on_browser_close(),
             })),
         ));
     };
@@ -921,11 +923,7 @@ pub async fn touch_session_lock(
         .ok_or(AppError::Unauthorized)?;
     headers.insert(
         axum::http::header::SET_COOKIE,
-        session_cookie(
-            &session.token,
-            duration,
-            session_cookie_secure(&state.config.proto),
-        )?,
+        state.session_cookie(&session.token, duration)?,
     );
 
     Ok((
@@ -933,6 +931,7 @@ pub async fn touch_session_lock(
         Json(ApiResponse::ok(SessionLockRsp {
             duration,
             expires_at: Some(session.expires_at_unix),
+            logout_on_browser_close: state.logout_on_browser_close(),
         })),
     ))
 }
@@ -942,34 +941,45 @@ pub async fn set_session_lock(
     Extension(CurrentSession(session)): Extension<CurrentSession>,
     Json(req): Json<SetSessionLockReq>,
 ) -> Result<impl IntoResponse> {
-    if !is_allowed_session_lock_duration(req.duration) {
+    if let Some(duration) = req.duration
+        && !is_allowed_session_lock_duration(duration)
+    {
         return Err(AppError::BadRequest(
             "unsupported session lock duration".to_string(),
         ));
     }
 
     let mut config = Config::read()?;
-    config.security.access_token_duration = req.duration;
+    if let Some(duration) = req.duration {
+        config.security.access_token_duration = duration;
+    }
+    if let Some(enabled) = req.logout_on_browser_close {
+        config.security.logout_on_browser_close = enabled;
+    }
     config.write()?;
-    state.set_session_lock_duration(req.duration);
-    let session = state.sessions.retime(&session.token, req.duration).await;
+    if let Some(duration) = req.duration {
+        state.set_session_lock_duration(duration);
+    }
+    if let Some(enabled) = req.logout_on_browser_close {
+        state.set_logout_on_browser_close(enabled);
+    }
+
+    let duration = state.session_lock_duration();
+    let session = state.sessions.retime(&session.token, duration).await;
     let mut headers = HeaderMap::new();
     if let Some(session) = &session {
         headers.insert(
             axum::http::header::SET_COOKIE,
-            session_cookie(
-                &session.token,
-                req.duration,
-                session_cookie_secure(&state.config.proto),
-            )?,
+            state.session_cookie(&session.token, duration)?,
         );
     }
 
     Ok((
         headers,
         Json(ApiResponse::ok(SessionLockRsp {
-            duration: req.duration,
+            duration,
             expires_at: session.map(|session| session.expires_at_unix),
+            logout_on_browser_close: state.logout_on_browser_close(),
         })),
     ))
 }

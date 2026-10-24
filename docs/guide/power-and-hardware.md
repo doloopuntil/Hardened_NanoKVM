@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-22
 ---
 
 # Power control and hardware
@@ -29,7 +29,8 @@ icons in **Settings > Appearance > Menu bar**, your choice decides instead.
 ## OLED and swap
 
 - **OLED timeout** turns the screen off after a set time, or never.
-- **Swap** adds a swap file when memory runs low; it wears the SD card faster.
+- **Swap** (**Settings > System > Performance**) adds a swap file when memory runs
+  low; it wears the SD card faster.
 
 ## Host name
 

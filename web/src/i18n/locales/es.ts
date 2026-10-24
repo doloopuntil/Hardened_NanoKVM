@@ -90,7 +90,7 @@ const es = {
       scale: 'Escala',
       title: 'Pantalla',
       video: 'Modo de vídeo',
-      videoDirectTips: 'Activa HTTPS en "Ajustes > Sistema > Red" para usar este modo',
+      videoDirectTips: 'Activa HTTPS en "Ajustes > Redes > Servicios" para usar este modo',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC está desactivado en los modos de firewall Restringido y Paranoico',
       transferRunningTitle: 'Transferencia de imagen en curso',
@@ -352,7 +352,7 @@ const es = {
     settings: {
       title: 'Ajustes',
       about: {
-        title: 'Sobre NanoKVM',
+        title: 'Acerca de',
         information: 'Información',
         ip: 'IP',
         mdns: 'mDNS',
@@ -419,8 +419,7 @@ const es = {
         sections: {
           connectivity: 'Conectividad',
           hostConnection: 'Conexión con el host',
-          inputOutput: 'Entrada y salida',
-          optimizations: 'Optimizaciones'
+          inputOutput: 'Entrada y salida'
         },
         oled: {
           title: 'Tiempo de espera de la OLED',
@@ -558,10 +557,57 @@ const es = {
       },
       system: {
         title: 'Sistema',
+        performance: {
+          processor: 'Procesador',
+          overdrive: {
+            title: 'Overdrive de reloj',
+            description:
+              'Arrancar con las frecuencias más altas de procesador y vídeo especificadas por el fabricante',
+            tip: 'Si el dispositivo no arranca con overdrive, hay que volver a grabar la tarjeta SD',
+            pending: 'Se aplica tras el próximo reinicio',
+            unavailable: 'No incluido en esta imagen del sistema',
+            keepTitle: 'Mantener el overdrive tras actualizar',
+            keepDescription:
+              'Una actualización del sistema devuelve el dispositivo a los relojes estándar si esto no está activado',
+            confirmTitle: '¿Activar el overdrive de reloj?',
+            confirmText:
+              'Si el dispositivo no arranca con overdrive, tendrá que volver a grabar la tarjeta SD para recuperarlo. El cambio se aplica tras el próximo reinicio.'
+          },
+          memory: 'Memoria'
+        },
+        monitor: {
+          processorClock: 'Subsistema de CPU',
+          videoClock: 'Subsistema de vídeo',
+          videoClockCaption: 'Frecuencia de reloj de vídeo',
+          cpuClockCaption: 'Frecuencia de reloj de la CPU',
+          overdrive: 'Overdrive',
+          temperature: 'Temperatura',
+          lastMinutes: 'Últimos 5 minutos',
+          ram: 'RAM',
+          off: 'Desactivado',
+          ramHistory: 'Uso de la RAM',
+          cpuLoad: 'Carga de la CPU',
+          cpuLoadCaption: 'Usuario {{user}} por ciento, sistema {{system}} por ciento',
+          cpuUtilization: 'Utilización de la CPU',
+          swapUtilization: 'Utilización del swap',
+          swapSizeLastMinutes: '{{size}}, últimos 5 minutos',
+          percent: '{{percent}} por ciento',
+          percentUsed: '{{percent}} por ciento usado',
+          sizeOf: '{{used}} de {{total}}',
+          systemPartition: 'Partición del sistema',
+          dataPartition: 'Partición de datos',
+          unavailable: 'No disponible',
+          noReadings: 'El dispositivo no devuelve lecturas',
+          refresh: 'Se actualiza cada segundo mientras esta página está abierta'
+        },
         sections: {
           time: 'Hora',
           firewall: 'Firewall',
-          systemLog: 'Registro'
+          systemLog: 'Registro',
+          performance: 'Rendimiento',
+          monitor: 'Monitor',
+          services: 'Servicios',
+          webInterface: 'Interfaz web'
         },
         time: {
           saveFailed: 'No se pudieron guardar los ajustes de hora',
@@ -571,7 +617,7 @@ const es = {
           invalidServers: 'Introduce al menos un servidor NTP',
           maxServers: 'Máximo {{count}} servidores NTP permitidos',
           refresh: 'Actualizar',
-          syncNow: 'Sincronizar ahora',
+          syncNow: 'Sincronizar',
           syncNowDesc: 'Ajusta el reloj con los servidores NTP ahora',
           save: 'Guardar',
           ntp: {
@@ -591,8 +637,8 @@ const es = {
               'Usa los servidores públicos predeterminados, tu router local o servidores NTP personalizados',
             useRouter: 'Usar router',
             useDefaults: 'Usar valores predeterminados',
-            routerDetected: 'Router detectado',
-            routerNone: 'No encontrado'
+            presets: 'Servidores predefinidos',
+            presetsDesc: 'Sustituye la lista de servidores por una predefinida'
           }
         },
         firewall: {
@@ -604,7 +650,7 @@ const es = {
           enableHttpsFirst:
             'Activa HTTPS antes de activar el modo de firewall Restringido o Paranoico',
           httpsRequired:
-            'Los modos Restringido y Paranoico están desactivados hasta que se active HTTPS en Ajustes > Sistema > Red',
+            'Los modos Restringido y Paranoico están desactivados hasta que se active HTTPS en Ajustes > Redes > Servicios',
           mode: {
             title: 'Modo del firewall',
             baseline: 'Base',
@@ -717,6 +763,9 @@ const es = {
           '8': '8 - Todo'
         }
       },
+      networking: {
+        title: 'Redes'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Túnel cifrado',
@@ -792,7 +841,7 @@ const es = {
         swap: {
           title: 'Archivo swap',
           tip: 'Si los problemas persisten después de activar la optimización de memoria, prueba a activar el archivo swap',
-          sizeTip: 'Esto establece su tamaño en 256 MB; ajústalo en Ajustes > Dispositivo'
+          sizeTip: 'Esto establece su tamaño en 128 MB; ajústalo en Ajustes > Sistema > Rendimiento'
         },
         restartTitle: 'Reiniciar Tailscale',
         restartDesc: 'Reinicia el servicio',
@@ -832,7 +881,7 @@ const es = {
         cancelBtn: 'No'
       },
       update: {
-        title: 'Actualizaciones del sistema',
+        title: 'Actualizaciones',
         sources: 'Fuentes de actualización',
         latestVersion: 'Última versión',
         queryFailed: 'Error al obtener la versión',
@@ -882,6 +931,14 @@ const es = {
             'Este paquete verificado escribirá imágenes raw boot/rootfs en las particiones de la tarjeta SD y reiniciará automáticamente. La escritura puede tardar varios minutos; mantén la alimentación conectada.',
           rawInstallWarning:
             'No hay rollback automático para actualizaciones de particiones raw. Si falla el arranque, recupera la tarjeta SD manualmente.',
+          rawWaitTitle: 'Instalando la actualización del sistema',
+          rawWaitWriting: 'Escribiendo el nuevo sistema en la tarjeta SD',
+          rawWaitRestarting:
+            'El dispositivo se está reiniciando. Esta página se recarga cuando vuelva a estar disponible.',
+          rawWaitDesc:
+            'Tarda unos tres minutos. Mantén la alimentación conectada y no cierres esta página.',
+          rawWaitSlow:
+            'Está tardando más de lo esperado. Espera unos minutos más antes de cortar la alimentación.',
           rebootRequired: 'Se requiere reiniciar para activar este estado del sistema.',
           confirming: 'Confirmando arranque de la actualización del sistema...',
           confirmBoot: 'Confirmar arranque',
@@ -922,6 +979,24 @@ const es = {
           invalidName:
             'Formato de nombre de archivo no válido. Descarga desde las versiones de GitHub.',
           updateFailed: 'La actualización falló. Por favor, inténtalo de nuevo.'
+        },
+        local: {
+          title: 'Subir paquete del sistema',
+          desc: 'Instalar un paquete del sistema desde este equipo. Un solo archivo contiene el archivo comprimido y sus metadatos firmados.',
+          choose: 'Elegir archivo',
+          invalidFile: 'Seleccione un paquete del sistema que termine en .tar o .tar.gz.',
+          diskTitle: '¿Desactivar el disco virtual?',
+          diskWarn:
+            'El paquete del sistema se guarda en /data, que es de solo lectura mientras el disco virtual está activado. Al desactivarlo, el equipo ya no puede acceder a /data. ¿Continuar?',
+          uploading: 'Subiendo',
+          verifying: 'Verificando y preparando el paquete',
+          keyTitle: 'Clave de actualización local',
+          keyDesc:
+            'Clave pública en formato PEM que puede firmar los paquetes del sistema que usted compile',
+          keyNone: 'Sin clave definida',
+          keySet: 'Definir clave',
+          keyRemove: 'Quitar',
+          signer: 'Firmado por'
         }
       },
       account: {
@@ -934,6 +1009,14 @@ const es = {
         logoutDesc: '¿Estás seguro de que deseas cerrar sesión?',
         okBtn: 'Sí',
         cancelBtn: 'No',
+        session: {
+          title: 'Sesión'
+        },
+        logoutOnClose: {
+          title: 'Cerrar sesión al cerrar el navegador',
+          description:
+            'Finaliza la sesión cuando se cierra el navegador en lugar de mantenerla abierta'
+        },
         totp: {
           title: 'Autenticación en dos pasos',
           authenticator: 'Aplicación de autenticación',

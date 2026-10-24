@@ -29,6 +29,8 @@ use crate::{
     update::{archive::extract_tar_gz_safe, keys::resolve_update_public_key},
 };
 
+pub mod local;
+
 const SYSTEM_VERSION_FILE: &str = "/etc/kvm/system-version.json";
 const BOOT_VERSION_FILE: &str = "/boot/ver";
 const KERNEL_RELEASE_FILE: &str = "/proc/sys/kernel/osrelease";
@@ -137,6 +139,8 @@ pub struct SystemStagedUpdate {
     pub target: String,
     pub channel: String,
     pub archive_name: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub signer: Option<String>,
     pub size: u64,
     pub sha256: String,
     pub staged_at: u64,
@@ -267,6 +271,8 @@ struct SystemStageRecord {
     staged_at: u64,
     latest: SystemLatest,
     manifest: SystemManifest,
+    #[serde(default)]
+    signer: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -588,6 +594,7 @@ pub async fn download(State(state): State<AppState>) -> Result<impl IntoResponse
                 staged_at: now_unix_seconds(),
                 latest: latest_for_verify,
                 manifest,
+                signer: None,
             };
             write_stage_record(&stage_dir_for_verify, &record)?;
             Ok(staged_summary(&record))
@@ -1590,7 +1597,45 @@ kmsg() {{\n\
 }}\n\
 log() {{\n\
   NOW=$($BB date '+%Y-%m-%d %H:%M:%S' 2>/dev/null || $BB echo unknown)\n\
-  $BB printf '%s %s\\n' \"$NOW\" \"$1\" >> \"$LOG\" || kmsg \"$1\"\n\
+  # fsync each line: a line still in the page cache is lost when a hang ends in a cold reboot\n\
+  $BB printf '%s %s\\n' \"$NOW\" \"$1\" | $BB dd of=\"$LOG\" oflag=append conv=notrunc,fsync >/dev/null 2>&1 \\\n\
+    || $BB printf '%s %s\\n' \"$NOW\" \"$1\" >> \"$LOG\" || kmsg \"$1\"\n\
+  kmsg \"$1\"\n\
+}}\n\
+tune_vm() {{\n\
+  # keep few dirty pages: with about 160 MB of RAM, a long image write otherwise starves memory\n\
+  echo 16777216 > /proc/sys/vm/dirty_bytes 2>/dev/null || true\n\
+  echo 4194304 > /proc/sys/vm/dirty_background_bytes 2>/dev/null || true\n\
+}}\n\
+watch_write() {{\n\
+  # log the writer's progress every 10 seconds, so a stall shows where the bytes stopped\n\
+  WPID=\"$1\"\n\
+  WDEV=\"$2\"\n\
+  WSTART=$($BB date +%s 2>/dev/null || $BB echo 0)\n\
+  SECT0=0\n\
+  read A B C D E F SECT0 REST < \"/sys/class/block/$WDEV/stat\" 2>/dev/null || SECT0=0\n\
+  while $BB kill -0 \"$WPID\" >/dev/null 2>&1; do\n\
+    $BB sleep 10\n\
+    $BB kill -0 \"$WPID\" >/dev/null 2>&1 || break\n\
+    WNOW=$($BB date +%s 2>/dev/null || $BB echo 0)\n\
+    SECT=0\n\
+    read A B C D E F SECT REST < \"/sys/class/block/$WDEV/stat\" 2>/dev/null || SECT=0\n\
+    TEMP=0\n\
+    read TEMP < /sys/class/thermal/thermal_zone0/temp 2>/dev/null || TEMP=0\n\
+    MEM=$($BB grep -E '^(MemFree|Dirty|Writeback):' /proc/meminfo 2>/dev/null | $BB tr -s ' \\n' ' ')\n\
+    log \"still writing after $((WNOW - WSTART))s, $(((SECT - SECT0) / 2048)) MB written to $WDEV, $((TEMP / 1000)) C, $MEM\"\n\
+  done\n\
+}}\n\
+check_written() {{\n\
+  # dd reports whole megabyte blocks; a gzip stream cut short ends dd early without an error\n\
+  OUT=$($BB grep 'records out' \"$1\" 2>/dev/null | $BB tail -n 1)\n\
+  log \"$3 dd result: $OUT\"\n\
+  if [ -n \"$2\" ]; then\n\
+    case \"$OUT\" in\n\
+      \"$2+0 records out\"*) ;;\n\
+      *) fail \"$3 image was cut short: $OUT\" ;;\n\
+    esac\n\
+  fi\n\
 }}\n\
 progress() {{\n\
   NOW=$($BB date +%s 2>/dev/null || $BB echo 0)\n\
@@ -1619,8 +1664,10 @@ force_reboot_now() {{\n\
   # After raw partition writes the current rootfs has been overwritten under\n\
   # the running kernel. Avoid execing /bin/busybox or /sbin/reboot from that\n\
   # filesystem; use shell builtins and kernel sysrq instead.\n\
+  log 'rebooting: syncing before the restart'\n\
   if [ -w /proc/sysrq-trigger ]; then\n\
     echo s > /proc/sysrq-trigger 2>/dev/null || true\n\
+    log 'rebooting: sysrq u remounts read-only, so the log ends here, then sysrq b'\n\
     echo u > /proc/sysrq-trigger 2>/dev/null || true\n\
     echo b > /proc/sysrq-trigger 2>/dev/null || true\n\
   fi\n\
@@ -1685,8 +1732,9 @@ stop_update_runtime() {{\n\
 copy_boot_preserve_files() {{\n\
   SRC_DIR=\"$1\"\n\
   $BB mkdir -p \"$BOOT_PRESERVE_DIR\" >/dev/null 2>&1 || return\n\
-  for NAME in eth.nodhcp resolv.conf resolv.conf.manual.bak eth.ipv6.mode eth.ipv6 hostname hostname.prefix usb.vid usb.pid usb.wakeup usb.notwakeup usb.ncm usb.rndis0 usb.disk0 usb.disk0.ro disable_hid BIOS wifi.ssid wifi.pass wifi.nodhcp start_ssh_once logo.ico; do\n\
+  for NAME in eth.nodhcp resolv.conf resolv.conf.manual.bak eth.ipv6.mode eth.ipv6 hostname hostname.prefix usb.vid usb.pid usb.wakeup usb.notwakeup usb.ncm usb.rndis0 usb.disk0 usb.disk0.ro cpu.overdrive cpu.overdrive.keep disable_hid BIOS wifi.ssid wifi.pass wifi.nodhcp start_ssh_once logo.ico; do\n\
     [ -e \"$SRC_DIR/$NAME\" ] || continue\n\
+    if [ \"$NAME\" = cpu.overdrive ] && [ ! -e \"$SRC_DIR/cpu.overdrive.keep\" ]; then log 'clock overdrive is not kept across updates; the standard clocks return'; continue; fi\n\
     $BB cp -p \"$SRC_DIR/$NAME\" \"$BOOT_PRESERVE_DIR/$NAME\" >> \"$LOG\" 2>&1 || log \"failed to preserve boot file $NAME\"\n\
   done\n\
 }}\n\
@@ -1720,6 +1768,17 @@ restore_boot_config() {{\n\
       [ -n \"$NAME\" ] || continue\n\
       $BB cp -p \"$SRC\" \"$BOOT_TMP_MOUNT/$NAME\" >> \"$LOG\" 2>&1 || log \"failed to restore boot file $NAME\"\n\
     done\n\
+    # the image ships the standard-clock fip.bin; put the chosen profile in place before the restart\n\
+    if [ -e \"$BOOT_TMP_MOUNT/cpu.overdrive\" ]; then WANT_FIP=fip.od.bin; else WANT_FIP=fip.std.bin; fi\n\
+    if [ -f \"$BOOT_TMP_MOUNT/$WANT_FIP\" ] && ! $BB cmp -s \"$BOOT_TMP_MOUNT/$WANT_FIP\" \"$BOOT_TMP_MOUNT/fip.bin\"; then\n\
+      log \"applying $WANT_FIP as fip.bin\"\n\
+      if $BB cp \"$BOOT_TMP_MOUNT/$WANT_FIP\" \"$BOOT_TMP_MOUNT/.fip.bin.tmp\" >> \"$LOG\" 2>&1 && $BB cmp -s \"$BOOT_TMP_MOUNT/$WANT_FIP\" \"$BOOT_TMP_MOUNT/.fip.bin.tmp\" && $BB mv -f \"$BOOT_TMP_MOUNT/.fip.bin.tmp\" \"$BOOT_TMP_MOUNT/fip.bin\"; then\n\
+        log \"$WANT_FIP is now fip.bin\"\n\
+      else\n\
+        $BB rm -f \"$BOOT_TMP_MOUNT/.fip.bin.tmp\" >/dev/null 2>&1 || true\n\
+        log 'could not apply the clock profile; the standard fip.bin stays'\n\
+      fi\n\
+    fi\n\
     $BB sync\n\
     $BB umount \"$BOOT_TMP_MOUNT\" >> \"$LOG\" 2>&1 || true\n\
   else\n\
@@ -1880,6 +1939,7 @@ force_root_readonly() {{\n\
   fail 'failed to remount rootfs read-only'\n\
 }}\n\
 cd /tmp || exit 1\n\
+tune_vm\n\
 progress writing 'raw image write in progress'\n\
 log 'raw system image update started'\n\
 $BB sleep 2\n\
@@ -1896,6 +1956,14 @@ force_root_readonly\n"
         let payload = shell_quote_path(&payload)?;
         let device = shell_quote_path(Path::new(&image.device))?;
         let message = format!("writing {}", image.label);
+        let dd_log = format!("/tmp/hardened-dd-{}.log", image.label);
+        let dev_name = image.device.rsplit('/').next().unwrap_or_default();
+        // dd counts whole megabytes; a size that is not a multiple of one is not checked
+        let expected_records = if image.size % (1024 * 1024) == 0 {
+            (image.size / (1024 * 1024)).to_string()
+        } else {
+            "''".to_string()
+        };
         if raw_image_is_gzip(image) {
             script.push_str(&format!(
                 "progress writing {}\n\
@@ -1903,8 +1971,14 @@ log 'testing compressed {} payload'\n\
 $BB gzip -t {} >> \"$LOG\" 2>&1 || fail 'failed to verify compressed {}'\n\
 log 'streaming compressed {} to {}'\n\
 RAW_WRITE_STARTED=1\n\
-$BB gzip -dc {} > {} || fail 'failed to write {}'\n\
-$BB sync\n",
+( $BB gzip -dc {} | $BB dd of={} bs=1M iflag=fullblock oflag=direct 2> {} ) &\n\
+WR_PID=$!\n\
+watch_write \"$WR_PID\" {}\n\
+wait \"$WR_PID\" || fail 'failed to write {}'\n\
+check_written {} {} {}\n\
+log '{} image data written, syncing'\n\
+$BB sync\n\
+log '{} image synced'\n",
                 shell_quote(&message),
                 image.label,
                 payload,
@@ -1913,6 +1987,13 @@ $BB sync\n",
                 image.device,
                 payload,
                 device,
+                dd_log,
+                dev_name,
+                image.label,
+                dd_log,
+                expected_records,
+                image.label,
+                image.label,
                 image.label
             ));
         } else {
@@ -2541,6 +2622,7 @@ fn staged_summary(record: &SystemStageRecord) -> SystemStagedUpdate {
         target: record.latest.target.clone(),
         channel: record.latest.channel.clone(),
         archive_name: record.latest.name.clone(),
+        signer: record.signer.clone(),
         size: record.latest.size,
         sha256: record.latest.sha256.clone(),
         staged_at: record.staged_at,
@@ -3823,6 +3905,8 @@ mod tests {
         assert!(script.contains("/etc/kvm"));
         assert!(script.contains("/etc/default/syslogd"));
         assert!(script.contains("/etc/default/klogd"));
+        assert!(script.contains("watch_write"));
+        assert!(script.contains("oflag=append conv=notrunc,fsync"));
         assert!(script.contains("etc/default/syslogd"));
         assert!(script.contains("etc/default/klogd"));
         assert!(script.contains("/etc/passwd"));
@@ -3846,6 +3930,7 @@ mod tests {
             staged_at: 123,
             latest: valid_latest(),
             manifest: valid_raw_manifest(),
+            signer: None,
         };
         let staged = staged_summary(&record);
         let mut current = SystemVersion {
@@ -3893,6 +3978,28 @@ mod tests {
 
         assert!(script.contains("$BB gzip -t"));
         assert!(script.contains("$BB gzip -dc"));
+        // the generated shell must at least parse
+        let script_path = temp.path().join("raw-update.sh");
+        fs::write(&script_path, &script).unwrap();
+        let parsed = std::process::Command::new("sh")
+            .arg("-n")
+            .arg(&script_path)
+            .output()
+            .expect("sh -n");
+        assert!(
+            parsed.status.success(),
+            "raw updater script does not parse: {}",
+            String::from_utf8_lossy(&parsed.stderr)
+        );
+        assert!(script.contains("watch_write \"$WR_PID\""));
+        assert!(script.contains("iflag=fullblock oflag=direct"));
+        assert!(script.contains("check_written"));
+        assert!(script.contains("tune_vm"));
+        assert!(script.contains("WANT_FIP"));
+        assert!(script.contains("cpu.overdrive.keep"));
+        assert!(script.contains("is now fip.bin"));
+        assert!(script.contains("ROOTFS image data written, syncing"));
+        assert!(script.contains("BOOT image synced"));
         assert!(script.contains("images/rootfs.sd.gz"));
         assert!(script.contains("images/boot.vfat.gz"));
     }

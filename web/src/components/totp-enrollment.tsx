@@ -307,6 +307,12 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
 
   return (
     <div className="flex flex-col space-y-6">
+      {/* Codes are derived from the clock, so enrolling before NTP succeeds
+          would produce a secret whose codes could never be confirmed. */}
+      {status && !status.clockSynced && !status.enabled && (
+        <Alert type="warning" showIcon message={t('settings.account.totp.clockUnsynced')} />
+      )}
+
       <SettingRow
         label={
           <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -329,12 +335,6 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
           onChange={(checked) => (checked ? setIsStartingEnrolment(true) : setIsDisabling(true))}
         />
       </SettingRow>
-
-      {/* Codes are derived from the clock, so enrolling before NTP succeeds
-          would produce a secret whose codes could never be confirmed. */}
-      {status && !status.clockSynced && !status.enabled && (
-        <Alert type="warning" showIcon message={t('settings.account.totp.clockUnsynced')} />
-      )}
 
       <SettingRow
         label={t('settings.account.totp.requireTitle')}

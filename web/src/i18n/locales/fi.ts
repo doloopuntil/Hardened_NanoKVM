@@ -89,7 +89,7 @@ const fi = {
       title: 'Näyttö',
       video: 'Videotila',
       videoDirectTips:
-        'Ota HTTPS käyttöön kohdassa "Asetukset > Järjestelmä > Verkko" käyttääksesi tätä tilaa',
+        'Ota HTTPS käyttöön kohdassa "Asetukset > Verkko > Palvelut" käyttääksesi tätä tilaa',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC on poistettu käytöstä palomuuritiloissa Rajoitettu ja Paranoidi',
       transferRunningTitle: 'Levykuvan siirto käynnissä',
@@ -352,7 +352,7 @@ const fi = {
     settings: {
       title: 'Asetukset',
       about: {
-        title: 'Tietoja NanoKVM:stä',
+        title: 'Tietoja',
         information: 'Tiedot',
         ip: 'IP',
         mdns: 'mDNS',
@@ -418,8 +418,7 @@ const fi = {
         sections: {
           connectivity: 'Yhteydet',
           hostConnection: 'Isäntäyhteys',
-          inputOutput: 'Syöte ja tuloste',
-          optimizations: 'Optimoinnit'
+          inputOutput: 'Syöte ja tuloste'
         },
         oled: {
           title: 'OLEDin aikakatkaisu',
@@ -556,10 +555,57 @@ const fi = {
       },
       system: {
         title: 'Järjestelmä',
+        performance: {
+          processor: 'Suoritin',
+          overdrive: {
+            title: 'Ylikellotus',
+            description:
+              'Käynnistä valmistajan määrittämillä korkeammilla suorittimen ja videon kellotaajuuksilla',
+            tip: 'Jos laite ei käynnisty ylikellotuksella, SD-kortti on kirjoitettava uudelleen',
+            pending: 'Tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen',
+            unavailable: 'Ei sisälly tähän järjestelmäkuvaan',
+            keepTitle: 'Säilytä overdrive päivitysten jälkeen',
+            keepDescription:
+              'Järjestelmäpäivitys palauttaa laitteen vakiotaajuuksille, ellei tämä ole päällä',
+            confirmTitle: 'Otetaanko ylikellotus käyttöön?',
+            confirmText:
+              'Jos laite ei käynnisty ylikellotuksella, sinun on kirjoitettava SD-kortti uudelleen sen palauttamiseksi. Muutos tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen.'
+          },
+          memory: 'Muisti'
+        },
+        monitor: {
+          processorClock: 'CPU-alijärjestelmä',
+          videoClock: 'Videoalijärjestelmä',
+          videoClockCaption: 'Videon kellotaajuus',
+          cpuClockCaption: 'CPU:n kellotaajuus',
+          overdrive: 'Ylikellotus',
+          temperature: 'Lämpötila',
+          lastMinutes: 'Viimeiset 5 minuuttia',
+          ram: 'RAM',
+          off: 'Pois',
+          ramHistory: 'RAM-muistin käyttö',
+          cpuLoad: 'Suorittimen kuormitus',
+          cpuLoadCaption: 'Käyttäjä {{user}} prosenttia, järjestelmä {{system}} prosenttia',
+          cpuUtilization: 'Suorittimen käyttöaste',
+          swapUtilization: 'Swapin käyttöaste',
+          swapSizeLastMinutes: '{{size}}, viimeiset 5 minuuttia',
+          percent: '{{percent}} prosenttia',
+          percentUsed: '{{percent}} prosenttia käytössä',
+          sizeOf: '{{used}} / {{total}}',
+          systemPartition: 'Järjestelmäosio',
+          dataPartition: 'Dataosio',
+          unavailable: 'Ei saatavilla',
+          noReadings: 'Laite ei palauta lukemia',
+          refresh: 'Päivittyy sekunnin välein, kun tämä sivu on auki'
+        },
         sections: {
           time: 'Aika',
           firewall: 'Palomuuri',
-          systemLog: 'Lokitus'
+          systemLog: 'Lokitus',
+          performance: 'Suorituskyky',
+          monitor: 'Valvonta',
+          services: 'Palvelut',
+          webInterface: 'Verkkokäyttöliittymä'
         },
         time: {
           saveFailed: 'Aika-asetusten tallennus epäonnistui',
@@ -569,7 +615,7 @@ const fi = {
           invalidServers: 'Syötä vähintään yksi NTP-palvelin',
           maxServers: 'Enintään {{count}} NTP-palvelinta sallittu',
           refresh: 'Päivitä',
-          syncNow: 'Synkronoi nyt',
+          syncNow: 'Synkronoi',
           syncNowDesc: 'Aseta kello NTP-palvelimilta nyt',
           save: 'Tallenna',
           ntp: {
@@ -589,8 +635,8 @@ const fi = {
               'Käytä julkisia oletuspalvelimia, paikallista reititintä tai omia NTP-palvelimia',
             useRouter: 'Käytä reititintä',
             useDefaults: 'Käytä oletuksia',
-            routerDetected: 'Tunnistettu reititin',
-            routerNone: 'Ei löytynyt'
+            presets: 'Palvelinten esiasetukset',
+            presetsDesc: 'Korvaa palvelinluettelo esiasetuksella'
           }
         },
         firewall: {
@@ -602,7 +648,7 @@ const fi = {
           enableHttpsFirst:
             'Ota HTTPS käyttöön ennen palomuuritilan Rajoitettu tai Paranoidi käyttöönottoa',
           httpsRequired:
-            'Tilat Rajoitettu ja Paranoidi ovat pois käytöstä, kunnes HTTPS otetaan käyttöön kohdassa Asetukset > Järjestelmä > Verkko',
+            'Tilat Rajoitettu ja Paranoidi ovat pois käytöstä, kunnes HTTPS otetaan käyttöön kohdassa Asetukset > Verkko > Palvelut',
           mode: {
             title: 'Palomuuritila',
             baseline: 'Perus',
@@ -713,6 +759,9 @@ const fi = {
           '8': '8 - Kaikki'
         }
       },
+      networking: {
+        title: 'Verkko'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Salattu tunneli',
@@ -789,7 +838,7 @@ const fi = {
           title: 'Swap-tiedosto',
           tip: 'Jos ongelmat jatkuvat muistin optimoinnin jälkeen, kokeile ottaa swap-tiedosto käyttöön',
           sizeTip:
-            'Tämä asettaa tiedoston kooksi 256 Mt; voit muuttaa sitä kohdassa Asetukset > Laite'
+            'Tämä asettaa tiedoston kooksi 128 Mt; voit muuttaa sitä kohdassa Asetukset > Järjestelmä > Suorituskyky'
         },
         restartTitle: 'Käynnistä Tailscale uudelleen',
         restartDesc: 'Käynnistää palvelun uudelleen',
@@ -828,7 +877,7 @@ const fi = {
         cancelBtn: 'Ei'
       },
       update: {
-        title: 'Järjestelmäpäivitykset',
+        title: 'Päivitykset',
         sources: 'Päivityslähteet',
         latestVersion: 'Uusin versio',
         queryFailed: 'Version haku epäonnistui',
@@ -876,6 +925,14 @@ const fi = {
             'Tämä varmistettu paketti kirjoittaa raw boot/rootfs -imaget SD-kortin osioihin ja käynnistää laitteen automaattisesti uudelleen. Kirjoitus voi kestää useita minuutteja; pidä virta kytkettynä.',
           rawInstallWarning:
             'Raw-osiopäivityksille ei ole automaattista palautusta. Jos käynnistys epäonnistuu, palauta SD-kortti käsin.',
+          rawWaitTitle: 'Asennetaan järjestelmäpäivitystä',
+          rawWaitWriting: 'Uutta järjestelmää kirjoitetaan SD-kortille',
+          rawWaitRestarting:
+            'Laite käynnistyy uudelleen. Tämä sivu latautuu uudelleen, kun laite on takaisin.',
+          rawWaitDesc:
+            'Tämä kestää noin kolme minuuttia. Pidä virta kytkettynä äläkä sulje tätä sivua.',
+          rawWaitSlow:
+            'Tämä kestää odotettua kauemmin. Odota vielä muutama minuutti ennen virran katkaisua.',
           rebootRequired: 'Uudelleenkäynnistys vaaditaan tämän järjestelmätilan aktivoimiseksi.',
           confirming: 'Vahvistetaan järjestelmäpäivityksen käynnistystä...',
           confirmBoot: 'Vahvista käynnistys',
@@ -915,6 +972,24 @@ const fi = {
           upload: 'Lataa',
           invalidName: 'Virheellinen tiedostonimi. Lataa GitHub releases -sivulta.',
           updateFailed: 'Päivitys epäonnistui. Yritä uudelleen.'
+        },
+        local: {
+          title: 'Lataa järjestelmäpaketti',
+          desc: 'Asenna järjestelmäpaketti tältä tietokoneelta. Yksi tiedosto sisältää arkiston ja sen allekirjoitetut metatiedot.',
+          choose: 'Valitse tiedosto',
+          invalidFile: 'Valitse järjestelmäpaketti, jonka pääte on .tar tai .tar.gz.',
+          diskTitle: 'Sammutetaanko virtuaalilevy?',
+          diskWarn:
+            'Järjestelmäpaketti tallennetaan hakemistoon /data, joka on vain luettavissa, kun virtuaalilevy on päällä. Kun virtuaalilevy sammutetaan, tietokone ei enää pääse hakemistoon /data. Jatketaanko?',
+          uploading: 'Lähetetään',
+          verifying: 'Tarkistetaan ja valmistellaan pakettia',
+          keyTitle: 'Paikallinen päivitysavain',
+          keyDesc:
+            'PEM-muotoinen julkinen avain, jolla saa allekirjoittaa itse rakennetut järjestelmäpaketit',
+          keyNone: 'Avainta ei ole asetettu',
+          keySet: 'Aseta avain',
+          keyRemove: 'Poista',
+          signer: 'Allekirjoittaja'
         }
       },
       account: {
@@ -927,6 +1002,13 @@ const fi = {
         logoutDesc: 'Haluatko varmasti kirjautua ulos?',
         okBtn: 'Kyllä',
         cancelBtn: 'Ei',
+        session: {
+          title: 'Istunto'
+        },
+        logoutOnClose: {
+          title: 'Kirjaudu ulos selaimen sulkeutuessa',
+          description: 'Päätä istunto, kun selain suljetaan, sen sijaan että se pidetään auki'
+        },
         totp: {
           title: 'Kaksivaiheinen tunnistautuminen',
           authenticator: 'Todennussovellus',

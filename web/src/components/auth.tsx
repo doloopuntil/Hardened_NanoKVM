@@ -34,7 +34,7 @@ export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
 
         const body = await response.json();
         if (body?.code === 0 && body.data?.csrfToken) {
-          setCsrfToken(body.data.csrfToken, body.data.expiresAt);
+          setCsrfToken(body.data.csrfToken, body.data.expiresAt, body.data.logoutOnBrowserClose);
           if (!cancelled) setAuthState('allowed');
           return;
         }

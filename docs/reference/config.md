@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-22
 source: server-rust/src/config.rs
 ---
 
@@ -44,6 +44,7 @@ are still accepted.
 | `security.websocket_origin_check` | `true` | Reject WebSockets from another origin. |
 | `security.allowed_origins` | empty | Extra origins to accept, for a reverse proxy. |
 | `security.access_token_duration` | `900` | Seconds. |
+| `security.logout_on_browser_close` | `true` | Session cookie without a lifetime. |
 | `security.refresh_token_duration` | `604800` | Seconds. |
 | `security.revoke_tokens_on_password_change` | `true` | |
 | `security.require_totp` | `false` | Require a second factor; see [Sign-in and two-factor](../guide/sign-in.md). |
@@ -56,7 +57,7 @@ are still accepted.
 | --- | --- | --- |
 | `security.allow_terminal` | `false` | The Terminal menu. |
 | `security.allow_remote_image_download` | `false` | Settings > Appearance. |
-| `security.allow_raw_system_updates` | `false` | Settings > System updates. |
+| `security.allow_raw_system_updates` | `false` | Settings > System > Updates. |
 | `security.allow_unsigned_updates` | `false` | Not in the UI. Accepts update metadata without a valid signature; never on a real device. |
 
 ## Paths
@@ -68,6 +69,7 @@ are still accepted.
 | `paths.web_root` | `/kvmapp/server/web` |
 | `paths.image_directory` | `/data` |
 | `paths.update_cache_dir` | `/data/.hardened-kvmcache` |
+| `paths.system_update_local_public_key` | `/etc/kvm/system-update-local.pub.pem` (set from the UI; trusted only for uploaded system bundles) |
 | `paths.system_update_public_key` | `/etc/kvm/system-update-signing.pub.pem` (copied from `/kvmapp/system/keys/` by `S95nanokvm`) |
 
 Other settings live in their own files; see [Device files](device-files.md).

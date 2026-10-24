@@ -80,6 +80,17 @@ dd if="$SD_IMAGE" of="$BOOT_TMP" bs=512 skip="$BOOT_START" count="$BOOT_SECTORS"
 echo "Extracting rootfs partition..."
 dd if="$SD_IMAGE" of="$ROOTFS_TMP" bs=512 skip="$ROOTFS_START" count="$ROOTFS_SECTORS" status=none
 
+# The partition is larger than the filesystem it holds; keep just the filesystem, so the update
+# bundle does not carry (and the device does not write) the empty rest.
+FS_BLOCKS=$(dumpe2fs -h "$ROOTFS_TMP" 2>/dev/null | awk -F: '/^Block count:/ { gsub(/ /, "", $2); print $2 }')
+FS_BLOCK_SIZE=$(dumpe2fs -h "$ROOTFS_TMP" 2>/dev/null | awk -F: '/^Block size:/ { gsub(/ /, "", $2); print $2 }')
+if [ -n "$FS_BLOCKS" ] && [ -n "$FS_BLOCK_SIZE" ]; then
+  FS_BYTES=$((FS_BLOCKS * FS_BLOCK_SIZE))
+  if [ "$FS_BYTES" -lt "$(stat -c %s "$ROOTFS_TMP")" ]; then
+    truncate -s "$FS_BYTES" "$ROOTFS_TMP"
+  fi
+fi
+
 "$ROOT/scripts/validate-nanokvm-rootfs.sh" "$ROOTFS_TMP" >/dev/null
 
 mv -f "$BOOT_TMP" "$BOOT_IMAGE"

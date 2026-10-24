@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-24
 source: server-rust/src/http/routes.rs
 ---
 
@@ -80,6 +80,9 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | GET    | `/api/system-update/status`   | Implemented read-only; reports the verified staged system bundle, pending installed update marker, boot-health summary, and latest rollback backup when present.                                                                                                                                                                                |
 | POST   | `/api/system-update/download` | Implemented staging-only; downloads the GitHub release asset, checks size, sha256, sha512, extracts it safely, verifies `manifest.json`, verifies every payload file hash/size/path, and writes `staged.json`. It does not install or reboot. Blocked while Paranoid firewall mode is active.                                                   |
 | POST   | `/api/system-update/install`  | Implemented guarded install; re-verifies staged archive, backs up each target file, applies payload files atomically, writes `/etc/kvm/system-version.json`, writes pending/backup markers, generates `/etc/kvm/system-update-rollback.sh` for init-time recovery, and returns without rebooting.                                               |
+| POST   | `/api/system-update/upload-check` | Body `{size}`. Answers before the browser sends the bundle whether the upload can proceed: `/data` writable, enough free space for the bundle and its unpacked copy, no update running. Failure reasons are returned as readable messages. |
+| POST   | `/api/system-update/upload` | Stages a bundle uploaded as one multipart `file` (a tar holding `system-latest.json`, its `.sig` and the archive); verifies the signature (release key, local key, or unsigned when allowed) and then as for download. Blocked while Paranoid firewall mode is active. |
+| GET, PUT, DELETE | `/api/system-update/local-key` | Reports, registers or removes the local update key. PUT and DELETE need the account password. |
 | POST   | `/api/system-update/rollback` | Implemented manual rollback; restores files from the latest backup marker, clears pending/boot-good/rollback-attempt markers, and returns without rebooting.                                                                                                                                                                                    |
 | POST   | `/api/system-update/confirm`  | Implemented manual boot-good confirmation; validates pending version/target against current system identity and basic boot/web-root markers, writes `/etc/kvm/system-update-boot-good.json`, and clears pending marker.                                                                                                                         |
 
@@ -136,9 +139,11 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | POST            | `/api/vm/system/reboot`    | Implemented.                                                                                                       |
 | GET/POST        | `/api/vm/terminal/enabled` | Implemented; also controls whether the terminal WebSocket is available.                                            |
 | POST            | `/api/vm/session-lock/touch` | Implemented; slides the session while the user is active, so the lock counts idle time.                          |
-| GET/POST        | `/api/vm/session-lock`     | Implemented; supports 5, 15, 30, and 60 minute durations and retimes current session.                              |
+| GET/POST        | `/api/vm/session-lock`     | Implemented; supports 5, 15, 30, and 60 minute durations and `logoutOnBrowserClose`; retimes the session. |
 | GET/POST        | `/api/vm/memory/limit`     | Implemented.                                                                                                       |
 | GET/POST        | `/api/vm/swap`             | Implemented.                                                                                                       |
+| GET/POST        | `/api/vm/overdrive`        | Implemented. Reads or sets the boot clock profile (`available`, `enabled`, `active`, `keepAfterUpdate`). The POST body takes `enabled` and/or `keepAfterUpdate`; the profile applies after a reboot.      |
+| GET             | `/api/vm/monitor`          | Implemented. Reads clocks (`cpuMhz`, `videoMhz`, `overdrive`), temperature, memory and swap, the CPU load of the last second (`cpu.userPercent`, `cpu.systemPercent`, from `/proc/stat`) and the `/` and `/data` disks, plus up to 300 one-second `samples` (temperature, RAM, swap and total CPU percent). With `since` and `epoch` it sends only samples newer than `since` of that server run. The clocks come from `clk_summary` once per server run. |
 | GET/POST        | `/api/vm/mouse-jiggler`    | Implemented.                                                                                                       |
 | POST            | `/api/vm/tls`              | Implemented; generates self-signed certs when needed and restarts service.                                         |
 | GET/POST/DELETE | `/api/vm/autostart*`       | Implemented with basename/path validation and size limits.                                                         |

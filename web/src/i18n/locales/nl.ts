@@ -91,7 +91,7 @@ const nl = {
       title: 'Scherm',
       video: 'Videomodus',
       videoDirectTips:
-        'Schakel HTTPS in bij "Instellingen > Systeem > Netwerk" om deze modus te gebruiken',
+        'Schakel HTTPS in bij "Instellingen > Netwerken > Diensten" om deze modus te gebruiken',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC is uitgeschakeld in de firewallmodi Beperkt en Paranoïde',
       transferRunningTitle: 'Image-overdracht bezig',
@@ -353,7 +353,7 @@ const nl = {
     settings: {
       title: 'Instellingen',
       about: {
-        title: 'Over NanoKVM',
+        title: 'Over',
         information: 'Informatie',
         ip: 'IP',
         mdns: 'mDNS',
@@ -420,8 +420,7 @@ const nl = {
         sections: {
           connectivity: 'Connectiviteit',
           hostConnection: 'Hostverbinding',
-          inputOutput: 'Invoer en uitvoer',
-          optimizations: 'Optimalisaties'
+          inputOutput: 'Invoer en uitvoer'
         },
         oled: {
           title: 'OLED-timeout',
@@ -560,10 +559,57 @@ const nl = {
       },
       system: {
         title: 'Systeem',
+        performance: {
+          processor: 'Processor',
+          overdrive: {
+            title: 'Overklokken',
+            description:
+              'Opstarten met de hogere klokfrequenties voor processor en video die de fabrikant specificeert',
+            tip: 'Als het apparaat met overklokken niet start, moet de SD-kaart opnieuw worden beschreven',
+            pending: 'Gaat in na de volgende herstart',
+            unavailable: 'Niet opgenomen in dit systeemimage',
+            keepTitle: 'Overdrive behouden na updates',
+            keepDescription:
+              'Een systeemupdate zet het apparaat terug op de standaardklokken, tenzij dit is ingeschakeld',
+            confirmTitle: 'Overklokken inschakelen?',
+            confirmText:
+              'Als het apparaat met overklokken niet start, moet u de SD-kaart opnieuw beschrijven om het te herstellen. De wijziging gaat in na de volgende herstart.'
+          },
+          memory: 'Geheugen'
+        },
+        monitor: {
+          processorClock: 'CPU-subsysteem',
+          videoClock: 'Videosubsysteem',
+          videoClockCaption: 'Videoklokfrequentie',
+          cpuClockCaption: 'CPU-klokfrequentie',
+          overdrive: 'Overklokken',
+          temperature: 'Temperatuur',
+          lastMinutes: 'Laatste 5 minuten',
+          ram: 'RAM',
+          off: 'Uit',
+          ramHistory: 'RAM-gebruik',
+          cpuLoad: 'CPU-belasting',
+          cpuLoadCaption: 'Gebruiker {{user}} procent, systeem {{system}} procent',
+          cpuUtilization: 'CPU-gebruik',
+          swapUtilization: 'Swapgebruik',
+          swapSizeLastMinutes: '{{size}}, laatste 5 minuten',
+          percent: '{{percent}} procent',
+          percentUsed: '{{percent}} procent gebruikt',
+          sizeOf: '{{used}} van {{total}}',
+          systemPartition: 'Systeempartitie',
+          dataPartition: 'Datapartitie',
+          unavailable: 'Niet beschikbaar',
+          noReadings: 'Het apparaat geeft geen metingen terug',
+          refresh: 'Wordt elke seconde bijgewerkt zolang deze pagina open is'
+        },
         sections: {
           time: 'Tijd',
           firewall: 'Firewall',
-          systemLog: 'Logging'
+          systemLog: 'Logging',
+          performance: 'Prestaties',
+          monitor: 'Monitor',
+          services: 'Diensten',
+          webInterface: 'Webinterface'
         },
         time: {
           saveFailed: 'Kan tijdinstellingen niet opslaan',
@@ -573,7 +619,7 @@ const nl = {
           invalidServers: 'Voer ten minste één NTP-server in',
           maxServers: 'Maximaal {{count}} NTP-servers toegestaan',
           refresh: 'Vernieuwen',
-          syncNow: 'Nu synchroniseren',
+          syncNow: 'Synchroniseren',
           syncNowDesc: 'Stel de klok nu in via de NTP-servers',
           save: 'Opslaan',
           ntp: {
@@ -593,8 +639,8 @@ const nl = {
               'Gebruik de standaard openbare servers, uw lokale router of eigen NTP-servers',
             useRouter: 'Router gebruiken',
             useDefaults: 'Standaarden gebruiken',
-            routerDetected: 'Gedetecteerde router',
-            routerNone: 'Niet gevonden'
+            presets: 'Servervoorinstellingen',
+            presetsDesc: 'Vervang de serverlijst door een voorinstelling'
           }
         },
         firewall: {
@@ -606,7 +652,7 @@ const nl = {
           enableHttpsFirst:
             'Schakel HTTPS in voordat u de firewallmodus Beperkt of Paranoïde inschakelt',
           httpsRequired:
-            'De modi Beperkt en Paranoïde zijn uitgeschakeld totdat HTTPS is ingeschakeld bij Instellingen > Systeem > Netwerk',
+            'De modi Beperkt en Paranoïde zijn uitgeschakeld totdat HTTPS is ingeschakeld bij Instellingen > Netwerken > Diensten',
           mode: {
             title: 'Firewallmodus',
             baseline: 'Basis',
@@ -718,6 +764,9 @@ const nl = {
           '8': '8 - Alles'
         }
       },
+      networking: {
+        title: 'Netwerken'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Versleutelde tunnel',
@@ -794,7 +843,7 @@ const nl = {
           title: 'Wisselbestand',
           tip: 'Als de problemen aanhouden nadat u geheugenoptimalisatie hebt ingeschakeld, probeer dan het wisselbestand in te schakelen',
           sizeTip:
-            'Hiermee wordt de bestandsgrootte ingesteld op 256MB; pas deze aan via Instellingen > Apparaat'
+            'Hiermee wordt de bestandsgrootte ingesteld op 128MB; pas deze aan via Instellingen > Systeem > Prestaties'
         },
         restartTitle: 'Tailscale opnieuw opstarten',
         restartDesc: 'Start de service opnieuw op',
@@ -834,7 +883,7 @@ const nl = {
         cancelBtn: 'Nee'
       },
       update: {
-        title: 'Systeemupdates',
+        title: 'Updates',
         sources: 'Updatebronnen',
         latestVersion: 'Nieuwste versie',
         queryFailed: 'Ophalen versie mislukt',
@@ -883,6 +932,14 @@ const nl = {
             'Deze geverifieerde bundel schrijft raw boot/rootfs-images naar de SD-kaartpartities en herstart automatisch. Schrijven kan enkele minuten duren; houd de voeding aangesloten.',
           rawInstallWarning:
             'Er is geen automatische rollback voor raw partitie-updates. Als booten mislukt, herstel de SD-kaart handmatig.',
+          rawWaitTitle: 'Systeemupdate installeren',
+          rawWaitWriting: 'Het nieuwe systeem wordt naar de SD-kaart geschreven',
+          rawWaitRestarting:
+            'Het apparaat start opnieuw op. Deze pagina wordt opnieuw geladen zodra het apparaat weer bereikbaar is.',
+          rawWaitDesc:
+            'Dit duurt ongeveer drie minuten. Laat de voeding aangesloten en sluit deze pagina niet.',
+          rawWaitSlow:
+            'Dit duurt langer dan verwacht. Wacht nog een paar minuten voordat u de stroom uitschakelt.',
           rebootRequired: 'Herstart is vereist om deze systeemstatus te activeren.',
           confirming: 'Boot van systeemupdate bevestigen...',
           confirmBoot: 'Boot bevestigen',
@@ -922,6 +979,24 @@ const nl = {
           upload: 'Uploaden',
           invalidName: 'Ongeldig bestandsnaamformaat. Download de versie van GitHub-releases.',
           updateFailed: 'Update mislukt. Probeer het opnieuw.'
+        },
+        local: {
+          title: 'Systeempakket uploaden',
+          desc: 'Een systeempakket vanaf deze computer installeren. Eén bestand bevat het archief en de ondertekende metagegevens.',
+          choose: 'Bestand kiezen',
+          invalidFile: 'Selecteer een systeempakket dat eindigt op .tar of .tar.gz.',
+          diskTitle: 'Virtuele schijf uitschakelen?',
+          diskWarn:
+            'Het systeempakket wordt opgeslagen op /data, dat alleen-lezen is zolang de virtuele schijf aanstaat. Na het uitschakelen heeft de computer geen toegang meer tot /data. Doorgaan?',
+          uploading: 'Uploaden',
+          verifying: 'Pakket controleren en klaarzetten',
+          keyTitle: 'Lokale updatesleutel',
+          keyDesc:
+            'Openbare sleutel in PEM-indeling die zelfgebouwde systeempakketten mag ondertekenen',
+          keyNone: 'Geen sleutel ingesteld',
+          keySet: 'Sleutel instellen',
+          keyRemove: 'Verwijderen',
+          signer: 'Ondertekend door'
         }
       },
       account: {
@@ -934,6 +1009,14 @@ const nl = {
         logoutDesc: 'Weet u zeker dat u wilt uitloggen?',
         okBtn: 'Ja',
         cancelBtn: 'Nee',
+        session: {
+          title: 'Sessie'
+        },
+        logoutOnClose: {
+          title: 'Uitloggen als de browser wordt gesloten',
+          description:
+            'Beëindig de sessie wanneer de browser wordt gesloten in plaats van haar open te houden'
+        },
         totp: {
           title: 'Tweefactorauthenticatie',
           authenticator: 'Authenticator-app',

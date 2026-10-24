@@ -262,6 +262,11 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
 
             <div className="flex min-w-0 flex-col space-y-6">
               <div className="text-neutral-400">{t('settings.systemLog.local.title')}</div>
+              <Alert
+                type="info"
+                showIcon
+                message={t('settings.systemLog.local.description', { path: localLogFile })}
+              />
               <SettingRow
                 label={t('settings.systemLog.local.priority')}
                 description={t('settings.systemLog.local.priorityDesc')}
@@ -323,12 +328,6 @@ export const SystemLog = forwardRef<SystemActionHandle, SystemLogProps>(
                   onChange={(stripTimestamps) => patchConfig({ stripTimestamps })}
                 />
               </SettingRow>
-
-              <Alert
-                type="info"
-                showIcon
-                message={t('settings.systemLog.local.description', { path: localLogFile })}
-              />
             </div>
 
             <Divider className="opacity-50" />

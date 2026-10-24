@@ -89,7 +89,7 @@ const tr = {
       title: 'Ekran',
       video: 'Görüntü modu',
       videoDirectTips:
-        'Bu modu kullanmak için "Ayarlar > Sistem > Ağ" bölümünde HTTPS\'i etkinleştirin',
+        'Bu modu kullanmak için "Ayarlar > Ağ > Hizmetler" bölümünde HTTPS\'i etkinleştirin',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC, Kısıtlı ve Paranoyak güvenlik duvarı modlarında devre dışıdır',
       transferRunningTitle: 'İmaj aktarımı sürüyor',
@@ -347,7 +347,7 @@ const tr = {
     settings: {
       title: 'Ayarlar',
       about: {
-        title: 'NanoKVM hakkında',
+        title: 'Hakkında',
         information: 'Bilgi',
         ip: 'IP',
         mdns: 'mDNS',
@@ -415,8 +415,7 @@ const tr = {
         sections: {
           connectivity: 'Bağlantı',
           hostConnection: 'Ana makine bağlantısı',
-          inputOutput: 'Giriş ve çıkış',
-          optimizations: 'Optimizasyonlar'
+          inputOutput: 'Giriş ve çıkış'
         },
         oled: {
           title: 'OLED zaman aşımı',
@@ -553,10 +552,57 @@ const tr = {
       },
       system: {
         title: 'Sistem',
+        performance: {
+          processor: 'İşlemci',
+          overdrive: {
+            title: 'Saat hız aşırtma',
+            description:
+              'Üreticinin belirlediği daha yüksek işlemci ve video saat hızlarıyla başlat',
+            tip: 'Cihaz hız aşırtmayla başlamazsa SD kartın yeniden yazılması gerekir',
+            pending: 'Sonraki yeniden başlatmadan sonra uygulanır',
+            unavailable: 'Bu sistem imajına dahil değil',
+            keepTitle: 'Güncellemelerden sonra overdrive korunsun',
+            keepDescription:
+              'Bu seçenek açık değilse sistem güncellemesi cihazı standart saat hızlarına döndürür',
+            confirmTitle: 'Saat hız aşırtma etkinleştirilsin mi?',
+            confirmText:
+              'Cihaz hız aşırtmayla başlamazsa kurtarmak için SD kartı yeniden yazmanız gerekir. Değişiklik sonraki yeniden başlatmadan sonra uygulanır.'
+          },
+          memory: 'Bellek'
+        },
+        monitor: {
+          processorClock: 'CPU alt sistemi',
+          videoClock: 'Video alt sistemi',
+          videoClockCaption: 'Video saat frekansı',
+          cpuClockCaption: 'CPU saat frekansı',
+          overdrive: 'Hız aşırtma',
+          temperature: 'Sıcaklık',
+          lastMinutes: 'Son 5 dakika',
+          ram: 'RAM',
+          off: 'Kapalı',
+          ramHistory: 'RAM kullanımı',
+          cpuLoad: 'CPU yükü',
+          cpuLoadCaption: 'Kullanıcı yüzde {{user}}, sistem yüzde {{system}}',
+          cpuUtilization: 'CPU kullanımı',
+          swapUtilization: 'Takas alanı kullanımı',
+          swapSizeLastMinutes: '{{size}}, son 5 dakika',
+          percent: 'Yüzde {{percent}}',
+          percentUsed: 'Yüzde {{percent}} kullanılıyor',
+          sizeOf: '{{used}} / {{total}}',
+          systemPartition: 'Sistem bölümü',
+          dataPartition: 'Veri bölümü',
+          unavailable: 'Kullanılamıyor',
+          noReadings: 'Cihaz okuma değeri döndürmüyor',
+          refresh: 'Bu sayfa açıkken her saniye güncellenir'
+        },
         sections: {
           time: 'Saat',
           firewall: 'Güvenlik duvarı',
-          systemLog: 'Günlük kaydı'
+          systemLog: 'Günlük kaydı',
+          performance: 'Performans',
+          monitor: 'İzleme',
+          services: 'Hizmetler',
+          webInterface: 'Web arayüzü'
         },
         time: {
           saveFailed: 'Saat ayarları kaydedilemedi',
@@ -566,7 +612,7 @@ const tr = {
           invalidServers: 'En az bir NTP sunucusu girin',
           maxServers: 'En fazla {{count}} NTP sunucusuna izin verilir',
           refresh: 'Yenile',
-          syncNow: 'Şimdi eşitle',
+          syncNow: 'Eşitle',
           syncNowDesc: 'Saati şimdi NTP sunucularından ayarla',
           save: 'Kaydet',
           ntp: {
@@ -586,8 +632,8 @@ const tr = {
               'Varsayılan genel sunucuları, yerel yönlendiricinizi veya özel NTP sunucularını kullanın',
             useRouter: 'Yönlendiriciyi kullan',
             useDefaults: 'Varsayılanları kullan',
-            routerDetected: 'Algılanan yönlendirici',
-            routerNone: 'Bulunamadı'
+            presets: 'Sunucu ön ayarları',
+            presetsDesc: 'Sunucu listesini bir ön ayarla değiştir'
           }
         },
         firewall: {
@@ -599,7 +645,7 @@ const tr = {
           enableHttpsFirst:
             "Kısıtlı veya Paranoyak güvenlik duvarı modunu etkinleştirmeden önce HTTPS'i etkinleştirin",
           httpsRequired:
-            'Kısıtlı ve Paranoyak modları, HTTPS Ayarlar > Sistem > Ağ bölümünde etkinleştirilene kadar devre dışıdır',
+            'Kısıtlı ve Paranoyak modları, HTTPS Ayarlar > Ağ > Hizmetler bölümünde etkinleştirilene kadar devre dışıdır',
           mode: {
             title: 'Güvenlik duvarı modu',
             baseline: 'Temel',
@@ -711,6 +757,9 @@ const tr = {
           '8': '8 - Tümü'
         }
       },
+      networking: {
+        title: 'Ağ'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Şifreli tünel',
@@ -788,7 +837,7 @@ const tr = {
           title: 'Swap dosyası',
           tip: 'Bellek optimizasyonunu etkinleştirdikten sonra sorunlar devam ederse, swap dosyasını etkinleştirmeyi deneyin',
           sizeTip:
-            'Bu, dosya boyutunu 256MB olarak ayarlar; Ayarlar > Cihaz bölümünden değiştirebilirsiniz'
+            'Bu, dosya boyutunu 128MB olarak ayarlar; Ayarlar > Sistem > Performans bölümünden değiştirebilirsiniz'
         },
         restartTitle: "Tailscale'i yeniden başlat",
         restartDesc: 'Hizmeti yeniden başlatır',
@@ -827,7 +876,7 @@ const tr = {
         cancelBtn: 'Hayır'
       },
       update: {
-        title: 'Sistem güncellemeleri',
+        title: 'Güncellemeler',
         sources: 'Güncelleme kaynakları',
         latestVersion: 'En son sürüm',
         queryFailed: 'Sürüm bilgisi alınamadı',
@@ -876,6 +925,12 @@ const tr = {
             'Bu doğrulanmış paket raw boot/rootfs imajlarını SD kart bölümlerine yazacak ve otomatik yeniden başlatacak. Yazma birkaç dakika sürebilir; güç bağlı kalsın.',
           rawInstallWarning:
             'Raw bölüm güncellemeleri için otomatik rollback yoktur. Boot başarısız olursa SD kartı elle kurtarın.',
+          rawWaitTitle: 'Sistem güncellemesi yükleniyor',
+          rawWaitWriting: 'Yeni sistem SD karta yazılıyor',
+          rawWaitRestarting:
+            'Cihaz yeniden başlatılıyor. Cihaz geri geldiğinde bu sayfa yeniden yüklenir.',
+          rawWaitDesc: 'Bu yaklaşık üç dakika sürer. Gücü bağlı tutun ve bu sayfayı kapatmayın.',
+          rawWaitSlow: 'Beklenenden uzun sürüyor. Gücü kesmeden önce birkaç dakika daha bekleyin.',
           rebootRequired: 'Bu sistem durumunu etkinleştirmek için yeniden başlatma gerekir.',
           confirming: 'Sistem güncellemesi bootu onaylanıyor...',
           confirmBoot: 'Bootu onayla',
@@ -915,6 +970,24 @@ const tr = {
           upload: 'Yükle',
           invalidName: 'Geçersiz dosya adı biçimi. Lütfen GitHub sürümlerinden indirin.',
           updateFailed: 'Güncelleme başarısız oldu. Lütfen tekrar deneyin.'
+        },
+        local: {
+          title: 'Sistem paketini yükle',
+          desc: 'Bu bilgisayardan bir sistem paketi kur. Tek bir dosya arşivi ve imzalı üst verilerini içerir.',
+          choose: 'Dosya seç',
+          invalidFile: 'Uzantısı .tar veya .tar.gz olan bir sistem paketi seçin.',
+          diskTitle: 'Sanal disk kapatılsın mı?',
+          diskWarn:
+            'Sistem paketi /data dizinine kaydedilir; sanal disk açıkken bu dizin salt okunurdur. Kapatıldığında bilgisayar /data dizinine erişemez. Devam edilsin mi?',
+          uploading: 'Yükleniyor',
+          verifying: 'Paket doğrulanıyor ve hazırlanıyor',
+          keyTitle: 'Yerel güncelleme anahtarı',
+          keyDesc:
+            'Kendi oluşturduğunuz sistem paketlerini imzalayabilen PEM biçiminde genel anahtar',
+          keyNone: 'Anahtar ayarlanmadı',
+          keySet: 'Anahtarı ayarla',
+          keyRemove: 'Kaldır',
+          signer: 'İmzalayan'
         }
       },
       account: {
@@ -927,6 +1000,13 @@ const tr = {
         logoutDesc: 'Çıkış yapmak istediğinizden emin misiniz?',
         okBtn: 'Evet',
         cancelBtn: 'Hayır',
+        session: {
+          title: 'Oturum'
+        },
+        logoutOnClose: {
+          title: 'Tarayıcı kapanınca oturumu kapat',
+          description: 'Oturumu açık tutmak yerine tarayıcı kapatıldığında sonlandır'
+        },
         totp: {
           title: 'İki adımlı doğrulama',
           authenticator: 'Kimlik doğrulama uygulaması',

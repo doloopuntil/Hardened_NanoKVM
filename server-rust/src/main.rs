@@ -4,6 +4,7 @@ use axum::{
     response::Redirect,
 };
 use nanokvm_rust_server::{
+    api::{cpu_clock, monitor},
     config::Config,
     ffi::kvm,
     hdmi_idle,
@@ -57,6 +58,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     config.log_runtime_warnings();
     install_runtime_boot_scripts();
     install_runtime_update_trust(&config);
+    cpu_clock::reconcile_at_startup();
+    monitor::start_sampler();
     initialize_kvm();
     hdmi_idle::start();
     hid_ws::start_keyboard_led_reader();
@@ -235,7 +238,7 @@ async fn run_https(config: Config) -> Result<(), Box<dyn std::error::Error>> {
 
     let app = routes::build(state).into_make_service_with_connect_info::<ClientAddr>();
     let listener = TcpListener::bind(https_addr).await?;
-    let tls_listener = tls::TlsListener::new(listener, tls_config);
+    let tls_listener = tls::TlsListener::new(listener, tls_config)?;
     info!(addr = %https_addr, "starting NanoKVM Rust HTTPS backend");
     axum::serve(tls_listener, app).await?;
     Ok(())

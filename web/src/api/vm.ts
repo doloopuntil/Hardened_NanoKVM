@@ -115,6 +115,16 @@ export function setSwap(size: number) {
   return http.post('/api/vm/swap', { size });
 }
 
+// get the boot clock profile
+export function getOverdrive() {
+  return http.get('/api/vm/overdrive');
+}
+
+// choose the boot clock profile (applies after a reboot) and whether it survives system updates
+export function setOverdrive(options: { enabled?: boolean; keepAfterUpdate?: boolean }) {
+  return http.post('/api/vm/overdrive', options);
+}
+
 // get mouse jiggler
 export function getMouseJiggler() {
   return http.get('/api/vm/mouse-jiggler');
@@ -148,6 +158,11 @@ export function getSessionLock() {
 // set session lock duration
 export function setSessionLock(duration: number) {
   return http.post('/api/vm/session-lock', { duration });
+}
+
+// set whether the session ends when the browser closes
+export function setLogoutOnBrowserClose(enabled: boolean) {
+  return http.post('/api/vm/session-lock', { logoutOnBrowserClose: enabled });
 }
 
 // slide the session lock while the user is active
@@ -198,4 +213,41 @@ export function setTLS(enabled: boolean) {
 // reboot
 export function reboot() {
   return http.post('/api/vm/system/reboot');
+}
+
+export type MonitorDisk = { mount: string; totalBytes: number; usedBytes: number };
+
+export type MonitorSample = {
+  seq: number;
+  temperatureC: number | null;
+  memoryPercent: number | null;
+  swapPercent: number | null;
+  cpuPercent: number | null;
+};
+
+export type MonitorData = {
+  cpuMhz: number | null;
+  videoMhz: number | null;
+  overdrive: boolean;
+  temperatureC: number | null;
+  memory: {
+    totalKb: number;
+    usedKb: number;
+    swapTotalKb: number;
+    swapUsedKb: number;
+  } | null;
+  cpu: { userPercent: number; systemPercent: number } | null;
+  disks: MonitorDisk[];
+  epoch: number;
+  latestSeq: number;
+  samples: MonitorSample[];
+};
+
+// live readings for Settings > System > Monitor; `since` and `epoch` name the newest sample the
+// page has, and the server then sends only the newer ones
+export function getMonitor(
+  since?: number,
+  epoch?: number
+): Promise<{ code: number; msg: string; data?: MonitorData }> {
+  return http.get('/api/vm/monitor', since === undefined ? undefined : { since, epoch });
 }

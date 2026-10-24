@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-22
 ---
 
 # Sign-in and two-factor
@@ -24,8 +24,11 @@ and every other session is signed out.
 - Sessions are bound to a CSRF token and checked against the request's
   `Origin`. WebSockets check their `Origin` too.
 - Five wrong passwords from one address lock that address out for ten minutes.
-- **Settings > Device > Lock session when inactive** signs you out after 5, 15,
-  30 or 60 minutes without activity.
+- **Settings > Account > Session > Log out when the browser closes**, on by
+  default, keeps the sign-in out of the browser's saved cookies, so it ends when
+  you quit the browser; a browser set to restore its last session may keep it.
+  **Lock session when inactive** is separate and also applies: it signs you out
+  after 5, 15, 30 or 60 minutes without activity, even in an open browser.
 - Sign-ins and sign-in failures go to the system log, so remote logging
   (**Settings > System > Logging**) can keep them off the device.
 

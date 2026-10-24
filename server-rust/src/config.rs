@@ -83,6 +83,8 @@ pub struct Security {
     pub require_csrf: bool,
     pub websocket_origin_check: bool,
     pub access_token_duration: u64,
+    /// Issue the session cookie without a lifetime, so the browser drops it on close.
+    pub logout_on_browser_close: bool,
     pub refresh_token_duration: u64,
     pub revoke_tokens_on_password_change: bool,
     pub allow_unsigned_updates: bool,
@@ -111,6 +113,7 @@ pub struct Paths {
     pub image_directory: PathBuf,
     pub update_cache_dir: PathBuf,
     pub system_update_public_key: PathBuf,
+    pub system_update_local_public_key: PathBuf,
 }
 
 impl Default for Config {
@@ -188,6 +191,7 @@ impl Default for Security {
             require_csrf: true,
             websocket_origin_check: true,
             access_token_duration: 900,
+            logout_on_browser_close: true,
             refresh_token_duration: 604_800,
             revoke_tokens_on_password_change: true,
             allow_unsigned_updates: false,
@@ -211,6 +215,7 @@ impl Default for Paths {
             image_directory: PathBuf::from("/data"),
             update_cache_dir: PathBuf::from("/data/.hardened-kvmcache"),
             system_update_public_key: PathBuf::from("/etc/kvm/system-update-signing.pub.pem"),
+            system_update_local_public_key: PathBuf::from("/etc/kvm/system-update-local.pub.pem"),
         }
     }
 }

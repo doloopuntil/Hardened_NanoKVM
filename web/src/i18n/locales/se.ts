@@ -89,7 +89,7 @@ const se = {
       title: 'Skärm',
       video: 'Videoläge',
       videoDirectTips:
-        'Aktivera HTTPS under "Inställningar > System > Nätverk" för att använda detta läge',
+        'Aktivera HTTPS under "Inställningar > Nätverk > Tjänster" för att använda detta läge',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC är inaktiverat i brandväggslägena Begränsad och Paranoid',
       transferRunningTitle: 'Avbildningsöverföring pågår',
@@ -349,7 +349,7 @@ const se = {
     settings: {
       title: 'Inställningar',
       about: {
-        title: 'Om NanoKVM',
+        title: 'Om',
         information: 'Information',
         ip: 'IP',
         mdns: 'mDNS',
@@ -416,8 +416,7 @@ const se = {
         sections: {
           connectivity: 'Anslutning',
           hostConnection: 'Värdanslutning',
-          inputOutput: 'Indata och utdata',
-          optimizations: 'Optimeringar'
+          inputOutput: 'Indata och utdata'
         },
         oled: {
           title: 'OLED-timeout',
@@ -556,10 +555,57 @@ const se = {
       },
       system: {
         title: 'System',
+        performance: {
+          processor: 'Processor',
+          overdrive: {
+            title: 'Överklockning',
+            description:
+              'Starta med de högre klockfrekvenser för processor och video som tillverkaren har specificerat',
+            tip: 'Om enheten inte startar med överklockning måste SD-kortet skrivas om',
+            pending: 'Gäller efter nästa omstart',
+            unavailable: 'Ingår inte i den här systemavbilden',
+            keepTitle: 'Behåll overdrive efter uppdateringar',
+            keepDescription:
+              'En systemuppdatering återställer enheten till standardklockorna om detta inte är påslaget',
+            confirmTitle: 'Aktivera överklockning?',
+            confirmText:
+              'Om enheten inte startar med överklockning måste du skriva om SD-kortet för att återställa den. Ändringen gäller efter nästa omstart.'
+          },
+          memory: 'Minne'
+        },
+        monitor: {
+          processorClock: 'CPU-delsystem',
+          videoClock: 'Videodelsystem',
+          videoClockCaption: 'Videoklockfrekvens',
+          cpuClockCaption: 'CPU-klockfrekvens',
+          overdrive: 'Överklockning',
+          temperature: 'Temperatur',
+          lastMinutes: 'Senaste 5 minuterna',
+          ram: 'RAM',
+          off: 'Av',
+          ramHistory: 'RAM-användning',
+          cpuLoad: 'CPU-belastning',
+          cpuLoadCaption: 'Användare {{user}} procent, system {{system}} procent',
+          cpuUtilization: 'CPU-utnyttjande',
+          swapUtilization: 'Swap-utnyttjande',
+          swapSizeLastMinutes: '{{size}}, senaste 5 minuterna',
+          percent: '{{percent}} procent',
+          percentUsed: '{{percent}} procent använt',
+          sizeOf: '{{used}} av {{total}}',
+          systemPartition: 'Systempartition',
+          dataPartition: 'Datapartition',
+          unavailable: 'Inte tillgänglig',
+          noReadings: 'Enheten returnerar inga mätvärden',
+          refresh: 'Uppdateras varje sekund medan den här sidan är öppen'
+        },
         sections: {
           time: 'Tid',
           firewall: 'Brandvägg',
-          systemLog: 'Loggning'
+          systemLog: 'Loggning',
+          performance: 'Prestanda',
+          monitor: 'Övervakning',
+          services: 'Tjänster',
+          webInterface: 'Webbgränssnitt'
         },
         time: {
           saveFailed: 'Kunde inte spara tidsinställningar',
@@ -569,7 +615,7 @@ const se = {
           invalidServers: 'Ange minst en NTP-server',
           maxServers: 'Högst {{count}} NTP-servrar tillåtna',
           refresh: 'Uppdatera',
-          syncNow: 'Synkronisera nu',
+          syncNow: 'Synkronisera',
           syncNowDesc: 'Ställ klockan från NTP-servrarna nu',
           save: 'Spara',
           ntp: {
@@ -588,8 +634,8 @@ const se = {
             description: 'Använd standardservrarna, din lokala router eller egna NTP-servrar',
             useRouter: 'Använd router',
             useDefaults: 'Använd standardvärden',
-            routerDetected: 'Upptäckt router',
-            routerNone: 'Hittades inte'
+            presets: 'Serverförval',
+            presetsDesc: 'Ersätt serverlistan med ett förval'
           }
         },
         firewall: {
@@ -601,7 +647,7 @@ const se = {
           enableHttpsFirst:
             'Aktivera HTTPS innan du aktiverar brandväggsläget Begränsad eller Paranoid',
           httpsRequired:
-            'Lägena Begränsad och Paranoid är inaktiverade tills HTTPS har aktiverats under Inställningar > System > Nätverk',
+            'Lägena Begränsad och Paranoid är inaktiverade tills HTTPS har aktiverats under Inställningar > Nätverk > Tjänster',
           mode: {
             title: 'Brandväggsläge',
             baseline: 'Bas',
@@ -714,6 +760,9 @@ const se = {
           '8': '8 - Alla'
         }
       },
+      networking: {
+        title: 'Nätverk'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Krypterad tunnel',
@@ -789,7 +838,8 @@ const se = {
         swap: {
           title: 'Swap-fil',
           tip: 'Om problemen kvarstår efter att du har aktiverat minnesoptimering, försök att aktivera swap-filen',
-          sizeTip: 'Detta ställer in filstorleken till 256MB; justera den i Inställningar > Enhet'
+          sizeTip:
+            'Detta ställer in filstorleken till 128MB; justera den i Inställningar > System > Prestanda'
         },
         restartTitle: 'Starta om Tailscale',
         restartDesc: 'Startar om tjänsten',
@@ -828,7 +878,7 @@ const se = {
         cancelBtn: 'Nej'
       },
       update: {
-        title: 'Systemuppdateringar',
+        title: 'Uppdateringar',
         sources: 'Uppdateringskällor',
         latestVersion: 'Senaste version',
         queryFailed: 'Kunde inte hämta version',
@@ -876,6 +926,13 @@ const se = {
             'Detta verifierade paket skriver raw boot/rootfs-images till SD-kortets partitioner och startar om automatiskt. Skrivning kan ta flera minuter; håll strömmen ansluten.',
           rawInstallWarning:
             'Det finns ingen automatisk rollback för raw partitionsuppdateringar. Om boot misslyckas, återställ SD-kortet manuellt.',
+          rawWaitTitle: 'Installerar systemuppdatering',
+          rawWaitWriting: 'Det nya systemet skrivs till SD-kortet',
+          rawWaitRestarting: 'Enheten startar om. Den här sidan läses in igen när den är tillbaka.',
+          rawWaitDesc:
+            'Det här tar ungefär tre minuter. Låt strömmen vara ansluten och stäng inte den här sidan.',
+          rawWaitSlow:
+            'Det tar längre tid än väntat. Vänta några minuter till innan du kopplar från strömmen.',
           rebootRequired: 'Omstart krävs för att aktivera detta systemtillstånd.',
           confirming: 'Bekräftar boot av systemuppdatering...',
           confirmBoot: 'Bekräfta boot',
@@ -916,6 +973,23 @@ const se = {
           upload: 'Ladda upp',
           invalidName: 'Ogiltigt filnamnsformat. Ladda ner från GitHub-versioner.',
           updateFailed: 'Uppdatering misslyckades. Försök igen.'
+        },
+        local: {
+          title: 'Ladda upp systempaket',
+          desc: 'Installera ett systempaket från den här datorn. En fil innehåller arkivet och dess signerade metadata.',
+          choose: 'Välj fil',
+          invalidFile: 'Välj ett systempaket som slutar på .tar eller .tar.gz.',
+          diskTitle: 'Stänga av den virtuella disken?',
+          diskWarn:
+            'Systempaketet sparas på /data, som är skrivskyddat medan den virtuella disken är på. När den stängs av kommer datorn inte åt /data. Fortsätta?',
+          uploading: 'Laddar upp',
+          verifying: 'Verifierar och förbereder paketet',
+          keyTitle: 'Lokal uppdateringsnyckel',
+          keyDesc: 'Publik nyckel i PEM-format som får signera systempaket du bygger själv',
+          keyNone: 'Ingen nyckel angiven',
+          keySet: 'Ange nyckel',
+          keyRemove: 'Ta bort',
+          signer: 'Signerad av'
         }
       },
       account: {
@@ -928,6 +1002,13 @@ const se = {
         logoutDesc: 'Är du säker på att du vill logga ut?',
         okBtn: 'Ja',
         cancelBtn: 'Nej',
+        session: {
+          title: 'Session'
+        },
+        logoutOnClose: {
+          title: 'Logga ut när webbläsaren stängs',
+          description: 'Avsluta sessionen när webbläsaren stängs i stället för att hålla den öppen'
+        },
         totp: {
           title: 'Tvåfaktorsautentisering',
           authenticator: 'Autentiseringsapp',

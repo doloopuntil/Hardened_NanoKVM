@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-22
 ---
 
 # Web UI layout rules for the Settings pages
@@ -16,9 +16,11 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 1. A page starts with `PageHeader` (`components/page-header.tsx`): its title in
    `text-base` and a hairline under it, which stay in view while the page
    scrolls, also on a page too short to scroll. The title and the hairline sit at
-   the same height on every page, on the desktop and the touch layout. What sits
-   beside the title, such as the sub-navigation of System, is the header's
-   children. The header is in the colour of the panel, and its shadow has a
+   the same height on every page. The touch layout shows no header: the
+   navigation above the page names it. What sits
+   beside the title is the header's children. Pages that belong together, such
+   as System and Networking, are subpages in the left pane of the dialog, not tabs in
+   the header. The header is in the colour of the panel, and its shadow has a
    negative spread so it fades out before its sides: the scroll area clips what
    goes beyond the width of the content, and a wider shadow ends in a hard edge.
    The loading and load-failure banner of the page comes right below the header

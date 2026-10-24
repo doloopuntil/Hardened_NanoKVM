@@ -89,7 +89,7 @@ const id = {
       title: 'Layar',
       video: 'Mode video',
       videoDirectTips:
-        'Aktifkan HTTPS di "Pengaturan > Sistem > Jaringan" untuk menggunakan mode ini',
+        'Aktifkan HTTPS di "Pengaturan > Jaringan > Layanan" untuk menggunakan mode ini',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC dinonaktifkan dalam mode firewall Terbatas dan Paranoid',
       transferRunningTitle: 'Transfer image sedang berlangsung',
@@ -350,7 +350,7 @@ const id = {
     settings: {
       title: 'Pengaturan',
       about: {
-        title: 'Tentang NanoKVM',
+        title: 'Tentang',
         information: 'Informasi',
         ip: 'IP',
         mdns: 'mDNS',
@@ -418,8 +418,7 @@ const id = {
         sections: {
           connectivity: 'Konektivitas',
           hostConnection: 'Koneksi host',
-          inputOutput: 'Input dan output',
-          optimizations: 'Optimasi'
+          inputOutput: 'Input dan output'
         },
         oled: {
           title: 'Batas waktu OLED',
@@ -557,10 +556,57 @@ const id = {
       },
       system: {
         title: 'Sistem',
+        performance: {
+          processor: 'Prosesor',
+          overdrive: {
+            title: 'Clock overdrive',
+            description:
+              'Booting dengan kecepatan clock prosesor dan video yang lebih tinggi sesuai spesifikasi pabrikan',
+            tip: 'Jika perangkat tidak menyala dengan overdrive, kartu SD harus ditulis ulang',
+            pending: 'Berlaku setelah reboot berikutnya',
+            unavailable: 'Tidak termasuk dalam image sistem ini',
+            keepTitle: 'Pertahankan overdrive setelah pembaruan',
+            keepDescription:
+              'Pembaruan sistem mengembalikan perangkat ke clock standar kecuali opsi ini aktif',
+            confirmTitle: 'Aktifkan clock overdrive?',
+            confirmText:
+              'Jika perangkat tidak menyala dengan overdrive, Anda harus menulis ulang kartu SD untuk memulihkannya. Perubahan berlaku setelah reboot berikutnya.'
+          },
+          memory: 'Memori'
+        },
+        monitor: {
+          processorClock: 'Subsistem CPU',
+          videoClock: 'Subsistem video',
+          videoClockCaption: 'Frekuensi clock video',
+          cpuClockCaption: 'Frekuensi clock CPU',
+          overdrive: 'Overdrive',
+          temperature: 'Suhu',
+          lastMinutes: '5 menit terakhir',
+          ram: 'RAM',
+          off: 'Mati',
+          ramHistory: 'Pemakaian RAM',
+          cpuLoad: 'Beban CPU',
+          cpuLoadCaption: 'Pengguna {{user}} persen, sistem {{system}} persen',
+          cpuUtilization: 'Pemakaian CPU',
+          swapUtilization: 'Pemakaian swap',
+          swapSizeLastMinutes: '{{size}}, 5 menit terakhir',
+          percent: '{{percent}} persen',
+          percentUsed: '{{percent}} persen terpakai',
+          sizeOf: '{{used}} dari {{total}}',
+          systemPartition: 'Partisi sistem',
+          dataPartition: 'Partisi data',
+          unavailable: 'Tidak tersedia',
+          noReadings: 'Perangkat tidak mengembalikan pembacaan',
+          refresh: 'Diperbarui setiap detik selama halaman ini terbuka'
+        },
         sections: {
           time: 'Waktu',
           firewall: 'Firewall',
-          systemLog: 'Pencatatan log'
+          systemLog: 'Pencatatan log',
+          performance: 'Kinerja',
+          monitor: 'Monitor',
+          services: 'Layanan',
+          webInterface: 'Antarmuka web'
         },
         time: {
           saveFailed: 'Gagal menyimpan pengaturan waktu',
@@ -570,7 +616,7 @@ const id = {
           invalidServers: 'Masukkan setidaknya satu server NTP',
           maxServers: 'Maksimum {{count}} server NTP diizinkan',
           refresh: 'Segarkan',
-          syncNow: 'Sinkronkan sekarang',
+          syncNow: 'Sinkronkan',
           syncNowDesc: 'Atur jam dari server NTP sekarang',
           save: 'Simpan',
           ntp: {
@@ -589,8 +635,8 @@ const id = {
             description: 'Gunakan server publik bawaan, router lokal Anda, atau server NTP kustom',
             useRouter: 'Gunakan router',
             useDefaults: 'Gunakan default',
-            routerDetected: 'Router terdeteksi',
-            routerNone: 'Tidak ditemukan'
+            presets: 'Preset server',
+            presetsDesc: 'Ganti daftar server dengan preset'
           }
         },
         firewall: {
@@ -602,7 +648,7 @@ const id = {
           enableHttpsFirst:
             'Aktifkan HTTPS sebelum mengaktifkan mode firewall Terbatas atau Paranoid',
           httpsRequired:
-            'Mode Terbatas dan Paranoid dinonaktifkan sampai HTTPS diaktifkan di Pengaturan > Sistem > Jaringan',
+            'Mode Terbatas dan Paranoid dinonaktifkan sampai HTTPS diaktifkan di Pengaturan > Jaringan > Layanan',
           mode: {
             title: 'Mode firewall',
             baseline: 'Dasar',
@@ -714,6 +760,9 @@ const id = {
           '8': '8 - Semua'
         }
       },
+      networking: {
+        title: 'Jaringan'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Terowongan terenkripsi',
@@ -789,7 +838,7 @@ const id = {
         swap: {
           title: 'File swap',
           tip: 'Jika masalah terus berlanjut setelah mengaktifkan pengoptimalan memori, coba aktifkan file swap',
-          sizeTip: 'Ini menetapkan ukuran file ke 256MB; sesuaikan di Pengaturan > Perangkat'
+          sizeTip: 'Ini menetapkan ukuran file ke 128MB; sesuaikan di Pengaturan > Sistem > Kinerja'
         },
         restartTitle: 'Mulai ulang Tailscale',
         restartDesc: 'Memulai ulang layanan',
@@ -829,7 +878,7 @@ const id = {
         cancelBtn: 'Tidak'
       },
       update: {
-        title: 'Pembaruan sistem',
+        title: 'Pembaruan',
         sources: 'Sumber pembaruan',
         latestVersion: 'Versi terbaru',
         queryFailed: 'Gagal mendapatkan versi',
@@ -877,6 +926,14 @@ const id = {
             'Bundel terverifikasi ini akan menulis image raw boot/rootfs ke partisi kartu SD dan reboot otomatis. Penulisan dapat memakan beberapa menit; pastikan daya tetap tersambung.',
           rawInstallWarning:
             'Tidak ada rollback otomatis untuk pembaruan partisi raw. Jika boot gagal, pulihkan kartu SD secara manual.',
+          rawWaitTitle: 'Menginstal pembaruan sistem',
+          rawWaitWriting: 'Menulis sistem baru ke kartu SD',
+          rawWaitRestarting:
+            'Perangkat sedang dimulai ulang. Halaman ini dimuat ulang saat perangkat kembali.',
+          rawWaitDesc:
+            'Proses ini memakan waktu sekitar tiga menit. Biarkan daya tetap terhubung dan jangan tutup halaman ini.',
+          rawWaitSlow:
+            'Proses ini lebih lama dari perkiraan. Tunggu beberapa menit lagi sebelum memutus daya.',
           rebootRequired: 'Reboot diperlukan untuk mengaktifkan status sistem ini.',
           confirming: 'Mengonfirmasi boot pembaruan sistem...',
           confirmBoot: 'Konfirmasi boot',
@@ -917,6 +974,24 @@ const id = {
           upload: 'Mengunggah',
           invalidName: 'Format nama file tidak valid. Silakan unduh dari rilis GitHub.',
           updateFailed: 'Gagal memperbarui. Silakan coba lagi.'
+        },
+        local: {
+          title: 'Unggah paket sistem',
+          desc: 'Pasang paket sistem dari komputer ini. Satu berkas berisi arsip dan metadata yang sudah ditandatangani.',
+          choose: 'Pilih berkas',
+          invalidFile: 'Pilih paket sistem berakhiran .tar atau .tar.gz.',
+          diskTitle: 'Matikan disk virtual?',
+          diskWarn:
+            'Paket sistem disimpan di /data, yang bersifat hanya-baca selama disk virtual menyala. Setelah dimatikan, komputer tidak lagi dapat mengakses /data. Lanjutkan?',
+          uploading: 'Mengunggah',
+          verifying: 'Memverifikasi dan menyiapkan paket',
+          keyTitle: 'Kunci pembaruan lokal',
+          keyDesc:
+            'Kunci publik berformat PEM yang boleh menandatangani paket sistem yang Anda bangun sendiri',
+          keyNone: 'Kunci belum diatur',
+          keySet: 'Atur kunci',
+          keyRemove: 'Hapus',
+          signer: 'Ditandatangani oleh'
         }
       },
       account: {
@@ -929,6 +1004,13 @@ const id = {
         logoutDesc: 'Apakah Anda yakin ingin logout?',
         okBtn: 'Ya',
         cancelBtn: 'Tidak',
+        session: {
+          title: 'Sesi'
+        },
+        logoutOnClose: {
+          title: 'Keluar saat peramban ditutup',
+          description: 'Akhiri sesi saat peramban ditutup, bukan membiarkannya tetap terbuka'
+        },
         totp: {
           title: 'Autentikasi dua faktor',
           authenticator: 'Aplikasi autentikator',

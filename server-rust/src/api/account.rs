@@ -20,7 +20,7 @@ use crate::{
     http::{
         cookie::{
             PENDING_TOTP_COOKIE_NAME, expired_pending_totp_cookie, expired_session_cookie,
-            pending_totp_cookie, session_cookie, session_cookie_secure,
+            pending_totp_cookie, session_cookie_secure,
         },
         middleware::CurrentSession,
         tls::ClientAddr,
@@ -56,6 +56,8 @@ pub struct LoginRsp {
     /// No session is issued alongside it.
     #[serde(rename = "totpRequired", skip_serializing_if = "is_false")]
     pub totp_required: bool,
+    #[serde(rename = "logoutOnBrowserClose", skip_serializing_if = "is_false")]
+    pub logout_on_browser_close: bool,
     /// Set when policy requires a second factor that this account has not
     /// enrolled yet. A session *is* issued, and the UI must force enrolment.
     #[serde(rename = "totpEnrollmentRequired", skip_serializing_if = "is_false")]
@@ -97,6 +99,8 @@ pub struct AccountRsp {
     pub csrf_token: String,
     #[serde(rename = "expiresAt")]
     pub expires_at: u64,
+    #[serde(rename = "logoutOnBrowserClose")]
+    pub logout_on_browser_close: bool,
 }
 
 #[derive(Debug, Serialize)]
@@ -336,11 +340,7 @@ async fn issue_session_response(
     let mut headers = HeaderMap::new();
     headers.insert(
         header::SET_COOKIE,
-        session_cookie(
-            &session.token,
-            session_lock_duration,
-            session_cookie_secure(&state.config.proto),
-        )?,
+        state.session_cookie(&session.token, session_lock_duration)?,
     );
     Ok((
         headers,
@@ -348,6 +348,7 @@ async fn issue_session_response(
             csrf_token: session.csrf_token,
             expires_at: session.expires_at_unix,
             totp_required: false,
+            logout_on_browser_close: state.logout_on_browser_close(),
             totp_enrollment_required,
         })),
     ))
@@ -413,6 +414,7 @@ pub async fn get_account(
         username: account.username,
         csrf_token: session.csrf_token,
         expires_at: session.expires_at_unix,
+        logout_on_browser_close: state.logout_on_browser_close(),
     })))
 }
 
@@ -752,6 +754,7 @@ mod tests {
             csrf_token: "csrf".to_string(),
             expires_at: 42,
             totp_required: false,
+            logout_on_browser_close: false,
             totp_enrollment_required: true,
         })
         .unwrap();

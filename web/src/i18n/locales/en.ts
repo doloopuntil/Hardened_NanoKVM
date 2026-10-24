@@ -88,7 +88,7 @@ const en = {
       scale: 'Scale',
       title: 'Screen',
       video: 'Video mode',
-      videoDirectTips: 'Enable HTTPS in "Settings > System > Network" to use this mode',
+      videoDirectTips: 'Enable HTTPS in "Settings > Networking > Services" to use this mode',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC is disabled in the Restricted and Paranoid firewall modes',
       transferRunningTitle: 'Image transfer in progress',
@@ -348,7 +348,7 @@ const en = {
     settings: {
       title: 'Settings',
       about: {
-        title: 'About NanoKVM',
+        title: 'About',
         information: 'Information',
         ip: 'IP',
         mdns: 'mDNS',
@@ -414,8 +414,7 @@ const en = {
         sections: {
           connectivity: 'Connectivity',
           hostConnection: 'Host connection',
-          inputOutput: 'Input and output',
-          optimizations: 'Optimizations'
+          inputOutput: 'Input and output'
         },
         oled: {
           title: 'OLED timeout',
@@ -551,10 +550,57 @@ const en = {
       },
       system: {
         title: 'System',
+        performance: {
+          processor: 'Processor',
+          overdrive: {
+            title: 'Clock overdrive',
+            description:
+              'Boot with higher processor and video clock speeds specified by the manufacturer',
+            tip: 'If the device does not start with overdrive, the SD card must be reflashed',
+            pending: 'Applies after the next reboot',
+            unavailable: 'Not included in this system image',
+            keepTitle: 'Keep overdrive after updates',
+            keepDescription:
+              'A system update returns the device to the standard clocks unless this is on',
+            confirmTitle: 'Enable clock overdrive?',
+            confirmText:
+              'If the device does not start with overdrive, you must reflash the SD card to recover it. The change applies after the next reboot.'
+          },
+          memory: 'Memory'
+        },
+        monitor: {
+          processorClock: 'CPU subsystem',
+          videoClock: 'Video subsystem',
+          videoClockCaption: 'Video clock frequency',
+          cpuClockCaption: 'CPU clock frequency',
+          overdrive: 'Overdrive',
+          temperature: 'Temperature',
+          lastMinutes: 'Last 5 minutes',
+          ram: 'RAM',
+          off: 'Off',
+          ramHistory: 'RAM utilization',
+          cpuLoad: 'CPU load',
+          cpuLoadCaption: 'User {{user}} percent, system {{system}} percent',
+          cpuUtilization: 'CPU utilization',
+          swapUtilization: 'Swap utilization',
+          swapSizeLastMinutes: '{{size}}, last 5 minutes',
+          percent: '{{percent}} percent',
+          percentUsed: '{{percent}} percent used',
+          sizeOf: '{{used}} of {{total}}',
+          systemPartition: 'System partition',
+          dataPartition: 'Data partition',
+          unavailable: 'Not available',
+          noReadings: 'The device is not returning readings',
+          refresh: 'Updates every second while this page is open'
+        },
         sections: {
           time: 'Time',
           firewall: 'Firewall',
-          systemLog: 'Logging'
+          systemLog: 'Logging',
+          performance: 'Performance',
+          monitor: 'Monitor',
+          services: 'Services',
+          webInterface: 'Web interface'
         },
         time: {
           saveFailed: 'Failed to save time settings',
@@ -564,7 +610,7 @@ const en = {
           invalidServers: 'Enter at least one NTP server',
           maxServers: 'Maximum {{count}} NTP servers allowed',
           refresh: 'Refresh',
-          syncNow: 'Sync now',
+          syncNow: 'Synchronize',
           syncNowDesc: 'Set the clock from the NTP servers now',
           save: 'Save',
           ntp: {
@@ -583,8 +629,8 @@ const en = {
             description: 'Use default public servers, your local router, or custom NTP servers',
             useRouter: 'Use router',
             useDefaults: 'Use defaults',
-            routerDetected: 'Detected router',
-            routerNone: 'Not found'
+            presets: 'Server presets',
+            presetsDesc: 'Replace the server list with a preset'
           }
         },
         firewall: {
@@ -595,7 +641,7 @@ const en = {
           backends: 'Backends',
           enableHttpsFirst: 'Enable HTTPS before enabling Restricted or Paranoid Firewall mode',
           httpsRequired:
-            'Restricted and Paranoid modes are disabled until HTTPS is enabled in Settings > System > Network',
+            'Restricted and Paranoid modes are disabled until HTTPS is enabled in Settings > Networking > Services',
           mode: {
             title: 'Firewall mode',
             baseline: 'Baseline',
@@ -705,6 +751,9 @@ const en = {
           '8': '8 - All'
         }
       },
+      networking: {
+        title: 'Networking'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Encrypted tunnel',
@@ -779,7 +828,7 @@ const en = {
         swap: {
           title: 'Swap file',
           tip: 'If issues persist after enabling memory optimization, try enabling the swap file',
-          sizeTip: 'This sets the file size to 256MB, adjust it in Settings > Device'
+          sizeTip: 'This sets the file size to 128MB, adjust it in Settings > System > Performance'
         },
         restartTitle: 'Restart Tailscale',
         restartDesc: 'Restart the service',
@@ -819,7 +868,7 @@ const en = {
         cancelBtn: 'No'
       },
       update: {
-        title: 'System updates',
+        title: 'Updates',
         sources: 'Update sources',
         latestVersion: 'Latest version',
         queryFailed: "Couldn't get the version",
@@ -867,6 +916,13 @@ const en = {
             'This verified bundle will write raw boot/rootfs images to the SD-card partitions and reboot automatically. Writing can take several minutes; keep power connected.',
           rawInstallWarning:
             'There is no automatic rollback for raw partition updates. If boot fails, recover the SD card manually.',
+          rawWaitTitle: 'Installing system update',
+          rawWaitWriting: 'Writing the new system to the SD card',
+          rawWaitRestarting: 'Restarting the device. This page reloads when it is back.',
+          rawWaitDesc:
+            'This takes about three minutes. Keep power connected and do not close this page.',
+          rawWaitSlow:
+            'This is taking longer than expected. Wait a few more minutes before cutting power.',
           rebootRequired: 'Reboot is required to activate this system state.',
           confirming: 'Confirming system update boot...',
           confirmBoot: 'Confirm boot',
@@ -906,6 +962,23 @@ const en = {
           upload: 'Upload',
           invalidName: 'Invalid filename format. Please download from GitHub releases.',
           updateFailed: 'Update failed. Please retry.'
+        },
+        local: {
+          title: 'Upload system bundle',
+          desc: 'Install a system bundle from this computer. One file holds the archive and its signed metadata.',
+          choose: 'Choose file',
+          invalidFile: 'Select a system bundle ending in .tar or .tar.gz.',
+          diskTitle: 'Turn off the virtual disk?',
+          diskWarn:
+            'A system bundle is stored on /data, which is read-only while the virtual disk is on. Turning the virtual disk off means the computer can no longer access /data. Continue?',
+          uploading: 'Uploading',
+          verifying: 'Verifying and staging the bundle',
+          keyTitle: 'Local update key',
+          keyDesc: 'Public key in PEM format that may sign system bundles you build yourself',
+          keyNone: 'No key set',
+          keySet: 'Set key',
+          keyRemove: 'Remove',
+          signer: 'Signed by'
         }
       },
       account: {
@@ -918,6 +991,13 @@ const en = {
         logoutDesc: 'Are you sure you want to logout?',
         okBtn: 'Yes',
         cancelBtn: 'No',
+        session: {
+          title: 'Session'
+        },
+        logoutOnClose: {
+          title: 'Log out when the browser closes',
+          description: 'End the session when the browser is closed instead of keeping it open'
+        },
         totp: {
           title: 'Two-factor authentication',
           authenticator: 'Authenticator app',

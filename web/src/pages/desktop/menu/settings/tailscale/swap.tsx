@@ -22,7 +22,7 @@ export const Swap = () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    const size = enable ? 256 : 0;
+    const size = enable ? 128 : 0;
 
     attempt(() => api.setSwap(size))
       .then((rsp) => {

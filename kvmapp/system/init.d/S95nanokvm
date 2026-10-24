@@ -17,7 +17,6 @@ SERVER_LOG=/tmp/nanokvm-server.log
 SERVER_PID_FILE=/tmp/nanokvm-server.pid
 NANOKVM_NATIVE_LIBRARY_PATH=/kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd
 NANOKVM_XTHEAD_LOADER=/lib/ld-musl-riscv64xthead.so.1
-NANOKVM_V0P7_LOADER=/lib/ld-musl-riscv64v0p7_xthead.so.1
 KVM_SYSTEM_SOURCE_DIR=/kvmapp/kvm_system
 KVM_SYSTEM_RUNTIME_DIR=/tmp/kvm_system
 KVM_SYSTEM_LOG=/tmp/kvm_system.log
@@ -161,7 +160,7 @@ find_kvm_system_pids() {
     for proc in /proc/[0-9]*; do
         cmdline="$(tr '\0' ' ' < "$proc/cmdline" 2>/dev/null || true)"
         case "$cmdline" in
-            /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*)
+            /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*)
                 printf '%s\n' "${proc##*/}"
                 ;;
         esac
@@ -173,7 +172,7 @@ kvm_system_pid_matches() {
     [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null || return 1
     cmdline="$(tr '\0' ' ' < "/proc/$pid/cmdline" 2>/dev/null || true)"
     case "$cmdline" in
-        /lib/ld-musl-riscv64v0p7_xthead.so.1*'/tmp/kvm_system/kvm_system'*) return 0 ;;
+        /lib/ld-musl-riscv64xthead.so.1*'/tmp/kvm_system/kvm_system'*) return 0 ;;
     esac
     return 1
 }
@@ -226,7 +225,7 @@ start_kvm_system_runtime() {
         return 1
     }
     : > "$KVM_SYSTEM_LOG" 2>/dev/null || KVM_SYSTEM_LOG=/dev/null
-    nohup "$NANOKVM_V0P7_LOADER" --library-path "$NANOKVM_NATIVE_LIBRARY_PATH" \
+    nohup "$NANOKVM_XTHEAD_LOADER" --library-path "$NANOKVM_NATIVE_LIBRARY_PATH" \
         "$KVM_SYSTEM_RUNTIME_DIR/kvm_system" >"$KVM_SYSTEM_LOG" 2>&1 &
     launched_pid=$!
     rm -f "$KVM_SYSTEM_PID_FILE"
@@ -341,7 +340,6 @@ ensure_kvm_state_files() {
     # keeps listening on TCP but stops answering HTTP. Always boot into MJPEG;
     # users can still select H.264 explicitly after the UI is reachable.
     printf 'mjpeg\n' > /kvmapp/kvm/type
-    [ -f /kvmapp/kvm/gop ] || printf '50\n' > /kvmapp/kvm/gop
     [ -f /kvmapp/kvm/state ] || printf '0\n' > /kvmapp/kvm/state
     [ -f /kvmapp/kvm/width ] || printf '1920\n' > /kvmapp/kvm/width
     [ -f /kvmapp/kvm/height ] || printf '1080\n' > /kvmapp/kvm/height
@@ -515,7 +513,7 @@ start_watchdog() {
             # without the server being hung, so allow more time and more misses.
             if transfer_in_progress; then
                 check_time=10
-                max_failures=12
+                max_failures=6
                 in_transfer=1
             else
                 check_time=3
@@ -525,9 +523,13 @@ start_watchdog() {
                 in_transfer=0
             fi
 
+            marker_before=$(cat "$TRANSFER_MARKER" 2>/dev/null)
             check_start=$(date +%s)
             if health_check "$check_time"; then
                 failures=0
+            elif [ "$in_transfer" = 1 ] && [ "$(cat "$TRANSFER_MARKER" 2>/dev/null)" != "$marker_before" ]; then
+                # The server moved the transfer on during the check, so it is not hung.
+                runtime_log "NanoKVM-Server health check missed during an active transfer; not counted"
             else
                 failures=$((failures + 1))
                 runtime_log "NanoKVM-Server health check failed ($failures/$max_failures)"

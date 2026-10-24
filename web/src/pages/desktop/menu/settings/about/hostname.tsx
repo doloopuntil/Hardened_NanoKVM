@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Button, Input, Popconfirm } from 'antd';
-import { ClipboardPenIcon } from 'lucide-react';
+import { CheckIcon, ClipboardPenIcon, XIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
@@ -91,8 +90,13 @@ export const Hostname = () => {
               onChange={(e) => setInput(e.target.value)}
               onPressEnter={update}
             />
-            <Button size="small" icon={<CheckOutlined />} disabled={isInvalid} onClick={update} />
-            <Button size="small" icon={<CloseOutlined />} onClick={() => setEditState('')} />
+            <Button
+              size="small"
+              icon={<CheckIcon size={14} />}
+              disabled={isInvalid}
+              onClick={update}
+            />
+            <Button size="small" icon={<XIcon size={14} />} onClick={() => setEditState('')} />
           </div>
         ) : (
           <Popconfirm

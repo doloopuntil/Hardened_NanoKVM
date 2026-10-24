@@ -89,7 +89,7 @@ const hu = {
       title: 'Képernyő',
       video: 'Videó mód',
       videoDirectTips:
-        'Ennek a módnak a használatához engedélyezze a HTTPS-t a „Beállítások > Rendszer > Hálózat” menüpontban',
+        'Ennek a módnak a használatához engedélyezze a HTTPS-t a „Beállítások > Hálózat > Szolgáltatások” menüpontban',
       videoWebrtcBlockedByFirewall:
         'A H.264 WebRTC le van tiltva Korlátozott és Paranoid tűzfal módban',
       transferRunningTitle: 'Képfájl-átvitel folyamatban',
@@ -351,7 +351,7 @@ const hu = {
     settings: {
       title: 'Beállítások',
       about: {
-        title: 'NanoKVM névjegy',
+        title: 'Névjegy',
         information: 'Információ',
         ip: 'IP',
         mdns: 'mDNS',
@@ -418,8 +418,7 @@ const hu = {
         sections: {
           connectivity: 'Kapcsolatok',
           hostConnection: 'Gazdagép-kapcsolat',
-          inputOutput: 'Bemenet és kimenet',
-          optimizations: 'Optimalizálás'
+          inputOutput: 'Bemenet és kimenet'
         },
         oled: {
           title: 'OLED időkorlátja',
@@ -559,10 +558,56 @@ const hu = {
       },
       system: {
         title: 'Rendszer',
+        performance: {
+          processor: 'Processzor',
+          overdrive: {
+            title: 'Órajel-túlhajtás',
+            description: 'Indítás a gyártó által megadott magasabb processzor- és videóórajelekkel',
+            tip: 'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írni',
+            pending: 'A következő újraindítás után lép életbe',
+            unavailable: 'Nem része ennek a rendszerképnek',
+            keepTitle: 'Overdrive megtartása frissítések után',
+            keepDescription:
+              'A rendszerfrissítés visszaállítja az eszközt a szabványos órajelekre, ha ez nincs bekapcsolva',
+            confirmTitle: 'Bekapcsolja az órajel-túlhajtást?',
+            confirmText:
+              'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írnia a helyreállításhoz. A módosítás a következő újraindítás után lép életbe.'
+          },
+          memory: 'Memória'
+        },
+        monitor: {
+          processorClock: 'CPU alrendszer',
+          videoClock: 'Videó alrendszer',
+          videoClockCaption: 'Videó órajel-frekvenciája',
+          cpuClockCaption: 'CPU órajel-frekvenciája',
+          overdrive: 'Túlhajtás',
+          temperature: 'Hőmérséklet',
+          lastMinutes: 'Utolsó 5 perc',
+          ram: 'RAM',
+          off: 'Ki',
+          ramHistory: 'RAM-használat',
+          cpuLoad: 'CPU-terhelés',
+          cpuLoadCaption: 'Felhasználó {{user}} százalék, rendszer {{system}} százalék',
+          cpuUtilization: 'CPU-kihasználtság',
+          swapUtilization: 'Swap-kihasználtság',
+          swapSizeLastMinutes: '{{size}}, utolsó 5 perc',
+          percent: '{{percent}} százalék',
+          percentUsed: '{{percent}} százalék használatban',
+          sizeOf: '{{used}} / {{total}}',
+          systemPartition: 'Rendszerpartíció',
+          dataPartition: 'Adatpartíció',
+          unavailable: 'Nem érhető el',
+          noReadings: 'Az eszköz nem ad vissza mérési adatokat',
+          refresh: 'Másodpercenként frissül, amíg az oldal nyitva van'
+        },
         sections: {
           time: 'Idő',
           firewall: 'Tűzfal',
-          systemLog: 'Naplózás'
+          systemLog: 'Naplózás',
+          performance: 'Teljesítmény',
+          monitor: 'Monitor',
+          services: 'Szolgáltatások',
+          webInterface: 'Webes felület'
         },
         time: {
           saveFailed: 'Nem sikerült menteni az időbeállításokat',
@@ -572,7 +617,7 @@ const hu = {
           invalidServers: 'Adjon meg legalább egy NTP-szervert',
           maxServers: 'Legfeljebb {{count}} NTP-szerver engedélyezett',
           refresh: 'Frissítés',
-          syncNow: 'Szinkronizálás most',
+          syncNow: 'Szinkronizálás',
           syncNowDesc: 'Az óra beállítása az NTP-kiszolgálókról most',
           save: 'Mentés',
           ntp: {
@@ -592,8 +637,8 @@ const hu = {
               'Használja az alapértelmezett nyilvános szervereket, a helyi routert vagy egyéni NTP-szervereket',
             useRouter: 'Router használata',
             useDefaults: 'Alapértékek használata',
-            routerDetected: 'Észlelt router',
-            routerNone: 'Nem található'
+            presets: 'Kiszolgáló-előbeállítások',
+            presetsDesc: 'A kiszolgálólista cseréje egy előbeállításra'
           }
         },
         firewall: {
@@ -605,7 +650,7 @@ const hu = {
           enableHttpsFirst:
             'A Korlátozott vagy Paranoid tűzfalmód engedélyezése előtt engedélyezze a HTTPS-t',
           httpsRequired:
-            'A Korlátozott és Paranoid mód le van tiltva, amíg a HTTPS nincs engedélyezve a Beállítások > Rendszer > Hálózat alatt',
+            'A Korlátozott és Paranoid mód le van tiltva, amíg a HTTPS nincs engedélyezve a Beállítások > Hálózat > Szolgáltatások alatt',
           mode: {
             title: 'Tűzfal mód',
             baseline: 'Alap',
@@ -717,6 +762,9 @@ const hu = {
           '8': '8 - Mind'
         }
       },
+      networking: {
+        title: 'Hálózat'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Titkosított alagút',
@@ -794,7 +842,7 @@ const hu = {
           title: 'Swap fájl',
           tip: 'Ha a memóriaoptimalizálás engedélyezése után is fennállnak a problémák, próbálja meg engedélyezni a swap fájlt',
           sizeTip:
-            'Ez a fájl méretét 256MB értékre állítja; a Beállítások > Eszköz menüpontban módosíthatja'
+            'Ez a fájl méretét 128MB értékre állítja; a Beállítások > Rendszer > Teljesítmény menüpontban módosíthatja'
         },
         restartTitle: 'Tailscale újraindítása',
         restartDesc: 'Újraindítja a szolgáltatást',
@@ -835,7 +883,7 @@ const hu = {
         cancelBtn: 'Nem'
       },
       update: {
-        title: 'Rendszerfrissítések',
+        title: 'Frissítések',
         sources: 'Frissítési források',
         latestVersion: 'Legújabb verzió',
         queryFailed: 'Verzió lekérdezése sikertelen',
@@ -883,6 +931,14 @@ const hu = {
             'Ez az ellenőrzött csomag raw boot/rootfs image-eket ír az SD-kártya partícióira, majd automatikusan újraindít. Az írás több percig tarthat; tartsa csatlakoztatva a tápot.',
           rawInstallWarning:
             'Raw partíciófrissítéseknél nincs automatikus rollback. Ha a boot sikertelen, állítsa helyre kézzel az SD-kártyát.',
+          rawWaitTitle: 'Rendszerfrissítés telepítése',
+          rawWaitWriting: 'Az új rendszer írása az SD-kártyára',
+          rawWaitRestarting:
+            'Az eszköz újraindul. Ez az oldal újratöltődik, amint az eszköz újra elérhető.',
+          rawWaitDesc:
+            'Ez körülbelül három percig tart. Hagyja csatlakoztatva a tápellátást, és ne zárja be ezt az oldalt.',
+          rawWaitSlow:
+            'Ez a vártnál tovább tart. Várjon még néhány percet, mielőtt megszakítja a tápellátást.',
           rebootRequired: 'Újraindítás szükséges ennek a rendszerállapotnak az aktiválásához.',
           confirming: 'Rendszerfrissítés bootjának megerősítése...',
           confirmBoot: 'Boot megerősítése',
@@ -922,6 +978,24 @@ const hu = {
           upload: 'Feltöltés',
           invalidName: 'Érvénytelen fájlnévformátum. Kérjük, töltse le a GitHub kiadásaiból.',
           updateFailed: 'Frissítés sikertelen. Kérem, próbálja újra.'
+        },
+        local: {
+          title: 'Rendszercsomag feltöltése',
+          desc: 'Rendszercsomag telepítése erről a számítógépről. Egy fájl tartalmazza az archívumot és az aláírt metaadatokat.',
+          choose: 'Fájl kiválasztása',
+          invalidFile: 'Válasszon .tar vagy .tar.gz végződésű rendszercsomagot.',
+          diskTitle: 'Kikapcsolja a virtuális lemezt?',
+          diskWarn:
+            'A rendszercsomag a /data könyvtárba kerül, amely csak olvasható, amíg a virtuális lemez be van kapcsolva. A kikapcsolás után a számítógép többé nem fér hozzá a /data könyvtárhoz. Folytatja?',
+          uploading: 'Feltöltés',
+          verifying: 'A csomag ellenőrzése és előkészítése',
+          keyTitle: 'Helyi frissítési kulcs',
+          keyDesc:
+            'PEM formátumú nyilvános kulcs, amely aláírhatja az Ön által készített rendszercsomagokat',
+          keyNone: 'Nincs kulcs beállítva',
+          keySet: 'Kulcs beállítása',
+          keyRemove: 'Eltávolítás',
+          signer: 'Aláíró'
         }
       },
       account: {
@@ -934,6 +1008,13 @@ const hu = {
         logoutDesc: 'Biztos, hogy ki szeretne jelentkezni?',
         okBtn: 'Igen',
         cancelBtn: 'Nem',
+        session: {
+          title: 'Munkamenet'
+        },
+        logoutOnClose: {
+          title: 'Kijelentkezés a böngésző bezárásakor',
+          description: 'A munkamenet befejezése a böngésző bezárásakor, nyitva tartás helyett'
+        },
         totp: {
           title: 'Kétfaktoros hitelesítés',
           authenticator: 'Hitelesítő alkalmazás',

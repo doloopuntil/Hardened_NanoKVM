@@ -88,7 +88,7 @@ const cz = {
       scale: 'Měřítko',
       title: 'Obrazovka',
       video: 'Režim videa',
-      videoDirectTips: 'Chcete-li používat tento režim, povolte HTTPS v "Nastavení > Systém > Síť"',
+      videoDirectTips: 'Chcete-li používat tento režim, povolte HTTPS v "Nastavení > Síť > Služby"',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC je v režimech firewallu Omezený a Paranoidní vypnuto',
       transferRunningTitle: 'Probíhá přenos obrazu',
@@ -348,7 +348,7 @@ const cz = {
     settings: {
       title: 'Nastavení',
       about: {
-        title: 'O NanoKVM',
+        title: 'O aplikaci',
         information: 'Informace',
         ip: 'IP',
         mdns: 'mDNS',
@@ -415,8 +415,7 @@ const cz = {
         sections: {
           connectivity: 'Připojení',
           hostConnection: 'Připojení k hostiteli',
-          inputOutput: 'Vstup a výstup',
-          optimizations: 'Optimalizace'
+          inputOutput: 'Vstup a výstup'
         },
         oled: {
           title: 'Časový limit OLED',
@@ -553,10 +552,57 @@ const cz = {
       },
       system: {
         title: 'Systém',
+        performance: {
+          processor: 'Procesor',
+          overdrive: {
+            title: 'Přetaktování',
+            description:
+              'Spustit s vyššími frekvencemi procesoru a videa podle specifikace výrobce',
+            tip: 'Pokud se zařízení s přetaktováním nespustí, je nutné znovu zapsat kartu SD',
+            pending: 'Použije se po příštím restartu',
+            unavailable: 'Není součástí tohoto systémového obrazu',
+            keepTitle: 'Ponechat overdrive po aktualizaci',
+            keepDescription:
+              'Aktualizace systému vrátí zařízení ke standardním taktům, pokud to není zapnuto',
+            confirmTitle: 'Zapnout přetaktování?',
+            confirmText:
+              'Pokud se zařízení s přetaktováním nespustí, musíte kartu SD znovu zapsat, abyste ho obnovili. Změna se použije po příštím restartu.'
+          },
+          memory: 'Paměť'
+        },
+        monitor: {
+          processorClock: 'Subsystém CPU',
+          videoClock: 'Subsystém videa',
+          videoClockCaption: 'Frekvence hodin videa',
+          cpuClockCaption: 'Frekvence hodin CPU',
+          overdrive: 'Přetaktování',
+          temperature: 'Teplota',
+          lastMinutes: 'Posledních 5 minut',
+          ram: 'RAM',
+          off: 'Vypnuto',
+          ramHistory: 'Využití RAM',
+          cpuLoad: 'Zatížení CPU',
+          cpuLoadCaption: 'Uživatel {{user}} procent, systém {{system}} procent',
+          cpuUtilization: 'Využití CPU',
+          swapUtilization: 'Využití odkládacího prostoru',
+          swapSizeLastMinutes: '{{size}}, posledních 5 minut',
+          percent: '{{percent}} procent',
+          percentUsed: '{{percent}} procent využito',
+          sizeOf: '{{used}} z {{total}}',
+          systemPartition: 'Systémový oddíl',
+          dataPartition: 'Datový oddíl',
+          unavailable: 'Není k dispozici',
+          noReadings: 'Zařízení nevrací žádná měření',
+          refresh: 'Aktualizuje se každou sekundu, dokud je tato stránka otevřená'
+        },
         sections: {
           time: 'Čas',
           firewall: 'Firewall',
-          systemLog: 'Protokolování'
+          systemLog: 'Protokolování',
+          performance: 'Výkon',
+          monitor: 'Monitor',
+          services: 'Služby',
+          webInterface: 'Webové rozhraní'
         },
         time: {
           saveFailed: 'Nepodařilo se uložit nastavení času',
@@ -566,7 +612,7 @@ const cz = {
           invalidServers: 'Zadejte alespoň jeden server NTP',
           maxServers: 'Povoleno je maximálně {{count}} serverů NTP',
           refresh: 'Obnovit',
-          syncNow: 'Synchronizovat nyní',
+          syncNow: 'Synchronizovat',
           syncNowDesc: 'Nastavit hodiny podle serverů NTP hned',
           save: 'Uložit',
           ntp: {
@@ -585,8 +631,8 @@ const cz = {
             description: 'Použijte výchozí veřejné servery, místní router nebo vlastní servery NTP',
             useRouter: 'Použít router',
             useDefaults: 'Použít výchozí',
-            routerDetected: 'Zjištěný router',
-            routerNone: 'Nenalezen'
+            presets: 'Předvolby serverů',
+            presetsDesc: 'Nahradí seznam serverů předvolbou'
           }
         },
         firewall: {
@@ -597,7 +643,7 @@ const cz = {
           backends: 'Backendy',
           enableHttpsFirst: 'Před zapnutím režimu firewallu Omezený nebo Paranoidní zapněte HTTPS',
           httpsRequired:
-            'Režimy Omezený a Paranoidní jsou vypnuté, dokud není HTTPS zapnuto v Nastavení > Systém > Síť',
+            'Režimy Omezený a Paranoidní jsou vypnuté, dokud není HTTPS zapnuto v Nastavení > Síť > Služby',
           mode: {
             title: 'Režim firewallu',
             baseline: 'Základní',
@@ -708,6 +754,9 @@ const cz = {
           '8': '8 - Vše'
         }
       },
+      networking: {
+        title: 'Síť'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Šifrovaný tunel',
@@ -783,7 +832,7 @@ const cz = {
           title: 'Odkládací soubor',
           tip: 'Pokud problémy přetrvávají i po zapnutí optimalizace paměti, zkuste zapnout odkládací soubor',
           sizeTip:
-            'Tím se velikost souboru nastaví na 256MB; upravit ji můžete v Nastavení > Zařízení'
+            'Tím se velikost souboru nastaví na 128MB; upravit ji můžete v Nastavení > Systém > Výkon'
         },
         restartTitle: 'Restartovat Tailscale',
         restartDesc: 'Restartuje službu',
@@ -823,7 +872,7 @@ const cz = {
         cancelBtn: 'Ne'
       },
       update: {
-        title: 'Aktualizace systému',
+        title: 'Aktualizace',
         sources: 'Zdroje aktualizací',
         latestVersion: 'Nejnovější verze',
         queryFailed: 'Nepodařilo se získat verzi',
@@ -871,6 +920,14 @@ const cz = {
             'Tento ověřený balíček zapíše raw image boot/rootfs do oddílů SD karty a automaticky restartuje zařízení. Zápis může trvat několik minut; ponechte napájení připojené.',
           rawInstallWarning:
             'Pro raw aktualizace oddílů není automatický rollback. Pokud boot selže, obnovte SD kartu ručně.',
+          rawWaitTitle: 'Instalace aktualizace systému',
+          rawWaitWriting: 'Nový systém se zapisuje na kartu SD',
+          rawWaitRestarting:
+            'Zařízení se restartuje. Tato stránka se znovu načte, až bude zařízení zpět.',
+          rawWaitDesc:
+            'Trvá to asi tři minuty. Ponechte napájení připojené a tuto stránku nezavírejte.',
+          rawWaitSlow:
+            'Trvá to déle, než se čekalo. Před odpojením napájení počkejte ještě několik minut.',
           rebootRequired: 'Pro aktivaci tohoto stavu systému je vyžadován restart.',
           confirming: 'Potvrzuje se boot aktualizace systému...',
           confirmBoot: 'Potvrdit boot',
@@ -910,6 +967,24 @@ const cz = {
           upload: 'Nahrát',
           invalidName: 'Neplatný formát souboru. Stáhněte si prosím z vydání GitHubu.',
           updateFailed: 'Aktualizace se nezdařila. Zkuste to prosím znovu.'
+        },
+        local: {
+          title: 'Nahrát systémový balíček',
+          desc: 'Nainstalovat systémový balíček z tohoto počítače. Jeden soubor obsahuje archiv a jeho podepsaná metadata.',
+          choose: 'Vybrat soubor',
+          invalidFile: 'Vyberte systémový balíček s příponou .tar nebo .tar.gz.',
+          diskTitle: 'Vypnout virtuální disk?',
+          diskWarn:
+            'Balíček systému se ukládá do /data, které je při zapnutém virtuálním disku jen pro čtení. Po vypnutí virtuálního disku už počítač nebude mít přístup k /data. Pokračovat?',
+          uploading: 'Nahrávání',
+          verifying: 'Ověřování a příprava balíčku',
+          keyTitle: 'Místní aktualizační klíč',
+          keyDesc:
+            'Veřejný klíč ve formátu PEM, který smí podepisovat systémové balíčky, které si sami sestavíte',
+          keyNone: 'Žádný klíč nenastaven',
+          keySet: 'Nastavit klíč',
+          keyRemove: 'Odebrat',
+          signer: 'Podepsal'
         }
       },
       account: {
@@ -922,6 +997,13 @@ const cz = {
         logoutDesc: 'Opravdu se chcete odhlásit?',
         okBtn: 'Ano',
         cancelBtn: 'Ne',
+        session: {
+          title: 'Relace'
+        },
+        logoutOnClose: {
+          title: 'Odhlásit při zavření prohlížeče',
+          description: 'Ukončit relaci po zavření prohlížeče místo jejího ponechání otevřené'
+        },
         totp: {
           title: 'Dvoufázové ověření',
           authenticator: 'Ověřovací aplikace',

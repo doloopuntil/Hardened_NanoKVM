@@ -88,7 +88,7 @@ const ja = {
       title: '画面',
       video: 'ビデオモード',
       videoDirectTips:
-        'このモードを使用するには「設定 > システム > ネットワーク」で HTTPS を有効にしてください',
+        'このモードを使用するには「設定 > ネットワーク > サービス」で HTTPS を有効にしてください',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC は制限付き/パラノイドファイアウォールモードでは無効です',
       transferRunningTitle: 'イメージ転送中',
@@ -351,7 +351,7 @@ const ja = {
     settings: {
       title: '設定',
       about: {
-        title: 'NanoKVM について',
+        title: 'バージョン情報',
         information: '情報',
         ip: 'IP',
         mdns: 'mDNS',
@@ -419,8 +419,7 @@ const ja = {
         sections: {
           connectivity: '接続',
           hostConnection: 'ホスト接続',
-          inputOutput: '入力と出力',
-          optimizations: '最適化'
+          inputOutput: '入力と出力'
         },
         oled: {
           title: 'OLED のタイムアウト',
@@ -558,10 +557,56 @@ const ja = {
       },
       system: {
         title: 'システム',
+        performance: {
+          processor: 'プロセッサ',
+          overdrive: {
+            title: 'クロックのオーバードライブ',
+            description: 'メーカー指定の高いプロセッサとビデオのクロックで起動します',
+            tip: 'オーバードライブで起動しない場合は、SD カードの書き直しが必要です',
+            pending: '次回の再起動後に反映されます',
+            unavailable: 'このシステムイメージには含まれていません',
+            keepTitle: '更新後もオーバードライブを維持',
+            keepDescription:
+              'これをオンにしない限り、システム更新後はデバイスが標準クロックに戻ります',
+            confirmTitle: 'クロックのオーバードライブを有効にしますか？',
+            confirmText:
+              'オーバードライブで起動しない場合は、復旧のために SD カードを書き直す必要があります。変更は次回の再起動後に反映されます。'
+          },
+          memory: 'メモリ'
+        },
+        monitor: {
+          processorClock: 'CPU サブシステム',
+          videoClock: 'ビデオサブシステム',
+          videoClockCaption: 'ビデオクロック周波数',
+          cpuClockCaption: 'CPU クロック周波数',
+          overdrive: 'オーバードライブ',
+          temperature: '温度',
+          lastMinutes: '直近 5 分',
+          ram: 'RAM',
+          off: 'オフ',
+          ramHistory: 'RAM 使用率',
+          cpuLoad: 'CPU 負荷',
+          cpuLoadCaption: 'ユーザー {{user}} パーセント、システム {{system}} パーセント',
+          cpuUtilization: 'CPU 使用率',
+          swapUtilization: 'スワップ使用率',
+          swapSizeLastMinutes: '{{size}}、過去 5 分間',
+          percent: '{{percent}} パーセント',
+          percentUsed: '{{percent}} パーセント使用',
+          sizeOf: '{{used}} / {{total}}',
+          systemPartition: 'システムパーティション',
+          dataPartition: 'データパーティション',
+          unavailable: '利用できません',
+          noReadings: 'デバイスから値が返されません',
+          refresh: 'このページを開いている間、1 秒ごとに更新されます'
+        },
         sections: {
           time: '時刻',
           firewall: 'ファイアウォール',
-          systemLog: 'ログ記録'
+          systemLog: 'ログ記録',
+          performance: 'パフォーマンス',
+          monitor: 'モニター',
+          services: 'サービス',
+          webInterface: 'Webインターフェース'
         },
         time: {
           saveFailed: '時刻設定の保存に失敗しました',
@@ -571,7 +616,7 @@ const ja = {
           invalidServers: '少なくとも 1 つの NTP サーバーを入力してください',
           maxServers: '最大 {{count}} 個の NTP サーバーを指定できます',
           refresh: '更新',
-          syncNow: '今すぐ同期',
+          syncNow: '同期',
           syncNowDesc: 'NTP サーバーから今すぐ時刻を設定します',
           save: '保存',
           ntp: {
@@ -591,8 +636,8 @@ const ja = {
               '既定の公開サーバー、ローカルルーター、またはカスタム NTP サーバーを使用します',
             useRouter: 'ルーターを使用',
             useDefaults: '既定値を使用',
-            routerDetected: '検出されたルーター',
-            routerNone: '見つかりません'
+            presets: 'サーバーのプリセット',
+            presetsDesc: 'サーバー一覧をプリセットに置き換えます'
           }
         },
         firewall: {
@@ -604,7 +649,7 @@ const ja = {
           enableHttpsFirst:
             '制限付きまたはパラノイドファイアウォールモードを有効にする前に HTTPS を有効にしてください',
           httpsRequired:
-            'HTTPS が「設定 > システム > ネットワーク」で有効になるまで、制限付きモードとパラノイドモードは無効です',
+            'HTTPS が「設定 > ネットワーク > サービス」で有効になるまで、制限付きモードとパラノイドモードは無効です',
           mode: {
             title: 'ファイアウォールモード',
             baseline: 'ベースライン',
@@ -716,6 +761,9 @@ const ja = {
           '8': '8 - すべて'
         }
       },
+      networking: {
+        title: 'ネットワーク'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: '暗号化トンネル',
@@ -792,7 +840,7 @@ const ja = {
           title: 'スワップファイル',
           tip: 'メモリ最適化を有効にしても問題が解決しない場合は、スワップファイルを有効にしてみてください',
           sizeTip:
-            'ファイルサイズは 256MB に設定されます。サイズは「設定 - デバイス」で変更できます'
+            'ファイルサイズは 128MB に設定されます。サイズは「設定 > システム > パフォーマンス」で変更できます'
         },
         restartTitle: 'Tailscale を再起動',
         restartDesc: 'サービスを再起動します',
@@ -832,7 +880,7 @@ const ja = {
         cancelBtn: 'いいえ'
       },
       update: {
-        title: 'システムアップデート',
+        title: 'アップデート',
         sources: 'アップデートの取得元',
         latestVersion: '最新バージョン',
         queryFailed: 'バージョン番号の取得に失敗しました',
@@ -879,6 +927,13 @@ const ja = {
             'この検証済みバンドルは raw boot/rootfs イメージを SD カードパーティションに書き込み、自動的に再起動します。書き込みには数分かかる場合があります。電源を接続したままにしてください。',
           rawInstallWarning:
             'Raw パーティション更新には自動 rollback がありません。起動に失敗した場合は SD カードを手動で復旧してください。',
+          rawWaitTitle: 'システム更新をインストール中',
+          rawWaitWriting: '新しいシステムを SD カードに書き込んでいます',
+          rawWaitRestarting:
+            'デバイスを再起動しています。デバイスが戻ると、このページは自動的に再読み込みされます。',
+          rawWaitDesc:
+            'これには約 3 分かかります。電源を接続したままにし、このページを閉じないでください。',
+          rawWaitSlow: '予想より時間がかかっています。電源を切る前に、あと数分お待ちください。',
           rebootRequired: 'このシステム状態を有効にするには再起動が必要です。',
           confirming: 'システム更新の起動を確認しています...',
           confirmBoot: '起動を確認',
@@ -920,6 +975,23 @@ const ja = {
           invalidName:
             'ファイル名の形式が正しくありません。GitHub リリースページにアクセスしてインストールパッケージをダウンロードしてください。',
           updateFailed: 'アップデートに失敗しました。もう一度お試しください。'
+        },
+        local: {
+          title: 'システムバンドルをアップロード',
+          desc: 'このコンピューターからシステムバンドルをインストールします。1 つのファイルにアーカイブと署名付きメタデータが含まれます。',
+          choose: 'ファイルを選択',
+          invalidFile: '.tar または .tar.gz で終わるシステムバンドルを選択してください。',
+          diskTitle: '仮想ディスクをオフにしますか？',
+          diskWarn:
+            'システムバンドルは /data に保存されますが、仮想ディスクがオンの間は読み取り専用です。オフにすると、コンピュータから /data にアクセスできなくなります。続行しますか？',
+          uploading: 'アップロード中',
+          verifying: 'バンドルを検証して準備しています',
+          keyTitle: 'ローカル更新キー',
+          keyDesc: '自作のシステムバンドルへの署名を許可する PEM 形式の公開鍵',
+          keyNone: 'キーが未設定です',
+          keySet: 'キーを設定',
+          keyRemove: '削除',
+          signer: '署名者'
         }
       },
       account: {
@@ -932,6 +1004,13 @@ const ja = {
         logoutDesc: 'ログアウトしてもよろしいですか？',
         okBtn: 'はい',
         cancelBtn: 'いいえ',
+        session: {
+          title: 'セッション'
+        },
+        logoutOnClose: {
+          title: 'ブラウザを閉じたらログアウト',
+          description: 'セッションを開いたままにせず、ブラウザを閉じたときに終了します'
+        },
         totp: {
           title: '二要素認証',
           authenticator: '認証アプリ',

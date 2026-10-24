@@ -85,7 +85,7 @@ const zh = {
       scale: '缩放',
       title: '屏幕',
       video: '视频模式',
-      videoDirectTips: '该模式需启用 HTTPS，请前往「设置 > 系统 > 网络」中开启',
+      videoDirectTips: '该模式需启用 HTTPS，请前往「设置 > 网络 > 服务」中开启',
       videoWebrtcBlockedByFirewall: 'H.264 WebRTC 在受限和偏执防火墙模式下已禁用',
       transferRunningTitle: '镜像传输进行中',
       transferRunningDesc: '切换视频模式会重新加载页面，并取消正在进行的镜像上传或下载。',
@@ -334,7 +334,7 @@ const zh = {
     settings: {
       title: '设置',
       about: {
-        title: '关于 NanoKVM',
+        title: '关于',
         information: '信息',
         ip: 'IP',
         mdns: 'mDNS',
@@ -400,8 +400,7 @@ const zh = {
         sections: {
           connectivity: '连接',
           hostConnection: '主机连接',
-          inputOutput: '输入与输出',
-          optimizations: '优化'
+          inputOutput: '输入与输出'
         },
         oled: {
           title: 'OLED 超时',
@@ -533,10 +532,55 @@ const zh = {
       },
       system: {
         title: '系统',
+        performance: {
+          processor: '处理器',
+          overdrive: {
+            title: '时钟超频',
+            description: '以制造商指定的更高处理器和视频时钟频率启动',
+            tip: '如果设备在超频下无法启动，必须重新刷写 SD 卡',
+            pending: '下次重启后生效',
+            unavailable: '此系统镜像不包含该选项',
+            keepTitle: '更新后保持超频',
+            keepDescription: '除非开启此项，否则系统更新后设备将恢复为标准时钟',
+            confirmTitle: '启用时钟超频？',
+            confirmText:
+              '如果设备在超频下无法启动，必须重新刷写 SD 卡才能恢复。更改将在下次重启后生效。'
+          },
+          memory: '内存'
+        },
+        monitor: {
+          processorClock: 'CPU 子系统',
+          videoClock: '视频子系统',
+          videoClockCaption: '视频时钟频率',
+          cpuClockCaption: 'CPU 时钟频率',
+          overdrive: '超频',
+          temperature: '温度',
+          lastMinutes: '最近 5 分钟',
+          ram: 'RAM',
+          off: '关闭',
+          ramHistory: 'RAM 利用率',
+          cpuLoad: 'CPU 负载',
+          cpuLoadCaption: '用户 {{user}} 百分比，系统 {{system}} 百分比',
+          cpuUtilization: 'CPU 使用率',
+          swapUtilization: '交换空间使用率',
+          swapSizeLastMinutes: '{{size}}，最近 5 分钟',
+          percent: '{{percent}} %',
+          percentUsed: '已用 {{percent}} %',
+          sizeOf: '{{used}} / {{total}}',
+          systemPartition: '系统分区',
+          dataPartition: '数据分区',
+          unavailable: '不可用',
+          noReadings: '设备未返回读数',
+          refresh: '此页面打开期间每秒更新一次'
+        },
         sections: {
           time: '时间',
           firewall: '防火墙',
-          systemLog: '日志'
+          systemLog: '日志',
+          performance: '性能',
+          monitor: '监控',
+          services: '服务',
+          webInterface: '网页界面'
         },
         time: {
           saveFailed: '保存时间设置失败',
@@ -546,7 +590,7 @@ const zh = {
           invalidServers: '请至少输入一个 NTP 服务器',
           maxServers: '最多允许 {{count}} 个 NTP 服务器',
           refresh: '刷新',
-          syncNow: '立即同步',
+          syncNow: '同步',
           syncNowDesc: '立即用 NTP 服务器设置时钟',
           save: '保存',
           ntp: {
@@ -565,8 +609,8 @@ const zh = {
             description: '使用默认公共服务器、本地路由器或自定义 NTP 服务器',
             useRouter: '使用路由器',
             useDefaults: '使用默认值',
-            routerDetected: '检测到路由器',
-            routerNone: '未找到'
+            presets: '服务器预设',
+            presetsDesc: '用预设替换服务器列表'
           }
         },
         firewall: {
@@ -576,7 +620,7 @@ const zh = {
           refresh: '刷新',
           backends: '后端',
           enableHttpsFirst: '请先启用 HTTPS，再启用受限或偏执防火墙模式',
-          httpsRequired: '在“设置 > 系统 > 网络”中启用 HTTPS 之前，受限和偏执模式不可用',
+          httpsRequired: '在“设置 > 网络 > 服务”中启用 HTTPS 之前，受限和偏执模式不可用',
           mode: {
             title: '防火墙模式',
             baseline: '基线',
@@ -685,6 +729,9 @@ const zh = {
           '8': '8 - 全部'
         }
       },
+      networking: {
+        title: '网络'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: '加密隧道',
@@ -758,7 +805,7 @@ const zh = {
         swap: {
           title: '交换文件',
           tip: '如果启用内存优化后问题依然存在，可以尝试启用交换文件',
-          sizeTip: '这会将文件大小设置为 256MB，可以在「设置 - 设备」中修改'
+          sizeTip: '这会将文件大小设置为 128MB，可以在「设置 > 系统 > 性能」中修改'
         },
         restartTitle: '重启 Tailscale',
         restartDesc: '重启服务',
@@ -797,7 +844,7 @@ const zh = {
         cancelBtn: '取消'
       },
       update: {
-        title: '系统更新',
+        title: '更新',
         sources: '更新来源',
         latestVersion: '最新版本',
         queryFailed: '获取版本号失败',
@@ -838,6 +885,11 @@ const zh = {
           rawInstallConfirmDesc:
             '此已验证包会将 raw boot/rootfs 镜像写入 SD 卡分区并自动重启。写入可能需要数分钟；请保持供电。',
           rawInstallWarning: 'Raw 分区更新没有自动 rollback。如果启动失败，请手动恢复 SD 卡。',
+          rawWaitTitle: '正在安装系统更新',
+          rawWaitWriting: '正在将新系统写入 SD 卡',
+          rawWaitRestarting: '设备正在重启。设备恢复后，此页面将自动重新加载。',
+          rawWaitDesc: '这大约需要三分钟。请保持电源连接，并且不要关闭此页面。',
+          rawWaitSlow: '耗时比预期更长。请再等待几分钟，然后再断电。',
           rebootRequired: '需要重启以激活此系统状态。',
           confirming: '正在确认系统更新启动...',
           confirmBoot: '确认启动',
@@ -876,6 +928,23 @@ const zh = {
           upload: '上传',
           invalidName: '文件名格式错误，请前往 GitHub 发布页下载安装包。',
           updateFailed: '更新失败。请重试。'
+        },
+        local: {
+          title: '上传系统包',
+          desc: '从此计算机安装系统包。一个文件包含归档文件及其已签名的元数据。',
+          choose: '选择文件',
+          invalidFile: '请选择以 .tar 或 .tar.gz 结尾的系统包。',
+          diskTitle: '是否关闭虚拟磁盘功能？',
+          diskWarn:
+            '系统包会保存到 /data 目录，而虚拟磁盘开启时该目录为只读。关闭虚拟磁盘后，电脑将无法再访问 /data 目录。是否继续？',
+          uploading: '正在上传',
+          verifying: '正在验证并准备系统包',
+          keyTitle: '本地更新密钥',
+          keyDesc: '可为您自行构建的系统包签名的 PEM 格式公钥',
+          keyNone: '未设置密钥',
+          keySet: '设置密钥',
+          keyRemove: '移除',
+          signer: '签名者'
         }
       },
       account: {
@@ -888,6 +957,13 @@ const zh = {
         logoutDesc: '确定要退出吗？',
         okBtn: '确定',
         cancelBtn: '取消',
+        session: {
+          title: '会话'
+        },
+        logoutOnClose: {
+          title: '关闭浏览器时退出登录',
+          description: '关闭浏览器时结束会话，而不是保持登录状态'
+        },
         totp: {
           title: '两步验证',
           authenticator: '验证器应用',

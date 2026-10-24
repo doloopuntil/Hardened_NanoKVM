@@ -3,6 +3,7 @@ use std::sync::{
     atomic::{AtomicBool, AtomicU64, Ordering},
 };
 
+use axum::http::HeaderValue;
 use tokio::sync::RwLock;
 
 use crate::{
@@ -15,6 +16,7 @@ use crate::{
         totp::ReplayGuard,
     },
     config::Config,
+    http::cookie::{session_cookie, session_cookie_secure, session_only_cookie},
     security::rate_limit::LoginRateLimiter,
 };
 
@@ -47,6 +49,7 @@ pub struct AppState {
     pub require_totp: Arc<AtomicBool>,
     pub remote_image_download_enabled: Arc<AtomicBool>,
     pub session_lock_duration: Arc<AtomicU64>,
+    pub logout_on_browser_close: Arc<AtomicBool>,
 }
 
 impl AppState {
@@ -69,6 +72,8 @@ impl AppState {
         let session_lock_duration =
             normalize_session_lock_duration(config.security.access_token_duration);
 
+        let logout_on_browser_close = config.security.logout_on_browser_close;
+
         Ok(Self {
             config: Arc::new(config),
             accounts: Arc::new(accounts),
@@ -82,6 +87,7 @@ impl AppState {
             require_totp: Arc::new(AtomicBool::new(require_totp)),
             remote_image_download_enabled: Arc::new(AtomicBool::new(remote_image_download_enabled)),
             session_lock_duration: Arc::new(AtomicU64::new(session_lock_duration)),
+            logout_on_browser_close: Arc::new(AtomicBool::new(logout_on_browser_close)),
         })
     }
 
@@ -121,5 +127,25 @@ impl AppState {
 
     pub fn session_lock_duration(&self) -> u64 {
         self.session_lock_duration.load(Ordering::Acquire)
+    }
+
+    pub fn set_logout_on_browser_close(&self, enabled: bool) {
+        self.logout_on_browser_close
+            .store(enabled, Ordering::Release);
+    }
+
+    pub fn logout_on_browser_close(&self) -> bool {
+        self.logout_on_browser_close.load(Ordering::Acquire)
+    }
+
+    /// The Set-Cookie value for a session: it lasts as long as the session lock, or only
+    /// until the browser closes.
+    pub fn session_cookie(&self, token: &str, duration: u64) -> Result<HeaderValue> {
+        let secure = session_cookie_secure(&self.config.proto);
+        if self.logout_on_browser_close() {
+            session_only_cookie(token, secure)
+        } else {
+            session_cookie(token, duration, secure)
+        }
     }
 }

@@ -90,7 +90,8 @@ const fr = {
       scale: 'Échelle',
       title: 'Écran',
       video: 'Mode vidéo',
-      videoDirectTips: 'Activez HTTPS dans « Paramètres > Système > Réseau » pour utiliser ce mode',
+      videoDirectTips:
+        'Activez HTTPS dans « Paramètres > Réseau > Services » pour utiliser ce mode',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC est désactivé dans les modes de pare-feu Restreint et Paranoïaque',
       transferRunningTitle: "Transfert d'image en cours",
@@ -351,7 +352,7 @@ const fr = {
     settings: {
       title: 'Paramètres',
       about: {
-        title: 'À propos de NanoKVM',
+        title: 'À propos',
         information: 'Informations',
         ip: 'IP',
         mdns: 'mDNS',
@@ -418,8 +419,7 @@ const fr = {
         sections: {
           connectivity: 'Connectivité',
           hostConnection: "Connexion à l'hôte",
-          inputOutput: 'Entrée et sortie',
-          optimizations: 'Optimisations'
+          inputOutput: 'Entrée et sortie'
         },
         oled: {
           title: "Délai de l'OLED",
@@ -558,10 +558,57 @@ const fr = {
       },
       system: {
         title: 'Système',
+        performance: {
+          processor: 'Processeur',
+          overdrive: {
+            title: 'Overdrive de fréquence',
+            description:
+              'Démarrer avec les fréquences de processeur et de vidéo plus élevées définies par le fabricant',
+            tip: "Si l'appareil ne démarre pas avec l'overdrive, la carte SD doit être reflashée",
+            pending: "S'applique après le prochain redémarrage",
+            unavailable: 'Absent de cette image système',
+            keepTitle: "Conserver l'overdrive après les mises à jour",
+            keepDescription:
+              "Une mise à jour système remet l'appareil sur les fréquences standard si cette option n'est pas activée",
+            confirmTitle: "Activer l'overdrive de fréquence?",
+            confirmText:
+              "Si l'appareil ne démarre pas avec l'overdrive, vous devrez reflasher la carte SD pour le récupérer. Le changement s'applique après le prochain redémarrage."
+          },
+          memory: 'Mémoire'
+        },
+        monitor: {
+          processorClock: 'Sous-système CPU',
+          videoClock: 'Sous-système vidéo',
+          videoClockCaption: "Fréquence d'horloge vidéo",
+          cpuClockCaption: "Fréquence d'horloge du CPU",
+          overdrive: 'Overdrive',
+          temperature: 'Température',
+          lastMinutes: '5 dernières minutes',
+          ram: 'RAM',
+          off: 'Désactivé',
+          ramHistory: 'Utilisation de la RAM',
+          cpuLoad: 'Charge du processeur',
+          cpuLoadCaption: 'Utilisateur {{user}} pour cent, système {{system}} pour cent',
+          cpuUtilization: 'Utilisation du processeur',
+          swapUtilization: 'Utilisation du swap',
+          swapSizeLastMinutes: '{{size}}, 5 dernières minutes',
+          percent: '{{percent}} pour cent',
+          percentUsed: '{{percent}} pour cent utilisé',
+          sizeOf: '{{used}} sur {{total}}',
+          systemPartition: 'Partition système',
+          dataPartition: 'Partition de données',
+          unavailable: 'Non disponible',
+          noReadings: "L'appareil ne renvoie aucune mesure",
+          refresh: 'Mise à jour chaque seconde tant que cette page est ouverte'
+        },
         sections: {
           time: 'Heure',
           firewall: 'Pare-feu',
-          systemLog: 'Journalisation'
+          systemLog: 'Journalisation',
+          performance: 'Performances',
+          monitor: 'Moniteur',
+          services: 'Services',
+          webInterface: 'Interface web'
         },
         time: {
           saveFailed: "Échec de l'enregistrement des paramètres d'heure",
@@ -571,7 +618,7 @@ const fr = {
           invalidServers: 'Saisissez au moins un serveur NTP',
           maxServers: '{{count}} serveurs NTP maximum autorisés',
           refresh: 'Actualiser',
-          syncNow: 'Synchroniser maintenant',
+          syncNow: 'Synchroniser',
           syncNowDesc: "Régler l'horloge d'après les serveurs NTP maintenant",
           save: 'Enregistrer',
           ntp: {
@@ -591,8 +638,8 @@ const fr = {
               'Utiliser les serveurs publics par défaut, votre routeur local ou des serveurs NTP personnalisés',
             useRouter: 'Utiliser le routeur',
             useDefaults: 'Utiliser les valeurs par défaut',
-            routerDetected: 'Routeur détecté',
-            routerNone: 'Introuvable'
+            presets: 'Serveurs prédéfinis',
+            presetsDesc: 'Remplace la liste des serveurs par un préréglage'
           }
         },
         firewall: {
@@ -604,7 +651,7 @@ const fr = {
           enableHttpsFirst:
             "Activez HTTPS avant d'activer le mode pare-feu Restreint ou Paranoïaque",
           httpsRequired:
-            "Les modes Restreint et Paranoïaque sont désactivés tant que HTTPS n'est pas activé dans Paramètres > Système > Réseau",
+            "Les modes Restreint et Paranoïaque sont désactivés tant que HTTPS n'est pas activé dans Paramètres > Réseau > Services",
           mode: {
             title: 'Mode du pare-feu',
             baseline: 'Base',
@@ -717,6 +764,9 @@ const fr = {
           '8': '8 - Tout'
         }
       },
+      networking: {
+        title: 'Réseau'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Tunnel chiffré',
@@ -793,7 +843,8 @@ const fr = {
         swap: {
           title: "Fichier d'échange",
           tip: "Si les problèmes persistent après l'activation de l'optimisation de la mémoire, essayez d'activer le fichier d'échange",
-          sizeTip: 'Cela définit sa taille sur 256MB ; ajustez-la dans Paramètres > Appareil'
+          sizeTip:
+            'Cela définit sa taille sur 128MB ; ajustez-la dans Paramètres > Système > Performances'
         },
         restartTitle: 'Redémarrer Tailscale',
         restartDesc: 'Redémarre le service',
@@ -833,7 +884,7 @@ const fr = {
         cancelBtn: 'Non'
       },
       update: {
-        title: 'Mises à jour du système',
+        title: 'Mises à jour',
         sources: 'Sources de mise à jour',
         latestVersion: 'Dernière version',
         queryFailed: "Impossible d'obtenir la version",
@@ -881,6 +932,14 @@ const fr = {
             "Ce paquet vérifié écrira les images raw boot/rootfs sur les partitions de la carte SD et redémarrera automatiquement. L'écriture peut prendre plusieurs minutes; gardez l'alimentation connectée.",
           rawInstallWarning:
             "Il n'y a pas de rollback automatique pour les mises à jour de partitions raw. Si le démarrage échoue, récupérez la carte SD manuellement.",
+          rawWaitTitle: 'Installation de la mise à jour système',
+          rawWaitWriting: 'Écriture du nouveau système sur la carte SD',
+          rawWaitRestarting:
+            "L'appareil redémarre. Cette page se recharge dès qu'il est de retour.",
+          rawWaitDesc:
+            "Cela prend environ trois minutes. Gardez l'alimentation branchée et ne fermez pas cette page.",
+          rawWaitSlow:
+            "Cela prend plus de temps que prévu. Attendez encore quelques minutes avant de couper l'alimentation.",
           rebootRequired: 'Un redémarrage est nécessaire pour activer cet état système.',
           confirming: 'Confirmation du démarrage de la mise à jour système...',
           confirmBoot: 'Confirmer le démarrage',
@@ -922,6 +981,24 @@ const fr = {
           invalidName:
             'Format de nom de fichier invalide. Veuillez télécharger à partir des versions de GitHub.',
           updateFailed: 'Mise à jour échouée. Veuillez réessayer.'
+        },
+        local: {
+          title: 'Téléverser un paquet système',
+          desc: "Installer un paquet système depuis cet ordinateur. Un seul fichier contient l'archive et ses métadonnées signées.",
+          choose: 'Choisir un fichier',
+          invalidFile: 'Sélectionnez un paquet système se terminant par .tar ou .tar.gz.',
+          diskTitle: 'Désactiver le disque virtuel?',
+          diskWarn:
+            "Le paquet système est enregistré dans /data, qui est en lecture seule tant que le disque virtuel est activé. Le désactiver empêche l'ordinateur d'accéder à /data. Continuer?",
+          uploading: 'Envoi en cours',
+          verifying: 'Vérification et préparation du paquet',
+          keyTitle: 'Clé de mise à jour locale',
+          keyDesc:
+            'Clé publique au format PEM autorisée à signer les paquets système que vous créez vous-même',
+          keyNone: 'Aucune clé définie',
+          keySet: 'Définir la clé',
+          keyRemove: 'Supprimer',
+          signer: 'Signé par'
         }
       },
       account: {
@@ -934,6 +1011,14 @@ const fr = {
         logoutDesc: 'Êtes-vous sûr de vouloir vous déconnecter?',
         okBtn: 'Oui',
         cancelBtn: 'Non',
+        session: {
+          title: 'Session'
+        },
+        logoutOnClose: {
+          title: 'Se déconnecter à la fermeture du navigateur',
+          description:
+            'Terminer la session à la fermeture du navigateur au lieu de la garder ouverte'
+        },
         totp: {
           title: 'Authentification à deux facteurs',
           authenticator: "Application d'authentification",

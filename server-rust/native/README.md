@@ -142,6 +142,34 @@ runtime, loaders, and libsns_lt6911.so" below; it no longer comes from
 raw.12 either. Not yet verified on real hardware; if HDMI capture breaks
 after this change, this is still the first thing to check.
 
+## No ISP or 3A libraries
+
+The LT6911 delivers YUV, which the VI driver routes around the ISP.
+`libkvm_mmf.so` starts capture without the ISP: it sends the VI sensor info
+itself (`VI_IOCTL_SET_SNR_INFO`, what `libisp` used to send) and carries its
+own LT6911 sensor object and MIPI receiver calls (`src/kvm_mmf_noisp.c`).
+The 8 closed ISP/3A libraries (`libisp.so`, `libisp_algo.so`, `libae.so`,
+`libaf.so`, `libawb.so`, `libcvi_bin.so`, `libcvi_bin_isp.so`,
+`libcvi_ispd2.so`) are no longer shipped. Checked on hardware on 2026-10-20:
+capture at 1080p in Direct and MJPEG, resolution changes, replug and a cold
+boot, with none of them on the library path.
+
+The checked-in `libkvm.so` still lists them as `NEEDED`; CI replaces both
+`libkvm*.so` files with fresh builds that do not.
+
+## Middleware built from source
+
+CI builds `libsys.so`, `libvenc.so`, `libvdec.so`, `libvpu.so` and
+`libini.so` from the vendor SDK's `middleware/v2` source with
+`scripts/build-sdk-middleware.sh`, and ships those instead of the checked-in
+copies. The checked-in copies are MaixCDK's prebuilts: the source build must
+keep every symbol they export. It compiles against the SDK `osdrv` uapi
+headers, which are byte-identical to the `uapi/` copy those prebuilts were
+built with, so the driver interface is unchanged. The SDK source is slightly
+newer than MaixCDK's:
+- `libsys` adds `ionFree2`;
+- `libvpu` starts the VI debug thread only when `VI_DBG_HANDLER_ENABLE` is set.
+
 ## dl_lib's CVI/ISP/audio middleware: no longer extracted from raw.12
 
 The ~32 CVI/ISP/audio middleware libraries checked into this directory

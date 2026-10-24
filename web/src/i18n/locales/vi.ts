@@ -88,7 +88,7 @@ const vi = {
       scale: 'Tỷ lệ',
       title: 'Màn hình',
       video: 'Chế độ video',
-      videoDirectTips: 'Bật HTTPS trong "Cài đặt > Hệ thống > Mạng" để sử dụng chế độ này',
+      videoDirectTips: 'Bật HTTPS trong "Cài đặt > Mạng > Dịch vụ" để sử dụng chế độ này',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC bị tắt trong các chế độ tường lửa Hạn chế và Hoang tưởng',
       transferRunningTitle: 'Đang truyền image',
@@ -345,7 +345,7 @@ const vi = {
     settings: {
       title: 'Cài đặt',
       about: {
-        title: 'Giới thiệu về NanoKVM',
+        title: 'Giới thiệu',
         information: 'Thông tin',
         ip: 'IP',
         mdns: 'mDNS',
@@ -412,8 +412,7 @@ const vi = {
         sections: {
           connectivity: 'Kết nối',
           hostConnection: 'Kết nối với máy chủ',
-          inputOutput: 'Đầu vào và đầu ra',
-          optimizations: 'Tối ưu hóa'
+          inputOutput: 'Đầu vào và đầu ra'
         },
         oled: {
           title: 'Thời gian chờ OLED',
@@ -551,10 +550,57 @@ const vi = {
       },
       system: {
         title: 'Hệ thống',
+        performance: {
+          processor: 'Bộ xử lý',
+          overdrive: {
+            title: 'Overdrive xung nhịp',
+            description:
+              'Khởi động với xung nhịp bộ xử lý và video cao hơn do nhà sản xuất quy định',
+            tip: 'Nếu thiết bị không khởi động được với overdrive, thẻ SD phải được ghi lại',
+            pending: 'Có hiệu lực sau lần khởi động lại tiếp theo',
+            unavailable: 'Không có trong bản hệ thống này',
+            keepTitle: 'Giữ overdrive sau khi cập nhật',
+            keepDescription:
+              'Bản cập nhật hệ thống đưa thiết bị về xung nhịp tiêu chuẩn nếu tùy chọn này không được bật',
+            confirmTitle: 'Bật overdrive xung nhịp?',
+            confirmText:
+              'Nếu thiết bị không khởi động được với overdrive, bạn phải ghi lại thẻ SD để khôi phục. Thay đổi có hiệu lực sau lần khởi động lại tiếp theo.'
+          },
+          memory: 'Bộ nhớ'
+        },
+        monitor: {
+          processorClock: 'Hệ thống con CPU',
+          videoClock: 'Hệ thống con video',
+          videoClockCaption: 'Tần số xung nhịp video',
+          cpuClockCaption: 'Tần số xung nhịp CPU',
+          overdrive: 'Overdrive',
+          temperature: 'Nhiệt độ',
+          lastMinutes: '5 phút gần nhất',
+          ram: 'RAM',
+          off: 'Tắt',
+          ramHistory: 'Mức sử dụng RAM',
+          cpuLoad: 'Tải CPU',
+          cpuLoadCaption: 'Người dùng {{user}} phần trăm, hệ thống {{system}} phần trăm',
+          cpuUtilization: 'Mức sử dụng CPU',
+          swapUtilization: 'Mức sử dụng swap',
+          swapSizeLastMinutes: '{{size}}, 5 phút gần nhất',
+          percent: '{{percent}} phần trăm',
+          percentUsed: 'Đã dùng {{percent}} phần trăm',
+          sizeOf: '{{used}} trên {{total}}',
+          systemPartition: 'Phân vùng hệ thống',
+          dataPartition: 'Phân vùng dữ liệu',
+          unavailable: 'Không có sẵn',
+          noReadings: 'Thiết bị không trả về số liệu',
+          refresh: 'Cập nhật mỗi giây khi trang này đang mở'
+        },
         sections: {
           time: 'Thời gian',
           firewall: 'Tường lửa',
-          systemLog: 'Ghi nhật ký'
+          systemLog: 'Ghi nhật ký',
+          performance: 'Hiệu năng',
+          monitor: 'Giám sát',
+          services: 'Dịch vụ',
+          webInterface: 'Giao diện web'
         },
         time: {
           saveFailed: 'Không thể lưu cài đặt thời gian',
@@ -564,7 +610,7 @@ const vi = {
           invalidServers: 'Nhập ít nhất một máy chủ NTP',
           maxServers: 'Cho phép tối đa {{count}} máy chủ NTP',
           refresh: 'Làm mới',
-          syncNow: 'Đồng bộ ngay',
+          syncNow: 'Đồng bộ',
           syncNowDesc: 'Đặt đồng hồ theo máy chủ NTP ngay',
           save: 'Lưu',
           ntp: {
@@ -584,8 +630,8 @@ const vi = {
               'Dùng máy chủ công cộng mặc định, bộ định tuyến cục bộ hoặc máy chủ NTP tùy chỉnh',
             useRouter: 'Dùng bộ định tuyến',
             useDefaults: 'Dùng mặc định',
-            routerDetected: 'Bộ định tuyến phát hiện được',
-            routerNone: 'Không tìm thấy'
+            presets: 'Máy chủ đặt trước',
+            presetsDesc: 'Thay danh sách máy chủ bằng một cấu hình đặt trước'
           }
         },
         firewall: {
@@ -596,7 +642,7 @@ const vi = {
           backends: 'Backend',
           enableHttpsFirst: 'Hãy bật HTTPS trước khi bật chế độ tường lửa Hạn chế hoặc Hoang tưởng',
           httpsRequired:
-            'Các chế độ Hạn chế và Hoang tưởng bị tắt cho đến khi HTTPS được bật trong Cài đặt > Hệ thống > Mạng',
+            'Các chế độ Hạn chế và Hoang tưởng bị tắt cho đến khi HTTPS được bật trong Cài đặt > Mạng > Dịch vụ',
           mode: {
             title: 'Chế độ tường lửa',
             baseline: 'Cơ bản',
@@ -707,6 +753,9 @@ const vi = {
           '8': '8 - Tất cả'
         }
       },
+      networking: {
+        title: 'Mạng'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Đường hầm mã hóa',
@@ -783,7 +832,7 @@ const vi = {
           title: 'Tệp hoán đổi',
           tip: 'Nếu sự cố vẫn tiếp diễn sau khi bật tối ưu hóa bộ nhớ, hãy thử bật tệp hoán đổi',
           sizeTip:
-            'Việc này đặt kích thước tệp thành 256MB; có thể điều chỉnh trong Cài đặt > Thiết bị'
+            'Việc này đặt kích thước tệp thành 128MB; có thể điều chỉnh trong Cài đặt > Hệ thống > Hiệu năng'
         },
         restartTitle: 'Khởi động lại Tailscale',
         restartDesc: 'Khởi động lại dịch vụ',
@@ -823,7 +872,7 @@ const vi = {
         cancelBtn: 'Không'
       },
       update: {
-        title: 'Cập nhật hệ thống',
+        title: 'Cập nhật',
         sources: 'Nguồn cập nhật',
         latestVersion: 'Phiên bản mới nhất',
         queryFailed: 'Lấy phiên bản thất bại',
@@ -871,6 +920,13 @@ const vi = {
             'Gói đã xác minh này sẽ ghi image raw boot/rootfs vào các phân vùng thẻ SD và tự động khởi động lại. Việc ghi có thể mất vài phút; giữ nguồn điện kết nối.',
           rawInstallWarning:
             'Không có rollback tự động cho cập nhật phân vùng raw. Nếu boot thất bại, hãy khôi phục thẻ SD thủ công.',
+          rawWaitTitle: 'Đang cài đặt bản cập nhật hệ thống',
+          rawWaitWriting: 'Đang ghi hệ thống mới vào thẻ SD',
+          rawWaitRestarting:
+            'Thiết bị đang khởi động lại. Trang này sẽ tải lại khi thiết bị hoạt động trở lại.',
+          rawWaitDesc:
+            'Quá trình này mất khoảng ba phút. Hãy giữ nguồn điện được kết nối và không đóng trang này.',
+          rawWaitSlow: 'Quá trình này lâu hơn dự kiến. Hãy chờ thêm vài phút trước khi ngắt nguồn.',
           rebootRequired: 'Cần khởi động lại để kích hoạt trạng thái hệ thống này.',
           confirming: 'Đang xác nhận boot của cập nhật hệ thống...',
           confirmBoot: 'Xác nhận boot',
@@ -912,6 +968,23 @@ const vi = {
           invalidName:
             'Định dạng tên tệp không hợp lệ. Vui lòng tải xuống từ bản phát hành GitHub.',
           updateFailed: 'Cập nhật thất bại. Vui lòng thử lại.'
+        },
+        local: {
+          title: 'Tải lên gói hệ thống',
+          desc: 'Cài đặt gói hệ thống từ máy tính này. Một tệp chứa tệp lưu trữ và siêu dữ liệu đã ký của nó.',
+          choose: 'Chọn tệp',
+          invalidFile: 'Chọn một gói hệ thống có đuôi .tar hoặc .tar.gz.',
+          diskTitle: 'Tắt đĩa ảo?',
+          diskWarn:
+            'Gói hệ thống được lưu vào /data, vốn chỉ đọc khi đĩa ảo đang bật. Sau khi tắt, máy tính không còn truy cập được /data. Tiếp tục?',
+          uploading: 'Đang tải lên',
+          verifying: 'Đang xác minh và chuẩn bị gói',
+          keyTitle: 'Khóa cập nhật cục bộ',
+          keyDesc: 'Khóa công khai định dạng PEM được phép ký các gói hệ thống do bạn tự xây dựng',
+          keyNone: 'Chưa đặt khóa',
+          keySet: 'Đặt khóa',
+          keyRemove: 'Xóa',
+          signer: 'Được ký bởi'
         }
       },
       account: {
@@ -924,6 +997,13 @@ const vi = {
         logoutDesc: 'Bạn có chắc chắn muốn đăng xuất không?',
         okBtn: 'Có',
         cancelBtn: 'Không',
+        session: {
+          title: 'Phiên'
+        },
+        logoutOnClose: {
+          title: 'Đăng xuất khi đóng trình duyệt',
+          description: 'Kết thúc phiên khi đóng trình duyệt thay vì giữ phiên mở'
+        },
         totp: {
           title: 'Xác thực hai yếu tố',
           authenticator: 'Ứng dụng xác thực',

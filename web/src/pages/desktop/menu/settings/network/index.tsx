@@ -7,7 +7,6 @@ import { SettingSection } from '@/components/setting-rows.tsx';
 import type { SystemActionHandle, SystemActionState } from '../system/action.ts';
 import { DNS } from './dns.tsx';
 import { IPv6 } from './ipv6.tsx';
-import { Tls } from './tls.tsx';
 import type { NetworkSectionHandle, NetworkSectionStatus } from './types.ts';
 import { idleNetworkSectionStatus } from './types.ts';
 import { Wifi } from './wifi.tsx';
@@ -81,7 +80,6 @@ export const Network = forwardRef<SystemActionHandle, NetworkProps>(
       <>
         <div className="flex flex-col space-y-6">
           <SettingSection title={t('settings.network.connection')}>
-            <Tls />
             <Wifi />
           </SettingSection>
 

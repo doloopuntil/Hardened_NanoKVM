@@ -10,6 +10,7 @@ import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.t
 import { TotpEnrollment } from '@/components/totp-enrollment.tsx';
 
 import { Logout } from './logout.tsx';
+import { SessionSettings } from './session-lock.tsx';
 
 type Props = {
   setIsLocked?: (locked: boolean) => void;
@@ -48,6 +49,12 @@ export const Account = ({ setIsLocked }: Props) => {
 
         <SettingSection title={t('settings.account.totp.title')}>
           <TotpEnrollment setIsLocked={setIsLocked} />
+        </SettingSection>
+
+        <Divider className="opacity-50" />
+
+        <SettingSection title={t('settings.account.session.title')}>
+          <SessionSettings />
         </SettingSection>
 
         <Divider className="opacity-50" />

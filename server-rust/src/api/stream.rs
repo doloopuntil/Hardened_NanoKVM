@@ -47,14 +47,12 @@ const SCREEN_TYPE_FILE: &str = "/kvmapp/kvm/type";
 const SCREEN_FPS_FILE: &str = "/kvmapp/kvm/fps";
 const SCREEN_QUALITY_FILE: &str = "/kvmapp/kvm/qlty";
 const SCREEN_RESOLUTION_FILE: &str = "/kvmapp/kvm/res";
-const SCREEN_GOP_FILE: &str = "/kvmapp/kvm/gop";
 const H264_SAFE_MODE_FILE: &str = "/etc/kvm/h264_safe_mode";
 const MJPEG_FAILURE_LIMIT: usize = 3;
 const MJPEG_FAILURE_BACKOFF: Duration = Duration::from_millis(500);
 const MJPEG_FAILURE_COOLDOWN: Duration = Duration::from_secs(5);
 const H264_READ_TIMEOUT: Duration = Duration::from_secs(5);
 const H264_FAILURE_LIMIT: usize = 3;
-const H264_KEYFRAME_REQUEST_HOLD: Duration = Duration::from_millis(250);
 const H264_LAG_KEYFRAME_INTERVAL: Duration = Duration::from_secs(1);
 /// A direct stream socket that cannot take a frame in this long is closed, so one
 /// stalled client cannot hold the others up. The player reconnects on its own.
@@ -85,7 +83,6 @@ static H264_DIRECT_FIRST_SUCCESS_LOGGED: AtomicBool = AtomicBool::new(false);
 static H264_DIRECT_FIRST_ERROR_LOGGED: AtomicBool = AtomicBool::new(false);
 static H264_CAPTURE_DISABLED: AtomicBool = AtomicBool::new(false);
 static H264_CONSECUTIVE_FAILURES: AtomicUsize = AtomicUsize::new(0);
-static H264_KEYFRAME_REQUEST_IN_PROGRESS: AtomicBool = AtomicBool::new(false);
 static CAPTURE_STATUS: LazyLock<Mutex<CaptureStatusStore>> =
     LazyLock::new(|| Mutex::new(CaptureStatusStore::default()));
 
@@ -97,7 +94,6 @@ struct Screen {
     fps: u64,
     quality: u16,
     bit_rate: u16,
-    gop: u8,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -444,7 +440,6 @@ impl Default for Screen {
             fps: 30,
             quality: 80,
             bit_rate: 3000,
-            gop: 30,
         };
 
         if matches!(read_trimmed(SCREEN_TYPE_FILE).as_deref(), Some("h264")) {
@@ -458,11 +453,6 @@ impl Default for Screen {
         }
         if let Some(value) = read_i32(SCREEN_FPS_FILE) {
             screen.fps = validate_fps(value);
-        }
-        if let Some(value) = read_i32(SCREEN_GOP_FILE).and_then(|value| u8::try_from(value).ok()) {
-            if (1..=100).contains(&value) {
-                screen.gop = value;
-            }
         }
 
         screen
@@ -786,6 +776,9 @@ async fn run_h264_source() {
 
         let timestamp = start.elapsed().as_micros().min(u128::from(u64::MAX)) as u64;
         let keyframe = result == 3;
+        if keyframe {
+            debug!(bytes = data.len(), "h264 keyframe");
+        }
         let packet = (H264_DIRECT_CONSUMERS.load(Ordering::Acquire) > 0)
             .then(|| Bytes::from(h264_direct_packet(keyframe, timestamp, &data)));
         H264_SOURCE.send(H264Frame {
@@ -866,13 +859,6 @@ pub fn set_screen_value(kind: &str, value: i32) -> Result<()> {
             screen.fps = validate_fps(value);
             write_screen_file(SCREEN_FPS_FILE, &value.to_string())?;
         }
-        "gop" => {
-            let gop = u8::try_from(value).unwrap_or(30);
-            let gop = if (1..=100).contains(&gop) { gop } else { 30 };
-            screen.gop = gop;
-            kvm::set_h264_gop(gop)?;
-            write_screen_file(SCREEN_GOP_FILE, &gop.to_string())?;
-        }
         _ => return Err(AppError::BadRequest(format!("invalid screen type {kind}"))),
     }
 
@@ -940,29 +926,14 @@ pub fn h264_capture_disabled() -> bool {
         || std::path::Path::new(H264_SAFE_MODE_FILE).exists()
 }
 
+/// libkvm issues the IDR on the running encoder and coalesces requests to one
+/// per 500 ms, so this never blocks or rebuilds the channel.
 pub fn request_h264_keyframe(reason: &'static str) {
     if h264_capture_disabled() {
         return;
     }
-    if H264_KEYFRAME_REQUEST_IN_PROGRESS
-        .compare_exchange(false, true, Ordering::AcqRel, Ordering::Acquire)
-        .is_err()
-    {
-        return;
-    }
-
-    let gop = current_screen().gop;
-    std::thread::spawn(move || {
-        info!(reason, gop, "requesting h264 keyframe");
-        if let Err(err) = kvm::set_h264_gop(1) {
-            warn!(reason, error = ?err, "failed to request h264 keyframe");
-        }
-        std::thread::sleep(H264_KEYFRAME_REQUEST_HOLD);
-        if let Err(err) = kvm::set_h264_gop(gop) {
-            warn!(reason, error = ?err, "failed to restore h264 gop after keyframe request");
-        }
-        H264_KEYFRAME_REQUEST_IN_PROGRESS.store(false, Ordering::Release);
-    });
+    info!(reason, "requesting h264 keyframe");
+    kvm::request_keyframe();
 }
 
 pub async fn read_h264_capture_frame(
@@ -975,7 +946,8 @@ pub async fn read_h264_capture_frame(
     }
 
     let task = tokio::task::spawn_blocking(move || {
-        kvm::read_h264(screen.width, screen.height, screen.bit_rate)
+        let fps = u8::try_from(screen.fps).unwrap_or(u8::MAX);
+        kvm::read_h264(screen.width, screen.height, fps, screen.bit_rate)
     });
 
     let frame = match time::timeout(H264_READ_TIMEOUT, task).await {
@@ -1316,7 +1288,6 @@ mod tests {
             fps: 30,
             quality: 80,
             bit_rate: 3000,
-            gop: 30,
         };
         normalize_screen(&mut screen);
 
@@ -1333,7 +1304,6 @@ mod tests {
             fps: 30,
             quality: 80,
             bit_rate: 3000,
-            gop: 30,
         };
 
         normalize_screen(&mut screen);

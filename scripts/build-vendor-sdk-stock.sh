@@ -43,7 +43,21 @@ env -i \
   PATH="$CLEAN_PATH" \
   SDK_DIR="$SDK_DIR" \
   BOARD="$BOARD" \
-  bash -c 'set -eo pipefail; cd "$SDK_DIR" && source build/cvisetup.sh && defconfig "$BOARD" && build_all'
+  bash -c 'set -eo pipefail; cd "$SDK_DIR" && source build/cvisetup.sh && defconfig "$BOARD" && build_all
+    # The patched defconfig builds the overdrive FSBL. Keep that as fip.od.bin, then rebuild the
+    # FSBL alone with the clock override off so fip.bin is the standard-clock image.
+    cp "$OUTPUT_DIR/fip.bin" "$OUTPUT_DIR/fip.od.bin"
+    (
+      _build_uboot_env
+      _build_opensbi_env
+      cd "$BUILD_PATH"
+      make fsbl-clean
+      make fsbl-build CONFIG_OD_CLK_SEL=n
+    )
+    if cmp -s "$OUTPUT_DIR/fip.bin" "$OUTPUT_DIR/fip.od.bin"; then
+      echo "standard and overdrive fip.bin are identical" >&2
+      exit 1
+    fi'
 
 mapfile -t sd_images < <(find "$SDK_DIR/install" -maxdepth 3 -type f -name "*.img" -size +1M | sort)
 if [ "${#sd_images[@]}" -eq 0 ]; then

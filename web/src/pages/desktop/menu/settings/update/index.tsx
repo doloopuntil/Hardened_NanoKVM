@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
 import { Alert, Button, Divider, Spin, Switch } from 'antd';
+import { LoaderCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import semver from 'semver';
 
@@ -21,6 +21,8 @@ import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
 import { PageHeader } from '@/components/page-header.tsx';
 import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
+import { InstallWait } from './install-wait.tsx';
+import { LocalKeyRow, SystemUpload } from './local.tsx';
 import { Offline } from './offline.tsx';
 import { Preview } from './preview.tsx';
 
@@ -47,6 +49,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   const [systemAppUpdateRequired, setSystemAppUpdateRequired] = useState(false);
   const [systemRawEnabled, setSystemRawEnabled] = useState(false);
   const [systemRawUpdating, setSystemRawUpdating] = useState(false);
+  const [rawInstallWaiting, setRawInstallWaiting] = useState(false);
   const [firewallStatus, setFirewallStatus] = useState<FirewallStatus | null>(null);
 
   useEffect(() => {
@@ -203,12 +206,16 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
         setSystemProgress(progress);
 
         if (progress?.phase === 'failed') {
+          setRawInstallWaiting(false);
           setSystemStatus('failed');
           setSystemErrMsg(progress.message || t('settings.update.system.queryFailed'));
           return;
         }
 
         if (progress?.operation && progress.phase !== 'done') {
+          if (progress.operation === 'install' && pending?.backupId?.startsWith('raw-')) {
+            setRawInstallWaiting(true);
+          }
           if (progress.operation === 'download') setSystemStatus('downloading');
           else if (progress.operation === 'install') setSystemStatus('installing');
           else if (progress.operation === 'rollback') setSystemStatus('rollingBack');
@@ -339,6 +346,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
 
         setSystemPending(rsp.data.installed);
         setSystemStatus('installed');
+        if (rsp.data.installed?.backupId?.startsWith('raw-')) setRawInstallWaiting(true);
         refreshSystemUpdateStatus();
       })
       .catch(() => {
@@ -457,6 +465,14 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     ) : null;
   }
 
+  function handleUploadedSystemUpdate(data: any) {
+    setSystemCurrent(data.current);
+    setSystemLatest(data.latest);
+    setSystemStaged(data.staged);
+    setSystemStatus('staged');
+    refreshSystemUpdateStatus();
+  }
+
   function formatBytes(value?: number) {
     if (!value) return '';
     if (value >= 1024 * 1024) return `${(value / 1024 / 1024).toFixed(1)} MiB`;
@@ -465,7 +481,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   }
 
   function stagedMatchesLatest(staged: SystemStagedUpdate | null, latest: SystemLatest | null) {
-    if (!staged || !latest) return true;
+    if (!staged || !latest || staged.signer) return true;
 
     return (
       staged.version === latest.version &&
@@ -663,7 +679,12 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                   <span
                     className={`inline-flex items-center gap-2 ${status === 'failed' ? 'text-red-400' : ''}`}
                   >
-                    {applicationBusy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+                    {applicationBusy && (
+                      <Spin
+                        size="small"
+                        indicator={<LoaderCircleIcon className="animate-spin" size={14} />}
+                      />
+                    )}
                     {applicationText}
                   </span>
                 ) : undefined
@@ -712,6 +733,13 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             />
           </SettingRow>
 
+          <SystemUpload
+            disabled={systemBusy}
+            onStaged={handleUploadedSystemUpdate}
+            setBusy={setIsLocked}
+          />
+          <LocalKeyRow />
+
           {systemStaged?.destructive && !systemRawEnabled && (
             <Alert
               type="warning"
@@ -747,6 +775,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                 systemStaged?.requiredAppVersion
               )}
               {info(t('settings.update.system.archive'), systemStaged?.archiveName)}
+              {info(t('settings.update.local.signer'), systemStaged?.signer ?? undefined)}
               {info(
                 t('settings.update.system.requiredFree'),
                 systemStaged ? formatBytes(systemStaged.requiredFreeBytes) : undefined
@@ -799,6 +828,15 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
           </Button>
         </div>
       </div>
+
+      <InstallWait
+        open={rawInstallWaiting}
+        onFailed={(message) => {
+          setRawInstallWaiting(false);
+          setSystemStatus('failed');
+          setSystemErrMsg(message);
+        }}
+      />
     </>
   );
 };
@@ -825,7 +863,12 @@ const StatusRow = ({ busy = false, error = false, title, text, buttons }: Status
           <span
             className={`flex items-center gap-2 break-words text-xs ${error ? 'text-red-400' : 'text-neutral-500'}`}
           >
-            {busy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+            {busy && (
+              <Spin
+                size="small"
+                indicator={<LoaderCircleIcon className="animate-spin" size={14} />}
+              />
+            )}
             {text}
           </span>
         )}

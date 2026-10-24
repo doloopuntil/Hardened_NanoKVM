@@ -1,15 +1,25 @@
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Badge, Modal, Tooltip } from 'antd';
 import clsx from 'clsx';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
-  BadgeInfoIcon,
+  ActivityIcon,
+  BrickWallIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
   CircleArrowUpIcon,
+  ClockIcon,
+  CpuIcon,
+  GaugeIcon,
+  GlobeIcon,
+  InfoIcon,
+  NetworkIcon,
   PaletteIcon,
+  RadioTowerIcon,
+  ScrollTextIcon,
   ServerCogIcon,
   SettingsIcon,
   ShieldCheckIcon,
-  SmartphoneIcon,
   UserRoundIcon
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -29,10 +39,18 @@ import { About } from './about';
 import { Account } from './account';
 import { Appearance } from './appearance';
 import { Device } from './device';
-import { System } from './system';
+import { System, type SystemSection } from './system';
 import { Tailscale } from './tailscale';
-import { Update } from './update';
 import { Wireguard } from './wireguard';
+
+type Tab = {
+  id: string;
+  icon: ReactNode;
+  title: string;
+  component?: ReactNode;
+  // a group has no page of its own; choosing it opens its first subpage
+  children?: Tab[];
+};
 
 export const Settings = () => {
   const { t } = useTranslation();
@@ -40,6 +58,8 @@ export const Settings = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
   const [currentTab, setCurrentTab] = useState('about');
+  // the groups open on the desktop; they start closed
+  const [openGroups, setOpenGroups] = useState<string[]>([]);
   const scrollViewportRef = useRef<HTMLDivElement>(null);
   const isTouchLayout = useIsTouchLayout();
 
@@ -50,28 +70,84 @@ export const Settings = () => {
   const isModalOpenRef = useRef(false);
   isModalOpenRef.current = isModalOpen;
 
-  const tabs = [
-    { id: 'about', icon: <BadgeInfoIcon size={16} />, component: <About /> },
+  const systemTab = (section: SystemSection, icon: ReactNode, title: string): Tab => ({
+    id: `system.${section}`,
+    icon,
+    title,
+    component: <System section={section} setIsLocked={setIsLocked} />
+  });
+
+  const tabs: Tab[] = [
+    {
+      id: 'about',
+      icon: <InfoIcon size={16} />,
+      title: t('settings.about.title'),
+      component: <About />
+    },
     {
       id: 'account',
       icon: <UserRoundIcon size={18} />,
+      title: t('settings.account.title'),
       component: <Account setIsLocked={setIsLocked} />
     },
-    { id: 'appearance', icon: <PaletteIcon size={16} />, component: <Appearance /> },
-    { id: 'device', icon: <SmartphoneIcon size={16} />, component: <Device /> },
-    { id: 'system', icon: <ServerCogIcon size={16} />, component: <System /> },
-    { id: 'wireguard', icon: <ShieldCheckIcon size={16} />, component: <Wireguard /> },
     {
-      id: 'tailscale',
-      icon: <TailscaleIcon />,
-      component: <Tailscale setIsLocked={setIsLocked} />
+      id: 'appearance',
+      icon: <PaletteIcon size={16} />,
+      title: t('settings.appearance.title'),
+      component: <Appearance />
     },
     {
-      id: 'update',
-      icon: <CircleArrowUpIcon size={16} />,
-      component: <Update setIsLocked={setIsLocked} />
+      id: 'device',
+      icon: <CpuIcon size={16} />,
+      title: t('settings.device.title'),
+      component: <Device />
+    },
+    {
+      id: 'networking',
+      icon: <GlobeIcon size={16} />,
+      title: t('settings.networking.title'),
+      children: [
+        systemTab('network', <NetworkIcon size={14} />, t('settings.network.title')),
+        systemTab('services', <RadioTowerIcon size={14} />, t('settings.system.sections.services')),
+        systemTab('firewall', <BrickWallIcon size={14} />, t('settings.system.sections.firewall')),
+        {
+          id: 'networking.wireguard',
+          icon: <ShieldCheckIcon size={14} />,
+          title: t('settings.wireguard.title'),
+          component: <Wireguard />
+        },
+        {
+          id: 'networking.tailscale',
+          icon: <TailscaleIcon />,
+          title: t('settings.tailscale.title'),
+          component: <Tailscale setIsLocked={setIsLocked} />
+        }
+      ]
+    },
+    {
+      id: 'system',
+      icon: <ServerCogIcon size={16} />,
+      title: t('settings.system.title'),
+      children: [
+        systemTab('time', <ClockIcon size={14} />, t('settings.system.sections.time')),
+        systemTab(
+          'systemLog',
+          <ScrollTextIcon size={14} />,
+          t('settings.system.sections.systemLog')
+        ),
+        systemTab(
+          'performance',
+          <GaugeIcon size={14} />,
+          t('settings.system.sections.performance')
+        ),
+        systemTab('monitor', <ActivityIcon size={14} />, t('settings.system.sections.monitor')),
+        systemTab('updates', <CircleArrowUpIcon size={14} />, t('settings.update.title'))
+      ]
     }
   ];
+
+  const pages = tabs.flatMap((tab) => tab.children ?? [tab]);
+  const currentGroup = tabs.find((tab) => tab.children?.some((child) => child.id === currentTab));
 
   useEffect(() => {
     const skip = ls.getSkipUpdate();
@@ -103,7 +179,7 @@ export const Settings = () => {
 
     setCurrentTab(tab);
 
-    if (isUpdateAvailable && tab === 'update') {
+    if (isUpdateAvailable && tab === 'system.updates') {
       setIsUpdateAvailable(false);
       ls.setSkipUpdate(true);
     }
@@ -136,6 +212,73 @@ export const Settings = () => {
     finishClose();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [closeRequest]);
+
+  function toggleGroup(id: string) {
+    setOpenGroups((groups) =>
+      groups.includes(id) ? groups.filter((group) => group !== id) : [...groups, id]
+    );
+  }
+
+  function renderTab(tab: Tab, isChild = false) {
+    const firstPage = tab.children?.[0];
+    const isActive = tab.id === currentTab || (!!tab.children && currentGroup === tab);
+    const isOpen = openGroups.includes(tab.id);
+    // a closed group carries the dot of the page inside it
+    const showBadge =
+      isUpdateAvailable &&
+      (tab.id === 'system.updates' || (tab.id === 'system' && (!isOpen || isTouchLayout)));
+    const label = (
+      <span
+        className={clsx(
+          isTouchLayout
+            ? 'mt-1 block text-center text-[11px] leading-tight [overflow-wrap:anywhere]'
+            : 'hidden truncate text-sm sm:block'
+        )}
+      >
+        {tab.title}
+      </span>
+    );
+
+    return (
+      <div
+        key={tab.id}
+        className={clsx(
+          'cursor-pointer select-none rounded-lg',
+          isTouchLayout
+            ? 'flex min-w-0 flex-auto flex-col items-center justify-center px-2 py-2'
+            : clsx('flex items-center space-x-2 sm:px-3', isChild ? 'py-1.5 pl-2 sm:pl-8' : 'p-2'),
+          // on the desktop a group is only a label; its subpage carries the selection
+          isActive && (!tab.children || isTouchLayout)
+            ? 'bg-neutral-700/50'
+            : 'hover:bg-neutral-700/50',
+          tab.children && !isTouchLayout && 'text-neutral-400'
+        )}
+        onClick={() => {
+          if (tab.children && !isTouchLayout) {
+            toggleGroup(tab.id);
+          } else if (firstPage && currentGroup !== tab) {
+            changeTab(firstPage.id);
+          } else if (!tab.children) {
+            changeTab(tab.id);
+          }
+        }}
+      >
+        <div className="flex h-[16px] w-[16px] items-center justify-center">{tab.icon}</div>
+        {showBadge ? (
+          <Badge dot color="blue" offset={[6, 3]}>
+            {label}
+          </Badge>
+        ) : (
+          label
+        )}
+        {tab.children && !isTouchLayout && (
+          <span className="!ml-auto hidden sm:block">
+            {isOpen ? <ChevronDownIcon size={14} /> : <ChevronRightIcon size={14} />}
+          </span>
+        )}
+      </div>
+    );
+  }
 
   return (
     <>
@@ -203,49 +346,28 @@ export const Settings = () => {
               {t('settings.title')}
             </div>
             {!isTouchLayout && <div className="h-10 sm:h-5" />}
-            <div className={clsx(isTouchLayout ? 'flex flex-wrap gap-1 px-2 pb-2' : 'contents')}>
+            <div
+              className={clsx(
+                isTouchLayout
+                  ? 'grid grid-cols-3 gap-1 px-2 pb-2'
+                  : 'flex min-h-0 flex-1 flex-col space-y-0.5 overflow-y-auto pb-3'
+              )}
+            >
               {tabs.map((tab) => (
-                <div
-                  key={tab.id}
-                  className={clsx(
-                    'cursor-pointer select-none rounded-lg',
-                    isTouchLayout
-                      ? 'flex min-w-0 flex-auto flex-col items-center justify-center px-2 py-2'
-                      : 'flex items-center space-x-2 p-2 sm:px-3',
-                    currentTab === tab.id ? 'bg-neutral-700/50' : 'hover:bg-neutral-700/50'
-                  )}
-                  onClick={() => changeTab(tab.id)}
-                >
-                  <div className="flex h-[16px] w-[16px] items-center justify-center">
-                    {tab.icon}
-                  </div>
-
-                  {isUpdateAvailable && tab.id === 'update' ? (
-                    <Badge dot color="blue" offset={[6, 3]}>
-                      <span
-                        className={clsx(
-                          isTouchLayout
-                            ? 'mt-1 block text-center text-[11px] leading-tight [overflow-wrap:anywhere]'
-                            : 'hidden truncate text-sm sm:block'
-                        )}
-                      >
-                        {t(`settings.${tab.id}.title`)}
-                      </span>
-                    </Badge>
-                  ) : (
-                    <span
-                      className={clsx(
-                        isTouchLayout
-                          ? 'mt-1 block text-center text-[11px] leading-tight [overflow-wrap:anywhere]'
-                          : 'hidden truncate text-sm sm:block'
-                      )}
-                    >
-                      {t(`settings.${tab.id}.title`)}
-                    </span>
-                  )}
-                </div>
+                <Fragment key={tab.id}>
+                  {renderTab(tab)}
+                  {/* desktop: the subpages sit under their group; touch: they get their own row */}
+                  {!isTouchLayout &&
+                    openGroups.includes(tab.id) &&
+                    tab.children?.map((child) => renderTab(child, true))}
+                </Fragment>
               ))}
             </div>
+            {isTouchLayout && currentGroup && (
+              <div className="flex flex-wrap gap-1 border-0 border-t border-solid border-neutral-700 px-2 py-2">
+                {currentGroup.children?.map((child) => renderTab(child, true))}
+              </div>
+            )}
           </div>
 
           <ScrollArea
@@ -266,7 +388,7 @@ export const Settings = () => {
                 )}
               >
                 <SettingsLoadGroup key={currentTab} slot>
-                  {tabs.find((tab) => tab.id === currentTab)?.component}
+                  {pages.find((tab) => tab.id === currentTab)?.component}
                 </SettingsLoadGroup>
               </div>
             </div>

@@ -89,7 +89,7 @@ const pl = {
       scale: 'Skala',
       title: 'Ekran',
       video: 'Tryb wideo',
-      videoDirectTips: 'Włącz HTTPS w „Ustawienia > System > Sieć”, aby korzystać z tego trybu',
+      videoDirectTips: 'Włącz HTTPS w „Ustawienia > Sieć > Usługi”, aby korzystać z tego trybu',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC jest wyłączony w trybach zapory Ograniczony i Paranoidalny',
       transferRunningTitle: 'Trwa przesyłanie obrazu',
@@ -351,7 +351,7 @@ const pl = {
     settings: {
       title: 'Ustawienia',
       about: {
-        title: 'NanoKVM - informacje',
+        title: 'Informacje',
         information: 'Informacje o systemie',
         ip: 'IP',
         mdns: 'mDNS',
@@ -419,8 +419,7 @@ const pl = {
         sections: {
           connectivity: 'Łączność',
           hostConnection: 'Połączenie z hostem',
-          inputOutput: 'Wejście i wyjście',
-          optimizations: 'Optymalizacje'
+          inputOutput: 'Wejście i wyjście'
         },
         oled: {
           title: 'Limit czasu OLED',
@@ -556,10 +555,57 @@ const pl = {
       },
       system: {
         title: 'System',
+        performance: {
+          processor: 'Procesor',
+          overdrive: {
+            title: 'Podkręcanie',
+            description:
+              'Uruchom z wyższymi taktowaniami procesora i wideo określonymi przez producenta',
+            tip: 'Jeśli urządzenie nie uruchomi się z podkręcaniem, trzeba ponownie zapisać kartę SD',
+            pending: 'Zadziała po następnym restarcie',
+            unavailable: 'Nie ma tego w tym obrazie systemu',
+            keepTitle: 'Zachowaj overdrive po aktualizacjach',
+            keepDescription:
+              'Aktualizacja systemu przywraca standardowe zegary urządzenia, chyba że ta opcja jest włączona',
+            confirmTitle: 'Włączyć podkręcanie?',
+            confirmText:
+              'Jeśli urządzenie nie uruchomi się z podkręcaniem, aby je przywrócić, trzeba ponownie zapisać kartę SD. Zmiana zadziała po następnym restarcie.'
+          },
+          memory: 'Pamięć'
+        },
+        monitor: {
+          processorClock: 'Podsystem CPU',
+          videoClock: 'Podsystem wideo',
+          videoClockCaption: 'Częstotliwość taktowania wideo',
+          cpuClockCaption: 'Częstotliwość taktowania CPU',
+          overdrive: 'Podkręcanie',
+          temperature: 'Temperatura',
+          lastMinutes: 'Ostatnie 5 minut',
+          ram: 'RAM',
+          off: 'Wyłączone',
+          ramHistory: 'Wykorzystanie RAM',
+          cpuLoad: 'Obciążenie procesora',
+          cpuLoadCaption: 'Użytkownik {{user}} procent, system {{system}} procent',
+          cpuUtilization: 'Wykorzystanie procesora',
+          swapUtilization: 'Wykorzystanie swap',
+          swapSizeLastMinutes: '{{size}}, ostatnie 5 minut',
+          percent: '{{percent}} procent',
+          percentUsed: '{{percent}} procent zajęte',
+          sizeOf: '{{used}} z {{total}}',
+          systemPartition: 'Partycja systemowa',
+          dataPartition: 'Partycja danych',
+          unavailable: 'Niedostępne',
+          noReadings: 'Urządzenie nie zwraca odczytów',
+          refresh: 'Odświeżane co sekundę, gdy ta strona jest otwarta'
+        },
         sections: {
           time: 'Czas',
           firewall: 'Zapora',
-          systemLog: 'Logowanie'
+          systemLog: 'Logowanie',
+          performance: 'Wydajność',
+          monitor: 'Monitor',
+          services: 'Usługi',
+          webInterface: 'Interfejs WWW'
         },
         time: {
           saveFailed: 'Nie udało się zapisać ustawień czasu',
@@ -569,7 +615,7 @@ const pl = {
           invalidServers: 'Wprowadź co najmniej jeden serwer NTP',
           maxServers: 'Dozwolona maksymalna liczba serwerów NTP: {{count}}',
           refresh: 'Odśwież',
-          syncNow: 'Synchronizuj teraz',
+          syncNow: 'Synchronizuj',
           syncNowDesc: 'Ustaw zegar według serwerów NTP teraz',
           save: 'Zapisz',
           ntp: {
@@ -589,8 +635,8 @@ const pl = {
               'Użyj domyślnych serwerów publicznych, lokalnego routera lub własnych serwerów NTP',
             useRouter: 'Użyj routera',
             useDefaults: 'Użyj domyślnych',
-            routerDetected: 'Wykryty router',
-            routerNone: 'Nie znaleziono'
+            presets: 'Ustawienia wstępne serwerów',
+            presetsDesc: 'Zastąp listę serwerów ustawieniem wstępnym'
           }
         },
         firewall: {
@@ -601,7 +647,7 @@ const pl = {
           backends: 'Backendy',
           enableHttpsFirst: 'Włącz HTTPS przed włączeniem trybu Ograniczony lub Paranoidalny',
           httpsRequired:
-            'Tryby Ograniczony i Paranoidalny są niedostępne, dopóki HTTPS nie zostanie włączony w Ustawienia > System > Sieć',
+            'Tryby Ograniczony i Paranoidalny są niedostępne, dopóki HTTPS nie zostanie włączony w Ustawienia > Sieć > Usługi',
           mode: {
             title: 'Tryb zapory',
             baseline: 'Podstawowy',
@@ -712,6 +758,9 @@ const pl = {
           '8': '8 - Wszystko'
         }
       },
+      networking: {
+        title: 'Sieć'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Szyfrowany tunel',
@@ -788,7 +837,8 @@ const pl = {
         swap: {
           title: 'Plik wymiany',
           tip: 'Jeśli po włączeniu optymalizacji pamięci problemy nadal występują, spróbuj włączyć plik wymiany',
-          sizeTip: 'Ustawia to rozmiar pliku na 256MB; możesz go zmienić w Ustawienia > Urządzenie'
+          sizeTip:
+            'Ustawia to rozmiar pliku na 128MB; możesz go zmienić w Ustawienia > System > Wydajność'
         },
         restartTitle: 'Uruchom ponownie Tailscale',
         restartDesc: 'Uruchamia ponownie usługę',
@@ -828,7 +878,7 @@ const pl = {
         cancelBtn: 'Nie'
       },
       update: {
-        title: 'Aktualizacje systemu',
+        title: 'Aktualizacje',
         sources: 'Źródła aktualizacji',
         latestVersion: 'Najnowsza wersja',
         queryFailed: 'Uzyskanie wersji nie powiodło się',
@@ -876,6 +926,14 @@ const pl = {
             'Ten zweryfikowany pakiet zapisze obrazy raw boot/rootfs na partycje karty SD i automatycznie uruchomi urządzenie ponownie. Zapis może potrwać kilka minut; utrzymuj zasilanie.',
           rawInstallWarning:
             'Dla raw aktualizacji partycji nie ma automatycznego rollbacku. Jeśli rozruch się nie powiedzie, odzyskaj kartę SD ręcznie.',
+          rawWaitTitle: 'Instalowanie aktualizacji systemu',
+          rawWaitWriting: 'Zapisywanie nowego systemu na karcie SD',
+          rawWaitRestarting:
+            'Urządzenie uruchamia się ponownie. Ta strona załaduje się ponownie, gdy urządzenie wróci.',
+          rawWaitDesc:
+            'To potrwa około trzech minut. Pozostaw zasilanie podłączone i nie zamykaj tej strony.',
+          rawWaitSlow:
+            'To trwa dłużej, niż oczekiwano. Poczekaj jeszcze kilka minut, zanim odłączysz zasilanie.',
           rebootRequired: 'Restart jest wymagany, aby aktywować ten stan systemu.',
           confirming: 'Potwierdzanie rozruchu aktualizacji systemu...',
           confirmBoot: 'Potwierdź rozruch',
@@ -916,6 +974,24 @@ const pl = {
           upload: 'Prześlij',
           invalidName: 'Nieprawidłowy format nazwy pliku. Pobierz z wydań GitHub.',
           updateFailed: 'Aktualizacja nie powiodła się. Spróbuj ponownie.'
+        },
+        local: {
+          title: 'Prześlij pakiet systemowy',
+          desc: 'Zainstaluj pakiet systemowy z tego komputera. Jeden plik zawiera archiwum i jego podpisane metadane.',
+          choose: 'Wybierz plik',
+          invalidFile: 'Wybierz pakiet systemowy z rozszerzeniem .tar lub .tar.gz.',
+          diskTitle: 'Wyłączyć dysk wirtualny?',
+          diskWarn:
+            'Pakiet systemowy jest zapisywany w /data, które jest tylko do odczytu, gdy dysk wirtualny jest włączony. Po jego wyłączeniu komputer straci dostęp do /data. Kontynuować?',
+          uploading: 'Wysyłanie',
+          verifying: 'Weryfikowanie i przygotowywanie pakietu',
+          keyTitle: 'Lokalny klucz aktualizacji',
+          keyDesc:
+            'Klucz publiczny w formacie PEM, który może podpisywać samodzielnie zbudowane pakiety systemowe',
+          keyNone: 'Nie ustawiono klucza',
+          keySet: 'Ustaw klucz',
+          keyRemove: 'Usuń',
+          signer: 'Podpisał'
         }
       },
       account: {
@@ -928,6 +1004,13 @@ const pl = {
         logoutDesc: 'Czy na pewno chcesz się wylogować?',
         okBtn: 'Tak',
         cancelBtn: 'Nie',
+        session: {
+          title: 'Sesja'
+        },
+        logoutOnClose: {
+          title: 'Wyloguj po zamknięciu przeglądarki',
+          description: 'Zakończ sesję po zamknięciu przeglądarki zamiast utrzymywać ją otwartą'
+        },
         totp: {
           title: 'Uwierzytelnianie dwuskładnikowe',
           authenticator: 'Aplikacja uwierzytelniająca',

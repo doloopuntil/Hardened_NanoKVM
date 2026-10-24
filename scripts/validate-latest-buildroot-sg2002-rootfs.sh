@@ -116,7 +116,6 @@ for path in \
 	/mnt/system/ko/soph_vpss.ko \
 	/mnt/system/usr/lib/libsns_lt6911.so \
 	/lib/ld-musl-riscv64xthead.so.1 \
-	/lib/ld-musl-riscv64v0p7_xthead.so.1 \
 	/etc/kvm/system-version.json \
 	/etc/ssh/sshd_config \
 	/etc/ssl/certs/ca-certificates.crt \
@@ -229,8 +228,6 @@ verify_sha256 /kvmapp/server/dl_lib/libc.so \
 	fbc494806cad67edbf4584221bdc481593fa04b317d9405cf3418aad9a9500c4 vendor-libc
 verify_sha256 /lib/ld-musl-riscv64xthead.so.1 \
 	e966ce689d386af715ec2ca558a90661731cd875192af91749b52475629cb7d2 xhead-loader
-verify_sha256 /lib/ld-musl-riscv64v0p7_xthead.so.1 \
-	8e4f81c0280b2337abea47bf151259f6fa3bf3261578dee8bba30f83c60fe7e8 v0p7-loader
 verify_sha256 /mnt/system/ko/soph_vcodec.ko \
 	"$EXPECTED_SOPH_VCODEC_SHA256" soph-vcodec
 verify_sha256 /mnt/system/ko/soph_jpeg.ko \
@@ -281,8 +278,11 @@ if grep -Eq '\((RPATH|RUNPATH)\)' "$KVM_SYSTEM_DYNAMIC"; then
 fi
 readelf -rW "$KVM_SYSTEM" >/dev/null 2>&1 || \
 	die "kvm_system relocation table is invalid"
-readelf -A "$KVM_SYSTEM" 2>/dev/null | grep -Fq 'v0p7' || \
-	die "kvm_system is not the expected RISC-V v0p7 binary"
+readelf -A "$KVM_SYSTEM" 2>/dev/null | grep -Fq 'xtheadc' || \
+	die "kvm_system is not the expected RISC-V xthead binary"
+if readelf -A "$KVM_SYSTEM" 2>/dev/null | grep -Fq 'v0p7'; then
+	die "kvm_system is built for the vector extension"
+fi
 
 KVMAPP_S95="$TMP_DIR/kvmapp-S95nanokvm"
 ETC_S95="$TMP_DIR/etc-S95nanokvm"

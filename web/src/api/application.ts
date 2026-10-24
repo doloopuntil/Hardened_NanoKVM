@@ -1,5 +1,5 @@
-import { http } from '@/lib/http.ts';
 import { getCsrfToken } from '@/lib/cookie.ts';
+import { http } from '@/lib/http.ts';
 import { getBaseUrl } from '@/lib/service.ts';
 
 export type SystemVersion = {
@@ -35,6 +35,7 @@ export type SystemStagedUpdate = {
   target: string;
   channel: string;
   archiveName: string;
+  signer?: string | null;
   size: number;
   sha256: string;
   stagedAt: number;
@@ -135,6 +136,45 @@ export function installSystemUpdate() {
     url: '/api/system-update/install',
     timeout: 60 * 60 * 1000
   });
+}
+
+// ask whether a system bundle of this size can be uploaded, before sending it; a refusal after
+// the browser starts sending reaches it only as a connection reset
+export function checkSystemUpload(size: number) {
+  return http.get('/api/system-update/upload-check', { size });
+}
+
+// stage a system bundle uploaded from this computer
+export function uploadSystemUpdate(
+  data: FormData,
+  onProgress?: (loaded: number, total: number) => void
+) {
+  return http.request({
+    method: 'post',
+    url: '/api/system-update/upload',
+    data,
+    timeout: 45 * 60 * 1000,
+    onUploadProgress: (event) => onProgress?.(event.loaded, event.total ?? 0)
+  });
+}
+
+// get the locally registered system update key
+export function getLocalUpdateKey() {
+  return http.get('/api/system-update/local-key');
+}
+
+// register the key that may sign locally built system bundles
+export function setLocalUpdateKey(password: string, publicKey: string) {
+  return http.request({
+    method: 'put',
+    url: '/api/system-update/local-key',
+    data: { password, publicKey }
+  });
+}
+
+// remove the locally registered system update key
+export function removeLocalUpdateKey(password: string) {
+  return http.delete('/api/system-update/local-key', { password });
 }
 
 // rollback the latest base-system update backup

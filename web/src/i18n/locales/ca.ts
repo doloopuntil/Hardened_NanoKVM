@@ -89,7 +89,7 @@ const ca = {
       scale: 'Escala',
       title: 'Pantalla',
       video: 'Mode de vídeo',
-      videoDirectTips: 'Activa HTTPS a "Configuració > Sistema > Xarxa" per utilitzar aquest mode',
+      videoDirectTips: 'Activa HTTPS a "Configuració > Xarxes > Serveis" per utilitzar aquest mode',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC està desactivat en els modes de tallafoc Restringit i Paranoic',
       transferRunningTitle: "Transferència d'imatge en curs",
@@ -349,7 +349,7 @@ const ca = {
     settings: {
       title: 'Configuració',
       about: {
-        title: 'Sobre NanoKVM',
+        title: 'Quant a',
         information: 'Informació',
         ip: 'IP',
         mdns: 'mDNS',
@@ -416,8 +416,7 @@ const ca = {
         sections: {
           connectivity: 'Connectivitat',
           hostConnection: "Connexió amb l'amfitrió",
-          inputOutput: 'Entrada i sortida',
-          optimizations: 'Optimitzacions'
+          inputOutput: 'Entrada i sortida'
         },
         oled: {
           title: "Temps d'espera de l'OLED",
@@ -557,10 +556,57 @@ const ca = {
       },
       system: {
         title: 'Sistema',
+        performance: {
+          processor: 'Processador',
+          overdrive: {
+            title: 'Sobreesforç de rellotge',
+            description:
+              'Arrenca amb les freqüències més altes de processador i de vídeo especificades pel fabricant',
+            tip: 'Si el dispositiu no arrenca amb el sobreesforç, cal tornar a gravar la targeta SD',
+            pending: "S'aplica després del proper reinici",
+            unavailable: 'No inclòs en aquesta imatge del sistema',
+            keepTitle: "Mantén l'overdrive després d'actualitzar",
+            keepDescription:
+              'Una actualització del sistema torna el dispositiu als rellotges estàndard si això no està activat',
+            confirmTitle: 'Activar el sobreesforç de rellotge?',
+            confirmText:
+              "Si el dispositiu no arrenca amb el sobreesforç, haureu de tornar a gravar la targeta SD per recuperar-lo. El canvi s'aplica després del proper reinici."
+          },
+          memory: 'Memòria'
+        },
+        monitor: {
+          processorClock: 'Subsistema de CPU',
+          videoClock: 'Subsistema de vídeo',
+          videoClockCaption: 'Freqüència del rellotge de vídeo',
+          cpuClockCaption: 'Freqüència del rellotge de la CPU',
+          overdrive: 'Sobreesforç',
+          temperature: 'Temperatura',
+          lastMinutes: 'Últims 5 minuts',
+          ram: 'RAM',
+          off: 'Desactivat',
+          ramHistory: 'Utilització de la RAM',
+          cpuLoad: 'Càrrega de la CPU',
+          cpuLoadCaption: 'Usuari {{user}} per cent, sistema {{system}} per cent',
+          cpuUtilization: 'Utilització de la CPU',
+          swapUtilization: "Utilització de la memòria d'intercanvi",
+          swapSizeLastMinutes: '{{size}}, últims 5 minuts',
+          percent: '{{percent}} per cent',
+          percentUsed: '{{percent}} per cent en ús',
+          sizeOf: '{{used}} de {{total}}',
+          systemPartition: 'Partició del sistema',
+          dataPartition: 'Partició de dades',
+          unavailable: 'No disponible',
+          noReadings: 'El dispositiu no retorna lectures',
+          refresh: "S'actualitza cada segon mentre aquesta pàgina és oberta"
+        },
         sections: {
           time: 'Hora',
           firewall: 'Tallafoc',
-          systemLog: 'Registre'
+          systemLog: 'Registre',
+          performance: 'Rendiment',
+          monitor: 'Monitor',
+          services: 'Serveis',
+          webInterface: 'Interfície web'
         },
         time: {
           saveFailed: "No s'han pogut desar els paràmetres d'hora",
@@ -570,7 +616,7 @@ const ca = {
           invalidServers: 'Introdueix almenys un servidor NTP',
           maxServers: 'Es permeten com a màxim {{count}} servidors NTP',
           refresh: 'Actualitza',
-          syncNow: 'Sincronitza ara',
+          syncNow: 'Sincronitza',
           syncNowDesc: 'Ajusta el rellotge amb els servidors NTP ara',
           save: 'Desa',
           ntp: {
@@ -590,8 +636,8 @@ const ca = {
               'Fes servir els servidors públics per defecte, el teu encaminador local o servidors NTP personalitzats',
             useRouter: 'Fes servir encaminador',
             useDefaults: 'Fes servir valors per defecte',
-            routerDetected: 'Encaminador detectat',
-            routerNone: 'No trobat'
+            presets: 'Predefinits de servidors',
+            presetsDesc: 'Substitueix la llista de servidors per un valor predefinit'
           }
         },
         firewall: {
@@ -603,7 +649,7 @@ const ca = {
           enableHttpsFirst:
             "Activa HTTPS abans d'activar el mode de tallafoc Restringit o Paranoic",
           httpsRequired:
-            "Els modes Restringit i Paranoic estan desactivats fins que s'activi HTTPS a Configuració > Sistema > Xarxa",
+            "Els modes Restringit i Paranoic estan desactivats fins que s'activi HTTPS a Configuració > Xarxes > Serveis",
           mode: {
             title: 'Mode del tallafoc',
             baseline: 'Base',
@@ -716,6 +762,9 @@ const ca = {
           '8': '8 - Tot'
         }
       },
+      networking: {
+        title: 'Xarxes'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: 'Túnel xifrat',
@@ -792,7 +841,7 @@ const ca = {
           title: 'Fitxer swap',
           tip: "Si els problemes persisteixen després d'activar l'optimització de memòria, prova d'activar el fitxer swap",
           sizeTip:
-            'Això estableix la mida del fitxer a 256MB; ajusta-la a Configuració > Dispositiu'
+            'Això estableix la mida del fitxer a 128MB; ajusta-la a Configuració > Sistema > Rendiment'
         },
         restartTitle: 'Reinicia Tailscale',
         restartDesc: 'Reinicia el servei',
@@ -831,7 +880,7 @@ const ca = {
         cancelBtn: 'No'
       },
       update: {
-        title: 'Actualitzacions del sistema',
+        title: 'Actualitzacions',
         sources: "Fonts d'actualització",
         latestVersion: 'Última versió',
         queryFailed: 'Error en obtenir la versió',
@@ -879,6 +928,13 @@ const ca = {
             "Aquest paquet verificat escriurà imatges raw boot/rootfs a les particions de la targeta SD i reiniciarà automàticament. L'escriptura pot trigar uns minuts; mantén l'alimentació connectada.",
           rawInstallWarning:
             "No hi ha rollback automàtic per a actualitzacions de particions raw. Si l'arrencada falla, recupera la targeta SD manualment.",
+          rawWaitTitle: "Instal·lant l'actualització del sistema",
+          rawWaitWriting: "S'està escrivint el sistema nou a la targeta SD",
+          rawWaitRestarting: 'El dispositiu es reinicia. Aquesta pàgina es recarrega quan torni.',
+          rawWaitDesc:
+            "Això triga uns tres minuts. Mantingueu l'alimentació connectada i no tanqueu aquesta pàgina.",
+          rawWaitSlow:
+            "Està trigant més del previst. Espereu uns minuts més abans de tallar l'alimentació.",
           rebootRequired: 'Cal reiniciar per activar aquest estat del sistema.',
           confirming: "Confirmant l'arrencada de l'actualització del sistema...",
           confirmBoot: "Confirma l'arrencada",
@@ -919,6 +975,24 @@ const ca = {
           upload: 'Puja',
           invalidName: "Format de nom de fitxer no vàlid. Baixa'l des de les versions de GitHub.",
           updateFailed: 'Error en actualitzar. Torna-ho a intentar.'
+        },
+        local: {
+          title: 'Puja un paquet del sistema',
+          desc: "Instal·la un paquet del sistema des d'aquest ordinador. Un sol fitxer conté l'arxiu i les seves metadades signades.",
+          choose: 'Tria el fitxer',
+          invalidFile: 'Selecciona un paquet del sistema que acabi en .tar o .tar.gz.',
+          diskTitle: 'Apagar el disc virtual?',
+          diskWarn:
+            "Un paquet del sistema es desa a /data, que és de només lectura mentre el disc virtual està activat. Si l'apagues, l'ordinador ja no pot accedir a /data. Vols continuar?",
+          uploading: 'Pujant',
+          verifying: 'Verificant i preparant el paquet',
+          keyTitle: "Clau d'actualització local",
+          keyDesc:
+            'Clau pública en format PEM que pot signar els paquets del sistema que compilis tu mateix',
+          keyNone: 'Cap clau definida',
+          keySet: 'Defineix la clau',
+          keyRemove: 'Elimina',
+          signer: 'Signat per'
         }
       },
       account: {
@@ -931,6 +1005,14 @@ const ca = {
         logoutDesc: 'Segur que vols tancar sessió?',
         okBtn: 'Sí',
         cancelBtn: 'No',
+        session: {
+          title: 'Sessió'
+        },
+        logoutOnClose: {
+          title: 'Tanca la sessió en tancar el navegador',
+          description:
+            'Finalitza la sessió quan es tanca el navegador en lloc de mantenir-la oberta'
+        },
         totp: {
           title: 'Autenticació de dos factors',
           authenticator: "Aplicació d'autenticació",

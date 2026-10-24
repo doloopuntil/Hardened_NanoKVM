@@ -87,7 +87,7 @@ const ko = {
       scale: '배율',
       title: '화면',
       video: '비디오 모드',
-      videoDirectTips: '이 모드를 사용하려면 "설정 > 시스템 > 네트워크"에서 HTTPS를 활성화하세요',
+      videoDirectTips: '이 모드를 사용하려면 "설정 > 네트워킹 > 서비스"에서 HTTPS를 활성화하세요',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC는 제한 및 파라노이드 방화벽 모드에서 비활성화됩니다',
       transferRunningTitle: '이미지 전송 중',
@@ -346,7 +346,7 @@ const ko = {
     settings: {
       title: '설정',
       about: {
-        title: 'NanoKVM 정보',
+        title: '정보',
         information: '정보',
         ip: 'IP',
         mdns: 'mDNS',
@@ -412,8 +412,7 @@ const ko = {
         sections: {
           connectivity: '연결',
           hostConnection: '호스트 연결',
-          inputOutput: '입력 및 출력',
-          optimizations: '최적화'
+          inputOutput: '입력 및 출력'
         },
         oled: {
           title: 'OLED 시간 제한',
@@ -548,10 +547,56 @@ const ko = {
       },
       system: {
         title: '시스템',
+        performance: {
+          processor: '프로세서',
+          overdrive: {
+            title: '클럭 오버드라이브',
+            description: '제조업체가 지정한 더 높은 프로세서 및 비디오 클럭으로 부팅합니다',
+            tip: '오버드라이브로 장치가 시작되지 않으면 SD 카드를 다시 기록해야 합니다',
+            pending: '다음 재부팅 후 적용됩니다',
+            unavailable: '이 시스템 이미지에는 포함되어 있지 않습니다',
+            keepTitle: '업데이트 후에도 오버드라이브 유지',
+            keepDescription:
+              '이 옵션을 켜지 않으면 시스템 업데이트 후 장치가 표준 클럭으로 돌아갑니다',
+            confirmTitle: '클럭 오버드라이브를 사용하시겠습니까?',
+            confirmText:
+              '오버드라이브로 장치가 시작되지 않으면 복구를 위해 SD 카드를 다시 기록해야 합니다. 변경 사항은 다음 재부팅 후 적용됩니다.'
+          },
+          memory: '메모리'
+        },
+        monitor: {
+          processorClock: 'CPU 서브시스템',
+          videoClock: '비디오 서브시스템',
+          videoClockCaption: '비디오 클럭 주파수',
+          cpuClockCaption: 'CPU 클럭 주파수',
+          overdrive: '오버드라이브',
+          temperature: '온도',
+          lastMinutes: '최근 5분',
+          ram: 'RAM',
+          off: '꺼짐',
+          ramHistory: 'RAM 사용률',
+          cpuLoad: 'CPU 부하',
+          cpuLoadCaption: '사용자 {{user}} 퍼센트, 시스템 {{system}} 퍼센트',
+          cpuUtilization: 'CPU 사용률',
+          swapUtilization: '스왑 사용률',
+          swapSizeLastMinutes: '{{size}}, 최근 5분',
+          percent: '{{percent}} 퍼센트',
+          percentUsed: '{{percent}} 퍼센트 사용',
+          sizeOf: '{{used}} / {{total}}',
+          systemPartition: '시스템 파티션',
+          dataPartition: '데이터 파티션',
+          unavailable: '사용할 수 없음',
+          noReadings: '장치가 측정값을 반환하지 않습니다',
+          refresh: '이 페이지가 열려 있는 동안 1초마다 업데이트됩니다'
+        },
         sections: {
           time: '시간',
           firewall: '방화벽',
-          systemLog: '로깅'
+          systemLog: '로깅',
+          performance: '성능',
+          monitor: '모니터',
+          services: '서비스',
+          webInterface: '웹 인터페이스'
         },
         time: {
           saveFailed: '시간 설정을 저장하지 못했습니다',
@@ -561,7 +606,7 @@ const ko = {
           invalidServers: 'NTP 서버를 하나 이상 입력하세요',
           maxServers: '최대 {{count}}개의 NTP 서버가 허용됩니다',
           refresh: '새로 고침',
-          syncNow: '지금 동기화',
+          syncNow: '동기화',
           syncNowDesc: '지금 NTP 서버로 시계를 설정합니다',
           save: '저장',
           ntp: {
@@ -580,8 +625,8 @@ const ko = {
             description: '기본 공용 서버, 로컬 라우터 또는 사용자 지정 NTP 서버를 사용합니다',
             useRouter: '라우터 사용',
             useDefaults: '기본값 사용',
-            routerDetected: '감지된 라우터',
-            routerNone: '찾을 수 없음'
+            presets: '서버 프리셋',
+            presetsDesc: '서버 목록을 프리셋으로 바꿉니다'
           }
         },
         firewall: {
@@ -593,7 +638,7 @@ const ko = {
           enableHttpsFirst:
             '제한 또는 파라노이드 방화벽 모드를 활성화하기 전에 HTTPS를 활성화하세요',
           httpsRequired:
-            '설정 > 시스템 > 네트워크에서 HTTPS를 활성화하기 전까지 제한 및 파라노이드 모드는 비활성화됩니다',
+            '설정 > 네트워킹 > 서비스에서 HTTPS를 활성화하기 전까지 제한 및 파라노이드 모드는 비활성화됩니다',
           mode: {
             title: '방화벽 모드',
             baseline: '베이스라인',
@@ -704,6 +749,9 @@ const ko = {
           '8': '8 - 모두'
         }
       },
+      networking: {
+        title: '네트워킹'
+      },
       wireguard: {
         title: 'WireGuard',
         tunnel: '암호화 터널',
@@ -778,7 +826,7 @@ const ko = {
         swap: {
           title: '스왑 파일',
           tip: '메모리 최적화를 활성화한 후에도 문제가 지속되면 스왑 파일을 활성화해 보세요',
-          sizeTip: '파일 크기가 256MB로 설정되며, 설정 > 기기에서 조정할 수 있습니다'
+          sizeTip: '파일 크기가 128MB로 설정되며, 설정 > 시스템 > 성능에서 조정할 수 있습니다'
         },
         restartTitle: 'Tailscale 다시 시작',
         restartDesc: '서비스를 다시 시작합니다',
@@ -817,7 +865,7 @@ const ko = {
         cancelBtn: '아니오'
       },
       update: {
-        title: '시스템 업데이트',
+        title: '업데이트',
         sources: '업데이트 소스',
         latestVersion: '최신 버전',
         queryFailed: '버전 확인 실패',
@@ -863,6 +911,12 @@ const ko = {
             '이 검증된 번들은 raw boot/rootfs 이미지를 SD 카드 파티션에 쓰고 자동으로 재부팅합니다. 쓰기에는 몇 분이 걸릴 수 있으니 전원을 유지하세요.',
           rawInstallWarning:
             'Raw 파티션 업데이트에는 자동 rollback이 없습니다. 부팅이 실패하면 SD 카드를 수동으로 복구하세요.',
+          rawWaitTitle: '시스템 업데이트 설치 중',
+          rawWaitWriting: '새 시스템을 SD 카드에 쓰는 중',
+          rawWaitRestarting:
+            '장치를 다시 시작하는 중입니다. 장치가 돌아오면 이 페이지가 다시 로드됩니다.',
+          rawWaitDesc: '약 3분 정도 걸립니다. 전원을 연결한 상태로 두고 이 페이지를 닫지 마세요.',
+          rawWaitSlow: '예상보다 오래 걸리고 있습니다. 전원을 끄기 전에 몇 분 더 기다리세요.',
           rebootRequired: '이 시스템 상태를 활성화하려면 재부팅이 필요합니다.',
           confirming: '시스템 업데이트 부팅 확인 중...',
           confirmBoot: '부팅 확인',
@@ -902,6 +956,23 @@ const ko = {
           upload: '업로드',
           invalidName: '유효하지 않은 파일 이름 형식입니다. GitHub 릴리즈에서 다운로드하세요.',
           updateFailed: '업데이트에 실패했습니다. 재시도하세요.'
+        },
+        local: {
+          title: '시스템 번들 업로드',
+          desc: '이 컴퓨터에서 시스템 번들을 설치합니다. 파일 하나에 아카이브와 서명된 메타데이터가 들어 있습니다.',
+          choose: '파일 선택',
+          invalidFile: '.tar 또는 .tar.gz로 끝나는 시스템 번들을 선택하세요.',
+          diskTitle: '가상 디스크를 끄시겠습니까?',
+          diskWarn:
+            '시스템 번들은 /data에 저장되며, 가상 디스크가 켜져 있는 동안에는 읽기 전용입니다. 가상 디스크를 끄면 컴퓨터에서 /data에 접근할 수 없게 됩니다. 계속하시겠습니까?',
+          uploading: '업로드 중',
+          verifying: '번들을 확인하고 준비하는 중',
+          keyTitle: '로컬 업데이트 키',
+          keyDesc: '직접 빌드한 시스템 번들에 서명할 수 있는 PEM 형식의 공개 키',
+          keyNone: '설정된 키 없음',
+          keySet: '키 설정',
+          keyRemove: '제거',
+          signer: '서명자'
         }
       },
       account: {
@@ -914,6 +985,13 @@ const ko = {
         logoutDesc: '정말로 로그아웃 하시겠습니까?',
         okBtn: '네',
         cancelBtn: '아니오',
+        session: {
+          title: '세션'
+        },
+        logoutOnClose: {
+          title: '브라우저를 닫으면 로그아웃',
+          description: '세션을 유지하지 않고 브라우저를 닫을 때 종료합니다'
+        },
         totp: {
           title: '2단계 인증',
           authenticator: '인증 앱',

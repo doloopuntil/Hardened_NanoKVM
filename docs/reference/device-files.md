@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-24
 source: constants in server-rust/src and kvmapp/system/init.d
 ---
 
@@ -15,7 +15,7 @@ files with `sed`.
 
 | Partition | Mounted at | Holds |
 | --- | --- | --- |
-| `/dev/mmcblk0p1` (VFAT) | `/boot` | Boot files (`fip.bin`, `boot.sd`) and boot-time flags. |
+| `/dev/mmcblk0p1` (VFAT) | `/boot` | Boot files (`fip.bin`, `fip.std.bin`, `fip.od.bin`, `boot.sd`) and boot-time flags. |
 | `/dev/mmcblk0p2` (ext4) | `/` | Buildroot root filesystem, `/etc/kvm`, `/kvmapp`. |
 | data partition | `/data` | Disk images, the update cache, logs of system updates. |
 
@@ -62,6 +62,8 @@ A system update rewrites the first two; `/data` and the saved `/etc/kvm` survive
 | `eth.ipv6.mode`, `eth.ipv6` | IPv6 mode and static address. |
 | `resolv.conf` | Fixed DNS servers. |
 | `ver` | Base image version. |
+| `cpu.overdrive` | Clock overdrive chosen. The server keeps `fip.bin` equal to `fip.od.bin` while it exists, and to `fip.std.bin` otherwise. |
+| `cpu.overdrive.keep` | Keep the overdrive choice across system updates. Without it the update script drops `cpu.overdrive`, so the device returns to the standard clocks. |
 
 ## Elsewhere
 

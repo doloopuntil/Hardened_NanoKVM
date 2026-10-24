@@ -3,7 +3,12 @@ import Cookies from 'js-cookie';
 const COOKIE_TOKEN_KEY = 'nano-kvm-token';
 const COOKIE_CSRF_KEY = 'nano-kvm-csrf';
 
-function cookieExpires(expiresAt?: number) {
+function cookieExpires(expiresAt?: number, sessionOnly?: boolean) {
+  // a cookie without a lifetime is dropped when the browser closes
+  if (sessionOnly) {
+    return undefined;
+  }
+
   if (expiresAt && expiresAt > Date.now() / 1000) {
     return new Date(expiresAt * 1000);
   }
@@ -22,9 +27,9 @@ export function getCsrfToken() {
   return token;
 }
 
-export function setCsrfToken(token: string, expiresAt?: number) {
+export function setCsrfToken(token: string, expiresAt?: number, sessionOnly?: boolean) {
   Cookies.set(COOKIE_CSRF_KEY, token, {
-    expires: cookieExpires(expiresAt),
+    expires: cookieExpires(expiresAt, sessionOnly),
     path: '/',
     sameSite: 'Lax'
   });

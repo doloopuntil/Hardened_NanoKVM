@@ -66,6 +66,38 @@ pub fn totp_backup_codes_regenerated(username: &str) {
     );
 }
 
+pub fn system_update_local_key_set(username: &str) {
+    emit(
+        84,
+        &format!(
+            "{TAG}: local system update key registered user={}",
+            sanitize(username)
+        ),
+    );
+}
+
+pub fn system_update_local_key_removed(username: &str) {
+    emit(
+        85,
+        &format!(
+            "{TAG}: local system update key removed user={}",
+            sanitize(username)
+        ),
+    );
+}
+
+pub fn system_update_uploaded(username: &str, signer: &str, version: &str) {
+    emit(
+        85,
+        &format!(
+            "{TAG}: system update uploaded user={} signer={} version={}",
+            sanitize(username),
+            sanitize(signer),
+            sanitize(version)
+        ),
+    );
+}
+
 pub fn wireguard_changed(source_ip: &str, enabled: bool) {
     emit(
         85,

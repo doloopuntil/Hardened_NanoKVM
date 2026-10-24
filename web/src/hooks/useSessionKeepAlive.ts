@@ -32,7 +32,7 @@ export function useSessionKeepAlive(enabled: boolean, intervalMs = CHECK_INTERVA
           const csrfToken = getCsrfToken();
           // the CSRF cookie expires on its own, so it has to move with the session
           if (rsp.code === 0 && csrfToken && rsp.data?.expiresAt) {
-            setCsrfToken(csrfToken, rsp.data.expiresAt);
+            setCsrfToken(csrfToken, rsp.data.expiresAt, rsp.data.logoutOnBrowserClose);
           }
         })
         .catch(() => {})

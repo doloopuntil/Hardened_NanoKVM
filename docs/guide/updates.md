@@ -1,7 +1,7 @@
 ---
 status: current, channels pending
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-24
 ---
 
 # Updates
@@ -24,7 +24,7 @@ init scripts and helpers shipped with it, the update keys and the version file. 
 does not touch the boot partition, the root filesystem or the kernel. Backend and
 web UI fixes ship this way.
 
-In **Settings > System updates**:
+In **Settings > System > Updates**:
 
 - **Application** checks the online channel. The device accepts an update only
   when its `latest.json` carries a valid signature and the downloaded archive
@@ -50,11 +50,60 @@ the Buildroot userspace or the init scripts installed in the root filesystem.
   `/data/.hardened-kvmcache`, checks its signed metadata, the archive digest and
   every payload hash, and stages it.
 - **Install** re-checks the staged bundle, backs up the configuration it needs,
-  streams the compressed images onto the partitions and reboots.
+  streams the compressed images onto the partitions and reboots. The web UI
+  shows a waiting screen with an elapsed timer and reloads itself when the device
+  is back. Writing takes about three minutes and the restart about 20 seconds more;
+  wait at least ten minutes before cutting power, because the web UI and SSH are
+  unavailable while the partitions are written.
+- A system update returns the device to the standard clocks. Turn on **Keep overdrive
+  after updates** in Settings > System to carry the overdrive choice over.
 - On the first boot of the new system, the saved configuration in `/etc/kvm` is
   restored before SSH and the server start. Once the server reports healthy, the
   boot watchdog confirms the update. If health checks fail after boot, it rolls
   back.
+
+### Updating from a CI build
+
+Each image build also publishes an unsigned system-update archive, as the
+`system-update-archive` artifact of the workflow run. Its version is the base
+system version with the run number as the last part, such as `0.4.57`, so each
+build is newer than the one before. To install it without an SD-card reflash:
+
+1. Create a key pair and set the public half as the local update key, as in
+   steps 1 and 2 below.
+2. Download the `system-update-archive` artifact and unpack it.
+3. In the unpacked folder, run `sh sign-local-system-update.sh /path/to/local.pem`.
+   It needs only `sh`, `openssl` and `tar`, so it works on macOS without Docker,
+   and writes `<version>.bundle.tar` next to the script.
+4. Choose **Upload system bundle** and select that file. Install it as usual.
+
+The archive holds raw boot and rootfs images, which have no automatic rollback.
+Keep a way to reflash the SD card.
+
+### Updating from a bundle you built
+
+To update without the release channel or an SD-card reflash, sign the bundle
+with a key of your own and upload it.
+
+1. Create a key pair on your computer and keep the private half there:
+   `openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:3072 -out local.pem`, then
+   `openssl pkey -in local.pem -pubout -out local.pub.pem`.
+2. In **Settings > System > Updates**, choose **Set key** under **Local update key**,
+   paste `local.pub.pem` and enter your password. The device now trusts that key
+   for uploaded bundles only; the online channels never use it.
+3. Build the metadata with
+   `SYSTEM_UPDATE_SIGNING_KEY=local.pem SYSTEM_UPDATE_SIGNATURE_KEY_ID=local CHANNEL=dev scripts/create-system-update-metadata.sh <version> hardened-system-<version> <archive> system-latest.json`.
+   This also writes `system-latest.json.sig`.
+4. Wrap the three files into one bundle with
+   `scripts/create-system-update-bundle.sh <archive> system-latest.json system-latest.json.sig <version>.bundle.tar`.
+5. Choose **Upload system bundle** and select the `.bundle.tar`. The device
+   verifies the signature, the archive digests and every payload hash, then
+   stages the bundle. Install it as usual.
+
+Bundles signed by the local key may repeat or lower the installed version, so a
+development build can be reinstalled. Bundles signed by a release key must still
+be newer. Choose **Remove** to withdraw the key. Registering and removing it
+needs your password and is written to the system log.
 
 Keep a recovery card ready and the power connected. A system update does not
 recover by itself from a device that cannot boot at all; reflash the card then.

@@ -29,8 +29,6 @@ env:
   # frozen copy of the LT6911 sensor driver -- the vendor-sdk-stock patch above never reaches the
   # code that actually runs; see server-rust/native/README.md.
   MAIXCDK_SHA: 5b0aa5b1a8c91d213433189cfab8c999775fa13a
-  SOPHGO_HOST_TOOLS_URL: https://sophon-file.sophon.cn/sophon-prod-s3/drive/23/03/07/16/host-tools.tar.gz
-  SOPHGO_HOST_TOOLS_SHA256: ff9a58e8e192b20ea42e1d729c42d2219523209706cb3f0cf134582f6c70f805
 
 jobs:
   # Just the two pinned checkouts (SDK, host-tools) plus the tracked patch. The kernel and module
@@ -51,13 +49,15 @@ jobs:
         run: make vendor-sdk
 
       # lt6911_sensor_ctl.c's chip-ID I2C probe never succeeds on this board (confirmed on real
-      # hardware); HDMI works without it, so it's removed.
-      - name: Apply tracked vendor SDK middleware patches
+      # hardware); HDMI works without it, so it's removed. fsbl-overdrive-clocks selects the
+      # FSBL's overdrive clock table (C906 1050 MHz, VDDC 1.00 V).
+      - name: Apply tracked vendor SDK patches
         run: |
-          git -C build/vendor/LicheeRV-Nano-Build apply --check \
-            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch"
-          git -C build/vendor/LicheeRV-Nano-Build apply \
-            "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch"
+          for patch in lt6911-sensor-id-probe-removed fsbl-overdrive-clocks; do
+            file="$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/$patch.patch"
+            git -C build/vendor/LicheeRV-Nano-Build apply --check "$file"
+            git -C build/vendor/LicheeRV-Nano-Build apply "$file"
+          done
 
       # Tarred because artifacts drop file permissions and symlinks.
       - name: Package vendor SDK source
@@ -122,7 +122,8 @@ jobs:
         if: steps.stock-cache.outputs.cache-hit != 'true'
         run: make vendor-sdk-stock
 
-      # Only what build-image reads: the stock rootfs.sd (runtime files), boot.sd and fip.bin,
+      # Only what build-image reads: the stock rootfs.sd (runtime files), boot.sd, fip.bin (standard
+      # clocks) and fip.od.bin (overdrive),
       # the ramdisk inputs and keys for the boot FIT, the vendor mkimage with the host/ libraries
       # it loads, and the boot logo. Tarred because artifacts drop permissions and symlinks.
       - name: Package vendor SDK for build-image
@@ -135,6 +136,7 @@ jobs:
             "$OUT/rawimages/rootfs.sd" \
             "$OUT/rawimages/boot.sd" \
             "$OUT/fip.bin" \
+            "$OUT/fip.od.bin" \
             "$SDK/ramdisk/build/sg2002_licheervnano_sd/workspace/boot.cpio" \
             "$SDK/ramdisk/build/sg2002_licheervnano_sd/workspace/multi.its" \
             "$SDK/ramdisk/keys" \
@@ -169,9 +171,8 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
-  # Isolated, independent of vendor-sdk: a completely separate toolchain (MaixCDK + Sophgo's RISC-V
-  # musl gcc), building libkvm.so/libkvm_mmf.so and kvm_system from this repository's
-  # support/sg2002 sources.
+  # Isolated, independent of vendor-sdk: one toolchain (MaixCDK's pinned Xuantie musl gcc) builds
+  # the SDK middleware, libkvm.so/libkvm_mmf.so and kvm_system from source.
   # libkvm_mmf.so statically compiles in its own frozen copy of the LT6911 sensor driver (see
   # server-rust/native/README.md) -- the vendor-sdk-stock patch above never reaches the code that
   # actually runs; this is the job that does.
@@ -188,15 +189,6 @@ jobs:
           sudo apt-get install -y \
             build-essential cmake git curl python3 python3-venv python3-pip \
             autoconf automake libtool patchelf patch file
-
-      - name: Install Sophgo RISC-V musl toolchain
-        run: |
-          curl --fail --location --retry 2 \
-            --output /tmp/host-tools.tar.gz "$SOPHGO_HOST_TOOLS_URL"
-          echo "$SOPHGO_HOST_TOOLS_SHA256  /tmp/host-tools.tar.gz" | sha256sum -c -
-          sudo tar -C /usr/local -xzf /tmp/host-tools.tar.gz
-          rm -f /tmp/host-tools.tar.gz
-          echo "/usr/local/host-tools/gcc/riscv64-linux-musl-x86_64/bin" >> "$GITHUB_PATH"
 
       - name: Fetch MaixCDK
         run: |
@@ -219,6 +211,42 @@ jobs:
             < "$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/lt6911-sensor-id-probe-removed.patch"
           cp /tmp/lt6911_sensor_ctl.c.patched "$LT6911_FILE"
           ! grep -q "LT6911_CHIP_ID_ADDR_H)" "$LT6911_FILE"
+
+      # Nothing we ship needs XTheadVector: build for the scalar xthead multilib and loader.
+      - name: Build MaixCDK projects without the vector extension
+        run: |
+          YAML="$HOME/MaixCDK/platforms/maixcam.yaml"
+          sed -i 's/-mcpu=c906fdv -march=rv64imafdcv0p7xthead/-mcpu=c906fd -march=rv64imafdcxthead/g' "$YAML"
+          ! grep -q v0p7 "$YAML"
+
+      # Only the middleware sources and the uapi headers it compiles against.
+      - name: Fetch the SDK middleware source
+        run: |
+          SDK="$RUNNER_TEMP/sdk-middleware"
+          git init -q "$SDK"
+          git -C "$SDK" remote add origin https://github.com/sipeed/LicheeRV-Nano-Build.git
+          git -C "$SDK" sparse-checkout set --no-cone \
+            /middleware/v2/Makefile.param /middleware/v2/include/ \
+            /middleware/v2/modules/sys/ /middleware/v2/modules/venc/ /middleware/v2/modules/vdec/ \
+            /middleware/v2/modules/vpu/ /middleware/v2/modules/bin/include/ \
+            /middleware/v2/modules/isp/include/ /middleware/v2/3rdparty/inih/ \
+            /osdrv/interdrv/v2/include/ /linux_5.10/drivers/staging/android/uapi/
+          git -C "$SDK" fetch -q --depth 1 --filter=blob:none origin "$LICHEERV_NANO_SDK_SHA"
+          git -C "$SDK" checkout -q FETCH_HEAD
+          [ "$(git -C "$SDK" rev-parse HEAD)" = "$LICHEERV_NANO_SDK_SHA" ]
+
+      # Replaces MaixCDK's prebuilt libsys/libvenc/libvdec/libvpu/libini, so libkvm_mmf.so links
+      # against these and the image ships them. They must keep every export of the old prebuilts.
+      # Same toolchain as the MaixCDK build below, which reuses the fetched copy.
+      - name: Build the Sophgo middleware from source
+        run: |
+          OUT="$GITHUB_WORKSPACE/build/native-libkvm/middleware"
+          TOOLCHAIN_BIN="$(scripts/fetch-maixcdk-toolchain.sh "$HOME/MaixCDK")"
+          SDK_MIDDLEWARE_OPT_FLAGS=-O2 scripts/build-sdk-middleware.sh "$RUNNER_TEMP/sdk-middleware" "$OUT" \
+            "$TOOLCHAIN_BIN" server-rust/native/dl_lib
+          MW_LIB="$HOME/MaixCDK/components/3rd_party/sophgo-middleware/sophgo-middleware/v2/lib"
+          cp "$OUT/libsys.so" "$OUT/libvenc.so" "$OUT/libvdec.so" "$OUT/libvpu.so" "$MW_LIB/"
+          cp "$OUT/libini.so" "$MW_LIB/3rd/"
 
       # ./build's own first-time logic (no $MAIXCDK_PATH/components/kvm yet, always true on this
       # fresh clone) copies support/sg2002/additional/{kvm,kvm_mmf,vision,peripheral bits} into
@@ -296,7 +324,8 @@ jobs:
       - name: Check kvm_system's loader and libraries
         run: |
           BIN="$GITHUB_WORKSPACE/build/native-libkvm/kvm_system"
-          readelf -l "$BIN" | grep -q "interpreter: /lib/ld-musl-riscv64v0p7_xthead.so.1"
+          readelf -l "$BIN" | grep -q "interpreter: /lib/ld-musl-riscv64xthead.so.1"
+          ! readelf -A "$BIN" | grep -q v0p7
           for lib in $(patchelf --print-needed "$BIN"); do
             case "$lib" in
               libstdc++.so.6|libgcc_s.so.1|libc.so) ;;
@@ -815,10 +844,13 @@ jobs:
       # libkvm_mmf.so, with the LT6911 probe's dead code intact) with the build-native-libkvm job's
       # freshly-built ones for this run only -- git's own copies are left untouched. This is where
       # the LT6911 patch actually reaches the code that runs.
-      - name: Use freshly-built libkvm.so + libkvm_mmf.so
+      - name: Use freshly-built libkvm.so, libkvm_mmf.so and middleware
         run: |
           cp build/native-libkvm/libkvm.so server-rust/native/dl_lib/libkvm.so
           cp build/native-libkvm/libkvm_mmf.so server-rust/native/dl_lib/libkvm_mmf.so
+          for lib in libsys.so libvenc.so libvdec.so libvpu.so libini.so; do
+            cp "build/native-libkvm/middleware/$lib" "server-rust/native/dl_lib/$lib"
+          done
 
       - name: Build Hardened kvmapp bridge
         run: |
@@ -863,9 +895,6 @@ jobs:
             /lib64xthead/lp64d/libatomic.so.1.2.0 /lib64v0p7_xthead/lp64d/libatomic.so.1.2.0
           scripts/extract-vendor-sdk-stock-file.sh \
             "$RUNTIME_DIR/loaders/ld-musl-riscv64xthead.so.1" /lib/ld-musl-riscv64xthead.so.1
-          scripts/extract-vendor-sdk-stock-file.sh \
-            "$RUNTIME_DIR/loaders/ld-musl-riscv64v0p7_xthead.so.1" \
-            /lib/ld-musl-riscv64v0p7_xthead.so.1
           scripts/extract-vendor-sdk-stock-file.sh "$RUNTIME_DIR/system/usr/lib/libsns_lt6911.so" \
             /mnt/system/usr/lib/libsns_lt6911.so
 
@@ -946,6 +975,29 @@ jobs:
           KERNEL_5_10_265_RECOVERY_SD_DIR="$RUN_ROOT/recovery" \
           MCOPY="$(command -v mcopy)" \
             scripts/assemble-kernel-5.10.265-recovery-sd-image.sh
+
+      # The unsigned raw update archive, plus a script that signs it with a local key anywhere
+      # (see docs/guide/updates.md), so a device can be updated without an SD-card reflash.
+      - name: Package the unsigned system-update archive
+        run: |
+          # the base version with the run number as its last part, so every build is newer than
+          # the one before and can be uploaded and installed over it
+          SYSTEM_VERSION="${EXPECTED_SYSTEM_VERSION%.*}.${{ github.run_number }}" \
+          KERNEL_VERSION="$EXPECTED_KERNEL_RELEASE" \
+          SECURITY_PATCH_LEVEL="$EXPECTED_SECURITY_PATCH_LEVEL" \
+          BUILDROOT_VERSION="$BUILDROOT_VERSION" \
+          REQUIRED_APP_VERSION=2.0.41 \
+            scripts/package-local-system-update.sh \
+            "$RUN_ROOT/recovery/assembly/images/hardened-sg2002-port.img" \
+            "$RUN_ROOT/system-update"
+
+      - name: Upload the system-update archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: system-update-archive
+          path: build/rc12-run/system-update/**
+          retention-days: 14
+          if-no-files-found: error
 
       - name: Upload recovery-SD image and reports
         if: always()

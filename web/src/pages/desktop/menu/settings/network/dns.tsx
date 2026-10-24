@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
-import { CloseOutlined } from '@ant-design/icons';
 import { Divider, Segmented, Select } from 'antd';
+import { XIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/network.ts';
@@ -565,7 +565,7 @@ export const DNS = forwardRef<NetworkSectionHandle, DNSProps>(
                         }}
                         onClick={tag.onClose}
                       >
-                        <CloseOutlined />
+                        <XIcon size={12} />
                       </span>
                     )}
                   </span>
