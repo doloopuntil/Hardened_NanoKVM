@@ -990,9 +990,8 @@ const de = {
           rollbackBackup: 'Rollback-Sicherung'
         },
         offline: {
-          title: 'Offline Aktualisierung',
-          desc: 'Über lokales Installationspaket aktualisieren',
-          upload: 'Hochladen',
+          title: 'Anwendungspaket hochladen',
+          desc: 'Ein Anwendungspaket von diesem Computer installieren. Danach startet der Server neu.',
           invalidName:
             'Ungültiges Dateinamenformat. Bitte laden Sie von den GitHub-Releases herunter.',
           updateFailed: 'Aktualisierung fehlgeschlagen'

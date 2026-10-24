@@ -986,9 +986,8 @@ const it = {
           rollbackBackup: 'Backup rollback'
         },
         offline: {
-          title: 'Aggiornamenti offline',
-          desc: 'Aggiornamento tramite pacchetto di installazione locale',
-          upload: 'Carica',
+          title: "Carica pacchetto dell'applicazione",
+          desc: "Installa un pacchetto dell'applicazione da questo computer. Il server si riavvia al termine.",
           invalidName: 'Formato nome file non valido. Scarica dalle versioni GitHub.',
           updateFailed: 'Aggiornamento fallito'
         },

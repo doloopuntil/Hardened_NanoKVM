@@ -973,9 +973,8 @@ const cz = {
           rollbackBackup: 'Záloha rollbacku'
         },
         offline: {
-          title: 'Offline aktualizace',
-          desc: 'Aktualizace prostřednictvím místního instalačního balíčku',
-          upload: 'Nahrát',
+          title: 'Nahrát balíček aplikace',
+          desc: 'Nainstalovat balíček aplikace z tohoto počítače. Poté se server restartuje.',
           invalidName: 'Neplatný formát souboru. Stáhněte si prosím z vydání GitHubu.',
           updateFailed: 'Aktualizace se nezdařila'
         },

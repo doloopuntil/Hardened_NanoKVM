@@ -968,9 +968,8 @@ const en = {
           rollbackBackup: 'Rollback backup'
         },
         offline: {
-          title: 'Offline updates',
-          desc: 'Update through local installation package',
-          upload: 'Upload',
+          title: 'Upload application bundle',
+          desc: 'Install an application bundle from this computer. The server restarts afterwards.',
           invalidName: 'Invalid filename format. Please download from GitHub releases.',
           updateFailed: 'Update failed'
         },

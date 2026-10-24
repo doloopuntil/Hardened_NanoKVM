@@ -984,9 +984,8 @@ const nl = {
           rollbackBackup: 'Rollback-backup'
         },
         offline: {
-          title: 'Offline-updates',
-          desc: 'Update via lokaal installatiepakket',
-          upload: 'Uploaden',
+          title: 'Applicatiepakket uploaden',
+          desc: 'Een applicatiepakket vanaf deze computer installeren. Daarna start de server opnieuw op.',
           invalidName: 'Ongeldig bestandsnaamformaat. Download de versie van GitHub-releases.',
           updateFailed: 'Update mislukt'
         },

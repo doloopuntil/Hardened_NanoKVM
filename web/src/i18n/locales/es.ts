@@ -983,9 +983,8 @@ const es = {
           rollbackBackup: 'Copia de rollback'
         },
         offline: {
-          title: 'Actualizaciones sin conexión',
-          desc: 'Actualización a través del paquete de instalación local',
-          upload: 'Subir',
+          title: 'Subir paquete de la aplicación',
+          desc: 'Instalar un paquete de la aplicación desde este equipo. Después, el servidor se reinicia.',
           invalidName:
             'Formato de nombre de archivo no válido. Descarga desde las versiones de GitHub.',
           updateFailed: 'La actualización falló'

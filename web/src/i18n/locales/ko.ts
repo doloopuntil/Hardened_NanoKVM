@@ -963,9 +963,8 @@ const ko = {
           rollbackBackup: 'Rollback 백업'
         },
         offline: {
-          title: '오프라인 업데이트',
-          desc: '로컬 설치 패키지를 통한 업데이트',
-          upload: '업로드',
+          title: '애플리케이션 번들 업로드',
+          desc: '이 컴퓨터에서 애플리케이션 번들을 설치합니다. 이후 서버가 다시 시작됩니다.',
           invalidName: '유효하지 않은 파일 이름 형식입니다. GitHub 릴리즈에서 다운로드하세요.',
           updateFailed: '업데이트에 실패했습니다'
         },

@@ -980,9 +980,8 @@ const id = {
           rollbackBackup: 'Cadangan rollback'
         },
         offline: {
-          title: 'Pembaruan offline',
-          desc: 'Perbarui melalui paket instalasi lokal',
-          upload: 'Mengunggah',
+          title: 'Unggah paket aplikasi',
+          desc: 'Pasang paket aplikasi dari komputer ini. Server akan dimulai ulang setelahnya.',
           invalidName: 'Format nama file tidak valid. Silakan unduh dari rilis GitHub.',
           updateFailed: 'Gagal memperbarui'
         },

@@ -984,9 +984,8 @@ const hu = {
           rollbackBackup: 'Rollback mentés'
         },
         offline: {
-          title: 'Offline frissítések',
-          desc: 'Frissítés helyi telepítőcsomaggal',
-          upload: 'Feltöltés',
+          title: 'Alkalmazáscsomag feltöltése',
+          desc: 'Alkalmazáscsomag telepítése erről a számítógépről. Ezután a szerver újraindul.',
           invalidName: 'Érvénytelen fájlnévformátum. Kérjük, töltse le a GitHub kiadásaiból.',
           updateFailed: 'Frissítés sikertelen'
         },

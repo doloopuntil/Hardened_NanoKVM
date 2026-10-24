@@ -979,9 +979,8 @@ const se = {
           rollbackBackup: 'Rollback-säkerhetskopia'
         },
         offline: {
-          title: 'Offlineuppdateringar',
-          desc: 'Uppdatera genom lokalt installationspaket',
-          upload: 'Ladda upp',
+          title: 'Ladda upp programpaket',
+          desc: 'Installera ett programpaket från den här datorn. Servern startar om efteråt.',
           invalidName: 'Ogiltigt filnamnsformat. Ladda ner från GitHub-versioner.',
           updateFailed: 'Uppdatering misslyckades'
         },

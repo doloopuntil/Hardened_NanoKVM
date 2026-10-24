@@ -982,9 +982,8 @@ const ca = {
           rollbackBackup: 'Còpia de rollback'
         },
         offline: {
-          title: 'Actualitzacions fora de línia',
-          desc: "Actualització mitjançant el paquet d'instal·lació local",
-          upload: 'Puja',
+          title: "Puja un paquet de l'aplicació",
+          desc: "Instal·la un paquet de l'aplicació des d'aquest ordinador. El servidor es reinicia després.",
           invalidName: "Format de nom de fitxer no vàlid. Baixa'l des de les versions de GitHub.",
           updateFailed: 'Error en actualitzar'
         },

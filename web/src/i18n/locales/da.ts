@@ -977,9 +977,8 @@ const da = {
           rollbackBackup: 'Rollback-backup'
         },
         offline: {
-          title: 'Offline opdateringer',
-          desc: 'Opdatering via lokal installationspakke',
-          upload: 'Upload',
+          title: 'Upload applikationspakke',
+          desc: 'Installer en applikationspakke fra denne computer. Serveren genstarter bagefter.',
           invalidName: 'Ugyldigt filnavnsformat. Download venligst fra GitHub-udgivelser.',
           updateFailed: 'Opdatering fejlede'
         },

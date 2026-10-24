@@ -29,7 +29,7 @@ In **Settings > System > Updates**:
 - **Application** checks the online channel. The device accepts an update only
   when its `latest.json` carries a valid signature and the downloaded archive
   matches the SHA-512 in it.
-- **Offline updates** takes an application archive
+- **Upload application bundle** takes an application archive
   (`hardened-nanokvm-kvmapp-<version>.tar.gz`) uploaded from the browser and runs
   the same package checks.
 

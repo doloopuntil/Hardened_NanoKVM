@@ -978,9 +978,8 @@ const fi = {
           rollbackBackup: 'Palautusvarmuuskopio'
         },
         offline: {
-          title: 'Offline-päivitykset',
-          desc: 'Päivitä paikallisella asennuspaketilla',
-          upload: 'Lataa',
+          title: 'Lataa sovelluspaketti',
+          desc: 'Asenna sovelluspaketti tältä tietokoneelta. Palvelin käynnistyy sen jälkeen uudelleen.',
           invalidName: 'Virheellinen tiedostonimi. Lataa GitHub releases -sivulta.',
           updateFailed: 'Päivitys epäonnistui'
         },

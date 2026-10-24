@@ -973,9 +973,8 @@ const vi = {
           rollbackBackup: 'Bản sao lưu rollback'
         },
         offline: {
-          title: 'Cập nhật ngoại tuyến',
-          desc: 'Cập nhật thông qua gói cài đặt cục bộ',
-          upload: 'Tải lên',
+          title: 'Tải lên gói ứng dụng',
+          desc: 'Cài đặt gói ứng dụng từ máy tính này. Sau đó máy chủ sẽ khởi động lại.',
           invalidName:
             'Định dạng tên tệp không hợp lệ. Vui lòng tải xuống từ bản phát hành GitHub.',
           updateFailed: 'Cập nhật thất bại'

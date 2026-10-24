@@ -976,9 +976,8 @@ const tr = {
           rollbackBackup: 'Rollback yedeği'
         },
         offline: {
-          title: 'Çevrimdışı güncellemeler',
-          desc: 'Yerel kurulum paketi aracılığıyla güncelleme',
-          upload: 'Yükle',
+          title: 'Uygulama paketini yükle',
+          desc: 'Bu bilgisayardan bir uygulama paketi kur. Ardından sunucu yeniden başlar.',
           invalidName: 'Geçersiz dosya adı biçimi. Lütfen GitHub sürümlerinden indirin.',
           updateFailed: 'Güncelleme başarısız oldu'
         },

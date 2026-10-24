@@ -935,9 +935,8 @@ const zh = {
           rollbackBackup: 'Rollback 备份'
         },
         offline: {
-          title: '离线更新',
-          desc: '通过本地安装包进行更新',
-          upload: '上传',
+          title: '上传应用包',
+          desc: '从此计算机安装应用包。之后服务器将重新启动。',
           invalidName: '文件名格式错误，请前往 GitHub 发布页下载安装包。',
           updateFailed: '更新失败'
         },

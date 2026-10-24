@@ -986,9 +986,8 @@ const fr = {
           rollbackBackup: 'Sauvegarde rollback'
         },
         offline: {
-          title: 'Mises à jour hors ligne',
-          desc: "Mise à jour via le package d'installation local",
-          upload: 'Téléverser',
+          title: 'Téléverser un paquet applicatif',
+          desc: 'Installer un paquet applicatif depuis cet ordinateur. Le serveur redémarre ensuite.',
           invalidName:
             'Format de nom de fichier invalide. Veuillez télécharger à partir des versions de GitHub.',
           updateFailed: 'Mise à jour échouée'

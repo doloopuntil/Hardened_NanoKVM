@@ -978,9 +978,8 @@ const pt_br = {
           rollbackBackup: 'Backup de rollback'
         },
         offline: {
-          title: 'Atualizações off-line',
-          desc: 'Atualização através do pacote de instalação local',
-          upload: 'Upload',
+          title: 'Enviar pacote do aplicativo',
+          desc: 'Instalar um pacote do aplicativo a partir deste computador. Depois, o servidor reinicia.',
           invalidName: 'Formato de nome de arquivo inválido. Faça download das versões do GitHub.',
           updateFailed: 'Falha na atualização'
         },

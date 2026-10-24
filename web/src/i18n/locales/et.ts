@@ -967,9 +967,8 @@ const et = {
           rollbackBackup: 'Rollback varukoopia'
         },
         offline: {
-          title: 'Offline-uuendused',
-          desc: 'Uuenda kohaliku paigalduspaketiga',
-          upload: 'Laadi üles',
+          title: 'Laadi rakenduse pakett üles',
+          desc: 'Paigalda rakenduse pakett sellest arvutist. Seejärel server taaskäivitub.',
           invalidName: 'Vigane failinime vorming. Laadi fail alla GitHub releases lehelt.',
           updateFailed: 'Uuendamine nurjus'
         },

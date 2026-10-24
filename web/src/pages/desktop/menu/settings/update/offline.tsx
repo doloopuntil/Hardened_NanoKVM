@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { Button } from 'antd';
-import { ExternalLinkIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/application.ts';
@@ -91,18 +90,7 @@ export const Offline = ({ status, setStatus, setIsLocked, setErrMsg }: UpdatePro
 
   return (
     <SettingRow
-      label={
-        <span className="inline-flex items-center gap-1.5">
-          {t('settings.update.offline.title')}
-          <a
-            className="flex items-center text-neutral-500 hover:text-blue-500"
-            href="https://github.com/woffko/Hardened_NanoKVM/releases"
-            target="_blank"
-          >
-            <ExternalLinkIcon size={15} />
-          </a>
-        </span>
-      }
+      label={t('settings.update.offline.title')}
       description={t('settings.update.offline.desc')}
       inline
     >
@@ -110,10 +98,11 @@ export const Offline = ({ status, setStatus, setIsLocked, setErrMsg }: UpdatePro
         id="file-upload"
         ref={inputRef}
         type="file"
+        accept=".tar,.gz"
         onChange={handleFileChange}
         className="hidden"
       />
-      <Button onClick={handleClick}>{t('settings.update.offline.upload')}</Button>
+      <Button onClick={handleClick}>{t('settings.update.local.choose')}</Button>
     </SettingRow>
   );
 };

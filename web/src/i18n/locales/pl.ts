@@ -980,9 +980,8 @@ const pl = {
           rollbackBackup: 'Kopia rollbacku'
         },
         offline: {
-          title: 'Aktualizacje offline',
-          desc: 'Aktualizacja poprzez lokalny pakiet instalacyjny',
-          upload: 'Prześlij',
+          title: 'Prześlij pakiet aplikacji',
+          desc: 'Zainstaluj pakiet aplikacji z tego komputera. Potem serwer uruchomi się ponownie.',
           invalidName: 'Nieprawidłowy format nazwy pliku. Pobierz z wydań GitHub.',
           updateFailed: 'Aktualizacja nie powiodła się'
         },

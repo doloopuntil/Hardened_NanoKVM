@@ -982,9 +982,8 @@ const nb = {
           rollbackBackup: 'Rollback-sikkerhetskopi'
         },
         offline: {
-          title: 'Offline oppdateringer',
-          desc: 'Oppdater gjennom lokal installasjonspakke',
-          upload: 'Last opp',
+          title: 'Last opp programpakke',
+          desc: 'Installer en programpakke fra denne datamaskinen. Serveren starter på nytt etterpå.',
           invalidName: 'Ugyldig filnavnformat. Last ned fra GitHub-utgivelser.',
           updateFailed: 'En feil oppstod under oppdatering'
         },

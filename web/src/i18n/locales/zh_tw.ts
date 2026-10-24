@@ -937,9 +937,8 @@ const zh_tw = {
           rollbackBackup: 'Rollback 備份'
         },
         offline: {
-          title: '離線更新',
-          desc: '透過本地安裝包進行更新',
-          upload: '上傳',
+          title: '上傳應用程式套件',
+          desc: '從此電腦安裝應用程式套件。之後伺服器將重新啟動。',
           invalidName: '檔名格式錯誤，請前往 GitHub 釋出頁下載安裝包。',
           updateFailed: '更新失敗'
         },
