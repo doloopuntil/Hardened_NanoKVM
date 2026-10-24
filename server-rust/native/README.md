@@ -241,7 +241,7 @@ in it is character-for-character identical except one -- the compiler's
 `/home/w0w/Hardened_NanoKVM/build/vendor/...`; `w0w` is the maintainer's
 own local username, matching the hardcoded path already found in
 the old `docs/build-notes.md` (`NanoKVM_PATH=/home/w0w/...`, since removed) and the old default
-toolchain path in `scripts/prepare-kernel-5.10.265-vendor-runtime.sh` --
+toolchain path in `scripts/prepare-kernel-5.10.265-vendor-runtime.sh` (since removed) --
 raw.12 was built on the maintainer's own machine, not any CI. This
 pipeline's build has `/home/runner/work/Hardened_NanoKVM/...` instead, the
 standard GitHub Actions runner path. The differing path length cascades:
