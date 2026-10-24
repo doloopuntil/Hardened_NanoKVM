@@ -589,7 +589,7 @@ jobs:
             touch "$KO_DIR/$(basename "$relative")"
           done < support/sg2002/kernel/5.10.265/manifests/in-tree-modules.txt
           touch "$KO_DIR/soph_vcodec.ko" "$KO_DIR/soph_jpeg.ko" "$KO_DIR/soph_vc_driver.ko"
-          [ "$(find "$KO_DIR" -name '*.ko' | wc -l)" -eq 57 ]
+          [ "$(find "$KO_DIR" -name '*.ko' | wc -l)" -eq 56 ]
 
       - name: Fetch public sophgo/osdrv source
         run: |
@@ -601,8 +601,8 @@ jobs:
           git -C "$OSDRV" checkout -q FETCH_HEAD
           [ "$(git -C "$OSDRV" rev-parse HEAD)" = "$SOPHGO_OSDRV_SHA" ]
 
-      # Rebuild the 30 CVITEK osdrv external kernel modules from source, plus the 3 media modules.
-      # List: external-modules.txt -- 22 "soph_*" peripheral modules plus WiFi/Bluetooth/touch
+      # Rebuild the 29 CVITEK osdrv external kernel modules from source, plus the 3 media modules.
+      # List: external-modules.txt -- 21 "soph_*" peripheral modules plus WiFi/Bluetooth/touch
       # drivers under 3rd/. interdrv/ (video, codec and the rest) comes from sophgo/osdrv at
       # SOPHGO_OSDRV_SHA with our patches; extdrv/ (3rd/) from the vendor SDK.
       #
@@ -662,7 +662,7 @@ jobs:
             replace_by_basename "$RUN_ROOT/external-modules/media-artifacts/$media"
           done
 
-          [ "$(find "$KO_DIR" -name '*.ko' | wc -l)" -eq 57 ]
+          [ "$(find "$KO_DIR" -name '*.ko' | wc -l)" -eq 56 ]
 
       # Generated fresh from values already known at this point in the build, rather than carried
       # forward from any prebuilt image. device_acceptance must be exactly pending-recovery-sd --
@@ -720,7 +720,7 @@ jobs:
             esac
             cp "$module" "$DEPMOD_MODULE_DIR/$(basename "$module")"
           done < <(find "$KO_DIR" -type f -name '*.ko' | LC_ALL=C sort)
-          [ "$(find "$DEPMOD_MODULE_DIR" -name '*.ko' | wc -l)" -eq 57 ]
+          [ "$(find "$DEPMOD_MODULE_DIR" -name '*.ko' | wc -l)" -eq 56 ]
           depmod -e -F "$RUN_ROOT/kernel/System.map" -b "$DEPMOD_ROOT" "$kernel_release" \
             2> "$RUN_ROOT/depmod.stderr" || { cat "$RUN_ROOT/depmod.stderr" >&2; exit 1; }
           if grep -nE 'needs unknown symbol|disagrees about version|not an ELF' "$RUN_ROOT/depmod.stderr"; then
@@ -958,7 +958,7 @@ jobs:
             tar -I zstd -xf "$RUNNER_TEMP/$name/$name.tar.zst" -C "$GITHUB_WORKSPACE"
           done
           test -f "$RUN_ROOT/kernel/arch/riscv/boot/Image"
-          [ "$(find "$RUN_ROOT/runtime/system/ko" -name '*.ko' | wc -l)" -eq 57 ]
+          [ "$(find "$RUN_ROOT/runtime/system/ko" -name '*.ko' | wc -l)" -eq 56 ]
 
       - name: Build the Buildroot rootfs with the hardened kernel modules
         run: |
