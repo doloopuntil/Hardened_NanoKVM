@@ -566,6 +566,9 @@ const nb = {
             tip: 'Hvis enheten ikke starter med overklokking, må SD-kortet flashes på nytt',
             pending: 'Gjelder etter neste omstart',
             unavailable: 'Ikke med i dette systembildet',
+            keepTitle: 'Behold overdrive etter oppdateringer',
+            keepDescription:
+              'En systemoppdatering setter enheten tilbake til standardklokkene med mindre dette er slått på',
             confirmTitle: 'Slå på overklokking?',
             confirmText:
               'Hvis enheten ikke starter med overklokking, må du flashe SD-kortet på nytt for å gjenopprette den. Endringen gjelder etter neste omstart.'

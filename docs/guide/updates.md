@@ -55,6 +55,8 @@ the Buildroot userspace or the init scripts installed in the root filesystem.
   is back. Writing takes about three minutes and the restart about 20 seconds more;
   wait at least ten minutes before cutting power, because the web UI and SSH are
   unavailable while the partitions are written.
+- A system update returns the device to the standard clocks. Turn on **Keep overdrive
+  after updates** in Settings > System to carry the overdrive choice over.
 - On the first boot of the new system, the saved configuration in `/etc/kvm` is
   restored before SSH and the server start. Once the server reports healthy, the
   boot watchdog confirms the update. If health checks fail after boot, it rolls

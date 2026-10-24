@@ -3,7 +3,7 @@
 //! The FSBL in `fip.bin` sets the clocks, so switching profiles means copying one of two
 //! prebuilt images over `/boot/fip.bin`. The flag file is the source of truth; the server
 //! reconciles `fip.bin` with it at startup, which also restores the choice after a system
-//! update replaced the images.
+//! update replaced the images. The update script keeps the flag only when the keep flag is set.
 
 use std::{
     fs::{self, File, OpenOptions},
@@ -23,17 +23,23 @@ const ACTIVE_IMAGE: &str = "fip.bin";
 const STANDARD_IMAGE: &str = "fip.std.bin";
 const OVERDRIVE_IMAGE: &str = "fip.od.bin";
 const OVERDRIVE_FLAG: &str = "cpu.overdrive";
+// Without it a system update returns the device to the standard clocks.
+const KEEP_FLAG: &str = "cpu.overdrive.keep";
 
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct OverdriveRsp {
     available: bool,
     enabled: bool,
     active: bool,
+    keep_after_update: bool,
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SetOverdriveReq {
-    enabled: bool,
+    enabled: Option<bool>,
+    keep_after_update: Option<bool>,
 }
 
 pub async fn get_overdrive() -> Result<impl IntoResponse> {
@@ -44,9 +50,21 @@ pub async fn get_overdrive() -> Result<impl IntoResponse> {
 }
 
 pub async fn set_overdrive(Json(req): Json<SetOverdriveReq>) -> Result<impl IntoResponse> {
-    task::spawn_blocking(move || set_enabled(Path::new(BOOT_DIR), req.enabled))
-        .await
-        .map_err(|err| AppError::Internal(err.to_string()))??;
+    if req.enabled.is_none() && req.keep_after_update.is_none() {
+        return Err(AppError::BadRequest("nothing to change".to_string()));
+    }
+    task::spawn_blocking(move || {
+        let boot = Path::new(BOOT_DIR);
+        if let Some(keep) = req.keep_after_update {
+            set_keep(boot, keep)?;
+        }
+        if let Some(enabled) = req.enabled {
+            set_enabled(boot, enabled)?;
+        }
+        Ok::<(), AppError>(())
+    })
+    .await
+    .map_err(|err| AppError::Internal(err.to_string()))??;
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
@@ -69,7 +87,30 @@ fn status(boot: &Path) -> Result<OverdriveRsp> {
         available,
         enabled,
         active,
+        keep_after_update: boot.join(KEEP_FLAG).exists(),
     })
+}
+
+fn set_keep(boot: &Path, keep: bool) -> Result<()> {
+    if !variants_present(boot) {
+        return Err(AppError::Unsupported(
+            "this image has no CPU clock variants".to_string(),
+        ));
+    }
+    set_flag(&boot.join(KEEP_FLAG), keep)?;
+    sync_boot();
+    Ok(())
+}
+
+fn set_flag(flag: &Path, on: bool) -> Result<()> {
+    if on {
+        write_synced(flag, b"")?;
+    } else if let Err(err) = fs::remove_file(flag)
+        && err.kind() != std::io::ErrorKind::NotFound
+    {
+        return Err(err.into());
+    }
+    Ok(())
 }
 
 fn set_enabled(boot: &Path, enabled: bool) -> Result<()> {
@@ -78,15 +119,8 @@ fn set_enabled(boot: &Path, enabled: bool) -> Result<()> {
             "this image has no CPU clock variants".to_string(),
         ));
     }
-    let flag = boot.join(OVERDRIVE_FLAG);
     // Flag first: if the copy below is cut short, the next startup finishes it.
-    if enabled {
-        write_synced(&flag, b"")?;
-    } else if let Err(err) = fs::remove_file(&flag)
-        && err.kind() != std::io::ErrorKind::NotFound
-    {
-        return Err(err.into());
-    }
+    set_flag(&boot.join(OVERDRIVE_FLAG), enabled)?;
     reconcile(boot)?;
     sync_boot();
     Ok(())
@@ -190,6 +224,21 @@ mod tests {
         set_enabled(&dir, false).unwrap();
         assert_eq!(fs::read(dir.join(ACTIVE_IMAGE)).unwrap(), b"std");
         assert!(!dir.join(OVERDRIVE_FLAG).exists());
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn keep_flag_is_independent_of_the_profile() {
+        let dir = boot_dir("keep");
+        with_variants(&dir);
+
+        set_keep(&dir, true).unwrap();
+        assert!(status(&dir).unwrap().keep_after_update);
+        assert!(!status(&dir).unwrap().enabled);
+        set_enabled(&dir, true).unwrap();
+        set_keep(&dir, false).unwrap();
+        let rsp = status(&dir).unwrap();
+        assert!(!rsp.keep_after_update && rsp.enabled);
         let _ = fs::remove_dir_all(&dir);
     }
 

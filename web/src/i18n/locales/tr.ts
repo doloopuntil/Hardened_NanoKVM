@@ -561,6 +561,9 @@ const tr = {
             tip: 'Cihaz hız aşırtmayla başlamazsa SD kartın yeniden yazılması gerekir',
             pending: 'Sonraki yeniden başlatmadan sonra uygulanır',
             unavailable: 'Bu sistem imajına dahil değil',
+            keepTitle: 'Güncellemelerden sonra overdrive korunsun',
+            keepDescription:
+              'Bu seçenek açık değilse sistem güncellemesi cihazı standart saat hızlarına döndürür',
             confirmTitle: 'Saat hız aşırtma etkinleştirilsin mi?',
             confirmText:
               'Cihaz hız aşırtmayla başlamazsa kurtarmak için SD kartı yeniden yazmanız gerekir. Değişiklik sonraki yeniden başlatmadan sonra uygulanır.'

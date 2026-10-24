@@ -561,6 +561,9 @@ const cz = {
             tip: 'Pokud se zařízení s přetaktováním nespustí, je nutné znovu zapsat kartu SD',
             pending: 'Použije se po příštím restartu',
             unavailable: 'Není součástí tohoto systémového obrazu',
+            keepTitle: 'Ponechat overdrive po aktualizaci',
+            keepDescription:
+              'Aktualizace systému vrátí zařízení ke standardním taktům, pokud to není zapnuto',
             confirmTitle: 'Zapnout přetaktování?',
             confirmText:
               'Pokud se zařízení s přetaktováním nespustí, musíte kartu SD znovu zapsat, abyste ho obnovili. Změna se použije po příštím restartu.'

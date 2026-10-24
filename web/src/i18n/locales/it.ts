@@ -568,6 +568,9 @@ const it = {
             tip: "Se il dispositivo non si avvia con l'overdrive, la scheda SD va riscritta",
             pending: 'Si applica dopo il prossimo riavvio',
             unavailable: 'Non incluso in questa immagine di sistema',
+            keepTitle: "Mantieni l'overdrive dopo gli aggiornamenti",
+            keepDescription:
+              'Un aggiornamento di sistema riporta il dispositivo ai clock standard se questa opzione non è attiva',
             confirmTitle: "Attivare l'overdrive del clock?",
             confirmText:
               "Se il dispositivo non si avvia con l'overdrive, dovrai riscrivere la scheda SD per ripristinarlo. La modifica si applica dopo il prossimo riavvio."

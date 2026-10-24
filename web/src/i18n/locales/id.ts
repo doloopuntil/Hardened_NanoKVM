@@ -565,6 +565,9 @@ const id = {
             tip: 'Jika perangkat tidak menyala dengan overdrive, kartu SD harus ditulis ulang',
             pending: 'Berlaku setelah reboot berikutnya',
             unavailable: 'Tidak termasuk dalam image sistem ini',
+            keepTitle: 'Pertahankan overdrive setelah pembaruan',
+            keepDescription:
+              'Pembaruan sistem mengembalikan perangkat ke clock standar kecuali opsi ini aktif',
             confirmTitle: 'Aktifkan clock overdrive?',
             confirmText:
               'Jika perangkat tidak menyala dengan overdrive, Anda harus menulis ulang kartu SD untuk memulihkannya. Perubahan berlaku setelah reboot berikutnya.'

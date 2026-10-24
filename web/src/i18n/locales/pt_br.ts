@@ -563,6 +563,9 @@ const pt_br = {
             tip: 'Se o dispositivo não iniciar com overdrive, o cartão SD precisa ser regravado',
             pending: 'Aplicado após a próxima reinicialização',
             unavailable: 'Não incluído nesta imagem do sistema',
+            keepTitle: 'Manter o overdrive após atualizações',
+            keepDescription:
+              'Uma atualização do sistema devolve o dispositivo aos clocks padrão, a menos que isto esteja ativado',
             confirmTitle: 'Ativar o overdrive de clock?',
             confirmText:
               'Se o dispositivo não iniciar com overdrive, você precisará regravar o cartão SD para recuperá-lo. A alteração é aplicada após a próxima reinicialização.'

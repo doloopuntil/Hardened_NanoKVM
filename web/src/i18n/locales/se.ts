@@ -564,6 +564,9 @@ const se = {
             tip: 'Om enheten inte startar med överklockning måste SD-kortet skrivas om',
             pending: 'Gäller efter nästa omstart',
             unavailable: 'Ingår inte i den här systemavbilden',
+            keepTitle: 'Behåll overdrive efter uppdateringar',
+            keepDescription:
+              'En systemuppdatering återställer enheten till standardklockorna om detta inte är påslaget',
             confirmTitle: 'Aktivera överklockning?',
             confirmText:
               'Om enheten inte startar med överklockning måste du skriva om SD-kortet för att återställa den. Ändringen gäller efter nästa omstart.'

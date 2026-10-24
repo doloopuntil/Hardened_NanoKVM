@@ -559,6 +559,9 @@ const vi = {
             tip: 'Nếu thiết bị không khởi động được với overdrive, thẻ SD phải được ghi lại',
             pending: 'Có hiệu lực sau lần khởi động lại tiếp theo',
             unavailable: 'Không có trong bản hệ thống này',
+            keepTitle: 'Giữ overdrive sau khi cập nhật',
+            keepDescription:
+              'Bản cập nhật hệ thống đưa thiết bị về xung nhịp tiêu chuẩn nếu tùy chọn này không được bật',
             confirmTitle: 'Bật overdrive xung nhịp?',
             confirmText:
               'Nếu thiết bị không khởi động được với overdrive, bạn phải ghi lại thẻ SD để khôi phục. Thay đổi có hiệu lực sau lần khởi động lại tiếp theo.'

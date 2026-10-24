@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-22
+last-checked: 2026-10-24
 source: constants in server-rust/src and kvmapp/system/init.d
 ---
 
@@ -63,6 +63,7 @@ A system update rewrites the first two; `/data` and the saved `/etc/kvm` survive
 | `resolv.conf` | Fixed DNS servers. |
 | `ver` | Base image version. |
 | `cpu.overdrive` | Clock overdrive chosen. The server keeps `fip.bin` equal to `fip.od.bin` while it exists, and to `fip.std.bin` otherwise. |
+| `cpu.overdrive.keep` | Keep the overdrive choice across system updates. Without it the update script drops `cpu.overdrive`, so the device returns to the standard clocks. |
 
 ## Elsewhere
 

@@ -540,6 +540,8 @@ const zh = {
             tip: '如果设备在超频下无法启动，必须重新刷写 SD 卡',
             pending: '下次重启后生效',
             unavailable: '此系统镜像不包含该选项',
+            keepTitle: '更新后保持超频',
+            keepDescription: '除非开启此项，否则系统更新后设备将恢复为标准时钟',
             confirmTitle: '启用时钟超频？',
             confirmText:
               '如果设备在超频下无法启动，必须重新刷写 SD 卡才能恢复。更改将在下次重启后生效。'

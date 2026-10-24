@@ -564,6 +564,9 @@ const fi = {
             tip: 'Jos laite ei käynnisty ylikellotuksella, SD-kortti on kirjoitettava uudelleen',
             pending: 'Tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen',
             unavailable: 'Ei sisälly tähän järjestelmäkuvaan',
+            keepTitle: 'Säilytä overdrive päivitysten jälkeen',
+            keepDescription:
+              'Järjestelmäpäivitys palauttaa laitteen vakiotaajuuksille, ellei tämä ole päällä',
             confirmTitle: 'Otetaanko ylikellotus käyttöön?',
             confirmText:
               'Jos laite ei käynnisty ylikellotuksella, sinun on kirjoitettava SD-kortti uudelleen sen palauttamiseksi. Muutos tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen.'

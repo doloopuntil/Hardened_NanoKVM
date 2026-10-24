@@ -568,6 +568,9 @@ const nl = {
             tip: 'Als het apparaat met overklokken niet start, moet de SD-kaart opnieuw worden beschreven',
             pending: 'Gaat in na de volgende herstart',
             unavailable: 'Niet opgenomen in dit systeemimage',
+            keepTitle: 'Overdrive behouden na updates',
+            keepDescription:
+              'Een systeemupdate zet het apparaat terug op de standaardklokken, tenzij dit is ingeschakeld',
             confirmTitle: 'Overklokken inschakelen?',
             confirmText:
               'Als het apparaat met overklokken niet start, moet u de SD-kaart opnieuw beschrijven om het te herstellen. De wijziging gaat in na de volgende herstart.'

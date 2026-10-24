@@ -142,7 +142,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | GET/POST        | `/api/vm/session-lock`     | Implemented; supports 5, 15, 30, and 60 minute durations and `logoutOnBrowserClose`; retimes the session. |
 | GET/POST        | `/api/vm/memory/limit`     | Implemented.                                                                                                       |
 | GET/POST        | `/api/vm/swap`             | Implemented.                                                                                                       |
-| GET/POST        | `/api/vm/overdrive`        | Implemented. Reads or sets the boot clock profile (`available`, `enabled`, `active`); applies after a reboot.      |
+| GET/POST        | `/api/vm/overdrive`        | Implemented. Reads or sets the boot clock profile (`available`, `enabled`, `active`, `keepAfterUpdate`). The POST body takes `enabled` and/or `keepAfterUpdate`; the profile applies after a reboot.      |
 | GET             | `/api/vm/monitor`          | Implemented. Reads clocks (`cpuMhz`, `videoMhz`, `overdrive`), temperature, memory and swap, and the `/` and `/data` disks, plus up to 300 one-second `samples` (temperature and RAM percent). With `since` and `epoch` it sends only samples newer than `since` of that server run. The clocks come from `clk_summary` once per server run. |
 | GET/POST        | `/api/vm/mouse-jiggler`    | Implemented.                                                                                                       |
 | POST            | `/api/vm/tls`              | Implemented; generates self-signed certs when needed and restarts service.                                         |

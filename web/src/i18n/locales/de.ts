@@ -570,6 +570,9 @@ const de = {
             tip: 'Startet das Gerät mit Übertaktung nicht, muss die SD-Karte neu beschrieben werden',
             pending: 'Gilt nach dem nächsten Neustart',
             unavailable: 'Nicht in diesem Systemabbild enthalten',
+            keepTitle: 'Overdrive nach Updates beibehalten',
+            keepDescription:
+              'Ein Systemupdate setzt das Gerät auf die Standardtakte zurück, sofern dies nicht aktiviert ist',
             confirmTitle: 'Übertaktung aktivieren?',
             confirmText:
               'Startet das Gerät mit Übertaktung nicht, müssen Sie die SD-Karte neu beschreiben, um es wiederherzustellen. Die Änderung gilt nach dem nächsten Neustart.'

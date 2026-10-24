@@ -562,6 +562,9 @@ const da = {
             tip: 'Hvis enheden ikke starter med overclocking, skal SD-kortet flashes igen',
             pending: 'Træder i kraft efter næste genstart',
             unavailable: 'Ikke med i dette systemaftryk',
+            keepTitle: 'Behold overdrive efter opdateringer',
+            keepDescription:
+              'En systemopdatering sætter enheden tilbage til standardhastighederne, medmindre dette er slået til',
             confirmTitle: 'Aktivér overclocking?',
             confirmText:
               'Hvis enheden ikke starter med overclocking, skal du flashe SD-kortet igen for at gendanne den. Ændringen træder i kraft efter næste genstart.'

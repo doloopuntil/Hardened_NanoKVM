@@ -566,6 +566,9 @@ const hu = {
             tip: 'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írni',
             pending: 'A következő újraindítás után lép életbe',
             unavailable: 'Nem része ennek a rendszerképnek',
+            keepTitle: 'Overdrive megtartása frissítések után',
+            keepDescription:
+              'A rendszerfrissítés visszaállítja az eszközt a szabványos órajelekre, ha ez nincs bekapcsolva',
             confirmTitle: 'Bekapcsolja az órajel-túlhajtást?',
             confirmText:
               'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írnia a helyreállításhoz. A módosítás a következő újraindítás után lép életbe.'

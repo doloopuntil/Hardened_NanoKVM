@@ -567,6 +567,9 @@ const fr = {
             tip: "Si l'appareil ne démarre pas avec l'overdrive, la carte SD doit être reflashée",
             pending: "S'applique après le prochain redémarrage",
             unavailable: 'Absent de cette image système',
+            keepTitle: "Conserver l'overdrive après les mises à jour",
+            keepDescription:
+              "Une mise à jour système remet l'appareil sur les fréquences standard si cette option n'est pas activée",
             confirmTitle: "Activer l'overdrive de fréquence?",
             confirmText:
               "Si l'appareil ne démarre pas avec l'overdrive, vous devrez reflasher la carte SD pour le récupérer. Le changement s'applique après le prochain redémarrage."

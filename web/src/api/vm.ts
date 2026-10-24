@@ -120,9 +120,9 @@ export function getOverdrive() {
   return http.get('/api/vm/overdrive');
 }
 
-// choose the boot clock profile; it applies after a reboot
-export function setOverdrive(enabled: boolean) {
-  return http.post('/api/vm/overdrive', { enabled });
+// choose the boot clock profile (applies after a reboot) and whether it survives system updates
+export function setOverdrive(options: { enabled?: boolean; keepAfterUpdate?: boolean }) {
+  return http.post('/api/vm/overdrive', options);
 }
 
 // get mouse jiggler

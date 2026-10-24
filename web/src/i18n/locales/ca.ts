@@ -565,6 +565,9 @@ const ca = {
             tip: 'Si el dispositiu no arrenca amb el sobreesforç, cal tornar a gravar la targeta SD',
             pending: "S'aplica després del proper reinici",
             unavailable: 'No inclòs en aquesta imatge del sistema',
+            keepTitle: "Mantén l'overdrive després d'actualitzar",
+            keepDescription:
+              'Una actualització del sistema torna el dispositiu als rellotges estàndard si això no està activat',
             confirmTitle: 'Activar el sobreesforç de rellotge?',
             confirmText:
               "Si el dispositiu no arrenca amb el sobreesforç, haureu de tornar a gravar la targeta SD per recuperar-lo. El canvi s'aplica després del proper reinici."

@@ -541,6 +541,8 @@ const zh_tw = {
             tip: '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡',
             pending: '下次重新啟動後生效',
             unavailable: '此系統映像不包含該選項',
+            keepTitle: '更新後保持超頻',
+            keepDescription: '除非開啟此項，否則系統更新後裝置將恢復為標準時脈',
             confirmTitle: '啟用時脈超頻？',
             confirmText:
               '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡才能復原。變更將在下次重新啟動後生效。'

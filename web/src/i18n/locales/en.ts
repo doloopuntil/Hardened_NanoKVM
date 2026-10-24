@@ -559,6 +559,9 @@ const en = {
             tip: 'If the device does not start with overdrive, the SD card must be reflashed',
             pending: 'Applies after the next reboot',
             unavailable: 'Not included in this system image',
+            keepTitle: 'Keep overdrive after updates',
+            keepDescription:
+              'A system update returns the device to the standard clocks unless this is on',
             confirmTitle: 'Enable clock overdrive?',
             confirmText:
               'If the device does not start with overdrive, you must reflash the SD card to recover it. The change applies after the next reboot.'

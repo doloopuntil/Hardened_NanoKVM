@@ -555,6 +555,9 @@ const et = {
             tip: 'Kui seade ülekiirendusega ei käivitu, tuleb SD-kaart uuesti kirjutada',
             pending: 'Rakendub pärast järgmist taaskäivitust',
             unavailable: 'Pole selles süsteemipildis',
+            keepTitle: 'Säilita overdrive pärast värskendusi',
+            keepDescription:
+              'Süsteemivärskendus viib seadme tagasi standardsagedustele, kui see pole sisse lülitatud',
             confirmTitle: 'Kas lülitada ülekiirendus sisse?',
             confirmText:
               'Kui seade ülekiirendusega ei käivitu, peate selle taastamiseks SD-kaardi uuesti kirjutama. Muudatus rakendub pärast järgmist taaskäivitust.'
