@@ -63,6 +63,7 @@ A system update rewrites the first two; `/data` and the saved `/etc/kvm` survive
 | `resolv.conf` | Fixed DNS servers. |
 | `ver` | Base image version. |
 | `cpu.overdrive` | Clock overdrive chosen. The server keeps `fip.bin` equal to `fip.od.bin` while it exists, and to `fip.std.bin` otherwise. |
+| `disable_watchdog` | Leave the hardware watchdog off (`S02watchdog`). A system update keeps it. |
 | `cpu.overdrive.keep` | Keep the overdrive choice across system updates. Without it the update script drops `cpu.overdrive`, so the device returns to the standard clocks. |
 
 ## Elsewhere

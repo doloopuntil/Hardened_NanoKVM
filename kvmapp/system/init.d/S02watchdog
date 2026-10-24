@@ -1,0 +1,82 @@
+#!/bin/sh
+# Hardware watchdog: the SoC resets itself when Linux stops feeding it for TIMEOUT seconds.
+# Create /boot/disable_watchdog to turn it off. The last restart reason is kept in /tmp/boot-reason.
+
+PIDFILE=/var/run/hardened-watchdog.pid
+DEVICE=/dev/watchdog
+DISABLE_FLAG=/boot/disable_watchdog
+REASON_FILE=/tmp/boot-reason
+# RTC_ST_ON_REASON: why the chip last came on
+ON_REASON_REG=0x050260F8
+TIMEOUT=60
+PERIOD=10
+
+boot_reason() {
+    value=$(devmem "$ON_REASON_REG" 32 2>/dev/null) || return 0
+    value=$((value))
+    inputs=$(((value >> 16) & 0xFFFF))
+    if [ $((value & 0xF)) -eq 0 ]; then
+        reason=power-on
+    elif [ $((inputs & 0x800)) -ne 0 ]; then
+        reason=watchdog
+    elif [ $((inputs & 0x200)) -ne 0 ]; then
+        reason=overheat
+    elif [ $((inputs & 0x100)) -ne 0 ] || [ $((inputs & 0x400)) -ne 0 ]; then
+        reason=restart
+    else
+        reason=unknown
+    fi
+    echo "$reason" > "$REASON_FILE"
+    logger -t watchdog "last restart: $reason (RTC_ST_ON_REASON $(printf '0x%08X' "$value"))" 2>/dev/null || true
+}
+
+start() {
+    boot_reason
+    if [ -e "$DISABLE_FLAG" ]; then
+        echo 'Hardware watchdog disabled by /boot/disable_watchdog'
+        return 0
+    fi
+    if [ ! -c "$DEVICE" ]; then
+        echo "Hardware watchdog unavailable: no $DEVICE"
+        return 0
+    fi
+    # a panic or oops restarts the device instead of hanging it
+    echo 10 > /proc/sys/kernel/panic 2>/dev/null || true
+    echo 1 > /proc/sys/kernel/panic_on_oops 2>/dev/null || true
+
+    printf 'Starting hardware watchdog: '
+    if start-stop-daemon -S -q -b -m -p "$PIDFILE" -x /bin/busybox -- \
+        watchdog -F -t "$PERIOD" -T "$TIMEOUT" "$DEVICE"; then
+        # the feeder is the last process the OOM killer may take
+        [ -r "$PIDFILE" ] && echo -1000 > "/proc/$(cat "$PIDFILE")/oom_score_adj" 2>/dev/null || true
+        echo OK
+    else
+        echo FAIL
+    fi
+}
+
+# TERM makes the feeder close the device cleanly, which disarms the watchdog.
+stop() {
+    printf 'Stopping hardware watchdog: '
+    start-stop-daemon -K -q -p "$PIDFILE" 2>/dev/null || true
+    rm -f "$PIDFILE"
+    echo OK
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+    start|stop|restart)
+        "$1"
+        ;;
+    reload)
+        restart
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|reload}"
+        exit 1
+        ;;
+esac

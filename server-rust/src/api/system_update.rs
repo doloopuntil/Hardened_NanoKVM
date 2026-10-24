@@ -1688,6 +1688,7 @@ stop_update_runtime() {{\n\
   log 'stopping NanoKVM runtime'\n\
   SERVICES_STOPPED=1\n\
   for INIT in \\\n\
+    /etc/init.d/S02watchdog \\\n\
     /etc/init.d/S98tailscaled \\\n\
     /etc/init.d/S96picoclaw \\\n\
     /etc/init.d/S95nanokvm \\\n\
@@ -1732,7 +1733,7 @@ stop_update_runtime() {{\n\
 copy_boot_preserve_files() {{\n\
   SRC_DIR=\"$1\"\n\
   $BB mkdir -p \"$BOOT_PRESERVE_DIR\" >/dev/null 2>&1 || return\n\
-  for NAME in eth.nodhcp resolv.conf resolv.conf.manual.bak eth.ipv6.mode eth.ipv6 hostname hostname.prefix usb.vid usb.pid usb.wakeup usb.notwakeup usb.ncm usb.rndis0 usb.disk0 usb.disk0.ro cpu.overdrive cpu.overdrive.keep disable_hid BIOS wifi.ssid wifi.pass wifi.nodhcp start_ssh_once logo.ico; do\n\
+  for NAME in eth.nodhcp resolv.conf resolv.conf.manual.bak eth.ipv6.mode eth.ipv6 hostname hostname.prefix usb.vid usb.pid usb.wakeup usb.notwakeup usb.ncm usb.rndis0 usb.disk0 usb.disk0.ro cpu.overdrive cpu.overdrive.keep disable_hid disable_watchdog BIOS wifi.ssid wifi.pass wifi.nodhcp start_ssh_once logo.ico; do\n\
     [ -e \"$SRC_DIR/$NAME\" ] || continue\n\
     if [ \"$NAME\" = cpu.overdrive ] && [ ! -e \"$SRC_DIR/cpu.overdrive.keep\" ]; then log 'clock overdrive is not kept across updates; the standard clocks return'; continue; fi\n\
     $BB cp -p \"$SRC_DIR/$NAME\" \"$BOOT_PRESERVE_DIR/$NAME\" >> \"$LOG\" 2>&1 || log \"failed to preserve boot file $NAME\"\n\
@@ -3996,6 +3997,8 @@ mod tests {
         assert!(script.contains("check_written"));
         assert!(script.contains("tune_vm"));
         assert!(script.contains("WANT_FIP"));
+        // the hardware watchdog must be disarmed before the partitions are written
+        assert!(script.contains("/etc/init.d/S02watchdog"));
         assert!(script.contains("cpu.overdrive.keep"));
         assert!(script.contains("is now fip.bin"));
         assert!(script.contains("ROOTFS image data written, syncing"));
