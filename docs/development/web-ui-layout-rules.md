@@ -16,13 +16,16 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 1. A page starts with `PageHeader` (`components/page-header.tsx`): its title in
    `text-base` and a hairline under it, which stay in view while the page
    scrolls, also on a page too short to scroll. The title and the hairline sit at
-   the same height on every page. The touch layout shows no header: the
+   the same height on every page, and the title lines up with the "Settings" title
+   of the left pane. The touch layout shows no header: the
    navigation above the page names it. What sits beside the title is the
    header's children; pages that belong together are subpages in the left pane of
    the dialog (User, Networking and System), never tabs in the header. The header is in
    the colour of the panel, and its shadow has a negative spread so it fades out
    before its sides: the scroll area clips what goes beyond the width of the
-   content, and a wider shadow ends in a hard edge. The loading and load-failure
+   content, and a wider shadow ends in a hard edge. The shadow box is the header's
+   height minus 40px, so the header's own padding is what keeps the shadow
+   visible. The loading and load-failure
    banner of the page comes right below the header (`LoadBanner`), where the
    header's cover does not hide it.
 2. A page is a column of titled sections with the same faded hairline between
@@ -146,14 +149,14 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Order
 
-27. Menu: About, then the groups User, Networking and System, with Device
-    between User and Networking. The groups start collapsed and open on click.
-    User holds Account and Appearance (the person and the browser they use);
-    Networking holds Network, Services, Firewall, WireGuard and Tailscale;
-    System holds Time, Logging, Performance, Monitor and Updates. The first
-    subpage of a group is the one a touch layout opens when the group is
-    chosen. The touch layout shows the five main items on one row, so their
-    names stay short.
+27. Menu: About and Device, then the groups User, Networking and System, so
+    the groups that open and close are together. The groups start collapsed and
+    open on click. User holds Account and Appearance (the person and the
+    browser they use); Networking holds Network, Services, Firewall, WireGuard
+    and Tailscale; System holds Time, Logging, Performance, Monitor and
+    Updates. The first subpage of a group is the one a touch layout opens when
+    the group is chosen. The touch layout shows the five main items on one row,
+    so their names stay short.
 
 ## Technical rules
 
