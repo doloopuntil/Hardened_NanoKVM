@@ -117,11 +117,6 @@ pub async fn upload_check(
 }
 
 fn upload_preflight(cache_dir: &Path, upload_len: Option<u64>) -> Result<()> {
-    if system_firewall::paranoid_mode_enabled() {
-        return Err(AppError::BadRequest(
-            system_firewall::paranoid_blocked_message().to_string(),
-        ));
-    }
     crate::api::storage::ensure_writable(cache_dir)?;
     if SYSTEM_UPDATE_LOCK.lock().map(|busy| *busy).unwrap_or(false) {
         return Err(AppError::Conflict(
@@ -150,11 +145,6 @@ pub async fn upload(
     headers: HeaderMap,
     mut multipart: Multipart,
 ) -> Result<impl IntoResponse> {
-    if system_firewall::paranoid_mode_enabled() {
-        return Err(AppError::BadRequest(
-            system_firewall::paranoid_blocked_message().to_string(),
-        ));
-    }
     crate::api::storage::ensure_writable(&state.config.paths.update_cache_dir)?;
     let guard = acquire_update_lock()?;
     let config = Config::read().unwrap_or_else(|err| {
