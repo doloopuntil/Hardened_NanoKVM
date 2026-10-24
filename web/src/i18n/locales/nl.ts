@@ -908,11 +908,16 @@ const nl = {
         paranoidBlocked: 'Online-updates worden geblokkeerd door firewallmodus Paranoïde',
         paranoidBlockedDesc:
           'GitHub-controles en downloads vereisen uitgaande netwerktoegang. Offline upload en al voorbereide installaties blijven beschikbaar.',
-        isLatest: 'U heeft al de nieuwste versie.',
         available: 'Er is een update beschikbaar. Weet u zeker dat u wilt updaten?',
         updating: 'Update gestart',
         confirm: 'Bevestigen',
         cancel: 'Annuleren',
+        badge: {
+          checking: 'Controleren',
+          latest: 'Up-to-date',
+          available: 'Update beschikbaar',
+          failed: 'Controle mislukt'
+        },
         application: {
           title: 'Applicatie'
         },
@@ -930,7 +935,6 @@ const nl = {
             'Raw systeemupdates kunnen boot- en rootfs-partities vervangen. Gebruik dit alleen met fysieke hersteltoegang.',
           rawInstallDisabled:
             'Deze voorbereide update schrijft raw SD-kaartpartities. Schakel raw systeemupdates in vóór installatie.',
-          isLatest: 'Het basissysteem is up-to-date.',
           available: 'Er is een update voor het basissysteem beschikbaar.',
           downloading: 'Systeemupdate downloaden en verifiëren...',
           downloadVerify: 'Downloaden en verifiëren',

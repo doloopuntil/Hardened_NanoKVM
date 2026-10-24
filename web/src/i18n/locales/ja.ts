@@ -905,11 +905,16 @@ const ja = {
         paranoidBlocked: 'オンライン更新はパラノイドファイアウォールモードでブロックされています',
         paranoidBlockedDesc:
           'GitHub の確認とダウンロードには外向きネットワークアクセスが必要です。オフラインアップロードと準備済みインストールは引き続き利用できます。',
-        isLatest: 'すでに最新バージョンです。',
         available: '新しいバージョンが利用可能です。アップデートしてもよろしいですか？',
         updating: 'アップデート中',
         confirm: 'はい',
         cancel: 'いいえ',
+        badge: {
+          checking: '確認中',
+          latest: '最新',
+          available: 'アップデートあり',
+          failed: '確認に失敗'
+        },
         application: {
           title: 'アプリケーション'
         },
@@ -927,7 +932,6 @@ const ja = {
             'Raw システム更新は boot/rootfs パーティションを置き換えることがあります。物理的な復旧手段がある場合のみ使用してください。',
           rawInstallDisabled:
             'この準備済み更新は raw SD カードパーティションを書き込みます。インストール前に raw システム更新を有効にしてください。',
-          isLatest: 'ベースシステムは最新です。',
           available: 'ベースシステム更新があります。',
           downloading: 'システム更新をダウンロードして検証しています...',
           downloadVerify: 'ダウンロードして検証',

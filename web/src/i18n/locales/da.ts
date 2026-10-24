@@ -902,11 +902,16 @@ const da = {
         paranoidBlocked: 'Onlineopdateringer blokeres af firewalltilstanden Paranoid',
         paranoidBlockedDesc:
           'GitHub-kontroller og downloads kræver udgående netværksadgang. Offline upload og allerede klargjorte installationer er stadig tilgængelige.',
-        isLatest: 'Du har allerede den nyeste version.',
         available: 'En opdatering er tilgængelig. Vil du installere den?',
         updating: 'Opdatering i gang',
         confirm: 'Bekræft',
         cancel: 'Annuller',
+        badge: {
+          checking: 'Kontrollerer',
+          latest: 'Opdateret',
+          available: 'Opdatering tilgængelig',
+          failed: 'Kontrol mislykkedes'
+        },
         application: {
           title: 'Applikation'
         },
@@ -924,7 +929,6 @@ const da = {
             'Raw systemopdateringer kan erstatte boot- og rootfs-partitioner. Brug kun med fysisk adgang til gendannelse.',
           rawInstallDisabled:
             'Denne klargjorte opdatering skriver raw SD-kortpartitioner. Aktivér raw systemopdateringer før installation.',
-          isLatest: 'Basissystemet er opdateret.',
           available: 'Der er en opdatering til basissystemet.',
           downloading: 'Downloader og verificerer systemopdatering...',
           downloadVerify: 'Download og verificer',

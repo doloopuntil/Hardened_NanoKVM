@@ -897,11 +897,16 @@ const vi = {
         paranoidBlocked: 'Cập nhật online bị chặn bởi chế độ tường lửa Hoang tưởng',
         paranoidBlockedDesc:
           'Kiểm tra và tải xuống từ GitHub cần truy cập mạng đi ra. Tải lên offline và các bản cài đã chuẩn bị vẫn khả dụng.',
-        isLatest: 'Bạn đã có phiên bản mới nhất.',
         available: 'Có bản cập nhật mới. Bạn có chắc chắn muốn cập nhật không?',
         updating: 'Bắt đầu cập nhật',
         confirm: 'Xác nhận',
         cancel: 'Hủy',
+        badge: {
+          checking: 'Đang kiểm tra',
+          latest: 'Mới nhất',
+          available: 'Có bản cập nhật',
+          failed: 'Kiểm tra thất bại'
+        },
         application: {
           title: 'Ứng dụng'
         },
@@ -919,7 +924,6 @@ const vi = {
             'Cập nhật hệ thống raw có thể thay thế phân vùng boot và rootfs. Chỉ dùng khi có quyền truy cập vật lý để khôi phục.',
           rawInstallDisabled:
             'Bản cập nhật đã chuẩn bị này ghi phân vùng raw của thẻ SD. Bật cập nhật hệ thống raw trước khi cài đặt.',
-          isLatest: 'Hệ thống nền đã cập nhật.',
           available: 'Có bản cập nhật hệ thống nền.',
           downloading: 'Đang tải xuống và xác minh cập nhật hệ thống...',
           downloadVerify: 'Tải xuống và xác minh',

@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { Alert, Button, Divider, Spin, Switch } from 'antd';
+import { Alert, Button, Divider, Spin, Switch, Tag } from 'antd';
 import { LoaderCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import semver from 'semver';
@@ -547,16 +547,20 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   // what the Application section says about its state, as the caption of the version
   const applicationLoading = status === 'loading';
   const applicationBusy = status === 'updating';
-  const applicationText =
-    status === 'updating'
-      ? t('settings.update.updating')
+  const applicationText = status === 'updating' ? t('settings.update.updating') : '';
+  // what the check found, and what it says under the latest version
+  const applicationCheck: CheckState =
+    status === 'loading'
+      ? 'checking'
       : status === 'latest'
-        ? t('settings.update.isLatest')
-        : status === 'outdated'
-          ? t('settings.update.available')
+        ? 'latest'
+        : status === 'outdated' || status === 'updating' || (status === 'failed' && latestVersion)
+          ? 'available'
           : status === 'failed'
-            ? errMsg
-            : '';
+            ? 'failed'
+            : undefined;
+  const applicationCheckText =
+    status === 'outdated' ? t('settings.update.available') : status === 'failed' ? errMsg : '';
 
   // what the System section says about its state, and the buttons that go with it
   let systemTitle = '';
@@ -572,6 +576,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     if (systemCurrent) versionCaption = text;
     else systemText = text;
   };
+  const systemCurrentVersion = systemCurrent?.version;
   if (systemStatus === 'loading') {
     systemBusy = true;
   } else if (systemStatus === 'downloading') {
@@ -590,7 +595,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
           ? systemProgress?.message || t('settings.update.system.installing')
           : t('settings.update.system.rollingBack');
   } else if (systemStatus === 'latest' && systemCurrent) {
-    captionVersion(t('settings.update.system.isLatest'));
     systemButtons = [refreshButton, rollbackButton];
   } else if (systemStatus === 'staged' && systemStaged && isStagedLatest) {
     stagedCaption = t('settings.update.system.stagedDesc');
@@ -647,6 +651,18 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     );
   }
 
+  // what the check found for the system, whichever state the update itself is in
+  const systemCheck: CheckState =
+    systemStatus === 'loading'
+      ? 'checking'
+      : systemStatus === 'failed' && systemError
+        ? 'failed'
+        : systemLatest && systemCurrent
+          ? isVersionAtLeast(systemCurrent.version, systemLatest.version)
+            ? 'latest'
+            : 'available'
+          : undefined;
+
   return (
     <>
       <PageHeader title={t('settings.update.title')} />
@@ -667,9 +683,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
               label={t('settings.update.currentVersion')}
               description={
                 applicationBusy || applicationText ? (
-                  <span
-                    className={`inline-flex items-center gap-2 ${status === 'failed' ? 'text-red-400' : ''}`}
-                  >
+                  <span className="inline-flex items-center gap-2">
                     {applicationBusy && (
                       <Spin
                         size="small"
@@ -682,9 +696,17 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
               }
               value={currentVersion}
             />
-            {status === 'outdated' && (
-              <InfoRow label={t('settings.update.latestVersion')} value={latestVersion} />
-            )}
+            <InfoRow
+              label={t('settings.update.latestVersion')}
+              description={
+                applicationCheckText ? (
+                  <span className={status === 'failed' ? 'text-red-400' : undefined}>
+                    {applicationCheckText}
+                  </span>
+                ) : undefined
+              }
+              value={<LatestVersion check={applicationCheck} version={latestVersion} />}
+            />
           </div>
 
           <StatusRow
@@ -717,63 +739,53 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
         <Divider className="opacity-50" />
 
         <SettingSection title={t('settings.system.title')} busy={systemStatus === 'loading'}>
-          {systemCurrent && (
-            <div className="flex flex-col space-y-3">
-              {info(
-                t('settings.update.currentVersion'),
-                systemCurrent.version,
+          <div className="flex flex-col space-y-3">
+            <InfoRow label={t('settings.update.currentVersion')} value={systemCurrentVersion} />
+            <InfoRow
+              label={t('settings.update.latestVersion')}
+              description={
                 versionCaption ? (
                   <span className={systemError ? 'text-red-400' : undefined}>{versionCaption}</span>
                 ) : undefined
+              }
+              value={<LatestVersion check={systemCheck} version={systemLatest?.version} />}
+            />
+            {info(t('settings.update.system.kernel'), systemCurrent?.kernelVersion)}
+            {info(t('settings.update.system.requiredAppVersion'), systemLatest?.requiredAppVersion)}
+            {info(t('settings.update.system.stagedVersion'), systemStaged?.version, stagedCaption)}
+            {info(t('settings.update.system.requiredAppVersion'), systemStaged?.requiredAppVersion)}
+            {info(t('settings.update.system.archive'), systemStaged?.archiveName)}
+            {info(t('settings.update.local.signer'), systemStaged?.signer ?? undefined)}
+            {info(
+              t('settings.update.system.requiredFree'),
+              systemStaged ? formatBytes(systemStaged.requiredFreeBytes) : undefined
+            )}
+            {info(t('settings.update.system.fileCount'), systemStaged?.fileCount.toString())}
+            {info(
+              t('settings.update.system.rawImages'),
+              systemStaged?.destructive ? systemStaged.imageCount.toString() : undefined
+            )}
+            {showSystemProgress &&
+              info(
+                t('settings.update.system.progress'),
+                `${systemProgress.operation}/${systemProgress.phase}`
               )}
-              {info(t('settings.update.latestVersion'), systemLatest?.version)}
-              {info(t('settings.update.system.kernel'), systemCurrent.kernelVersion)}
-              {info(
-                t('settings.update.system.requiredAppVersion'),
-                systemLatest?.requiredAppVersion
+            {showSystemProgress &&
+              info(t('settings.update.system.progressMessage'), systemProgress?.message)}
+            {info(
+              t('settings.update.system.pendingVersion'),
+              systemPending?.version,
+              pendingCaption
+            )}
+            {systemBootHealth &&
+              info(
+                t('settings.update.system.bootHealth'),
+                systemBootHealth.healthy
+                  ? t('settings.update.system.healthy')
+                  : t('settings.update.system.unhealthy')
               )}
-              {info(
-                t('settings.update.system.stagedVersion'),
-                systemStaged?.version,
-                stagedCaption
-              )}
-              {info(
-                t('settings.update.system.requiredAppVersion'),
-                systemStaged?.requiredAppVersion
-              )}
-              {info(t('settings.update.system.archive'), systemStaged?.archiveName)}
-              {info(t('settings.update.local.signer'), systemStaged?.signer ?? undefined)}
-              {info(
-                t('settings.update.system.requiredFree'),
-                systemStaged ? formatBytes(systemStaged.requiredFreeBytes) : undefined
-              )}
-              {info(t('settings.update.system.fileCount'), systemStaged?.fileCount.toString())}
-              {info(
-                t('settings.update.system.rawImages'),
-                systemStaged?.destructive ? systemStaged.imageCount.toString() : undefined
-              )}
-              {showSystemProgress &&
-                info(
-                  t('settings.update.system.progress'),
-                  `${systemProgress.operation}/${systemProgress.phase}`
-                )}
-              {showSystemProgress &&
-                info(t('settings.update.system.progressMessage'), systemProgress?.message)}
-              {info(
-                t('settings.update.system.pendingVersion'),
-                systemPending?.version,
-                pendingCaption
-              )}
-              {systemBootHealth &&
-                info(
-                  t('settings.update.system.bootHealth'),
-                  systemBootHealth.healthy
-                    ? t('settings.update.system.healthy')
-                    : t('settings.update.system.unhealthy')
-                )}
-              {info(t('settings.update.system.rollbackBackup'), systemRollback?.backupId)}
-            </div>
-          )}
+            {info(t('settings.update.system.rollbackBackup'), systemRollback?.backupId)}
+          </div>
 
           <StatusRow
             busy={systemBusy && systemStatus !== 'loading'}
@@ -833,6 +845,31 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
         }}
       />
     </>
+  );
+};
+
+type CheckState = 'checking' | 'latest' | 'available' | 'failed' | undefined;
+
+const CHECK_COLORS = {
+  checking: 'default',
+  latest: 'green',
+  available: 'blue',
+  failed: 'red'
+} as const;
+
+// The latest version, always shown, with a badge for what the check found.
+const LatestVersion = ({ check, version }: { check: CheckState; version?: string }) => {
+  const { t } = useTranslation();
+
+  return (
+    <span className="inline-flex items-center gap-2">
+      {check && (
+        <Tag className="m-0" color={CHECK_COLORS[check]}>
+          {t(`settings.update.badge.${check}`)}
+        </Tag>
+      )}
+      {version || '-'}
+    </span>
   );
 };
 

@@ -890,11 +890,16 @@ const ko = {
         paranoidBlocked: '온라인 업데이트는 파라노이드 방화벽 모드에서 차단됩니다',
         paranoidBlockedDesc:
           'GitHub 확인과 다운로드에는 송신 네트워크 접근이 필요합니다. 오프라인 업로드와 이미 준비된 설치는 계속 사용할 수 있습니다.',
-        isLatest: '이미 최신 버전입니다.',
         available: '업데이트가 가능합니다. 정말로 업데이트 할까요?',
         updating: '업데이트 시작',
         confirm: '확인',
         cancel: '취소',
+        badge: {
+          checking: '확인 중',
+          latest: '최신',
+          available: '업데이트 가능',
+          failed: '확인 실패'
+        },
         application: {
           title: '애플리케이션'
         },
@@ -912,7 +917,6 @@ const ko = {
             'Raw 시스템 업데이트는 boot 및 rootfs 파티션을 교체할 수 있습니다. 물리적 복구 접근이 있을 때만 사용하세요.',
           rawInstallDisabled:
             '이 준비된 업데이트는 raw SD 카드 파티션을 씁니다. 설치 전에 raw 시스템 업데이트를 활성화하세요.',
-          isLatest: '기본 시스템이 최신입니다.',
           available: '기본 시스템 업데이트가 있습니다.',
           downloading: '시스템 업데이트 다운로드 및 검증 중...',
           downloadVerify: '다운로드 및 검증',

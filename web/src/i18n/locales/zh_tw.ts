@@ -870,11 +870,16 @@ const zh_tw = {
         updateFailed: '更新失敗',
         paranoidBlocked: '線上更新被偏執防火牆模式阻擋',
         paranoidBlockedDesc: 'GitHub 檢查與下載需要輸出網路存取。離線上傳和已暫存的安裝仍可使用。',
-        isLatest: '您已經是最新版本。',
         available: '發現有可用更新。您確定要更新嗎？',
         updating: '更新中',
         confirm: '確定',
         cancel: '取消',
+        badge: {
+          checking: '檢查中',
+          latest: '已是最新',
+          available: '有可用更新',
+          failed: '檢查失敗'
+        },
         application: {
           title: '應用程式'
         },
@@ -889,7 +894,6 @@ const zh_tw = {
           rawEnableConfirmDesc:
             'Raw 系統更新可以取代 boot 和 rootfs 分割區。僅在有實體復原存取時使用。',
           rawInstallDisabled: '此已暫存更新會寫入 SD 卡 raw 分割區。安裝前請啟用 raw 系統更新。',
-          isLatest: '基礎系統已是最新。',
           available: '有可用的基礎系統更新。',
           downloading: '正在下載並驗證系統更新...',
           downloadVerify: '下載並驗證',

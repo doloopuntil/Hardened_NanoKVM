@@ -108,9 +108,13 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Status and feedback
 
-18. A state message is the caption of the field it describes: up to date or
-    update available under the version row, "downloaded and verified" under
-    Staged version, "reboot required" under Pending version.
+18. A state message is the caption of the field it describes: "downloaded and
+    verified" under Staged version, "reboot required" under Pending version.
+    A section that checks for updates (Application, System) shows Current
+    version and then Latest version, always. A badge (`Tag`) before the latest
+    version says what the check found: Checking, Up to date (green), Update
+    available (blue) or Check failed (red); a failure also says why in the
+    caption of the row, in red, and the version reads "-".
 19. A busy state is a small spinner with text; while the information of a
     section loads, the spinner sits after its title (`busy` of `SettingSection`).
     An error is red

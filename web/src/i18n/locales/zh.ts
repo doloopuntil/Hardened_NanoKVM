@@ -868,11 +868,16 @@ const zh = {
         updateFailed: '更新失败',
         paranoidBlocked: '在线更新被偏执防火墙模式阻止',
         paranoidBlockedDesc: 'GitHub 检查和下载需要出站网络访问。离线上传和已暂存的安装仍可使用。',
-        isLatest: '已经是最新版本。',
         available: '有新的可用版本，确定要更新吗？',
         updating: '更新中',
         confirm: '确定',
         cancel: '取消',
+        badge: {
+          checking: '检查中',
+          latest: '已是最新',
+          available: '有可用更新',
+          failed: '检查失败'
+        },
         application: {
           title: '应用'
         },
@@ -887,7 +892,6 @@ const zh = {
           rawEnableConfirmDesc:
             'Raw 系统更新可以替换 boot 和 rootfs 分区。仅在有物理恢复访问时使用。',
           rawInstallDisabled: '此已暂存更新会写入 SD 卡 raw 分区。安装前请启用 raw 系统更新。',
-          isLatest: '基础系统已是最新。',
           available: '有可用的基础系统更新。',
           downloading: '正在下载并验证系统更新...',
           downloadVerify: '下载并验证',

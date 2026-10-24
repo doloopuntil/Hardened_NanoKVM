@@ -906,11 +906,16 @@ const nb = {
         paranoidBlocked: 'Onlineoppdateringer blokkeres av brannmurmodusen Paranoid',
         paranoidBlockedDesc:
           'GitHub-kontroller og nedlastinger krever utgående nettverkstilgang. Offline-opplasting og allerede klargjorte installasjoner er fortsatt tilgjengelige.',
-        isLatest: 'Du har siste versjon allerede.',
         available: 'En oppdatering er tilgjengelig. Er du sikker på at du ønsker å oppdatere?',
         updating: 'Oppdatering har startet',
         confirm: 'Bekreft',
         cancel: 'Avbryt',
+        badge: {
+          checking: 'Sjekker',
+          latest: 'Oppdatert',
+          available: 'Oppdatering tilgjengelig',
+          failed: 'Sjekk mislyktes'
+        },
         application: {
           title: 'Applikasjon'
         },
@@ -928,7 +933,6 @@ const nb = {
             'Raw systemoppdateringer kan erstatte boot- og rootfs-partisjoner. Bruk bare med fysisk gjenopprettingstilgang.',
           rawInstallDisabled:
             'Denne klargjorte oppdateringen skriver raw SD-kortpartisjoner. Aktiver raw systemoppdateringer før installasjon.',
-          isLatest: 'Basissystemet er oppdatert.',
           available: 'En oppdatering av basissystemet er tilgjengelig.',
           downloading: 'Laster ned og verifiserer systemoppdatering...',
           downloadVerify: 'Last ned og verifiser',

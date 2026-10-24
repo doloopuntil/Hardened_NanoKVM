@@ -893,11 +893,16 @@ const en = {
         paranoidBlocked: 'Online updates are blocked by Paranoid Firewall mode',
         paranoidBlockedDesc:
           'GitHub checks and downloads require outbound network access. Offline upload and already staged installs remain available.',
-        isLatest: 'You already have the latest version.',
         available: 'An update is available. Are you sure you want to update now?',
         updating: 'Update started',
         confirm: 'Confirm',
         cancel: 'Cancel',
+        badge: {
+          checking: 'Checking',
+          latest: 'Up to date',
+          available: 'Update available',
+          failed: 'Check failed'
+        },
         application: {
           title: 'Application'
         },
@@ -915,7 +920,6 @@ const en = {
             'Raw system updates can replace boot and rootfs partitions. Use this only when you have physical recovery access.',
           rawInstallDisabled:
             'This staged update writes raw SD-card partitions. Enable raw system updates before installing it.',
-          isLatest: 'The base system is up to date.',
           available: 'A base-system update is available.',
           downloading: 'Downloading and verifying system update...',
           downloadVerify: 'Download and verify',

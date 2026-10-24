@@ -897,11 +897,16 @@ const cz = {
         paranoidBlocked: 'Online aktualizace jsou blokovány režimem firewallu Paranoidní',
         paranoidBlockedDesc:
           'Kontroly a stahování z GitHubu vyžadují odchozí síťový přístup. Offline nahrání a již připravené instalace zůstávají dostupné.',
-        isLatest: 'Máte nejnovější verzi.',
         available: 'Je dostupná aktualizace. Opravdu chcete aktualizovat?',
         updating: 'Aktualizace zahájena',
         confirm: 'Potvrdit',
         cancel: 'Zrušit',
+        badge: {
+          checking: 'Kontrola',
+          latest: 'Aktuální',
+          available: 'Dostupná aktualizace',
+          failed: 'Kontrola selhala'
+        },
         application: {
           title: 'Aplikace'
         },
@@ -919,7 +924,6 @@ const cz = {
             'Raw aktualizace systému mohou nahradit oddíly boot a rootfs. Používejte jen s fyzickým přístupem pro obnovu.',
           rawInstallDisabled:
             'Tato připravená aktualizace zapisuje raw oddíly SD karty. Před instalací povolte raw aktualizace systému.',
-          isLatest: 'Základní systém je aktuální.',
           available: 'Je dostupná aktualizace základního systému.',
           downloading: 'Stahuje a ověřuje se aktualizace systému...',
           downloadVerify: 'Stáhnout a ověřit',

@@ -906,11 +906,16 @@ const ca = {
           'Les actualitzacions en línia estan bloquejades pel mode de tallafoc Paranoic',
         paranoidBlockedDesc:
           'Les comprovacions i descàrregues de GitHub requereixen accés de sortida. La pujada offline i les instal·lacions ja preparades continuen disponibles.',
-        isLatest: 'Ja tens la darrera versió.',
         available: 'Hi ha una actualització disponible. Vols actualitzar ara?',
         updating: 'Actualització iniciada',
         confirm: 'Confirma',
         cancel: 'Cancel·la',
+        badge: {
+          checking: 'Comprovant',
+          latest: 'Actualitzat',
+          available: 'Actualització disponible',
+          failed: 'Comprovació fallida'
+        },
         application: {
           title: 'Aplicació'
         },
@@ -928,7 +933,6 @@ const ca = {
             'Les actualitzacions raw poden substituir les particions boot i rootfs. Fes-ho servir només si tens accés físic de recuperació.',
           rawInstallDisabled:
             "Aquesta actualització preparada escriu particions raw de la targeta SD. Activa les actualitzacions raw del sistema abans d'instal·lar-la.",
-          isLatest: 'El sistema base està actualitzat.',
           available: 'Hi ha una actualització del sistema base disponible.',
           downloading: "Descarregant i verificant l'actualització del sistema...",
           downloadVerify: 'Descarrega i verifica',
