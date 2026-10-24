@@ -952,8 +952,6 @@ const et = {
           refresh: 'Värskenda',
           releaseNotes: 'Väljalaskemärkmed',
           systemVersion: 'Süsteemi versioon',
-          baseImage: 'Baasimage',
-          buildrootRelease: 'Buildrooti väljalase',
           kernel: 'Kernel',
           stagedVersion: 'Ettevalmistatud versioon',
           archive: 'Arhiiv',

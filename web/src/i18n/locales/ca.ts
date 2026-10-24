@@ -967,8 +967,6 @@ const ca = {
           refresh: 'Actualitza',
           releaseNotes: 'Notes de versió',
           systemVersion: 'Versió del sistema',
-          baseImage: 'Imatge base',
-          buildrootRelease: 'Versió Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Versió preparada',
           archive: 'Arxiu',

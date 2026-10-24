@@ -958,8 +958,6 @@ const vi = {
           refresh: 'Làm mới',
           releaseNotes: 'Ghi chú phát hành',
           systemVersion: 'Phiên bản hệ thống',
-          baseImage: 'Image nền',
-          buildrootRelease: 'Bản phát hành Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Phiên bản đã chuẩn bị',
           archive: 'Lưu trữ',

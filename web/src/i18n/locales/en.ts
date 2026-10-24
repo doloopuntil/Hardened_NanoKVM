@@ -953,8 +953,6 @@ const en = {
           refresh: 'Refresh',
           releaseNotes: 'Release notes',
           systemVersion: 'System version',
-          baseImage: 'Base image',
-          buildrootRelease: 'Buildroot release',
           kernel: 'Kernel',
           stagedVersion: 'Staged version',
           archive: 'Archive',

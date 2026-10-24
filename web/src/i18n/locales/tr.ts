@@ -961,8 +961,6 @@ const tr = {
           refresh: 'Yenile',
           releaseNotes: 'Sürüm notları',
           systemVersion: 'Sistem sürümü',
-          baseImage: 'Temel imaj',
-          buildrootRelease: 'Buildroot sürümü',
           kernel: 'Kernel',
           stagedVersion: 'Hazırlanmış sürüm',
           archive: 'Arşiv',

@@ -963,8 +963,6 @@ const fi = {
           refresh: 'Päivitä',
           releaseNotes: 'Julkaisutiedot',
           systemVersion: 'Järjestelmän versio',
-          baseImage: 'Perusimage',
-          buildrootRelease: 'Buildroot-julkaisu',
           kernel: 'Kernel',
           stagedVersion: 'Valmisteltu versio',
           archive: 'Arkisto',

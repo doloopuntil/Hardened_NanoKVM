@@ -965,8 +965,6 @@ const id = {
           refresh: 'Segarkan',
           releaseNotes: 'Catatan rilis',
           systemVersion: 'Versi sistem',
-          baseImage: 'Image dasar',
-          buildrootRelease: 'Rilis Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Versi yang disiapkan',
           archive: 'Arsip',

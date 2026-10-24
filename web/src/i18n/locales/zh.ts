@@ -920,8 +920,6 @@ const zh = {
           refresh: '刷新',
           releaseNotes: '发行说明',
           systemVersion: '系统版本',
-          baseImage: '基础镜像',
-          buildrootRelease: 'Buildroot 版本',
           kernel: 'Kernel',
           stagedVersion: '已暂存版本',
           archive: '归档',

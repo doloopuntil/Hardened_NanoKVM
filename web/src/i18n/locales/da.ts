@@ -962,8 +962,6 @@ const da = {
           refresh: 'Opdater',
           releaseNotes: 'Udgivelsesnoter',
           systemVersion: 'Systemversion',
-          baseImage: 'Baseimage',
-          buildrootRelease: 'Buildroot-udgivelse',
           kernel: 'Kernel',
           stagedVersion: 'Klargjort version',
           archive: 'Arkiv',

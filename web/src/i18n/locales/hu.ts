@@ -969,8 +969,6 @@ const hu = {
           refresh: 'Frissítés',
           releaseNotes: 'Kiadási megjegyzések',
           systemVersion: 'Rendszerverzió',
-          baseImage: 'Alap image',
-          buildrootRelease: 'Buildroot kiadás',
           kernel: 'Kernel',
           stagedVersion: 'Előkészített verzió',
           archive: 'Archívum',

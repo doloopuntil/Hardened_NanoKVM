@@ -943,8 +943,6 @@ const th = {
           refresh: 'รีเฟรช',
           releaseNotes: 'บันทึกรุ่น',
           systemVersion: 'เวอร์ชันระบบ',
-          baseImage: 'อิมเมจพื้นฐาน',
-          buildrootRelease: 'รุ่น Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'เวอร์ชันที่เตรียมไว้',
           archive: 'ไฟล์เก็บถาวร',

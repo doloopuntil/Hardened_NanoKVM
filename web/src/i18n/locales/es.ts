@@ -968,8 +968,6 @@ const es = {
           refresh: 'Actualizar',
           releaseNotes: 'Notas de la versión',
           systemVersion: 'Versión del sistema',
-          baseImage: 'Imagen base',
-          buildrootRelease: 'Versión Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Versión preparada',
           archive: 'Archivo',

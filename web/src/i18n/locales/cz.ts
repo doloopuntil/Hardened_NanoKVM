@@ -958,8 +958,6 @@ const cz = {
           refresh: 'Obnovit',
           releaseNotes: 'Poznámky k vydání',
           systemVersion: 'Verze systému',
-          baseImage: 'Základní image',
-          buildrootRelease: 'Vydání Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Připravená verze',
           archive: 'Archiv',

@@ -718,8 +718,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                 ) : undefined
               )}
               {info(t('settings.update.latestVersion'), systemLatest?.version)}
-              {info(t('settings.update.system.baseImage'), systemCurrent.baseVersion)}
-              {info(t('settings.update.system.buildrootRelease'), systemCurrent.rootfsVersion)}
               {info(t('settings.update.system.kernel'), systemCurrent.kernelVersion)}
               {info(
                 t('settings.update.system.requiredAppVersion'),

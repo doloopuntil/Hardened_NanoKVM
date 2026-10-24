@@ -963,8 +963,6 @@ const pt_br = {
           refresh: 'Atualizar',
           releaseNotes: 'Notas da versão',
           systemVersion: 'Versão do sistema',
-          baseImage: 'Imagem base',
-          buildrootRelease: 'Versão do Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Versão preparada',
           archive: 'Arquivo',

@@ -963,8 +963,6 @@ const ru = {
           refresh: 'Обновить',
           releaseNotes: 'Описание релиза',
           systemVersion: 'Версия системы',
-          baseImage: 'Базовый образ',
-          buildrootRelease: 'Релиз Buildroot',
           kernel: 'Ядро',
           stagedVersion: 'Подготовленная версия',
           archive: 'Архив',

@@ -966,8 +966,6 @@ const ja = {
           refresh: '更新',
           releaseNotes: 'リリースノート',
           systemVersion: 'システムバージョン',
-          baseImage: 'ベースイメージ',
-          buildrootRelease: 'Buildroot リリース',
           kernel: 'Kernel',
           stagedVersion: '準備済みバージョン',
           archive: 'アーカイブ',

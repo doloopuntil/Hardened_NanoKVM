@@ -967,8 +967,6 @@ const nb = {
           refresh: 'Oppdater',
           releaseNotes: 'Versjonsnotater',
           systemVersion: 'Systemversjon',
-          baseImage: 'Baseimage',
-          buildrootRelease: 'Buildroot-utgivelse',
           kernel: 'Kernel',
           stagedVersion: 'Klargjort versjon',
           archive: 'Arkiv',

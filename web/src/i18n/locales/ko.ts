@@ -948,8 +948,6 @@ const ko = {
           refresh: '새로 고침',
           releaseNotes: '릴리스 노트',
           systemVersion: '시스템 버전',
-          baseImage: '기본 이미지',
-          buildrootRelease: 'Buildroot 릴리스',
           kernel: 'Kernel',
           stagedVersion: '준비된 버전',
           archive: '아카이브',

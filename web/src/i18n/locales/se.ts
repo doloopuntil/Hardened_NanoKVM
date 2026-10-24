@@ -964,8 +964,6 @@ const se = {
           refresh: 'Uppdatera',
           releaseNotes: 'Versionsnoteringar',
           systemVersion: 'Systemversion',
-          baseImage: 'Basimage',
-          buildrootRelease: 'Buildroot-utgåva',
           kernel: 'Kernel',
           stagedVersion: 'Förberedd version',
           archive: 'Arkiv',

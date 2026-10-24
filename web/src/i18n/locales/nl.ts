@@ -969,8 +969,6 @@ const nl = {
           refresh: 'Vernieuwen',
           releaseNotes: 'Release-opmerkingen',
           systemVersion: 'Systeemversie',
-          baseImage: 'Basisimage',
-          buildrootRelease: 'Buildroot-release',
           kernel: 'Kernel',
           stagedVersion: 'Voorbereide versie',
           archive: 'Archief',

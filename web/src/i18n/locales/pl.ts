@@ -965,8 +965,6 @@ const pl = {
           refresh: 'Odśwież',
           releaseNotes: 'Informacje o wydaniu',
           systemVersion: 'Wersja systemu',
-          baseImage: 'Obraz bazowy',
-          buildrootRelease: 'Wydanie Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Wersja przygotowana',
           archive: 'Archiwum',

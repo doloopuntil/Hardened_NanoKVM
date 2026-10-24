@@ -967,8 +967,6 @@ const uk = {
           refresh: 'Оновити',
           releaseNotes: 'Нотатки випуску',
           systemVersion: 'Версія системи',
-          baseImage: 'Базовий образ',
-          buildrootRelease: 'Випуск Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Підготовлена версія',
           archive: 'Архів',

@@ -971,8 +971,6 @@ const it = {
           refresh: 'Aggiorna',
           releaseNotes: 'Note di rilascio',
           systemVersion: 'Versione sistema',
-          baseImage: 'Immagine base',
-          buildrootRelease: 'Release Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Versione preparata',
           archive: 'Archivio',

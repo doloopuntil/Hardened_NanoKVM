@@ -975,8 +975,6 @@ const de = {
           refresh: 'Aktualisieren',
           releaseNotes: 'Versionshinweise',
           systemVersion: 'Systemversion',
-          baseImage: 'Basis-Image',
-          buildrootRelease: 'Buildroot-Release',
           kernel: 'Kernel',
           stagedVersion: 'Vorbereitete Version',
           archive: 'Archiv',
