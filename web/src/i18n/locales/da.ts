@@ -567,7 +567,8 @@ const da = {
               'En systemopdatering sætter enheden tilbage til standardhastighederne, medmindre dette er slået til',
             confirmTitle: 'Aktivér overclocking?',
             confirmText:
-              'Hvis enheden ikke starter med overclocking, skal du flashe SD-kortet igen for at gendanne den. Ændringen træder i kraft efter næste genstart.'
+              'Hvis enheden ikke starter med overclocking, skal du flashe SD-kortet igen for at gendanne den. Ændringen træder i kraft efter næste genstart.',
+            confirmOk: 'Aktivér'
           },
           watchdog: {
             title: 'Hardware-watchdog',

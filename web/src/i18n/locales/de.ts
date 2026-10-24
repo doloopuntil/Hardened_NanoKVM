@@ -575,7 +575,8 @@ const de = {
               'Ein Systemupdate setzt das Gerät auf die Standardtakte zurück, sofern dies nicht aktiviert ist',
             confirmTitle: 'Übertaktung aktivieren?',
             confirmText:
-              'Startet das Gerät mit Übertaktung nicht, müssen Sie die SD-Karte neu beschreiben, um es wiederherzustellen. Die Änderung gilt nach dem nächsten Neustart.'
+              'Startet das Gerät mit Übertaktung nicht, müssen Sie die SD-Karte neu beschreiben, um es wiederherzustellen. Die Änderung gilt nach dem nächsten Neustart.',
+            confirmOk: 'Aktivieren'
           },
           watchdog: {
             title: 'Hardware-Watchdog',

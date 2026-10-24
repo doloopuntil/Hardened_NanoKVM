@@ -376,7 +376,7 @@ export const Settings = () => {
               'w-full max-w-full overflow-x-hidden bg-settings-panel [&_[data-slot=scroll-area-scrollbar]]:w-1.5 [&_[data-slot=scroll-area-scrollbar]]:p-0 [&_[data-slot=scroll-area-thumb]]:bg-neutral-500/30 [&_[data-slot=scroll-area-viewport]>div]:!block',
               isTouchLayout
                 ? 'box-border min-h-0 flex-1 rounded-none px-4'
-                : 'h-full rounded-r-lg px-3'
+                : 'h-full rounded-r-lg px-6'
             )}
           >
             <div className="flex h-full w-full min-w-0 justify-center">

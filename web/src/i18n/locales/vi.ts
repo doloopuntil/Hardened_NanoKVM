@@ -564,7 +564,8 @@ const vi = {
               'Bản cập nhật hệ thống đưa thiết bị về xung nhịp tiêu chuẩn nếu tùy chọn này không được bật',
             confirmTitle: 'Bật overdrive xung nhịp?',
             confirmText:
-              'Nếu thiết bị không khởi động được với overdrive, bạn phải ghi lại thẻ SD để khôi phục. Thay đổi có hiệu lực sau lần khởi động lại tiếp theo.'
+              'Nếu thiết bị không khởi động được với overdrive, bạn phải ghi lại thẻ SD để khôi phục. Thay đổi có hiệu lực sau lần khởi động lại tiếp theo.',
+            confirmOk: 'Bật'
           },
           watchdog: {
             title: 'Watchdog phần cứng',

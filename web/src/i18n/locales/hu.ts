@@ -571,7 +571,8 @@ const hu = {
               'A rendszerfrissítés visszaállítja az eszközt a szabványos órajelekre, ha ez nincs bekapcsolva',
             confirmTitle: 'Bekapcsolja az órajel-túlhajtást?',
             confirmText:
-              'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írnia a helyreállításhoz. A módosítás a következő újraindítás után lép életbe.'
+              'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írnia a helyreállításhoz. A módosítás a következő újraindítás után lép életbe.',
+            confirmOk: 'Engedélyezés'
           },
           watchdog: {
             title: 'Hardveres watchdog',

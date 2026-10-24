@@ -570,7 +570,8 @@ const ca = {
               'Una actualització del sistema torna el dispositiu als rellotges estàndard si això no està activat',
             confirmTitle: 'Activar el sobreesforç de rellotge?',
             confirmText:
-              "Si el dispositiu no arrenca amb el sobreesforç, haureu de tornar a gravar la targeta SD per recuperar-lo. El canvi s'aplica després del proper reinici."
+              "Si el dispositiu no arrenca amb el sobreesforç, haureu de tornar a gravar la targeta SD per recuperar-lo. El canvi s'aplica després del proper reinici.",
+            confirmOk: 'Activa'
           },
           watchdog: {
             title: 'Watchdog de maquinari',

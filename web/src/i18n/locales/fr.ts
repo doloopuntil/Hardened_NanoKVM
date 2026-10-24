@@ -572,7 +572,8 @@ const fr = {
               "Une mise à jour système remet l'appareil sur les fréquences standard si cette option n'est pas activée",
             confirmTitle: "Activer l'overdrive de fréquence?",
             confirmText:
-              "Si l'appareil ne démarre pas avec l'overdrive, vous devrez reflasher la carte SD pour le récupérer. Le changement s'applique après le prochain redémarrage."
+              "Si l'appareil ne démarre pas avec l'overdrive, vous devrez reflasher la carte SD pour le récupérer. Le changement s'applique après le prochain redémarrage.",
+            confirmOk: 'Activer'
           },
           watchdog: {
             title: 'Chien de garde matériel',

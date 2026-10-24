@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-
 import { CPU_SYSTEM_COLOR, CPU_USER_COLOR, type Tone } from './scale';
 
 const BAR_COLORS: Record<Tone, string> = {
@@ -23,7 +21,7 @@ export const Meter = ({
   percent: number;
   tone?: Tone;
 }) => (
-  <div className="flex min-w-0 flex-col md:min-h-14">
+  <div className="flex min-w-0 flex-col lg:min-h-14">
     <div className="flex items-end justify-between gap-4">
       <div className="flex min-w-0 flex-col space-y-0.5">
         <span className="text-sm text-neutral-300">{label}</span>
@@ -63,7 +61,7 @@ export const SplitMeter = ({
   const firstWidth = Math.min(100, Math.max(0, first));
   const secondWidth = Math.min(100 - firstWidth, Math.max(0, second));
   return (
-    <div className="flex min-w-0 flex-col md:min-h-14">
+    <div className="flex min-w-0 flex-col lg:min-h-14">
       <div className="flex items-end justify-between gap-4">
         <div className="flex min-w-0 flex-col space-y-0.5">
           <span className="text-sm text-neutral-300">{label}</span>
@@ -87,34 +85,3 @@ export const SplitMeter = ({
     </div>
   );
 };
-
-// A value on the right with a label and caption on the left; `extra` sits after the label.
-export const ReadingRow = ({
-  label,
-  caption,
-  value,
-  unit,
-  extra
-}: {
-  label: string;
-  caption: string;
-  value: string;
-  unit?: string;
-  extra?: ReactNode;
-}) => (
-  <div className="flex min-w-0 flex-col md:min-h-14">
-    <div className="flex items-end justify-between gap-4">
-      <div className="flex min-w-0 flex-col space-y-0.5">
-        <span className="text-sm text-neutral-300">
-          {label}
-          {extra}
-        </span>
-        <span className="break-words text-xs text-neutral-500">{caption}</span>
-      </div>
-      <div className="shrink-0 whitespace-nowrap text-[15px] tabular-nums text-neutral-200">
-        {value}
-        {unit && <small className="ml-0.5 text-xs text-neutral-500">{unit}</small>}
-      </div>
-    </div>
-  </div>
-);

@@ -566,7 +566,8 @@ const tr = {
               'Bu seçenek açık değilse sistem güncellemesi cihazı standart saat hızlarına döndürür',
             confirmTitle: 'Saat hız aşırtma etkinleştirilsin mi?',
             confirmText:
-              'Cihaz hız aşırtmayla başlamazsa kurtarmak için SD kartı yeniden yazmanız gerekir. Değişiklik sonraki yeniden başlatmadan sonra uygulanır.'
+              'Cihaz hız aşırtmayla başlamazsa kurtarmak için SD kartı yeniden yazmanız gerekir. Değişiklik sonraki yeniden başlatmadan sonra uygulanır.',
+            confirmOk: 'Etkinleştir'
           },
           watchdog: {
             title: 'Donanım watchdog',

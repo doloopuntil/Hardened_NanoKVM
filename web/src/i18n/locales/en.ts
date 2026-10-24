@@ -564,7 +564,8 @@ const en = {
               'A system update returns the device to the standard clocks unless this is on',
             confirmTitle: 'Enable clock overdrive?',
             confirmText:
-              'If the device does not start with overdrive, you must reflash the SD card to recover it. The change applies after the next reboot.'
+              'If the device does not start with overdrive, you must reflash the SD card to recover it. The change applies after the next reboot.',
+            confirmOk: 'Enable'
           },
           watchdog: {
             title: 'Hardware watchdog',

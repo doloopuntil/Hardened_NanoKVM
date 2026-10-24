@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: app 2.1.0
-last-checked: 2026-10-22
+last-checked: 2026-10-24
 ---
 
 # Web UI layout rules for the Settings pages
@@ -17,14 +17,14 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
    `text-base` and a hairline under it, which stay in view while the page
    scrolls, also on a page too short to scroll. The title and the hairline sit at
    the same height on every page. The touch layout shows no header: the
-   navigation above the page names it. What sits
-   beside the title is the header's children. Pages that belong together, such
-   as System and Networking, are subpages in the left pane of the dialog, not tabs in
-   the header. The header is in the colour of the panel, and its shadow has a
-   negative spread so it fades out before its sides: the scroll area clips what
-   goes beyond the width of the content, and a wider shadow ends in a hard edge.
-   The loading and load-failure banner of the page comes right below the header
-   (`LoadBanner`), where the header's cover does not hide it.
+   navigation above the page names it. What sits beside the title is the
+   header's children; pages that belong together are subpages in the left pane of
+   the dialog (Networking and System), never tabs in the header. The header is in
+   the colour of the panel, and its shadow has a negative spread so it fades out
+   before its sides: the scroll area clips what goes beyond the width of the
+   content, and a wider shadow ends in a hard edge. The loading and load-failure
+   banner of the page comes right below the header (`LoadBanner`), where the
+   header's cover does not hide it.
 2. A page is a column of titled sections with the same faded hairline between
    them. A section is `SettingSection`: a grey sentence-case title
    (`text-neutral-400`), then its rows 24px apart.
@@ -44,7 +44,11 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 6. Use only the shared rows: `SettingRow` (label and caption left, control
    right; `isSwitch` and `inline` keep a narrow control on the label's row on a
    phone), `InfoRow` (value grey and right-aligned; it may carry a caption),
-   `EditableInfoRow` (the same row with an input) and `SettingSection`.
+   `EditableInfoRow` (the same row with an input) and `SettingSection`. The one
+   exception is the Monitor (`settings/system/monitor/`), whose meters and graphs
+   are its own blocks. They sit in two columns only from `lg` (1024px) up: the
+   narrowest desktop layout, 850px, leaves each column about 216px, too narrow
+   for a value beside its label.
 7. Values are right-aligned, including the text inside inputs and tag fields.
    Every field has a caption except the editable address fields of Network
    (IP address, subnet mask, router, prefix), whose meaning is well understood.
@@ -138,9 +142,11 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Order
 
-26. Tabs: About, Account, Appearance, Device, System, WireGuard, Tailscale,
-    System updates. The System sub-pages are Time, Network, Firewall, Logging,
-    and System opens on Time.
+26. Menu: About, Account, Appearance, Device, then the groups Networking and
+    System, which start collapsed and open on click. Networking holds Network,
+    Services, Firewall, WireGuard and Tailscale; System holds Time, Logging,
+    Performance, Monitor and Updates. The first subpage of a group is the one a
+    touch layout opens when the group is chosen.
 
 ## Technical rules
 

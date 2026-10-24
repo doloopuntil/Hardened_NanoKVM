@@ -570,7 +570,8 @@ const id = {
               'Pembaruan sistem mengembalikan perangkat ke clock standar kecuali opsi ini aktif',
             confirmTitle: 'Aktifkan clock overdrive?',
             confirmText:
-              'Jika perangkat tidak menyala dengan overdrive, Anda harus menulis ulang kartu SD untuk memulihkannya. Perubahan berlaku setelah reboot berikutnya.'
+              'Jika perangkat tidak menyala dengan overdrive, Anda harus menulis ulang kartu SD untuk memulihkannya. Perubahan berlaku setelah reboot berikutnya.',
+            confirmOk: 'Aktifkan'
           },
           watchdog: {
             title: 'Watchdog perangkat keras',

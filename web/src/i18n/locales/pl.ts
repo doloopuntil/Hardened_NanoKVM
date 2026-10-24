@@ -569,7 +569,8 @@ const pl = {
               'Aktualizacja systemu przywraca standardowe zegary urządzenia, chyba że ta opcja jest włączona',
             confirmTitle: 'Włączyć podkręcanie?',
             confirmText:
-              'Jeśli urządzenie nie uruchomi się z podkręcaniem, aby je przywrócić, trzeba ponownie zapisać kartę SD. Zmiana zadziała po następnym restarcie.'
+              'Jeśli urządzenie nie uruchomi się z podkręcaniem, aby je przywrócić, trzeba ponownie zapisać kartę SD. Zmiana zadziała po następnym restarcie.',
+            confirmOk: 'Włącz'
           },
           watchdog: {
             title: 'Sprzętowy watchdog',

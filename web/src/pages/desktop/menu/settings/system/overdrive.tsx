@@ -61,6 +61,7 @@ export const Overdrive = () => {
     confirm({
       title: t('settings.system.performance.overdrive.confirmTitle'),
       content: t('settings.system.performance.overdrive.confirmText'),
+      okText: t('settings.system.performance.overdrive.confirmOk'),
       danger: true,
       onOk: () => apply(true)
     });
@@ -104,7 +105,7 @@ export const Overdrive = () => {
         <Switch
           checked={keepAfterUpdate}
           loading={isLoading}
-          disabled={!isReady || !isAvailable}
+          disabled={!isReady || !isAvailable || !isEnabled}
           onChange={applyKeep}
         />
       </SettingRow>

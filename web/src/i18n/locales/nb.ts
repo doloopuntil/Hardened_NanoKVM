@@ -571,7 +571,8 @@ const nb = {
               'En systemoppdatering setter enheten tilbake til standardklokkene med mindre dette er slått på',
             confirmTitle: 'Slå på overklokking?',
             confirmText:
-              'Hvis enheten ikke starter med overklokking, må du flashe SD-kortet på nytt for å gjenopprette den. Endringen gjelder etter neste omstart.'
+              'Hvis enheten ikke starter med overklokking, må du flashe SD-kortet på nytt for å gjenopprette den. Endringen gjelder etter neste omstart.',
+            confirmOk: 'Aktiver'
           },
           watchdog: {
             title: 'Maskinvare-watchdog',

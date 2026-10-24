@@ -571,7 +571,8 @@ const es = {
               'Una actualización del sistema devuelve el dispositivo a los relojes estándar si esto no está activado',
             confirmTitle: '¿Activar el overdrive de reloj?',
             confirmText:
-              'Si el dispositivo no arranca con overdrive, tendrá que volver a grabar la tarjeta SD para recuperarlo. El cambio se aplica tras el próximo reinicio.'
+              'Si el dispositivo no arranca con overdrive, tendrá que volver a grabar la tarjeta SD para recuperarlo. El cambio se aplica tras el próximo reinicio.',
+            confirmOk: 'Activar'
           },
           watchdog: {
             title: 'Watchdog de hardware',

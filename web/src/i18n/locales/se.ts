@@ -569,7 +569,8 @@ const se = {
               'En systemuppdatering återställer enheten till standardklockorna om detta inte är påslaget',
             confirmTitle: 'Aktivera överklockning?',
             confirmText:
-              'Om enheten inte startar med överklockning måste du skriva om SD-kortet för att återställa den. Ändringen gäller efter nästa omstart.'
+              'Om enheten inte startar med överklockning måste du skriva om SD-kortet för att återställa den. Ändringen gäller efter nästa omstart.',
+            confirmOk: 'Aktivera'
           },
           watchdog: {
             title: 'Hårdvaru-watchdog',

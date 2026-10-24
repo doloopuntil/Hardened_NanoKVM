@@ -569,7 +569,8 @@ const fi = {
               'Järjestelmäpäivitys palauttaa laitteen vakiotaajuuksille, ellei tämä ole päällä',
             confirmTitle: 'Otetaanko ylikellotus käyttöön?',
             confirmText:
-              'Jos laite ei käynnisty ylikellotuksella, sinun on kirjoitettava SD-kortti uudelleen sen palauttamiseksi. Muutos tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen.'
+              'Jos laite ei käynnisty ylikellotuksella, sinun on kirjoitettava SD-kortti uudelleen sen palauttamiseksi. Muutos tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen.',
+            confirmOk: 'Ota käyttöön'
           },
           watchdog: {
             title: 'Laitteistovahtikoira',

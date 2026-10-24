@@ -573,7 +573,8 @@ const nl = {
               'Een systeemupdate zet het apparaat terug op de standaardklokken, tenzij dit is ingeschakeld',
             confirmTitle: 'Overklokken inschakelen?',
             confirmText:
-              'Als het apparaat met overklokken niet start, moet u de SD-kaart opnieuw beschrijven om het te herstellen. De wijziging gaat in na de volgende herstart.'
+              'Als het apparaat met overklokken niet start, moet u de SD-kaart opnieuw beschrijven om het te herstellen. De wijziging gaat in na de volgende herstart.',
+            confirmOk: 'Inschakelen'
           },
           watchdog: {
             title: 'Hardware-watchdog',

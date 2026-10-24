@@ -545,7 +545,8 @@ const zh_tw = {
             keepDescription: '除非開啟此項，否則系統更新後裝置將恢復為標準時脈',
             confirmTitle: '啟用時脈超頻？',
             confirmText:
-              '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡才能復原。變更將在下次重新啟動後生效。'
+              '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡才能復原。變更將在下次重新啟動後生效。',
+            confirmOk: '啟用'
           },
           watchdog: {
             title: '硬體看門狗',

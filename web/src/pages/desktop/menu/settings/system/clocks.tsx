@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
@@ -8,9 +9,9 @@ import { InfoRow } from '@/components/setting-rows.tsx';
 const DASH = '-';
 
 const OverdriveTag = ({ text }: { text: string }) => (
-  <span className="ml-2 rounded border border-solid border-orange-900 px-1.5 text-[11px] text-orange-400">
+  <Tag color="orange" className="!me-0 !ml-2">
     {text}
-  </span>
+  </Tag>
 );
 
 // The clocks the device booted with. The boot fixes them, so they are read once.
@@ -29,7 +30,7 @@ export const Clocks = () => {
   const tag = overdrive ? <OverdriveTag text={t('settings.system.monitor.overdrive')} /> : null;
 
   return (
-    <>
+    <div className="space-y-3">
       <InfoRow
         label={
           <>
@@ -50,6 +51,6 @@ export const Clocks = () => {
         description={t('settings.system.monitor.videoClockCaption')}
         value={videoMhz !== null ? `${videoMhz} MHz` : DASH}
       />
-    </>
+    </div>
   );
 };

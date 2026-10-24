@@ -560,7 +560,8 @@ const et = {
               'Süsteemivärskendus viib seadme tagasi standardsagedustele, kui see pole sisse lülitatud',
             confirmTitle: 'Kas lülitada ülekiirendus sisse?',
             confirmText:
-              'Kui seade ülekiirendusega ei käivitu, peate selle taastamiseks SD-kaardi uuesti kirjutama. Muudatus rakendub pärast järgmist taaskäivitust.'
+              'Kui seade ülekiirendusega ei käivitu, peate selle taastamiseks SD-kaardi uuesti kirjutama. Muudatus rakendub pärast järgmist taaskäivitust.',
+            confirmOk: 'Luba'
           },
           watchdog: {
             title: 'Riistvaraline valvekoer',

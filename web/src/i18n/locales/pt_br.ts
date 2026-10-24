@@ -568,7 +568,8 @@ const pt_br = {
               'Uma atualização do sistema devolve o dispositivo aos clocks padrão, a menos que isto esteja ativado',
             confirmTitle: 'Ativar o overdrive de clock?',
             confirmText:
-              'Se o dispositivo não iniciar com overdrive, você precisará regravar o cartão SD para recuperá-lo. A alteração é aplicada após a próxima reinicialização.'
+              'Se o dispositivo não iniciar com overdrive, você precisará regravar o cartão SD para recuperá-lo. A alteração é aplicada após a próxima reinicialização.',
+            confirmOk: 'Ativar'
           },
           watchdog: {
             title: 'Watchdog de hardware',

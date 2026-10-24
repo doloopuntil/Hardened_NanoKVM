@@ -566,7 +566,8 @@ const cz = {
               'Aktualizace systému vrátí zařízení ke standardním taktům, pokud to není zapnuto',
             confirmTitle: 'Zapnout přetaktování?',
             confirmText:
-              'Pokud se zařízení s přetaktováním nespustí, musíte kartu SD znovu zapsat, abyste ho obnovili. Změna se použije po příštím restartu.'
+              'Pokud se zařízení s přetaktováním nespustí, musíte kartu SD znovu zapsat, abyste ho obnovili. Změna se použije po příštím restartu.',
+            confirmOk: 'Zapnout'
           },
           watchdog: {
             title: 'Hardwarový watchdog',

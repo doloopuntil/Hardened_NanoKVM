@@ -573,7 +573,8 @@ const it = {
               'Un aggiornamento di sistema riporta il dispositivo ai clock standard se questa opzione non è attiva',
             confirmTitle: "Attivare l'overdrive del clock?",
             confirmText:
-              "Se il dispositivo non si avvia con l'overdrive, dovrai riscrivere la scheda SD per ripristinarlo. La modifica si applica dopo il prossimo riavvio."
+              "Se il dispositivo non si avvia con l'overdrive, dovrai riscrivere la scheda SD per ripristinarlo. La modifica si applica dopo il prossimo riavvio.",
+            confirmOk: 'Abilita'
           },
           watchdog: {
             title: 'Watchdog hardware',
