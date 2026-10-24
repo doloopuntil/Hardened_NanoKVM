@@ -187,6 +187,57 @@ then
                 log_data "preserved root configuration restore finished"
         }
 
+        # The kernel refuses to grow a filesystem that is flagged with errors, and a raw system
+        # update can leave that flag behind. Check it once, before the resize below. RTC_INFO2
+        # remembers an attempt across the restart, so a filesystem that stays flagged is left
+        # alone until the next power cycle.
+        heal_root_filesystem() {
+                ROOT_DEVICE=/dev/mmcblk0p2
+                GUARD_REG=0x05026024
+                GUARD_MAGIC=0x66736B31
+                GUARD_DEFAULT=0xABCD1234
+
+                command -v dumpe2fs >/dev/null 2>&1 || return 0
+                command -v e2fsck >/dev/null 2>&1 || return 0
+                state=$(dumpe2fs -h "$ROOT_DEVICE" 2>/dev/null | sed -n 's/^Filesystem state: *//p')
+                case "$state" in
+                *rror*) ;;
+                *)
+                        devmem "$GUARD_REG" 32 "$GUARD_DEFAULT" >/dev/null 2>&1 || true
+                        return 0
+                        ;;
+                esac
+
+                if [ "$(devmem "$GUARD_REG" 32 2>/dev/null)" = "$GUARD_MAGIC" ]; then
+                        echo "rootfs still flagged with errors after a check; leaving it" > /dev/kmsg 2>/dev/null || true
+                        return 0
+                fi
+                devmem "$GUARD_REG" 32 "$GUARD_MAGIC" >/dev/null 2>&1 || return 0
+
+                echo "rootfs is flagged with errors; checking it" > /dev/kmsg 2>/dev/null || true
+                # only the root filesystem is mounted this early, so the emergency remount is safe
+                echo u > /proc/sysrq-trigger 2>/dev/null || return 0
+                e2fsck -fy "$ROOT_DEVICE" >/dev/null 2>&1
+                rc=$?
+                if [ "$rc" -eq 0 ]; then
+                        # nothing was changed on disk but the flag; the remount reads it again
+                        mount -o remount,rw / 2>/dev/null || true
+                        echo "rootfs check found nothing to repair" > /dev/kmsg 2>/dev/null || true
+                        return 0
+                fi
+                if [ $((rc & 4)) -ne 0 ] || [ $((rc & 8)) -ne 0 ]; then
+                        mount -o remount,rw / 2>/dev/null || true
+                        echo "rootfs check failed rc=$rc" > /dev/kmsg 2>/dev/null || true
+                        return 0
+                fi
+                # repaired: the mounted copy is stale, so restart on the repaired one
+                echo "rootfs repaired rc=$rc; restarting" > /dev/kmsg 2>/dev/null || true
+                echo s > /proc/sysrq-trigger 2>/dev/null || true
+                echo b > /proc/sysrq-trigger 2>/dev/null || true
+        }
+
+        heal_root_filesystem
+
                 # use all sdcard free space for data
                 parted -s /dev/mmcblk0 "resizepart 2 -0"
                 echo "yes
