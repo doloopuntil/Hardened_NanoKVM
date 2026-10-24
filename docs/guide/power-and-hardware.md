@@ -44,14 +44,23 @@ and each adds 1.0. Read the Monitor, not `uptime`.
 
 ## Crash recovery
 
-`S02watchdog` arms the SoC's hardware watchdog once Linux is up: if nothing feeds it
-for 60 seconds, the chip resets itself, and a kernel panic or oops restarts the device
-after 10 seconds. The reason for the last restart (`power-on`, `restart`, `watchdog`
-or `overheat`) is read from the RTC and written to `/tmp/boot-reason` and the system
-log. A hang before Linux starts is not covered. **Settings > System > Performance > Recovery** switches the watchdog on or off at
+The first-stage boot loader (FSBL) arms the SoC's hardware watchdog at power-up, so a
+hang in U-Boot or early Linux resets the chip after about 43 seconds. Linux keeps feeding
+the timer until `S02watchdog` takes over: if nothing feeds it for 60 seconds the chip
+resets itself, and a kernel panic or oops restarts the device after 10 seconds. The
+reason for the last restart (`power-on`, `restart`, `watchdog` or `overheat`) is read
+from the RTC and written to `/tmp/boot-reason` and the system log.
+
+**Settings > System > Performance > Recovery** switches the watchdog on or off at
 once and shows the reason for the last restart. The switch creates or removes an
 empty `/boot/disable_watchdog` file, which you can also create from the SD card on
-another computer.
+another computer. With the watchdog off, Linux disarms it as soon as it starts.
+
+The FSBL also counts boots that never reached a healthy server, in the RTC register
+`RTC_INFO1`. `S95nanokvm` sets the count back once the server answers. After 2 such boots
+in a row the FSBL starts with the standard clocks, whatever the clock overdrive setting
+says; after 4 it leaves the watchdog off so a boot loop cannot lock you out. A power
+loss clears the count.
 
 ## Host name
 

@@ -33,6 +33,8 @@ boot_reason() {
 start() {
     boot_reason
     if [ -e "$DISABLE_FLAG" ]; then
+        # the FSBL arms the watchdog at boot; opening it and writing V closes it for good
+        printf V > "$DEVICE" 2>/dev/null || true
         echo 'Hardware watchdog disabled by /boot/disable_watchdog'
         return 0
     fi

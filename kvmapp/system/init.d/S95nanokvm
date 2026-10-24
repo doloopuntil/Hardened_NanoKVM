@@ -481,6 +481,19 @@ restart_server_safe() {
     start_server_runtime
 }
 
+# Tells the FSBL boot guard that this boot got as far as a healthy server: the count of
+# unconfirmed boots in RTC_INFO1 goes back to its default.
+BOOT_GUARD_REG=0x05026020
+BOOT_GUARD_DEFAULT=0xDEADBEEF
+boot_confirmed=0
+confirm_boot() {
+    [ "$boot_confirmed" = 1 ] && return
+    if devmem "$BOOT_GUARD_REG" 32 "$BOOT_GUARD_DEFAULT" >/dev/null 2>&1; then
+        boot_confirmed=1
+        runtime_log "boot confirmed"
+    fi
+}
+
 start_watchdog() {
     [ -f "$WATCHDOG_PID_FILE" ] && kill -0 "$(cat "$WATCHDOG_PID_FILE" 2>/dev/null)" 2>/dev/null && return
 
@@ -527,6 +540,7 @@ start_watchdog() {
             check_start=$(date +%s)
             if health_check "$check_time"; then
                 failures=0
+                confirm_boot
             elif [ "$in_transfer" = 1 ] && [ "$(cat "$TRANSFER_MARKER" 2>/dev/null)" != "$marker_before" ]; then
                 # The server moved the transfer on during the check, so it is not hung.
                 runtime_log "NanoKVM-Server health check missed during an active transfer; not counted"
