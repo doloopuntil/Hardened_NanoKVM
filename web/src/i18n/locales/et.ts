@@ -562,6 +562,19 @@ const et = {
             confirmText:
               'Kui seade ülekiirendusega ei käivitu, peate selle taastamiseks SD-kaardi uuesti kirjutama. Muudatus rakendub pärast järgmist taaskäivitust.'
           },
+          watchdog: {
+            title: 'Riistvaraline valvekoer',
+            description: 'Taaskäivita seade automaatselt, kui see lõpetab vastamise',
+            unavailable: 'Pole selles süsteemitõmmises',
+            notRunning: 'Praegu ei tööta',
+            lastRestart: 'Viimane taaskäivitus',
+            reasonPowerOn: 'Toite sisselülitus',
+            reasonRestart: 'Taaskäivitus soovitud',
+            reasonWatchdog: 'Valvekoera lähtestus',
+            reasonOverheat: 'Ülekuumenemiskaitse',
+            reasonUnknown: 'Teadmata'
+          },
+          recovery: 'Taaste',
           memory: 'Mälu'
         },
         monitor: {

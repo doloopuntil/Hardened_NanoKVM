@@ -572,6 +572,19 @@ const ja = {
             confirmText:
               'オーバードライブで起動しない場合は、復旧のために SD カードを書き直す必要があります。変更は次回の再起動後に反映されます。'
           },
+          watchdog: {
+            title: 'ハードウェアウォッチドッグ',
+            description: '応答しなくなったときにデバイスを自動的に再起動します',
+            unavailable: 'このシステムイメージには含まれていません',
+            notRunning: '現在は動作していません',
+            lastRestart: '前回の再起動',
+            reasonPowerOn: '電源投入',
+            reasonRestart: '再起動の要求',
+            reasonWatchdog: 'ウォッチドッグによるリセット',
+            reasonOverheat: '過熱保護',
+            reasonUnknown: '不明'
+          },
+          recovery: '復旧',
           memory: 'メモリ'
         },
         monitor: {

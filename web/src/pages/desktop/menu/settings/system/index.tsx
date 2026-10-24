@@ -21,6 +21,7 @@ import { Ssh } from './ssh';
 import { Swap } from './swap';
 import { TimeSettings } from './time';
 import { Tls } from './tls';
+import { Watchdog } from './watchdog';
 
 export type SystemSection =
   | 'time'
@@ -126,6 +127,12 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
 
               <SettingSection title={t('settings.system.performance.memory')}>
                 <Swap />
+              </SettingSection>
+
+              <Divider className="opacity-50" />
+
+              <SettingSection title={t('settings.system.performance.recovery')}>
+                <Watchdog />
               </SettingSection>
             </div>
           )}

@@ -572,6 +572,19 @@ const ca = {
             confirmText:
               "Si el dispositiu no arrenca amb el sobreesforç, haureu de tornar a gravar la targeta SD per recuperar-lo. El canvi s'aplica després del proper reinici."
           },
+          watchdog: {
+            title: 'Watchdog de maquinari',
+            description: 'Reinicia el dispositiu automàticament quan deixa de respondre',
+            unavailable: 'No inclòs en aquesta imatge del sistema',
+            notRunning: "No s'està executant ara mateix",
+            lastRestart: 'Últim reinici',
+            reasonPowerOn: 'Engegada',
+            reasonRestart: 'Reinici sol·licitat',
+            reasonWatchdog: 'Reinici del watchdog',
+            reasonOverheat: 'Protecció contra sobreescalfament',
+            reasonUnknown: 'Desconegut'
+          },
+          recovery: 'Recuperació',
           memory: 'Memòria'
         },
         monitor: {

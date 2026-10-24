@@ -562,6 +562,19 @@ const ko = {
             confirmText:
               '오버드라이브로 장치가 시작되지 않으면 복구를 위해 SD 카드를 다시 기록해야 합니다. 변경 사항은 다음 재부팅 후 적용됩니다.'
           },
+          watchdog: {
+            title: '하드웨어 워치독',
+            description: '응답하지 않을 때 장치를 자동으로 다시 시작합니다',
+            unavailable: '이 시스템 이미지에 포함되어 있지 않습니다',
+            notRunning: '현재 실행 중이 아닙니다',
+            lastRestart: '마지막 재시작',
+            reasonPowerOn: '전원 켜짐',
+            reasonRestart: '재시작 요청',
+            reasonWatchdog: '워치독 리셋',
+            reasonOverheat: '과열 보호',
+            reasonUnknown: '알 수 없음'
+          },
+          recovery: '복구',
           memory: '메모리'
         },
         monitor: {

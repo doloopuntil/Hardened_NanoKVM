@@ -577,6 +577,19 @@ const de = {
             confirmText:
               'Startet das Gerät mit Übertaktung nicht, müssen Sie die SD-Karte neu beschreiben, um es wiederherzustellen. Die Änderung gilt nach dem nächsten Neustart.'
           },
+          watchdog: {
+            title: 'Hardware-Watchdog',
+            description: 'Das Gerät automatisch neu starten, wenn es nicht mehr reagiert',
+            unavailable: 'Nicht in diesem Systemabbild enthalten',
+            notRunning: 'Läuft momentan nicht',
+            lastRestart: 'Letzter Neustart',
+            reasonPowerOn: 'Einschalten',
+            reasonRestart: 'Neustart angefordert',
+            reasonWatchdog: 'Watchdog-Reset',
+            reasonOverheat: 'Überhitzungsschutz',
+            reasonUnknown: 'Unbekannt'
+          },
+          recovery: 'Wiederherstellung',
           memory: 'Arbeitsspeicher'
         },
         monitor: {

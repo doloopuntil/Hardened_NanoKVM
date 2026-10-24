@@ -48,8 +48,10 @@ and each adds 1.0. Read the Monitor, not `uptime`.
 for 60 seconds, the chip resets itself, and a kernel panic or oops restarts the device
 after 10 seconds. The reason for the last restart (`power-on`, `restart`, `watchdog`
 or `overheat`) is read from the RTC and written to `/tmp/boot-reason` and the system
-log. A hang before Linux starts is not covered. To turn the watchdog off, create an
-empty `/boot/disable_watchdog` file, for example from the SD card on another computer.
+log. A hang before Linux starts is not covered. **Settings > System > Performance > Recovery** switches the watchdog on or off at
+once and shows the reason for the last restart. The switch creates or removes an
+empty `/boot/disable_watchdog` file, which you can also create from the SD card on
+another computer.
 
 ## Host name
 

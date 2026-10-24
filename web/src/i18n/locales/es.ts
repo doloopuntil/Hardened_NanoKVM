@@ -573,6 +573,19 @@ const es = {
             confirmText:
               'Si el dispositivo no arranca con overdrive, tendrá que volver a grabar la tarjeta SD para recuperarlo. El cambio se aplica tras el próximo reinicio.'
           },
+          watchdog: {
+            title: 'Watchdog de hardware',
+            description: 'Reiniciar el dispositivo automáticamente cuando deje de responder',
+            unavailable: 'No incluido en esta imagen del sistema',
+            notRunning: 'No se está ejecutando ahora',
+            lastRestart: 'Último reinicio',
+            reasonPowerOn: 'Encendido',
+            reasonRestart: 'Reinicio solicitado',
+            reasonWatchdog: 'Reinicio del watchdog',
+            reasonOverheat: 'Protección contra sobrecalentamiento',
+            reasonUnknown: 'Desconocido'
+          },
+          recovery: 'Recuperación',
           memory: 'Memoria'
         },
         monitor: {

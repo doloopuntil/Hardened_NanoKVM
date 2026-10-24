@@ -10,7 +10,7 @@ use crate::{
     api::{
         account, account_totp, application, autostart, compatibility, cpu_clock, download, hid,
         monitor, network, picoclaw, script, storage, stream, system_firewall, system_log,
-        system_time, system_update, tailscale, vm, webrtc_stream, wireguard,
+        system_time, system_update, tailscale, vm, watchdog, webrtc_stream, wireguard,
     },
     http::middleware::{picoclaw_internal, protected},
     security::headers::security_headers,
@@ -161,6 +161,10 @@ pub fn build(state: AppState) -> Router {
         .route(
             "/api/vm/overdrive",
             get(cpu_clock::get_overdrive).post(cpu_clock::set_overdrive),
+        )
+        .route(
+            "/api/vm/watchdog",
+            get(watchdog::get_watchdog).post(watchdog::set_watchdog),
         )
         .route(
             "/api/vm/mouse-jiggler",

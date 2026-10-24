@@ -568,6 +568,19 @@ const cz = {
             confirmText:
               'Pokud se zařízení s přetaktováním nespustí, musíte kartu SD znovu zapsat, abyste ho obnovili. Změna se použije po příštím restartu.'
           },
+          watchdog: {
+            title: 'Hardwarový watchdog',
+            description: 'Zařízení se automaticky restartuje, když přestane reagovat',
+            unavailable: 'Není součástí tohoto systémového obrazu',
+            notRunning: 'Momentálně neběží',
+            lastRestart: 'Poslední restart',
+            reasonPowerOn: 'Zapnutí napájení',
+            reasonRestart: 'Vyžádaný restart',
+            reasonWatchdog: 'Reset watchdogem',
+            reasonOverheat: 'Ochrana proti přehřátí',
+            reasonUnknown: 'Neznámé'
+          },
+          recovery: 'Obnova',
           memory: 'Paměť'
         },
         monitor: {

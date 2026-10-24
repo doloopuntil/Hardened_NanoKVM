@@ -571,6 +571,19 @@ const pl = {
             confirmText:
               'Jeśli urządzenie nie uruchomi się z podkręcaniem, aby je przywrócić, trzeba ponownie zapisać kartę SD. Zmiana zadziała po następnym restarcie.'
           },
+          watchdog: {
+            title: 'Sprzętowy watchdog',
+            description: 'Automatycznie uruchom urządzenie ponownie, gdy przestanie odpowiadać',
+            unavailable: 'Nie zawarto w tym obrazie systemu',
+            notRunning: 'Obecnie nie działa',
+            lastRestart: 'Ostatni restart',
+            reasonPowerOn: 'Włączenie zasilania',
+            reasonRestart: 'Zażądano restartu',
+            reasonWatchdog: 'Reset przez watchdog',
+            reasonOverheat: 'Ochrona przed przegrzaniem',
+            reasonUnknown: 'Nieznane'
+          },
+          recovery: 'Odzyskiwanie',
           memory: 'Pamięć'
         },
         monitor: {

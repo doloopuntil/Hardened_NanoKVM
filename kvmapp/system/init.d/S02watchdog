@@ -40,6 +40,10 @@ start() {
         echo "Hardware watchdog unavailable: no $DEVICE"
         return 0
     fi
+    if [ -r "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+        echo 'Hardware watchdog already running'
+        return 0
+    fi
     # a panic or oops restarts the device instead of hanging it
     echo 10 > /proc/sys/kernel/panic 2>/dev/null || true
     echo 1 > /proc/sys/kernel/panic_on_oops 2>/dev/null || true

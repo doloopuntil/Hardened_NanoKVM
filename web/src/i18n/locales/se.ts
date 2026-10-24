@@ -571,6 +571,19 @@ const se = {
             confirmText:
               'Om enheten inte startar med överklockning måste du skriva om SD-kortet för att återställa den. Ändringen gäller efter nästa omstart.'
           },
+          watchdog: {
+            title: 'Hårdvaru-watchdog',
+            description: 'Starta om enheten automatiskt när den slutar svara',
+            unavailable: 'Ingår inte i den här systemavbilden',
+            notRunning: 'Körs inte just nu',
+            lastRestart: 'Senaste omstart',
+            reasonPowerOn: 'Påslagning',
+            reasonRestart: 'Omstart begärd',
+            reasonWatchdog: 'Watchdog-återställning',
+            reasonOverheat: 'Överhettningsskydd',
+            reasonUnknown: 'Okänd'
+          },
+          recovery: 'Återställning',
           memory: 'Minne'
         },
         monitor: {

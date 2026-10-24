@@ -571,6 +571,19 @@ const fi = {
             confirmText:
               'Jos laite ei käynnisty ylikellotuksella, sinun on kirjoitettava SD-kortti uudelleen sen palauttamiseksi. Muutos tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen.'
           },
+          watchdog: {
+            title: 'Laitteistovahtikoira',
+            description: 'Käynnistä laite automaattisesti uudelleen, kun se lakkaa vastaamasta',
+            unavailable: 'Ei sisälly tähän järjestelmäkuvaan',
+            notRunning: 'Ei ole käynnissä tällä hetkellä',
+            lastRestart: 'Viimeisin uudelleenkäynnistys',
+            reasonPowerOn: 'Virran kytkentä',
+            reasonRestart: 'Uudelleenkäynnistystä pyydetty',
+            reasonWatchdog: 'Vahtikoiran nollaus',
+            reasonOverheat: 'Ylikuumenemissuoja',
+            reasonUnknown: 'Tuntematon'
+          },
+          recovery: 'Palautuminen',
           memory: 'Muisti'
         },
         monitor: {
