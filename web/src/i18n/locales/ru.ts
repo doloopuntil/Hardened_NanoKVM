@@ -3,6 +3,7 @@ const ru = {
     common: {
       confirm: 'Подтвердить',
       cancel: 'Отмена',
+      save: 'Сохранить',
       delete: 'Удалить',
       actionFailed: 'Не удалось выполнить операцию',
       loading: 'Загрузка настроек с устройства...',
@@ -391,13 +392,11 @@ const ru = {
           terminalWarningDesc:
             'Терминал открывает root shell через браузер. Включайте его только в доверенной сети и выключайте после использования.',
           terminalWarningConfirm: 'Включить',
-          terminalWarningCancel: 'Отмена',
           remoteDownload: 'Удаленное скачивание ISO',
           remoteDownloadWarningTitle: 'Включить удаленное скачивание ISO?',
           remoteDownloadWarningDesc:
             'NanoKVM скачает ISO по URL и запишет его в /data. Включайте это только для доверенных ссылок и выключайте после использования.',
-          remoteDownloadWarningConfirm: 'Включить',
-          remoteDownloadWarningCancel: 'Отмена'
+          remoteDownloadWarningConfirm: 'Включить'
         }
       },
       keyboardLedStatus: {
@@ -899,13 +898,13 @@ const ru = {
         sources: 'Источники обновлений',
         latestVersion: 'Последняя версия',
         queryFailed: 'Получить версию не удалось',
-        updateFailed: 'Обновление не удалось. Пожалуйста, попробуйте еще раз.',
+        updateFailed: 'Обновление не удалось',
         paranoidBlocked: 'Онлайн-обновления заблокированы режимом брандмауэра «Параноидальный»',
         paranoidBlockedDesc:
           'Проверки GitHub и скачивание требуют исходящий доступ. Offline upload и установка уже подготовленных обновлений остаются доступны.',
         isLatest: 'У вас уже последняя версия.',
         available: 'Доступно обновление. Вы уверены, что хотите обновить?',
-        updating: 'Начато обновление. Пожалуйста, подождите...',
+        updating: 'Начато обновление',
         confirm: 'Подтвердить',
         cancel: 'Отмена',
         preview: 'Ранние обновления',
@@ -989,7 +988,7 @@ const ru = {
           desc: 'Обновление через локальный установочный пакет',
           upload: 'Загрузить',
           invalidName: 'Неверный формат имени файла. Загрузите выпуски с GitHub.',
-          updateFailed: 'Обновление не удалось. Пожалуйста, попробуйте еще раз.'
+          updateFailed: 'Обновление не удалось'
         },
         local: {
           title: 'Загрузить системный пакет',

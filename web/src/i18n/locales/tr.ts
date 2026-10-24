@@ -3,6 +3,7 @@ const tr = {
     common: {
       confirm: 'Onayla',
       cancel: 'İptal',
+      save: 'Kaydet',
       delete: 'Sil',
       actionFailed: 'İşlem başarısız oldu',
       loading: 'Ayarlar cihazdan yükleniyor...',
@@ -387,13 +388,11 @@ const tr = {
           terminalWarningDesc:
             'Terminal tarayıcıda root shell açar. Yalnızca güvenilir ağda etkinleştirin ve işiniz bitince kapatın.',
           terminalWarningConfirm: 'Etkinleştir',
-          terminalWarningCancel: 'İptal',
           remoteDownload: 'Uzak ISO indir',
           remoteDownloadWarningTitle: 'Uzak ISO indirme etkinleştirilsin mi?',
           remoteDownloadWarningDesc:
             "NanoKVM bir URL'den ISO alıp /data içine yazar. Yalnızca güvenilir URL'ler için etkinleştirin ve işiniz bitince kapatın.",
-          remoteDownloadWarningConfirm: 'Etkinleştir',
-          remoteDownloadWarningCancel: 'İptal'
+          remoteDownloadWarningConfirm: 'Etkinleştir'
         }
       },
       keyboardLedStatus: {
@@ -898,14 +897,14 @@ const tr = {
         sources: 'Güncelleme kaynakları',
         latestVersion: 'En son sürüm',
         queryFailed: 'Sürüm bilgisi alınamadı',
-        updateFailed: 'Güncelleme başarısız oldu. Lütfen tekrar deneyin.',
+        updateFailed: 'Güncelleme başarısız oldu',
         paranoidBlocked:
           'Çevrimiçi güncellemeler Paranoyak güvenlik duvarı modu tarafından engellenir',
         paranoidBlockedDesc:
           'GitHub kontrolleri ve indirmeler giden ağ erişimi gerektirir. Offline yükleme ve zaten hazırlanmış kurulumlar kullanılabilir kalır.',
         isLatest: 'En yeni sürüme sahipsiniz.',
         available: 'Bir güncelleme indirilebilir. Şimdi güncellemek istediğinizden emin misiniz?',
-        updating: 'Güncelleme başlatıldı. Lütfen bekleyin...',
+        updating: 'Güncelleme başlatıldı',
         confirm: 'Onayla',
         cancel: 'İptal',
         preview: 'Ön izleme güncellemeleri',
@@ -987,7 +986,7 @@ const tr = {
           desc: 'Yerel kurulum paketi aracılığıyla güncelleme',
           upload: 'Yükle',
           invalidName: 'Geçersiz dosya adı biçimi. Lütfen GitHub sürümlerinden indirin.',
-          updateFailed: 'Güncelleme başarısız oldu. Lütfen tekrar deneyin.'
+          updateFailed: 'Güncelleme başarısız oldu'
         },
         local: {
           title: 'Sistem paketini yükle',

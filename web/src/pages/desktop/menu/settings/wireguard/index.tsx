@@ -397,7 +397,7 @@ export const Wireguard = () => {
           open={isKeyModalOpen}
           centered
           title={t('settings.wireguard.privateKey.modalTitle')}
-          okText={t('common.confirm')}
+          okText={t('common.save')}
           cancelText={t('common.cancel')}
           okButtonProps={{
             loading: isKeyBusy,

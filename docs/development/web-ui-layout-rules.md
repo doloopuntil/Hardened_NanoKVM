@@ -94,7 +94,11 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     hand-built `Modal`. Exception: the confirmations of the Power menu are
     Popconfirms with a red OK button, because a dialog is too heavy for a menu
     item and they act on the host.
-16. Unsaved changes show in the sticky `SaveBar` at the bottom, never in the
+16. A dialog with a form is a `Modal`, not a `confirm()`: it is not a
+    confirmation. Its OK button names what it does: Save for a key or a setting
+    (the common Save), Join for the Wi-Fi password. Its title names the task,
+    and it has the common Cancel. The Wi-Fi connect dialog is the model.
+17. Unsaved changes show in the sticky `SaveBar` at the bottom, never in the
     page header. The bar is as wide as the content, in the panel colour
     (`bg-settings-panel`) like the page header, with a hairline above it and a
     shadow that pushes up from there, with the same negative spread as the
@@ -102,38 +106,38 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Status and feedback
 
-17. A state message is the caption of the field it describes: up to date or
+18. A state message is the caption of the field it describes: up to date or
     update available under the version row, "downloaded and verified" under
     Staged version, "reboot required" under Pending version.
-18. A busy state is a small spinner with text; while the information of a
+19. A busy state is a small spinner with text; while the information of a
     section loads, the spinner sits after its title (`busy` of `SettingSection`).
     An error is red
     (`text-red-400`). A headline above the buttons is only for a state that is
     a message in itself ("Boot confirmed").
-19. An `Alert` is for a state that blocks something (Paranoid mode, raw
+20. An `Alert` is for a state that blocks something (Paranoid mode, raw
     installs disabled, the clock not synchronized) and goes above the
     sections.
-20. Secondary explanation goes in a tooltip behind a help icon; a warning
+21. Secondary explanation goes in a tooltip behind a help icon; a warning
     tooltip uses an orange alert icon, always through `LabelTip`
     (`components/label-tip.tsx`, tooltip above the icon). A caption says what a
     setting does; a tooltip says what it costs or how it is sized.
-21. A control stays disabled until its own load has succeeded
+22. A control stays disabled until its own load has succeeded
     (`useSettingsLoad`), and every failed action is visible (`attempt()` and
     `toast`).
 
 ## Text
 
-22. Sentence case everywhere: labels, buttons, section titles and tab names.
+23. Sentence case everywhere: labels, buttons, section titles and tab names.
     Only real names keep capitals: Tailscale, WireGuard, the firewall modes
     (Baseline, Moderate, Restricted, Paranoid), the key names Num Lock, Caps
     Lock and Scroll Lock, and "HID-Only mode". Protocol and file names (HDMI, SSH,
     mDNS, HTTPS, Changelog) stay as they are in every language.
-23. Every text starts with a capital letter, with no parentheses and no "!".
+24. Every text starts with a capital letter, with no parentheses and no "!".
     Captions, tooltips, toasts and field errors are one sentence without a
     final full stop. Dialogs, banners and step lists stay multi-sentence with
     full stops.
-24. Menu paths read "Settings > Device > Virtual disk".
-25. Every new or changed English string needs all 25 languages. Every language
+25. Menu paths read "Settings > Device > Virtual disk".
+26. Every new or changed English string needs all 25 languages. Every language
     is one file in `web/src/i18n/locales/`, with the keys in the order of
     `en.ts`; there are no overlay layers. Compare the effective strings of
     every language before and after a change to prove that nothing else moved;
@@ -142,7 +146,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Order
 
-26. Menu: About, then the groups User, Networking and System, with Device
+27. Menu: About, then the groups User, Networking and System, with Device
     between User and Networking. The groups start collapsed and open on click.
     User holds Account and Appearance (the person and the browser they use);
     Networking holds Network, Services, Firewall, WireGuard and Tailscale;
@@ -153,19 +157,19 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Technical rules
 
-27. Tailwind's preflight is off (it clashes with antd), so a border needs an
+28. Tailwind's preflight is off (it clashes with antd), so a border needs an
     explicit style (`border-0 border-b border-solid border-white/[0.06]`);
     `border-b` alone draws nothing. Boxes also keep the browser's default
     sizing, where padding and border add to the width and height: an element
     with a width and padding (`w-full px-4`) needs `box-border`, or it is wider
     than its parent. Do not switch box-sizing on globally: the menu bar popovers
     were sized for the default, and their rows would shrink by 8px.
-28. A sticky element must not sit inside an `overflow-x-hidden` container; that
+29. A sticky element must not sit inside an `overflow-x-hidden` container; that
     makes the container its scroll parent and the element stops sticking.
-29. Layout depends on the phone class `settings-modal-mobile` (see
+30. Layout depends on the phone class `settings-modal-mobile` (see
     `assets/styles/index.css`); use
     `[.settings-modal-mobile_&]:` for rules that differ on the touch layout.
-30. The app is dark-only. The colour of the settings panel is the one
+31. The app is dark-only. The colour of the settings panel is the one
     `settings-panel` colour of `tailwind.config.js` (the modal colour under a 50%
     layer, as a solid colour), used by the panel itself and by whatever sticks over
     its content, so that it hides what scrolls under it. Do not write the value

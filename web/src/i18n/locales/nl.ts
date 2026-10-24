@@ -3,6 +3,7 @@ const nl = {
     common: {
       confirm: 'Bevestigen',
       cancel: 'Annuleren',
+      save: 'Opslaan',
       delete: 'Verwijderen',
       actionFailed: 'Bewerking mislukt',
       loading: 'Instellingen van het apparaat laden...',
@@ -392,13 +393,11 @@ const nl = {
           terminalWarningDesc:
             'De terminal opent een root-shell in de browser. Schakel alleen in op een vertrouwd netwerk en schakel daarna weer uit.',
           terminalWarningConfirm: 'Inschakelen',
-          terminalWarningCancel: 'Annuleren',
           remoteDownload: 'ISO op afstand downloaden',
           remoteDownloadWarningTitle: 'ISO-download op afstand inschakelen?',
           remoteDownloadWarningDesc:
             "NanoKVM haalt een ISO op van een URL en schrijft die naar /data. Schakel alleen in voor vertrouwde URL's en schakel daarna weer uit.",
-          remoteDownloadWarningConfirm: 'Inschakelen',
-          remoteDownloadWarningCancel: 'Annuleren'
+          remoteDownloadWarningConfirm: 'Inschakelen'
         }
       },
       keyboardLedStatus: {
@@ -905,13 +904,13 @@ const nl = {
         sources: 'Updatebronnen',
         latestVersion: 'Nieuwste versie',
         queryFailed: 'Ophalen versie mislukt',
-        updateFailed: 'Update mislukt. Probeer het opnieuw.',
+        updateFailed: 'Update mislukt',
         paranoidBlocked: 'Online-updates worden geblokkeerd door firewallmodus Paranoïde',
         paranoidBlockedDesc:
           'GitHub-controles en downloads vereisen uitgaande netwerktoegang. Offline upload en al voorbereide installaties blijven beschikbaar.',
         isLatest: 'U heeft al de nieuwste versie.',
         available: 'Er is een update beschikbaar. Weet u zeker dat u wilt updaten?',
-        updating: 'Update gestart. Even geduld a.u.b...',
+        updating: 'Update gestart',
         confirm: 'Bevestigen',
         cancel: 'Annuleren',
         preview: 'Preview-updates',
@@ -996,7 +995,7 @@ const nl = {
           desc: 'Update via lokaal installatiepakket',
           upload: 'Uploaden',
           invalidName: 'Ongeldig bestandsnaamformaat. Download de versie van GitHub-releases.',
-          updateFailed: 'Update mislukt. Probeer het opnieuw.'
+          updateFailed: 'Update mislukt'
         },
         local: {
           title: 'Systeempakket uploaden',

@@ -3,6 +3,7 @@ const hu = {
     common: {
       confirm: 'Megerősítés',
       cancel: 'Mégse',
+      save: 'Mentés',
       delete: 'Törlés',
       actionFailed: 'A művelet sikertelen',
       loading: 'Beállítások betöltése az eszközről...',
@@ -390,13 +391,11 @@ const hu = {
           terminalWarningDesc:
             'A terminál root shellt nyit a böngészőben. Csak megbízható hálózaton engedélyezze, és használat után kapcsolja ki.',
           terminalWarningConfirm: 'Engedélyezés',
-          terminalWarningCancel: 'Mégse',
           remoteDownload: 'Távoli ISO letöltése',
           remoteDownloadWarningTitle: 'Engedélyezi a távoli ISO-letöltést?',
           remoteDownloadWarningDesc:
             'A NanoKVM ISO-t tölt le egy URL-ről és a /data alá írja. Csak megbízható URL-ekhez engedélyezze, majd kapcsolja ki.',
-          remoteDownloadWarningConfirm: 'Engedélyezés',
-          remoteDownloadWarningCancel: 'Mégse'
+          remoteDownloadWarningConfirm: 'Engedélyezés'
         }
       },
       keyboardLedStatus: {
@@ -905,13 +904,13 @@ const hu = {
         sources: 'Frissítési források',
         latestVersion: 'Legújabb verzió',
         queryFailed: 'Verzió lekérdezése sikertelen',
-        updateFailed: 'Frissítés sikertelen. Kérem, próbálja újra.',
+        updateFailed: 'Frissítés sikertelen',
         paranoidBlocked: 'Az online frissítéseket a Paranoid tűzfalmód blokkolja',
         paranoidBlockedDesc:
           'A GitHub-ellenőrzésekhez és letöltésekhez kimenő hálózati hozzáférés szükséges. Az offline feltöltés és a már előkészített telepítések továbbra is elérhetők.',
         isLatest: 'Ön már a legfrissebb verziót használja.',
         available: 'Frissítés elérhető. Biztos, hogy frissít?',
-        updating: 'Frissítés elkezdődött. Kérem várjon...',
+        updating: 'Frissítés elkezdődött',
         confirm: 'Megerősítés',
         cancel: 'Mégse',
         preview: 'Frissítések előnézete',
@@ -995,7 +994,7 @@ const hu = {
           desc: 'Frissítés helyi telepítőcsomaggal',
           upload: 'Feltöltés',
           invalidName: 'Érvénytelen fájlnévformátum. Kérjük, töltse le a GitHub kiadásaiból.',
-          updateFailed: 'Frissítés sikertelen. Kérem, próbálja újra.'
+          updateFailed: 'Frissítés sikertelen'
         },
         local: {
           title: 'Rendszercsomag feltöltése',

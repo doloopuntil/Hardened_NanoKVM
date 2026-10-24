@@ -220,7 +220,7 @@ export const LocalKeyRow = () => {
         centered
         open={open}
         title={t('settings.update.local.keyTitle')}
-        okText={t('common.confirm')}
+        okText={t('common.save')}
         cancelText={t('common.cancel')}
         okButtonProps={{ disabled: !password || (!removing && !pem), loading: saving }}
         onOk={submit}

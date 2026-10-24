@@ -3,6 +3,7 @@ const en = {
     common: {
       confirm: 'Confirm',
       cancel: 'Cancel',
+      save: 'Save',
       delete: 'Delete',
       actionFailed: 'Operation failed',
       loading: 'Loading settings from the device...',
@@ -386,13 +387,11 @@ const en = {
           terminalWarningDesc:
             'The terminal opens a root shell through the browser. Enable it only on a trusted network and turn it off when you are done.',
           terminalWarningConfirm: 'Enable',
-          terminalWarningCancel: 'Cancel',
           remoteDownload: 'Remote ISO download',
           remoteDownloadWarningTitle: 'Enable remote ISO download?',
           remoteDownloadWarningDesc:
             'NanoKVM will fetch an ISO from a URL and write it to /data. Enable it only for trusted URLs and turn it off when you are done.',
-          remoteDownloadWarningConfirm: 'Enable',
-          remoteDownloadWarningCancel: 'Cancel'
+          remoteDownloadWarningConfirm: 'Enable'
         }
       },
       keyboardLedStatus: {
@@ -890,13 +889,13 @@ const en = {
         sources: 'Update sources',
         latestVersion: 'Latest version',
         queryFailed: "Couldn't get the version",
-        updateFailed: 'Update failed. Please retry.',
+        updateFailed: 'Update failed',
         paranoidBlocked: 'Online updates are blocked by Paranoid Firewall mode',
         paranoidBlockedDesc:
           'GitHub checks and downloads require outbound network access. Offline upload and already staged installs remain available.',
         isLatest: 'You already have the latest version.',
         available: 'An update is available. Are you sure you want to update now?',
-        updating: 'Update started. Please wait...',
+        updating: 'Update started',
         confirm: 'Confirm',
         cancel: 'Cancel',
         preview: 'Preview updates',
@@ -979,7 +978,7 @@ const en = {
           desc: 'Update through local installation package',
           upload: 'Upload',
           invalidName: 'Invalid filename format. Please download from GitHub releases.',
-          updateFailed: 'Update failed. Please retry.'
+          updateFailed: 'Update failed'
         },
         local: {
           title: 'Upload system bundle',

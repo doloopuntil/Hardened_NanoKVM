@@ -3,6 +3,7 @@ const id = {
     common: {
       confirm: 'Konfirmasi',
       cancel: 'Batalkan',
+      save: 'Simpan',
       delete: 'Hapus',
       actionFailed: 'Operasi gagal',
       loading: 'Memuat pengaturan dari perangkat...',
@@ -390,13 +391,11 @@ const id = {
           terminalWarningDesc:
             'Terminal membuka shell root melalui browser. Aktifkan hanya di jaringan tepercaya dan matikan setelah selesai.',
           terminalWarningConfirm: 'Aktifkan',
-          terminalWarningCancel: 'Batal',
           remoteDownload: 'Unduh ISO jarak jauh',
           remoteDownloadWarningTitle: 'Aktifkan unduhan ISO jarak jauh?',
           remoteDownloadWarningDesc:
             'NanoKVM akan mengambil ISO dari URL dan menulisnya ke /data. Aktifkan hanya untuk URL tepercaya dan matikan setelah selesai.',
-          remoteDownloadWarningConfirm: 'Aktifkan',
-          remoteDownloadWarningCancel: 'Batal'
+          remoteDownloadWarningConfirm: 'Aktifkan'
         }
       },
       keyboardLedStatus: {
@@ -900,13 +899,13 @@ const id = {
         sources: 'Sumber pembaruan',
         latestVersion: 'Versi terbaru',
         queryFailed: 'Gagal mendapatkan versi',
-        updateFailed: 'Gagal memperbarui. Silakan coba lagi.',
+        updateFailed: 'Gagal memperbarui',
         paranoidBlocked: 'Pembaruan online diblokir oleh mode firewall Paranoid',
         paranoidBlockedDesc:
           'Pemeriksaan dan unduhan GitHub memerlukan akses jaringan keluar. Unggahan offline dan instalasi yang sudah disiapkan tetap tersedia.',
         isLatest: 'Anda sudah menggunakan versi terbaru.',
         available: 'Ada pembaruan baru. Apakah Anda mau memperbarui?',
-        updating: 'Pembaruan dimulai. Silahkan tunggu...',
+        updating: 'Pembaruan dimulai',
         confirm: 'Konfirmasi',
         cancel: 'Batalkan',
         preview: 'Pratinjau pembaruan',
@@ -991,7 +990,7 @@ const id = {
           desc: 'Perbarui melalui paket instalasi lokal',
           upload: 'Mengunggah',
           invalidName: 'Format nama file tidak valid. Silakan unduh dari rilis GitHub.',
-          updateFailed: 'Gagal memperbarui. Silakan coba lagi.'
+          updateFailed: 'Gagal memperbarui'
         },
         local: {
           title: 'Unggah paket sistem',

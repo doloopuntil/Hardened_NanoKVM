@@ -3,6 +3,7 @@ const zh_tw = {
     common: {
       confirm: '確認',
       cancel: '取消',
+      save: '儲存',
       delete: '刪除',
       actionFailed: '操作失敗',
       loading: '正在從裝置載入設定...',
@@ -373,13 +374,11 @@ const zh_tw = {
           terminalWarningDesc:
             '終端機會在瀏覽器中開啟 root shell。僅在可信網路中啟用，完成後請關閉。',
           terminalWarningConfirm: '啟用',
-          terminalWarningCancel: '取消',
           remoteDownload: '遠端 ISO 下載',
           remoteDownloadWarningTitle: '啟用遠端 ISO 下載？',
           remoteDownloadWarningDesc:
             'NanoKVM 將從 URL 取得 ISO 並寫入 /data。僅對可信 URL 啟用，完成後請關閉。',
-          remoteDownloadWarningConfirm: '啟用',
-          remoteDownloadWarningCancel: '取消'
+          remoteDownloadWarningConfirm: '啟用'
         }
       },
       keyboardLedStatus: {
@@ -868,12 +867,12 @@ const zh_tw = {
         sources: '更新來源',
         latestVersion: '最新版本',
         queryFailed: '取得版本號失敗',
-        updateFailed: '更新失敗。請重試。',
+        updateFailed: '更新失敗',
         paranoidBlocked: '線上更新被偏執防火牆模式阻擋',
         paranoidBlockedDesc: 'GitHub 檢查與下載需要輸出網路存取。離線上傳和已暫存的安裝仍可使用。',
         isLatest: '您已經是最新版本。',
         available: '發現有可用更新。您確定要更新嗎？',
-        updating: '更新中，請稍候...',
+        updating: '更新中',
         confirm: '確定',
         cancel: '取消',
         preview: '預覽更新',
@@ -947,7 +946,7 @@ const zh_tw = {
           desc: '透過本地安裝包進行更新',
           upload: '上傳',
           invalidName: '檔名格式錯誤，請前往 GitHub 釋出頁下載安裝包。',
-          updateFailed: '更新失敗。請重試。'
+          updateFailed: '更新失敗'
         },
         local: {
           title: '上傳系統套件',

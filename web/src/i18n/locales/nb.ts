@@ -3,6 +3,7 @@ const nb = {
     common: {
       confirm: 'Bekreft',
       cancel: 'Avbryt',
+      save: 'Lagre',
       delete: 'Slett',
       actionFailed: 'Handlingen mislyktes',
       loading: 'Laster innstillinger fra enheten...',
@@ -391,13 +392,11 @@ const nb = {
           terminalWarningDesc:
             'Terminalen åpner et root-shell i nettleseren. Aktiver bare på et klarert nettverk og slå av når du er ferdig.',
           terminalWarningConfirm: 'Aktiver',
-          terminalWarningCancel: 'Avbryt',
           remoteDownload: 'Last ned ekstern ISO',
           remoteDownloadWarningTitle: 'Aktivere ekstern ISO-nedlasting?',
           remoteDownloadWarningDesc:
             'NanoKVM henter en ISO fra en URL og skriver den til /data. Aktiver bare for klarerte URL-er og slå av når du er ferdig.',
-          remoteDownloadWarningConfirm: 'Aktiver',
-          remoteDownloadWarningCancel: 'Avbryt'
+          remoteDownloadWarningConfirm: 'Aktiver'
         }
       },
       keyboardLedStatus: {
@@ -903,13 +902,13 @@ const nb = {
         sources: 'Oppdateringskilder',
         latestVersion: 'Nyeste versjon',
         queryFailed: 'Kunne ikke hente versjon',
-        updateFailed: 'En feil oppstod under oppdatering. Vennligst forsøk igjen.',
+        updateFailed: 'En feil oppstod under oppdatering',
         paranoidBlocked: 'Onlineoppdateringer blokkeres av brannmurmodusen Paranoid',
         paranoidBlockedDesc:
           'GitHub-kontroller og nedlastinger krever utgående nettverkstilgang. Offline-opplasting og allerede klargjorte installasjoner er fortsatt tilgjengelige.',
         isLatest: 'Du har siste versjon allerede.',
         available: 'En oppdatering er tilgjengelig. Er du sikker på at du ønsker å oppdatere?',
-        updating: 'Oppdatering har startet. Vennligst vent...',
+        updating: 'Oppdatering har startet',
         confirm: 'Bekreft',
         cancel: 'Avbryt',
         preview: 'Forhåndsvisningsoppdateringer',
@@ -993,7 +992,7 @@ const nb = {
           desc: 'Oppdater gjennom lokal installasjonspakke',
           upload: 'Last opp',
           invalidName: 'Ugyldig filnavnformat. Last ned fra GitHub-utgivelser.',
-          updateFailed: 'En feil oppstod under oppdatering. Vennligst forsøk igjen.'
+          updateFailed: 'En feil oppstod under oppdatering'
         },
         local: {
           title: 'Last opp systempakke',

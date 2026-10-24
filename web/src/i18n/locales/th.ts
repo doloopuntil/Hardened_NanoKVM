@@ -3,6 +3,7 @@ const th = {
     common: {
       confirm: 'ยืนยัน',
       cancel: 'ยกเลิก',
+      save: 'บันทึก',
       delete: 'ลบ',
       actionFailed: 'การดำเนินการล้มเหลว',
       loading: 'กำลังโหลดการตั้งค่าจากอุปกรณ์...',
@@ -382,13 +383,11 @@ const th = {
           terminalWarningDesc:
             'เทอร์มินัลจะเปิด root shell ผ่านเบราว์เซอร์ เปิดใช้เฉพาะบนเครือข่ายที่เชื่อถือได้และปิดเมื่อใช้งานเสร็จ',
           terminalWarningConfirm: 'เปิดใช้',
-          terminalWarningCancel: 'ยกเลิก',
           remoteDownload: 'ดาวน์โหลด ISO ระยะไกล',
           remoteDownloadWarningTitle: 'เปิดใช้การดาวน์โหลด ISO ระยะไกล?',
           remoteDownloadWarningDesc:
             'NanoKVM จะดึง ISO จาก URL และเขียนไปที่ /data เปิดใช้เฉพาะ URL ที่เชื่อถือได้และปิดเมื่อใช้งานเสร็จ',
-          remoteDownloadWarningConfirm: 'เปิดใช้',
-          remoteDownloadWarningCancel: 'ยกเลิก'
+          remoteDownloadWarningConfirm: 'เปิดใช้'
         }
       },
       keyboardLedStatus: {
@@ -885,13 +884,13 @@ const th = {
         sources: 'แหล่งอัปเดต',
         latestVersion: 'เวอร์ชันล่าสุด',
         queryFailed: 'ไม่สามารถรับข้อมูลเวอร์ชันได้',
-        updateFailed: 'การอัปเดตล้มเหลว กรุณาลองใหม่',
+        updateFailed: 'การอัปเดตล้มเหลว',
         paranoidBlocked: 'การอัปเดตออนไลน์ถูกบล็อกโดยโหมดไฟร์วอลล์ หวาดระแวง',
         paranoidBlockedDesc:
           'การตรวจสอบและดาวน์โหลดจาก GitHub ต้องใช้เครือข่ายขาออก การอัปโหลด offline และการติดตั้งที่เตรียมไว้แล้วยังใช้งานได้',
         isLatest: 'คุณมีเวอร์ชันล่าสุดแล้ว',
         available: 'มีการอัปเดตใหม่ คุณแน่ใจที่จะอัปเดตหรือไม่?',
-        updating: 'กำลังเริ่มอัปเดต กรุณารอสักครู่...',
+        updating: 'กำลังเริ่มอัปเดต',
         confirm: 'ยืนยัน',
         cancel: 'ยกเลิก',
         preview: 'ดูตัวอย่างการอัปเดต',
@@ -968,7 +967,7 @@ const th = {
           desc: 'อัปเดตผ่านแพ็คเกจการติดตั้งในเครื่อง',
           upload: 'อัปโหลด',
           invalidName: 'รูปแบบชื่อไฟล์ไม่ถูกต้อง กรุณาดาวน์โหลดจากรุ่น GitHub',
-          updateFailed: 'การอัปเดตล้มเหลว กรุณาลองใหม่'
+          updateFailed: 'การอัปเดตล้มเหลว'
         },
         local: {
           title: 'อัปโหลดแพ็กเกจระบบ',

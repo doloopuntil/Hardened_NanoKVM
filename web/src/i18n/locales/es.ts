@@ -3,6 +3,7 @@ const es = {
     common: {
       confirm: 'Confirmar',
       cancel: 'Cancelar',
+      save: 'Guardar',
       delete: 'Eliminar',
       actionFailed: 'La operación ha fallado',
       loading: 'Cargando la configuración del dispositivo...',
@@ -391,13 +392,11 @@ const es = {
           terminalWarningDesc:
             'El terminal abre una shell root en el navegador. Actívalo solo en una red de confianza y desactívalo al terminar.',
           terminalWarningConfirm: 'Activar',
-          terminalWarningCancel: 'Cancelar',
           remoteDownload: 'Descargar ISO remota',
           remoteDownloadWarningTitle: '¿Activar descarga remota de ISO?',
           remoteDownloadWarningDesc:
             'NanoKVM descargará una ISO desde una URL y la escribirá en /data. Actívalo solo para URL de confianza y desactívalo al terminar.',
-          remoteDownloadWarningConfirm: 'Activar',
-          remoteDownloadWarningCancel: 'Cancelar'
+          remoteDownloadWarningConfirm: 'Activar'
         }
       },
       keyboardLedStatus: {
@@ -903,14 +902,14 @@ const es = {
         sources: 'Fuentes de actualización',
         latestVersion: 'Última versión',
         queryFailed: 'Error al obtener la versión',
-        updateFailed: 'La actualización falló. Por favor, inténtalo de nuevo.',
+        updateFailed: 'La actualización falló',
         paranoidBlocked:
           'Las actualizaciones en línea están bloqueadas por el modo de firewall Paranoico',
         paranoidBlockedDesc:
           'Las comprobaciones y descargas de GitHub requieren acceso de red saliente. La carga offline y las instalaciones ya preparadas siguen disponibles.',
         isLatest: 'Ya tienes la última versión.',
         available: 'Hay una actualización disponible. ¿Estás seguro de que quieres actualizar?',
-        updating: 'Actualización iniciada. Por favor, espera...',
+        updating: 'Actualización iniciada',
         confirm: 'Confirmar',
         cancel: 'Cancelar',
         preview: 'Vista previa de actualizaciones',
@@ -996,7 +995,7 @@ const es = {
           upload: 'Subir',
           invalidName:
             'Formato de nombre de archivo no válido. Descarga desde las versiones de GitHub.',
-          updateFailed: 'La actualización falló. Por favor, inténtalo de nuevo.'
+          updateFailed: 'La actualización falló'
         },
         local: {
           title: 'Subir paquete del sistema',

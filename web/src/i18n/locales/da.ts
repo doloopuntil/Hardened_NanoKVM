@@ -3,6 +3,7 @@ const da = {
     common: {
       confirm: 'Bekræft',
       cancel: 'Annuller',
+      save: 'Gem',
       delete: 'Slet',
       actionFailed: 'Handlingen mislykkedes',
       loading: 'Indlæser indstillinger fra enheden...',
@@ -387,13 +388,11 @@ const da = {
           terminalWarningDesc:
             'Terminalen åbner en root-shell i browseren. Aktivér kun på et betroet netværk og slå den fra, når du er færdig.',
           terminalWarningConfirm: 'Aktivér',
-          terminalWarningCancel: 'Annuller',
           remoteDownload: 'Hent ekstern ISO',
           remoteDownloadWarningTitle: 'Aktivér ekstern ISO-download?',
           remoteDownloadWarningDesc:
             "NanoKVM henter en ISO fra en URL og skriver den til /data. Aktivér kun for betroede URL'er og slå fra, når du er færdig.",
-          remoteDownloadWarningConfirm: 'Aktivér',
-          remoteDownloadWarningCancel: 'Annuller'
+          remoteDownloadWarningConfirm: 'Aktivér'
         }
       },
       keyboardLedStatus: {
@@ -899,13 +898,13 @@ const da = {
         sources: 'Opdateringskilder',
         latestVersion: 'Seneste version',
         queryFailed: 'Opdateringskontrol mislykkedes',
-        updateFailed: 'Opdatering fejlede. Prøv igen.',
+        updateFailed: 'Opdatering fejlede',
         paranoidBlocked: 'Onlineopdateringer blokeres af firewalltilstanden Paranoid',
         paranoidBlockedDesc:
           'GitHub-kontroller og downloads kræver udgående netværksadgang. Offline upload og allerede klargjorte installationer er stadig tilgængelige.',
         isLatest: 'Du har allerede den nyeste version.',
         available: 'En opdatering er tilgængelig. Vil du installere den?',
-        updating: 'Opdatering i gang. Vent venligst...',
+        updating: 'Opdatering i gang',
         confirm: 'Bekræft',
         cancel: 'Annuller',
         preview: 'Forhåndsvisning af opdateringer',
@@ -988,7 +987,7 @@ const da = {
           desc: 'Opdatering via lokal installationspakke',
           upload: 'Upload',
           invalidName: 'Ugyldigt filnavnsformat. Download venligst fra GitHub-udgivelser.',
-          updateFailed: 'Opdatering fejlede. Prøv igen.'
+          updateFailed: 'Opdatering fejlede'
         },
         local: {
           title: 'Upload systempakke',

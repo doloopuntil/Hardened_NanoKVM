@@ -3,6 +3,7 @@ const de = {
     common: {
       confirm: 'Bestätigen',
       cancel: 'Abbrechen',
+      save: 'Speichern',
       delete: 'Löschen',
       actionFailed: 'Vorgang fehlgeschlagen',
       loading: 'Einstellungen werden vom Gerät geladen...',
@@ -393,13 +394,11 @@ const de = {
           terminalWarningDesc:
             'Das Terminal öffnet eine Root-Shell im Browser. Nur in einem vertrauenswürdigen Netzwerk aktivieren und danach wieder ausschalten.',
           terminalWarningConfirm: 'Aktivieren',
-          terminalWarningCancel: 'Abbrechen',
           remoteDownload: 'Remote-ISO herunterladen',
           remoteDownloadWarningTitle: 'Remote-ISO-Download aktivieren?',
           remoteDownloadWarningDesc:
             'NanoKVM lädt eine ISO von einer URL und schreibt sie nach /data. Nur für vertrauenswürdige URLs aktivieren und danach wieder ausschalten.',
-          remoteDownloadWarningConfirm: 'Aktivieren',
-          remoteDownloadWarningCancel: 'Abbrechen'
+          remoteDownloadWarningConfirm: 'Aktivieren'
         }
       },
       keyboardLedStatus: {
@@ -910,13 +909,13 @@ const de = {
         sources: 'Update-Quellen',
         latestVersion: 'Neueste Version',
         queryFailed: 'Version konnte nicht abgefragt werden',
-        updateFailed: 'Aktualisierung fehlgeschlagen. Bitte versuchen Sie es erneut.',
+        updateFailed: 'Aktualisierung fehlgeschlagen',
         paranoidBlocked: 'Online-Updates werden vom Firewall-Modus Paranoid blockiert',
         paranoidBlockedDesc:
           'GitHub-Prüfungen und Downloads benötigen ausgehenden Netzwerkzugriff. Offline-Upload und bereits vorbereitete Installationen bleiben verfügbar.',
         isLatest: 'Sie haben bereits die aktuellste Version.',
         available: 'Eine Aktualisierung ist verfügbar. Möchten sie diese jetzt durchführen?',
-        updating: 'Aktualisierung gestartet. Bitte warten...',
+        updating: 'Aktualisierung gestartet',
         confirm: 'Bestätigen',
         cancel: 'Abbrechen',
         preview: 'Vorab-Versionen',
@@ -1003,7 +1002,7 @@ const de = {
           upload: 'Hochladen',
           invalidName:
             'Ungültiges Dateinamenformat. Bitte laden Sie von den GitHub-Releases herunter.',
-          updateFailed: 'Aktualisierung fehlgeschlagen. Bitte versuchen Sie es erneut.'
+          updateFailed: 'Aktualisierung fehlgeschlagen'
         },
         local: {
           title: 'Systempaket hochladen',

@@ -3,6 +3,7 @@ const fi = {
     common: {
       confirm: 'Vahvista',
       cancel: 'Peruuta',
+      save: 'Tallenna',
       delete: 'Poista',
       actionFailed: 'Toiminto epäonnistui',
       loading: 'Ladataan asetuksia laitteelta...',
@@ -390,13 +391,11 @@ const fi = {
           terminalWarningDesc:
             'Terminaali avaa root-shellin selaimessa. Ota käyttöön vain luotetussa verkossa ja poista käytöstä lopuksi.',
           terminalWarningConfirm: 'Ota käyttöön',
-          terminalWarningCancel: 'Peruuta',
           remoteDownload: 'Lataa ISO etänä',
           remoteDownloadWarningTitle: 'Otetaanko ISO-etälataus käyttöön?',
           remoteDownloadWarningDesc:
             'NanoKVM lataa ISO:n URL-osoitteesta ja kirjoittaa sen hakemistoon /data. Ota käyttöön vain luotetuille URL-osoitteille ja poista käytöstä lopuksi.',
-          remoteDownloadWarningConfirm: 'Ota käyttöön',
-          remoteDownloadWarningCancel: 'Peruuta'
+          remoteDownloadWarningConfirm: 'Ota käyttöön'
         }
       },
       keyboardLedStatus: {
@@ -899,13 +898,13 @@ const fi = {
         sources: 'Päivityslähteet',
         latestVersion: 'Uusin versio',
         queryFailed: 'Version haku epäonnistui',
-        updateFailed: 'Päivitys epäonnistui. Yritä uudelleen.',
+        updateFailed: 'Päivitys epäonnistui',
         paranoidBlocked: 'Palomuuritila Paranoidi estää verkkopäivitykset',
         paranoidBlockedDesc:
           'GitHub-tarkistukset ja lataukset tarvitsevat ulospäin suuntautuvan verkkoyhteyden. Offline-lataus ja jo valmistellut asennukset ovat edelleen käytettävissä.',
         isLatest: 'Sinulla on jo uusin versio.',
         available: 'Päivitys on saatavilla. Haluatko päivittää nyt?',
-        updating: 'Päivitys käynnistyi. Odota...',
+        updating: 'Päivitys käynnistyi',
         confirm: 'Vahvista',
         cancel: 'Peruuta',
         preview: 'Päivitysten esikatselu',
@@ -989,7 +988,7 @@ const fi = {
           desc: 'Päivitä paikallisella asennuspaketilla',
           upload: 'Lataa',
           invalidName: 'Virheellinen tiedostonimi. Lataa GitHub releases -sivulta.',
-          updateFailed: 'Päivitys epäonnistui. Yritä uudelleen.'
+          updateFailed: 'Päivitys epäonnistui'
         },
         local: {
           title: 'Lataa järjestelmäpaketti',

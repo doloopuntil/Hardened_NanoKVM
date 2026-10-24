@@ -3,6 +3,7 @@ const et = {
     common: {
       confirm: 'Kinnita',
       cancel: 'Tühista',
+      save: 'Salvesta',
       delete: 'Kustuta',
       actionFailed: 'Toiming ebaõnnestus',
       loading: 'Seadete laadimine seadmest...',
@@ -383,13 +384,11 @@ const et = {
           terminalWarningDesc:
             'Terminal avab brauseris root-shelli. Luba see ainult usaldusväärses võrgus ja keela pärast kasutamist.',
           terminalWarningConfirm: 'Luba',
-          terminalWarningCancel: 'Tühista',
           remoteDownload: 'Laadi kaug-ISO alla',
           remoteDownloadWarningTitle: 'Kas lubada ISO kaugallalaadimine?',
           remoteDownloadWarningDesc:
             'NanoKVM laadib ISO URL-ilt alla ja kirjutab selle asukohta /data. Luba ainult usaldusväärsete URL-ide jaoks ja keela pärast kasutamist.',
-          remoteDownloadWarningConfirm: 'Luba',
-          remoteDownloadWarningCancel: 'Tühista'
+          remoteDownloadWarningConfirm: 'Luba'
         }
       },
       keyboardLedStatus: {
@@ -888,13 +887,13 @@ const et = {
         sources: 'Uuenduste allikad',
         latestVersion: 'Uusim versioon',
         queryFailed: 'Versiooni hankimine nurjus',
-        updateFailed: 'Uuendamine nurjus. Proovi uuesti.',
+        updateFailed: 'Uuendamine nurjus',
         paranoidBlocked: 'Tulemüüri režiim Paranoiline blokeerib online-uuendused',
         paranoidBlockedDesc:
           'GitHubi kontrollid ja allalaadimised vajavad väljaminevat võrguühendust. Offline-üleslaadimine ja juba ettevalmistatud paigaldused jäävad kättesaadavaks.',
         isLatest: 'Sul on juba uusim versioon.',
         available: 'Uuendus on saadaval. Kas soovid nüüd uuendada?',
-        updating: 'Uuendamine algas. Palun oota...',
+        updating: 'Uuendamine algas',
         confirm: 'Kinnita',
         cancel: 'Tühista',
         preview: 'Uuenduste eelvaade',
@@ -978,7 +977,7 @@ const et = {
           desc: 'Uuenda kohaliku paigalduspaketiga',
           upload: 'Laadi üles',
           invalidName: 'Vigane failinime vorming. Laadi fail alla GitHub releases lehelt.',
-          updateFailed: 'Uuendamine nurjus. Proovi uuesti.'
+          updateFailed: 'Uuendamine nurjus'
         },
         local: {
           title: 'Laadi süsteemipakett üles',
