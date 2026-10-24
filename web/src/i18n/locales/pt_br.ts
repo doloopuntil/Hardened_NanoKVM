@@ -558,12 +558,14 @@ const pt_br = {
           processor: 'Processador',
           overdrive: {
             title: 'Overdrive de clock',
-            description: 'Iniciar com as frequências mais altas de processador e vídeo especificadas pelo fabricante',
+            description:
+              'Iniciar com as frequências mais altas de processador e vídeo especificadas pelo fabricante',
             tip: 'Se o dispositivo não iniciar com overdrive, o cartão SD precisa ser regravado',
             pending: 'Aplicado após a próxima reinicialização',
             unavailable: 'Não incluído nesta imagem do sistema',
             confirmTitle: 'Ativar o overdrive de clock?',
-            confirmText: 'Se o dispositivo não iniciar com overdrive, você precisará regravar o cartão SD para recuperá-lo. A alteração é aplicada após a próxima reinicialização.'
+            confirmText:
+              'Se o dispositivo não iniciar com overdrive, você precisará regravar o cartão SD para recuperá-lo. A alteração é aplicada após a próxima reinicialização.'
           },
           memory: 'Memória'
         },
@@ -915,6 +917,14 @@ const pt_br = {
             'Este pacote verificado gravará imagens raw boot/rootfs nas partições do cartão SD e reiniciará automaticamente. A gravação pode levar vários minutos; mantenha a energia conectada.',
           rawInstallWarning:
             'Não há rollback automático para atualizações de partições raw. Se o boot falhar, recupere o cartão SD manualmente.',
+          rawWaitTitle: 'Instalando a atualização do sistema',
+          rawWaitWriting: 'Gravando o novo sistema no cartão SD',
+          rawWaitRestarting:
+            'O dispositivo está reiniciando. Esta página recarrega quando ele voltar.',
+          rawWaitDesc:
+            'Isso leva cerca de três minutos. Mantenha a energia conectada e não feche esta página.',
+          rawWaitSlow:
+            'Está demorando mais do que o esperado. Aguarde mais alguns minutos antes de cortar a energia.',
           rebootRequired: 'É necessário reiniciar para ativar este estado do sistema.',
           confirming: 'Confirmando boot da atualização do sistema...',
           confirmBoot: 'Confirmar boot',
@@ -966,7 +976,8 @@ const pt_br = {
           uploading: 'Enviando',
           verifying: 'Verificando e preparando o pacote',
           keyTitle: 'Chave de atualização local',
-          keyDesc: 'Chave pública em formato PEM que pode assinar pacotes do sistema compilados por você',
+          keyDesc:
+            'Chave pública em formato PEM que pode assinar pacotes do sistema compilados por você',
           keyNone: 'Nenhuma chave definida',
           keySet: 'Definir chave',
           keyRemove: 'Remover',

@@ -567,7 +567,8 @@ const hu = {
             pending: 'A következő újraindítás után lép életbe',
             unavailable: 'Nem része ennek a rendszerképnek',
             confirmTitle: 'Bekapcsolja az órajel-túlhajtást?',
-            confirmText: 'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írnia a helyreállításhoz. A módosítás a következő újraindítás után lép életbe.'
+            confirmText:
+              'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írnia a helyreállításhoz. A módosítás a következő újraindítás után lép életbe.'
           },
           memory: 'Memória'
         },
@@ -922,6 +923,14 @@ const hu = {
             'Ez az ellenőrzött csomag raw boot/rootfs image-eket ír az SD-kártya partícióira, majd automatikusan újraindít. Az írás több percig tarthat; tartsa csatlakoztatva a tápot.',
           rawInstallWarning:
             'Raw partíciófrissítéseknél nincs automatikus rollback. Ha a boot sikertelen, állítsa helyre kézzel az SD-kártyát.',
+          rawWaitTitle: 'Rendszerfrissítés telepítése',
+          rawWaitWriting: 'Az új rendszer írása az SD-kártyára',
+          rawWaitRestarting:
+            'Az eszköz újraindul. Ez az oldal újratöltődik, amint az eszköz újra elérhető.',
+          rawWaitDesc:
+            'Ez körülbelül három percig tart. Hagyja csatlakoztatva a tápellátást, és ne zárja be ezt az oldalt.',
+          rawWaitSlow:
+            'Ez a vártnál tovább tart. Várjon még néhány percet, mielőtt megszakítja a tápellátást.',
           rebootRequired: 'Újraindítás szükséges ennek a rendszerállapotnak az aktiválásához.',
           confirming: 'Rendszerfrissítés bootjának megerősítése...',
           confirmBoot: 'Boot megerősítése',
@@ -973,7 +982,8 @@ const hu = {
           uploading: 'Feltöltés',
           verifying: 'A csomag ellenőrzése és előkészítése',
           keyTitle: 'Helyi frissítési kulcs',
-          keyDesc: 'PEM formátumú nyilvános kulcs, amely aláírhatja az Ön által készített rendszercsomagokat',
+          keyDesc:
+            'PEM formátumú nyilvános kulcs, amely aláírhatja az Ön által készített rendszercsomagokat',
           keyNone: 'Nincs kulcs beállítva',
           keySet: 'Kulcs beállítása',
           keyRemove: 'Eltávolítás',

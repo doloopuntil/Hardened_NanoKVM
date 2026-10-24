@@ -556,7 +556,8 @@ const ko = {
             pending: '다음 재부팅 후 적용됩니다',
             unavailable: '이 시스템 이미지에는 포함되어 있지 않습니다',
             confirmTitle: '클럭 오버드라이브를 사용하시겠습니까?',
-            confirmText: '오버드라이브로 장치가 시작되지 않으면 복구를 위해 SD 카드를 다시 기록해야 합니다. 변경 사항은 다음 재부팅 후 적용됩니다.'
+            confirmText:
+              '오버드라이브로 장치가 시작되지 않으면 복구를 위해 SD 카드를 다시 기록해야 합니다. 변경 사항은 다음 재부팅 후 적용됩니다.'
           },
           memory: '메모리'
         },
@@ -902,6 +903,12 @@ const ko = {
             '이 검증된 번들은 raw boot/rootfs 이미지를 SD 카드 파티션에 쓰고 자동으로 재부팅합니다. 쓰기에는 몇 분이 걸릴 수 있으니 전원을 유지하세요.',
           rawInstallWarning:
             'Raw 파티션 업데이트에는 자동 rollback이 없습니다. 부팅이 실패하면 SD 카드를 수동으로 복구하세요.',
+          rawWaitTitle: '시스템 업데이트 설치 중',
+          rawWaitWriting: '새 시스템을 SD 카드에 쓰는 중',
+          rawWaitRestarting:
+            '장치를 다시 시작하는 중입니다. 장치가 돌아오면 이 페이지가 다시 로드됩니다.',
+          rawWaitDesc: '약 3분 정도 걸립니다. 전원을 연결한 상태로 두고 이 페이지를 닫지 마세요.',
+          rawWaitSlow: '예상보다 오래 걸리고 있습니다. 전원을 끄기 전에 몇 분 더 기다리세요.',
           rebootRequired: '이 시스템 상태를 활성화하려면 재부팅이 필요합니다.',
           confirming: '시스템 업데이트 부팅 확인 중...',
           confirmBoot: '부팅 확인',

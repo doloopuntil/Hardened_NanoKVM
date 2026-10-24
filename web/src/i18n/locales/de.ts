@@ -565,12 +565,14 @@ const de = {
           processor: 'Prozessor',
           overdrive: {
             title: 'Übertaktung',
-            description: 'Mit den höheren, vom Hersteller spezifizierten Prozessor- und Videotaktraten starten',
+            description:
+              'Mit den höheren, vom Hersteller spezifizierten Prozessor- und Videotaktraten starten',
             tip: 'Startet das Gerät mit Übertaktung nicht, muss die SD-Karte neu beschrieben werden',
             pending: 'Gilt nach dem nächsten Neustart',
             unavailable: 'Nicht in diesem Systemabbild enthalten',
             confirmTitle: 'Übertaktung aktivieren?',
-            confirmText: 'Startet das Gerät mit Übertaktung nicht, müssen Sie die SD-Karte neu beschreiben, um es wiederherzustellen. Die Änderung gilt nach dem nächsten Neustart.'
+            confirmText:
+              'Startet das Gerät mit Übertaktung nicht, müssen Sie die SD-Karte neu beschreiben, um es wiederherzustellen. Die Änderung gilt nach dem nächsten Neustart.'
           },
           memory: 'Arbeitsspeicher'
         },
@@ -927,6 +929,14 @@ const de = {
             'Dieses verifizierte Paket schreibt raw Boot-/Rootfs-Images auf die SD-Kartenpartitionen und startet automatisch neu. Das Schreiben kann mehrere Minuten dauern; Strom angeschlossen lassen.',
           rawInstallWarning:
             'Für raw Partitionsupdates gibt es keinen automatischen Rollback. Falls der Boot fehlschlägt, stellen Sie die SD-Karte manuell wieder her.',
+          rawWaitTitle: 'Systemupdate wird installiert',
+          rawWaitWriting: 'Das neue System wird auf die SD-Karte geschrieben',
+          rawWaitRestarting:
+            'Das Gerät startet neu. Diese Seite lädt sich neu, sobald es wieder erreichbar ist.',
+          rawWaitDesc:
+            'Das dauert etwa drei Minuten. Lassen Sie die Stromversorgung angeschlossen und schließen Sie diese Seite nicht.',
+          rawWaitSlow:
+            'Das dauert länger als erwartet. Warten Sie noch einige Minuten, bevor Sie die Stromversorgung trennen.',
           rebootRequired: 'Ein Neustart ist erforderlich, um diesen Systemzustand zu aktivieren.',
           confirming: 'Boot des Systemupdates wird bestätigt...',
           confirmBoot: 'Boot bestätigen',
@@ -980,7 +990,8 @@ const de = {
           uploading: 'Wird hochgeladen',
           verifying: 'Paket wird geprüft und bereitgestellt',
           keyTitle: 'Lokaler Update-Schlüssel',
-          keyDesc: 'Öffentlicher Schlüssel im PEM-Format, der selbst erstellte Systempakete signieren darf',
+          keyDesc:
+            'Öffentlicher Schlüssel im PEM-Format, der selbst erstellte Systempakete signieren darf',
           keyNone: 'Kein Schlüssel gesetzt',
           keySet: 'Schlüssel setzen',
           keyRemove: 'Entfernen',
@@ -1002,7 +1013,8 @@ const de = {
         },
         logoutOnClose: {
           title: 'Abmelden, wenn der Browser geschlossen wird',
-          description: 'Sitzung beenden, sobald der Browser geschlossen wird, statt sie offen zu halten'
+          description:
+            'Sitzung beenden, sobald der Browser geschlossen wird, statt sie offen zu halten'
         },
         totp: {
           title: 'Zwei-Faktor-Authentifizierung',

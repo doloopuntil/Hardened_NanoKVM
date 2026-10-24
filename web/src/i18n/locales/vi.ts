@@ -554,12 +554,14 @@ const vi = {
           processor: 'Bộ xử lý',
           overdrive: {
             title: 'Overdrive xung nhịp',
-            description: 'Khởi động với xung nhịp bộ xử lý và video cao hơn do nhà sản xuất quy định',
+            description:
+              'Khởi động với xung nhịp bộ xử lý và video cao hơn do nhà sản xuất quy định',
             tip: 'Nếu thiết bị không khởi động được với overdrive, thẻ SD phải được ghi lại',
             pending: 'Có hiệu lực sau lần khởi động lại tiếp theo',
             unavailable: 'Không có trong bản hệ thống này',
             confirmTitle: 'Bật overdrive xung nhịp?',
-            confirmText: 'Nếu thiết bị không khởi động được với overdrive, bạn phải ghi lại thẻ SD để khôi phục. Thay đổi có hiệu lực sau lần khởi động lại tiếp theo.'
+            confirmText:
+              'Nếu thiết bị không khởi động được với overdrive, bạn phải ghi lại thẻ SD để khôi phục. Thay đổi có hiệu lực sau lần khởi động lại tiếp theo.'
           },
           memory: 'Bộ nhớ'
         },
@@ -910,6 +912,13 @@ const vi = {
             'Gói đã xác minh này sẽ ghi image raw boot/rootfs vào các phân vùng thẻ SD và tự động khởi động lại. Việc ghi có thể mất vài phút; giữ nguồn điện kết nối.',
           rawInstallWarning:
             'Không có rollback tự động cho cập nhật phân vùng raw. Nếu boot thất bại, hãy khôi phục thẻ SD thủ công.',
+          rawWaitTitle: 'Đang cài đặt bản cập nhật hệ thống',
+          rawWaitWriting: 'Đang ghi hệ thống mới vào thẻ SD',
+          rawWaitRestarting:
+            'Thiết bị đang khởi động lại. Trang này sẽ tải lại khi thiết bị hoạt động trở lại.',
+          rawWaitDesc:
+            'Quá trình này mất khoảng ba phút. Hãy giữ nguồn điện được kết nối và không đóng trang này.',
+          rawWaitSlow: 'Quá trình này lâu hơn dự kiến. Hãy chờ thêm vài phút trước khi ngắt nguồn.',
           rebootRequired: 'Cần khởi động lại để kích hoạt trạng thái hệ thống này.',
           confirming: 'Đang xác nhận boot của cập nhật hệ thống...',
           confirmBoot: 'Xác nhận boot',

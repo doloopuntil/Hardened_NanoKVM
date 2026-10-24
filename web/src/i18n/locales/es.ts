@@ -561,12 +561,14 @@ const es = {
           processor: 'Procesador',
           overdrive: {
             title: 'Overdrive de reloj',
-            description: 'Arrancar con las frecuencias más altas de procesador y vídeo especificadas por el fabricante',
+            description:
+              'Arrancar con las frecuencias más altas de procesador y vídeo especificadas por el fabricante',
             tip: 'Si el dispositivo no arranca con overdrive, hay que volver a grabar la tarjeta SD',
             pending: 'Se aplica tras el próximo reinicio',
             unavailable: 'No incluido en esta imagen del sistema',
             confirmTitle: '¿Activar el overdrive de reloj?',
-            confirmText: 'Si el dispositivo no arranca con overdrive, tendrá que volver a grabar la tarjeta SD para recuperarlo. El cambio se aplica tras el próximo reinicio.'
+            confirmText:
+              'Si el dispositivo no arranca con overdrive, tendrá que volver a grabar la tarjeta SD para recuperarlo. El cambio se aplica tras el próximo reinicio.'
           },
           memory: 'Memoria'
         },
@@ -921,6 +923,14 @@ const es = {
             'Este paquete verificado escribirá imágenes raw boot/rootfs en las particiones de la tarjeta SD y reiniciará automáticamente. La escritura puede tardar varios minutos; mantén la alimentación conectada.',
           rawInstallWarning:
             'No hay rollback automático para actualizaciones de particiones raw. Si falla el arranque, recupera la tarjeta SD manualmente.',
+          rawWaitTitle: 'Instalando la actualización del sistema',
+          rawWaitWriting: 'Escribiendo el nuevo sistema en la tarjeta SD',
+          rawWaitRestarting:
+            'El dispositivo se está reiniciando. Esta página se recarga cuando vuelva a estar disponible.',
+          rawWaitDesc:
+            'Tarda unos tres minutos. Mantén la alimentación conectada y no cierres esta página.',
+          rawWaitSlow:
+            'Está tardando más de lo esperado. Espera unos minutos más antes de cortar la alimentación.',
           rebootRequired: 'Se requiere reiniciar para activar este estado del sistema.',
           confirming: 'Confirmando arranque de la actualización del sistema...',
           confirmBoot: 'Confirmar arranque',
@@ -973,7 +983,8 @@ const es = {
           uploading: 'Subiendo',
           verifying: 'Verificando y preparando el paquete',
           keyTitle: 'Clave de actualización local',
-          keyDesc: 'Clave pública en formato PEM que puede firmar los paquetes del sistema que usted compile',
+          keyDesc:
+            'Clave pública en formato PEM que puede firmar los paquetes del sistema que usted compile',
           keyNone: 'Sin clave definida',
           keySet: 'Definir clave',
           keyRemove: 'Quitar',
@@ -995,7 +1006,8 @@ const es = {
         },
         logoutOnClose: {
           title: 'Cerrar sesión al cerrar el navegador',
-          description: 'Finaliza la sesión cuando se cierra el navegador en lugar de mantenerla abierta'
+          description:
+            'Finaliza la sesión cuando se cierra el navegador en lugar de mantenerla abierta'
         },
         totp: {
           title: 'Autenticación en dos pasos',

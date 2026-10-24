@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-22
+last-checked: 2026-10-24
 source: server-rust/src/http/routes.rs
 ---
 
@@ -80,6 +80,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | GET    | `/api/system-update/status`   | Implemented read-only; reports the verified staged system bundle, pending installed update marker, boot-health summary, and latest rollback backup when present.                                                                                                                                                                                |
 | POST   | `/api/system-update/download` | Implemented staging-only; downloads the GitHub release asset, checks size, sha256, sha512, extracts it safely, verifies `manifest.json`, verifies every payload file hash/size/path, and writes `staged.json`. It does not install or reboot. Blocked while Paranoid firewall mode is active.                                                   |
 | POST   | `/api/system-update/install`  | Implemented guarded install; re-verifies staged archive, backs up each target file, applies payload files atomically, writes `/etc/kvm/system-version.json`, writes pending/backup markers, generates `/etc/kvm/system-update-rollback.sh` for init-time recovery, and returns without rebooting.                                               |
+| POST   | `/api/system-update/upload-check` | Body `{size}`. Answers before the browser sends the bundle whether the upload can proceed: `/data` writable, enough free space for the bundle and its unpacked copy, no update running. Failure reasons are returned as readable messages. |
 | POST   | `/api/system-update/upload` | Stages a bundle uploaded as one multipart `file` (a tar holding `system-latest.json`, its `.sig` and the archive); verifies the signature (release key, local key, or unsigned when allowed) and then as for download. Blocked while Paranoid firewall mode is active. |
 | GET, PUT, DELETE | `/api/system-update/local-key` | Reports, registers or removes the local update key. PUT and DELETE need the account password. |
 | POST   | `/api/system-update/rollback` | Implemented manual rollback; restores files from the latest backup marker, clears pending/boot-good/rollback-attempt markers, and returns without rebooting.                                                                                                                                                                                    |

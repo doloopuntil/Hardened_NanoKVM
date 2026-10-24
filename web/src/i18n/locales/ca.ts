@@ -560,12 +560,14 @@ const ca = {
           processor: 'Processador',
           overdrive: {
             title: 'Sobreesforç de rellotge',
-            description: 'Arrenca amb les freqüències més altes de processador i de vídeo especificades pel fabricant',
+            description:
+              'Arrenca amb les freqüències més altes de processador i de vídeo especificades pel fabricant',
             tip: 'Si el dispositiu no arrenca amb el sobreesforç, cal tornar a gravar la targeta SD',
-            pending: 'S\'aplica després del proper reinici',
+            pending: "S'aplica després del proper reinici",
             unavailable: 'No inclòs en aquesta imatge del sistema',
             confirmTitle: 'Activar el sobreesforç de rellotge?',
-            confirmText: 'Si el dispositiu no arrenca amb el sobreesforç, haureu de tornar a gravar la targeta SD per recuperar-lo. El canvi s\'aplica després del proper reinici.'
+            confirmText:
+              "Si el dispositiu no arrenca amb el sobreesforç, haureu de tornar a gravar la targeta SD per recuperar-lo. El canvi s'aplica després del proper reinici."
           },
           memory: 'Memòria'
         },
@@ -587,7 +589,7 @@ const ca = {
           dataPartition: 'Partició de dades',
           unavailable: 'No disponible',
           noReadings: 'El dispositiu no retorna lectures',
-          refresh: 'S\'actualitza cada segon mentre aquesta pàgina és oberta'
+          refresh: "S'actualitza cada segon mentre aquesta pàgina és oberta"
         },
         sections: {
           time: 'Hora',
@@ -918,6 +920,13 @@ const ca = {
             "Aquest paquet verificat escriurà imatges raw boot/rootfs a les particions de la targeta SD i reiniciarà automàticament. L'escriptura pot trigar uns minuts; mantén l'alimentació connectada.",
           rawInstallWarning:
             "No hi ha rollback automàtic per a actualitzacions de particions raw. Si l'arrencada falla, recupera la targeta SD manualment.",
+          rawWaitTitle: "Instal·lant l'actualització del sistema",
+          rawWaitWriting: "S'està escrivint el sistema nou a la targeta SD",
+          rawWaitRestarting: 'El dispositiu es reinicia. Aquesta pàgina es recarrega quan torni.',
+          rawWaitDesc:
+            "Això triga uns tres minuts. Mantingueu l'alimentació connectada i no tanqueu aquesta pàgina.",
+          rawWaitSlow:
+            "Està trigant més del previst. Espereu uns minuts més abans de tallar l'alimentació.",
           rebootRequired: 'Cal reiniciar per activar aquest estat del sistema.',
           confirming: "Confirmant l'arrencada de l'actualització del sistema...",
           confirmBoot: "Confirma l'arrencada",
@@ -966,11 +975,12 @@ const ca = {
           invalidFile: 'Selecciona un paquet del sistema que acabi en .tar o .tar.gz.',
           diskTitle: 'Apagar el disc virtual?',
           diskWarn:
-            'Un paquet del sistema es desa a /data, que és de només lectura mentre el disc virtual està activat. Si l\'apagues, l\'ordinador ja no pot accedir a /data. Vols continuar?',
+            "Un paquet del sistema es desa a /data, que és de només lectura mentre el disc virtual està activat. Si l'apagues, l'ordinador ja no pot accedir a /data. Vols continuar?",
           uploading: 'Pujant',
           verifying: 'Verificant i preparant el paquet',
           keyTitle: "Clau d'actualització local",
-          keyDesc: 'Clau pública en format PEM que pot signar els paquets del sistema que compilis tu mateix',
+          keyDesc:
+            'Clau pública en format PEM que pot signar els paquets del sistema que compilis tu mateix',
           keyNone: 'Cap clau definida',
           keySet: 'Defineix la clau',
           keyRemove: 'Elimina',
@@ -992,7 +1002,8 @@ const ca = {
         },
         logoutOnClose: {
           title: 'Tanca la sessió en tancar el navegador',
-          description: 'Finalitza la sessió quan es tanca el navegador en lloc de mantenir-la oberta'
+          description:
+            'Finalitza la sessió quan es tanca el navegador en lloc de mantenir-la oberta'
         },
         totp: {
           title: 'Autenticació de dos factors',

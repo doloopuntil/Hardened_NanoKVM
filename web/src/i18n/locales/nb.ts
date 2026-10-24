@@ -561,12 +561,14 @@ const nb = {
           processor: 'Prosessor',
           overdrive: {
             title: 'Overklokking',
-            description: 'Start med den høyere klokkehastigheten for prosessor og video som produsenten har spesifisert',
+            description:
+              'Start med den høyere klokkehastigheten for prosessor og video som produsenten har spesifisert',
             tip: 'Hvis enheten ikke starter med overklokking, må SD-kortet flashes på nytt',
             pending: 'Gjelder etter neste omstart',
             unavailable: 'Ikke med i dette systembildet',
             confirmTitle: 'Slå på overklokking?',
-            confirmText: 'Hvis enheten ikke starter med overklokking, må du flashe SD-kortet på nytt for å gjenopprette den. Endringen gjelder etter neste omstart.'
+            confirmText:
+              'Hvis enheten ikke starter med overklokking, må du flashe SD-kortet på nytt for å gjenopprette den. Endringen gjelder etter neste omstart.'
           },
           memory: 'Minne'
         },
@@ -830,7 +832,8 @@ const nb = {
         swap: {
           title: 'Byttefil',
           tip: 'Hvis problemene vedvarer etter at du har aktivert minneoptimalisering, prøv å aktivere byttefilen',
-          sizeTip: 'Dette setter filstørrelsen til 128MB; juster den i Innstillinger > System > Ytelse'
+          sizeTip:
+            'Dette setter filstørrelsen til 128MB; juster den i Innstillinger > System > Ytelse'
         },
         restartTitle: 'Start Tailscale på nytt',
         restartDesc: 'Starter tjenesten på nytt',
@@ -918,6 +921,14 @@ const nb = {
             'Denne verifiserte pakken skriver raw boot/rootfs-images til SD-kortpartisjonene og starter automatisk på nytt. Skriving kan ta flere minutter; hold strømmen tilkoblet.',
           rawInstallWarning:
             'Det finnes ingen automatisk rollback for raw partisjonsoppdateringer. Hvis boot feiler, gjenopprett SD-kortet manuelt.',
+          rawWaitTitle: 'Installerer systemoppdatering',
+          rawWaitWriting: 'Skriver det nye systemet til SD-kortet',
+          rawWaitRestarting:
+            'Enheten starter på nytt. Denne siden lastes inn på nytt når den er tilbake.',
+          rawWaitDesc:
+            'Dette tar omtrent tre minutter. La strømmen være tilkoblet og ikke lukk denne siden.',
+          rawWaitSlow:
+            'Dette tar lengre tid enn forventet. Vent noen minutter til før du kobler fra strømmen.',
           rebootRequired: 'Omstart kreves for å aktivere denne systemtilstanden.',
           confirming: 'Bekrefter boot av systemoppdatering...',
           confirmBoot: 'Bekreft boot',

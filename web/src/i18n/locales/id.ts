@@ -560,12 +560,14 @@ const id = {
           processor: 'Prosesor',
           overdrive: {
             title: 'Clock overdrive',
-            description: 'Booting dengan kecepatan clock prosesor dan video yang lebih tinggi sesuai spesifikasi pabrikan',
+            description:
+              'Booting dengan kecepatan clock prosesor dan video yang lebih tinggi sesuai spesifikasi pabrikan',
             tip: 'Jika perangkat tidak menyala dengan overdrive, kartu SD harus ditulis ulang',
             pending: 'Berlaku setelah reboot berikutnya',
             unavailable: 'Tidak termasuk dalam image sistem ini',
             confirmTitle: 'Aktifkan clock overdrive?',
-            confirmText: 'Jika perangkat tidak menyala dengan overdrive, Anda harus menulis ulang kartu SD untuk memulihkannya. Perubahan berlaku setelah reboot berikutnya.'
+            confirmText:
+              'Jika perangkat tidak menyala dengan overdrive, Anda harus menulis ulang kartu SD untuk memulihkannya. Perubahan berlaku setelah reboot berikutnya.'
           },
           memory: 'Memori'
         },
@@ -916,6 +918,14 @@ const id = {
             'Bundel terverifikasi ini akan menulis image raw boot/rootfs ke partisi kartu SD dan reboot otomatis. Penulisan dapat memakan beberapa menit; pastikan daya tetap tersambung.',
           rawInstallWarning:
             'Tidak ada rollback otomatis untuk pembaruan partisi raw. Jika boot gagal, pulihkan kartu SD secara manual.',
+          rawWaitTitle: 'Menginstal pembaruan sistem',
+          rawWaitWriting: 'Menulis sistem baru ke kartu SD',
+          rawWaitRestarting:
+            'Perangkat sedang dimulai ulang. Halaman ini dimuat ulang saat perangkat kembali.',
+          rawWaitDesc:
+            'Proses ini memakan waktu sekitar tiga menit. Biarkan daya tetap terhubung dan jangan tutup halaman ini.',
+          rawWaitSlow:
+            'Proses ini lebih lama dari perkiraan. Tunggu beberapa menit lagi sebelum memutus daya.',
           rebootRequired: 'Reboot diperlukan untuk mengaktifkan status sistem ini.',
           confirming: 'Mengonfirmasi boot pembaruan sistem...',
           confirmBoot: 'Konfirmasi boot',
@@ -968,7 +978,8 @@ const id = {
           uploading: 'Mengunggah',
           verifying: 'Memverifikasi dan menyiapkan paket',
           keyTitle: 'Kunci pembaruan lokal',
-          keyDesc: 'Kunci publik berformat PEM yang boleh menandatangani paket sistem yang Anda bangun sendiri',
+          keyDesc:
+            'Kunci publik berformat PEM yang boleh menandatangani paket sistem yang Anda bangun sendiri',
           keyNone: 'Kunci belum diatur',
           keySet: 'Atur kunci',
           keyRemove: 'Hapus',

@@ -563,12 +563,14 @@ const it = {
           processor: 'Processore',
           overdrive: {
             title: 'Overdrive del clock',
-            description: 'Avvia con le frequenze di processore e video più alte specificate dal produttore',
-            tip: 'Se il dispositivo non si avvia con l\'overdrive, la scheda SD va riscritta',
+            description:
+              'Avvia con le frequenze di processore e video più alte specificate dal produttore',
+            tip: "Se il dispositivo non si avvia con l'overdrive, la scheda SD va riscritta",
             pending: 'Si applica dopo il prossimo riavvio',
             unavailable: 'Non incluso in questa immagine di sistema',
-            confirmTitle: 'Attivare l\'overdrive del clock?',
-            confirmText: 'Se il dispositivo non si avvia con l\'overdrive, dovrai riscrivere la scheda SD per ripristinarlo. La modifica si applica dopo il prossimo riavvio.'
+            confirmTitle: "Attivare l'overdrive del clock?",
+            confirmText:
+              "Se il dispositivo non si avvia con l'overdrive, dovrai riscrivere la scheda SD per ripristinarlo. La modifica si applica dopo il prossimo riavvio."
           },
           memory: 'Memoria'
         },
@@ -923,6 +925,14 @@ const it = {
             "Questo pacchetto verificato scriverà immagini raw boot/rootfs sulle partizioni della scheda SD e riavvierà automaticamente. La scrittura può richiedere diversi minuti; mantenere l'alimentazione collegata.",
           rawInstallWarning:
             "Non esiste rollback automatico per aggiornamenti di partizioni raw. Se l'avvio fallisce, recuperare manualmente la scheda SD.",
+          rawWaitTitle: "Installazione dell'aggiornamento di sistema",
+          rawWaitWriting: 'Scrittura del nuovo sistema sulla scheda SD',
+          rawWaitRestarting:
+            'Il dispositivo si sta riavviando. Questa pagina si ricarica quando torna online.',
+          rawWaitDesc:
+            "Servono circa tre minuti. Lascia collegata l'alimentazione e non chiudere questa pagina.",
+          rawWaitSlow:
+            "Sta richiedendo più tempo del previsto. Attendi ancora qualche minuto prima di staccare l'alimentazione.",
           rebootRequired: 'È necessario riavviare per attivare questo stato del sistema.',
           confirming: "Conferma dell'avvio dell'aggiornamento di sistema...",
           confirmBoot: 'Conferma avvio',
@@ -975,7 +985,8 @@ const it = {
           uploading: 'Caricamento',
           verifying: 'Verifica e preparazione del pacchetto',
           keyTitle: 'Chiave di aggiornamento locale',
-          keyDesc: 'Chiave pubblica in formato PEM che può firmare i pacchetti di sistema creati da te',
+          keyDesc:
+            'Chiave pubblica in formato PEM che può firmare i pacchetti di sistema creati da te',
           keyNone: 'Nessuna chiave impostata',
           keySet: 'Imposta chiave',
           keyRemove: 'Rimuovi',
@@ -997,7 +1008,8 @@ const it = {
         },
         logoutOnClose: {
           title: 'Disconnetti alla chiusura del browser',
-          description: 'Termina la sessione quando il browser viene chiuso invece di mantenerla aperta'
+          description:
+            'Termina la sessione quando il browser viene chiuso invece di mantenerla aperta'
         },
         totp: {
           title: 'Autenticazione a due fattori',

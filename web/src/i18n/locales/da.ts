@@ -557,12 +557,14 @@ const da = {
           processor: 'Processor',
           overdrive: {
             title: 'Overclocking',
-            description: 'Start med de højere processor- og videofrekvenser, som producenten har specificeret',
+            description:
+              'Start med de højere processor- og videofrekvenser, som producenten har specificeret',
             tip: 'Hvis enheden ikke starter med overclocking, skal SD-kortet flashes igen',
             pending: 'Træder i kraft efter næste genstart',
             unavailable: 'Ikke med i dette systemaftryk',
             confirmTitle: 'Aktivér overclocking?',
-            confirmText: 'Hvis enheden ikke starter med overclocking, skal du flashe SD-kortet igen for at gendanne den. Ændringen træder i kraft efter næste genstart.'
+            confirmText:
+              'Hvis enheden ikke starter med overclocking, skal du flashe SD-kortet igen for at gendanne den. Ændringen træder i kraft efter næste genstart.'
           },
           memory: 'Hukommelse'
         },
@@ -826,7 +828,8 @@ const da = {
         swap: {
           title: 'Swap-fil',
           tip: 'Hvis problemerne fortsætter efter aktivering af hukommelsesoptimering, prøv at aktivere swap-filen',
-          sizeTip: 'Det sætter filstørrelsen til 128MB; juster den under Indstillinger > System > Ydelse'
+          sizeTip:
+            'Det sætter filstørrelsen til 128MB; juster den under Indstillinger > System > Ydelse'
         },
         restartTitle: 'Genstart Tailscale',
         restartDesc: 'Genstarter tjenesten',
@@ -914,6 +917,13 @@ const da = {
             'Denne verificerede pakke skriver raw boot/rootfs-images til SD-kortets partitioner og genstarter automatisk. Skrivning kan tage flere minutter; hold strømmen tilsluttet.',
           rawInstallWarning:
             'Der er ingen automatisk rollback for raw partitionsopdateringer. Hvis boot fejler, gendan SD-kortet manuelt.',
+          rawWaitTitle: 'Installerer systemopdatering',
+          rawWaitWriting: 'Det nye system skrives til SD-kortet',
+          rawWaitRestarting: 'Enheden genstarter. Denne side genindlæses, når den er tilbage.',
+          rawWaitDesc:
+            'Det tager omkring tre minutter. Lad strømmen være tilsluttet, og luk ikke denne side.',
+          rawWaitSlow:
+            'Det tager længere tid end forventet. Vent nogle minutter mere, før du afbryder strømmen.',
           rebootRequired: 'Genstart kræves for at aktivere denne systemtilstand.',
           confirming: 'Bekræfter boot af systemopdatering...',
           confirmBoot: 'Bekræft boot',

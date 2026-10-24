@@ -563,12 +563,14 @@ const nl = {
           processor: 'Processor',
           overdrive: {
             title: 'Overklokken',
-            description: 'Opstarten met de hogere klokfrequenties voor processor en video die de fabrikant specificeert',
+            description:
+              'Opstarten met de hogere klokfrequenties voor processor en video die de fabrikant specificeert',
             tip: 'Als het apparaat met overklokken niet start, moet de SD-kaart opnieuw worden beschreven',
             pending: 'Gaat in na de volgende herstart',
             unavailable: 'Niet opgenomen in dit systeemimage',
             confirmTitle: 'Overklokken inschakelen?',
-            confirmText: 'Als het apparaat met overklokken niet start, moet u de SD-kaart opnieuw beschrijven om het te herstellen. De wijziging gaat in na de volgende herstart.'
+            confirmText:
+              'Als het apparaat met overklokken niet start, moet u de SD-kaart opnieuw beschrijven om het te herstellen. De wijziging gaat in na de volgende herstart.'
           },
           memory: 'Geheugen'
         },
@@ -922,6 +924,14 @@ const nl = {
             'Deze geverifieerde bundel schrijft raw boot/rootfs-images naar de SD-kaartpartities en herstart automatisch. Schrijven kan enkele minuten duren; houd de voeding aangesloten.',
           rawInstallWarning:
             'Er is geen automatische rollback voor raw partitie-updates. Als booten mislukt, herstel de SD-kaart handmatig.',
+          rawWaitTitle: 'Systeemupdate installeren',
+          rawWaitWriting: 'Het nieuwe systeem wordt naar de SD-kaart geschreven',
+          rawWaitRestarting:
+            'Het apparaat start opnieuw op. Deze pagina wordt opnieuw geladen zodra het apparaat weer bereikbaar is.',
+          rawWaitDesc:
+            'Dit duurt ongeveer drie minuten. Laat de voeding aangesloten en sluit deze pagina niet.',
+          rawWaitSlow:
+            'Dit duurt langer dan verwacht. Wacht nog een paar minuten voordat u de stroom uitschakelt.',
           rebootRequired: 'Herstart is vereist om deze systeemstatus te activeren.',
           confirming: 'Boot van systeemupdate bevestigen...',
           confirmBoot: 'Boot bevestigen',
@@ -973,7 +983,8 @@ const nl = {
           uploading: 'Uploaden',
           verifying: 'Pakket controleren en klaarzetten',
           keyTitle: 'Lokale updatesleutel',
-          keyDesc: 'Openbare sleutel in PEM-indeling die zelfgebouwde systeempakketten mag ondertekenen',
+          keyDesc:
+            'Openbare sleutel in PEM-indeling die zelfgebouwde systeempakketten mag ondertekenen',
           keyNone: 'Geen sleutel ingesteld',
           keySet: 'Sleutel instellen',
           keyRemove: 'Verwijderen',
@@ -995,7 +1006,8 @@ const nl = {
         },
         logoutOnClose: {
           title: 'Uitloggen als de browser wordt gesloten',
-          description: 'Beëindig de sessie wanneer de browser wordt gesloten in plaats van haar open te houden'
+          description:
+            'Beëindig de sessie wanneer de browser wordt gesloten in plaats van haar open te houden'
         },
         totp: {
           title: 'Tweefactorauthenticatie',

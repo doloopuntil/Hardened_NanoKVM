@@ -88,7 +88,8 @@ const et = {
       scale: 'Skaala',
       title: 'Ekraan',
       video: 'Videorežiim',
-      videoDirectTips: 'Selle režiimi kasutamiseks luba HTTPS menüüs "Seaded > Võrgundus > Teenused"',
+      videoDirectTips:
+        'Selle režiimi kasutamiseks luba HTTPS menüüs "Seaded > Võrgundus > Teenused"',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC on tulemüürirežiimides Piiratud ja Paranoiline keelatud',
       transferRunningTitle: "Image'i edastus käib",
@@ -555,7 +556,8 @@ const et = {
             pending: 'Rakendub pärast järgmist taaskäivitust',
             unavailable: 'Pole selles süsteemipildis',
             confirmTitle: 'Kas lülitada ülekiirendus sisse?',
-            confirmText: 'Kui seade ülekiirendusega ei käivitu, peate selle taastamiseks SD-kaardi uuesti kirjutama. Muudatus rakendub pärast järgmist taaskäivitust.'
+            confirmText:
+              'Kui seade ülekiirendusega ei käivitu, peate selle taastamiseks SD-kaardi uuesti kirjutama. Muudatus rakendub pärast järgmist taaskäivitust.'
           },
           memory: 'Mälu'
         },
@@ -816,7 +818,8 @@ const et = {
         swap: {
           title: 'Swap-fail',
           tip: 'Kui probleemid jätkuvad pärast mälu optimeerimise lubamist, proovi lubada swap-fail',
-          sizeTip: 'See määrab faili suuruseks 128 MB; seda saab muuta menüüs Seaded > Süsteem > Jõudlus'
+          sizeTip:
+            'See määrab faili suuruseks 128 MB; seda saab muuta menüüs Seaded > Süsteem > Jõudlus'
         },
         restartTitle: 'Taaskäivita Tailscale',
         restartDesc: 'Taaskäivitab teenuse',
@@ -903,6 +906,13 @@ const et = {
             'See verifitseeritud pakett kirjutab raw boot/rootfs image failid SD-kaardi partitsioonidele ja taaskäivitab automaatselt. Kirjutamine võib võtta mitu minutit; hoia toide ühendatud.',
           rawInstallWarning:
             'Raw partitsiooniuuendustel pole automaatset rollbacki. Kui boot ebaõnnestub, taasta SD-kaart käsitsi.',
+          rawWaitTitle: 'Süsteemivärskenduse paigaldamine',
+          rawWaitWriting: 'Uut süsteemi kirjutatakse SD-kaardile',
+          rawWaitRestarting: 'Seade taaskäivitub. See leht laaditakse uuesti, kui seade on tagasi.',
+          rawWaitDesc:
+            'See võtab umbes kolm minutit. Hoia toide ühendatud ja ära sulge seda lehte.',
+          rawWaitSlow:
+            'See võtab oodatust kauem aega. Oota veel mõni minut, enne kui toite katkestad.',
           rebootRequired: 'Selle süsteemiseisundi aktiveerimiseks on vaja taaskäivitust.',
           confirming: 'Süsteemiuuenduse booti kinnitamine...',
           confirmBoot: 'Kinnita boot',
@@ -955,7 +965,8 @@ const et = {
           uploading: 'Üleslaadimine',
           verifying: 'Paketi kontrollimine ja ettevalmistamine',
           keyTitle: 'Kohalik värskendusvõti',
-          keyDesc: 'PEM-vormingus avalik võti, millega tohib allkirjastada ise ehitatud süsteemipakette',
+          keyDesc:
+            'PEM-vormingus avalik võti, millega tohib allkirjastada ise ehitatud süsteemipakette',
           keyNone: 'Võtit pole määratud',
           keySet: 'Määra võti',
           keyRemove: 'Eemalda',

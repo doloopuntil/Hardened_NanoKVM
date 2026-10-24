@@ -559,12 +559,14 @@ const fi = {
           processor: 'Suoritin',
           overdrive: {
             title: 'Ylikellotus',
-            description: 'Käynnistä valmistajan määrittämillä korkeammilla suorittimen ja videon kellotaajuuksilla',
+            description:
+              'Käynnistä valmistajan määrittämillä korkeammilla suorittimen ja videon kellotaajuuksilla',
             tip: 'Jos laite ei käynnisty ylikellotuksella, SD-kortti on kirjoitettava uudelleen',
             pending: 'Tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen',
             unavailable: 'Ei sisälly tähän järjestelmäkuvaan',
             confirmTitle: 'Otetaanko ylikellotus käyttöön?',
-            confirmText: 'Jos laite ei käynnisty ylikellotuksella, sinun on kirjoitettava SD-kortti uudelleen sen palauttamiseksi. Muutos tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen.'
+            confirmText:
+              'Jos laite ei käynnisty ylikellotuksella, sinun on kirjoitettava SD-kortti uudelleen sen palauttamiseksi. Muutos tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen.'
           },
           memory: 'Muisti'
         },
@@ -915,6 +917,14 @@ const fi = {
             'Tämä varmistettu paketti kirjoittaa raw boot/rootfs -imaget SD-kortin osioihin ja käynnistää laitteen automaattisesti uudelleen. Kirjoitus voi kestää useita minuutteja; pidä virta kytkettynä.',
           rawInstallWarning:
             'Raw-osiopäivityksille ei ole automaattista palautusta. Jos käynnistys epäonnistuu, palauta SD-kortti käsin.',
+          rawWaitTitle: 'Asennetaan järjestelmäpäivitystä',
+          rawWaitWriting: 'Uutta järjestelmää kirjoitetaan SD-kortille',
+          rawWaitRestarting:
+            'Laite käynnistyy uudelleen. Tämä sivu latautuu uudelleen, kun laite on takaisin.',
+          rawWaitDesc:
+            'Tämä kestää noin kolme minuuttia. Pidä virta kytkettynä äläkä sulje tätä sivua.',
+          rawWaitSlow:
+            'Tämä kestää odotettua kauemmin. Odota vielä muutama minuutti ennen virran katkaisua.',
           rebootRequired: 'Uudelleenkäynnistys vaaditaan tämän järjestelmätilan aktivoimiseksi.',
           confirming: 'Vahvistetaan järjestelmäpäivityksen käynnistystä...',
           confirmBoot: 'Vahvista käynnistys',
@@ -966,7 +976,8 @@ const fi = {
           uploading: 'Lähetetään',
           verifying: 'Tarkistetaan ja valmistellaan pakettia',
           keyTitle: 'Paikallinen päivitysavain',
-          keyDesc: 'PEM-muotoinen julkinen avain, jolla saa allekirjoittaa itse rakennetut järjestelmäpaketit',
+          keyDesc:
+            'PEM-muotoinen julkinen avain, jolla saa allekirjoittaa itse rakennetut järjestelmäpaketit',
           keyNone: 'Avainta ei ole asetettu',
           keySet: 'Aseta avain',
           keyRemove: 'Poista',

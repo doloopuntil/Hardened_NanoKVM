@@ -58,7 +58,9 @@ export const SystemUpload = ({ disabled, onStaged, setBusy }: UploadProps) => {
 
   async function turnDiskOffAndUpload(file: File) {
     setBusy(true);
-    const rsp = await attempt(() => updateVirtualDevice('disk'));
+    // The button toggles, so only press it while the disk is still on.
+    const state = await attempt(() => getVirtualDevice(), { quiet: true });
+    const rsp = state?.data?.disk ? await attempt(() => updateVirtualDevice('disk')) : state;
     setBusy(false);
     if (rsp) await upload(file);
   }

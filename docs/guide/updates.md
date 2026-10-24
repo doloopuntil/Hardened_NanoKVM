@@ -1,7 +1,7 @@
 ---
 status: current, channels pending
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-23
+last-checked: 2026-10-24
 ---
 
 # Updates
@@ -50,7 +50,11 @@ the Buildroot userspace or the init scripts installed in the root filesystem.
   `/data/.hardened-kvmcache`, checks its signed metadata, the archive digest and
   every payload hash, and stages it.
 - **Install** re-checks the staged bundle, backs up the configuration it needs,
-  streams the compressed images onto the partitions and reboots.
+  streams the compressed images onto the partitions and reboots. The web UI
+  shows a waiting screen with an elapsed timer and reloads itself when the device
+  is back. Writing takes about three minutes and the restart about 20 seconds more;
+  wait at least ten minutes before cutting power, because the web UI and SSH are
+  unavailable while the partitions are written.
 - On the first boot of the new system, the saved configuration in `/etc/kvm` is
   restored before SSH and the server start. Once the server reports healthy, the
   boot watchdog confirms the update. If health checks fail after boot, it rolls

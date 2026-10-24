@@ -541,7 +541,8 @@ const zh = {
             pending: '下次重启后生效',
             unavailable: '此系统镜像不包含该选项',
             confirmTitle: '启用时钟超频？',
-            confirmText: '如果设备在超频下无法启动，必须重新刷写 SD 卡才能恢复。更改将在下次重启后生效。'
+            confirmText:
+              '如果设备在超频下无法启动，必须重新刷写 SD 卡才能恢复。更改将在下次重启后生效。'
           },
           memory: '内存'
         },
@@ -877,6 +878,11 @@ const zh = {
           rawInstallConfirmDesc:
             '此已验证包会将 raw boot/rootfs 镜像写入 SD 卡分区并自动重启。写入可能需要数分钟；请保持供电。',
           rawInstallWarning: 'Raw 分区更新没有自动 rollback。如果启动失败，请手动恢复 SD 卡。',
+          rawWaitTitle: '正在安装系统更新',
+          rawWaitWriting: '正在将新系统写入 SD 卡',
+          rawWaitRestarting: '设备正在重启。设备恢复后，此页面将自动重新加载。',
+          rawWaitDesc: '这大约需要三分钟。请保持电源连接，并且不要关闭此页面。',
+          rawWaitSlow: '耗时比预期更长。请再等待几分钟，然后再断电。',
           rebootRequired: '需要重启以激活此系统状态。',
           confirming: '正在确认系统更新启动...',
           confirmBoot: '确认启动',

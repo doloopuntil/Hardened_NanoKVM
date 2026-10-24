@@ -556,12 +556,14 @@ const tr = {
           processor: 'İşlemci',
           overdrive: {
             title: 'Saat hız aşırtma',
-            description: 'Üreticinin belirlediği daha yüksek işlemci ve video saat hızlarıyla başlat',
+            description:
+              'Üreticinin belirlediği daha yüksek işlemci ve video saat hızlarıyla başlat',
             tip: 'Cihaz hız aşırtmayla başlamazsa SD kartın yeniden yazılması gerekir',
             pending: 'Sonraki yeniden başlatmadan sonra uygulanır',
             unavailable: 'Bu sistem imajına dahil değil',
             confirmTitle: 'Saat hız aşırtma etkinleştirilsin mi?',
-            confirmText: 'Cihaz hız aşırtmayla başlamazsa kurtarmak için SD kartı yeniden yazmanız gerekir. Değişiklik sonraki yeniden başlatmadan sonra uygulanır.'
+            confirmText:
+              'Cihaz hız aşırtmayla başlamazsa kurtarmak için SD kartı yeniden yazmanız gerekir. Değişiklik sonraki yeniden başlatmadan sonra uygulanır.'
           },
           memory: 'Bellek'
         },
@@ -915,6 +917,12 @@ const tr = {
             'Bu doğrulanmış paket raw boot/rootfs imajlarını SD kart bölümlerine yazacak ve otomatik yeniden başlatacak. Yazma birkaç dakika sürebilir; güç bağlı kalsın.',
           rawInstallWarning:
             'Raw bölüm güncellemeleri için otomatik rollback yoktur. Boot başarısız olursa SD kartı elle kurtarın.',
+          rawWaitTitle: 'Sistem güncellemesi yükleniyor',
+          rawWaitWriting: 'Yeni sistem SD karta yazılıyor',
+          rawWaitRestarting:
+            'Cihaz yeniden başlatılıyor. Cihaz geri geldiğinde bu sayfa yeniden yüklenir.',
+          rawWaitDesc: 'Bu yaklaşık üç dakika sürer. Gücü bağlı tutun ve bu sayfayı kapatmayın.',
+          rawWaitSlow: 'Beklenenden uzun sürüyor. Gücü kesmeden önce birkaç dakika daha bekleyin.',
           rebootRequired: 'Bu sistem durumunu etkinleştirmek için yeniden başlatma gerekir.',
           confirming: 'Sistem güncellemesi bootu onaylanıyor...',
           confirmBoot: 'Bootu onayla',
@@ -966,7 +974,8 @@ const tr = {
           uploading: 'Yükleniyor',
           verifying: 'Paket doğrulanıyor ve hazırlanıyor',
           keyTitle: 'Yerel güncelleme anahtarı',
-          keyDesc: 'Kendi oluşturduğunuz sistem paketlerini imzalayabilen PEM biçiminde genel anahtar',
+          keyDesc:
+            'Kendi oluşturduğunuz sistem paketlerini imzalayabilen PEM biçiminde genel anahtar',
           keyNone: 'Anahtar ayarlanmadı',
           keySet: 'Anahtarı ayarla',
           keyRemove: 'Kaldır',

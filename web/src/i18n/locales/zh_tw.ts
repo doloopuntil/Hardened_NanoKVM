@@ -542,7 +542,8 @@ const zh_tw = {
             pending: '下次重新啟動後生效',
             unavailable: '此系統映像不包含該選項',
             confirmTitle: '啟用時脈超頻？',
-            confirmText: '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡才能復原。變更將在下次重新啟動後生效。'
+            confirmText:
+              '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡才能復原。變更將在下次重新啟動後生效。'
           },
           memory: '記憶體'
         },
@@ -879,6 +880,11 @@ const zh_tw = {
           rawInstallConfirmDesc:
             '此已驗證套件會將 raw boot/rootfs 映像檔寫入 SD 卡分割區並自動重新啟動。寫入可能需要數分鐘；請保持供電。',
           rawInstallWarning: 'Raw 分割區更新沒有自動 rollback。如果開機失敗，請手動復原 SD 卡。',
+          rawWaitTitle: '正在安裝系統更新',
+          rawWaitWriting: '正在將新系統寫入 SD 卡',
+          rawWaitRestarting: '裝置正在重新啟動。裝置恢復後，此頁面將自動重新載入。',
+          rawWaitDesc: '這大約需要三分鐘。請保持電源連接，且不要關閉此頁面。',
+          rawWaitSlow: '耗時比預期更久。請再等待幾分鐘，然後再斷電。',
           rebootRequired: '需要重新啟動以啟用此系統狀態。',
           confirming: '正在確認系統更新開機...',
           confirmBoot: '確認開機',

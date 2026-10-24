@@ -556,12 +556,14 @@ const cz = {
           processor: 'Procesor',
           overdrive: {
             title: 'Přetaktování',
-            description: 'Spustit s vyššími frekvencemi procesoru a videa podle specifikace výrobce',
+            description:
+              'Spustit s vyššími frekvencemi procesoru a videa podle specifikace výrobce',
             tip: 'Pokud se zařízení s přetaktováním nespustí, je nutné znovu zapsat kartu SD',
             pending: 'Použije se po příštím restartu',
             unavailable: 'Není součástí tohoto systémového obrazu',
             confirmTitle: 'Zapnout přetaktování?',
-            confirmText: 'Pokud se zařízení s přetaktováním nespustí, musíte kartu SD znovu zapsat, abyste ho obnovili. Změna se použije po příštím restartu.'
+            confirmText:
+              'Pokud se zařízení s přetaktováním nespustí, musíte kartu SD znovu zapsat, abyste ho obnovili. Změna se použije po příštím restartu.'
           },
           memory: 'Paměť'
         },
@@ -910,6 +912,14 @@ const cz = {
             'Tento ověřený balíček zapíše raw image boot/rootfs do oddílů SD karty a automaticky restartuje zařízení. Zápis může trvat několik minut; ponechte napájení připojené.',
           rawInstallWarning:
             'Pro raw aktualizace oddílů není automatický rollback. Pokud boot selže, obnovte SD kartu ručně.',
+          rawWaitTitle: 'Instalace aktualizace systému',
+          rawWaitWriting: 'Nový systém se zapisuje na kartu SD',
+          rawWaitRestarting:
+            'Zařízení se restartuje. Tato stránka se znovu načte, až bude zařízení zpět.',
+          rawWaitDesc:
+            'Trvá to asi tři minuty. Ponechte napájení připojené a tuto stránku nezavírejte.',
+          rawWaitSlow:
+            'Trvá to déle, než se čekalo. Před odpojením napájení počkejte ještě několik minut.',
           rebootRequired: 'Pro aktivaci tohoto stavu systému je vyžadován restart.',
           confirming: 'Potvrzuje se boot aktualizace systému...',
           confirmBoot: 'Potvrdit boot',
@@ -961,7 +971,8 @@ const cz = {
           uploading: 'Nahrávání',
           verifying: 'Ověřování a příprava balíčku',
           keyTitle: 'Místní aktualizační klíč',
-          keyDesc: 'Veřejný klíč ve formátu PEM, který smí podepisovat systémové balíčky, které si sami sestavíte',
+          keyDesc:
+            'Veřejný klíč ve formátu PEM, který smí podepisovat systémové balíčky, které si sami sestavíte',
           keyNone: 'Žádný klíč nenastaven',
           keySet: 'Nastavit klíč',
           keyRemove: 'Odebrat',

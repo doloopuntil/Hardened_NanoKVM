@@ -554,12 +554,14 @@ const en = {
           processor: 'Processor',
           overdrive: {
             title: 'Clock overdrive',
-            description: 'Boot with higher processor and video clock speeds specified by the manufacturer',
+            description:
+              'Boot with higher processor and video clock speeds specified by the manufacturer',
             tip: 'If the device does not start with overdrive, the SD card must be reflashed',
             pending: 'Applies after the next reboot',
             unavailable: 'Not included in this system image',
             confirmTitle: 'Enable clock overdrive?',
-            confirmText: 'If the device does not start with overdrive, you must reflash the SD card to recover it. The change applies after the next reboot.'
+            confirmText:
+              'If the device does not start with overdrive, you must reflash the SD card to recover it. The change applies after the next reboot.'
           },
           memory: 'Memory'
         },
@@ -906,6 +908,13 @@ const en = {
             'This verified bundle will write raw boot/rootfs images to the SD-card partitions and reboot automatically. Writing can take several minutes; keep power connected.',
           rawInstallWarning:
             'There is no automatic rollback for raw partition updates. If boot fails, recover the SD card manually.',
+          rawWaitTitle: 'Installing system update',
+          rawWaitWriting: 'Writing the new system to the SD card',
+          rawWaitRestarting: 'Restarting the device. This page reloads when it is back.',
+          rawWaitDesc:
+            'This takes about three minutes. Keep power connected and do not close this page.',
+          rawWaitSlow:
+            'This is taking longer than expected. Wait a few more minutes before cutting power.',
           rebootRequired: 'Reboot is required to activate this system state.',
           confirming: 'Confirming system update boot...',
           confirmBoot: 'Confirm boot',

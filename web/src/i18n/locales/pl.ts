@@ -559,12 +559,14 @@ const pl = {
           processor: 'Procesor',
           overdrive: {
             title: 'Podkręcanie',
-            description: 'Uruchom z wyższymi taktowaniami procesora i wideo określonymi przez producenta',
+            description:
+              'Uruchom z wyższymi taktowaniami procesora i wideo określonymi przez producenta',
             tip: 'Jeśli urządzenie nie uruchomi się z podkręcaniem, trzeba ponownie zapisać kartę SD',
             pending: 'Zadziała po następnym restarcie',
             unavailable: 'Nie ma tego w tym obrazie systemu',
             confirmTitle: 'Włączyć podkręcanie?',
-            confirmText: 'Jeśli urządzenie nie uruchomi się z podkręcaniem, aby je przywrócić, trzeba ponownie zapisać kartę SD. Zmiana zadziała po następnym restarcie.'
+            confirmText:
+              'Jeśli urządzenie nie uruchomi się z podkręcaniem, aby je przywrócić, trzeba ponownie zapisać kartę SD. Zmiana zadziała po następnym restarcie.'
           },
           memory: 'Pamięć'
         },
@@ -827,7 +829,8 @@ const pl = {
         swap: {
           title: 'Plik wymiany',
           tip: 'Jeśli po włączeniu optymalizacji pamięci problemy nadal występują, spróbuj włączyć plik wymiany',
-          sizeTip: 'Ustawia to rozmiar pliku na 128MB; możesz go zmienić w Ustawienia > System > Wydajność'
+          sizeTip:
+            'Ustawia to rozmiar pliku na 128MB; możesz go zmienić w Ustawienia > System > Wydajność'
         },
         restartTitle: 'Uruchom ponownie Tailscale',
         restartDesc: 'Uruchamia ponownie usługę',
@@ -915,6 +918,14 @@ const pl = {
             'Ten zweryfikowany pakiet zapisze obrazy raw boot/rootfs na partycje karty SD i automatycznie uruchomi urządzenie ponownie. Zapis może potrwać kilka minut; utrzymuj zasilanie.',
           rawInstallWarning:
             'Dla raw aktualizacji partycji nie ma automatycznego rollbacku. Jeśli rozruch się nie powiedzie, odzyskaj kartę SD ręcznie.',
+          rawWaitTitle: 'Instalowanie aktualizacji systemu',
+          rawWaitWriting: 'Zapisywanie nowego systemu na karcie SD',
+          rawWaitRestarting:
+            'Urządzenie uruchamia się ponownie. Ta strona załaduje się ponownie, gdy urządzenie wróci.',
+          rawWaitDesc:
+            'To potrwa około trzech minut. Pozostaw zasilanie podłączone i nie zamykaj tej strony.',
+          rawWaitSlow:
+            'To trwa dłużej, niż oczekiwano. Poczekaj jeszcze kilka minut, zanim odłączysz zasilanie.',
           rebootRequired: 'Restart jest wymagany, aby aktywować ten stan systemu.',
           confirming: 'Potwierdzanie rozruchu aktualizacji systemu...',
           confirmBoot: 'Potwierdź rozruch',
@@ -967,7 +978,8 @@ const pl = {
           uploading: 'Wysyłanie',
           verifying: 'Weryfikowanie i przygotowywanie pakietu',
           keyTitle: 'Lokalny klucz aktualizacji',
-          keyDesc: 'Klucz publiczny w formacie PEM, który może podpisywać samodzielnie zbudowane pakiety systemowe',
+          keyDesc:
+            'Klucz publiczny w formacie PEM, który może podpisywać samodzielnie zbudowane pakiety systemowe',
           keyNone: 'Nie ustawiono klucza',
           keySet: 'Ustaw klucz',
           keyRemove: 'Usuń',
