@@ -914,10 +914,6 @@ const fr = {
         updating: 'Mise à jour en cours',
         confirm: 'Confirmer',
         cancel: 'Annuler',
-        preview: 'Aperçu des mises à jour',
-        previewChannels: "Contrôle à la fois les canaux d'aperçu de l'application et du système",
-        previewTip:
-          'Veuillez noter que les versions préliminaires peuvent contenir des bugs ou des fonctionnalités incomplètes',
         application: {
           title: 'Application'
         },

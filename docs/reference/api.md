@@ -69,7 +69,6 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | GET      | `/api/application/version`         | Implemented; reads `/kvmapp/version` and validates signed Hardened GitHub release `latest.json` metadata. When Paranoid firewall mode is active, returns the current version with a blocked update message instead of opening outbound GitHub traffic.                                                  |
 | POST     | `/api/application/update`          | Implemented release path; verifies signed metadata, downloads the Hardened GitHub release archive, validates source URL, verifies sha512, safely extracts, rejects symlinks and unexpected backend artifacts, installs `/kvmapp`, and restarts service. Blocked while Paranoid firewall mode is active. |
 | POST     | `/api/application/update/offline`  | Implemented for `nanokvm_*.tar.gz` and `hardened-nanokvm-kvmapp-*.tar.gz` with safe extraction.                                                                                                                                                                                                         |
-| GET/POST | `/api/application/preview`         | Implemented; selects stable latest metadata or preview tag metadata with stable fallback.                                                                                                                                                                                                               |
 
 ### System Updates
 

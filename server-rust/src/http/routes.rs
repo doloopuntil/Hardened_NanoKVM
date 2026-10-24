@@ -45,10 +45,6 @@ pub fn build(state: AppState) -> Router {
             post(application::offline_update).layer(DefaultBodyLimit::max(128 * 1024 * 1024)),
         )
         .route(
-            "/api/application/preview",
-            get(application::get_preview).post(application::set_preview),
-        )
-        .route(
             "/api/system-update/version",
             get(system_update::get_version),
         )

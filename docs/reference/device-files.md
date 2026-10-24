@@ -37,7 +37,6 @@ A system update rewrites the first two; `/data` and the saved `/etc/kvm` survive
 | `system-update-signing.pub.pem` | Key that update metadata must be signed with. |
 | `system-version.json` | Installed system version. |
 | `system-update-*.json`, `system-update-rollback.sh` | Pending system update, backup, boot-good marker and rollback script. |
-| `preview_updates` | Present when Preview updates is on. |
 | `ssh_stop` | Present when SSH is turned off. |
 | `hdmi_disable`, `hdmi_idle_timeout`, `h264_safe_mode` | Video capture settings. |
 | `oled_sleep` | OLED timeout. |

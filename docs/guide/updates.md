@@ -29,8 +29,6 @@ In **Settings > System > Updates**:
 - **Application** checks the online channel. The device accepts an update only
   when its `latest.json` carries a valid signature and the downloaded archive
   matches the SHA-512 in it.
-- **Preview updates** switches both the application and the system check to the
-  preview channels.
 - **Offline updates** takes an application archive
   (`hardened-nanokvm-kvmapp-<version>.tar.gz`) uploaded from the browser and runs
   the same package checks.
@@ -44,8 +42,7 @@ A system update writes new images to the boot and root partitions
 the Buildroot userspace or the init scripts installed in the root filesystem.
 
 - **Allow raw system updates** must be on before a staged system update can be
-  installed. Preview updates only chooses the channel; it does not authorise the
-  write.
+  installed; it authorises the write.
 - A system update writes the boot and root partitions as they are, so it never changes the
   partition layout. An image whose boot filesystem is larger than the card's boot partition,
   such as the 32 MiB `/boot` that replaced the old 16 MiB one, is refused with a size error;

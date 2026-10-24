@@ -873,9 +873,6 @@ const zh = {
         updating: '更新中',
         confirm: '确定',
         cancel: '取消',
-        preview: '预览更新',
-        previewChannels: '同时控制应用和系统的预览通道',
-        previewTip: '预览版更新可能包含一些不稳定因素或未完善的功能',
         application: {
           title: '应用'
         },

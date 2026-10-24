@@ -918,11 +918,6 @@ const de = {
         updating: 'Aktualisierung gestartet',
         confirm: 'Bestätigen',
         cancel: 'Abbrechen',
-        preview: 'Vorab-Versionen',
-        previewChannels:
-          'Steuert sowohl den Vorabversions-Kanal der Anwendung als auch den des Systems',
-        previewTip:
-          'Bitte beachten Sie, dass Vorab-Versionen womöglich noch Fehler oder unvollständige Funktionen enthalten',
         application: {
           title: 'Anwendung'
         },

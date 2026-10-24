@@ -911,10 +911,6 @@ const nb = {
         updating: 'Oppdatering har startet',
         confirm: 'Bekreft',
         cancel: 'Avbryt',
-        preview: 'Forhåndsvisningsoppdateringer',
-        previewChannels: 'Styrer både forhåndsvisningskanalene for applikasjonen og systemet',
-        previewTip:
-          'Vær oppmerksom på at forhåndsvisningsutgivelser kan inneholde feil eller ufullstendig funksjonalitet',
         application: {
           title: 'Applikasjon'
         },

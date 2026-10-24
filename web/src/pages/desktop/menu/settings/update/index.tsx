@@ -24,7 +24,6 @@ import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.t
 import { InstallWait } from './install-wait.tsx';
 import { LocalKeyRow, SystemUpload } from './local.tsx';
 import { Offline } from './offline.tsx';
-import { Preview } from './preview.tsx';
 
 type UpdateProps = {
   setIsLocked: (isClosable: boolean) => void;
@@ -653,7 +652,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
         )}
 
         <SettingSection title={t('settings.update.sources')}>
-          <Preview refreshUpdates={refreshFirewallStatus} />
           <Offline
             status={status}
             setStatus={setStatus}

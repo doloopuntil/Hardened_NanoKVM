@@ -907,10 +907,6 @@ const pt_br = {
         updating: 'Atualização iniciada',
         confirm: 'Confirmar',
         cancel: 'Cancelar',
-        preview: 'Prévia das atualizações',
-        previewChannels: 'Controla tanto o canal de prévia do aplicativo quanto o do sistema',
-        previewTip:
-          'Esteja ciente de que as versões de prévia podem conter bugs ou funcionalidade incompleta',
         application: {
           title: 'Aplicativo'
         },

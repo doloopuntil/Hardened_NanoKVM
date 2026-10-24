@@ -907,10 +907,6 @@ const da = {
         updating: 'Opdatering i gang',
         confirm: 'Bekræft',
         cancel: 'Annuller',
-        preview: 'Forhåndsvisning af opdateringer',
-        previewChannels: 'Styrer både forhåndsvisningskanalerne for programmet og systemet',
-        previewTip:
-          'Vær opmærksom på, at forhåndsvisningsudgivelser kan indeholde fejl eller ufuldstændig funktionalitet',
         application: {
           title: 'Applikation'
         },

@@ -20,7 +20,7 @@ use tokio::task;
 
 use crate::{
     AppError, Result,
-    api::application::{compare_application_versions, current_app_version, is_preview_enabled},
+    api::application::{compare_application_versions, current_app_version},
     api::system_firewall,
     config::Config,
     error::ApiResponse,
@@ -40,7 +40,6 @@ const HARDWARE_VERSION_FILE: &str = "/etc/kvm/hw";
 const DEFAULT_SYSTEM_VERSION: &str = "0.0.0-stock";
 const DEFAULT_SYSTEM_TARGET: &str = "sg2002-licheervnano-sd";
 const GITHUB_SYSTEM_LATEST_JSON: &str = "https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-stable/system-latest.json";
-const GITHUB_SYSTEM_PREVIEW_JSON: &str = "https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-preview/system-latest.json";
 const GITHUB_SYSTEM_DOWNLOAD_PREFIX: &str =
     "https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-system-";
 const GITHUB_SYSTEM_CHANNEL_PREFIX: &str =
@@ -419,7 +418,7 @@ pub async fn check(State(state): State<AppState>) -> Result<impl IntoResponse> {
         })));
     }
 
-    match get_latest_system(is_preview_enabled(), &state.config).await {
+    match get_latest_system(&state.config).await {
         Ok(latest) => {
             let app_requirement_error = application_requirement_error(&latest);
             let update_available =
@@ -508,7 +507,7 @@ pub async fn download(State(state): State<AppState>) -> Result<impl IntoResponse
     crate::api::storage::ensure_writable(&state.config.paths.update_cache_dir)?;
     let guard = acquire_update_lock()?;
     let current = read_current_system_version();
-    let latest = get_latest_system(is_preview_enabled(), &state.config).await?;
+    let latest = get_latest_system(&state.config).await?;
     enforce_required_application_version(&latest)?;
 
     if latest.target != current.target {
@@ -733,40 +732,8 @@ pub async fn confirm(State(state): State<AppState>) -> Result<impl IntoResponse>
     })))
 }
 
-async fn get_latest_system(preview: bool, config: &Config) -> Result<SystemLatest> {
-    if preview {
-        match fetch_latest_system(GITHUB_SYSTEM_PREVIEW_JSON, config).await {
-            Ok(preview_latest) => {
-                match fetch_latest_system(GITHUB_SYSTEM_LATEST_JSON, config).await {
-                    Ok(stable_latest) => {
-                        return Ok(newer_system_release(preview_latest, stable_latest));
-                    }
-                    Err(err) => {
-                        tracing::warn!(
-                            error = %err,
-                            "failed to query stable system release metadata, using preview"
-                        );
-                        return Ok(preview_latest);
-                    }
-                }
-            }
-            Err(err) => {
-                tracing::warn!(
-                    error = %err,
-                    "failed to query preview system release metadata, falling back to stable"
-                );
-            }
-        }
-    }
-
+async fn get_latest_system(config: &Config) -> Result<SystemLatest> {
     fetch_latest_system(GITHUB_SYSTEM_LATEST_JSON, config).await
-}
-
-fn newer_system_release(left: SystemLatest, right: SystemLatest) -> SystemLatest {
-    match compare_system_versions(&left.version, &right.version) {
-        Some(Ordering::Less) => right,
-        _ => left,
-    }
 }
 
 async fn fetch_latest_system(url: &str, config: &Config) -> Result<SystemLatest> {
@@ -3855,17 +3822,6 @@ mod tests {
 
         latest.target = "other-target".to_string();
         assert!(!system_update_is_newer(&current, &latest));
-    }
-
-    #[test]
-    fn chooses_newer_stable_system_release_when_preview_is_stale() {
-        let mut preview = valid_latest();
-        preview.version = "0.1.3-raw.1".to_string();
-
-        let mut stable = valid_latest();
-        stable.version = "0.2.0-raw.1".to_string();
-
-        assert_eq!(newer_system_release(preview, stable).version, "0.2.0-raw.1");
     }
 
     #[test]

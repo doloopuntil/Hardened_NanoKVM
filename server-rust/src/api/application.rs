@@ -30,10 +30,8 @@ const APP_DIR: &str = "/kvmapp";
 const BACKUP_DIR: &str = "/root/old";
 const APP_VERSION_FILE: &str = "/kvmapp/version";
 const DEFAULT_APP_VERSION: &str = "0.1.0";
-const PREVIEW_UPDATES_FLAG: &str = "/etc/kvm/preview_updates";
 const GITHUB_RELEASE_LATEST_JSON: &str =
     "https://github.com/woffko/Hardened_NanoKVM/releases/latest/download/latest.json";
-const GITHUB_PREVIEW_LATEST_JSON: &str = "https://github.com/woffko/Hardened_NanoKVM/releases/download/hardened-rust-preview/latest.json";
 const GITHUB_RELEASE_DOWNLOAD_PREFIX: &str =
     "https://github.com/woffko/Hardened_NanoKVM/releases/download/";
 const MAX_UPDATE_BYTES: u64 = 128 * 1024 * 1024;
@@ -58,16 +56,6 @@ pub struct VersionRsp {
 #[derive(Debug, Serialize)]
 pub struct CurrentVersionRsp {
     pub current: String,
-}
-
-#[derive(Debug, Serialize)]
-pub struct PreviewRsp {
-    pub enabled: bool,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct SetPreviewReq {
-    pub enable: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -103,7 +91,7 @@ pub async fn get_version(State(state): State<AppState>) -> Result<impl IntoRespo
         })));
     }
 
-    let latest = match get_latest(is_preview_enabled(), &state.config).await {
+    let latest = match get_latest(&state.config).await {
         Ok(latest) => latest.version,
         Err(err) => {
             tracing::warn!(error = %err, "failed to query latest application release");
@@ -125,31 +113,6 @@ pub async fn get_current_version() -> Result<impl IntoResponse> {
     })))
 }
 
-pub async fn get_preview() -> Result<impl IntoResponse> {
-    Ok(Json(ApiResponse::ok(PreviewRsp {
-        enabled: is_preview_enabled(),
-    })))
-}
-
-pub async fn set_preview(Json(req): Json<SetPreviewReq>) -> Result<impl IntoResponse> {
-    let is_enabled = is_preview_enabled();
-    if req.enable == is_enabled {
-        return Ok(Json(ApiResponse::<()>::ok_empty()));
-    }
-
-    if req.enable {
-        fs::write(PREVIEW_UPDATES_FLAG, b"1")?;
-    } else {
-        match fs::remove_file(PREVIEW_UPDATES_FLAG) {
-            Ok(()) => {}
-            Err(err) if err.kind() == std::io::ErrorKind::NotFound => {}
-            Err(err) => return Err(err.into()),
-        }
-    }
-
-    Ok(Json(ApiResponse::<()>::ok_empty()))
-}
-
 pub async fn update(State(state): State<AppState>) -> Result<Json<ApiResponse<()>>> {
     if system_firewall::paranoid_mode_enabled() {
         return Err(AppError::BadRequest(
@@ -162,7 +125,7 @@ pub async fn update(State(state): State<AppState>) -> Result<Json<ApiResponse<()
     let cache_dir = application_update_cache_dir(&state.config.paths.update_cache_dir);
 
     prepare_cache_dir(&cache_dir)?;
-    let latest = get_latest(is_preview_enabled(), &state.config).await?;
+    let latest = get_latest(&state.config).await?;
     let archive = cache_dir.join(&latest.name);
     download_release_asset(&latest, &archive).await?;
     verify_sha512(&archive, &latest.sha512)?;
@@ -192,36 +155,8 @@ pub async fn offline_update(
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
-async fn get_latest(preview: bool, config: &crate::config::Config) -> Result<LatestRelease> {
-    if preview {
-        match fetch_latest(GITHUB_PREVIEW_LATEST_JSON, config).await {
-            Ok(preview_latest) => match fetch_latest(GITHUB_RELEASE_LATEST_JSON, config).await {
-                Ok(stable_latest) => return Ok(newer_release(preview_latest, stable_latest)),
-                Err(err) => {
-                    tracing::warn!(
-                        error = %err,
-                        "failed to query stable release metadata, using preview"
-                    );
-                    return Ok(preview_latest);
-                }
-            },
-            Err(err) => {
-                tracing::warn!(
-                    error = %err,
-                    "failed to query preview release metadata, falling back to stable"
-                );
-            }
-        }
-    }
-
+async fn get_latest(config: &crate::config::Config) -> Result<LatestRelease> {
     fetch_latest(GITHUB_RELEASE_LATEST_JSON, config).await
-}
-
-fn newer_release(left: LatestRelease, right: LatestRelease) -> LatestRelease {
-    match compare_application_versions(&left.version, &right.version) {
-        Some(std::cmp::Ordering::Less) => right,
-        _ => left,
-    }
 }
 
 pub(crate) fn compare_application_versions(left: &str, right: &str) -> Option<std::cmp::Ordering> {
@@ -542,7 +477,7 @@ fn validate_signature_fields(algorithm: &str, key_id: &str) -> Result<()> {
 }
 
 fn validate_metadata_url(url: &str) -> Result<()> {
-    if url == GITHUB_RELEASE_LATEST_JSON || url == GITHUB_PREVIEW_LATEST_JSON {
+    if url == GITHUB_RELEASE_LATEST_JSON {
         return Ok(());
     }
     Err(AppError::BadRequest(
@@ -884,10 +819,6 @@ fn restart_nanokvm_after_response() {
     });
 }
 
-pub(crate) fn is_preview_enabled() -> bool {
-    Path::new(PREVIEW_UPDATES_FLAG).exists()
-}
-
 fn read_trimmed(path: &str) -> Option<String> {
     fs::read_to_string(path)
         .ok()
@@ -933,31 +864,6 @@ mod tests {
             signature_key_id: "hardened-system-dev".to_string(),
         };
         assert!(validate_latest_release(&latest).is_ok());
-    }
-
-    #[test]
-    fn chooses_newer_stable_when_preview_is_stale() {
-        let sha512 = STANDARD.encode([42_u8; 64]);
-        let preview = LatestRelease {
-            version: "1.0.5".to_string(),
-            name: "hardened-nanokvm-kvmapp-1.0.5.tar.gz".to_string(),
-            sha512: sha512.clone(),
-            size: 1024,
-            url: "https://github.com/woffko/Hardened_NanoKVM/releases/download/preview/hardened-nanokvm-kvmapp-1.0.5.tar.gz".to_string(),
-            signature_algorithm: APP_UPDATE_SIGNATURE_ALGORITHM.to_string(),
-            signature_key_id: "hardened-system-dev".to_string(),
-        };
-        let stable = LatestRelease {
-            version: "2.0.0".to_string(),
-            name: "hardened-nanokvm-kvmapp-2.0.0.tar.gz".to_string(),
-            sha512,
-            size: 2048,
-            url: "https://github.com/woffko/Hardened_NanoKVM/releases/download/stable/hardened-nanokvm-kvmapp-2.0.0.tar.gz".to_string(),
-            signature_algorithm: APP_UPDATE_SIGNATURE_ALGORITHM.to_string(),
-            signature_key_id: "hardened-system-dev".to_string(),
-        };
-
-        assert_eq!(newer_release(preview, stable).version, "2.0.0");
     }
 
     #[test]

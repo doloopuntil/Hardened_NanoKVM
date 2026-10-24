@@ -896,10 +896,6 @@ const et = {
         updating: 'Uuendamine algas',
         confirm: 'Kinnita',
         cancel: 'Tühista',
-        preview: 'Uuenduste eelvaade',
-        previewChannels: 'Juhib nii rakenduse kui ka süsteemi eelvaate kanaleid',
-        previewTip:
-          'Pane tähele, et eelvaateversioonid võivad sisaldada vigu või lõpetamata funktsioone',
         application: {
           title: 'Rakendus'
         },

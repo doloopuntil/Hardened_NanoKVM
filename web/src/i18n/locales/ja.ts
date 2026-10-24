@@ -910,9 +910,6 @@ const ja = {
         updating: 'アップデート中',
         confirm: 'はい',
         cancel: 'いいえ',
-        preview: 'プレビューアップデート',
-        previewChannels: 'アプリケーションとシステムの両方のプレビューチャンネルを制御します',
-        previewTip: 'プレビューアップデートには不安定な部分や不完全な機能が含まれる場合があります',
         application: {
           title: 'アプリケーション'
         },

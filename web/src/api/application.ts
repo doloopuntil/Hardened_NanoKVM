@@ -207,16 +207,3 @@ export function offlineUpdate(data: FormData) {
     body: data
   });
 }
-
-// enable/disable preview updates
-export function setPreviewUpdates(enable: boolean) {
-  const data = {
-    enable
-  };
-  return http.post('/api/application/preview', data);
-}
-
-// get preview updates state
-export function getPreviewUpdates() {
-  return http.get('/api/application/preview');
-}

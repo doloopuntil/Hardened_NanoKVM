@@ -907,10 +907,6 @@ const fi = {
         updating: 'Päivitys käynnistyi',
         confirm: 'Vahvista',
         cancel: 'Peruuta',
-        preview: 'Päivitysten esikatselu',
-        previewChannels: 'Ohjaa sekä sovelluksen että järjestelmän esikatselukanavia',
-        previewTip:
-          'Huomaa, että esikatseluversiot voivat sisältää virheitä tai keskeneräisiä toimintoja',
         application: {
           title: 'Sovellus'
         },

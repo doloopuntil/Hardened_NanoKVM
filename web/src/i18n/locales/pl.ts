@@ -908,10 +908,6 @@ const pl = {
         updating: 'Aktualizacja rozpoczęta',
         confirm: 'Potwierdź',
         cancel: 'Anuluj',
-        preview: 'Podgląd aktualizacji',
-        previewChannels: 'Steruje kanałami podglądu zarówno aplikacji, jak i systemu',
-        previewTip:
-          'Należy pamiętać, że wersje poglądowe mogą zawierać błędy lub niekompletną funkcjonalność',
         application: {
           title: 'Aplikacja'
         },
