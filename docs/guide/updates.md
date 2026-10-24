@@ -46,6 +46,10 @@ the Buildroot userspace or the init scripts installed in the root filesystem.
 - **Allow raw system updates** must be on before a staged system update can be
   installed. Preview updates only chooses the channel; it does not authorise the
   write.
+- A system update writes the boot and root partitions as they are, so it never changes the
+  partition layout. An image whose boot filesystem is larger than the card's boot partition,
+  such as the 32 MiB `/boot` that replaced the old 16 MiB one, is refused with a size error;
+  the card has to be flashed once with the new image.
 - **Download and verify** fetches the system bundle into
   `/data/.hardened-kvmcache`, checks its signed metadata, the archive digest and
   every payload hash, and stages it.
