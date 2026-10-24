@@ -25,8 +25,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
    before its sides: the scroll area clips what goes beyond the width of the
    content, and a wider shadow ends in a hard edge. The shadow box is the header's
    height minus 40px, so the header's own padding is what keeps the shadow
-   visible. The loading and load-failure
-   banner of the page comes right below the header (`LoadBanner`), where the
+   visible. The loading and load-failure banner of the page comes right below the header (`LoadBanner`), where the
    header's cover does not hide it.
 2. A page is a column of titled sections with the same faded hairline between
    them. A section is `SettingSection`: a grey sentence-case title

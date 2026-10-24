@@ -334,7 +334,7 @@ export const Settings = () => {
             'outline outline-1 outline-neutral-700',
             isTouchLayout
               ? 'flex h-[100dvh] w-full max-w-[100vw] flex-col overflow-hidden rounded-none'
-              : 'flex h-[82.5vh] max-h-[700px] rounded-lg'
+              : 'flex h-[82.5vh] max-h-[760px] rounded-lg'
           )}
         >
           <div
@@ -392,7 +392,7 @@ export const Settings = () => {
                 className={clsx(
                   'min-w-0',
                   isTouchLayout ? 'w-full max-w-full' : 'w-full max-w-2xl',
-                  isTouchLayout ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4' : 'pb-6 pt-10'
+                  isTouchLayout ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4' : 'pb-10 pt-10'
                 )}
               >
                 <SettingsLoadGroup key={currentTab} slot>
