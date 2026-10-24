@@ -54,6 +54,16 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     refreshFirewallStatus();
   }, []);
 
+  // the installed version does not depend on the check, so it shows even when the check fails
+  useEffect(() => {
+    api
+      .getCurrentVersion()
+      .then((rsp: any) => {
+        if (rsp.code === 0 && rsp.data?.current) setCurrentVersion(rsp.data.current);
+      })
+      .catch(() => {});
+  }, []);
+
   const { status: rawLoadState, reload: refreshRawSystemUpdatesEnabled } = useSettingsLoadState(
     api.getRawSystemUpdatesEnabled,
     (rsp) => setSystemRawEnabled(!!rsp.data?.enabled)
@@ -709,6 +719,12 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             />
           </div>
 
+          <ApplicationUpload
+            disabled={applicationLoading || applicationBusy}
+            onStaged={handleUploadedApplicationUpdate}
+            setBusy={setIsLocked}
+          />
+
           <StatusRow
             buttons={
               applicationBusy || applicationLoading
@@ -727,12 +743,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                     ) : null
                   ]
             }
-          />
-
-          <ApplicationUpload
-            disabled={applicationLoading || applicationBusy}
-            onStaged={handleUploadedApplicationUpdate}
-            setBusy={setIsLocked}
           />
         </SettingSection>
 
@@ -787,14 +797,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             {info(t('settings.update.system.rollbackBackup'), systemRollback?.backupId)}
           </div>
 
-          <StatusRow
-            busy={systemBusy && systemStatus !== 'loading'}
-            error={systemError}
-            title={systemTitle}
-            text={systemText}
-            buttons={systemButtons}
-          />
-
           {systemStaged?.destructive && !systemRawEnabled && (
             <Alert
               type="warning"
@@ -822,6 +824,14 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             setBusy={setIsLocked}
           />
           <LocalKeyRow />
+
+          <StatusRow
+            busy={systemBusy && systemStatus !== 'loading'}
+            error={systemError}
+            title={systemTitle}
+            text={systemText}
+            buttons={systemButtons}
+          />
         </SettingSection>
 
         <div className="flex justify-end">
