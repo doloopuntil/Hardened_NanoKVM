@@ -332,7 +332,7 @@ const de = {
       canceled: 'Upload abgebrochen',
       downloadCanceled: 'Download abgebrochen',
       cancel: 'Abbrechen',
-      remoteDisabled: 'Remote-ISO-Download ist unter Einstellungen > Darstellung deaktiviert',
+      remoteDisabled: 'Remote-ISO-Download ist unter Einstellungen > Benutzer > Darstellung deaktiviert',
       remoteFailed: 'Remote-ISO-Download fehlgeschlagen',
       sha256: 'Optionale SHA-256-Prüfsumme',
       sha256Placeholder: 'Geben Sie eine 64-stellige SHA-256-Prüfsumme ein',
@@ -781,6 +781,9 @@ const de = {
           '7': '7 - Debug',
           '8': '8 - Alle'
         }
+      },
+      user: {
+        title: 'Benutzer'
       },
       networking: {
         title: 'Netzwerk'

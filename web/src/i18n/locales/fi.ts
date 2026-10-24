@@ -330,7 +330,7 @@ const fi = {
       canceled: 'Lähetys peruutettu',
       downloadCanceled: 'Lataus peruttu',
       cancel: 'Peruuta',
-      remoteDisabled: 'ISO-etälataus on poistettu käytöstä kohdassa Asetukset > Ulkoasu',
+      remoteDisabled: 'ISO-etälataus on poistettu käytöstä kohdassa Asetukset > Käyttäjä > Ulkoasu',
       remoteFailed: 'ISO-etälataus epäonnistui',
       sha256: 'Valinnainen SHA-256-tarkistussumma',
       sha256Placeholder: 'Anna 64-merkkinen SHA-256-tarkistussumma',
@@ -773,6 +773,9 @@ const fi = {
           '7': '7 - Debug',
           '8': '8 - Kaikki'
         }
+      },
+      user: {
+        title: 'Käyttäjä'
       },
       networking: {
         title: 'Verkko'

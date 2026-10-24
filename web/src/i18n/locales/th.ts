@@ -321,7 +321,7 @@ const th = {
       canceled: 'ยกเลิกการอัปโหลดแล้ว',
       downloadCanceled: 'ยกเลิกการดาวน์โหลดแล้ว',
       cancel: 'ยกเลิก',
-      remoteDisabled: 'การดาวน์โหลด ISO ระยะไกลถูกปิดใน การตั้งค่า > รูปลักษณ์',
+      remoteDisabled: 'การดาวน์โหลด ISO ระยะไกลถูกปิดใน การตั้งค่า > ผู้ใช้ > รูปลักษณ์',
       remoteFailed: 'ดาวน์โหลด ISO ระยะไกลล้มเหลว',
       sha256: 'ค่าตรวจสอบ SHA-256 แบบไม่บังคับ',
       sha256Placeholder: 'ป้อน checksum SHA-256 64 ตัวอักษร',
@@ -761,6 +761,9 @@ const th = {
           '7': '7 - Debug',
           '8': '8 - ทั้งหมด'
         }
+      },
+      user: {
+        title: 'ผู้ใช้'
       },
       networking: {
         title: 'เครือข่าย'

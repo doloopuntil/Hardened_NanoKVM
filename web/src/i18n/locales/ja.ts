@@ -329,7 +329,7 @@ const ja = {
       canceled: 'アップロードをキャンセルしました',
       downloadCanceled: 'ダウンロードをキャンセルしました',
       cancel: 'キャンセル',
-      remoteDisabled: 'リモート ISO ダウンロードは「設定 > 外観」で無効になっています',
+      remoteDisabled: 'リモート ISO ダウンロードは「設定 > ユーザー > 外観」で無効になっています',
       remoteFailed: 'リモート ISO ダウンロードに失敗しました',
       sha256: '任意の SHA-256 チェックサム',
       sha256Placeholder: '64 文字の SHA-256 チェックサムを入力してください',
@@ -775,6 +775,9 @@ const ja = {
           '7': '7 - デバッグ',
           '8': '8 - すべて'
         }
+      },
+      user: {
+        title: 'ユーザー'
       },
       networking: {
         title: 'ネットワーク'

@@ -330,7 +330,7 @@ const nb = {
       canceled: 'Opplasting avbrutt',
       downloadCanceled: 'Nedlasting avbrutt',
       cancel: 'Avbryt',
-      remoteDisabled: 'Ekstern ISO-nedlasting er deaktivert i Innstillinger > Utseende',
+      remoteDisabled: 'Ekstern ISO-nedlasting er deaktivert i Innstillinger > Bruker > Utseende',
       remoteFailed: 'Ekstern ISO-nedlasting mislyktes',
       sha256: 'Valgfri SHA-256-sjekksum',
       sha256Placeholder: 'Skriv inn en SHA-256-kontrollsum på 64 tegn',
@@ -776,6 +776,9 @@ const nb = {
           '7': '7 - Debug',
           '8': '8 - Alle'
         }
+      },
+      user: {
+        title: 'Bruker'
       },
       networking: {
         title: 'Nettverk'

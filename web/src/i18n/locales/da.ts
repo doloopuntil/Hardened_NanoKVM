@@ -326,7 +326,7 @@ const da = {
       canceled: 'Upload annulleret',
       downloadCanceled: 'Download annulleret',
       cancel: 'Annuller',
-      remoteDisabled: 'Ekstern ISO-download er deaktiveret under Indstillinger > Udseende',
+      remoteDisabled: 'Ekstern ISO-download er deaktiveret under Indstillinger > Bruger > Udseende',
       remoteFailed: 'Ekstern ISO-download mislykkedes',
       sha256: 'Valgfri SHA-256-kontrolsum',
       sha256Placeholder: 'Indtast en SHA-256-kontrolsum på 64 tegn',
@@ -772,6 +772,9 @@ const da = {
           '7': '7 - Debug',
           '8': '8 - Alle'
         }
+      },
+      user: {
+        title: 'Bruger'
       },
       networking: {
         title: 'Netværk'

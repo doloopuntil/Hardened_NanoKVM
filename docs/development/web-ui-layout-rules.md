@@ -19,7 +19,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
    the same height on every page. The touch layout shows no header: the
    navigation above the page names it. What sits beside the title is the
    header's children; pages that belong together are subpages in the left pane of
-   the dialog (Networking and System), never tabs in the header. The header is in
+   the dialog (User, Networking and System), never tabs in the header. The header is in
    the colour of the panel, and its shadow has a negative spread so it fades out
    before its sides: the scroll area clips what goes beyond the width of the
    content, and a wider shadow ends in a hard edge. The loading and load-failure
@@ -142,11 +142,14 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Order
 
-26. Menu: About, Account, Appearance, Device, then the groups Networking and
-    System, which start collapsed and open on click. Networking holds Network,
-    Services, Firewall, WireGuard and Tailscale; System holds Time, Logging,
-    Performance, Monitor and Updates. The first subpage of a group is the one a
-    touch layout opens when the group is chosen.
+26. Menu: About, then the groups User, Networking and System, with Device
+    between User and Networking. The groups start collapsed and open on click.
+    User holds Account and Appearance (the person and the browser they use);
+    Networking holds Network, Services, Firewall, WireGuard and Tailscale;
+    System holds Time, Logging, Performance, Monitor and Updates. The first
+    subpage of a group is the one a touch layout opens when the group is
+    chosen. The touch layout shows the five main items on one row, so their
+    names stay short.
 
 ## Technical rules
 

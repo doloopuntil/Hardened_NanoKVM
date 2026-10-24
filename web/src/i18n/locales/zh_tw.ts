@@ -313,7 +313,7 @@ const zh_tw = {
       canceled: '上傳已取消',
       downloadCanceled: '下載已取消',
       cancel: '取消',
-      remoteDisabled: '遠端 ISO 下載已在 設定 > 外觀 中停用',
+      remoteDisabled: '遠端 ISO 下載已在 設定 > 使用者 > 外觀 中停用',
       remoteFailed: '遠端 ISO 下載失敗',
       sha256: '可選的 SHA-256 檢查碼',
       sha256Placeholder: '請輸入 64 位元 SHA-256 校驗和',
@@ -745,6 +745,9 @@ const zh_tw = {
           '7': '7 - 偵錯',
           '8': '8 - 全部'
         }
+      },
+      user: {
+        title: '使用者'
       },
       networking: {
         title: '網路'

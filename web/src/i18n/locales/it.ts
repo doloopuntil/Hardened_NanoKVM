@@ -331,7 +331,7 @@ const it = {
       canceled: 'Caricamento annullato',
       downloadCanceled: 'Download annullato',
       cancel: 'Annulla',
-      remoteDisabled: 'Il download ISO remoto è disattivato in Impostazioni > Aspetto',
+      remoteDisabled: 'Il download ISO remoto è disattivato in Impostazioni > Utente > Aspetto',
       remoteFailed: 'Download ISO remoto non riuscito',
       sha256: 'Checksum SHA-256 facoltativo',
       sha256Placeholder: 'Inserisci un checksum SHA-256 di 64 caratteri',
@@ -778,6 +778,9 @@ const it = {
           '7': '7 - Debug',
           '8': '8 - Tutto'
         }
+      },
+      user: {
+        title: 'Utente'
       },
       networking: {
         title: 'Rete'

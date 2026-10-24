@@ -327,7 +327,7 @@ const se = {
       canceled: 'Uppladdningen avbröts',
       downloadCanceled: 'Nedladdning avbruten',
       cancel: 'Avbryt',
-      remoteDisabled: 'Fjärrnedladdning av ISO är inaktiverad i Inställningar > Utseende',
+      remoteDisabled: 'Fjärrnedladdning av ISO är inaktiverad i Inställningar > Användare > Utseende',
       remoteFailed: 'Fjärrnedladdning av ISO misslyckades',
       sha256: 'Valfri SHA-256-kontrollsumma',
       sha256Placeholder: 'Ange en SHA-256-kontrollsumma på 64 tecken',
@@ -774,6 +774,9 @@ const se = {
           '7': '7 - Debug',
           '8': '8 - Alla'
         }
+      },
+      user: {
+        title: 'Användare'
       },
       networking: {
         title: 'Nätverk'

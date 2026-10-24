@@ -330,7 +330,7 @@ const es = {
       canceled: 'Carga cancelada',
       downloadCanceled: 'Descarga cancelada',
       cancel: 'Cancelar',
-      remoteDisabled: 'La descarga remota de ISO está desactivada en Ajustes > Apariencia',
+      remoteDisabled: 'La descarga remota de ISO está desactivada en Ajustes > Usuario > Apariencia',
       remoteFailed: 'La descarga remota de ISO falló',
       sha256: 'Suma de comprobación SHA-256 opcional',
       sha256Placeholder: 'Introduce una suma de comprobación SHA-256 de 64 caracteres',
@@ -777,6 +777,9 @@ const es = {
           '7': '7 - Debug',
           '8': '8 - Todo'
         }
+      },
+      user: {
+        title: 'Usuario'
       },
       networking: {
         title: 'Redes'

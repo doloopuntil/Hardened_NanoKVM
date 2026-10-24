@@ -326,7 +326,7 @@ const cz = {
       canceled: 'Nahrání zrušeno',
       downloadCanceled: 'Stahování zrušeno',
       cancel: 'Zrušit',
-      remoteDisabled: 'Vzdálené stahování ISO je vypnuté v Nastavení > Vzhled',
+      remoteDisabled: 'Vzdálené stahování ISO je vypnuté v Nastavení > Uživatel > Vzhled',
       remoteFailed: 'Vzdálené stahování ISO selhalo',
       sha256: 'Volitelný kontrolní součet SHA-256',
       sha256Placeholder: 'Zadejte 64znakový kontrolní součet SHA-256',
@@ -768,6 +768,9 @@ const cz = {
           '7': '7 - Debug',
           '8': '8 - Vše'
         }
+      },
+      user: {
+        title: 'Uživatel'
       },
       networking: {
         title: 'Síť'

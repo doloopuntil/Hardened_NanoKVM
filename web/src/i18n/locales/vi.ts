@@ -323,7 +323,7 @@ const vi = {
       canceled: 'Đã hủy tải lên',
       downloadCanceled: 'Đã hủy tải xuống',
       cancel: 'Hủy',
-      remoteDisabled: 'Tải ISO từ xa bị tắt trong Cài đặt > Giao diện',
+      remoteDisabled: 'Tải ISO từ xa bị tắt trong Cài đặt > Người dùng > Giao diện',
       remoteFailed: 'Tải ISO từ xa thất bại',
       sha256: 'Checksum SHA-256 tùy chọn',
       sha256Placeholder: 'Nhập mã kiểm tra SHA-256 gồm 64 ký tự',
@@ -767,6 +767,9 @@ const vi = {
           '7': '7 - Debug',
           '8': '8 - Tất cả'
         }
+      },
+      user: {
+        title: 'Người dùng'
       },
       networking: {
         title: 'Mạng'

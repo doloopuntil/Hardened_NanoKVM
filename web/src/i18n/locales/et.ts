@@ -323,7 +323,7 @@ const et = {
       canceled: 'Üleslaadimine tühistati',
       downloadCanceled: 'Allalaadimine tühistati',
       cancel: 'Tühista',
-      remoteDisabled: 'ISO kaugallalaadimine on keelatud menüüs Seaded > Välimus',
+      remoteDisabled: 'ISO kaugallalaadimine on keelatud menüüs Seaded > Kasutaja > Välimus',
       remoteFailed: 'ISO kaugallalaadimine nurjus',
       sha256: 'Valikuline SHA-256 kontrollsumma',
       sha256Placeholder: 'Sisesta 64-märgiline SHA-256 kontrollsumma',
@@ -763,6 +763,9 @@ const et = {
           '7': '7 - Silumine',
           '8': '8 - Kõik'
         }
+      },
+      user: {
+        title: 'Kasutaja'
       },
       networking: {
         title: 'Võrgundus'

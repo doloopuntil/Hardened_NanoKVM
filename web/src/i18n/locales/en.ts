@@ -326,7 +326,7 @@ const en = {
       canceled: 'Upload canceled',
       downloadCanceled: 'Download canceled',
       cancel: 'Cancel',
-      remoteDisabled: 'Remote ISO download is disabled in Settings > Appearance',
+      remoteDisabled: 'Remote ISO download is disabled in Settings > User > Appearance',
       remoteFailed: 'Remote ISO download failed',
       sha256: 'Optional SHA-256 checksum',
       sha256Placeholder: 'Enter a 64-character SHA-256 checksum',
@@ -765,6 +765,9 @@ const en = {
           '7': '7 - Debug',
           '8': '8 - All'
         }
+      },
+      user: {
+        title: 'User'
       },
       networking: {
         title: 'Networking'

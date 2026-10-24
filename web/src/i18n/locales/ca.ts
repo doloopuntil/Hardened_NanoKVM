@@ -327,7 +327,7 @@ const ca = {
       canceled: 'Pujada cancel·lada',
       downloadCanceled: 'Descàrrega cancel·lada',
       cancel: 'Cancel·la',
-      remoteDisabled: "La descàrrega remota d'ISO està desactivada a Configuració > Aparença",
+      remoteDisabled: "La descàrrega remota d'ISO està desactivada a Configuració > Usuari > Aparença",
       remoteFailed: "La descàrrega remota d'ISO ha fallat",
       sha256: 'Suma de verificació SHA-256 opcional',
       sha256Placeholder: 'Introdueix una suma de verificació SHA-256 de 64 caràcters',
@@ -776,6 +776,9 @@ const ca = {
           '7': '7 - Debug',
           '8': '8 - Tot'
         }
+      },
+      user: {
+        title: 'Usuari'
       },
       networking: {
         title: 'Xarxes'

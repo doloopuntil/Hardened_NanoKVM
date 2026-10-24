@@ -324,7 +324,7 @@ const ko = {
       canceled: '업로드 취소됨',
       downloadCanceled: '다운로드가 취소되었습니다',
       cancel: '취소',
-      remoteDisabled: '원격 ISO 다운로드가 설정 > 외형에서 비활성화되어 있습니다',
+      remoteDisabled: '원격 ISO 다운로드가 설정 > 사용자 > 외형에서 비활성화되어 있습니다',
       remoteFailed: '원격 ISO 다운로드 실패',
       sha256: '선택 사항 SHA-256 체크섬',
       sha256Placeholder: '64자 SHA-256 체크섬을 입력하세요',
@@ -763,6 +763,9 @@ const ko = {
           '7': '7 - 디버그',
           '8': '8 - 모두'
         }
+      },
+      user: {
+        title: '사용자'
       },
       networking: {
         title: '네트워킹'

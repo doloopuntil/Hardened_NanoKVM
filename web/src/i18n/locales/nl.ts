@@ -331,7 +331,7 @@ const nl = {
       canceled: 'Upload geannuleerd',
       downloadCanceled: 'Download geannuleerd',
       cancel: 'Annuleren',
-      remoteDisabled: 'ISO-download op afstand is uitgeschakeld in Instellingen > Uiterlijk',
+      remoteDisabled: 'ISO-download op afstand is uitgeschakeld in Instellingen > Gebruiker > Uiterlijk',
       remoteFailed: 'ISO-download op afstand mislukt',
       sha256: 'Optionele SHA-256-controlesom',
       sha256Placeholder: 'Voer een SHA-256-controlesom van 64 tekens in',
@@ -778,6 +778,9 @@ const nl = {
           '7': '7 - Debug',
           '8': '8 - Alles'
         }
+      },
+      user: {
+        title: 'Gebruiker'
       },
       networking: {
         title: 'Netwerken'

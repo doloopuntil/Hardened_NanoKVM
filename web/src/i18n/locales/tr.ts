@@ -325,7 +325,7 @@ const tr = {
       canceled: 'Yükleme iptal edildi',
       downloadCanceled: 'İndirme iptal edildi',
       cancel: 'İptal',
-      remoteDisabled: 'Uzak ISO indirme Ayarlar > Görünüm içinde devre dışı',
+      remoteDisabled: 'Uzak ISO indirme Ayarlar > Kullanıcı > Görünüm içinde devre dışı',
       remoteFailed: 'Uzak ISO indirme başarısız',
       sha256: 'İsteğe bağlı SHA-256 sağlama toplamı',
       sha256Placeholder: '64 karakterlik SHA-256 sağlama toplamını girin',
@@ -771,6 +771,9 @@ const tr = {
           '7': '7 - Debug',
           '8': '8 - Tümü'
         }
+      },
+      user: {
+        title: 'Kullanıcı'
       },
       networking: {
         title: 'Ağ'

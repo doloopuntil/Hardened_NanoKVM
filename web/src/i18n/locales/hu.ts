@@ -329,7 +329,7 @@ const hu = {
       canceled: 'Feltöltés megszakítva',
       downloadCanceled: 'Letöltés megszakítva',
       cancel: 'Mégse',
-      remoteDisabled: 'A távoli ISO-letöltés le van tiltva a Beállítások > Megjelenés alatt',
+      remoteDisabled: 'A távoli ISO-letöltés le van tiltva a Beállítások > Felhasználó > Megjelenés alatt',
       remoteFailed: 'A távoli ISO-letöltés sikertelen',
       sha256: 'Opcionális SHA-256 ellenőrzőösszeg',
       sha256Placeholder: 'Adjon meg egy 64 karakteres SHA-256 ellenőrzőösszeget',
@@ -776,6 +776,9 @@ const hu = {
           '7': '7 - Debug',
           '8': '8 - Mind'
         }
+      },
+      user: {
+        title: 'Felhasználó'
       },
       networking: {
         title: 'Hálózat'

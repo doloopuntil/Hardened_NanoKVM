@@ -773,6 +773,9 @@ const pl = {
           '8': '8 - Wszystko'
         }
       },
+      user: {
+        title: 'Użytkownik'
+      },
       networking: {
         title: 'Sieć'
       },

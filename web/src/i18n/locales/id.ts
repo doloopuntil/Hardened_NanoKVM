@@ -328,7 +328,7 @@ const id = {
       canceled: 'Unggahan dibatalkan',
       downloadCanceled: 'Unduhan dibatalkan',
       cancel: 'Batal',
-      remoteDisabled: 'Unduhan ISO jarak jauh dinonaktifkan di Pengaturan > Tampilan',
+      remoteDisabled: 'Unduhan ISO jarak jauh dinonaktifkan di Pengaturan > Pengguna > Tampilan',
       remoteFailed: 'Unduhan ISO jarak jauh gagal',
       sha256: 'Checksum SHA-256 opsional',
       sha256Placeholder: 'Masukkan checksum SHA-256 64 karakter',
@@ -774,6 +774,9 @@ const id = {
           '7': '7 - Debug',
           '8': '8 - Semua'
         }
+      },
+      user: {
+        title: 'Pengguna'
       },
       networking: {
         title: 'Jaringan'

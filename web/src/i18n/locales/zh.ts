@@ -312,7 +312,7 @@ const zh = {
       canceled: '上传已取消',
       downloadCanceled: '下载已取消',
       cancel: '取消',
-      remoteDisabled: '远程 ISO 下载已在 设置 > 外观 中禁用',
+      remoteDisabled: '远程 ISO 下载已在 设置 > 用户 > 外观 中禁用',
       remoteFailed: '远程 ISO 下载失败',
       sha256: '可选的 SHA-256 校验值',
       sha256Placeholder: '请输入 64 位 SHA-256 校验和',
@@ -743,6 +743,9 @@ const zh = {
           '7': '7 - 调试',
           '8': '8 - 全部'
         }
+      },
+      user: {
+        title: '用户'
       },
       networking: {
         title: '网络'

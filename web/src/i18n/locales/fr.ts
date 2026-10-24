@@ -330,7 +330,7 @@ const fr = {
       canceled: 'Téléversement annulé',
       downloadCanceled: 'Téléchargement annulé',
       cancel: 'Annuler',
-      remoteDisabled: 'Le téléchargement ISO distant est désactivé dans Paramètres > Apparence',
+      remoteDisabled: 'Le téléchargement ISO distant est désactivé dans Paramètres > Utilisateur > Apparence',
       remoteFailed: 'Échec du téléchargement ISO distant',
       sha256: 'Somme de contrôle SHA-256 facultative',
       sha256Placeholder: 'Saisissez une somme de contrôle SHA-256 de 64 caractères',
@@ -778,6 +778,9 @@ const fr = {
           '7': '7 - Debug',
           '8': '8 - Tout'
         }
+      },
+      user: {
+        title: 'Utilisateur'
       },
       networking: {
         title: 'Réseau'
