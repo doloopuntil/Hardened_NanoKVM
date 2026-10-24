@@ -697,7 +697,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
               value={currentVersion}
             />
             <InfoRow
-              label={t('settings.update.latestVersion')}
+              label={<LatestLabel check={applicationCheck} />}
               description={
                 applicationCheckText ? (
                   <span className={status === 'failed' ? 'text-red-400' : undefined}>
@@ -705,7 +705,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                   </span>
                 ) : undefined
               }
-              value={<LatestVersion check={applicationCheck} version={latestVersion} />}
+              value={latestVersion}
             />
           </div>
 
@@ -742,13 +742,13 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
           <div className="flex flex-col space-y-3">
             <InfoRow label={t('settings.update.currentVersion')} value={systemCurrentVersion} />
             <InfoRow
-              label={t('settings.update.latestVersion')}
+              label={<LatestLabel check={systemCheck} />}
               description={
                 versionCaption ? (
                   <span className={systemError ? 'text-red-400' : undefined}>{versionCaption}</span>
                 ) : undefined
               }
-              value={<LatestVersion check={systemCheck} version={systemLatest?.version} />}
+              value={systemLatest?.version}
             />
             {info(t('settings.update.system.kernel'), systemCurrent?.kernelVersion)}
             {info(t('settings.update.system.requiredAppVersion'), systemLatest?.requiredAppVersion)}
@@ -857,18 +857,18 @@ const CHECK_COLORS = {
   failed: 'red'
 } as const;
 
-// The latest version, always shown, with a badge for what the check found.
-const LatestVersion = ({ check, version }: { check: CheckState; version?: string }) => {
+// The label of the latest version, always shown, with a badge for what the check found.
+const LatestLabel = ({ check }: { check: CheckState }) => {
   const { t } = useTranslation();
 
   return (
-    <span className="inline-flex items-center gap-2">
+    <span className="flex items-center gap-2">
+      {t('settings.update.latestVersion')}
       {check && (
         <Tag className="m-0" color={CHECK_COLORS[check]}>
           {t(`settings.update.badge.${check}`)}
         </Tag>
       )}
-      {version || '-'}
     </span>
   );
 };
