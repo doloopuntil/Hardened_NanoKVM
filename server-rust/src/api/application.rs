@@ -1,8 +1,4 @@
-use axum::{
-    Json,
-    extract::{Multipart, State},
-    response::IntoResponse,
-};
+use axum::{Json, extract::State, response::IntoResponse};
 use base64::{Engine as _, engine::general_purpose::STANDARD};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha512};
@@ -41,6 +37,8 @@ const APPLICATION_UPDATE_CACHE_DIR_NAME: &str = "application-update";
 const APP_UPDATE_SIGNATURE_ALGORITHM: &str = "sha256-rsa-pkcs1-v1_5";
 const APP_UPDATE_UNSIGNED_ALGORITHM: &str = "unsigned";
 
+pub mod upload;
+
 static UPDATE_LOCK: LazyLock<Mutex<bool>> = LazyLock::new(|| Mutex::new(false));
 
 #[derive(Debug, Serialize)]
@@ -64,6 +62,7 @@ struct LatestRelease {
     name: String,
     sha512: String,
     size: u64,
+    #[serde(default)]
     url: String,
     #[serde(default)]
     signature_algorithm: String,
@@ -129,24 +128,6 @@ pub async fn update(State(state): State<AppState>) -> Result<Json<ApiResponse<()
     let archive = cache_dir.join(&latest.name);
     download_release_asset(&latest, &archive).await?;
     verify_sha512(&archive, &latest.sha512)?;
-
-    install_package_blocking(archive, cache_dir.clone()).await?;
-    let _ = remove_dir_if_exists(&cache_dir);
-    restart_nanokvm_after_response();
-
-    Ok(Json(ApiResponse::<()>::ok_empty()))
-}
-
-pub async fn offline_update(
-    State(state): State<AppState>,
-    mut multipart: Multipart,
-) -> Result<Json<ApiResponse<()>>> {
-    crate::api::storage::ensure_writable(&state.config.paths.update_cache_dir)?;
-    let _guard = acquire_update_lock()?;
-    let cache_dir = application_update_cache_dir(&state.config.paths.update_cache_dir);
-
-    prepare_cache_dir(&cache_dir)?;
-    let archive = save_uploaded_update(&cache_dir, &mut multipart).await?;
 
     install_package_blocking(archive, cache_dir.clone()).await?;
     let _ = remove_dir_if_exists(&cache_dir);
@@ -248,52 +229,6 @@ async fn download_release_asset(latest: &LatestRelease, target: &Path) -> Result
     Ok(())
 }
 
-async fn save_uploaded_update(cache_dir: &Path, multipart: &mut Multipart) -> Result<PathBuf> {
-    let mut archive = None;
-
-    while let Some(mut field) = multipart
-        .next_field()
-        .await
-        .map_err(|err| AppError::BadRequest(format!("invalid multipart data: {err}")))?
-    {
-        if field.name() != Some("file") {
-            continue;
-        }
-
-        let filename = field
-            .file_name()
-            .map(str::to_string)
-            .ok_or_else(|| AppError::BadRequest("missing update filename".to_string()))?;
-        validate_update_filename(&filename)?;
-
-        let target = cache_dir.join(&filename);
-        let mut file = tokio_fs::File::create(&target).await?;
-        let mut written = 0_u64;
-
-        while let Some(chunk) = field
-            .chunk()
-            .await
-            .map_err(|err| AppError::BadRequest(format!("invalid multipart data: {err}")))?
-        {
-            written = written.saturating_add(chunk.len() as u64);
-            if written > MAX_UPDATE_BYTES {
-                return Err(AppError::BadRequest(
-                    "update archive is too large".to_string(),
-                ));
-            }
-            file.write_all(&chunk).await?;
-        }
-        file.sync_all().await?;
-
-        if written == 0 {
-            return Err(AppError::BadRequest("empty update archive".to_string()));
-        }
-        archive = Some(target);
-    }
-
-    archive.ok_or_else(|| AppError::BadRequest("no update file uploaded".to_string()))
-}
-
 async fn install_package_blocking(archive: PathBuf, cache_dir: PathBuf) -> Result<()> {
     tokio::task::spawn_blocking(move || install_package(&archive, &cache_dir))
         .await
@@ -383,7 +318,7 @@ fn validate_update_root(root: &Path) -> Result<()> {
     Ok(())
 }
 
-fn validate_latest_release(latest: &LatestRelease) -> Result<()> {
+fn validate_latest_fields(latest: &LatestRelease) -> Result<()> {
     validate_version(&latest.version)?;
     validate_update_filename(&latest.name)?;
     validate_sha512(&latest.sha512)?;
@@ -393,6 +328,12 @@ fn validate_latest_release(latest: &LatestRelease) -> Result<()> {
             "invalid release archive size".to_string(),
         ));
     }
+    validate_signature_fields(&latest.signature_algorithm, &latest.signature_key_id)?;
+    Ok(())
+}
+
+fn validate_latest_release(latest: &LatestRelease) -> Result<()> {
+    validate_latest_fields(latest)?;
     if !latest.url.starts_with(GITHUB_RELEASE_DOWNLOAD_PREFIX) {
         return Err(AppError::BadRequest(
             "release archive URL is not from Hardened_NanoKVM releases".to_string(),
@@ -403,8 +344,6 @@ fn validate_latest_release(latest: &LatestRelease) -> Result<()> {
             "release archive URL contains whitespace".to_string(),
         ));
     }
-    validate_signature_fields(&latest.signature_algorithm, &latest.signature_key_id)?;
-
     Ok(())
 }
 

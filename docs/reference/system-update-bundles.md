@@ -111,6 +111,21 @@ verifier:
 Target, required application version, archive digests and payload hashes are
 checked as for downloads. The staged record keeps the signer, shown in the UI.
 
+## Application bundles
+
+`POST /api/application/upload` takes the same kind of bundle for the application:
+a plain or gzip-compressed tar with exactly `latest.json`, `latest.json.sig`
+(omitted for unsigned metadata) and the kvmapp archive
+(`hardened-nanokvm-kvmapp-<version>.tar.gz`), built by
+`scripts/create-application-update-bundle.sh` from the output of
+`scripts/create-update-metadata.sh`. `signature_key_id` selects the verifier as
+for system bundles: `local` is the key registered for system updates, any other id
+comes from the bundled keyring, and `unsigned` needs
+`security.allow_unsigned_updates`. The `url` field is ignored. Release-key bundles
+must be newer than the installed application; `local` and `unsigned` bundles may
+repeat or lower it. The archive size and SHA-512 in `latest.json` are checked
+before install.
+
 ## Current Published System Releases
 
 The current preview candidate is combined RC12, app `2.0.42` plus system

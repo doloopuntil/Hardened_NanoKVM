@@ -979,23 +979,21 @@ const fi = {
         },
         offline: {
           title: 'Lataa sovelluspaketti',
-          desc: 'Asenna sovelluspaketti tältä tietokoneelta. Palvelin käynnistyy sen jälkeen uudelleen.',
-          invalidName: 'Virheellinen tiedostonimi. Lataa GitHub releases -sivulta.',
-          updateFailed: 'Päivitys epäonnistui'
+          desc: 'Asenna sovelluspaketti tältä tietokoneelta. Palvelin käynnistyy sen jälkeen uudelleen.'
         },
         local: {
           title: 'Lataa järjestelmäpaketti',
           desc: 'Asenna järjestelmäpaketti tältä tietokoneelta. Yksi tiedosto sisältää arkiston ja sen allekirjoitetut metatiedot.',
           choose: 'Valitse tiedosto',
-          invalidFile: 'Valitse järjestelmäpaketti, jonka pääte on .tar tai .tar.gz.',
+          invalidFile: 'Valitse paketti, jonka pääte on .tar tai .tar.gz.',
           diskTitle: 'Sammutetaanko virtuaalilevy?',
           diskWarn:
-            'Järjestelmäpaketti tallennetaan hakemistoon /data, joka on vain luettavissa, kun virtuaalilevy on päällä. Kun virtuaalilevy sammutetaan, tietokone ei enää pääse hakemistoon /data. Jatketaanko?',
+            'Paketti tallennetaan hakemistoon /data, joka on vain luettavissa, kun virtuaalilevy on päällä. Kun virtuaalilevy sammutetaan, tietokone ei enää pääse hakemistoon /data. Jatketaanko?',
           uploading: 'Lähetetään',
           verifying: 'Tarkistetaan ja valmistellaan pakettia',
           keyTitle: 'Paikallinen päivitysavain',
           keyDesc:
-            'PEM-muotoinen julkinen avain, jolla saa allekirjoittaa itse rakennetut järjestelmäpaketit',
+            'PEM-muotoinen julkinen avain, jolla saa allekirjoittaa itse rakennetut paketit',
           keyNone: 'Avainta ei ole asetettu',
           keySet: 'Aseta avain',
           keyRemove: 'Poista',

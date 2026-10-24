@@ -974,23 +974,21 @@ const cz = {
         },
         offline: {
           title: 'Nahrát balíček aplikace',
-          desc: 'Nainstalovat balíček aplikace z tohoto počítače. Poté se server restartuje.',
-          invalidName: 'Neplatný formát souboru. Stáhněte si prosím z vydání GitHubu.',
-          updateFailed: 'Aktualizace se nezdařila'
+          desc: 'Nainstalovat balíček aplikace z tohoto počítače. Poté se server restartuje.'
         },
         local: {
           title: 'Nahrát systémový balíček',
           desc: 'Nainstalovat systémový balíček z tohoto počítače. Jeden soubor obsahuje archiv a jeho podepsaná metadata.',
           choose: 'Vybrat soubor',
-          invalidFile: 'Vyberte systémový balíček s příponou .tar nebo .tar.gz.',
+          invalidFile: 'Vyberte balíček s příponou .tar nebo .tar.gz.',
           diskTitle: 'Vypnout virtuální disk?',
           diskWarn:
-            'Balíček systému se ukládá do /data, které je při zapnutém virtuálním disku jen pro čtení. Po vypnutí virtuálního disku už počítač nebude mít přístup k /data. Pokračovat?',
+            'Balíček se ukládá do /data, které je při zapnutém virtuálním disku jen pro čtení. Po vypnutí virtuálního disku už počítač nebude mít přístup k /data. Pokračovat?',
           uploading: 'Nahrávání',
           verifying: 'Ověřování a příprava balíčku',
           keyTitle: 'Místní aktualizační klíč',
           keyDesc:
-            'Veřejný klíč ve formátu PEM, který smí podepisovat systémové balíčky, které si sami sestavíte',
+            'Veřejný klíč ve formátu PEM, který smí podepisovat balíčky, které si sami sestavíte',
           keyNone: 'Žádný klíč nenastaven',
           keySet: 'Nastavit klíč',
           keyRemove: 'Odebrat',

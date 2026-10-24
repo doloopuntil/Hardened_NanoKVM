@@ -983,22 +983,20 @@ const nb = {
         },
         offline: {
           title: 'Last opp programpakke',
-          desc: 'Installer en programpakke fra denne datamaskinen. Serveren starter på nytt etterpå.',
-          invalidName: 'Ugyldig filnavnformat. Last ned fra GitHub-utgivelser.',
-          updateFailed: 'En feil oppstod under oppdatering'
+          desc: 'Installer en programpakke fra denne datamaskinen. Serveren starter på nytt etterpå.'
         },
         local: {
           title: 'Last opp systempakke',
           desc: 'Installer en systempakke fra denne datamaskinen. Én fil inneholder arkivet og de signerte metadataene.',
           choose: 'Velg fil',
-          invalidFile: 'Velg en systempakke som slutter på .tar eller .tar.gz.',
+          invalidFile: 'Velg en pakke som slutter på .tar eller .tar.gz.',
           diskTitle: 'Slå av den virtuelle disken?',
           diskWarn:
-            'Systempakken lagres på /data, som er skrivebeskyttet mens den virtuelle disken er på. Når den slås av, får ikke datamaskinen lenger tilgang til /data. Fortsette?',
+            'Pakken lagres på /data, som er skrivebeskyttet mens den virtuelle disken er på. Når den slås av, får ikke datamaskinen lenger tilgang til /data. Fortsette?',
           uploading: 'Laster opp',
           verifying: 'Verifiserer og klargjør pakken',
           keyTitle: 'Lokal oppdateringsnøkkel',
-          keyDesc: 'Offentlig nøkkel i PEM-format som kan signere systempakker du bygger selv',
+          keyDesc: 'Offentlig nøkkel i PEM-format som kan signere pakker du bygger selv',
           keyNone: 'Ingen nøkkel angitt',
           keySet: 'Angi nøkkel',
           keyRemove: 'Fjern',

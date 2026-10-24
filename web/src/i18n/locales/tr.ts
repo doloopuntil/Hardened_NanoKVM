@@ -977,23 +977,21 @@ const tr = {
         },
         offline: {
           title: 'Uygulama paketini yükle',
-          desc: 'Bu bilgisayardan bir uygulama paketi kur. Ardından sunucu yeniden başlar.',
-          invalidName: 'Geçersiz dosya adı biçimi. Lütfen GitHub sürümlerinden indirin.',
-          updateFailed: 'Güncelleme başarısız oldu'
+          desc: 'Bu bilgisayardan bir uygulama paketi kur. Ardından sunucu yeniden başlar.'
         },
         local: {
           title: 'Sistem paketini yükle',
           desc: 'Bu bilgisayardan bir sistem paketi kur. Tek bir dosya arşivi ve imzalı üst verilerini içerir.',
           choose: 'Dosya seç',
-          invalidFile: 'Uzantısı .tar veya .tar.gz olan bir sistem paketi seçin.',
+          invalidFile: 'Uzantısı .tar veya .tar.gz olan bir paket seçin.',
           diskTitle: 'Sanal disk kapatılsın mı?',
           diskWarn:
-            'Sistem paketi /data dizinine kaydedilir; sanal disk açıkken bu dizin salt okunurdur. Kapatıldığında bilgisayar /data dizinine erişemez. Devam edilsin mi?',
+            'Paket /data dizinine kaydedilir; sanal disk açıkken bu dizin salt okunurdur. Kapatıldığında bilgisayar /data dizinine erişemez. Devam edilsin mi?',
           uploading: 'Yükleniyor',
           verifying: 'Paket doğrulanıyor ve hazırlanıyor',
           keyTitle: 'Yerel güncelleme anahtarı',
           keyDesc:
-            'Kendi oluşturduğunuz sistem paketlerini imzalayabilen PEM biçiminde genel anahtar',
+            'Kendi oluşturduğunuz paketlerini imzalayabilen PEM biçiminde genel anahtar',
           keyNone: 'Anahtar ayarlanmadı',
           keySet: 'Anahtarı ayarla',
           keyRemove: 'Kaldır',

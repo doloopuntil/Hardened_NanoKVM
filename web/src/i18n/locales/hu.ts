@@ -985,23 +985,21 @@ const hu = {
         },
         offline: {
           title: 'Alkalmazáscsomag feltöltése',
-          desc: 'Alkalmazáscsomag telepítése erről a számítógépről. Ezután a szerver újraindul.',
-          invalidName: 'Érvénytelen fájlnévformátum. Kérjük, töltse le a GitHub kiadásaiból.',
-          updateFailed: 'Frissítés sikertelen'
+          desc: 'Alkalmazáscsomag telepítése erről a számítógépről. Ezután a szerver újraindul.'
         },
         local: {
           title: 'Rendszercsomag feltöltése',
           desc: 'Rendszercsomag telepítése erről a számítógépről. Egy fájl tartalmazza az archívumot és az aláírt metaadatokat.',
           choose: 'Fájl kiválasztása',
-          invalidFile: 'Válasszon .tar vagy .tar.gz végződésű rendszercsomagot.',
+          invalidFile: 'Válasszon .tar vagy .tar.gz végződésű csomagot.',
           diskTitle: 'Kikapcsolja a virtuális lemezt?',
           diskWarn:
-            'A rendszercsomag a /data könyvtárba kerül, amely csak olvasható, amíg a virtuális lemez be van kapcsolva. A kikapcsolás után a számítógép többé nem fér hozzá a /data könyvtárhoz. Folytatja?',
+            'A csomag a /data könyvtárba kerül, amely csak olvasható, amíg a virtuális lemez be van kapcsolva. A kikapcsolás után a számítógép többé nem fér hozzá a /data könyvtárhoz. Folytatja?',
           uploading: 'Feltöltés',
           verifying: 'A csomag ellenőrzése és előkészítése',
           keyTitle: 'Helyi frissítési kulcs',
           keyDesc:
-            'PEM formátumú nyilvános kulcs, amely aláírhatja az Ön által készített rendszercsomagokat',
+            'PEM formátumú nyilvános kulcs, amely aláírhatja az Ön által készített csomagokat',
           keyNone: 'Nincs kulcs beállítva',
           keySet: 'Kulcs beállítása',
           keyRemove: 'Eltávolítás',

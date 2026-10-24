@@ -41,8 +41,12 @@ pub fn build(state: AppState) -> Router {
         .route("/api/application/version", get(application::get_version))
         .route("/api/application/update", post(application::update))
         .route(
-            "/api/application/update/offline",
-            post(application::offline_update).layer(DefaultBodyLimit::max(128 * 1024 * 1024)),
+            "/api/application/upload-check",
+            get(application::upload::upload_check),
+        )
+        .route(
+            "/api/application/upload",
+            post(application::upload::upload).layer(DefaultBodyLimit::max(130 * 1024 * 1024)),
         )
         .route(
             "/api/system-update/version",

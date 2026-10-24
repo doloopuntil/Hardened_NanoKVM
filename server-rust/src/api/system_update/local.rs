@@ -444,7 +444,7 @@ async fn authorize_upload(
     Ok(key_id.to_string())
 }
 
-fn ensure_free_space(dir: &Path, needed: u64) -> Result<()> {
+pub(crate) fn ensure_free_space(dir: &Path, needed: u64) -> Result<()> {
     // the staging folder may not exist yet; the filesystem under it is what counts
     let mut probe = dir;
     while !probe.exists() {
@@ -466,7 +466,7 @@ fn ensure_free_space(dir: &Path, needed: u64) -> Result<()> {
     Ok(())
 }
 
-fn local_public_key_path(path: &Path) -> Result<PathBuf> {
+pub(crate) fn local_public_key_path(path: &Path) -> Result<PathBuf> {
     let metadata = fs::symlink_metadata(path).map_err(|_| {
         AppError::BadRequest("no local update key is registered on this device".to_string())
     })?;

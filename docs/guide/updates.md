@@ -29,9 +29,11 @@ In **Settings > System > Updates**:
 - **Application** checks the online channel. The device accepts an update only
   when its `latest.json` carries a valid signature and the downloaded archive
   matches the SHA-512 in it.
-- **Upload application bundle** takes an application archive
-  (`hardened-nanokvm-kvmapp-<version>.tar.gz`) uploaded from the browser and runs
-  the same package checks.
+- **Upload application bundle** takes one signed bundle from this computer and
+  shows the upload progress. The device checks the signature with the same keys as
+  the system bundle, including the local update key, then runs the package checks.
+  A bundle signed by a release key must be newer than the installed application.
+  Build one with `scripts/create-application-update-bundle.sh`.
 
 The server restarts after an application update; sign in again afterwards.
 

@@ -974,23 +974,20 @@ const vi = {
         },
         offline: {
           title: 'Tải lên gói ứng dụng',
-          desc: 'Cài đặt gói ứng dụng từ máy tính này. Sau đó máy chủ sẽ khởi động lại.',
-          invalidName:
-            'Định dạng tên tệp không hợp lệ. Vui lòng tải xuống từ bản phát hành GitHub.',
-          updateFailed: 'Cập nhật thất bại'
+          desc: 'Cài đặt gói ứng dụng từ máy tính này. Sau đó máy chủ sẽ khởi động lại.'
         },
         local: {
           title: 'Tải lên gói hệ thống',
           desc: 'Cài đặt gói hệ thống từ máy tính này. Một tệp chứa tệp lưu trữ và siêu dữ liệu đã ký của nó.',
           choose: 'Chọn tệp',
-          invalidFile: 'Chọn một gói hệ thống có đuôi .tar hoặc .tar.gz.',
+          invalidFile: 'Chọn một gói có đuôi .tar hoặc .tar.gz.',
           diskTitle: 'Tắt đĩa ảo?',
           diskWarn:
-            'Gói hệ thống được lưu vào /data, vốn chỉ đọc khi đĩa ảo đang bật. Sau khi tắt, máy tính không còn truy cập được /data. Tiếp tục?',
+            'Gói được lưu vào /data, vốn chỉ đọc khi đĩa ảo đang bật. Sau khi tắt, máy tính không còn truy cập được /data. Tiếp tục?',
           uploading: 'Đang tải lên',
           verifying: 'Đang xác minh và chuẩn bị gói',
           keyTitle: 'Khóa cập nhật cục bộ',
-          keyDesc: 'Khóa công khai định dạng PEM được phép ký các gói hệ thống do bạn tự xây dựng',
+          keyDesc: 'Khóa công khai định dạng PEM được phép ký các gói do bạn tự xây dựng',
           keyNone: 'Chưa đặt khóa',
           keySet: 'Đặt khóa',
           keyRemove: 'Xóa',
