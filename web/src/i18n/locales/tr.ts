@@ -568,6 +568,20 @@ const tr = {
             confirmText:
               'Cihaz hız aşırtmayla başlamazsa kurtarmak için SD kartı yeniden yazmanız gerekir. Değişiklik sonraki yeniden başlatmadan sonra uygulanır.'
           },
+          watchdog: {
+            title: 'Donanım watchdog',
+            description: 'Cihaz yanıt vermeyi bıraktığında otomatik olarak yeniden başlat',
+            unavailable: 'Bu sistem imajına dahil değil',
+            notRunning: 'Şu anda çalışmıyor',
+            lastRestart: 'Son yeniden başlatma',
+            lastRestartCaption: 'Sistemin yeniden başlatılmasının en son nedeni',
+            reasonPowerOn: 'Güç açıldı',
+            reasonRestart: 'Yeniden başlatma istendi',
+            reasonWatchdog: 'Watchdog sıfırlaması',
+            reasonOverheat: 'Aşırı ısınma koruması',
+            reasonUnknown: 'Bilinmiyor'
+          },
+          recovery: 'Kurtarma',
           memory: 'Bellek'
         },
         monitor: {

@@ -546,6 +546,20 @@ const zh = {
             confirmText:
               '如果设备在超频下无法启动，必须重新刷写 SD 卡才能恢复。更改将在下次重启后生效。'
           },
+          watchdog: {
+            title: '硬件看门狗',
+            description: '设备停止响应时自动重启',
+            unavailable: '此系统镜像未包含',
+            notRunning: '当前未运行',
+            lastRestart: '上次重启',
+            lastRestartCaption: '系统最近一次重启的原因',
+            reasonPowerOn: '上电',
+            reasonRestart: '请求重启',
+            reasonWatchdog: '看门狗复位',
+            reasonOverheat: '过热保护',
+            reasonUnknown: '未知'
+          },
+          recovery: '恢复',
           memory: '内存'
         },
         monitor: {

@@ -105,7 +105,7 @@ export function disableSSH() {
   return http.post('/api/vm/ssh/disable');
 }
 
-// get swap file size
+// get the swap file size and the space a swap file may take
 export function getSwap() {
   return http.get('/api/vm/swap');
 }
@@ -113,6 +113,23 @@ export function getSwap() {
 // set swap file size
 export function setSwap(size: number) {
   return http.post('/api/vm/swap', { size });
+}
+
+export type WatchdogState = {
+  available: boolean;
+  enabled: boolean;
+  running: boolean;
+  lastRestart: 'power-on' | 'restart' | 'watchdog' | 'overheat' | 'unknown' | null;
+};
+
+// get the hardware watchdog switch and the reason for the last restart
+export function getWatchdog(): Promise<{ code: number; msg: string; data?: WatchdogState }> {
+  return http.get('/api/vm/watchdog');
+}
+
+// turn the hardware watchdog on or off; it takes effect at once
+export function setWatchdog(enabled: boolean) {
+  return http.post('/api/vm/watchdog', { enabled });
 }
 
 // get the boot clock profile

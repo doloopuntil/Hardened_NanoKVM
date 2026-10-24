@@ -10,6 +10,7 @@ import { SettingRow } from '@/components/setting-rows.tsx';
 
 // The size used when swap is switched on before a size has been chosen.
 const DEFAULT_SIZE = '128';
+const SWAP_FREE_MARGIN_MB = 32;
 
 export const Swap = () => {
   const { t } = useTranslation();
@@ -18,9 +19,17 @@ export const Swap = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [size, setSize] = useState(DEFAULT_SIZE);
 
-  const options = ['64', '128', '256', '512'].map((value) => ({ value, label: value }));
+  const [availableMb, setAvailableMb] = useState<number | null>(null);
+
+  // the root filesystem keeps some space free, so only sizes that fit can be chosen
+  const options = ['64', '128', '256'].map((value) => ({
+    value,
+    label: value,
+    disabled: availableMb !== null && parseInt(value) + SWAP_FREE_MARGIN_MB > availableMb
+  }));
 
   const isReady = useSettingsLoad(api.getSwap, (rsp) => {
+    setAvailableMb(typeof rsp.data?.availableMb === 'number' ? rsp.data.availableMb : null);
     if (rsp.data?.size) {
       setIsEnabled(true);
       setSize(rsp.data.size.toString());

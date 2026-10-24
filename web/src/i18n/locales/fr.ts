@@ -574,6 +574,20 @@ const fr = {
             confirmText:
               "Si l'appareil ne démarre pas avec l'overdrive, vous devrez reflasher la carte SD pour le récupérer. Le changement s'applique après le prochain redémarrage."
           },
+          watchdog: {
+            title: 'Chien de garde matériel',
+            description: "Redémarrer automatiquement l'appareil lorsqu'il ne répond plus",
+            unavailable: 'Non inclus dans cette image système',
+            notRunning: 'Ne fonctionne pas actuellement',
+            lastRestart: 'Dernier redémarrage',
+            lastRestartCaption: 'Motif le plus récent du redémarrage du système',
+            reasonPowerOn: 'Mise sous tension',
+            reasonRestart: 'Redémarrage demandé',
+            reasonWatchdog: 'Réinitialisation par le chien de garde',
+            reasonOverheat: 'Protection contre la surchauffe',
+            reasonUnknown: 'Inconnu'
+          },
+          recovery: 'Récupération',
           memory: 'Mémoire'
         },
         monitor: {

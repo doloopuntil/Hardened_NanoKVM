@@ -547,6 +547,20 @@ const zh_tw = {
             confirmText:
               '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡才能復原。變更將在下次重新啟動後生效。'
           },
+          watchdog: {
+            title: '硬體看門狗',
+            description: '裝置停止回應時自動重新啟動',
+            unavailable: '此系統映像檔未包含',
+            notRunning: '目前未執行',
+            lastRestart: '上次重新啟動',
+            lastRestartCaption: '系統最近一次重新啟動的原因',
+            reasonPowerOn: '上電',
+            reasonRestart: '要求重新啟動',
+            reasonWatchdog: '看門狗重設',
+            reasonOverheat: '過熱保護',
+            reasonUnknown: '未知'
+          },
+          recovery: '復原',
           memory: '記憶體'
         },
         monitor: {

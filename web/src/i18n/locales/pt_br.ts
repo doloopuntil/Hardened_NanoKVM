@@ -570,6 +570,20 @@ const pt_br = {
             confirmText:
               'Se o dispositivo não iniciar com overdrive, você precisará regravar o cartão SD para recuperá-lo. A alteração é aplicada após a próxima reinicialização.'
           },
+          watchdog: {
+            title: 'Watchdog de hardware',
+            description: 'Reiniciar o dispositivo automaticamente quando ele parar de responder',
+            unavailable: 'Não incluído nesta imagem do sistema',
+            notRunning: 'Não está em execução no momento',
+            lastRestart: 'Última reinicialização',
+            lastRestartCaption: 'Motivo mais recente da reinicialização do sistema',
+            reasonPowerOn: 'Ligado',
+            reasonRestart: 'Reinicialização solicitada',
+            reasonWatchdog: 'Reinício pelo watchdog',
+            reasonOverheat: 'Proteção contra superaquecimento',
+            reasonUnknown: 'Desconhecido'
+          },
+          recovery: 'Recuperação',
           memory: 'Memória'
         },
         monitor: {

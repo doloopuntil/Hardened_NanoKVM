@@ -569,6 +569,20 @@ const da = {
             confirmText:
               'Hvis enheden ikke starter med overclocking, skal du flashe SD-kortet igen for at gendanne den. Ændringen træder i kraft efter næste genstart.'
           },
+          watchdog: {
+            title: 'Hardware-watchdog',
+            description: 'Genstart enheden automatisk, når den holder op med at svare',
+            unavailable: 'Ikke inkluderet i dette systemaftryk',
+            notRunning: 'Kører ikke i øjeblikket',
+            lastRestart: 'Seneste genstart',
+            lastRestartCaption: 'Seneste årsag til, at systemet blev genstartet',
+            reasonPowerOn: 'Tændt',
+            reasonRestart: 'Genstart anmodet',
+            reasonWatchdog: 'Watchdog-nulstilling',
+            reasonOverheat: 'Overophedningsbeskyttelse',
+            reasonUnknown: 'Ukendt'
+          },
+          recovery: 'Genopretning',
           memory: 'Hukommelse'
         },
         monitor: {

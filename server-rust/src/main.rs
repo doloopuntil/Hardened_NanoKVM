@@ -34,6 +34,7 @@ const BOOT_INIT_SCRIPTS: &[&str] = &[
     "S01fs",
     "S01syslogd",
     "S02klogd",
+    "S02watchdog",
     "S03usbdev",
     "S15kvmhwd",
     "S30eth",

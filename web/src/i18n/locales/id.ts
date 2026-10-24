@@ -572,6 +572,20 @@ const id = {
             confirmText:
               'Jika perangkat tidak menyala dengan overdrive, Anda harus menulis ulang kartu SD untuk memulihkannya. Perubahan berlaku setelah reboot berikutnya.'
           },
+          watchdog: {
+            title: 'Watchdog perangkat keras',
+            description: 'Mulai ulang perangkat secara otomatis saat tidak merespons',
+            unavailable: 'Tidak disertakan dalam citra sistem ini',
+            notRunning: 'Tidak berjalan saat ini',
+            lastRestart: 'Mulai ulang terakhir',
+            lastRestartCaption: 'Alasan terbaru sistem dimulai ulang',
+            reasonPowerOn: 'Daya menyala',
+            reasonRestart: 'Mulai ulang diminta',
+            reasonWatchdog: 'Reset watchdog',
+            reasonOverheat: 'Perlindungan panas berlebih',
+            reasonUnknown: 'Tidak diketahui'
+          },
+          recovery: 'Pemulihan',
           memory: 'Memori'
         },
         monitor: {

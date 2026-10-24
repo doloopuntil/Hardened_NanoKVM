@@ -575,6 +575,20 @@ const nl = {
             confirmText:
               'Als het apparaat met overklokken niet start, moet u de SD-kaart opnieuw beschrijven om het te herstellen. De wijziging gaat in na de volgende herstart.'
           },
+          watchdog: {
+            title: 'Hardware-watchdog',
+            description: 'Start het apparaat automatisch opnieuw op wanneer het niet meer reageert',
+            unavailable: 'Niet opgenomen in dit systeemimage',
+            notRunning: 'Draait momenteel niet',
+            lastRestart: 'Laatste herstart',
+            lastRestartCaption: 'Meest recente reden waarom het systeem opnieuw is opgestart',
+            reasonPowerOn: 'Ingeschakeld',
+            reasonRestart: 'Herstart aangevraagd',
+            reasonWatchdog: 'Watchdog-reset',
+            reasonOverheat: 'Oververhittingsbeveiliging',
+            reasonUnknown: 'Onbekend'
+          },
+          recovery: 'Herstel',
           memory: 'Geheugen'
         },
         monitor: {

@@ -50,10 +50,12 @@ jobs:
 
       # lt6911_sensor_ctl.c's chip-ID I2C probe never succeeds on this board (confirmed on real
       # hardware); HDMI works without it, so it's removed. fsbl-overdrive-clocks selects the
-      # FSBL's overdrive clock table (C906 1050 MHz, VDDC 1.00 V).
+      # FSBL's overdrive clock table (C906 1050 MHz, VDDC 1.00 V). fsbl-boot-guard counts boots that
+      # never reached a healthy system in RTC_INFO1: the FSBL arms the top watchdog, falls back to the
+      # standard clocks after 2 such boots and leaves the watchdog off after 4.
       - name: Apply tracked vendor SDK patches
         run: |
-          for patch in lt6911-sensor-id-probe-removed fsbl-overdrive-clocks; do
+          for patch in lt6911-sensor-id-probe-removed fsbl-overdrive-clocks fsbl-boot-guard; do
             file="$GITHUB_WORKSPACE/buildroot-external/hardened-sg2002/board/sg2002/vendor-sdk-patches/$patch.patch"
             git -C build/vendor/LicheeRV-Nano-Build apply --check "$file"
             git -C build/vendor/LicheeRV-Nano-Build apply "$file"

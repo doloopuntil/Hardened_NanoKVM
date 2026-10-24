@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-24
 source: kvmapp/system/init.d/
 ---
 
@@ -14,8 +14,9 @@ through these scripts, never by starting daemons itself.
 | Script | Does |
 | --- | --- |
 | `S00kmod` | Loads the SG2002 kernel modules (video, encoder, I2C, …). |
-| `S01fs` | Mounts and prepares the data partition; keeps `/data` read-only while the virtual disk shares it. |
+| `S01fs` | Mounts and prepares the data partition, creating it from the space after the root partition on a new card; keeps `/data` read-only while the virtual disk shares it. Grows the root filesystem into its partition at every boot. A root filesystem flagged with errors, which blocks that growth, is checked with `e2fsck` first; the RTC register `RTC_INFO2` limits this to one attempt per power cycle. |
 | `S01syslogd`, `S02klogd` | System and kernel logging, to the tmpfs buffer and optionally to remote syslog. |
+| `S02watchdog` | Arms the SoC hardware watchdog (60 s timeout, fed every 10 s) and sets `kernel.panic=10`, so a hung or panicked system restarts by itself. Records why the chip last restarted in `/tmp/boot-reason`. `/boot/disable_watchdog` turns it off and disarms the timer the FSBL started. The raw system update stops it before writing the partitions. |
 | `S03usbdev` | Builds the USB gadget: keyboard, mice, mass storage, network. Hands over to `S03usbhid` when `/boot/usb.hidonly` exists. |
 | `S03usbhid` | The HID-only gadget: keyboard and mice only. |
 | `S15kvmhwd` | Board GPIO and hardware setup (OLED reset, ATX pins). |

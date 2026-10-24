@@ -573,6 +573,20 @@ const hu = {
             confirmText:
               'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írnia a helyreállításhoz. A módosítás a következő újraindítás után lép életbe.'
           },
+          watchdog: {
+            title: 'Hardveres watchdog',
+            description: 'Az eszköz automatikus újraindítása, ha nem válaszol',
+            unavailable: 'Nem része ennek a rendszerképnek',
+            notRunning: 'Jelenleg nem fut',
+            lastRestart: 'Utolsó újraindítás',
+            lastRestartCaption: 'A rendszer legutóbbi újraindulásának oka',
+            reasonPowerOn: 'Bekapcsolás',
+            reasonRestart: 'Kért újraindítás',
+            reasonWatchdog: 'Watchdog-alaphelyzet',
+            reasonOverheat: 'Túlmelegedés elleni védelem',
+            reasonUnknown: 'Ismeretlen'
+          },
+          recovery: 'Helyreállítás',
           memory: 'Memória'
         },
         monitor: {

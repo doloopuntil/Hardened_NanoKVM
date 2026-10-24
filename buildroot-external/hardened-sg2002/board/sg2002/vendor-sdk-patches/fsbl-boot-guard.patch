@@ -1,0 +1,72 @@
+diff --git a/fsbl/plat/cv181x/bl2/bl2_main.c b/fsbl/plat/cv181x/bl2/bl2_main.c
+index a4f1aec18..a05fef283 100644
+--- a/fsbl/plat/cv181x/bl2/bl2_main.c
++++ b/fsbl/plat/cv181x/bl2/bl2_main.c
+@@ -46,9 +46,43 @@ int dec_verify_image(const void *image, size_t size, size_t dec_skip, struct fip
+ }
+ #endif
+ 
++/*
++ * Boot guard. RTC_INFO1 keeps a count of boots that did not reach a healthy system: it survives
++ * watchdog resets but not a power loss. Linux writes the default value back once the server is
++ * healthy. While the count is low the boot runs as built and arms the watchdog, so a hang before
++ * Linux resets the chip; a few failed boots in a row fall back to the standard clocks, and after
++ * more of them the watchdog stays off so the board can be reached.
++ */
++#define BOOT_GUARD_REG 0x05026020
++#define BOOT_GUARD_MAGIC 0x6B670000
++#define BOOT_GUARD_MASK 0xFFFF0000
++#define BOOT_GUARD_OD_TRIES 2
++#define BOOT_GUARD_WDT_TRIES 4
++#define BOOT_GUARD_WDT_BASE 0x03010000
++
++static uint32_t boot_guard_count(void)
++{
++	uint32_t v = mmio_read_32(BOOT_GUARD_REG);
++	uint32_t count = ((v & BOOT_GUARD_MASK) == BOOT_GUARD_MAGIC) ? (v & 0xFFFF) : 0;
++
++	if (count < 0xFFFF)
++		mmio_write_32(BOOT_GUARD_REG, BOOT_GUARD_MAGIC | (count + 1));
++	return count;
++}
++
++static void boot_guard_arm_watchdog(void)
++{
++	/* TOP 14 for the first and later periods: 2^30 cycles of the 25 MHz clock, about 43 s */
++	mmio_write_32(BOOT_GUARD_WDT_BASE + 0x04, 0x000000EE);
++	mmio_write_32(BOOT_GUARD_WDT_BASE + 0x0C, 0x00000076);
++	/* reset on timeout, 32 cycle pulse, enable */
++	mmio_write_32(BOOT_GUARD_WDT_BASE + 0x00, 0x00000011);
++}
++
+ void bl2_main(void)
+ {
+ 	enum CHIP_CLK_MODE mode;
++	uint32_t boot_count;
+ 	uint32_t v = p_rom_api_get_boot_src();
+ 
+ 	if (v == BOOT_SRC_UART) {
+@@ -75,6 +109,12 @@ void bl2_main(void)
+ 
+ 	set_rtc_en_registers();
+ 
++	boot_count = boot_guard_count();
++	if (boot_count < BOOT_GUARD_WDT_TRIES)
++		boot_guard_arm_watchdog();
++	else
++		NOTICE("boot guard: %u unconfirmed boots, watchdog left off\n", boot_count);
++
+ 	load_ddr();
+ 
+ #ifdef OD_CLK_SEL
+@@ -86,6 +126,10 @@ void bl2_main(void)
+ 	mode = CLK_ND;
+ #endif
+ #endif
++	if (mode == CLK_OD && boot_count >= BOOT_GUARD_OD_TRIES) {
++		NOTICE("boot guard: %u unconfirmed boots, standard clocks\n", boot_count);
++		mode = CLK_ND;
++	}
+ 	load_rest(mode);
+ 	NOTICE("BL2 end.\n");
+ 

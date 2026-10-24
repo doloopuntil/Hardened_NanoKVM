@@ -573,6 +573,20 @@ const nb = {
             confirmText:
               'Hvis enheten ikke starter med overklokking, må du flashe SD-kortet på nytt for å gjenopprette den. Endringen gjelder etter neste omstart.'
           },
+          watchdog: {
+            title: 'Maskinvare-watchdog',
+            description: 'Start enheten på nytt automatisk når den slutter å svare',
+            unavailable: 'Ikke inkludert i dette systembildet',
+            notRunning: 'Kjører ikke for øyeblikket',
+            lastRestart: 'Siste omstart',
+            lastRestartCaption: 'Siste årsak til at systemet startet på nytt',
+            reasonPowerOn: 'Strøm på',
+            reasonRestart: 'Omstart forespurt',
+            reasonWatchdog: 'Watchdog-tilbakestilling',
+            reasonOverheat: 'Overopphetingsvern',
+            reasonUnknown: 'Ukjent'
+          },
+          recovery: 'Gjenoppretting',
           memory: 'Minne'
         },
         monitor: {

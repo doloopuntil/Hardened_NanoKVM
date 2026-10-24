@@ -566,6 +566,20 @@ const vi = {
             confirmText:
               'Nếu thiết bị không khởi động được với overdrive, bạn phải ghi lại thẻ SD để khôi phục. Thay đổi có hiệu lực sau lần khởi động lại tiếp theo.'
           },
+          watchdog: {
+            title: 'Watchdog phần cứng',
+            description: 'Tự động khởi động lại thiết bị khi nó ngừng phản hồi',
+            unavailable: 'Không có trong ảnh hệ thống này',
+            notRunning: 'Hiện không chạy',
+            lastRestart: 'Lần khởi động lại gần nhất',
+            lastRestartCaption: 'Lý do gần nhất khiến hệ thống khởi động lại',
+            reasonPowerOn: 'Bật nguồn',
+            reasonRestart: 'Yêu cầu khởi động lại',
+            reasonWatchdog: 'Watchdog đặt lại',
+            reasonOverheat: 'Bảo vệ quá nhiệt',
+            reasonUnknown: 'Không rõ'
+          },
+          recovery: 'Khôi phục',
           memory: 'Bộ nhớ'
         },
         monitor: {

@@ -575,6 +575,20 @@ const it = {
             confirmText:
               "Se il dispositivo non si avvia con l'overdrive, dovrai riscrivere la scheda SD per ripristinarlo. La modifica si applica dopo il prossimo riavvio."
           },
+          watchdog: {
+            title: 'Watchdog hardware',
+            description: 'Riavvia automaticamente il dispositivo quando smette di rispondere',
+            unavailable: 'Non incluso in questa immagine di sistema',
+            notRunning: 'Non in esecuzione al momento',
+            lastRestart: 'Ultimo riavvio',
+            lastRestartCaption: 'Motivo più recente per cui il sistema si è riavviato',
+            reasonPowerOn: 'Accensione',
+            reasonRestart: 'Riavvio richiesto',
+            reasonWatchdog: 'Reset del watchdog',
+            reasonOverheat: 'Protezione da surriscaldamento',
+            reasonUnknown: 'Sconosciuto'
+          },
+          recovery: 'Ripristino',
           memory: 'Memoria'
         },
         monitor: {

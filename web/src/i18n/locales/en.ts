@@ -566,6 +566,20 @@ const en = {
             confirmText:
               'If the device does not start with overdrive, you must reflash the SD card to recover it. The change applies after the next reboot.'
           },
+          watchdog: {
+            title: 'Hardware watchdog',
+            description: 'Restart the device automatically when it stops responding',
+            unavailable: 'Not included in this system image',
+            notRunning: 'Not running at the moment',
+            lastRestart: 'Last restart',
+            lastRestartCaption: 'Most recent reason why the system restarted',
+            reasonPowerOn: 'Power on',
+            reasonRestart: 'Restart requested',
+            reasonWatchdog: 'Watchdog reset',
+            reasonOverheat: 'Overheat protection',
+            reasonUnknown: 'Unknown'
+          },
+          recovery: 'Recovery',
           memory: 'Memory'
         },
         monitor: {
