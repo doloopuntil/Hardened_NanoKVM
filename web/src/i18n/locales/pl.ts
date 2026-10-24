@@ -922,14 +922,6 @@ const pl = {
             'Zaktualizuj aplikację do wersji {{version}}, zanim zainstalujesz tę aktualizację systemu',
           requiredAppVersion: 'Wymagana wersja aplikacji',
           downloadFailed: 'Pobieranie lub weryfikacja nie powiodły się',
-          rawEnable: 'Zezwalaj na raw aktualizacje systemu',
-          rawEnableDesc:
-            'Pozwól zapisywać zweryfikowane obrazy raw boot/rootfs na kartę SD z tego ekranu',
-          rawEnableConfirmTitle: 'Zezwolić na raw aktualizacje systemu?',
-          rawEnableConfirmDesc:
-            'Raw aktualizacje systemu mogą zastąpić partycje boot i rootfs. Używaj tego tylko wtedy, gdy masz fizyczny dostęp do odzyskiwania.',
-          rawInstallDisabled:
-            'Ta przygotowana aktualizacja zapisuje raw partycje karty SD. Włącz raw aktualizacje systemu przed instalacją.',
           available: 'Dostępna jest aktualizacja systemu bazowego.',
           downloading: 'Pobieranie i weryfikacja aktualizacji systemu...',
           downloadVerify: 'Pobierz i zweryfikuj',

@@ -927,14 +927,6 @@ const nl = {
             'Werk de applicatie bij naar {{version}} voordat u deze systeemupdate installeert',
           requiredAppVersion: 'Vereiste applicatieversie',
           downloadFailed: 'Download of verificatie mislukt',
-          rawEnable: 'Raw systeemupdates toestaan',
-          rawEnableDesc:
-            'Sta toe dat geverifieerde raw boot/rootfs-images vanaf dit scherm naar de SD-kaart worden geschreven',
-          rawEnableConfirmTitle: 'Raw systeemupdates toestaan?',
-          rawEnableConfirmDesc:
-            'Raw systeemupdates kunnen boot- en rootfs-partities vervangen. Gebruik dit alleen met fysieke hersteltoegang.',
-          rawInstallDisabled:
-            'Deze voorbereide update schrijft raw SD-kaartpartities. Schakel raw systeemupdates in vóór installatie.',
           available: 'Er is een update voor het basissysteem beschikbaar.',
           downloading: 'Systeemupdate downloaden en verifiëren...',
           downloadVerify: 'Downloaden en verifiëren',

@@ -932,14 +932,6 @@ const de = {
             'Aktualisieren Sie die Anwendung auf {{version}}, bevor Sie dieses Systemupdate installieren',
           requiredAppVersion: 'Erforderliche Anwendungsversion',
           downloadFailed: 'Download oder Verifizierung fehlgeschlagen',
-          rawEnable: 'Raw-Systemupdates erlauben',
-          rawEnableDesc:
-            'Erlaubt, verifizierte raw Boot-/Rootfs-Images von diesem Bildschirm auf die SD-Karte zu schreiben',
-          rawEnableConfirmTitle: 'Raw-Systemupdates erlauben?',
-          rawEnableConfirmDesc:
-            'Raw-Systemupdates können Boot- und Rootfs-Partitionen ersetzen. Nur mit physischem Wiederherstellungszugang verwenden.',
-          rawInstallDisabled:
-            'Dieses vorbereitete Update schreibt raw SD-Kartenpartitionen. Aktivieren Sie raw Systemupdates vor der Installation.',
           available: 'Ein Update für das Basissystem ist verfügbar.',
           downloading: 'Systemupdate wird heruntergeladen und verifiziert...',
           downloadVerify: 'Herunterladen und verifizieren',

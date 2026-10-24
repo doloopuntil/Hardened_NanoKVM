@@ -926,14 +926,6 @@ const es = {
             'Actualiza la aplicación a {{version}} antes de instalar esta actualización del sistema',
           requiredAppVersion: 'Versión de aplicación requerida',
           downloadFailed: 'Falló la descarga o verificación',
-          rawEnable: 'Permitir actualizaciones raw del sistema',
-          rawEnableDesc:
-            'Permite escribir imágenes raw verificadas de boot/rootfs en la tarjeta SD desde esta pantalla',
-          rawEnableConfirmTitle: '¿Permitir actualizaciones raw del sistema?',
-          rawEnableConfirmDesc:
-            'Las actualizaciones raw del sistema pueden reemplazar particiones boot y rootfs. Úsalo solo con acceso físico de recuperación.',
-          rawInstallDisabled:
-            'Esta actualización preparada escribe particiones raw de la tarjeta SD. Activa las actualizaciones raw del sistema antes de instalarla.',
           available: 'Hay una actualización del sistema base disponible.',
           downloading: 'Descargando y verificando actualización del sistema...',
           downloadVerify: 'Descargar y verificar',

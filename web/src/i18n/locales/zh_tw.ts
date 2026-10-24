@@ -888,12 +888,6 @@ const zh_tw = {
           appUpdateRequired: '請先將應用程式更新到 {{version}}，再安裝此系統更新',
           requiredAppVersion: '所需應用程式版本',
           downloadFailed: '下載或驗證失敗',
-          rawEnable: '允許 raw 系統更新',
-          rawEnableDesc: '允許從此畫面將已驗證的 raw boot/rootfs 映像檔寫入 SD 卡',
-          rawEnableConfirmTitle: '允許 raw 系統更新？',
-          rawEnableConfirmDesc:
-            'Raw 系統更新可以取代 boot 和 rootfs 分割區。僅在有實體復原存取時使用。',
-          rawInstallDisabled: '此已暫存更新會寫入 SD 卡 raw 分割區。安裝前請啟用 raw 系統更新。',
           available: '有可用的基礎系統更新。',
           downloading: '正在下載並驗證系統更新...',
           downloadVerify: '下載並驗證',

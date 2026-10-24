@@ -886,12 +886,6 @@ const zh = {
           appUpdateRequired: '请先将应用更新到 {{version}}，再安装此系统更新',
           requiredAppVersion: '所需应用版本',
           downloadFailed: '下载或验证失败',
-          rawEnable: '允许 raw 系统更新',
-          rawEnableDesc: '允许从此页面将已验证的 raw boot/rootfs 镜像写入 SD 卡',
-          rawEnableConfirmTitle: '允许 raw 系统更新？',
-          rawEnableConfirmDesc:
-            'Raw 系统更新可以替换 boot 和 rootfs 分区。仅在有物理恢复访问时使用。',
-          rawInstallDisabled: '此已暂存更新会写入 SD 卡 raw 分区。安装前请启用 raw 系统更新。',
           available: '有可用的基础系统更新。',
           downloading: '正在下载并验证系统更新...',
           downloadVerify: '下载并验证',

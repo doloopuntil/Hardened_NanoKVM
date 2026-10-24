@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { Alert, Button, Divider, Spin, Switch, Tag } from 'antd';
+import { Alert, Button, Divider, Spin, Tag } from 'antd';
 import { LoaderCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import semver from 'semver';
@@ -16,10 +16,9 @@ import type {
 } from '@/api/application.ts';
 import * as firewallApi from '@/api/system-firewall.ts';
 import type { FirewallStatus } from '@/api/system-firewall.ts';
-import { attempt, confirm } from '@/lib/feedback.ts';
-import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
+import { confirm } from '@/lib/feedback.ts';
 import { PageHeader } from '@/components/page-header.tsx';
-import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.tsx';
+import { InfoRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import { InstallWait } from './install-wait.tsx';
 import { ApplicationUpload, LocalKeyRow, SystemUpload } from './local.tsx';
@@ -45,8 +44,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   const [systemProgress, setSystemProgress] = useState<SystemUpdateProgress | null>(null);
   const [systemErrMsg, setSystemErrMsg] = useState('');
   const [systemAppUpdateRequired, setSystemAppUpdateRequired] = useState(false);
-  const [systemRawEnabled, setSystemRawEnabled] = useState(false);
-  const [systemRawUpdating, setSystemRawUpdating] = useState(false);
   const [rawInstallWaiting, setRawInstallWaiting] = useState(false);
   const [firewallStatus, setFirewallStatus] = useState<FirewallStatus | null>(null);
 
@@ -63,11 +60,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       })
       .catch(() => {});
   }, []);
-
-  const { status: rawLoadState, reload: refreshRawSystemUpdatesEnabled } = useSettingsLoadState(
-    api.getRawSystemUpdatesEnabled,
-    (rsp) => setSystemRawEnabled(!!rsp.data?.enabled)
-  );
 
   const onlineUpdatesBlocked = !!firewallStatus?.paranoidActive;
 
@@ -247,39 +239,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
         setSystemRollback(null);
         setSystemProgress(null);
       });
-  }
-
-  function changeRawSystemUpdatesEnabled(enabled: boolean) {
-    const applyChange = () => {
-      setSystemRawUpdating(true);
-      attempt(() => api.setRawSystemUpdatesEnabled(enabled))
-        .then((rsp) => {
-          if (rsp) setSystemRawEnabled(enabled);
-        })
-        .finally(() => {
-          setSystemRawUpdating(false);
-          refreshRawSystemUpdatesEnabled();
-        });
-    };
-
-    if (!enabled) {
-      applyChange();
-      return;
-    }
-
-    confirm({
-      danger: true,
-      title: t('settings.update.system.rawEnableConfirmTitle'),
-      content: (
-        <div className="space-y-3">
-          <div>{t('settings.update.system.rawEnableConfirmDesc')}</div>
-          <Alert type="error" showIcon message={t('settings.update.system.rawInstallWarning')} />
-        </div>
-      ),
-      okText: t('settings.update.confirm'),
-      cancelText: t('settings.update.cancel'),
-      onOk: applyChange
-    });
   }
 
   function downloadSystemUpdate() {
@@ -611,7 +570,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     systemButtons = [
       releaseNotesButton(systemLatest?.releaseNotesUrl),
       refreshButton,
-      installButton(!stagedAppRequirementMet || (systemStaged.destructive && !systemRawEnabled))
+      installButton(!stagedAppRequirementMet)
     ];
   } else if (systemStatus === 'staged' && systemStaged && !isStagedLatest && systemLatest) {
     captionVersion(t('settings.update.system.available'));
@@ -647,9 +606,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     systemButtons = [
       refreshButton,
       canDownloadLatestSystemUpdate ? downloadButton : null,
-      systemStaged && isStagedLatest && stagedAppRequirementMet
-        ? installButton(systemStaged.destructive && !systemRawEnabled)
-        : null,
+      systemStaged && isStagedLatest && stagedAppRequirementMet ? installButton(false) : null,
       rollbackButton
     ];
   }
@@ -796,27 +753,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
               )}
             {info(t('settings.update.system.rollbackBackup'), systemRollback?.backupId)}
           </div>
-
-          {systemStaged?.destructive && !systemRawEnabled && (
-            <Alert
-              type="warning"
-              showIcon
-              message={t('settings.update.system.rawInstallDisabled')}
-            />
-          )}
-
-          <SettingRow
-            label={t('settings.update.system.rawEnable')}
-            description={t('settings.update.system.rawEnableDesc')}
-            isSwitch
-          >
-            <Switch
-              checked={systemRawEnabled}
-              loading={systemRawUpdating}
-              disabled={rawLoadState !== 'ready'}
-              onChange={changeRawSystemUpdatesEnabled}
-            />
-          </SettingRow>
 
           <SystemUpload
             disabled={systemBusy}

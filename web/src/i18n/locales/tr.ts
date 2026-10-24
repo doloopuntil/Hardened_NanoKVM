@@ -921,14 +921,6 @@ const tr = {
             'Bu sistem güncellemesini yüklemeden önce uygulamayı {{version}} sürümüne güncelleyin',
           requiredAppVersion: 'Gerekli uygulama sürümü',
           downloadFailed: 'İndirme veya doğrulama başarısız',
-          rawEnable: 'Raw sistem güncellemelerine izin ver',
-          rawEnableDesc:
-            'Doğrulanmış raw boot/rootfs imajlarının bu ekrandan SD karta yazılmasına izin verir',
-          rawEnableConfirmTitle: 'Raw sistem güncellemelerine izin verilsin mi?',
-          rawEnableConfirmDesc:
-            'Raw sistem güncellemeleri boot ve rootfs bölümlerini değiştirebilir. Yalnızca fiziksel kurtarma erişiminiz varsa kullanın.',
-          rawInstallDisabled:
-            'Bu hazırlanmış güncelleme raw SD kart bölümlerini yazar. Kurmadan önce raw sistem güncellemelerini etkinleştirin.',
           available: 'Bir temel sistem güncellemesi mevcut.',
           downloading: 'Sistem güncellemesi indiriliyor ve doğrulanıyor...',
           downloadVerify: 'İndir ve doğrula',

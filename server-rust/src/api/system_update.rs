@@ -168,16 +168,6 @@ pub struct SystemStatusRsp {
     pub error: Option<String>,
 }
 
-#[derive(Debug, Serialize)]
-pub struct RawUpdateEnabledRsp {
-    pub enabled: bool,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct SetRawUpdateEnabledReq {
-    pub enabled: bool,
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SystemUpdateProgress {
@@ -390,20 +380,6 @@ pub async fn get_version() -> Result<impl IntoResponse> {
     Ok(Json(ApiResponse::ok(SystemVersionRsp {
         current: read_current_system_version(),
     })))
-}
-
-pub async fn get_raw_enabled() -> Result<impl IntoResponse> {
-    let config = Config::read()?;
-    Ok(Json(ApiResponse::ok(RawUpdateEnabledRsp {
-        enabled: config.security.allow_raw_system_updates,
-    })))
-}
-
-pub async fn set_raw_enabled(Json(req): Json<SetRawUpdateEnabledReq>) -> Result<impl IntoResponse> {
-    let mut config = Config::read()?;
-    config.security.allow_raw_system_updates = req.enabled;
-    config.write()?;
-    Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
 pub async fn check(State(state): State<AppState>) -> Result<impl IntoResponse> {
@@ -634,10 +610,6 @@ pub async fn install(State(state): State<AppState>) -> Result<impl IntoResponse>
         .ok()
         .flatten()
         .map(|staged| staged.version);
-    let config = Config::read().unwrap_or_else(|err| {
-        tracing::warn!(error = %err, "failed to refresh config before system update install");
-        (*state.config).clone()
-    });
     write_update_progress(
         &stage_dir,
         SystemUpdateProgress::new(
@@ -651,7 +623,7 @@ pub async fn install(State(state): State<AppState>) -> Result<impl IntoResponse>
     let installed = match run_blocking_system_update_with_guard(
         "install staged system update",
         guard,
-        move || match install_staged_update(&stage_dir, &config) {
+        move || match install_staged_update(&stage_dir) {
             Ok(installed) => Ok(installed),
             Err(err) => {
                 let _ = write_update_progress(
@@ -1211,7 +1183,7 @@ fn extract_and_verify_system_bundle(
     Ok(manifest)
 }
 
-fn install_staged_update(stage_dir: &Path, config: &Config) -> Result<SystemPendingUpdate> {
+fn install_staged_update(stage_dir: &Path) -> Result<SystemPendingUpdate> {
     let record = read_stage_record(stage_dir)?
         .ok_or_else(|| AppError::BadRequest("no staged system update".to_string()))?;
     validate_latest_system(&record.latest)?;
@@ -1251,7 +1223,7 @@ fn install_staged_update(stage_dir: &Path, config: &Config) -> Result<SystemPend
     )?;
 
     if !manifest.raw_images.is_empty() {
-        return install_raw_image_update(stage_dir, &manifest, &payload_dir, config);
+        return install_raw_image_update(stage_dir, &manifest, &payload_dir);
     }
 
     let backup_id = format!("{}-{}", manifest.version, now_unix_seconds());
@@ -1326,13 +1298,7 @@ fn install_raw_image_update(
     stage_dir: &Path,
     manifest: &SystemManifest,
     payload_dir: &Path,
-    config: &Config,
 ) -> Result<SystemPendingUpdate> {
-    if !config.security.allow_raw_system_updates {
-        return Err(AppError::Forbidden(
-            "raw partition system updates are disabled".to_string(),
-        ));
-    }
     if !manifest.files.is_empty() {
         return Err(AppError::BadRequest(
             "raw partition system updates cannot mix file installs".to_string(),

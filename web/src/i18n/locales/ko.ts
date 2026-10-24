@@ -909,14 +909,6 @@ const ko = {
             '이 시스템 업데이트를 설치하기 전에 애플리케이션을 {{version}} 버전으로 업데이트하세요',
           requiredAppVersion: '필요한 애플리케이션 버전',
           downloadFailed: '다운로드 또는 검증 실패',
-          rawEnable: 'Raw 시스템 업데이트 허용',
-          rawEnableDesc:
-            '이 화면에서 검증된 raw boot/rootfs 이미지를 SD 카드에 쓸 수 있도록 허용합니다',
-          rawEnableConfirmTitle: 'Raw 시스템 업데이트를 허용할까요?',
-          rawEnableConfirmDesc:
-            'Raw 시스템 업데이트는 boot 및 rootfs 파티션을 교체할 수 있습니다. 물리적 복구 접근이 있을 때만 사용하세요.',
-          rawInstallDisabled:
-            '이 준비된 업데이트는 raw SD 카드 파티션을 씁니다. 설치 전에 raw 시스템 업데이트를 활성화하세요.',
           available: '기본 시스템 업데이트가 있습니다.',
           downloading: '시스템 업데이트 다운로드 및 검증 중...',
           downloadVerify: '다운로드 및 검증',

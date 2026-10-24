@@ -88,7 +88,6 @@ pub struct Security {
     pub refresh_token_duration: u64,
     pub revoke_tokens_on_password_change: bool,
     pub allow_unsigned_updates: bool,
-    pub allow_raw_system_updates: bool,
     pub allow_terminal: bool,
     pub allow_remote_image_download: bool,
     pub allow_auth_disable: bool,
@@ -195,7 +194,6 @@ impl Default for Security {
             refresh_token_duration: 604_800,
             revoke_tokens_on_password_change: true,
             allow_unsigned_updates: false,
-            allow_raw_system_updates: false,
             allow_terminal: false,
             allow_remote_image_download: false,
             allow_auth_disable: false,
@@ -310,9 +308,6 @@ impl Config {
         }
         if self.security.allow_unsigned_updates {
             warn!("unsigned updates are allowed");
-        }
-        if self.security.allow_raw_system_updates {
-            warn!("raw partition system updates are allowed");
         }
         if self.security.allow_default_admin {
             warn!("legacy admin/admin bootstrap is enabled");

@@ -906,14 +906,6 @@ const th = {
           appUpdateRequired: 'อัปเดตแอปพลิเคชันเป็น {{version}} ก่อนติดตั้งการอัปเดตระบบนี้',
           requiredAppVersion: 'เวอร์ชันแอปพลิเคชันที่จำเป็น',
           downloadFailed: 'ดาวน์โหลดหรือตรวจสอบล้มเหลว',
-          rawEnable: 'อนุญาตอัปเดตระบบแบบ raw',
-          rawEnableDesc:
-            'อนุญาตให้เขียนอิมเมจ raw boot/rootfs ที่ตรวจสอบแล้วลง SD card จากหน้าจอนี้',
-          rawEnableConfirmTitle: 'อนุญาตอัปเดตระบบแบบ raw?',
-          rawEnableConfirmDesc:
-            'อัปเดตระบบแบบ raw สามารถแทนที่พาร์ทิชัน boot และ rootfs ใช้เฉพาะเมื่อมีทางกู้คืนด้วยการเข้าถึงตัวเครื่อง',
-          rawInstallDisabled:
-            'อัปเดตที่เตรียมไว้นี้จะเขียนพาร์ทิชัน raw ของ SD card เปิดอัปเดตระบบแบบ raw ก่อนติดตั้ง',
           available: 'มีอัปเดตระบบพื้นฐานให้ใช้งาน',
           downloading: 'กำลังดาวน์โหลดและตรวจสอบอัปเดตระบบ...',
           downloadVerify: 'ดาวน์โหลดและตรวจสอบ',

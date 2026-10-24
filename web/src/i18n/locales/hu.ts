@@ -927,14 +927,6 @@ const hu = {
             'Az alkalmazást frissítse {{version}} verzióra a rendszerfrissítés telepítése előtt',
           requiredAppVersion: 'Szükséges alkalmazásverzió',
           downloadFailed: 'A letöltés vagy ellenőrzés sikertelen',
-          rawEnable: 'Raw rendszerfrissítések engedélyezése',
-          rawEnableDesc:
-            'Engedélyezi ellenőrzött raw boot/rootfs image-ek írását az SD-kártyára erről a képernyőről',
-          rawEnableConfirmTitle: 'Engedélyezi a raw rendszerfrissítéseket?',
-          rawEnableConfirmDesc:
-            'A raw rendszerfrissítések lecserélhetik a boot és rootfs partíciókat. Csak fizikai helyreállítási hozzáféréssel használja.',
-          rawInstallDisabled:
-            'Ez az előkészített frissítés raw SD-kártya partíciókat ír. Telepítés előtt engedélyezze a raw rendszerfrissítéseket.',
           available: 'Elérhető egy alaprendszer-frissítés.',
           downloading: 'Rendszerfrissítés letöltése és ellenőrzése...',
           downloadVerify: 'Letöltés és ellenőrzés',

@@ -922,14 +922,6 @@ const se = {
             'Uppdatera programmet till {{version}} innan du installerar den här systemuppdateringen',
           requiredAppVersion: 'Programversion som krävs',
           downloadFailed: 'Nedladdning eller verifiering misslyckades',
-          rawEnable: 'Tillåt raw systemuppdateringar',
-          rawEnableDesc:
-            'Tillåt att verifierade raw boot/rootfs-images skrivs till SD-kortet från denna skärm',
-          rawEnableConfirmTitle: 'Tillåt raw systemuppdateringar?',
-          rawEnableConfirmDesc:
-            'Raw systemuppdateringar kan ersätta boot- och rootfs-partitioner. Använd endast med fysisk återställningsåtkomst.',
-          rawInstallDisabled:
-            'Denna förberedda uppdatering skriver raw SD-kortpartitioner. Aktivera raw systemuppdateringar före installation.',
           available: 'En uppdatering av bassystemet är tillgänglig.',
           downloading: 'Laddar ned och verifierar systemuppdatering...',
           downloadVerify: 'Ladda ned och verifiera',

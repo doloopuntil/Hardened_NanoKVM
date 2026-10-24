@@ -922,14 +922,6 @@ const id = {
             'Perbarui aplikasi ke {{version}} sebelum memasang pembaruan sistem ini',
           requiredAppVersion: 'Versi aplikasi yang diperlukan',
           downloadFailed: 'Unduhan atau verifikasi gagal',
-          rawEnable: 'Izinkan pembaruan sistem raw',
-          rawEnableDesc:
-            'Izinkan image raw boot/rootfs terverifikasi ditulis ke kartu SD dari layar ini',
-          rawEnableConfirmTitle: 'Izinkan pembaruan sistem raw?',
-          rawEnableConfirmDesc:
-            'Pembaruan sistem raw dapat mengganti partisi boot dan rootfs. Gunakan hanya jika memiliki akses pemulihan fisik.',
-          rawInstallDisabled:
-            'Pembaruan yang disiapkan ini menulis partisi raw kartu SD. Aktifkan pembaruan sistem raw sebelum menginstalnya.',
           available: 'Pembaruan sistem dasar tersedia.',
           downloading: 'Mengunduh dan memverifikasi pembaruan sistem...',
           downloadVerify: 'Unduh dan verifikasi',

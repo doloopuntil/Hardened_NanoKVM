@@ -200,8 +200,7 @@ The backend must install only known paths:
   equivalents `payload/images/boot.vfat.gz` and
   `payload/images/rootfs.sd.gz`. Current releases use gzip payloads so the
   extracted staging tree does not need to hold a full uncompressed rootfs image.
-  This path is disabled unless `security.allow_raw_system_updates: true` is set
-  on the device.
+  Installing it asks for confirmation in the UI.
 
 The archive must not contain arbitrary scripts. Installer behavior is fixed in
 the Rust backend: verify, stage, back up, install known paths, mark pending,

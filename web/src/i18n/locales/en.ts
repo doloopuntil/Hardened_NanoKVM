@@ -912,14 +912,6 @@ const en = {
             'Update the application to {{version}} before installing this system update',
           requiredAppVersion: 'Required application version',
           downloadFailed: 'Download or verification failed',
-          rawEnable: 'Allow raw system updates',
-          rawEnableDesc:
-            'Allow verified raw boot/rootfs images to be written to the SD-card from this screen',
-          rawEnableConfirmTitle: 'Allow raw system updates?',
-          rawEnableConfirmDesc:
-            'Raw system updates can replace boot and rootfs partitions. Use this only when you have physical recovery access.',
-          rawInstallDisabled:
-            'This staged update writes raw SD-card partitions. Enable raw system updates before installing it.',
           available: 'A base-system update is available.',
           downloading: 'Downloading and verifying system update...',
           downloadVerify: 'Download and verify',
