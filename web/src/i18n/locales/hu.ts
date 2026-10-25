@@ -355,14 +355,16 @@ const hu = {
       about: {
         title: 'Névjegy',
         information: 'Információ',
-        ip: 'IP',
-        mdns: 'mDNS',
+        ip: 'IP-cím',
+        mdns: 'Helyi cím',
         application: 'Alkalmazás verzió',
-        applicationTip: 'NanoKVM webalkalmazás verziója',
         uptime: 'Üzemidő',
         community: 'Közösség',
         credit: 'A Sipeed <a1>NanoKVM</a1>-jére és woffko <a2>Hardened NanoKVM</a2>-jére épül',
-        hostname: 'Eszköznév'
+        hostname: 'Eszköznév',
+        changeIn: 'Itt módosítható: {{path}}',
+        updateIn: 'Itt frissíthető: {{path}}',
+        toggleIn: 'Itt kapcsolható be vagy ki: {{path}}'
       },
       appearance: {
         title: 'Megjelenés',

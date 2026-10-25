@@ -356,15 +356,17 @@ const uk = {
       about: {
         title: 'Про програму',
         information: 'Інформація',
-        ip: 'IP',
-        mdns: 'mDNS',
+        ip: 'IP-адреса',
+        mdns: 'Локальна адреса',
         application: 'Версія додатка',
-        applicationTip: 'Версія веб-додатка NanoKVM',
         uptime: 'Час роботи',
         community: 'Спільнота',
         credit:
           'Створено на основі <a1>NanoKVM</a1> від Sipeed і <a2>Hardened NanoKVM</a2> від woffko',
-        hostname: 'Назва пристрою'
+        hostname: 'Назва пристрою',
+        changeIn: 'Змінити можна в {{path}}',
+        updateIn: 'Оновити можна в {{path}}',
+        toggleIn: 'Увімкнути або вимкнути можна в {{path}}'
       },
       appearance: {
         title: 'Зовнішній вигляд',

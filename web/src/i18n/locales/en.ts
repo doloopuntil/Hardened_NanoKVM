@@ -351,14 +351,16 @@ const en = {
       about: {
         title: 'About',
         information: 'Information',
-        ip: 'IP',
-        mdns: 'mDNS',
+        ip: 'IP address',
+        mdns: 'Local address',
         application: 'Application version',
-        applicationTip: 'NanoKVM web application version',
         uptime: 'Uptime',
         community: 'Community',
         credit: 'Built on <a1>NanoKVM</a1> by Sipeed and <a2>Hardened NanoKVM</a2> by woffko',
-        hostname: 'Device name'
+        hostname: 'Device name',
+        changeIn: 'Change it in {{path}}',
+        updateIn: 'Update it in {{path}}',
+        toggleIn: 'Turn it on or off in {{path}}'
       },
       appearance: {
         title: 'Appearance',

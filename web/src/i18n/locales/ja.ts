@@ -354,15 +354,17 @@ const ja = {
       about: {
         title: 'バージョン情報',
         information: '情報',
-        ip: 'IP',
-        mdns: 'mDNS',
+        ip: 'IP アドレス',
+        mdns: 'ローカルアドレス',
         application: 'アプリケーションバージョン',
-        applicationTip: 'NanoKVM ウェブアプリケーションバージョン',
         uptime: '稼働時間',
         community: 'コミュニティ',
         credit:
           'Sipeed の <a1>NanoKVM</a1> と woffko の <a2>Hardened NanoKVM</a2> をベースにしています',
-        hostname: 'デバイス名'
+        hostname: 'デバイス名',
+        changeIn: '{{path}} で変更できます',
+        updateIn: '{{path}} で更新できます',
+        toggleIn: '{{path}} でオンまたはオフにできます'
       },
       appearance: {
         title: '外観',

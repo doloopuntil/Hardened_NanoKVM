@@ -353,14 +353,16 @@ const se = {
       about: {
         title: 'Om',
         information: 'Information',
-        ip: 'IP',
-        mdns: 'mDNS',
+        ip: 'IP-adress',
+        mdns: 'Lokal adress',
         application: 'Applikationsversion',
-        applicationTip: 'NanoKVM webbapplikationsversion',
         uptime: 'Drifttid',
         community: 'Community',
         credit: 'Byggt på <a1>NanoKVM</a1> från Sipeed och <a2>Hardened NanoKVM</a2> av woffko',
-        hostname: 'Enhetsnamn'
+        hostname: 'Enhetsnamn',
+        changeIn: 'Ändras i {{path}}',
+        updateIn: 'Uppdateras i {{path}}',
+        toggleIn: 'Slås på eller av i {{path}}'
       },
       appearance: {
         title: 'Utseende',

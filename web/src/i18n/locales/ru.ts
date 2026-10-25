@@ -356,13 +356,15 @@ const ru = {
         title: 'О системе',
         information: 'Информация',
         ip: 'IP-адрес',
-        mdns: 'Доменное имя mDNS',
+        mdns: 'Локальный адрес',
         application: 'Версия ПО',
-        applicationTip: 'Версия веб-программы NanoKVM',
         uptime: 'Время работы',
         community: 'Сообщество',
         credit: 'Основано на <a1>NanoKVM</a1> от Sipeed и <a2>Hardened NanoKVM</a2> от woffko',
-        hostname: 'Имя устройства'
+        hostname: 'Имя устройства',
+        changeIn: 'Изменить можно в {{path}}',
+        updateIn: 'Обновить можно в {{path}}',
+        toggleIn: 'Включить или выключить можно в {{path}}'
       },
       appearance: {
         title: 'Внешний вид',

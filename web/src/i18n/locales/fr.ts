@@ -356,14 +356,16 @@ const fr = {
       about: {
         title: 'À propos',
         information: 'Informations',
-        ip: 'IP',
-        mdns: 'mDNS',
+        ip: 'Adresse IP',
+        mdns: 'Adresse locale',
         application: "Version de l'application",
-        applicationTip: "Version de l'application Web NanoKVM",
         uptime: 'Temps de fonctionnement',
         community: 'Communauté',
         credit: 'Basé sur <a1>NanoKVM</a1> de Sipeed et <a2>Hardened NanoKVM</a2> de woffko',
-        hostname: "Nom de l'appareil"
+        hostname: "Nom de l'appareil",
+        changeIn: 'À modifier dans {{path}}',
+        updateIn: 'À mettre à jour dans {{path}}',
+        toggleIn: 'À activer ou désactiver dans {{path}}'
       },
       appearance: {
         title: 'Apparence',

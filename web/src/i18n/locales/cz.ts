@@ -351,14 +351,16 @@ const cz = {
       about: {
         title: 'O aplikaci',
         information: 'Informace',
-        ip: 'IP',
-        mdns: 'mDNS',
+        ip: 'IP adresa',
+        mdns: 'Místní adresa',
         application: 'Verze aplikace',
-        applicationTip: 'Verze webové aplikace NanoKVM',
         uptime: 'Doba běhu',
         community: 'Komunita',
         credit: 'Postaveno na <a1>NanoKVM</a1> od Sipeed a <a2>Hardened NanoKVM</a2> od woffko',
-        hostname: 'Název zařízení'
+        hostname: 'Název zařízení',
+        changeIn: 'Změníte to v {{path}}',
+        updateIn: 'Aktualizujete to v {{path}}',
+        toggleIn: 'Zapnout nebo vypnout lze v {{path}}'
       },
       appearance: {
         title: 'Vzhled',

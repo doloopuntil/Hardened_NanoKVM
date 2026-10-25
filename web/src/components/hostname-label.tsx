@@ -1,13 +1,23 @@
 import { Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-// The label of the hostname rows, with a badge for as long as the new name waits for a reboot.
-export const HostnameLabel = ({ rebootRequired }: { rebootRequired: boolean }) => {
+import { LabelTip } from './label-tip.tsx';
+
+// The label of the hostname rows, with a badge for as long as the new name waits for a reboot,
+// and optionally a tooltip.
+export const HostnameLabel = ({
+  rebootRequired,
+  tip
+}: {
+  rebootRequired: boolean;
+  tip?: string;
+}) => {
   const { t } = useTranslation();
+  const text = t('settings.about.hostname');
 
   return (
     <span className="flex flex-wrap items-center gap-2">
-      {t('settings.about.hostname')}
+      {tip ? <LabelTip text={text} tip={tip} /> : text}
       {rebootRequired && (
         <Tag className="m-0" color="gold">
           {t('settings.device.hostname.rebootRequired')}
