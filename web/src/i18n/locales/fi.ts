@@ -480,7 +480,7 @@ const fi = {
         rebootDesc: 'Haluatko varmasti käynnistää NanoKVM:n uudelleen?'
       },
       network: {
-        title: 'IP ja DNS',
+        title: 'IP & DNS',
         connection: 'Yhteys',
         configuration: 'Määritys',
         wifi: {

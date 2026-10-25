@@ -472,7 +472,7 @@ const ko = {
         rebootDesc: 'NanoKVM을 재부팅하시겠습니까?'
       },
       network: {
-        title: 'IP 및 DNS',
+        title: 'IP & DNS',
         connection: '연결',
         configuration: '구성',
         wifi: {

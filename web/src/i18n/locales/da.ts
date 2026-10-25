@@ -478,7 +478,7 @@ const da = {
         rebootDesc: 'Er du sikker på, at du vil genstarte NanoKVM?'
       },
       network: {
-        title: 'IP og DNS',
+        title: 'IP & DNS',
         connection: 'Forbindelse',
         configuration: 'Konfiguration',
         wifi: {

@@ -483,7 +483,7 @@ const uk = {
         rebootDesc: 'Ви впевнені, що хочете перезавантажити NanoKVM?'
       },
       network: {
-        title: 'IP та DNS',
+        title: 'IP & DNS',
         connection: 'Підключення',
         configuration: 'Конфігурація',
         wifi: {

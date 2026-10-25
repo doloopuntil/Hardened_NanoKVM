@@ -480,7 +480,7 @@ const ru = {
         rebootDesc: 'Вы уверены, что хотите перезагрузить NanoKVM?'
       },
       network: {
-        title: 'IP и DNS',
+        title: 'IP & DNS',
         connection: 'Подключение',
         configuration: 'Конфигурация',
         wifi: {

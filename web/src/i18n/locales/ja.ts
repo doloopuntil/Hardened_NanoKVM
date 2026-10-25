@@ -482,7 +482,7 @@ const ja = {
         rebootDesc: 'NanoKVM を再起動してもよろしいですか?'
       },
       network: {
-        title: 'IP と DNS',
+        title: 'IP & DNS',
         connection: '接続',
         configuration: '設定',
         wifi: {

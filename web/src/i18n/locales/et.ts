@@ -472,7 +472,7 @@ const et = {
         rebootDesc: 'Kas oled kindel, et soovid NanoKVM-i taaskäivitada?'
       },
       network: {
-        title: 'IP ja DNS',
+        title: 'IP & DNS',
         connection: 'Ühendus',
         configuration: 'Seadistus',
         wifi: {

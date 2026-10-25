@@ -479,7 +479,7 @@ const pt_br = {
         rebootDesc: 'Tem certeza de que deseja reiniciar o NanoKVM?'
       },
       network: {
-        title: 'IP e DNS',
+        title: 'IP & DNS',
         connection: 'Conexão',
         configuration: 'Configuração',
         wifi: {

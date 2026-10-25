@@ -24,7 +24,7 @@ addresses.
 ## Switching safely
 
 - Restricted and Paranoid can only be chosen while HTTPS is on
-  (**Settings > Network > IP and DNS**).
+  (**Settings > Network > IP & DNS**).
 - After switching to Restricted or Paranoid, confirm the change from the page
   within 60 seconds. If you lose access and cannot confirm, the previous mode
   comes back on its own.

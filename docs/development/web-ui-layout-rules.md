@@ -72,7 +72,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     hides itself when its content renders no element, and the hairline next to it
     goes too, so the rows of a section must be components that return `null`
     when they have nothing to show (rule 11), never an empty wrapper or a placeholder.
-    Network > IP and DNS has no Connection section on a board without Wi-Fi.
+    Network > IP & DNS has no Connection section on a board without Wi-Fi.
 13. On a phone, switches, info rows, buttons and the fields (inputs, selects
     and tag boxes) stay on the label's row; the field is narrower than on the
     desktop (`w-20` to `w-44`) and the caption wraps beside it. The one field
@@ -171,7 +171,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 30. Menu: About and Device, then the groups User, Network and System, so
     the groups that open and close are together. The groups start collapsed and
     open on click. User holds Account and Appearance (the person and the
-    browser they use); Network holds IP and DNS, Services, Firewall,
+    browser they use); Network holds IP & DNS, Services, Firewall,
     WireGuard and Tailscale; System holds Time, Logging, Performance, Monitor and
     Updates. The first subpage of a group is the one a touch layout opens when
     the group is chosen. The touch layout shows the five main items on one row,

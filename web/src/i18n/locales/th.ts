@@ -469,7 +469,7 @@ const th = {
         rebootDesc: 'คุณแน่ใจหรือไม่ว่าต้องการรีบูต NanoKVM'
       },
       network: {
-        title: 'IP และ DNS',
+        title: 'IP & DNS',
         connection: 'การเชื่อมต่อ',
         configuration: 'การกำหนดค่า',
         wifi: {

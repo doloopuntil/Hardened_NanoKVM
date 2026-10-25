@@ -459,7 +459,7 @@ const zh = {
         rebootDesc: '您确定要重新启动 NanoKVM 吗？'
       },
       network: {
-        title: 'IP 和 DNS',
+        title: 'IP & DNS',
         connection: '连接',
         configuration: '配置',
         wifi: {

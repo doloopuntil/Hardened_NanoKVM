@@ -480,7 +480,7 @@ const se = {
         rebootDesc: 'Är du säker på att du vill starta om NanoKVM?'
       },
       network: {
-        title: 'IP och DNS',
+        title: 'IP & DNS',
         connection: 'Anslutning',
         configuration: 'Konfiguration',
         wifi: {

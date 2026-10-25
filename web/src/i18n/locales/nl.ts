@@ -484,7 +484,7 @@ const nl = {
         rebootDesc: 'Weet u zeker dat u NanoKVM opnieuw wilt opstarten?'
       },
       network: {
-        title: 'IP en DNS',
+        title: 'IP & DNS',
         connection: 'Verbinding',
         configuration: 'Configuratie',
         wifi: {
