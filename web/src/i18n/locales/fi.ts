@@ -362,7 +362,7 @@ const fi = {
         uptime: 'Käyttöaika',
         community: 'Yhteisö',
         credit: 'Perustuu Sipeedin <a1>NanoKVM</a1>:ään ja woffkon <a2>Hardened NanoKVM</a2>:ään',
-        hostname: 'Isäntänimi'
+        hostname: 'Laitteen nimi'
       },
       appearance: {
         title: 'Ulkoasu',
@@ -478,6 +478,7 @@ const fi = {
         usbWakeupTip: 'Poista käytöstä, jos isäntä kirjaa toistuvia USB wakeup -viestejä',
         hostname: {
           description: 'Tämän laitteen nimi verkossa',
+          reachable: 'Tavoitettavissa paikallisverkossa osoitteella {{address}}',
           rebootRequired: 'Vaatii uudelleenkäynnistyksen'
         },
         reboot: 'Käynnistä uudelleen',

@@ -362,7 +362,7 @@ const nb = {
         uptime: 'Oppetid',
         community: 'Fellesskap',
         credit: 'Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> av woffko',
-        hostname: 'Vertsnavn'
+        hostname: 'Enhetsnavn'
       },
       appearance: {
         title: 'Utseende',
@@ -480,6 +480,7 @@ const nb = {
         usbWakeupTip: 'Slå av hvis verten logger gjentatte USB wakeup-meldinger',
         hostname: {
           description: 'Enhetens navn på nettverket',
+          reachable: 'Kan nås på det lokale nettverket som {{address}}',
           rebootRequired: 'Omstart kreves'
         },
         reboot: 'Start på nytt',

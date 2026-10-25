@@ -354,7 +354,7 @@ const et = {
         uptime: 'Tööaeg',
         community: 'Kogukond',
         credit: 'Põhineb Sipeedi <a1>NanoKVM-il</a1> ja woffko <a2>Hardened NanoKVM-il</a2>',
-        hostname: 'Hostinimi'
+        hostname: 'Seadme nimi'
       },
       appearance: {
         title: 'Välimus',
@@ -469,6 +469,7 @@ const et = {
         usbWakeupTip: 'Lülita välja, kui host logib korduvaid USB wakeup teateid',
         hostname: {
           description: 'Selle seadme nimi võrgus',
+          reachable: 'Ligipääsetav kohtvõrgus aadressil {{address}}',
           rebootRequired: 'Vajalik taaskäivitus'
         },
         reboot: 'Taaskäivita',

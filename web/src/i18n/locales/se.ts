@@ -360,7 +360,7 @@ const se = {
         uptime: 'Drifttid',
         community: 'Community',
         credit: 'Byggt på <a1>NanoKVM</a1> från Sipeed och <a2>Hardened NanoKVM</a2> av woffko',
-        hostname: 'Värdnamn'
+        hostname: 'Enhetsnamn'
       },
       appearance: {
         title: 'Utseende',
@@ -479,6 +479,7 @@ const se = {
         usbWakeupTip: 'Stäng av om värden loggar upprepade USB wakeup-meddelanden',
         hostname: {
           description: 'Enhetens namn i nätverket',
+          reachable: 'Nåbar i det lokala nätverket som {{address}}',
           rebootRequired: 'Omstart krävs'
         },
         reboot: 'Starta om',

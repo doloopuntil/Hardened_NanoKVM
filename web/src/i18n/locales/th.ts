@@ -353,7 +353,7 @@ const th = {
         uptime: 'เวลาทำงาน',
         community: 'ชุมชน',
         credit: 'สร้างบน <a1>NanoKVM</a1> โดย Sipeed และ <a2>Hardened NanoKVM</a2> โดย woffko',
-        hostname: 'ชื่อโฮสต์'
+        hostname: 'ชื่ออุปกรณ์'
       },
       appearance: {
         title: 'ลักษณะการแสดงผล',
@@ -467,6 +467,7 @@ const th = {
         usbWakeupTip: 'ปิดถ้าโฮสต์บันทึกข้อความ USB wakeup ซ้ำ ๆ',
         hostname: {
           description: 'ชื่อของอุปกรณ์นี้ในเครือข่าย',
+          reachable: 'เข้าถึงได้ในเครือข่ายภายในที่ {{address}}',
           rebootRequired: 'ต้องรีบูต'
         },
         reboot: 'รีบูต',

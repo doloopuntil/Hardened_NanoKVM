@@ -361,7 +361,7 @@ const pt_br = {
         uptime: 'Tempo ativo',
         community: 'Comunidade',
         credit: 'Baseado no <a1>NanoKVM</a1> da Sipeed e no <a2>Hardened NanoKVM</a2> de woffko',
-        hostname: 'Nome do host'
+        hostname: 'Nome do dispositivo'
       },
       appearance: {
         title: 'Aparência',
@@ -478,6 +478,7 @@ const pt_br = {
         usbWakeupTip: 'Desative se o host registrar mensagens USB wakeup repetidas',
         hostname: {
           description: 'Nome deste dispositivo na rede',
+          reachable: 'Acessível na rede local como {{address}}',
           rebootRequired: 'Reinício necessário'
         },
         reboot: 'Reiniciar',

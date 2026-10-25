@@ -358,7 +358,7 @@ const cz = {
         uptime: 'Doba běhu',
         community: 'Komunita',
         credit: 'Postaveno na <a1>NanoKVM</a1> od Sipeed a <a2>Hardened NanoKVM</a2> od woffko',
-        hostname: 'Název hostitele'
+        hostname: 'Název zařízení'
       },
       appearance: {
         title: 'Vzhled',
@@ -475,6 +475,7 @@ const cz = {
         usbWakeupTip: 'Vypněte, pokud host zapisuje opakované zprávy USB wakeup',
         hostname: {
           description: 'Název tohoto zařízení v síti',
+          reachable: 'Dostupné v místní síti jako {{address}}',
           rebootRequired: 'Nutný restart'
         },
         reboot: 'Restartujte',

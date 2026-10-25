@@ -26,6 +26,9 @@ Built on RC12; the image is rebuilt from source in CI. Not yet published.
 - Settings pages, menu bar dialogs and translations follow one set of layout and
   copy rules.
 - Preview update channels removed; only the stable channel is checked.
+- The default device name of a new image is `h-nanokvm`; it is edited in Settings >
+  Device > General, with a Reboot required badge until the next boot, and Power off
+  sits next to Reboot. Existing devices keep their name.
 - The Allow raw system updates switch and its `security.allow_raw_system_updates`
   setting are gone; the signature checks and the install confirmation remain.
 - MAC addresses and the USB serial number are derived from the chip ID.

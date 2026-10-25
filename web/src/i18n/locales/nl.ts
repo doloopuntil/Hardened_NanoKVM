@@ -364,7 +364,7 @@ const nl = {
         uptime: 'Uptime',
         community: 'Community',
         credit: 'Gebouwd op <a1>NanoKVM</a1> van Sipeed en <a2>Hardened NanoKVM</a2> van woffko',
-        hostname: 'Hostnaam'
+        hostname: 'Apparaatnaam'
       },
       appearance: {
         title: 'Uiterlijk',
@@ -483,6 +483,7 @@ const nl = {
         usbWakeupTip: 'Schakel uit als de host herhaald USB wakeup-berichten logt',
         hostname: {
           description: 'Naam van dit apparaat op het netwerk',
+          reachable: 'Bereikbaar op het lokale netwerk als {{address}}',
           rebootRequired: 'Herstart vereist'
         },
         reboot: 'Opnieuw opstarten',

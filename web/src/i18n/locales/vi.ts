@@ -355,7 +355,7 @@ const vi = {
         uptime: 'Thời gian hoạt động',
         community: 'Cộng đồng',
         credit: 'Xây dựng trên <a1>NanoKVM</a1> của Sipeed và <a2>Hardened NanoKVM</a2> của woffko',
-        hostname: 'Tên máy chủ'
+        hostname: 'Tên thiết bị'
       },
       appearance: {
         title: 'Giao diện',
@@ -473,6 +473,7 @@ const vi = {
         usbWakeupTip: 'Tắt nếu máy ghi lặp lại thông báo USB wakeup',
         hostname: {
           description: 'Tên của thiết bị này trên mạng',
+          reachable: 'Truy cập được trong mạng cục bộ qua {{address}}',
           rebootRequired: 'Cần khởi động lại'
         },
         reboot: 'Khởi động lại',

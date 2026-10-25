@@ -30,6 +30,7 @@ export const Hostname = () => {
   // the new name is stored at once but the services only pick it up after a reboot; the server
   // remembers that until the next boot
   const [isPending, setIsPending] = useState(false);
+  const [isMdnsOn, setIsMdnsOn] = useState(false);
 
   const isReady = useSettingsLoad(api.getHostname, (rsp) => {
     const name = rsp.data?.hostname ?? '';
@@ -37,6 +38,8 @@ export const Hostname = () => {
     setInput(name);
     setIsPending(!!rsp.data?.rebootRequired);
   });
+
+  useSettingsLoad(api.getMdnsState, (rsp) => setIsMdnsOn(!!rsp.data?.enabled));
 
   const name = input.trim();
   const isInvalid = !isValidHostname(name);
@@ -67,7 +70,11 @@ export const Hostname = () => {
   return (
     <SettingRow
       label={<HostnameLabel rebootRequired={isPending} />}
-      description={t('settings.device.hostname.description')}
+      description={
+        isMdnsOn && saved
+          ? t('settings.device.hostname.reachable', { address: `${saved.split('.')[0]}.local` })
+          : t('settings.device.hostname.description')
+      }
       inline
     >
       <Input

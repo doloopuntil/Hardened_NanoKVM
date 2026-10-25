@@ -66,7 +66,10 @@ in a row the FSBL starts with the standard clocks, whatever the clock overdrive 
 says; after 4 it leaves the watchdog off so a boot loop cannot lock you out. A power
 loss clears the count.
 
-## Host name
+## Device name
 
-The host name may be fully qualified (`kvm.example.net`). The mDNS name is its
-first label plus `.local` (`kvm.local`). Changing it asks whether to reboot.
+The device name is the host name of the NanoKVM itself, `h-nanokvm` on a new image.
+Change it in **Settings > Device > General**; **Settings > About** shows it. It may
+be fully qualified (`kvm.example.net`). The mDNS name is its first label plus
+`.local` (`h-nanokvm.local`). The new name applies after a reboot, and a
+**Reboot required** badge stays next to the name until the device has rebooted.

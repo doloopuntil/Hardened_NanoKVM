@@ -344,7 +344,7 @@ const zh = {
         uptime: '运行时间',
         community: '社区',
         credit: '基于 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 构建',
-        hostname: '主机名'
+        hostname: '设备名称'
       },
       appearance: {
         title: '外观',
@@ -457,6 +457,7 @@ const zh = {
         usbWakeupTip: '如果主机反复记录 USB wakeup 消息，请关闭',
         hostname: {
           description: '此设备在网络中的名称',
+          reachable: '在本地网络中可通过 {{address}} 访问',
           rebootRequired: '需要重启'
         },
         reboot: '重新启动',

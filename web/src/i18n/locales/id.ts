@@ -361,7 +361,7 @@ const id = {
         community: 'Komunitas',
         credit:
           'Dibangun di atas <a1>NanoKVM</a1> dari Sipeed dan <a2>Hardened NanoKVM</a2> oleh woffko',
-        hostname: 'Nama host'
+        hostname: 'Nama perangkat'
       },
       appearance: {
         title: 'Tampilan',
@@ -479,6 +479,7 @@ const id = {
         usbWakeupTip: 'Matikan jika host mencatat pesan USB wakeup berulang',
         hostname: {
           description: 'Nama perangkat ini di jaringan',
+          reachable: 'Dapat dijangkau di jaringan lokal sebagai {{address}}',
           rebootRequired: 'Perlu mulai ulang'
         },
         reboot: 'Mulai ulang',

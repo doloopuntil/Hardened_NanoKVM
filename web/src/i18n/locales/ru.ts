@@ -362,7 +362,7 @@ const ru = {
         uptime: 'Время работы',
         community: 'Сообщество',
         credit: 'Основано на <a1>NanoKVM</a1> от Sipeed и <a2>Hardened NanoKVM</a2> от woffko',
-        hostname: 'Имя хоста'
+        hostname: 'Имя устройства'
       },
       appearance: {
         title: 'Внешний вид',
@@ -478,6 +478,7 @@ const ru = {
         usbWakeupTip: 'Выключите, если хост пишет повторяющиеся USB wakeup-сообщения',
         hostname: {
           description: 'Имя этого устройства в сети',
+          reachable: 'Доступно в локальной сети как {{address}}',
           rebootRequired: 'Требуется перезагрузка'
         },
         reboot: 'Перезагрузка',

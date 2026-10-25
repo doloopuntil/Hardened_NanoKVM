@@ -362,7 +362,7 @@ const pl = {
         community: 'Społeczność',
         credit:
           'Oparty na <a1>NanoKVM</a1> firmy Sipeed i <a2>Hardened NanoKVM</a2> autorstwa woffko',
-        hostname: 'Nazwa hosta'
+        hostname: 'Nazwa urządzenia'
       },
       appearance: {
         title: 'Wygląd',
@@ -478,6 +478,7 @@ const pl = {
         usbWakeupTip: 'Wyłącz, jeśli host zapisuje powtarzające się komunikaty USB wakeup',
         hostname: {
           description: 'Nazwa tego urządzenia w sieci',
+          reachable: 'Dostępne w sieci lokalnej pod nazwą {{address}}',
           rebootRequired: 'Wymagany restart'
         },
         reboot: 'Uruchom ponownie',

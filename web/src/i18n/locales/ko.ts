@@ -356,7 +356,7 @@ const ko = {
         uptime: '가동 시간',
         community: '커뮤니티',
         credit: 'Sipeed의 <a1>NanoKVM</a1>과 woffko의 <a2>Hardened NanoKVM</a2>을 기반으로 합니다',
-        hostname: '호스트 이름'
+        hostname: '장치 이름'
       },
       appearance: {
         title: '디자인',
@@ -470,6 +470,7 @@ const ko = {
         usbWakeupTip: '호스트가 USB wakeup 메시지를 반복해서 기록하면 끄세요',
         hostname: {
           description: '네트워크에서 이 장치의 이름',
+          reachable: '로컬 네트워크에서 {{address}} 주소로 접속할 수 있습니다',
           rebootRequired: '재부팅 필요'
         },
         reboot: '재부팅',

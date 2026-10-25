@@ -345,7 +345,7 @@ const zh_tw = {
         uptime: '執行時間',
         community: '社群',
         credit: '基於 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 建置',
-        hostname: '主機名稱'
+        hostname: '裝置名稱'
       },
       appearance: {
         title: '外觀',
@@ -458,6 +458,7 @@ const zh_tw = {
         usbWakeupTip: '如果主機反覆記錄 USB wakeup 訊息，請關閉',
         hostname: {
           description: '此裝置在網路中的名稱',
+          reachable: '在本機網路中可透過 {{address}} 存取',
           rebootRequired: '需要重新啟動'
         },
         reboot: '重新啟動',

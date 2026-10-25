@@ -358,7 +358,7 @@ const da = {
         uptime: 'Oppetid',
         community: 'Fællesskab',
         credit: 'Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> af woffko',
-        hostname: 'Værtsnavn'
+        hostname: 'Enhedsnavn'
       },
       appearance: {
         title: 'Udseende',
@@ -476,6 +476,7 @@ const da = {
         usbWakeupTip: 'Slå fra, hvis værten logger gentagne USB wakeup-meddelelser',
         hostname: {
           description: 'Enhedens navn på netværket',
+          reachable: 'Kan nås på det lokale netværk som {{address}}',
           rebootRequired: 'Genstart påkrævet'
         },
         reboot: 'Genstart',

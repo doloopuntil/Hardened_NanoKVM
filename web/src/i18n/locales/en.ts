@@ -358,7 +358,7 @@ const en = {
         uptime: 'Uptime',
         community: 'Community',
         credit: 'Built on <a1>NanoKVM</a1> by Sipeed and <a2>Hardened NanoKVM</a2> by woffko',
-        hostname: 'Hostname'
+        hostname: 'Device name'
       },
       appearance: {
         title: 'Appearance',
@@ -473,6 +473,7 @@ const en = {
         usbWakeupTip: 'Turn off if the host logs repeated USB wakeup messages',
         hostname: {
           description: 'Name of this device on the network',
+          reachable: 'Reachable on the local network as {{address}}',
           rebootRequired: 'Reboot required'
         },
         reboot: 'Reboot',

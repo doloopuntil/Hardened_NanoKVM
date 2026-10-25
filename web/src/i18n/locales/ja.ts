@@ -362,7 +362,7 @@ const ja = {
         community: 'コミュニティ',
         credit:
           'Sipeed の <a1>NanoKVM</a1> と woffko の <a2>Hardened NanoKVM</a2> をベースにしています',
-        hostname: 'ホスト名'
+        hostname: 'デバイス名'
       },
       appearance: {
         title: '外観',
@@ -480,6 +480,7 @@ const ja = {
         usbWakeupTip: 'ホストが USB wakeup メッセージを繰り返し記録する場合はオフにしてください',
         hostname: {
           description: 'ネットワーク上のこのデバイスの名前',
+          reachable: 'ローカルネットワークでは {{address}} で接続できます',
           rebootRequired: '再起動が必要'
         },
         reboot: '再起動',

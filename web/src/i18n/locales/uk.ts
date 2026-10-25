@@ -364,7 +364,7 @@ const uk = {
         community: 'Спільнота',
         credit:
           'Створено на основі <a1>NanoKVM</a1> від Sipeed і <a2>Hardened NanoKVM</a2> від woffko',
-        hostname: "Ім'я вузла"
+        hostname: 'Назва пристрою'
       },
       appearance: {
         title: 'Зовнішній вигляд',
@@ -481,6 +481,7 @@ const uk = {
         usbWakeupTip: 'Вимкніть, якщо хост записує повторювані повідомлення USB wakeup',
         hostname: {
           description: 'Назва цього пристрою в мережі',
+          reachable: 'Доступно в локальній мережі як {{address}}',
           rebootRequired: 'Потрібне перезавантаження'
         },
         reboot: 'Перезавантажити',
