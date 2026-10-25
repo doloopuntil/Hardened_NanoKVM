@@ -352,7 +352,7 @@ const cz = {
         title: 'O aplikaci',
         information: 'Informace',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Místní adresa',
         application: 'Verze aplikace',
         applicationTip: 'Verze webové aplikace NanoKVM',
         uptime: 'Doba běhu',

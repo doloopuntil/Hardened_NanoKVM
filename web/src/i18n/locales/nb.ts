@@ -356,7 +356,7 @@ const nb = {
         title: 'Om',
         information: 'Informasjon',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Lokal adresse',
         application: 'Applikasjonsversjon',
         applicationTip: 'Versjon av NanoKVM-webapplikasjonen',
         uptime: 'Oppetid',

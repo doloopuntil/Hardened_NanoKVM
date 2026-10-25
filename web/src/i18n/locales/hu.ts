@@ -356,7 +356,7 @@ const hu = {
         title: 'Névjegy',
         information: 'Információ',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Helyi cím',
         application: 'Alkalmazás verzió',
         applicationTip: 'NanoKVM webalkalmazás verziója',
         uptime: 'Üzemidő',

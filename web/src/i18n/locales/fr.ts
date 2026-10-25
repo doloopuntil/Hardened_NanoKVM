@@ -357,7 +357,7 @@ const fr = {
         title: 'À propos',
         information: 'Informations',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Adresse locale',
         application: "Version de l'application",
         applicationTip: "Version de l'application Web NanoKVM",
         uptime: 'Temps de fonctionnement',

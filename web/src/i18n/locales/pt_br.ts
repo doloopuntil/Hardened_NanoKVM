@@ -355,7 +355,7 @@ const pt_br = {
         title: 'Sobre',
         information: 'Informação',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Endereço local',
         application: 'Versão do aplicativo',
         applicationTip: 'Versão do aplicativo web NanoKVM',
         uptime: 'Tempo ativo',

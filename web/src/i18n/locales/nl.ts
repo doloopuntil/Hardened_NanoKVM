@@ -358,7 +358,7 @@ const nl = {
         title: 'Over',
         information: 'Informatie',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Lokaal adres',
         application: 'Applicatieversie',
         applicationTip: 'Versie van de NanoKVM-webapplicatie',
         uptime: 'Uptime',

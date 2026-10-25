@@ -356,7 +356,7 @@ const ru = {
         title: 'О системе',
         information: 'Информация',
         ip: 'IP-адрес',
-        mdns: 'Доменное имя mDNS',
+        mdns: 'Локальный адрес',
         application: 'Версия ПО',
         applicationTip: 'Версия веб-программы NanoKVM',
         uptime: 'Время работы',

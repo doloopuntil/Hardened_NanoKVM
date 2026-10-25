@@ -352,7 +352,7 @@ const en = {
         title: 'About',
         information: 'Information',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Local address',
         application: 'Application version',
         applicationTip: 'NanoKVM web application version',
         uptime: 'Uptime',

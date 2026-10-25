@@ -359,7 +359,7 @@ const de = {
         title: 'Über',
         information: 'Informationen',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Lokale Adresse',
         application: 'Applikations-Version',
         applicationTip: 'NanoKVM Web Applikations-Version',
         uptime: 'Laufzeit',

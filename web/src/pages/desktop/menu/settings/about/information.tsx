@@ -52,6 +52,10 @@ export const Information = () => {
       <div className="space-y-3">
         <Hostname />
 
+        {!!information?.mdns && (
+          <InfoRow label={t('settings.about.mdns')} value={information.mdns} />
+        )}
+
         <InfoRow
           alignStart={(information?.ips.length ?? 0) > 1}
           label={t('settings.about.ip')}
@@ -74,10 +78,6 @@ export const Information = () => {
             ) : undefined
           }
         />
-
-        {!!information?.mdns && (
-          <InfoRow label={t('settings.about.mdns')} value={information.mdns} />
-        )}
 
         <InfoRow label={t('settings.update.system.systemVersion')} value={systemVersion} />
 

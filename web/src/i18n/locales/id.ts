@@ -354,7 +354,7 @@ const id = {
         title: 'Tentang',
         information: 'Informasi',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Alamat lokal',
         application: 'Versi aplikasi',
         applicationTip: 'Versi aplikasi web NanoKVM',
         uptime: 'Waktu aktif',

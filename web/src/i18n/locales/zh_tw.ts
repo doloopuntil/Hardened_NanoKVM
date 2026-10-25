@@ -339,7 +339,7 @@ const zh_tw = {
         title: '關於',
         information: '資訊',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: '本機位址',
         application: '應用程式版本',
         applicationTip: 'NanoKVM 網頁程式版本',
         uptime: '執行時間',

@@ -356,7 +356,7 @@ const fi = {
         title: 'Tietoja',
         information: 'Tiedot',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Paikallinen osoite',
         application: 'Sovelluksen versio',
         applicationTip: 'NanoKVM-verkkosovelluksen versio',
         uptime: 'Käyttöaika',

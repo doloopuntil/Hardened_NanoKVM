@@ -354,7 +354,7 @@ const ca = {
         title: 'Quant a',
         information: 'Informació',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Adreça local',
         application: 'Versió aplicació',
         applicationTip: 'Versió de la interfície web de NanoKVM',
         uptime: 'Temps actiu',

@@ -357,7 +357,7 @@ const uk = {
         title: 'Про програму',
         information: 'Інформація',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Локальна адреса',
         application: 'Версія додатка',
         applicationTip: 'Версія веб-додатка NanoKVM',
         uptime: 'Час роботи',

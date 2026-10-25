@@ -349,7 +349,7 @@ const vi = {
         title: 'Giới thiệu',
         information: 'Thông tin',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Địa chỉ cục bộ',
         application: 'Phiên bản ứng dụng',
         applicationTip: 'Phiên bản ứng dụng web NanoKVM',
         uptime: 'Thời gian hoạt động',

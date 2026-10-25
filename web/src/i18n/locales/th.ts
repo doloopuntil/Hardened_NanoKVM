@@ -347,7 +347,7 @@ const th = {
         title: 'เกี่ยวกับ',
         information: 'ข้อมูล',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'ที่อยู่ภายในเครือข่าย',
         application: 'เวอร์ชันแอปพลิเคชัน',
         applicationTip: 'เวอร์ชั่นเว็บ NanoKVM',
         uptime: 'เวลาทำงาน',

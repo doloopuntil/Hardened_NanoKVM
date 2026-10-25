@@ -352,7 +352,7 @@ const da = {
         title: 'Om',
         information: 'Information',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Lokal adresse',
         application: 'Program version',
         applicationTip: 'Version af NanoKVM-webapplikationen',
         uptime: 'Oppetid',

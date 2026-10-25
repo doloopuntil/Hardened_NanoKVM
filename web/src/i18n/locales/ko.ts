@@ -350,7 +350,7 @@ const ko = {
         title: '정보',
         information: '정보',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: '로컬 주소',
         application: '애플리케이션 버전',
         applicationTip: 'NanoKVM 웹 애플리케이션 버전',
         uptime: '가동 시간',

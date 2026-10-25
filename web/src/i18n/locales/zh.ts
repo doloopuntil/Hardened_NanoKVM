@@ -338,7 +338,7 @@ const zh = {
         title: '关于',
         information: '信息',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: '本地地址',
         application: '应用版本',
         applicationTip: 'NanoKVM 网页应用版本',
         uptime: '运行时间',

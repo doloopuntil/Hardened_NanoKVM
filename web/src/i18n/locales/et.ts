@@ -348,7 +348,7 @@ const et = {
         title: 'Teave',
         information: 'Teave',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Kohalik aadress',
         application: 'Rakenduse versioon',
         applicationTip: 'NanoKVM veebirakenduse versioon',
         uptime: 'Tööaeg',

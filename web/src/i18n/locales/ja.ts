@@ -355,7 +355,7 @@ const ja = {
         title: 'バージョン情報',
         information: '情報',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'ローカルアドレス',
         application: 'アプリケーションバージョン',
         applicationTip: 'NanoKVM ウェブアプリケーションバージョン',
         uptime: '稼働時間',

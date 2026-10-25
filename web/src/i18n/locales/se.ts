@@ -354,7 +354,7 @@ const se = {
         title: 'Om',
         information: 'Information',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Lokal adress',
         application: 'Applikationsversion',
         applicationTip: 'NanoKVM webbapplikationsversion',
         uptime: 'Drifttid',

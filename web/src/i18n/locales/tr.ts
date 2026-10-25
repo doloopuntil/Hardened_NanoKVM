@@ -351,7 +351,7 @@ const tr = {
         title: 'Hakkında',
         information: 'Bilgi',
         ip: 'IP',
-        mdns: 'mDNS',
+        mdns: 'Yerel adres',
         application: 'Uygulama sürümü',
         applicationTip: 'NanoKVM web uygulaması sürümü',
         uptime: 'Çalışma süresi',
