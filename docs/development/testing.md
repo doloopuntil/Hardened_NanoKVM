@@ -51,6 +51,15 @@ For logic that builds firewall rules or parses config files, source the function
 with stubbed commands (`iptables() { echo "$*"; }`) and compare the output for a
 few inputs.
 
+Three scripts already do this for the init scripts and need no device; run them
+with `bash` from the repository root:
+
+```sh
+bash scripts/test-hardware-macs.sh
+bash scripts/test-hid-only-mode.sh
+bash scripts/test-s30eth-static-dns.sh
+```
+
 ## The image workflow
 
 For a change to `.github/workflows/system-image.yml` or a script it calls:
