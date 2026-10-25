@@ -224,9 +224,12 @@ export const Monitor = () => {
 
       <div className="flex flex-wrap justify-between gap-x-4 gap-y-1 text-xs text-neutral-500">
         <span>{t('settings.system.monitor.refresh')}</span>
-        <span>
-          {t('settings.about.uptime')} {formatUptime(data?.uptimeSeconds)}
-        </span>
+        {/* an older server does not send it, and the page then has nothing to say */}
+        {data?.uptimeSeconds != null && (
+          <span>
+            {t('settings.about.uptime')} {formatUptime(data.uptimeSeconds)}
+          </span>
+        )}
       </div>
     </div>
   );

@@ -405,6 +405,22 @@ fn parse_clocks(text: &str) -> Clocks {
 #[cfg(test)]
 mod tests {
     #[test]
+    fn the_snapshot_carries_uptime_seconds_under_that_name() {
+        let query = MonitorQuery {
+            since: None,
+            epoch: None,
+        };
+        let json = serde_json::to_value(snapshot(&query)).unwrap();
+        let uptime = json.get("uptimeSeconds").expect("uptimeSeconds is sent");
+        if std::path::Path::new("/proc/uptime").exists() {
+            assert!(
+                uptime.as_u64().is_some_and(|seconds| seconds > 0),
+                "{uptime}"
+            );
+        }
+    }
+
+    #[test]
     fn reads_whole_seconds_from_proc_uptime() {
         assert_eq!(parse_uptime("12345.67 8901.23\n"), Some(12345));
         assert_eq!(parse_uptime(""), None);
