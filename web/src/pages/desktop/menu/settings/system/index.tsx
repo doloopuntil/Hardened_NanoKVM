@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 
+import { discardOnEscape } from '@/lib/discard.ts';
 import { PageHeader } from '@/components/page-header.tsx';
 import { SaveBar } from '@/components/save-bar.tsx';
 import { SettingSection } from '@/components/setting-rows.tsx';
@@ -41,6 +42,8 @@ type SystemProps = {
 export const System = ({ section, setIsLocked }: SystemProps) => {
   const { t } = useTranslation();
   const [actionState, setActionState] = useState<SystemActionState>(idleSystemActionState);
+  // changing it remounts the section, which drops every draft and loads the settings again
+  const [discardCount, setDiscardCount] = useState(0);
   const networkRef = useRef<SystemActionHandle>(null);
   const timeRef = useRef<SystemActionHandle>(null);
   const systemLogRef = useRef<SystemActionHandle>(null);
@@ -67,6 +70,11 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
     }
   }
 
+  function discardSection() {
+    setActionState(idleSystemActionState);
+    setDiscardCount((count) => count + 1);
+  }
+
   const titles: Record<SystemSection, string> = {
     time: t('settings.system.sections.time'),
     network: t('settings.network.title'),
@@ -89,8 +97,11 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
 
       {/* The load banner is part of the section, below the sticky header; the group of the whole
           tab would put it above the header, where the header's cover hides it. */}
-      <SettingsLoadGroup key={section}>
-        <div className="min-w-0 overflow-x-hidden">
+      <SettingsLoadGroup key={`${section}-${discardCount}`}>
+        <div
+          className="min-w-0 overflow-x-hidden"
+          onKeyDown={discardOnEscape(actionState.hasPending, discardSection)}
+        >
           {section === 'network' && (
             <Network ref={networkRef} onActionStateChange={updateActionState} />
           )}
@@ -148,6 +159,8 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
           loading={actionState.isBusy}
           disabled={!actionState.canSave}
           onSave={actionState.hasPending ? saveActiveSection : undefined}
+          onDiscard={actionState.hasPending ? discardSection : undefined}
+          discardLabel={t('common.discard')}
         />
       )}
     </>

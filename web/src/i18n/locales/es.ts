@@ -4,6 +4,7 @@ const es = {
       confirm: 'Confirmar',
       cancel: 'Cancelar',
       save: 'Guardar',
+      discard: 'Descartar',
       delete: 'Eliminar',
       actionFailed: 'La operación ha fallado',
       loading: 'Cargando la configuración del dispositivo...',

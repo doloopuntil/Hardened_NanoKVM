@@ -124,9 +124,13 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     (`bg-settings-panel`) like the page header, with a hairline above it and a
     shadow that pushes up from there, with the same negative spread as the
     header's.
+    The bar has a Discard button beside Save changes, and Escape in a text field
+    of a page with unsaved changes discards them too (`discardOnEscape`,
+    `lib/discard.ts`): an open select or a dialog keeps its own Escape, and with
+    nothing to discard Escape closes the Settings dialog as usual. The System
+    pages discard by remounting their content, which loads the settings again.
 
 ## Status and feedback
-
 21. A state message is the caption of the field it describes: "downloaded and
     verified" under Staged version, "reboot required" under Pending version.
 22. A badge (`Tag` with `className="m-0"`) names a state of the row it belongs

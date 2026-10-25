@@ -4,6 +4,7 @@ const pt_br = {
       confirm: 'Confirmar',
       cancel: 'Cancelar',
       save: 'Salvar',
+      discard: 'Descartar',
       delete: 'Excluir',
       actionFailed: 'Falha na operação',
       loading: 'Carregando configurações do dispositivo...',

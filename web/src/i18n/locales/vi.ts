@@ -4,6 +4,7 @@ const vi = {
       confirm: 'Xác nhận',
       cancel: 'Hủy',
       save: 'Lưu',
+      discard: 'Hủy bỏ',
       delete: 'Xóa',
       actionFailed: 'Thao tác thất bại',
       loading: 'Đang tải cài đặt từ thiết bị...',

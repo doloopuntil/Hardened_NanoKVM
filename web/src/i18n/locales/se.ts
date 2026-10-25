@@ -4,6 +4,7 @@ const se = {
       confirm: 'Bekräfta',
       cancel: 'Avbryt',
       save: 'Spara',
+      discard: 'Förkasta',
       delete: 'Ta bort',
       actionFailed: 'Åtgärden misslyckades',
       loading: 'Läser in inställningar från enheten...',

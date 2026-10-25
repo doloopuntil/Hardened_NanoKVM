@@ -4,6 +4,7 @@ const hu = {
       confirm: 'Megerősítés',
       cancel: 'Mégse',
       save: 'Mentés',
+      discard: 'Elvetés',
       delete: 'Törlés',
       actionFailed: 'A művelet sikertelen',
       loading: 'Beállítások betöltése az eszközről...',

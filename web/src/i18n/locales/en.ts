@@ -4,6 +4,7 @@ const en = {
       confirm: 'Confirm',
       cancel: 'Cancel',
       save: 'Save',
+      discard: 'Discard',
       delete: 'Delete',
       actionFailed: 'Operation failed',
       loading: 'Loading settings from the device...',

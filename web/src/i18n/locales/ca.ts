@@ -4,6 +4,7 @@ const ca = {
       confirm: 'Confirma',
       cancel: 'Cancel·la',
       save: 'Desa',
+      discard: 'Descarta',
       delete: 'Esborra',
       actionFailed: "L'operació ha fallat",
       loading: 'Carregant la configuració del dispositiu...',

@@ -4,6 +4,7 @@ const fi = {
       confirm: 'Vahvista',
       cancel: 'Peruuta',
       save: 'Tallenna',
+      discard: 'Hylkää',
       delete: 'Poista',
       actionFailed: 'Toiminto epäonnistui',
       loading: 'Ladataan asetuksia laitteelta...',

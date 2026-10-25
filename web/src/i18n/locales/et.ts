@@ -4,6 +4,7 @@ const et = {
       confirm: 'Kinnita',
       cancel: 'Tühista',
       save: 'Salvesta',
+      discard: 'Loobu',
       delete: 'Kustuta',
       actionFailed: 'Toiming ebaõnnestus',
       loading: 'Seadete laadimine seadmest...',

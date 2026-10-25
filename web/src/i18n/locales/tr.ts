@@ -4,6 +4,7 @@ const tr = {
       confirm: 'Onayla',
       cancel: 'İptal',
       save: 'Kaydet',
+      discard: 'Vazgeç',
       delete: 'Sil',
       actionFailed: 'İşlem başarısız oldu',
       loading: 'Ayarlar cihazdan yükleniyor...',

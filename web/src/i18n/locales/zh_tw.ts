@@ -4,6 +4,7 @@ const zh_tw = {
       confirm: '確認',
       cancel: '取消',
       save: '儲存',
+      discard: '捨棄',
       delete: '刪除',
       actionFailed: '操作失敗',
       loading: '正在從裝置載入設定...',

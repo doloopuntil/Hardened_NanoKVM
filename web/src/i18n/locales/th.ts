@@ -4,6 +4,7 @@ const th = {
       confirm: 'ยืนยัน',
       cancel: 'ยกเลิก',
       save: 'บันทึก',
+      discard: 'ละทิ้ง',
       delete: 'ลบ',
       actionFailed: 'การดำเนินการล้มเหลว',
       loading: 'กำลังโหลดการตั้งค่าจากอุปกรณ์...',

@@ -4,6 +4,7 @@ const cz = {
       confirm: 'Potvrdit',
       cancel: 'Zrušit',
       save: 'Uložit',
+      discard: 'Zahodit',
       delete: 'Smazat',
       actionFailed: 'Operace se nezdařila',
       loading: 'Načítání nastavení ze zařízení...',

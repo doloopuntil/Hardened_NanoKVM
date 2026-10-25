@@ -4,6 +4,7 @@ const ko = {
       confirm: '확인',
       cancel: '취소',
       save: '저장',
+      discard: '변경 취소',
       delete: '삭제',
       actionFailed: '작업에 실패했습니다',
       loading: '기기에서 설정을 불러오는 중...',
