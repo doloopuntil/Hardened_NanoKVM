@@ -3,6 +3,7 @@ const es = {
     common: {
       confirm: 'Confirmar',
       cancel: 'Cancelar',
+      save: 'Guardar',
       delete: 'Eliminar',
       actionFailed: 'La operación ha fallado',
       loading: 'Cargando la configuración del dispositivo...',
@@ -330,7 +331,7 @@ const es = {
       canceled: 'Carga cancelada',
       downloadCanceled: 'Descarga cancelada',
       cancel: 'Cancelar',
-      remoteDisabled: 'La descarga remota de ISO está desactivada en Ajustes > Apariencia',
+      remoteDisabled: 'La descarga remota de ISO está desactivada en Ajustes > Usuario > Apariencia',
       remoteFailed: 'La descarga remota de ISO falló',
       sha256: 'Suma de comprobación SHA-256 opcional',
       sha256Placeholder: 'Introduce una suma de comprobación SHA-256 de 64 caracteres',
@@ -391,13 +392,11 @@ const es = {
           terminalWarningDesc:
             'El terminal abre una shell root en el navegador. Actívalo solo en una red de confianza y desactívalo al terminar.',
           terminalWarningConfirm: 'Activar',
-          terminalWarningCancel: 'Cancelar',
           remoteDownload: 'Descargar ISO remota',
           remoteDownloadWarningTitle: '¿Activar descarga remota de ISO?',
           remoteDownloadWarningDesc:
             'NanoKVM descargará una ISO desde una URL y la escribirá en /data. Actívalo solo para URL de confianza y desactívalo al terminar.',
-          remoteDownloadWarningConfirm: 'Activar',
-          remoteDownloadWarningCancel: 'Cancelar'
+          remoteDownloadWarningConfirm: 'Activar'
         }
       },
       keyboardLedStatus: {
@@ -571,7 +570,8 @@ const es = {
               'Una actualización del sistema devuelve el dispositivo a los relojes estándar si esto no está activado',
             confirmTitle: '¿Activar el overdrive de reloj?',
             confirmText:
-              'Si el dispositivo no arranca con overdrive, tendrá que volver a grabar la tarjeta SD para recuperarlo. El cambio se aplica tras el próximo reinicio.'
+              'Si el dispositivo no arranca con overdrive, tendrá que volver a grabar la tarjeta SD para recuperarlo. El cambio se aplica tras el próximo reinicio.',
+            confirmOk: 'Activar'
           },
           watchdog: {
             title: 'Watchdog de hardware',
@@ -777,6 +777,9 @@ const es = {
           '8': '8 - Todo'
         }
       },
+      user: {
+        title: 'Usuario'
+      },
       networking: {
         title: 'Redes'
       },
@@ -899,14 +902,14 @@ const es = {
         sources: 'Fuentes de actualización',
         latestVersion: 'Última versión',
         queryFailed: 'Error al obtener la versión',
-        updateFailed: 'La actualización falló. Por favor, inténtalo de nuevo.',
+        updateFailed: 'La actualización falló',
         paranoidBlocked:
           'Las actualizaciones en línea están bloqueadas por el modo de firewall Paranoico',
         paranoidBlockedDesc:
           'Las comprobaciones y descargas de GitHub requieren acceso de red saliente. La carga offline y las instalaciones ya preparadas siguen disponibles.',
         isLatest: 'Ya tienes la última versión.',
         available: 'Hay una actualización disponible. ¿Estás seguro de que quieres actualizar?',
-        updating: 'Actualización iniciada. Por favor, espera...',
+        updating: 'Actualización iniciada',
         confirm: 'Confirmar',
         cancel: 'Cancelar',
         preview: 'Vista previa de actualizaciones',
@@ -992,7 +995,7 @@ const es = {
           upload: 'Subir',
           invalidName:
             'Formato de nombre de archivo no válido. Descarga desde las versiones de GitHub.',
-          updateFailed: 'La actualización falló. Por favor, inténtalo de nuevo.'
+          updateFailed: 'La actualización falló'
         },
         local: {
           title: 'Subir paquete del sistema',

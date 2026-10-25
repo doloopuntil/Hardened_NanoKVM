@@ -15,7 +15,7 @@ the `root` password, which SSH uses.
 There is no reset through the web UI or the API. If you lose the password,
 reflash the SD card ([Install](install.md)).
 
-Change the password in **Settings > Account**. You need the current password,
+Change the password in **Settings > User > Account**. You need the current password,
 and every other session is signed out.
 
 ## What protects a session
@@ -24,7 +24,7 @@ and every other session is signed out.
 - Sessions are bound to a CSRF token and checked against the request's
   `Origin`. WebSockets check their `Origin` too.
 - Five wrong passwords from one address lock that address out for ten minutes.
-- **Settings > Account > Session > Log out when the browser closes**, on by
+- **Settings > User > Account > Session > Log out when the browser closes**, on by
   default, keeps the sign-in out of the browser's saved cookies, so it ends when
   you quit the browser; a browser set to restore its last session may keep it.
   **Lock session when inactive** is separate and also applies: it signs you out
@@ -37,7 +37,7 @@ and every other session is signed out.
 An authenticator app can add a six-digit code to the web sign-in. SSH is not
 covered: it keeps using the `root` password.
 
-1. Open **Settings > Account > Two-factor authentication** and turn it on.
+1. Open **Settings > User > Account > Two-factor authentication** and turn it on.
 2. Enter your password, scan the QR code with the authenticator app and enter a
    code to confirm. The second factor becomes active only after that code is
    accepted, so a wrongly set up app cannot lock you out.

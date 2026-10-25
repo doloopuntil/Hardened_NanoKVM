@@ -3,6 +3,7 @@ const se = {
     common: {
       confirm: 'Bekräfta',
       cancel: 'Avbryt',
+      save: 'Spara',
       delete: 'Ta bort',
       actionFailed: 'Åtgärden misslyckades',
       loading: 'Läser in inställningar från enheten...',
@@ -327,7 +328,7 @@ const se = {
       canceled: 'Uppladdningen avbröts',
       downloadCanceled: 'Nedladdning avbruten',
       cancel: 'Avbryt',
-      remoteDisabled: 'Fjärrnedladdning av ISO är inaktiverad i Inställningar > Utseende',
+      remoteDisabled: 'Fjärrnedladdning av ISO är inaktiverad i Inställningar > Användare > Utseende',
       remoteFailed: 'Fjärrnedladdning av ISO misslyckades',
       sha256: 'Valfri SHA-256-kontrollsumma',
       sha256Placeholder: 'Ange en SHA-256-kontrollsumma på 64 tecken',
@@ -388,13 +389,11 @@ const se = {
           terminalWarningDesc:
             'Terminalen öppnar ett root-shell i webbläsaren. Aktivera endast på ett betrott nätverk och stäng av när du är klar.',
           terminalWarningConfirm: 'Aktivera',
-          terminalWarningCancel: 'Avbryt',
           remoteDownload: 'Hämta ISO på distans',
           remoteDownloadWarningTitle: 'Aktivera fjärrnedladdning av ISO?',
           remoteDownloadWarningDesc:
             'NanoKVM hämtar en ISO från en URL och skriver den till /data. Aktivera endast för betrodda URL:er och stäng av när du är klar.',
-          remoteDownloadWarningConfirm: 'Aktivera',
-          remoteDownloadWarningCancel: 'Avbryt'
+          remoteDownloadWarningConfirm: 'Aktivera'
         }
       },
       keyboardLedStatus: {
@@ -569,7 +568,8 @@ const se = {
               'En systemuppdatering återställer enheten till standardklockorna om detta inte är påslaget',
             confirmTitle: 'Aktivera överklockning?',
             confirmText:
-              'Om enheten inte startar med överklockning måste du skriva om SD-kortet för att återställa den. Ändringen gäller efter nästa omstart.'
+              'Om enheten inte startar med överklockning måste du skriva om SD-kortet för att återställa den. Ändringen gäller efter nästa omstart.',
+            confirmOk: 'Aktivera'
           },
           watchdog: {
             title: 'Hårdvaru-watchdog',
@@ -774,6 +774,9 @@ const se = {
           '8': '8 - Alla'
         }
       },
+      user: {
+        title: 'Användare'
+      },
       networking: {
         title: 'Nätverk'
       },
@@ -896,13 +899,13 @@ const se = {
         sources: 'Uppdateringskällor',
         latestVersion: 'Senaste version',
         queryFailed: 'Kunde inte hämta version',
-        updateFailed: 'Uppdatering misslyckades. Försök igen.',
+        updateFailed: 'Uppdatering misslyckades',
         paranoidBlocked: 'Onlineuppdateringar blockeras av brandväggsläget Paranoid',
         paranoidBlockedDesc:
           'GitHub-kontroller och nedladdningar kräver utgående nätverksåtkomst. Offlineuppladdning och redan förberedda installationer är fortsatt tillgängliga.',
         isLatest: 'Du har redan den senaste versionen.',
         available: 'En uppdatering finns tillgänglig. Vill du uppdatera nu?',
-        updating: 'Uppdatering påbörjad. Vänta...',
+        updating: 'Uppdatering påbörjad',
         confirm: 'Bekräfta',
         cancel: 'Avbryt',
         preview: 'Förhandsvisning av uppdateringar',
@@ -986,7 +989,7 @@ const se = {
           desc: 'Uppdatera genom lokalt installationspaket',
           upload: 'Ladda upp',
           invalidName: 'Ogiltigt filnamnsformat. Ladda ner från GitHub-versioner.',
-          updateFailed: 'Uppdatering misslyckades. Försök igen.'
+          updateFailed: 'Uppdatering misslyckades'
         },
         local: {
           title: 'Ladda upp systempaket',

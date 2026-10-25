@@ -41,7 +41,7 @@ host as a USB drive. Only one side writes `/data` at a time:
 
 - **Upload** from the browser in **Images**. An optional SHA-256 checks the
   file once it has arrived.
-- **Download from a URL**: turn on remote download in **Settings > Appearance**
+- **Download from a URL**: turn on remote download in **Settings > User > Appearance**
   first; it is off by default. The device accepts only `http`/`https` URLs, a
   plain image file name, a size that fits, and a file that really is an ISO 9660
   image. Enter the optional SHA-256 to have the download checked. The menu bar

@@ -3,6 +3,7 @@ const zh = {
     common: {
       confirm: '确认',
       cancel: '取消',
+      save: '保存',
       delete: '删除',
       actionFailed: '操作失败',
       loading: '正在从设备加载设置...',
@@ -312,7 +313,7 @@ const zh = {
       canceled: '上传已取消',
       downloadCanceled: '下载已取消',
       cancel: '取消',
-      remoteDisabled: '远程 ISO 下载已在 设置 > 外观 中禁用',
+      remoteDisabled: '远程 ISO 下载已在 设置 > 用户 > 外观 中禁用',
       remoteFailed: '远程 ISO 下载失败',
       sha256: '可选的 SHA-256 校验值',
       sha256Placeholder: '请输入 64 位 SHA-256 校验和',
@@ -372,13 +373,11 @@ const zh = {
           terminalWarningDesc:
             '终端会在浏览器中打开 root shell。仅在可信网络中启用，用完后请关闭。',
           terminalWarningConfirm: '启用',
-          terminalWarningCancel: '取消',
           remoteDownload: '远程 ISO 下载',
           remoteDownloadWarningTitle: '启用远程 ISO 下载？',
           remoteDownloadWarningDesc:
             'NanoKVM 将从 URL 获取 ISO 并写入 /data。仅对可信 URL 启用，用完后请关闭。',
-          remoteDownloadWarningConfirm: '启用',
-          remoteDownloadWarningCancel: '取消'
+          remoteDownloadWarningConfirm: '启用'
         }
       },
       keyboardLedStatus: {
@@ -544,7 +543,8 @@ const zh = {
             keepDescription: '除非开启此项，否则系统更新后设备将恢复为标准时钟',
             confirmTitle: '启用时钟超频？',
             confirmText:
-              '如果设备在超频下无法启动，必须重新刷写 SD 卡才能恢复。更改将在下次重启后生效。'
+              '如果设备在超频下无法启动，必须重新刷写 SD 卡才能恢复。更改将在下次重启后生效。',
+            confirmOk: '启用'
           },
           watchdog: {
             title: '硬件看门狗',
@@ -743,6 +743,9 @@ const zh = {
           '8': '8 - 全部'
         }
       },
+      user: {
+        title: '用户'
+      },
       networking: {
         title: '网络'
       },
@@ -862,12 +865,12 @@ const zh = {
         sources: '更新来源',
         latestVersion: '最新版本',
         queryFailed: '获取版本号失败',
-        updateFailed: '更新失败。请重试。',
+        updateFailed: '更新失败',
         paranoidBlocked: '在线更新被偏执防火墙模式阻止',
         paranoidBlockedDesc: 'GitHub 检查和下载需要出站网络访问。离线上传和已暂存的安装仍可使用。',
         isLatest: '已经是最新版本。',
         available: '有新的可用版本，确定要更新吗？',
-        updating: '更新中，请稍候...',
+        updating: '更新中',
         confirm: '确定',
         cancel: '取消',
         preview: '预览更新',
@@ -941,7 +944,7 @@ const zh = {
           desc: '通过本地安装包进行更新',
           upload: '上传',
           invalidName: '文件名格式错误，请前往 GitHub 发布页下载安装包。',
-          updateFailed: '更新失败。请重试。'
+          updateFailed: '更新失败'
         },
         local: {
           title: '上传系统包',

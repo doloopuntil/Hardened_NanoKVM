@@ -3,6 +3,7 @@ const ja = {
     common: {
       confirm: '確認',
       cancel: 'キャンセル',
+      save: '保存',
       delete: '削除',
       actionFailed: '操作に失敗しました',
       loading: 'デバイスから設定を読み込んでいます...',
@@ -329,7 +330,7 @@ const ja = {
       canceled: 'アップロードをキャンセルしました',
       downloadCanceled: 'ダウンロードをキャンセルしました',
       cancel: 'キャンセル',
-      remoteDisabled: 'リモート ISO ダウンロードは「設定 > 外観」で無効になっています',
+      remoteDisabled: 'リモート ISO ダウンロードは「設定 > ユーザー > 外観」で無効になっています',
       remoteFailed: 'リモート ISO ダウンロードに失敗しました',
       sha256: '任意の SHA-256 チェックサム',
       sha256Placeholder: '64 文字の SHA-256 チェックサムを入力してください',
@@ -391,13 +392,11 @@ const ja = {
           terminalWarningDesc:
             'ターミナルはブラウザで root shell を開きます。信頼できるネットワークでのみ有効にし、終了後は無効にしてください。',
           terminalWarningConfirm: '有効にする',
-          terminalWarningCancel: 'キャンセル',
           remoteDownload: 'リモート ISO をダウンロード',
           remoteDownloadWarningTitle: 'リモート ISO ダウンロードを有効にしますか?',
           remoteDownloadWarningDesc:
             'NanoKVM は URL から ISO を取得して /data に書き込みます。信頼できる URL のみに有効化し、終了後は無効にしてください。',
-          remoteDownloadWarningConfirm: '有効にする',
-          remoteDownloadWarningCancel: 'キャンセル'
+          remoteDownloadWarningConfirm: '有効にする'
         }
       },
       keyboardLedStatus: {
@@ -570,7 +569,8 @@ const ja = {
               'これをオンにしない限り、システム更新後はデバイスが標準クロックに戻ります',
             confirmTitle: 'クロックのオーバードライブを有効にしますか？',
             confirmText:
-              'オーバードライブで起動しない場合は、復旧のために SD カードを書き直す必要があります。変更は次回の再起動後に反映されます。'
+              'オーバードライブで起動しない場合は、復旧のために SD カードを書き直す必要があります。変更は次回の再起動後に反映されます。',
+            confirmOk: '有効にする'
           },
           watchdog: {
             title: 'ハードウェアウォッチドッグ',
@@ -775,6 +775,9 @@ const ja = {
           '8': '8 - すべて'
         }
       },
+      user: {
+        title: 'ユーザー'
+      },
       networking: {
         title: 'ネットワーク'
       },
@@ -898,13 +901,13 @@ const ja = {
         sources: 'アップデートの取得元',
         latestVersion: '最新バージョン',
         queryFailed: 'バージョン番号の取得に失敗しました',
-        updateFailed: 'アップデートに失敗しました。もう一度お試しください。',
+        updateFailed: 'アップデートに失敗しました',
         paranoidBlocked: 'オンライン更新はパラノイドファイアウォールモードでブロックされています',
         paranoidBlockedDesc:
           'GitHub の確認とダウンロードには外向きネットワークアクセスが必要です。オフラインアップロードと準備済みインストールは引き続き利用できます。',
         isLatest: 'すでに最新バージョンです。',
         available: '新しいバージョンが利用可能です。アップデートしてもよろしいですか？',
-        updating: 'アップデート中、お待ちください...',
+        updating: 'アップデート中',
         confirm: 'はい',
         cancel: 'いいえ',
         preview: 'プレビューアップデート',
@@ -988,7 +991,7 @@ const ja = {
           upload: 'アップロード',
           invalidName:
             'ファイル名の形式が正しくありません。GitHub リリースページにアクセスしてインストールパッケージをダウンロードしてください。',
-          updateFailed: 'アップデートに失敗しました。もう一度お試しください。'
+          updateFailed: 'アップデートに失敗しました'
         },
         local: {
           title: 'システムバンドルをアップロード',

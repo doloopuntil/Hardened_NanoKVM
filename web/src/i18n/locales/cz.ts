@@ -3,6 +3,7 @@ const cz = {
     common: {
       confirm: 'Potvrdit',
       cancel: 'Zrušit',
+      save: 'Uložit',
       delete: 'Smazat',
       actionFailed: 'Operace se nezdařila',
       loading: 'Načítání nastavení ze zařízení...',
@@ -326,7 +327,7 @@ const cz = {
       canceled: 'Nahrání zrušeno',
       downloadCanceled: 'Stahování zrušeno',
       cancel: 'Zrušit',
-      remoteDisabled: 'Vzdálené stahování ISO je vypnuté v Nastavení > Vzhled',
+      remoteDisabled: 'Vzdálené stahování ISO je vypnuté v Nastavení > Uživatel > Vzhled',
       remoteFailed: 'Vzdálené stahování ISO selhalo',
       sha256: 'Volitelný kontrolní součet SHA-256',
       sha256Placeholder: 'Zadejte 64znakový kontrolní součet SHA-256',
@@ -387,13 +388,11 @@ const cz = {
           terminalWarningDesc:
             'Terminál otevře root shell v prohlížeči. Povolujte jen v důvěryhodné síti a po dokončení ho vypněte.',
           terminalWarningConfirm: 'Povolit',
-          terminalWarningCancel: 'Zrušit',
           remoteDownload: 'Stáhnout vzdálené ISO',
           remoteDownloadWarningTitle: 'Povolit vzdálené stahování ISO?',
           remoteDownloadWarningDesc:
             'NanoKVM stáhne ISO z URL a zapíše ho do /data. Povolujte jen pro důvěryhodné URL a po dokončení vypněte.',
-          remoteDownloadWarningConfirm: 'Povolit',
-          remoteDownloadWarningCancel: 'Zrušit'
+          remoteDownloadWarningConfirm: 'Povolit'
         }
       },
       keyboardLedStatus: {
@@ -566,7 +565,8 @@ const cz = {
               'Aktualizace systému vrátí zařízení ke standardním taktům, pokud to není zapnuto',
             confirmTitle: 'Zapnout přetaktování?',
             confirmText:
-              'Pokud se zařízení s přetaktováním nespustí, musíte kartu SD znovu zapsat, abyste ho obnovili. Změna se použije po příštím restartu.'
+              'Pokud se zařízení s přetaktováním nespustí, musíte kartu SD znovu zapsat, abyste ho obnovili. Změna se použije po příštím restartu.',
+            confirmOk: 'Zapnout'
           },
           watchdog: {
             title: 'Hardwarový watchdog',
@@ -768,6 +768,9 @@ const cz = {
           '8': '8 - Vše'
         }
       },
+      user: {
+        title: 'Uživatel'
+      },
       networking: {
         title: 'Síť'
       },
@@ -890,13 +893,13 @@ const cz = {
         sources: 'Zdroje aktualizací',
         latestVersion: 'Nejnovější verze',
         queryFailed: 'Nepodařilo se získat verzi',
-        updateFailed: 'Aktualizace se nezdařila. Zkuste to prosím znovu.',
+        updateFailed: 'Aktualizace se nezdařila',
         paranoidBlocked: 'Online aktualizace jsou blokovány režimem firewallu Paranoidní',
         paranoidBlockedDesc:
           'Kontroly a stahování z GitHubu vyžadují odchozí síťový přístup. Offline nahrání a již připravené instalace zůstávají dostupné.',
         isLatest: 'Máte nejnovější verzi.',
         available: 'Je dostupná aktualizace. Opravdu chcete aktualizovat?',
-        updating: 'Aktualizace zahájena. Prosím čekejte...',
+        updating: 'Aktualizace zahájena',
         confirm: 'Potvrdit',
         cancel: 'Zrušit',
         preview: 'Náhled aktualizací',
@@ -980,7 +983,7 @@ const cz = {
           desc: 'Aktualizace prostřednictvím místního instalačního balíčku',
           upload: 'Nahrát',
           invalidName: 'Neplatný formát souboru. Stáhněte si prosím z vydání GitHubu.',
-          updateFailed: 'Aktualizace se nezdařila. Zkuste to prosím znovu.'
+          updateFailed: 'Aktualizace se nezdařila'
         },
         local: {
           title: 'Nahrát systémový balíček',

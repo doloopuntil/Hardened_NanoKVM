@@ -3,6 +3,7 @@ const en = {
     common: {
       confirm: 'Confirm',
       cancel: 'Cancel',
+      save: 'Save',
       delete: 'Delete',
       actionFailed: 'Operation failed',
       loading: 'Loading settings from the device...',
@@ -326,7 +327,7 @@ const en = {
       canceled: 'Upload canceled',
       downloadCanceled: 'Download canceled',
       cancel: 'Cancel',
-      remoteDisabled: 'Remote ISO download is disabled in Settings > Appearance',
+      remoteDisabled: 'Remote ISO download is disabled in Settings > User > Appearance',
       remoteFailed: 'Remote ISO download failed',
       sha256: 'Optional SHA-256 checksum',
       sha256Placeholder: 'Enter a 64-character SHA-256 checksum',
@@ -386,13 +387,11 @@ const en = {
           terminalWarningDesc:
             'The terminal opens a root shell through the browser. Enable it only on a trusted network and turn it off when you are done.',
           terminalWarningConfirm: 'Enable',
-          terminalWarningCancel: 'Cancel',
           remoteDownload: 'Remote ISO download',
           remoteDownloadWarningTitle: 'Enable remote ISO download?',
           remoteDownloadWarningDesc:
             'NanoKVM will fetch an ISO from a URL and write it to /data. Enable it only for trusted URLs and turn it off when you are done.',
-          remoteDownloadWarningConfirm: 'Enable',
-          remoteDownloadWarningCancel: 'Cancel'
+          remoteDownloadWarningConfirm: 'Enable'
         }
       },
       keyboardLedStatus: {
@@ -564,7 +563,8 @@ const en = {
               'A system update returns the device to the standard clocks unless this is on',
             confirmTitle: 'Enable clock overdrive?',
             confirmText:
-              'If the device does not start with overdrive, you must reflash the SD card to recover it. The change applies after the next reboot.'
+              'If the device does not start with overdrive, you must reflash the SD card to recover it. The change applies after the next reboot.',
+            confirmOk: 'Enable'
           },
           watchdog: {
             title: 'Hardware watchdog',
@@ -765,6 +765,9 @@ const en = {
           '8': '8 - All'
         }
       },
+      user: {
+        title: 'User'
+      },
       networking: {
         title: 'Networking'
       },
@@ -886,13 +889,13 @@ const en = {
         sources: 'Update sources',
         latestVersion: 'Latest version',
         queryFailed: "Couldn't get the version",
-        updateFailed: 'Update failed. Please retry.',
+        updateFailed: 'Update failed',
         paranoidBlocked: 'Online updates are blocked by Paranoid Firewall mode',
         paranoidBlockedDesc:
           'GitHub checks and downloads require outbound network access. Offline upload and already staged installs remain available.',
         isLatest: 'You already have the latest version.',
         available: 'An update is available. Are you sure you want to update now?',
-        updating: 'Update started. Please wait...',
+        updating: 'Update started',
         confirm: 'Confirm',
         cancel: 'Cancel',
         preview: 'Preview updates',
@@ -975,7 +978,7 @@ const en = {
           desc: 'Update through local installation package',
           upload: 'Upload',
           invalidName: 'Invalid filename format. Please download from GitHub releases.',
-          updateFailed: 'Update failed. Please retry.'
+          updateFailed: 'Update failed'
         },
         local: {
           title: 'Upload system bundle',

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Divider, Modal, Switch, Typography } from 'antd';
+import { Switch } from 'antd';
 import { useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 
@@ -14,8 +14,6 @@ import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 import { LabelTip } from '@/components/label-tip.tsx';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
-const { Paragraph } = Typography;
-
 export const VirtualDevices = () => {
   const { t } = useTranslation();
 
@@ -25,7 +23,6 @@ export const VirtualDevices = () => {
   const [isNetworkEnabled, setIsNetworkEnabled] = useState(false);
   const [isImageMounted, setIsImageMounted] = useState(false);
   const [loading, setLoading] = useState<'' | 'disk' | 'network' | 'wakeup' | 'hid'>('');
-  const [isHidModalOpen, setIsHidModalOpen] = useState(false);
   const setCloseSettingsRequest = useSetAtom(closeSettingsRequestAtom);
 
   const applyVirtualDevice = (rsp: { data?: any }) => {
@@ -179,7 +176,21 @@ export const VirtualDevices = () => {
           disabled={!isReady}
           onChange={() => {
             if (!isHidOnlyMode) {
-              setIsHidModalOpen(true);
+              confirm({
+                title: t('mouse.hidOnly.enable'),
+                content: (
+                  <div className="space-y-2">
+                    <p>{t('mouse.hidOnly.desc')}</p>
+                    <ul className="m-0 list-disc space-y-1 pl-5 text-neutral-400">
+                      <li>{t('mouse.hidOnly.tip1')}</li>
+                      <li>{t('mouse.hidOnly.tip2')}</li>
+                      <li>{t('mouse.hidOnly.tip3')}</li>
+                    </ul>
+                  </div>
+                ),
+                okText: t('mouse.hidOnly.enable'),
+                onOk: updateHidMode
+              });
               return;
             }
 
@@ -192,41 +203,6 @@ export const VirtualDevices = () => {
           }}
         />
       </SettingRow>
-
-      <Modal
-        open={isHidModalOpen}
-        title={t('mouse.hidOnly.title')}
-        width={580}
-        centered
-        footer={false}
-        onCancel={() => setIsHidModalOpen(false)}
-      >
-        <Divider />
-
-        <Paragraph>{t('mouse.hidOnly.desc')}</Paragraph>
-
-        <Paragraph type="secondary">
-          <ul>
-            <li>{t('mouse.hidOnly.tip1')}</li>
-            <li>{t('mouse.hidOnly.tip2')}</li>
-            <li>{t('mouse.hidOnly.tip3')}</li>
-          </ul>
-        </Paragraph>
-
-        <div className="flex justify-center pt-5">
-          <Button
-            danger
-            type="primary"
-            loading={loading === 'hid'}
-            onClick={() => {
-              setIsHidModalOpen(false);
-              updateHidMode();
-            }}
-          >
-            {t('mouse.hidOnly.enable')}
-          </Button>
-        </div>
-      </Modal>
     </>
   );
 

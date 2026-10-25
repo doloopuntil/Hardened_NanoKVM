@@ -3,6 +3,7 @@ const de = {
     common: {
       confirm: 'Bestätigen',
       cancel: 'Abbrechen',
+      save: 'Speichern',
       delete: 'Löschen',
       actionFailed: 'Vorgang fehlgeschlagen',
       loading: 'Einstellungen werden vom Gerät geladen...',
@@ -332,7 +333,7 @@ const de = {
       canceled: 'Upload abgebrochen',
       downloadCanceled: 'Download abgebrochen',
       cancel: 'Abbrechen',
-      remoteDisabled: 'Remote-ISO-Download ist unter Einstellungen > Darstellung deaktiviert',
+      remoteDisabled: 'Remote-ISO-Download ist unter Einstellungen > Benutzer > Darstellung deaktiviert',
       remoteFailed: 'Remote-ISO-Download fehlgeschlagen',
       sha256: 'Optionale SHA-256-Prüfsumme',
       sha256Placeholder: 'Geben Sie eine 64-stellige SHA-256-Prüfsumme ein',
@@ -393,13 +394,11 @@ const de = {
           terminalWarningDesc:
             'Das Terminal öffnet eine Root-Shell im Browser. Nur in einem vertrauenswürdigen Netzwerk aktivieren und danach wieder ausschalten.',
           terminalWarningConfirm: 'Aktivieren',
-          terminalWarningCancel: 'Abbrechen',
           remoteDownload: 'Remote-ISO herunterladen',
           remoteDownloadWarningTitle: 'Remote-ISO-Download aktivieren?',
           remoteDownloadWarningDesc:
             'NanoKVM lädt eine ISO von einer URL und schreibt sie nach /data. Nur für vertrauenswürdige URLs aktivieren und danach wieder ausschalten.',
-          remoteDownloadWarningConfirm: 'Aktivieren',
-          remoteDownloadWarningCancel: 'Abbrechen'
+          remoteDownloadWarningConfirm: 'Aktivieren'
         }
       },
       keyboardLedStatus: {
@@ -575,7 +574,8 @@ const de = {
               'Ein Systemupdate setzt das Gerät auf die Standardtakte zurück, sofern dies nicht aktiviert ist',
             confirmTitle: 'Übertaktung aktivieren?',
             confirmText:
-              'Startet das Gerät mit Übertaktung nicht, müssen Sie die SD-Karte neu beschreiben, um es wiederherzustellen. Die Änderung gilt nach dem nächsten Neustart.'
+              'Startet das Gerät mit Übertaktung nicht, müssen Sie die SD-Karte neu beschreiben, um es wiederherzustellen. Die Änderung gilt nach dem nächsten Neustart.',
+            confirmOk: 'Aktivieren'
           },
           watchdog: {
             title: 'Hardware-Watchdog',
@@ -781,6 +781,9 @@ const de = {
           '8': '8 - Alle'
         }
       },
+      user: {
+        title: 'Benutzer'
+      },
       networking: {
         title: 'Netzwerk'
       },
@@ -906,13 +909,13 @@ const de = {
         sources: 'Update-Quellen',
         latestVersion: 'Neueste Version',
         queryFailed: 'Version konnte nicht abgefragt werden',
-        updateFailed: 'Aktualisierung fehlgeschlagen. Bitte versuchen Sie es erneut.',
+        updateFailed: 'Aktualisierung fehlgeschlagen',
         paranoidBlocked: 'Online-Updates werden vom Firewall-Modus Paranoid blockiert',
         paranoidBlockedDesc:
           'GitHub-Prüfungen und Downloads benötigen ausgehenden Netzwerkzugriff. Offline-Upload und bereits vorbereitete Installationen bleiben verfügbar.',
         isLatest: 'Sie haben bereits die aktuellste Version.',
         available: 'Eine Aktualisierung ist verfügbar. Möchten sie diese jetzt durchführen?',
-        updating: 'Aktualisierung gestartet. Bitte warten...',
+        updating: 'Aktualisierung gestartet',
         confirm: 'Bestätigen',
         cancel: 'Abbrechen',
         preview: 'Vorab-Versionen',
@@ -999,7 +1002,7 @@ const de = {
           upload: 'Hochladen',
           invalidName:
             'Ungültiges Dateinamenformat. Bitte laden Sie von den GitHub-Releases herunter.',
-          updateFailed: 'Aktualisierung fehlgeschlagen. Bitte versuchen Sie es erneut.'
+          updateFailed: 'Aktualisierung fehlgeschlagen'
         },
         local: {
           title: 'Systempaket hochladen',

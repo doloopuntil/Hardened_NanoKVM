@@ -3,6 +3,7 @@ const pl = {
     common: {
       confirm: 'Potwierdź',
       cancel: 'Anuluj',
+      save: 'Zapisz',
       delete: 'Usuń',
       actionFailed: 'Operacja nie powiodła się',
       loading: 'Wczytywanie ustawień z urządzenia...',
@@ -391,13 +392,11 @@ const pl = {
           terminalWarningDesc:
             'Terminal otwiera powłokę roota w przeglądarce. Włączaj go tylko w zaufanej sieci i wyłącz po zakończeniu pracy.',
           terminalWarningConfirm: 'Włącz',
-          terminalWarningCancel: 'Anuluj',
           remoteDownload: 'Pobierz zdalne ISO',
           remoteDownloadWarningTitle: 'Włączyć zdalne pobieranie ISO?',
           remoteDownloadWarningDesc:
             'NanoKVM pobierze obraz ISO z adresu URL i zapisze go w /data. Włączaj tylko dla zaufanych adresów URL i wyłącz po zakończeniu pracy.',
-          remoteDownloadWarningConfirm: 'Włącz',
-          remoteDownloadWarningCancel: 'Anuluj'
+          remoteDownloadWarningConfirm: 'Włącz'
         }
       },
       keyboardLedStatus: {
@@ -569,7 +568,8 @@ const pl = {
               'Aktualizacja systemu przywraca standardowe zegary urządzenia, chyba że ta opcja jest włączona',
             confirmTitle: 'Włączyć podkręcanie?',
             confirmText:
-              'Jeśli urządzenie nie uruchomi się z podkręcaniem, aby je przywrócić, trzeba ponownie zapisać kartę SD. Zmiana zadziała po następnym restarcie.'
+              'Jeśli urządzenie nie uruchomi się z podkręcaniem, aby je przywrócić, trzeba ponownie zapisać kartę SD. Zmiana zadziała po następnym restarcie.',
+            confirmOk: 'Włącz'
           },
           watchdog: {
             title: 'Sprzętowy watchdog',
@@ -772,6 +772,9 @@ const pl = {
           '8': '8 - Wszystko'
         }
       },
+      user: {
+        title: 'Użytkownik'
+      },
       networking: {
         title: 'Sieć'
       },
@@ -896,13 +899,13 @@ const pl = {
         sources: 'Źródła aktualizacji',
         latestVersion: 'Najnowsza wersja',
         queryFailed: 'Uzyskanie wersji nie powiodło się',
-        updateFailed: 'Aktualizacja nie powiodła się. Spróbuj ponownie.',
+        updateFailed: 'Aktualizacja nie powiodła się',
         paranoidBlocked: 'Aktualizacje online są blokowane przez tryb zapory Paranoidalny',
         paranoidBlockedDesc:
           'Sprawdzanie GitHub i pobieranie wymagają dostępu wychodzącego do sieci. Przesyłanie offline i już przygotowane instalacje pozostają dostępne.',
         isLatest: 'Oprogramowanie jest aktualne.',
         available: 'Aktualizacja jest dostępna. Czy na pewno chcesz dokonać aktualizacji?',
-        updating: 'Aktualizacja rozpoczęta. Czekaj...',
+        updating: 'Aktualizacja rozpoczęta',
         confirm: 'Potwierdź',
         cancel: 'Anuluj',
         preview: 'Podgląd aktualizacji',
@@ -987,7 +990,7 @@ const pl = {
           desc: 'Aktualizacja poprzez lokalny pakiet instalacyjny',
           upload: 'Prześlij',
           invalidName: 'Nieprawidłowy format nazwy pliku. Pobierz z wydań GitHub.',
-          updateFailed: 'Aktualizacja nie powiodła się. Spróbuj ponownie.'
+          updateFailed: 'Aktualizacja nie powiodła się'
         },
         local: {
           title: 'Prześlij pakiet systemowy',

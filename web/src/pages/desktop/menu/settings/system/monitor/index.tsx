@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Divider } from 'antd';
+import { Alert, Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import { SettingSection } from '@/components/setting-rows.tsx';
@@ -41,7 +41,7 @@ const History = ({
   tone: 'normal' | 'warn' | 'crit';
   children: ReactNode;
 }) => (
-  <div className="flex min-w-0 flex-col md:min-h-[104px]">
+  <div className="flex min-w-0 flex-col lg:min-h-[104px]">
     <div className="flex items-end justify-between gap-4">
       <div className="flex min-w-0 flex-col space-y-0.5">
         <span className="text-sm text-neutral-300">{label}</span>
@@ -103,10 +103,10 @@ export const Monitor = () => {
   return (
     <div className="flex min-w-0 flex-col space-y-6">
       {unavailable && (
-        <div className="text-xs text-orange-400">{t('settings.system.monitor.noReadings')}</div>
+        <Alert type="warning" showIcon message={t('settings.system.monitor.noReadings')} />
       )}
 
-      <div className="grid min-w-0 grid-cols-1 gap-x-14 gap-y-7 md:grid-cols-2">
+      <div className="grid min-w-0 grid-cols-1 gap-x-14 gap-y-7 lg:grid-cols-2">
         <SettingSection title={t('settings.system.performance.processor')}>
           <div className="flex min-w-0 flex-col gap-5">
             <SplitMeter
@@ -216,7 +216,7 @@ export const Monitor = () => {
 
       <Divider className="opacity-50" />
 
-      <div className="grid min-w-0 grid-cols-1 gap-x-14 gap-y-7 md:grid-cols-2">
+      <div className="grid min-w-0 grid-cols-1 gap-x-14 gap-y-7 lg:grid-cols-2">
         {storage('/', t('settings.system.monitor.systemPartition'), '/')}
         {storage('/data', t('settings.system.monitor.dataPartition'), '/data')}
       </div>

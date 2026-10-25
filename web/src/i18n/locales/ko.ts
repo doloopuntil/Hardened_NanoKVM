@@ -3,6 +3,7 @@ const ko = {
     common: {
       confirm: '확인',
       cancel: '취소',
+      save: '저장',
       delete: '삭제',
       actionFailed: '작업에 실패했습니다',
       loading: '기기에서 설정을 불러오는 중...',
@@ -324,7 +325,7 @@ const ko = {
       canceled: '업로드 취소됨',
       downloadCanceled: '다운로드가 취소되었습니다',
       cancel: '취소',
-      remoteDisabled: '원격 ISO 다운로드가 설정 > 외형에서 비활성화되어 있습니다',
+      remoteDisabled: '원격 ISO 다운로드가 설정 > 사용자 > 외형에서 비활성화되어 있습니다',
       remoteFailed: '원격 ISO 다운로드 실패',
       sha256: '선택 사항 SHA-256 체크섬',
       sha256Placeholder: '64자 SHA-256 체크섬을 입력하세요',
@@ -384,13 +385,11 @@ const ko = {
           terminalWarningDesc:
             '터미널은 브라우저에서 root shell을 엽니다. 신뢰할 수 있는 네트워크에서만 활성화하고 사용 후 끄세요.',
           terminalWarningConfirm: '활성화',
-          terminalWarningCancel: '취소',
           remoteDownload: '원격 ISO 다운로드',
           remoteDownloadWarningTitle: '원격 ISO 다운로드를 활성화할까요?',
           remoteDownloadWarningDesc:
             'NanoKVM은 URL에서 ISO를 가져와 /data에 기록합니다. 신뢰할 수 있는 URL에만 활성화하고 완료 후 끄세요.',
-          remoteDownloadWarningConfirm: '활성화',
-          remoteDownloadWarningCancel: '취소'
+          remoteDownloadWarningConfirm: '활성화'
         }
       },
       keyboardLedStatus: {
@@ -560,7 +559,8 @@ const ko = {
               '이 옵션을 켜지 않으면 시스템 업데이트 후 장치가 표준 클럭으로 돌아갑니다',
             confirmTitle: '클럭 오버드라이브를 사용하시겠습니까?',
             confirmText:
-              '오버드라이브로 장치가 시작되지 않으면 복구를 위해 SD 카드를 다시 기록해야 합니다. 변경 사항은 다음 재부팅 후 적용됩니다.'
+              '오버드라이브로 장치가 시작되지 않으면 복구를 위해 SD 카드를 다시 기록해야 합니다. 변경 사항은 다음 재부팅 후 적용됩니다.',
+            confirmOk: '활성화'
           },
           watchdog: {
             title: '하드웨어 워치독',
@@ -763,6 +763,9 @@ const ko = {
           '8': '8 - 모두'
         }
       },
+      user: {
+        title: '사용자'
+      },
       networking: {
         title: '네트워킹'
       },
@@ -883,13 +886,13 @@ const ko = {
         sources: '업데이트 소스',
         latestVersion: '최신 버전',
         queryFailed: '버전 확인 실패',
-        updateFailed: '업데이트 실패, 재시도하세요.',
+        updateFailed: '업데이트 실패',
         paranoidBlocked: '온라인 업데이트는 파라노이드 방화벽 모드에서 차단됩니다',
         paranoidBlockedDesc:
           'GitHub 확인과 다운로드에는 송신 네트워크 접근이 필요합니다. 오프라인 업로드와 이미 준비된 설치는 계속 사용할 수 있습니다.',
         isLatest: '이미 최신 버전입니다.',
         available: '업데이트가 가능합니다. 정말로 업데이트 할까요?',
-        updating: '업데이트 시작. 잠시 기다려주세요...',
+        updating: '업데이트 시작',
         confirm: '확인',
         cancel: '취소',
         preview: '미리보기 업데이트',
@@ -969,7 +972,7 @@ const ko = {
           desc: '로컬 설치 패키지를 통한 업데이트',
           upload: '업로드',
           invalidName: '유효하지 않은 파일 이름 형식입니다. GitHub 릴리즈에서 다운로드하세요.',
-          updateFailed: '업데이트에 실패했습니다. 재시도하세요.'
+          updateFailed: '업데이트에 실패했습니다'
         },
         local: {
           title: '시스템 번들 업로드',

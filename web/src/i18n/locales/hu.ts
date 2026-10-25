@@ -3,6 +3,7 @@ const hu = {
     common: {
       confirm: 'Megerősítés',
       cancel: 'Mégse',
+      save: 'Mentés',
       delete: 'Törlés',
       actionFailed: 'A művelet sikertelen',
       loading: 'Beállítások betöltése az eszközről...',
@@ -329,7 +330,7 @@ const hu = {
       canceled: 'Feltöltés megszakítva',
       downloadCanceled: 'Letöltés megszakítva',
       cancel: 'Mégse',
-      remoteDisabled: 'A távoli ISO-letöltés le van tiltva a Beállítások > Megjelenés alatt',
+      remoteDisabled: 'A távoli ISO-letöltés le van tiltva a Beállítások > Felhasználó > Megjelenés alatt',
       remoteFailed: 'A távoli ISO-letöltés sikertelen',
       sha256: 'Opcionális SHA-256 ellenőrzőösszeg',
       sha256Placeholder: 'Adjon meg egy 64 karakteres SHA-256 ellenőrzőösszeget',
@@ -390,13 +391,11 @@ const hu = {
           terminalWarningDesc:
             'A terminál root shellt nyit a böngészőben. Csak megbízható hálózaton engedélyezze, és használat után kapcsolja ki.',
           terminalWarningConfirm: 'Engedélyezés',
-          terminalWarningCancel: 'Mégse',
           remoteDownload: 'Távoli ISO letöltése',
           remoteDownloadWarningTitle: 'Engedélyezi a távoli ISO-letöltést?',
           remoteDownloadWarningDesc:
             'A NanoKVM ISO-t tölt le egy URL-ről és a /data alá írja. Csak megbízható URL-ekhez engedélyezze, majd kapcsolja ki.',
-          remoteDownloadWarningConfirm: 'Engedélyezés',
-          remoteDownloadWarningCancel: 'Mégse'
+          remoteDownloadWarningConfirm: 'Engedélyezés'
         }
       },
       keyboardLedStatus: {
@@ -571,7 +570,8 @@ const hu = {
               'A rendszerfrissítés visszaállítja az eszközt a szabványos órajelekre, ha ez nincs bekapcsolva',
             confirmTitle: 'Bekapcsolja az órajel-túlhajtást?',
             confirmText:
-              'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írnia a helyreállításhoz. A módosítás a következő újraindítás után lép életbe.'
+              'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írnia a helyreállításhoz. A módosítás a következő újraindítás után lép életbe.',
+            confirmOk: 'Engedélyezés'
           },
           watchdog: {
             title: 'Hardveres watchdog',
@@ -776,6 +776,9 @@ const hu = {
           '8': '8 - Mind'
         }
       },
+      user: {
+        title: 'Felhasználó'
+      },
       networking: {
         title: 'Hálózat'
       },
@@ -901,13 +904,13 @@ const hu = {
         sources: 'Frissítési források',
         latestVersion: 'Legújabb verzió',
         queryFailed: 'Verzió lekérdezése sikertelen',
-        updateFailed: 'Frissítés sikertelen. Kérem, próbálja újra.',
+        updateFailed: 'Frissítés sikertelen',
         paranoidBlocked: 'Az online frissítéseket a Paranoid tűzfalmód blokkolja',
         paranoidBlockedDesc:
           'A GitHub-ellenőrzésekhez és letöltésekhez kimenő hálózati hozzáférés szükséges. Az offline feltöltés és a már előkészített telepítések továbbra is elérhetők.',
         isLatest: 'Ön már a legfrissebb verziót használja.',
         available: 'Frissítés elérhető. Biztos, hogy frissít?',
-        updating: 'Frissítés elkezdődött. Kérem várjon...',
+        updating: 'Frissítés elkezdődött',
         confirm: 'Megerősítés',
         cancel: 'Mégse',
         preview: 'Frissítések előnézete',
@@ -991,7 +994,7 @@ const hu = {
           desc: 'Frissítés helyi telepítőcsomaggal',
           upload: 'Feltöltés',
           invalidName: 'Érvénytelen fájlnévformátum. Kérjük, töltse le a GitHub kiadásaiból.',
-          updateFailed: 'Frissítés sikertelen. Kérem, próbálja újra.'
+          updateFailed: 'Frissítés sikertelen'
         },
         local: {
           title: 'Rendszercsomag feltöltése',

@@ -3,6 +3,7 @@ const it = {
     common: {
       confirm: 'Conferma',
       cancel: 'Annulla',
+      save: 'Salva',
       delete: 'Elimina',
       actionFailed: 'Operazione non riuscita',
       loading: 'Caricamento delle impostazioni dal dispositivo...',
@@ -331,7 +332,7 @@ const it = {
       canceled: 'Caricamento annullato',
       downloadCanceled: 'Download annullato',
       cancel: 'Annulla',
-      remoteDisabled: 'Il download ISO remoto è disattivato in Impostazioni > Aspetto',
+      remoteDisabled: 'Il download ISO remoto è disattivato in Impostazioni > Utente > Aspetto',
       remoteFailed: 'Download ISO remoto non riuscito',
       sha256: 'Checksum SHA-256 facoltativo',
       sha256Placeholder: 'Inserisci un checksum SHA-256 di 64 caratteri',
@@ -392,13 +393,11 @@ const it = {
           terminalWarningDesc:
             'Il terminale apre una shell root nel browser. Abilitalo solo su una rete affidabile e disattivalo al termine.',
           terminalWarningConfirm: 'Abilita',
-          terminalWarningCancel: 'Annulla',
           remoteDownload: 'Scarica ISO remota',
           remoteDownloadWarningTitle: 'Abilitare il download ISO remoto?',
           remoteDownloadWarningDesc:
             'NanoKVM scaricherà una ISO da un URL e la scriverà in /data. Abilita solo URL affidabili e disattiva al termine.',
-          remoteDownloadWarningConfirm: 'Abilita',
-          remoteDownloadWarningCancel: 'Annulla'
+          remoteDownloadWarningConfirm: 'Abilita'
         }
       },
       keyboardLedStatus: {
@@ -573,7 +572,8 @@ const it = {
               'Un aggiornamento di sistema riporta il dispositivo ai clock standard se questa opzione non è attiva',
             confirmTitle: "Attivare l'overdrive del clock?",
             confirmText:
-              "Se il dispositivo non si avvia con l'overdrive, dovrai riscrivere la scheda SD per ripristinarlo. La modifica si applica dopo il prossimo riavvio."
+              "Se il dispositivo non si avvia con l'overdrive, dovrai riscrivere la scheda SD per ripristinarlo. La modifica si applica dopo il prossimo riavvio.",
+            confirmOk: 'Abilita'
           },
           watchdog: {
             title: 'Watchdog hardware',
@@ -778,6 +778,9 @@ const it = {
           '8': '8 - Tutto'
         }
       },
+      user: {
+        title: 'Utente'
+      },
       networking: {
         title: 'Rete'
       },
@@ -902,13 +905,13 @@ const it = {
         sources: 'Fonti di aggiornamento',
         latestVersion: 'Ultima versione',
         queryFailed: 'Impossibile ottenere la versione',
-        updateFailed: 'Aggiornamento fallito. Riprova.',
+        updateFailed: 'Aggiornamento fallito',
         paranoidBlocked: 'Gli aggiornamenti online sono bloccati dalla modalità firewall Paranoica',
         paranoidBlockedDesc:
           'Controlli e download da GitHub richiedono accesso di rete in uscita. Upload offline e installazioni già preparate restano disponibili.',
         isLatest: 'Hai già la versione più recente.',
         available: 'Un aggiornamento è disponibile. Sei sicuro di voler aggiornare?',
-        updating: 'Aggiornamento avviato. Attendere prego...',
+        updating: 'Aggiornamento avviato',
         confirm: 'Conferma',
         cancel: 'Annulla',
         preview: 'Anteprima aggiornamenti',
@@ -994,7 +997,7 @@ const it = {
           desc: 'Aggiornamento tramite pacchetto di installazione locale',
           upload: 'Carica',
           invalidName: 'Formato nome file non valido. Scarica dalle versioni GitHub.',
-          updateFailed: 'Aggiornamento fallito. Riprova.'
+          updateFailed: 'Aggiornamento fallito'
         },
         local: {
           title: 'Carica pacchetto di sistema',

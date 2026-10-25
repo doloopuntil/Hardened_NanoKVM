@@ -3,6 +3,7 @@ const da = {
     common: {
       confirm: 'Bekræft',
       cancel: 'Annuller',
+      save: 'Gem',
       delete: 'Slet',
       actionFailed: 'Handlingen mislykkedes',
       loading: 'Indlæser indstillinger fra enheden...',
@@ -326,7 +327,7 @@ const da = {
       canceled: 'Upload annulleret',
       downloadCanceled: 'Download annulleret',
       cancel: 'Annuller',
-      remoteDisabled: 'Ekstern ISO-download er deaktiveret under Indstillinger > Udseende',
+      remoteDisabled: 'Ekstern ISO-download er deaktiveret under Indstillinger > Bruger > Udseende',
       remoteFailed: 'Ekstern ISO-download mislykkedes',
       sha256: 'Valgfri SHA-256-kontrolsum',
       sha256Placeholder: 'Indtast en SHA-256-kontrolsum på 64 tegn',
@@ -387,13 +388,11 @@ const da = {
           terminalWarningDesc:
             'Terminalen åbner en root-shell i browseren. Aktivér kun på et betroet netværk og slå den fra, når du er færdig.',
           terminalWarningConfirm: 'Aktivér',
-          terminalWarningCancel: 'Annuller',
           remoteDownload: 'Hent ekstern ISO',
           remoteDownloadWarningTitle: 'Aktivér ekstern ISO-download?',
           remoteDownloadWarningDesc:
             "NanoKVM henter en ISO fra en URL og skriver den til /data. Aktivér kun for betroede URL'er og slå fra, når du er færdig.",
-          remoteDownloadWarningConfirm: 'Aktivér',
-          remoteDownloadWarningCancel: 'Annuller'
+          remoteDownloadWarningConfirm: 'Aktivér'
         }
       },
       keyboardLedStatus: {
@@ -567,7 +566,8 @@ const da = {
               'En systemopdatering sætter enheden tilbage til standardhastighederne, medmindre dette er slået til',
             confirmTitle: 'Aktivér overclocking?',
             confirmText:
-              'Hvis enheden ikke starter med overclocking, skal du flashe SD-kortet igen for at gendanne den. Ændringen træder i kraft efter næste genstart.'
+              'Hvis enheden ikke starter med overclocking, skal du flashe SD-kortet igen for at gendanne den. Ændringen træder i kraft efter næste genstart.',
+            confirmOk: 'Aktivér'
           },
           watchdog: {
             title: 'Hardware-watchdog',
@@ -772,6 +772,9 @@ const da = {
           '8': '8 - Alle'
         }
       },
+      user: {
+        title: 'Bruger'
+      },
       networking: {
         title: 'Netværk'
       },
@@ -895,13 +898,13 @@ const da = {
         sources: 'Opdateringskilder',
         latestVersion: 'Seneste version',
         queryFailed: 'Opdateringskontrol mislykkedes',
-        updateFailed: 'Opdatering fejlede. Prøv igen.',
+        updateFailed: 'Opdatering fejlede',
         paranoidBlocked: 'Onlineopdateringer blokeres af firewalltilstanden Paranoid',
         paranoidBlockedDesc:
           'GitHub-kontroller og downloads kræver udgående netværksadgang. Offline upload og allerede klargjorte installationer er stadig tilgængelige.',
         isLatest: 'Du har allerede den nyeste version.',
         available: 'En opdatering er tilgængelig. Vil du installere den?',
-        updating: 'Opdatering i gang. Vent venligst...',
+        updating: 'Opdatering i gang',
         confirm: 'Bekræft',
         cancel: 'Annuller',
         preview: 'Forhåndsvisning af opdateringer',
@@ -984,7 +987,7 @@ const da = {
           desc: 'Opdatering via lokal installationspakke',
           upload: 'Upload',
           invalidName: 'Ugyldigt filnavnsformat. Download venligst fra GitHub-udgivelser.',
-          updateFailed: 'Opdatering fejlede. Prøv igen.'
+          updateFailed: 'Opdatering fejlede'
         },
         local: {
           title: 'Upload systempakke',

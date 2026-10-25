@@ -3,6 +3,7 @@ const vi = {
     common: {
       confirm: 'Xác nhận',
       cancel: 'Hủy',
+      save: 'Lưu',
       delete: 'Xóa',
       actionFailed: 'Thao tác thất bại',
       loading: 'Đang tải cài đặt từ thiết bị...',
@@ -323,7 +324,7 @@ const vi = {
       canceled: 'Đã hủy tải lên',
       downloadCanceled: 'Đã hủy tải xuống',
       cancel: 'Hủy',
-      remoteDisabled: 'Tải ISO từ xa bị tắt trong Cài đặt > Giao diện',
+      remoteDisabled: 'Tải ISO từ xa bị tắt trong Cài đặt > Người dùng > Giao diện',
       remoteFailed: 'Tải ISO từ xa thất bại',
       sha256: 'Checksum SHA-256 tùy chọn',
       sha256Placeholder: 'Nhập mã kiểm tra SHA-256 gồm 64 ký tự',
@@ -384,13 +385,11 @@ const vi = {
           terminalWarningDesc:
             'Terminal mở root shell trong trình duyệt. Chỉ bật trên mạng tin cậy và tắt khi hoàn tất.',
           terminalWarningConfirm: 'Bật',
-          terminalWarningCancel: 'Hủy',
           remoteDownload: 'Tải ISO từ xa',
           remoteDownloadWarningTitle: 'Bật tải ISO từ xa?',
           remoteDownloadWarningDesc:
             'NanoKVM sẽ tải ISO từ URL và ghi vào /data. Chỉ bật cho URL tin cậy và tắt khi hoàn tất.',
-          remoteDownloadWarningConfirm: 'Bật',
-          remoteDownloadWarningCancel: 'Hủy'
+          remoteDownloadWarningConfirm: 'Bật'
         }
       },
       keyboardLedStatus: {
@@ -564,7 +563,8 @@ const vi = {
               'Bản cập nhật hệ thống đưa thiết bị về xung nhịp tiêu chuẩn nếu tùy chọn này không được bật',
             confirmTitle: 'Bật overdrive xung nhịp?',
             confirmText:
-              'Nếu thiết bị không khởi động được với overdrive, bạn phải ghi lại thẻ SD để khôi phục. Thay đổi có hiệu lực sau lần khởi động lại tiếp theo.'
+              'Nếu thiết bị không khởi động được với overdrive, bạn phải ghi lại thẻ SD để khôi phục. Thay đổi có hiệu lực sau lần khởi động lại tiếp theo.',
+            confirmOk: 'Bật'
           },
           watchdog: {
             title: 'Watchdog phần cứng',
@@ -767,6 +767,9 @@ const vi = {
           '8': '8 - Tất cả'
         }
       },
+      user: {
+        title: 'Người dùng'
+      },
       networking: {
         title: 'Mạng'
       },
@@ -890,13 +893,13 @@ const vi = {
         sources: 'Nguồn cập nhật',
         latestVersion: 'Phiên bản mới nhất',
         queryFailed: 'Lấy phiên bản thất bại',
-        updateFailed: 'Cập nhật thất bại. Vui lòng thử lại.',
+        updateFailed: 'Cập nhật thất bại',
         paranoidBlocked: 'Cập nhật online bị chặn bởi chế độ tường lửa Hoang tưởng',
         paranoidBlockedDesc:
           'Kiểm tra và tải xuống từ GitHub cần truy cập mạng đi ra. Tải lên offline và các bản cài đã chuẩn bị vẫn khả dụng.',
         isLatest: 'Bạn đã có phiên bản mới nhất.',
         available: 'Có bản cập nhật mới. Bạn có chắc chắn muốn cập nhật không?',
-        updating: 'Bắt đầu cập nhật. Vui lòng chờ...',
+        updating: 'Bắt đầu cập nhật',
         confirm: 'Xác nhận',
         cancel: 'Hủy',
         preview: 'Bản cập nhật xem trước',
@@ -981,7 +984,7 @@ const vi = {
           upload: 'Tải lên',
           invalidName:
             'Định dạng tên tệp không hợp lệ. Vui lòng tải xuống từ bản phát hành GitHub.',
-          updateFailed: 'Cập nhật thất bại. Vui lòng thử lại.'
+          updateFailed: 'Cập nhật thất bại'
         },
         local: {
           title: 'Tải lên gói hệ thống',

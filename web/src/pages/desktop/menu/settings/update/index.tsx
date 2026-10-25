@@ -530,13 +530,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     </Button>
   ) : null;
   const installButton = (disabled: boolean) => (
-    <Button
-      key="install"
-      type="primary"
-      danger
-      disabled={disabled}
-      onClick={confirmInstallSystemUpdate}
-    >
+    <Button key="install" danger disabled={disabled} onClick={confirmInstallSystemUpdate}>
       {t('settings.update.system.install')}
     </Button>
   );

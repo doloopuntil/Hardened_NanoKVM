@@ -3,6 +3,7 @@ const fr = {
     common: {
       confirm: 'Confirmer',
       cancel: 'Annuler',
+      save: 'Enregistrer',
       delete: 'Supprimer',
       actionFailed: "L'opération a échoué",
       loading: "Chargement des paramètres de l'appareil...",
@@ -330,7 +331,7 @@ const fr = {
       canceled: 'Téléversement annulé',
       downloadCanceled: 'Téléchargement annulé',
       cancel: 'Annuler',
-      remoteDisabled: 'Le téléchargement ISO distant est désactivé dans Paramètres > Apparence',
+      remoteDisabled: 'Le téléchargement ISO distant est désactivé dans Paramètres > Utilisateur > Apparence',
       remoteFailed: 'Échec du téléchargement ISO distant',
       sha256: 'Somme de contrôle SHA-256 facultative',
       sha256Placeholder: 'Saisissez une somme de contrôle SHA-256 de 64 caractères',
@@ -391,13 +392,11 @@ const fr = {
           terminalWarningDesc:
             'Le terminal ouvre un shell root dans le navigateur. Activez-le seulement sur un réseau de confiance et désactivez-le ensuite.',
           terminalWarningConfirm: 'Activer',
-          terminalWarningCancel: 'Annuler',
           remoteDownload: 'Télécharger une ISO distante',
           remoteDownloadWarningTitle: 'Activer le téléchargement ISO distant?',
           remoteDownloadWarningDesc:
             "NanoKVM téléchargera une ISO depuis une URL et l'écrira dans /data. Activez seulement pour des URL de confiance et désactivez ensuite.",
-          remoteDownloadWarningConfirm: 'Activer',
-          remoteDownloadWarningCancel: 'Annuler'
+          remoteDownloadWarningConfirm: 'Activer'
         }
       },
       keyboardLedStatus: {
@@ -572,7 +571,8 @@ const fr = {
               "Une mise à jour système remet l'appareil sur les fréquences standard si cette option n'est pas activée",
             confirmTitle: "Activer l'overdrive de fréquence?",
             confirmText:
-              "Si l'appareil ne démarre pas avec l'overdrive, vous devrez reflasher la carte SD pour le récupérer. Le changement s'applique après le prochain redémarrage."
+              "Si l'appareil ne démarre pas avec l'overdrive, vous devrez reflasher la carte SD pour le récupérer. Le changement s'applique après le prochain redémarrage.",
+            confirmOk: 'Activer'
           },
           watchdog: {
             title: 'Chien de garde matériel',
@@ -778,6 +778,9 @@ const fr = {
           '8': '8 - Tout'
         }
       },
+      user: {
+        title: 'Utilisateur'
+      },
       networking: {
         title: 'Réseau'
       },
@@ -902,13 +905,13 @@ const fr = {
         sources: 'Sources de mise à jour',
         latestVersion: 'Dernière version',
         queryFailed: "Impossible d'obtenir la version",
-        updateFailed: 'Mise à jour échouée. Veuillez réessayer.',
+        updateFailed: 'Mise à jour échouée',
         paranoidBlocked: 'Les mises à jour en ligne sont bloquées par le mode pare-feu Paranoïaque',
         paranoidBlockedDesc:
           "Les vérifications et téléchargements GitHub nécessitent un accès réseau sortant. L'envoi offline et les installations déjà préparées restent disponibles.",
         isLatest: 'Vous avez déjà la dernière version.',
         available: 'Une mise à jour est disponible. Voulez-vous vraiment mettre à jour?',
-        updating: 'Mise à jour en cours. Veuillez patienter...',
+        updating: 'Mise à jour en cours',
         confirm: 'Confirmer',
         cancel: 'Annuler',
         preview: 'Aperçu des mises à jour',
@@ -994,7 +997,7 @@ const fr = {
           upload: 'Téléverser',
           invalidName:
             'Format de nom de fichier invalide. Veuillez télécharger à partir des versions de GitHub.',
-          updateFailed: 'Mise à jour échouée. Veuillez réessayer.'
+          updateFailed: 'Mise à jour échouée'
         },
         local: {
           title: 'Téléverser un paquet système',

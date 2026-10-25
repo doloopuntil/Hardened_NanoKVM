@@ -3,6 +3,7 @@ const ca = {
     common: {
       confirm: 'Confirma',
       cancel: 'Cancel·la',
+      save: 'Desa',
       delete: 'Esborra',
       actionFailed: "L'operació ha fallat",
       loading: 'Carregant la configuració del dispositiu...',
@@ -327,7 +328,7 @@ const ca = {
       canceled: 'Pujada cancel·lada',
       downloadCanceled: 'Descàrrega cancel·lada',
       cancel: 'Cancel·la',
-      remoteDisabled: "La descàrrega remota d'ISO està desactivada a Configuració > Aparença",
+      remoteDisabled: "La descàrrega remota d'ISO està desactivada a Configuració > Usuari > Aparença",
       remoteFailed: "La descàrrega remota d'ISO ha fallat",
       sha256: 'Suma de verificació SHA-256 opcional',
       sha256Placeholder: 'Introdueix una suma de verificació SHA-256 de 64 caràcters',
@@ -388,13 +389,11 @@ const ca = {
           terminalWarningDesc:
             "El terminal obre una shell root al navegador. Activa'l només en una xarxa de confiança i desactiva'l en acabar.",
           terminalWarningConfirm: 'Activa',
-          terminalWarningCancel: 'Cancel·la',
           remoteDownload: 'Descarrega ISO remota',
           remoteDownloadWarningTitle: "Vols activar la descàrrega remota d'ISO?",
           remoteDownloadWarningDesc:
             "NanoKVM baixarà una ISO des d'un URL i l'escriurà a /data. Activa'l només per a URL de confiança i desactiva'l en acabar.",
-          remoteDownloadWarningConfirm: 'Activa',
-          remoteDownloadWarningCancel: 'Cancel·la'
+          remoteDownloadWarningConfirm: 'Activa'
         }
       },
       keyboardLedStatus: {
@@ -570,7 +569,8 @@ const ca = {
               'Una actualització del sistema torna el dispositiu als rellotges estàndard si això no està activat',
             confirmTitle: 'Activar el sobreesforç de rellotge?',
             confirmText:
-              "Si el dispositiu no arrenca amb el sobreesforç, haureu de tornar a gravar la targeta SD per recuperar-lo. El canvi s'aplica després del proper reinici."
+              "Si el dispositiu no arrenca amb el sobreesforç, haureu de tornar a gravar la targeta SD per recuperar-lo. El canvi s'aplica després del proper reinici.",
+            confirmOk: 'Activa'
           },
           watchdog: {
             title: 'Watchdog de maquinari',
@@ -776,6 +776,9 @@ const ca = {
           '8': '8 - Tot'
         }
       },
+      user: {
+        title: 'Usuari'
+      },
       networking: {
         title: 'Xarxes'
       },
@@ -898,14 +901,14 @@ const ca = {
         sources: "Fonts d'actualització",
         latestVersion: 'Última versió',
         queryFailed: 'Error en obtenir la versió',
-        updateFailed: 'Error en actualitzar. Torna-ho a intentar.',
+        updateFailed: 'Error en actualitzar',
         paranoidBlocked:
           'Les actualitzacions en línia estan bloquejades pel mode de tallafoc Paranoic',
         paranoidBlockedDesc:
           'Les comprovacions i descàrregues de GitHub requereixen accés de sortida. La pujada offline i les instal·lacions ja preparades continuen disponibles.',
         isLatest: 'Ja tens la darrera versió.',
         available: 'Hi ha una actualització disponible. Vols actualitzar ara?',
-        updating: 'Actualització iniciada. Espera...',
+        updating: 'Actualització iniciada',
         confirm: 'Confirma',
         cancel: 'Cancel·la',
         preview: 'Versió de prova',
@@ -988,7 +991,7 @@ const ca = {
           desc: "Actualització mitjançant el paquet d'instal·lació local",
           upload: 'Puja',
           invalidName: "Format de nom de fitxer no vàlid. Baixa'l des de les versions de GitHub.",
-          updateFailed: 'Error en actualitzar. Torna-ho a intentar.'
+          updateFailed: 'Error en actualitzar'
         },
         local: {
           title: 'Puja un paquet del sistema',

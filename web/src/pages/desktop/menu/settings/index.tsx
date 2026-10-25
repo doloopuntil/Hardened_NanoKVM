@@ -20,6 +20,7 @@ import {
   ServerCogIcon,
   SettingsIcon,
   ShieldCheckIcon,
+  SlidersHorizontalIcon,
   UserRoundIcon
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -85,22 +86,29 @@ export const Settings = () => {
       component: <About />
     },
     {
-      id: 'account',
-      icon: <UserRoundIcon size={18} />,
-      title: t('settings.account.title'),
-      component: <Account setIsLocked={setIsLocked} />
-    },
-    {
-      id: 'appearance',
-      icon: <PaletteIcon size={16} />,
-      title: t('settings.appearance.title'),
-      component: <Appearance />
-    },
-    {
       id: 'device',
       icon: <CpuIcon size={16} />,
       title: t('settings.device.title'),
       component: <Device />
+    },
+    {
+      id: 'user',
+      icon: <SlidersHorizontalIcon size={16} />,
+      title: t('settings.user.title'),
+      children: [
+        {
+          id: 'user.account',
+          icon: <UserRoundIcon size={14} />,
+          title: t('settings.account.title'),
+          component: <Account setIsLocked={setIsLocked} />
+        },
+        {
+          id: 'user.appearance',
+          icon: <PaletteIcon size={14} />,
+          title: t('settings.appearance.title'),
+          component: <Appearance />
+        }
+      ]
     },
     {
       id: 'networking',
@@ -245,7 +253,7 @@ export const Settings = () => {
         className={clsx(
           'cursor-pointer select-none rounded-lg',
           isTouchLayout
-            ? 'flex min-w-0 flex-auto flex-col items-center justify-center px-2 py-2'
+            ? 'flex min-w-0 flex-auto flex-col items-center justify-center px-1 py-2'
             : clsx('flex items-center space-x-2 sm:px-3', isChild ? 'py-1.5 pl-2 sm:pl-8' : 'p-2'),
           // on the desktop a group is only a label; its subpage carries the selection
           isActive && (!tab.children || isTouchLayout)
@@ -326,7 +334,7 @@ export const Settings = () => {
             'outline outline-1 outline-neutral-700',
             isTouchLayout
               ? 'flex h-[100dvh] w-full max-w-[100vw] flex-col overflow-hidden rounded-none'
-              : 'flex h-[80vh] max-h-[700px] rounded-lg'
+              : 'flex h-[82.5vh] max-h-[760px] rounded-lg'
           )}
         >
           <div
@@ -349,7 +357,7 @@ export const Settings = () => {
             <div
               className={clsx(
                 isTouchLayout
-                  ? 'grid grid-cols-3 gap-1 px-2 pb-2'
+                  ? 'grid grid-cols-5 gap-1 px-1 pb-2'
                   : 'flex min-h-0 flex-1 flex-col space-y-0.5 overflow-y-auto pb-3'
               )}
             >
@@ -376,7 +384,7 @@ export const Settings = () => {
               'w-full max-w-full overflow-x-hidden bg-settings-panel [&_[data-slot=scroll-area-scrollbar]]:w-1.5 [&_[data-slot=scroll-area-scrollbar]]:p-0 [&_[data-slot=scroll-area-thumb]]:bg-neutral-500/30 [&_[data-slot=scroll-area-viewport]>div]:!block',
               isTouchLayout
                 ? 'box-border min-h-0 flex-1 rounded-none px-4'
-                : 'h-full rounded-r-lg px-3'
+                : 'h-full rounded-r-lg px-6'
             )}
           >
             <div className="flex h-full w-full min-w-0 justify-center">
@@ -384,7 +392,7 @@ export const Settings = () => {
                 className={clsx(
                   'min-w-0',
                   isTouchLayout ? 'w-full max-w-full' : 'w-full max-w-2xl',
-                  isTouchLayout ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4' : 'pb-10 pt-14'
+                  isTouchLayout ? 'pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4' : 'pb-10 pt-10'
                 )}
               >
                 <SettingsLoadGroup key={currentTab} slot>

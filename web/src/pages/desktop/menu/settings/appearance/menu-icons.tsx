@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Switch } from 'antd';
+import { Switch } from 'antd';
 import { useAtom } from 'jotai';
 import {
   DiscIcon,
@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as downloadApi from '@/api/download.ts';
 import * as vmApi from '@/api/vm.ts';
-import { attempt } from '@/lib/feedback.ts';
+import { attempt, confirm } from '@/lib/feedback.ts';
 import * as ls from '@/lib/localstorage.ts';
 import { menuDisabledItemsAtom } from '@/jotai/settings.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
@@ -26,8 +26,6 @@ export const MenuIcons = () => {
   const { t } = useTranslation();
 
   const [menuDisabledItems, setMenuDisabledItems] = useAtom(menuDisabledItemsAtom);
-  const [isTerminalWarningOpen, setIsTerminalWarningOpen] = useState(false);
-  const [isRemoteDownloadWarningOpen, setIsRemoteDownloadWarningOpen] = useState(false);
   const [isTerminalLoading, setIsTerminalLoading] = useState(false);
   const [isRemoteDownloadEnabled, setIsRemoteDownloadEnabled] = useState(false);
   const [isRemoteDownloadLoading, setIsRemoteDownloadLoading] = useState(false);
@@ -83,7 +81,13 @@ export const MenuIcons = () => {
 
     if (key === 'terminal') {
       if (nextEnabled) {
-        setIsTerminalWarningOpen(true);
+        confirm({
+          title: t('settings.appearance.menuBar.terminalWarningTitle'),
+          content: t('settings.appearance.menuBar.terminalWarningDesc'),
+          okText: t('settings.appearance.menuBar.terminalWarningConfirm'),
+          danger: true,
+          onOk: () => updateTerminal(true)
+        });
       } else {
         updateTerminal(false);
       }
@@ -92,7 +96,13 @@ export const MenuIcons = () => {
 
     if (key === 'remoteDownload') {
       if (!isRemoteDownloadEnabled) {
-        setIsRemoteDownloadWarningOpen(true);
+        confirm({
+          title: t('settings.appearance.menuBar.remoteDownloadWarningTitle'),
+          content: t('settings.appearance.menuBar.remoteDownloadWarningDesc'),
+          okText: t('settings.appearance.menuBar.remoteDownloadWarningConfirm'),
+          danger: true,
+          onOk: () => updateRemoteDownload(true)
+        });
       } else {
         updateRemoteDownload(false);
       }
@@ -106,11 +116,10 @@ export const MenuIcons = () => {
     if (isTerminalLoading) return;
     setIsTerminalLoading(true);
 
-    attempt(() => vmApi.setTerminalEnabled(enabled))
+    return attempt(() => vmApi.setTerminalEnabled(enabled))
       .then((rsp) => {
         if (!rsp) return;
         setItemVisible('terminal', enabled);
-        setIsTerminalWarningOpen(false);
       })
       .finally(() => setIsTerminalLoading(false));
   }
@@ -119,11 +128,10 @@ export const MenuIcons = () => {
     if (isRemoteDownloadLoading) return;
     setIsRemoteDownloadLoading(true);
 
-    attempt(() => downloadApi.setRemoteImageDownloadEnabled(enabled))
+    return attempt(() => downloadApi.setRemoteImageDownloadEnabled(enabled))
       .then((rsp) => {
         if (!rsp) return;
         setIsRemoteDownloadEnabled(enabled);
-        setIsRemoteDownloadWarningOpen(false);
       })
       .finally(() => setIsRemoteDownloadLoading(false));
   }
@@ -179,38 +187,6 @@ export const MenuIcons = () => {
           </SettingRow>
         ))}
       </SettingSection>
-
-      <Modal
-        title={t('settings.appearance.menuBar.terminalWarningTitle')}
-        open={isTerminalWarningOpen}
-        centered={true}
-        okType="danger"
-        okText={t('settings.appearance.menuBar.terminalWarningConfirm')}
-        cancelText={t('settings.appearance.menuBar.terminalWarningCancel')}
-        onOk={() => updateTerminal(true)}
-        onCancel={() => setIsTerminalWarningOpen(false)}
-        confirmLoading={isTerminalLoading}
-      >
-        <div className="py-4 text-neutral-300">
-          {t('settings.appearance.menuBar.terminalWarningDesc')}
-        </div>
-      </Modal>
-
-      <Modal
-        title={t('settings.appearance.menuBar.remoteDownloadWarningTitle')}
-        open={isRemoteDownloadWarningOpen}
-        centered={true}
-        okType="danger"
-        okText={t('settings.appearance.menuBar.remoteDownloadWarningConfirm')}
-        cancelText={t('settings.appearance.menuBar.remoteDownloadWarningCancel')}
-        onOk={() => updateRemoteDownload(true)}
-        onCancel={() => setIsRemoteDownloadWarningOpen(false)}
-        confirmLoading={isRemoteDownloadLoading}
-      >
-        <div className="py-4 text-neutral-300">
-          {t('settings.appearance.menuBar.remoteDownloadWarningDesc')}
-        </div>
-      </Modal>
     </>
   );
 };

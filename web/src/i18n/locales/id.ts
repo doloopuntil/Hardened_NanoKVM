@@ -3,6 +3,7 @@ const id = {
     common: {
       confirm: 'Konfirmasi',
       cancel: 'Batalkan',
+      save: 'Simpan',
       delete: 'Hapus',
       actionFailed: 'Operasi gagal',
       loading: 'Memuat pengaturan dari perangkat...',
@@ -328,7 +329,7 @@ const id = {
       canceled: 'Unggahan dibatalkan',
       downloadCanceled: 'Unduhan dibatalkan',
       cancel: 'Batal',
-      remoteDisabled: 'Unduhan ISO jarak jauh dinonaktifkan di Pengaturan > Tampilan',
+      remoteDisabled: 'Unduhan ISO jarak jauh dinonaktifkan di Pengaturan > Pengguna > Tampilan',
       remoteFailed: 'Unduhan ISO jarak jauh gagal',
       sha256: 'Checksum SHA-256 opsional',
       sha256Placeholder: 'Masukkan checksum SHA-256 64 karakter',
@@ -390,13 +391,11 @@ const id = {
           terminalWarningDesc:
             'Terminal membuka shell root melalui browser. Aktifkan hanya di jaringan tepercaya dan matikan setelah selesai.',
           terminalWarningConfirm: 'Aktifkan',
-          terminalWarningCancel: 'Batal',
           remoteDownload: 'Unduh ISO jarak jauh',
           remoteDownloadWarningTitle: 'Aktifkan unduhan ISO jarak jauh?',
           remoteDownloadWarningDesc:
             'NanoKVM akan mengambil ISO dari URL dan menulisnya ke /data. Aktifkan hanya untuk URL tepercaya dan matikan setelah selesai.',
-          remoteDownloadWarningConfirm: 'Aktifkan',
-          remoteDownloadWarningCancel: 'Batal'
+          remoteDownloadWarningConfirm: 'Aktifkan'
         }
       },
       keyboardLedStatus: {
@@ -570,7 +569,8 @@ const id = {
               'Pembaruan sistem mengembalikan perangkat ke clock standar kecuali opsi ini aktif',
             confirmTitle: 'Aktifkan clock overdrive?',
             confirmText:
-              'Jika perangkat tidak menyala dengan overdrive, Anda harus menulis ulang kartu SD untuk memulihkannya. Perubahan berlaku setelah reboot berikutnya.'
+              'Jika perangkat tidak menyala dengan overdrive, Anda harus menulis ulang kartu SD untuk memulihkannya. Perubahan berlaku setelah reboot berikutnya.',
+            confirmOk: 'Aktifkan'
           },
           watchdog: {
             title: 'Watchdog perangkat keras',
@@ -774,6 +774,9 @@ const id = {
           '8': '8 - Semua'
         }
       },
+      user: {
+        title: 'Pengguna'
+      },
       networking: {
         title: 'Jaringan'
       },
@@ -896,13 +899,13 @@ const id = {
         sources: 'Sumber pembaruan',
         latestVersion: 'Versi terbaru',
         queryFailed: 'Gagal mendapatkan versi',
-        updateFailed: 'Gagal memperbarui. Silakan coba lagi.',
+        updateFailed: 'Gagal memperbarui',
         paranoidBlocked: 'Pembaruan online diblokir oleh mode firewall Paranoid',
         paranoidBlockedDesc:
           'Pemeriksaan dan unduhan GitHub memerlukan akses jaringan keluar. Unggahan offline dan instalasi yang sudah disiapkan tetap tersedia.',
         isLatest: 'Anda sudah menggunakan versi terbaru.',
         available: 'Ada pembaruan baru. Apakah Anda mau memperbarui?',
-        updating: 'Pembaruan dimulai. Silahkan tunggu...',
+        updating: 'Pembaruan dimulai',
         confirm: 'Konfirmasi',
         cancel: 'Batalkan',
         preview: 'Pratinjau pembaruan',
@@ -987,7 +990,7 @@ const id = {
           desc: 'Perbarui melalui paket instalasi lokal',
           upload: 'Mengunggah',
           invalidName: 'Format nama file tidak valid. Silakan unduh dari rilis GitHub.',
-          updateFailed: 'Gagal memperbarui. Silakan coba lagi.'
+          updateFailed: 'Gagal memperbarui'
         },
         local: {
           title: 'Unggah paket sistem',
