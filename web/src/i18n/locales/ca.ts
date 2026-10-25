@@ -328,7 +328,8 @@ const ca = {
       canceled: 'Pujada cancel·lada',
       downloadCanceled: 'Descàrrega cancel·lada',
       cancel: 'Cancel·la',
-      remoteDisabled: "La descàrrega remota d'ISO està desactivada a Configuració > Usuari > Aparença",
+      remoteDisabled:
+        "La descàrrega remota d'ISO està desactivada a Configuració > Usuari > Aparença",
       remoteFailed: "La descàrrega remota d'ISO ha fallat",
       sha256: 'Suma de verificació SHA-256 opcional',
       sha256Placeholder: 'Introdueix una suma de verificació SHA-256 de 64 caràcters',
@@ -359,8 +360,7 @@ const ca = {
         uptime: 'Temps actiu',
         community: 'Comunitat',
         credit: 'Basat en <a1>NanoKVM</a1> de Sipeed i <a2>Hardened NanoKVM</a2> de woffko',
-        hostname: 'Nom del dispositiu',
-        hostnameReboot: 'Vols reiniciar per aplicar el nou nom del host?'
+        hostname: 'Nom del dispositiu'
       },
       appearance: {
         title: 'Aparença',
@@ -413,6 +413,7 @@ const ca = {
         title: 'Dispositiu',
         minutes: 'min',
         sections: {
+          general: 'General',
           connectivity: 'Connectivitat',
           hostConnection: "Connexió amb l'amfitrió",
           inputOutput: 'Entrada i sortida'
@@ -476,8 +477,15 @@ const ca = {
         usbWakeup: 'Activació per USB',
         usbWakeupDesc: 'Permet que els esdeveniments de teclat o ratolí despertin el host remot',
         usbWakeupTip: 'Desactiva-ho si el host registra missatges USB wakeup repetits',
+        hostname: {
+          description: "Nom d'aquest dispositiu a la xarxa",
+          rebootRequired: 'Cal reiniciar'
+        },
         reboot: 'Reinicia',
-        rebootDesc: 'Segur que vols reiniciar el NanoKVM?'
+        rebootDesc: 'Segur que vols reiniciar el NanoKVM?',
+        poweroff: 'Apaga',
+        poweroffDesc:
+          'Segur que vols apagar NanoKVM? No es podrà accedir-hi fins que es torni a engegar.'
       },
       network: {
         title: 'IP & DNS',
@@ -992,8 +1000,7 @@ const ca = {
           uploading: 'Pujant',
           verifying: 'Verificant i preparant el paquet',
           keyTitle: "Clau d'actualització local",
-          keyDesc:
-            'Clau pública en format PEM que pot signar els paquets que compilis tu mateix',
+          keyDesc: 'Clau pública en format PEM que pot signar els paquets que compilis tu mateix',
           keyNone: 'Cap clau definida',
           keySet: 'Defineix la clau',
           keyRemove: 'Elimina',

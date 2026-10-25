@@ -89,8 +89,7 @@ const et = {
       scale: 'Skaala',
       title: 'Ekraan',
       video: 'Videorežiim',
-      videoDirectTips:
-        'Selle režiimi kasutamiseks luba HTTPS menüüs "Seaded > Võrk > Teenused"',
+      videoDirectTips: 'Selle režiimi kasutamiseks luba HTTPS menüüs "Seaded > Võrk > Teenused"',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC on tulemüürirežiimides Piiratud ja Paranoiline keelatud',
       transferRunningTitle: "Image'i edastus käib",
@@ -355,8 +354,7 @@ const et = {
         uptime: 'Tööaeg',
         community: 'Kogukond',
         credit: 'Põhineb Sipeedi <a1>NanoKVM-il</a1> ja woffko <a2>Hardened NanoKVM-il</a2>',
-        hostname: 'Hostinimi',
-        hostnameReboot: 'Kas taaskäivitada, et uus hostinimi rakendada?'
+        hostname: 'Hostinimi'
       },
       appearance: {
         title: 'Välimus',
@@ -408,6 +406,7 @@ const et = {
         title: 'Seade',
         minutes: 'min',
         sections: {
+          general: 'Üldine',
           connectivity: 'Ühenduvus',
           hostConnection: 'Hostiühendus',
           inputOutput: 'Sisend ja väljund'
@@ -468,8 +467,15 @@ const et = {
         usbWakeup: 'USB äratus',
         usbWakeupDesc: 'Luba klaviatuuri või hiire sündmustel kaughost äratada',
         usbWakeupTip: 'Lülita välja, kui host logib korduvaid USB wakeup teateid',
+        hostname: {
+          description: 'Selle seadme nimi võrgus',
+          rebootRequired: 'Vajalik taaskäivitus'
+        },
         reboot: 'Taaskäivita',
-        rebootDesc: 'Kas oled kindel, et soovid NanoKVM-i taaskäivitada?'
+        rebootDesc: 'Kas oled kindel, et soovid NanoKVM-i taaskäivitada?',
+        poweroff: 'Lülita välja',
+        poweroffDesc:
+          'Kas oled kindel, et soovid NanoKVM-i välja lülitada? See pole kättesaadav enne, kui see uuesti sisse lülitatakse.'
       },
       network: {
         title: 'IP & DNS',
@@ -977,8 +983,7 @@ const et = {
           uploading: 'Üleslaadimine',
           verifying: 'Paketi kontrollimine ja ettevalmistamine',
           keyTitle: 'Kohalik värskendusvõti',
-          keyDesc:
-            'PEM-vormingus avalik võti, millega tohib allkirjastada ise ehitatud pakette',
+          keyDesc: 'PEM-vormingus avalik võti, millega tohib allkirjastada ise ehitatud pakette',
           keyNone: 'Võtit pole määratud',
           keySet: 'Määra võti',
           keyRemove: 'Eemalda',

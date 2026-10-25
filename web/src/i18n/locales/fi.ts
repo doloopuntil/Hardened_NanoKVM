@@ -362,8 +362,7 @@ const fi = {
         uptime: 'Käyttöaika',
         community: 'Yhteisö',
         credit: 'Perustuu Sipeedin <a1>NanoKVM</a1>:ään ja woffkon <a2>Hardened NanoKVM</a2>:ään',
-        hostname: 'Isäntänimi',
-        hostnameReboot: 'Käynnistetäänkö uudelleen uuden isäntänimen käyttöönottamiseksi?'
+        hostname: 'Isäntänimi'
       },
       appearance: {
         title: 'Ulkoasu',
@@ -415,6 +414,7 @@ const fi = {
         title: 'Laite',
         minutes: 'min',
         sections: {
+          general: 'Yleiset',
           connectivity: 'Yhteydet',
           hostConnection: 'Isäntäyhteys',
           inputOutput: 'Syöte ja tuloste'
@@ -476,8 +476,15 @@ const fi = {
         usbWakeup: 'USB-herätys',
         usbWakeupDesc: 'Salli näppäimistön tai hiiren tapahtumien herättää etäisäntä',
         usbWakeupTip: 'Poista käytöstä, jos isäntä kirjaa toistuvia USB wakeup -viestejä',
+        hostname: {
+          description: 'Tämän laitteen nimi verkossa',
+          rebootRequired: 'Vaatii uudelleenkäynnistyksen'
+        },
         reboot: 'Käynnistä uudelleen',
-        rebootDesc: 'Haluatko varmasti käynnistää NanoKVM:n uudelleen?'
+        rebootDesc: 'Haluatko varmasti käynnistää NanoKVM:n uudelleen?',
+        poweroff: 'Sammuta',
+        poweroffDesc:
+          'Haluatko varmasti sammuttaa NanoKVM:n? Siihen ei saa yhteyttä, ennen kuin se käynnistetään uudelleen.'
       },
       network: {
         title: 'IP & DNS',
@@ -988,8 +995,7 @@ const fi = {
           uploading: 'Lähetetään',
           verifying: 'Tarkistetaan ja valmistellaan pakettia',
           keyTitle: 'Paikallinen päivitysavain',
-          keyDesc:
-            'PEM-muotoinen julkinen avain, jolla saa allekirjoittaa itse rakennetut paketit',
+          keyDesc: 'PEM-muotoinen julkinen avain, jolla saa allekirjoittaa itse rakennetut paketit',
           keyNone: 'Avainta ei ole asetettu',
           keySet: 'Aseta avain',
           keyRemove: 'Poista',

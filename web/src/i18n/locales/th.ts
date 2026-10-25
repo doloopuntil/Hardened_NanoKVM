@@ -353,8 +353,7 @@ const th = {
         uptime: 'เวลาทำงาน',
         community: 'ชุมชน',
         credit: 'สร้างบน <a1>NanoKVM</a1> โดย Sipeed และ <a2>Hardened NanoKVM</a2> โดย woffko',
-        hostname: 'ชื่อโฮสต์',
-        hostnameReboot: 'รีบูตเพื่อใช้ชื่อโฮสต์ใหม่หรือไม่'
+        hostname: 'ชื่อโฮสต์'
       },
       appearance: {
         title: 'ลักษณะการแสดงผล',
@@ -407,6 +406,7 @@ const th = {
         title: 'อุปกรณ์',
         minutes: 'นาที',
         sections: {
+          general: 'ทั่วไป',
           connectivity: 'การเชื่อมต่อ',
           hostConnection: 'การเชื่อมต่อกับโฮสต์',
           inputOutput: 'อินพุตและเอาต์พุต'
@@ -465,8 +465,14 @@ const th = {
         usbWakeup: 'ปลุกผ่าน USB',
         usbWakeupDesc: 'อนุญาตให้เหตุการณ์จากแป้นพิมพ์หรือเมาส์ปลุกโฮสต์ระยะไกล',
         usbWakeupTip: 'ปิดถ้าโฮสต์บันทึกข้อความ USB wakeup ซ้ำ ๆ',
+        hostname: {
+          description: 'ชื่อของอุปกรณ์นี้ในเครือข่าย',
+          rebootRequired: 'ต้องรีบูต'
+        },
         reboot: 'รีบูต',
-        rebootDesc: 'คุณแน่ใจหรือไม่ว่าต้องการรีบูต NanoKVM'
+        rebootDesc: 'คุณแน่ใจหรือไม่ว่าต้องการรีบูต NanoKVM',
+        poweroff: 'ปิดเครื่อง',
+        poweroffDesc: 'ต้องการปิด NanoKVM หรือไม่ จะไม่สามารถเข้าถึงได้จนกว่าจะเปิดเครื่องอีกครั้ง'
       },
       network: {
         title: 'IP & DNS',

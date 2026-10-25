@@ -331,7 +331,8 @@ const fr = {
       canceled: 'Téléversement annulé',
       downloadCanceled: 'Téléchargement annulé',
       cancel: 'Annuler',
-      remoteDisabled: 'Le téléchargement ISO distant est désactivé dans Paramètres > Utilisateur > Apparence',
+      remoteDisabled:
+        'Le téléchargement ISO distant est désactivé dans Paramètres > Utilisateur > Apparence',
       remoteFailed: 'Échec du téléchargement ISO distant',
       sha256: 'Somme de contrôle SHA-256 facultative',
       sha256Placeholder: 'Saisissez une somme de contrôle SHA-256 de 64 caractères',
@@ -362,8 +363,7 @@ const fr = {
         uptime: 'Temps de fonctionnement',
         community: 'Communauté',
         credit: 'Basé sur <a1>NanoKVM</a1> de Sipeed et <a2>Hardened NanoKVM</a2> de woffko',
-        hostname: "Nom d'hôte",
-        hostnameReboot: "Redémarrer pour appliquer le nouveau nom d'hôte?"
+        hostname: "Nom d'hôte"
       },
       appearance: {
         title: 'Apparence',
@@ -416,6 +416,7 @@ const fr = {
         title: 'Appareil',
         minutes: 'min',
         sections: {
+          general: 'Général',
           connectivity: 'Connectivité',
           hostConnection: "Connexion à l'hôte",
           inputOutput: 'Entrée et sortie'
@@ -478,8 +479,15 @@ const fr = {
         usbWakeup: 'Réveil USB',
         usbWakeupDesc: "Autorise le clavier ou la souris à réveiller l'hôte distant",
         usbWakeupTip: "Désactivez si l'hôte journalise des messages USB wakeup répétés",
+        hostname: {
+          description: 'Nom de cet appareil sur le réseau',
+          rebootRequired: 'Redémarrage requis'
+        },
         reboot: 'Redémarrer',
-        rebootDesc: 'Êtes-vous sûr de vouloir redémarrer NanoKVM?'
+        rebootDesc: 'Êtes-vous sûr de vouloir redémarrer NanoKVM?',
+        poweroff: 'Éteindre',
+        poweroffDesc:
+          "Voulez-vous vraiment éteindre NanoKVM? Il sera inaccessible tant qu'il ne sera pas rallumé."
       },
       network: {
         title: 'IP & DNS',

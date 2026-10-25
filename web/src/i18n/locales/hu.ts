@@ -330,7 +330,8 @@ const hu = {
       canceled: 'Feltöltés megszakítva',
       downloadCanceled: 'Letöltés megszakítva',
       cancel: 'Mégse',
-      remoteDisabled: 'A távoli ISO-letöltés le van tiltva a Beállítások > Felhasználó > Megjelenés alatt',
+      remoteDisabled:
+        'A távoli ISO-letöltés le van tiltva a Beállítások > Felhasználó > Megjelenés alatt',
       remoteFailed: 'A távoli ISO-letöltés sikertelen',
       sha256: 'Opcionális SHA-256 ellenőrzőösszeg',
       sha256Placeholder: 'Adjon meg egy 64 karakteres SHA-256 ellenőrzőösszeget',
@@ -361,8 +362,7 @@ const hu = {
         uptime: 'Üzemidő',
         community: 'Közösség',
         credit: 'A Sipeed <a1>NanoKVM</a1>-jére és woffko <a2>Hardened NanoKVM</a2>-jére épül',
-        hostname: 'Gazdanév',
-        hostnameReboot: 'Újraindítja az új gazdanév alkalmazásához?'
+        hostname: 'Gazdanév'
       },
       appearance: {
         title: 'Megjelenés',
@@ -415,6 +415,7 @@ const hu = {
         title: 'Eszköz',
         minutes: 'perc',
         sections: {
+          general: 'Általános',
           connectivity: 'Kapcsolatok',
           hostConnection: 'Gazdagép-kapcsolat',
           inputOutput: 'Bemenet és kimenet'
@@ -479,8 +480,15 @@ const hu = {
         usbWakeupDesc:
           'Engedje, hogy a billentyűzet vagy egér eseményei felébresszék a távoli gépet',
         usbWakeupTip: 'Kapcsolja ki, ha a gép ismétlődő USB wakeup üzeneteket naplóz',
+        hostname: {
+          description: 'Az eszköz neve a hálózaton',
+          rebootRequired: 'Újraindítás szükséges'
+        },
         reboot: 'Újraindítás',
-        rebootDesc: 'Biztos, hogy újra akarja indítani a NanoKVM-t?'
+        rebootDesc: 'Biztos, hogy újra akarja indítani a NanoKVM-t?',
+        poweroff: 'Kikapcsolás',
+        poweroffDesc:
+          'Biztosan kikapcsolja a NanoKVM-et? Nem lesz elérhető, amíg újra be nem kapcsolják.'
       },
       network: {
         title: 'IP & DNS',

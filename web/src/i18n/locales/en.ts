@@ -358,8 +358,7 @@ const en = {
         uptime: 'Uptime',
         community: 'Community',
         credit: 'Built on <a1>NanoKVM</a1> by Sipeed and <a2>Hardened NanoKVM</a2> by woffko',
-        hostname: 'Hostname',
-        hostnameReboot: 'Reboot to apply the new hostname?'
+        hostname: 'Hostname'
       },
       appearance: {
         title: 'Appearance',
@@ -411,6 +410,7 @@ const en = {
         title: 'Device',
         minutes: 'min',
         sections: {
+          general: 'General',
           connectivity: 'Connectivity',
           hostConnection: 'Host connection',
           inputOutput: 'Input and output'
@@ -471,8 +471,15 @@ const en = {
         usbWakeup: 'USB wakeup',
         usbWakeupDesc: 'Allow keyboard or mouse events to wake the remote host',
         usbWakeupTip: 'Turn off if the host logs repeated USB wakeup messages',
+        hostname: {
+          description: 'Name of this device on the network',
+          rebootRequired: 'Reboot required'
+        },
         reboot: 'Reboot',
-        rebootDesc: 'Are you sure you want to reboot NanoKVM?'
+        rebootDesc: 'Are you sure you want to reboot NanoKVM?',
+        poweroff: 'Power off',
+        poweroffDesc:
+          'Are you sure you want to power off NanoKVM? It cannot be reached until it is powered on again.'
       },
       network: {
         title: 'IP & DNS',

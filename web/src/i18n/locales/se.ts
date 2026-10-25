@@ -328,7 +328,8 @@ const se = {
       canceled: 'Uppladdningen avbröts',
       downloadCanceled: 'Nedladdning avbruten',
       cancel: 'Avbryt',
-      remoteDisabled: 'Fjärrnedladdning av ISO är inaktiverad i Inställningar > Användare > Utseende',
+      remoteDisabled:
+        'Fjärrnedladdning av ISO är inaktiverad i Inställningar > Användare > Utseende',
       remoteFailed: 'Fjärrnedladdning av ISO misslyckades',
       sha256: 'Valfri SHA-256-kontrollsumma',
       sha256Placeholder: 'Ange en SHA-256-kontrollsumma på 64 tecken',
@@ -359,8 +360,7 @@ const se = {
         uptime: 'Drifttid',
         community: 'Community',
         credit: 'Byggt på <a1>NanoKVM</a1> från Sipeed och <a2>Hardened NanoKVM</a2> av woffko',
-        hostname: 'Värdnamn',
-        hostnameReboot: 'Starta om för att tillämpa det nya värdnamnet?'
+        hostname: 'Värdnamn'
       },
       appearance: {
         title: 'Utseende',
@@ -413,6 +413,7 @@ const se = {
         title: 'Enhet',
         minutes: 'min',
         sections: {
+          general: 'Allmänt',
           connectivity: 'Anslutning',
           hostConnection: 'Värdanslutning',
           inputOutput: 'Indata och utdata'
@@ -476,8 +477,15 @@ const se = {
         usbWakeup: 'USB-väckning',
         usbWakeupDesc: 'Tillåt tangentbords- eller mushändelser att väcka fjärrvärden',
         usbWakeupTip: 'Stäng av om värden loggar upprepade USB wakeup-meddelanden',
+        hostname: {
+          description: 'Enhetens namn i nätverket',
+          rebootRequired: 'Omstart krävs'
+        },
         reboot: 'Starta om',
-        rebootDesc: 'Är du säker på att du vill starta om NanoKVM?'
+        rebootDesc: 'Är du säker på att du vill starta om NanoKVM?',
+        poweroff: 'Stäng av',
+        poweroffDesc:
+          'Vill du verkligen stänga av NanoKVM? Den går inte att nå förrän den slås på igen.'
       },
       network: {
         title: 'IP & DNS',
