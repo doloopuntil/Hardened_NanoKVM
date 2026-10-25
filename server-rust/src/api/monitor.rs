@@ -66,6 +66,8 @@ pub struct MonitorRsp {
     /// Share of the last second the CPU spent on user and on system work.
     cpu: Option<CpuLoad>,
     disks: Vec<Disk>,
+    /// Seconds since boot, from /proc/uptime.
+    uptime_seconds: Option<u64>,
     /// Start time of this server run; samples of another run are not comparable.
     epoch: u64,
     latest_seq: u64,
@@ -272,10 +274,22 @@ fn snapshot(query: &MonitorQuery) -> MonitorRsp {
             .and_then(|text| parse_meminfo(&text)),
         cpu,
         disks: ["/", "/data"].iter().filter_map(|m| disk(m)).collect(),
+        uptime_seconds: fs::read_to_string("/proc/uptime")
+            .ok()
+            .and_then(|text| parse_uptime(&text)),
         epoch: epoch(),
         latest_seq,
         samples,
     }
+}
+
+fn parse_uptime(text: &str) -> Option<u64> {
+    text.split_whitespace()
+        .next()?
+        .split('.')
+        .next()?
+        .parse()
+        .ok()
 }
 
 fn cached_clocks() -> Clocks {
@@ -390,6 +404,13 @@ fn parse_clocks(text: &str) -> Clocks {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn reads_whole_seconds_from_proc_uptime() {
+        assert_eq!(parse_uptime("12345.67 8901.23\n"), Some(12345));
+        assert_eq!(parse_uptime(""), None);
+        assert_eq!(parse_uptime("soon 1"), None);
+    }
+
     use super::*;
 
     fn filled(count: u64) -> History {
