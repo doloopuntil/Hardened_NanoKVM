@@ -1675,14 +1675,16 @@ force_reboot_now() {{\n\
   $BB reboot -f >/dev/null 2>&1 || $BB reboot >/dev/null 2>&1 || true\n\
 }}\n\
 root_is_ro() {{\n\
+  # a rootfs entry can come first; the last line for / is the one in effect\n\
+  RO=1\n\
   while read DEV MNT TYPE OPTS REST; do\n\
     [ \"$MNT\" = '/' ] || continue\n\
     case \",$OPTS,\" in\n\
-      *,ro,*) return 0 ;;\n\
-      *) return 1 ;;\n\
+      *,ro,*) RO=0 ;;\n\
+      *) RO=1 ;;\n\
     esac\n\
   done < /proc/mounts\n\
-  return 1\n\
+  return $RO\n\
 }}\n\
 stop_update_runtime() {{\n\
   log 'stopping NanoKVM runtime'\n\
@@ -1729,6 +1731,9 @@ stop_update_runtime() {{\n\
     esac\n\
   done\n\
   $BB rm -rf /tmp/kvm_system /tmp/server >/dev/null 2>&1 || true\n\
+  # an active swap file on / is held open for writing by the kernel, which keeps / from going read-only\n\
+  log 'turning swap off'\n\
+  $BB swapoff -a >> \"$LOG\" 2>&1 || log 'swapoff failed'\n\
 }}\n\
 copy_boot_preserve_files() {{\n\
   SRC_DIR=\"$1\"\n\
@@ -4000,6 +4005,8 @@ mod tests {
         assert!(script.contains("tune_vm"));
         assert!(script.contains("WANT_FIP"));
         assert!(script.contains("mount -o remount,rw /data"));
+        // swap on / keeps it from going read-only
+        assert!(script.contains("swapoff -a"));
         // the hardware watchdog must be disarmed before the partitions are written
         assert!(script.contains("/etc/init.d/S02watchdog"));
         assert!(script.contains("cpu.overdrive.keep"));
