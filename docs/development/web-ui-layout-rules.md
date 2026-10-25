@@ -185,6 +185,10 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     layer, as a solid colour), used by the panel itself and by whatever sticks over
     its content, so that it hides what scrolls under it. Do not write the value
     again.
+33. The Settings window is at most 710px tall (`max-h-[710px]`), and 82.5vh on a
+    shorter screen. 710px is the height at which the Monitor page, the tallest
+    one, fits with as much space under its last line as above its title (about
+    44px). Measure again and change it if that page gets taller or shorter.
 
 ## Menu bar popovers
 
