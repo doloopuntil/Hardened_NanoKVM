@@ -4,7 +4,7 @@ use axum::{
     response::Redirect,
 };
 use nanokvm_rust_server::{
-    api::{cpu_clock, monitor},
+    api::{cpu_clock, monitor, vm},
     config::Config,
     ffi::kvm,
     hdmi_idle,
@@ -60,6 +60,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     install_runtime_boot_scripts();
     install_runtime_update_trust(&config);
     cpu_clock::reconcile_at_startup();
+    vm::record_swap_at_startup();
     monitor::start_sampler();
     initialize_kvm();
     hdmi_idle::start();

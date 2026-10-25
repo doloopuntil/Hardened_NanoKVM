@@ -53,6 +53,8 @@ the Buildroot userspace or the init scripts installed in the root filesystem.
 - **Download and verify** fetches the system bundle into
   `/data/.hardened-kvmcache`, checks its signed metadata, the archive digest and
   every payload hash, and stages it.
+- **Swap** is turned off for the write and made again afterwards: the chosen size is kept in
+  `/boot/swap.size`, and the swap file is recreated at the first boot of the new system.
 - **Install** re-checks the staged bundle, backs up the configuration it needs,
   streams the compressed images onto the partitions and reboots. The web UI
   shows a waiting screen with an elapsed timer and reloads itself when the device

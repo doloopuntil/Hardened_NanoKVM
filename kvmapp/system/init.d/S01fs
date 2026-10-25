@@ -245,10 +245,43 @@ then
                 echo b > /proc/sysrq-trigger 2>/dev/null || true
         }
 
+        restore_swap() {
+                # /boot is mounted a little later in this script
+                i=0
+                while [ "$i" -lt 20 ] && ! grep -q " /boot " /proc/mounts 2>/dev/null
+                do
+                        sleep 1
+                        i=$((i + 1))
+                done
+                [ -f /boot/swap.size ] || return 0
+                swap_size=$(cat /boot/swap.size 2>/dev/null)
+                case "$swap_size" in
+                64|128|256) ;;
+                *) return 0 ;;
+                esac
+                grep -q "^/swapfile " /proc/swaps 2>/dev/null && return 0
+
+                if [ ! -f /swapfile ]
+                then
+                        fallocate -l "${swap_size}M" /swapfile 2>/dev/null || {
+                                rm -f /swapfile
+                                echo "swap file of ${swap_size}M does not fit; swap stays off" > /dev/kmsg 2>/dev/null
+                                return 0
+                        }
+                        chmod 600 /swapfile
+                        mkswap /swapfile >/dev/null 2>&1 || { rm -f /swapfile; return 0; }
+                fi
+                swapon /swapfile 2>/dev/null || return 0
+                # keep the boot-time swapon line the server writes, so the next boot does not wait
+                grep -q "swapon /swapfile" /etc/inittab 2>/dev/null || \
+                        echo "si11::sysinit:/sbin/swapon /swapfile" >> /etc/inittab
+        }
+
         heal_root_filesystem
 
-                # grow the root filesystem into its partition
-                (resize2fs /dev/mmcblk0p2) &
+                # grow the root filesystem into its partition, then bring swap back: a raw system
+                # update replaces the swap file, and /boot/swap.size holds the size chosen
+                (resize2fs /dev/mmcblk0p2; restore_swap) &
 
 
         . /etc/profile

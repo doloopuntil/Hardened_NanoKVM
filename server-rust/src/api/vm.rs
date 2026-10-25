@@ -1096,6 +1096,7 @@ pub async fn set_swap(Json(req): Json<SetSwapReq>) -> Result<impl IntoResponse> 
     if req.size == 0 {
         disable_swap().await?;
         disable_swap_inittab()?;
+        write_swap_flag(0);
     } else {
         if !swap_fits(req.size, swap_available_mb()) {
             return Err(AppError::BadRequest(
@@ -1104,6 +1105,7 @@ pub async fn set_swap(Json(req): Json<SetSwapReq>) -> Result<impl IntoResponse> 
         }
         enable_swap(req.size).await?;
         enable_swap_inittab()?;
+        write_swap_flag(req.size);
     }
 
     Ok(Json(ApiResponse::<()>::ok_empty()))
@@ -1353,6 +1355,42 @@ fn get_swap_size() -> i64 {
     fs::metadata(SWAP_FILE)
         .map(|metadata| (metadata.len() / 1024 / 1024) as i64)
         .unwrap_or(0)
+}
+
+// The swap file and its inittab line live on the root filesystem, which a raw system update
+// replaces. The size kept on /boot, which the update carries over, is what S01fs makes the swap
+// file from again.
+const SWAP_FLAG: &str = "/boot/swap.size";
+
+fn write_swap_flag(size: i64) {
+    let result = if size > 0 {
+        fs::write(SWAP_FLAG, format!("{size}\n"))
+    } else {
+        match fs::remove_file(SWAP_FLAG) {
+            Err(err) if err.kind() != std::io::ErrorKind::NotFound => Err(err),
+            _ => Ok(()),
+        }
+    };
+    match result {
+        // SAFETY: sync() takes no arguments and has no failure mode.
+        Ok(()) => unsafe { nix::libc::sync() },
+        Err(err) => tracing::warn!(error = %err, "failed to record the swap size on /boot"),
+    }
+}
+
+/// Swap switched on before this was recorded keeps working across the next update.
+pub fn record_swap_at_startup() {
+    tokio::task::spawn_blocking(|| {
+        let size = get_swap_size();
+        // size 0 may only mean the swap file is not back yet after a boot, so it never removes
+        if validate_swap_size(size).is_ok()
+            && size > 0
+            && fs::read_to_string(SWAP_FLAG).ok().as_deref().map(str::trim)
+                != Some(size.to_string().as_str())
+        {
+            write_swap_flag(size);
+        }
+    });
 }
 
 // Free space the root filesystem keeps after the swap file is made.
