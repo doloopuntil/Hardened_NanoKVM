@@ -477,7 +477,7 @@ const cz = {
         rebootDesc: 'Opravdu chcete restartovat NanoKVM?'
       },
       network: {
-        title: 'Síť',
+        title: 'IP a DNS',
         connection: 'Připojení',
         configuration: 'Konfigurace',
         wifi: {

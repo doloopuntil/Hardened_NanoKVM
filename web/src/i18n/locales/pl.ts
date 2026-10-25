@@ -480,7 +480,7 @@ const pl = {
         rebootDesc: 'Czy na pewno chcesz ponownie uruchomić NanoKVM?'
       },
       network: {
-        title: 'Sieć',
+        title: 'IP i DNS',
         connection: 'Połączenie',
         configuration: 'Konfiguracja',
         wifi: {

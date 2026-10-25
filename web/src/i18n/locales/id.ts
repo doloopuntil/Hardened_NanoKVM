@@ -481,7 +481,7 @@ const id = {
         rebootDesc: 'Apakah Anda yakin ingin me-reboot NanoKVM?'
       },
       network: {
-        title: 'Jaringan',
+        title: 'IP dan DNS',
         connection: 'Koneksi',
         configuration: 'Konfigurasi',
         wifi: {

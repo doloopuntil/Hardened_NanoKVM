@@ -88,7 +88,7 @@ const ko = {
       scale: '배율',
       title: '화면',
       video: '비디오 모드',
-      videoDirectTips: '이 모드를 사용하려면 "설정 > 네트워킹 > 서비스"에서 HTTPS를 활성화하세요',
+      videoDirectTips: '이 모드를 사용하려면 "설정 > 네트워크 > 서비스"에서 HTTPS를 활성화하세요',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC는 제한 및 파라노이드 방화벽 모드에서 비활성화됩니다',
       transferRunningTitle: '이미지 전송 중',
@@ -472,7 +472,7 @@ const ko = {
         rebootDesc: 'NanoKVM을 재부팅하시겠습니까?'
       },
       network: {
-        title: '네트워크',
+        title: 'IP 및 DNS',
         connection: '연결',
         configuration: '구성',
         wifi: {
@@ -652,7 +652,7 @@ const ko = {
           enableHttpsFirst:
             '제한 또는 파라노이드 방화벽 모드를 활성화하기 전에 HTTPS를 활성화하세요',
           httpsRequired:
-            '설정 > 네트워킹 > 서비스에서 HTTPS를 활성화하기 전까지 제한 및 파라노이드 모드는 비활성화됩니다',
+            '설정 > 네트워크 > 서비스에서 HTTPS를 활성화하기 전까지 제한 및 파라노이드 모드는 비활성화됩니다',
           mode: {
             title: '방화벽 모드',
             baseline: '베이스라인',
@@ -767,7 +767,7 @@ const ko = {
         title: '사용자'
       },
       networking: {
-        title: '네트워킹'
+        title: '네트워크'
       },
       wireguard: {
         title: 'WireGuard',

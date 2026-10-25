@@ -482,7 +482,7 @@ const nb = {
         rebootDesc: 'Er du sikker på at du vil starte NanoKVM på nytt?'
       },
       network: {
-        title: 'Nettverk',
+        title: 'IP og DNS',
         connection: 'Tilkobling',
         configuration: 'Konfigurasjon',
         wifi: {

@@ -185,8 +185,8 @@ After writing, remove the card only after `sync` returns.
 3. Open `http://<address>` in a browser.
 4. Create the administrator account. There is no default `admin/admin`. The
    account's password also becomes the `root` password for SSH, which is on by
-   default; turn it off in **Settings > Networking > Services** if you don't need it.
-5. Optional but recommended: turn on HTTPS (**Settings > Networking > Services**), set up two-factor sign-in
+   default; turn it off in **Settings > Network > Services** if you don't need it.
+5. Optional but recommended: turn on HTTPS (**Settings > Network > Services**), set up two-factor sign-in
    ([Sign-in and two-factor](sign-in.md)) and review the
    [firewall mode](firewall.md).
 6. Keep a known-good recovery card nearby before trying raw system updates

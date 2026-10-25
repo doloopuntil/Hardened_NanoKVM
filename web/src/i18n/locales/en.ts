@@ -89,7 +89,7 @@ const en = {
       scale: 'Scale',
       title: 'Screen',
       video: 'Video mode',
-      videoDirectTips: 'Enable HTTPS in "Settings > Networking > Services" to use this mode',
+      videoDirectTips: 'Enable HTTPS in "Settings > Network > Services" to use this mode',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC is disabled in the Restricted and Paranoid firewall modes',
       transferRunningTitle: 'Image transfer in progress',
@@ -475,7 +475,7 @@ const en = {
         rebootDesc: 'Are you sure you want to reboot NanoKVM?'
       },
       network: {
-        title: 'Network',
+        title: 'IP and DNS',
         connection: 'Connection',
         configuration: 'Configuration',
         wifi: {
@@ -655,7 +655,7 @@ const en = {
           backends: 'Backends',
           enableHttpsFirst: 'Enable HTTPS before enabling Restricted or Paranoid Firewall mode',
           httpsRequired:
-            'Restricted and Paranoid modes are disabled until HTTPS is enabled in Settings > Networking > Services',
+            'Restricted and Paranoid modes are disabled until HTTPS is enabled in Settings > Network > Services',
           mode: {
             title: 'Firewall mode',
             baseline: 'Baseline',
@@ -769,7 +769,7 @@ const en = {
         title: 'User'
       },
       networking: {
-        title: 'Networking'
+        title: 'Network'
       },
       wireguard: {
         title: 'WireGuard',

@@ -18,7 +18,7 @@ Limits of this setup: one peer, IPv4 addresses inside the tunnel, and no
 
 You need the peer's public key, its address (host name or IP) and its UDP port.
 
-1. Open **Settings > Networking > WireGuard**.
+1. Open **Settings > Network > WireGuard**.
 2. **Private key**: press **Generate**, or **Set** to paste one. The key stays on
    the device (`/etc/kvm/wireguard/private.key`, mode 0600) and is never shown
    again. The **Public key** derived from it is shown so you can copy it to the
