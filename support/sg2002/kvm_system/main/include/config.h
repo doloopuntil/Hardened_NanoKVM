@@ -21,7 +21,6 @@
 #include "qr.h"
 #include "system_ctrl.h"
 #include "system_state.h"
-#include "system_init.h"
 #include "oled_ctrl.h"
 #include "oled_ui.h"
 #include "hdmi.h"
@@ -96,7 +95,6 @@ typedef struct {
     uint32_t oled_sleep_param = 0;
     uint8_t oled_sleep_state = 0;	// 0:wakeup; 1:sleep;
 	uint64_t oled_sleep_start = 0;
-	uint64_t ue_patch_state = 0;
 } kvm_oled_state_t;
 
 #endif // CONFIG_H_

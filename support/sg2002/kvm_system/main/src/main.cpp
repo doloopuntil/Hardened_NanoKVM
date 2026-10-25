@@ -32,14 +32,6 @@ void* thread_oled_handle(void * arg)
 	OLED_ColorTurn(0);		//0正常显示 1 反色显示
 	OLED_DisplayTurn(0);	//0正常显示 1 屏幕翻转显示
 	OLED_Clear();
-	if(kvm_oled_state.ue_patch_state == 1){
-		kvm_show_UE();
-		while(kvm_sys_state.oled_thread_running && !shutdown_requested){
-			time::sleep_ms(100);
-		}
-		OLED_Clear();
-	}
-
     while(kvm_sys_state.oled_thread_running && !shutdown_requested)
     {
 		pthread_mutex_lock(&state_mutex);
@@ -212,12 +204,6 @@ int main(int argc, char* argv[])
 	bool sys_thread_started = false;
 	bool display_thread_started = false;
 	bool key_thread_started = false;
-
-	// only for production testing
-	if (access("/tmp/S49kvmtest", F_OK) == 0){
-		printf("Production testing patch\n");
-		Production_testing_patch();
-	}
 
 	system("sync");
 
