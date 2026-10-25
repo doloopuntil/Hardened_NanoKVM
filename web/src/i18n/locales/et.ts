@@ -347,14 +347,16 @@ const et = {
       about: {
         title: 'Teave',
         information: 'Teave',
-        ip: 'IP',
+        ip: 'IP-aadress',
         mdns: 'Kohalik aadress',
         application: 'Rakenduse versioon',
-        applicationTip: 'NanoKVM veebirakenduse versioon',
         uptime: 'Tööaeg',
         community: 'Kogukond',
         credit: 'Põhineb Sipeedi <a1>NanoKVM-il</a1> ja woffko <a2>Hardened NanoKVM-il</a2>',
-        hostname: 'Seadme nimi'
+        hostname: 'Seadme nimi',
+        changeIn: 'Muuda seda asukohas {{path}}',
+        updateIn: 'Uuenda seda asukohas {{path}}',
+        toggleIn: 'Lülita sisse või välja asukohas {{path}}'
       },
       appearance: {
         title: 'Välimus',

@@ -349,14 +349,16 @@ const ko = {
       about: {
         title: '정보',
         information: '정보',
-        ip: 'IP',
+        ip: 'IP 주소',
         mdns: '로컬 주소',
         application: '애플리케이션 버전',
-        applicationTip: 'NanoKVM 웹 애플리케이션 버전',
         uptime: '가동 시간',
         community: '커뮤니티',
         credit: 'Sipeed의 <a1>NanoKVM</a1>과 woffko의 <a2>Hardened NanoKVM</a2>을 기반으로 합니다',
-        hostname: '장치 이름'
+        hostname: '장치 이름',
+        changeIn: '{{path}}에서 변경할 수 있습니다',
+        updateIn: '{{path}}에서 업데이트할 수 있습니다',
+        toggleIn: '{{path}}에서 켜거나 끌 수 있습니다'
       },
       appearance: {
         title: '디자인',

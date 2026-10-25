@@ -354,14 +354,16 @@ const pt_br = {
       about: {
         title: 'Sobre',
         information: 'Informação',
-        ip: 'IP',
+        ip: 'Endereço IP',
         mdns: 'Endereço local',
         application: 'Versão do aplicativo',
-        applicationTip: 'Versão do aplicativo web NanoKVM',
         uptime: 'Tempo ativo',
         community: 'Comunidade',
         credit: 'Baseado no <a1>NanoKVM</a1> da Sipeed e no <a2>Hardened NanoKVM</a2> de woffko',
-        hostname: 'Nome do dispositivo'
+        hostname: 'Nome do dispositivo',
+        changeIn: 'Altere em {{path}}',
+        updateIn: 'Atualize em {{path}}',
+        toggleIn: 'Ative ou desative em {{path}}'
       },
       appearance: {
         title: 'Aparência',

@@ -351,14 +351,16 @@ const da = {
       about: {
         title: 'Om',
         information: 'Information',
-        ip: 'IP',
+        ip: 'IP-adresse',
         mdns: 'Lokal adresse',
         application: 'Program version',
-        applicationTip: 'Version af NanoKVM-webapplikationen',
         uptime: 'Oppetid',
         community: 'Fællesskab',
         credit: 'Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> af woffko',
-        hostname: 'Enhedsnavn'
+        hostname: 'Enhedsnavn',
+        changeIn: 'Ændr det i {{path}}',
+        updateIn: 'Opdater det i {{path}}',
+        toggleIn: 'Slå det til eller fra i {{path}}'
       },
       appearance: {
         title: 'Udseende',

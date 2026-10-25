@@ -353,15 +353,17 @@ const id = {
       about: {
         title: 'Tentang',
         information: 'Informasi',
-        ip: 'IP',
+        ip: 'Alamat IP',
         mdns: 'Alamat lokal',
         application: 'Versi aplikasi',
-        applicationTip: 'Versi aplikasi web NanoKVM',
         uptime: 'Waktu aktif',
         community: 'Komunitas',
         credit:
           'Dibangun di atas <a1>NanoKVM</a1> dari Sipeed dan <a2>Hardened NanoKVM</a2> oleh woffko',
-        hostname: 'Nama perangkat'
+        hostname: 'Nama perangkat',
+        changeIn: 'Ubah di {{path}}',
+        updateIn: 'Perbarui di {{path}}',
+        toggleIn: 'Aktifkan atau nonaktifkan di {{path}}'
       },
       appearance: {
         title: 'Tampilan',

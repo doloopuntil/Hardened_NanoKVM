@@ -355,14 +355,16 @@ const fi = {
       about: {
         title: 'Tietoja',
         information: 'Tiedot',
-        ip: 'IP',
+        ip: 'IP-osoite',
         mdns: 'Paikallinen osoite',
         application: 'Sovelluksen versio',
-        applicationTip: 'NanoKVM-verkkosovelluksen versio',
         uptime: 'Käyttöaika',
         community: 'Yhteisö',
         credit: 'Perustuu Sipeedin <a1>NanoKVM</a1>:ään ja woffkon <a2>Hardened NanoKVM</a2>:ään',
-        hostname: 'Laitteen nimi'
+        hostname: 'Laitteen nimi',
+        changeIn: 'Muuta kohdassa {{path}}',
+        updateIn: 'Päivitä kohdassa {{path}}',
+        toggleIn: 'Kytke päälle tai pois kohdassa {{path}}'
       },
       appearance: {
         title: 'Ulkoasu',

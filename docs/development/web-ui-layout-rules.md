@@ -69,7 +69,8 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     shows nothing until the answer arrives: the HDMI rows need a PCIe board, the
     Wi-Fi row a Wi-Fi chip, the OLED rows an OLED, the Power menu an ATX board
     (not a Lite). Hardware that is there but off or failing still shows, disabled
-    or with its error.
+    or with its error. The same goes for a service that is switched off: About has
+    no Local address row while mDNS is off.
 12. A section with nothing to show is not shown, title included. `SettingSection`
     hides itself when its content renders no element, and the hairline next to it
     goes too, so the rows of a section must be components that return `null`

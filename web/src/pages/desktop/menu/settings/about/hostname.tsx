@@ -6,7 +6,7 @@ import { HostnameLabel } from '@/components/hostname-label.tsx';
 import { InfoRow } from '@/components/setting-rows.tsx';
 
 // Read-only here; the name is changed in Settings > Device, next to the Reboot button.
-export const Hostname = () => {
+export const Hostname = ({ tip }: { tip: string }) => {
   const [hostname, setHostname] = useState('');
   const [rebootRequired, setRebootRequired] = useState(false);
 
@@ -17,7 +17,7 @@ export const Hostname = () => {
 
   return (
     <InfoRow
-      label={<HostnameLabel rebootRequired={rebootRequired} />}
+      label={<HostnameLabel rebootRequired={rebootRequired} tip={tip} />}
       value={hostname ? <span className="break-all">{hostname}</span> : undefined}
     />
   );

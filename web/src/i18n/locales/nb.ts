@@ -355,14 +355,16 @@ const nb = {
       about: {
         title: 'Om',
         information: 'Informasjon',
-        ip: 'IP',
+        ip: 'IP-adresse',
         mdns: 'Lokal adresse',
         application: 'Applikasjonsversjon',
-        applicationTip: 'Versjon av NanoKVM-webapplikasjonen',
         uptime: 'Oppetid',
         community: 'Fellesskap',
         credit: 'Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> av woffko',
-        hostname: 'Enhetsnavn'
+        hostname: 'Enhetsnavn',
+        changeIn: 'Endres i {{path}}',
+        updateIn: 'Oppdateres i {{path}}',
+        toggleIn: 'Slås på eller av i {{path}}'
       },
       appearance: {
         title: 'Utseende',

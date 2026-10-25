@@ -337,14 +337,16 @@ const zh = {
       about: {
         title: '关于',
         information: '信息',
-        ip: 'IP',
+        ip: 'IP 地址',
         mdns: '本地地址',
         application: '应用版本',
-        applicationTip: 'NanoKVM 网页应用版本',
         uptime: '运行时间',
         community: '社区',
         credit: '基于 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 构建',
-        hostname: '设备名称'
+        hostname: '设备名称',
+        changeIn: '可在 {{path}} 中更改',
+        updateIn: '可在 {{path}} 中更新',
+        toggleIn: '可在 {{path}} 中开启或关闭'
       },
       appearance: {
         title: '外观',

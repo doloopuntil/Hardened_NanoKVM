@@ -350,15 +350,17 @@ const tr = {
       about: {
         title: 'Hakkında',
         information: 'Bilgi',
-        ip: 'IP',
+        ip: 'IP adresi',
         mdns: 'Yerel adres',
         application: 'Uygulama sürümü',
-        applicationTip: 'NanoKVM web uygulaması sürümü',
         uptime: 'Çalışma süresi',
         community: 'Topluluk',
         credit:
           "Sipeed'in <a1>NanoKVM</a1> ve woffko'nun <a2>Hardened NanoKVM</a2> projeleri üzerine kurulmuştur",
-        hostname: 'Cihaz adı'
+        hostname: 'Cihaz adı',
+        changeIn: '{{path}} içinden değiştirilebilir',
+        updateIn: '{{path}} içinden güncellenebilir',
+        toggleIn: '{{path}} içinden açılıp kapatılabilir'
       },
       appearance: {
         title: 'Görünüm',

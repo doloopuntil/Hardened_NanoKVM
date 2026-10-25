@@ -346,14 +346,16 @@ const th = {
       about: {
         title: 'เกี่ยวกับ',
         information: 'ข้อมูล',
-        ip: 'IP',
+        ip: 'ที่อยู่ IP',
         mdns: 'ที่อยู่ภายในเครือข่าย',
         application: 'เวอร์ชันแอปพลิเคชัน',
-        applicationTip: 'เวอร์ชั่นเว็บ NanoKVM',
         uptime: 'เวลาทำงาน',
         community: 'ชุมชน',
         credit: 'สร้างบน <a1>NanoKVM</a1> โดย Sipeed และ <a2>Hardened NanoKVM</a2> โดย woffko',
-        hostname: 'ชื่ออุปกรณ์'
+        hostname: 'ชื่ออุปกรณ์',
+        changeIn: 'เปลี่ยนได้ที่ {{path}}',
+        updateIn: 'อัปเดตได้ที่ {{path}}',
+        toggleIn: 'เปิดหรือปิดได้ที่ {{path}}'
       },
       appearance: {
         title: 'ลักษณะการแสดงผล',

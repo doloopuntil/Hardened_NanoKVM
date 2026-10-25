@@ -357,14 +357,16 @@ const nl = {
       about: {
         title: 'Over',
         information: 'Informatie',
-        ip: 'IP',
+        ip: 'IP-adres',
         mdns: 'Lokaal adres',
         application: 'Applicatieversie',
-        applicationTip: 'Versie van de NanoKVM-webapplicatie',
         uptime: 'Uptime',
         community: 'Community',
         credit: 'Gebouwd op <a1>NanoKVM</a1> van Sipeed en <a2>Hardened NanoKVM</a2> van woffko',
-        hostname: 'Apparaatnaam'
+        hostname: 'Apparaatnaam',
+        changeIn: 'Te wijzigen in {{path}}',
+        updateIn: 'Te updaten in {{path}}',
+        toggleIn: 'In of uit te schakelen in {{path}}'
       },
       appearance: {
         title: 'Uiterlijk',

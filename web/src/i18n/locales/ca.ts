@@ -353,14 +353,16 @@ const ca = {
       about: {
         title: 'Quant a',
         information: 'Informació',
-        ip: 'IP',
+        ip: 'Adreça IP',
         mdns: 'Adreça local',
         application: 'Versió aplicació',
-        applicationTip: 'Versió de la interfície web de NanoKVM',
         uptime: 'Temps actiu',
         community: 'Comunitat',
         credit: 'Basat en <a1>NanoKVM</a1> de Sipeed i <a2>Hardened NanoKVM</a2> de woffko',
-        hostname: 'Nom del dispositiu'
+        hostname: 'Nom del dispositiu',
+        changeIn: 'Canvia-ho a {{path}}',
+        updateIn: 'Actualitza-ho a {{path}}',
+        toggleIn: 'Activa-ho o desactiva-ho a {{path}}'
       },
       appearance: {
         title: 'Aparença',

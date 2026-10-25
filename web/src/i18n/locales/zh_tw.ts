@@ -338,14 +338,16 @@ const zh_tw = {
       about: {
         title: '關於',
         information: '資訊',
-        ip: 'IP',
+        ip: 'IP 位址',
         mdns: '本機位址',
         application: '應用程式版本',
-        applicationTip: 'NanoKVM 網頁程式版本',
         uptime: '執行時間',
         community: '社群',
         credit: '基於 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 建置',
-        hostname: '裝置名稱'
+        hostname: '裝置名稱',
+        changeIn: '可在 {{path}} 中變更',
+        updateIn: '可在 {{path}} 中更新',
+        toggleIn: '可在 {{path}} 中開啟或關閉'
       },
       appearance: {
         title: '外觀',

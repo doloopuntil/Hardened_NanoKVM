@@ -348,14 +348,16 @@ const vi = {
       about: {
         title: 'Giới thiệu',
         information: 'Thông tin',
-        ip: 'IP',
+        ip: 'Địa chỉ IP',
         mdns: 'Địa chỉ cục bộ',
         application: 'Phiên bản ứng dụng',
-        applicationTip: 'Phiên bản ứng dụng web NanoKVM',
         uptime: 'Thời gian hoạt động',
         community: 'Cộng đồng',
         credit: 'Xây dựng trên <a1>NanoKVM</a1> của Sipeed và <a2>Hardened NanoKVM</a2> của woffko',
-        hostname: 'Tên thiết bị'
+        hostname: 'Tên thiết bị',
+        changeIn: 'Thay đổi tại {{path}}',
+        updateIn: 'Cập nhật tại {{path}}',
+        toggleIn: 'Bật hoặc tắt tại {{path}}'
       },
       appearance: {
         title: 'Giao diện',

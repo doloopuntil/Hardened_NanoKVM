@@ -43,22 +43,50 @@ export const Information = () => {
 
   const [information, setInformation] = useState<Info>();
   const [systemVersion, setSystemVersion] = useState<string>();
+  const [isMdnsOn, setIsMdnsOn] = useState(false);
 
   useSettingsLoad(api.getInfo, (rsp) => setInformation(rsp.data));
   useSettingsLoad(getSystemVersion, (rsp) => setSystemVersion(rsp.data?.current?.version));
+  useSettingsLoad(api.getMdnsState, (rsp) => setIsMdnsOn(!!rsp.data?.enabled));
+
+  // where the setting behind a row lives, as a menu path
+  const path = (...pages: string[]) => [t('settings.title'), ...pages].join(' > ');
+  const tip = (key: string, ...pages: string[]) => t(key, { path: path(...pages) });
+  const updatesPath = [t('settings.system.title'), t('settings.update.title')];
 
   return (
     <SettingSection title={t('settings.about.information')}>
       <div className="space-y-3">
-        <Hostname />
+        <Hostname tip={tip('settings.about.changeIn', t('settings.device.title'))} />
 
-        {!!information?.mdns && (
-          <InfoRow label={t('settings.about.mdns')} value={information.mdns} />
+        {isMdnsOn && !!information?.mdns && (
+          <InfoRow
+            label={
+              <LabelTip
+                text={t('settings.about.mdns')}
+                tip={tip(
+                  'settings.about.toggleIn',
+                  t('settings.networking.title'),
+                  t('settings.system.sections.services')
+                )}
+              />
+            }
+            value={information.mdns}
+          />
         )}
 
         <InfoRow
           alignStart={(information?.ips.length ?? 0) > 1}
-          label={t('settings.about.ip')}
+          label={
+            <LabelTip
+              text={t('settings.about.ip')}
+              tip={tip(
+                'settings.about.changeIn',
+                t('settings.networking.title'),
+                t('settings.network.title')
+              )}
+            />
+          }
           value={
             information?.ips && information.ips.length > 0 ? (
               <div className="flex min-w-0 flex-col space-y-1">
@@ -79,16 +107,24 @@ export const Information = () => {
           }
         />
 
-        <InfoRow label={t('settings.update.system.systemVersion')} value={systemVersion} />
-
         <InfoRow
           label={
             <LabelTip
               text={t('settings.about.application')}
-              tip={t('settings.about.applicationTip')}
+              tip={tip('settings.about.updateIn', ...updatesPath)}
             />
           }
           value={information ? formatHardenedVersion(information.application) : undefined}
+        />
+
+        <InfoRow
+          label={
+            <LabelTip
+              text={t('settings.update.system.systemVersion')}
+              tip={tip('settings.about.updateIn', ...updatesPath)}
+            />
+          }
+          value={systemVersion}
         />
 
         <InfoRow label={t('settings.about.uptime')} value={formatUptime(information?.uptime)} />

@@ -354,15 +354,17 @@ const pl = {
       about: {
         title: 'Informacje',
         information: 'Informacje o systemie',
-        ip: 'IP',
+        ip: 'Adres IP',
         mdns: 'Adres lokalny',
         application: 'Wersja oprogramowania',
-        applicationTip: 'Wersja aplikacji web NanoKVM',
         uptime: 'Czas działania',
         community: 'Społeczność',
         credit:
           'Oparty na <a1>NanoKVM</a1> firmy Sipeed i <a2>Hardened NanoKVM</a2> autorstwa woffko',
-        hostname: 'Nazwa urządzenia'
+        hostname: 'Nazwa urządzenia',
+        changeIn: 'Zmienisz to w {{path}}',
+        updateIn: 'Zaktualizujesz to w {{path}}',
+        toggleIn: 'Włączysz lub wyłączysz to w {{path}}'
       },
       appearance: {
         title: 'Wygląd',
