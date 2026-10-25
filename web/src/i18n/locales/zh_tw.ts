@@ -937,24 +937,21 @@ const zh_tw = {
           rollbackBackup: 'Rollback 備份'
         },
         offline: {
-          title: '離線更新',
-          desc: '透過本地安裝包進行更新',
-          upload: '上傳',
-          invalidName: '檔名格式錯誤，請前往 GitHub 釋出頁下載安裝包。',
-          updateFailed: '更新失敗'
+          title: '上傳應用程式套件',
+          desc: '從此電腦安裝應用程式套件。之後伺服器將重新啟動。'
         },
         local: {
           title: '上傳系統套件',
           desc: '從此電腦安裝系統套件。一個檔案包含封存檔及其已簽署的中繼資料。',
           choose: '選擇檔案',
-          invalidFile: '請選擇以 .tar 或 .tar.gz 結尾的系統套件。',
+          invalidFile: '請選擇以 .tar 或 .tar.gz 結尾的套件。',
           diskTitle: '是否關閉虛擬磁碟功能？',
           diskWarn:
-            '系統套件會儲存到 /data 目錄，而虛擬磁碟開啟時該目錄為唯讀。關閉虛擬磁碟後，電腦將無法再存取 /data 目錄。是否繼續？',
+            '套件會儲存到 /data 目錄，而虛擬磁碟開啟時該目錄為唯讀。關閉虛擬磁碟後，電腦將無法再存取 /data 目錄。是否繼續？',
           uploading: '正在上傳',
           verifying: '正在驗證並準備系統套件',
           keyTitle: '本機更新金鑰',
-          keyDesc: '可為您自行建置的系統套件簽署的 PEM 格式公開金鑰',
+          keyDesc: '可為您自行建置的套件簽署的 PEM 格式公開金鑰',
           keyNone: '未設定金鑰',
           keySet: '設定金鑰',
           keyRemove: '移除',

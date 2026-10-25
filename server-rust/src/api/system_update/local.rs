@@ -117,11 +117,6 @@ pub async fn upload_check(
 }
 
 fn upload_preflight(cache_dir: &Path, upload_len: Option<u64>) -> Result<()> {
-    if system_firewall::paranoid_mode_enabled() {
-        return Err(AppError::BadRequest(
-            system_firewall::paranoid_blocked_message().to_string(),
-        ));
-    }
     crate::api::storage::ensure_writable(cache_dir)?;
     if SYSTEM_UPDATE_LOCK.lock().map(|busy| *busy).unwrap_or(false) {
         return Err(AppError::Conflict(
@@ -150,11 +145,6 @@ pub async fn upload(
     headers: HeaderMap,
     mut multipart: Multipart,
 ) -> Result<impl IntoResponse> {
-    if system_firewall::paranoid_mode_enabled() {
-        return Err(AppError::BadRequest(
-            system_firewall::paranoid_blocked_message().to_string(),
-        ));
-    }
     crate::api::storage::ensure_writable(&state.config.paths.update_cache_dir)?;
     let guard = acquire_update_lock()?;
     let config = Config::read().unwrap_or_else(|err| {
@@ -444,7 +434,7 @@ async fn authorize_upload(
     Ok(key_id.to_string())
 }
 
-fn ensure_free_space(dir: &Path, needed: u64) -> Result<()> {
+pub(crate) fn ensure_free_space(dir: &Path, needed: u64) -> Result<()> {
     // the staging folder may not exist yet; the filesystem under it is what counts
     let mut probe = dir;
     while !probe.exists() {
@@ -466,7 +456,7 @@ fn ensure_free_space(dir: &Path, needed: u64) -> Result<()> {
     Ok(())
 }
 
-fn local_public_key_path(path: &Path) -> Result<PathBuf> {
+pub(crate) fn local_public_key_path(path: &Path) -> Result<PathBuf> {
     let metadata = fs::symlink_metadata(path).map_err(|_| {
         AppError::BadRequest("no local update key is registered on this device".to_string())
     })?;

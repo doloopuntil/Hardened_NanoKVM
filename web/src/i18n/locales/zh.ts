@@ -935,24 +935,21 @@ const zh = {
           rollbackBackup: 'Rollback 备份'
         },
         offline: {
-          title: '离线更新',
-          desc: '通过本地安装包进行更新',
-          upload: '上传',
-          invalidName: '文件名格式错误，请前往 GitHub 发布页下载安装包。',
-          updateFailed: '更新失败'
+          title: '上传应用包',
+          desc: '从此计算机安装应用包。之后服务器将重新启动。'
         },
         local: {
           title: '上传系统包',
           desc: '从此计算机安装系统包。一个文件包含归档文件及其已签名的元数据。',
           choose: '选择文件',
-          invalidFile: '请选择以 .tar 或 .tar.gz 结尾的系统包。',
+          invalidFile: '请选择以 .tar 或 .tar.gz 结尾的包。',
           diskTitle: '是否关闭虚拟磁盘功能？',
           diskWarn:
-            '系统包会保存到 /data 目录，而虚拟磁盘开启时该目录为只读。关闭虚拟磁盘后，电脑将无法再访问 /data 目录。是否继续？',
+            '包会保存到 /data 目录，而虚拟磁盘开启时该目录为只读。关闭虚拟磁盘后，电脑将无法再访问 /data 目录。是否继续？',
           uploading: '正在上传',
           verifying: '正在验证并准备系统包',
           keyTitle: '本地更新密钥',
-          keyDesc: '可为您自行构建的系统包签名的 PEM 格式公钥',
+          keyDesc: '可为您自行构建的包签名的 PEM 格式公钥',
           keyNone: '未设置密钥',
           keySet: '设置密钥',
           keyRemove: '移除',

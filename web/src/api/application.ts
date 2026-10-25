@@ -1,6 +1,4 @@
-import { getCsrfToken } from '@/lib/cookie.ts';
 import { http } from '@/lib/http.ts';
-import { getBaseUrl } from '@/lib/service.ts';
 
 export type SystemVersion = {
   version: string;
@@ -158,6 +156,25 @@ export function uploadSystemUpdate(
   });
 }
 
+// ask whether an application bundle of this size can be uploaded, before sending it
+export function checkApplicationUpload(size: number) {
+  return http.get('/api/application/upload-check', { size });
+}
+
+// verify and install an application bundle uploaded from this computer
+export function uploadApplicationUpdate(
+  data: FormData,
+  onProgress?: (loaded: number, total: number) => void
+) {
+  return http.request({
+    method: 'post',
+    url: '/api/application/upload',
+    data,
+    timeout: 45 * 60 * 1000,
+    onUploadProgress: (event) => onProgress?.(event.loaded, event.total ?? 0)
+  });
+}
+
 // get the locally registered system update key
 export function getLocalUpdateKey() {
   return http.get('/api/system-update/local-key');
@@ -193,17 +210,5 @@ export function update() {
     method: 'post',
     url: '/api/application/update',
     timeout: 15 * 60 * 1000
-  });
-}
-
-// offline update application
-export function offlineUpdate(data: FormData) {
-  const baseUrl = getBaseUrl('http');
-  const url = `${baseUrl}/api/application/update/offline`;
-  const csrfToken = getCsrfToken();
-  return fetch(url, {
-    method: 'POST',
-    headers: csrfToken ? { 'x-csrf-token': csrfToken } : undefined,
-    body: data
   });
 }

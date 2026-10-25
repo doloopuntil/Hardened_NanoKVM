@@ -990,26 +990,22 @@ const de = {
           rollbackBackup: 'Rollback-Sicherung'
         },
         offline: {
-          title: 'Offline Aktualisierung',
-          desc: 'Über lokales Installationspaket aktualisieren',
-          upload: 'Hochladen',
-          invalidName:
-            'Ungültiges Dateinamenformat. Bitte laden Sie von den GitHub-Releases herunter.',
-          updateFailed: 'Aktualisierung fehlgeschlagen'
+          title: 'Anwendungspaket hochladen',
+          desc: 'Ein Anwendungspaket von diesem Computer installieren. Danach startet der Server neu.'
         },
         local: {
           title: 'Systempaket hochladen',
           desc: 'Ein Systempaket von diesem Computer installieren. Eine Datei enthält das Archiv und seine signierten Metadaten.',
           choose: 'Datei auswählen',
-          invalidFile: 'Ein Systempaket mit der Endung .tar oder .tar.gz auswählen.',
+          invalidFile: 'Ein Paket mit der Endung .tar oder .tar.gz auswählen.',
           diskTitle: 'Virtuelles Laufwerk ausschalten?',
           diskWarn:
-            'Das Systempaket wird auf /data gespeichert, das bei eingeschaltetem virtuellem Laufwerk schreibgeschützt ist. Nach dem Ausschalten kann der Computer nicht mehr auf /data zugreifen. Fortfahren?',
+            'Das Paket wird auf /data gespeichert, das bei eingeschaltetem virtuellem Laufwerk schreibgeschützt ist. Nach dem Ausschalten kann der Computer nicht mehr auf /data zugreifen. Fortfahren?',
           uploading: 'Wird hochgeladen',
           verifying: 'Paket wird geprüft und bereitgestellt',
           keyTitle: 'Lokaler Update-Schlüssel',
           keyDesc:
-            'Öffentlicher Schlüssel im PEM-Format, der selbst erstellte Systempakete signieren darf',
+            'Öffentlicher Schlüssel im PEM-Format, der selbst erstellte Pakete signieren darf',
           keyNone: 'Kein Schlüssel gesetzt',
           keySet: 'Schlüssel setzen',
           keyRemove: 'Entfernen',

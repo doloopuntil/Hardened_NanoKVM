@@ -980,25 +980,22 @@ const pl = {
           rollbackBackup: 'Kopia rollbacku'
         },
         offline: {
-          title: 'Aktualizacje offline',
-          desc: 'Aktualizacja poprzez lokalny pakiet instalacyjny',
-          upload: 'Prześlij',
-          invalidName: 'Nieprawidłowy format nazwy pliku. Pobierz z wydań GitHub.',
-          updateFailed: 'Aktualizacja nie powiodła się'
+          title: 'Prześlij pakiet aplikacji',
+          desc: 'Zainstaluj pakiet aplikacji z tego komputera. Potem serwer uruchomi się ponownie.'
         },
         local: {
           title: 'Prześlij pakiet systemowy',
           desc: 'Zainstaluj pakiet systemowy z tego komputera. Jeden plik zawiera archiwum i jego podpisane metadane.',
           choose: 'Wybierz plik',
-          invalidFile: 'Wybierz pakiet systemowy z rozszerzeniem .tar lub .tar.gz.',
+          invalidFile: 'Wybierz pakiet z rozszerzeniem .tar lub .tar.gz.',
           diskTitle: 'Wyłączyć dysk wirtualny?',
           diskWarn:
-            'Pakiet systemowy jest zapisywany w /data, które jest tylko do odczytu, gdy dysk wirtualny jest włączony. Po jego wyłączeniu komputer straci dostęp do /data. Kontynuować?',
+            'Pakiet jest zapisywany w /data, które jest tylko do odczytu, gdy dysk wirtualny jest włączony. Po jego wyłączeniu komputer straci dostęp do /data. Kontynuować?',
           uploading: 'Wysyłanie',
           verifying: 'Weryfikowanie i przygotowywanie pakietu',
           keyTitle: 'Lokalny klucz aktualizacji',
           keyDesc:
-            'Klucz publiczny w formacie PEM, który może podpisywać samodzielnie zbudowane pakiety systemowe',
+            'Klucz publiczny w formacie PEM, który może podpisywać samodzielnie zbudowane pakiety',
           keyNone: 'Nie ustawiono klucza',
           keySet: 'Ustaw klucz',
           keyRemove: 'Usuń',

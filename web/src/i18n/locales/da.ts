@@ -977,24 +977,21 @@ const da = {
           rollbackBackup: 'Rollback-backup'
         },
         offline: {
-          title: 'Offline opdateringer',
-          desc: 'Opdatering via lokal installationspakke',
-          upload: 'Upload',
-          invalidName: 'Ugyldigt filnavnsformat. Download venligst fra GitHub-udgivelser.',
-          updateFailed: 'Opdatering fejlede'
+          title: 'Upload applikationspakke',
+          desc: 'Installer en applikationspakke fra denne computer. Serveren genstarter bagefter.'
         },
         local: {
           title: 'Upload systempakke',
           desc: 'Installer en systempakke fra denne computer. Én fil indeholder arkivet og de signerede metadata.',
           choose: 'Vælg fil',
-          invalidFile: 'Vælg en systempakke, der ender på .tar eller .tar.gz.',
+          invalidFile: 'Vælg en pakke, der ender på .tar eller .tar.gz.',
           diskTitle: 'Slukke den virtuelle disk?',
           diskWarn:
-            'Systempakken gemmes på /data, som er skrivebeskyttet, mens den virtuelle disk er tændt. Når den virtuelle disk slukkes, har computeren ikke længere adgang til /data. Fortsæt?',
+            'Pakken gemmes på /data, som er skrivebeskyttet, mens den virtuelle disk er tændt. Når den virtuelle disk slukkes, har computeren ikke længere adgang til /data. Fortsæt?',
           uploading: 'Uploader',
           verifying: 'Verificerer og klargør pakken',
           keyTitle: 'Lokal opdateringsnøgle',
-          keyDesc: 'Offentlig nøgle i PEM-format, der må signere systempakker, du selv bygger',
+          keyDesc: 'Offentlig nøgle i PEM-format, der må signere pakker, du selv bygger',
           keyNone: 'Ingen nøgle angivet',
           keySet: 'Angiv nøgle',
           keyRemove: 'Fjern',

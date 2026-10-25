@@ -978,25 +978,22 @@ const pt_br = {
           rollbackBackup: 'Backup de rollback'
         },
         offline: {
-          title: 'Atualizações off-line',
-          desc: 'Atualização através do pacote de instalação local',
-          upload: 'Upload',
-          invalidName: 'Formato de nome de arquivo inválido. Faça download das versões do GitHub.',
-          updateFailed: 'Falha na atualização'
+          title: 'Enviar pacote do aplicativo',
+          desc: 'Instalar um pacote do aplicativo a partir deste computador. Depois, o servidor reinicia.'
         },
         local: {
           title: 'Enviar pacote do sistema',
           desc: 'Instalar um pacote do sistema a partir deste computador. Um único arquivo contém o pacote e seus metadados assinados.',
           choose: 'Escolher arquivo',
-          invalidFile: 'Selecione um pacote do sistema terminado em .tar ou .tar.gz.',
+          invalidFile: 'Selecione um pacote terminado em .tar ou .tar.gz.',
           diskTitle: 'Desligar o disco virtual?',
           diskWarn:
-            'O pacote do sistema é salvo em /data, que fica somente leitura enquanto o disco virtual está ligado. Ao desligá-lo, o computador não pode mais acessar /data. Continuar?',
+            'O pacote é salvo em /data, que fica somente leitura enquanto o disco virtual está ligado. Ao desligá-lo, o computador não pode mais acessar /data. Continuar?',
           uploading: 'Enviando',
           verifying: 'Verificando e preparando o pacote',
           keyTitle: 'Chave de atualização local',
           keyDesc:
-            'Chave pública em formato PEM que pode assinar pacotes do sistema compilados por você',
+            'Chave pública em formato PEM que pode assinar pacotes compilados por você',
           keyNone: 'Nenhuma chave definida',
           keySet: 'Definir chave',
           keyRemove: 'Remover',

@@ -986,25 +986,22 @@ const it = {
           rollbackBackup: 'Backup rollback'
         },
         offline: {
-          title: 'Aggiornamenti offline',
-          desc: 'Aggiornamento tramite pacchetto di installazione locale',
-          upload: 'Carica',
-          invalidName: 'Formato nome file non valido. Scarica dalle versioni GitHub.',
-          updateFailed: 'Aggiornamento fallito'
+          title: "Carica pacchetto dell'applicazione",
+          desc: "Installa un pacchetto dell'applicazione da questo computer. Il server si riavvia al termine."
         },
         local: {
           title: 'Carica pacchetto di sistema',
           desc: "Installa un pacchetto di sistema da questo computer. Un solo file contiene l'archivio e i suoi metadati firmati.",
           choose: 'Scegli il file',
-          invalidFile: 'Seleziona un pacchetto di sistema che termina con .tar o .tar.gz.',
+          invalidFile: 'Seleziona un pacchetto che termina con .tar o .tar.gz.',
           diskTitle: 'Disattivare il disco virtuale?',
           diskWarn:
-            'Il pacchetto di sistema viene salvato in /data, che è di sola lettura mentre il disco virtuale è attivo. Disattivandolo, il computer non potrà più accedere a /data. Continuare?',
+            'Il pacchetto viene salvato in /data, che è di sola lettura mentre il disco virtuale è attivo. Disattivandolo, il computer non potrà più accedere a /data. Continuare?',
           uploading: 'Caricamento',
           verifying: 'Verifica e preparazione del pacchetto',
           keyTitle: 'Chiave di aggiornamento locale',
           keyDesc:
-            'Chiave pubblica in formato PEM che può firmare i pacchetti di sistema creati da te',
+            'Chiave pubblica in formato PEM che può firmare i pacchetti creati da te',
           keyNone: 'Nessuna chiave impostata',
           keySet: 'Imposta chiave',
           keyRemove: 'Rimuovi',

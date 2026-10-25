@@ -979,24 +979,21 @@ const se = {
           rollbackBackup: 'Rollback-säkerhetskopia'
         },
         offline: {
-          title: 'Offlineuppdateringar',
-          desc: 'Uppdatera genom lokalt installationspaket',
-          upload: 'Ladda upp',
-          invalidName: 'Ogiltigt filnamnsformat. Ladda ner från GitHub-versioner.',
-          updateFailed: 'Uppdatering misslyckades'
+          title: 'Ladda upp programpaket',
+          desc: 'Installera ett programpaket från den här datorn. Servern startar om efteråt.'
         },
         local: {
           title: 'Ladda upp systempaket',
           desc: 'Installera ett systempaket från den här datorn. En fil innehåller arkivet och dess signerade metadata.',
           choose: 'Välj fil',
-          invalidFile: 'Välj ett systempaket som slutar på .tar eller .tar.gz.',
+          invalidFile: 'Välj ett paket som slutar på .tar eller .tar.gz.',
           diskTitle: 'Stänga av den virtuella disken?',
           diskWarn:
-            'Systempaketet sparas på /data, som är skrivskyddat medan den virtuella disken är på. När den stängs av kommer datorn inte åt /data. Fortsätta?',
+            'Paketet sparas på /data, som är skrivskyddat medan den virtuella disken är på. När den stängs av kommer datorn inte åt /data. Fortsätta?',
           uploading: 'Laddar upp',
           verifying: 'Verifierar och förbereder paketet',
           keyTitle: 'Lokal uppdateringsnyckel',
-          keyDesc: 'Publik nyckel i PEM-format som får signera systempaket du bygger själv',
+          keyDesc: 'Publik nyckel i PEM-format som får signera paket du bygger själv',
           keyNone: 'Ingen nyckel angiven',
           keySet: 'Ange nyckel',
           keyRemove: 'Ta bort',

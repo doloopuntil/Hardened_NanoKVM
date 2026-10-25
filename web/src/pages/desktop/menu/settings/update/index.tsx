@@ -22,8 +22,7 @@ import { PageHeader } from '@/components/page-header.tsx';
 import { InfoRow, SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import { InstallWait } from './install-wait.tsx';
-import { LocalKeyRow, SystemUpload } from './local.tsx';
-import { Offline } from './offline.tsx';
+import { ApplicationUpload, LocalKeyRow, SystemUpload } from './local.tsx';
 
 type UpdateProps = {
   setIsLocked: (isClosable: boolean) => void;
@@ -458,6 +457,17 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       });
   }
 
+  // the server verified the bundle and restarts on its own; the page reloads once it is back
+  function handleUploadedApplicationUpdate() {
+    setStatus('updating');
+    setErrMsg('');
+
+    setTimeout(() => {
+      setIsLocked(false);
+      window.location.reload();
+    }, 12000);
+  }
+
   function info(label: string, value?: string | null, description?: ReactNode) {
     return value ? (
       <InfoRow key={label} label={label} value={value} description={description} />
@@ -697,11 +707,10 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             }
           />
 
-          <Offline
-            status={status}
-            setStatus={setStatus}
-            setIsLocked={setIsLocked}
-            setErrMsg={setErrMsg}
+          <ApplicationUpload
+            disabled={applicationLoading || applicationBusy}
+            onStaged={handleUploadedApplicationUpdate}
+            setBusy={setIsLocked}
           />
         </SettingSection>
 

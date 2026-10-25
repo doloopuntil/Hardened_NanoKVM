@@ -967,25 +967,22 @@ const et = {
           rollbackBackup: 'Rollback varukoopia'
         },
         offline: {
-          title: 'Offline-uuendused',
-          desc: 'Uuenda kohaliku paigalduspaketiga',
-          upload: 'Laadi üles',
-          invalidName: 'Vigane failinime vorming. Laadi fail alla GitHub releases lehelt.',
-          updateFailed: 'Uuendamine nurjus'
+          title: 'Laadi rakenduse pakett üles',
+          desc: 'Paigalda rakenduse pakett sellest arvutist. Seejärel server taaskäivitub.'
         },
         local: {
           title: 'Laadi süsteemipakett üles',
           desc: 'Paigalda süsteemipakett sellest arvutist. Üks fail sisaldab arhiivi ja selle allkirjastatud metaandmeid.',
           choose: 'Vali fail',
-          invalidFile: 'Vali süsteemipakett, mille laiend on .tar või .tar.gz.',
+          invalidFile: 'Vali pakett, mille laiend on .tar või .tar.gz.',
           diskTitle: 'Kas lülitada virtuaalne ketas välja?',
           diskWarn:
-            'Süsteemipakett salvestatakse kataloogi /data, mis on kirjutuskaitstud, kui virtuaalne ketas on sees. Väljalülitamisel ei pääse arvuti enam kataloogile /data ligi. Kas jätkata?',
+            'Pakett salvestatakse kataloogi /data, mis on kirjutuskaitstud, kui virtuaalne ketas on sees. Väljalülitamisel ei pääse arvuti enam kataloogile /data ligi. Kas jätkata?',
           uploading: 'Üleslaadimine',
           verifying: 'Paketi kontrollimine ja ettevalmistamine',
           keyTitle: 'Kohalik värskendusvõti',
           keyDesc:
-            'PEM-vormingus avalik võti, millega tohib allkirjastada ise ehitatud süsteemipakette',
+            'PEM-vormingus avalik võti, millega tohib allkirjastada ise ehitatud pakette',
           keyNone: 'Võtit pole määratud',
           keySet: 'Määra võti',
           keyRemove: 'Eemalda',

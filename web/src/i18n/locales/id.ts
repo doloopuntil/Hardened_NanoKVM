@@ -980,25 +980,22 @@ const id = {
           rollbackBackup: 'Cadangan rollback'
         },
         offline: {
-          title: 'Pembaruan offline',
-          desc: 'Perbarui melalui paket instalasi lokal',
-          upload: 'Mengunggah',
-          invalidName: 'Format nama file tidak valid. Silakan unduh dari rilis GitHub.',
-          updateFailed: 'Gagal memperbarui'
+          title: 'Unggah paket aplikasi',
+          desc: 'Pasang paket aplikasi dari komputer ini. Server akan dimulai ulang setelahnya.'
         },
         local: {
           title: 'Unggah paket sistem',
           desc: 'Pasang paket sistem dari komputer ini. Satu berkas berisi arsip dan metadata yang sudah ditandatangani.',
           choose: 'Pilih berkas',
-          invalidFile: 'Pilih paket sistem berakhiran .tar atau .tar.gz.',
+          invalidFile: 'Pilih paket berakhiran .tar atau .tar.gz.',
           diskTitle: 'Matikan disk virtual?',
           diskWarn:
-            'Paket sistem disimpan di /data, yang bersifat hanya-baca selama disk virtual menyala. Setelah dimatikan, komputer tidak lagi dapat mengakses /data. Lanjutkan?',
+            'Paket disimpan di /data, yang bersifat hanya-baca selama disk virtual menyala. Setelah dimatikan, komputer tidak lagi dapat mengakses /data. Lanjutkan?',
           uploading: 'Mengunggah',
           verifying: 'Memverifikasi dan menyiapkan paket',
           keyTitle: 'Kunci pembaruan lokal',
           keyDesc:
-            'Kunci publik berformat PEM yang boleh menandatangani paket sistem yang Anda bangun sendiri',
+            'Kunci publik berformat PEM yang boleh menandatangani paket yang Anda bangun sendiri',
           keyNone: 'Kunci belum diatur',
           keySet: 'Atur kunci',
           keyRemove: 'Hapus',

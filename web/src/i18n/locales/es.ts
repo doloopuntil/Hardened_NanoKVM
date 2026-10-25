@@ -983,26 +983,22 @@ const es = {
           rollbackBackup: 'Copia de rollback'
         },
         offline: {
-          title: 'Actualizaciones sin conexión',
-          desc: 'Actualización a través del paquete de instalación local',
-          upload: 'Subir',
-          invalidName:
-            'Formato de nombre de archivo no válido. Descarga desde las versiones de GitHub.',
-          updateFailed: 'La actualización falló'
+          title: 'Subir paquete de la aplicación',
+          desc: 'Instalar un paquete de la aplicación desde este equipo. Después, el servidor se reinicia.'
         },
         local: {
           title: 'Subir paquete del sistema',
           desc: 'Instalar un paquete del sistema desde este equipo. Un solo archivo contiene el archivo comprimido y sus metadatos firmados.',
           choose: 'Elegir archivo',
-          invalidFile: 'Seleccione un paquete del sistema que termine en .tar o .tar.gz.',
+          invalidFile: 'Seleccione un paquete que termine en .tar o .tar.gz.',
           diskTitle: '¿Desactivar el disco virtual?',
           diskWarn:
-            'El paquete del sistema se guarda en /data, que es de solo lectura mientras el disco virtual está activado. Al desactivarlo, el equipo ya no puede acceder a /data. ¿Continuar?',
+            'El paquete se guarda en /data, que es de solo lectura mientras el disco virtual está activado. Al desactivarlo, el equipo ya no puede acceder a /data. ¿Continuar?',
           uploading: 'Subiendo',
           verifying: 'Verificando y preparando el paquete',
           keyTitle: 'Clave de actualización local',
           keyDesc:
-            'Clave pública en formato PEM que puede firmar los paquetes del sistema que usted compile',
+            'Clave pública en formato PEM que puede firmar los paquetes que usted compile',
           keyNone: 'Sin clave definida',
           keySet: 'Definir clave',
           keyRemove: 'Quitar',

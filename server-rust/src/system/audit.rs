@@ -98,6 +98,18 @@ pub fn system_update_uploaded(username: &str, signer: &str, version: &str) {
     );
 }
 
+pub fn application_update_uploaded(username: &str, signer: &str, version: &str) {
+    emit(
+        85,
+        &format!(
+            "{TAG}: application update uploaded user={} signer={} version={}",
+            sanitize(username),
+            sanitize(signer),
+            sanitize(version)
+        ),
+    );
+}
+
 pub fn wireguard_changed(source_ip: &str, enabled: bool) {
     emit(
         85,

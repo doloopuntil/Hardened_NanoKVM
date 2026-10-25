@@ -19,7 +19,54 @@ type UploadProps = {
   setBusy: (busy: boolean) => void;
 };
 
-export const SystemUpload = ({ disabled, onStaged, setBusy }: UploadProps) => {
+type BundleUploadProps = UploadProps & {
+  label: string;
+  description: string;
+  check: (size: number) => Promise<any>;
+  send: (data: FormData, onProgress: (loaded: number, total: number) => void) => Promise<any>;
+  // the page stays locked after a good upload, because the server restarts
+  keepBusy?: boolean;
+};
+
+export const SystemUpload = (props: UploadProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <BundleUpload
+      {...props}
+      label={t('settings.update.local.title')}
+      description={t('settings.update.local.desc')}
+      check={api.checkSystemUpload}
+      send={api.uploadSystemUpdate}
+    />
+  );
+};
+
+export const ApplicationUpload = (props: UploadProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <BundleUpload
+      {...props}
+      label={t('settings.update.offline.title')}
+      description={t('settings.update.offline.desc')}
+      check={api.checkApplicationUpload}
+      send={api.uploadApplicationUpdate}
+      keepBusy
+    />
+  );
+};
+
+const BundleUpload = ({
+  disabled,
+  onStaged,
+  setBusy,
+  label,
+  description,
+  check,
+  send,
+  keepBusy = false
+}: BundleUploadProps) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
@@ -73,9 +120,9 @@ export const SystemUpload = ({ disabled, onStaged, setBusy }: UploadProps) => {
     // Ask first: the server refuses an upload before reading it (read-only /data, no space, an
     // update running), and the browser would only see a connection reset instead of the reason.
     try {
-      const check = await api.checkSystemUpload(file.size);
-      if (check.code !== 0) {
-        showFailure(check.msg);
+      const verdict = await check(file.size);
+      if (verdict.code !== 0) {
+        showFailure(verdict.msg);
         setBusy(false);
         return;
       }
@@ -85,12 +132,14 @@ export const SystemUpload = ({ disabled, onStaged, setBusy }: UploadProps) => {
 
     // Not `attempt`: a network failure or a raw server error must stay readable here, since the
     // upload is the one step that can fail in the browser before the request is sent.
+    let done = false;
     try {
       setSent({ loaded: 0, total: file.size });
-      const rsp = await api.uploadSystemUpdate(data, (loaded, total) =>
+      const rsp = await send(data, (loaded, total) =>
         setSent({ loaded, total: total || file.size })
       );
-      if (rsp.code === 0 && rsp.data) {
+      if (rsp.code === 0) {
+        done = true;
         onStaged(rsp.data);
       } else {
         showFailure(rsp.msg);
@@ -107,7 +156,7 @@ export const SystemUpload = ({ disabled, onStaged, setBusy }: UploadProps) => {
       );
     } finally {
       setSent(undefined);
-      setBusy(false);
+      if (!(done && keepBusy)) setBusy(false);
     }
   }
 
@@ -122,11 +171,7 @@ export const SystemUpload = ({ disabled, onStaged, setBusy }: UploadProps) => {
 
   return (
     <>
-      <SettingRow
-        label={t('settings.update.local.title')}
-        description={error || t('settings.update.local.desc')}
-        inline
-      >
+      <SettingRow label={label} description={error || description} inline>
         <input
           ref={inputRef}
           type="file"
