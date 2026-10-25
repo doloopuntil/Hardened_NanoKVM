@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Select, Space, Switch } from 'antd';
-import { ScreenShareOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
@@ -51,19 +50,8 @@ export const Oled = () => {
       });
   }
 
-  if (!isOLEDExist) {
-    return (
-      <SettingRow
-        label={t('settings.device.oled.title')}
-        description={t('settings.device.oled.description')}
-        inline
-      >
-        <span className="text-neutral-500">
-          <ScreenShareOff size={16} />
-        </span>
-      </SettingRow>
-    );
-  }
+  // no OLED, no options
+  if (!isOLEDExist) return null;
 
   return (
     <>
