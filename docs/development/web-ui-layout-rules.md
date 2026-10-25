@@ -124,11 +124,11 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     (`bg-settings-panel`) like the page header, with a hairline above it and a
     shadow that pushes up from there, with the same negative spread as the
     header's.
-
-## Status and feedback
     The bar has a Discard button beside Save changes, and Escape in a field with
     unsaved changes discards them too (it still closes the dialog when there is
     nothing to discard).
+
+## Status and feedback
 21. A state message is the caption of the field it describes: "downloaded and
     verified" under Staged version, "reboot required" under Pending version.
 22. A badge (`Tag` with `className="m-0"`) names a state of the row it belongs
