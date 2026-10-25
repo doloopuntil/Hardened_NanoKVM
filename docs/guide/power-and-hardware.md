@@ -19,9 +19,13 @@ icons in **Settings > User > Appearance > Menu bar**, your choice decides instea
 
 ## Video capture
 
-- **Settings > Device > HDMI** turns HDMI capture on or off.
+- **Settings > Device > HDMI** turns HDMI capture on or off. It appears on PCIe
+  boards only: it works by holding the HDMI receiver chip in reset (GPIO 451),
+  and the Lite, which was tested, does not connect that pin to the chip. The
+  Cube and Lite show no HDMI controls.
 - **Capture idle timeout** stops HDMI capture after a set time without viewers
-  and starts it again when someone connects, which saves power and heat.
+  and starts it again when someone connects, which saves power and heat. It uses
+  the same reset line, so it is also PCIe only.
 - Video modes: **H.264 Direct** has the lowest CPU load and needs HTTPS and a
   browser with WebCodecs. **H.264 WebRTC** works over HTTP but is blocked by the
   Restricted and Paranoid firewall modes. **MJPEG** works everywhere.
