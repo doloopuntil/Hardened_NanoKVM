@@ -478,6 +478,7 @@ const fi = {
         usbWakeupTip: 'Poista käytöstä, jos isäntä kirjaa toistuvia USB wakeup -viestejä',
         hostname: {
           description: 'Tämän laitteen nimi verkossa',
+          reachable: 'Tavoitettavissa paikallisverkossa osoitteella {{address}}',
           rebootRequired: 'Vaatii uudelleenkäynnistyksen'
         },
         reboot: 'Käynnistä uudelleen',

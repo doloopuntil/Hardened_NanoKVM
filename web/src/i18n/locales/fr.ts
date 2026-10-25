@@ -481,6 +481,7 @@ const fr = {
         usbWakeupTip: "Désactivez si l'hôte journalise des messages USB wakeup répétés",
         hostname: {
           description: 'Nom de cet appareil sur le réseau',
+          reachable: 'Joignable sur le réseau local sous le nom {{address}}',
           rebootRequired: 'Redémarrage requis'
         },
         reboot: 'Redémarrer',

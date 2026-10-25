@@ -480,6 +480,7 @@ const nb = {
         usbWakeupTip: 'Slå av hvis verten logger gjentatte USB wakeup-meldinger',
         hostname: {
           description: 'Enhetens navn på nettverket',
+          reachable: 'Kan nås på det lokale nettverket som {{address}}',
           rebootRequired: 'Omstart kreves'
         },
         reboot: 'Start på nytt',

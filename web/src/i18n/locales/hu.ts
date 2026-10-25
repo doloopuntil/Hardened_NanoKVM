@@ -482,6 +482,7 @@ const hu = {
         usbWakeupTip: 'Kapcsolja ki, ha a gép ismétlődő USB wakeup üzeneteket naplóz',
         hostname: {
           description: 'Az eszköz neve a hálózaton',
+          reachable: 'Elérhető a helyi hálózaton ezen a néven: {{address}}',
           rebootRequired: 'Újraindítás szükséges'
         },
         reboot: 'Újraindítás',

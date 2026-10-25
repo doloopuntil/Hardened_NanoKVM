@@ -485,6 +485,7 @@ const de = {
         usbWakeupTip: 'Ausschalten, wenn der Host wiederholt USB-Wakeup-Meldungen protokolliert',
         hostname: {
           description: 'Name dieses Geräts im Netzwerk',
+          reachable: 'Im lokalen Netzwerk erreichbar als {{address}}',
           rebootRequired: 'Neustart erforderlich'
         },
         reboot: 'Neustarten',

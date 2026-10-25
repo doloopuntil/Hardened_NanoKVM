@@ -473,6 +473,7 @@ const vi = {
         usbWakeupTip: 'Tắt nếu máy ghi lặp lại thông báo USB wakeup',
         hostname: {
           description: 'Tên của thiết bị này trên mạng',
+          reachable: 'Truy cập được trong mạng cục bộ qua {{address}}',
           rebootRequired: 'Cần khởi động lại'
         },
         reboot: 'Khởi động lại',

@@ -457,6 +457,7 @@ const zh = {
         usbWakeupTip: '如果主机反复记录 USB wakeup 消息，请关闭',
         hostname: {
           description: '此设备在网络中的名称',
+          reachable: '在本地网络中可通过 {{address}} 访问',
           rebootRequired: '需要重启'
         },
         reboot: '重新启动',

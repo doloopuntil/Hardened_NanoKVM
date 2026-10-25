@@ -479,6 +479,7 @@ const ca = {
         usbWakeupTip: 'Desactiva-ho si el host registra missatges USB wakeup repetits',
         hostname: {
           description: "Nom d'aquest dispositiu a la xarxa",
+          reachable: 'Accessible a la xarxa local com a {{address}}',
           rebootRequired: 'Cal reiniciar'
         },
         reboot: 'Reinicia',

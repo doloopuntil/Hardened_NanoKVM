@@ -479,6 +479,7 @@ const id = {
         usbWakeupTip: 'Matikan jika host mencatat pesan USB wakeup berulang',
         hostname: {
           description: 'Nama perangkat ini di jaringan',
+          reachable: 'Dapat dijangkau di jaringan lokal sebagai {{address}}',
           rebootRequired: 'Perlu mulai ulang'
         },
         reboot: 'Mulai ulang',

@@ -480,6 +480,7 @@ const ja = {
         usbWakeupTip: 'ホストが USB wakeup メッセージを繰り返し記録する場合はオフにしてください',
         hostname: {
           description: 'ネットワーク上のこのデバイスの名前',
+          reachable: 'ローカルネットワークでは {{address}} で接続できます',
           rebootRequired: '再起動が必要'
         },
         reboot: '再起動',

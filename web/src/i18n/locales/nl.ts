@@ -483,6 +483,7 @@ const nl = {
         usbWakeupTip: 'Schakel uit als de host herhaald USB wakeup-berichten logt',
         hostname: {
           description: 'Naam van dit apparaat op het netwerk',
+          reachable: 'Bereikbaar op het lokale netwerk als {{address}}',
           rebootRequired: 'Herstart vereist'
         },
         reboot: 'Opnieuw opstarten',

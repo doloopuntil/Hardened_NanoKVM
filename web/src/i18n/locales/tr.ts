@@ -475,6 +475,7 @@ const tr = {
         usbWakeupTip: 'Makine tekrarlayan USB wakeup iletileri kaydediyorsa kapatın',
         hostname: {
           description: 'Bu cihazın ağdaki adı',
+          reachable: 'Yerel ağda {{address}} olarak erişilebilir',
           rebootRequired: 'Yeniden başlatma gerekli'
         },
         reboot: 'Yeniden başlat',

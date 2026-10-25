@@ -475,6 +475,7 @@ const cz = {
         usbWakeupTip: 'Vypněte, pokud host zapisuje opakované zprávy USB wakeup',
         hostname: {
           description: 'Název tohoto zařízení v síti',
+          reachable: 'Dostupné v místní síti jako {{address}}',
           rebootRequired: 'Nutný restart'
         },
         reboot: 'Restartujte',

@@ -473,6 +473,7 @@ const en = {
         usbWakeupTip: 'Turn off if the host logs repeated USB wakeup messages',
         hostname: {
           description: 'Name of this device on the network',
+          reachable: 'Reachable on the local network as {{address}}',
           rebootRequired: 'Reboot required'
         },
         reboot: 'Reboot',

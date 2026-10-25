@@ -478,6 +478,7 @@ const ru = {
         usbWakeupTip: 'Выключите, если хост пишет повторяющиеся USB wakeup-сообщения',
         hostname: {
           description: 'Имя этого устройства в сети',
+          reachable: 'Доступно в локальной сети как {{address}}',
           rebootRequired: 'Требуется перезагрузка'
         },
         reboot: 'Перезагрузка',

@@ -481,6 +481,7 @@ const uk = {
         usbWakeupTip: 'Вимкніть, якщо хост записує повторювані повідомлення USB wakeup',
         hostname: {
           description: 'Назва цього пристрою в мережі',
+          reachable: 'Доступно в локальній мережі як {{address}}',
           rebootRequired: 'Потрібне перезавантаження'
         },
         reboot: 'Перезавантажити',

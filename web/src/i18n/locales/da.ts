@@ -476,6 +476,7 @@ const da = {
         usbWakeupTip: 'Slå fra, hvis værten logger gentagne USB wakeup-meddelelser',
         hostname: {
           description: 'Enhedens navn på netværket',
+          reachable: 'Kan nås på det lokale netværk som {{address}}',
           rebootRequired: 'Genstart påkrævet'
         },
         reboot: 'Genstart',

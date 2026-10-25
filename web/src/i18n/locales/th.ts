@@ -467,6 +467,7 @@ const th = {
         usbWakeupTip: 'ปิดถ้าโฮสต์บันทึกข้อความ USB wakeup ซ้ำ ๆ',
         hostname: {
           description: 'ชื่อของอุปกรณ์นี้ในเครือข่าย',
+          reachable: 'เข้าถึงได้ในเครือข่ายภายในที่ {{address}}',
           rebootRequired: 'ต้องรีบูต'
         },
         reboot: 'รีบูต',

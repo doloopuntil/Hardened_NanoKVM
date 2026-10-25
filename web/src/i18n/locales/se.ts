@@ -479,6 +479,7 @@ const se = {
         usbWakeupTip: 'Stäng av om värden loggar upprepade USB wakeup-meddelanden',
         hostname: {
           description: 'Enhetens namn i nätverket',
+          reachable: 'Nåbar i det lokala nätverket som {{address}}',
           rebootRequired: 'Omstart krävs'
         },
         reboot: 'Starta om',

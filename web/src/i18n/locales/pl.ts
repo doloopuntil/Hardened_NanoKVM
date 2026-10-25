@@ -478,6 +478,7 @@ const pl = {
         usbWakeupTip: 'Wyłącz, jeśli host zapisuje powtarzające się komunikaty USB wakeup',
         hostname: {
           description: 'Nazwa tego urządzenia w sieci',
+          reachable: 'Dostępne w sieci lokalnej pod nazwą {{address}}',
           rebootRequired: 'Wymagany restart'
         },
         reboot: 'Uruchom ponownie',
