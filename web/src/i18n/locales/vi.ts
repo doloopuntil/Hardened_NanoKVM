@@ -902,10 +902,6 @@ const vi = {
         updating: 'Bắt đầu cập nhật',
         confirm: 'Xác nhận',
         cancel: 'Hủy',
-        preview: 'Bản cập nhật xem trước',
-        previewChannels: 'Điều khiển cả kênh xem trước của ứng dụng lẫn hệ thống',
-        previewTip:
-          'Xin lưu ý rằng các bản phát hành xem trước có thể có lỗi hoặc chức năng chưa hoàn chỉnh',
         application: {
           title: 'Ứng dụng'
         },

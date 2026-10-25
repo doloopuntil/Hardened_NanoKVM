@@ -911,9 +911,6 @@ const ca = {
         updating: 'Actualització iniciada',
         confirm: 'Confirma',
         cancel: 'Cancel·la',
-        preview: 'Versió de prova',
-        previewChannels: "Controla tant el canal de vista prèvia de l'aplicació com el del sistema",
-        previewTip: 'Compte: aquestes versions poden tenir errors o funcions inacabades',
         application: {
           title: 'Aplicació'
         },

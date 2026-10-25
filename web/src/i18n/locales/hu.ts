@@ -913,10 +913,6 @@ const hu = {
         updating: 'Frissítés elkezdődött',
         confirm: 'Megerősítés',
         cancel: 'Mégse',
-        preview: 'Frissítések előnézete',
-        previewChannels: 'Az alkalmazás és a rendszer előnézeti csatornáit is vezérli',
-        previewTip:
-          'Kérjük, vegye figyelembe, hogy az előzetes verziók hibákat vagy hiányos funkciókat tartalmazhatnak',
         application: {
           title: 'Alkalmazás'
         },

@@ -908,10 +908,6 @@ const id = {
         updating: 'Pembaruan dimulai',
         confirm: 'Konfirmasi',
         cancel: 'Batalkan',
-        preview: 'Pratinjau pembaruan',
-        previewChannels: 'Mengontrol saluran pratinjau aplikasi sekaligus sistem',
-        previewTip:
-          'Perlu diketahui bahwa rilis pratinjau mungkin mengandung bug atau fungsi yang tidak lengkap',
         application: {
           title: 'Aplikasi'
         },

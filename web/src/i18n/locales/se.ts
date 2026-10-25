@@ -908,10 +908,6 @@ const se = {
         updating: 'Uppdatering påbörjad',
         confirm: 'Bekräfta',
         cancel: 'Avbryt',
-        preview: 'Förhandsvisning av uppdateringar',
-        previewChannels: 'Styr både förhandsgranskningskanalerna för programmet och systemet',
-        previewTip:
-          'Observera att förhandsversioner kan innehålla buggar eller ofullständig funktionalitet',
         application: {
           title: 'Program'
         },

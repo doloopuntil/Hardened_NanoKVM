@@ -913,11 +913,6 @@ const nl = {
         updating: 'Update gestart',
         confirm: 'Bevestigen',
         cancel: 'Annuleren',
-        preview: 'Preview-updates',
-        previewChannels:
-          'Beheert zowel het previewkanaal van de applicatie als dat van het systeem',
-        previewTip:
-          'Houd er rekening mee dat preview-releases bugs of onvolledige functionaliteit kunnen bevatten',
         application: {
           title: 'Applicatie'
         },

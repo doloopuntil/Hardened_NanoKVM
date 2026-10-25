@@ -278,7 +278,7 @@ over the account.
 - Signed application update metadata enforcement is implemented. Releases must
   include `latest.json.sig`; unsigned metadata is accepted only when
   `security.allow_unsigned_updates=true`.
-- Signed system-update metadata enforcement is implemented. Stable/preview
+- Signed system-update metadata enforcement is implemented. Stable
   metadata must verify against `paths.system_update_public_key`; unsigned
   metadata is accepted only when `security.allow_unsigned_updates=true`.
   `S95nanokvm` installs the bundled default public key from

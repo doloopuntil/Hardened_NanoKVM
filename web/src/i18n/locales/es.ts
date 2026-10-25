@@ -912,11 +912,6 @@ const es = {
         updating: 'Actualización iniciada',
         confirm: 'Confirmar',
         cancel: 'Cancelar',
-        preview: 'Vista previa de actualizaciones',
-        previewChannels:
-          'Controla tanto el canal de vista previa de la aplicación como el del sistema',
-        previewTip:
-          'Ten en cuenta que las versiones de vista previa pueden contener errores o funcionalidades incompletas',
         application: {
           title: 'Aplicación'
         },

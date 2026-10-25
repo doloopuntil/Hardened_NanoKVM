@@ -907,10 +907,6 @@ const tr = {
         updating: 'Güncelleme başlatıldı',
         confirm: 'Onayla',
         cancel: 'İptal',
-        preview: 'Ön izleme güncellemeleri',
-        previewChannels: 'Hem uygulamanın hem de sistemin önizleme kanallarını denetler',
-        previewTip:
-          'Ön izleme güncellemelerinin tamamlanmamış olduğunu ve sorunlara sebep olabileceğini unutmayın',
         application: {
           title: 'Uygulama'
         },

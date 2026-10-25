@@ -898,10 +898,6 @@ const en = {
         updating: 'Update started',
         confirm: 'Confirm',
         cancel: 'Cancel',
-        preview: 'Preview updates',
-        previewChannels: 'Controls both application and system preview channels',
-        previewTip:
-          'Please be aware that preview releases may contain bugs or incomplete functionality',
         application: {
           title: 'Application'
         },

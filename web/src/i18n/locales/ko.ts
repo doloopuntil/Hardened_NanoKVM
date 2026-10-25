@@ -895,9 +895,6 @@ const ko = {
         updating: '업데이트 시작',
         confirm: '확인',
         cancel: '취소',
-        preview: '미리보기 업데이트',
-        previewChannels: '애플리케이션과 시스템의 미리보기 채널을 모두 제어합니다',
-        previewTip: '미리보기 버전에는 버그나 완성되지 않은 기능이 포함될 수 있으니 주의하세요',
         application: {
           title: '애플리케이션'
         },

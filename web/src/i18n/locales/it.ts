@@ -914,11 +914,6 @@ const it = {
         updating: 'Aggiornamento avviato',
         confirm: 'Conferma',
         cancel: 'Annulla',
-        preview: 'Anteprima aggiornamenti',
-        previewChannels:
-          "Controlla sia il canale di anteprima dell'applicazione sia quello del sistema",
-        previewTip:
-          'Tieni presente che le versioni di anteprima possono contenere bug o funzionalità incomplete',
         application: {
           title: 'Applicazione'
         },

@@ -875,9 +875,6 @@ const zh_tw = {
         updating: '更新中',
         confirm: '確定',
         cancel: '取消',
-        preview: '預覽更新',
-        previewChannels: '同時控制應用程式與系統的預覽通道',
-        previewTip: '請注意，預覽版本可能包含一些不穩定因素或未完善的功能',
         application: {
           title: '應用程式'
         },

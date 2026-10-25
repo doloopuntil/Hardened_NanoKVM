@@ -902,10 +902,6 @@ const cz = {
         updating: 'Aktualizace zahájena',
         confirm: 'Potvrdit',
         cancel: 'Zrušit',
-        preview: 'Náhled aktualizací',
-        previewChannels: 'Ovládá náhledové kanály aplikace i systému',
-        previewTip:
-          'Uvědomte si prosím, že předběžné verze mohou obsahovat chyby nebo neúplné funkce',
         application: {
           title: 'Aplikace'
         },
