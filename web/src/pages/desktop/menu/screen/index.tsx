@@ -4,7 +4,7 @@ import { useAtomValue } from 'jotai';
 import { MonitorIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-import { updateScreen } from '@/api/vm';
+import { getHardware, updateScreen } from '@/api/vm';
 import * as ls from '@/lib/localstorage';
 import { resolutionAtom, videoModeAtom } from '@/jotai/screen.ts';
 import { MenuItem } from '@/components/menu-item.tsx';
@@ -26,6 +26,8 @@ export const Screen = () => {
   const resolution = useAtomValue(resolutionAtom);
   const [fps, setFps] = useState(30);
   const [quality, setQuality] = useState(2);
+  // only a PCIe board has the HDMI reset line that Reset HDMI pulses
+  const [isPcie, setIsPcie] = useState(false);
 
   useEffect(() => {
     updateScreen('type', videoMode === 'mjpeg' ? 0 : 1);
@@ -34,6 +36,9 @@ export const Screen = () => {
     }
     updateQuality();
     updateFps();
+    getHardware()
+      .then((rsp) => setIsPcie(rsp.data?.version === 'PCIE'))
+      .catch(() => {});
   }, []);
 
   async function updateQuality() {
@@ -70,8 +75,12 @@ export const Screen = () => {
         <Fps fps={fps} setFps={setFps} />
         <Scale />
         {videoMode === 'mjpeg' && <FrameDetect />}
-        <Divider style={{ margin: '10px 0' }} />
-        <Reset />
+        {isPcie && (
+          <>
+            <Divider style={{ margin: '10px 0' }} />
+            <Reset />
+          </>
+        )}
       </div>
     </div>
   );
