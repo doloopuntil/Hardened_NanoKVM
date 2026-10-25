@@ -1929,6 +1929,8 @@ force_root_readonly() {{\n\
     $BB sync\n\
     $BB echo u > /proc/sysrq-trigger\n\
     $BB sleep 3\n\
+    # the emergency remount made /data read-only too; the log and progress files live there\n\
+    $BB mount -o remount,rw /data >/dev/null 2>&1 || true\n\
     if root_is_ro; then\n\
       log 'rootfs is read-only after sysrq remount'\n\
       return 0\n\
@@ -3997,6 +3999,7 @@ mod tests {
         assert!(script.contains("check_written"));
         assert!(script.contains("tune_vm"));
         assert!(script.contains("WANT_FIP"));
+        assert!(script.contains("mount -o remount,rw /data"));
         // the hardware watchdog must be disarmed before the partitions are written
         assert!(script.contains("/etc/init.d/S02watchdog"));
         assert!(script.contains("cpu.overdrive.keep"));
