@@ -13,6 +13,20 @@ body {
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+/* A SettingSection with no content hides itself (see setting-rows.tsx); the hairline beside it goes
+   too, and a hidden first section leaves no extra gap above the next one. */
+[hidden] + .ant-divider {
+  display: none;
+}
+
+.ant-divider:has(+ [hidden]:last-child) {
+  display: none;
+}
+
+:first-child[hidden] + .ant-divider + * {
+  margin-top: 0 !important;
+}
+
 .settings-modal-mobile {
   width: 100vw !important;
   max-width: none;
