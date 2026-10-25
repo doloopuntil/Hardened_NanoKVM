@@ -928,14 +928,6 @@ const it = {
             "Aggiorna l'applicazione alla versione {{version}} prima di installare questo aggiornamento di sistema",
           requiredAppVersion: 'Versione applicazione richiesta',
           downloadFailed: 'Download o verifica non riusciti',
-          rawEnable: 'Consenti aggiornamenti raw del sistema',
-          rawEnableDesc:
-            'Consente di scrivere immagini raw boot/rootfs verificate sulla scheda SD da questa schermata',
-          rawEnableConfirmTitle: 'Consentire aggiornamenti raw del sistema?',
-          rawEnableConfirmDesc:
-            'Gli aggiornamenti raw del sistema possono sostituire le partizioni boot e rootfs. Usare solo con accesso fisico per il recupero.',
-          rawInstallDisabled:
-            "Questo aggiornamento preparato scrive partizioni raw della scheda SD. Abilitare gli aggiornamenti raw del sistema prima dell'installazione.",
           available: 'È disponibile un aggiornamento del sistema base.',
           downloading: "Download e verifica dell'aggiornamento di sistema...",
           downloadVerify: 'Scarica e verifica',

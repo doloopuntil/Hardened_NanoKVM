@@ -916,14 +916,6 @@ const vi = {
             'Hãy cập nhật ứng dụng lên {{version}} trước khi cài đặt bản cập nhật hệ thống này',
           requiredAppVersion: 'Phiên bản ứng dụng bắt buộc',
           downloadFailed: 'Tải xuống hoặc xác minh thất bại',
-          rawEnable: 'Cho phép cập nhật hệ thống raw',
-          rawEnableDesc:
-            'Cho phép ghi image raw boot/rootfs đã xác minh vào thẻ SD từ màn hình này',
-          rawEnableConfirmTitle: 'Cho phép cập nhật hệ thống raw?',
-          rawEnableConfirmDesc:
-            'Cập nhật hệ thống raw có thể thay thế phân vùng boot và rootfs. Chỉ dùng khi có quyền truy cập vật lý để khôi phục.',
-          rawInstallDisabled:
-            'Bản cập nhật đã chuẩn bị này ghi phân vùng raw của thẻ SD. Bật cập nhật hệ thống raw trước khi cài đặt.',
           available: 'Có bản cập nhật hệ thống nền.',
           downloading: 'Đang tải xuống và xác minh cập nhật hệ thống...',
           downloadVerify: 'Tải xuống và xác minh',

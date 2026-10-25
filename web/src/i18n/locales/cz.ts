@@ -916,14 +916,6 @@ const cz = {
             'Před instalací této aktualizace systému aktualizujte aplikaci na verzi {{version}}',
           requiredAppVersion: 'Požadovaná verze aplikace',
           downloadFailed: 'Stažení nebo ověření selhalo',
-          rawEnable: 'Povolit raw aktualizace systému',
-          rawEnableDesc:
-            'Povolí z této obrazovky zapisovat ověřené raw image boot/rootfs na SD kartu',
-          rawEnableConfirmTitle: 'Povolit raw aktualizace systému?',
-          rawEnableConfirmDesc:
-            'Raw aktualizace systému mohou nahradit oddíly boot a rootfs. Používejte jen s fyzickým přístupem pro obnovu.',
-          rawInstallDisabled:
-            'Tato připravená aktualizace zapisuje raw oddíly SD karty. Před instalací povolte raw aktualizace systému.',
           available: 'Je dostupná aktualizace základního systému.',
           downloading: 'Stahuje a ověřuje se aktualizace systému...',
           downloadVerify: 'Stáhnout a ověřit',

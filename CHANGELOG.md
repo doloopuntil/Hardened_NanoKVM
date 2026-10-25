@@ -26,6 +26,8 @@ Built on RC12; the image is rebuilt from source in CI. Not yet published.
 - Settings pages, menu bar dialogs and translations follow one set of layout and
   copy rules.
 - Preview update channels removed; only the stable channel is checked.
+- The Allow raw system updates switch and its `security.allow_raw_system_updates`
+  setting are gone; the signature checks and the install confirmation remain.
 - MAC addresses and the USB serial number are derived from the chip ID.
 - Several sipeed/NanoKVM improvements ported (zero-copy H.264, shared H.264
   capture, Direct flow control, WebRTC retry).

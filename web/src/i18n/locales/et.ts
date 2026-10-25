@@ -910,14 +910,6 @@ const et = {
             'Enne selle süsteemiuuenduse paigaldamist uuenda rakendus versioonile {{version}}',
           requiredAppVersion: 'Nõutav rakenduse versioon',
           downloadFailed: 'Allalaadimine või verifitseerimine nurjus',
-          rawEnable: 'Luba raw süsteemiuuendused',
-          rawEnableDesc:
-            'Luba verifitseeritud raw boot/rootfs image failide kirjutamine SD-kaardile sellelt ekraanilt',
-          rawEnableConfirmTitle: 'Kas lubada raw süsteemiuuendused?',
-          rawEnableConfirmDesc:
-            'Raw süsteemiuuendused võivad asendada boot ja rootfs partitsioonid. Kasuta seda ainult siis, kui sul on füüsiline taasteligipääs.',
-          rawInstallDisabled:
-            'See ettevalmistatud uuendus kirjutab raw SD-kaardi partitsioone. Luba enne paigaldamist raw süsteemiuuendused.',
           available: 'Baassüsteemi uuendus on saadaval.',
           downloading: 'Süsteemiuuenduse allalaadimine ja verifitseerimine...',
           downloadVerify: 'Laadi alla ja verifitseeri',

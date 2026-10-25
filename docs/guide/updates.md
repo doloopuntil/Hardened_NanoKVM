@@ -43,8 +43,6 @@ A system update writes new images to the boot and root partitions
 (`/dev/mmcblk0p1` and `/dev/mmcblk0p2`). It is the only way to change the kernel,
 the Buildroot userspace or the init scripts installed in the root filesystem.
 
-- **Allow raw system updates** must be on before a staged system update can be
-  installed; it authorises the write.
 - A system update writes the boot and root partitions as they are, so it never changes the
   partition layout. An image whose boot filesystem is larger than the card's boot partition,
   such as the 32 MiB `/boot` that replaced the old 16 MiB one, is refused with a size error;
@@ -112,7 +110,6 @@ needs your password and is written to the system log.
 
 Keep a recovery card ready and the power connected. A system update does not
 recover by itself from a device that cannot boot at all; reflash the card then.
-Turn **Allow raw system updates** off again afterwards.
 
 ## Which one to use
 

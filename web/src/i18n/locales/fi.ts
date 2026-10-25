@@ -921,14 +921,6 @@ const fi = {
             'Päivitä sovellus versioon {{version}} ennen tämän järjestelmäpäivityksen asentamista',
           requiredAppVersion: 'Vaadittu sovellusversio',
           downloadFailed: 'Lataus tai varmistus epäonnistui',
-          rawEnable: 'Salli raw-järjestelmäpäivitykset',
-          rawEnableDesc:
-            'Salli varmistettujen raw boot/rootfs -imagejen kirjoittaminen SD-kortille tästä näkymästä',
-          rawEnableConfirmTitle: 'Sallitaanko raw-järjestelmäpäivitykset?',
-          rawEnableConfirmDesc:
-            'Raw-järjestelmäpäivitykset voivat korvata boot- ja rootfs-osiot. Käytä tätä vain, jos sinulla on fyysinen palautusmahdollisuus.',
-          rawInstallDisabled:
-            'Tämä valmisteltu päivitys kirjoittaa raw SD-kortin osioita. Ota raw-järjestelmäpäivitykset käyttöön ennen asennusta.',
           available: 'Perusjärjestelmän päivitys on saatavilla.',
           downloading: 'Ladataan ja varmistetaan järjestelmäpäivitystä...',
           downloadVerify: 'Lataa ja varmista',

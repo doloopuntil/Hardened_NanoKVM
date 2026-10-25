@@ -925,14 +925,6 @@ const nb = {
             'Oppdater applikasjonen til {{version}} før du installerer denne systemoppdateringen',
           requiredAppVersion: 'Påkrevd applikasjonsversjon',
           downloadFailed: 'Nedlasting eller verifisering mislyktes',
-          rawEnable: 'Tillat raw systemoppdateringer',
-          rawEnableDesc:
-            'Tillat at verifiserte raw boot/rootfs-images skrives til SD-kortet fra denne skjermen',
-          rawEnableConfirmTitle: 'Tillate raw systemoppdateringer?',
-          rawEnableConfirmDesc:
-            'Raw systemoppdateringer kan erstatte boot- og rootfs-partisjoner. Bruk bare med fysisk gjenopprettingstilgang.',
-          rawInstallDisabled:
-            'Denne klargjorte oppdateringen skriver raw SD-kortpartisjoner. Aktiver raw systemoppdateringer før installasjon.',
           available: 'En oppdatering av basissystemet er tilgjengelig.',
           downloading: 'Laster ned og verifiserer systemoppdatering...',
           downloadVerify: 'Last ned og verifiser',

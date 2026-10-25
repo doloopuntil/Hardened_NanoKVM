@@ -36,7 +36,7 @@ behaviour is in the guides ([sign-in](../guide/sign-in.md),
 | Browser | Security headers on every response; the CSP allows scripts and images only from the device (images also from `data:`), so chat output cannot load external content. |
 | Commands | Privileged commands go through an argv-only allowlist (`system/command.rs`) with timeouts and bounded output; no shell strings. |
 | Files and archives | Atomic `0600` writes for secrets, symlink and traversal checks, bounded archive extraction. |
-| Updates | Signed metadata and payload hashes for application and system updates; raw partition writes need an explicit switch; boot watchdog rollback. An optional local key, set with the password and logged, signs bundles uploaded from the browser only. |
+| Updates | Signed metadata and payload hashes for application and system updates; raw partition writes happen only after the install confirmation; boot watchdog rollback. An optional local key, set with the password and logged, signs bundles uploaded from the browser only. |
 | Virtual media | Images served read-only to the host; `/data` has one writer at a time; image paths confined to `/data`; remote download off by default and limited to `http`/`https` ISO files. |
 | Network | Managed firewall, Moderate (local sources only) by default; WebRTC blocked in Restricted and Paranoid; WireGuard peers admitted only on `wg0` from their allowed ranges. |
 | Audit | Sign-ins, two-factor changes and WireGuard changes are logged to syslog with the source address. |

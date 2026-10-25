@@ -928,14 +928,6 @@ const fr = {
             "Mettez l'application à jour vers {{version}} avant d'installer cette mise à jour système",
           requiredAppVersion: "Version d'application requise",
           downloadFailed: 'Échec du téléchargement ou de la vérification',
-          rawEnable: 'Autoriser les mises à jour système raw',
-          rawEnableDesc:
-            "Autorise l'écriture d'images raw boot/rootfs vérifiées sur la carte SD depuis cet écran",
-          rawEnableConfirmTitle: 'Autoriser les mises à jour système raw?',
-          rawEnableConfirmDesc:
-            'Les mises à jour système raw peuvent remplacer les partitions boot et rootfs. À utiliser seulement avec un accès physique de récupération.',
-          rawInstallDisabled:
-            "Cette mise à jour préparée écrit des partitions raw de la carte SD. Activez les mises à jour système raw avant de l'installer.",
           available: 'Une mise à jour du système de base est disponible.',
           downloading: 'Téléchargement et vérification de la mise à jour système...',
           downloadVerify: 'Télécharger et vérifier',

@@ -924,14 +924,6 @@ const ja = {
             'このシステム更新をインストールする前に、アプリケーションを {{version}} に更新してください',
           requiredAppVersion: '必要なアプリケーションバージョン',
           downloadFailed: 'ダウンロードまたは検証に失敗しました',
-          rawEnable: 'Raw システム更新を許可',
-          rawEnableDesc:
-            '検証済み raw boot/rootfs イメージをこの画面から SD カードに書き込めるようにします',
-          rawEnableConfirmTitle: 'Raw システム更新を許可しますか?',
-          rawEnableConfirmDesc:
-            'Raw システム更新は boot/rootfs パーティションを置き換えることがあります。物理的な復旧手段がある場合のみ使用してください。',
-          rawInstallDisabled:
-            'この準備済み更新は raw SD カードパーティションを書き込みます。インストール前に raw システム更新を有効にしてください。',
           available: 'ベースシステム更新があります。',
           downloading: 'システム更新をダウンロードして検証しています...',
           downloadVerify: 'ダウンロードして検証',

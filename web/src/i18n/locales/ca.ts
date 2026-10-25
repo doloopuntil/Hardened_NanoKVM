@@ -925,14 +925,6 @@ const ca = {
             "Actualitza l'aplicació a {{version}} abans d'instal·lar aquesta actualització del sistema",
           requiredAppVersion: "Versió d'aplicació necessària",
           downloadFailed: 'La descàrrega o verificació ha fallat',
-          rawEnable: 'Permet actualitzacions raw del sistema',
-          rawEnableDesc:
-            "Permet escriure imatges raw verificades de boot/rootfs a la targeta SD des d'aquesta pantalla",
-          rawEnableConfirmTitle: 'Permetre actualitzacions raw del sistema?',
-          rawEnableConfirmDesc:
-            'Les actualitzacions raw poden substituir les particions boot i rootfs. Fes-ho servir només si tens accés físic de recuperació.',
-          rawInstallDisabled:
-            "Aquesta actualització preparada escriu particions raw de la targeta SD. Activa les actualitzacions raw del sistema abans d'instal·lar-la.",
           available: 'Hi ha una actualització del sistema base disponible.',
           downloading: "Descarregant i verificant l'actualització del sistema...",
           downloadVerify: 'Descarrega i verifica',
