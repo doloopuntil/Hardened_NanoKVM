@@ -909,11 +909,16 @@ const fr = {
         paranoidBlocked: 'Les mises à jour en ligne sont bloquées par le mode pare-feu Paranoïaque',
         paranoidBlockedDesc:
           "Les vérifications et téléchargements GitHub nécessitent un accès réseau sortant. L'envoi offline et les installations déjà préparées restent disponibles.",
-        isLatest: 'Vous avez déjà la dernière version.',
         available: 'Une mise à jour est disponible. Voulez-vous vraiment mettre à jour?',
         updating: 'Mise à jour en cours',
         confirm: 'Confirmer',
         cancel: 'Annuler',
+        badge: {
+          checking: 'Vérification',
+          latest: 'À jour',
+          available: 'Mise à jour disponible',
+          failed: 'Échec de la vérification'
+        },
         application: {
           title: 'Application'
         },
@@ -931,7 +936,6 @@ const fr = {
             'Les mises à jour système raw peuvent remplacer les partitions boot et rootfs. À utiliser seulement avec un accès physique de récupération.',
           rawInstallDisabled:
             "Cette mise à jour préparée écrit des partitions raw de la carte SD. Activez les mises à jour système raw avant de l'installer.",
-          isLatest: 'Le système de base est à jour.',
           available: 'Une mise à jour du système de base est disponible.',
           downloading: 'Téléchargement et vérification de la mise à jour système...',
           downloadVerify: 'Télécharger et vérifier',

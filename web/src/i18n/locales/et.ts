@@ -891,11 +891,16 @@ const et = {
         paranoidBlocked: 'Tulemüüri režiim Paranoiline blokeerib online-uuendused',
         paranoidBlockedDesc:
           'GitHubi kontrollid ja allalaadimised vajavad väljaminevat võrguühendust. Offline-üleslaadimine ja juba ettevalmistatud paigaldused jäävad kättesaadavaks.',
-        isLatest: 'Sul on juba uusim versioon.',
         available: 'Uuendus on saadaval. Kas soovid nüüd uuendada?',
         updating: 'Uuendamine algas',
         confirm: 'Kinnita',
         cancel: 'Tühista',
+        badge: {
+          checking: 'Kontrollimine',
+          latest: 'Ajakohane',
+          available: 'Uuendus saadaval',
+          failed: 'Kontroll ebaõnnestus'
+        },
         application: {
           title: 'Rakendus'
         },
@@ -913,7 +918,6 @@ const et = {
             'Raw süsteemiuuendused võivad asendada boot ja rootfs partitsioonid. Kasuta seda ainult siis, kui sul on füüsiline taasteligipääs.',
           rawInstallDisabled:
             'See ettevalmistatud uuendus kirjutab raw SD-kaardi partitsioone. Luba enne paigaldamist raw süsteemiuuendused.',
-          isLatest: 'Baassüsteem on ajakohane.',
           available: 'Baassüsteemi uuendus on saadaval.',
           downloading: 'Süsteemiuuenduse allalaadimine ja verifitseerimine...',
           downloadVerify: 'Laadi alla ja verifitseeri',

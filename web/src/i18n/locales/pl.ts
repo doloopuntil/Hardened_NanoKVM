@@ -903,11 +903,16 @@ const pl = {
         paranoidBlocked: 'Aktualizacje online są blokowane przez tryb zapory Paranoidalny',
         paranoidBlockedDesc:
           'Sprawdzanie GitHub i pobieranie wymagają dostępu wychodzącego do sieci. Przesyłanie offline i już przygotowane instalacje pozostają dostępne.',
-        isLatest: 'Oprogramowanie jest aktualne.',
         available: 'Aktualizacja jest dostępna. Czy na pewno chcesz dokonać aktualizacji?',
         updating: 'Aktualizacja rozpoczęta',
         confirm: 'Potwierdź',
         cancel: 'Anuluj',
+        badge: {
+          checking: 'Sprawdzanie',
+          latest: 'Aktualne',
+          available: 'Dostępna aktualizacja',
+          failed: 'Sprawdzenie nie powiodło się'
+        },
         application: {
           title: 'Aplikacja'
         },
@@ -925,7 +930,6 @@ const pl = {
             'Raw aktualizacje systemu mogą zastąpić partycje boot i rootfs. Używaj tego tylko wtedy, gdy masz fizyczny dostęp do odzyskiwania.',
           rawInstallDisabled:
             'Ta przygotowana aktualizacja zapisuje raw partycje karty SD. Włącz raw aktualizacje systemu przed instalacją.',
-          isLatest: 'System bazowy jest aktualny.',
           available: 'Dostępna jest aktualizacja systemu bazowego.',
           downloading: 'Pobieranie i weryfikacja aktualizacji systemu...',
           downloadVerify: 'Pobierz i zweryfikuj',

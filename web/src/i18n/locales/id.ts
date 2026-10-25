@@ -903,11 +903,16 @@ const id = {
         paranoidBlocked: 'Pembaruan online diblokir oleh mode firewall Paranoid',
         paranoidBlockedDesc:
           'Pemeriksaan dan unduhan GitHub memerlukan akses jaringan keluar. Unggahan offline dan instalasi yang sudah disiapkan tetap tersedia.',
-        isLatest: 'Anda sudah menggunakan versi terbaru.',
         available: 'Ada pembaruan baru. Apakah Anda mau memperbarui?',
         updating: 'Pembaruan dimulai',
         confirm: 'Konfirmasi',
         cancel: 'Batalkan',
+        badge: {
+          checking: 'Memeriksa',
+          latest: 'Terbaru',
+          available: 'Pembaruan tersedia',
+          failed: 'Pemeriksaan gagal'
+        },
         application: {
           title: 'Aplikasi'
         },
@@ -925,7 +930,6 @@ const id = {
             'Pembaruan sistem raw dapat mengganti partisi boot dan rootfs. Gunakan hanya jika memiliki akses pemulihan fisik.',
           rawInstallDisabled:
             'Pembaruan yang disiapkan ini menulis partisi raw kartu SD. Aktifkan pembaruan sistem raw sebelum menginstalnya.',
-          isLatest: 'Sistem dasar sudah mutakhir.',
           available: 'Pembaruan sistem dasar tersedia.',
           downloading: 'Mengunduh dan memverifikasi pembaruan sistem...',
           downloadVerify: 'Unduh dan verifikasi',

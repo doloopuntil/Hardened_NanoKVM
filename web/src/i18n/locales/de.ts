@@ -913,11 +913,16 @@ const de = {
         paranoidBlocked: 'Online-Updates werden vom Firewall-Modus Paranoid blockiert',
         paranoidBlockedDesc:
           'GitHub-Prüfungen und Downloads benötigen ausgehenden Netzwerkzugriff. Offline-Upload und bereits vorbereitete Installationen bleiben verfügbar.',
-        isLatest: 'Sie haben bereits die aktuellste Version.',
         available: 'Eine Aktualisierung ist verfügbar. Möchten sie diese jetzt durchführen?',
         updating: 'Aktualisierung gestartet',
         confirm: 'Bestätigen',
         cancel: 'Abbrechen',
+        badge: {
+          checking: 'Wird geprüft',
+          latest: 'Aktuell',
+          available: 'Update verfügbar',
+          failed: 'Prüfung fehlgeschlagen'
+        },
         application: {
           title: 'Anwendung'
         },
@@ -935,7 +940,6 @@ const de = {
             'Raw-Systemupdates können Boot- und Rootfs-Partitionen ersetzen. Nur mit physischem Wiederherstellungszugang verwenden.',
           rawInstallDisabled:
             'Dieses vorbereitete Update schreibt raw SD-Kartenpartitionen. Aktivieren Sie raw Systemupdates vor der Installation.',
-          isLatest: 'Das Basissystem ist aktuell.',
           available: 'Ein Update für das Basissystem ist verfügbar.',
           downloading: 'Systemupdate wird heruntergeladen und verifiziert...',
           downloadVerify: 'Herunterladen und verifizieren',

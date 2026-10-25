@@ -902,11 +902,16 @@ const fi = {
         paranoidBlocked: 'Palomuuritila Paranoidi estää verkkopäivitykset',
         paranoidBlockedDesc:
           'GitHub-tarkistukset ja lataukset tarvitsevat ulospäin suuntautuvan verkkoyhteyden. Offline-lataus ja jo valmistellut asennukset ovat edelleen käytettävissä.',
-        isLatest: 'Sinulla on jo uusin versio.',
         available: 'Päivitys on saatavilla. Haluatko päivittää nyt?',
         updating: 'Päivitys käynnistyi',
         confirm: 'Vahvista',
         cancel: 'Peruuta',
+        badge: {
+          checking: 'Tarkistetaan',
+          latest: 'Ajan tasalla',
+          available: 'Päivitys saatavilla',
+          failed: 'Tarkistus epäonnistui'
+        },
         application: {
           title: 'Sovellus'
         },
@@ -924,7 +929,6 @@ const fi = {
             'Raw-järjestelmäpäivitykset voivat korvata boot- ja rootfs-osiot. Käytä tätä vain, jos sinulla on fyysinen palautusmahdollisuus.',
           rawInstallDisabled:
             'Tämä valmisteltu päivitys kirjoittaa raw SD-kortin osioita. Ota raw-järjestelmäpäivitykset käyttöön ennen asennusta.',
-          isLatest: 'Perusjärjestelmä on ajan tasalla.',
           available: 'Perusjärjestelmän päivitys on saatavilla.',
           downloading: 'Ladataan ja varmistetaan järjestelmäpäivitystä...',
           downloadVerify: 'Lataa ja varmista',

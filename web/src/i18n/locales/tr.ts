@@ -902,11 +902,16 @@ const tr = {
           'Çevrimiçi güncellemeler Paranoyak güvenlik duvarı modu tarafından engellenir',
         paranoidBlockedDesc:
           'GitHub kontrolleri ve indirmeler giden ağ erişimi gerektirir. Offline yükleme ve zaten hazırlanmış kurulumlar kullanılabilir kalır.',
-        isLatest: 'En yeni sürüme sahipsiniz.',
         available: 'Bir güncelleme indirilebilir. Şimdi güncellemek istediğinizden emin misiniz?',
         updating: 'Güncelleme başlatıldı',
         confirm: 'Onayla',
         cancel: 'İptal',
+        badge: {
+          checking: 'Denetleniyor',
+          latest: 'Güncel',
+          available: 'Güncelleme var',
+          failed: 'Denetim başarısız'
+        },
         application: {
           title: 'Uygulama'
         },
@@ -924,7 +929,6 @@ const tr = {
             'Raw sistem güncellemeleri boot ve rootfs bölümlerini değiştirebilir. Yalnızca fiziksel kurtarma erişiminiz varsa kullanın.',
           rawInstallDisabled:
             'Bu hazırlanmış güncelleme raw SD kart bölümlerini yazar. Kurmadan önce raw sistem güncellemelerini etkinleştirin.',
-          isLatest: 'Temel sistem güncel.',
           available: 'Bir temel sistem güncellemesi mevcut.',
           downloading: 'Sistem güncellemesi indiriliyor ve doğrulanıyor...',
           downloadVerify: 'İndir ve doğrula',

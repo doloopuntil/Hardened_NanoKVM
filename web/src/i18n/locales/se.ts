@@ -903,11 +903,16 @@ const se = {
         paranoidBlocked: 'Onlineuppdateringar blockeras av brandväggsläget Paranoid',
         paranoidBlockedDesc:
           'GitHub-kontroller och nedladdningar kräver utgående nätverksåtkomst. Offlineuppladdning och redan förberedda installationer är fortsatt tillgängliga.',
-        isLatest: 'Du har redan den senaste versionen.',
         available: 'En uppdatering finns tillgänglig. Vill du uppdatera nu?',
         updating: 'Uppdatering påbörjad',
         confirm: 'Bekräfta',
         cancel: 'Avbryt',
+        badge: {
+          checking: 'Kontrollerar',
+          latest: 'Uppdaterad',
+          available: 'Uppdatering tillgänglig',
+          failed: 'Kontrollen misslyckades'
+        },
         application: {
           title: 'Program'
         },
@@ -925,7 +930,6 @@ const se = {
             'Raw systemuppdateringar kan ersätta boot- och rootfs-partitioner. Använd endast med fysisk återställningsåtkomst.',
           rawInstallDisabled:
             'Denna förberedda uppdatering skriver raw SD-kortpartitioner. Aktivera raw systemuppdateringar före installation.',
-          isLatest: 'Bassystemet är uppdaterat.',
           available: 'En uppdatering av bassystemet är tillgänglig.',
           downloading: 'Laddar ned och verifierar systemuppdatering...',
           downloadVerify: 'Ladda ned och verifiera',

@@ -909,11 +909,16 @@ const it = {
         paranoidBlocked: 'Gli aggiornamenti online sono bloccati dalla modalità firewall Paranoica',
         paranoidBlockedDesc:
           'Controlli e download da GitHub richiedono accesso di rete in uscita. Upload offline e installazioni già preparate restano disponibili.',
-        isLatest: 'Hai già la versione più recente.',
         available: 'Un aggiornamento è disponibile. Sei sicuro di voler aggiornare?',
         updating: 'Aggiornamento avviato',
         confirm: 'Conferma',
         cancel: 'Annulla',
+        badge: {
+          checking: 'Controllo',
+          latest: 'Aggiornato',
+          available: 'Aggiornamento disponibile',
+          failed: 'Controllo non riuscito'
+        },
         application: {
           title: 'Applicazione'
         },
@@ -931,7 +936,6 @@ const it = {
             'Gli aggiornamenti raw del sistema possono sostituire le partizioni boot e rootfs. Usare solo con accesso fisico per il recupero.',
           rawInstallDisabled:
             "Questo aggiornamento preparato scrive partizioni raw della scheda SD. Abilitare gli aggiornamenti raw del sistema prima dell'installazione.",
-          isLatest: 'Il sistema base è aggiornato.',
           available: 'È disponibile un aggiornamento del sistema base.',
           downloading: "Download e verifica dell'aggiornamento di sistema...",
           downloadVerify: 'Scarica e verifica',

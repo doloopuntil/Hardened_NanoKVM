@@ -908,11 +908,16 @@ const hu = {
         paranoidBlocked: 'Az online frissítéseket a Paranoid tűzfalmód blokkolja',
         paranoidBlockedDesc:
           'A GitHub-ellenőrzésekhez és letöltésekhez kimenő hálózati hozzáférés szükséges. Az offline feltöltés és a már előkészített telepítések továbbra is elérhetők.',
-        isLatest: 'Ön már a legfrissebb verziót használja.',
         available: 'Frissítés elérhető. Biztos, hogy frissít?',
         updating: 'Frissítés elkezdődött',
         confirm: 'Megerősítés',
         cancel: 'Mégse',
+        badge: {
+          checking: 'Ellenőrzés',
+          latest: 'Naprakész',
+          available: 'Frissítés érhető el',
+          failed: 'Az ellenőrzés sikertelen'
+        },
         application: {
           title: 'Alkalmazás'
         },
@@ -930,7 +935,6 @@ const hu = {
             'A raw rendszerfrissítések lecserélhetik a boot és rootfs partíciókat. Csak fizikai helyreállítási hozzáféréssel használja.',
           rawInstallDisabled:
             'Ez az előkészített frissítés raw SD-kártya partíciókat ír. Telepítés előtt engedélyezze a raw rendszerfrissítéseket.',
-          isLatest: 'Az alaprendszer naprakész.',
           available: 'Elérhető egy alaprendszer-frissítés.',
           downloading: 'Rendszerfrissítés letöltése és ellenőrzése...',
           downloadVerify: 'Letöltés és ellenőrzés',
