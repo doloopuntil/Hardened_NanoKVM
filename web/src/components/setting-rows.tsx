@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Input, Spin } from 'antd';
 
@@ -113,7 +113,8 @@ export const SettingRow = ({
 );
 
 // A titled group of settings: a grey title over the rows. `busy` puts a small spinner after the
-// title while the section's information loads.
+// title while the section's information loads. A section with nothing to show hides itself,
+// title included: its rows are components that render nothing when their hardware is missing.
 export const SettingSection = ({
   title,
   description,
@@ -124,15 +125,34 @@ export const SettingSection = ({
   description?: string;
   busy?: boolean;
   children: ReactNode;
-}) => (
-  <div className="flex min-w-0 flex-col space-y-6">
-    <div className="flex min-w-0 flex-col space-y-1">
-      <div className="flex items-center gap-2 text-neutral-400">
-        {title}
-        {busy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+}) => {
+  const body = useRef<HTMLDivElement>(null);
+  const [isEmpty, setIsEmpty] = useState(false);
+
+  useLayoutEffect(() => {
+    const element = body.current;
+    if (!element) return;
+
+    const update = () => setIsEmpty(element.childElementCount === 0);
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(element, { childList: true });
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    // the hidden attribute, not a class, so that space-y skips the section
+    <div className="flex min-w-0 flex-col gap-6 [&[hidden]]:hidden" hidden={isEmpty}>
+      <div className="flex min-w-0 flex-col space-y-1">
+        <div className="flex items-center gap-2 text-neutral-400">
+          {title}
+          {busy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+        </div>
+        {description && <div className="break-words text-xs text-neutral-500">{description}</div>}
       </div>
-      {description && <div className="break-words text-xs text-neutral-500">{description}</div>}
+      <div ref={body} className="contents">
+        {children}
+      </div>
     </div>
-    {children}
-  </div>
-);
+  );
+};
