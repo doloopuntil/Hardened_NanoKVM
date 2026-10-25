@@ -124,9 +124,11 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     (`bg-settings-panel`) like the page header, with a hairline above it and a
     shadow that pushes up from there, with the same negative spread as the
     header's.
-    The bar has a Discard button beside Save changes, and Escape in a field with
-    unsaved changes discards them too (it still closes the dialog when there is
-    nothing to discard).
+    The bar has a Discard button beside Save changes, and Escape in a text field
+    of a page with unsaved changes discards them too (`discardOnEscape`,
+    `lib/discard.ts`): an open select or a dialog keeps its own Escape, and with
+    nothing to discard Escape closes the Settings dialog as usual. The System
+    pages discard by remounting their content, which loads the settings again.
 
 ## Status and feedback
 21. A state message is the caption of the field it describes: "downloaded and
@@ -276,5 +278,7 @@ The PicoClaw sidebar is part of the menu bar and follows the same rules where it
 
 ## Open deviations
 
-- The `SaveBar` of Network > IP & DNS, System > Time, System > Logging and
-  WireGuard has no Discard button yet; only Device > Device name has one (rule 20).
+None at the moment. The audit of 2026-10-17 found fifteen; they were fixed or
+turned into the exceptions named in the rules above. List here what a page
+still does against the rules, and remove the entry when it is fixed or turned
+into an exception.

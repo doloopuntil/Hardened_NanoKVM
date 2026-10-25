@@ -3,6 +3,7 @@ import { Input } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
+import { discardOnEscape } from '@/lib/discard.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 import { HostnameLabel } from '@/components/hostname-label.tsx';
 import { SettingRow } from '@/components/setting-rows.tsx';
@@ -35,13 +36,7 @@ export const Hostname = ({ form }: { form: HostnameForm }) => {
         disabled={!form.isReady || form.isSaving}
         onChange={(e) => form.setInput(e.target.value)}
         onPressEnter={form.save}
-        onKeyDown={(e) => {
-          // Escape drops the draft; with nothing to drop it still closes the dialog
-          if (e.key === 'Escape' && form.isDirty) {
-            e.stopPropagation();
-            form.discard();
-          }
-        }}
+        onKeyDown={discardOnEscape(form.isDirty, form.discard)}
       />
     </SettingRow>
   );

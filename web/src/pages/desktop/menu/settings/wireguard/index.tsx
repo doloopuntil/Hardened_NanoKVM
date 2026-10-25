@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/system-wireguard.ts';
 import type { WireguardConfig, WireguardStatus } from '@/api/system-wireguard.ts';
+import { discardOnEscape } from '@/lib/discard.ts';
 import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
 import { PageHeader } from '@/components/page-header.tsx';
@@ -114,6 +115,12 @@ export const Wireguard = () => {
     if (next) setDraft(next);
   }
 
+  function discard() {
+    if (isSaving) return;
+    setDraft(saved);
+    setShowRequired(false);
+  }
+
   // The switch applies at once: on with everything the form holds, if that is all valid; off
   // with the saved settings, leaving unsaved edits where they are.
   async function toggle(enabled: boolean) {
@@ -194,7 +201,10 @@ export const Wireguard = () => {
       <PageHeader title={t('settings.wireguard.title')} />
 
       <ConfigProvider componentDisabled={isUnavailable}>
-        <div className="flex min-w-0 flex-col space-y-6">
+        <div
+          className="flex min-w-0 flex-col space-y-6"
+          onKeyDown={discardOnEscape(hasPending || hasInvalid, discard)}
+        >
           <Section title={t('settings.network.connection')}>
             {status && !status.toolInstalled && (
               <Alert type="warning" showIcon message={t('settings.wireguard.unavailable')} />
@@ -389,6 +399,8 @@ export const Wireguard = () => {
               loading={isSaving}
               disabled={hasInvalid || isBusy}
               onSave={() => void save()}
+              onDiscard={discard}
+              discardLabel={t('common.discard')}
             />
           )}
         </div>
