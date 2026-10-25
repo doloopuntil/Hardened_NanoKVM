@@ -362,7 +362,7 @@ const fi = {
         uptime: 'Käyttöaika',
         community: 'Yhteisö',
         credit: 'Perustuu Sipeedin <a1>NanoKVM</a1>:ään ja woffkon <a2>Hardened NanoKVM</a2>:ään',
-        hostname: 'Isäntänimi'
+        hostname: 'Laitteen nimi'
       },
       appearance: {
         title: 'Ulkoasu',

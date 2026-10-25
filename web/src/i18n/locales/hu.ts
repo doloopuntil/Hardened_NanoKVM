@@ -362,7 +362,7 @@ const hu = {
         uptime: 'Üzemidő',
         community: 'Közösség',
         credit: 'A Sipeed <a1>NanoKVM</a1>-jére és woffko <a2>Hardened NanoKVM</a2>-jére épül',
-        hostname: 'Gazdanév'
+        hostname: 'Eszköznév'
       },
       appearance: {
         title: 'Megjelenés',

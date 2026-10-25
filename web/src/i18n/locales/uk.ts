@@ -364,7 +364,7 @@ const uk = {
         community: 'Спільнота',
         credit:
           'Створено на основі <a1>NanoKVM</a1> від Sipeed і <a2>Hardened NanoKVM</a2> від woffko',
-        hostname: "Ім'я вузла"
+        hostname: 'Назва пристрою'
       },
       appearance: {
         title: 'Зовнішній вигляд',

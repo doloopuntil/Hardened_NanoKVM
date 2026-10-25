@@ -362,7 +362,7 @@ const ru = {
         uptime: 'Время работы',
         community: 'Сообщество',
         credit: 'Основано на <a1>NanoKVM</a1> от Sipeed и <a2>Hardened NanoKVM</a2> от woffko',
-        hostname: 'Имя хоста'
+        hostname: 'Имя устройства'
       },
       appearance: {
         title: 'Внешний вид',

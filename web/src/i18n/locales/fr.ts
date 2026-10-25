@@ -363,7 +363,7 @@ const fr = {
         uptime: 'Temps de fonctionnement',
         community: 'Communauté',
         credit: 'Basé sur <a1>NanoKVM</a1> de Sipeed et <a2>Hardened NanoKVM</a2> de woffko',
-        hostname: "Nom d'hôte"
+        hostname: "Nom de l'appareil"
       },
       appearance: {
         title: 'Apparence',

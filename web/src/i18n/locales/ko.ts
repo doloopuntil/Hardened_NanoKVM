@@ -356,7 +356,7 @@ const ko = {
         uptime: '가동 시간',
         community: '커뮤니티',
         credit: 'Sipeed의 <a1>NanoKVM</a1>과 woffko의 <a2>Hardened NanoKVM</a2>을 기반으로 합니다',
-        hostname: '호스트 이름'
+        hostname: '장치 이름'
       },
       appearance: {
         title: '디자인',

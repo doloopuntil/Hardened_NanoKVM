@@ -361,7 +361,7 @@ const pt_br = {
         uptime: 'Tempo ativo',
         community: 'Comunidade',
         credit: 'Baseado no <a1>NanoKVM</a1> da Sipeed e no <a2>Hardened NanoKVM</a2> de woffko',
-        hostname: 'Nome do host'
+        hostname: 'Nome do dispositivo'
       },
       appearance: {
         title: 'Aparência',

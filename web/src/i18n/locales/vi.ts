@@ -355,7 +355,7 @@ const vi = {
         uptime: 'Thời gian hoạt động',
         community: 'Cộng đồng',
         credit: 'Xây dựng trên <a1>NanoKVM</a1> của Sipeed và <a2>Hardened NanoKVM</a2> của woffko',
-        hostname: 'Tên máy chủ'
+        hostname: 'Tên thiết bị'
       },
       appearance: {
         title: 'Giao diện',

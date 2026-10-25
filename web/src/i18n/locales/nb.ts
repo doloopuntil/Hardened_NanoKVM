@@ -362,7 +362,7 @@ const nb = {
         uptime: 'Oppetid',
         community: 'Fellesskap',
         credit: 'Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> av woffko',
-        hostname: 'Vertsnavn'
+        hostname: 'Enhetsnavn'
       },
       appearance: {
         title: 'Utseende',

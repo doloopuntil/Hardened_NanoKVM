@@ -354,7 +354,7 @@ const et = {
         uptime: 'Tööaeg',
         community: 'Kogukond',
         credit: 'Põhineb Sipeedi <a1>NanoKVM-il</a1> ja woffko <a2>Hardened NanoKVM-il</a2>',
-        hostname: 'Hostinimi'
+        hostname: 'Seadme nimi'
       },
       appearance: {
         title: 'Välimus',

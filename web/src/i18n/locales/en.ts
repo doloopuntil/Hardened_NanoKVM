@@ -358,7 +358,7 @@ const en = {
         uptime: 'Uptime',
         community: 'Community',
         credit: 'Built on <a1>NanoKVM</a1> by Sipeed and <a2>Hardened NanoKVM</a2> by woffko',
-        hostname: 'Hostname'
+        hostname: 'Device name'
       },
       appearance: {
         title: 'Appearance',

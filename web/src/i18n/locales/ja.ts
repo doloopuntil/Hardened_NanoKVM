@@ -362,7 +362,7 @@ const ja = {
         community: 'コミュニティ',
         credit:
           'Sipeed の <a1>NanoKVM</a1> と woffko の <a2>Hardened NanoKVM</a2> をベースにしています',
-        hostname: 'ホスト名'
+        hostname: 'デバイス名'
       },
       appearance: {
         title: '外観',

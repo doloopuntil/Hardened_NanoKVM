@@ -360,7 +360,7 @@ const se = {
         uptime: 'Drifttid',
         community: 'Community',
         credit: 'Byggt på <a1>NanoKVM</a1> från Sipeed och <a2>Hardened NanoKVM</a2> av woffko',
-        hostname: 'Värdnamn'
+        hostname: 'Enhetsnamn'
       },
       appearance: {
         title: 'Utseende',

@@ -358,7 +358,7 @@ const tr = {
         community: 'Topluluk',
         credit:
           "Sipeed'in <a1>NanoKVM</a1> ve woffko'nun <a2>Hardened NanoKVM</a2> projeleri üzerine kurulmuştur",
-        hostname: 'Ana makine adı'
+        hostname: 'Cihaz adı'
       },
       appearance: {
         title: 'Görünüm',

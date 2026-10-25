@@ -344,7 +344,7 @@ const zh = {
         uptime: '运行时间',
         community: '社区',
         credit: '基于 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 构建',
-        hostname: '主机名'
+        hostname: '设备名称'
       },
       appearance: {
         title: '外观',

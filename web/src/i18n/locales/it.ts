@@ -363,7 +363,7 @@ const it = {
         uptime: 'Tempo di attività',
         community: 'Comunità',
         credit: 'Basato su <a1>NanoKVM</a1> di Sipeed e <a2>Hardened NanoKVM</a2> di woffko',
-        hostname: 'Nome host'
+        hostname: 'Nome dispositivo'
       },
       appearance: {
         title: 'Aspetto',

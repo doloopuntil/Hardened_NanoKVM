@@ -361,7 +361,7 @@ const id = {
         community: 'Komunitas',
         credit:
           'Dibangun di atas <a1>NanoKVM</a1> dari Sipeed dan <a2>Hardened NanoKVM</a2> oleh woffko',
-        hostname: 'Nama host'
+        hostname: 'Nama perangkat'
       },
       appearance: {
         title: 'Tampilan',

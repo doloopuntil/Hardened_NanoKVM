@@ -364,7 +364,7 @@ const nl = {
         uptime: 'Uptime',
         community: 'Community',
         credit: 'Gebouwd op <a1>NanoKVM</a1> van Sipeed en <a2>Hardened NanoKVM</a2> van woffko',
-        hostname: 'Hostnaam'
+        hostname: 'Apparaatnaam'
       },
       appearance: {
         title: 'Uiterlijk',

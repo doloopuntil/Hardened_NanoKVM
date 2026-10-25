@@ -39,7 +39,9 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
    editable.
 5. Names are shared between pages when they mean the same thing: Connection
    (Network, WireGuard, Tailscale), Encrypted tunnel, Latest version, Login.
-   A section title never repeats the label of its first row.
+   The computer being controlled is the host and NanoKVM is the device, so no
+   label calls NanoKVM a host: Device name, not Hostname. A section title never
+   repeats the label of its first row.
 
 ## Rows and fields
 
