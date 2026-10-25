@@ -92,7 +92,7 @@ const nl = {
       title: 'Scherm',
       video: 'Videomodus',
       videoDirectTips:
-        'Schakel HTTPS in bij "Instellingen > Netwerken > Diensten" om deze modus te gebruiken',
+        'Schakel HTTPS in bij "Instellingen > Netwerk > Diensten" om deze modus te gebruiken',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC is uitgeschakeld in de firewallmodi Beperkt en Paranoïde',
       transferRunningTitle: 'Image-overdracht bezig',
@@ -484,7 +484,7 @@ const nl = {
         rebootDesc: 'Weet u zeker dat u NanoKVM opnieuw wilt opstarten?'
       },
       network: {
-        title: 'Netwerk',
+        title: 'IP & DNS',
         connection: 'Verbinding',
         configuration: 'Configuratie',
         wifi: {
@@ -666,7 +666,7 @@ const nl = {
           enableHttpsFirst:
             'Schakel HTTPS in voordat u de firewallmodus Beperkt of Paranoïde inschakelt',
           httpsRequired:
-            'De modi Beperkt en Paranoïde zijn uitgeschakeld totdat HTTPS is ingeschakeld bij Instellingen > Netwerken > Diensten',
+            'De modi Beperkt en Paranoïde zijn uitgeschakeld totdat HTTPS is ingeschakeld bij Instellingen > Netwerk > Diensten',
           mode: {
             title: 'Firewallmodus',
             baseline: 'Basis',
@@ -782,7 +782,7 @@ const nl = {
         title: 'Gebruiker'
       },
       networking: {
-        title: 'Netwerken'
+        title: 'Netwerk'
       },
       wireguard: {
         title: 'WireGuard',

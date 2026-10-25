@@ -91,7 +91,7 @@ const es = {
       scale: 'Escala',
       title: 'Pantalla',
       video: 'Modo de vídeo',
-      videoDirectTips: 'Activa HTTPS en "Ajustes > Redes > Servicios" para usar este modo',
+      videoDirectTips: 'Activa HTTPS en "Ajustes > Red > Servicios" para usar este modo',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC está desactivado en los modos de firewall Restringido y Paranoico',
       transferRunningTitle: 'Transferencia de imagen en curso',
@@ -482,7 +482,7 @@ const es = {
         rebootDesc: '¿Estás seguro de que deseas reiniciar el NanoKVM?'
       },
       network: {
-        title: 'Red',
+        title: 'IP & DNS',
         connection: 'Conexión',
         configuration: 'Configuración',
         wifi: {
@@ -664,7 +664,7 @@ const es = {
           enableHttpsFirst:
             'Activa HTTPS antes de activar el modo de firewall Restringido o Paranoico',
           httpsRequired:
-            'Los modos Restringido y Paranoico están desactivados hasta que se active HTTPS en Ajustes > Redes > Servicios',
+            'Los modos Restringido y Paranoico están desactivados hasta que se active HTTPS en Ajustes > Red > Servicios',
           mode: {
             title: 'Modo del firewall',
             baseline: 'Base',
@@ -781,7 +781,7 @@ const es = {
         title: 'Usuario'
       },
       networking: {
-        title: 'Redes'
+        title: 'Red'
       },
       wireguard: {
         title: 'WireGuard',

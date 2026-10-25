@@ -7,7 +7,7 @@ last-checked: 2026-10-22
 # Firewall modes
 
 The device runs a managed `iptables`/`ip6tables` firewall (`S40firewall`). Pick
-the mode in **Settings > Networking > Firewall**; the page also shows the rules in
+the mode in **Settings > Network > Firewall**; the page also shows the rules in
 force.
 
 "Local" below means private IPv4 (`10/8`, `172.16/12`, `192.168/16`), IPv4
@@ -24,7 +24,7 @@ addresses.
 ## Switching safely
 
 - Restricted and Paranoid can only be chosen while HTTPS is on
-  (**Settings > Networking > Network**).
+  (**Settings > Network > IP & DNS**).
 - After switching to Restricted or Paranoid, confirm the change from the page
   within 60 seconds. If you lose access and cannot confirm, the previous mode
   comes back on its own.

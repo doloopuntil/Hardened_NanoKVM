@@ -90,7 +90,7 @@ const ca = {
       scale: 'Escala',
       title: 'Pantalla',
       video: 'Mode de vídeo',
-      videoDirectTips: 'Activa HTTPS a "Configuració > Xarxes > Serveis" per utilitzar aquest mode',
+      videoDirectTips: 'Activa HTTPS a "Configuració > Xarxa > Serveis" per utilitzar aquest mode',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC està desactivat en els modes de tallafoc Restringit i Paranoic',
       transferRunningTitle: "Transferència d'imatge en curs",
@@ -480,7 +480,7 @@ const ca = {
         rebootDesc: 'Segur que vols reiniciar el NanoKVM?'
       },
       network: {
-        title: 'Xarxa',
+        title: 'IP & DNS',
         connection: 'Connexió',
         configuration: 'Configuració',
         wifi: {
@@ -663,7 +663,7 @@ const ca = {
           enableHttpsFirst:
             "Activa HTTPS abans d'activar el mode de tallafoc Restringit o Paranoic",
           httpsRequired:
-            "Els modes Restringit i Paranoic estan desactivats fins que s'activi HTTPS a Configuració > Xarxes > Serveis",
+            "Els modes Restringit i Paranoic estan desactivats fins que s'activi HTTPS a Configuració > Xarxa > Serveis",
           mode: {
             title: 'Mode del tallafoc',
             baseline: 'Base',
@@ -780,7 +780,7 @@ const ca = {
         title: 'Usuari'
       },
       networking: {
-        title: 'Xarxes'
+        title: 'Xarxa'
       },
       wireguard: {
         title: 'WireGuard',

@@ -483,7 +483,7 @@ const hu = {
         rebootDesc: 'Biztos, hogy újra akarja indítani a NanoKVM-t?'
       },
       network: {
-        title: 'Hálózat',
+        title: 'IP & DNS',
         connection: 'Kapcsolat',
         configuration: 'Konfiguráció',
         wifi: {

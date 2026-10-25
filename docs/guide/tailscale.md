@@ -9,7 +9,7 @@ last-checked: 2026-10-22
 Tailscale is the other way to reach the KVM from outside your network. It is not
 part of the image; the page installs it on demand.
 
-1. Open **Settings > Networking > Tailscale** and press **Install**. The device downloads
+1. Open **Settings > Network > Tailscale** and press **Install**. The device downloads
    `tailscale_latest_riscv64.tgz` from `pkgs.tailscale.com`. If the download
    fails, download that package yourself, unpack it, and copy `tailscale` to
    `/usr/bin/` and `tailscaled` to `/usr/sbin/` on the device.

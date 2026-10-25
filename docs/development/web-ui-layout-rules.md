@@ -20,7 +20,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
    of the left pane. The touch layout shows no header: the
    navigation above the page names it. What sits beside the title is the
    header's children; pages that belong together are subpages in the left pane of
-   the dialog (User, Networking and System), never tabs in the header. The header is in
+   the dialog (User, Network and System), never tabs in the header. The header is in
    the colour of the panel, and its shadow has a negative spread so it fades out
    before its sides: the scroll area clips what goes beyond the width of the
    content, and a wider shadow ends in a hard edge. The shadow box is the header's
@@ -72,7 +72,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     hides itself when its content renders no element, and the hairline next to it
     goes too, so the rows of a section must be components that return `null`
     when they have nothing to show (rule 11), never an empty wrapper or a placeholder.
-    Networking > Network has no Connection section on a board without Wi-Fi.
+    Network > IP & DNS has no Connection section on a board without Wi-Fi.
 13. On a phone, switches, info rows, buttons and the fields (inputs, selects
     and tag boxes) stay on the label's row; the field is narrower than on the
     desktop (`w-20` to `w-44`) and the caption wraps beside it. The one field
@@ -153,7 +153,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     Only real names keep capitals: Tailscale, WireGuard, the firewall modes
     (Baseline, Moderate, Restricted, Paranoid), the key names Num Lock, Caps
     Lock and Scroll Lock, and "HID-Only mode". Protocol and file names (HDMI, SSH,
-    mDNS, HTTPS, Changelog) stay as they are in every language.
+    mDNS, HTTPS, IP, DNS, Changelog) stay as they are in every language.
 27. Every text starts with a capital letter, with no parentheses and no "!".
     Captions, tooltips, toasts and field errors are one sentence without a
     final full stop. Dialogs, banners and step lists stay multi-sentence with
@@ -168,11 +168,11 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Order
 
-30. Menu: About and Device, then the groups User, Networking and System, so
+30. Menu: About and Device, then the groups User, Network and System, so
     the groups that open and close are together. The groups start collapsed and
     open on click. User holds Account and Appearance (the person and the
-    browser they use); Networking holds Network, Services, Firewall, WireGuard
-    and Tailscale; System holds Time, Logging, Performance, Monitor and
+    browser they use); Network holds IP & DNS, Services, Firewall,
+    WireGuard and Tailscale; System holds Time, Logging, Performance, Monitor and
     Updates. The first subpage of a group is the one a touch layout opens when
     the group is chosen. The touch layout shows the five main items on one row,
     so their names stay short.

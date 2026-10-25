@@ -475,7 +475,7 @@ const vi = {
         rebootDesc: 'Bạn có chắc chắn muốn khởi động lại NanoKVM không?'
       },
       network: {
-        title: 'Mạng',
+        title: 'IP & DNS',
         connection: 'Kết nối',
         configuration: 'Cấu hình',
         wifi: {

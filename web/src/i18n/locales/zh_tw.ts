@@ -460,7 +460,7 @@ const zh_tw = {
         rebootDesc: '您確定要重新啟動 NanoKVM?'
       },
       network: {
-        title: '網路',
+        title: 'IP & DNS',
         connection: '連線',
         configuration: '設定',
         wifi: {

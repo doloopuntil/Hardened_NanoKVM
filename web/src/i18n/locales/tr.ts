@@ -477,7 +477,7 @@ const tr = {
         rebootDesc: "NanoKVM'i yeniden başlatmak istediğinizden emin misiniz?"
       },
       network: {
-        title: 'Ağ',
+        title: 'IP & DNS',
         connection: 'Bağlantı',
         configuration: 'Yapılandırma',
         wifi: {

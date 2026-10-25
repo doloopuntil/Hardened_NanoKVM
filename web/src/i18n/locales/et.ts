@@ -90,7 +90,7 @@ const et = {
       title: 'Ekraan',
       video: 'Videorežiim',
       videoDirectTips:
-        'Selle režiimi kasutamiseks luba HTTPS menüüs "Seaded > Võrgundus > Teenused"',
+        'Selle režiimi kasutamiseks luba HTTPS menüüs "Seaded > Võrk > Teenused"',
       videoWebrtcBlockedByFirewall:
         'H.264 WebRTC on tulemüürirežiimides Piiratud ja Paranoiline keelatud',
       transferRunningTitle: "Image'i edastus käib",
@@ -472,7 +472,7 @@ const et = {
         rebootDesc: 'Kas oled kindel, et soovid NanoKVM-i taaskäivitada?'
       },
       network: {
-        title: 'Võrk',
+        title: 'IP & DNS',
         connection: 'Ühendus',
         configuration: 'Seadistus',
         wifi: {
@@ -652,7 +652,7 @@ const et = {
           backends: 'Backendid',
           enableHttpsFirst: 'Luba HTTPS enne tulemüüri režiimi Piiratud või Paranoiline lubamist',
           httpsRequired:
-            'Režiimid Piiratud ja Paranoiline on keelatud, kuni HTTPS on lubatud menüüs Seaded > Võrgundus > Teenused',
+            'Režiimid Piiratud ja Paranoiline on keelatud, kuni HTTPS on lubatud menüüs Seaded > Võrk > Teenused',
           mode: {
             title: 'Tulemüüri režiim',
             baseline: 'Baas',
@@ -767,7 +767,7 @@ const et = {
         title: 'Kasutaja'
       },
       networking: {
-        title: 'Võrgundus'
+        title: 'Võrk'
       },
       wireguard: {
         title: 'WireGuard',
