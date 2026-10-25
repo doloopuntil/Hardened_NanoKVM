@@ -181,7 +181,8 @@ After writing, remove the card only after `sync` returns.
 1. Connect Ethernet and power. The first boot expands the data partition and
    takes longer than later boots.
 2. Find the IP address from your router's DHCP leases, the NanoKVM OLED, or the
-   mDNS name (the first label of the host name plus `.local`).
+   mDNS name (the first label of the device name plus `.local`, `h-nanokvm.local`
+   until you change it).
 3. Open `http://<address>` in a browser.
 4. Create the administrator account. There is no default `admin/admin`. The
    account's password also becomes the `root` password for SSH, which is on by
