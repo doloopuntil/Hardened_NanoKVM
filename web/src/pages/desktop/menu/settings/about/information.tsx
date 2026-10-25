@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { getSystemVersion } from '@/api/application.ts';
 import * as api from '@/api/vm.ts';
 import { formatHardenedVersion } from '@/lib/hardened.ts';
+import { formatUptime } from '@/lib/uptime.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 import { LabelTip } from '@/components/label-tip.tsx';
 import { InfoRow, SettingSection } from '@/components/setting-rows.tsx';
@@ -25,18 +26,6 @@ type Info = {
   uptime?: number;
   deviceKey: string;
 };
-
-function formatUptime(seconds?: number) {
-  if (!seconds || seconds < 0) return '-';
-
-  const days = Math.floor(seconds / 86400);
-  const hours = Math.floor((seconds % 86400) / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-
-  if (days > 0) return `${days}d ${hours}h ${minutes}m`;
-  if (hours > 0) return `${hours}h ${minutes}m`;
-  return `${minutes}m`;
-}
 
 export const Information = () => {
   const { t } = useTranslation();

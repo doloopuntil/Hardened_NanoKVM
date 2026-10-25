@@ -260,6 +260,7 @@ export type MonitorData = {
   } | null;
   cpu: { userPercent: number; systemPercent: number } | null;
   disks: MonitorDisk[];
+  uptimeSeconds: number | null;
   epoch: number;
   latestSeq: number;
   samples: MonitorSample[];

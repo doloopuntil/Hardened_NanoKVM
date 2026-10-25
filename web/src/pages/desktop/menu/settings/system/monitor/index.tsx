@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Alert, Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 
+import { formatUptime } from '@/lib/uptime.ts';
 import { SettingSection } from '@/components/setting-rows.tsx';
 
 import { Meter, SplitMeter } from './meter';
@@ -221,7 +222,12 @@ export const Monitor = () => {
         {storage('/data', t('settings.system.monitor.dataPartition'), '/data')}
       </div>
 
-      <div className="text-xs text-neutral-500">{t('settings.system.monitor.refresh')}</div>
+      <div className="flex flex-wrap justify-between gap-x-4 gap-y-1 text-xs text-neutral-500">
+        <span>{t('settings.system.monitor.refresh')}</span>
+        <span>
+          {t('settings.about.uptime')} {formatUptime(data?.uptimeSeconds)}
+        </span>
+      </div>
     </div>
   );
 };

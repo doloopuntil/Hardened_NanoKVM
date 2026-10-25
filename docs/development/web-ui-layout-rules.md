@@ -37,7 +37,12 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 4. Read-only lines (`InfoRow`) are grouped in a `space-y-3` column. A row is at
    least 32px tall, so a line keeps its height whether it is read-only or
    editable.
-5. Names are shared between pages when they mean the same thing: Connection
+5. A read-only line whose value is set somewhere else carries a help tooltip
+   (`LabelTip`) that says where: "Change it in Settings > Network > IP & DNS",
+   "Update it in Settings > System > Updates", "Turn it on or off in Settings >
+   Network > Services". The path is built from the translated menu titles. A value
+   nobody can change, such as Uptime, has no tooltip.
+6. Names are shared between pages when they mean the same thing: Connection
    (Network, WireGuard, Tailscale), Encrypted tunnel, Latest version, Login.
    The computer being controlled is the host and NanoKVM is the device, so no
    label calls NanoKVM a host: Device name, not Hostname. A section title never
@@ -45,7 +50,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Rows and fields
 
-6. Use only the shared rows: `SettingRow` (label and caption left, control
+7. Use only the shared rows: `SettingRow` (label and caption left, control
    right; `isSwitch` and `inline` keep a narrow control on the label's row on a
    phone), `InfoRow` (value grey and right-aligned; it may carry a caption),
    `EditableInfoRow` (the same row with an input) and `SettingSection`. The one
@@ -53,47 +58,47 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
    are its own blocks. They sit in two columns only from `lg` (1024px) up: the
    narrowest desktop layout, 850px, leaves each column about 216px, too narrow
    for a value beside its label.
-7. Values are right-aligned, including the text inside inputs and tag fields.
+8. Values are right-aligned, including the text inside inputs and tag fields.
    Every field has a caption except the editable address fields of Network
    (IP address, subnet mask, router, prefix), whose meaning is well understood.
-8. Inputs are sized to their content with standard Tailwind widths (`w-20`,
+9. Inputs are sized to their content with standard Tailwind widths (`w-20`,
    `w-24`, `sm:w-36`, `sm:w-72`). The one accepted exception is the WireGuard
    public key. A unit is a fixed label beside the box (`Space.Compact` with
    `Space.Addon`), never part of the value.
-9. A field that depends on a switch stays visible and is disabled while the
+10. A field that depends on a switch stays visible and is disabled while the
    switch is off. Nothing appears or disappears with a switch.
-10. A value that comes from the system (IPv4 and IPv6 outside manual mode) is
+11. A value that comes from the system (IPv4 and IPv6 outside manual mode) is
     shown read-only in the same row where the editable field would be.
-11. A setting for hardware that is not there is not shown: no row, no
+12. A setting for hardware that is not there is not shown: no row, no
     placeholder icon, no disabled copy. The page asks the device what it has and
     shows nothing until the answer arrives: the HDMI rows need a PCIe board, the
     Wi-Fi row a Wi-Fi chip, the OLED rows an OLED, the Power menu an ATX board
     (not a Lite). Hardware that is there but off or failing still shows, disabled
     or with its error. The same goes for a service that is switched off: About has
     no Local address row while mDNS is off.
-12. A section with nothing to show is not shown, title included. `SettingSection`
+13. A section with nothing to show is not shown, title included. `SettingSection`
     hides itself when its content renders no element, and the hairline next to it
     goes too, so the rows of a section must be components that return `null`
-    when they have nothing to show (rule 11), never an empty wrapper or a placeholder.
+    when they have nothing to show (rule 12), never an empty wrapper or a placeholder.
     Network > IP & DNS has no Connection section on a board without Wi-Fi.
-13. On a phone, switches, info rows, buttons and the fields (inputs, selects
+14. On a phone, switches, info rows, buttons and the fields (inputs, selects
     and tag boxes) stay on the label's row; the field is narrower than on the
     desktop (`w-20` to `w-44`) and the caption wraps beside it. The one field
     that goes under its title is the WireGuard peer public key, which is wide on
     purpose so the whole key shows. An error message wraps to the width of its
     field and never widens it.
-14. Long values wrap at spaces and hyphens (`break-words`); `break-all` is only
+15. Long values wrap at spaces and hyphens (`break-words`); `break-all` is only
     for a single token with no spaces, such as a key or a URL.
 
 ## Buttons and actions
 
-15. Buttons sit on the right. A group that wraps stays right-aligned
+16. Buttons sit on the right. A group that wraps stays right-aligned
     (`ml-auto` on the group).
-16. An action that runs something is a row with a caption and a button
+17. An action that runs something is a row with a caption and a button
     (Restart, Stop). Destructive, irreversible or disruptive actions (Logout,
     Reboot, Uninstall) go in a bar at the end of the page, under a hairline, as
     red outline buttons (`danger`, not `type="primary"`).
-17. A primary (blue) button is the one main positive action of a page or state.
+18. A primary (blue) button is the one main positive action of a page or state.
     An action that needs a confirmation uses one of two forms, by what it costs:
     - `Popconfirm`, with a one-line question and Yes / No, for a quick action
       that is easy to undo (Restart Tailscale, Stop Tailscale, Account logout).
@@ -110,11 +115,11 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     hand-built `Modal`. Exception: the confirmations of the Power menu are
     Popconfirms with a red OK button, because a dialog is too heavy for a menu
     item and they act on the host.
-18. A dialog with a form is a `Modal`, not a `confirm()`: it is not a
+19. A dialog with a form is a `Modal`, not a `confirm()`: it is not a
     confirmation. Its OK button names what it does: Save for a key or a setting
     (the common Save), Join for the Wi-Fi password. Its title names the task,
     and it has the common Cancel. The Wi-Fi connect dialog is the model.
-19. Unsaved changes show in the sticky `SaveBar` at the bottom, never in the
+20. Unsaved changes show in the sticky `SaveBar` at the bottom, never in the
     page header. The bar is as wide as the content, in the panel colour
     (`bg-settings-panel`) like the page header, with a hairline above it and a
     shadow that pushes up from there, with the same negative spread as the
@@ -122,9 +127,9 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Status and feedback
 
-20. A state message is the caption of the field it describes: "downloaded and
+21. A state message is the caption of the field it describes: "downloaded and
     verified" under Staged version, "reboot required" under Pending version.
-21. A badge (`Tag` with `className="m-0"`) names a state of the row it belongs
+22. A badge (`Tag` with `className="m-0"`) names a state of the row it belongs
     to. It sits right after the row's label, in a `flex items-center gap-2`
     span passed as the `label`, never in the value, which stays plain. Its text is
     one or two words; the colour carries the meaning: green is good, blue is
@@ -134,35 +139,35 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     on Latest version: Checking, Up to date, Update available or Check
     failed. A failure also says why in the caption of the row, in red, and the
     version reads "-".
-22. A busy state is a small spinner with text; while the information of a
+23. A busy state is a small spinner with text; while the information of a
     section loads, the spinner sits after its title (`busy` of `SettingSection`).
     An error is red
     (`text-red-400`). A headline above the buttons is only for a state that is
     a message in itself ("Boot confirmed").
-23. An `Alert` is for a state that blocks something (Paranoid mode, raw
+24. An `Alert` is for a state that blocks something (Paranoid mode, raw
     installs disabled, the clock not synchronized) and goes above the
     sections.
-24. Secondary explanation goes in a tooltip behind a help icon; a warning
+25. Secondary explanation goes in a tooltip behind a help icon; a warning
     tooltip uses an orange alert icon, always through `LabelTip`
     (`components/label-tip.tsx`, tooltip above the icon). A caption says what a
     setting does; a tooltip says what it costs or how it is sized.
-25. A control stays disabled until its own load has succeeded
+26. A control stays disabled until its own load has succeeded
     (`useSettingsLoad`), and every failed action is visible (`attempt()` and
     `toast`).
 
 ## Text
 
-26. Sentence case everywhere: labels, buttons, section titles and tab names.
+27. Sentence case everywhere: labels, buttons, section titles and tab names.
     Only real names keep capitals: Tailscale, WireGuard, the firewall modes
     (Baseline, Moderate, Restricted, Paranoid), the key names Num Lock, Caps
     Lock and Scroll Lock, and "HID-Only mode". Protocol and file names (HDMI, SSH,
     mDNS, HTTPS, IP, DNS, Changelog) stay as they are in every language.
-27. Every text starts with a capital letter, with no parentheses and no "!".
+28. Every text starts with a capital letter, with no parentheses and no "!".
     Captions, tooltips, toasts and field errors are one sentence without a
     final full stop. Dialogs, banners and step lists stay multi-sentence with
     full stops.
-28. Menu paths read "Settings > Device > Virtual disk".
-29. Every new or changed English string needs all 25 languages. Every language
+29. Menu paths read "Settings > Device > Virtual disk".
+30. Every new or changed English string needs all 25 languages. Every language
     is one file in `web/src/i18n/locales/`, with the keys in the order of
     `en.ts`; there are no overlay layers. Compare the effective strings of
     every language before and after a change to prove that nothing else moved;
@@ -171,7 +176,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Order
 
-30. Menu: About and Device, then the groups User, Network and System, so
+31. Menu: About and Device, then the groups User, Network and System, so
     the groups that open and close are together. The groups start collapsed and
     open on click. User holds Account and Appearance (the person and the
     browser they use); Network holds IP & DNS, Services, Firewall,
@@ -182,24 +187,24 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 ## Technical rules
 
-31. Tailwind's preflight is off (it clashes with antd), so a border needs an
+32. Tailwind's preflight is off (it clashes with antd), so a border needs an
     explicit style (`border-0 border-b border-solid border-white/[0.06]`);
     `border-b` alone draws nothing. Boxes also keep the browser's default
     sizing, where padding and border add to the width and height: an element
     with a width and padding (`w-full px-4`) needs `box-border`, or it is wider
     than its parent. Do not switch box-sizing on globally: the menu bar popovers
     were sized for the default, and their rows would shrink by 8px.
-32. A sticky element must not sit inside an `overflow-x-hidden` container; that
+33. A sticky element must not sit inside an `overflow-x-hidden` container; that
     makes the container its scroll parent and the element stops sticking.
-33. Layout depends on the phone class `settings-modal-mobile` (see
+34. Layout depends on the phone class `settings-modal-mobile` (see
     `assets/styles/index.css`); use
     `[.settings-modal-mobile_&]:` for rules that differ on the touch layout.
-34. The app is dark-only. The colour of the settings panel is the one
+35. The app is dark-only. The colour of the settings panel is the one
     `settings-panel` colour of `tailwind.config.js` (the modal colour under a 50%
     layer, as a solid colour), used by the panel itself and by whatever sticks over
     its content, so that it hides what scrolls under it. Do not write the value
     again.
-35. The Settings window is at most 710px tall (`max-h-[710px]`), and 82.5vh on a
+36. The Settings window is at most 710px tall (`max-h-[710px]`), and 82.5vh on a
     shorter screen. Only the Monitor page sets this number: 710px puts as much
     space under its last line (45px) as above its title (44px). Taller pages, such
     as Device (788px to 1038px, by board), scroll inside the window. Measure again
@@ -234,12 +239,12 @@ The dialogs that the entries open follow the same idea (`components/dialog-parts
 - Dialogs are centred. The one exception is a dialog with a text box, which is
   not centred on a phone, so that the phone's keyboard does not cover the box.
 - A form in a dialog uses the `SettingRow` rows of the Settings pages.
-- A confirmation names its action in the title (rule 17), never "Attention".
+- A confirmation names its action in the title (rule 18), never "Attention".
 
 The PicoClaw sidebar is part of the menu bar and follows the same rules where it can:
 
 - Its header buttons are the 30px squares of the menu bar with a tooltip. Stopping the
-  assistant asks first (a Popconfirm, rule 17), because it ends a task that is running.
+  assistant asks first (a Popconfirm, rule 18), because it ends a task that is running.
 - The gear (Settings) menu is a popover of `MenuRow`s like the menu bar's, not an antd
   dropdown; a row that destroys something (Uninstall) is `danger`.
 - A screen that does not show the chat (install, model) reports a failure with a toast, since
