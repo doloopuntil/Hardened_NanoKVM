@@ -4,6 +4,7 @@ const nb = {
       confirm: 'Bekreft',
       cancel: 'Avbryt',
       save: 'Lagre',
+      discard: 'Forkast',
       delete: 'Slett',
       actionFailed: 'Handlingen mislyktes',
       loading: 'Laster innstillinger fra enheten...',

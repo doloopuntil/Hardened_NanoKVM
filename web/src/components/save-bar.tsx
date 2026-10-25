@@ -8,6 +8,9 @@ type SaveBarProps = {
   disabled?: boolean;
   // without it the bar shows the status alone
   onSave?: () => void;
+  // a second button that drops the changes; its label comes with it
+  onDiscard?: () => void;
+  discardLabel?: string;
 };
 
 const statusColors = {
@@ -27,13 +30,20 @@ export const SaveBar = ({
   label,
   loading = false,
   disabled = false,
-  onSave
+  onSave,
+  onDiscard,
+  discardLabel
 }: SaveBarProps) => (
   <div className="sticky bottom-0 z-10 flex min-w-0 flex-wrap items-center justify-end gap-3 border-0 border-t border-solid border-white/[0.06] bg-settings-panel py-4 shadow-[0_-20px_20px_-20px_rgba(0,0,0,0.5)]">
     {statusText && (
       <span className={`min-w-0 text-xs ${statusColors[statusKind || 'warning']}`}>
         {statusText}
       </span>
+    )}
+    {onDiscard && (
+      <Button disabled={loading} onClick={onDiscard}>
+        {discardLabel}
+      </Button>
     )}
     {onSave && (
       <Button type="primary" loading={loading} disabled={disabled} onClick={onSave}>

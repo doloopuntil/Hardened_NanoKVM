@@ -126,7 +126,9 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     header's.
 
 ## Status and feedback
-
+    The bar has a Discard button beside Save changes, and Escape in a field with
+    unsaved changes discards them too (it still closes the dialog when there is
+    nothing to discard).
 21. A state message is the caption of the field it describes: "downloaded and
     verified" under Staged version, "reboot required" under Pending version.
 22. A badge (`Tag` with `className="m-0"`) names a state of the row it belongs
@@ -274,7 +276,5 @@ The PicoClaw sidebar is part of the menu bar and follows the same rules where it
 
 ## Open deviations
 
-None at the moment. The audit of 2026-10-17 found fifteen; they were fixed or
-turned into the exceptions named in the rules above. List here what a page
-still does against the rules, and remove the entry when it is fixed or turned
-into an exception.
+- The `SaveBar` of Network > IP & DNS, System > Time, System > Logging and
+  WireGuard has no Discard button yet; only Device > Device name has one (rule 20).

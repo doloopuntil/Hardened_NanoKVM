@@ -56,6 +56,8 @@ export const Device = () => {
           loading={hostname.isSaving}
           disabled={hostname.isInvalid}
           onSave={hostname.save}
+          onDiscard={hostname.discard}
+          discardLabel={t('common.discard')}
         />
       )}
     </>

@@ -4,6 +4,7 @@ const fr = {
       confirm: 'Confirmer',
       cancel: 'Annuler',
       save: 'Enregistrer',
+      discard: 'Ignorer',
       delete: 'Supprimer',
       actionFailed: "L'opération a échoué",
       loading: "Chargement des paramètres de l'appareil...",

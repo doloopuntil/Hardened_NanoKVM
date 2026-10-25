@@ -4,6 +4,7 @@ const de = {
       confirm: 'Bestätigen',
       cancel: 'Abbrechen',
       save: 'Speichern',
+      discard: 'Verwerfen',
       delete: 'Löschen',
       actionFailed: 'Vorgang fehlgeschlagen',
       loading: 'Einstellungen werden vom Gerät geladen...',

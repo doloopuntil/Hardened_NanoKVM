@@ -58,7 +58,22 @@ export function useHostname() {
       });
   }
 
-  return { saved, input, setInput, isReady, isSaving, isPending, isInvalid, isDirty, save };
+  function discard() {
+    if (!isSaving) setInput(saved);
+  }
+
+  return {
+    saved,
+    input,
+    setInput,
+    isReady,
+    isSaving,
+    isPending,
+    isInvalid,
+    isDirty,
+    save,
+    discard
+  };
 }
 
 export type HostnameForm = ReturnType<typeof useHostname>;

@@ -4,6 +4,7 @@ const da = {
       confirm: 'Bekræft',
       cancel: 'Annuller',
       save: 'Gem',
+      discard: 'Kassér',
       delete: 'Slet',
       actionFailed: 'Handlingen mislykkedes',
       loading: 'Indlæser indstillinger fra enheden...',

@@ -35,6 +35,13 @@ export const Hostname = ({ form }: { form: HostnameForm }) => {
         disabled={!form.isReady || form.isSaving}
         onChange={(e) => form.setInput(e.target.value)}
         onPressEnter={form.save}
+        onKeyDown={(e) => {
+          // Escape drops the draft; with nothing to drop it still closes the dialog
+          if (e.key === 'Escape' && form.isDirty) {
+            e.stopPropagation();
+            form.discard();
+          }
+        }}
       />
     </SettingRow>
   );

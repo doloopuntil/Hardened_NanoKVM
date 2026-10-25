@@ -4,6 +4,7 @@ const ja = {
       confirm: '確認',
       cancel: 'キャンセル',
       save: '保存',
+      discard: '破棄',
       delete: '削除',
       actionFailed: '操作に失敗しました',
       loading: 'デバイスから設定を読み込んでいます...',

@@ -4,6 +4,7 @@ const pl = {
       confirm: 'Potwierdź',
       cancel: 'Anuluj',
       save: 'Zapisz',
+      discard: 'Odrzuć',
       delete: 'Usuń',
       actionFailed: 'Operacja nie powiodła się',
       loading: 'Wczytywanie ustawień z urządzenia...',

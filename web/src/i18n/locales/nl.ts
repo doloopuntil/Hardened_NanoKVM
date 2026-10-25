@@ -4,6 +4,7 @@ const nl = {
       confirm: 'Bevestigen',
       cancel: 'Annuleren',
       save: 'Opslaan',
+      discard: 'Negeren',
       delete: 'Verwijderen',
       actionFailed: 'Bewerking mislukt',
       loading: 'Instellingen van het apparaat laden...',

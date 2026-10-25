@@ -4,6 +4,7 @@ const id = {
       confirm: 'Konfirmasi',
       cancel: 'Batalkan',
       save: 'Simpan',
+      discard: 'Buang',
       delete: 'Hapus',
       actionFailed: 'Operasi gagal',
       loading: 'Memuat pengaturan dari perangkat...',

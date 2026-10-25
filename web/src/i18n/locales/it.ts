@@ -4,6 +4,7 @@ const it = {
       confirm: 'Conferma',
       cancel: 'Annulla',
       save: 'Salva',
+      discard: 'Scarta',
       delete: 'Elimina',
       actionFailed: 'Operazione non riuscita',
       loading: 'Caricamento delle impostazioni dal dispositivo...',

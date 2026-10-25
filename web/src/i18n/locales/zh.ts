@@ -4,6 +4,7 @@ const zh = {
       confirm: '确认',
       cancel: '取消',
       save: '保存',
+      discard: '放弃',
       delete: '删除',
       actionFailed: '操作失败',
       loading: '正在从设备加载设置...',
