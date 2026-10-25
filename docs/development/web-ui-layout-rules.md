@@ -196,13 +196,11 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     layer, as a solid colour), used by the panel itself and by whatever sticks over
     its content, so that it hides what scrolls under it. Do not write the value
     again.
-35. The Settings window is at most 720px tall (`max-h-[720px]`), and 82.5vh on a
-    shorter screen. The Monitor page needs 710px for equal space above its title
-    and below its last line (44px; 55px below at 720px). The Device page needs
-    788px on a board with no OLED and no HDMI rows, 913px with an OLED or with
-    the PCIe HDMI rows, and 1038px with both, so it scrolls at 720px. Measure
-    again and change the number if a page gets taller, and check the pages at
-    this height.
+35. The Settings window is at most 710px tall (`max-h-[710px]`), and 82.5vh on a
+    shorter screen. Only the Monitor page sets this number: 710px puts as much
+    space under its last line (45px) as above its title (44px). Taller pages, such
+    as Device (788px to 1038px, by board), scroll inside the window. Measure again
+    and change the number if the Monitor page gets taller or shorter.
 
 ## Menu bar popovers
 
