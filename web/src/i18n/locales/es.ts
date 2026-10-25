@@ -331,7 +331,8 @@ const es = {
       canceled: 'Carga cancelada',
       downloadCanceled: 'Descarga cancelada',
       cancel: 'Cancelar',
-      remoteDisabled: 'La descarga remota de ISO está desactivada en Ajustes > Usuario > Apariencia',
+      remoteDisabled:
+        'La descarga remota de ISO está desactivada en Ajustes > Usuario > Apariencia',
       remoteFailed: 'La descarga remota de ISO falló',
       sha256: 'Suma de comprobación SHA-256 opcional',
       sha256Placeholder: 'Introduce una suma de comprobación SHA-256 de 64 caracteres',
@@ -362,8 +363,7 @@ const es = {
         uptime: 'Tiempo activo',
         community: 'Comunidad',
         credit: 'Basado en <a1>NanoKVM</a1> de Sipeed y <a2>Hardened NanoKVM</a2> de woffko',
-        hostname: 'Nombre del host',
-        hostnameReboot: '¿Reiniciar para aplicar el nuevo nombre del host?'
+        hostname: 'Nombre del host'
       },
       appearance: {
         title: 'Apariencia',
@@ -416,6 +416,7 @@ const es = {
         title: 'Dispositivo',
         minutes: 'min',
         sections: {
+          general: 'General',
           connectivity: 'Conectividad',
           hostConnection: 'Conexión con el host',
           inputOutput: 'Entrada y salida'
@@ -478,8 +479,15 @@ const es = {
         usbWakeup: 'Activación por USB',
         usbWakeupDesc: 'Permite que eventos de teclado o ratón despierten el host remoto',
         usbWakeupTip: 'Desactívalo si el host registra mensajes USB wakeup repetidos',
+        hostname: {
+          description: 'Nombre de este dispositivo en la red',
+          rebootRequired: 'Reinicio necesario'
+        },
         reboot: 'Reiniciar',
-        rebootDesc: '¿Estás seguro de que deseas reiniciar el NanoKVM?'
+        rebootDesc: '¿Estás seguro de que deseas reiniciar el NanoKVM?',
+        poweroff: 'Apagar',
+        poweroffDesc:
+          '¿Seguro que quieres apagar NanoKVM? No se podrá acceder a él hasta que se vuelva a encender.'
       },
       network: {
         title: 'IP & DNS',
@@ -993,8 +1001,7 @@ const es = {
           uploading: 'Subiendo',
           verifying: 'Verificando y preparando el paquete',
           keyTitle: 'Clave de actualización local',
-          keyDesc:
-            'Clave pública en formato PEM que puede firmar los paquetes que usted compile',
+          keyDesc: 'Clave pública en formato PEM que puede firmar los paquetes que usted compile',
           keyNone: 'Sin clave definida',
           keySet: 'Definir clave',
           keyRemove: 'Quitar',

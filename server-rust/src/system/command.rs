@@ -17,6 +17,7 @@ const PIPE_DRAIN_GRACE: Duration = Duration::from_secs(2);
 #[derive(Debug, Clone)]
 pub enum AllowedCommand {
     Reboot,
+    Poweroff,
     Hostname,
     Passwd,
     ServiceFirewall,
@@ -69,6 +70,7 @@ impl AllowedCommand {
     fn program(&self) -> &OsStr {
         match self {
             AllowedCommand::Reboot => OsStr::new("reboot"),
+            AllowedCommand::Poweroff => OsStr::new("poweroff"),
             AllowedCommand::Hostname => OsStr::new("hostname"),
             AllowedCommand::Passwd => OsStr::new("passwd"),
             AllowedCommand::ServiceFirewall => OsStr::new("/etc/init.d/S40firewall"),

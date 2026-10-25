@@ -355,8 +355,7 @@ const vi = {
         uptime: 'Thời gian hoạt động',
         community: 'Cộng đồng',
         credit: 'Xây dựng trên <a1>NanoKVM</a1> của Sipeed và <a2>Hardened NanoKVM</a2> của woffko',
-        hostname: 'Tên máy chủ',
-        hostnameReboot: 'Khởi động lại để áp dụng tên máy chủ mới?'
+        hostname: 'Tên máy chủ'
       },
       appearance: {
         title: 'Giao diện',
@@ -409,6 +408,7 @@ const vi = {
         title: 'Thiết bị',
         minutes: 'phút',
         sections: {
+          general: 'Chung',
           connectivity: 'Kết nối',
           hostConnection: 'Kết nối với máy chủ',
           inputOutput: 'Đầu vào và đầu ra'
@@ -471,8 +471,15 @@ const vi = {
         usbWakeup: 'Đánh thức qua USB',
         usbWakeupDesc: 'Cho phép sự kiện bàn phím hoặc chuột đánh thức máy từ xa',
         usbWakeupTip: 'Tắt nếu máy ghi lặp lại thông báo USB wakeup',
+        hostname: {
+          description: 'Tên của thiết bị này trên mạng',
+          rebootRequired: 'Cần khởi động lại'
+        },
         reboot: 'Khởi động lại',
-        rebootDesc: 'Bạn có chắc chắn muốn khởi động lại NanoKVM không?'
+        rebootDesc: 'Bạn có chắc chắn muốn khởi động lại NanoKVM không?',
+        poweroff: 'Tắt nguồn',
+        poweroffDesc:
+          'Bạn có chắc muốn tắt NanoKVM? Thiết bị sẽ không truy cập được cho đến khi được bật lại.'
       },
       network: {
         title: 'IP & DNS',

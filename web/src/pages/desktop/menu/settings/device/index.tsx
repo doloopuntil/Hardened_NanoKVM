@@ -5,8 +5,10 @@ import { PageHeader } from '@/components/page-header.tsx';
 import { SettingSection } from '@/components/setting-rows.tsx';
 
 import { Hdmi } from './hdmi.tsx';
+import { Hostname } from './hostname.tsx';
 import { MouseJiggler } from './mouse-jiggler.tsx';
 import { Oled } from './oled.tsx';
+import { Poweroff } from './poweroff.tsx';
 import { Reboot } from './reboot.tsx';
 import { VirtualDevices } from './virtual-devices.tsx';
 
@@ -18,6 +20,12 @@ export const Device = () => {
       <PageHeader title={t('settings.device.title')} />
 
       <div className="flex flex-col space-y-6">
+        <SettingSection title={t('settings.device.sections.general')}>
+          <Hostname />
+        </SettingSection>
+
+        <Divider className="opacity-50" />
+
         <SettingSection title={t('settings.device.sections.hostConnection')}>
           <VirtualDevices />
         </SettingSection>
@@ -33,7 +41,8 @@ export const Device = () => {
 
       <Divider className="opacity-50" />
 
-      <div className="flex justify-end">
+      <div className="flex flex-wrap justify-end gap-2">
+        <Poweroff />
         <Reboot />
       </div>
     </>

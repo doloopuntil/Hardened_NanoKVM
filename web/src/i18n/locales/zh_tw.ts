@@ -345,8 +345,7 @@ const zh_tw = {
         uptime: '執行時間',
         community: '社群',
         credit: '基於 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 建置',
-        hostname: '主機名稱',
-        hostnameReboot: '是否重新啟動以套用新的主機名稱？'
+        hostname: '主機名稱'
       },
       appearance: {
         title: '外觀',
@@ -398,6 +397,7 @@ const zh_tw = {
         title: '設備',
         minutes: '分鐘',
         sections: {
+          general: '一般',
           connectivity: '連線',
           hostConnection: '主機連線',
           inputOutput: '輸入與輸出'
@@ -456,8 +456,14 @@ const zh_tw = {
         usbWakeup: 'USB 喚醒',
         usbWakeupDesc: '允許鍵盤或滑鼠事件喚醒遠端主機',
         usbWakeupTip: '如果主機反覆記錄 USB wakeup 訊息，請關閉',
+        hostname: {
+          description: '此裝置在網路中的名稱',
+          rebootRequired: '需要重新啟動'
+        },
         reboot: '重新啟動',
-        rebootDesc: '您確定要重新啟動 NanoKVM?'
+        rebootDesc: '您確定要重新啟動 NanoKVM?',
+        poweroff: '關機',
+        poweroffDesc: '確定要關閉 NanoKVM 嗎？關閉後將無法存取，直到重新開機。'
       },
       network: {
         title: 'IP & DNS',

@@ -52,6 +52,8 @@ const PROC_UPTIME_FILE: &str = "/proc/uptime";
 const HARDWARE_VERSION_FILE: &str = "/etc/kvm/hw";
 const ETC_HOSTNAME_FILE: &str = "/etc/hostname";
 const BOOT_HOSTNAME_FILE: &str = "/boot/hostname";
+// Volatile, so a reboot clears it: the name the services started with.
+const HOSTNAME_BOOT_NAME_FILE: &str = "/tmp/hardened-hostname-boot-name";
 const ETC_HOSTS_FILE: &str = "/etc/hosts";
 const WEB_TITLE_FILE: &str = "/etc/kvm/web-title";
 const HDMI_DISABLE_FILE: &str = "/etc/kvm/hdmi_disable";
@@ -106,8 +108,11 @@ pub struct HardwareRsp {
 }
 
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct HostnameRsp {
     pub hostname: String,
+    /// The name changed since boot, so the services still run under the old one.
+    pub reboot_required: bool,
 }
 
 #[derive(Debug, Deserialize)]
@@ -312,9 +317,29 @@ pub async fn get_hardware() -> Result<impl IntoResponse> {
 }
 
 pub async fn get_hostname() -> Result<impl IntoResponse> {
+    let hostname = read_trimmed(ETC_HOSTNAME_FILE).unwrap_or_default();
+    let reboot_required =
+        hostname_reboot_required(read_trimmed(HOSTNAME_BOOT_NAME_FILE).as_deref(), &hostname);
     Ok(Json(ApiResponse::ok(HostnameRsp {
-        hostname: read_trimmed(ETC_HOSTNAME_FILE).unwrap_or_default(),
+        hostname,
+        reboot_required,
     })))
+}
+
+/// A reboot is needed while the name differs from the one in effect at boot.
+fn hostname_reboot_required(boot_name: Option<&str>, current: &str) -> bool {
+    boot_name.is_some_and(|boot| boot != current)
+}
+
+// Remember the name the services run under; changing it back clears the need to reboot.
+fn track_hostname_change(old_hostname: &str, new_hostname: &str) {
+    let boot_name =
+        read_trimmed(HOSTNAME_BOOT_NAME_FILE).unwrap_or_else(|| old_hostname.to_string());
+    if boot_name == new_hostname || boot_name.is_empty() {
+        let _ = remove_file_if_exists(HOSTNAME_BOOT_NAME_FILE);
+    } else {
+        let _ = fs::write(HOSTNAME_BOOT_NAME_FILE, boot_name.as_bytes());
+    }
 }
 
 pub async fn set_hostname(Json(req): Json<SetHostnameReq>) -> Result<impl IntoResponse> {
@@ -333,6 +358,7 @@ pub async fn set_hostname(Json(req): Json<SetHostnameReq>) -> Result<impl IntoRe
 
     fs::write(BOOT_HOSTNAME_FILE, req.hostname.as_bytes())?;
     fs::write(ETC_HOSTNAME_FILE, req.hostname.as_bytes())?;
+    track_hostname_change(&old_hostname, &req.hostname);
     let _ = run_allowed(
         AllowedCommand::Hostname,
         ["-F", ETC_HOSTNAME_FILE],
@@ -689,6 +715,23 @@ pub async fn reboot() -> Result<impl IntoResponse> {
         "reboot failed",
     )
     .await?;
+    Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+/// Answers first and powers off a second later, so the browser gets its response.
+pub async fn poweroff() -> Result<impl IntoResponse> {
+    tokio::spawn(async {
+        time::sleep(Duration::from_millis(1000)).await;
+        if let Err(err) = run_allowed(
+            AllowedCommand::Poweroff,
+            std::iter::empty::<&str>(),
+            Duration::from_secs(2),
+        )
+        .await
+        {
+            tracing::error!(error = %err, "failed to power off");
+        }
+    });
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
@@ -1583,6 +1626,13 @@ fn remove_dir_if_exists(path: &str) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn a_reboot_is_needed_only_while_the_name_differs_from_the_boot_name() {
+        assert!(!hostname_reboot_required(None, "kvm-1"));
+        assert!(!hostname_reboot_required(Some("kvm-1"), "kvm-1"));
+        assert!(hostname_reboot_required(Some("kvm-1"), "kvm-2"));
+    }
 
     #[test]
     fn accepts_plain_and_fully_qualified_hostnames() {

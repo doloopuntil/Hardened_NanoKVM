@@ -364,8 +364,7 @@ const uk = {
         community: 'Спільнота',
         credit:
           'Створено на основі <a1>NanoKVM</a1> від Sipeed і <a2>Hardened NanoKVM</a2> від woffko',
-        hostname: "Ім'я вузла",
-        hostnameReboot: "Перезавантажити, щоб застосувати нове ім'я вузла?"
+        hostname: "Ім'я вузла"
       },
       appearance: {
         title: 'Зовнішній вигляд',
@@ -418,6 +417,7 @@ const uk = {
         title: 'Пристрій',
         minutes: 'хв',
         sections: {
+          general: 'Загальні',
           connectivity: 'Підключення',
           hostConnection: 'Підключення до хоста',
           inputOutput: 'Введення та виведення'
@@ -479,8 +479,14 @@ const uk = {
         usbWakeup: 'Пробудження через USB',
         usbWakeupDesc: 'Дозволяє подіям клавіатури або миші пробуджувати віддалений хост',
         usbWakeupTip: 'Вимкніть, якщо хост записує повторювані повідомлення USB wakeup',
+        hostname: {
+          description: 'Назва цього пристрою в мережі',
+          rebootRequired: 'Потрібне перезавантаження'
+        },
         reboot: 'Перезавантажити',
-        rebootDesc: 'Ви впевнені, що хочете перезавантажити NanoKVM?'
+        rebootDesc: 'Ви впевнені, що хочете перезавантажити NanoKVM?',
+        poweroff: 'Вимкнути',
+        poweroffDesc: 'Вимкнути NanoKVM? Він буде недоступний, доки його знову не ввімкнуть.'
       },
       network: {
         title: 'IP & DNS',
@@ -992,8 +998,7 @@ const uk = {
           uploading: 'Завантаження',
           verifying: 'Перевірка й підготовка пакета',
           keyTitle: 'Локальний ключ оновлень',
-          keyDesc:
-            'Відкритий ключ у форматі PEM, яким дозволено підписувати пакети, зібрані вами',
+          keyDesc: 'Відкритий ключ у форматі PEM, яким дозволено підписувати пакети, зібрані вами',
           keyNone: 'Ключ не задано',
           keySet: 'Задати ключ',
           keyRemove: 'Видалити',

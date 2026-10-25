@@ -358,8 +358,7 @@ const tr = {
         community: 'Topluluk',
         credit:
           "Sipeed'in <a1>NanoKVM</a1> ve woffko'nun <a2>Hardened NanoKVM</a2> projeleri üzerine kurulmuştur",
-        hostname: 'Ana makine adı',
-        hostnameReboot: 'Yeni ana makine adını uygulamak için yeniden başlatılsın mı?'
+        hostname: 'Ana makine adı'
       },
       appearance: {
         title: 'Görünüm',
@@ -412,6 +411,7 @@ const tr = {
         title: 'Cihaz',
         minutes: 'dk',
         sections: {
+          general: 'Genel',
           connectivity: 'Bağlantı',
           hostConnection: 'Ana makine bağlantısı',
           inputOutput: 'Giriş ve çıkış'
@@ -473,8 +473,15 @@ const tr = {
         usbWakeup: 'USB ile uyandırma',
         usbWakeupDesc: 'Klavye veya fare olaylarının uzak makineyi uyandırmasına izin verir',
         usbWakeupTip: 'Makine tekrarlayan USB wakeup iletileri kaydediyorsa kapatın',
+        hostname: {
+          description: 'Bu cihazın ağdaki adı',
+          rebootRequired: 'Yeniden başlatma gerekli'
+        },
         reboot: 'Yeniden başlat',
-        rebootDesc: "NanoKVM'i yeniden başlatmak istediğinizden emin misiniz?"
+        rebootDesc: "NanoKVM'i yeniden başlatmak istediğinizden emin misiniz?",
+        poweroff: 'Kapat',
+        poweroffDesc:
+          "NanoKVM'i kapatmak istediğinize emin misiniz? Yeniden açılana kadar erişilemez."
       },
       network: {
         title: 'IP & DNS',
@@ -986,8 +993,7 @@ const tr = {
           uploading: 'Yükleniyor',
           verifying: 'Paket doğrulanıyor ve hazırlanıyor',
           keyTitle: 'Yerel güncelleme anahtarı',
-          keyDesc:
-            'Kendi oluşturduğunuz paketlerini imzalayabilen PEM biçiminde genel anahtar',
+          keyDesc: 'Kendi oluşturduğunuz paketlerini imzalayabilen PEM biçiminde genel anahtar',
           keyNone: 'Anahtar ayarlanmadı',
           keySet: 'Anahtarı ayarla',
           keyRemove: 'Kaldır',

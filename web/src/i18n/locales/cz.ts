@@ -358,8 +358,7 @@ const cz = {
         uptime: 'Doba běhu',
         community: 'Komunita',
         credit: 'Postaveno na <a1>NanoKVM</a1> od Sipeed a <a2>Hardened NanoKVM</a2> od woffko',
-        hostname: 'Název hostitele',
-        hostnameReboot: 'Restartovat, aby se použil nový název hostitele?'
+        hostname: 'Název hostitele'
       },
       appearance: {
         title: 'Vzhled',
@@ -412,6 +411,7 @@ const cz = {
         title: 'Zařízení',
         minutes: 'min',
         sections: {
+          general: 'Obecné',
           connectivity: 'Připojení',
           hostConnection: 'Připojení k hostiteli',
           inputOutput: 'Vstup a výstup'
@@ -473,8 +473,14 @@ const cz = {
         usbWakeup: 'Probuzení přes USB',
         usbWakeupDesc: 'Povolí klávesnici nebo myši probudit vzdálený host',
         usbWakeupTip: 'Vypněte, pokud host zapisuje opakované zprávy USB wakeup',
+        hostname: {
+          description: 'Název tohoto zařízení v síti',
+          rebootRequired: 'Nutný restart'
+        },
         reboot: 'Restartujte',
-        rebootDesc: 'Opravdu chcete restartovat NanoKVM?'
+        rebootDesc: 'Opravdu chcete restartovat NanoKVM?',
+        poweroff: 'Vypnout',
+        poweroffDesc: 'Opravdu chcete vypnout NanoKVM? Nebude dostupné, dokud ho znovu nezapnete.'
       },
       network: {
         title: 'IP & DNS',

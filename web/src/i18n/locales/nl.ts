@@ -332,7 +332,8 @@ const nl = {
       canceled: 'Upload geannuleerd',
       downloadCanceled: 'Download geannuleerd',
       cancel: 'Annuleren',
-      remoteDisabled: 'ISO-download op afstand is uitgeschakeld in Instellingen > Gebruiker > Uiterlijk',
+      remoteDisabled:
+        'ISO-download op afstand is uitgeschakeld in Instellingen > Gebruiker > Uiterlijk',
       remoteFailed: 'ISO-download op afstand mislukt',
       sha256: 'Optionele SHA-256-controlesom',
       sha256Placeholder: 'Voer een SHA-256-controlesom van 64 tekens in',
@@ -363,8 +364,7 @@ const nl = {
         uptime: 'Uptime',
         community: 'Community',
         credit: 'Gebouwd op <a1>NanoKVM</a1> van Sipeed en <a2>Hardened NanoKVM</a2> van woffko',
-        hostname: 'Hostnaam',
-        hostnameReboot: 'Opnieuw opstarten om de nieuwe hostnaam toe te passen?'
+        hostname: 'Hostnaam'
       },
       appearance: {
         title: 'Uiterlijk',
@@ -417,6 +417,7 @@ const nl = {
         title: 'Apparaat',
         minutes: 'min',
         sections: {
+          general: 'Algemeen',
           connectivity: 'Connectiviteit',
           hostConnection: 'Hostverbinding',
           inputOutput: 'Invoer en uitvoer'
@@ -480,8 +481,15 @@ const nl = {
         usbWakeup: 'USB-wekken',
         usbWakeupDesc: 'Sta toetsenbord- of muisgebeurtenissen toe om de externe host te wekken',
         usbWakeupTip: 'Schakel uit als de host herhaald USB wakeup-berichten logt',
+        hostname: {
+          description: 'Naam van dit apparaat op het netwerk',
+          rebootRequired: 'Herstart vereist'
+        },
         reboot: 'Opnieuw opstarten',
-        rebootDesc: 'Weet u zeker dat u NanoKVM opnieuw wilt opstarten?'
+        rebootDesc: 'Weet u zeker dat u NanoKVM opnieuw wilt opstarten?',
+        poweroff: 'Uitschakelen',
+        poweroffDesc:
+          'Weet je zeker dat je NanoKVM wilt uitschakelen? Het is niet bereikbaar totdat het weer wordt ingeschakeld.'
       },
       network: {
         title: 'IP & DNS',
@@ -994,8 +1002,7 @@ const nl = {
           uploading: 'Uploaden',
           verifying: 'Pakket controleren en klaarzetten',
           keyTitle: 'Lokale updatesleutel',
-          keyDesc:
-            'Openbare sleutel in PEM-indeling die zelfgebouwde pakketten mag ondertekenen',
+          keyDesc: 'Openbare sleutel in PEM-indeling die zelfgebouwde pakketten mag ondertekenen',
           keyNone: 'Geen sleutel ingesteld',
           keySet: 'Sleutel instellen',
           keyRemove: 'Verwijderen',

@@ -329,7 +329,8 @@ const pt_br = {
       canceled: 'Upload cancelado',
       downloadCanceled: 'Download cancelado',
       cancel: 'Cancelar',
-      remoteDisabled: 'O download remoto de ISO está desativado em Configurações > Usuário > Aparência',
+      remoteDisabled:
+        'O download remoto de ISO está desativado em Configurações > Usuário > Aparência',
       remoteFailed: 'Falha no download remoto de ISO',
       sha256: 'Checksum SHA-256 opcional',
       sha256Placeholder: 'Digite um checksum SHA-256 de 64 caracteres',
@@ -360,8 +361,7 @@ const pt_br = {
         uptime: 'Tempo ativo',
         community: 'Comunidade',
         credit: 'Baseado no <a1>NanoKVM</a1> da Sipeed e no <a2>Hardened NanoKVM</a2> de woffko',
-        hostname: 'Nome do host',
-        hostnameReboot: 'Reiniciar para aplicar o novo nome do host?'
+        hostname: 'Nome do host'
       },
       appearance: {
         title: 'Aparência',
@@ -414,6 +414,7 @@ const pt_br = {
         title: 'Dispositivo',
         minutes: 'min',
         sections: {
+          general: 'Geral',
           connectivity: 'Conectividade',
           hostConnection: 'Conexão com o host',
           inputOutput: 'Entrada e saída'
@@ -475,8 +476,15 @@ const pt_br = {
         usbWakeup: 'Ativação por USB',
         usbWakeupDesc: 'Permite que eventos de teclado ou mouse acordem o host remoto',
         usbWakeupTip: 'Desative se o host registrar mensagens USB wakeup repetidas',
+        hostname: {
+          description: 'Nome deste dispositivo na rede',
+          rebootRequired: 'Reinício necessário'
+        },
         reboot: 'Reiniciar',
-        rebootDesc: 'Tem certeza de que deseja reiniciar o NanoKVM?'
+        rebootDesc: 'Tem certeza de que deseja reiniciar o NanoKVM?',
+        poweroff: 'Desligar',
+        poweroffDesc:
+          'Tem certeza de que deseja desligar o NanoKVM? Ele ficará inacessível até ser ligado novamente.'
       },
       network: {
         title: 'IP & DNS',
@@ -988,8 +996,7 @@ const pt_br = {
           uploading: 'Enviando',
           verifying: 'Verificando e preparando o pacote',
           keyTitle: 'Chave de atualização local',
-          keyDesc:
-            'Chave pública em formato PEM que pode assinar pacotes compilados por você',
+          keyDesc: 'Chave pública em formato PEM que pode assinar pacotes compilados por você',
           keyNone: 'Nenhuma chave definida',
           keySet: 'Definir chave',
           keyRemove: 'Remover',

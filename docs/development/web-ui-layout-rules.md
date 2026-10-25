@@ -198,11 +198,11 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     again.
 35. The Settings window is at most 720px tall (`max-h-[720px]`), and 82.5vh on a
     shorter screen. The Monitor page needs 710px for equal space above its title
-    and below its last line (44px; 55px below at 720px). The Device page needs 652px
-    on a board with no OLED and no HDMI rows, so it fits; it needs 777px with an
-    OLED or with the PCIe HDMI rows, and 902px with both, and then it scrolls.
-    Measure again and change the number if a page gets taller, and check the
-    pages at this height.
+    and below its last line (44px; 55px below at 720px). The Device page needs
+    788px on a board with no OLED and no HDMI rows, 913px with an OLED or with
+    the PCIe HDMI rows, and 1038px with both, so it scrolls at 720px. Measure
+    again and change the number if a page gets taller, and check the pages at
+    this height.
 
 ## Menu bar popovers
 

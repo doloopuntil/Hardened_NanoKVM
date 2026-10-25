@@ -356,8 +356,7 @@ const ko = {
         uptime: '가동 시간',
         community: '커뮤니티',
         credit: 'Sipeed의 <a1>NanoKVM</a1>과 woffko의 <a2>Hardened NanoKVM</a2>을 기반으로 합니다',
-        hostname: '호스트 이름',
-        hostnameReboot: '새 호스트 이름을 적용하려면 재부팅하시겠습니까?'
+        hostname: '호스트 이름'
       },
       appearance: {
         title: '디자인',
@@ -409,6 +408,7 @@ const ko = {
         title: '장치',
         minutes: '분',
         sections: {
+          general: '일반',
           connectivity: '연결',
           hostConnection: '호스트 연결',
           inputOutput: '입력 및 출력'
@@ -468,8 +468,14 @@ const ko = {
         usbWakeup: 'USB 깨우기',
         usbWakeupDesc: '키보드 또는 마우스 이벤트가 원격 호스트를 깨우도록 허용합니다',
         usbWakeupTip: '호스트가 USB wakeup 메시지를 반복해서 기록하면 끄세요',
+        hostname: {
+          description: '네트워크에서 이 장치의 이름',
+          rebootRequired: '재부팅 필요'
+        },
         reboot: '재부팅',
-        rebootDesc: 'NanoKVM을 재부팅하시겠습니까?'
+        rebootDesc: 'NanoKVM을 재부팅하시겠습니까?',
+        poweroff: '전원 끄기',
+        poweroffDesc: 'NanoKVM의 전원을 끄시겠습니까? 다시 켜기 전까지는 접속할 수 없습니다.'
       },
       network: {
         title: 'IP & DNS',

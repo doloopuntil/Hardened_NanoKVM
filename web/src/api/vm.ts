@@ -232,6 +232,11 @@ export function reboot() {
   return http.post('/api/vm/system/reboot');
 }
 
+// power off; the device stays off until it is powered on again
+export function poweroff() {
+  return http.post('/api/vm/system/poweroff');
+}
+
 export type MonitorDisk = { mount: string; totalBytes: number; usedBytes: number };
 
 export type MonitorSample = {

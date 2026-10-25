@@ -333,7 +333,8 @@ const de = {
       canceled: 'Upload abgebrochen',
       downloadCanceled: 'Download abgebrochen',
       cancel: 'Abbrechen',
-      remoteDisabled: 'Remote-ISO-Download ist unter Einstellungen > Benutzer > Darstellung deaktiviert',
+      remoteDisabled:
+        'Remote-ISO-Download ist unter Einstellungen > Benutzer > Darstellung deaktiviert',
       remoteFailed: 'Remote-ISO-Download fehlgeschlagen',
       sha256: 'Optionale SHA-256-Prüfsumme',
       sha256Placeholder: 'Geben Sie eine 64-stellige SHA-256-Prüfsumme ein',
@@ -364,8 +365,7 @@ const de = {
         uptime: 'Laufzeit',
         community: 'Community',
         credit: 'Basiert auf <a1>NanoKVM</a1> von Sipeed und <a2>Hardened NanoKVM</a2> von woffko',
-        hostname: 'Hostname',
-        hostnameReboot: 'Neu starten, um den neuen Hostnamen zu übernehmen?'
+        hostname: 'Hostname'
       },
       appearance: {
         title: 'Erscheinungsbild',
@@ -418,6 +418,7 @@ const de = {
         title: 'Gerät',
         minutes: 'Min.',
         sections: {
+          general: 'Allgemein',
           connectivity: 'Konnektivität',
           hostConnection: 'Host-Verbindung',
           inputOutput: 'Eingabe und Ausgabe'
@@ -482,8 +483,15 @@ const de = {
         usbWakeup: 'USB-Aufwecken',
         usbWakeupDesc: 'Erlaubt Tastatur- oder Mausereignissen, den Remote-Host aufzuwecken',
         usbWakeupTip: 'Ausschalten, wenn der Host wiederholt USB-Wakeup-Meldungen protokolliert',
+        hostname: {
+          description: 'Name dieses Geräts im Netzwerk',
+          rebootRequired: 'Neustart erforderlich'
+        },
         reboot: 'Neustarten',
-        rebootDesc: 'Sind Sie sicher dass Sie NanoKVM neustarten möchten?'
+        rebootDesc: 'Sind Sie sicher dass Sie NanoKVM neustarten möchten?',
+        poweroff: 'Ausschalten',
+        poweroffDesc:
+          'Möchten Sie NanoKVM wirklich ausschalten? Es ist erst wieder erreichbar, wenn es erneut eingeschaltet wird.'
       },
       network: {
         title: 'IP & DNS',

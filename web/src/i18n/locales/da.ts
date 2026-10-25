@@ -358,8 +358,7 @@ const da = {
         uptime: 'Oppetid',
         community: 'Fællesskab',
         credit: 'Bygget på <a1>NanoKVM</a1> fra Sipeed og <a2>Hardened NanoKVM</a2> af woffko',
-        hostname: 'Værtsnavn',
-        hostnameReboot: 'Genstart for at anvende det nye værtsnavn?'
+        hostname: 'Værtsnavn'
       },
       appearance: {
         title: 'Udseende',
@@ -412,6 +411,7 @@ const da = {
         title: 'Enhed',
         minutes: 'min',
         sections: {
+          general: 'Generelt',
           connectivity: 'Forbindelser',
           hostConnection: 'Værtsforbindelse',
           inputOutput: 'Input og output'
@@ -474,8 +474,15 @@ const da = {
         usbWakeup: 'USB-vækning',
         usbWakeupDesc: 'Tillad tastatur- eller musehændelser at vække fjernværten',
         usbWakeupTip: 'Slå fra, hvis værten logger gentagne USB wakeup-meddelelser',
+        hostname: {
+          description: 'Enhedens navn på netværket',
+          rebootRequired: 'Genstart påkrævet'
+        },
         reboot: 'Genstart',
-        rebootDesc: 'Er du sikker på, at du vil genstarte NanoKVM?'
+        rebootDesc: 'Er du sikker på, at du vil genstarte NanoKVM?',
+        poweroff: 'Sluk',
+        poweroffDesc:
+          'Er du sikker på, at du vil slukke NanoKVM? Den kan ikke nås, før den tændes igen.'
       },
       network: {
         title: 'IP & DNS',

@@ -361,8 +361,7 @@ const id = {
         community: 'Komunitas',
         credit:
           'Dibangun di atas <a1>NanoKVM</a1> dari Sipeed dan <a2>Hardened NanoKVM</a2> oleh woffko',
-        hostname: 'Nama host',
-        hostnameReboot: 'Nyalakan ulang untuk menerapkan nama host baru?'
+        hostname: 'Nama host'
       },
       appearance: {
         title: 'Tampilan',
@@ -415,6 +414,7 @@ const id = {
         title: 'Perangkat',
         minutes: 'mnt',
         sections: {
+          general: 'Umum',
           connectivity: 'Konektivitas',
           hostConnection: 'Koneksi host',
           inputOutput: 'Input dan output'
@@ -477,8 +477,15 @@ const id = {
         usbWakeup: 'Bangunkan lewat USB',
         usbWakeupDesc: 'Izinkan kejadian keyboard atau mouse membangunkan host jarak jauh',
         usbWakeupTip: 'Matikan jika host mencatat pesan USB wakeup berulang',
+        hostname: {
+          description: 'Nama perangkat ini di jaringan',
+          rebootRequired: 'Perlu mulai ulang'
+        },
         reboot: 'Mulai ulang',
-        rebootDesc: 'Apakah Anda yakin ingin me-reboot NanoKVM?'
+        rebootDesc: 'Apakah Anda yakin ingin me-reboot NanoKVM?',
+        poweroff: 'Matikan',
+        poweroffDesc:
+          'Yakin ingin mematikan NanoKVM? Perangkat tidak dapat dijangkau sampai dinyalakan kembali.'
       },
       network: {
         title: 'IP & DNS',

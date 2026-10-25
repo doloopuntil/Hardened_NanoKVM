@@ -344,8 +344,7 @@ const zh = {
         uptime: '运行时间',
         community: '社区',
         credit: '基于 Sipeed 的 <a1>NanoKVM</a1> 和 woffko 的 <a2>Hardened NanoKVM</a2> 构建',
-        hostname: '主机名',
-        hostnameReboot: '是否重启以应用新的主机名？'
+        hostname: '主机名'
       },
       appearance: {
         title: '外观',
@@ -397,6 +396,7 @@ const zh = {
         title: '设备',
         minutes: '分钟',
         sections: {
+          general: '常规',
           connectivity: '连接',
           hostConnection: '主机连接',
           inputOutput: '输入与输出'
@@ -455,8 +455,14 @@ const zh = {
         usbWakeup: 'USB 唤醒',
         usbWakeupDesc: '允许键盘或鼠标事件唤醒远程主机',
         usbWakeupTip: '如果主机反复记录 USB wakeup 消息，请关闭',
+        hostname: {
+          description: '此设备在网络中的名称',
+          rebootRequired: '需要重启'
+        },
         reboot: '重新启动',
-        rebootDesc: '您确定要重新启动 NanoKVM 吗？'
+        rebootDesc: '您确定要重新启动 NanoKVM 吗？',
+        poweroff: '关机',
+        poweroffDesc: '确定要关闭 NanoKVM 吗？关闭后将无法访问，直到重新开机。'
       },
       network: {
         title: 'IP & DNS',

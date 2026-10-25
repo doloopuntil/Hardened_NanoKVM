@@ -363,8 +363,7 @@ const it = {
         uptime: 'Tempo di attività',
         community: 'Comunità',
         credit: 'Basato su <a1>NanoKVM</a1> di Sipeed e <a2>Hardened NanoKVM</a2> di woffko',
-        hostname: 'Nome host',
-        hostnameReboot: 'Riavviare per applicare il nuovo nome host?'
+        hostname: 'Nome host'
       },
       appearance: {
         title: 'Aspetto',
@@ -417,6 +416,7 @@ const it = {
         title: 'Dispositivo',
         minutes: 'min',
         sections: {
+          general: 'Generale',
           connectivity: 'Connettività',
           hostConnection: "Connessione all'host",
           inputOutput: 'Input e output'
@@ -479,8 +479,14 @@ const it = {
         usbWakeup: 'Risveglio USB',
         usbWakeupDesc: "Consente a tastiera o mouse di riattivare l'host remoto",
         usbWakeupTip: "Disattiva se l'host registra messaggi USB wakeup ripetuti",
+        hostname: {
+          description: 'Nome di questo dispositivo nella rete',
+          rebootRequired: 'Riavvio necessario'
+        },
         reboot: 'Riavvia',
-        rebootDesc: 'Sei sicuro di voler riavviare NanoKVM?'
+        rebootDesc: 'Sei sicuro di voler riavviare NanoKVM?',
+        poweroff: 'Spegni',
+        poweroffDesc: 'Spegnere NanoKVM? Non sarà raggiungibile finché non verrà riacceso.'
       },
       network: {
         title: 'IP & DNS',
@@ -996,8 +1002,7 @@ const it = {
           uploading: 'Caricamento',
           verifying: 'Verifica e preparazione del pacchetto',
           keyTitle: 'Chiave di aggiornamento locale',
-          keyDesc:
-            'Chiave pubblica in formato PEM che può firmare i pacchetti creati da te',
+          keyDesc: 'Chiave pubblica in formato PEM che può firmare i pacchetti creati da te',
           keyNone: 'Nessuna chiave impostata',
           keySet: 'Imposta chiave',
           keyRemove: 'Rimuovi',

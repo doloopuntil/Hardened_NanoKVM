@@ -362,8 +362,7 @@ const ru = {
         uptime: 'Время работы',
         community: 'Сообщество',
         credit: 'Основано на <a1>NanoKVM</a1> от Sipeed и <a2>Hardened NanoKVM</a2> от woffko',
-        hostname: 'Имя хоста',
-        hostnameReboot: 'Перезагрузить, чтобы применить новое имя хоста?'
+        hostname: 'Имя хоста'
       },
       appearance: {
         title: 'Внешний вид',
@@ -416,6 +415,7 @@ const ru = {
         title: 'Устройство',
         minutes: 'мин',
         sections: {
+          general: 'Общие',
           connectivity: 'Подключение',
           hostConnection: 'Подключение к хосту',
           inputOutput: 'Ввод и вывод'
@@ -476,8 +476,14 @@ const ru = {
         usbWakeup: 'Пробуждение по USB',
         usbWakeupDesc: 'Разрешить клавиатуре или мыши будить удаленный хост',
         usbWakeupTip: 'Выключите, если хост пишет повторяющиеся USB wakeup-сообщения',
+        hostname: {
+          description: 'Имя этого устройства в сети',
+          rebootRequired: 'Требуется перезагрузка'
+        },
         reboot: 'Перезагрузка',
-        rebootDesc: 'Вы уверены, что хотите перезагрузить NanoKVM?'
+        rebootDesc: 'Вы уверены, что хотите перезагрузить NanoKVM?',
+        poweroff: 'Выключить',
+        poweroffDesc: 'Выключить NanoKVM? Он будет недоступен, пока его снова не включат.'
       },
       network: {
         title: 'IP & DNS',

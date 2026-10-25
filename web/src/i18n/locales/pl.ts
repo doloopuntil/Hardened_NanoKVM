@@ -362,8 +362,7 @@ const pl = {
         community: 'Społeczność',
         credit:
           'Oparty na <a1>NanoKVM</a1> firmy Sipeed i <a2>Hardened NanoKVM</a2> autorstwa woffko',
-        hostname: 'Nazwa hosta',
-        hostnameReboot: 'Uruchomić ponownie, aby zastosować nową nazwę hosta?'
+        hostname: 'Nazwa hosta'
       },
       appearance: {
         title: 'Wygląd',
@@ -416,6 +415,7 @@ const pl = {
         title: 'Urządzenie',
         minutes: 'min',
         sections: {
+          general: 'Ogólne',
           connectivity: 'Łączność',
           hostConnection: 'Połączenie z hostem',
           inputOutput: 'Wejście i wyjście'
@@ -476,8 +476,15 @@ const pl = {
         usbWakeup: 'Wybudzanie przez USB',
         usbWakeupDesc: 'Pozwól zdarzeniom klawiatury lub myszy wybudzać zdalny host',
         usbWakeupTip: 'Wyłącz, jeśli host zapisuje powtarzające się komunikaty USB wakeup',
+        hostname: {
+          description: 'Nazwa tego urządzenia w sieci',
+          rebootRequired: 'Wymagany restart'
+        },
         reboot: 'Uruchom ponownie',
-        rebootDesc: 'Czy na pewno chcesz ponownie uruchomić NanoKVM?'
+        rebootDesc: 'Czy na pewno chcesz ponownie uruchomić NanoKVM?',
+        poweroff: 'Wyłącz',
+        poweroffDesc:
+          'Czy na pewno wyłączyć NanoKVM? Będzie niedostępny, dopóki nie zostanie ponownie włączony.'
       },
       network: {
         title: 'IP & DNS',
