@@ -895,7 +895,7 @@ const fi = {
       },
       update: {
         title: 'Päivitykset',
-        sources: 'Päivityslähteet',
+        currentVersion: 'Nykyinen versio',
         latestVersion: 'Uusin versio',
         queryFailed: 'Version haku epäonnistui',
         updateFailed: 'Päivitys epäonnistui',
@@ -963,8 +963,6 @@ const fi = {
           refresh: 'Päivitä',
           releaseNotes: 'Julkaisutiedot',
           systemVersion: 'Järjestelmän versio',
-          baseImage: 'Perusimage',
-          buildrootRelease: 'Buildroot-julkaisu',
           kernel: 'Kernel',
           stagedVersion: 'Valmisteltu versio',
           archive: 'Arkisto',

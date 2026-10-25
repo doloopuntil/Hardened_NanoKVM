@@ -886,7 +886,7 @@ const en = {
       },
       update: {
         title: 'Updates',
-        sources: 'Update sources',
+        currentVersion: 'Current version',
         latestVersion: 'Latest version',
         queryFailed: "Couldn't get the version",
         updateFailed: 'Update failed',
@@ -953,8 +953,6 @@ const en = {
           refresh: 'Refresh',
           releaseNotes: 'Release notes',
           systemVersion: 'System version',
-          baseImage: 'Base image',
-          buildrootRelease: 'Buildroot release',
           kernel: 'Kernel',
           stagedVersion: 'Staged version',
           archive: 'Archive',

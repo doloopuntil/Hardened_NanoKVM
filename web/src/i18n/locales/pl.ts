@@ -896,7 +896,7 @@ const pl = {
       },
       update: {
         title: 'Aktualizacje',
-        sources: 'Źródła aktualizacji',
+        currentVersion: 'Bieżąca wersja',
         latestVersion: 'Najnowsza wersja',
         queryFailed: 'Uzyskanie wersji nie powiodło się',
         updateFailed: 'Aktualizacja nie powiodła się',
@@ -965,8 +965,6 @@ const pl = {
           refresh: 'Odśwież',
           releaseNotes: 'Informacje o wydaniu',
           systemVersion: 'Wersja systemu',
-          baseImage: 'Obraz bazowy',
-          buildrootRelease: 'Wydanie Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Wersja przygotowana',
           archive: 'Archiwum',

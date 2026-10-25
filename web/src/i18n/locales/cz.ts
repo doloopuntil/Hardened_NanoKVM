@@ -890,7 +890,7 @@ const cz = {
       },
       update: {
         title: 'Aktualizace',
-        sources: 'Zdroje aktualizací',
+        currentVersion: 'Aktuální verze',
         latestVersion: 'Nejnovější verze',
         queryFailed: 'Nepodařilo se získat verzi',
         updateFailed: 'Aktualizace se nezdařila',
@@ -958,8 +958,6 @@ const cz = {
           refresh: 'Obnovit',
           releaseNotes: 'Poznámky k vydání',
           systemVersion: 'Verze systému',
-          baseImage: 'Základní image',
-          buildrootRelease: 'Vydání Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Připravená verze',
           archive: 'Archiv',

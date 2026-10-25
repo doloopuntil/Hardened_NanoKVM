@@ -901,7 +901,7 @@ const nl = {
       },
       update: {
         title: 'Updates',
-        sources: 'Updatebronnen',
+        currentVersion: 'Huidige versie',
         latestVersion: 'Nieuwste versie',
         queryFailed: 'Ophalen versie mislukt',
         updateFailed: 'Update mislukt',
@@ -969,8 +969,6 @@ const nl = {
           refresh: 'Vernieuwen',
           releaseNotes: 'Release-opmerkingen',
           systemVersion: 'Systeemversie',
-          baseImage: 'Basisimage',
-          buildrootRelease: 'Buildroot-release',
           kernel: 'Kernel',
           stagedVersion: 'Voorbereide versie',
           archive: 'Archief',

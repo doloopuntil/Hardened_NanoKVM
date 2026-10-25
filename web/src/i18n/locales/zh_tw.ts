@@ -864,7 +864,7 @@ const zh_tw = {
       },
       update: {
         title: '更新',
-        sources: '更新來源',
+        currentVersion: '目前版本',
         latestVersion: '最新版本',
         queryFailed: '取得版本號失敗',
         updateFailed: '更新失敗',
@@ -922,8 +922,6 @@ const zh_tw = {
           refresh: '重新整理',
           releaseNotes: '版本資訊',
           systemVersion: '系統版本',
-          baseImage: '基礎映像檔',
-          buildrootRelease: 'Buildroot 版本',
           kernel: 'Kernel',
           stagedVersion: '已暫存版本',
           archive: '封存',

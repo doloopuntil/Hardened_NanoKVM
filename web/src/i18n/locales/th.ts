@@ -881,7 +881,7 @@ const th = {
       },
       update: {
         title: 'อัปเดต',
-        sources: 'แหล่งอัปเดต',
+        currentVersion: 'เวอร์ชันปัจจุบัน',
         latestVersion: 'เวอร์ชันล่าสุด',
         queryFailed: 'ไม่สามารถรับข้อมูลเวอร์ชันได้',
         updateFailed: 'การอัปเดตล้มเหลว',
@@ -943,8 +943,6 @@ const th = {
           refresh: 'รีเฟรช',
           releaseNotes: 'บันทึกรุ่น',
           systemVersion: 'เวอร์ชันระบบ',
-          baseImage: 'อิมเมจพื้นฐาน',
-          buildrootRelease: 'รุ่น Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'เวอร์ชันที่เตรียมไว้',
           archive: 'ไฟล์เก็บถาวร',

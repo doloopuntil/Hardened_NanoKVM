@@ -895,7 +895,7 @@ const da = {
       },
       update: {
         title: 'Opdateringer',
-        sources: 'Opdateringskilder',
+        currentVersion: 'Nuværende version',
         latestVersion: 'Seneste version',
         queryFailed: 'Opdateringskontrol mislykkedes',
         updateFailed: 'Opdatering fejlede',
@@ -962,8 +962,6 @@ const da = {
           refresh: 'Opdater',
           releaseNotes: 'Udgivelsesnoter',
           systemVersion: 'Systemversion',
-          baseImage: 'Baseimage',
-          buildrootRelease: 'Buildroot-udgivelse',
           kernel: 'Kernel',
           stagedVersion: 'Klargjort version',
           archive: 'Arkiv',

@@ -896,7 +896,7 @@ const se = {
       },
       update: {
         title: 'Uppdateringar',
-        sources: 'Uppdateringskällor',
+        currentVersion: 'Nuvarande version',
         latestVersion: 'Senaste version',
         queryFailed: 'Kunde inte hämta version',
         updateFailed: 'Uppdatering misslyckades',
@@ -964,8 +964,6 @@ const se = {
           refresh: 'Uppdatera',
           releaseNotes: 'Versionsnoteringar',
           systemVersion: 'Systemversion',
-          baseImage: 'Basimage',
-          buildrootRelease: 'Buildroot-utgåva',
           kernel: 'Kernel',
           stagedVersion: 'Förberedd version',
           archive: 'Arkiv',

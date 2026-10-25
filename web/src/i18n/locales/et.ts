@@ -884,7 +884,7 @@ const et = {
       },
       update: {
         title: 'Uuendused',
-        sources: 'Uuenduste allikad',
+        currentVersion: 'Praegune versioon',
         latestVersion: 'Uusim versioon',
         queryFailed: 'Versiooni hankimine nurjus',
         updateFailed: 'Uuendamine nurjus',
@@ -952,8 +952,6 @@ const et = {
           refresh: 'Värskenda',
           releaseNotes: 'Väljalaskemärkmed',
           systemVersion: 'Süsteemi versioon',
-          baseImage: 'Baasimage',
-          buildrootRelease: 'Buildrooti väljalase',
           kernel: 'Kernel',
           stagedVersion: 'Ettevalmistatud versioon',
           archive: 'Arhiiv',

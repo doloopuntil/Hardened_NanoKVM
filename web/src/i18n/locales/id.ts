@@ -896,7 +896,7 @@ const id = {
       },
       update: {
         title: 'Pembaruan',
-        sources: 'Sumber pembaruan',
+        currentVersion: 'Versi saat ini',
         latestVersion: 'Versi terbaru',
         queryFailed: 'Gagal mendapatkan versi',
         updateFailed: 'Gagal memperbarui',
@@ -965,8 +965,6 @@ const id = {
           refresh: 'Segarkan',
           releaseNotes: 'Catatan rilis',
           systemVersion: 'Versi sistem',
-          baseImage: 'Image dasar',
-          buildrootRelease: 'Rilis Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Versi yang disiapkan',
           archive: 'Arsip',

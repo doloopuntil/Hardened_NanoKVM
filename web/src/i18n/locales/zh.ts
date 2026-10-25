@@ -862,7 +862,7 @@ const zh = {
       },
       update: {
         title: '更新',
-        sources: '更新来源',
+        currentVersion: '当前版本',
         latestVersion: '最新版本',
         queryFailed: '获取版本号失败',
         updateFailed: '更新失败',
@@ -920,8 +920,6 @@ const zh = {
           refresh: '刷新',
           releaseNotes: '发行说明',
           systemVersion: '系统版本',
-          baseImage: '基础镜像',
-          buildrootRelease: 'Buildroot 版本',
           kernel: 'Kernel',
           stagedVersion: '已暂存版本',
           archive: '归档',

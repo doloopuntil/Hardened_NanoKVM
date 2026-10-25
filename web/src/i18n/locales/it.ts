@@ -902,7 +902,7 @@ const it = {
       },
       update: {
         title: 'Aggiornamenti',
-        sources: 'Fonti di aggiornamento',
+        currentVersion: 'Versione attuale',
         latestVersion: 'Ultima versione',
         queryFailed: 'Impossibile ottenere la versione',
         updateFailed: 'Aggiornamento fallito',
@@ -971,8 +971,6 @@ const it = {
           refresh: 'Aggiorna',
           releaseNotes: 'Note di rilascio',
           systemVersion: 'Versione sistema',
-          baseImage: 'Immagine base',
-          buildrootRelease: 'Release Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Versione preparata',
           archive: 'Archivio',

@@ -899,7 +899,7 @@ const nb = {
       },
       update: {
         title: 'Oppdateringer',
-        sources: 'Oppdateringskilder',
+        currentVersion: 'Gjeldende versjon',
         latestVersion: 'Nyeste versjon',
         queryFailed: 'Kunne ikke hente versjon',
         updateFailed: 'En feil oppstod under oppdatering',
@@ -967,8 +967,6 @@ const nb = {
           refresh: 'Oppdater',
           releaseNotes: 'Versjonsnotater',
           systemVersion: 'Systemversjon',
-          baseImage: 'Baseimage',
-          buildrootRelease: 'Buildroot-utgivelse',
           kernel: 'Kernel',
           stagedVersion: 'Klargjort versjon',
           archive: 'Arkiv',

@@ -895,7 +895,7 @@ const pt_br = {
       },
       update: {
         title: 'Atualizações',
-        sources: 'Fontes de atualização',
+        currentVersion: 'Versão atual',
         latestVersion: 'Versão mais recente',
         queryFailed: 'Falha ao obter a versão',
         updateFailed: 'Falha na atualização',
@@ -963,8 +963,6 @@ const pt_br = {
           refresh: 'Atualizar',
           releaseNotes: 'Notas da versão',
           systemVersion: 'Versão do sistema',
-          baseImage: 'Imagem base',
-          buildrootRelease: 'Versão do Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Versão preparada',
           archive: 'Arquivo',

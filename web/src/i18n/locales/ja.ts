@@ -898,7 +898,7 @@ const ja = {
       },
       update: {
         title: 'アップデート',
-        sources: 'アップデートの取得元',
+        currentVersion: '現在のバージョン',
         latestVersion: '最新バージョン',
         queryFailed: 'バージョン番号の取得に失敗しました',
         updateFailed: 'アップデートに失敗しました',
@@ -966,8 +966,6 @@ const ja = {
           refresh: '更新',
           releaseNotes: 'リリースノート',
           systemVersion: 'システムバージョン',
-          baseImage: 'ベースイメージ',
-          buildrootRelease: 'Buildroot リリース',
           kernel: 'Kernel',
           stagedVersion: '準備済みバージョン',
           archive: 'アーカイブ',

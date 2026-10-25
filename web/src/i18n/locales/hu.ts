@@ -901,7 +901,7 @@ const hu = {
       },
       update: {
         title: 'Frissítések',
-        sources: 'Frissítési források',
+        currentVersion: 'Jelenlegi verzió',
         latestVersion: 'Legújabb verzió',
         queryFailed: 'Verzió lekérdezése sikertelen',
         updateFailed: 'Frissítés sikertelen',
@@ -969,8 +969,6 @@ const hu = {
           refresh: 'Frissítés',
           releaseNotes: 'Kiadási megjegyzések',
           systemVersion: 'Rendszerverzió',
-          baseImage: 'Alap image',
-          buildrootRelease: 'Buildroot kiadás',
           kernel: 'Kernel',
           stagedVersion: 'Előkészített verzió',
           archive: 'Archívum',

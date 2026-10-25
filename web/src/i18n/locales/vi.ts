@@ -890,7 +890,7 @@ const vi = {
       },
       update: {
         title: 'Cập nhật',
-        sources: 'Nguồn cập nhật',
+        currentVersion: 'Phiên bản hiện tại',
         latestVersion: 'Phiên bản mới nhất',
         queryFailed: 'Lấy phiên bản thất bại',
         updateFailed: 'Cập nhật thất bại',
@@ -958,8 +958,6 @@ const vi = {
           refresh: 'Làm mới',
           releaseNotes: 'Ghi chú phát hành',
           systemVersion: 'Phiên bản hệ thống',
-          baseImage: 'Image nền',
-          buildrootRelease: 'Bản phát hành Buildroot',
           kernel: 'Kernel',
           stagedVersion: 'Phiên bản đã chuẩn bị',
           archive: 'Lưu trữ',
