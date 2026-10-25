@@ -334,7 +334,7 @@ export const Settings = () => {
             'outline outline-1 outline-neutral-700',
             isTouchLayout
               ? 'flex h-[100dvh] w-full max-w-[100vw] flex-col overflow-hidden rounded-none'
-              : 'flex h-[82.5vh] max-h-[710px] rounded-lg'
+              : 'flex h-[82.5vh] max-h-[850px] rounded-lg'
           )}
         >
           <div
