@@ -18,6 +18,9 @@ Built on RC12; the image is rebuilt from source in CI. Not yet published.
   Lite.
 - PicoClaw 0.3.1 with a redesigned sidebar, model settings and history.
 - `nano`, `picocom`, `wireguard-tools`; BusyBox `tar` with gzip.
+- A Reboot required badge on the clock overdrive setting, as for the device name,
+  and a list of what waits for a reboot beside the Reboot button on the Device page.
+  The overdrive badge now follows the clocks the device booted with.
 - Signed application and system bundles can be uploaded from the Updates page once
   a local update key is set. An uploaded bundle is staged and shows as the latest
   version with a Local badge until you install or discard it. The server refuses

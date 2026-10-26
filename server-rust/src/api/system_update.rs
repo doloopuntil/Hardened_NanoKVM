@@ -3073,6 +3073,21 @@ fn read_pending_update() -> Result<Option<SystemPendingUpdate>> {
     read_raw_pending_update()
 }
 
+/// A reboot is needed while an installed update has not been booted into yet.
+pub(crate) fn reboot_pending() -> bool {
+    let Some(uptime) = crate::api::monitor::uptime_seconds() else {
+        return false;
+    };
+    read_pending_update().ok().flatten().is_some_and(|pending| {
+        pending.requires_reboot
+            && installed_since_boot(pending.installed_at, now_unix_seconds(), uptime)
+    })
+}
+
+fn installed_since_boot(installed_at: u64, now: u64, uptime: u64) -> bool {
+    installed_at > now.saturating_sub(uptime)
+}
+
 fn read_raw_pending_update() -> Result<Option<SystemPendingUpdate>> {
     #[derive(Deserialize)]
     #[serde(rename_all = "camelCase")]
@@ -3629,6 +3644,15 @@ mod tests {
         assert!(application_requirement_error_for("2.0.40", &latest).is_some());
         assert!(application_requirement_error_for("2.0.41", &latest).is_none());
         assert!(application_requirement_error_for("2.1.0", &latest).is_none());
+    }
+
+    #[test]
+    fn an_update_needs_a_reboot_only_when_it_was_installed_after_boot() {
+        // booted at 1000, installed at 1500: still waiting
+        assert!(installed_since_boot(1500, 2000, 1000));
+        // installed at 900, then rebooted: confirmed or not, nothing to reboot for
+        assert!(!installed_since_boot(900, 2000, 1000));
+        assert!(!installed_since_boot(0, 2000, 1000));
     }
 
     #[test]

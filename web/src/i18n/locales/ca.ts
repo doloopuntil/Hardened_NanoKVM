@@ -482,8 +482,12 @@ const ca = {
         usbWakeupTip: 'Desactiva-ho si el host registra missatges USB wakeup repetits',
         hostname: {
           description: "Nom d'aquest dispositiu a la xarxa",
-          reachable: 'Accessible a la xarxa local com a {{address}}',
-          rebootRequired: 'Cal reiniciar'
+          reachable: 'Accessible a la xarxa local com a {{address}}'
+        },
+        rebootRequired: 'Cal reiniciar',
+        rebootPending: 'Cal reiniciar per a: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Actualització del sistema'
         },
         reboot: 'Reinicia',
         rebootDesc: 'Segur que vols reiniciar el NanoKVM?',
@@ -574,7 +578,6 @@ const ca = {
             description:
               'Arrenca amb les freqüències més altes de processador i de vídeo especificades pel fabricant',
             tip: 'Si el dispositiu no arrenca amb el sobreesforç, cal tornar a gravar la targeta SD',
-            pending: "S'aplica després del proper reinici",
             unavailable: 'No inclòs en aquesta imatge del sistema',
             keepTitle: "Mantén l'overdrive després d'actualitzar",
             keepDescription:

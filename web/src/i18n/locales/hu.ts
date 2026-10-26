@@ -485,8 +485,12 @@ const hu = {
         usbWakeupTip: 'Kapcsolja ki, ha a gép ismétlődő USB wakeup üzeneteket naplóz',
         hostname: {
           description: 'Az eszköz neve a hálózaton',
-          reachable: 'Elérhető a helyi hálózaton ezen a néven: {{address}}',
-          rebootRequired: 'Újraindítás szükséges'
+          reachable: 'Elérhető a helyi hálózaton ezen a néven: {{address}}'
+        },
+        rebootRequired: 'Újraindítás szükséges',
+        rebootPending: 'Újraindítás szükséges: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Rendszerfrissítés'
         },
         reboot: 'Újraindítás',
         rebootDesc: 'Biztos, hogy újra akarja indítani a NanoKVM-t?',
@@ -575,7 +579,6 @@ const hu = {
             title: 'Órajel-túlhajtás',
             description: 'Indítás a gyártó által megadott magasabb processzor- és videóórajelekkel',
             tip: 'Ha az eszköz túlhajtással nem indul el, az SD-kártyát újra kell írni',
-            pending: 'A következő újraindítás után lép életbe',
             unavailable: 'Nem része ennek a rendszerképnek',
             keepTitle: 'Overdrive megtartása frissítések után',
             keepDescription:

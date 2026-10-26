@@ -486,8 +486,12 @@ const nl = {
         usbWakeupTip: 'Schakel uit als de host herhaald USB wakeup-berichten logt',
         hostname: {
           description: 'Naam van dit apparaat op het netwerk',
-          reachable: 'Bereikbaar op het lokale netwerk als {{address}}',
-          rebootRequired: 'Herstart vereist'
+          reachable: 'Bereikbaar op het lokale netwerk als {{address}}'
+        },
+        rebootRequired: 'Herstart vereist',
+        rebootPending: 'Herstart vereist voor: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Systeemupdate'
         },
         reboot: 'Opnieuw opstarten',
         rebootDesc: 'Weet u zeker dat u NanoKVM opnieuw wilt opstarten?',
@@ -577,7 +581,6 @@ const nl = {
             description:
               'Opstarten met de hogere klokfrequenties voor processor en video die de fabrikant specificeert',
             tip: 'Als het apparaat met overklokken niet start, moet de SD-kaart opnieuw worden beschreven',
-            pending: 'Gaat in na de volgende herstart',
             unavailable: 'Niet opgenomen in dit systeemimage',
             keepTitle: 'Overdrive behouden na updates',
             keepDescription:

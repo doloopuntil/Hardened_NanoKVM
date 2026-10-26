@@ -482,8 +482,12 @@ const se = {
         usbWakeupTip: 'Stäng av om värden loggar upprepade USB wakeup-meddelanden',
         hostname: {
           description: 'Enhetens namn i nätverket',
-          reachable: 'Nåbar i det lokala nätverket som {{address}}',
-          rebootRequired: 'Omstart krävs'
+          reachable: 'Nåbar i det lokala nätverket som {{address}}'
+        },
+        rebootRequired: 'Omstart krävs',
+        rebootPending: 'Omstart krävs för: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Systemuppdatering'
         },
         reboot: 'Starta om',
         rebootDesc: 'Är du säker på att du vill starta om NanoKVM?',
@@ -573,7 +577,6 @@ const se = {
             description:
               'Starta med de högre klockfrekvenser för processor och video som tillverkaren har specificerat',
             tip: 'Om enheten inte startar med överklockning måste SD-kortet skrivas om',
-            pending: 'Gäller efter nästa omstart',
             unavailable: 'Ingår inte i den här systemavbilden',
             keepTitle: 'Behåll overdrive efter uppdateringar',
             keepDescription:

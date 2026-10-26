@@ -6,6 +6,7 @@ import * as api from '@/api/vm.ts';
 import { attempt, confirm } from '@/lib/feedback.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 import { LabelTip } from '@/components/label-tip.tsx';
+import { RebootTag } from '@/components/reboot-tag.tsx';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
 export const Overdrive = () => {
@@ -14,13 +15,13 @@ export const Overdrive = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAvailable, setIsAvailable] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+  const [isRebootRequired, setIsRebootRequired] = useState(false);
   const [keepAfterUpdate, setKeepAfterUpdate] = useState(false);
 
   const isReady = useSettingsLoad(api.getOverdrive, (rsp) => {
     setIsAvailable(!!rsp.data?.available);
     setIsEnabled(!!rsp.data?.enabled);
-    setIsActive(!!rsp.data?.active);
+    setIsRebootRequired(!!rsp.data?.rebootRequired);
     setKeepAfterUpdate(!!rsp.data?.keepAfterUpdate);
   });
 
@@ -32,6 +33,10 @@ export const Overdrive = () => {
       .then((rsp) => {
         if (!rsp) return;
         setIsEnabled(enabled);
+        // switching back to the clocks the device booted with needs no reboot
+        return attempt(() => api.getOverdrive(), { quiet: true }).then((state) =>
+          setIsRebootRequired(!!state?.data?.rebootRequired)
+        );
       })
       .finally(() => {
         setIsLoading(false);
@@ -67,24 +72,23 @@ export const Overdrive = () => {
     });
   }
 
-  const isPending = isAvailable && isEnabled !== isActive;
-  const description = !isReady
-    ? t('settings.system.performance.overdrive.description')
-    : !isAvailable
+  const description =
+    isReady && !isAvailable
       ? t('settings.system.performance.overdrive.unavailable')
-      : isPending
-        ? t('settings.system.performance.overdrive.pending')
-        : t('settings.system.performance.overdrive.description');
+      : t('settings.system.performance.overdrive.description');
 
   return (
     <>
       <SettingRow
         label={
-          <LabelTip
-            text={t('settings.system.performance.overdrive.title')}
-            tip={t('settings.system.performance.overdrive.tip')}
-            warning
-          />
+          <span className="flex flex-wrap items-center gap-2">
+            <LabelTip
+              text={t('settings.system.performance.overdrive.title')}
+              tip={t('settings.system.performance.overdrive.tip')}
+              warning
+            />
+            {isRebootRequired && <RebootTag />}
+          </span>
         }
         description={description}
         isSwitch

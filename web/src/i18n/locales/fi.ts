@@ -481,8 +481,12 @@ const fi = {
         usbWakeupTip: 'Poista käytöstä, jos isäntä kirjaa toistuvia USB wakeup -viestejä',
         hostname: {
           description: 'Tämän laitteen nimi verkossa',
-          reachable: 'Tavoitettavissa paikallisverkossa osoitteella {{address}}',
-          rebootRequired: 'Vaatii uudelleenkäynnistyksen'
+          reachable: 'Tavoitettavissa paikallisverkossa osoitteella {{address}}'
+        },
+        rebootRequired: 'Vaatii uudelleenkäynnistyksen',
+        rebootPending: 'Uudelleenkäynnistys vaaditaan: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Järjestelmäpäivitys'
         },
         reboot: 'Käynnistä uudelleen',
         rebootDesc: 'Haluatko varmasti käynnistää NanoKVM:n uudelleen?',
@@ -572,7 +576,6 @@ const fi = {
             description:
               'Käynnistä valmistajan määrittämillä korkeammilla suorittimen ja videon kellotaajuuksilla',
             tip: 'Jos laite ei käynnisty ylikellotuksella, SD-kortti on kirjoitettava uudelleen',
-            pending: 'Tulee voimaan seuraavan uudelleenkäynnistyksen jälkeen',
             unavailable: 'Ei sisälly tähän järjestelmäkuvaan',
             keepTitle: 'Säilytä overdrive päivitysten jälkeen',
             keepDescription:

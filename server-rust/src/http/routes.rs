@@ -134,6 +134,7 @@ pub fn build(state: AppState) -> Router {
             get(vm::get_virtual_device).post(vm::update_virtual_device),
         )
         .route("/api/vm/oled", get(vm::get_oled).post(vm::set_oled))
+        .route("/api/vm/reboot-pending", get(vm::get_reboot_pending))
         .route("/api/vm/hdmi", get(vm::get_hdmi_state))
         .route("/api/vm/hdmi/reset", post(vm::reset_hdmi))
         .route("/api/vm/hdmi/enable", post(vm::enable_hdmi))

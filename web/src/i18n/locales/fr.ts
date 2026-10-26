@@ -484,8 +484,12 @@ const fr = {
         usbWakeupTip: "Désactivez si l'hôte journalise des messages USB wakeup répétés",
         hostname: {
           description: 'Nom de cet appareil sur le réseau',
-          reachable: 'Joignable sur le réseau local sous le nom {{address}}',
-          rebootRequired: 'Redémarrage requis'
+          reachable: 'Joignable sur le réseau local sous le nom {{address}}'
+        },
+        rebootRequired: 'Redémarrage requis',
+        rebootPending: 'Redémarrage requis pour : {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Mise à jour système'
         },
         reboot: 'Redémarrer',
         rebootDesc: 'Êtes-vous sûr de vouloir redémarrer NanoKVM?',
@@ -576,7 +580,6 @@ const fr = {
             description:
               'Démarrer avec les fréquences de processeur et de vidéo plus élevées définies par le fabricant',
             tip: "Si l'appareil ne démarre pas avec l'overdrive, la carte SD doit être reflashée",
-            pending: "S'applique après le prochain redémarrage",
             unavailable: 'Absent de cette image système',
             keepTitle: "Conserver l'overdrive après les mises à jour",
             keepDescription:

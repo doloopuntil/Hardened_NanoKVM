@@ -478,8 +478,12 @@ const cz = {
         usbWakeupTip: 'Vypněte, pokud host zapisuje opakované zprávy USB wakeup',
         hostname: {
           description: 'Název tohoto zařízení v síti',
-          reachable: 'Dostupné v místní síti jako {{address}}',
-          rebootRequired: 'Nutný restart'
+          reachable: 'Dostupné v místní síti jako {{address}}'
+        },
+        rebootRequired: 'Nutný restart',
+        rebootPending: 'Nutný restart kvůli: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Aktualizace systému'
         },
         reboot: 'Restartujte',
         rebootDesc: 'Opravdu chcete restartovat NanoKVM?',
@@ -568,7 +572,6 @@ const cz = {
             description:
               'Spustit s vyššími frekvencemi procesoru a videa podle specifikace výrobce',
             tip: 'Pokud se zařízení s přetaktováním nespustí, je nutné znovu zapsat kartu SD',
-            pending: 'Použije se po příštím restartu',
             unavailable: 'Není součástí tohoto systémového obrazu',
             keepTitle: 'Ponechat overdrive po aktualizaci',
             keepDescription:

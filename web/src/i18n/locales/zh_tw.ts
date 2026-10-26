@@ -461,8 +461,12 @@ const zh_tw = {
         usbWakeupTip: '如果主機反覆記錄 USB wakeup 訊息，請關閉',
         hostname: {
           description: '此裝置在網路中的名稱',
-          reachable: '在本機網路中可透過 {{address}} 存取',
-          rebootRequired: '需要重新啟動'
+          reachable: '在本機網路中可透過 {{address}} 存取'
+        },
+        rebootRequired: '需要重新啟動',
+        rebootPending: '需要重新啟動：{{reasons}}',
+        rebootReasons: {
+          systemUpdate: '系統更新'
         },
         reboot: '重新啟動',
         rebootDesc: '您確定要重新啟動 NanoKVM?',
@@ -548,7 +552,6 @@ const zh_tw = {
             title: '時脈超頻',
             description: '以製造商指定的更高處理器與視訊時脈頻率啟動',
             tip: '如果裝置在超頻下無法啟動，必須重新燒錄 SD 卡',
-            pending: '下次重新啟動後生效',
             unavailable: '此系統映像不包含該選項',
             keepTitle: '更新後保持超頻',
             keepDescription: '除非開啟此項，否則系統更新後裝置將恢復為標準時脈',

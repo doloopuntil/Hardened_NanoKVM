@@ -142,6 +142,11 @@ export function setOverdrive(options: { enabled?: boolean; keepAfterUpdate?: boo
   return http.post('/api/vm/overdrive', options);
 }
 
+// the changes that only take effect after the next reboot
+export function getRebootPending() {
+  return http.get('/api/vm/reboot-pending');
+}
+
 // get mouse jiggler
 export function getMouseJiggler() {
   return http.get('/api/vm/mouse-jiggler');

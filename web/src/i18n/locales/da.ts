@@ -479,8 +479,12 @@ const da = {
         usbWakeupTip: 'Slå fra, hvis værten logger gentagne USB wakeup-meddelelser',
         hostname: {
           description: 'Enhedens navn på netværket',
-          reachable: 'Kan nås på det lokale netværk som {{address}}',
-          rebootRequired: 'Genstart påkrævet'
+          reachable: 'Kan nås på det lokale netværk som {{address}}'
+        },
+        rebootRequired: 'Genstart påkrævet',
+        rebootPending: 'Genstart påkrævet for: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Systemopdatering'
         },
         reboot: 'Genstart',
         rebootDesc: 'Er du sikker på, at du vil genstarte NanoKVM?',
@@ -570,7 +574,6 @@ const da = {
             description:
               'Start med de højere processor- og videofrekvenser, som producenten har specificeret',
             tip: 'Hvis enheden ikke starter med overclocking, skal SD-kortet flashes igen',
-            pending: 'Træder i kraft efter næste genstart',
             unavailable: 'Ikke med i dette systemaftryk',
             keepTitle: 'Behold overdrive efter opdateringer',
             keepDescription:

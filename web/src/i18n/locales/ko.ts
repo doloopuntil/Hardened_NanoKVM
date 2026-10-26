@@ -473,8 +473,12 @@ const ko = {
         usbWakeupTip: '호스트가 USB wakeup 메시지를 반복해서 기록하면 끄세요',
         hostname: {
           description: '네트워크에서 이 장치의 이름',
-          reachable: '로컬 네트워크에서 {{address}} 주소로 접속할 수 있습니다',
-          rebootRequired: '재부팅 필요'
+          reachable: '로컬 네트워크에서 {{address}} 주소로 접속할 수 있습니다'
+        },
+        rebootRequired: '재부팅 필요',
+        rebootPending: '재부팅 필요: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: '시스템 업데이트'
         },
         reboot: '재부팅',
         rebootDesc: 'NanoKVM을 재부팅하시겠습니까?',
@@ -562,7 +566,6 @@ const ko = {
             title: '클럭 오버드라이브',
             description: '제조업체가 지정한 더 높은 프로세서 및 비디오 클럭으로 부팅합니다',
             tip: '오버드라이브로 장치가 시작되지 않으면 SD 카드를 다시 기록해야 합니다',
-            pending: '다음 재부팅 후 적용됩니다',
             unavailable: '이 시스템 이미지에는 포함되어 있지 않습니다',
             keepTitle: '업데이트 후에도 오버드라이브 유지',
             keepDescription:

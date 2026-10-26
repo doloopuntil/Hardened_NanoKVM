@@ -482,8 +482,12 @@ const id = {
         usbWakeupTip: 'Matikan jika host mencatat pesan USB wakeup berulang',
         hostname: {
           description: 'Nama perangkat ini di jaringan',
-          reachable: 'Dapat dijangkau di jaringan lokal sebagai {{address}}',
-          rebootRequired: 'Perlu mulai ulang'
+          reachable: 'Dapat dijangkau di jaringan lokal sebagai {{address}}'
+        },
+        rebootRequired: 'Perlu mulai ulang',
+        rebootPending: 'Perlu mulai ulang untuk: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Pembaruan sistem'
         },
         reboot: 'Mulai ulang',
         rebootDesc: 'Apakah Anda yakin ingin me-reboot NanoKVM?',
@@ -573,7 +577,6 @@ const id = {
             description:
               'Booting dengan kecepatan clock prosesor dan video yang lebih tinggi sesuai spesifikasi pabrikan',
             tip: 'Jika perangkat tidak menyala dengan overdrive, kartu SD harus ditulis ulang',
-            pending: 'Berlaku setelah reboot berikutnya',
             unavailable: 'Tidak termasuk dalam image sistem ini',
             keepTitle: 'Pertahankan overdrive setelah pembaruan',
             keepDescription:

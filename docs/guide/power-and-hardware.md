@@ -73,3 +73,12 @@ Change it in **Settings > Device > General**; **Settings > About** shows it. It 
 be fully qualified (`kvm.example.net`). The mDNS name is its first label plus
 `.local` (`h-nanokvm.local`). The new name applies after a reboot, and a
 **Reboot required** badge stays next to the name until the device has rebooted.
+
+## Changes that wait for a reboot
+
+The device name, the clock overdrive setting and an installed system update only
+take effect after a reboot. Each keeps its **Reboot required** badge until the
+device has booted with it, and the bar at the bottom of **Settings > Device** lists
+what is waiting, next to the **Reboot** button. Switching a setting back to what
+the device booted with clears its badge. HID-only mode and the HTTP/HTTPS switch
+reboot the device straight away instead.

@@ -460,8 +460,12 @@ const zh = {
         usbWakeupTip: '如果主机反复记录 USB wakeup 消息，请关闭',
         hostname: {
           description: '此设备在网络中的名称',
-          reachable: '在本地网络中可通过 {{address}} 访问',
-          rebootRequired: '需要重启'
+          reachable: '在本地网络中可通过 {{address}} 访问'
+        },
+        rebootRequired: '需要重启',
+        rebootPending: '需要重启：{{reasons}}',
+        rebootReasons: {
+          systemUpdate: '系统更新'
         },
         reboot: '重新启动',
         rebootDesc: '您确定要重新启动 NanoKVM 吗？',
@@ -547,7 +551,6 @@ const zh = {
             title: '时钟超频',
             description: '以制造商指定的更高处理器和视频时钟频率启动',
             tip: '如果设备在超频下无法启动，必须重新刷写 SD 卡',
-            pending: '下次重启后生效',
             unavailable: '此系统镜像不包含该选项',
             keepTitle: '更新后保持超频',
             keepDescription: '除非开启此项，否则系统更新后设备将恢复为标准时钟',

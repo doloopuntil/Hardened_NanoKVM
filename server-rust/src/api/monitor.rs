@@ -283,6 +283,18 @@ fn snapshot(query: &MonitorQuery) -> MonitorRsp {
     }
 }
 
+/// Seconds since boot.
+pub(crate) fn uptime_seconds() -> Option<u64> {
+    fs::read_to_string("/proc/uptime")
+        .ok()
+        .and_then(|text| parse_uptime(&text))
+}
+
+/// Whether the device booted with the overdrive clocks; `None` while the clock table is unreadable.
+pub(crate) fn running_overdrive() -> Option<bool> {
+    cached_clocks().cpu_mhz.map(|mhz| mhz > STANDARD_CPU_MHZ)
+}
+
 fn parse_uptime(text: &str) -> Option<u64> {
     text.split_whitespace()
         .next()?

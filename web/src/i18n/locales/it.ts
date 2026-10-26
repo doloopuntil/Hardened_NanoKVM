@@ -484,8 +484,12 @@ const it = {
         usbWakeupTip: "Disattiva se l'host registra messaggi USB wakeup ripetuti",
         hostname: {
           description: 'Nome di questo dispositivo nella rete',
-          reachable: 'Raggiungibile nella rete locale come {{address}}',
-          rebootRequired: 'Riavvio necessario'
+          reachable: 'Raggiungibile nella rete locale come {{address}}'
+        },
+        rebootRequired: 'Riavvio necessario',
+        rebootPending: 'Riavvio necessario per: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Aggiornamento di sistema'
         },
         reboot: 'Riavvia',
         rebootDesc: 'Sei sicuro di voler riavviare NanoKVM?',
@@ -575,7 +579,6 @@ const it = {
             description:
               'Avvia con le frequenze di processore e video più alte specificate dal produttore',
             tip: "Se il dispositivo non si avvia con l'overdrive, la scheda SD va riscritta",
-            pending: 'Si applica dopo il prossimo riavvio',
             unavailable: 'Non incluso in questa immagine di sistema',
             keepTitle: "Mantieni l'overdrive dopo gli aggiornamenti",
             keepDescription:

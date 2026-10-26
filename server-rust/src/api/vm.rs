@@ -321,6 +321,38 @@ pub async fn get_hardware() -> Result<impl IntoResponse> {
     })))
 }
 
+#[derive(Debug, Serialize)]
+pub struct RebootPendingRsp {
+    /// What waits for a reboot: `hostname`, `overdrive`, `systemUpdate`.
+    pub reasons: Vec<&'static str>,
+}
+
+/// The changes that only take effect after the next reboot, from the state each one keeps.
+pub async fn get_reboot_pending() -> Result<impl IntoResponse> {
+    let reasons = task::spawn_blocking(|| {
+        let mut reasons = Vec::new();
+        if hostname_reboot_pending() {
+            reasons.push("hostname");
+        }
+        if crate::api::cpu_clock::reboot_pending() {
+            reasons.push("overdrive");
+        }
+        if crate::api::system_update::reboot_pending() {
+            reasons.push("systemUpdate");
+        }
+        reasons
+    })
+    .await
+    .map_err(|err| AppError::Internal(format!("reboot check task failed: {err}")))?;
+
+    Ok(Json(ApiResponse::ok(RebootPendingRsp { reasons })))
+}
+
+fn hostname_reboot_pending() -> bool {
+    let hostname = read_trimmed(ETC_HOSTNAME_FILE).unwrap_or_default();
+    hostname_reboot_required(read_trimmed(HOSTNAME_BOOT_NAME_FILE).as_deref(), &hostname)
+}
+
 pub async fn get_hostname() -> Result<impl IntoResponse> {
     let hostname = read_trimmed(ETC_HOSTNAME_FILE).unwrap_or_default();
     let reboot_required =

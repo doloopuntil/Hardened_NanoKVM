@@ -470,8 +470,12 @@ const th = {
         usbWakeupTip: 'ปิดถ้าโฮสต์บันทึกข้อความ USB wakeup ซ้ำ ๆ',
         hostname: {
           description: 'ชื่อของอุปกรณ์นี้ในเครือข่าย',
-          reachable: 'เข้าถึงได้ในเครือข่ายภายในที่ {{address}}',
-          rebootRequired: 'ต้องรีบูต'
+          reachable: 'เข้าถึงได้ในเครือข่ายภายในที่ {{address}}'
+        },
+        rebootRequired: 'ต้องรีบูต',
+        rebootPending: 'ต้องรีบูตสำหรับ: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'อัปเดตระบบ'
         },
         reboot: 'รีบูต',
         rebootDesc: 'คุณแน่ใจหรือไม่ว่าต้องการรีบูต NanoKVM',
@@ -560,7 +564,6 @@ const th = {
             description:
               'บูตด้วยความเร็วสัญญาณนาฬิกาของตัวประมวลผลและวิดีโอที่สูงขึ้นตามที่ผู้ผลิตกำหนด',
             tip: 'หากอุปกรณ์ไม่เริ่มทำงานด้วยโอเวอร์ไดรฟ์ ต้องเขียนการ์ด SD ใหม่',
-            pending: 'มีผลหลังจากรีบูตครั้งถัดไป',
             unavailable: 'ไม่รวมอยู่ในอิมเมจระบบนี้',
             keepTitle: 'คงโอเวอร์ไดรฟ์หลังอัปเดต',
             keepDescription:

@@ -481,8 +481,12 @@ const pl = {
         usbWakeupTip: 'Wyłącz, jeśli host zapisuje powtarzające się komunikaty USB wakeup',
         hostname: {
           description: 'Nazwa tego urządzenia w sieci',
-          reachable: 'Dostępne w sieci lokalnej pod nazwą {{address}}',
-          rebootRequired: 'Wymagany restart'
+          reachable: 'Dostępne w sieci lokalnej pod nazwą {{address}}'
+        },
+        rebootRequired: 'Wymagany restart',
+        rebootPending: 'Wymagany restart dla: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Aktualizacja systemu'
         },
         reboot: 'Uruchom ponownie',
         rebootDesc: 'Czy na pewno chcesz ponownie uruchomić NanoKVM?',
@@ -572,7 +576,6 @@ const pl = {
             description:
               'Uruchom z wyższymi taktowaniami procesora i wideo określonymi przez producenta',
             tip: 'Jeśli urządzenie nie uruchomi się z podkręcaniem, trzeba ponownie zapisać kartę SD',
-            pending: 'Zadziała po następnym restarcie',
             unavailable: 'Nie ma tego w tym obrazie systemu',
             keepTitle: 'Zachowaj overdrive po aktualizacjach',
             keepDescription:

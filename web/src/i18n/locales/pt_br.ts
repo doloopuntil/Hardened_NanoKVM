@@ -481,8 +481,12 @@ const pt_br = {
         usbWakeupTip: 'Desative se o host registrar mensagens USB wakeup repetidas',
         hostname: {
           description: 'Nome deste dispositivo na rede',
-          reachable: 'Acessível na rede local como {{address}}',
-          rebootRequired: 'Reinício necessário'
+          reachable: 'Acessível na rede local como {{address}}'
+        },
+        rebootRequired: 'Reinício necessário',
+        rebootPending: 'Reinício necessário para: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Atualização do sistema'
         },
         reboot: 'Reiniciar',
         rebootDesc: 'Tem certeza de que deseja reiniciar o NanoKVM?',
@@ -572,7 +576,6 @@ const pt_br = {
             description:
               'Iniciar com as frequências mais altas de processador e vídeo especificadas pelo fabricante',
             tip: 'Se o dispositivo não iniciar com overdrive, o cartão SD precisa ser regravado',
-            pending: 'Aplicado após a próxima reinicialização',
             unavailable: 'Não incluído nesta imagem do sistema',
             keepTitle: 'Manter o overdrive após atualizações',
             keepDescription:

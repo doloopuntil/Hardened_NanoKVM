@@ -476,8 +476,12 @@ const en = {
         usbWakeupTip: 'Turn off if the host logs repeated USB wakeup messages',
         hostname: {
           description: 'Name of this device on the network',
-          reachable: 'Reachable on the local network as {{address}}',
-          rebootRequired: 'Reboot required'
+          reachable: 'Reachable on the local network as {{address}}'
+        },
+        rebootRequired: 'Reboot required',
+        rebootPending: 'Reboot required for: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'System update'
         },
         reboot: 'Reboot',
         rebootDesc: 'Are you sure you want to reboot NanoKVM?',
@@ -567,7 +571,6 @@ const en = {
             description:
               'Boot with higher processor and video clock speeds specified by the manufacturer',
             tip: 'If the device does not start with overdrive, the SD card must be reflashed',
-            pending: 'Applies after the next reboot',
             unavailable: 'Not included in this system image',
             keepTitle: 'Keep overdrive after updates',
             keepDescription:

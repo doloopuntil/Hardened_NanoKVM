@@ -483,8 +483,12 @@ const ja = {
         usbWakeupTip: 'ホストが USB wakeup メッセージを繰り返し記録する場合はオフにしてください',
         hostname: {
           description: 'ネットワーク上のこのデバイスの名前',
-          reachable: 'ローカルネットワークでは {{address}} で接続できます',
-          rebootRequired: '再起動が必要'
+          reachable: 'ローカルネットワークでは {{address}} で接続できます'
+        },
+        rebootRequired: '再起動が必要',
+        rebootPending: '再起動が必要: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'システム更新'
         },
         reboot: '再起動',
         rebootDesc: 'NanoKVM を再起動してもよろしいですか?',
@@ -572,7 +576,6 @@ const ja = {
             title: 'クロックのオーバードライブ',
             description: 'メーカー指定の高いプロセッサとビデオのクロックで起動します',
             tip: 'オーバードライブで起動しない場合は、SD カードの書き直しが必要です',
-            pending: '次回の再起動後に反映されます',
             unavailable: 'このシステムイメージには含まれていません',
             keepTitle: '更新後もオーバードライブを維持',
             keepDescription:

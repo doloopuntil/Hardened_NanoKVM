@@ -12,11 +12,19 @@ import { Oled } from './oled.tsx';
 import { Poweroff } from './poweroff.tsx';
 import { Reboot } from './reboot.tsx';
 import { useHostname } from './use-hostname.ts';
+import { useRebootPending, type RebootReason } from './use-reboot-pending.ts';
 import { VirtualDevices } from './virtual-devices.tsx';
 
 export const Device = () => {
   const { t } = useTranslation();
   const hostname = useHostname();
+  const rebootReasons = useRebootPending(hostname.isPending);
+
+  const reasonLabels: Record<RebootReason, string> = {
+    hostname: t('settings.about.hostname'),
+    overdrive: t('settings.system.performance.overdrive.title'),
+    systemUpdate: t('settings.device.rebootReasons.systemUpdate')
+  };
 
   return (
     <>
@@ -44,9 +52,18 @@ export const Device = () => {
 
       <Divider className="opacity-50" />
 
-      <div className="flex flex-wrap justify-end gap-2">
-        <Poweroff />
-        <Reboot />
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        {rebootReasons.length > 0 && (
+          <span className="min-w-0 break-words text-xs text-neutral-500">
+            {t('settings.device.rebootPending', {
+              reasons: rebootReasons.map((reason) => reasonLabels[reason]).join(', ')
+            })}
+          </span>
+        )}
+        <div className="ml-auto flex flex-wrap justify-end gap-2">
+          <Poweroff />
+          <Reboot />
+        </div>
       </div>
 
       {hostname.isDirty && (

@@ -478,8 +478,12 @@ const tr = {
         usbWakeupTip: 'Makine tekrarlayan USB wakeup iletileri kaydediyorsa kapatın',
         hostname: {
           description: 'Bu cihazın ağdaki adı',
-          reachable: 'Yerel ağda {{address}} olarak erişilebilir',
-          rebootRequired: 'Yeniden başlatma gerekli'
+          reachable: 'Yerel ağda {{address}} olarak erişilebilir'
+        },
+        rebootRequired: 'Yeniden başlatma gerekli',
+        rebootPending: 'Yeniden başlatma gerekli: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Sistem güncellemesi'
         },
         reboot: 'Yeniden başlat',
         rebootDesc: "NanoKVM'i yeniden başlatmak istediğinizden emin misiniz?",
@@ -569,7 +573,6 @@ const tr = {
             description:
               'Üreticinin belirlediği daha yüksek işlemci ve video saat hızlarıyla başlat',
             tip: 'Cihaz hız aşırtmayla başlamazsa SD kartın yeniden yazılması gerekir',
-            pending: 'Sonraki yeniden başlatmadan sonra uygulanır',
             unavailable: 'Bu sistem imajına dahil değil',
             keepTitle: 'Güncellemelerden sonra overdrive korunsun',
             keepDescription:

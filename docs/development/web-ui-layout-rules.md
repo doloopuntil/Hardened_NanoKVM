@@ -133,6 +133,10 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 ## Status and feedback
 21. A state message is the caption of the field it describes: "downloaded and
     verified" under Staged version, "reboot required" under Pending version.
+    A setting whose change only takes effect after a reboot (device name, clock
+    overdrive) shows the gold "Reboot required" badge (`RebootTag`) next to its
+    label until the device has booted with it. The bar at the end of the Device
+    page lists what waits, left of the Reboot button.
     A bundle uploaded from this computer is staged, not installed: its version
     replaces the latest version with an amber "Local" badge, its signer shows as a
     row, and the section's buttons become Refresh, Discard and Install. Discarding

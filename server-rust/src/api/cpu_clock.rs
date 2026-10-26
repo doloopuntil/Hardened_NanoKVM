@@ -33,6 +33,8 @@ pub struct OverdriveRsp {
     enabled: bool,
     active: bool,
     keep_after_update: bool,
+    /// The wanted profile is not the one the device booted with.
+    reboot_required: bool,
 }
 
 #[derive(Debug, Deserialize)]
@@ -43,10 +45,25 @@ pub struct SetOverdriveReq {
 }
 
 pub async fn get_overdrive() -> Result<impl IntoResponse> {
-    let rsp = task::spawn_blocking(|| status(Path::new(BOOT_DIR)))
-        .await
-        .map_err(|err| AppError::Internal(err.to_string()))??;
+    let rsp = task::spawn_blocking(|| {
+        status(
+            Path::new(BOOT_DIR),
+            crate::api::monitor::running_overdrive(),
+        )
+    })
+    .await
+    .map_err(|err| AppError::Internal(err.to_string()))??;
     Ok(Json(ApiResponse::ok(rsp)))
+}
+
+/// A reboot is needed while the wanted profile differs from the running one.
+pub(crate) fn reboot_pending() -> bool {
+    status(
+        Path::new(BOOT_DIR),
+        crate::api::monitor::running_overdrive(),
+    )
+    .map(|rsp| rsp.reboot_required)
+    .unwrap_or(false)
 }
 
 pub async fn set_overdrive(Json(req): Json<SetOverdriveReq>) -> Result<impl IntoResponse> {
@@ -79,7 +96,8 @@ pub fn reconcile_at_startup() {
     });
 }
 
-fn status(boot: &Path) -> Result<OverdriveRsp> {
+// `running` is whether the device booted with the overdrive clocks, when that can be told.
+fn status(boot: &Path, running: Option<bool>) -> Result<OverdriveRsp> {
     let available = variants_present(boot);
     let enabled = boot.join(OVERDRIVE_FLAG).exists();
     let active = available && same_content(&boot.join(ACTIVE_IMAGE), &boot.join(OVERDRIVE_IMAGE))?;
@@ -88,6 +106,7 @@ fn status(boot: &Path) -> Result<OverdriveRsp> {
         enabled,
         active,
         keep_after_update: boot.join(KEEP_FLAG).exists(),
+        reboot_required: available && running.is_some_and(|running| running != enabled),
     })
 }
 
@@ -212,13 +231,35 @@ mod tests {
     }
 
     #[test]
+    fn a_reboot_is_needed_while_the_wanted_profile_is_not_the_running_one() {
+        let dir = boot_dir("pending");
+        with_variants(&dir);
+
+        // the boot image follows the switch at once, so only the running clocks tell
+        set_enabled(&dir, true).unwrap();
+        assert!(!status(&dir, None).unwrap().reboot_required);
+        assert!(status(&dir, Some(false)).unwrap().reboot_required);
+        assert!(!status(&dir, Some(true)).unwrap().reboot_required);
+
+        set_enabled(&dir, false).unwrap();
+        assert!(status(&dir, Some(true)).unwrap().reboot_required);
+        assert!(!status(&dir, Some(false)).unwrap().reboot_required);
+        let _ = fs::remove_dir_all(&dir);
+
+        // no variants, no overdrive to wait for
+        let bare = boot_dir("pending-bare");
+        assert!(!status(&bare, Some(true)).unwrap().reboot_required);
+        let _ = fs::remove_dir_all(&bare);
+    }
+
+    #[test]
     fn toggle_swaps_the_active_image() {
         let dir = boot_dir("toggle");
         with_variants(&dir);
 
         set_enabled(&dir, true).unwrap();
         assert_eq!(fs::read(dir.join(ACTIVE_IMAGE)).unwrap(), b"od");
-        let rsp = status(&dir).unwrap();
+        let rsp = status(&dir, None).unwrap();
         assert!(rsp.available && rsp.enabled && rsp.active);
 
         set_enabled(&dir, false).unwrap();
@@ -233,11 +274,11 @@ mod tests {
         with_variants(&dir);
 
         set_keep(&dir, true).unwrap();
-        assert!(status(&dir).unwrap().keep_after_update);
-        assert!(!status(&dir).unwrap().enabled);
+        assert!(status(&dir, None).unwrap().keep_after_update);
+        assert!(!status(&dir, None).unwrap().enabled);
         set_enabled(&dir, true).unwrap();
         set_keep(&dir, false).unwrap();
-        let rsp = status(&dir).unwrap();
+        let rsp = status(&dir, None).unwrap();
         assert!(!rsp.keep_after_update && rsp.enabled);
         let _ = fs::remove_dir_all(&dir);
     }
@@ -261,7 +302,7 @@ mod tests {
         fs::write(dir.join(OVERDRIVE_FLAG), b"").unwrap();
 
         assert!(!reconcile(&dir).unwrap());
-        assert!(!status(&dir).unwrap().available);
+        assert!(!status(&dir, None).unwrap().available);
         assert!(set_enabled(&dir, true).is_err());
         assert_eq!(fs::read(dir.join(ACTIVE_IMAGE)).unwrap(), b"old");
         let _ = fs::remove_dir_all(&dir);

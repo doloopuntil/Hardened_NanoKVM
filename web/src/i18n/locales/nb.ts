@@ -483,8 +483,12 @@ const nb = {
         usbWakeupTip: 'Slå av hvis verten logger gjentatte USB wakeup-meldinger',
         hostname: {
           description: 'Enhetens navn på nettverket',
-          reachable: 'Kan nås på det lokale nettverket som {{address}}',
-          rebootRequired: 'Omstart kreves'
+          reachable: 'Kan nås på det lokale nettverket som {{address}}'
+        },
+        rebootRequired: 'Omstart kreves',
+        rebootPending: 'Omstart kreves for: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Systemoppdatering'
         },
         reboot: 'Start på nytt',
         rebootDesc: 'Er du sikker på at du vil starte NanoKVM på nytt?',
@@ -574,7 +578,6 @@ const nb = {
             description:
               'Start med den høyere klokkehastigheten for prosessor og video som produsenten har spesifisert',
             tip: 'Hvis enheten ikke starter med overklokking, må SD-kortet flashes på nytt',
-            pending: 'Gjelder etter neste omstart',
             unavailable: 'Ikke med i dette systembildet',
             keepTitle: 'Behold overdrive etter oppdateringer',
             keepDescription:

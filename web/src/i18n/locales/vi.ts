@@ -476,8 +476,12 @@ const vi = {
         usbWakeupTip: 'Tắt nếu máy ghi lặp lại thông báo USB wakeup',
         hostname: {
           description: 'Tên của thiết bị này trên mạng',
-          reachable: 'Truy cập được trong mạng cục bộ qua {{address}}',
-          rebootRequired: 'Cần khởi động lại'
+          reachable: 'Truy cập được trong mạng cục bộ qua {{address}}'
+        },
+        rebootRequired: 'Cần khởi động lại',
+        rebootPending: 'Cần khởi động lại cho: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Cập nhật hệ thống'
         },
         reboot: 'Khởi động lại',
         rebootDesc: 'Bạn có chắc chắn muốn khởi động lại NanoKVM không?',
@@ -567,7 +571,6 @@ const vi = {
             description:
               'Khởi động với xung nhịp bộ xử lý và video cao hơn do nhà sản xuất quy định',
             tip: 'Nếu thiết bị không khởi động được với overdrive, thẻ SD phải được ghi lại',
-            pending: 'Có hiệu lực sau lần khởi động lại tiếp theo',
             unavailable: 'Không có trong bản hệ thống này',
             keepTitle: 'Giữ overdrive sau khi cập nhật',
             keepDescription:

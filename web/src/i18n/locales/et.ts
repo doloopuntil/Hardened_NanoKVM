@@ -472,8 +472,12 @@ const et = {
         usbWakeupTip: 'Lülita välja, kui host logib korduvaid USB wakeup teateid',
         hostname: {
           description: 'Selle seadme nimi võrgus',
-          reachable: 'Ligipääsetav kohtvõrgus aadressil {{address}}',
-          rebootRequired: 'Vajalik taaskäivitus'
+          reachable: 'Ligipääsetav kohtvõrgus aadressil {{address}}'
+        },
+        rebootRequired: 'Vajalik taaskäivitus',
+        rebootPending: 'Taaskäivitus vajalik: {{reasons}}',
+        rebootReasons: {
+          systemUpdate: 'Süsteemiuuendus'
         },
         reboot: 'Taaskäivita',
         rebootDesc: 'Kas oled kindel, et soovid NanoKVM-i taaskäivitada?',
@@ -562,7 +566,6 @@ const et = {
             title: 'Ülekiirendus',
             description: 'Käivita tootja määratud kõrgemate protsessori ja video taktsagedustega',
             tip: 'Kui seade ülekiirendusega ei käivitu, tuleb SD-kaart uuesti kirjutada',
-            pending: 'Rakendub pärast järgmist taaskäivitust',
             unavailable: 'Pole selles süsteemipildis',
             keepTitle: 'Säilita overdrive pärast värskendusi',
             keepDescription:
