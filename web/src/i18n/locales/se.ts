@@ -516,11 +516,10 @@ const se = {
         tls: {
           description: 'Aktivera HTTPS-protokoll',
           tip: 'Observera: Användning av HTTPS kan öka fördröjningen, särskilt med MJPEG-läge',
-          rebootTitle: 'NanoKVM startar om',
-          rebootDesc:
-            'Protokolländringen kräver omstart av enheten. Webbläsaren byter till den nya adressen efter {{seconds}} sekunder:',
-          rebootOk: 'Verkställ och starta om',
-          rebootCancel: 'Avbryt'
+          restartTitle: 'Servern startar om',
+          restartDesc:
+            'Protokolländringen startar om servern. Webbläsaren byter till den nya adressen efter {{seconds}} sekunder:',
+          restartOk: 'Verkställ och starta om'
         },
         dns: {
           title: 'DNS',

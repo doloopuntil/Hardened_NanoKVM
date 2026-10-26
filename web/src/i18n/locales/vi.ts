@@ -510,11 +510,10 @@ const vi = {
         tls: {
           description: 'Bật giao thức HTTPS',
           tip: 'Lưu ý: Sử dụng HTTPS có thể tăng độ trễ, đặc biệt trong chế độ video MJPEG',
-          rebootTitle: 'NanoKVM sẽ khởi động lại',
-          rebootDesc:
-            'Việc thay đổi giao thức yêu cầu khởi động lại thiết bị. Trình duyệt sẽ chuyển sang địa chỉ mới sau {{seconds}} giây:',
-          rebootOk: 'Áp dụng và khởi động lại',
-          rebootCancel: 'Hủy'
+          restartTitle: 'Máy chủ sẽ khởi động lại',
+          restartDesc:
+            'Việc thay đổi giao thức sẽ khởi động lại máy chủ. Trình duyệt sẽ chuyển sang địa chỉ mới sau {{seconds}} giây:',
+          restartOk: 'Áp dụng và khởi động lại'
         },
         dns: {
           title: 'DNS',

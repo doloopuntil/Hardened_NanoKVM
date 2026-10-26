@@ -517,11 +517,10 @@ const nb = {
         tls: {
           description: 'Aktiver HTTPS-protokoll',
           tip: 'Merk: Bruk av HTTPS kan øke forsinkelsen, spesielt i MJPEG-videomodus',
-          rebootTitle: 'NanoKVM starter på nytt',
-          rebootDesc:
-            'Protokollendringen krever omstart av enheten. Nettleseren bytter til den nye adressen etter {{seconds}} sekunder:',
-          rebootOk: 'Bruk og start på nytt',
-          rebootCancel: 'Avbryt'
+          restartTitle: 'Serveren starter på nytt',
+          restartDesc:
+            'Protokollendringen starter serveren på nytt. Nettleseren bytter til den nye adressen etter {{seconds}} sekunder:',
+          restartOk: 'Bruk og start på nytt'
         },
         dns: {
           title: 'DNS',

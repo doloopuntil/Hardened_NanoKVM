@@ -517,11 +517,10 @@ const it = {
         tls: {
           description: 'Abilita protocollo HTTPS',
           tip: "Attenzione: l'uso di HTTPS può aumentare la latenza, soprattutto in modalità video MJPEG",
-          rebootTitle: 'NanoKVM verrà riavviato',
-          rebootDesc:
-            'La modifica del protocollo richiede il riavvio del dispositivo. Il browser passerà al nuovo indirizzo dopo {{seconds}} secondi:',
-          rebootOk: 'Applica e riavvia',
-          rebootCancel: 'Annulla'
+          restartTitle: 'Il server verrà riavviato',
+          restartDesc:
+            'La modifica del protocollo riavvia il server. Il browser passerà al nuovo indirizzo dopo {{seconds}} secondi:',
+          restartOk: 'Applica e riavvia'
         },
         dns: {
           title: 'DNS',

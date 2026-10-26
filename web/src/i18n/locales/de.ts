@@ -522,11 +522,10 @@ const de = {
         tls: {
           description: 'HTTPS-Protokoll aktivieren',
           tip: 'Hinweis: Die Verwendung von HTTPS kann die Latenz erhöhen, besonders im MJPEG-Videomodus',
-          rebootTitle: 'NanoKVM wird neu gestartet',
-          rebootDesc:
-            'Die Protokolländerung erfordert einen Neustart des Geräts. Der Browser wechselt nach {{seconds}} Sekunden zur neuen Adresse:',
-          rebootOk: 'Übernehmen und neu starten',
-          rebootCancel: 'Abbrechen'
+          restartTitle: 'Der Server wird neu gestartet',
+          restartDesc:
+            'Die Protokolländerung startet den Server neu. Der Browser wechselt nach {{seconds}} Sekunden zur neuen Adresse:',
+          restartOk: 'Übernehmen und neu starten'
         },
         dns: {
           title: 'DNS',

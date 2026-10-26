@@ -506,11 +506,10 @@ const ko = {
         tls: {
           description: 'HTTPS 프로토콜 활성화',
           tip: '주의: HTTPS 사용 시 특히 MJPEG 비디오 모드에서 지연 시간이 증가할 수 있습니다',
-          rebootTitle: 'NanoKVM이 재부팅됩니다',
-          rebootDesc:
-            '프로토콜 변경에는 장치 재부팅이 필요합니다. 브라우저는 {{seconds}}초 후 새 주소로 전환됩니다:',
-          rebootOk: '적용 후 재부팅',
-          rebootCancel: '취소'
+          restartTitle: '서버가 다시 시작됩니다',
+          restartDesc:
+            '프로토콜을 변경하면 서버가 다시 시작됩니다. 브라우저는 {{seconds}}초 후 새 주소로 전환됩니다:',
+          restartOk: '적용 후 다시 시작'
         },
         dns: {
           title: 'DNS',

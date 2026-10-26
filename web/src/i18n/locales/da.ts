@@ -513,11 +513,10 @@ const da = {
         tls: {
           description: 'Aktiver HTTPS-protokol',
           tip: 'Bemærk: Brug af HTTPS kan øge forsinkelsen, især med MJPEG-videotilstand',
-          rebootTitle: 'NanoKVM genstarter',
-          rebootDesc:
-            'Protokolændringen kræver genstart af enheden. Browseren skifter til den nye adresse efter {{seconds}} sekunder:',
-          rebootOk: 'Anvend og genstart',
-          rebootCancel: 'Annuller'
+          restartTitle: 'Serveren genstarter',
+          restartDesc:
+            'Protokolændringen genstarter serveren. Browseren skifter til den nye adresse efter {{seconds}} sekunder:',
+          restartOk: 'Anvend og genstart'
         },
         dns: {
           title: 'DNS',

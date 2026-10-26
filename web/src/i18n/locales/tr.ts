@@ -512,11 +512,10 @@ const tr = {
         tls: {
           description: 'HTTPS protokolünü etkinleştir',
           tip: 'HTTPS protokolü bağlantıda gecikmeye sebep olabilir, özellikle MJPEG görüntü modu ile',
-          rebootTitle: 'NanoKVM yeniden başlatılacak',
-          rebootDesc:
-            'Protokol değişikliği cihazın yeniden başlatılmasını gerektirir. Tarayıcı {{seconds}} saniye sonra yeni adrese geçecek:',
-          rebootOk: 'Uygula ve yeniden başlat',
-          rebootCancel: 'İptal'
+          restartTitle: 'Sunucu yeniden başlatılacak',
+          restartDesc:
+            'Protokol değişikliği sunucuyu yeniden başlatır. Tarayıcı {{seconds}} saniye sonra yeni adrese geçecek:',
+          restartOk: 'Uygula ve yeniden başlat'
         },
         dns: {
           title: 'DNS',

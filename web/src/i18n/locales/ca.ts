@@ -516,11 +516,10 @@ const ca = {
         tls: {
           description: 'Activa el protocol HTTPS',
           tip: 'Atenció: Usar HTTPS pot augmentar la latència, sobretot amb vídeo MJPEG',
-          rebootTitle: 'NanoKVM es reiniciarà',
-          rebootDesc:
-            'El canvi de protocol requereix reiniciar el dispositiu. El navegador canviarà a la nova adreça al cap de {{seconds}} segons:',
-          rebootOk: 'Aplica i reinicia',
-          rebootCancel: 'Cancel·la'
+          restartTitle: 'El servidor es reiniciarà',
+          restartDesc:
+            'El canvi de protocol reinicia el servidor. El navegador canviarà a la nova adreça al cap de {{seconds}} segons:',
+          restartOk: 'Aplica i reinicia'
         },
         dns: {
           title: 'DNS',

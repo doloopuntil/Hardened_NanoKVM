@@ -515,11 +515,10 @@ const pl = {
         tls: {
           description: 'Włącz protokół HTTPS',
           tip: 'Uwaga: użycie HTTPS może zwiększyć opóźnienie, szczególnie w trybie wideo MJPEG',
-          rebootTitle: 'NanoKVM zostanie uruchomiony ponownie',
-          rebootDesc:
-            'Zmiana protokołu wymaga restartu urządzenia. Przeglądarka przełączy się na nowy adres po {{seconds}} sekundach:',
-          rebootOk: 'Zastosuj i uruchom ponownie',
-          rebootCancel: 'Anuluj'
+          restartTitle: 'Serwer zostanie uruchomiony ponownie',
+          restartDesc:
+            'Zmiana protokołu uruchamia serwer ponownie. Przeglądarka przełączy się na nowy adres po {{seconds}} sekundach:',
+          restartOk: 'Zastosuj i uruchom ponownie'
         },
         dns: {
           title: 'DNS',

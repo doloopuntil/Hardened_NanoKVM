@@ -494,10 +494,9 @@ const zh_tw = {
         tls: {
           description: '啟用 HTTPS 協議',
           tip: '啟用 HTTPS 可以提高安全性，但可能會增加傳輸延遲，特別是使用 MJPEG 格式傳輸時',
-          rebootTitle: 'NanoKVM 將重新啟動',
-          rebootDesc: '通訊協定變更需要重新啟動裝置。瀏覽器將在 {{seconds}} 秒後切換到新位址：',
-          rebootOk: '套用並重新啟動',
-          rebootCancel: '取消'
+          restartTitle: '伺服器將重新啟動',
+          restartDesc: '通訊協定變更會重新啟動伺服器。瀏覽器將在 {{seconds}} 秒後切換到新位址：',
+          restartOk: '套用並重新啟動'
         },
         dns: {
           title: 'DNS',

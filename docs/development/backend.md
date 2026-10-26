@@ -298,8 +298,9 @@ over the account.
 - H.264 WebRTC remains for Baseline/Moderate only; Restricted and Paranoid
   disable it on purpose. Mixing MJPEG and WebRTC viewers at the same time is a
   known limitation.
-- Protocol changes reboot the device instead of partially restarting the video
-  stack.
+- The HTTP/HTTPS switch restarts the server process, like an application update,
+  and the video stack starts again with it. `S95nanokvm` reboots only if the old
+  server does not exit. Changing the HID mode still reboots the device.
 - Remote ISO download needs a source allowlist before it can be on by default.
 - Upstream has a newer remote ISO download and image management widget. Review it
   before changing this feature further, and take over what fits: the allowlist, the

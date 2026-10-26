@@ -153,7 +153,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | GET/POST        | `/api/vm/watchdog`         | Implemented. Reads or sets the hardware watchdog (`available`, `enabled`, `running`, `lastRestart`). The POST body is `{enabled}`; it creates or removes `/boot/disable_watchdog` and starts or stops `S02watchdog` at once. |
 | GET             | `/api/vm/monitor`          | Implemented. Reads clocks (`cpuMhz`, `videoMhz`, `overdrive`), temperature, memory and swap, the CPU load of the last second (`cpu.userPercent`, `cpu.systemPercent`, from `/proc/stat`) the `/` and `/data` disks, `uptimeSeconds` (from `/proc/uptime`), plus up to 300 one-second `samples` (temperature, RAM, swap and total CPU percent). With `since` and `epoch` it sends only samples newer than `since` of that server run. The clocks come from `clk_summary` once per server run. |
 | GET/POST        | `/api/vm/mouse-jiggler`    | Implemented.                                                                                                       |
-| POST            | `/api/vm/tls`              | Implemented; generates self-signed certs when needed and restarts service.                                         |
+| POST            | `/api/vm/tls`              | Implemented; generates self-signed certs when needed, then restarts the server (not the device).                                |
 | GET/POST/DELETE | `/api/vm/autostart*`       | Implemented with basename/path validation and size limits.                                                         |
 | GET/POST/DELETE | `/api/vm/script*`          | Implemented with basename/path validation and allowlisted execution.                                               |
 

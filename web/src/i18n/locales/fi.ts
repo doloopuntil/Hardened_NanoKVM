@@ -515,11 +515,10 @@ const fi = {
         tls: {
           description: 'Ota HTTPS-protokolla käyttöön',
           tip: 'Huomaa: HTTPS voi lisätä viivettä, erityisesti MJPEG-videotilassa',
-          rebootTitle: 'NanoKVM käynnistyy uudelleen',
-          rebootDesc:
-            'Protokollan muutos vaatii laitteen uudelleenkäynnistyksen. Selain siirtyy uuteen osoitteeseen {{seconds}} sekunnin kuluttua:',
-          rebootOk: 'Käytä ja käynnistä uudelleen',
-          rebootCancel: 'Peruuta'
+          restartTitle: 'Palvelin käynnistyy uudelleen',
+          restartDesc:
+            'Protokollan muutos käynnistää palvelimen uudelleen. Selain siirtyy uuteen osoitteeseen {{seconds}} sekunnin kuluttua:',
+          restartOk: 'Käytä ja käynnistä uudelleen'
         },
         dns: {
           title: 'DNS',

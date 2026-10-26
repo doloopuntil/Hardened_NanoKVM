@@ -511,11 +511,10 @@ const cz = {
         tls: {
           description: 'Povolit protokol HTTPS',
           tip: 'Upozornění: Použití HTTPS může zvýšit latenci, zejména v režimu videa MJPEG',
-          rebootTitle: 'NanoKVM se restartuje',
-          rebootDesc:
-            'Změna protokolu vyžaduje restart zařízení. Prohlížeč se po {{seconds}} sekundách přepne na novou adresu:',
-          rebootOk: 'Použít a restartovat',
-          rebootCancel: 'Zrušit'
+          restartTitle: 'Server se restartuje',
+          restartDesc:
+            'Změna protokolu restartuje server. Prohlížeč se po {{seconds}} sekundách přepne na novou adresu:',
+          restartOk: 'Použít a restartovat'
         },
         dns: {
           title: 'DNS',

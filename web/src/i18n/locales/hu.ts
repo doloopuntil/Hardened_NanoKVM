@@ -519,11 +519,10 @@ const hu = {
         tls: {
           description: 'HTTPS protokoll engedélyezése',
           tip: 'Figyelem: A HTTPS használata növelheti a késleltetést, különösen MJPEG videó módban',
-          rebootTitle: 'A NanoKVM újraindul',
-          rebootDesc:
-            'A protokoll módosítása az eszköz újraindítását igényli. A böngésző {{seconds}} másodperc után az új címre vált:',
-          rebootOk: 'Alkalmazás és újraindítás',
-          rebootCancel: 'Mégse'
+          restartTitle: 'A szerver újraindul',
+          restartDesc:
+            'A protokoll módosítása újraindítja a szervert. A böngésző {{seconds}} másodperc után az új címre vált:',
+          restartOk: 'Alkalmazás és újraindítás'
         },
         dns: {
           title: 'DNS',

@@ -516,11 +516,10 @@ const ja = {
         tls: {
           description: 'HTTPS プロトコルを有効にする',
           tip: '注意：HTTPS を使用すると、特に MJPEG ビデオモードで遅延が増加する可能性があります',
-          rebootTitle: 'NanoKVM を再起動します',
-          rebootDesc:
-            'プロトコルの変更にはデバイスの再起動が必要です。{{seconds}} 秒後にブラウザーは新しいアドレスへ切り替わります:',
-          rebootOk: '適用して再起動',
-          rebootCancel: 'キャンセル'
+          restartTitle: 'サーバーを再起動します',
+          restartDesc:
+            'プロトコルの変更によりサーバーが再起動します。{{seconds}} 秒後にブラウザーは新しいアドレスへ切り替わります:',
+          restartOk: '適用して再起動'
         },
         dns: {
           title: 'DNS',

@@ -520,11 +520,10 @@ const nl = {
         tls: {
           description: 'HTTPS-protocol inschakelen',
           tip: 'Let op: HTTPS gebruiken kan de latentie verhogen, vooral in MJPEG-videomodus',
-          rebootTitle: 'NanoKVM wordt opnieuw opgestart',
-          rebootDesc:
-            'De protocolwijziging vereist een herstart van het apparaat. De browser schakelt na {{seconds}} seconden over naar het nieuwe adres:',
-          rebootOk: 'Toepassen en opnieuw opstarten',
-          rebootCancel: 'Annuleren'
+          restartTitle: 'De server wordt opnieuw opgestart',
+          restartDesc:
+            'De protocolwijziging start de server opnieuw op. De browser schakelt na {{seconds}} seconden over naar het nieuwe adres:',
+          restartOk: 'Toepassen en opnieuw opstarten'
         },
         dns: {
           title: 'DNS',

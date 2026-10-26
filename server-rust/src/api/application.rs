@@ -743,7 +743,7 @@ fn chmod_recursively(path: &Path, mode: u32) -> Result<()> {
     Ok(())
 }
 
-fn restart_nanokvm_after_response() {
+pub(crate) fn restart_nanokvm_after_response() {
     tokio::spawn(async {
         time::sleep(Duration::from_secs(1)).await;
         if let Err(err) = run_allowed(

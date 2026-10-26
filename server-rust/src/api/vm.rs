@@ -1192,35 +1192,16 @@ pub async fn set_tls(Json(req): Json<SetTlsReq>) -> Result<Json<ApiResponse<()>>
     }
     config.write()?;
 
-    schedule_device_reboot("TLS protocol update");
+    // the server picks HTTP or HTTPS when it starts, so restarting it applies the change; the
+    // device itself keeps running
+    if req.enabled
+        && let Err(err) = system_firewall::apply_firewall().await
+    {
+        warn!(error = %err, "failed to reapply the firewall for the new protocol");
+    }
+    crate::api::application::restart_nanokvm_after_response();
 
     Ok(Json(ApiResponse::<()>::ok_empty()))
-}
-
-fn schedule_device_reboot(reason: &'static str) {
-    tokio::spawn(async move {
-        time::sleep(Duration::from_millis(1000)).await;
-        match run_allowed(
-            AllowedCommand::Reboot,
-            std::iter::empty::<&str>(),
-            Duration::from_secs(2),
-        )
-        .await
-        {
-            Ok(output) if output.status == 0 => {
-                tracing::info!(reason, "scheduled device reboot completed")
-            }
-            Ok(output) => tracing::warn!(
-                reason,
-                status = output.status,
-                stderr = %String::from_utf8_lossy(&output.stderr),
-                "scheduled device reboot failed"
-            ),
-            Err(err) => {
-                tracing::warn!(reason, error = ?err, "failed to reboot device")
-            }
-        }
-    });
 }
 
 fn get_ips() -> Vec<IpInfo> {

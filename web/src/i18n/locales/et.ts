@@ -506,11 +506,10 @@ const et = {
         tls: {
           description: 'Luba HTTPS protokoll',
           tip: 'Pane tähele: HTTPS kasutamine võib suurendada latentsust, eriti MJPEG videorežiimis',
-          rebootTitle: 'NanoKVM taaskäivitub',
-          rebootDesc:
-            'Protokolli muutmine nõuab seadme taaskäivitust. Brauser liigub uuele aadressile {{seconds}} sekundi pärast:',
-          rebootOk: 'Rakenda ja taaskäivita',
-          rebootCancel: 'Tühista'
+          restartTitle: 'Server taaskäivitub',
+          restartDesc:
+            'Protokolli muutmine taaskäivitab serveri. Brauser liigub uuele aadressile {{seconds}} sekundi pärast:',
+          restartOk: 'Rakenda ja taaskäivita'
         },
         dns: {
           title: 'DNS',

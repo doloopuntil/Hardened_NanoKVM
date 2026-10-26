@@ -7,7 +7,8 @@ import { attempt, confirm } from '@/lib/feedback.ts';
 import { LabelTip } from '@/components/label-tip.tsx';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
-const REDIRECT_DELAY_SECONDS = 30;
+// the server restarts, as after an application update; the device keeps running
+const REDIRECT_DELAY_SECONDS = 12;
 
 export const Tls = () => {
   const { t } = useTranslation();
@@ -26,15 +27,15 @@ export const Tls = () => {
     const target = protocolRedirectUrl(enable);
 
     confirm({
-      title: t('settings.network.tls.rebootTitle'),
+      title: t('settings.network.tls.restartTitle'),
       content: (
         <div className="space-y-2">
-          <p>{t('settings.network.tls.rebootDesc', { seconds: REDIRECT_DELAY_SECONDS })}</p>
+          <p>{t('settings.network.tls.restartDesc', { seconds: REDIRECT_DELAY_SECONDS })}</p>
           <p className="break-all font-mono text-xs text-neutral-400">{target}</p>
         </div>
       ),
-      okText: t('settings.network.tls.rebootOk'),
-      cancelText: t('settings.network.tls.rebootCancel'),
+      okText: t('settings.network.tls.restartOk'),
+      cancelText: t('common.cancel'),
       onOk: () => update(enable, target)
     });
   }

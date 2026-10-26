@@ -80,5 +80,6 @@ The device name, the clock overdrive setting and an installed system update only
 take effect after a reboot. Each keeps its **Reboot required** badge until the
 device has booted with it, and the bar at the bottom of **Settings > Device** lists
 what is waiting, next to the **Reboot** button. Switching a setting back to what
-the device booted with clears its badge. HID-only mode and the HTTP/HTTPS switch
-reboot the device straight away instead.
+the device booted with clears its badge. HID-only mode reboots the device straight
+away instead. The HTTP/HTTPS switch restarts only the server, so the device keeps
+running and the browser moves to the new address after a few seconds.

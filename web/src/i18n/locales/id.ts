@@ -516,11 +516,10 @@ const id = {
         tls: {
           description: 'Aktifkan protokol HTTPS',
           tip: 'Perhatian: Menggunakan HTTPS dapat meningkatkan latensi, terutama pada mode video MJPEG',
-          rebootTitle: 'NanoKVM akan dimulai ulang',
-          rebootDesc:
-            'Perubahan protokol memerlukan mulai ulang perangkat. Browser akan beralih ke alamat baru setelah {{seconds}} detik:',
-          rebootOk: 'Terapkan dan mulai ulang',
-          rebootCancel: 'Batal'
+          restartTitle: 'Server akan dimulai ulang',
+          restartDesc:
+            'Perubahan protokol memulai ulang server. Browser akan beralih ke alamat baru setelah {{seconds}} detik:',
+          restartOk: 'Terapkan dan mulai ulang'
         },
         dns: {
           title: 'DNS',

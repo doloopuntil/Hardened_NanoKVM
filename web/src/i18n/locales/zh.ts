@@ -493,10 +493,9 @@ const zh = {
         tls: {
           description: '启用 HTTPS 协议',
           tip: '注意：使用 HTTPS 可能导致延迟增加，特别是在 MJPEG 视频模式下',
-          rebootTitle: 'NanoKVM 将重启',
-          rebootDesc: '协议更改需要设备重启。浏览器将在 {{seconds}} 秒后切换到新地址：',
-          rebootOk: '应用并重启',
-          rebootCancel: '取消'
+          restartTitle: '服务器将重启',
+          restartDesc: '协议更改会重启服务器。浏览器将在 {{seconds}} 秒后切换到新地址：',
+          restartOk: '应用并重启'
         },
         dns: {
           title: 'DNS',
