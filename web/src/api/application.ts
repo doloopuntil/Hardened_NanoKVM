@@ -189,7 +189,11 @@ export function discardStagedApplication() {
 
 // install the staged application bundle; the server restarts
 export function installApplicationUpdate() {
-  return http.post('/api/application/install');
+  return http.request({
+    method: 'post',
+    url: '/api/application/install',
+    timeout: 10 * 60 * 1000
+  });
 }
 
 // get the locally registered system update key

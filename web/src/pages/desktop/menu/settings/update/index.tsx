@@ -18,6 +18,7 @@ import type {
 import * as firewallApi from '@/api/system-firewall.ts';
 import type { FirewallStatus } from '@/api/system-firewall.ts';
 import { attempt, confirm } from '@/lib/feedback.ts';
+import { waitForRestart } from '@/lib/restart.ts';
 import { PageHeader } from '@/components/page-header.tsx';
 import { InfoRow, SettingSection } from '@/components/setting-rows.tsx';
 
@@ -426,19 +427,21 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     api
       .update()
       .then((rsp: any) => {
-        if (rsp.code !== 0) {
-          setStatus('failed');
-          setErrMsg(t('settings.update.updateFailed'));
-        }
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setIsLocked(false);
-          setErrMsg('');
+        if (rsp.code === 0) return reloadWhenRestarted();
 
-          window.location.reload();
-        }, 12000);
-      });
+        setStatus('failed');
+        setErrMsg(t('settings.update.updateFailed'));
+        setIsLocked(false);
+      })
+      // the connection may have dropped because the server is already restarting
+      .catch(() => reloadWhenRestarted());
+  }
+
+  // the server restarts after an application update; reload once it answers again
+  async function reloadWhenRestarted() {
+    await waitForRestart(currentVersion);
+    setIsLocked(false);
+    window.location.reload();
   }
 
   function confirmInstallStagedApplication() {
@@ -453,7 +456,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     });
   }
 
-  // the server restarts on its own; the page reloads once it is back
   async function installStagedApplication() {
     setIsLocked(true);
     setStatus('updating');
@@ -468,10 +470,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     }
 
     setAppStaged(null);
-    setTimeout(() => {
-      setIsLocked(false);
-      window.location.reload();
-    }, 12000);
+    await reloadWhenRestarted();
   }
 
   // with the local bundle gone, check again for what the online channel offers
