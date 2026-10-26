@@ -158,11 +158,6 @@ pub struct SetTlsReq {
 #[derive(Debug, Deserialize)]
 pub struct SetTerminalReq {
     pub enabled: bool,
-    /// Needed to turn the terminal on, along with a second factor when the account has one.
-    #[serde(default)]
-    pub password: Option<String>,
-    #[serde(default)]
-    pub code: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -912,19 +907,8 @@ pub async fn get_terminal_enabled(State(state): State<AppState>) -> Result<impl 
 
 pub async fn set_terminal_enabled(
     State(state): State<AppState>,
-    Extension(CurrentSession(session)): Extension<CurrentSession>,
-    ConnectInfo(addr): ConnectInfo<tls::ClientAddr>,
     Json(req): Json<SetTerminalReq>,
 ) -> Result<impl IntoResponse> {
-    // Turning it off needs only the session; turning it on opens a root shell.
-    if req.enabled {
-        let source_ip = addr.0.ip().to_string();
-        let password = req.password.as_deref().ok_or_else(|| {
-            AppError::BadRequest("the password is required to enable the terminal".to_string())
-        })?;
-        verify_password_limited(&state, &source_ip, &session.username, password).await?;
-        require_second_factor(&state, &session.username, &source_ip, req.code.as_deref()).await?;
-    }
     let mut config = Config::read()?;
     config.security.allow_terminal = req.enabled;
     config.write()?;

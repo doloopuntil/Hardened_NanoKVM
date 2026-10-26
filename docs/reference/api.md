@@ -143,7 +143,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | POST            | `/api/vm/system/reboot`    | Implemented.                                                                                                       |
 | POST            | `/api/vm/system/poweroff`  | Implemented; answers, then runs `poweroff` a second later. The device stays unreachable until it is powered on again. |
 | POST            | `/api/vm/terminal/unlock`  | Implemented; takes `username`, `password` and, when the account has two-factor, a `code`. Returns the one-use ticket for the WebSocket. A missing or wrong code answers `-6`. |
-| GET/POST        | `/api/vm/terminal/enabled` | Implemented; also controls whether the terminal WebSocket is available. Turning it on needs `password` and, with two-factor, a `code`; turning it off needs only the session. |
+| GET/POST        | `/api/vm/terminal/enabled` | Implemented; also controls whether the terminal WebSocket is available. |
 | POST            | `/api/vm/session-lock/touch` | Implemented; slides the session while the user is active, so the lock counts idle time.                          |
 | GET/POST        | `/api/vm/session-lock`     | Implemented; supports 5, 15, 30, and 60 minute durations and `logoutOnBrowserClose`; retimes the session. |
 | GET/POST        | `/api/vm/memory/limit`     | Implemented.                                                                                                       |
