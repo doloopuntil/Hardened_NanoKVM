@@ -158,8 +158,9 @@ export function getTerminalEnabled() {
 }
 
 // set web terminal state
-export function setTerminalEnabled(enabled: boolean) {
-  return http.post('/api/vm/terminal/enabled', { enabled });
+// turning the terminal on needs the password, and a code when the account has a second factor
+export function setTerminalEnabled(enabled: boolean, password?: string, code?: string) {
+  return http.post('/api/vm/terminal/enabled', { enabled, password, code });
 }
 
 // unlock web terminal before opening shell

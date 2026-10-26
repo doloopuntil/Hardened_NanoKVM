@@ -55,7 +55,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | POST     | `/api/auth/logout`   | Implemented; revokes current session.                                                                          |
 | GET      | `/api/auth/account`  | Implemented.                                                                                                   |
 | GET/POST | `/api/auth/password` | Implemented; requires the current password, Argon2id writes, legacy verification, password-change session revocation, and root password sync. Existing TOTP enrolment is preserved across a password change. |
-| GET/DELETE | `/api/auth/totp` | Implemented; GET reports enrolment state, clock-sync state, and remaining backup codes. DELETE disables the second factor and requires the account password. |
+| GET/DELETE | `/api/auth/totp` | Implemented; GET reports enrolment state, clock-sync state, and remaining backup codes. DELETE disables the second factor and requires the account password, which counts against the shared password lockout. |
 | POST | `/api/auth/totp/enroll` | Implemented; requires the account password. Generates a secret held pending confirmation and returns it with an `otpauth://` URI. Refused while the device clock is unsynchronized. |
 | POST | `/api/auth/totp/confirm` | Implemented; verifies one code against the pending secret, activates it, and returns the backup codes once. |
 | POST | `/api/auth/totp/backup-codes` | Implemented; reissues backup codes. Requires the account password. |
@@ -143,7 +143,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | POST            | `/api/vm/system/reboot`    | Implemented.                                                                                                       |
 | POST            | `/api/vm/system/poweroff`  | Implemented; answers, then runs `poweroff` a second later. The device stays unreachable until it is powered on again. |
 | POST            | `/api/vm/terminal/unlock`  | Implemented; takes `username`, `password` and, when the account has two-factor, a `code`. Returns the one-use ticket for the WebSocket. A missing or wrong code answers `-6`. |
-| GET/POST        | `/api/vm/terminal/enabled` | Implemented; also controls whether the terminal WebSocket is available.                                            |
+| GET/POST        | `/api/vm/terminal/enabled` | Implemented; also controls whether the terminal WebSocket is available. Turning it on needs `password` and, with two-factor, a `code`; turning it off needs only the session. |
 | POST            | `/api/vm/session-lock/touch` | Implemented; slides the session while the user is active, so the lock counts idle time.                          |
 | GET/POST        | `/api/vm/session-lock`     | Implemented; supports 5, 15, 30, and 60 minute durations and `logoutOnBrowserClose`; retimes the session. |
 | GET/POST        | `/api/vm/memory/limit`     | Implemented.                                                                                                       |

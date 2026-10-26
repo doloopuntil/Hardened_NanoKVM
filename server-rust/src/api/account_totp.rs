@@ -3,20 +3,24 @@
 //! All of these require an authenticated session; the login-time half lives in
 //! [`crate::api::account`].
 
-use axum::{Extension, Json, extract::State, response::IntoResponse};
+use axum::{
+    Extension, Json,
+    extract::{ConnectInfo, State},
+    response::IntoResponse,
+};
 use serde::{Deserialize, Serialize};
 
 use crate::{
     AppError, Result,
+    api::account::verify_password_limited,
     auth::{
         clock,
-        compat_crypto::decode_frontend_password,
         password::{BACKUP_CODE_COUNT, TotpConfig, generate_backup_codes},
         totp,
     },
     config::Config,
     error::ApiResponse,
-    http::middleware::CurrentSession,
+    http::{middleware::CurrentSession, tls::ClientAddr},
     state::AppState,
     system::audit,
 };
@@ -102,12 +106,19 @@ pub async fn get_status(
 pub async fn enroll(
     State(state): State<AppState>,
     Extension(CurrentSession(session)): Extension<CurrentSession>,
+    ConnectInfo(addr): ConnectInfo<ClientAddr>,
     Json(req): Json<TotpEnrollReq>,
 ) -> Result<impl IntoResponse> {
     ensure_clock_synced()?;
     // Like disable and regenerate: a stolen session alone must not be able to
     // bind its own authenticator.
-    verify_password(&state, &session.username, &req.password)?;
+    verify_password_limited(
+        &state,
+        &addr.0.ip().to_string(),
+        &session.username,
+        &req.password,
+    )
+    .await?;
 
     let secret = totp::generate_secret();
     let uri = totp::otpauth_uri(TOTP_ISSUER, &session.username, &secret);
@@ -179,9 +190,16 @@ pub async fn confirm(
 pub async fn regenerate_backup_codes(
     State(state): State<AppState>,
     Extension(CurrentSession(session)): Extension<CurrentSession>,
+    ConnectInfo(addr): ConnectInfo<ClientAddr>,
     Json(req): Json<TotpDisableReq>,
 ) -> Result<impl IntoResponse> {
-    verify_password(&state, &session.username, &req.password)?;
+    verify_password_limited(
+        &state,
+        &addr.0.ip().to_string(),
+        &session.username,
+        &req.password,
+    )
+    .await?;
 
     let mut config = state
         .accounts
@@ -202,6 +220,7 @@ pub async fn regenerate_backup_codes(
 pub async fn disable(
     State(state): State<AppState>,
     Extension(CurrentSession(session)): Extension<CurrentSession>,
+    ConnectInfo(addr): ConnectInfo<ClientAddr>,
     Json(req): Json<TotpDisableReq>,
 ) -> Result<impl IntoResponse> {
     // Refusing here would leave the UI unable to undo a setting it offers, so
@@ -212,7 +231,13 @@ pub async fn disable(
             "configuration requires two-factor auth; clear security.require_totp first".to_string(),
         ));
     }
-    verify_password(&state, &session.username, &req.password)?;
+    verify_password_limited(
+        &state,
+        &addr.0.ip().to_string(),
+        &session.username,
+        &req.password,
+    )
+    .await?;
 
     state.accounts.clear_totp(&session.username)?;
     state.pending_enrolment.clear(&session.username).await;
@@ -260,14 +285,6 @@ fn ensure_clock_synced() -> Result<()> {
     ))
 }
 
-fn verify_password(state: &AppState, username: &str, password: &str) -> Result<()> {
-    let password = decode_frontend_password(password)?;
-    if !state.accounts.verify(username, &password)? {
-        return Err(AppError::InvalidCredentials);
-    }
-    Ok(())
-}
-
 /// Number of backup codes a fresh enrolment issues, for the UI to announce.
 pub const ENROLMENT_BACKUP_CODE_COUNT: usize = BACKUP_CODE_COUNT;
 
@@ -293,6 +310,7 @@ mod tests {
         enroll(
             State(state.clone()),
             Extension(CurrentSession(session.clone())),
+            ConnectInfo(ClientAddr(([127, 0, 0, 1], 40000).into())),
             Json(TotpEnrollReq {
                 password: password.to_string(),
             }),

@@ -33,8 +33,10 @@ use tracing::{debug, info, warn};
 
 use crate::{
     AppError, Result,
-    api::{storage, stream, system_firewall},
-    auth::compat_crypto::decode_frontend_password,
+    api::{
+        account::{require_second_factor, verify_password_limited},
+        storage, stream, system_firewall,
+    },
     config::Config,
     error::ApiResponse,
     ffi::kvm,
@@ -156,6 +158,11 @@ pub struct SetTlsReq {
 #[derive(Debug, Deserialize)]
 pub struct SetTerminalReq {
     pub enabled: bool,
+    /// Needed to turn the terminal on, along with a second factor when the account has one.
+    #[serde(default)]
+    pub password: Option<String>,
+    #[serde(default)]
+    pub code: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -883,39 +890,9 @@ pub async fn unlock_terminal(
     }
 
     let source_ip = addr.0.ip().to_string();
-    let limiter_username = format!("terminal:{}", session.username);
-    {
-        let mut limiter = state.login_limiter.write().await;
-        if limiter.check(&source_ip, &limiter_username) {
-            return Err(AppError::RateLimited(
-                "terminal unlock locked due to too many failed attempts".to_string(),
-            ));
-        }
-    }
+    verify_password_limited(&state, &source_ip, &session.username, &req.password).await?;
+    require_second_factor(&state, &session.username, &source_ip, req.code.as_deref()).await?;
 
-    let password = decode_frontend_password(&req.password)?;
-    if !state.accounts.verify(&session.username, &password)? {
-        let mut limiter = state.login_limiter.write().await;
-        let locked = limiter.record_failure(&source_ip, &limiter_username);
-        if locked {
-            warn!(source_ip, username = %session.username, "terminal unlock lockout threshold reached");
-        }
-        return Err(AppError::InvalidCredentials);
-    }
-
-    crate::api::account::require_second_factor(
-        &state,
-        &session.username,
-        &source_ip,
-        req.code.as_deref(),
-    )
-    .await?;
-
-    state
-        .login_limiter
-        .write()
-        .await
-        .record_success(&source_ip, &limiter_username);
     let ticket = state
         .terminal_tickets
         .issue(&session, TERMINAL_TICKET_TTL_SECS)
@@ -935,8 +912,19 @@ pub async fn get_terminal_enabled(State(state): State<AppState>) -> Result<impl 
 
 pub async fn set_terminal_enabled(
     State(state): State<AppState>,
+    Extension(CurrentSession(session)): Extension<CurrentSession>,
+    ConnectInfo(addr): ConnectInfo<tls::ClientAddr>,
     Json(req): Json<SetTerminalReq>,
 ) -> Result<impl IntoResponse> {
+    // Turning it off needs only the session; turning it on opens a root shell.
+    if req.enabled {
+        let source_ip = addr.0.ip().to_string();
+        let password = req.password.as_deref().ok_or_else(|| {
+            AppError::BadRequest("the password is required to enable the terminal".to_string())
+        })?;
+        verify_password_limited(&state, &source_ip, &session.username, password).await?;
+        require_second_factor(&state, &session.username, &source_ip, req.code.as_deref()).await?;
+    }
     let mut config = Config::read()?;
     config.security.allow_terminal = req.enabled;
     config.write()?;

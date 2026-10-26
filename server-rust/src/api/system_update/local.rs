@@ -21,8 +21,7 @@ use tokio::{fs as tokio_fs, io::AsyncWriteExt};
 
 use super::*;
 use crate::{
-    api::account::require_second_factor,
-    auth::compat_crypto::decode_frontend_password,
+    api::account::{require_second_factor, verify_password_limited},
     fsutil::write_0600_atomic,
     http::{middleware::CurrentSession, tls},
     system::audit,
@@ -77,7 +76,13 @@ pub async fn set_local_key(
     ConnectInfo(addr): ConnectInfo<tls::ClientAddr>,
     Json(req): Json<SetLocalKeyReq>,
 ) -> Result<impl IntoResponse> {
-    verify_password_limited(&state, &addr, &session.username, &req.password).await?;
+    verify_password_limited(
+        &state,
+        &addr.0.ip().to_string(),
+        &session.username,
+        &req.password,
+    )
+    .await?;
     require_second_factor(
         &state,
         &session.username,
@@ -107,7 +112,13 @@ pub async fn remove_local_key(
     ConnectInfo(addr): ConnectInfo<tls::ClientAddr>,
     Json(req): Json<RemoveLocalKeyReq>,
 ) -> Result<impl IntoResponse> {
-    verify_password_limited(&state, &addr, &session.username, &req.password).await?;
+    verify_password_limited(
+        &state,
+        &addr.0.ip().to_string(),
+        &session.username,
+        &req.password,
+    )
+    .await?;
     require_second_factor(
         &state,
         &session.username,
@@ -584,52 +595,6 @@ async fn check_public_key_with_openssl(pem: &str) -> Result<()> {
 /// Bundles from this computer are only taken once a local update key is registered.
 pub(crate) fn ensure_local_key(path: &Path) -> Result<()> {
     local_public_key_path(path).map(|_| ())
-}
-
-// The key decides what may replace the system, so guessing the password through it counts
-// against the same lockout as the terminal unlock.
-async fn verify_password_limited(
-    state: &AppState,
-    addr: &tls::ClientAddr,
-    username: &str,
-    password: &str,
-) -> Result<()> {
-    let source_ip = addr.0.ip().to_string();
-    let limiter_username = format!("local-key:{username}");
-    if state
-        .login_limiter
-        .write()
-        .await
-        .check(&source_ip, &limiter_username)
-    {
-        return Err(AppError::RateLimited(
-            "local update key changes locked due to too many failed attempts".to_string(),
-        ));
-    }
-
-    let decoded = decode_frontend_password(password)?;
-    if !state.accounts.verify(username, &decoded)? {
-        let locked = state
-            .login_limiter
-            .write()
-            .await
-            .record_failure(&source_ip, &limiter_username);
-        if locked {
-            tracing::warn!(
-                source_ip,
-                username,
-                "local update key lockout threshold reached"
-            );
-        }
-        return Err(AppError::InvalidCredentials);
-    }
-
-    state
-        .login_limiter
-        .write()
-        .await
-        .record_success(&source_ip, &limiter_username);
-    Ok(())
 }
 
 #[cfg(test)]

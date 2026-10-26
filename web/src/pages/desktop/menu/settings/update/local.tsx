@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import * as api from '@/api/application.ts';
 import * as totpApi from '@/api/auth-totp.ts';
 import { getVirtualDevice, updateVirtualDevice } from '@/api/virtual-device.ts';
+import { encrypt } from '@/lib/encrypt.ts';
 import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
@@ -249,8 +250,8 @@ export const LocalKeyRow = ({
     setSaving(true);
     const rsp = await attempt(() =>
       removing
-        ? api.removeLocalUpdateKey(password, code || undefined)
-        : api.setLocalUpdateKey(password, pem, code || undefined)
+        ? api.removeLocalUpdateKey(encrypt(password), code.trim() || undefined)
+        : api.setLocalUpdateKey(encrypt(password), pem, code.trim() || undefined)
     );
     setSaving(false);
     if (!rsp) return;

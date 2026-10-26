@@ -22,11 +22,14 @@ import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 import { Robot } from '@/components/icons/robot.tsx';
 import { SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
+import { TerminalEnable } from './terminal-enable.tsx';
+
 export const MenuIcons = () => {
   const { t } = useTranslation();
 
   const [menuDisabledItems, setMenuDisabledItems] = useAtom(menuDisabledItemsAtom);
   const [isTerminalLoading, setIsTerminalLoading] = useState(false);
+  const [isTerminalDialogOpen, setIsTerminalDialogOpen] = useState(false);
   const [isRemoteDownloadEnabled, setIsRemoteDownloadEnabled] = useState(false);
   const [isRemoteDownloadLoading, setIsRemoteDownloadLoading] = useState(false);
 
@@ -81,13 +84,7 @@ export const MenuIcons = () => {
 
     if (key === 'terminal') {
       if (nextEnabled) {
-        confirm({
-          title: t('settings.appearance.menuBar.terminalWarningTitle'),
-          content: t('settings.appearance.menuBar.terminalWarningDesc'),
-          okText: t('settings.appearance.menuBar.terminalWarningConfirm'),
-          danger: true,
-          onOk: () => updateTerminal(true)
-        });
+        setIsTerminalDialogOpen(true);
       } else {
         updateTerminal(false);
       }
@@ -187,6 +184,12 @@ export const MenuIcons = () => {
           </SettingRow>
         ))}
       </SettingSection>
+
+      <TerminalEnable
+        open={isTerminalDialogOpen}
+        onClose={() => setIsTerminalDialogOpen(false)}
+        onEnabled={() => setItemVisible('terminal', true)}
+      />
     </>
   );
 };

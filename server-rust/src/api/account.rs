@@ -276,6 +276,50 @@ pub async fn login_totp(
     Ok((headers, body))
 }
 
+/// Check the account password before a sensitive action, with a lockout of its own.
+///
+/// Every such check (password change, two-factor changes, the local update key, enabling or
+/// unlocking the terminal) shares one budget per address and user, apart from the login's, so
+/// a stolen session cannot guess the password through any of them.
+pub(crate) async fn verify_password_limited(
+    state: &AppState,
+    source_ip: &str,
+    username: &str,
+    password: &str,
+) -> Result<()> {
+    let limiter_key = format!("reauth:{username}");
+    if state
+        .login_limiter
+        .write()
+        .await
+        .check(source_ip, &limiter_key)
+    {
+        return Err(AppError::RateLimited(
+            "too many wrong passwords, try again later".to_string(),
+        ));
+    }
+
+    let decoded = decode_frontend_password(password)?;
+    if !state.accounts.verify(username, &decoded)? {
+        if state
+            .login_limiter
+            .write()
+            .await
+            .record_failure(source_ip, &limiter_key)
+        {
+            tracing::warn!(source_ip, username, "password re-check lockout reached");
+        }
+        return Err(AppError::InvalidCredentials);
+    }
+
+    state
+        .login_limiter
+        .write()
+        .await
+        .record_success(source_ip, &limiter_key);
+    Ok(())
+}
+
 /// API code for a missing or wrong second-factor code on a sensitive action.
 pub const SECOND_FACTOR_ERROR_CODE: i32 = -6;
 
@@ -501,6 +545,7 @@ pub async fn is_password_updated(State(state): State<AppState>) -> Result<impl I
 pub async fn change_password(
     State(state): State<AppState>,
     Extension(CurrentSession(session)): Extension<CurrentSession>,
+    ConnectInfo(addr): ConnectInfo<ClientAddr>,
     Json(req): Json<ChangePasswordReq>,
 ) -> Result<impl IntoResponse> {
     if req.username != session.username {
@@ -509,10 +554,13 @@ pub async fn change_password(
         ));
     }
     // A stolen session alone must not be able to take over the account.
-    let current = decode_frontend_password(&req.current_password)?;
-    if !state.accounts.verify(&req.username, &current)? {
-        return Err(AppError::InvalidCredentials);
-    }
+    verify_password_limited(
+        &state,
+        &addr.0.ip().to_string(),
+        &req.username,
+        &req.current_password,
+    )
+    .await?;
     let password = decode_frontend_password(&req.password)?;
     validate_account_credentials(&req.username, &password)?;
     change_root_password(&password).await?;
@@ -653,6 +701,63 @@ mod tests {
 
     fn rejected_with_second_factor_code(result: Result<()>) -> bool {
         matches!(result, Err(AppError::Api { code, .. }) if code == SECOND_FACTOR_ERROR_CODE)
+    }
+
+    async fn state_with_account(max_failures: u32) -> (tempfile::TempDir, AppState) {
+        let dir = tempfile::tempdir().unwrap();
+        let mut config = crate::config::Config::default();
+        config.paths.account_file = dir.path().canonicalize().unwrap().join("pwd");
+        config.security.login_max_failures = max_failures;
+        let state = AppState::new(config).await.unwrap();
+        state
+            .accounts
+            .set_account("operator", "correct horse battery")
+            .unwrap();
+        (dir, state)
+    }
+
+    #[tokio::test]
+    async fn wrong_passwords_on_sensitive_actions_lock_out_apart_from_the_login() {
+        let (_dir, state) = state_with_account(3).await;
+
+        for _ in 0..3 {
+            let result = verify_password_limited(&state, SOURCE_IP, "operator", "wrong").await;
+            assert!(matches!(result, Err(AppError::InvalidCredentials)));
+        }
+        // locked: even the right password is refused
+        let locked =
+            verify_password_limited(&state, SOURCE_IP, "operator", "correct horse battery").await;
+        assert!(
+            matches!(locked, Err(AppError::RateLimited(_))),
+            "{locked:?}"
+        );
+        // the login's own budget and other addresses are untouched
+        assert!(
+            !state
+                .login_limiter
+                .write()
+                .await
+                .check(SOURCE_IP, "operator")
+        );
+        verify_password_limited(&state, "10.0.0.6", "operator", "correct horse battery")
+            .await
+            .unwrap();
+    }
+
+    #[tokio::test]
+    async fn a_right_password_clears_the_count() {
+        let (_dir, state) = state_with_account(3).await;
+
+        for _ in 0..2 {
+            let _ = verify_password_limited(&state, SOURCE_IP, "operator", "wrong").await;
+        }
+        verify_password_limited(&state, SOURCE_IP, "operator", "correct horse battery")
+            .await
+            .unwrap();
+        for _ in 0..2 {
+            let result = verify_password_limited(&state, SOURCE_IP, "operator", "wrong").await;
+            assert!(matches!(result, Err(AppError::InvalidCredentials)));
+        }
     }
 
     #[tokio::test]
@@ -929,6 +1034,7 @@ mod tests {
         let refused = change_password(
             State(state.clone()),
             Extension(CurrentSession(session)),
+            ConnectInfo(ClientAddr(([127, 0, 0, 1], 40000).into())),
             Json(ChangePasswordReq {
                 username: "operator".to_string(),
                 current_password: "not the password".to_string(),

@@ -33,7 +33,8 @@ behaviour is in the guides ([sign-in](../guide/sign-in.md),
 | Two-factor | Optional TOTP with backup codes; every change needs the password; `security.require_totp` confines an unenrolled session to enrolment. |
 | CSRF and origin | CSRF token plus `Origin`/`Referer` check on every state-changing request; WebSockets check `Origin`. |
 | Brute force | Lockout after 5 failures per address and user, for 10 minutes. TOTP failures count too. |
-| Step-up | Unlocking the terminal and setting or removing the local update key need the password and, when the account has two-factor, a fresh code. Wrong passwords and wrong codes lock out separately. |
+| Step-up | Unlocking or enabling the terminal and setting or removing the local update key need the password and, when the account has two-factor, a fresh code. Turning the terminal off needs only the session. |
+| Password re-checks | Password change, two-factor changes, the local update key and the terminal share one lockout per address and user, apart from the login's. Wrong codes lock out separately. |
 | Browser | Security headers on every response; the CSP allows scripts and images only from the device (images also from `data:`), so chat output cannot load external content. |
 | Commands | Privileged commands go through an argv-only allowlist (`system/command.rs`) with timeouts and bounded output; no shell strings. |
 | Files and archives | Atomic `0600` writes for secrets, symlink and traversal checks, bounded archive extraction. |
@@ -47,8 +48,6 @@ behaviour is in the guides ([sign-in](../guide/sign-in.md),
 
 - The server runs as root. Splitting privileged operations into a smaller
   helper is future work.
-- Password checks on password change and two-factor changes are not rate
-  limited, so a stolen session could use them to guess the password.
 - The login lockout is per address and user, with no global counter.
 - Remote ISO download has no allowlist of sources; it stays off by default.
 - Retained vendor components with `NOASSERTION` licence metadata remain a
