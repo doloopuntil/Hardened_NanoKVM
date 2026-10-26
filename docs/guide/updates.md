@@ -98,7 +98,10 @@ with a key of your own and upload it.
    `openssl pkey -in local.pem -pubout -out local.pub.pem`.
 2. In **Settings > System > Updates**, choose **Set key** under **Local update key**,
    paste `local.pub.pem` and enter your password. The device now trusts that key
-   for uploaded bundles only; the online channels never use it.
+   for uploaded bundles only; the online channels never use it. Wrong passwords
+   count against the same lockout as the terminal unlock. Without a key, the
+   device refuses every bundle upload and every install of an uploaded bundle,
+   whoever signed it.
 3. Build the metadata with
    `SYSTEM_UPDATE_SIGNING_KEY=local.pem SYSTEM_UPDATE_SIGNATURE_KEY_ID=local CHANNEL=dev scripts/create-system-update-metadata.sh <version> hardened-system-<version> <archive> system-latest.json`.
    This also writes `system-latest.json.sig`.

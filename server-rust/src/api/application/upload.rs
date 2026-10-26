@@ -10,7 +10,9 @@ use axum::{
 
 use super::*;
 use crate::{
-    api::system_update::local::{LOCAL_KEY_ID, ensure_free_space, local_public_key_path},
+    api::system_update::local::{
+        LOCAL_KEY_ID, ensure_free_space, ensure_local_key, local_public_key_path,
+    },
     http::middleware::CurrentSession,
     system::audit,
 };
@@ -37,6 +39,7 @@ pub async fn upload_check(
     Query(query): Query<UploadCheckQuery>,
 ) -> Result<impl IntoResponse> {
     let cache_dir = application_update_cache_dir(&state.config.paths.update_cache_dir);
+    ensure_local_key(&state.config.paths.system_update_local_public_key)?;
     crate::api::storage::ensure_writable(&state.config.paths.update_cache_dir)?;
     if UPDATE_LOCK.lock().map(|busy| *busy).unwrap_or(false) {
         return Err(AppError::Conflict("update already in progress".to_string()));
@@ -70,6 +73,7 @@ pub async fn upload(
     headers: HeaderMap,
     mut multipart: Multipart,
 ) -> Result<Json<ApiResponse<StagedApplication>>> {
+    ensure_local_key(&state.config.paths.system_update_local_public_key)?;
     crate::api::storage::ensure_writable(&state.config.paths.update_cache_dir)?;
     let _guard = acquire_update_lock()?;
     let config = crate::config::Config::read().unwrap_or_else(|err| {
@@ -123,6 +127,7 @@ pub async fn install(
     State(state): State<AppState>,
     Extension(CurrentSession(session)): Extension<CurrentSession>,
 ) -> Result<Json<ApiResponse<()>>> {
+    ensure_local_key(&state.config.paths.system_update_local_public_key)?;
     crate::api::storage::ensure_writable(&state.config.paths.update_cache_dir)?;
     let _guard = acquire_update_lock()?;
     let cache_dir = application_update_cache_dir(&state.config.paths.update_cache_dir);

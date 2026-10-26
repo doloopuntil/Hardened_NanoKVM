@@ -4,7 +4,7 @@
 
 use axum::{
     Extension, Json,
-    extract::{Multipart, Query, State},
+    extract::{ConnectInfo, Multipart, Query, State},
     http::{HeaderMap, header},
     response::IntoResponse,
 };
@@ -21,8 +21,10 @@ use tokio::{fs as tokio_fs, io::AsyncWriteExt};
 
 use super::*;
 use crate::{
-    auth::compat_crypto::decode_frontend_password, fsutil::write_0600_atomic,
-    http::middleware::CurrentSession, system::audit,
+    auth::compat_crypto::decode_frontend_password,
+    fsutil::write_0600_atomic,
+    http::{middleware::CurrentSession, tls},
+    system::audit,
 };
 
 pub const LOCAL_KEY_ID: &str = "local";
@@ -66,9 +68,10 @@ pub async fn get_local_key(State(state): State<AppState>) -> Result<impl IntoRes
 pub async fn set_local_key(
     State(state): State<AppState>,
     Extension(CurrentSession(session)): Extension<CurrentSession>,
+    ConnectInfo(addr): ConnectInfo<tls::ClientAddr>,
     Json(req): Json<SetLocalKeyReq>,
 ) -> Result<impl IntoResponse> {
-    verify_password(&state, &session.username, &req.password)?;
+    verify_password_limited(&state, &addr, &session.username, &req.password).await?;
     let der = parse_public_key_pem(&req.public_key)?;
     check_public_key_with_openssl(&req.public_key).await?;
 
@@ -88,9 +91,10 @@ pub async fn set_local_key(
 pub async fn remove_local_key(
     State(state): State<AppState>,
     Extension(CurrentSession(session)): Extension<CurrentSession>,
+    ConnectInfo(addr): ConnectInfo<tls::ClientAddr>,
     Json(req): Json<RemoveLocalKeyReq>,
 ) -> Result<impl IntoResponse> {
-    verify_password(&state, &session.username, &req.password)?;
+    verify_password_limited(&state, &addr, &session.username, &req.password).await?;
     let path = state.config.paths.system_update_local_public_key.clone();
     task::spawn_blocking(move || remove_file_if_exists(&path))
         .await
@@ -112,6 +116,7 @@ pub async fn upload_check(
     State(state): State<AppState>,
     Query(query): Query<UploadCheckQuery>,
 ) -> Result<impl IntoResponse> {
+    ensure_local_key(&state.config.paths.system_update_local_public_key)?;
     upload_preflight(&state.config.paths.update_cache_dir, query.size)?;
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
@@ -145,6 +150,7 @@ pub async fn upload(
     headers: HeaderMap,
     mut multipart: Multipart,
 ) -> Result<impl IntoResponse> {
+    ensure_local_key(&state.config.paths.system_update_local_public_key)?;
     crate::api::storage::ensure_writable(&state.config.paths.update_cache_dir)?;
     let guard = acquire_update_lock()?;
     let config = Config::read().unwrap_or_else(|err| {
@@ -555,16 +561,75 @@ async fn check_public_key_with_openssl(pem: &str) -> Result<()> {
     result
 }
 
-fn verify_password(state: &AppState, username: &str, password: &str) -> Result<()> {
-    let password = decode_frontend_password(password)?;
-    if !state.accounts.verify(username, &password)? {
+/// Bundles from this computer are only taken once a local update key is registered.
+pub(crate) fn ensure_local_key(path: &Path) -> Result<()> {
+    local_public_key_path(path).map(|_| ())
+}
+
+// The key decides what may replace the system, so guessing the password through it counts
+// against the same lockout as the terminal unlock.
+async fn verify_password_limited(
+    state: &AppState,
+    addr: &tls::ClientAddr,
+    username: &str,
+    password: &str,
+) -> Result<()> {
+    let source_ip = addr.0.ip().to_string();
+    let limiter_username = format!("local-key:{username}");
+    if state
+        .login_limiter
+        .write()
+        .await
+        .check(&source_ip, &limiter_username)
+    {
+        return Err(AppError::RateLimited(
+            "local update key changes locked due to too many failed attempts".to_string(),
+        ));
+    }
+
+    let decoded = decode_frontend_password(password)?;
+    if !state.accounts.verify(username, &decoded)? {
+        let locked = state
+            .login_limiter
+            .write()
+            .await
+            .record_failure(&source_ip, &limiter_username);
+        if locked {
+            tracing::warn!(
+                source_ip,
+                username,
+                "local update key lockout threshold reached"
+            );
+        }
         return Err(AppError::InvalidCredentials);
     }
+
+    state
+        .login_limiter
+        .write()
+        .await
+        .record_success(&source_ip, &limiter_username);
     Ok(())
 }
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn bundles_need_a_registered_local_key() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let dir = tempfile::tempdir().unwrap();
+        let key = dir.path().join("local.pub.pem");
+        assert!(super::ensure_local_key(&key).is_err());
+
+        std::fs::write(&key, "key").unwrap();
+        std::fs::set_permissions(&key, std::fs::Permissions::from_mode(0o666)).unwrap();
+        assert!(super::ensure_local_key(&key).is_err());
+
+        std::fs::set_permissions(&key, std::fs::Permissions::from_mode(0o600)).unwrap();
+        assert!(super::ensure_local_key(&key).is_ok());
+    }
+
     #[test]
     fn upload_needs_twice_the_bundle_plus_a_margin() {
         assert_eq!(upload_space_needed(0), FREE_SPACE_MARGIN);

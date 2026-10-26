@@ -20,7 +20,9 @@ Built on RC12; the image is rebuilt from source in CI. Not yet published.
 - `nano`, `picocom`, `wireguard-tools`; BusyBox `tar` with gzip.
 - Signed application and system bundles can be uploaded from the Updates page once
   a local update key is set. An uploaded bundle is staged and shows as the latest
-  version with a Local badge until you install or discard it.
+  version with a Local badge until you install or discard it. The server refuses
+  uploads and installs of uploaded bundles without a local key, and setting or
+  removing the key locks out repeated wrong passwords.
 
 ### Changed
 
