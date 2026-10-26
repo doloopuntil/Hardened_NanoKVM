@@ -873,17 +873,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
         <SettingSection title={t('settings.update.local.section')}>
           <LocalKeyRow localKey={localKey} onChange={setLocalKey} />
         </SettingSection>
-
-        <div className="flex justify-end">
-          <Button
-            type="link"
-            size="small"
-            href="https://github.com/woffko/Hardened_NanoKVM/blob/main/CHANGELOG.md"
-            target="_blank"
-          >
-            Changelog
-          </Button>
-        </div>
       </div>
 
       <InstallWait

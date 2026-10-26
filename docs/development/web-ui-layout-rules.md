@@ -171,7 +171,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     Only real names keep capitals: Tailscale, WireGuard, the firewall modes
     (Baseline, Moderate, Restricted, Paranoid), the key names Num Lock, Caps
     Lock and Scroll Lock, and "HID-Only mode". Protocol and file names (HDMI, SSH,
-    mDNS, HTTPS, IP, DNS, Changelog) stay as they are in every language.
+    mDNS, HTTPS, IP, DNS) stay as they are in every language.
 28. Every text starts with a capital letter, with no parentheses and no "!".
     Captions, tooltips, toasts and field errors are one sentence without a
     final full stop. Dialogs, banners and step lists stay multi-sentence with
