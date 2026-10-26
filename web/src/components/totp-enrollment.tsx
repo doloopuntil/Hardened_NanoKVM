@@ -58,6 +58,8 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
 
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
   const [password, setPassword] = useState('');
+  // the current code, asked for when the second factor is changed or its backup codes reissued
+  const [stepCode, setStepCode] = useState('');
   const [isDisabling, setIsDisabling] = useState(false);
   const [isStartingEnrolment, setIsStartingEnrolment] = useState(false);
   const [isRegenerating, setIsRegenerating] = useState(false);
@@ -147,11 +149,11 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
   }
 
   function disable() {
-    if (isBusy || !password) return;
+    if (isBusy || !password || !stepCode.trim()) return;
     setIsBusy(true);
 
     api
-      .disable(encrypt(password))
+      .disable(encrypt(password), stepCode.trim())
       .then((rsp) => {
         if (rsp.code !== 0) {
           toast.error(rsp.msg || t('settings.account.totp.disableFailed'));
@@ -159,6 +161,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         }
         setIsDisabling(false);
         setPassword('');
+        setStepCode('');
         refresh();
       })
       .catch((err) => toast.error(errorText(err, t('settings.account.totp.disableFailed'))))
@@ -166,11 +169,11 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
   }
 
   function regenerate() {
-    if (isBusy || !password) return;
+    if (isBusy || !password || !stepCode.trim()) return;
     setIsBusy(true);
 
     api
-      .regenerateBackupCodes(encrypt(password))
+      .regenerateBackupCodes(encrypt(password), stepCode.trim())
       .then((rsp) => {
         if (rsp.code !== 0) {
           toast.error(rsp.msg || t('settings.account.totp.regenerateFailed'));
@@ -178,6 +181,7 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         }
         setIsRegenerating(false);
         setPassword('');
+        setStepCode('');
         setBackupCodes(rsp.data.backupCodes || []);
         refresh();
       })
@@ -404,11 +408,12 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         title={t('settings.account.totp.regenerateTitle')}
         okText={t('settings.account.totp.generate')}
         cancelText={t('settings.account.totp.cancel')}
-        okButtonProps={{ loading: isBusy, disabled: !password }}
+        okButtonProps={{ loading: isBusy, disabled: !password || !stepCode.trim() }}
         onOk={regenerate}
         onCancel={() => {
           setIsRegenerating(false);
           setPassword('');
+          setStepCode('');
         }}
       >
         <div className="flex flex-col space-y-3 py-2">
@@ -422,6 +427,14 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
             onPressEnter={regenerate}
             placeholder={t('settings.account.totp.passwordPlaceholder')}
           />
+          <Input
+            value={stepCode}
+            onChange={(e) => setStepCode(e.target.value)}
+            onPressEnter={regenerate}
+            placeholder={t('auth.totp.placeholderCode')}
+            inputMode="numeric"
+            autoComplete="one-time-code"
+          />
         </div>
       </Modal>
 
@@ -432,11 +445,12 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
         title={t('settings.account.totp.disableTitle')}
         okText={t('settings.account.totp.disable')}
         cancelText={t('settings.account.totp.cancel')}
-        okButtonProps={{ danger: true, loading: isBusy, disabled: !password }}
+        okButtonProps={{ danger: true, loading: isBusy, disabled: !password || !stepCode.trim() }}
         onOk={disable}
         onCancel={() => {
           setIsDisabling(false);
           setPassword('');
+          setStepCode('');
         }}
       >
         <div className="flex flex-col space-y-3 py-2">
@@ -448,6 +462,14 @@ export const TotpEnrollment = ({ setIsLocked, onEnrolled }: Props) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder={t('settings.account.totp.passwordPlaceholder')}
+          />
+          <Input
+            value={stepCode}
+            onChange={(e) => setStepCode(e.target.value)}
+            onPressEnter={disable}
+            placeholder={t('auth.totp.placeholderCode')}
+            inputMode="numeric"
+            autoComplete="one-time-code"
           />
         </div>
       </Modal>

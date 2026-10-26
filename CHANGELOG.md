@@ -24,8 +24,9 @@ Built on RC12; the image is rebuilt from source in CI. Not yet published.
   uploads and installs of uploaded bundles without a local key, and setting or
   removing the key locks out repeated wrong passwords. Setting or removing the
   key and unlocking the terminal ask for a fresh two-factor code when the account
-  has one. Password re-checks (password change, two-factor changes, key, terminal
-  unlock) share one lockout.
+  has one, as do password change, disabling two-factor and reissuing backup codes.
+  Password re-checks (password change, two-factor changes, key, terminal unlock)
+  share one lockout.
 
 ### Changed
 

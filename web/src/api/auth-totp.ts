@@ -31,12 +31,12 @@ export function confirm(code: string) {
   return http.post('/api/auth/totp/confirm', { code });
 }
 
-export function disable(password: string) {
-  return http.delete('/api/auth/totp', { password });
+export function disable(password: string, code?: string) {
+  return http.delete('/api/auth/totp', { password, code });
 }
 
-export function regenerateBackupCodes(password: string) {
-  return http.post('/api/auth/totp/backup-codes', { password });
+export function regenerateBackupCodes(password: string, code?: string) {
+  return http.post('/api/auth/totp/backup-codes', { password, code });
 }
 
 export function setRequired(required: boolean) {

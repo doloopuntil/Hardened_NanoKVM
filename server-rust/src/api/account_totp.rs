@@ -12,7 +12,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     AppError, Result,
-    api::account::verify_password_limited,
+    api::account::{require_second_factor, verify_password_limited},
     auth::{
         clock,
         password::{BACKUP_CODE_COUNT, TotpConfig, generate_backup_codes},
@@ -52,6 +52,9 @@ pub struct TotpEnrollRsp {
 #[derive(Debug, Deserialize)]
 pub struct TotpEnrollReq {
     pub password: String,
+    /// Second factor, needed when the account already has one.
+    #[serde(default)]
+    pub code: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -69,6 +72,9 @@ pub struct TotpConfirmRsp {
 #[derive(Debug, Deserialize)]
 pub struct TotpDisableReq {
     pub password: String,
+    /// Second factor, needed when the account has one.
+    #[serde(default)]
+    pub code: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -112,13 +118,9 @@ pub async fn enroll(
     ensure_clock_synced()?;
     // Like disable and regenerate: a stolen session alone must not be able to
     // bind its own authenticator.
-    verify_password_limited(
-        &state,
-        &addr.0.ip().to_string(),
-        &session.username,
-        &req.password,
-    )
-    .await?;
+    let source_ip = addr.0.ip().to_string();
+    verify_password_limited(&state, &source_ip, &session.username, &req.password).await?;
+    require_second_factor(&state, &session.username, &source_ip, req.code.as_deref()).await?;
 
     let secret = totp::generate_secret();
     let uri = totp::otpauth_uri(TOTP_ISSUER, &session.username, &secret);
@@ -193,13 +195,9 @@ pub async fn regenerate_backup_codes(
     ConnectInfo(addr): ConnectInfo<ClientAddr>,
     Json(req): Json<TotpDisableReq>,
 ) -> Result<impl IntoResponse> {
-    verify_password_limited(
-        &state,
-        &addr.0.ip().to_string(),
-        &session.username,
-        &req.password,
-    )
-    .await?;
+    let source_ip = addr.0.ip().to_string();
+    verify_password_limited(&state, &source_ip, &session.username, &req.password).await?;
+    require_second_factor(&state, &session.username, &source_ip, req.code.as_deref()).await?;
 
     let mut config = state
         .accounts
@@ -231,13 +229,9 @@ pub async fn disable(
             "configuration requires two-factor auth; clear security.require_totp first".to_string(),
         ));
     }
-    verify_password_limited(
-        &state,
-        &addr.0.ip().to_string(),
-        &session.username,
-        &req.password,
-    )
-    .await?;
+    let source_ip = addr.0.ip().to_string();
+    verify_password_limited(&state, &source_ip, &session.username, &req.password).await?;
+    require_second_factor(&state, &session.username, &source_ip, req.code.as_deref()).await?;
 
     state.accounts.clear_totp(&session.username)?;
     state.pending_enrolment.clear(&session.username).await;
@@ -313,6 +307,7 @@ mod tests {
             ConnectInfo(ClientAddr(([127, 0, 0, 1], 40000).into())),
             Json(TotpEnrollReq {
                 password: password.to_string(),
+                code: None,
             }),
         )
         .await
@@ -355,5 +350,98 @@ mod tests {
         assert!(state.pending_enrolment.get("operator").await.is_none());
         let stored = state.accounts.totp_config("operator").unwrap().unwrap();
         assert_eq!(stored.secret, SECRET);
+    }
+
+    fn enrol(state: &AppState) {
+        state
+            .accounts
+            .set_totp(
+                "operator",
+                TotpConfig {
+                    secret: SECRET.to_string(),
+                    backup_codes: vec![],
+                    enrolled_at: 0,
+                },
+            )
+            .unwrap();
+    }
+
+    fn current_code() -> String {
+        let secret = totp::decode_secret(SECRET).unwrap();
+        let step = totp::current_step(clock::read().now_unix);
+        format!("{:06}", totp::code_at(&secret, step))
+    }
+
+    fn addr() -> ConnectInfo<ClientAddr> {
+        ConnectInfo(ClientAddr(([127, 0, 0, 1], 40000).into()))
+    }
+
+    fn second_factor_refused<T>(result: &Result<T>) -> bool {
+        matches!(result, Err(AppError::Api { code, .. }) if *code == crate::api::account::SECOND_FACTOR_ERROR_CODE)
+    }
+
+    #[tokio::test]
+    async fn disabling_needs_a_code_when_enrolled() {
+        let (_dir, state, session) = state_and_session().await;
+        enrol(&state);
+        let request = |code: Option<String>| {
+            disable(
+                State(state.clone()),
+                Extension(CurrentSession(session.clone())),
+                addr(),
+                Json(TotpDisableReq {
+                    password: PASSWORD.to_string(),
+                    code,
+                }),
+            )
+        };
+
+        assert!(second_factor_refused(&request(None).await.map(|_| ())));
+        assert!(second_factor_refused(
+            &request(Some("000000".to_string())).await.map(|_| ())
+        ));
+        assert!(state.accounts.totp_config("operator").unwrap().is_some());
+
+        request(Some(current_code())).await.unwrap();
+        assert!(state.accounts.totp_config("operator").unwrap().is_none());
+    }
+
+    #[tokio::test]
+    async fn new_backup_codes_need_a_code_when_enrolled() {
+        let (_dir, state, session) = state_and_session().await;
+        enrol(&state);
+        let request = |code: Option<String>| {
+            regenerate_backup_codes(
+                State(state.clone()),
+                Extension(CurrentSession(session.clone())),
+                addr(),
+                Json(TotpDisableReq {
+                    password: PASSWORD.to_string(),
+                    code,
+                }),
+            )
+        };
+
+        assert!(second_factor_refused(&request(None).await.map(|_| ())));
+        assert!(
+            state
+                .accounts
+                .totp_config("operator")
+                .unwrap()
+                .unwrap()
+                .backup_codes
+                .is_empty()
+        );
+
+        request(Some(current_code())).await.unwrap();
+        assert!(
+            !state
+                .accounts
+                .totp_config("operator")
+                .unwrap()
+                .unwrap()
+                .backup_codes
+                .is_empty()
+        );
     }
 }

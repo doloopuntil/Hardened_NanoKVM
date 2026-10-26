@@ -91,6 +91,9 @@ pub struct ChangePasswordReq {
     #[serde(rename = "currentPassword")]
     pub current_password: String,
     pub password: String,
+    /// Second factor, needed when the account has one.
+    #[serde(default)]
+    pub code: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -554,13 +557,9 @@ pub async fn change_password(
         ));
     }
     // A stolen session alone must not be able to take over the account.
-    verify_password_limited(
-        &state,
-        &addr.0.ip().to_string(),
-        &req.username,
-        &req.current_password,
-    )
-    .await?;
+    let source_ip = addr.0.ip().to_string();
+    verify_password_limited(&state, &source_ip, &req.username, &req.current_password).await?;
+    require_second_factor(&state, &req.username, &source_ip, req.code.as_deref()).await?;
     let password = decode_frontend_password(&req.password)?;
     validate_account_credentials(&req.username, &password)?;
     change_root_password(&password).await?;
@@ -1039,11 +1038,42 @@ mod tests {
                 username: "operator".to_string(),
                 current_password: "not the password".to_string(),
                 password: "a brand new password".to_string(),
+                code: None,
             }),
         )
         .await;
 
         assert!(matches!(refused, Err(AppError::InvalidCredentials)));
+        assert!(
+            state
+                .accounts
+                .verify("operator", "correct horse battery")
+                .unwrap()
+        );
+    }
+
+    #[tokio::test]
+    async fn password_change_needs_a_code_when_enrolled() {
+        let (_dir, state) = state_with_account(5).await;
+        state.accounts.set_totp("operator", config()).unwrap();
+        let session = state.sessions.issue("operator", 900).await;
+
+        let refused = change_password(
+            State(state.clone()),
+            Extension(CurrentSession(session)),
+            ConnectInfo(ClientAddr(([127, 0, 0, 1], 40000).into())),
+            Json(ChangePasswordReq {
+                username: "operator".to_string(),
+                current_password: "correct horse battery".to_string(),
+                password: "a brand new password".to_string(),
+                code: None,
+            }),
+        )
+        .await;
+
+        assert!(
+            matches!(refused, Err(AppError::Api { code, .. }) if code == SECOND_FACTOR_ERROR_CODE)
+        );
         assert!(
             state
                 .accounts

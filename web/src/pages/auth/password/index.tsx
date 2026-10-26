@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { LockOutlined } from '@ant-design/icons';
+import { LockOutlined, SafetyOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
+import * as totpApi from '@/api/auth-totp.ts';
 import * as api from '@/api/auth.ts';
 import { removeToken } from '@/lib/cookie.ts';
 import { encrypt } from '@/lib/encrypt.ts';
@@ -13,6 +14,15 @@ export const Password = () => {
   const { t } = useTranslation();
   const [msg, setMsg] = useState('');
   const navigate = useNavigate();
+  // a second factor is asked for when the account has one
+  const [totpEnabled, setTotpEnabled] = useState(false);
+
+  useEffect(() => {
+    totpApi
+      .getStatus()
+      .then((rsp) => setTotpEnabled(rsp.code === 0 && !!rsp.data?.enabled))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (msg) {
@@ -43,9 +53,14 @@ export const Password = () => {
           return;
         }
 
-        return api.changePassword(username, currentPassword, password).then((rsp: any) => {
+        const code = values.code?.trim() || undefined;
+        return api.changePassword(username, currentPassword, password, code).then((rsp: any) => {
           if (rsp.code === -2) {
             setMsg(t('auth.wrongCurrentPassword'));
+            return;
+          }
+          if (rsp.code === -6) {
+            setMsg(t('auth.totp.invalidCode'));
             return;
           }
           if (rsp.code === -1 && rsp.msg) {
@@ -123,6 +138,20 @@ export const Password = () => {
               placeholder={t('auth.placeholderPassword2')}
             />
           </Form.Item>
+
+          {totpEnabled && (
+            <Form.Item
+              name="code"
+              rules={[{ required: true, message: t('auth.totp.noEmptyCode'), min: 1 }]}
+            >
+              <Input
+                prefix={<SafetyOutlined />}
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                placeholder={t('auth.totp.placeholderCode')}
+              />
+            </Form.Item>
+          )}
 
           {msg && <div className="mb-3 text-red-500">{msg}</div>}
           <Form.Item>

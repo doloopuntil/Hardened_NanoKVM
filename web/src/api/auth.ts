@@ -28,11 +28,17 @@ export function getAccount() {
   return http.get('/api/auth/account');
 }
 
-export function changePassword(username: string, currentPassword: string, password: string) {
+export function changePassword(
+  username: string,
+  currentPassword: string,
+  password: string,
+  code?: string
+) {
   const data = {
     username,
     currentPassword,
-    password
+    password,
+    code
   };
   return http.post('/api/auth/password', data);
 }

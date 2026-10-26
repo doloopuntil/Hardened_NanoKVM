@@ -30,10 +30,10 @@ behaviour is in the guides ([sign-in](../guide/sign-in.md),
 | First boot | No default credential. Without `/etc/kvm/pwd`, the UI asks for the first account. `security.allow_default_admin` stays off. |
 | Passwords | Argon2id for new passwords, bcrypt still accepted. Changing the password needs the current one and also sets the `root` password. |
 | Sessions | Opaque in-memory sessions, per-device secret, revoked on logout and password change. Optional idle lock. |
-| Two-factor | Optional TOTP with backup codes; every change needs the password; `security.require_totp` confines an unenrolled session to enrolment. |
+| Two-factor | Optional TOTP with backup codes; every change needs the password and, once enrolled, a fresh code; `security.require_totp` confines an unenrolled session to enrolment. |
 | CSRF and origin | CSRF token plus `Origin`/`Referer` check on every state-changing request; WebSockets check `Origin`. |
 | Brute force | Lockout after 5 failures per address and user, for 10 minutes. TOTP failures count too. |
-| Step-up | Unlocking the terminal and setting or removing the local update key need the password and, when the account has two-factor, a fresh code. |
+| Step-up | Changing the password, disabling two-factor, reissuing backup codes, unlocking the terminal and setting or removing the local update key need the password and, when the account has two-factor, a fresh code. |
 | Password re-checks | Password change, two-factor changes, the local update key and the terminal share one lockout per address and user, apart from the login's. Wrong codes lock out separately. |
 | Browser | Security headers on every response; the CSP allows scripts and images only from the device (images also from `data:`), so chat output cannot load external content. |
 | Commands | Privileged commands go through an argv-only allowlist (`system/command.rs`) with timeouts and bounded output; no shell strings. |
