@@ -663,6 +663,35 @@ pub async fn install(State(state): State<AppState>) -> Result<impl IntoResponse>
     })))
 }
 
+/// Drop the staged system update, keeping the backups a rollback needs.
+pub async fn discard(State(state): State<AppState>) -> Result<Json<ApiResponse<()>>> {
+    let _guard = acquire_update_lock()?;
+    if read_pending_update()?.is_some() {
+        return Err(AppError::Conflict(
+            "a system update is waiting to be confirmed".to_string(),
+        ));
+    }
+    let stage_dir = system_stage_dir(&state.config.paths.update_cache_dir);
+    run_blocking_system_update("discard staged system update", move || {
+        discard_staged_update(&stage_dir)
+    })
+    .await?;
+
+    Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+fn discard_staged_update(stage_dir: &Path) -> Result<()> {
+    // an unreadable record still gets removed; its archive name is only trusted when valid
+    if let Some(record) = read_stage_record(stage_dir).ok().flatten()
+        && validate_latest_system(&record.latest).is_ok()
+    {
+        remove_file_if_exists(&stage_dir.join(&record.latest.name))?;
+    }
+    remove_file_if_exists(&stage_dir.join(SYSTEM_STAGE_RECORD))?;
+    remove_dir_if_exists(&stage_dir.join(SYSTEM_EXTRACT_DIR_NAME))?;
+    remove_update_progress(stage_dir)
+}
+
 pub async fn rollback(State(state): State<AppState>) -> Result<impl IntoResponse> {
     crate::api::storage::ensure_writable(&state.config.paths.update_cache_dir)?;
     let guard = acquire_update_lock()?;
@@ -3592,6 +3621,25 @@ mod tests {
         assert!(application_requirement_error_for("2.0.40", &latest).is_some());
         assert!(application_requirement_error_for("2.0.41", &latest).is_none());
         assert!(application_requirement_error_for("2.1.0", &latest).is_none());
+    }
+
+    #[test]
+    fn discarding_a_staged_update_keeps_the_backups() {
+        let dir = tempfile::tempdir().unwrap();
+        let stage = dir.path();
+        fs::write(stage.join(SYSTEM_STAGE_RECORD), "not json").unwrap();
+        fs::write(stage.join(SYSTEM_PROGRESS_RECORD), "{}").unwrap();
+        fs::create_dir_all(stage.join(SYSTEM_EXTRACT_DIR_NAME).join("payload")).unwrap();
+        fs::create_dir_all(stage.join("backup-1")).unwrap();
+
+        discard_staged_update(stage).unwrap();
+
+        assert!(!stage.join(SYSTEM_STAGE_RECORD).exists());
+        assert!(!stage.join(SYSTEM_PROGRESS_RECORD).exists());
+        assert!(!stage.join(SYSTEM_EXTRACT_DIR_NAME).exists());
+        assert!(stage.join("backup-1").is_dir());
+        // nothing staged is not an error
+        discard_staged_update(stage).unwrap();
     }
 
     #[test]

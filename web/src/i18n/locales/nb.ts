@@ -925,7 +925,8 @@ const nb = {
           checking: 'Sjekker',
           latest: 'Oppdatert',
           available: 'Oppdatering tilgjengelig',
-          failed: 'Sjekk mislyktes'
+          failed: 'Sjekk mislyktes',
+          local: 'Lokal'
         },
         application: {
           title: 'Applikasjon'
@@ -991,8 +992,6 @@ const nb = {
         offline: {
           title: 'Last opp programpakke',
           desc: 'Installer en programpakke fra denne datamaskinen. Serveren starter på nytt etterpå.',
-          section: 'Frakoblede oppdateringer',
-          staged: 'Verifisert og klar til installasjon.',
           installTitle: 'Installere programoppdatering?',
           installDesc: 'Programmet erstattes, og serveren starter på nytt. Du må logge inn igjen.'
         },
@@ -1011,7 +1010,9 @@ const nb = {
           keyNone: 'Ingen nøkkel angitt',
           keySet: 'Angi nøkkel',
           keyRemove: 'Fjern',
-          signer: 'Signert av'
+          signer: 'Signert av',
+          section: 'Lokale oppdateringer',
+          keyRequired: 'Lokal nøkkel kreves'
         }
       },
       account: {

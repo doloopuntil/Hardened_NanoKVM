@@ -922,7 +922,8 @@ const pl = {
           checking: 'Sprawdzanie',
           latest: 'Aktualne',
           available: 'Dostępna aktualizacja',
-          failed: 'Sprawdzenie nie powiodło się'
+          failed: 'Sprawdzenie nie powiodło się',
+          local: 'Lokalna'
         },
         application: {
           title: 'Aplikacja'
@@ -989,8 +990,6 @@ const pl = {
         offline: {
           title: 'Prześlij pakiet aplikacji',
           desc: 'Zainstaluj pakiet aplikacji z tego komputera. Potem serwer uruchomi się ponownie.',
-          section: 'Aktualizacje offline',
-          staged: 'Zweryfikowano, gotowe do instalacji.',
           installTitle: 'Zainstalować aktualizację aplikacji?',
           installDesc:
             'Aplikacja zostanie zastąpiona, a serwer uruchomi się ponownie. Trzeba będzie zalogować się ponownie.'
@@ -1011,7 +1010,9 @@ const pl = {
           keyNone: 'Nie ustawiono klucza',
           keySet: 'Ustaw klucz',
           keyRemove: 'Usuń',
-          signer: 'Podpisał'
+          signer: 'Podpisał',
+          section: 'Aktualizacje lokalne',
+          keyRequired: 'Wymagany klucz lokalny'
         }
       },
       account: {

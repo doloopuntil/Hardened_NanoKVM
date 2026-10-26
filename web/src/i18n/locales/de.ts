@@ -933,7 +933,8 @@ const de = {
           checking: 'Wird geprüft',
           latest: 'Aktuell',
           available: 'Update verfügbar',
-          failed: 'Prüfung fehlgeschlagen'
+          failed: 'Prüfung fehlgeschlagen',
+          local: 'Lokal'
         },
         application: {
           title: 'Anwendung'
@@ -1000,8 +1001,6 @@ const de = {
         offline: {
           title: 'Anwendungspaket hochladen',
           desc: 'Ein Anwendungspaket von diesem Computer installieren. Danach startet der Server neu.',
-          section: 'Offline-Updates',
-          staged: 'Geprüft und bereit zur Installation.',
           installTitle: 'Anwendungsupdate installieren?',
           installDesc:
             'Die Anwendung wird ersetzt und der Server startet neu. Danach ist eine erneute Anmeldung nötig.'
@@ -1022,7 +1021,9 @@ const de = {
           keyNone: 'Kein Schlüssel gesetzt',
           keySet: 'Schlüssel setzen',
           keyRemove: 'Entfernen',
-          signer: 'Signiert von'
+          signer: 'Signiert von',
+          section: 'Lokale Updates',
+          keyRequired: 'Lokaler Schlüssel erforderlich'
         }
       },
       account: {

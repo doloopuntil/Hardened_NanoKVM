@@ -22,7 +22,7 @@ import { PageHeader } from '@/components/page-header.tsx';
 import { InfoRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import { InstallWait } from './install-wait.tsx';
-import { ApplicationUpload, LocalKeyRow, SystemUpload } from './local.tsx';
+import { ApplicationUpload, LocalKeyRow, SystemUpload, type LocalKey } from './local.tsx';
 
 type UpdateProps = {
   setIsLocked: (isClosable: boolean) => void;
@@ -48,6 +48,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   const [rawInstallWaiting, setRawInstallWaiting] = useState(false);
   const [firewallStatus, setFirewallStatus] = useState<FirewallStatus | null>(null);
   const [appStaged, setAppStaged] = useState<ApplicationStagedUpdate | null>(null);
+  const [localKey, setLocalKey] = useState<LocalKey | null>(null);
 
   useEffect(() => {
     refreshFirewallStatus();
@@ -61,6 +62,12 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
         if (rsp.code === 0 && rsp.data?.current) setCurrentVersion(rsp.data.current);
       })
       .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    attempt(() => api.getLocalUpdateKey(), { quiet: true }).then((rsp) => {
+      if (rsp?.data) setLocalKey(rsp.data);
+    });
   }, []);
 
   useEffect(() => {
@@ -467,9 +474,22 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     }, 12000);
   }
 
+  // with the local bundle gone, check again for what the online channel offers
   async function discardStagedApplication() {
     const rsp = await attempt(() => api.discardStagedApplication());
-    if (rsp) setAppStaged(null);
+    if (!rsp) return;
+
+    setAppStaged(null);
+    refreshFirewallStatus();
+  }
+
+  async function discardStagedSystem() {
+    const rsp = await attempt(() => api.discardSystemUpdate());
+    if (!rsp) return;
+
+    setSystemStaged(null);
+    setSystemStatus('');
+    refreshFirewallStatus();
   }
 
   function info(label: string, value?: string | null, description?: ReactNode) {
@@ -478,25 +498,12 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     ) : null;
   }
 
-  // the card appears below the upload rows, so bring it into view
-  function showStaged(id: string) {
-    setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }, 50);
-  }
-
-  function handleUploadedApplicationUpdate(data: ApplicationStagedUpdate) {
-    setAppStaged(data);
-    showStaged('staged-application');
-  }
-
   function handleUploadedSystemUpdate(data: any) {
     setSystemCurrent(data.current);
     setSystemLatest(data.latest);
     setSystemStaged(data.staged);
     setSystemStatus('staged');
     refreshSystemUpdateStatus();
-    showStaged('staged-system');
   }
 
   function formatBytes(value?: number) {
@@ -517,7 +524,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   }
 
   const isStagedLatest = stagedMatchesLatest(systemStaged, systemLatest);
-  // a signer means the bundle was uploaded, and it is installed from the Offline updates section
+  // a signer means the bundle was uploaded from this computer
   const uploadedSystem = !!systemStaged?.signer;
   const onlineStaged = uploadedSystem ? null : systemStaged;
   const stagedAppRequirementMet =
@@ -558,6 +565,11 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       {t('settings.update.system.rollback')}
     </Button>
   ) : null;
+  const discardSystemButton = (
+    <Button key="discard" onClick={discardStagedSystem}>
+      {t('common.discard')}
+    </Button>
+  );
   const installButton = (disabled: boolean) => (
     <Button key="install" danger disabled={disabled} onClick={confirmInstallSystemUpdate}>
       {t('settings.update.system.install')}
@@ -569,8 +581,9 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   const applicationBusy = status === 'updating';
   const applicationText = status === 'updating' ? t('settings.update.updating') : '';
   // what the check found, and what it says under the latest version
-  const applicationCheck: CheckState =
-    status === 'loading'
+  const applicationCheck: CheckState = appStaged
+    ? 'local'
+    : status === 'loading'
       ? 'checking'
       : status === 'latest'
         ? 'latest'
@@ -579,8 +592,13 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
           : status === 'failed'
             ? 'failed'
             : undefined;
-  const applicationCheckText =
-    status === 'outdated' ? t('settings.update.available') : status === 'failed' ? errMsg : '';
+  const applicationCheckText = appStaged
+    ? ''
+    : status === 'outdated'
+      ? t('settings.update.available')
+      : status === 'failed'
+        ? errMsg
+        : '';
 
   // what the System section says about its state, and the buttons that go with it
   let systemTitle = '';
@@ -617,7 +635,15 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   } else if (systemStatus === 'latest' && systemCurrent) {
     systemButtons = [refreshButton, rollbackButton];
   } else if (systemStatus === 'staged' && uploadedSystem) {
-    systemButtons = [refreshButton, rollbackButton];
+    if (!stagedAppRequirementMet && systemStaged?.requiredAppVersion) {
+      captionVersion(
+        t('settings.update.system.appUpdateRequired', {
+          version: systemStaged.requiredAppVersion,
+          defaultValue: `Update the application to ${systemStaged.requiredAppVersion} before installing this system update`
+        })
+      );
+    }
+    systemButtons = [refreshButton, discardSystemButton, installButton(!stagedAppRequirementMet)];
   } else if (systemStatus === 'staged' && systemStaged && isStagedLatest) {
     stagedCaption = t('settings.update.system.stagedDesc');
     systemButtons = [
@@ -659,7 +685,8 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     systemButtons = [
       refreshButton,
       canDownloadLatestSystemUpdate ? downloadButton : null,
-      onlineStaged && isStagedLatest && stagedAppRequirementMet ? installButton(false) : null,
+      systemStaged && isStagedLatest && stagedAppRequirementMet ? installButton(false) : null,
+      uploadedSystem ? discardSystemButton : null,
       rollbackButton
     ];
   }
@@ -677,11 +704,13 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       ? 'checking'
       : systemStatus === 'failed' && systemError
         ? 'failed'
-        : systemLatest && systemCurrent
-          ? isVersionAtLeast(systemCurrent.version, systemLatest.version)
-            ? 'latest'
-            : 'available'
-          : undefined;
+        : uploadedSystem
+          ? 'local'
+          : systemLatest && systemCurrent
+            ? isVersionAtLeast(systemCurrent.version, systemLatest.version)
+              ? 'latest'
+              : 'available'
+            : undefined;
 
   return (
     <>
@@ -725,27 +754,49 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                   </span>
                 ) : undefined
               }
-              value={latestVersion}
+              value={appStaged?.version ?? latestVersion}
             />
+            {info(t('settings.update.local.signer'), appStaged?.signer)}
           </div>
+
+          <ApplicationUpload
+            disabled={applicationLoading || applicationBusy}
+            localKey={localKey}
+            onStaged={setAppStaged}
+            setBusy={setIsLocked}
+          />
 
           <StatusRow
             buttons={
               applicationBusy || applicationLoading
                 ? []
-                : [
-                    refreshButton,
-                    status === 'outdated' ? (
+                : appStaged
+                  ? [
+                      refreshButton,
+                      <Button key="discard" onClick={discardStagedApplication}>
+                        {t('common.discard')}
+                      </Button>,
                       <Button
-                        key="confirm"
+                        key="install"
                         type="primary"
-                        disabled={onlineUpdatesBlocked}
-                        onClick={update}
+                        onClick={confirmInstallStagedApplication}
                       >
-                        {t('settings.update.confirm')}
+                        {t('settings.update.system.install')}
                       </Button>
-                    ) : null
-                  ]
+                    ]
+                  : [
+                      refreshButton,
+                      status === 'outdated' ? (
+                        <Button
+                          key="confirm"
+                          type="primary"
+                          disabled={onlineUpdatesBlocked}
+                          onClick={update}
+                        >
+                          {t('settings.update.confirm')}
+                        </Button>
+                      ) : null
+                    ]
             }
           />
         </SettingSection>
@@ -762,10 +813,11 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
                   <span className={systemError ? 'text-red-400' : undefined}>{versionCaption}</span>
                 ) : undefined
               }
-              value={systemLatest?.version}
+              value={uploadedSystem ? systemStaged?.version : systemLatest?.version}
             />
             {info(t('settings.update.system.kernel'), systemCurrent?.kernelVersion)}
             {info(t('settings.update.system.requiredAppVersion'), systemLatest?.requiredAppVersion)}
+            {info(t('settings.update.local.signer'), uploadedSystem ? systemStaged?.signer : null)}
             {info(t('settings.update.system.stagedVersion'), onlineStaged?.version, stagedCaption)}
             {info(t('settings.update.system.requiredAppVersion'), onlineStaged?.requiredAppVersion)}
             {info(t('settings.update.system.archive'), onlineStaged?.archiveName)}
@@ -801,6 +853,13 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             {info(t('settings.update.system.rollbackBackup'), systemRollback?.backupId)}
           </div>
 
+          <SystemUpload
+            disabled={systemBusy}
+            localKey={localKey}
+            onStaged={handleUploadedSystemUpdate}
+            setBusy={setIsLocked}
+          />
+
           <StatusRow
             busy={systemBusy && systemStatus !== 'loading'}
             error={systemError}
@@ -812,66 +871,8 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
 
         <Divider className="opacity-50" />
 
-        <SettingSection title={t('settings.update.offline.section')}>
-          <ApplicationUpload
-            disabled={applicationLoading || applicationBusy}
-            onStaged={handleUploadedApplicationUpdate}
-            setBusy={setIsLocked}
-          />
-          <SystemUpload
-            disabled={systemBusy}
-            onStaged={handleUploadedSystemUpdate}
-            setBusy={setIsLocked}
-          />
-          <LocalKeyRow />
-
-          <StatusRow busy={applicationBusy} text={applicationText} buttons={[]} />
-
-          {appStaged && (
-            <StagedCard
-              id="staged-application"
-              title={t('settings.update.application.title')}
-              rows={[
-                info(t('settings.update.system.stagedVersion'), appStaged.version),
-                info(t('settings.update.system.archive'), appStaged.name),
-                info(t('settings.update.local.signer'), appStaged.signer)
-              ]}
-              buttons={[
-                <Button key="discard" onClick={discardStagedApplication}>
-                  {t('common.discard')}
-                </Button>,
-                <Button
-                  key="install"
-                  type="primary"
-                  danger
-                  onClick={confirmInstallStagedApplication}
-                >
-                  {t('settings.update.system.install')}
-                </Button>
-              ]}
-            />
-          )}
-          {systemStaged && uploadedSystem && (
-            <StagedCard
-              id="staged-system"
-              title={t('settings.system.title')}
-              rows={[
-                info(t('settings.update.system.stagedVersion'), systemStaged.version),
-                info(
-                  t('settings.update.system.requiredAppVersion'),
-                  systemStaged.requiredAppVersion
-                ),
-                info(t('settings.update.system.archive'), systemStaged.archiveName),
-                info(t('settings.update.local.signer'), systemStaged.signer),
-                info(
-                  t('settings.update.system.requiredFree'),
-                  formatBytes(systemStaged.requiredFreeBytes)
-                ),
-                info(t('settings.update.system.fileCount'), systemStaged.fileCount.toString())
-              ]}
-              buttons={[installButton(!stagedAppRequirementMet || systemBusy)]}
-            />
-          )}
+        <SettingSection title={t('settings.update.local.section')}>
+          <LocalKeyRow localKey={localKey} onChange={setLocalKey} />
         </SettingSection>
 
         <div className="flex justify-end">
@@ -898,13 +899,14 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   );
 };
 
-type CheckState = 'checking' | 'latest' | 'available' | 'failed' | undefined;
+type CheckState = 'checking' | 'latest' | 'available' | 'failed' | 'local' | undefined;
 
 const CHECK_COLORS = {
   checking: 'default',
   latest: 'green',
   available: 'blue',
-  failed: 'red'
+  failed: 'red',
+  local: 'orange'
 } as const;
 
 // The label of the latest version, always shown, with a badge for what the check found.
@@ -920,32 +922,6 @@ const LatestLabel = ({ check }: { check: CheckState }) => {
         </Tag>
       )}
     </span>
-  );
-};
-
-type StagedCardProps = {
-  id: string;
-  title: string;
-  rows: ReactNode[];
-  buttons: ReactNode[];
-};
-
-// A verified bundle waiting for its install: what it is, and the buttons to install or drop it.
-const StagedCard = ({ id, title, rows, buttons }: StagedCardProps) => {
-  const { t } = useTranslation();
-
-  return (
-    <div
-      id={id}
-      className="box-border flex min-w-0 flex-col space-y-3 rounded-lg border border-solid border-neutral-700 p-3"
-    >
-      <div className="flex min-w-0 flex-col space-y-0.5">
-        <span className="text-sm text-neutral-300">{title}</span>
-        <span className="text-xs text-neutral-500">{t('settings.update.offline.staged')}</span>
-      </div>
-      {rows}
-      <div className="flex flex-wrap justify-end gap-2">{buttons}</div>
-    </div>
   );
 };
 

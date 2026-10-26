@@ -64,6 +64,7 @@ pub fn build(state: AppState) -> Router {
         .route("/api/system-update/status", get(system_update::status))
         .route("/api/system-update/download", post(system_update::download))
         .route("/api/system-update/install", post(system_update::install))
+        .route("/api/system-update/discard", post(system_update::discard))
         .route(
             "/api/system-update/upload-check",
             get(system_update::local::upload_check),

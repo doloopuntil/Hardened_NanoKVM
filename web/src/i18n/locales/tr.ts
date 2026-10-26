@@ -921,7 +921,8 @@ const tr = {
           checking: 'Denetleniyor',
           latest: 'Güncel',
           available: 'Güncelleme var',
-          failed: 'Denetim başarısız'
+          failed: 'Denetim başarısız',
+          local: 'Yerel'
         },
         application: {
           title: 'Uygulama'
@@ -985,8 +986,6 @@ const tr = {
         offline: {
           title: 'Uygulama paketini yükle',
           desc: 'Bu bilgisayardan bir uygulama paketi kur. Ardından sunucu yeniden başlar.',
-          section: 'Çevrimdışı güncellemeler',
-          staged: 'Doğrulandı ve kurulmaya hazır.',
           installTitle: 'Uygulama güncellemesi yüklensin mi?',
           installDesc:
             'Uygulama değiştirilir ve sunucu yeniden başlar. Yeniden oturum açmanız gerekir.'
@@ -1006,7 +1005,9 @@ const tr = {
           keyNone: 'Anahtar ayarlanmadı',
           keySet: 'Anahtarı ayarla',
           keyRemove: 'Kaldır',
-          signer: 'İmzalayan'
+          signer: 'İmzalayan',
+          section: 'Yerel güncellemeler',
+          keyRequired: 'Yerel anahtar gerekli'
         }
       },
       account: {

@@ -921,7 +921,8 @@ const da = {
           checking: 'Kontrollerer',
           latest: 'Opdateret',
           available: 'Opdatering tilgængelig',
-          failed: 'Kontrol mislykkedes'
+          failed: 'Kontrol mislykkedes',
+          local: 'Lokal'
         },
         application: {
           title: 'Applikation'
@@ -986,8 +987,6 @@ const da = {
         offline: {
           title: 'Upload applikationspakke',
           desc: 'Installer en applikationspakke fra denne computer. Serveren genstarter bagefter.',
-          section: 'Offlineopdateringer',
-          staged: 'Verificeret og klar til installation.',
           installTitle: 'Installer applikationsopdatering?',
           installDesc: 'Applikationen erstattes, og serveren genstarter. Du skal logge ind igen.'
         },
@@ -1006,7 +1005,9 @@ const da = {
           keyNone: 'Ingen nøgle angivet',
           keySet: 'Angiv nøgle',
           keyRemove: 'Fjern',
-          signer: 'Signeret af'
+          signer: 'Signeret af',
+          section: 'Lokale opdateringer',
+          keyRequired: 'Lokal nøgle påkrævet'
         }
       },
       account: {

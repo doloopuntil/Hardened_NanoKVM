@@ -927,7 +927,8 @@ const es = {
           checking: 'Comprobando',
           latest: 'Actualizado',
           available: 'Actualización disponible',
-          failed: 'Error de comprobación'
+          failed: 'Error de comprobación',
+          local: 'Local'
         },
         application: {
           title: 'Aplicación'
@@ -993,8 +994,6 @@ const es = {
         offline: {
           title: 'Subir paquete de la aplicación',
           desc: 'Instalar un paquete de la aplicación desde este equipo. Después, el servidor se reinicia.',
-          section: 'Actualizaciones sin conexión',
-          staged: 'Verificado y listo para instalar.',
           installTitle: '¿Instalar actualización de la aplicación?',
           installDesc:
             'Se sustituye la aplicación y el servidor se reinicia. Tendrás que volver a iniciar sesión.'
@@ -1014,7 +1013,9 @@ const es = {
           keyNone: 'Sin clave definida',
           keySet: 'Definir clave',
           keyRemove: 'Quitar',
-          signer: 'Firmado por'
+          signer: 'Firmado por',
+          section: 'Actualizaciones locales',
+          keyRequired: 'Se requiere clave local'
         }
       },
       account: {

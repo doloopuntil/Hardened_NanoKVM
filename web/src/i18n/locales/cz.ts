@@ -915,7 +915,8 @@ const cz = {
           checking: 'Kontrola',
           latest: 'Aktuální',
           available: 'Dostupná aktualizace',
-          failed: 'Kontrola selhala'
+          failed: 'Kontrola selhala',
+          local: 'Místní'
         },
         application: {
           title: 'Aplikace'
@@ -981,8 +982,6 @@ const cz = {
         offline: {
           title: 'Nahrát balíček aplikace',
           desc: 'Nainstalovat balíček aplikace z tohoto počítače. Poté se server restartuje.',
-          section: 'Offline aktualizace',
-          staged: 'Ověřeno a připraveno k instalaci.',
           installTitle: 'Instalovat aktualizaci aplikace?',
           installDesc:
             'Aplikace bude nahrazena a server se restartuje. Budete se muset znovu přihlásit.'
@@ -1003,7 +1002,9 @@ const cz = {
           keyNone: 'Žádný klíč nenastaven',
           keySet: 'Nastavit klíč',
           keyRemove: 'Odebrat',
-          signer: 'Podepsal'
+          signer: 'Podepsal',
+          section: 'Místní aktualizace',
+          keyRequired: 'Vyžaduje místní klíč'
         }
       },
       account: {

@@ -926,7 +926,8 @@ const ca = {
           checking: 'Comprovant',
           latest: 'Actualitzat',
           available: 'Actualització disponible',
-          failed: 'Comprovació fallida'
+          failed: 'Comprovació fallida',
+          local: 'Local'
         },
         application: {
           title: 'Aplicació'
@@ -992,8 +993,6 @@ const ca = {
         offline: {
           title: "Puja un paquet de l'aplicació",
           desc: "Instal·la un paquet de l'aplicació des d'aquest ordinador. El servidor es reinicia després.",
-          section: 'Actualitzacions fora de línia',
-          staged: 'Verificat i a punt per instal·lar.',
           installTitle: "Instal·lar l'actualització de l'aplicació?",
           installDesc:
             "L'aplicació se substitueix i el servidor es reinicia. Hauràs de tornar a iniciar la sessió."
@@ -1013,7 +1012,9 @@ const ca = {
           keyNone: 'Cap clau definida',
           keySet: 'Defineix la clau',
           keyRemove: 'Elimina',
-          signer: 'Signat per'
+          signer: 'Signat per',
+          section: 'Actualitzacions locals',
+          keyRequired: 'Cal una clau local'
         }
       },
       account: {

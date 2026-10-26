@@ -929,7 +929,8 @@ const fr = {
           checking: 'Vérification',
           latest: 'À jour',
           available: 'Mise à jour disponible',
-          failed: 'Échec de la vérification'
+          failed: 'Échec de la vérification',
+          local: 'Local'
         },
         application: {
           title: 'Application'
@@ -996,8 +997,6 @@ const fr = {
         offline: {
           title: 'Téléverser un paquet applicatif',
           desc: 'Installer un paquet applicatif depuis cet ordinateur. Le serveur redémarre ensuite.',
-          section: 'Mises à jour hors ligne',
-          staged: 'Vérifié et prêt à être installé.',
           installTitle: "Installer la mise à jour de l'application?",
           installDesc:
             "L'application est remplacée et le serveur redémarre. Vous devrez vous reconnecter."
@@ -1018,7 +1017,9 @@ const fr = {
           keyNone: 'Aucune clé définie',
           keySet: 'Définir la clé',
           keyRemove: 'Supprimer',
-          signer: 'Signé par'
+          signer: 'Signé par',
+          section: 'Mises à jour locales',
+          keyRequired: 'Clé locale requise'
         }
       },
       account: {

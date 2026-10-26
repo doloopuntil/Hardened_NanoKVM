@@ -916,7 +916,8 @@ const vi = {
           checking: 'Đang kiểm tra',
           latest: 'Mới nhất',
           available: 'Có bản cập nhật',
-          failed: 'Kiểm tra thất bại'
+          failed: 'Kiểm tra thất bại',
+          local: 'Cục bộ'
         },
         application: {
           title: 'Ứng dụng'
@@ -982,8 +983,6 @@ const vi = {
         offline: {
           title: 'Tải lên gói ứng dụng',
           desc: 'Cài đặt gói ứng dụng từ máy tính này. Sau đó máy chủ sẽ khởi động lại.',
-          section: 'Cập nhật ngoại tuyến',
-          staged: 'Đã xác minh và sẵn sàng cài đặt.',
           installTitle: 'Cài đặt bản cập nhật ứng dụng?',
           installDesc: 'Ứng dụng sẽ được thay thế và máy chủ khởi động lại. Bạn cần đăng nhập lại.'
         },
@@ -1002,7 +1001,9 @@ const vi = {
           keyNone: 'Chưa đặt khóa',
           keySet: 'Đặt khóa',
           keyRemove: 'Xóa',
-          signer: 'Được ký bởi'
+          signer: 'Được ký bởi',
+          section: 'Cập nhật cục bộ',
+          keyRequired: 'Cần khóa cục bộ'
         }
       },
       account: {

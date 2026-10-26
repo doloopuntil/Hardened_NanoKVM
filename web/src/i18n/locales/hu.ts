@@ -928,7 +928,8 @@ const hu = {
           checking: 'Ellenőrzés',
           latest: 'Naprakész',
           available: 'Frissítés érhető el',
-          failed: 'Az ellenőrzés sikertelen'
+          failed: 'Az ellenőrzés sikertelen',
+          local: 'Helyi'
         },
         application: {
           title: 'Alkalmazás'
@@ -994,8 +995,6 @@ const hu = {
         offline: {
           title: 'Alkalmazáscsomag feltöltése',
           desc: 'Alkalmazáscsomag telepítése erről a számítógépről. Ezután a szerver újraindul.',
-          section: 'Offline frissítések',
-          staged: 'Ellenőrizve, telepítésre kész.',
           installTitle: 'Telepíti az alkalmazásfrissítést?',
           installDesc:
             'Az alkalmazás cserélődik, és a szerver újraindul. Újra be kell jelentkeznie.'
@@ -1016,7 +1015,9 @@ const hu = {
           keyNone: 'Nincs kulcs beállítva',
           keySet: 'Kulcs beállítása',
           keyRemove: 'Eltávolítás',
-          signer: 'Aláíró'
+          signer: 'Aláíró',
+          section: 'Helyi frissítések',
+          keyRequired: 'Helyi kulcs szükséges'
         }
       },
       account: {

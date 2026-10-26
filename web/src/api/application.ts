@@ -117,6 +117,11 @@ export function downloadSystemUpdate() {
   });
 }
 
+// drop the staged base-system update
+export function discardSystemUpdate() {
+  return http.post('/api/system-update/discard');
+}
+
 // install a staged base-system update
 export function installSystemUpdate() {
   return http.request({

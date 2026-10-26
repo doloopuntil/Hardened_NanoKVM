@@ -923,7 +923,8 @@ const se = {
           checking: 'Kontrollerar',
           latest: 'Uppdaterad',
           available: 'Uppdatering tillgänglig',
-          failed: 'Kontrollen misslyckades'
+          failed: 'Kontrollen misslyckades',
+          local: 'Lokal'
         },
         application: {
           title: 'Program'
@@ -989,8 +990,6 @@ const se = {
         offline: {
           title: 'Ladda upp programpaket',
           desc: 'Installera ett programpaket från den här datorn. Servern startar om efteråt.',
-          section: 'Offlineuppdateringar',
-          staged: 'Verifierad och redo att installeras.',
           installTitle: 'Installera programuppdatering?',
           installDesc: 'Programmet ersätts och servern startar om. Du måste logga in igen.'
         },
@@ -1009,7 +1008,9 @@ const se = {
           keyNone: 'Ingen nyckel angiven',
           keySet: 'Ange nyckel',
           keyRemove: 'Ta bort',
-          signer: 'Signerad av'
+          signer: 'Signerad av',
+          section: 'Lokala uppdateringar',
+          keyRequired: 'Lokal nyckel krävs'
         }
       },
       account: {

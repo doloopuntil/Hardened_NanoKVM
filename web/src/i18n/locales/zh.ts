@@ -886,7 +886,8 @@ const zh = {
           checking: '检查中',
           latest: '已是最新',
           available: '有可用更新',
-          failed: '检查失败'
+          failed: '检查失败',
+          local: '本地'
         },
         application: {
           title: '应用'
@@ -945,8 +946,6 @@ const zh = {
         offline: {
           title: '上传应用包',
           desc: '从此计算机安装应用包。之后服务器将重新启动。',
-          section: '离线更新',
-          staged: '已验证，可以安装。',
           installTitle: '安装应用更新？',
           installDesc: '应用将被替换，服务器将重新启动。需要重新登录。'
         },
@@ -965,7 +964,9 @@ const zh = {
           keyNone: '未设置密钥',
           keySet: '设置密钥',
           keyRemove: '移除',
-          signer: '签名者'
+          signer: '签名者',
+          section: '本地更新',
+          keyRequired: '需要本地密钥'
         }
       },
       account: {

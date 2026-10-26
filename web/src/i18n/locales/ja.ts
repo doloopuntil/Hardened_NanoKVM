@@ -923,7 +923,8 @@ const ja = {
           checking: '確認中',
           latest: '最新',
           available: 'アップデートあり',
-          failed: '確認に失敗'
+          failed: '確認に失敗',
+          local: 'ローカル'
         },
         application: {
           title: 'アプリケーション'
@@ -989,8 +990,6 @@ const ja = {
         offline: {
           title: 'アプリケーションバンドルをアップロード',
           desc: 'このコンピューターからアプリケーションバンドルをインストールします。その後、サーバーが再起動します。',
-          section: 'オフライン更新',
-          staged: '検証済みで、インストールの準備ができています。',
           installTitle: 'アプリケーション更新をインストールしますか?',
           installDesc:
             'アプリケーションが置き換えられ、サーバーが再起動します。再度サインインが必要です。'
@@ -1010,7 +1009,9 @@ const ja = {
           keyNone: 'キーが未設定です',
           keySet: 'キーを設定',
           keyRemove: '削除',
-          signer: '署名者'
+          signer: '署名者',
+          section: 'ローカル更新',
+          keyRequired: 'ローカルキーが必要'
         }
       },
       account: {

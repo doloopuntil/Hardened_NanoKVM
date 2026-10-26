@@ -922,7 +922,8 @@ const pt_br = {
           checking: 'Verificando',
           latest: 'Atualizado',
           available: 'Atualização disponível',
-          failed: 'Falha na verificação'
+          failed: 'Falha na verificação',
+          local: 'Local'
         },
         application: {
           title: 'Aplicativo'
@@ -988,8 +989,6 @@ const pt_br = {
         offline: {
           title: 'Enviar pacote do aplicativo',
           desc: 'Instalar um pacote do aplicativo a partir deste computador. Depois, o servidor reinicia.',
-          section: 'Atualizações offline',
-          staged: 'Verificado e pronto para instalar.',
           installTitle: 'Instalar atualização do aplicativo?',
           installDesc:
             'O aplicativo é substituído e o servidor reinicia. Você precisará entrar novamente.'
@@ -1009,7 +1008,9 @@ const pt_br = {
           keyNone: 'Nenhuma chave definida',
           keySet: 'Definir chave',
           keyRemove: 'Remover',
-          signer: 'Assinado por'
+          signer: 'Assinado por',
+          section: 'Atualizações locais',
+          keyRequired: 'Chave local necessária'
         }
       },
       account: {

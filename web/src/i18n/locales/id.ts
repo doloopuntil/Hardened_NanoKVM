@@ -922,7 +922,8 @@ const id = {
           checking: 'Memeriksa',
           latest: 'Terbaru',
           available: 'Pembaruan tersedia',
-          failed: 'Pemeriksaan gagal'
+          failed: 'Pemeriksaan gagal',
+          local: 'Lokal'
         },
         application: {
           title: 'Aplikasi'
@@ -989,8 +990,6 @@ const id = {
         offline: {
           title: 'Unggah paket aplikasi',
           desc: 'Pasang paket aplikasi dari komputer ini. Server akan dimulai ulang setelahnya.',
-          section: 'Pembaruan offline',
-          staged: 'Terverifikasi dan siap dipasang.',
           installTitle: 'Pasang pembaruan aplikasi?',
           installDesc: 'Aplikasi diganti dan server dimulai ulang. Anda harus masuk lagi.'
         },
@@ -1010,7 +1009,9 @@ const id = {
           keyNone: 'Kunci belum diatur',
           keySet: 'Atur kunci',
           keyRemove: 'Hapus',
-          signer: 'Ditandatangani oleh'
+          signer: 'Ditandatangani oleh',
+          section: 'Pembaruan lokal',
+          keyRequired: 'Perlu kunci lokal'
         }
       },
       account: {

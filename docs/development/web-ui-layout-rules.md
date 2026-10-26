@@ -133,11 +133,12 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 ## Status and feedback
 21. A state message is the caption of the field it describes: "downloaded and
     verified" under Staged version, "reboot required" under Pending version.
-    A bundle uploaded from this computer is staged, not installed: it shows as
-    a card (title, "Verified and ready to install", its rows, Discard and
-    Install) right under the upload rows in Offline updates, so the user does not
-    scroll back to a section above. The Install button sits with the action that
-    staged the bundle.
+    A bundle uploaded from this computer is staged, not installed: its version
+    replaces the latest version with an amber "Local" badge, its signer shows as a
+    row, and the section's buttons become Refresh, Discard and Install. Discarding
+    checks the online channel again. The upload row sits just above those buttons
+    and stays disabled, with a "Local key required" badge, until a local update key
+    is set; the key has a section of its own at the bottom.
 22. A badge (`Tag` with `className="m-0"`) names a state of the row it belongs
     to. It sits right after the row's label, in a `flex items-center gap-2`
     span passed as the `label`, never in the value, which stays plain. Its text is

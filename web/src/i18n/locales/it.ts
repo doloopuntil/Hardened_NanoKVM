@@ -927,7 +927,8 @@ const it = {
           checking: 'Controllo',
           latest: 'Aggiornato',
           available: 'Aggiornamento disponibile',
-          failed: 'Controllo non riuscito'
+          failed: 'Controllo non riuscito',
+          local: 'Locale'
         },
         application: {
           title: 'Applicazione'
@@ -994,8 +995,6 @@ const it = {
         offline: {
           title: "Carica pacchetto dell'applicazione",
           desc: "Installa un pacchetto dell'applicazione da questo computer. Il server si riavvia al termine.",
-          section: 'Aggiornamenti offline',
-          staged: "Verificato e pronto per l'installazione.",
           installTitle: "Installare l'aggiornamento dell'applicazione?",
           installDesc:
             "L'applicazione viene sostituita e il server si riavvia. Dovrai accedere di nuovo."
@@ -1015,7 +1014,9 @@ const it = {
           keyNone: 'Nessuna chiave impostata',
           keySet: 'Imposta chiave',
           keyRemove: 'Rimuovi',
-          signer: 'Firmato da'
+          signer: 'Firmato da',
+          section: 'Aggiornamenti locali',
+          keyRequired: 'Chiave locale necessaria'
         }
       },
       account: {

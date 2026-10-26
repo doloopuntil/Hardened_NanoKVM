@@ -909,7 +909,8 @@ const et = {
           checking: 'Kontrollimine',
           latest: 'Ajakohane',
           available: 'Uuendus saadaval',
-          failed: 'Kontroll ebaõnnestus'
+          failed: 'Kontroll ebaõnnestus',
+          local: 'Kohalik'
         },
         application: {
           title: 'Rakendus'
@@ -975,8 +976,6 @@ const et = {
         offline: {
           title: 'Laadi rakenduse pakett üles',
           desc: 'Paigalda rakenduse pakett sellest arvutist. Seejärel server taaskäivitub.',
-          section: 'Võrguväljased uuendused',
-          staged: 'Kontrollitud ja paigaldamiseks valmis.',
           installTitle: 'Kas paigaldada rakenduse uuendus?',
           installDesc: 'Rakendus asendatakse ja server taaskäivitub. Pead uuesti sisse logima.'
         },
@@ -995,7 +994,9 @@ const et = {
           keyNone: 'Võtit pole määratud',
           keySet: 'Määra võti',
           keyRemove: 'Eemalda',
-          signer: 'Allkirjastaja'
+          signer: 'Allkirjastaja',
+          section: 'Kohalikud uuendused',
+          keyRequired: 'Vajalik kohalik võti'
         }
       },
       account: {

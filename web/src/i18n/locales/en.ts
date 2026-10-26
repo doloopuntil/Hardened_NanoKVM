@@ -912,7 +912,8 @@ const en = {
           checking: 'Checking',
           latest: 'Up to date',
           available: 'Update available',
-          failed: 'Check failed'
+          failed: 'Check failed',
+          local: 'Local'
         },
         application: {
           title: 'Application'
@@ -977,8 +978,6 @@ const en = {
         offline: {
           title: 'Upload application bundle',
           desc: 'Install an application bundle from this computer. The server restarts afterwards.',
-          section: 'Offline updates',
-          staged: 'Verified and ready to install.',
           installTitle: 'Install application update?',
           installDesc:
             'The application is replaced and the server restarts. You will have to sign in again.'
@@ -998,7 +997,9 @@ const en = {
           keyNone: 'No key set',
           keySet: 'Set key',
           keyRemove: 'Remove',
-          signer: 'Signed by'
+          signer: 'Signed by',
+          section: 'Local updates',
+          keyRequired: 'Local key required'
         }
       },
       account: {

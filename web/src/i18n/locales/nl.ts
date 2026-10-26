@@ -928,7 +928,8 @@ const nl = {
           checking: 'Controleren',
           latest: 'Up-to-date',
           available: 'Update beschikbaar',
-          failed: 'Controle mislukt'
+          failed: 'Controle mislukt',
+          local: 'Lokaal'
         },
         application: {
           title: 'Applicatie'
@@ -994,8 +995,6 @@ const nl = {
         offline: {
           title: 'Applicatiepakket uploaden',
           desc: 'Een applicatiepakket vanaf deze computer installeren. Daarna start de server opnieuw op.',
-          section: 'Offline-updates',
-          staged: 'Geverifieerd en klaar om te installeren.',
           installTitle: 'Applicatie-update installeren?',
           installDesc:
             'De applicatie wordt vervangen en de server start opnieuw op. Je moet daarna opnieuw inloggen.'
@@ -1015,7 +1014,9 @@ const nl = {
           keyNone: 'Geen sleutel ingesteld',
           keySet: 'Sleutel instellen',
           keyRemove: 'Verwijderen',
-          signer: 'Ondertekend door'
+          signer: 'Ondertekend door',
+          section: 'Lokale updates',
+          keyRequired: 'Lokale sleutel vereist'
         }
       },
       account: {

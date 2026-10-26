@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Button, Input, Modal, Progress } from 'antd';
+import { useRef, useState } from 'react';
+import { Button, Input, Modal, Progress, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/application.ts';
@@ -11,10 +11,12 @@ function megabytes(bytes: number) {
   return `${Math.round(bytes / (1024 * 1024))} MB`;
 }
 
-type LocalKey = { configured: boolean; fingerprint?: string | null };
+export type LocalKey = { configured: boolean; fingerprint?: string | null };
 
 type UploadProps = {
   disabled: boolean;
+  // the local key, or null while it loads; uploads are checked against it, so they need one
+  localKey: LocalKey | null;
   onStaged: (data: any) => void;
   setBusy: (busy: boolean) => void;
 };
@@ -56,6 +58,7 @@ export const ApplicationUpload = (props: UploadProps) => {
 
 const BundleUpload = ({
   disabled,
+  localKey,
   onStaged,
   setBusy,
   label,
@@ -165,7 +168,20 @@ const BundleUpload = ({
 
   return (
     <>
-      <SettingRow label={label} description={error || description} inline>
+      <SettingRow
+        label={
+          <span className="flex items-center gap-2">
+            {label}
+            {localKey && !localKey.configured && (
+              <Tag className="m-0" color="orange">
+                {t('settings.update.local.keyRequired')}
+              </Tag>
+            )}
+          </span>
+        }
+        description={error || description}
+        inline
+      >
         <input
           ref={inputRef}
           type="file"
@@ -173,7 +189,10 @@ const BundleUpload = ({
           onChange={handleChange}
           className="hidden"
         />
-        <Button disabled={disabled} onClick={() => inputRef.current?.click()}>
+        <Button
+          disabled={disabled || !localKey?.configured}
+          onClick={() => inputRef.current?.click()}
+        >
           {t('settings.update.local.choose')}
         </Button>
       </SettingRow>
@@ -194,20 +213,19 @@ const BundleUpload = ({
   );
 };
 
-export const LocalKeyRow = () => {
+export const LocalKeyRow = ({
+  localKey: key,
+  onChange
+}: {
+  localKey: LocalKey | null;
+  onChange: (key: LocalKey) => void;
+}) => {
   const { t } = useTranslation();
-  const [key, setKey] = useState<LocalKey | null>(null);
   const [open, setOpen] = useState(false);
   const [pem, setPem] = useState('');
   const [password, setPassword] = useState('');
   const [removing, setRemoving] = useState(false);
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    attempt(() => api.getLocalUpdateKey(), { quiet: true }).then((rsp) => {
-      if (rsp?.data) setKey(rsp.data);
-    });
-  }, []);
 
   function close() {
     setOpen(false);
@@ -224,7 +242,7 @@ export const LocalKeyRow = () => {
     setSaving(false);
     if (!rsp) return;
 
-    setKey(removing ? { configured: false } : rsp.data);
+    onChange(removing ? { configured: false } : rsp.data);
     close();
   }
 

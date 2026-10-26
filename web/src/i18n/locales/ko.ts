@@ -908,7 +908,8 @@ const ko = {
           checking: '확인 중',
           latest: '최신',
           available: '업데이트 가능',
-          failed: '확인 실패'
+          failed: '확인 실패',
+          local: '로컬'
         },
         application: {
           title: '애플리케이션'
@@ -971,8 +972,6 @@ const ko = {
         offline: {
           title: '애플리케이션 번들 업로드',
           desc: '이 컴퓨터에서 애플리케이션 번들을 설치합니다. 이후 서버가 다시 시작됩니다.',
-          section: '오프라인 업데이트',
-          staged: '검증되었으며 설치할 준비가 되었습니다.',
           installTitle: '애플리케이션 업데이트를 설치할까요?',
           installDesc: '애플리케이션이 교체되고 서버가 다시 시작됩니다. 다시 로그인해야 합니다.'
         },
@@ -991,7 +990,9 @@ const ko = {
           keyNone: '설정된 키 없음',
           keySet: '키 설정',
           keyRemove: '제거',
-          signer: '서명자'
+          signer: '서명자',
+          section: '로컬 업데이트',
+          keyRequired: '로컬 키 필요'
         }
       },
       account: {

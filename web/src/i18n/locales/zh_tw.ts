@@ -888,7 +888,8 @@ const zh_tw = {
           checking: '檢查中',
           latest: '已是最新',
           available: '有可用更新',
-          failed: '檢查失敗'
+          failed: '檢查失敗',
+          local: '本機'
         },
         application: {
           title: '應用程式'
@@ -947,8 +948,6 @@ const zh_tw = {
         offline: {
           title: '上傳應用程式套件',
           desc: '從此電腦安裝應用程式套件。之後伺服器將重新啟動。',
-          section: '離線更新',
-          staged: '已驗證，可以安裝。',
           installTitle: '安裝應用程式更新？',
           installDesc: '應用程式將被取代，伺服器將重新啟動。需要重新登入。'
         },
@@ -967,7 +966,9 @@ const zh_tw = {
           keyNone: '未設定金鑰',
           keySet: '設定金鑰',
           keyRemove: '移除',
-          signer: '簽署者'
+          signer: '簽署者',
+          section: '本機更新',
+          keyRequired: '需要本機金鑰'
         }
       },
       account: {
