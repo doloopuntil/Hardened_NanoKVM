@@ -22,7 +22,9 @@ Built on RC12; the image is rebuilt from source in CI. Not yet published.
   a local update key is set. An uploaded bundle is staged and shows as the latest
   version with a Local badge until you install or discard it. The server refuses
   uploads and installs of uploaded bundles without a local key, and setting or
-  removing the key locks out repeated wrong passwords.
+  removing the key locks out repeated wrong passwords. Setting or removing the
+  key and unlocking the terminal ask for a fresh two-factor code when the account
+  has one.
 
 ### Changed
 

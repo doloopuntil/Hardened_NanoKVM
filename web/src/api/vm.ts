@@ -163,8 +163,8 @@ export function setTerminalEnabled(enabled: boolean) {
 }
 
 // unlock web terminal before opening shell
-export function unlockTerminal(username: string, password: string) {
-  return http.post('/api/vm/terminal/unlock', { username, password });
+export function unlockTerminal(username: string, password: string, code?: string) {
+  return http.post('/api/vm/terminal/unlock', { username, password, code });
 }
 
 // get session lock duration

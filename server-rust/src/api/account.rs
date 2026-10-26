@@ -25,6 +25,7 @@ use crate::{
         middleware::CurrentSession,
         tls::ClientAddr,
     },
+    security::rate_limit::LoginRateLimiter,
     state::AppState,
     system::{
         audit,
@@ -273,6 +274,79 @@ pub async fn login_totp(
         expired_pending_totp_cookie(session_cookie_secure(&state.config.proto))?,
     );
     Ok((headers, body))
+}
+
+/// API code for a missing or wrong second-factor code on a sensitive action.
+pub const SECOND_FACTOR_ERROR_CODE: i32 = -6;
+
+/// Ask for a fresh second factor before a sensitive action. An account without one passes.
+///
+/// Wrong codes count against their own lockout, apart from the password's. A code that
+/// logged the user in cannot be used again, so the next one is needed.
+pub(crate) async fn require_second_factor(
+    state: &AppState,
+    username: &str,
+    source_ip: &str,
+    code: Option<&str>,
+) -> Result<()> {
+    check_second_factor(
+        &state.accounts,
+        &state.totp_replay,
+        &state.login_limiter,
+        username,
+        source_ip,
+        code,
+        clock::read(),
+    )
+    .await
+}
+
+async fn check_second_factor(
+    accounts: &AccountStore,
+    replay: &ReplayGuard,
+    limiter: &tokio::sync::RwLock<LoginRateLimiter>,
+    username: &str,
+    source_ip: &str,
+    code: Option<&str>,
+    time: clock::Reading,
+) -> Result<()> {
+    let Some(totp) = accounts.totp_config(username)? else {
+        return Ok(());
+    };
+
+    let limiter_key = format!("totp-step-up:{username}");
+    if limiter.write().await.check(source_ip, &limiter_key) {
+        return Err(AppError::RateLimited(
+            "too many wrong two-factor codes, try again later".to_string(),
+        ));
+    }
+
+    let rejected = |msg: &str| AppError::Api {
+        code: SECOND_FACTOR_ERROR_CODE,
+        msg: msg.to_string(),
+    };
+    // asking for the code is not a failed attempt
+    let Some(code) = code.map(str::trim).filter(|code| !code.is_empty()) else {
+        return Err(rejected("a two-factor code is required"));
+    };
+
+    if !verify_second_factor(accounts, replay, username, source_ip, &totp, code, time).await? {
+        if limiter
+            .write()
+            .await
+            .record_failure(source_ip, &limiter_key)
+        {
+            tracing::warn!(source_ip, username, "second-factor step-up lockout reached");
+        }
+        audit::login_failure(username, source_ip, "step_up_invalid_totp");
+        return Err(rejected("invalid two-factor code"));
+    }
+
+    limiter
+        .write()
+        .await
+        .record_success(source_ip, &limiter_key);
+    Ok(())
 }
 
 /// Whether a submitted second factor is a TOTP code rather than a backup code.
@@ -558,6 +632,83 @@ mod tests {
                 "{code} looks like a TOTP code"
             );
         }
+    }
+
+    fn step_up(
+        accounts: &AccountStore,
+        replay: &ReplayGuard,
+        limiter: &tokio::sync::RwLock<LoginRateLimiter>,
+        code: Option<&str>,
+    ) -> impl std::future::Future<Output = Result<()>> {
+        check_second_factor(
+            accounts,
+            replay,
+            limiter,
+            "operator",
+            SOURCE_IP,
+            code,
+            synced(),
+        )
+    }
+
+    fn rejected_with_second_factor_code(result: Result<()>) -> bool {
+        matches!(result, Err(AppError::Api { code, .. }) if code == SECOND_FACTOR_ERROR_CODE)
+    }
+
+    #[tokio::test]
+    async fn an_account_without_a_second_factor_passes_the_step_up() {
+        let dir = tempfile::tempdir().unwrap();
+        let accounts = AccountStore::new(dir.path().canonicalize().unwrap().join("pwd"));
+        accounts
+            .set_account("operator", "correct horse battery")
+            .unwrap();
+        let limiter = tokio::sync::RwLock::new(LoginRateLimiter::new(3, 60));
+
+        step_up(&accounts, &ReplayGuard::new(), &limiter, None)
+            .await
+            .unwrap();
+    }
+
+    #[tokio::test]
+    async fn the_step_up_needs_a_fresh_valid_code() {
+        let (_dir, accounts) = accounts_with_totp(Vec::new());
+        let replay = ReplayGuard::new();
+        let limiter = tokio::sync::RwLock::new(LoginRateLimiter::new(5, 60));
+
+        assert!(rejected_with_second_factor_code(
+            step_up(&accounts, &replay, &limiter, None).await
+        ));
+        assert!(rejected_with_second_factor_code(
+            step_up(&accounts, &replay, &limiter, Some("000000")).await
+        ));
+
+        let code = code_for(SYNCED_NOW);
+        step_up(&accounts, &replay, &limiter, Some(&code))
+            .await
+            .unwrap();
+        assert!(
+            rejected_with_second_factor_code(
+                step_up(&accounts, &replay, &limiter, Some(&code)).await
+            ),
+            "a code must not work twice"
+        );
+    }
+
+    #[tokio::test]
+    async fn wrong_step_up_codes_lock_out() {
+        let (_dir, accounts) = accounts_with_totp(Vec::new());
+        let replay = ReplayGuard::new();
+        let limiter = tokio::sync::RwLock::new(LoginRateLimiter::new(2, 60));
+
+        for _ in 0..2 {
+            let _ = step_up(&accounts, &replay, &limiter, Some("000000")).await;
+        }
+        // even the right code is refused while locked
+        let result = step_up(&accounts, &replay, &limiter, Some(&code_for(SYNCED_NOW))).await;
+        assert!(
+            matches!(result, Err(AppError::RateLimited(_))),
+            "{result:?}"
+        );
     }
 
     #[tokio::test]

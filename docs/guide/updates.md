@@ -99,7 +99,9 @@ with a key of your own and upload it.
 2. In **Settings > System > Updates**, choose **Set key** under **Local update key**,
    paste `local.pub.pem` and enter your password. The device now trusts that key
    for uploaded bundles only; the online channels never use it. Wrong passwords
-   count against the same lockout as the terminal unlock. Without a key, the
+   count against the same lockout as the terminal unlock, and an account with
+   two-factor also enters a fresh code (one that just signed you in cannot be
+   used again, so wait for the next). Without a key, the
    device refuses every bundle upload and every install of an uploaded bundle,
    whoever signed it.
 3. Build the metadata with

@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-22
+last-checked: 2026-10-26
 ---
 
 # Security model
@@ -33,6 +33,7 @@ behaviour is in the guides ([sign-in](../guide/sign-in.md),
 | Two-factor | Optional TOTP with backup codes; every change needs the password; `security.require_totp` confines an unenrolled session to enrolment. |
 | CSRF and origin | CSRF token plus `Origin`/`Referer` check on every state-changing request; WebSockets check `Origin`. |
 | Brute force | Lockout after 5 failures per address and user, for 10 minutes. TOTP failures count too. |
+| Step-up | Unlocking the terminal and setting or removing the local update key need the password and, when the account has two-factor, a fresh code. Wrong passwords and wrong codes lock out separately. |
 | Browser | Security headers on every response; the CSP allows scripts and images only from the device (images also from `data:`), so chat output cannot load external content. |
 | Commands | Privileged commands go through an argv-only allowlist (`system/command.rs`) with timeouts and bounded output; no shell strings. |
 | Files and archives | Atomic `0600` writes for secrets, symlink and traversal checks, bounded archive extraction. |

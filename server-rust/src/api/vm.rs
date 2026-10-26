@@ -162,6 +162,9 @@ pub struct SetTerminalReq {
 pub struct TerminalUnlockReq {
     pub username: String,
     pub password: String,
+    /// Second factor, needed when the account has one.
+    #[serde(default)]
+    pub code: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -899,6 +902,14 @@ pub async fn unlock_terminal(
         }
         return Err(AppError::InvalidCredentials);
     }
+
+    crate::api::account::require_second_factor(
+        &state,
+        &session.username,
+        &source_ip,
+        req.code.as_deref(),
+    )
+    .await?;
 
     state
         .login_limiter

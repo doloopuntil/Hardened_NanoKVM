@@ -86,7 +86,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | POST   | `/api/system-update/discard`  | Implemented; drops the staged system update and keeps the rollback backups; refused while an update waits for its boot confirmation. |
 | POST   | `/api/system-update/upload-check` | Body `{size}`. Answers before the browser sends the bundle whether the upload can proceed: `/data` writable, enough free space for the bundle and its unpacked copy, no update running. Failure reasons are returned as readable messages. |
 | POST   | `/api/system-update/upload` | Stages a bundle uploaded as one multipart `file` (a tar holding `system-latest.json`, its `.sig` and the archive); verifies the signature (release key, local key, or unsigned when allowed) and then as for download. |
-| GET, PUT, DELETE | `/api/system-update/local-key` | Reports, registers or removes the local update key. PUT and DELETE need the account password and count failed attempts against a lockout, as the terminal unlock does. |
+| GET, PUT, DELETE | `/api/system-update/local-key` | Reports, registers or removes the local update key. PUT and DELETE need the account password and, when the account has two-factor, a `code`; wrong passwords and codes count against lockouts, as for the terminal unlock. |
 | POST   | `/api/system-update/rollback` | Implemented manual rollback; restores files from the latest backup marker, clears pending/boot-good/rollback-attempt markers, and returns without rebooting.                                                                                                                                                                                    |
 | POST   | `/api/system-update/confirm`  | Implemented manual boot-good confirmation; validates pending version/target against current system identity and basic boot/web-root markers, writes `/etc/kvm/system-update-boot-good.json`, and clears pending marker.                                                                                                                         |
 
@@ -142,6 +142,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | POST            | `/api/vm/mdns/disable`     | Implemented.                                                                                                       |
 | POST            | `/api/vm/system/reboot`    | Implemented.                                                                                                       |
 | POST            | `/api/vm/system/poweroff`  | Implemented; answers, then runs `poweroff` a second later. The device stays unreachable until it is powered on again. |
+| POST            | `/api/vm/terminal/unlock`  | Implemented; takes `username`, `password` and, when the account has two-factor, a `code`. Returns the one-use ticket for the WebSocket. A missing or wrong code answers `-6`. |
 | GET/POST        | `/api/vm/terminal/enabled` | Implemented; also controls whether the terminal WebSocket is available.                                            |
 | POST            | `/api/vm/session-lock/touch` | Implemented; slides the session while the user is active, so the lock counts idle time.                          |
 | GET/POST        | `/api/vm/session-lock`     | Implemented; supports 5, 15, 30, and 60 minute durations and `logoutOnBrowserClose`; retimes the session. |

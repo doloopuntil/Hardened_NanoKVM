@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, Input, Modal, Progress, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/application.ts';
+import * as totpApi from '@/api/auth-totp.ts';
 import { getVirtualDevice, updateVirtualDevice } from '@/api/virtual-device.ts';
 import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { SettingRow } from '@/components/setting-rows.tsx';
@@ -224,20 +225,32 @@ export const LocalKeyRow = ({
   const [open, setOpen] = useState(false);
   const [pem, setPem] = useState('');
   const [password, setPassword] = useState('');
+  // a second factor is asked for when the account has one
+  const [totpEnabled, setTotpEnabled] = useState(false);
+  const [code, setCode] = useState('');
   const [removing, setRemoving] = useState(false);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    attempt(() => totpApi.getStatus(), { quiet: true }).then((rsp) => {
+      setTotpEnabled(!!rsp?.data?.enabled);
+    });
+  }, []);
 
   function close() {
     setOpen(false);
     setRemoving(false);
     setPem('');
     setPassword('');
+    setCode('');
   }
 
   async function submit() {
     setSaving(true);
     const rsp = await attempt(() =>
-      removing ? api.removeLocalUpdateKey(password) : api.setLocalUpdateKey(password, pem)
+      removing
+        ? api.removeLocalUpdateKey(password, code || undefined)
+        : api.setLocalUpdateKey(password, pem, code || undefined)
     );
     setSaving(false);
     if (!rsp) return;
@@ -279,7 +292,10 @@ export const LocalKeyRow = ({
         title={t('settings.update.local.keyTitle')}
         okText={t('common.save')}
         cancelText={t('common.cancel')}
-        okButtonProps={{ disabled: !password || (!removing && !pem), loading: saving }}
+        okButtonProps={{
+          disabled: !password || (totpEnabled && !code) || (!removing && !pem),
+          loading: saving
+        }}
         onOk={submit}
         onCancel={close}
       >
@@ -300,6 +316,15 @@ export const LocalKeyRow = ({
             placeholder={t('settings.account.password')}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {totpEnabled && (
+            <Input
+              value={code}
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              placeholder={t('auth.totp.placeholderCode')}
+              onChange={(e) => setCode(e.target.value)}
+            />
+          )}
         </div>
       </Modal>
     </>

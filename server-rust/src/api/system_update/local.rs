@@ -21,6 +21,7 @@ use tokio::{fs as tokio_fs, io::AsyncWriteExt};
 
 use super::*;
 use crate::{
+    api::account::require_second_factor,
     auth::compat_crypto::decode_frontend_password,
     fsutil::write_0600_atomic,
     http::{middleware::CurrentSession, tls},
@@ -50,11 +51,16 @@ pub struct LocalKeyRsp {
 pub struct SetLocalKeyReq {
     pub password: String,
     pub public_key: String,
+    /// Second factor, needed when the account has one.
+    #[serde(default)]
+    pub code: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct RemoveLocalKeyReq {
     pub password: String,
+    #[serde(default)]
+    pub code: Option<String>,
 }
 
 pub async fn get_local_key(State(state): State<AppState>) -> Result<impl IntoResponse> {
@@ -72,6 +78,13 @@ pub async fn set_local_key(
     Json(req): Json<SetLocalKeyReq>,
 ) -> Result<impl IntoResponse> {
     verify_password_limited(&state, &addr, &session.username, &req.password).await?;
+    require_second_factor(
+        &state,
+        &session.username,
+        &addr.0.ip().to_string(),
+        req.code.as_deref(),
+    )
+    .await?;
     let der = parse_public_key_pem(&req.public_key)?;
     check_public_key_with_openssl(&req.public_key).await?;
 
@@ -95,6 +108,13 @@ pub async fn remove_local_key(
     Json(req): Json<RemoveLocalKeyReq>,
 ) -> Result<impl IntoResponse> {
     verify_password_limited(&state, &addr, &session.username, &req.password).await?;
+    require_second_factor(
+        &state,
+        &session.username,
+        &addr.0.ip().to_string(),
+        req.code.as_deref(),
+    )
+    .await?;
     let path = state.config.paths.system_update_local_public_key.clone();
     task::spawn_blocking(move || remove_file_if_exists(&path))
         .await

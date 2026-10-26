@@ -198,17 +198,17 @@ export function getLocalUpdateKey() {
 }
 
 // register the key that may sign locally built system bundles
-export function setLocalUpdateKey(password: string, publicKey: string) {
+export function setLocalUpdateKey(password: string, publicKey: string, code?: string) {
   return http.request({
     method: 'put',
     url: '/api/system-update/local-key',
-    data: { password, publicKey }
+    data: { password, publicKey, code }
   });
 }
 
 // remove the locally registered system update key
-export function removeLocalUpdateKey(password: string) {
-  return http.delete('/api/system-update/local-key', { password });
+export function removeLocalUpdateKey(password: string, code?: string) {
+  return http.delete('/api/system-update/local-key', { password, code });
 }
 
 // rollback the latest base-system update backup

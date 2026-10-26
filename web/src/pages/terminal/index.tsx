@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, SafetyOutlined, UserOutlined } from '@ant-design/icons';
 import { AttachAddon } from '@xterm/addon-attach';
 import { FitAddon } from '@xterm/addon-fit';
 import { Terminal as XtermTerminal } from '@xterm/xterm';
@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import '@xterm/xterm/css/xterm.css';
 
+import * as totpApi from '@/api/auth-totp.ts';
 import * as authApi from '@/api/auth.ts';
 import * as vmApi from '@/api/vm.ts';
 import { encrypt } from '@/lib/encrypt.ts';
@@ -22,6 +23,15 @@ export const Terminal = () => {
   const [ticket, setTicket] = useState('');
   const [isUnlocking, setIsUnlocking] = useState(false);
   const [msg, setMsg] = useState('');
+  // a second factor is asked for when the account has one
+  const [totpEnabled, setTotpEnabled] = useState(false);
+
+  useEffect(() => {
+    totpApi
+      .getStatus()
+      .then((rsp) => setTotpEnabled(rsp.code === 0 && !!rsp.data?.enabled))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     authApi.getAccount().then((rsp) => {
@@ -146,11 +156,12 @@ export const Terminal = () => {
     setIsUnlocking(true);
 
     vmApi
-      .unlockTerminal(values.username, encrypt(values.password))
+      .unlockTerminal(values.username, encrypt(values.password), values.code?.trim() || undefined)
       .then((rsp) => {
         if (rsp.code !== 0) {
           if (rsp.code === -2) setMsg(t('terminal.invalidCredentials'));
           else if (rsp.code === -5) setMsg(t('terminal.locked'));
+          else if (rsp.code === -6) setMsg(t('auth.totp.invalidCode'));
           else setMsg(rsp.msg || t('terminal.unlockFailed'));
           return;
         }
@@ -203,6 +214,20 @@ export const Terminal = () => {
                   placeholder={t('auth.placeholderPassword')}
                 />
               </Form.Item>
+
+              {totpEnabled && (
+                <Form.Item
+                  name="code"
+                  rules={[{ required: true, message: t('auth.totp.noEmptyCode'), min: 1 }]}
+                >
+                  <Input
+                    prefix={<SafetyOutlined />}
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    placeholder={t('auth.totp.placeholderCode')}
+                  />
+                </Form.Item>
+              )}
 
               <div className="min-h-6 pb-1 text-sm text-red-500">{msg}</div>
 
