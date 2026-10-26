@@ -985,7 +985,11 @@ const da = {
         },
         offline: {
           title: 'Upload applikationspakke',
-          desc: 'Installer en applikationspakke fra denne computer. Serveren genstarter bagefter.'
+          desc: 'Installer en applikationspakke fra denne computer. Serveren genstarter bagefter.',
+          section: 'Offlineopdateringer',
+          staged: 'Verificeret og klar til installation.',
+          installTitle: 'Installer applikationsopdatering?',
+          installDesc: 'Applikationen erstattes, og serveren genstarter. Du skal logge ind igen.'
         },
         local: {
           title: 'Upload systempakke',

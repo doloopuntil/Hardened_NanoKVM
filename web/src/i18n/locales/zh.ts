@@ -944,7 +944,11 @@ const zh = {
         },
         offline: {
           title: '上传应用包',
-          desc: '从此计算机安装应用包。之后服务器将重新启动。'
+          desc: '从此计算机安装应用包。之后服务器将重新启动。',
+          section: '离线更新',
+          staged: '已验证，可以安装。',
+          installTitle: '安装应用更新？',
+          installDesc: '应用将被替换，服务器将重新启动。需要重新登录。'
         },
         local: {
           title: '上传系统包',

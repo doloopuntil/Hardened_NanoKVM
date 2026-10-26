@@ -999,7 +999,12 @@ const de = {
         },
         offline: {
           title: 'Anwendungspaket hochladen',
-          desc: 'Ein Anwendungspaket von diesem Computer installieren. Danach startet der Server neu.'
+          desc: 'Ein Anwendungspaket von diesem Computer installieren. Danach startet der Server neu.',
+          section: 'Offline-Updates',
+          staged: 'Geprüft und bereit zur Installation.',
+          installTitle: 'Anwendungsupdate installieren?',
+          installDesc:
+            'Die Anwendung wird ersetzt und der Server startet neu. Danach ist eine erneute Anmeldung nötig.'
         },
         local: {
           title: 'Systempaket hochladen',

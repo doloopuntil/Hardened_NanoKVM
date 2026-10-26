@@ -986,7 +986,12 @@ const fi = {
         },
         offline: {
           title: 'Lataa sovelluspaketti',
-          desc: 'Asenna sovelluspaketti tältä tietokoneelta. Palvelin käynnistyy sen jälkeen uudelleen.'
+          desc: 'Asenna sovelluspaketti tältä tietokoneelta. Palvelin käynnistyy sen jälkeen uudelleen.',
+          section: 'Offline-päivitykset',
+          staged: 'Tarkistettu ja valmis asennettavaksi.',
+          installTitle: 'Asennetaanko sovelluspäivitys?',
+          installDesc:
+            'Sovellus korvataan ja palvelin käynnistyy uudelleen. Sinun täytyy kirjautua sisään uudelleen.'
         },
         local: {
           title: 'Lataa järjestelmäpaketti',

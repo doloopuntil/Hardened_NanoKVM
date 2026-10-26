@@ -987,7 +987,12 @@ const pt_br = {
         },
         offline: {
           title: 'Enviar pacote do aplicativo',
-          desc: 'Instalar um pacote do aplicativo a partir deste computador. Depois, o servidor reinicia.'
+          desc: 'Instalar um pacote do aplicativo a partir deste computador. Depois, o servidor reinicia.',
+          section: 'Atualizações offline',
+          staged: 'Verificado e pronto para instalar.',
+          installTitle: 'Instalar atualização do aplicativo?',
+          installDesc:
+            'O aplicativo é substituído e o servidor reinicia. Você precisará entrar novamente.'
         },
         local: {
           title: 'Enviar pacote do sistema',

@@ -995,7 +995,12 @@ const fr = {
         },
         offline: {
           title: 'Téléverser un paquet applicatif',
-          desc: 'Installer un paquet applicatif depuis cet ordinateur. Le serveur redémarre ensuite.'
+          desc: 'Installer un paquet applicatif depuis cet ordinateur. Le serveur redémarre ensuite.',
+          section: 'Mises à jour hors ligne',
+          staged: 'Vérifié et prêt à être installé.',
+          installTitle: "Installer la mise à jour de l'application?",
+          installDesc:
+            "L'application est remplacée et le serveur redémarre. Vous devrez vous reconnecter."
         },
         local: {
           title: 'Téléverser un paquet système',

@@ -988,7 +988,11 @@ const se = {
         },
         offline: {
           title: 'Ladda upp programpaket',
-          desc: 'Installera ett programpaket från den här datorn. Servern startar om efteråt.'
+          desc: 'Installera ett programpaket från den här datorn. Servern startar om efteråt.',
+          section: 'Offlineuppdateringar',
+          staged: 'Verifierad och redo att installeras.',
+          installTitle: 'Installera programuppdatering?',
+          installDesc: 'Programmet ersätts och servern startar om. Du måste logga in igen.'
         },
         local: {
           title: 'Ladda upp systempaket',

@@ -946,7 +946,11 @@ const zh_tw = {
         },
         offline: {
           title: '上傳應用程式套件',
-          desc: '從此電腦安裝應用程式套件。之後伺服器將重新啟動。'
+          desc: '從此電腦安裝應用程式套件。之後伺服器將重新啟動。',
+          section: '離線更新',
+          staged: '已驗證，可以安裝。',
+          installTitle: '安裝應用程式更新？',
+          installDesc: '應用程式將被取代，伺服器將重新啟動。需要重新登入。'
         },
         local: {
           title: '上傳系統套件',

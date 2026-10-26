@@ -151,7 +151,14 @@ export function checkApplicationUpload(size: number) {
   return http.get('/api/application/upload-check', { size });
 }
 
-// verify and install an application bundle uploaded from this computer
+export type ApplicationStagedUpdate = {
+  version: string;
+  name: string;
+  size: number;
+  signer: string;
+};
+
+// verify and stage an application bundle uploaded from this computer
 export function uploadApplicationUpdate(
   data: FormData,
   onProgress?: (loaded: number, total: number) => void
@@ -163,6 +170,21 @@ export function uploadApplicationUpdate(
     timeout: 45 * 60 * 1000,
     onUploadProgress: (event) => onProgress?.(event.loaded, event.total ?? 0)
   });
+}
+
+// get the staged application bundle, or null
+export function getStagedApplication() {
+  return http.get('/api/application/staged');
+}
+
+// drop the staged application bundle
+export function discardStagedApplication() {
+  return http.delete('/api/application/staged');
+}
+
+// install the staged application bundle; the server restarts
+export function installApplicationUpdate() {
+  return http.post('/api/application/install');
 }
 
 // get the locally registered system update key

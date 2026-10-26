@@ -988,7 +988,11 @@ const id = {
         },
         offline: {
           title: 'Unggah paket aplikasi',
-          desc: 'Pasang paket aplikasi dari komputer ini. Server akan dimulai ulang setelahnya.'
+          desc: 'Pasang paket aplikasi dari komputer ini. Server akan dimulai ulang setelahnya.',
+          section: 'Pembaruan offline',
+          staged: 'Terverifikasi dan siap dipasang.',
+          installTitle: 'Pasang pembaruan aplikasi?',
+          installDesc: 'Aplikasi diganti dan server dimulai ulang. Anda harus masuk lagi.'
         },
         local: {
           title: 'Unggah paket sistem',

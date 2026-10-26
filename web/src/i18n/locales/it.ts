@@ -993,7 +993,12 @@ const it = {
         },
         offline: {
           title: "Carica pacchetto dell'applicazione",
-          desc: "Installa un pacchetto dell'applicazione da questo computer. Il server si riavvia al termine."
+          desc: "Installa un pacchetto dell'applicazione da questo computer. Il server si riavvia al termine.",
+          section: 'Aggiornamenti offline',
+          staged: "Verificato e pronto per l'installazione.",
+          installTitle: "Installare l'aggiornamento dell'applicazione?",
+          installDesc:
+            "L'applicazione viene sostituita e il server si riavvia. Dovrai accedere di nuovo."
         },
         local: {
           title: 'Carica pacchetto di sistema',

@@ -24,8 +24,6 @@ type BundleUploadProps = UploadProps & {
   description: string;
   check: (size: number) => Promise<any>;
   send: (data: FormData, onProgress: (loaded: number, total: number) => void) => Promise<any>;
-  // the page stays locked after a good upload, because the server restarts
-  keepBusy?: boolean;
 };
 
 export const SystemUpload = (props: UploadProps) => {
@@ -52,7 +50,6 @@ export const ApplicationUpload = (props: UploadProps) => {
       description={t('settings.update.offline.desc')}
       check={api.checkApplicationUpload}
       send={api.uploadApplicationUpdate}
-      keepBusy
     />
   );
 };
@@ -64,8 +61,7 @@ const BundleUpload = ({
   label,
   description,
   check,
-  send,
-  keepBusy = false
+  send
 }: BundleUploadProps) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -132,14 +128,12 @@ const BundleUpload = ({
 
     // Not `attempt`: a network failure or a raw server error must stay readable here, since the
     // upload is the one step that can fail in the browser before the request is sent.
-    let done = false;
     try {
       setSent({ loaded: 0, total: file.size });
       const rsp = await send(data, (loaded, total) =>
         setSent({ loaded, total: total || file.size })
       );
       if (rsp.code === 0) {
-        done = true;
         onStaged(rsp.data);
       } else {
         showFailure(rsp.msg);
@@ -156,7 +150,7 @@ const BundleUpload = ({
       );
     } finally {
       setSent(undefined);
-      if (!(done && keepBusy)) setBusy(false);
+      setBusy(false);
     }
   }
 

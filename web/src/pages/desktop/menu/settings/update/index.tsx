@@ -6,6 +6,7 @@ import semver from 'semver';
 
 import * as api from '@/api/application.ts';
 import type {
+  ApplicationStagedUpdate,
   SystemBootHealth,
   SystemLatest,
   SystemPendingUpdate,
@@ -16,7 +17,7 @@ import type {
 } from '@/api/application.ts';
 import * as firewallApi from '@/api/system-firewall.ts';
 import type { FirewallStatus } from '@/api/system-firewall.ts';
-import { confirm } from '@/lib/feedback.ts';
+import { attempt, confirm } from '@/lib/feedback.ts';
 import { PageHeader } from '@/components/page-header.tsx';
 import { InfoRow, SettingSection } from '@/components/setting-rows.tsx';
 
@@ -46,6 +47,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   const [systemAppUpdateRequired, setSystemAppUpdateRequired] = useState(false);
   const [rawInstallWaiting, setRawInstallWaiting] = useState(false);
   const [firewallStatus, setFirewallStatus] = useState<FirewallStatus | null>(null);
+  const [appStaged, setAppStaged] = useState<ApplicationStagedUpdate | null>(null);
 
   useEffect(() => {
     refreshFirewallStatus();
@@ -59,6 +61,12 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
         if (rsp.code === 0 && rsp.data?.current) setCurrentVersion(rsp.data.current);
       })
       .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    attempt(() => api.getStagedApplication(), { quiet: true }).then((rsp) => {
+      if (rsp?.data) setAppStaged(rsp.data);
+    });
   }, []);
 
   const onlineUpdatesBlocked = !!firewallStatus?.paranoidActive;
@@ -426,15 +434,42 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       });
   }
 
-  // the server verified the bundle and restarts on its own; the page reloads once it is back
-  function handleUploadedApplicationUpdate() {
+  function confirmInstallStagedApplication() {
+    if (!appStaged) return;
+
+    confirm({
+      title: t('settings.update.offline.installTitle'),
+      content: t('settings.update.offline.installDesc'),
+      okText: t('settings.update.system.install'),
+      cancelText: t('settings.update.cancel'),
+      onOk: installStagedApplication
+    });
+  }
+
+  // the server restarts on its own; the page reloads once it is back
+  async function installStagedApplication() {
+    setIsLocked(true);
     setStatus('updating');
     setErrMsg('');
 
+    const rsp = await attempt(() => api.installApplicationUpdate());
+    if (!rsp) {
+      setStatus('failed');
+      setErrMsg(t('settings.update.updateFailed'));
+      setIsLocked(false);
+      return;
+    }
+
+    setAppStaged(null);
     setTimeout(() => {
       setIsLocked(false);
       window.location.reload();
     }, 12000);
+  }
+
+  async function discardStagedApplication() {
+    const rsp = await attempt(() => api.discardStagedApplication());
+    if (rsp) setAppStaged(null);
   }
 
   function info(label: string, value?: string | null, description?: ReactNode) {
@@ -443,12 +478,25 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     ) : null;
   }
 
+  // the card appears below the upload rows, so bring it into view
+  function showStaged(id: string) {
+    setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }, 50);
+  }
+
+  function handleUploadedApplicationUpdate(data: ApplicationStagedUpdate) {
+    setAppStaged(data);
+    showStaged('staged-application');
+  }
+
   function handleUploadedSystemUpdate(data: any) {
     setSystemCurrent(data.current);
     setSystemLatest(data.latest);
     setSystemStaged(data.staged);
     setSystemStatus('staged');
     refreshSystemUpdateStatus();
+    showStaged('staged-system');
   }
 
   function formatBytes(value?: number) {
@@ -469,6 +517,9 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   }
 
   const isStagedLatest = stagedMatchesLatest(systemStaged, systemLatest);
+  // a signer means the bundle was uploaded, and it is installed from the Offline updates section
+  const uploadedSystem = !!systemStaged?.signer;
+  const onlineStaged = uploadedSystem ? null : systemStaged;
   const stagedAppRequirementMet =
     !systemStaged?.requiredAppVersion ||
     (!!currentVersion && isVersionAtLeast(currentVersion, systemStaged.requiredAppVersion));
@@ -565,6 +616,8 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
           : t('settings.update.system.rollingBack');
   } else if (systemStatus === 'latest' && systemCurrent) {
     systemButtons = [refreshButton, rollbackButton];
+  } else if (systemStatus === 'staged' && uploadedSystem) {
+    systemButtons = [refreshButton, rollbackButton];
   } else if (systemStatus === 'staged' && systemStaged && isStagedLatest) {
     stagedCaption = t('settings.update.system.stagedDesc');
     systemButtons = [
@@ -606,7 +659,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     systemButtons = [
       refreshButton,
       canDownloadLatestSystemUpdate ? downloadButton : null,
-      systemStaged && isStagedLatest && stagedAppRequirementMet ? installButton(false) : null,
+      onlineStaged && isStagedLatest && stagedAppRequirementMet ? installButton(false) : null,
       rollbackButton
     ];
   }
@@ -676,12 +729,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             />
           </div>
 
-          <ApplicationUpload
-            disabled={applicationLoading || applicationBusy}
-            onStaged={handleUploadedApplicationUpdate}
-            setBusy={setIsLocked}
-          />
-
           <StatusRow
             buttons={
               applicationBusy || applicationLoading
@@ -719,18 +766,18 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             />
             {info(t('settings.update.system.kernel'), systemCurrent?.kernelVersion)}
             {info(t('settings.update.system.requiredAppVersion'), systemLatest?.requiredAppVersion)}
-            {info(t('settings.update.system.stagedVersion'), systemStaged?.version, stagedCaption)}
-            {info(t('settings.update.system.requiredAppVersion'), systemStaged?.requiredAppVersion)}
-            {info(t('settings.update.system.archive'), systemStaged?.archiveName)}
-            {info(t('settings.update.local.signer'), systemStaged?.signer ?? undefined)}
+            {info(t('settings.update.system.stagedVersion'), onlineStaged?.version, stagedCaption)}
+            {info(t('settings.update.system.requiredAppVersion'), onlineStaged?.requiredAppVersion)}
+            {info(t('settings.update.system.archive'), onlineStaged?.archiveName)}
+            {info(t('settings.update.local.signer'), onlineStaged?.signer ?? undefined)}
             {info(
               t('settings.update.system.requiredFree'),
-              systemStaged ? formatBytes(systemStaged.requiredFreeBytes) : undefined
+              onlineStaged ? formatBytes(onlineStaged.requiredFreeBytes) : undefined
             )}
-            {info(t('settings.update.system.fileCount'), systemStaged?.fileCount.toString())}
+            {info(t('settings.update.system.fileCount'), onlineStaged?.fileCount.toString())}
             {info(
               t('settings.update.system.rawImages'),
-              systemStaged?.destructive ? systemStaged.imageCount.toString() : undefined
+              onlineStaged?.destructive ? onlineStaged.imageCount.toString() : undefined
             )}
             {showSystemProgress &&
               info(
@@ -754,13 +801,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             {info(t('settings.update.system.rollbackBackup'), systemRollback?.backupId)}
           </div>
 
-          <SystemUpload
-            disabled={systemBusy}
-            onStaged={handleUploadedSystemUpdate}
-            setBusy={setIsLocked}
-          />
-          <LocalKeyRow />
-
           <StatusRow
             busy={systemBusy && systemStatus !== 'loading'}
             error={systemError}
@@ -768,6 +808,70 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
             text={systemText}
             buttons={systemButtons}
           />
+        </SettingSection>
+
+        <Divider className="opacity-50" />
+
+        <SettingSection title={t('settings.update.offline.section')}>
+          <ApplicationUpload
+            disabled={applicationLoading || applicationBusy}
+            onStaged={handleUploadedApplicationUpdate}
+            setBusy={setIsLocked}
+          />
+          <SystemUpload
+            disabled={systemBusy}
+            onStaged={handleUploadedSystemUpdate}
+            setBusy={setIsLocked}
+          />
+          <LocalKeyRow />
+
+          <StatusRow busy={applicationBusy} text={applicationText} buttons={[]} />
+
+          {appStaged && (
+            <StagedCard
+              id="staged-application"
+              title={t('settings.update.application.title')}
+              rows={[
+                info(t('settings.update.system.stagedVersion'), appStaged.version),
+                info(t('settings.update.system.archive'), appStaged.name),
+                info(t('settings.update.local.signer'), appStaged.signer)
+              ]}
+              buttons={[
+                <Button key="discard" onClick={discardStagedApplication}>
+                  {t('common.discard')}
+                </Button>,
+                <Button
+                  key="install"
+                  type="primary"
+                  danger
+                  onClick={confirmInstallStagedApplication}
+                >
+                  {t('settings.update.system.install')}
+                </Button>
+              ]}
+            />
+          )}
+          {systemStaged && uploadedSystem && (
+            <StagedCard
+              id="staged-system"
+              title={t('settings.system.title')}
+              rows={[
+                info(t('settings.update.system.stagedVersion'), systemStaged.version),
+                info(
+                  t('settings.update.system.requiredAppVersion'),
+                  systemStaged.requiredAppVersion
+                ),
+                info(t('settings.update.system.archive'), systemStaged.archiveName),
+                info(t('settings.update.local.signer'), systemStaged.signer),
+                info(
+                  t('settings.update.system.requiredFree'),
+                  formatBytes(systemStaged.requiredFreeBytes)
+                ),
+                info(t('settings.update.system.fileCount'), systemStaged.fileCount.toString())
+              ]}
+              buttons={[installButton(!stagedAppRequirementMet || systemBusy)]}
+            />
+          )}
         </SettingSection>
 
         <div className="flex justify-end">
@@ -816,6 +920,32 @@ const LatestLabel = ({ check }: { check: CheckState }) => {
         </Tag>
       )}
     </span>
+  );
+};
+
+type StagedCardProps = {
+  id: string;
+  title: string;
+  rows: ReactNode[];
+  buttons: ReactNode[];
+};
+
+// A verified bundle waiting for its install: what it is, and the buttons to install or drop it.
+const StagedCard = ({ id, title, rows, buttons }: StagedCardProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <div
+      id={id}
+      className="box-border flex min-w-0 flex-col space-y-3 rounded-lg border border-solid border-neutral-700 p-3"
+    >
+      <div className="flex min-w-0 flex-col space-y-0.5">
+        <span className="text-sm text-neutral-300">{title}</span>
+        <span className="text-xs text-neutral-500">{t('settings.update.offline.staged')}</span>
+      </div>
+      {rows}
+      <div className="flex flex-wrap justify-end gap-2">{buttons}</div>
+    </div>
   );
 };
 

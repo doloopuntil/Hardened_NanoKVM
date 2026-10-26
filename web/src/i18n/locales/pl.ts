@@ -988,7 +988,12 @@ const pl = {
         },
         offline: {
           title: 'Prześlij pakiet aplikacji',
-          desc: 'Zainstaluj pakiet aplikacji z tego komputera. Potem serwer uruchomi się ponownie.'
+          desc: 'Zainstaluj pakiet aplikacji z tego komputera. Potem serwer uruchomi się ponownie.',
+          section: 'Aktualizacje offline',
+          staged: 'Zweryfikowano, gotowe do instalacji.',
+          installTitle: 'Zainstalować aktualizację aplikacji?',
+          installDesc:
+            'Aplikacja zostanie zastąpiona, a serwer uruchomi się ponownie. Trzeba będzie zalogować się ponownie.'
         },
         local: {
           title: 'Prześlij pakiet systemowy',

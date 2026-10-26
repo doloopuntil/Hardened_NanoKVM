@@ -993,7 +993,12 @@ const nl = {
         },
         offline: {
           title: 'Applicatiepakket uploaden',
-          desc: 'Een applicatiepakket vanaf deze computer installeren. Daarna start de server opnieuw op.'
+          desc: 'Een applicatiepakket vanaf deze computer installeren. Daarna start de server opnieuw op.',
+          section: 'Offline-updates',
+          staged: 'Geverifieerd en klaar om te installeren.',
+          installTitle: 'Applicatie-update installeren?',
+          installDesc:
+            'De applicatie wordt vervangen en de server start opnieuw op. Je moet daarna opnieuw inloggen.'
         },
         local: {
           title: 'Systeempakket uploaden',

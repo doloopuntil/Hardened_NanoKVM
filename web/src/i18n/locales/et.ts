@@ -974,7 +974,11 @@ const et = {
         },
         offline: {
           title: 'Laadi rakenduse pakett üles',
-          desc: 'Paigalda rakenduse pakett sellest arvutist. Seejärel server taaskäivitub.'
+          desc: 'Paigalda rakenduse pakett sellest arvutist. Seejärel server taaskäivitub.',
+          section: 'Võrguväljased uuendused',
+          staged: 'Kontrollitud ja paigaldamiseks valmis.',
+          installTitle: 'Kas paigaldada rakenduse uuendus?',
+          installDesc: 'Rakendus asendatakse ja server taaskäivitub. Pead uuesti sisse logima.'
         },
         local: {
           title: 'Laadi süsteemipakett üles',

@@ -984,7 +984,12 @@ const tr = {
         },
         offline: {
           title: 'Uygulama paketini yükle',
-          desc: 'Bu bilgisayardan bir uygulama paketi kur. Ardından sunucu yeniden başlar.'
+          desc: 'Bu bilgisayardan bir uygulama paketi kur. Ardından sunucu yeniden başlar.',
+          section: 'Çevrimdışı güncellemeler',
+          staged: 'Doğrulandı ve kurulmaya hazır.',
+          installTitle: 'Uygulama güncellemesi yüklensin mi?',
+          installDesc:
+            'Uygulama değiştirilir ve sunucu yeniden başlar. Yeniden oturum açmanız gerekir.'
         },
         local: {
           title: 'Sistem paketini yükle',

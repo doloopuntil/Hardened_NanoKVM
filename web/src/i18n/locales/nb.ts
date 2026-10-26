@@ -990,7 +990,11 @@ const nb = {
         },
         offline: {
           title: 'Last opp programpakke',
-          desc: 'Installer en programpakke fra denne datamaskinen. Serveren starter på nytt etterpå.'
+          desc: 'Installer en programpakke fra denne datamaskinen. Serveren starter på nytt etterpå.',
+          section: 'Frakoblede oppdateringer',
+          staged: 'Verifisert og klar til installasjon.',
+          installTitle: 'Installere programoppdatering?',
+          installDesc: 'Programmet erstattes, og serveren starter på nytt. Du må logge inn igjen.'
         },
         local: {
           title: 'Last opp systempakke',

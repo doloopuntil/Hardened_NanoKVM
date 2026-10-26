@@ -1,7 +1,7 @@
 ---
 status: current, channels pending
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-24
+last-checked: 2026-10-26
 ---
 
 # Updates
@@ -29,11 +29,14 @@ In **Settings > System > Updates**:
 - **Application** checks the online channel. The device accepts an update only
   when its `latest.json` carries a valid signature and the downloaded archive
   matches the SHA-512 in it.
-- **Upload application bundle** takes one signed bundle from this computer and
-  shows the upload progress. The device checks the signature with the same keys as
-  the system bundle, including the local update key, then runs the package checks.
-  A bundle signed by a release key must be newer than the installed application.
-  Build one with `scripts/create-application-update-bundle.sh`.
+- **Upload application bundle** (under **Offline updates**, at the bottom of the
+  page) takes one signed bundle from this computer and shows the upload progress.
+  The device checks the signature with the same keys as the system bundle,
+  including the local update key, then runs the package checks. A bundle signed by
+  a release key must be newer than the installed application. Nothing is installed
+  yet: the verified bundle shows as a card with **Discard** and **Install**, and it
+  stays staged across restarts until you install or discard it. Build one with
+  `scripts/create-application-update-bundle.sh`.
 
 The server restarts after an application update; sign in again afterwards.
 

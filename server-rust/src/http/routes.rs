@@ -49,6 +49,14 @@ pub fn build(state: AppState) -> Router {
             post(application::upload::upload).layer(DefaultBodyLimit::max(130 * 1024 * 1024)),
         )
         .route(
+            "/api/application/staged",
+            get(application::upload::staged).delete(application::upload::discard),
+        )
+        .route(
+            "/api/application/install",
+            post(application::upload::install),
+        )
+        .route(
             "/api/system-update/version",
             get(system_update::get_version),
         )

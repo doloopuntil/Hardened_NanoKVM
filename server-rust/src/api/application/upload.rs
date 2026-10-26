@@ -20,6 +20,7 @@ const UPLOAD_ARCHIVE_NAME: &str = "upload-archive.part";
 const METADATA_NAME: &str = "latest.json";
 const SIGNATURE_NAME: &str = "latest.json.sig";
 const MAX_UPLOAD_METADATA_BYTES: usize = 64 * 1024;
+const STAGED_NAME: &str = "staged.json";
 const MAX_UPLOAD_SIGNATURE_BYTES: usize = 16 * 1024;
 const BUNDLE_OVERHEAD_BYTES: u64 = 1024 * 1024;
 const FREE_SPACE_MARGIN: u64 = 64 * 1024 * 1024;
@@ -51,13 +52,24 @@ fn upload_space_needed(len: u64) -> u64 {
     len.saturating_mul(3).saturating_add(FREE_SPACE_MARGIN)
 }
 
-/// Verify an application bundle uploaded from the browser, install it and restart.
+/// The verified bundle waiting in the cache for an install.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct StagedApplication {
+    version: String,
+    name: String,
+    size: u64,
+    sha512: String,
+    signer: String,
+}
+
+/// Verify an application bundle uploaded from the browser and keep it for the install.
 pub async fn upload(
     State(state): State<AppState>,
     Extension(CurrentSession(session)): Extension<CurrentSession>,
     headers: HeaderMap,
     mut multipart: Multipart,
-) -> Result<Json<ApiResponse<()>>> {
+) -> Result<Json<ApiResponse<StagedApplication>>> {
     crate::api::storage::ensure_writable(&state.config.paths.update_cache_dir)?;
     let _guard = acquire_update_lock()?;
     let config = crate::config::Config::read().unwrap_or_else(|err| {
@@ -79,15 +91,85 @@ pub async fn upload(
         &session.username,
     )
     .await;
-    let installed = match staged {
-        Ok(archive) => install_package_blocking(archive, cache_dir.clone()).await,
-        Err(err) => Err(err),
-    };
+    if staged.is_err() {
+        let _ = remove_dir_if_exists(&cache_dir);
+    }
+
+    Ok(Json(ApiResponse::ok(staged?)))
+}
+
+/// The bundle staged by an earlier upload, if it is still complete.
+pub async fn staged(State(state): State<AppState>) -> Result<impl IntoResponse> {
+    let cache_dir = application_update_cache_dir(&state.config.paths.update_cache_dir);
+    let staged = tokio::task::spawn_blocking(move || read_staged(&cache_dir))
+        .await
+        .map_err(|err| AppError::Internal(format!("staged read task failed: {err}")))?;
+
+    Ok(Json(ApiResponse::ok(staged)))
+}
+
+/// Drop the staged bundle.
+pub async fn discard(State(state): State<AppState>) -> Result<Json<ApiResponse<()>>> {
+    let _guard = acquire_update_lock()?;
+    remove_dir_if_exists(&application_update_cache_dir(
+        &state.config.paths.update_cache_dir,
+    ))?;
+
+    Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+/// Install the staged bundle and restart.
+pub async fn install(
+    State(state): State<AppState>,
+    Extension(CurrentSession(session)): Extension<CurrentSession>,
+) -> Result<Json<ApiResponse<()>>> {
+    crate::api::storage::ensure_writable(&state.config.paths.update_cache_dir)?;
+    let _guard = acquire_update_lock()?;
+    let cache_dir = application_update_cache_dir(&state.config.paths.update_cache_dir);
+
+    let checked_dir = cache_dir.clone();
+    let (archive, staged) = tokio::task::spawn_blocking(move || {
+        let staged = read_staged(&checked_dir)
+            .ok_or_else(|| AppError::BadRequest("no staged application update".to_string()))?;
+        ensure_upgrade(&staged.signer, &staged.version)?;
+        let archive = checked_dir.join(&staged.name);
+        verify_sha512(&archive, &staged.sha512)?;
+        Ok::<_, AppError>((archive, staged))
+    })
+    .await
+    .map_err(|err| AppError::Internal(format!("update verify task failed: {err}")))??;
+
+    audit::application_update_installed(&session.username, &staged.signer, &staged.version);
+    let installed = install_package_blocking(archive, cache_dir.clone()).await;
     let _ = remove_dir_if_exists(&cache_dir);
     installed?;
     restart_nanokvm_after_response();
 
     Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+// A staged bundle counts only while the archive is there with the size it was staged at.
+fn read_staged(cache_dir: &Path) -> Option<StagedApplication> {
+    let staged: StagedApplication =
+        serde_json::from_slice(&fs::read(cache_dir.join(STAGED_NAME)).ok()?).ok()?;
+    validate_update_filename(&staged.name).ok()?;
+    let size = fs::metadata(cache_dir.join(&staged.name)).ok()?.len();
+    (size == staged.size).then_some(staged)
+}
+
+// Local and unsigned builds may repeat or lower a version; release-key bundles keep the
+// forward-only rule.
+fn ensure_upgrade(signer: &str, version: &str) -> Result<()> {
+    if matches!(signer, LOCAL_KEY_ID | APP_UPDATE_UNSIGNED_ALGORITHM) {
+        return Ok(());
+    }
+    let current = current_app_version();
+    if compare_application_versions(version, &current) != Some(std::cmp::Ordering::Greater) {
+        return Err(AppError::BadRequest(format!(
+            "no newer application update: current {current}, bundle {version}"
+        )));
+    }
+    Ok(())
 }
 
 async fn stage_upload(
@@ -96,7 +178,7 @@ async fn stage_upload(
     multipart: &mut Multipart,
     upload_len: Option<u64>,
     username: &str,
-) -> Result<PathBuf> {
+) -> Result<StagedApplication> {
     if let Some(len) = upload_len {
         ensure_free_space(cache_dir, upload_space_needed(len))?;
     }
@@ -107,22 +189,7 @@ async fn stage_upload(
     validate_latest_fields(&latest)?;
     let signer = authorize_upload(config, &parts, &latest).await?;
 
-    // Local and unsigned builds may repeat or lower a version; release-key bundles
-    // keep the forward-only rule.
-    if !matches!(
-        signer.as_str(),
-        LOCAL_KEY_ID | APP_UPDATE_UNSIGNED_ALGORITHM
-    ) {
-        let current = current_app_version();
-        if compare_application_versions(&latest.version, &current)
-            != Some(std::cmp::Ordering::Greater)
-        {
-            return Err(AppError::BadRequest(format!(
-                "no newer application update: current {current}, bundle {}",
-                latest.version
-            )));
-        }
-    }
+    ensure_upgrade(&signer, &latest.version)?;
 
     let archive = cache_dir.join(&latest.name);
     fs::rename(&parts.archive, &archive)?;
@@ -141,8 +208,19 @@ async fn stage_upload(
     .await
     .map_err(|err| AppError::Internal(format!("update verify task failed: {err}")))??;
 
-    audit::application_update_uploaded(username, &signer, &latest.version);
-    Ok(archive)
+    let staged = StagedApplication {
+        version: latest.version,
+        name: latest.name,
+        size: latest.size,
+        sha512: latest.sha512,
+        signer,
+    };
+    let record = serde_json::to_vec(&staged)
+        .map_err(|err| AppError::Internal(format!("failed to encode staged update: {err}")))?;
+    crate::fsutil::write_0600_atomic(&cache_dir.join(STAGED_NAME), &record)?;
+
+    audit::application_update_uploaded(username, &staged.signer, &staged.version);
+    Ok(staged)
 }
 
 struct UploadParts {
@@ -367,6 +445,54 @@ mod tests {
     fn rejects_a_bundle_without_metadata() {
         let dir = bundle(&[("hardened-nanokvm-kvmapp-2.1.0.tar.gz", b"archive")]);
         assert!(unwrap_bundle(&dir.path().join("bundle.tar"), dir.path()).is_err());
+    }
+
+    fn staged_in(dir: &Path, size: u64) {
+        let staged = StagedApplication {
+            version: "2.1.0".to_string(),
+            name: "hardened-nanokvm-kvmapp-2.1.0.tar.gz".to_string(),
+            size,
+            sha512: "0".repeat(128),
+            signer: "local".to_string(),
+        };
+        fs::write(dir.join(STAGED_NAME), serde_json::to_vec(&staged).unwrap()).unwrap();
+    }
+
+    #[test]
+    fn a_staged_bundle_needs_its_archive_at_the_staged_size() {
+        let dir = tempfile::tempdir().unwrap();
+        staged_in(dir.path(), 7);
+        assert!(read_staged(dir.path()).is_none());
+
+        fs::write(
+            dir.path().join("hardened-nanokvm-kvmapp-2.1.0.tar.gz"),
+            b"archive",
+        )
+        .unwrap();
+        assert_eq!(read_staged(dir.path()).unwrap().version, "2.1.0");
+
+        fs::write(
+            dir.path().join("hardened-nanokvm-kvmapp-2.1.0.tar.gz"),
+            b"short",
+        )
+        .unwrap();
+        assert!(read_staged(dir.path()).is_none());
+    }
+
+    #[test]
+    fn staged_names_cannot_leave_the_cache() {
+        let dir = tempfile::tempdir().unwrap();
+        let staged =
+            r#"{"version":"2.1.0","name":"../x.tar.gz","size":1,"sha512":"","signer":"local"}"#;
+        fs::write(dir.path().join(STAGED_NAME), staged).unwrap();
+        assert!(read_staged(dir.path()).is_none());
+    }
+
+    #[test]
+    fn local_and_unsigned_bundles_may_repeat_a_version() {
+        assert!(ensure_upgrade(LOCAL_KEY_ID, "0.0.1").is_ok());
+        assert!(ensure_upgrade(APP_UPDATE_UNSIGNED_ALGORITHM, "0.0.1").is_ok());
+        assert!(ensure_upgrade("release", "0.0.1").is_err());
     }
 
     #[test]

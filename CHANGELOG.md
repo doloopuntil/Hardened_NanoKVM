@@ -18,6 +18,9 @@ Built on RC12; the image is rebuilt from source in CI. Not yet published.
   Lite.
 - PicoClaw 0.3.1 with a redesigned sidebar, model settings and history.
 - `nano`, `picocom`, `wireguard-tools`; BusyBox `tar` with gzip.
+- Offline updates section on the Updates page: signed application and system bundles
+  are uploaded and verified, then installed from a card under the upload rows. An
+  application bundle stays staged until you install or discard it.
 
 ### Changed
 

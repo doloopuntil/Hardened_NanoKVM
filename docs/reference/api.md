@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-24
+last-checked: 2026-10-26
 source: server-rust/src/http/routes.rs
 ---
 
@@ -69,7 +69,10 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | GET      | `/api/application/version`         | Implemented; reads `/kvmapp/version` and validates signed Hardened GitHub release `latest.json` metadata. When Paranoid firewall mode is active, returns the current version with a blocked update message instead of opening outbound GitHub traffic.                                                  |
 | POST     | `/api/application/update`          | Implemented release path; verifies signed metadata, downloads the Hardened GitHub release archive, validates source URL, verifies sha512, safely extracts, rejects symlinks and unexpected backend artifacts, installs `/kvmapp`, and restarts service. Blocked while Paranoid firewall mode is active. |
 | GET      | `/api/application/upload-check`    | Implemented; refuses an application bundle upload up front (read-only `/data`, update running, no space) so the browser shows the reason. |
-| POST     | `/api/application/upload`          | Implemented; takes one signed bundle (see [system-update-bundles.md](system-update-bundles.md#application-bundles)), verifies it and installs `/kvmapp`, then restarts the service. |
+| POST     | `/api/application/upload`          | Implemented; takes one signed bundle (see [system-update-bundles.md](system-update-bundles.md#application-bundles)), verifies it and stages it in the update cache. Returns the staged `version`, `name`, `size` and `signer`. |
+| GET      | `/api/application/staged`          | Implemented; the staged application bundle, or `null`. |
+| DELETE   | `/api/application/staged`          | Implemented; drops the staged bundle. |
+| POST     | `/api/application/install`         | Implemented; checks the staged archive again, installs `/kvmapp` and restarts the service. |
 
 ### System Updates
 

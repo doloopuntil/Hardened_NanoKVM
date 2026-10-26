@@ -976,7 +976,12 @@ const en = {
         },
         offline: {
           title: 'Upload application bundle',
-          desc: 'Install an application bundle from this computer. The server restarts afterwards.'
+          desc: 'Install an application bundle from this computer. The server restarts afterwards.',
+          section: 'Offline updates',
+          staged: 'Verified and ready to install.',
+          installTitle: 'Install application update?',
+          installDesc:
+            'The application is replaced and the server restarts. You will have to sign in again.'
         },
         local: {
           title: 'Upload system bundle',

@@ -1,7 +1,7 @@
 ---
 status: current for the format; channel state is woffko's as of RC12
 applies-to: system-update metadata format 2
-last-checked: 2026-10-22
+last-checked: 2026-10-26
 ---
 
 # System-update bundles and channels
@@ -113,7 +113,8 @@ checked as for downloads. The staged record keeps the signer, shown in the UI.
 
 ## Application bundles
 
-`POST /api/application/upload` takes the same kind of bundle for the application:
+`POST /api/application/upload` takes the same kind of bundle for the application and
+stages it; `POST /api/application/install` installs it after the browser confirms:
 a plain or gzip-compressed tar with exactly `latest.json`, `latest.json.sig`
 (omitted for unsigned metadata) and the kvmapp archive
 (`hardened-nanokvm-kvmapp-<version>.tar.gz`), built by
@@ -124,7 +125,9 @@ comes from the bundled keyring, and `unsigned` needs
 `security.allow_unsigned_updates`. The `url` field is ignored. Release-key bundles
 must be newer than the installed application; `local` and `unsigned` bundles may
 repeat or lower it. The archive size and SHA-512 in `latest.json` are checked
-before install.
+at upload and again before install. The staged archive and its record
+(`staged.json`) live in the application update cache until installed, discarded
+or replaced by another upload or an online update.
 
 ## Current Published System Releases
 

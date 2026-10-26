@@ -993,7 +993,12 @@ const hu = {
         },
         offline: {
           title: 'Alkalmazáscsomag feltöltése',
-          desc: 'Alkalmazáscsomag telepítése erről a számítógépről. Ezután a szerver újraindul.'
+          desc: 'Alkalmazáscsomag telepítése erről a számítógépről. Ezután a szerver újraindul.',
+          section: 'Offline frissítések',
+          staged: 'Ellenőrizve, telepítésre kész.',
+          installTitle: 'Telepíti az alkalmazásfrissítést?',
+          installDesc:
+            'Az alkalmazás cserélődik, és a szerver újraindul. Újra be kell jelentkeznie.'
         },
         local: {
           title: 'Rendszercsomag feltöltése',

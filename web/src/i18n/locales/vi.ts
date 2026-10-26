@@ -981,7 +981,11 @@ const vi = {
         },
         offline: {
           title: 'Tải lên gói ứng dụng',
-          desc: 'Cài đặt gói ứng dụng từ máy tính này. Sau đó máy chủ sẽ khởi động lại.'
+          desc: 'Cài đặt gói ứng dụng từ máy tính này. Sau đó máy chủ sẽ khởi động lại.',
+          section: 'Cập nhật ngoại tuyến',
+          staged: 'Đã xác minh và sẵn sàng cài đặt.',
+          installTitle: 'Cài đặt bản cập nhật ứng dụng?',
+          installDesc: 'Ứng dụng sẽ được thay thế và máy chủ khởi động lại. Bạn cần đăng nhập lại.'
         },
         local: {
           title: 'Tải lên gói hệ thống',

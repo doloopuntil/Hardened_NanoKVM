@@ -992,7 +992,12 @@ const es = {
         },
         offline: {
           title: 'Subir paquete de la aplicación',
-          desc: 'Instalar un paquete de la aplicación desde este equipo. Después, el servidor se reinicia.'
+          desc: 'Instalar un paquete de la aplicación desde este equipo. Después, el servidor se reinicia.',
+          section: 'Actualizaciones sin conexión',
+          staged: 'Verificado y listo para instalar.',
+          installTitle: '¿Instalar actualización de la aplicación?',
+          installDesc:
+            'Se sustituye la aplicación y el servidor se reinicia. Tendrás que volver a iniciar sesión.'
         },
         local: {
           title: 'Subir paquete del sistema',

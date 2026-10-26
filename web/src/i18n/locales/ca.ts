@@ -991,7 +991,12 @@ const ca = {
         },
         offline: {
           title: "Puja un paquet de l'aplicació",
-          desc: "Instal·la un paquet de l'aplicació des d'aquest ordinador. El servidor es reinicia després."
+          desc: "Instal·la un paquet de l'aplicació des d'aquest ordinador. El servidor es reinicia després.",
+          section: 'Actualitzacions fora de línia',
+          staged: 'Verificat i a punt per instal·lar.',
+          installTitle: "Instal·lar l'actualització de l'aplicació?",
+          installDesc:
+            "L'aplicació se substitueix i el servidor es reinicia. Hauràs de tornar a iniciar la sessió."
         },
         local: {
           title: 'Puja un paquet del sistema',
