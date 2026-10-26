@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-26
 ---
 
 # Rust backend
@@ -301,6 +301,9 @@ over the account.
 - Protocol changes reboot the device instead of partially restarting the video
   stack.
 - Remote ISO download needs a source allowlist before it can be on by default.
+- Upstream has a newer remote ISO download and image management widget. Review it
+  before changing this feature further, and take over what fits: the allowlist, the
+  session gate on the switch and the UI.
 - PicoClaw needs more end-to-end testing against the real runtime.
 - The server runs with root privileges, like the original. Splitting privileged
   operations into a smaller helper is future work.
