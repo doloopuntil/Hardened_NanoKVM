@@ -18,6 +18,9 @@ Built on RC12; the image is rebuilt from source in CI. Not yet published.
   Lite.
 - PicoClaw 0.3.1 with a redesigned sidebar, model settings and history.
 - `nano`, `picocom`, `wireguard-tools`; BusyBox `tar` with gzip.
+- The Updates page shows the Reboot required badge next to the pending system
+  version only until the device has booted into it; the caption stayed after the
+  reboot.
 - A Reboot required badge on the clock overdrive setting, as for the device name,
   and a list of what waits for a reboot beside the Reboot button on the Device page.
   The overdrive badge now follows the clocks the device booted with.

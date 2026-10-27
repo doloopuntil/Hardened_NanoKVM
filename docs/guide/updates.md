@@ -1,7 +1,7 @@
 ---
 status: current, channels pending
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-26
+last-checked: 2026-10-27
 ---
 
 # Updates
@@ -69,6 +69,9 @@ the Buildroot userspace or the init scripts installed in the root filesystem.
   restored before SSH and the server start. Once the server reports healthy, the
   boot watchdog confirms the update. If health checks fail after boot, it rolls
   back.
+- An installed update that replaces files and does not reboot by itself shows a
+  **Reboot required** badge next to **Pending version** until the device has booted
+  into it. After that, **Confirm boot** appears once the health checks pass.
 
 ### Updating from a CI build
 

@@ -17,9 +17,11 @@ import type {
 } from '@/api/application.ts';
 import * as firewallApi from '@/api/system-firewall.ts';
 import type { FirewallStatus } from '@/api/system-firewall.ts';
+import * as vmApi from '@/api/vm.ts';
 import { attempt, confirm } from '@/lib/feedback.ts';
 import { waitForRestart } from '@/lib/restart.ts';
 import { PageHeader } from '@/components/page-header.tsx';
+import { RebootTag } from '@/components/reboot-tag.tsx';
 import { InfoRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import { InstallWait } from './install-wait.tsx';
@@ -43,6 +45,7 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   const [systemPending, setSystemPending] = useState<SystemPendingUpdate | null>(null);
   const [systemBootHealth, setSystemBootHealth] = useState<SystemBootHealth | null>(null);
   const [systemRollback, setSystemRollback] = useState<SystemRollbackInfo | null>(null);
+  const [systemRebootPending, setSystemRebootPending] = useState(false);
   const [systemProgress, setSystemProgress] = useState<SystemUpdateProgress | null>(null);
   const [systemErrMsg, setSystemErrMsg] = useState('');
   const [systemAppUpdateRequired, setSystemAppUpdateRequired] = useState(false);
@@ -217,6 +220,10 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
         setSystemCurrent(rsp.data.current);
         setSystemStaged(staged);
         setSystemPending(pending);
+        // an installed update waits for a reboot only until the device has booted into it
+        attempt(() => vmApi.getRebootPending(), { quiet: true }).then((reboot) =>
+          setSystemRebootPending(!!reboot?.data?.reasons?.includes('systemUpdate'))
+        );
         setSystemBootHealth(rsp.data.bootHealth || null);
         setSystemRollback(rsp.data.rollback || null);
         setSystemProgress(progress);
@@ -608,7 +615,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   // the captions of the version rows; the status line says it when the row is not there
   let versionCaption = '';
   let stagedCaption = '';
-  let pendingCaption = '';
   const captionVersion = (text: string) => {
     if (systemCurrent) versionCaption = text;
     else systemText = text;
@@ -658,7 +664,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       refreshButton
     ];
   } else if (systemStatus === 'installed' && systemPending) {
-    pendingCaption = t('settings.update.system.rebootRequired');
     systemButtons = [refreshButton];
   } else if (systemStatus === 'rolledBack' && systemRollback) {
     systemTitle = t('settings.update.system.rollbackDone');
@@ -837,10 +842,16 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
               )}
             {showSystemProgress &&
               info(t('settings.update.system.progressMessage'), systemProgress?.message)}
-            {info(
-              t('settings.update.system.pendingVersion'),
-              systemPending?.version,
-              pendingCaption
+            {systemPending && (
+              <InfoRow
+                label={
+                  <span className="flex flex-wrap items-center gap-2">
+                    {t('settings.update.system.pendingVersion')}
+                    {systemRebootPending && <RebootTag />}
+                  </span>
+                }
+                value={systemPending.version}
+              />
             )}
             {systemBootHealth &&
               info(
