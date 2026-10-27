@@ -965,11 +965,6 @@ const pl = {
           rawWaitSlow:
             'To trwa dłużej, niż oczekiwano. Poczekaj jeszcze kilka minut, zanim odłączysz zasilanie.',
           rebootRequired: 'Restart jest wymagany, aby aktywować ten stan systemu.',
-          confirming: 'Potwierdzanie rozruchu aktualizacji systemu...',
-          confirmBoot: 'Potwierdź rozruch',
-          confirmFailed: 'Potwierdzenie rozruchu nie powiodło się',
-          confirmed: 'Rozruch potwierdzony',
-          bootGood: 'Oczekująca aktualizacja systemu została oznaczona jako poprawnie uruchomiona.',
           rollingBack: 'Wycofywanie aktualizacji systemu...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback przygotowany',

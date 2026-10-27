@@ -971,11 +971,6 @@ const hu = {
           rawWaitSlow:
             'Ez a vártnál tovább tart. Várjon még néhány percet, mielőtt megszakítja a tápellátást.',
           rebootRequired: 'Újraindítás szükséges ennek a rendszerállapotnak az aktiválásához.',
-          confirming: 'Rendszerfrissítés bootjának megerősítése...',
-          confirmBoot: 'Boot megerősítése',
-          confirmFailed: 'A boot megerősítése sikertelen',
-          confirmed: 'Boot megerősítve',
-          bootGood: 'A függőben lévő rendszerfrissítés boot-good állapotot kapott.',
           rollingBack: 'Rendszerfrissítés visszaállítása...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback előkészítve',

@@ -964,11 +964,6 @@ const fi = {
           rawWaitSlow:
             'Tämä kestää odotettua kauemmin. Odota vielä muutama minuutti ennen virran katkaisua.',
           rebootRequired: 'Uudelleenkäynnistys vaaditaan tämän järjestelmätilan aktivoimiseksi.',
-          confirming: 'Vahvistetaan järjestelmäpäivityksen käynnistystä...',
-          confirmBoot: 'Vahvista käynnistys',
-          confirmFailed: 'Käynnistyksen vahvistus epäonnistui',
-          confirmed: 'Käynnistys vahvistettu',
-          bootGood: 'Odottava järjestelmäpäivitys merkittiin boot-good-tilaan.',
           rollingBack: 'Palautetaan järjestelmäpäivitystä...',
           rollback: 'Palauta',
           rollbackDone: 'Palautus valmisteltu',

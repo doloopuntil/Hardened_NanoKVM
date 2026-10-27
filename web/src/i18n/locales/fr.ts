@@ -972,11 +972,6 @@ const fr = {
           rawWaitSlow:
             "Cela prend plus de temps que prévu. Attendez encore quelques minutes avant de couper l'alimentation.",
           rebootRequired: 'Un redémarrage est nécessaire pour activer cet état système.',
-          confirming: 'Confirmation du démarrage de la mise à jour système...',
-          confirmBoot: 'Confirmer le démarrage',
-          confirmFailed: 'Échec de confirmation du démarrage',
-          confirmed: 'Démarrage confirmé',
-          bootGood: 'La mise à jour système en attente a été marquée boot-good.',
           rollingBack: 'Rollback de la mise à jour système...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback préparé',

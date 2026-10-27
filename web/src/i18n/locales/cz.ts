@@ -958,11 +958,6 @@ const cz = {
           rawWaitSlow:
             'Trvá to déle, než se čekalo. Před odpojením napájení počkejte ještě několik minut.',
           rebootRequired: 'Pro aktivaci tohoto stavu systému je vyžadován restart.',
-          confirming: 'Potvrzuje se boot aktualizace systému...',
-          confirmBoot: 'Potvrdit boot',
-          confirmFailed: 'Potvrzení bootu selhalo',
-          confirmed: 'Boot potvrzen',
-          bootGood: 'Čekající aktualizace systému byla označena jako boot-good.',
           rollingBack: 'Provádí se rollback aktualizace systému...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback připraven',

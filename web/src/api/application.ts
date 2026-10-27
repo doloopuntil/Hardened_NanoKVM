@@ -220,11 +220,6 @@ export function rollbackSystemUpdate() {
   return http.post('/api/system-update/rollback');
 }
 
-// confirm a pending base-system update as boot-good
-export function confirmSystemUpdate() {
-  return http.post('/api/system-update/confirm');
-}
-
 // update application to latest version
 export function update() {
   return http.request({

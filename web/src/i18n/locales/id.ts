@@ -965,11 +965,6 @@ const id = {
           rawWaitSlow:
             'Proses ini lebih lama dari perkiraan. Tunggu beberapa menit lagi sebelum memutus daya.',
           rebootRequired: 'Reboot diperlukan untuk mengaktifkan status sistem ini.',
-          confirming: 'Mengonfirmasi boot pembaruan sistem...',
-          confirmBoot: 'Konfirmasi boot',
-          confirmFailed: 'Konfirmasi boot gagal',
-          confirmed: 'Boot dikonfirmasi',
-          bootGood: 'Pembaruan sistem tertunda ditandai sebagai boot-good.',
           rollingBack: 'Melakukan rollback pembaruan sistem...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback disiapkan',

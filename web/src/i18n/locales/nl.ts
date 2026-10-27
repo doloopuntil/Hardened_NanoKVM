@@ -971,11 +971,6 @@ const nl = {
           rawWaitSlow:
             'Dit duurt langer dan verwacht. Wacht nog een paar minuten voordat u de stroom uitschakelt.',
           rebootRequired: 'Herstart is vereist om deze systeemstatus te activeren.',
-          confirming: 'Boot van systeemupdate bevestigen...',
-          confirmBoot: 'Boot bevestigen',
-          confirmFailed: 'Bootbevestiging mislukt',
-          confirmed: 'Boot bevestigd',
-          bootGood: 'De wachtende systeemupdate is gemarkeerd als boot-good.',
           rollingBack: 'Systeemupdate terugrollen...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback voorbereid',

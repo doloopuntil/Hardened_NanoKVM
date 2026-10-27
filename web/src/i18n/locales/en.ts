@@ -954,11 +954,6 @@ const en = {
           rawWaitSlow:
             'This is taking longer than expected. Wait a few more minutes before cutting power.',
           rebootRequired: 'Reboot is required to activate this system state.',
-          confirming: 'Confirming system update boot...',
-          confirmBoot: 'Confirm boot',
-          confirmFailed: 'Boot confirmation failed',
-          confirmed: 'Boot confirmed',
-          bootGood: 'The pending system update was marked as boot-good.',
           rollingBack: 'Rolling back system update...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback prepared',

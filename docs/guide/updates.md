@@ -71,7 +71,9 @@ the Buildroot userspace or the init scripts installed in the root filesystem.
   back.
 - An installed update that replaces files and does not reboot by itself shows a
   **Reboot required** badge next to **Pending version** until the device has booted
-  into it. After that, **Confirm boot** appears once the health checks pass.
+  into it. After that, **Boot health** shows the checks, and the boot watchdog
+  confirms the update by itself within about two minutes of a healthy boot; if the
+  checks keep failing it rolls the update back once.
 
 ### Updating from a CI build
 

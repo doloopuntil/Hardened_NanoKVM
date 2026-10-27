@@ -967,11 +967,6 @@ const uk = {
           rawWaitSlow:
             'Це триває довше, ніж очікувалося. Зачекайте ще кілька хвилин, перш ніж вимикати живлення.',
           rebootRequired: 'Потрібне перезавантаження, щоб активувати цей стан системи.',
-          confirming: 'Підтвердження boot оновлення системи...',
-          confirmBoot: 'Підтвердити boot',
-          confirmFailed: 'Підтвердження boot не вдалося',
-          confirmed: 'Boot підтверджено',
-          bootGood: 'Очікуване оновлення системи позначено як boot-good.',
           rollingBack: 'Виконується rollback оновлення системи...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback підготовлено',

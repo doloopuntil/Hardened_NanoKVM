@@ -968,11 +968,6 @@ const ca = {
           rawWaitSlow:
             "Està trigant més del previst. Espereu uns minuts més abans de tallar l'alimentació.",
           rebootRequired: 'Cal reiniciar per activar aquest estat del sistema.',
-          confirming: "Confirmant l'arrencada de l'actualització del sistema...",
-          confirmBoot: "Confirma l'arrencada",
-          confirmFailed: "La confirmació d'arrencada ha fallat",
-          confirmed: 'Arrencada confirmada',
-          bootGood: "L'actualització de sistema pendent s'ha marcat com a boot-good.",
           rollingBack: "Fent rollback de l'actualització del sistema...",
           rollback: 'Rollback',
           rollbackDone: 'Rollback preparat',

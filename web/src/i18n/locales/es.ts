@@ -970,11 +970,6 @@ const es = {
           rawWaitSlow:
             'Está tardando más de lo esperado. Espera unos minutos más antes de cortar la alimentación.',
           rebootRequired: 'Se requiere reiniciar para activar este estado del sistema.',
-          confirming: 'Confirmando arranque de la actualización del sistema...',
-          confirmBoot: 'Confirmar arranque',
-          confirmFailed: 'Falló la confirmación de arranque',
-          confirmed: 'Arranque confirmado',
-          bootGood: 'La actualización pendiente del sistema se marcó como boot-good.',
           rollingBack: 'Revirtiendo actualización del sistema...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback preparado',

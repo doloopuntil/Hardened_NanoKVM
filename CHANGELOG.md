@@ -18,6 +18,8 @@ Built on RC12; the image is rebuilt from source in CI. Not yet published.
   Lite.
 - PicoClaw 0.3.1 with a redesigned sidebar, model settings and history.
 - `nano`, `picocom`, `wireguard-tools`; BusyBox `tar` with gzip.
+- The Confirm boot button is gone: the boot watchdog confirms a healthy update by
+  itself. The confirm endpoint stays for API use.
 - The Updates page shows the Reboot required badge next to the pending system
   version only until the device has booted into it; the caption stayed after the
   reboot.

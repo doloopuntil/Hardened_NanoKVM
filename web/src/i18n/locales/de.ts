@@ -976,11 +976,6 @@ const de = {
           rawWaitSlow:
             'Das dauert länger als erwartet. Warten Sie noch einige Minuten, bevor Sie die Stromversorgung trennen.',
           rebootRequired: 'Ein Neustart ist erforderlich, um diesen Systemzustand zu aktivieren.',
-          confirming: 'Boot des Systemupdates wird bestätigt...',
-          confirmBoot: 'Boot bestätigen',
-          confirmFailed: 'Boot-Bestätigung fehlgeschlagen',
-          confirmed: 'Boot bestätigt',
-          bootGood: 'Das ausstehende Systemupdate wurde als boot-good markiert.',
           rollingBack: 'Systemupdate wird zurückgerollt...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback vorbereitet',

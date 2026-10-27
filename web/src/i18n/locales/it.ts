@@ -970,11 +970,6 @@ const it = {
           rawWaitSlow:
             "Sta richiedendo più tempo del previsto. Attendi ancora qualche minuto prima di staccare l'alimentazione.",
           rebootRequired: 'È necessario riavviare per attivare questo stato del sistema.',
-          confirming: "Conferma dell'avvio dell'aggiornamento di sistema...",
-          confirmBoot: 'Conferma avvio',
-          confirmFailed: 'Conferma avvio non riuscita',
-          confirmed: 'Avvio confermato',
-          bootGood: "L'aggiornamento di sistema in sospeso è stato segnato come boot-good.",
           rollingBack: "Rollback dell'aggiornamento di sistema...",
           rollback: 'Rollback',
           rollbackDone: 'Rollback preparato',

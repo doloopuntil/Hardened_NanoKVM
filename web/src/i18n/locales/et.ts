@@ -951,11 +951,6 @@ const et = {
           rawWaitSlow:
             'See võtab oodatust kauem aega. Oota veel mõni minut, enne kui toite katkestad.',
           rebootRequired: 'Selle süsteemiseisundi aktiveerimiseks on vaja taaskäivitust.',
-          confirming: 'Süsteemiuuenduse booti kinnitamine...',
-          confirmBoot: 'Kinnita boot',
-          confirmFailed: 'Booti kinnitamine nurjus',
-          confirmed: 'Boot kinnitatud',
-          bootGood: 'Ootel süsteemiuuendus märgiti boot-good olekusse.',
           rollingBack: 'Süsteemiuuenduse tagasipööramine...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback ettevalmistatud',

@@ -963,11 +963,6 @@ const da = {
           rawWaitSlow:
             'Det tager længere tid end forventet. Vent nogle minutter mere, før du afbryder strømmen.',
           rebootRequired: 'Genstart kræves for at aktivere denne systemtilstand.',
-          confirming: 'Bekræfter boot af systemopdatering...',
-          confirmBoot: 'Bekræft boot',
-          confirmFailed: 'Bootbekræftelse mislykkedes',
-          confirmed: 'Boot bekræftet',
-          bootGood: 'Den afventende systemopdatering blev markeret som boot-good.',
           rollingBack: 'Ruller systemopdatering tilbage...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback klargjort',

@@ -965,11 +965,6 @@ const se = {
           rawWaitSlow:
             'Det tar längre tid än väntat. Vänta några minuter till innan du kopplar från strömmen.',
           rebootRequired: 'Omstart krävs för att aktivera detta systemtillstånd.',
-          confirming: 'Bekräftar boot av systemuppdatering...',
-          confirmBoot: 'Bekräfta boot',
-          confirmFailed: 'Bootbekräftelse misslyckades',
-          confirmed: 'Boot bekräftad',
-          bootGood: 'Den väntande systemuppdateringen markerades som boot-good.',
           rollingBack: 'Rullar tillbaka systemuppdatering...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback förberedd',

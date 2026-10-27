@@ -968,11 +968,6 @@ const nb = {
           rawWaitSlow:
             'Dette tar lengre tid enn forventet. Vent noen minutter til før du kobler fra strømmen.',
           rebootRequired: 'Omstart kreves for å aktivere denne systemtilstanden.',
-          confirming: 'Bekrefter boot av systemoppdatering...',
-          confirmBoot: 'Bekreft boot',
-          confirmFailed: 'Bootbekreftelse mislyktes',
-          confirmed: 'Boot bekreftet',
-          bootGood: 'Den ventende systemoppdateringen ble merket som boot-good.',
           rollingBack: 'Ruller tilbake systemoppdatering...',
           rollback: 'Rollback',
           rollbackDone: 'Rollback klargjort',

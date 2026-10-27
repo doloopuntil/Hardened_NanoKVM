@@ -242,7 +242,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
           if (progress.operation === 'download') setSystemStatus('downloading');
           else if (progress.operation === 'install') setSystemStatus('installing');
           else if (progress.operation === 'rollback') setSystemStatus('rollingBack');
-          else if (progress.operation === 'confirm') setSystemStatus('confirming');
           return;
         }
 
@@ -345,36 +344,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       })
       .finally(() => {
         refreshSystemUpdateStatus();
-        setIsLocked(false);
-      });
-  }
-
-  function confirmSystemUpdate() {
-    if (!systemPending || systemStatus === 'confirming') return;
-
-    setIsLocked(true);
-    setSystemStatus('confirming');
-    setSystemErrMsg('');
-
-    api
-      .confirmSystemUpdate()
-      .then((rsp: any) => {
-        if (rsp.code !== 0 || !rsp.data) {
-          setSystemStatus('failed');
-          setSystemErrMsg(t('settings.update.system.confirmFailed'));
-          return;
-        }
-
-        setSystemPending(null);
-        setSystemBootHealth(null);
-        setSystemStatus('confirmed');
-        refreshSystemUpdateStatus();
-      })
-      .catch(() => {
-        setSystemStatus('failed');
-        setSystemErrMsg(t('settings.update.system.confirmFailed'));
-      })
-      .finally(() => {
         setIsLocked(false);
       });
   }
@@ -625,18 +594,12 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
   } else if (systemStatus === 'downloading') {
     systemBusy = true;
     systemText = systemProgress?.message || t('settings.update.system.downloading');
-  } else if (
-    systemStatus === 'installing' ||
-    systemStatus === 'rollingBack' ||
-    systemStatus === 'confirming'
-  ) {
+  } else if (systemStatus === 'installing' || systemStatus === 'rollingBack') {
     systemBusy = true;
     systemText =
-      systemStatus === 'confirming'
-        ? t('settings.update.system.confirming')
-        : systemStatus === 'installing'
-          ? systemProgress?.message || t('settings.update.system.installing')
-          : t('settings.update.system.rollingBack');
+      systemStatus === 'installing'
+        ? systemProgress?.message || t('settings.update.system.installing')
+        : t('settings.update.system.rollingBack');
   } else if (systemStatus === 'latest' && systemCurrent) {
     systemButtons = [refreshButton, rollbackButton];
   } else if (systemStatus === 'staged' && uploadedSystem) {
@@ -669,10 +632,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
     systemTitle = t('settings.update.system.rollbackDone');
     systemText = t('settings.update.system.rebootRequired');
     systemButtons = [refreshButton];
-  } else if (systemStatus === 'confirmed') {
-    systemTitle = t('settings.update.system.confirmed');
-    systemText = t('settings.update.system.bootGood');
-    systemButtons = [refreshButton];
   } else if (systemStatus === 'outdated' && systemCurrent && systemLatest) {
     captionVersion(t('settings.update.system.available'));
     systemButtons = [
@@ -693,13 +652,6 @@ export const Update = ({ setIsLocked }: UpdateProps) => {
       uploadedSystem ? discardSystemButton : null,
       rollbackButton
     ];
-  }
-  if (systemPending && systemBootHealth?.healthy && !systemBusy) {
-    systemButtons.push(
-      <Button key="confirmBoot" type="primary" onClick={confirmSystemUpdate}>
-        {t('settings.update.system.confirmBoot')}
-      </Button>
-    );
   }
 
   // what the check found for the system, whichever state the update itself is in
