@@ -509,7 +509,14 @@ const ko = {
           restartTitle: '서버가 다시 시작됩니다',
           restartDesc:
             '프로토콜을 변경하면 서버가 다시 시작됩니다. 브라우저는 {{seconds}}초 후 새 주소로 전환됩니다:',
-          restartOk: '적용 후 다시 시작'
+          restartOk: '적용 후 다시 시작',
+          confirmTitle: '새 프로토콜을 유지할까요?',
+          confirmDesc:
+            '서버가 이제 {{protocol}}로 실행됩니다. 유지하지 않으면 {{seconds}}초 후 이전 프로토콜로 돌아갑니다.',
+          confirmKeep: '유지',
+          confirmRevert: '되돌리기',
+          reverting:
+            '이전 프로토콜로 되돌리는 중입니다. 브라우저는 {{seconds}}초 후 해당 주소로 전환됩니다.'
         },
         dns: {
           title: 'DNS',

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/vm.ts';
 import { attempt, confirm } from '@/lib/feedback.ts';
+import { protocolUrl } from '@/lib/protocol-url.ts';
 import { LabelTip } from '@/components/label-tip.tsx';
 import { SettingRow } from '@/components/setting-rows.tsx';
 
@@ -24,7 +25,7 @@ export const Tls = () => {
     if (isLoading) return;
 
     const enable = !isEnabled;
-    const target = protocolRedirectUrl(enable);
+    const target = protocolUrl(enable);
 
     confirm({
       title: t('settings.network.tls.restartTitle'),
@@ -54,20 +55,6 @@ export const Tls = () => {
 
     window.clearTimeout(timer);
     setIsLoading(false);
-  }
-
-  function protocolRedirectUrl(enable: boolean) {
-    const target = new URL(window.location.href);
-    target.protocol = enable ? 'https:' : 'http:';
-
-    if (enable && target.port === '80') {
-      target.port = '';
-    }
-    if (!enable && target.port === '443') {
-      target.port = '';
-    }
-
-    return target.toString();
   }
 
   return (

@@ -519,7 +519,14 @@ const ja = {
           restartTitle: 'サーバーを再起動します',
           restartDesc:
             'プロトコルの変更によりサーバーが再起動します。{{seconds}} 秒後にブラウザーは新しいアドレスへ切り替わります:',
-          restartOk: '適用して再起動'
+          restartOk: '適用して再起動',
+          confirmTitle: '新しいプロトコルを維持しますか?',
+          confirmDesc:
+            'サーバーは現在 {{protocol}} で動作しています。維持しない場合、{{seconds}} 秒後に以前のプロトコルへ戻ります。',
+          confirmKeep: '維持',
+          confirmRevert: '元に戻す',
+          reverting:
+            '以前のプロトコルへ戻しています。{{seconds}} 秒後にブラウザーはそのアドレスへ切り替わります。'
         },
         dns: {
           title: 'DNS',

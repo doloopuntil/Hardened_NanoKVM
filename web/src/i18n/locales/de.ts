@@ -525,7 +525,14 @@ const de = {
           restartTitle: 'Der Server wird neu gestartet',
           restartDesc:
             'Die Protokolländerung startet den Server neu. Der Browser wechselt nach {{seconds}} Sekunden zur neuen Adresse:',
-          restartOk: 'Übernehmen und neu starten'
+          restartOk: 'Übernehmen und neu starten',
+          confirmTitle: 'Neues Protokoll beibehalten?',
+          confirmDesc:
+            'Der Server läuft jetzt mit {{protocol}}. Ohne Bestätigung kehrt er in {{seconds}} Sekunden zum vorherigen Protokoll zurück.',
+          confirmKeep: 'Beibehalten',
+          confirmRevert: 'Zurück',
+          reverting:
+            'Zurück zum vorherigen Protokoll. Der Browser wechselt nach {{seconds}} Sekunden zu dieser Adresse.'
         },
         dns: {
           title: 'DNS',

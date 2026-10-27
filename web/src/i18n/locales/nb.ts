@@ -520,7 +520,14 @@ const nb = {
           restartTitle: 'Serveren starter på nytt',
           restartDesc:
             'Protokollendringen starter serveren på nytt. Nettleseren bytter til den nye adressen etter {{seconds}} sekunder:',
-          restartOk: 'Bruk og start på nytt'
+          restartOk: 'Bruk og start på nytt',
+          confirmTitle: 'Beholde den nye protokollen?',
+          confirmDesc:
+            'Serveren kjører nå på {{protocol}}. Den går tilbake til forrige protokoll om {{seconds}} sekunder med mindre du beholder den.',
+          confirmKeep: 'Behold',
+          confirmRevert: 'Gå tilbake',
+          reverting:
+            'Går tilbake til forrige protokoll. Nettleseren bytter til den adressen etter {{seconds}} sekunder.'
         },
         dns: {
           title: 'DNS',

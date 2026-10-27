@@ -519,7 +519,14 @@ const ca = {
           restartTitle: 'El servidor es reiniciarà',
           restartDesc:
             'El canvi de protocol reinicia el servidor. El navegador canviarà a la nova adreça al cap de {{seconds}} segons:',
-          restartOk: 'Aplica i reinicia'
+          restartOk: 'Aplica i reinicia',
+          confirmTitle: 'Mantenir el nou protocol?',
+          confirmDesc:
+            "El servidor ara funciona amb {{protocol}}. Tornarà al protocol anterior d'aquí a {{seconds}} segons si no el mantens.",
+          confirmKeep: 'Mantén',
+          confirmRevert: 'Torna enrere',
+          reverting:
+            'Es torna al protocol anterior. El navegador canviarà a aquesta adreça al cap de {{seconds}} segons.'
         },
         dns: {
           title: 'DNS',

@@ -34,7 +34,9 @@ Built on RC12; the image is rebuilt from source in CI. Not yet published.
 ### Changed
 
 - Switching between HTTP and HTTPS restarts the server instead of rebooting the
-  device, and the browser moves to the new address after 12 seconds.
+  device, and the browser moves to the new address after 12 seconds. The new
+  protocol has to be kept from a signed-in browser within three minutes, or the
+  server goes back to the previous protocol and firewall mode.
 - The page reloads after an application update when the server answers again,
   instead of after a fixed 12 seconds, and stays put when the update fails.
 - The SD image, kernel, modules and native video libraries are built from source

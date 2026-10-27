@@ -513,7 +513,14 @@ const vi = {
           restartTitle: 'Máy chủ sẽ khởi động lại',
           restartDesc:
             'Việc thay đổi giao thức sẽ khởi động lại máy chủ. Trình duyệt sẽ chuyển sang địa chỉ mới sau {{seconds}} giây:',
-          restartOk: 'Áp dụng và khởi động lại'
+          restartOk: 'Áp dụng và khởi động lại',
+          confirmTitle: 'Giữ giao thức mới?',
+          confirmDesc:
+            'Máy chủ hiện chạy bằng {{protocol}}. Nếu bạn không giữ, nó sẽ quay lại giao thức trước sau {{seconds}} giây.',
+          confirmKeep: 'Giữ',
+          confirmRevert: 'Quay lại',
+          reverting:
+            'Đang quay lại giao thức trước. Trình duyệt sẽ chuyển sang địa chỉ đó sau {{seconds}} giây.'
         },
         dns: {
           title: 'DNS',

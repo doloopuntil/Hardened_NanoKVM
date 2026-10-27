@@ -515,7 +515,14 @@ const tr = {
           restartTitle: 'Sunucu yeniden başlatılacak',
           restartDesc:
             'Protokol değişikliği sunucuyu yeniden başlatır. Tarayıcı {{seconds}} saniye sonra yeni adrese geçecek:',
-          restartOk: 'Uygula ve yeniden başlat'
+          restartOk: 'Uygula ve yeniden başlat',
+          confirmTitle: 'Yeni protokol korunsun mu?',
+          confirmDesc:
+            'Sunucu şimdi {{protocol}} ile çalışıyor. Korumazsanız {{seconds}} saniye içinde önceki protokole döner.',
+          confirmKeep: 'Koru',
+          confirmRevert: 'Geri dön',
+          reverting:
+            'Önceki protokole dönülüyor. Tarayıcı {{seconds}} saniye sonra o adrese geçecek.'
         },
         dns: {
           title: 'DNS',

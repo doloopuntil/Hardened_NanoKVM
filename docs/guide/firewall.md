@@ -29,7 +29,8 @@ addresses.
   within 60 seconds. If you lose access and cannot confirm, the previous mode
   comes back on its own.
 - Turning HTTPS off moves the firewall back to Moderate, so plain HTTP is not
-  shut out.
+  shut out. If the switch is not confirmed within three minutes, both the protocol and the
+  firewall mode go back.
 - If a mode fails to apply, the previous one is restored.
 
 ## Video modes

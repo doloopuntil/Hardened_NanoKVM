@@ -227,9 +227,24 @@ export function disableMdns() {
   return http.post('/api/vm/mdns/disable');
 }
 
-// enable / disable TLS
+// switch between HTTP and HTTPS; the server restarts and waits for a confirmation
 export function setTLS(enabled: boolean) {
   return http.post('/api/vm/tls', { enabled });
+}
+
+// whether a protocol switch waits for a confirmation, and how long it has
+export function getTlsPending() {
+  return http.get('/api/vm/tls/pending');
+}
+
+// keep the protocol the server was switched to
+export function confirmTls() {
+  return http.post('/api/vm/tls/confirm');
+}
+
+// go back to the previous protocol at once
+export function revertTls() {
+  return http.post('/api/vm/tls/revert');
 }
 
 // reboot

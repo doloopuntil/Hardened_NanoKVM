@@ -495,7 +495,13 @@ const zh = {
           tip: '注意：使用 HTTPS 可能导致延迟增加，特别是在 MJPEG 视频模式下',
           restartTitle: '服务器将重启',
           restartDesc: '协议更改会重启服务器。浏览器将在 {{seconds}} 秒后切换到新地址：',
-          restartOk: '应用并重启'
+          restartOk: '应用并重启',
+          confirmTitle: '保留新协议？',
+          confirmDesc:
+            '服务器现在使用 {{protocol}}。如果不保留，将在 {{seconds}} 秒后恢复为之前的协议。',
+          confirmKeep: '保留',
+          confirmRevert: '返回',
+          reverting: '正在恢复为之前的协议。浏览器将在 {{seconds}} 秒后切换到该地址。'
         },
         dns: {
           title: 'DNS',

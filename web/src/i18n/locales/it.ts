@@ -520,7 +520,14 @@ const it = {
           restartTitle: 'Il server verrà riavviato',
           restartDesc:
             'La modifica del protocollo riavvia il server. Il browser passerà al nuovo indirizzo dopo {{seconds}} secondi:',
-          restartOk: 'Applica e riavvia'
+          restartOk: 'Applica e riavvia',
+          confirmTitle: 'Mantenere il nuovo protocollo?',
+          confirmDesc:
+            'Il server ora usa {{protocol}}. Tornerà al protocollo precedente tra {{seconds}} secondi se non lo mantieni.',
+          confirmKeep: 'Mantieni',
+          confirmRevert: 'Torna indietro',
+          reverting:
+            "Ritorno al protocollo precedente. Il browser passerà a quell'indirizzo dopo {{seconds}} secondi."
         },
         dns: {
           title: 'DNS',

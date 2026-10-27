@@ -35,7 +35,7 @@ use crate::{
     AppError, Result,
     api::{
         account::{require_second_factor, verify_password_limited},
-        storage, stream, system_firewall,
+        storage, stream,
     },
     config::Config,
     error::ApiResponse,
@@ -75,8 +75,6 @@ const VIRTUAL_NETWORK_FLAG: &str = "/boot/usb.rndis0";
 const VIRTUAL_DISK_FLAG: &str = "/boot/usb.disk0";
 const VIRTUAL_NETWORK_CONFIG: &str = "/sys/kernel/config/usb_gadget/g0/configs/c.1/rndis.usb0";
 const VIRTUAL_DISK_CONFIG: &str = "/sys/kernel/config/usb_gadget/g0/configs/c.1/mass_storage.disk0";
-const TLS_CERT_FILE: &str = "/etc/kvm/server.crt";
-const TLS_KEY_FILE: &str = "/etc/kvm/server.key";
 const TERMINAL_MAX_MESSAGE_SIZE: usize = 1024;
 const TERMINAL_DEFAULT_ROWS: u16 = 24;
 const TERMINAL_DEFAULT_COLS: u16 = 80;
@@ -1180,27 +1178,7 @@ pub async fn set_mouse_jiggler(Json(req): Json<SetMouseJigglerReq>) -> Result<im
 }
 
 pub async fn set_tls(Json(req): Json<SetTlsReq>) -> Result<Json<ApiResponse<()>>> {
-    let mut config = Config::read()?;
-    if req.enabled {
-        tls::generate_self_signed_cert(TLS_CERT_FILE, TLS_KEY_FILE)?;
-        config.proto = "https".to_string();
-        config.cert.crt = TLS_CERT_FILE.to_string();
-        config.cert.key = TLS_KEY_FILE.to_string();
-    } else {
-        system_firewall::force_moderate_mode().await?;
-        config.proto = "http".to_string();
-    }
-    config.write()?;
-
-    // the server picks HTTP or HTTPS when it starts, so restarting it applies the change; the
-    // device itself keeps running
-    if req.enabled
-        && let Err(err) = system_firewall::apply_firewall().await
-    {
-        warn!(error = %err, "failed to reapply the firewall for the new protocol");
-    }
-    crate::api::application::restart_nanokvm_after_response();
-
+    crate::api::tls_switch::apply(req.enabled).await?;
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 

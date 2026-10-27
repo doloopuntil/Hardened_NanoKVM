@@ -1,0 +1,232 @@
+//! Switching between HTTP and HTTPS with a way back.
+//!
+//! The server picks its protocol when it starts, so a switch writes the new config and restarts
+//! the service. The previous settings are kept in a marker file until a signed-in browser confirms
+//! the new address works; a server that finds the marker at startup counts down and puts the
+//! previous settings back if nobody confirms.
+
+use axum::{Json, response::IntoResponse};
+use serde::{Deserialize, Serialize};
+use std::{
+    fs,
+    path::Path,
+    sync::Mutex,
+    time::{Duration, Instant},
+};
+
+use crate::{
+    AppError, Result,
+    api::{application::restart_nanokvm_after_response, system_firewall},
+    config::Config,
+    error::ApiResponse,
+    fsutil::write_0600_atomic,
+    http::tls,
+};
+
+const PENDING_FILE: &str = "/etc/kvm/tls-pending.json";
+const TLS_CERT_FILE: &str = "/etc/kvm/server.crt";
+const TLS_KEY_FILE: &str = "/etc/kvm/server.key";
+// Long enough to sign in at the new address, including a browser's certificate warning.
+const CONFIRM_WINDOW: Duration = Duration::from_secs(180);
+
+static DEADLINE: Mutex<Option<Instant>> = Mutex::new(None);
+
+/// What to put back when the new protocol is not confirmed.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct Pending {
+    previous_proto: String,
+    previous_crt: String,
+    previous_key: String,
+    /// Turning HTTPS off forces the Moderate firewall mode; this is the mode to restore.
+    previous_firewall_mode: Option<String>,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PendingRsp {
+    pub pending: bool,
+    pub seconds_left: u64,
+}
+
+impl Pending {
+    fn capture(config: &Config) -> Self {
+        Self {
+            previous_proto: config.proto.clone(),
+            previous_crt: config.cert.crt.clone(),
+            previous_key: config.cert.key.clone(),
+            previous_firewall_mode: None,
+        }
+    }
+
+    fn restore(&self, config: &mut Config) {
+        config.proto = self.previous_proto.clone();
+        config.cert.crt = self.previous_crt.clone();
+        config.cert.key = self.previous_key.clone();
+    }
+}
+
+fn read_pending(path: &Path) -> Option<Pending> {
+    serde_json::from_slice(&fs::read(path).ok()?).ok()
+}
+
+fn write_pending(path: &Path, pending: &Pending) -> Result<()> {
+    let data = serde_json::to_vec(pending)
+        .map_err(|err| AppError::Internal(format!("failed to encode the pending switch: {err}")))?;
+    write_0600_atomic(path, &data)
+}
+
+/// Switch the protocol: keep the way back, write the new config and restart the server.
+pub async fn apply(enable: bool) -> Result<()> {
+    let pending_path = Path::new(PENDING_FILE);
+    if pending_path.exists() {
+        return Err(AppError::Conflict(
+            "confirm or revert the pending protocol change first".to_string(),
+        ));
+    }
+
+    let mut config = Config::read()?;
+    let mut pending = Pending::capture(&config);
+    if enable {
+        tls::generate_self_signed_cert(TLS_CERT_FILE, TLS_KEY_FILE)?;
+        config.proto = "https".to_string();
+        config.cert.crt = TLS_CERT_FILE.to_string();
+        config.cert.key = TLS_KEY_FILE.to_string();
+    } else {
+        pending.previous_firewall_mode = Some(system_firewall::configured_mode());
+        system_firewall::force_moderate_mode().await?;
+        config.proto = "http".to_string();
+    }
+
+    write_pending(pending_path, &pending)?;
+    if let Err(err) = config.write() {
+        let _ = fs::remove_file(pending_path);
+        return Err(err);
+    }
+    // the firewall rules read the protocol
+    if enable && let Err(err) = system_firewall::apply_firewall().await {
+        tracing::warn!(error = %err, "failed to reapply the firewall for the new protocol");
+    }
+
+    start_countdown(CONFIRM_WINDOW);
+    restart_nanokvm_after_response();
+    Ok(())
+}
+
+/// A server that starts with a pending switch gives the browser the window to confirm it.
+pub fn resume_at_startup() {
+    if Path::new(PENDING_FILE).exists() {
+        tracing::warn!("a protocol change waits for confirmation");
+        start_countdown(CONFIRM_WINDOW);
+    }
+}
+
+fn start_countdown(window: Duration) {
+    let deadline = Instant::now() + window;
+    *DEADLINE.lock().unwrap_or_else(|err| err.into_inner()) = Some(deadline);
+
+    tokio::spawn(async move {
+        tokio::time::sleep(window).await;
+        if Path::new(PENDING_FILE).exists()
+            && let Err(err) = revert().await
+        {
+            tracing::error!(error = %err, "failed to revert the unconfirmed protocol change");
+        }
+    });
+}
+
+/// Put the previous protocol back and restart the server.
+async fn revert() -> Result<()> {
+    let pending_path = Path::new(PENDING_FILE);
+    let pending = read_pending(pending_path)
+        .ok_or_else(|| AppError::NotFound("no protocol change is waiting".to_string()))?;
+
+    let mut config = Config::read()?;
+    pending.restore(&mut config);
+    config.write()?;
+    if let Some(mode) = &pending.previous_firewall_mode
+        && let Err(err) = system_firewall::restore_mode(mode).await
+    {
+        tracing::warn!(error = %err, "failed to restore the firewall mode");
+    }
+
+    fs::remove_file(pending_path)?;
+    *DEADLINE.lock().unwrap_or_else(|err| err.into_inner()) = None;
+    tracing::warn!("reverted the unconfirmed protocol change");
+    restart_nanokvm_after_response();
+    Ok(())
+}
+
+pub async fn get_pending() -> Result<impl IntoResponse> {
+    let pending = Path::new(PENDING_FILE).exists();
+    let seconds_left = DEADLINE
+        .lock()
+        .unwrap_or_else(|err| err.into_inner())
+        .map(|deadline| deadline.saturating_duration_since(Instant::now()).as_secs())
+        .unwrap_or(CONFIRM_WINDOW.as_secs());
+
+    Ok(Json(ApiResponse::ok(PendingRsp {
+        pending,
+        seconds_left: if pending { seconds_left } else { 0 },
+    })))
+}
+
+/// The new address works: keep the new protocol.
+pub async fn confirm() -> Result<Json<ApiResponse<()>>> {
+    match fs::remove_file(PENDING_FILE) {
+        Ok(()) => {}
+        Err(err) if err.kind() == std::io::ErrorKind::NotFound => {}
+        Err(err) => return Err(err.into()),
+    }
+    *DEADLINE.lock().unwrap_or_else(|err| err.into_inner()) = None;
+    Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+/// Go back to the previous protocol now.
+pub async fn revert_now() -> Result<Json<ApiResponse<()>>> {
+    revert().await?;
+    Ok(Json(ApiResponse::<()>::ok_empty()))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn the_previous_settings_come_back() {
+        let mut config = Config {
+            proto: "https".to_string(),
+            ..Config::default()
+        };
+        config.cert.crt = "/etc/kvm/old.crt".to_string();
+        config.cert.key = "/etc/kvm/old.key".to_string();
+        let pending = Pending::capture(&config);
+
+        config.proto = "http".to_string();
+        config.cert.crt = "/etc/kvm/other.crt".to_string();
+        pending.restore(&mut config);
+
+        assert_eq!(config.proto, "https");
+        assert_eq!(config.cert.crt, "/etc/kvm/old.crt");
+        assert_eq!(config.cert.key, "/etc/kvm/old.key");
+    }
+
+    #[test]
+    fn the_marker_round_trips_and_a_broken_one_reads_as_none() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("tls-pending.json");
+        assert_eq!(read_pending(&path), None);
+
+        let pending = Pending {
+            previous_proto: "https".to_string(),
+            previous_crt: "/a".to_string(),
+            previous_key: "/b".to_string(),
+            previous_firewall_mode: Some("paranoid".to_string()),
+        };
+        write_pending(&path, &pending).unwrap();
+        assert_eq!(read_pending(&path), Some(pending));
+
+        fs::write(&path, "not json").unwrap();
+        assert_eq!(read_pending(&path), None);
+    }
+}

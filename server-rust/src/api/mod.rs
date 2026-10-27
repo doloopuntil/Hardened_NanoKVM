@@ -19,6 +19,7 @@ pub mod system_log;
 pub mod system_time;
 pub mod system_update;
 pub mod tailscale;
+pub mod tls_switch;
 pub mod vm;
 pub mod watchdog;
 pub mod webrtc_stream;

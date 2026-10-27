@@ -521,7 +521,14 @@ const fr = {
           restartTitle: 'Le serveur va redémarrer',
           restartDesc:
             'Le changement de protocole redémarre le serveur. Le navigateur passera à la nouvelle adresse après {{seconds}} secondes:',
-          restartOk: 'Appliquer et redémarrer'
+          restartOk: 'Appliquer et redémarrer',
+          confirmTitle: 'Conserver le nouveau protocole?',
+          confirmDesc:
+            'Le serveur utilise maintenant {{protocol}}. Il reviendra au protocole précédent dans {{seconds}} secondes si vous ne le conservez pas.',
+          confirmKeep: 'Conserver',
+          confirmRevert: 'Revenir',
+          reverting:
+            'Retour au protocole précédent. Le navigateur passera à cette adresse après {{seconds}} secondes.'
         },
         dns: {
           title: 'DNS',

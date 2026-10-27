@@ -518,7 +518,14 @@ const fi = {
           restartTitle: 'Palvelin käynnistyy uudelleen',
           restartDesc:
             'Protokollan muutos käynnistää palvelimen uudelleen. Selain siirtyy uuteen osoitteeseen {{seconds}} sekunnin kuluttua:',
-          restartOk: 'Käytä ja käynnistä uudelleen'
+          restartOk: 'Käytä ja käynnistä uudelleen',
+          confirmTitle: 'Pidetäänkö uusi protokolla?',
+          confirmDesc:
+            'Palvelin käyttää nyt protokollaa {{protocol}}. Se palaa edelliseen protokollaan {{seconds}} sekunnin kuluttua, ellet pidä sitä.',
+          confirmKeep: 'Pidä',
+          confirmRevert: 'Palaa takaisin',
+          reverting:
+            'Palataan edelliseen protokollaan. Selain siirtyy siihen osoitteeseen {{seconds}} sekunnin kuluttua.'
         },
         dns: {
           title: 'DNS',

@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-24
+last-checked: 2026-10-27
 source: constants in server-rust/src and kvmapp/system/init.d
 ---
 
@@ -29,6 +29,7 @@ A system update rewrites the first two; `/data` and the saved `/etc/kvm` survive
 | `pwd` | The account: user name, password hash, TOTP secret and backup-code hashes. |
 | `session_secret` | Per-device session signing secret, generated on first start. |
 | `server.crt`, `server.key` | TLS certificate and key. |
+| `tls-pending.json` | The settings to put back while a switch between HTTP and HTTPS waits for confirmation; removed once confirmed or reverted. |
 | `firewall.json` | Firewall mode. |
 | `wireguard/kvm.conf`, `wireguard/private.key` | WireGuard settings and private key (0600). |
 | `network/dns.mode`, `network/dns.servers` | DNS mode (`dhcp`/`manual`) and fixed DNS servers. |

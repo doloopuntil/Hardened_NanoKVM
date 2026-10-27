@@ -523,7 +523,14 @@ const nl = {
           restartTitle: 'De server wordt opnieuw opgestart',
           restartDesc:
             'De protocolwijziging start de server opnieuw op. De browser schakelt na {{seconds}} seconden over naar het nieuwe adres:',
-          restartOk: 'Toepassen en opnieuw opstarten'
+          restartOk: 'Toepassen en opnieuw opstarten',
+          confirmTitle: 'Nieuw protocol behouden?',
+          confirmDesc:
+            'De server draait nu op {{protocol}}. Hij keert over {{seconds}} seconden terug naar het vorige protocol als je het niet behoudt.',
+          confirmKeep: 'Behouden',
+          confirmRevert: 'Terug',
+          reverting:
+            'Terug naar het vorige protocol. De browser schakelt na {{seconds}} seconden over naar dat adres.'
         },
         dns: {
           title: 'DNS',

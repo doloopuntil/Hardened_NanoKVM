@@ -82,4 +82,6 @@ device has booted with it, and the bar at the bottom of **Settings > Device** li
 what is waiting, next to the **Reboot** button. Switching a setting back to what
 the device booted with clears its badge. HID-only mode reboots the device straight
 away instead. The HTTP/HTTPS switch restarts only the server, so the device keeps
-running and the browser moves to the new address after a few seconds.
+running and the browser moves to the new address after a few seconds. Sign in
+there and choose **Keep** within three minutes; otherwise, or with **Go back**, the
+server returns to the previous protocol and firewall mode.

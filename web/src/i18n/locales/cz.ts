@@ -514,7 +514,14 @@ const cz = {
           restartTitle: 'Server se restartuje',
           restartDesc:
             'Změna protokolu restartuje server. Prohlížeč se po {{seconds}} sekundách přepne na novou adresu:',
-          restartOk: 'Použít a restartovat'
+          restartOk: 'Použít a restartovat',
+          confirmTitle: 'Ponechat nový protokol?',
+          confirmDesc:
+            'Server nyní běží na {{protocol}}. Za {{seconds}} sekund se vrátí k předchozímu protokolu, pokud jej neponecháte.',
+          confirmKeep: 'Ponechat',
+          confirmRevert: 'Vrátit zpět',
+          reverting:
+            'Vrací se předchozí protokol. Prohlížeč se na tuto adresu přepne po {{seconds}} sekundách.'
         },
         dns: {
           title: 'DNS',

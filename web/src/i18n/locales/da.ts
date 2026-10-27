@@ -516,7 +516,14 @@ const da = {
           restartTitle: 'Serveren genstarter',
           restartDesc:
             'Protokolændringen genstarter serveren. Browseren skifter til den nye adresse efter {{seconds}} sekunder:',
-          restartOk: 'Anvend og genstart'
+          restartOk: 'Anvend og genstart',
+          confirmTitle: 'Behold den nye protokol?',
+          confirmDesc:
+            'Serveren kører nu på {{protocol}}. Den vender tilbage til den tidligere protokol om {{seconds}} sekunder, medmindre du beholder den.',
+          confirmKeep: 'Behold',
+          confirmRevert: 'Gå tilbage',
+          reverting:
+            'Går tilbage til den tidligere protokol. Browseren skifter til den adresse efter {{seconds}} sekunder.'
         },
         dns: {
           title: 'DNS',

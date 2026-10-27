@@ -522,7 +522,14 @@ const hu = {
           restartTitle: 'A szerver újraindul',
           restartDesc:
             'A protokoll módosítása újraindítja a szervert. A böngésző {{seconds}} másodperc után az új címre vált:',
-          restartOk: 'Alkalmazás és újraindítás'
+          restartOk: 'Alkalmazás és újraindítás',
+          confirmTitle: 'Megtartja az új protokollt?',
+          confirmDesc:
+            'A szerver most {{protocol}} protokollon fut. {{seconds}} másodperc múlva visszatér az előző protokollra, ha nem tartja meg.',
+          confirmKeep: 'Megtartás',
+          confirmRevert: 'Vissza',
+          reverting:
+            'Visszatérés az előző protokollra. A böngésző {{seconds}} másodperc után arra a címre vált.'
         },
         dns: {
           title: 'DNS',

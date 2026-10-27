@@ -496,7 +496,13 @@ const zh_tw = {
           tip: '啟用 HTTPS 可以提高安全性，但可能會增加傳輸延遲，特別是使用 MJPEG 格式傳輸時',
           restartTitle: '伺服器將重新啟動',
           restartDesc: '通訊協定變更會重新啟動伺服器。瀏覽器將在 {{seconds}} 秒後切換到新位址：',
-          restartOk: '套用並重新啟動'
+          restartOk: '套用並重新啟動',
+          confirmTitle: '保留新通訊協定？',
+          confirmDesc:
+            '伺服器現在使用 {{protocol}}。如果不保留，將在 {{seconds}} 秒後恢復為先前的通訊協定。',
+          confirmKeep: '保留',
+          confirmRevert: '返回',
+          reverting: '正在恢復為先前的通訊協定。瀏覽器將在 {{seconds}} 秒後切換到該位址。'
         },
         dns: {
           title: 'DNS',

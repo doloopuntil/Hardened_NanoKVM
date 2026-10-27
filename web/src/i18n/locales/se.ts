@@ -519,7 +519,14 @@ const se = {
           restartTitle: 'Servern startar om',
           restartDesc:
             'Protokolländringen startar om servern. Webbläsaren byter till den nya adressen efter {{seconds}} sekunder:',
-          restartOk: 'Verkställ och starta om'
+          restartOk: 'Verkställ och starta om',
+          confirmTitle: 'Behålla det nya protokollet?',
+          confirmDesc:
+            'Servern kör nu på {{protocol}}. Den går tillbaka till det tidigare protokollet om {{seconds}} sekunder om du inte behåller det.',
+          confirmKeep: 'Behåll',
+          confirmRevert: 'Gå tillbaka',
+          reverting:
+            'Går tillbaka till det tidigare protokollet. Webbläsaren byter till den adressen efter {{seconds}} sekunder.'
         },
         dns: {
           title: 'DNS',

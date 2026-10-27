@@ -116,6 +116,17 @@ pub fn webrtc_blocked_message() -> &'static str {
     WEBRTC_BLOCKED_MESSAGE
 }
 
+/// The mode in the firewall config, whether or not HTTPS lets it take effect.
+pub(crate) fn configured_mode() -> String {
+    read_config().unwrap_or_default().mode
+}
+
+/// Put a firewall mode back, for a protocol change that was not confirmed.
+pub(crate) async fn restore_mode(mode: &str) -> Result<()> {
+    write_config(&normalize_mode(mode)?)?;
+    apply_firewall().await
+}
+
 pub async fn force_moderate_mode() -> Result<()> {
     let moderate = FirewallConfig {
         mode: MODE_MODERATE.to_string(),

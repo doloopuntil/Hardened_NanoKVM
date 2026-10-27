@@ -518,7 +518,14 @@ const pt_br = {
           restartTitle: 'O servidor será reiniciado',
           restartDesc:
             'A alteração do protocolo reinicia o servidor. O navegador mudará para o novo endereço após {{seconds}} segundos:',
-          restartOk: 'Aplicar e reiniciar'
+          restartOk: 'Aplicar e reiniciar',
+          confirmTitle: 'Manter o novo protocolo?',
+          confirmDesc:
+            'O servidor agora usa {{protocol}}. Ele voltará ao protocolo anterior em {{seconds}} segundos se você não o mantiver.',
+          confirmKeep: 'Manter',
+          confirmRevert: 'Voltar',
+          reverting:
+            'Voltando ao protocolo anterior. O navegador mudará para esse endereço após {{seconds}} segundos.'
         },
         dns: {
           title: 'DNS',

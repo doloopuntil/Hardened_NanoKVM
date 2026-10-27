@@ -519,7 +519,14 @@ const id = {
           restartTitle: 'Server akan dimulai ulang',
           restartDesc:
             'Perubahan protokol memulai ulang server. Browser akan beralih ke alamat baru setelah {{seconds}} detik:',
-          restartOk: 'Terapkan dan mulai ulang'
+          restartOk: 'Terapkan dan mulai ulang',
+          confirmTitle: 'Pertahankan protokol baru?',
+          confirmDesc:
+            'Server kini berjalan dengan {{protocol}}. Server akan kembali ke protokol sebelumnya dalam {{seconds}} detik jika tidak dipertahankan.',
+          confirmKeep: 'Pertahankan',
+          confirmRevert: 'Kembali',
+          reverting:
+            'Kembali ke protokol sebelumnya. Browser akan beralih ke alamat itu setelah {{seconds}} detik.'
         },
         dns: {
           title: 'DNS',

@@ -509,7 +509,14 @@ const et = {
           restartTitle: 'Server taaskäivitub',
           restartDesc:
             'Protokolli muutmine taaskäivitab serveri. Brauser liigub uuele aadressile {{seconds}} sekundi pärast:',
-          restartOk: 'Rakenda ja taaskäivita'
+          restartOk: 'Rakenda ja taaskäivita',
+          confirmTitle: 'Kas jätta uus protokoll?',
+          confirmDesc:
+            'Server kasutab nüüd protokolli {{protocol}}. Kui sa seda ei jäta, naaseb see {{seconds}} sekundi pärast eelmise protokolli juurde.',
+          confirmKeep: 'Jäta',
+          confirmRevert: 'Mine tagasi',
+          reverting:
+            'Naaseb eelmise protokolli juurde. Brauser liigub sellele aadressile {{seconds}} sekundi pärast.'
         },
         dns: {
           title: 'DNS',

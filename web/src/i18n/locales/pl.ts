@@ -518,7 +518,14 @@ const pl = {
           restartTitle: 'Serwer zostanie uruchomiony ponownie',
           restartDesc:
             'Zmiana protokołu uruchamia serwer ponownie. Przeglądarka przełączy się na nowy adres po {{seconds}} sekundach:',
-          restartOk: 'Zastosuj i uruchom ponownie'
+          restartOk: 'Zastosuj i uruchom ponownie',
+          confirmTitle: 'Zachować nowy protokół?',
+          confirmDesc:
+            'Serwer działa teraz na {{protocol}}. Za {{seconds}} sekund wróci do poprzedniego protokołu, jeśli go nie zachowasz.',
+          confirmKeep: 'Zachowaj',
+          confirmRevert: 'Cofnij',
+          reverting:
+            'Powrót do poprzedniego protokołu. Przeglądarka przełączy się na ten adres po {{seconds}} sekundach.'
         },
         dns: {
           title: 'DNS',

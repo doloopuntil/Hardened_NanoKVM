@@ -521,7 +521,14 @@ const es = {
           restartTitle: 'El servidor se reiniciará',
           restartDesc:
             'El cambio de protocolo reinicia el servidor. El navegador cambiará a la nueva dirección después de {{seconds}} segundos:',
-          restartOk: 'Aplicar y reiniciar'
+          restartOk: 'Aplicar y reiniciar',
+          confirmTitle: '¿Mantener el nuevo protocolo?',
+          confirmDesc:
+            'El servidor ahora usa {{protocol}}. Volverá al protocolo anterior en {{seconds}} segundos si no lo mantienes.',
+          confirmKeep: 'Mantener',
+          confirmRevert: 'Volver',
+          reverting:
+            'Volviendo al protocolo anterior. El navegador cambiará a esa dirección después de {{seconds}} segundos.'
         },
         dns: {
           title: 'DNS',

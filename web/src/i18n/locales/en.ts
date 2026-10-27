@@ -513,7 +513,14 @@ const en = {
           restartTitle: 'The server will restart',
           restartDesc:
             'The protocol change restarts the server. The browser will switch to the new address after {{seconds}} seconds:',
-          restartOk: 'Apply and restart'
+          restartOk: 'Apply and restart',
+          confirmTitle: 'Keep the new protocol?',
+          confirmDesc:
+            'The server now runs on {{protocol}}. It goes back to the previous protocol in {{seconds}} seconds unless you keep it.',
+          confirmKeep: 'Keep',
+          confirmRevert: 'Go back',
+          reverting:
+            'Going back to the previous protocol. The browser switches to that address after {{seconds}} seconds.'
         },
         dns: {
           title: 'DNS',

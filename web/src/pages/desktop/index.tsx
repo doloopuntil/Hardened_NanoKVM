@@ -7,8 +7,8 @@ import * as storage from '@/lib/localstorage.ts';
 import { client } from '@/lib/websocket.ts';
 import { picoclawChatOpenAtom } from '@/jotai/picoclaw.ts';
 import { resolutionAtom, videoModeAtom } from '@/jotai/screen.ts';
-import { Head } from '@/components/head.tsx';
 import { useIsDesktopLayout } from '@/hooks/useResponsiveLayout.ts';
+import { Head } from '@/components/head.tsx';
 
 import { CaptureStatusOverlay, useCaptureStatus } from './capture-status';
 import { Keyboard } from './keyboard';
@@ -19,6 +19,7 @@ import { Notification } from './notification.tsx';
 import { Sidebar as PicoclawSidebar } from './picoclaw';
 import { ActionOverlay } from './picoclaw/action-overlay.tsx';
 import { Screen } from './screen';
+import { TlsConfirm } from './tls-confirm.tsx';
 import { VirtualKeyboard } from './virtual-keyboard';
 
 function getVideoMode() {
@@ -78,6 +79,7 @@ export const Desktop = () => {
       <Head title={t('head.desktop')} />
 
       {isDesktopLayout && <Notification />}
+      <TlsConfirm />
 
       {videoMode && resolution && (
         <div className="relative flex h-full min-h-0 w-full min-w-0">
