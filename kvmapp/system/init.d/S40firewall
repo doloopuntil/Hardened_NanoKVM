@@ -334,6 +334,27 @@ restart() {
     start
 }
 
+# A certificate authority validates a name by connecting to the HTTPS port from the internet.
+# The window lets any source reach that port while an order runs; close removes it, and
+# every start of the firewall flushes it too.
+acme_close() {
+    port="$(https_port)"
+    while iptables -D INPUT -p tcp --dport "$port" -m state --state NEW -j ACCEPT 2>/dev/null; do :; done
+    if command -v ip6tables >/dev/null 2>&1; then
+        while ip6tables -D INPUT -p tcp --dport "$port" -m state --state NEW -j ACCEPT 2>/dev/null; do :; done
+    fi
+    return 0
+}
+
+acme_open() {
+    acme_close
+    port="$(https_port)"
+    iptables -I INPUT 1 -p tcp --dport "$port" -m state --state NEW -j ACCEPT || return 1
+    if command -v ip6tables >/dev/null 2>&1; then
+        ip6tables -I INPUT 1 -p tcp --dport "$port" -m state --state NEW -j ACCEPT || return 1
+    fi
+}
+
 status() {
     mode="$(firewall_mode)"
     effective="$mode"
@@ -361,8 +382,14 @@ case "$1" in
     reload)
         restart
         ;;
+    acme-open)
+        acme_open
+        ;;
+    acme-close)
+        acme_close
+        ;;
     *)
-        echo "Usage: $0 {start|stop|restart|reload|status}"
+        echo "Usage: $0 {start|stop|restart|reload|status|acme-open|acme-close}"
         exit 1
         ;;
 esac

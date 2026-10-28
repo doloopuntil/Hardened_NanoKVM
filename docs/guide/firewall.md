@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-22
+last-checked: 2026-10-28
 ---
 
 # Firewall modes
@@ -32,6 +32,15 @@ addresses.
   shut out. If the switch is not confirmed within three minutes, both the protocol and the
   firewall mode go back.
 - If a mode fails to apply, the previous one is restored.
+
+## Certificate requests
+
+Requesting a Let's Encrypt certificate needs the internet to reach the HTTPS port,
+which Moderate, Restricted and Paranoid refuse. While an order runs (up to two
+minutes) the device adds one rule that accepts new connections to the HTTPS port
+from any source, and removes it when the order ends or fails. Paranoid blocks the
+outgoing connections the request needs, so no certificate is requested in that mode.
+Your router must still forward external port 443 to the device.
 
 ## Video modes
 

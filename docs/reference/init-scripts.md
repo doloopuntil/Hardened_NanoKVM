@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-24
+last-checked: 2026-10-28
 source: kvmapp/system/init.d/
 ---
 
@@ -22,7 +22,7 @@ through these scripts, never by starting daemons itself.
 | `S15kvmhwd` | Board GPIO and hardware setup (OLED reset, ATX pins). |
 | `S30eth` | Wired network: DHCP or static IPv4, fixed DNS servers, IPv6 modes, MAC derived from the chip ID. |
 | `S30wifi` | Wi-Fi client or access-point mode. |
-| `S40firewall` | Applies the firewall mode from `/etc/kvm/firewall.json`, including the WireGuard rules. See [Firewall modes](../guide/firewall.md). |
+| `S40firewall` | Applies the firewall mode from `/etc/kvm/firewall.json`, including the WireGuard rules. `acme-open` and `acme-close` add and remove one rule that lets any source reach the HTTPS port while a certificate authority validates an order. See [Firewall modes](../guide/firewall.md). |
 | `S45wireguard` | Brings up `wg0` from `/etc/kvm/wireguard/` and runs the endpoint watcher. See [WireGuard](../guide/wireguard.md). |
 | `S49ntp` | Sets the clock with NTP at boot and keeps it in sync. |
 | `S50avahi-daemon` | mDNS, when enabled. |

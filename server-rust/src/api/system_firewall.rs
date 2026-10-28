@@ -316,6 +316,57 @@ fn spawn_pending_rollback(previous: FirewallConfig) {
     });
 }
 
+/// Lets the internet reach the HTTPS port until closed, for a certificate authority's check.
+/// Closing happens on `close`, or on drop if the order is abandoned.
+pub(crate) struct AcmeWindow {
+    closed: bool,
+}
+
+impl AcmeWindow {
+    pub(crate) async fn open() -> Result<Self> {
+        run_acme_window("acme-open").await?;
+        Ok(Self { closed: false })
+    }
+
+    pub(crate) async fn close(mut self) {
+        self.closed = true;
+        close_acme_window().await;
+    }
+}
+
+impl Drop for AcmeWindow {
+    fn drop(&mut self) {
+        if !self.closed
+            && let Ok(runtime) = tokio::runtime::Handle::try_current()
+        {
+            runtime.spawn(close_acme_window());
+        }
+    }
+}
+
+/// Idempotent; also used at startup to clear a window a crash left open.
+pub(crate) async fn close_acme_window() {
+    if let Err(err) = run_acme_window("acme-close").await {
+        tracing::warn!(error = %err, "failed to close the certificate validation window");
+    }
+}
+
+async fn run_acme_window(action: &str) -> Result<()> {
+    let output = run_allowed(
+        AllowedCommand::ServiceFirewall,
+        [action],
+        Duration::from_secs(10),
+    )
+    .await?;
+    if output.status != 0 {
+        return Err(AppError::Internal(command_error(
+            "failed to change the firewall for the certificate check",
+            output,
+        )));
+    }
+    Ok(())
+}
+
 pub async fn apply_firewall() -> Result<()> {
     let output = run_allowed(
         AllowedCommand::ServiceFirewall,

@@ -12,8 +12,9 @@ use crate::{
     auth::clock,
     config::Config,
     fsutil::write_0600_atomic,
-    http::{cert_store, tls::CertResolver},
+    http::{acme, cert_store, tls::CertResolver},
 };
+use instant_acme::LetsEncrypt;
 
 const SETTINGS_FILE: &str = "/etc/kvm/certs/settings.json";
 const STATUS_FILE: &str = "/etc/kvm/certs/status.json";
@@ -42,6 +43,8 @@ pub struct Settings {
     pub source: Source,
     pub domain: String,
     pub email: String,
+    /// Use Let's Encrypt's staging CA, whose certificates no browser trusts; for testing.
+    pub staging: bool,
 }
 
 #[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
@@ -203,14 +206,51 @@ async fn renew(
             .await
             .map(|(_, expiry)| unix(expiry))
             .map_err(|err| err.to_string()),
-        // needs the firewall to let the CA in while it validates
-        Source::Acme => Err("Let's Encrypt is not available yet".to_string()),
+        Source::Acme => renew_acme(resolver, settings)
+            .await
+            .map_err(|err| err.to_string()),
     }
+}
+
+async fn renew_acme(resolver: &Arc<CertResolver>, settings: &Settings) -> Result<u64> {
+    let (directory_url, account_file) = if settings.staging {
+        (LetsEncrypt::Staging.url(), "account-staging.json")
+    } else {
+        (LetsEncrypt::Production.url(), "account-production.json")
+    };
+    let account_path = Path::new(cert_store::CERT_DIR).join(account_file);
+    let issued = acme::issue(
+        resolver,
+        &acme::Settings {
+            directory_url,
+            domain: &settings.domain,
+            email: Some(settings.email.as_str()).filter(|email| !email.is_empty()),
+            account_path: &account_path,
+        },
+    )
+    .await?;
+
+    let resolver = resolver.clone();
+    let expiry = task::spawn_blocking(move || {
+        cert_store::install(
+            &resolver,
+            Path::new(cert_store::MANAGED_PEM),
+            &issued.cert_pem,
+            &issued.key_pem,
+        )
+    })
+    .await
+    .map_err(|err| AppError::Internal(format!("install the certificate: {err}")))??;
+    Ok(unix(expiry))
 }
 
 /// Check every hour for as long as the server runs; the plan decides whether anything is due.
 pub fn spawn(resolver: Arc<CertResolver>) {
     tokio::spawn(async move {
+        // a crash during an order can leave the validation window open
+        if read_settings().source == Source::Acme {
+            system_firewall::close_acme_window().await;
+        }
         loop {
             check(&resolver, false).await;
             tokio::time::sleep(CHECK_EVERY).await;
@@ -310,6 +350,7 @@ mod tests {
             source: Source::Acme,
             domain: "kvm.example.org".to_string(),
             email: String::new(),
+            staging: false,
         };
         write_json(&path, &settings).unwrap();
         assert_eq!(read_json::<Settings>(&path), settings);

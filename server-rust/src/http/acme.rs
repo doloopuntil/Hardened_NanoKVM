@@ -8,7 +8,10 @@ use instant_acme::{
     NewOrder, OrderStatus, RetryPolicy,
 };
 
-use crate::{AppError, Result, fsutil::write_0600_atomic, http::tls::CertResolver};
+use crate::{
+    AppError, Result, api::system_firewall::AcmeWindow, fsutil::write_0600_atomic,
+    http::tls::CertResolver,
+};
 
 /// A CA gets this long to validate the challenge and issue the certificate.
 const ISSUE_TIMEOUT: Duration = Duration::from_secs(120);
@@ -58,12 +61,35 @@ pub fn validate_domain(domain: &str) -> Result<()> {
     Ok(())
 }
 
+/// A contact address for the CA: something@host, no spaces.
+pub fn validate_email(email: &str) -> Result<()> {
+    let ok = email.len() <= 254
+        && !email.contains(char::is_whitespace)
+        && email
+            .split_once('@')
+            .is_some_and(|(user, host)| !user.is_empty() && host.contains('.'));
+    if ok {
+        Ok(())
+    } else {
+        Err(AppError::BadRequest("invalid email address".to_string()))
+    }
+}
+
 /// Order a certificate for `settings.domain` and return it; nothing is installed.
+///
+/// The firewall lets the internet reach the HTTPS port for the length of the order only.
 pub async fn issue(resolver: &CertResolver, settings: &Settings<'_>) -> Result<Issued> {
     validate_domain(settings.domain)?;
-    tokio::time::timeout(ISSUE_TIMEOUT, run_order(resolver, settings))
+    if let Some(email) = settings.email {
+        validate_email(email)?;
+    }
+
+    let window = AcmeWindow::open().await?;
+    let result = tokio::time::timeout(ISSUE_TIMEOUT, run_order(resolver, settings))
         .await
-        .map_err(|_| acme_error("the CA did not finish in time"))?
+        .map_err(|_| acme_error("the CA did not finish in time"));
+    window.close().await;
+    result?
 }
 
 fn acme_error(err: impl std::fmt::Display) -> AppError {
@@ -170,6 +196,21 @@ mod tests {
     fn public_dns_names_pass() {
         for name in ["kvm.example.org", "a-b.example.co.uk", "KVM.Example.ORG"] {
             assert!(validate_domain(name).is_ok(), "{name}");
+        }
+    }
+
+    #[test]
+    fn only_plain_addresses_are_sent_to_the_ca() {
+        assert!(validate_email("me@example.org").is_ok());
+        for email in [
+            "",
+            "me",
+            "me@",
+            "@example.org",
+            "me@example",
+            "m e@example.org",
+        ] {
+            assert!(validate_email(email).is_err(), "{email:?}");
         }
     }
 
