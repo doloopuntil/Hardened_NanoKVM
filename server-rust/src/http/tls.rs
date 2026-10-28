@@ -4,7 +4,7 @@ use std::{
     net::SocketAddr,
     os::unix::fs::{OpenOptionsExt, PermissionsExt},
     path::Path,
-    sync::Arc,
+    sync::{Arc, RwLock},
     time::Duration,
 };
 
@@ -24,6 +24,8 @@ use tokio_rustls::{
         CipherSuite, ServerConfig,
         crypto::{CryptoProvider, ring},
         pki_types::{CertificateDer, PrivateKeyDer, pem::PemObject},
+        server::{ClientHello, ResolvesServerCert},
+        sign::CertifiedKey as SignedKey,
     },
     server::TlsStream,
 };
@@ -139,34 +141,70 @@ fn is_chacha20(suite: CipherSuite) -> bool {
     )
 }
 
+/// Serves the current certificate; `reload` swaps it for new connections without a restart.
+#[derive(Debug)]
+pub struct CertResolver {
+    current: RwLock<Arc<SignedKey>>,
+}
+
+impl CertResolver {
+    fn load(cert_path: &Path, key_path: &Path) -> Result<Arc<SignedKey>> {
+        let cert_file = File::open(cert_path)?;
+        let certs: Vec<CertificateDer<'static>> = CertificateDer::pem_reader_iter(cert_file)
+            .collect::<std::result::Result<Vec<_>, _>>()
+            .map_err(|err| AppError::Config(format!("failed to read TLS certificate: {err}")))?;
+        if certs.is_empty() {
+            return Err(AppError::Config(
+                "TLS certificate file is empty".to_string(),
+            ));
+        }
+
+        let key_file = File::open(key_path)?;
+        let key = PrivateKeyDer::from_pem_reader(key_file)
+            .map_err(|err| AppError::Config(format!("failed to read TLS private key: {err}")))?;
+
+        // Also checks that the key belongs to the certificate.
+        SignedKey::from_der(certs, key, &crypto_provider())
+            .map(Arc::new)
+            .map_err(|err| AppError::Config(format!("failed to configure TLS certificate: {err}")))
+    }
+
+    /// Read a new certificate and key; on any error the current one stays in use.
+    pub fn reload(&self, cert_path: impl AsRef<Path>, key_path: impl AsRef<Path>) -> Result<()> {
+        let loaded = Self::load(cert_path.as_ref(), key_path.as_ref())?;
+        *self.current.write().unwrap_or_else(|err| err.into_inner()) = loaded;
+        Ok(())
+    }
+}
+
+impl ResolvesServerCert for CertResolver {
+    fn resolve(&self, _client_hello: ClientHello<'_>) -> Option<Arc<SignedKey>> {
+        Some(
+            self.current
+                .read()
+                .unwrap_or_else(|err| err.into_inner())
+                .clone(),
+        )
+    }
+}
+
 pub fn load_server_config(
     cert_path: impl AsRef<Path>,
     key_path: impl AsRef<Path>,
-) -> Result<ServerConfig> {
-    let cert_file = File::open(cert_path.as_ref())?;
-    let certs: Vec<CertificateDer<'static>> = CertificateDer::pem_reader_iter(cert_file)
-        .collect::<std::result::Result<Vec<_>, _>>()
-        .map_err(|err| AppError::Config(format!("failed to read TLS certificate: {err}")))?;
-    if certs.is_empty() {
-        return Err(AppError::Config(
-            "TLS certificate file is empty".to_string(),
-        ));
-    }
-
-    let key_file = File::open(key_path.as_ref())?;
-    let key = PrivateKeyDer::from_pem_reader(key_file)
-        .map_err(|err| AppError::Config(format!("failed to read TLS private key: {err}")))?;
+) -> Result<(ServerConfig, Arc<CertResolver>)> {
+    let resolver = Arc::new(CertResolver {
+        current: RwLock::new(CertResolver::load(cert_path.as_ref(), key_path.as_ref())?),
+    });
 
     let mut config = ServerConfig::builder_with_provider(Arc::new(crypto_provider()))
         .with_safe_default_protocol_versions()
         .map_err(|err| AppError::Config(format!("failed to configure TLS versions: {err}")))?
         .with_no_client_auth()
-        .with_single_cert(certs, key)
-        .map_err(|err| AppError::Config(format!("failed to configure TLS certificate: {err}")))?;
+        .with_cert_resolver(resolver.clone());
     config.alpn_protocols = vec![b"http/1.1".to_vec()];
     // Browsers with AES hardware list AES-GCM first; our suite order decides.
     config.ignore_client_order = true;
-    Ok(config)
+    Ok((config, resolver))
 }
 
 pub fn generate_self_signed_cert(
@@ -226,6 +264,63 @@ mod tests {
         assert!(load_server_config(&cert, &key).is_ok());
     }
 
+    #[tokio::test]
+    async fn a_reloaded_certificate_serves_new_connections_only() {
+        use tokio_rustls::{
+            TlsConnector,
+            rustls::{ClientConfig, RootCertStore, pki_types::ServerName},
+        };
+
+        install_crypto_provider();
+        let dir = tempfile::tempdir().unwrap();
+        let (cert, key) = (dir.path().join("a.crt"), dir.path().join("a.key"));
+        let (cert2, key2) = (dir.path().join("b.crt"), dir.path().join("b.key"));
+        generate_self_signed_cert(&cert, &key).unwrap();
+        generate_self_signed_cert(&cert2, &key2).unwrap();
+        let (config, resolver) = load_server_config(&cert, &key).unwrap();
+        let acceptor = TlsAcceptor::from(Arc::new(config));
+
+        let tcp = TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let addr = tcp.local_addr().unwrap();
+        tokio::spawn(async move {
+            loop {
+                let (stream, _) = tcp.accept().await.unwrap();
+                let acceptor = acceptor.clone();
+                tokio::spawn(async move {
+                    let _ = acceptor.accept(stream).await;
+                });
+            }
+        });
+
+        let served = |trusted: std::path::PathBuf| async move {
+            let mut roots = RootCertStore::empty();
+            for der in CertificateDer::pem_file_iter(&trusted).unwrap() {
+                roots.add(der.unwrap()).unwrap();
+            }
+            let client = ClientConfig::builder()
+                .with_root_certificates(roots)
+                .with_no_client_auth();
+            let stream = TcpStream::connect(addr).await.unwrap();
+            TlsConnector::from(Arc::new(client))
+                .connect(ServerName::try_from("localhost").unwrap(), stream)
+                .await
+                .is_ok()
+        };
+
+        assert!(served(cert.clone()).await);
+        assert!(!served(cert2.clone()).await);
+
+        resolver.reload(&cert2, &key2).unwrap();
+        assert!(served(cert2.clone()).await);
+        assert!(!served(cert.clone()).await);
+
+        // A bad file leaves the working certificate in place.
+        fs::write(&cert, "garbage").unwrap();
+        assert!(resolver.reload(&cert, &key).is_err());
+        assert!(resolver.reload(&cert2, &key).is_err(), "mismatched key");
+        assert!(served(cert2).await);
+    }
+
     async fn negotiated_suite(client_suites: &[CipherSuite]) -> CipherSuite {
         use tokio_rustls::{
             TlsConnector,
@@ -236,7 +331,7 @@ mod tests {
         let cert = dir.path().join("server.crt");
         let key = dir.path().join("server.key");
         generate_self_signed_cert(&cert, &key).unwrap();
-        let acceptor = TlsAcceptor::from(Arc::new(load_server_config(&cert, &key).unwrap()));
+        let acceptor = TlsAcceptor::from(Arc::new(load_server_config(&cert, &key).unwrap().0));
 
         let mut roots = RootCertStore::empty();
         for der in CertificateDer::pem_file_iter(&cert).unwrap() {
@@ -302,7 +397,8 @@ mod tests {
         generate_self_signed_cert(&cert, &key).unwrap();
         let tcp = TcpListener::bind("127.0.0.1:0").await.unwrap();
         let addr = tcp.local_addr().unwrap();
-        let mut listener = TlsListener::new(tcp, load_server_config(&cert, &key).unwrap()).unwrap();
+        let mut listener =
+            TlsListener::new(tcp, load_server_config(&cert, &key).unwrap().0).unwrap();
 
         let mut roots = RootCertStore::empty();
         for der in CertificateDer::pem_file_iter(&cert).unwrap() {
