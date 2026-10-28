@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-26
+last-checked: 2026-10-28
 source: server-rust/src/http/routes.rs
 ---
 
@@ -157,6 +157,8 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | GET             | `/api/vm/tls/pending`      | Implemented; `pending` and `secondsLeft` of the confirmation window of a protocol switch.                                       |
 | POST            | `/api/vm/tls/confirm`      | Implemented; keeps the new protocol.                                                                                           |
 | POST            | `/api/vm/tls/revert`       | Implemented; puts the previous protocol and firewall mode back and restarts the server.                                        |
+| GET/POST        | `/api/vm/cert`             | Implemented. GET: the certificate source (`selfSigned`, `tailscale`, `acme`), domain, email, status (expiry, last attempt and error), whether a request runs (`busy`), and why a source is unavailable. POST: changes the source after the account password and, if set, a two-factor code; the request runs in the background and a new certificate waits for confirmation (`/api/vm/tls/confirm`) or is reverted without a restart. |
+| POST            | `/api/vm/cert/renew`       | Implemented; requests a new certificate for the current source now. |
 | GET/POST/DELETE | `/api/vm/autostart*`       | Implemented with basename/path validation and size limits.                                                         |
 | GET/POST/DELETE | `/api/vm/script*`          | Implemented with basename/path validation and allowlisted execution.                                               |
 

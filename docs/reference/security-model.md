@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-26
+last-checked: 2026-10-28
 ---
 
 # Security model
@@ -33,14 +33,14 @@ behaviour is in the guides ([sign-in](../guide/sign-in.md),
 | Two-factor | Optional TOTP with backup codes; every change needs the password and, once enrolled, a fresh code; `security.require_totp` confines an unenrolled session to enrolment. |
 | CSRF and origin | CSRF token plus `Origin`/`Referer` check on every state-changing request; WebSockets check `Origin`. |
 | Brute force | Lockout after 5 failures per address and user, for 10 minutes. TOTP failures count too. |
-| Step-up | Changing the password, disabling two-factor, reissuing backup codes, unlocking the terminal and setting or removing the local update key need the password and, when the account has two-factor, a fresh code. |
+| Step-up | Changing the password, disabling two-factor, reissuing backup codes, unlocking the terminal and setting or removing the local update key and changing the HTTPS certificate source need the password and, when the account has two-factor, a fresh code. |
 | Password re-checks | Password change, two-factor changes, the local update key and the terminal share one lockout per address and user, apart from the login's. Wrong codes lock out separately. |
 | Browser | Security headers on every response; the CSP allows scripts and images only from the device (images also from `data:`), so chat output cannot load external content. |
 | Commands | Privileged commands go through an argv-only allowlist (`system/command.rs`) with timeouts and bounded output; no shell strings. |
 | Files and archives | Atomic `0600` writes for secrets, symlink and traversal checks, bounded archive extraction. |
 | Updates | Signed metadata and payload hashes for application and system updates; raw partition writes happen only after the install confirmation; boot watchdog rollback. An optional local key, set with the password and logged, signs bundles uploaded from the browser only. |
 | Virtual media | Images served read-only to the host; `/data` has one writer at a time; image paths confined to `/data`; remote download off by default and limited to `http`/`https` ISO files. |
-| Network | Managed firewall, Moderate (local sources only) by default; WebRTC blocked in Restricted and Paranoid; WireGuard peers admitted only on `wg0` from their allowed ranges. |
+| Network | Managed firewall, Moderate (local sources only) by default; WebRTC blocked in Restricted and Paranoid; WireGuard peers admitted only on `wg0` from their allowed ranges. A Let's Encrypt order opens the HTTPS port to any source for its length only (`S40firewall acme-open`/`acme-close`), then closes it; Paranoid blocks the order. |
 | Audit | Sign-ins, two-factor changes and WireGuard changes are logged to syslog with the source address. |
 | PicoClaw | Gateway on `127.0.0.1` with a token; internal routes accept only loopback requests with the internal token; installer pinned to a SHA-256; a stored model key is reused only for the same API origin. |
 

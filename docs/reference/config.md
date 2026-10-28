@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-22
+last-checked: 2026-10-28
 source: server-rust/src/config.rs
 ---
 
@@ -23,7 +23,7 @@ are still accepted.
 | `host` | `0.0.0.0` | Address to bind. |
 | `port.http` | `80` | |
 | `port.https` | `443` | |
-| `cert.crt`, `cert.key` | `server.crt`, `server.key` | TLS certificate and key, normally `/etc/kvm/server.crt` and `/etc/kvm/server.key`. |
+| `cert.crt`, `cert.key` | `server.crt`, `server.key` | TLS certificate and key, normally `/etc/kvm/server.crt` and `/etc/kvm/server.key`. A Tailscale or Let's Encrypt certificate sets both to `/etc/kvm/certs/managed.pem`, one file with chain and key; if it does not load at startup, the self-signed pair serves instead. |
 | `logger.level` | `info` | |
 | `logger.file` | `stdout` | |
 | `stun` | `stun.l.google.com:19302` | STUN server for H.264 WebRTC. |

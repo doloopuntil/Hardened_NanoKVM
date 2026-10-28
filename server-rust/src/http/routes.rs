@@ -9,8 +9,9 @@ use tower_http::{services::ServeDir, trace::TraceLayer};
 use crate::{
     api::{
         account, account_totp, application, autostart, compatibility, cpu_clock, download, hid,
-        monitor, network, picoclaw, script, storage, stream, system_firewall, system_log,
-        system_time, system_update, tailscale, tls_switch, vm, watchdog, webrtc_stream, wireguard,
+        https_cert, monitor, network, picoclaw, script, storage, stream, system_firewall,
+        system_log, system_time, system_update, tailscale, tls_switch, vm, watchdog, webrtc_stream,
+        wireguard,
     },
     http::middleware::{picoclaw_internal, protected},
     security::headers::security_headers,
@@ -138,6 +139,8 @@ pub fn build(state: AppState) -> Router {
         .route("/api/vm/tls/pending", get(tls_switch::get_pending))
         .route("/api/vm/tls/confirm", post(tls_switch::confirm))
         .route("/api/vm/tls/revert", post(tls_switch::revert_now))
+        .route("/api/vm/cert", get(https_cert::get).post(https_cert::set))
+        .route("/api/vm/cert/renew", post(https_cert::renew))
         .route("/api/vm/hdmi", get(vm::get_hdmi_state))
         .route("/api/vm/hdmi/reset", post(vm::reset_hdmi))
         .route("/api/vm/hdmi/enable", post(vm::enable_hdmi))

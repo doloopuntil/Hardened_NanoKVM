@@ -3,7 +3,8 @@
 //! The server picks its protocol when it starts, so a switch writes the new config and restarts
 //! the service. The previous settings are kept in a marker file until a signed-in browser confirms
 //! the new address works; a server that finds the marker at startup counts down and puts the
-//! previous settings back if nobody confirms.
+//! previous settings back if nobody confirms. A change of certificate uses the same marker, with
+//! the way back for the certificate; undoing it swaps the certificate and needs no restart.
 
 use axum::{Json, response::IntoResponse};
 use serde::{Deserialize, Serialize};
@@ -20,7 +21,7 @@ use crate::{
     config::Config,
     error::ApiResponse,
     fsutil::write_0600_atomic,
-    http::tls,
+    http::{cert_manager, tls},
 };
 
 const PENDING_FILE: &str = "/etc/kvm/tls-pending.json";
@@ -40,6 +41,18 @@ struct Pending {
     previous_key: String,
     /// Turning HTTPS off forces the Moderate firewall mode; this is the mode to restore.
     previous_firewall_mode: Option<String>,
+    /// Set when the change is a new certificate rather than a protocol.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    cert: Option<CertUndo>,
+}
+
+/// What puts the previous certificate back.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CertUndo {
+    pub settings: cert_manager::Settings,
+    /// The managed certificate file as it was, if there was one.
+    pub backup: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -56,6 +69,7 @@ impl Pending {
             previous_crt: config.cert.crt.clone(),
             previous_key: config.cert.key.clone(),
             previous_firewall_mode: None,
+            cert: None,
         }
     }
 
@@ -113,6 +127,27 @@ pub async fn apply(enable: bool) -> Result<()> {
     Ok(())
 }
 
+/// Keep the way back to the previous certificate until a signed-in browser confirms the new one.
+/// `config` must already point at the new certificate files.
+pub(crate) fn begin_cert_change(previous: &Config, undo: CertUndo) -> Result<()> {
+    let pending_path = Path::new(PENDING_FILE);
+    if pending_path.exists() {
+        return Err(AppError::Conflict(
+            "confirm or revert the pending change first".to_string(),
+        ));
+    }
+    let mut pending = Pending::capture(previous);
+    pending.cert = Some(undo);
+    write_pending(pending_path, &pending)?;
+    start_countdown(CONFIRM_WINDOW);
+    Ok(())
+}
+
+/// Whether a protocol or certificate change waits for confirmation.
+pub(crate) fn is_pending() -> bool {
+    Path::new(PENDING_FILE).exists()
+}
+
 /// A server that starts with a pending switch gives the browser the window to confirm it.
 pub fn resume_at_startup() {
     if Path::new(PENDING_FILE).exists() {
@@ -141,6 +176,17 @@ async fn revert() -> Result<()> {
     let pending = read_pending(pending_path)
         .ok_or_else(|| AppError::NotFound("no protocol change is waiting".to_string()))?;
 
+    if let Some(undo) = &pending.cert {
+        revert_cert(&pending, undo)?;
+        let mut config = Config::read()?;
+        pending.restore(&mut config);
+        config.write()?;
+        fs::remove_file(pending_path)?;
+        *DEADLINE.lock().unwrap_or_else(|err| err.into_inner()) = None;
+        tracing::warn!("reverted the unconfirmed certificate change");
+        return Ok(());
+    }
+
     let mut config = Config::read()?;
     pending.restore(&mut config);
     config.write()?;
@@ -155,6 +201,17 @@ async fn revert() -> Result<()> {
     tracing::warn!("reverted the unconfirmed protocol change");
     restart_nanokvm_after_response();
     Ok(())
+}
+
+/// Put the previous certificate back for new connections; the server keeps running.
+fn revert_cert(pending: &Pending, undo: &CertUndo) -> Result<()> {
+    if let Some(backup) = &undo.backup {
+        fs::rename(backup, crate::http::cert_store::MANAGED_PEM)?;
+    }
+    cert_manager::write_settings(&undo.settings)?;
+    let resolver = cert_manager::resolver()
+        .ok_or_else(|| AppError::Conflict("the HTTPS server is not running".to_string()))?;
+    resolver.reload(&pending.previous_crt, &pending.previous_key)
 }
 
 pub async fn get_pending() -> Result<impl IntoResponse> {
@@ -173,6 +230,13 @@ pub async fn get_pending() -> Result<impl IntoResponse> {
 
 /// The new address works: keep the new protocol.
 pub async fn confirm() -> Result<Json<ApiResponse<()>>> {
+    if let Some(Pending {
+        cert: Some(undo), ..
+    }) = read_pending(Path::new(PENDING_FILE))
+        && let Some(backup) = undo.backup
+    {
+        let _ = fs::remove_file(backup);
+    }
     match fs::remove_file(PENDING_FILE) {
         Ok(()) => {}
         Err(err) if err.kind() == std::io::ErrorKind::NotFound => {}
@@ -212,6 +276,20 @@ mod tests {
     }
 
     #[test]
+    fn a_marker_from_before_certificate_changes_still_reads() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("tls-pending.json");
+        fs::write(
+            &path,
+            r#"{"previousProto":"http","previousCrt":"a","previousKey":"b","previousFirewallMode":null}"#,
+        )
+        .unwrap();
+        let pending = read_pending(&path).unwrap();
+        assert_eq!(pending.previous_proto, "http");
+        assert_eq!(pending.cert, None);
+    }
+
+    #[test]
     fn the_marker_round_trips_and_a_broken_one_reads_as_none() {
         let dir = tempfile::tempdir().unwrap();
         let path = dir.path().join("tls-pending.json");
@@ -222,6 +300,10 @@ mod tests {
             previous_crt: "/a".to_string(),
             previous_key: "/b".to_string(),
             previous_firewall_mode: Some("paranoid".to_string()),
+            cert: Some(CertUndo {
+                settings: cert_manager::Settings::default(),
+                backup: Some("/etc/kvm/certs/managed.pem.prev".to_string()),
+            }),
         };
         write_pending(&path, &pending).unwrap();
         assert_eq!(read_pending(&path), Some(pending));

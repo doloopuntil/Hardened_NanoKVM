@@ -221,7 +221,7 @@ async fn run_http(config: Config) -> Result<(), Box<dyn std::error::Error>> {
 async fn run_https(config: Config) -> Result<(), Box<dyn std::error::Error>> {
     let http_addr = config.listen_addr()?;
     let https_addr = config.https_listen_addr()?;
-    let (tls_config, cert_resolver) = tls::load_server_config(&config.cert.crt, &config.cert.key)?;
+    let (tls_config, cert_resolver) = cert_manager::load_server_config(&config)?;
     let state = AppState::new(config).await?;
     cert_manager::spawn(cert_resolver);
 

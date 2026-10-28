@@ -1,7 +1,14 @@
 //! Keeps a managed certificate (Tailscale, later Let's Encrypt) fresh while the server runs:
 //! when to renew, what to do after a failure and what the UI reports.
 
-use std::{path::Path, sync::Arc, time::Duration};
+use std::{
+    path::Path,
+    sync::{
+        Arc, OnceLock,
+        atomic::{AtomicBool, Ordering},
+    },
+    time::Duration,
+};
 
 use serde::{Deserialize, Serialize};
 use tokio::task;
@@ -12,7 +19,10 @@ use crate::{
     auth::clock,
     config::Config,
     fsutil::write_0600_atomic,
-    http::{acme, cert_store, tls::CertResolver},
+    http::{
+        acme, cert_store,
+        tls::{self, CertResolver},
+    },
 };
 use instant_acme::LetsEncrypt;
 
@@ -21,6 +31,9 @@ const STATUS_FILE: &str = "/etc/kvm/certs/status.json";
 /// The self-signed pair every HTTPS switch creates; the way out when a managed one fails.
 const FALLBACK_CERT: &str = "/etc/kvm/server.crt";
 const FALLBACK_KEY: &str = "/etc/kvm/server.key";
+
+static RESOLVER: OnceLock<Arc<CertResolver>> = OnceLock::new();
+static BUSY: AtomicBool = AtomicBool::new(false);
 
 const DAY: u64 = 24 * 60 * 60;
 const RENEW_BEFORE: u64 = 30 * DAY;
@@ -107,7 +120,7 @@ fn after_attempt(mut status: Status, now: u64, result: std::result::Result<u64, 
 }
 
 /// Why a certificate cannot be requested right now, if it cannot.
-fn blocked(source: Source) -> Option<&'static str> {
+pub(crate) fn blocked(source: Source) -> Option<&'static str> {
     if source == Source::SelfSigned {
         return None;
     }
@@ -158,8 +171,53 @@ fn unix(time: time::OffsetDateTime) -> u64 {
     u64::try_from(time.unix_timestamp()).unwrap_or(0)
 }
 
+/// What a check did.
+#[derive(Debug, PartialEq, Eq)]
+pub enum Outcome {
+    /// Nothing was due, or another check was already running.
+    Idle,
+    Renewed,
+    Failed(String),
+}
+
+/// The listener's certificate handle; set once the HTTPS server runs.
+pub fn resolver() -> Option<Arc<CertResolver>> {
+    RESOLVER.get().cloned()
+}
+
+/// A request for a certificate is running.
+pub fn is_busy() -> bool {
+    BUSY.load(Ordering::Acquire)
+}
+
+struct BusyGuard;
+
+impl BusyGuard {
+    fn take() -> Option<Self> {
+        BUSY.compare_exchange(false, true, Ordering::AcqRel, Ordering::Acquire)
+            .ok()
+            .map(|_| Self)
+    }
+}
+
+impl Drop for BusyGuard {
+    fn drop(&mut self) {
+        BUSY.store(false, Ordering::Release);
+    }
+}
+
+fn serve_fallback(resolver: &CertResolver) {
+    tracing::warn!("the managed certificate expired; serving the self-signed one");
+    if let Err(err) = resolver.reload(FALLBACK_CERT, FALLBACK_KEY) {
+        tracing::error!(error = %err, "failed to switch to the self-signed certificate");
+    }
+}
+
 /// Check once and renew if it is time; the UI's "Renew now" passes `force`.
-pub async fn check(resolver: &Arc<CertResolver>, force: bool) {
+pub async fn check(resolver: &Arc<CertResolver>, force: bool) -> Outcome {
+    let Some(_busy) = BusyGuard::take() else {
+        return Outcome::Idle;
+    };
     let settings = read_settings();
     let mut status = read_status();
     let now = clock::now_unix();
@@ -174,12 +232,10 @@ pub async fn check(resolver: &Arc<CertResolver>, force: bool) {
     .flatten();
 
     match plan(settings.source, &status, not_after, now, force) {
-        Plan::Nothing => {}
+        Plan::Nothing => Outcome::Idle,
         Plan::Fallback => {
-            tracing::warn!("the managed certificate expired; serving the self-signed one");
-            if let Err(err) = resolver.reload(FALLBACK_CERT, FALLBACK_KEY) {
-                tracing::error!(error = %err, "failed to switch to the self-signed certificate");
-            }
+            serve_fallback(resolver);
+            Outcome::Idle
         }
         Plan::Renew => {
             let result = match blocked(settings.source) {
@@ -188,10 +244,20 @@ pub async fn check(resolver: &Arc<CertResolver>, force: bool) {
             };
             if let Err(error) = &result {
                 tracing::warn!(%error, "certificate renewal failed");
+                // an expired certificate is not worth serving while the wait runs
+                if not_after.is_some_and(|expiry| expiry <= now) {
+                    serve_fallback(resolver);
+                }
             }
+            let outcome = match &result {
+                Ok(_) => Outcome::Renewed,
+                Err(error) => Outcome::Failed(error.clone()),
+            };
             // a failed attempt keeps the old expiry, so the 30-day rule still applies
             status.not_after = status.not_after.or(not_after);
-            write_status(&after_attempt(status, now, result));
+            let status = after_attempt(status, now, result);
+            let _ = task::spawn_blocking(move || write_status(&status)).await;
+            outcome
         }
     }
 }
@@ -244,15 +310,30 @@ async fn renew_acme(resolver: &Arc<CertResolver>, settings: &Settings) -> Result
     Ok(unix(expiry))
 }
 
+/// The listener's configuration from the configured files. If those are a managed certificate
+/// that no longer loads, the self-signed pair serves instead, so the server still starts.
+pub fn load_server_config(
+    config: &Config,
+) -> Result<(tokio_rustls::rustls::ServerConfig, Arc<CertResolver>)> {
+    match tls::load_server_config(&config.cert.crt, &config.cert.key) {
+        Err(err) if config.cert.crt == cert_store::MANAGED_PEM => {
+            tracing::error!(error = %err, "the managed certificate does not load; using the self-signed one");
+            tls::load_server_config(FALLBACK_CERT, FALLBACK_KEY)
+        }
+        result => result,
+    }
+}
+
 /// Check every hour for as long as the server runs; the plan decides whether anything is due.
 pub fn spawn(resolver: Arc<CertResolver>) {
+    let _ = RESOLVER.set(resolver.clone());
     tokio::spawn(async move {
         // a crash during an order can leave the validation window open
         if read_settings().source == Source::Acme {
             system_firewall::close_acme_window().await;
         }
         loop {
-            check(&resolver, false).await;
+            let _ = check(&resolver, false).await;
             tokio::time::sleep(CHECK_EVERY).await;
         }
     });

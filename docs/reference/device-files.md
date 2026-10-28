@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-27
+last-checked: 2026-10-28
 source: constants in server-rust/src and kvmapp/system/init.d
 ---
 
@@ -29,7 +29,11 @@ A system update rewrites the first two; `/data` and the saved `/etc/kvm` survive
 | `pwd` | The account: user name, password hash, TOTP secret and backup-code hashes. |
 | `session_secret` | Per-device session signing secret, generated on first start. |
 | `server.crt`, `server.key` | TLS certificate and key. |
-| `tls-pending.json` | The settings to put back while a switch between HTTP and HTTPS waits for confirmation; removed once confirmed or reverted. |
+| `tls-pending.json` | The settings to put back while a switch between HTTP and HTTPS, or a change of certificate, waits for confirmation; removed once confirmed or reverted. |
+| `certs/settings.json` | The certificate source, domain and email. |
+| `certs/status.json` | Expiry, last attempt, last error and the next attempt of the managed certificate. |
+| `certs/managed.pem` | The managed certificate chain and key in one 0600 file; `managed.pem.prev` is the copy kept during a confirmation window. |
+| `certs/account-production.json`, `certs/account-staging.json` | The Let's Encrypt account key, one per CA. 0600. |
 | `app-update-pending.json` | Written when an application update is installed: the new and the previous version. `S95nanokvm` removes it once the new server is healthy, or restores `/root/old` when it is not. |
 | `firewall.json` | Firewall mode. |
 | `wireguard/kvm.conf`, `wireguard/private.key` | WireGuard settings and private key (0600). |
