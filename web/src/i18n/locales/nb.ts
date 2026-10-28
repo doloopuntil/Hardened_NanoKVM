@@ -566,7 +566,11 @@ const nb = {
           openTitle: 'Åpne den nye adressen',
           openDesc:
             'Sertifikatet er klart. Åpne adressen nedenfor og logg inn for å beholde det. Uten bekreftelse fra deg innen 3 minutter kommer det forrige sertifikatet tilbake.',
-          openOk: 'Åpne'
+          openOk: 'Åpne',
+          blockedClock: 'Sertifikater kan ikke ber om før enhetens klokke er synkronisert',
+          blockedParanoid: 'Brannmurmodusen Paranoid blokkerer sertifikatforespørsler',
+          tailscaleUnavailable:
+            'Tailscale kjører ikke, eller HTTPS-sertifikater er ikke aktivert for tailnettet'
         },
         dns: {
           title: 'DNS',

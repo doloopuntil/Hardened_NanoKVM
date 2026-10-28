@@ -267,9 +267,10 @@ export type CertInfo = {
   // when the certificate in use expires, whichever source it has (unix seconds)
   currentNotAfter: number | null;
   tailscaleDomain: string | null;
-  // why a source cannot be used now
-  tailscaleBlocked: string | null;
-  acmeBlocked: string | null;
+  // Tailscale is running and the tailnet issues certificates
+  tailscaleAvailable: boolean;
+  // what stops both managed sources now
+  blocker: 'clockUnsynced' | 'httpsOff' | 'paranoidFirewall' | null;
   // where to open the interface once a managed certificate is in use
   url: string | null;
 };

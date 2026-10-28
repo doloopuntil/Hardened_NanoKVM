@@ -566,7 +566,11 @@ const id = {
           openTitle: 'Buka alamat baru',
           openDesc:
             'Sertifikat sudah siap. Buka alamat di bawah dan masuk untuk mempertahankannya. Tanpa konfirmasi Anda dalam 3 menit, sertifikat sebelumnya kembali.',
-          openOk: 'Buka'
+          openOk: 'Buka',
+          blockedClock: 'Sertifikat tidak dapat diminta sampai jam perangkat disinkronkan',
+          blockedParanoid: 'Mode Firewall Paranoid memblokir permintaan sertifikat',
+          tailscaleUnavailable:
+            'Tailscale tidak berjalan, atau sertifikat HTTPS tidak diaktifkan untuk tailnet'
         },
         dns: {
           title: 'DNS',

@@ -572,7 +572,12 @@ const de = {
           openTitle: 'Neue Adresse öffnen',
           openDesc:
             'Das Zertifikat ist bereit. Öffnen Sie die Adresse unten und melden Sie sich an, um es beizubehalten. Ohne Ihre Bestätigung innerhalb von 3 Minuten kehrt das vorherige Zertifikat zurück.',
-          openOk: 'Öffnen'
+          openOk: 'Öffnen',
+          blockedClock:
+            'Zertifikate können erst angefordert werden, wenn die Gerätezeit synchronisiert ist',
+          blockedParanoid: 'Der Firewallmodus Paranoid blockiert Zertifikatsanfragen',
+          tailscaleUnavailable:
+            'Tailscale läuft nicht, oder HTTPS-Zertifikate sind für das Tailnet nicht aktiviert'
         },
         dns: {
           title: 'DNS',

@@ -567,7 +567,12 @@ const es = {
           openTitle: 'Abrir la nueva dirección',
           openDesc:
             'El certificado está listo. Abra la dirección de abajo e inicie sesión para conservarlo. Sin su confirmación en 3 minutos, vuelve el certificado anterior.',
-          openOk: 'Abrir'
+          openOk: 'Abrir',
+          blockedClock:
+            'Los certificados no se pueden solicitar hasta que el reloj del dispositivo esté sincronizado',
+          blockedParanoid: 'El modo Paranoico del firewall bloquea las solicitudes de certificado',
+          tailscaleUnavailable:
+            'Tailscale no se está ejecutando, o los certificados HTTPS no están habilitados para la tailnet'
         },
         dns: {
           title: 'DNS',

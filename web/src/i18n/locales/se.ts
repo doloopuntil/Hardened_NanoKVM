@@ -565,7 +565,11 @@ const se = {
           openTitle: 'Öppna den nya adressen',
           openDesc:
             'Certifikatet är klart. Öppna adressen nedan och logga in för att behålla det. Utan din bekräftelse inom 3 minuter kommer det förra certifikatet tillbaka.',
-          openOk: 'Öppna'
+          openOk: 'Öppna',
+          blockedClock: 'Certifikat kan inte begäras förrän enhetens klocka är synkroniserad',
+          blockedParanoid: 'Brandväggsläget Paranoid blockerar certifikatbegäranden',
+          tailscaleUnavailable:
+            'Tailscale körs inte, eller så är HTTPS-certifikat inte aktiverade för tailnet'
         },
         dns: {
           title: 'DNS',

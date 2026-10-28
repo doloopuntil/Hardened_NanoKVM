@@ -565,7 +565,11 @@ const ja = {
           openTitle: '新しいアドレスを開く',
           openDesc:
             '証明書の準備ができました。下のアドレスを開いてサインインし、保持してください。3分以内に確認しない場合は、前の証明書に戻ります。',
-          openOk: '開く'
+          openOk: '開く',
+          blockedClock: 'デバイスの時計が同期されるまで証明書は要求できません',
+          blockedParanoid: 'ファイアウォールのパラノイドモードでは証明書の要求がブロックされます',
+          tailscaleUnavailable:
+            'Tailscale が実行されていないか、tailnet で HTTPS 証明書が有効になっていません'
         },
         dns: {
           title: 'DNS',

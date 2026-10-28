@@ -562,7 +562,11 @@ const da = {
           openTitle: 'Åbn den nye adresse',
           openDesc:
             'Certifikatet er klart. Åbn adressen nedenfor og log ind for at beholde det. Uden din bekræftelse inden for 3 minutter vender det forrige certifikat tilbage.',
-          openOk: 'Åbn'
+          openOk: 'Åbn',
+          blockedClock: 'Certifikater kan ikke anmodes, før enhedens ur er synkroniseret',
+          blockedParanoid: 'Firewalltilstanden Paranoid blokerer anmodninger om certifikater',
+          tailscaleUnavailable:
+            'Tailscale kører ikke, eller HTTPS-certifikater er ikke aktiveret for tailnettet'
         },
         dns: {
           title: 'DNS',

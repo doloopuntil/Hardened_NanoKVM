@@ -559,7 +559,11 @@ const en = {
           openTitle: 'Open the new address',
           openDesc:
             'The certificate is ready. Open the address below and sign in to keep it. Without your confirmation within 3 minutes, the previous certificate comes back.',
-          openOk: 'Open'
+          openOk: 'Open',
+          blockedClock: 'Certificates cannot be requested until the device clock is synchronized',
+          blockedParanoid: 'Paranoid firewall mode blocks certificate requests',
+          tailscaleUnavailable:
+            'Tailscale is not running, or HTTPS certificates are not enabled for the tailnet'
         },
         dns: {
           title: 'DNS',

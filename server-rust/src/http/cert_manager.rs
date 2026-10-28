@@ -119,21 +119,43 @@ fn after_attempt(mut status: Status, now: u64, result: std::result::Result<u64, 
     status
 }
 
-/// Why a certificate cannot be requested right now, if it cannot.
-pub(crate) fn blocked(source: Source) -> Option<&'static str> {
+/// Why a managed certificate cannot be requested right now.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub enum Blocker {
+    ClockUnsynced,
+    HttpsOff,
+    ParanoidFirewall,
+}
+
+impl Blocker {
+    pub fn reason(self) -> &'static str {
+        match self {
+            Blocker::ClockUnsynced => "the device clock is not synchronized",
+            Blocker::HttpsOff => "HTTPS is off",
+            Blocker::ParanoidFirewall => "Paranoid firewall mode blocks outgoing connections",
+        }
+    }
+}
+
+pub(crate) fn blocker(source: Source) -> Option<Blocker> {
     if source == Source::SelfSigned {
         return None;
     }
     if !clock::is_synced() {
-        return Some("the device clock is not synchronized");
+        return Some(Blocker::ClockUnsynced);
     }
     if !Config::read().is_ok_and(|config| config.proto.eq_ignore_ascii_case("https")) {
-        return Some("HTTPS is off");
+        return Some(Blocker::HttpsOff);
     }
     if system_firewall::paranoid_mode_enabled() {
-        return Some("Paranoid firewall mode blocks outgoing connections");
+        return Some(Blocker::ParanoidFirewall);
     }
     None
+}
+
+pub(crate) fn blocked(source: Source) -> Option<&'static str> {
+    blocker(source).map(Blocker::reason)
 }
 
 pub fn read_settings() -> Settings {
@@ -417,6 +439,14 @@ mod tests {
         assert_eq!(status.last_error, None);
         assert_eq!(status.not_after, Some(NOW + 90 * DAY));
         assert_eq!(status.last_success, Some(NOW + DAY));
+    }
+
+    #[test]
+    fn blockers_have_the_names_the_web_ui_reads() {
+        let name = |blocker| serde_json::to_string(&blocker).unwrap();
+        assert_eq!(name(Blocker::ClockUnsynced), r#""clockUnsynced""#);
+        assert_eq!(name(Blocker::HttpsOff), r#""httpsOff""#);
+        assert_eq!(name(Blocker::ParanoidFirewall), r#""paranoidFirewall""#);
     }
 
     #[test]

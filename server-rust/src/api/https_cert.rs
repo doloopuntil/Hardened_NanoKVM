@@ -51,9 +51,10 @@ pub struct CertRsp {
     current_not_after: Option<u64>,
     /// The name Tailscale issues a certificate for, when it can.
     tailscale_domain: Option<String>,
-    /// Why a source cannot be used now, per source.
-    tailscale_blocked: Option<String>,
-    acme_blocked: Option<String>,
+    /// Tailscale is running and the tailnet issues certificates.
+    tailscale_available: bool,
+    /// What stops both managed sources now: the clock, HTTPS being off or the Paranoid firewall.
+    blocker: Option<cert_manager::Blocker>,
     /// Where to open the interface once a managed certificate is in use.
     url: Option<String>,
 }
@@ -88,12 +89,6 @@ pub async fn get() -> Result<impl IntoResponse> {
     .ok()
     .flatten();
 
-    let tailscale_blocked = match cert_manager::blocked(Source::Tailscale) {
-        Some(reason) => Some(reason.to_string()),
-        None => tailscale_domain
-            .is_none()
-            .then(|| NO_TAILSCALE_CERT.to_string()),
-    };
     let url = match settings.source {
         Source::SelfSigned => None,
         Source::Tailscale => tailscale_domain
@@ -108,9 +103,9 @@ pub async fn get() -> Result<impl IntoResponse> {
         status: cert_manager::read_status(),
         busy: cert_manager::is_busy(),
         current_not_after,
+        tailscale_available: tailscale_domain.is_some(),
         tailscale_domain,
-        tailscale_blocked,
-        acme_blocked: cert_manager::blocked(Source::Acme).map(str::to_string),
+        blocker: cert_manager::blocker(Source::Acme),
         url,
     })))
 }

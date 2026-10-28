@@ -559,7 +559,11 @@ const vi = {
           openTitle: 'Mở địa chỉ mới',
           openDesc:
             'Chứng chỉ đã sẵn sàng. Hãy mở địa chỉ bên dưới và đăng nhập để giữ nó. Nếu bạn không xác nhận trong 3 phút, chứng chỉ trước sẽ quay lại.',
-          openOk: 'Mở'
+          openOk: 'Mở',
+          blockedClock: 'Không thể yêu cầu chứng chỉ cho đến khi đồng hồ thiết bị được đồng bộ',
+          blockedParanoid: 'Chế độ tường lửa Hoang tưởng chặn các yêu cầu chứng chỉ',
+          tailscaleUnavailable:
+            'Tailscale không chạy, hoặc chứng chỉ HTTPS chưa được bật cho tailnet'
         },
         dns: {
           title: 'DNS',

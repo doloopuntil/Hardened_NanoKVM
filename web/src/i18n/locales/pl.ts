@@ -564,7 +564,11 @@ const pl = {
           openTitle: 'Otwórz nowy adres',
           openDesc:
             'Certyfikat jest gotowy. Otwórz poniższy adres i zaloguj się, aby go zachować. Bez Twojego potwierdzenia w ciągu 3 minut wróci poprzedni certyfikat.',
-          openOk: 'Otwórz'
+          openOk: 'Otwórz',
+          blockedClock: 'Certyfikaty można żądać dopiero po zsynchronizowaniu zegara urządzenia',
+          blockedParanoid: 'Tryb zapory Paranoidalny blokuje żądania certyfikatów',
+          tailscaleUnavailable:
+            'Tailscale nie działa albo certyfikaty HTTPS nie są włączone dla tailnetu'
         },
         dns: {
           title: 'DNS',

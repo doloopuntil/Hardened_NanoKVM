@@ -569,7 +569,12 @@ const nl = {
           openTitle: 'Nieuw adres openen',
           openDesc:
             'Het certificaat is klaar. Open het adres hieronder en meld u aan om het te behouden. Zonder uw bevestiging binnen 3 minuten komt het vorige certificaat terug.',
-          openOk: 'Openen'
+          openOk: 'Openen',
+          blockedClock:
+            'Certificaten kunnen pas worden aangevraagd wanneer de klok van het apparaat is gesynchroniseerd',
+          blockedParanoid: 'De firewallmodus Paranoïde blokkeert certificaataanvragen',
+          tailscaleUnavailable:
+            'Tailscale draait niet, of HTTPS-certificaten zijn niet ingeschakeld voor het tailnet'
         },
         dns: {
           title: 'DNS',

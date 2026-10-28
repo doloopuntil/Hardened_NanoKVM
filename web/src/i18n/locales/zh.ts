@@ -538,7 +538,10 @@ const zh = {
           openTitle: '打开新地址',
           openDesc:
             '证书已就绪。请打开下面的地址并登录以保留它。如果 3 分钟内未确认，将恢复为之前的证书。',
-          openOk: '打开'
+          openOk: '打开',
+          blockedClock: '设备时钟同步后才能申请证书',
+          blockedParanoid: '防火墙偏执模式会阻止证书申请',
+          tailscaleUnavailable: 'Tailscale 未运行，或 tailnet 未启用 HTTPS 证书'
         },
         dns: {
           title: 'DNS',

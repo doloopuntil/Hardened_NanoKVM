@@ -565,7 +565,11 @@ const fi = {
           openTitle: 'Avaa uusi osoite',
           openDesc:
             'Varmenne on valmis. Avaa alla oleva osoite ja kirjaudu sisään säilyttääksesi sen. Ilman vahvistustasi 3 minuutin kuluessa edellinen varmenne palaa.',
-          openOk: 'Avaa'
+          openOk: 'Avaa',
+          blockedClock: 'Varmenteita ei voi pyytää ennen kuin laitteen kello on synkronoitu',
+          blockedParanoid: 'Palomuuritila Paranoidi estää varmennepyynnöt',
+          tailscaleUnavailable:
+            'Tailscale ei ole käynnissä, tai HTTPS-varmenteet eivät ole käytössä tailnetissä'
         },
         dns: {
           title: 'DNS',

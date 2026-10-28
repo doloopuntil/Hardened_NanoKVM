@@ -1,5 +1,6 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { Button, Input, Modal, Select, Tag } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Button, Input, Modal, Select, Spin, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import * as totpApi from '@/api/auth-totp.ts';
@@ -8,6 +9,7 @@ import type { CertInfo, CertSource } from '@/api/vm.ts';
 import { encrypt } from '@/lib/encrypt.ts';
 import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { useSettingsLoadState } from '@/hooks/useSettingsLoad.ts';
+import { LabelTip } from '@/components/label-tip.tsx';
 import { InfoRow, SettingRow } from '@/components/setting-rows.tsx';
 
 import type { SystemActionHandle, SystemActionState } from './action.ts';
@@ -49,12 +51,14 @@ function sleep(seconds: number) {
 
 type CertificateProps = {
   onActionStateChange?: (state: SystemActionState) => void;
+  // what stops certificates now, for the Alert above the sections; null when nothing does
+  onBlockedChange?: (message: string | null) => void;
 };
 
 // The rows under the HTTPS switch: where the certificate comes from and how it is doing. A change
 // is a draft, saved from the bar of the page; the password dialog then starts the request.
 export const Certificate = forwardRef<SystemActionHandle, CertificateProps>(
-  ({ onActionStateChange }, ref) => {
+  ({ onActionStateChange, onBlockedChange }, ref) => {
     const { t } = useTranslation();
 
     const [info, setInfo] = useState<CertInfo | null>(null);
@@ -87,12 +91,23 @@ export const Certificate = forwardRef<SystemActionHandle, CertificateProps>(
     const isBusy = isWorking || !!info?.busy;
     const isManaged = draft.source === 'acme';
 
-    const blockedReason =
-      draft.source === 'tailscale'
-        ? info?.tailscaleBlocked
-        : draft.source === 'acme'
-          ? info?.acmeBlocked
+    // the clock and the Paranoid firewall stop both sources; Tailscale can also be unavailable alone
+    const blockerText =
+      info?.blocker === 'clockUnsynced'
+        ? t('settings.network.certificate.blockedClock')
+        : info?.blocker === 'paranoidFirewall'
+          ? t('settings.network.certificate.blockedParanoid')
           : null;
+    const tailscaleDownText =
+      info && !info.blocker && !info.tailscaleAvailable
+        ? t('settings.network.certificate.tailscaleUnavailable')
+        : null;
+    const blockedReason =
+      draft.source === 'selfSigned'
+        ? null
+        : draft.source === 'tailscale'
+          ? (blockerText ?? tailscaleDownText)
+          : blockerText;
     const domainInvalid = isManaged && draft.domain.trim() !== '' && !isValidDomain(draft.domain);
     const emailInvalid = isManaged && draft.email.trim() !== '' && !EMAIL_PATTERN.test(draft.email);
 
@@ -204,23 +219,27 @@ export const Certificate = forwardRef<SystemActionHandle, CertificateProps>(
         hasInvalid,
         canSave: hasPending && !hasInvalid && !isBusy && isReady,
         isBusy,
-        statusText: blockedReason
-          ? (sentence(blockedReason) ?? '')
-          : hasPending
-            ? t('settings.system.unsaved')
-            : '',
-        statusKind: blockedReason ? 'error' : hasPending ? 'warning' : '',
+        statusText: hasPending ? (blockedReason ?? t('settings.system.unsaved')) : '',
+        statusKind: hasPending ? (blockedReason ? 'error' : 'warning') : '',
         label: t('settings.system.saveChanges')
       });
     }, [blockedReason, hasInvalid, hasPending, isBusy, isReady, onActionStateChange, t]);
+
+    useEffect(() => {
+      onBlockedChange?.(info?.httpsEnabled ? blockerText : null);
+    }, [blockerText, info?.httpsEnabled, onBlockedChange]);
 
     if (!info) return null;
 
     const disabled = !isReady || !info.httpsEnabled || isBusy;
     const sourceOptions = [
       { value: 'selfSigned', label: t('settings.network.certificate.selfSigned') },
-      { value: 'tailscale', label: 'Tailscale', disabled: !!info.tailscaleBlocked },
-      { value: 'acme', label: "Let's Encrypt", disabled: !!info.acmeBlocked }
+      {
+        value: 'tailscale',
+        label: 'Tailscale',
+        disabled: !!info.blocker || !info.tailscaleAvailable
+      },
+      { value: 'acme', label: "Let's Encrypt", disabled: !!info.blocker }
     ];
 
     const now = Math.floor(Date.now() / 1000);
@@ -253,17 +272,30 @@ export const Certificate = forwardRef<SystemActionHandle, CertificateProps>(
     return (
       <>
         <SettingRow
-          label={t('settings.network.certificate.title')}
+          label={
+            <span className="flex items-center gap-2">
+              {tailscaleDownText ? (
+                <LabelTip
+                  text={t('settings.network.certificate.title')}
+                  tip={tailscaleDownText}
+                  warning
+                />
+              ) : (
+                t('settings.network.certificate.title')
+              )}
+              {isBusy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+            </span>
+          }
           description={
             isBusy
               ? t('settings.network.certificate.requesting')
               : t('settings.network.certificate.desc')
           }
-          error={sentence(blockedReason)}
+          error={draft.source === 'tailscale' ? (tailscaleDownText ?? undefined) : undefined}
           inline
         >
           <Select
-            className="w-40"
+            className="w-40 text-right"
             value={draft.source}
             options={sourceOptions}
             disabled={disabled}
@@ -282,9 +314,10 @@ export const Certificate = forwardRef<SystemActionHandle, CertificateProps>(
             label={t('settings.network.certificate.domain')}
             description={t('settings.network.certificate.domainDesc')}
             error={domainInvalid ? t('settings.network.certificate.domainInvalid') : undefined}
+            inline
           >
             <Input
-              className="min-w-0 text-right sm:w-72"
+              className="w-44 min-w-0 text-right sm:w-72"
               value={draft.domain}
               placeholder="kvm.example.org"
               status={domainInvalid ? 'error' : undefined}
@@ -298,9 +331,10 @@ export const Certificate = forwardRef<SystemActionHandle, CertificateProps>(
           label={t('settings.network.certificate.email')}
           description={t('settings.network.certificate.emailDesc')}
           error={emailInvalid ? t('settings.network.certificate.emailInvalid') : undefined}
+          inline
         >
           <Input
-            className="min-w-0 text-right sm:w-72"
+            className="w-44 min-w-0 text-right sm:w-72"
             value={draft.email}
             status={emailInvalid ? 'error' : undefined}
             disabled={disabled || !isManaged}
@@ -308,37 +342,42 @@ export const Certificate = forwardRef<SystemActionHandle, CertificateProps>(
           />
         </SettingRow>
 
-        {info.currentNotAfter !== null && (
-          <InfoRow
-            label={
-              <span className="flex items-center gap-2">
-                {t('settings.network.certificate.validUntil')}
-                {expiryTag}
-              </span>
-            }
-            value={new Date(info.currentNotAfter * 1000).toLocaleDateString()}
-          />
-        )}
+        {(info.currentNotAfter !== null ||
+          (info.source !== 'selfSigned' && info.status.lastAttempt !== null)) && (
+          <div className="flex flex-col space-y-3">
+            {info.currentNotAfter !== null && (
+              <InfoRow
+                label={
+                  <span className="flex items-center gap-2">
+                    {t('settings.network.certificate.validUntil')}
+                    {expiryTag}
+                  </span>
+                }
+                value={new Date(info.currentNotAfter * 1000).toLocaleDateString()}
+              />
+            )}
 
-        {info.source !== 'selfSigned' && info.status.lastAttempt !== null && (
-          <InfoRow
-            label={
-              <span className="flex items-center gap-2">
-                {t('settings.network.certificate.lastRenewal')}
-                <Tag className="m-0" color={failed ? 'red' : 'green'}>
-                  {failed
-                    ? t('settings.network.certificate.failed')
-                    : t('settings.network.certificate.renewed')}
-                </Tag>
-              </span>
-            }
-            description={
-              failed ? (
-                <span className="text-red-400">{sentence(info.status.lastError)}</span>
-              ) : undefined
-            }
-            value={new Date(info.status.lastAttempt * 1000).toLocaleString()}
-          />
+            {info.source !== 'selfSigned' && info.status.lastAttempt !== null && (
+              <InfoRow
+                label={
+                  <span className="flex items-center gap-2">
+                    {t('settings.network.certificate.lastRenewal')}
+                    <Tag className="m-0" color={failed ? 'red' : 'green'}>
+                      {failed
+                        ? t('settings.network.certificate.failed')
+                        : t('settings.network.certificate.renewed')}
+                    </Tag>
+                  </span>
+                }
+                description={
+                  failed ? (
+                    <span className="text-red-400">{sentence(info.status.lastError)}</span>
+                  ) : undefined
+                }
+                value={new Date(info.status.lastAttempt * 1000).toLocaleString()}
+              />
+            )}
+          </div>
         )}
 
         {info.source !== 'selfSigned' && (

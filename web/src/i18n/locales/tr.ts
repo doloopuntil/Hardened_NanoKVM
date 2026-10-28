@@ -562,7 +562,11 @@ const tr = {
           openTitle: 'Yeni adresi aç',
           openDesc:
             'Sertifika hazır. Aşağıdaki adresi açın ve korumak için oturum açın. 3 dakika içinde onaylamazsanız önceki sertifika geri gelir.',
-          openOk: 'Aç'
+          openOk: 'Aç',
+          blockedClock: 'Cihazın saati eşitlenene kadar sertifika istenemez',
+          blockedParanoid: 'Güvenlik duvarının Paranoyak modu sertifika isteklerini engeller',
+          tailscaleUnavailable:
+            'Tailscale çalışmıyor veya tailnet için HTTPS sertifikaları etkin değil'
         },
         dns: {
           title: 'DNS',

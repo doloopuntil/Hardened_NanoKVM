@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Divider } from 'antd';
+import { Alert, Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import { discardOnEscape } from '@/lib/discard.ts';
@@ -49,6 +49,8 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
   const timeRef = useRef<SystemActionHandle>(null);
   const systemLogRef = useRef<SystemActionHandle>(null);
   const servicesRef = useRef<SystemActionHandle>(null);
+  // what stops certificates now; the Alert above the Services sections
+  const [certificateBlocked, setCertificateBlocked] = useState<string | null>(null);
 
   const updateActionState = useCallback((state: SystemActionState) => {
     setActionState(state);
@@ -120,9 +122,15 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
           )}
           {section === 'services' && (
             <div className="flex flex-col space-y-6">
+              {certificateBlocked && <Alert type="warning" showIcon message={certificateBlocked} />}
+
               <SettingSection title={t('settings.system.sections.webInterface')}>
                 <Tls />
-                <Certificate ref={servicesRef} onActionStateChange={updateActionState} />
+                <Certificate
+                  ref={servicesRef}
+                  onActionStateChange={updateActionState}
+                  onBlockedChange={setCertificateBlocked}
+                />
               </SettingSection>
 
               <Divider className="opacity-50" />

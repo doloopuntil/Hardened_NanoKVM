@@ -565,7 +565,12 @@ const ca = {
           openTitle: "Obre l'adreça nova",
           openDesc:
             "El certificat està a punt. Obriu l'adreça de sota i inicieu la sessió per mantenir-lo. Sense la vostra confirmació en 3 minuts, torna el certificat anterior.",
-          openOk: 'Obre'
+          openOk: 'Obre',
+          blockedClock:
+            'Els certificats no es poden sol·licitar fins que el rellotge del dispositiu estigui sincronitzat',
+          blockedParanoid: 'El mode del tallafoc Paranoic bloqueja les sol·licituds de certificat',
+          tailscaleUnavailable:
+            "Tailscale no s'està executant, o els certificats HTTPS no estan activats per a la tailnet"
         },
         dns: {
           title: 'DNS',

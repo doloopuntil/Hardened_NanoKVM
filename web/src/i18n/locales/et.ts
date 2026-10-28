@@ -556,7 +556,11 @@ const et = {
           openTitle: 'Ava uus aadress',
           openDesc:
             'Sertifikaat on valmis. Avage allolev aadress ja logige sisse, et see säilitada. Ilma teie kinnituseta 3 minuti jooksul naaseb eelmine sertifikaat.',
-          openOk: 'Ava'
+          openOk: 'Ava',
+          blockedClock: 'Sertifikaate ei saa taotleda enne, kui seadme kell on sünkroonitud',
+          blockedParanoid: 'Tulemüüri režiim Paranoiline blokeerib sertifikaaditaotlused',
+          tailscaleUnavailable:
+            'Tailscale ei tööta või HTTPS-sertifikaadid pole tailneti jaoks lubatud'
         },
         dns: {
           title: 'DNS',

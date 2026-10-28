@@ -569,7 +569,11 @@ const hu = {
           openTitle: 'Az új cím megnyitása',
           openDesc:
             'A tanúsítvány kész. Nyissa meg az alábbi címet, és jelentkezzen be a megtartásához. Megerősítése nélkül 3 percen belül visszatér az előző tanúsítvány.',
-          openOk: 'Megnyitás'
+          openOk: 'Megnyitás',
+          blockedClock: 'Tanúsítvány csak az eszköz órájának szinkronizálása után igényelhető',
+          blockedParanoid: 'A Paranoid tűzfal mód blokkolja a tanúsítványkéréseket',
+          tailscaleUnavailable:
+            'A Tailscale nem fut, vagy a HTTPS-tanúsítványok nincsenek engedélyezve a tailnethez'
         },
         dns: {
           title: 'DNS',

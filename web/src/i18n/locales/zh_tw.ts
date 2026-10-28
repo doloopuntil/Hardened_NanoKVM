@@ -539,7 +539,10 @@ const zh_tw = {
           openTitle: '開啟新位址',
           openDesc:
             '憑證已就緒。請開啟下方的位址並登入以保留它。如果 3 分鐘內未確認，將恢復為先前的憑證。',
-          openOk: '開啟'
+          openOk: '開啟',
+          blockedClock: '裝置時鐘同步後才能申請憑證',
+          blockedParanoid: '防火牆偏執模式會封鎖憑證申請',
+          tailscaleUnavailable: 'Tailscale 未執行，或 tailnet 未啟用 HTTPS 憑證'
         },
         dns: {
           title: 'DNS',

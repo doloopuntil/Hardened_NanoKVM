@@ -560,7 +560,11 @@ const cz = {
           openTitle: 'Otevřít novou adresu',
           openDesc:
             'Certifikát je připraven. Otevřete níže uvedenou adresu a přihlaste se, abyste ho ponechali. Bez vašeho potvrzení do 3 minut se vrátí předchozí certifikát.',
-          openOk: 'Otevřít'
+          openOk: 'Otevřít',
+          blockedClock: 'Certifikáty nelze vyžádat, dokud nejsou synchronizovány hodiny zařízení',
+          blockedParanoid: 'Režim firewallu Paranoidní blokuje žádosti o certifikáty',
+          tailscaleUnavailable:
+            'Tailscale neběží, nebo nejsou pro tailnet povoleny certifikáty HTTPS'
         },
         dns: {
           title: 'DNS',

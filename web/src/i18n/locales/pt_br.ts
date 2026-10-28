@@ -564,7 +564,12 @@ const pt_br = {
           openTitle: 'Abrir o novo endereço',
           openDesc:
             'O certificado está pronto. Abra o endereço abaixo e entre para mantê-lo. Sem a sua confirmação em 3 minutos, o certificado anterior volta.',
-          openOk: 'Abrir'
+          openOk: 'Abrir',
+          blockedClock:
+            'Os certificados só podem ser solicitados depois que o relógio do dispositivo for sincronizado',
+          blockedParanoid: 'O modo Paranoico do firewall bloqueia solicitações de certificado',
+          tailscaleUnavailable:
+            'O Tailscale não está em execução, ou os certificados HTTPS não estão ativados para a tailnet'
         },
         dns: {
           title: 'DNS',

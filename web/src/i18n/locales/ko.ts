@@ -554,7 +554,11 @@ const ko = {
           openTitle: '새 주소 열기',
           openDesc:
             '인증서가 준비되었습니다. 아래 주소를 열고 로그인하여 유지하세요. 3분 안에 확인하지 않으면 이전 인증서로 돌아갑니다.',
-          openOk: '열기'
+          openOk: '열기',
+          blockedClock: '장치 시계가 동기화될 때까지 인증서를 요청할 수 없습니다',
+          blockedParanoid: '방화벽 파라노이드 모드에서는 인증서 요청이 차단됩니다',
+          tailscaleUnavailable:
+            'Tailscale이 실행 중이 아니거나 tailnet에서 HTTPS 인증서가 사용 설정되지 않았습니다'
         },
         dns: {
           title: 'DNS',
