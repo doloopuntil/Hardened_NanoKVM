@@ -1,4 +1,5 @@
 use std::{
+    collections::HashMap,
     fs::{self, File, OpenOptions},
     io,
     net::SocketAddr,
@@ -12,7 +13,9 @@ use axum::{
     extract::connect_info::Connected,
     serve::{IncomingStream, Listener},
 };
-use rcgen::{CertifiedKey, generate_simple_self_signed};
+use rcgen::{
+    CertificateParams, CertifiedKey, CustomExtension, KeyPair, generate_simple_self_signed,
+};
 use tokio::{
     net::{TcpListener, TcpStream},
     sync::mpsc,
@@ -35,6 +38,9 @@ use crate::{AppError, Result};
 
 #[derive(Debug, Clone, Copy)]
 pub struct ClientAddr(pub SocketAddr);
+
+/// ALPN name of the ACME TLS-ALPN-01 validation handshake (RFC 8737).
+const ACME_ALPN: &[u8] = b"acme-tls/1";
 
 /// A client gets this long to finish its handshake before the connection is dropped.
 const TLS_HANDSHAKE_TIMEOUT: Duration = Duration::from_secs(10);
@@ -85,6 +91,8 @@ async fn accept_loop(
         let ready = ready.clone();
         tokio::spawn(async move {
             match time::timeout(TLS_HANDSHAKE_TIMEOUT, acceptor.accept(stream)).await {
+                // A validation handshake carries no HTTP.
+                Ok(Ok(stream)) if stream.get_ref().1.alpn_protocol() == Some(ACME_ALPN) => {}
                 Ok(Ok(stream)) => {
                     let _ = ready.send((stream, addr)).await;
                 }
@@ -145,6 +153,8 @@ fn is_chacha20(suite: CipherSuite) -> bool {
 #[derive(Debug)]
 pub struct CertResolver {
     current: RwLock<Arc<SignedKey>>,
+    /// Validation certificates for pending TLS-ALPN-01 challenges, by lowercase domain.
+    challenges: RwLock<HashMap<String, Arc<SignedKey>>>,
 }
 
 impl CertResolver {
@@ -175,10 +185,67 @@ impl CertResolver {
         *self.current.write().unwrap_or_else(|err| err.into_inner()) = loaded;
         Ok(())
     }
+
+    /// Answer `acme-tls/1` handshakes for `domain` with a validation certificate for `digest`,
+    /// the SHA-256 of the key authorization.
+    pub fn set_challenge(&self, domain: &str, digest: &[u8]) -> Result<()> {
+        let key = validation_cert(domain, digest)?;
+        self.challenges
+            .write()
+            .unwrap_or_else(|err| err.into_inner())
+            .insert(domain.to_ascii_lowercase(), key);
+        Ok(())
+    }
+
+    pub fn clear_challenge(&self, domain: &str) {
+        self.challenges
+            .write()
+            .unwrap_or_else(|err| err.into_inner())
+            .remove(&domain.to_ascii_lowercase());
+    }
+}
+
+/// The self-signed certificate a CA expects for a TLS-ALPN-01 challenge.
+fn validation_cert(domain: &str, digest: &[u8]) -> Result<Arc<SignedKey>> {
+    let internal = |err: rcgen::Error| {
+        AppError::Internal(format!(
+            "failed to build the ACME validation certificate: {err}"
+        ))
+    };
+    let mut params = CertificateParams::new(vec![domain.to_string()]).map_err(internal)?;
+    params
+        .custom_extensions
+        .push(CustomExtension::new_acme_identifier(digest));
+    let key_pair = KeyPair::generate().map_err(internal)?;
+    let cert = params.self_signed(&key_pair).map_err(internal)?;
+    let key = PrivateKeyDer::try_from(key_pair.serialize_der())
+        .map_err(|err| AppError::Internal(format!("failed to encode the validation key: {err}")))?;
+    // not from_der: it rejects the critical acmeIdentifier extension
+    let signing_key = crypto_provider()
+        .key_provider
+        .load_private_key(key)
+        .map_err(|err| AppError::Internal(format!("failed to load the validation key: {err}")))?;
+    Ok(Arc::new(SignedKey::new(
+        vec![cert.der().clone()],
+        signing_key,
+    )))
 }
 
 impl ResolvesServerCert for CertResolver {
-    fn resolve(&self, _client_hello: ClientHello<'_>) -> Option<Arc<SignedKey>> {
+    fn resolve(&self, client_hello: ClientHello<'_>) -> Option<Arc<SignedKey>> {
+        let validating = client_hello
+            .alpn()
+            .is_some_and(|mut names| names.any(|name| name == ACME_ALPN));
+        if validating
+            && let Some(name) = client_hello.server_name()
+            && let Some(key) = self
+                .challenges
+                .read()
+                .unwrap_or_else(|err| err.into_inner())
+                .get(&name.to_ascii_lowercase())
+        {
+            return Some(key.clone());
+        }
         Some(
             self.current
                 .read()
@@ -194,6 +261,7 @@ pub fn load_server_config(
 ) -> Result<(ServerConfig, Arc<CertResolver>)> {
     let resolver = Arc::new(CertResolver {
         current: RwLock::new(CertResolver::load(cert_path.as_ref(), key_path.as_ref())?),
+        challenges: RwLock::default(),
     });
 
     let mut config = ServerConfig::builder_with_provider(Arc::new(crypto_provider()))
@@ -201,7 +269,7 @@ pub fn load_server_config(
         .map_err(|err| AppError::Config(format!("failed to configure TLS versions: {err}")))?
         .with_no_client_auth()
         .with_cert_resolver(resolver.clone());
-    config.alpn_protocols = vec![b"http/1.1".to_vec()];
+    config.alpn_protocols = vec![b"http/1.1".to_vec(), ACME_ALPN.to_vec()];
     // Browsers with AES hardware list AES-GCM first; our suite order decides.
     config.ignore_client_order = true;
     Ok((config, resolver))
@@ -319,6 +387,116 @@ mod tests {
         assert!(resolver.reload(&cert, &key).is_err());
         assert!(resolver.reload(&cert2, &key).is_err(), "mismatched key");
         assert!(served(cert2).await);
+    }
+
+    #[tokio::test]
+    async fn a_pending_challenge_is_answered_only_to_the_acme_alpn() {
+        use tokio_rustls::{
+            TlsConnector,
+            rustls::{
+                ClientConfig,
+                client::danger::{HandshakeSignatureValid, ServerCertVerified, ServerCertVerifier},
+                pki_types::{ServerName, UnixTime},
+            },
+        };
+
+        #[derive(Debug)]
+        struct AcceptAny;
+        impl ServerCertVerifier for AcceptAny {
+            fn verify_server_cert(
+                &self,
+                _: &CertificateDer<'_>,
+                _: &[CertificateDer<'_>],
+                _: &ServerName<'_>,
+                _: &[u8],
+                _: UnixTime,
+            ) -> std::result::Result<ServerCertVerified, tokio_rustls::rustls::Error> {
+                Ok(ServerCertVerified::assertion())
+            }
+            fn verify_tls12_signature(
+                &self,
+                _: &[u8],
+                _: &CertificateDer<'_>,
+                _: &tokio_rustls::rustls::DigitallySignedStruct,
+            ) -> std::result::Result<HandshakeSignatureValid, tokio_rustls::rustls::Error>
+            {
+                Ok(HandshakeSignatureValid::assertion())
+            }
+            fn verify_tls13_signature(
+                &self,
+                _: &[u8],
+                _: &CertificateDer<'_>,
+                _: &tokio_rustls::rustls::DigitallySignedStruct,
+            ) -> std::result::Result<HandshakeSignatureValid, tokio_rustls::rustls::Error>
+            {
+                Ok(HandshakeSignatureValid::assertion())
+            }
+            fn supported_verify_schemes(&self) -> Vec<tokio_rustls::rustls::SignatureScheme> {
+                crypto_provider()
+                    .signature_verification_algorithms
+                    .supported_schemes()
+            }
+        }
+
+        install_crypto_provider();
+        let dir = tempfile::tempdir().unwrap();
+        let (cert, key) = (dir.path().join("a.crt"), dir.path().join("a.key"));
+        generate_self_signed_cert(&cert, &key).unwrap();
+        let (config, resolver) = load_server_config(&cert, &key).unwrap();
+        let tcp = TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let addr = tcp.local_addr().unwrap();
+        let mut listener = TlsListener::new(tcp, config).unwrap();
+        resolver
+            .set_challenge("kvm.example.org", &[7u8; 32])
+            .unwrap();
+
+        // The leaf certificate and negotiated protocol a client sees.
+        let handshake = |alpn: &'static [u8], name: &'static str| async move {
+            let mut client = ClientConfig::builder()
+                .dangerous()
+                .with_custom_certificate_verifier(Arc::new(AcceptAny))
+                .with_no_client_auth();
+            client.alpn_protocols = vec![alpn.to_vec()];
+            let stream = TcpStream::connect(addr).await.unwrap();
+            let tls = TlsConnector::from(Arc::new(client))
+                .connect(ServerName::try_from(name).unwrap(), stream)
+                .await
+                .unwrap();
+            let conn = tls.get_ref().1;
+            (
+                conn.peer_certificates().unwrap()[0].as_ref().to_vec(),
+                conn.alpn_protocol().map(<[u8]>::to_vec),
+            )
+        };
+        let has_acme_extension = |der: &[u8]| {
+            // id-pe-acmeIdentifier, 1.3.6.1.5.5.7.1.31, as DER content bytes.
+            der.windows(8)
+                .any(|w| w == [0x2b, 0x06, 0x01, 0x05, 0x05, 0x07, 0x01, 0x1f])
+        };
+
+        let (leaf, alpn) = handshake(ACME_ALPN, "kvm.example.org").await;
+        assert!(has_acme_extension(&leaf));
+        assert_eq!(alpn.as_deref(), Some(ACME_ALPN));
+
+        // Other names and other protocols get the real certificate.
+        let (leaf, _) = handshake(ACME_ALPN, "other.example.org").await;
+        assert!(!has_acme_extension(&leaf));
+        let (leaf, alpn) = handshake(b"http/1.1", "kvm.example.org").await;
+        assert!(!has_acme_extension(&leaf));
+        assert_eq!(alpn.as_deref(), Some(&b"http/1.1"[..]));
+
+        // Validation connections never reach the HTTP layer; the HTTP one does.
+        let accepted = time::timeout(Duration::from_secs(5), listener.accept())
+            .await
+            .unwrap();
+        assert_eq!(
+            accepted.0.get_ref().1.alpn_protocol(),
+            Some(&b"http/1.1"[..])
+        );
+
+        resolver.clear_challenge("kvm.example.org");
+        let (leaf, _) = handshake(ACME_ALPN, "kvm.example.org").await;
+        assert!(!has_acme_extension(&leaf));
     }
 
     async fn negotiated_suite(client_suites: &[CipherSuite]) -> CipherSuite {
