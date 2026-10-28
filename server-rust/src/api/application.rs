@@ -24,6 +24,7 @@ use crate::{
 
 const APP_DIR: &str = "/kvmapp";
 const BACKUP_DIR: &str = "/root/old";
+const APP_UPDATE_PENDING_FILE: &str = "/etc/kvm/app-update-pending.json";
 const APP_VERSION_FILE: &str = "/kvmapp/version";
 const DEFAULT_APP_VERSION: &str = "0.1.0";
 const GITHUB_RELEASE_LATEST_JSON: &str =
@@ -260,7 +261,32 @@ fn install_package(source: &Path, cache_dir: &Path) -> Result<()> {
     }
 
     chmod_recursively(app_dir, 0o755)?;
+    write_app_update_pending(backup_dir);
     Ok(())
+}
+
+// Tells S95nanokvm to check the new application after the restart and put the previous one back
+// from the backup if its server never answers.
+fn write_app_update_pending(backup_dir: &Path) {
+    if !backup_dir.is_dir() {
+        return;
+    }
+    let previous = read_trimmed(&backup_dir.join("version").to_string_lossy());
+    let record = app_update_pending_record(&current_app_version(), previous.as_deref());
+    if let Err(err) = crate::fsutil::write_0600_atomic(Path::new(APP_UPDATE_PENDING_FILE), &record)
+    {
+        tracing::warn!(error = %err, "failed to mark the application update for the boot check");
+    }
+}
+
+fn app_update_pending_record(version: &str, previous: Option<&str>) -> Vec<u8> {
+    serde_json::json!({
+        "version": version,
+        "previousVersion": previous,
+        "installedAt": now_unix_nanos() / 1_000_000_000,
+    })
+    .to_string()
+    .into_bytes()
 }
 
 fn resolve_update_root(extracted: &Path) -> Result<PathBuf> {
@@ -780,6 +806,19 @@ fn now_unix_nanos() -> u128 {
 mod tests {
     use super::*;
     use std::os::unix::fs::symlink;
+
+    #[test]
+    fn the_pending_record_names_both_versions() {
+        let record: serde_json::Value =
+            serde_json::from_slice(&app_update_pending_record("2.2.0", Some("2.1.0"))).unwrap();
+        assert_eq!(record["version"], "2.2.0");
+        assert_eq!(record["previousVersion"], "2.1.0");
+        assert!(record["installedAt"].as_u64().unwrap() > 0);
+
+        let first: serde_json::Value =
+            serde_json::from_slice(&app_update_pending_record("2.2.0", None)).unwrap();
+        assert!(first["previousVersion"].is_null());
+    }
 
     #[test]
     fn validates_hardened_update_filenames() {

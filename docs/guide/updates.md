@@ -1,7 +1,7 @@
 ---
 status: current, channels pending
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-27
+last-checked: 2026-10-28
 ---
 
 # Updates
@@ -40,7 +40,14 @@ In **Settings > System > Updates**:
   the online channel again. Build one with
   `scripts/create-application-update-bundle.sh`.
 
-The server restarts after an application update; sign in again afterwards.
+The server restarts after an application update; sign in again afterwards. The
+previous application stays in `/root/old`. After the restart the device waits up to
+about two and a half minutes for the new server to answer its health check. If it
+does not, the previous application is put back, the failed one is kept in
+`/root/failed-app`, and the server restarts again. This happens once per update;
+it is logged in the system log as `nanokvm-runtime`. A new version that answers the
+health check but misbehaves is not caught, and has to be rolled back by hand: stop
+the server, swap `/kvmapp` and `/root/old`, and start it again.
 
 ## System updates
 

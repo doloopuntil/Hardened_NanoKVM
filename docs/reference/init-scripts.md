@@ -28,7 +28,7 @@ through these scripts, never by starting daemons itself.
 | `S50avahi-daemon` | mDNS, when enabled. |
 | `S50ssdpd` | SSDP discovery. |
 | `S50sshd` | SSH, unless `/etc/kvm/ssh_stop` exists. |
-| `S95nanokvm` | Starts the Rust server (`/kvmapp/server/NanoKVM-Server`), restores configuration after a system update, runs the health watchdog and the boot watchdog that confirms or rolls back a system update. |
+| `S95nanokvm` | Starts the Rust server (`/kvmapp/server/NanoKVM-Server`), restores configuration after a system update, runs the health watchdog, the boot watchdog that confirms or rolls back a system update, and the check after an application update that restores the previous application when the new server never answers. |
 | `S96picoclaw` | The PicoClaw agent, when installed. |
 | `S98tailscaled` | Tailscale, when installed and enabled. |
 

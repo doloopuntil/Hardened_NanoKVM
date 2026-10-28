@@ -15,6 +15,7 @@ SERVER_SOURCE_DIR=/kvmapp/server
 SERVER_RUNTIME_DIR=/tmp/server
 SERVER_LOG=/tmp/nanokvm-server.log
 SERVER_PID_FILE=/tmp/nanokvm-server.pid
+INIT_SELF="$0"
 NANOKVM_NATIVE_LIBRARY_PATH=/kvmapp/server/dl_lib:/mnt/system/usr/lib:/mnt/system/usr/lib/3rd
 NANOKVM_XTHEAD_LOADER=/lib/ld-musl-riscv64xthead.so.1
 KVM_SYSTEM_SOURCE_DIR=/kvmapp/kvm_system
@@ -41,6 +42,11 @@ SYSTEM_UPDATE_KEYRING_DIR=/etc/kvm/update-keys
 SYSTEM_UPDATE_BUNDLED_KEYRING_DIR=/kvmapp/system/keys/update-keys
 SYSTEM_UPDATE_KEY_POLICY=/etc/kvm/update-key-policy
 SYSTEM_UPDATE_BUNDLED_KEY_POLICY=/kvmapp/system/keys/update-key-policy
+APP_DIR=/kvmapp
+APP_BACKUP_DIR=/root/old
+APP_FAILED_DIR=/root/failed-app
+APP_UPDATE_PENDING_FILE=/etc/kvm/app-update-pending.json
+APP_UPDATE_WATCHDOG_PID_FILE=/tmp/app-update-watchdog.pid
 SENSOR_BUNDLE_DIR=/kvmapp/system/mnt-data
 SENSOR_DATA_DIR=/mnt/data
 LEGACY_NEW_APP_MARKER=/kvmapp/kvm_new_app
@@ -316,6 +322,10 @@ stop_hwmon_shadow() {
 
 stop_system_update_watchdog() {
     stop_pid_file "$SYSTEM_UPDATE_WATCHDOG_PID_FILE"
+}
+
+stop_app_update_watchdog() {
+    stop_pid_file "$APP_UPDATE_WATCHDOG_PID_FILE"
 }
 
 cleanup_server_backups() {
@@ -700,7 +710,67 @@ start_system_update_watchdog() {
     echo $! > "$SYSTEM_UPDATE_WATCHDOG_PID_FILE"
 }
 
+# The server writes the pending file when it installs an application update; it names the
+# version it installed. The update stands once that version's server answers; otherwise the
+# previous application, kept in /root/old, comes back. One attempt only.
+app_update_healthy() {
+    [ -f "$APP_UPDATE_PENDING_FILE" ] || return 1
+    expected="$(json_string_value "$APP_UPDATE_PENDING_FILE" version)"
+    [ -n "$expected" ] || return 1
+    [ "$(cat "$APP_DIR/version" 2>/dev/null)" = "$expected" ] || return 1
+    server_is_running || return 1
+    health_check 5
+}
+
+rollback_app_update() {
+    failed="$(json_string_value "$APP_UPDATE_PENDING_FILE" version)"
+    runtime_log "application update to ${failed:-unknown} is not healthy; restoring the previous application"
+    rm -f "$APP_UPDATE_PENDING_FILE"
+
+    if [ ! -d "$APP_BACKUP_DIR" ]; then
+        runtime_log "no previous application in $APP_BACKUP_DIR to restore"
+        return 1
+    fi
+    rm -rf "$APP_FAILED_DIR"
+    if ! mv "$APP_DIR" "$APP_FAILED_DIR"; then
+        runtime_log "could not move the failed application aside"
+        return 1
+    fi
+    if ! mv "$APP_BACKUP_DIR" "$APP_DIR"; then
+        mv "$APP_FAILED_DIR" "$APP_DIR" 2>/dev/null
+        runtime_log "could not restore the previous application"
+        return 1
+    fi
+
+    runtime_log "restored the previous application; restarting"
+    # detached: the restart stops this watchdog
+    ( sleep 1; "$INIT_SELF" restart ) >/dev/null 2>&1 &
+}
+
+start_app_update_watchdog() {
+    [ -f "$APP_UPDATE_PENDING_FILE" ] || return
+    [ -f "$APP_UPDATE_WATCHDOG_PID_FILE" ] && kill -0 "$(cat "$APP_UPDATE_WATCHDOG_PID_FILE" 2>/dev/null)" 2>/dev/null && return
+
+    (
+        runtime_log "application update pending; waiting for the server to be healthy"
+
+        for _ in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do
+            sleep 10
+            [ -f "$APP_UPDATE_PENDING_FILE" ] || exit 0
+            if app_update_healthy; then
+                rm -f "$APP_UPDATE_PENDING_FILE"
+                runtime_log "application update is healthy"
+                exit 0
+            fi
+        done
+
+        rollback_app_update
+    ) &
+    echo $! > "$APP_UPDATE_WATCHDOG_PID_FILE"
+}
+
 stop_runtime() {
+    stop_app_update_watchdog
     stop_system_update_watchdog
     stop_watchdog
     stop_hwmon_shadow
@@ -724,6 +794,7 @@ start_runtime() {
     start_server_runtime
     start_watchdog
     start_system_update_watchdog
+    start_app_update_watchdog
     start_hwmon_shadow
 }
 
