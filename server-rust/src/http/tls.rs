@@ -179,6 +179,11 @@ impl CertResolver {
             .map_err(|err| AppError::Config(format!("failed to configure TLS certificate: {err}")))
     }
 
+    /// Check that a certificate and key load and match, without serving them.
+    pub fn check(cert_path: impl AsRef<Path>, key_path: impl AsRef<Path>) -> Result<()> {
+        Self::load(cert_path.as_ref(), key_path.as_ref()).map(drop)
+    }
+
     /// Read a new certificate and key; on any error the current one stays in use.
     pub fn reload(&self, cert_path: impl AsRef<Path>, key_path: impl AsRef<Path>) -> Result<()> {
         let loaded = Self::load(cert_path.as_ref(), key_path.as_ref())?;

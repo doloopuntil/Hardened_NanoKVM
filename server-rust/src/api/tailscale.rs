@@ -1,7 +1,7 @@
 use axum::{Json, response::IntoResponse};
 use serde::{Deserialize, Serialize};
 use std::{
-    ffi::OsString,
+    ffi::{OsStr, OsString},
     fs,
     os::unix::fs::PermissionsExt,
     path::{Path, PathBuf},
@@ -13,6 +13,7 @@ use tokio::task;
 use crate::{
     AppError, Result,
     error::ApiResponse,
+    http::{cert_store, tls::CertResolver},
     system::command::{self, AllowedCommand},
     update::archive::extract_tar_gz_safe,
 };
@@ -29,6 +30,7 @@ const GO_MEM_LIMIT_FILE: &str = "/etc/kvm/GOMEMLIMIT";
 const GO_MEM_LIMIT_FOR_TAILSCALE: &str = "75\n";
 const TAILSCALE_STATUS_TIMEOUT: Duration = Duration::from_secs(5);
 const TAILSCALE_COMMAND_TIMEOUT: Duration = Duration::from_secs(30);
+const TAILSCALE_CERT_TIMEOUT: Duration = Duration::from_secs(120);
 const TAILSCALE_INSTALL_TIMEOUT: Duration = Duration::from_secs(600);
 const TAILSCALE_LOGIN_TIMEOUT: Duration = Duration::from_secs(600);
 
@@ -63,12 +65,17 @@ struct RawTailscaleStatus {
     self_node: Option<RawTailscaleSelf>,
     #[serde(rename = "CurrentTailnet", default)]
     current_tailnet: Option<RawTailscaleTailnet>,
+    /// Names the tailnet can issue certificates for; empty while HTTPS is off for the tailnet.
+    #[serde(rename = "CertDomains", default)]
+    cert_domains: Option<Vec<String>>,
 }
 
 #[derive(Debug, Default, Deserialize)]
 struct RawTailscaleSelf {
     #[serde(rename = "HostName", default)]
     host_name: String,
+    #[serde(rename = "DNSName", default)]
+    dns_name: String,
     #[serde(rename = "TailscaleIPs", default)]
     tailscale_ips: Option<Vec<String>>,
 }
@@ -522,6 +529,104 @@ fn status_response(status: RawTailscaleStatus) -> GetTailscaleStatusRsp {
     }
 }
 
+/// The name this device gets a Tailscale certificate for, if the tailnet allows one.
+fn cert_domain_of(status: &RawTailscaleStatus) -> Option<String> {
+    let name = status
+        .self_node
+        .as_ref()?
+        .dns_name
+        .trim_end_matches('.')
+        .to_ascii_lowercase();
+    status
+        .cert_domains
+        .iter()
+        .flatten()
+        .any(|domain| domain.trim_end_matches('.').eq_ignore_ascii_case(&name))
+        .then_some(name)
+}
+
+/// The name for a Tailscale certificate: `None` while Tailscale is off, signed out, or HTTPS
+/// is not enabled for the tailnet.
+pub(crate) async fn cert_domain() -> Option<String> {
+    if !is_installed() {
+        return None;
+    }
+    let status = raw_status().await.ok()?;
+    if status.backend_state != "Running" {
+        return None;
+    }
+    cert_domain_of(&status)
+}
+
+/// Ask tailscaled for the certificate of `domain`; it writes the chain and the key to the two
+/// files. The first request can take a minute while the certificate is issued.
+pub(crate) async fn fetch_cert(domain: &str, cert_file: &Path, key_file: &Path) -> Result<()> {
+    let output = command::run_allowed(
+        AllowedCommand::Tailscale,
+        [
+            OsStr::new("cert"),
+            OsStr::new("--cert-file"),
+            cert_file.as_os_str(),
+            OsStr::new("--key-file"),
+            key_file.as_os_str(),
+            OsStr::new(domain),
+        ],
+        TAILSCALE_CERT_TIMEOUT,
+    )
+    .await?;
+    if output.status == 0 {
+        return Ok(());
+    }
+    let reason = String::from_utf8_lossy(&output.stderr);
+    Err(AppError::Internal(format!(
+        "tailscale cert failed: {}",
+        reason.trim()
+    )))
+}
+
+/// Get the Tailscale certificate and serve it from now on. Returns the name it is for and when
+/// it expires; the certificate in use stays if anything fails.
+pub(crate) async fn install_cert(
+    resolver: &std::sync::Arc<CertResolver>,
+) -> Result<(String, time::OffsetDateTime)> {
+    let domain = cert_domain().await.ok_or_else(|| {
+        AppError::Conflict(
+            "Tailscale is not running or HTTPS certificates are not enabled for the tailnet"
+                .to_string(),
+        )
+    })?;
+
+    let dir = Path::new(cert_store::CERT_DIR);
+    let (cert_file, key_file) = (dir.join("tailscale.crt.new"), dir.join("tailscale.key.new"));
+    let staged = {
+        let dir = dir.to_path_buf();
+        task::spawn_blocking(move || {
+            fs::create_dir_all(&dir)?;
+            fs::set_permissions(&dir, fs::Permissions::from_mode(0o700))
+        })
+        .await
+    };
+    staged
+        .map_err(|err| AppError::Internal(format!("prepare the certificate folder: {err}")))??;
+
+    let fetched = fetch_cert(&domain, &cert_file, &key_file).await;
+    let resolver = resolver.clone();
+    let (cert_staged, key_staged) = (cert_file.clone(), key_file.clone());
+    let installed = task::spawn_blocking(move || {
+        let result = fetched.and_then(|()| {
+            let cert = fs::read_to_string(&cert_staged)?;
+            let key = fs::read_to_string(&key_staged)?;
+            cert_store::install(&resolver, Path::new(cert_store::MANAGED_PEM), &cert, &key)
+        });
+        let _ = fs::remove_file(&cert_staged);
+        let _ = fs::remove_file(&key_staged);
+        result
+    })
+    .await
+    .map_err(|err| AppError::Internal(format!("install the certificate: {err}")))??;
+    Ok((domain, installed))
+}
+
 fn first_ipv4(ips: &[String]) -> Option<String> {
     ips.iter().find_map(|ip| match ip.parse::<IpAddr>().ok()? {
         IpAddr::V4(ip) => Some(ip.to_string()),
@@ -642,6 +747,29 @@ mod tests {
         assert_eq!(parsed.name, "kvm-bd3e");
         assert_eq!(parsed.ip, "100.64.1.2");
         assert_eq!(parsed.account, "example.ts.net");
+    }
+
+    fn status_with(dns_name: &str, cert_domains: &str) -> RawTailscaleStatus {
+        parse_raw_status_output(
+            format!(
+                r#"{{"BackendState":"Running","Self":{{"DNSName":"{dns_name}"}},"CertDomains":{cert_domains}}}"#
+            )
+            .as_bytes(),
+        )
+        .unwrap()
+    }
+
+    #[test]
+    fn a_certificate_name_needs_https_enabled_for_the_tailnet() {
+        let name = |dns, domains| cert_domain_of(&status_with(dns, domains));
+        assert_eq!(
+            name("Kvm.tail1.ts.net.", r#"["kvm.tail1.ts.net"]"#).as_deref(),
+            Some("kvm.tail1.ts.net")
+        );
+        assert_eq!(name("kvm.tail1.ts.net.", "null"), None);
+        assert_eq!(name("kvm.tail1.ts.net.", "[]"), None);
+        assert_eq!(name("kvm.tail1.ts.net.", r#"["other.tail1.ts.net"]"#), None);
+        assert_eq!(name("", r#"["kvm.tail1.ts.net"]"#), None);
     }
 
     #[test]
