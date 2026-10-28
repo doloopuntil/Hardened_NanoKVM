@@ -13,6 +13,7 @@ For people running the device.
 - [Updates](guide/updates.md): application and system updates (channels for 0.4.0 pending)
 - [Sign-in and two-factor](guide/sign-in.md)
 - [Firewall modes](guide/firewall.md)
+- [HTTPS certificate](guide/https-certificate.md): Tailscale or Let's Encrypt instead of the self-signed one
 - [WireGuard](guide/wireguard.md)
 - [Tailscale](guide/tailscale.md)
 - [Virtual media](guide/virtual-media.md): mounting images, the virtual disk, uploads and downloads

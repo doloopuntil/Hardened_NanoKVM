@@ -532,7 +532,47 @@ const de = {
           confirmKeep: 'Beibehalten',
           confirmRevert: 'Zurück',
           reverting:
-            'Zurück zum vorherigen Protokoll. Der Browser wechselt nach {{seconds}} Sekunden zu dieser Adresse.'
+            'Zurück zum vorherigen Protokoll. Der Browser wechselt nach {{seconds}} Sekunden zu dieser Adresse.',
+          certTitle: 'Neues Zertifikat beibehalten?',
+          certDesc:
+            'Der Server verwendet jetzt das neue Zertifikat. Er kehrt in {{seconds}} Sekunden zum vorherigen zurück, wenn Sie es nicht beibehalten.',
+          certReverted: 'Das vorherige Zertifikat ist wieder aktiv'
+        },
+        certificate: {
+          title: 'Zertifikat',
+          desc: 'Woher das HTTPS-Zertifikat stammt',
+          requesting: 'Zertifikat wird angefordert',
+          selfSigned: 'Selbstsigniert',
+          domain: 'Domain',
+          domainDesc:
+            'Muss auf dieses Gerät zeigen, und Port 443 muss aus dem Internet erreichbar sein',
+          domainTailscale: 'Von Tailscale für dieses Gerät festgelegt',
+          domainInvalid: 'Vollständigen Domainnamen verwenden, zum Beispiel kvm.example.org',
+          email: 'E-Mail',
+          emailDesc: "Optional, für Hinweise von Let's Encrypt",
+          emailInvalid: 'Adresse wie name@example.org verwenden',
+          validUntil: 'Gültig bis',
+          valid: 'Gültig',
+          expiresSoon: 'Läuft bald ab',
+          expired: 'Abgelaufen',
+          lastRenewal: 'Letzte Erneuerung',
+          renewed: 'Erneuert',
+          failed: 'Fehlgeschlagen',
+          renewNow: 'Jetzt erneuern',
+          renewNowDesc: 'Neues Zertifikat ohne Warten anfordern',
+          renewBtn: 'Erneuern',
+          applyTitle: 'Zertifikat ändern',
+          applyOk: 'Anwenden',
+          applyAcme:
+            "Das Gerät fordert bei Let's Encrypt ein Zertifikat an. Let's Encrypt verbindet sich zur Prüfung aus dem Internet mit Port 443, was bis zu einer Minute dauern kann. Schlägt die Anfrage fehl, bleibt das aktuelle Zertifikat in Gebrauch.",
+          applyTailscale:
+            'Das Gerät holt ein Zertifikat von Tailscale, was bis zu einer Minute dauern kann. Schlägt die Anfrage fehl, bleibt das aktuelle Zertifikat in Gebrauch.',
+          applySelfSigned:
+            'Das Gerät kehrt zu seinem eigenen selbstsignierten Zertifikat zurück. Browser warnen davor.',
+          openTitle: 'Neue Adresse öffnen',
+          openDesc:
+            'Das Zertifikat ist bereit. Öffnen Sie die Adresse unten und melden Sie sich an, um es beizubehalten. Ohne Ihre Bestätigung innerhalb von 3 Minuten kehrt das vorherige Zertifikat zurück.',
+          openOk: 'Öffnen'
         },
         dns: {
           title: 'DNS',
@@ -646,7 +686,7 @@ const de = {
           performance: 'Leistung',
           monitor: 'Überwachung',
           services: 'Dienste',
-          webInterface: 'Weboberfläche'
+          webInterface: 'Sicherer Webzugang'
         },
         time: {
           saveFailed: 'Zeiteinstellungen konnten nicht gespeichert werden',

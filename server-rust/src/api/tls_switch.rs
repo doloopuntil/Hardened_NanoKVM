@@ -60,6 +60,8 @@ pub struct CertUndo {
 pub struct PendingRsp {
     pub pending: bool,
     pub seconds_left: u64,
+    /// The change is a new certificate, not a protocol.
+    pub certificate: bool,
 }
 
 impl Pending {
@@ -215,7 +217,9 @@ fn revert_cert(pending: &Pending, undo: &CertUndo) -> Result<()> {
 }
 
 pub async fn get_pending() -> Result<impl IntoResponse> {
+    let marker = read_pending(Path::new(PENDING_FILE));
     let pending = Path::new(PENDING_FILE).exists();
+    let certificate = marker.is_some_and(|marker| marker.cert.is_some());
     let seconds_left = DEADLINE
         .lock()
         .unwrap_or_else(|err| err.into_inner())
@@ -225,6 +229,7 @@ pub async fn get_pending() -> Result<impl IntoResponse> {
     Ok(Json(ApiResponse::ok(PendingRsp {
         pending,
         seconds_left: if pending { seconds_left } else { 0 },
+        certificate,
     })))
 }
 

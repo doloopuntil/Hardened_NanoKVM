@@ -13,6 +13,7 @@ import { SystemLog } from '../system-log';
 import { Update } from '../update';
 import type { SystemActionHandle, SystemActionState } from './action';
 import { idleSystemActionState } from './action';
+import { Certificate } from './certificate';
 import { Clocks } from './clocks';
 import { FirewallSettings } from './firewall';
 import { Mdns } from './mdns';
@@ -47,6 +48,7 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
   const networkRef = useRef<SystemActionHandle>(null);
   const timeRef = useRef<SystemActionHandle>(null);
   const systemLogRef = useRef<SystemActionHandle>(null);
+  const servicesRef = useRef<SystemActionHandle>(null);
 
   const updateActionState = useCallback((state: SystemActionState) => {
     setActionState(state);
@@ -67,6 +69,10 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
     }
     if (section === 'systemLog') {
       void systemLogRef.current?.save();
+      return;
+    }
+    if (section === 'services') {
+      void servicesRef.current?.save();
     }
   }
 
@@ -116,6 +122,7 @@ export const System = ({ section, setIsLocked }: SystemProps) => {
             <div className="flex flex-col space-y-6">
               <SettingSection title={t('settings.system.sections.webInterface')}>
                 <Tls />
+                <Certificate ref={servicesRef} onActionStateChange={updateActionState} />
               </SettingSection>
 
               <Divider className="opacity-50" />

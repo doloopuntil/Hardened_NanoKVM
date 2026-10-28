@@ -520,7 +520,46 @@ const vi = {
           confirmKeep: 'Giữ',
           confirmRevert: 'Quay lại',
           reverting:
-            'Đang quay lại giao thức trước. Trình duyệt sẽ chuyển sang địa chỉ đó sau {{seconds}} giây.'
+            'Đang quay lại giao thức trước. Trình duyệt sẽ chuyển sang địa chỉ đó sau {{seconds}} giây.',
+          certTitle: 'Giữ chứng chỉ mới?',
+          certDesc:
+            'Máy chủ hiện dùng chứng chỉ mới. Nếu bạn không giữ, nó sẽ quay lại chứng chỉ trước sau {{seconds}} giây.',
+          certReverted: 'Chứng chỉ trước đã được khôi phục'
+        },
+        certificate: {
+          title: 'Chứng chỉ',
+          desc: 'Nguồn gốc của chứng chỉ HTTPS',
+          requesting: 'Đang yêu cầu chứng chỉ',
+          selfSigned: 'Tự ký',
+          domain: 'Tên miền',
+          domainDesc: 'Phải trỏ đến thiết bị này, với cổng 443 truy cập được từ internet',
+          domainTailscale: 'Do Tailscale đặt cho thiết bị này',
+          domainInvalid: 'Dùng tên miền đầy đủ, ví dụ kvm.example.org',
+          email: 'Email',
+          emailDesc: "Tùy chọn, để nhận thông báo từ Let's Encrypt",
+          emailInvalid: 'Dùng địa chỉ dạng name@example.org',
+          validUntil: 'Có hiệu lực đến',
+          valid: 'Hợp lệ',
+          expiresSoon: 'Sắp hết hạn',
+          expired: 'Đã hết hạn',
+          lastRenewal: 'Lần gia hạn gần nhất',
+          renewed: 'Đã gia hạn',
+          failed: 'Thất bại',
+          renewNow: 'Gia hạn ngay',
+          renewNowDesc: 'Yêu cầu chứng chỉ mới mà không cần chờ',
+          renewBtn: 'Gia hạn',
+          applyTitle: 'Đổi chứng chỉ',
+          applyOk: 'Áp dụng',
+          applyAcme:
+            "Thiết bị yêu cầu chứng chỉ từ Let's Encrypt. Let's Encrypt kết nối đến cổng 443 từ internet để kiểm tra, việc này có thể mất tới một phút. Nếu yêu cầu thất bại, chứng chỉ hiện tại vẫn được dùng.",
+          applyTailscale:
+            'Thiết bị lấy chứng chỉ từ Tailscale, việc này có thể mất tới một phút. Nếu yêu cầu thất bại, chứng chỉ hiện tại vẫn được dùng.',
+          applySelfSigned:
+            'Thiết bị quay lại chứng chỉ tự ký của chính nó. Trình duyệt sẽ cảnh báo về chứng chỉ này.',
+          openTitle: 'Mở địa chỉ mới',
+          openDesc:
+            'Chứng chỉ đã sẵn sàng. Hãy mở địa chỉ bên dưới và đăng nhập để giữ nó. Nếu bạn không xác nhận trong 3 phút, chứng chỉ trước sẽ quay lại.',
+          openOk: 'Mở'
         },
         dns: {
           title: 'DNS',
@@ -634,7 +673,7 @@ const vi = {
           performance: 'Hiệu năng',
           monitor: 'Giám sát',
           services: 'Dịch vụ',
-          webInterface: 'Giao diện web'
+          webInterface: 'Truy cập web an toàn'
         },
         time: {
           saveFailed: 'Không thể lưu cài đặt thời gian',

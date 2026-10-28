@@ -521,7 +521,46 @@ const cz = {
           confirmKeep: 'Ponechat',
           confirmRevert: 'Vrátit zpět',
           reverting:
-            'Vrací se předchozí protokol. Prohlížeč se na tuto adresu přepne po {{seconds}} sekundách.'
+            'Vrací se předchozí protokol. Prohlížeč se na tuto adresu přepne po {{seconds}} sekundách.',
+          certTitle: 'Ponechat nový certifikát?',
+          certDesc:
+            'Server nyní používá nový certifikát. Pokud ho neponecháte, za {{seconds}} sekund se vrátí k předchozímu.',
+          certReverted: 'Předchozí certifikát je zpět'
+        },
+        certificate: {
+          title: 'Certifikát',
+          desc: 'Odkud pochází certifikát HTTPS',
+          requesting: 'Žádost o certifikát probíhá',
+          selfSigned: 'Podepsaný sám sebou',
+          domain: 'Doména',
+          domainDesc: 'Musí odkazovat na toto zařízení a port 443 musí být dostupný z internetu',
+          domainTailscale: 'Nastaveno službou Tailscale pro toto zařízení',
+          domainInvalid: 'Použijte úplný název domény, například kvm.example.org',
+          email: 'E-mail',
+          emailDesc: "Volitelné, pro oznámení od Let's Encrypt",
+          emailInvalid: 'Použijte adresu ve tvaru jmeno@example.org',
+          validUntil: 'Platný do',
+          valid: 'Platný',
+          expiresSoon: 'Brzy vyprší',
+          expired: 'Vypršel',
+          lastRenewal: 'Poslední obnovení',
+          renewed: 'Obnoveno',
+          failed: 'Selhalo',
+          renewNow: 'Obnovit nyní',
+          renewNowDesc: 'Vyžádat nový certifikát bez čekání',
+          renewBtn: 'Obnovit',
+          applyTitle: 'Změnit certifikát',
+          applyOk: 'Použít',
+          applyAcme:
+            "Zařízení žádá Let's Encrypt o certifikát. Let's Encrypt se kvůli ověření připojí z internetu k portu 443, což může trvat až minutu. Pokud žádost selže, zůstane v používání stávající certifikát.",
+          applyTailscale:
+            'Zařízení získá certifikát od služby Tailscale, což může trvat až minutu. Pokud žádost selže, zůstane v používání stávající certifikát.',
+          applySelfSigned:
+            'Zařízení se vrátí ke svému vlastnímu certifikátu podepsanému sám sebou. Prohlížeče na něj upozorňují.',
+          openTitle: 'Otevřít novou adresu',
+          openDesc:
+            'Certifikát je připraven. Otevřete níže uvedenou adresu a přihlaste se, abyste ho ponechali. Bez vašeho potvrzení do 3 minut se vrátí předchozí certifikát.',
+          openOk: 'Otevřít'
         },
         dns: {
           title: 'DNS',
@@ -635,7 +674,7 @@ const cz = {
           performance: 'Výkon',
           monitor: 'Monitor',
           services: 'Služby',
-          webInterface: 'Webové rozhraní'
+          webInterface: 'Zabezpečený webový přístup'
         },
         time: {
           saveFailed: 'Nepodařilo se uložit nastavení času',

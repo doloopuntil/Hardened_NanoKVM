@@ -516,7 +516,45 @@ const ko = {
           confirmKeep: '유지',
           confirmRevert: '되돌리기',
           reverting:
-            '이전 프로토콜로 되돌리는 중입니다. 브라우저는 {{seconds}}초 후 해당 주소로 전환됩니다.'
+            '이전 프로토콜로 되돌리는 중입니다. 브라우저는 {{seconds}}초 후 해당 주소로 전환됩니다.',
+          certTitle: '새 인증서를 유지할까요?',
+          certDesc:
+            '서버가 이제 새 인증서를 사용합니다. 유지하지 않으면 {{seconds}}초 후 이전 인증서로 돌아갑니다.',
+          certReverted: '이전 인증서가 복원되었습니다'
+        },
+        certificate: {
+          title: '인증서',
+          desc: 'HTTPS 인증서의 출처',
+          requesting: '인증서를 요청하는 중',
+          selfSigned: '자체 서명',
+          domain: '도메인',
+          domainDesc: '이 장치를 가리켜야 하며 포트 443에 인터넷에서 접근할 수 있어야 합니다',
+          domainTailscale: '이 장치에 대해 Tailscale이 설정함',
+          domainInvalid: '전체 도메인 이름을 사용하세요, 예: kvm.example.org',
+          email: '이메일',
+          emailDesc: "선택 사항, Let's Encrypt 알림용",
+          emailInvalid: '이메일 주소를 name@example.org 형식으로 입력하세요',
+          validUntil: '유효 기간',
+          valid: '유효',
+          expiresSoon: '곧 만료',
+          expired: '만료됨',
+          lastRenewal: '마지막 갱신',
+          renewed: '갱신됨',
+          failed: '실패',
+          renewNow: '지금 갱신',
+          renewNowDesc: '기다리지 않고 새 인증서 요청',
+          renewBtn: '갱신',
+          applyTitle: '인증서 변경',
+          applyOk: '적용',
+          applyAcme:
+            "장치가 Let's Encrypt에 인증서를 요청합니다. Let's Encrypt는 확인을 위해 인터넷에서 포트 443에 연결하며 최대 1분이 걸릴 수 있습니다. 요청이 실패하면 현재 인증서를 계속 사용합니다.",
+          applyTailscale:
+            '장치가 Tailscale에서 인증서를 받아 옵니다. 최대 1분이 걸릴 수 있습니다. 요청이 실패하면 현재 인증서를 계속 사용합니다.',
+          applySelfSigned: '장치가 자체 서명 인증서로 돌아갑니다. 브라우저에 경고가 표시됩니다.',
+          openTitle: '새 주소 열기',
+          openDesc:
+            '인증서가 준비되었습니다. 아래 주소를 열고 로그인하여 유지하세요. 3분 안에 확인하지 않으면 이전 인증서로 돌아갑니다.',
+          openOk: '열기'
         },
         dns: {
           title: 'DNS',
@@ -629,7 +667,7 @@ const ko = {
           performance: '성능',
           monitor: '모니터',
           services: '서비스',
-          webInterface: '웹 인터페이스'
+          webInterface: '보안 웹 접속'
         },
         time: {
           saveFailed: '시간 설정을 저장하지 못했습니다',

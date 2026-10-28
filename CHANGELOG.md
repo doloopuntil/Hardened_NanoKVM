@@ -9,6 +9,9 @@ Built on RC12; the image is rebuilt from source in CI. Not yet published.
 ### Added
 
 - WireGuard tunnel to one peer, with firewall rules for the tunnel.
+- HTTPS certificate from Tailscale or Let's Encrypt (TLS-ALPN-01), renewed in the
+  background without a restart, with a way back if the new one is not confirmed.
+  The firewall opens the HTTPS port to the internet only while an order runs.
 - TOTP two-factor sign-in with backup codes and a require policy.
 - HID-only mode switch, keyboard lock LEDs, HDMI signal state and capture idle
   timeout.

@@ -526,7 +526,46 @@ const ca = {
           confirmKeep: 'Mantén',
           confirmRevert: 'Torna enrere',
           reverting:
-            'Es torna al protocol anterior. El navegador canviarà a aquesta adreça al cap de {{seconds}} segons.'
+            'Es torna al protocol anterior. El navegador canviarà a aquesta adreça al cap de {{seconds}} segons.',
+          certTitle: 'Voleu mantenir el nou certificat?',
+          certDesc:
+            "El servidor ara utilitza el nou certificat. Torna a l'anterior d'aquí a {{seconds}} segons si no el manteniu.",
+          certReverted: 'El certificat anterior ha tornat'
+        },
+        certificate: {
+          title: 'Certificat',
+          desc: "D'on prové el certificat HTTPS",
+          requesting: "S'està sol·licitant el certificat",
+          selfSigned: 'Autosignat',
+          domain: 'Domini',
+          domainDesc: "Ha d'apuntar a aquest dispositiu, amb el port 443 accessible des d'Internet",
+          domainTailscale: 'Definit per Tailscale per a aquest dispositiu',
+          domainInvalid: 'Feu servir un nom de domini complet, per exemple kvm.example.org',
+          email: 'Correu electrònic',
+          emailDesc: "Opcional, per als avisos de Let's Encrypt",
+          emailInvalid: 'Feu servir una adreça com nom@example.org',
+          validUntil: 'Vàlid fins al',
+          valid: 'Vàlid',
+          expiresSoon: 'Caduca aviat',
+          expired: 'Caducat',
+          lastRenewal: 'Última renovació',
+          renewed: 'Renovat',
+          failed: 'Ha fallat',
+          renewNow: 'Renova ara',
+          renewNowDesc: 'Sol·licita un nou certificat sense esperar',
+          renewBtn: 'Renova',
+          applyTitle: 'Canvia el certificat',
+          applyOk: 'Aplica',
+          applyAcme:
+            "El dispositiu sol·licita un certificat a Let's Encrypt. Let's Encrypt es connecta al port 443 des d'Internet per comprovar-lo, cosa que pot trigar fins a un minut. Si la sol·licitud falla, el certificat actual continua en ús.",
+          applyTailscale:
+            'El dispositiu obté un certificat de Tailscale, cosa que pot trigar fins a un minut. Si la sol·licitud falla, el certificat actual continua en ús.',
+          applySelfSigned:
+            'El dispositiu torna al seu propi certificat autosignat. Els navegadors mostren un avís.',
+          openTitle: "Obre l'adreça nova",
+          openDesc:
+            "El certificat està a punt. Obriu l'adreça de sota i inicieu la sessió per mantenir-lo. Sense la vostra confirmació en 3 minuts, torna el certificat anterior.",
+          openOk: 'Obre'
         },
         dns: {
           title: 'DNS',
@@ -641,7 +680,7 @@ const ca = {
           performance: 'Rendiment',
           monitor: 'Monitor',
           services: 'Serveis',
-          webInterface: 'Interfície web'
+          webInterface: 'Accés web segur'
         },
         time: {
           saveFailed: "No s'han pogut desar els paràmetres d'hora",

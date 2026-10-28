@@ -526,7 +526,46 @@ const se = {
           confirmKeep: 'Behåll',
           confirmRevert: 'Gå tillbaka',
           reverting:
-            'Går tillbaka till det tidigare protokollet. Webbläsaren byter till den adressen efter {{seconds}} sekunder.'
+            'Går tillbaka till det tidigare protokollet. Webbläsaren byter till den adressen efter {{seconds}} sekunder.',
+          certTitle: 'Behålla det nya certifikatet?',
+          certDesc:
+            'Servern använder nu det nya certifikatet. Den går tillbaka till det förra om {{seconds}} sekunder om du inte behåller det.',
+          certReverted: 'Det förra certifikatet är tillbaka'
+        },
+        certificate: {
+          title: 'Certifikat',
+          desc: 'Varifrån HTTPS-certifikatet kommer',
+          requesting: 'Begär certifikatet',
+          selfSigned: 'Självsignerat',
+          domain: 'Domän',
+          domainDesc: 'Måste peka på den här enheten, och port 443 måste vara nåbar från internet',
+          domainTailscale: 'Anges av Tailscale för den här enheten',
+          domainInvalid: 'Använd ett fullständigt domännamn, till exempel kvm.example.org',
+          email: 'E-post',
+          emailDesc: "Valfritt, för meddelanden från Let's Encrypt",
+          emailInvalid: 'Använd en adress som namn@example.org',
+          validUntil: 'Giltigt till',
+          valid: 'Giltigt',
+          expiresSoon: 'Går snart ut',
+          expired: 'Utgånget',
+          lastRenewal: 'Senaste förnyelse',
+          renewed: 'Förnyat',
+          failed: 'Misslyckades',
+          renewNow: 'Förnya nu',
+          renewNowDesc: 'Begär ett nytt certifikat utan att vänta',
+          renewBtn: 'Förnya',
+          applyTitle: 'Ändra certifikat',
+          applyOk: 'Tillämpa',
+          applyAcme:
+            "Enheten begär ett certifikat från Let's Encrypt. Let's Encrypt ansluter till port 443 från internet för att kontrollera det, vilket kan ta upp till en minut. Om begäran misslyckas används det nuvarande certifikatet fortfarande.",
+          applyTailscale:
+            'Enheten hämtar ett certifikat från Tailscale, vilket kan ta upp till en minut. Om begäran misslyckas används det nuvarande certifikatet fortfarande.',
+          applySelfSigned:
+            'Enheten går tillbaka till sitt eget självsignerade certifikat. Webbläsare varnar för det.',
+          openTitle: 'Öppna den nya adressen',
+          openDesc:
+            'Certifikatet är klart. Öppna adressen nedan och logga in för att behålla det. Utan din bekräftelse inom 3 minuter kommer det förra certifikatet tillbaka.',
+          openOk: 'Öppna'
         },
         dns: {
           title: 'DNS',
@@ -640,7 +679,7 @@ const se = {
           performance: 'Prestanda',
           monitor: 'Övervakning',
           services: 'Tjänster',
-          webInterface: 'Webbgränssnitt'
+          webInterface: 'Säker webbåtkomst'
         },
         time: {
           saveFailed: 'Kunde inte spara tidsinställningar',

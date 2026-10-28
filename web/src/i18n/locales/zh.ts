@@ -501,7 +501,44 @@ const zh = {
             '服务器现在使用 {{protocol}}。如果不保留，将在 {{seconds}} 秒后恢复为之前的协议。',
           confirmKeep: '保留',
           confirmRevert: '返回',
-          reverting: '正在恢复为之前的协议。浏览器将在 {{seconds}} 秒后切换到该地址。'
+          reverting: '正在恢复为之前的协议。浏览器将在 {{seconds}} 秒后切换到该地址。',
+          certTitle: '保留新证书？',
+          certDesc: '服务器现在使用新证书。如果不保留，将在 {{seconds}} 秒后恢复为之前的证书。',
+          certReverted: '已恢复之前的证书'
+        },
+        certificate: {
+          title: '证书',
+          desc: 'HTTPS 证书的来源',
+          requesting: '正在申请证书',
+          selfSigned: '自签名',
+          domain: '域名',
+          domainDesc: '必须指向此设备，且端口 443 能从互联网访问',
+          domainTailscale: '由 Tailscale 为此设备设置',
+          domainInvalid: '请使用完整域名，例如 kvm.example.org',
+          email: '电子邮件',
+          emailDesc: "可选，用于接收 Let's Encrypt 的通知",
+          emailInvalid: '请使用类似 name@example.org 的地址',
+          validUntil: '有效期至',
+          valid: '有效',
+          expiresSoon: '即将过期',
+          expired: '已过期',
+          lastRenewal: '上次续期',
+          renewed: '已续期',
+          failed: '失败',
+          renewNow: '立即续期',
+          renewNowDesc: '无需等待，申请新证书',
+          renewBtn: '续期',
+          applyTitle: '更改证书',
+          applyOk: '应用',
+          applyAcme:
+            "设备向 Let's Encrypt 申请证书。Let's Encrypt 会从互联网连接端口 443 进行验证，这最多可能需要一分钟。如果申请失败，将继续使用当前证书。",
+          applyTailscale:
+            '设备从 Tailscale 获取证书，这最多可能需要一分钟。如果申请失败，将继续使用当前证书。',
+          applySelfSigned: '设备将恢复使用自己的自签名证书。浏览器会显示警告。',
+          openTitle: '打开新地址',
+          openDesc:
+            '证书已就绪。请打开下面的地址并登录以保留它。如果 3 分钟内未确认，将恢复为之前的证书。',
+          openOk: '打开'
         },
         dns: {
           title: 'DNS',
@@ -612,7 +649,7 @@ const zh = {
           performance: '性能',
           monitor: '监控',
           services: '服务',
-          webInterface: '网页界面'
+          webInterface: '安全网页访问'
         },
         time: {
           saveFailed: '保存时间设置失败',

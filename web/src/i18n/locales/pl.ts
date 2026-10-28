@@ -525,7 +525,46 @@ const pl = {
           confirmKeep: 'Zachowaj',
           confirmRevert: 'Cofnij',
           reverting:
-            'Powrót do poprzedniego protokołu. Przeglądarka przełączy się na ten adres po {{seconds}} sekundach.'
+            'Powrót do poprzedniego protokołu. Przeglądarka przełączy się na ten adres po {{seconds}} sekundach.',
+          certTitle: 'Zachować nowy certyfikat?',
+          certDesc:
+            'Serwer używa teraz nowego certyfikatu. Jeśli go nie zachowasz, za {{seconds}} sekund wróci do poprzedniego.',
+          certReverted: 'Poprzedni certyfikat wrócił'
+        },
+        certificate: {
+          title: 'Certyfikat',
+          desc: 'Skąd pochodzi certyfikat HTTPS',
+          requesting: 'Żądanie certyfikatu w toku',
+          selfSigned: 'Samopodpisany',
+          domain: 'Domena',
+          domainDesc: 'Musi wskazywać na to urządzenie, a port 443 musi być osiągalny z internetu',
+          domainTailscale: 'Ustawione przez Tailscale dla tego urządzenia',
+          domainInvalid: 'Użyj pełnej nazwy domeny, na przykład kvm.example.org',
+          email: 'E-mail',
+          emailDesc: "Opcjonalnie, dla powiadomień od Let's Encrypt",
+          emailInvalid: 'Użyj adresu takiego jak nazwa@example.org',
+          validUntil: 'Ważny do',
+          valid: 'Ważny',
+          expiresSoon: 'Wkrótce wygaśnie',
+          expired: 'Wygasł',
+          lastRenewal: 'Ostatnie odnowienie',
+          renewed: 'Odnowiono',
+          failed: 'Niepowodzenie',
+          renewNow: 'Odnów teraz',
+          renewNowDesc: 'Zażądaj nowego certyfikatu bez czekania',
+          renewBtn: 'Odnów',
+          applyTitle: 'Zmień certyfikat',
+          applyOk: 'Zastosuj',
+          applyAcme:
+            "Urządzenie prosi Let's Encrypt o certyfikat. Let's Encrypt łączy się z portem 443 z internetu, aby go sprawdzić, co może potrwać do minuty. Jeśli żądanie się nie powiedzie, nadal używany jest obecny certyfikat.",
+          applyTailscale:
+            'Urządzenie pobiera certyfikat z Tailscale, co może potrwać do minuty. Jeśli żądanie się nie powiedzie, nadal używany jest obecny certyfikat.',
+          applySelfSigned:
+            'Urządzenie wraca do własnego certyfikatu samopodpisanego. Przeglądarki ostrzegają przed nim.',
+          openTitle: 'Otwórz nowy adres',
+          openDesc:
+            'Certyfikat jest gotowy. Otwórz poniższy adres i zaloguj się, aby go zachować. Bez Twojego potwierdzenia w ciągu 3 minut wróci poprzedni certyfikat.',
+          openOk: 'Otwórz'
         },
         dns: {
           title: 'DNS',
@@ -639,7 +678,7 @@ const pl = {
           performance: 'Wydajność',
           monitor: 'Monitor',
           services: 'Usługi',
-          webInterface: 'Interfejs WWW'
+          webInterface: 'Bezpieczny dostęp WWW'
         },
         time: {
           saveFailed: 'Nie udało się zapisać ustawień czasu',

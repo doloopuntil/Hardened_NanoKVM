@@ -523,7 +523,46 @@ const da = {
           confirmKeep: 'Behold',
           confirmRevert: 'Gå tilbage',
           reverting:
-            'Går tilbage til den tidligere protokol. Browseren skifter til den adresse efter {{seconds}} sekunder.'
+            'Går tilbage til den tidligere protokol. Browseren skifter til den adresse efter {{seconds}} sekunder.',
+          certTitle: 'Behold det nye certifikat?',
+          certDesc:
+            'Serveren bruger nu det nye certifikat. Den vender tilbage til det forrige om {{seconds}} sekunder, medmindre du beholder det.',
+          certReverted: 'Det forrige certifikat er tilbage'
+        },
+        certificate: {
+          title: 'Certifikat',
+          desc: 'Hvor HTTPS-certifikatet kommer fra',
+          requesting: 'Anmoder om certifikatet',
+          selfSigned: 'Selvsigneret',
+          domain: 'Domæne',
+          domainDesc: 'Skal pege på denne enhed, og port 443 skal kunne nås fra internettet',
+          domainTailscale: 'Angivet af Tailscale til denne enhed',
+          domainInvalid: 'Brug et fuldt domænenavn, for eksempel kvm.example.org',
+          email: 'E-mail',
+          emailDesc: "Valgfri, til meddelelser fra Let's Encrypt",
+          emailInvalid: 'Brug en adresse som navn@example.org',
+          validUntil: 'Gyldigt til',
+          valid: 'Gyldigt',
+          expiresSoon: 'Udløber snart',
+          expired: 'Udløbet',
+          lastRenewal: 'Seneste fornyelse',
+          renewed: 'Fornyet',
+          failed: 'Mislykkedes',
+          renewNow: 'Forny nu',
+          renewNowDesc: 'Anmod om et nyt certifikat uden at vente',
+          renewBtn: 'Forny',
+          applyTitle: 'Skift certifikat',
+          applyOk: 'Anvend',
+          applyAcme:
+            "Enheden anmoder Let's Encrypt om et certifikat. Let's Encrypt forbinder til port 443 fra internettet for at kontrollere det, hvilket kan tage op til et minut. Hvis anmodningen mislykkes, bruges det nuværende certifikat fortsat.",
+          applyTailscale:
+            'Enheden henter et certifikat fra Tailscale, hvilket kan tage op til et minut. Hvis anmodningen mislykkes, bruges det nuværende certifikat fortsat.',
+          applySelfSigned:
+            'Enheden vender tilbage til sit eget selvsignerede certifikat. Browsere advarer om det.',
+          openTitle: 'Åbn den nye adresse',
+          openDesc:
+            'Certifikatet er klart. Åbn adressen nedenfor og log ind for at beholde det. Uden din bekræftelse inden for 3 minutter vender det forrige certifikat tilbage.',
+          openOk: 'Åbn'
         },
         dns: {
           title: 'DNS',
@@ -637,7 +676,7 @@ const da = {
           performance: 'Ydelse',
           monitor: 'Overvågning',
           services: 'Tjenester',
-          webInterface: 'Webgrænseflade'
+          webInterface: 'Sikker webadgang'
         },
         time: {
           saveFailed: 'Kunne ikke gemme tidsindstillinger',

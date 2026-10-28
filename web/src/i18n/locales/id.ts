@@ -526,7 +526,47 @@ const id = {
           confirmKeep: 'Pertahankan',
           confirmRevert: 'Kembali',
           reverting:
-            'Kembali ke protokol sebelumnya. Browser akan beralih ke alamat itu setelah {{seconds}} detik.'
+            'Kembali ke protokol sebelumnya. Browser akan beralih ke alamat itu setelah {{seconds}} detik.',
+          certTitle: 'Pertahankan sertifikat baru?',
+          certDesc:
+            'Server kini memakai sertifikat baru. Server kembali ke sertifikat sebelumnya dalam {{seconds}} detik kecuali Anda mempertahankannya.',
+          certReverted: 'Sertifikat sebelumnya kembali'
+        },
+        certificate: {
+          title: 'Sertifikat',
+          desc: 'Asal sertifikat HTTPS',
+          requesting: 'Meminta sertifikat',
+          selfSigned: 'Ditandatangani sendiri',
+          domain: 'Domain',
+          domainDesc:
+            'Harus mengarah ke perangkat ini, dengan port 443 dapat dijangkau dari internet',
+          domainTailscale: 'Ditetapkan oleh Tailscale untuk perangkat ini',
+          domainInvalid: 'Gunakan nama domain lengkap, misalnya kvm.example.org',
+          email: 'Email',
+          emailDesc: "Opsional, untuk pemberitahuan dari Let's Encrypt",
+          emailInvalid: 'Gunakan alamat seperti nama@example.org',
+          validUntil: 'Berlaku hingga',
+          valid: 'Berlaku',
+          expiresSoon: 'Segera kedaluwarsa',
+          expired: 'Kedaluwarsa',
+          lastRenewal: 'Pembaruan terakhir',
+          renewed: 'Diperbarui',
+          failed: 'Gagal',
+          renewNow: 'Perbarui sekarang',
+          renewNowDesc: 'Minta sertifikat baru tanpa menunggu',
+          renewBtn: 'Perbarui',
+          applyTitle: 'Ubah sertifikat',
+          applyOk: 'Terapkan',
+          applyAcme:
+            "Perangkat meminta sertifikat dari Let's Encrypt. Let's Encrypt terhubung ke port 443 dari internet untuk memeriksanya, yang dapat memakan waktu hingga satu menit. Jika permintaan gagal, sertifikat saat ini tetap dipakai.",
+          applyTailscale:
+            'Perangkat mengambil sertifikat dari Tailscale, yang dapat memakan waktu hingga satu menit. Jika permintaan gagal, sertifikat saat ini tetap dipakai.',
+          applySelfSigned:
+            'Perangkat kembali ke sertifikat tanda tangan sendiri miliknya. Peramban menampilkan peringatan.',
+          openTitle: 'Buka alamat baru',
+          openDesc:
+            'Sertifikat sudah siap. Buka alamat di bawah dan masuk untuk mempertahankannya. Tanpa konfirmasi Anda dalam 3 menit, sertifikat sebelumnya kembali.',
+          openOk: 'Buka'
         },
         dns: {
           title: 'DNS',
@@ -640,7 +680,7 @@ const id = {
           performance: 'Kinerja',
           monitor: 'Monitor',
           services: 'Layanan',
-          webInterface: 'Antarmuka web'
+          webInterface: 'Akses web aman'
         },
         time: {
           saveFailed: 'Gagal menyimpan pengaturan waktu',

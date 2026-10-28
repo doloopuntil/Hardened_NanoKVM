@@ -526,7 +526,46 @@ const ja = {
           confirmKeep: '維持',
           confirmRevert: '元に戻す',
           reverting:
-            '以前のプロトコルへ戻しています。{{seconds}} 秒後にブラウザーはそのアドレスへ切り替わります。'
+            '以前のプロトコルへ戻しています。{{seconds}} 秒後にブラウザーはそのアドレスへ切り替わります。',
+          certTitle: '新しい証明書を保持しますか？',
+          certDesc:
+            'サーバーは新しい証明書を使用しています。保持しない場合、{{seconds}}秒後に前の証明書に戻ります。',
+          certReverted: '前の証明書に戻りました'
+        },
+        certificate: {
+          title: '証明書',
+          desc: 'HTTPS証明書の入手元',
+          requesting: '証明書を要求しています',
+          selfSigned: '自己署名',
+          domain: 'ドメイン',
+          domainDesc: 'このデバイスを指し、ポート443にインターネットから到達できる必要があります',
+          domainTailscale: 'このデバイス用にTailscaleが設定',
+          domainInvalid: 'ドメイン名は kvm.example.org のように完全な形で入力してください',
+          email: 'メール',
+          emailDesc: "任意。Let's Encryptからの通知用",
+          emailInvalid: 'メールアドレスは name@example.org の形式で入力してください',
+          validUntil: '有効期限',
+          valid: '有効',
+          expiresSoon: 'まもなく期限切れ',
+          expired: '期限切れ',
+          lastRenewal: '前回の更新',
+          renewed: '更新済み',
+          failed: '失敗',
+          renewNow: '今すぐ更新',
+          renewNowDesc: '待たずに新しい証明書を要求',
+          renewBtn: '更新',
+          applyTitle: '証明書を変更',
+          applyOk: '適用',
+          applyAcme:
+            "デバイスはLet's Encryptに証明書を要求します。Let's Encryptは確認のためインターネットからポート443に接続し、最大1分かかることがあります。要求が失敗した場合は、現在の証明書がそのまま使用されます。",
+          applyTailscale:
+            'デバイスはTailscaleから証明書を取得します。最大1分かかることがあります。要求が失敗した場合は、現在の証明書がそのまま使用されます。',
+          applySelfSigned:
+            'デバイスは自身の自己署名証明書に戻ります。ブラウザーは警告を表示します。',
+          openTitle: '新しいアドレスを開く',
+          openDesc:
+            '証明書の準備ができました。下のアドレスを開いてサインインし、保持してください。3分以内に確認しない場合は、前の証明書に戻ります。',
+          openOk: '開く'
         },
         dns: {
           title: 'DNS',
@@ -639,7 +678,7 @@ const ja = {
           performance: 'パフォーマンス',
           monitor: 'モニター',
           services: 'サービス',
-          webInterface: 'Webインターフェース'
+          webInterface: '安全なWebアクセス'
         },
         time: {
           saveFailed: '時刻設定の保存に失敗しました',

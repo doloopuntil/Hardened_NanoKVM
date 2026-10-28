@@ -522,7 +522,47 @@ const tr = {
           confirmKeep: 'Koru',
           confirmRevert: 'Geri dön',
           reverting:
-            'Önceki protokole dönülüyor. Tarayıcı {{seconds}} saniye sonra o adrese geçecek.'
+            'Önceki protokole dönülüyor. Tarayıcı {{seconds}} saniye sonra o adrese geçecek.',
+          certTitle: 'Yeni sertifika korunsun mu?',
+          certDesc:
+            'Sunucu artık yeni sertifikayı kullanıyor. Siz korumazsanız {{seconds}} saniye sonra öncekine döner.',
+          certReverted: 'Önceki sertifika geri geldi'
+        },
+        certificate: {
+          title: 'Sertifika',
+          desc: 'HTTPS sertifikasının kaynağı',
+          requesting: 'Sertifika isteniyor',
+          selfSigned: 'Kendinden imzalı',
+          domain: 'Alan adı',
+          domainDesc:
+            'Bu cihazı göstermeli ve 443 numaralı bağlantı noktasına internetten erişilebilmeli',
+          domainTailscale: 'Bu cihaz için Tailscale tarafından belirlendi',
+          domainInvalid: 'Tam bir alan adı kullanın, örneğin kvm.example.org',
+          email: 'E-posta',
+          emailDesc: "İsteğe bağlı, Let's Encrypt bildirimleri için",
+          emailInvalid: 'E-posta olarak ad@example.org gibi bir adres kullanın',
+          validUntil: 'Geçerlilik sonu',
+          valid: 'Geçerli',
+          expiresSoon: 'Yakında dolacak',
+          expired: 'Süresi doldu',
+          lastRenewal: 'Son yenileme',
+          renewed: 'Yenilendi',
+          failed: 'Başarısız',
+          renewNow: 'Şimdi yenile',
+          renewNowDesc: 'Beklemeden yeni sertifika iste',
+          renewBtn: 'Yenile',
+          applyTitle: 'Sertifikayı değiştir',
+          applyOk: 'Uygula',
+          applyAcme:
+            "Cihaz Let's Encrypt'ten sertifika ister. Let's Encrypt doğrulamak için internetten 443 numaralı bağlantı noktasına bağlanır; bu bir dakikaya kadar sürebilir. İstek başarısız olursa mevcut sertifika kullanılmaya devam eder.",
+          applyTailscale:
+            "Cihaz Tailscale'den sertifika alır; bu bir dakikaya kadar sürebilir. İstek başarısız olursa mevcut sertifika kullanılmaya devam eder.",
+          applySelfSigned:
+            'Cihaz kendi kendinden imzalı sertifikasına döner. Tarayıcılar uyarı gösterir.',
+          openTitle: 'Yeni adresi aç',
+          openDesc:
+            'Sertifika hazır. Aşağıdaki adresi açın ve korumak için oturum açın. 3 dakika içinde onaylamazsanız önceki sertifika geri gelir.',
+          openOk: 'Aç'
         },
         dns: {
           title: 'DNS',
@@ -636,7 +676,7 @@ const tr = {
           performance: 'Performans',
           monitor: 'İzleme',
           services: 'Hizmetler',
-          webInterface: 'Web arayüzü'
+          webInterface: 'Güvenli web erişimi'
         },
         time: {
           saveFailed: 'Saat ayarları kaydedilemedi',

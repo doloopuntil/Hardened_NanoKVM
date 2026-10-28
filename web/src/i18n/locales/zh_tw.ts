@@ -502,7 +502,44 @@ const zh_tw = {
             '伺服器現在使用 {{protocol}}。如果不保留，將在 {{seconds}} 秒後恢復為先前的通訊協定。',
           confirmKeep: '保留',
           confirmRevert: '返回',
-          reverting: '正在恢復為先前的通訊協定。瀏覽器將在 {{seconds}} 秒後切換到該位址。'
+          reverting: '正在恢復為先前的通訊協定。瀏覽器將在 {{seconds}} 秒後切換到該位址。',
+          certTitle: '保留新憑證？',
+          certDesc: '伺服器現在使用新憑證。如果不保留，將在 {{seconds}} 秒後恢復為先前的憑證。',
+          certReverted: '已恢復先前的憑證'
+        },
+        certificate: {
+          title: '憑證',
+          desc: 'HTTPS 憑證的來源',
+          requesting: '正在申請憑證',
+          selfSigned: '自簽',
+          domain: '網域',
+          domainDesc: '必須指向此裝置，且連接埠 443 能從網際網路存取',
+          domainTailscale: '由 Tailscale 為此裝置設定',
+          domainInvalid: '請使用完整網域名稱，例如 kvm.example.org',
+          email: '電子郵件',
+          emailDesc: "選填，用於接收 Let's Encrypt 的通知",
+          emailInvalid: '請使用類似 name@example.org 的位址',
+          validUntil: '有效期限至',
+          valid: '有效',
+          expiresSoon: '即將到期',
+          expired: '已到期',
+          lastRenewal: '上次更新',
+          renewed: '已更新',
+          failed: '失敗',
+          renewNow: '立即更新',
+          renewNowDesc: '無需等待，申請新憑證',
+          renewBtn: '更新',
+          applyTitle: '變更憑證',
+          applyOk: '套用',
+          applyAcme:
+            "裝置向 Let's Encrypt 申請憑證。Let's Encrypt 會從網際網路連線到連接埠 443 進行驗證，這最多可能需要一分鐘。如果申請失敗，將繼續使用目前的憑證。",
+          applyTailscale:
+            '裝置從 Tailscale 取得憑證，這最多可能需要一分鐘。如果申請失敗，將繼續使用目前的憑證。',
+          applySelfSigned: '裝置將恢復使用自己的自簽憑證。瀏覽器會顯示警告。',
+          openTitle: '開啟新位址',
+          openDesc:
+            '憑證已就緒。請開啟下方的位址並登入以保留它。如果 3 分鐘內未確認，將恢復為先前的憑證。',
+          openOk: '開啟'
         },
         dns: {
           title: 'DNS',
@@ -613,7 +650,7 @@ const zh_tw = {
           performance: '效能',
           monitor: '監控',
           services: '服務',
-          webInterface: '網頁介面'
+          webInterface: '安全網頁存取'
         },
         time: {
           saveFailed: '儲存時間設定失敗',

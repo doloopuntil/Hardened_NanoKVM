@@ -530,7 +530,46 @@ const nl = {
           confirmKeep: 'Behouden',
           confirmRevert: 'Terug',
           reverting:
-            'Terug naar het vorige protocol. De browser schakelt na {{seconds}} seconden over naar dat adres.'
+            'Terug naar het vorige protocol. De browser schakelt na {{seconds}} seconden over naar dat adres.',
+          certTitle: 'Nieuw certificaat behouden?',
+          certDesc:
+            'De server gebruikt nu het nieuwe certificaat. Hij keert over {{seconds}} seconden terug naar het vorige als u het niet behoudt.',
+          certReverted: 'Het vorige certificaat is terug'
+        },
+        certificate: {
+          title: 'Certificaat',
+          desc: 'Waar het HTTPS-certificaat vandaan komt',
+          requesting: 'Certificaat wordt aangevraagd',
+          selfSigned: 'Zelfondertekend',
+          domain: 'Domein',
+          domainDesc: 'Moet naar dit apparaat wijzen, met poort 443 bereikbaar vanaf internet',
+          domainTailscale: 'Ingesteld door Tailscale voor dit apparaat',
+          domainInvalid: 'Gebruik een volledige domeinnaam, zoals kvm.example.org',
+          email: 'E-mail',
+          emailDesc: "Optioneel, voor berichten van Let's Encrypt",
+          emailInvalid: 'Gebruik een adres zoals naam@example.org',
+          validUntil: 'Geldig tot',
+          valid: 'Geldig',
+          expiresSoon: 'Verloopt binnenkort',
+          expired: 'Verlopen',
+          lastRenewal: 'Laatste verlenging',
+          renewed: 'Verlengd',
+          failed: 'Mislukt',
+          renewNow: 'Nu verlengen',
+          renewNowDesc: 'Een nieuw certificaat aanvragen zonder te wachten',
+          renewBtn: 'Verlengen',
+          applyTitle: 'Certificaat wijzigen',
+          applyOk: 'Toepassen',
+          applyAcme:
+            "Het apparaat vraagt een certificaat aan bij Let's Encrypt. Let's Encrypt maakt vanaf internet verbinding met poort 443 om het te controleren, wat tot een minuut kan duren. Als de aanvraag mislukt, blijft het huidige certificaat in gebruik.",
+          applyTailscale:
+            'Het apparaat haalt een certificaat op bij Tailscale, wat tot een minuut kan duren. Als de aanvraag mislukt, blijft het huidige certificaat in gebruik.',
+          applySelfSigned:
+            'Het apparaat keert terug naar zijn eigen zelfondertekende certificaat. Browsers waarschuwen daarvoor.',
+          openTitle: 'Nieuw adres openen',
+          openDesc:
+            'Het certificaat is klaar. Open het adres hieronder en meld u aan om het te behouden. Zonder uw bevestiging binnen 3 minuten komt het vorige certificaat terug.',
+          openOk: 'Openen'
         },
         dns: {
           title: 'DNS',
@@ -644,7 +683,7 @@ const nl = {
           performance: 'Prestaties',
           monitor: 'Monitor',
           services: 'Diensten',
-          webInterface: 'Webinterface'
+          webInterface: 'Beveiligde webtoegang'
         },
         time: {
           saveFailed: 'Kan tijdinstellingen niet opslaan',

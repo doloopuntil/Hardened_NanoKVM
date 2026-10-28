@@ -247,6 +247,55 @@ export function revertTls() {
   return http.post('/api/vm/tls/revert');
 }
 
+export type CertSource = 'selfSigned' | 'tailscale' | 'acme';
+
+export type CertInfo = {
+  httpsEnabled: boolean;
+  source: CertSource;
+  domain: string;
+  email: string;
+  status: {
+    notAfter: number | null;
+    lastAttempt: number | null;
+    lastSuccess: number | null;
+    lastError: string | null;
+    failures: number;
+    nextAttempt: number | null;
+  };
+  // a request for a certificate is running
+  busy: boolean;
+  // when the certificate in use expires, whichever source it has (unix seconds)
+  currentNotAfter: number | null;
+  tailscaleDomain: string | null;
+  // why a source cannot be used now
+  tailscaleBlocked: string | null;
+  acmeBlocked: string | null;
+  // where to open the interface once a managed certificate is in use
+  url: string | null;
+};
+
+// where the HTTPS certificate comes from, its expiry and the last renewal
+export function getCert() {
+  return http.get('/api/vm/cert');
+}
+
+// change the source; asks for the password and a second factor, then requests the certificate in
+// the background and waits for a confirmation like a protocol switch
+export function setCert(req: {
+  source: CertSource;
+  domain: string;
+  email: string;
+  password: string;
+  code?: string;
+}) {
+  return http.post('/api/vm/cert', req);
+}
+
+// request a new certificate for the current source now
+export function renewCert() {
+  return http.post('/api/vm/cert/renew');
+}
+
 // reboot
 export function reboot() {
   return http.post('/api/vm/system/reboot');

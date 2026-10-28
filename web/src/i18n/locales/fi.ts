@@ -525,7 +525,47 @@ const fi = {
           confirmKeep: 'Pidä',
           confirmRevert: 'Palaa takaisin',
           reverting:
-            'Palataan edelliseen protokollaan. Selain siirtyy siihen osoitteeseen {{seconds}} sekunnin kuluttua.'
+            'Palataan edelliseen protokollaan. Selain siirtyy siihen osoitteeseen {{seconds}} sekunnin kuluttua.',
+          certTitle: 'Säilytetäänkö uusi varmenne?',
+          certDesc:
+            'Palvelin käyttää nyt uutta varmennetta. Se palaa edelliseen {{seconds}} sekunnin kuluttua, ellet säilytä uutta.',
+          certReverted: 'Edellinen varmenne on takaisin'
+        },
+        certificate: {
+          title: 'Varmenne',
+          desc: 'Mistä HTTPS-varmenne tulee',
+          requesting: 'Varmennetta pyydetään',
+          selfSigned: 'Itse allekirjoitettu',
+          domain: 'Verkkotunnus',
+          domainDesc:
+            'Pitää osoittaa tähän laitteeseen, ja portin 443 pitää olla tavoitettavissa internetistä',
+          domainTailscale: 'Tailscalen tälle laitteelle määrittämä',
+          domainInvalid: 'Käytä koko verkkotunnusta, esimerkiksi kvm.example.org',
+          email: 'Sähköposti',
+          emailDesc: "Valinnainen, Let's Encryptin ilmoituksia varten",
+          emailInvalid: 'Käytä osoitetta, kuten nimi@example.org',
+          validUntil: 'Voimassa asti',
+          valid: 'Voimassa',
+          expiresSoon: 'Vanhenee pian',
+          expired: 'Vanhentunut',
+          lastRenewal: 'Viimeisin uusinta',
+          renewed: 'Uusittu',
+          failed: 'Epäonnistui',
+          renewNow: 'Uusi nyt',
+          renewNowDesc: 'Pyydä uusi varmenne odottamatta',
+          renewBtn: 'Uusi',
+          applyTitle: 'Vaihda varmenne',
+          applyOk: 'Käytä',
+          applyAcme:
+            "Laite pyytää varmennetta Let's Encryptiltä. Let's Encrypt ottaa tarkistusta varten yhteyden porttiin 443 internetistä, mikä voi kestää jopa minuutin. Jos pyyntö epäonnistuu, nykyinen varmenne pysyy käytössä.",
+          applyTailscale:
+            'Laite hakee varmenteen Tailscalelta, mikä voi kestää jopa minuutin. Jos pyyntö epäonnistuu, nykyinen varmenne pysyy käytössä.',
+          applySelfSigned:
+            'Laite palaa omaan itse allekirjoitettuun varmenteeseensa. Selaimet varoittavat siitä.',
+          openTitle: 'Avaa uusi osoite',
+          openDesc:
+            'Varmenne on valmis. Avaa alla oleva osoite ja kirjaudu sisään säilyttääksesi sen. Ilman vahvistustasi 3 minuutin kuluessa edellinen varmenne palaa.',
+          openOk: 'Avaa'
         },
         dns: {
           title: 'DNS',
@@ -639,7 +679,7 @@ const fi = {
           performance: 'Suorituskyky',
           monitor: 'Valvonta',
           services: 'Palvelut',
-          webInterface: 'Verkkokäyttöliittymä'
+          webInterface: 'Suojattu verkkoyhteys'
         },
         time: {
           saveFailed: 'Aika-asetusten tallennus epäonnistui',

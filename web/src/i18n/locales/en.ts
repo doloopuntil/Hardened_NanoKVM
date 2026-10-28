@@ -520,7 +520,46 @@ const en = {
           confirmKeep: 'Keep',
           confirmRevert: 'Go back',
           reverting:
-            'Going back to the previous protocol. The browser switches to that address after {{seconds}} seconds.'
+            'Going back to the previous protocol. The browser switches to that address after {{seconds}} seconds.',
+          certTitle: 'Keep the new certificate?',
+          certDesc:
+            'The server now uses the new certificate. It goes back to the previous one in {{seconds}} seconds unless you keep it.',
+          certReverted: 'The previous certificate is back'
+        },
+        certificate: {
+          title: 'Certificate',
+          desc: 'Where the HTTPS certificate comes from',
+          requesting: 'Requesting the certificate',
+          selfSigned: 'Self-signed',
+          domain: 'Domain',
+          domainDesc: 'Must point to this device, with port 443 reachable from the internet',
+          domainTailscale: 'Set by Tailscale for this device',
+          domainInvalid: 'Use a full domain name such as kvm.example.org',
+          email: 'Email',
+          emailDesc: "Optional, for notices from Let's Encrypt",
+          emailInvalid: 'Use an address such as name@example.org',
+          validUntil: 'Valid until',
+          valid: 'Valid',
+          expiresSoon: 'Expires soon',
+          expired: 'Expired',
+          lastRenewal: 'Last renewal',
+          renewed: 'Renewed',
+          failed: 'Failed',
+          renewNow: 'Renew now',
+          renewNowDesc: 'Request a new certificate without waiting',
+          renewBtn: 'Renew',
+          applyTitle: 'Change certificate',
+          applyOk: 'Apply',
+          applyAcme:
+            "The device asks Let's Encrypt for a certificate. Let's Encrypt connects to port 443 from the internet to check it, which can take up to a minute. If the request fails, the current certificate stays in use.",
+          applyTailscale:
+            'The device gets a certificate from Tailscale, which can take up to a minute. If the request fails, the current certificate stays in use.',
+          applySelfSigned:
+            'The device goes back to its own self-signed certificate. Browsers warn about it.',
+          openTitle: 'Open the new address',
+          openDesc:
+            'The certificate is ready. Open the address below and sign in to keep it. Without your confirmation within 3 minutes, the previous certificate comes back.',
+          openOk: 'Open'
         },
         dns: {
           title: 'DNS',
@@ -634,7 +673,7 @@ const en = {
           performance: 'Performance',
           monitor: 'Monitor',
           services: 'Services',
-          webInterface: 'Web interface'
+          webInterface: 'Secure web access'
         },
         time: {
           saveFailed: 'Failed to save time settings',

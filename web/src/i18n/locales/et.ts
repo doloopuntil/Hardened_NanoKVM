@@ -516,7 +516,47 @@ const et = {
           confirmKeep: 'Jäta',
           confirmRevert: 'Mine tagasi',
           reverting:
-            'Naaseb eelmise protokolli juurde. Brauser liigub sellele aadressile {{seconds}} sekundi pärast.'
+            'Naaseb eelmise protokolli juurde. Brauser liigub sellele aadressile {{seconds}} sekundi pärast.',
+          certTitle: 'Kas säilitada uus sertifikaat?',
+          certDesc:
+            'Server kasutab nüüd uut sertifikaati. Kui te seda ei säilita, naaseb see {{seconds}} sekundi pärast eelmise juurde.',
+          certReverted: 'Eelmine sertifikaat on tagasi'
+        },
+        certificate: {
+          title: 'Sertifikaat',
+          desc: 'Kust HTTPS-sertifikaat pärineb',
+          requesting: 'Sertifikaati taotletakse',
+          selfSigned: 'Iseallkirjastatud',
+          domain: 'Domeen',
+          domainDesc:
+            'Peab osutama sellele seadmele ja port 443 peab olema internetist ligipääsetav',
+          domainTailscale: 'Määranud Tailscale sellele seadmele',
+          domainInvalid: 'Kasutage täielikku domeeninime, näiteks kvm.example.org',
+          email: 'E-post',
+          emailDesc: "Valikuline, Let's Encrypti teadete jaoks",
+          emailInvalid: 'Kasutage aadressi kujul nimi@example.org',
+          validUntil: 'Kehtib kuni',
+          valid: 'Kehtiv',
+          expiresSoon: 'Aegub peagi',
+          expired: 'Aegunud',
+          lastRenewal: 'Viimane uuendamine',
+          renewed: 'Uuendatud',
+          failed: 'Ebaõnnestus',
+          renewNow: 'Uuenda kohe',
+          renewNowDesc: 'Taotle uus sertifikaat ootamata',
+          renewBtn: 'Uuenda',
+          applyTitle: 'Muuda sertifikaati',
+          applyOk: 'Rakenda',
+          applyAcme:
+            "Seade taotleb Let's Encryptilt sertifikaati. Let's Encrypt ühendub kontrollimiseks internetist pordiga 443, mis võib võtta kuni minuti. Kui taotlus ebaõnnestub, jääb praegune sertifikaat kasutusse.",
+          applyTailscale:
+            "Seade hangib sertifikaadi Tailscale'ilt, mis võib võtta kuni minuti. Kui taotlus ebaõnnestub, jääb praegune sertifikaat kasutusse.",
+          applySelfSigned:
+            'Seade naaseb oma iseallkirjastatud sertifikaadi juurde. Brauserid hoiatavad selle eest.',
+          openTitle: 'Ava uus aadress',
+          openDesc:
+            'Sertifikaat on valmis. Avage allolev aadress ja logige sisse, et see säilitada. Ilma teie kinnituseta 3 minuti jooksul naaseb eelmine sertifikaat.',
+          openOk: 'Ava'
         },
         dns: {
           title: 'DNS',
@@ -629,7 +669,7 @@ const et = {
           performance: 'Jõudlus',
           monitor: 'Seire',
           services: 'Teenused',
-          webInterface: 'Veebiliides'
+          webInterface: 'Turvaline veebipääs'
         },
         time: {
           saveFailed: 'Ajaseadete salvestamine nurjus',

@@ -529,7 +529,47 @@ const hu = {
           confirmKeep: 'Megtartás',
           confirmRevert: 'Vissza',
           reverting:
-            'Visszatérés az előző protokollra. A böngésző {{seconds}} másodperc után arra a címre vált.'
+            'Visszatérés az előző protokollra. A böngésző {{seconds}} másodperc után arra a címre vált.',
+          certTitle: 'Megtartja az új tanúsítványt?',
+          certDesc:
+            'A szerver most az új tanúsítványt használja. {{seconds}} másodperc múlva visszaáll az előzőre, ha nem tartja meg.',
+          certReverted: 'Az előző tanúsítvány visszatért'
+        },
+        certificate: {
+          title: 'Tanúsítvány',
+          desc: 'Honnan származik a HTTPS-tanúsítvány',
+          requesting: 'Tanúsítvány igénylése folyamatban',
+          selfSigned: 'Önaláírt',
+          domain: 'Tartomány',
+          domainDesc:
+            'Erre az eszközre kell mutatnia, és a 443-as portnak elérhetőnek kell lennie az internetről',
+          domainTailscale: 'A Tailscale állítja be ehhez az eszközhöz',
+          domainInvalid: 'Teljes tartománynevet használjon, például kvm.example.org',
+          email: 'E-mail',
+          emailDesc: "Nem kötelező, a Let's Encrypt értesítéseihez",
+          emailInvalid: 'Olyan címet használjon, mint nev@example.org',
+          validUntil: 'Érvényes eddig',
+          valid: 'Érvényes',
+          expiresSoon: 'Hamarosan lejár',
+          expired: 'Lejárt',
+          lastRenewal: 'Utolsó megújítás',
+          renewed: 'Megújítva',
+          failed: 'Sikertelen',
+          renewNow: 'Megújítás most',
+          renewNowDesc: 'Új tanúsítvány kérése várakozás nélkül',
+          renewBtn: 'Megújítás',
+          applyTitle: 'Tanúsítvány módosítása',
+          applyOk: 'Alkalmaz',
+          applyAcme:
+            "Az eszköz tanúsítványt kér a Let's Encrypttől. A Let's Encrypt az ellenőrzéshez az internet felől csatlakozik a 443-as porthoz, ami akár egy percet is igénybe vehet. Ha a kérés sikertelen, a jelenlegi tanúsítvány marad használatban.",
+          applyTailscale:
+            'Az eszköz tanúsítványt kap a Tailscale-től, ami akár egy percet is igénybe vehet. Ha a kérés sikertelen, a jelenlegi tanúsítvány marad használatban.',
+          applySelfSigned:
+            'Az eszköz visszatér a saját önaláírt tanúsítványához. A böngészők figyelmeztetnek rá.',
+          openTitle: 'Az új cím megnyitása',
+          openDesc:
+            'A tanúsítvány kész. Nyissa meg az alábbi címet, és jelentkezzen be a megtartásához. Megerősítése nélkül 3 percen belül visszatér az előző tanúsítvány.',
+          openOk: 'Megnyitás'
         },
         dns: {
           title: 'DNS',
@@ -642,7 +682,7 @@ const hu = {
           performance: 'Teljesítmény',
           monitor: 'Monitor',
           services: 'Szolgáltatások',
-          webInterface: 'Webes felület'
+          webInterface: 'Biztonságos webes elérés'
         },
         time: {
           saveFailed: 'Nem sikerült menteni az időbeállításokat',

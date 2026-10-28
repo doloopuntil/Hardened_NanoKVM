@@ -525,7 +525,46 @@ const pt_br = {
           confirmKeep: 'Manter',
           confirmRevert: 'Voltar',
           reverting:
-            'Voltando ao protocolo anterior. O navegador mudará para esse endereço após {{seconds}} segundos.'
+            'Voltando ao protocolo anterior. O navegador mudará para esse endereço após {{seconds}} segundos.',
+          certTitle: 'Manter o novo certificado?',
+          certDesc:
+            'O servidor agora usa o novo certificado. Ele volta ao anterior em {{seconds}} segundos se você não o mantiver.',
+          certReverted: 'O certificado anterior voltou'
+        },
+        certificate: {
+          title: 'Certificado',
+          desc: 'De onde vem o certificado HTTPS',
+          requesting: 'Solicitando o certificado',
+          selfSigned: 'Autoassinado',
+          domain: 'Domínio',
+          domainDesc: 'Deve apontar para este dispositivo, com a porta 443 acessível pela internet',
+          domainTailscale: 'Definido pelo Tailscale para este dispositivo',
+          domainInvalid: 'Use um nome de domínio completo, por exemplo kvm.example.org',
+          email: 'E-mail',
+          emailDesc: "Opcional, para avisos do Let's Encrypt",
+          emailInvalid: 'Use um endereço como nome@example.org',
+          validUntil: 'Válido até',
+          valid: 'Válido',
+          expiresSoon: 'Expira em breve',
+          expired: 'Expirado',
+          lastRenewal: 'Última renovação',
+          renewed: 'Renovado',
+          failed: 'Falhou',
+          renewNow: 'Renovar agora',
+          renewNowDesc: 'Solicitar um novo certificado sem esperar',
+          renewBtn: 'Renovar',
+          applyTitle: 'Alterar certificado',
+          applyOk: 'Aplicar',
+          applyAcme:
+            "O dispositivo solicita um certificado ao Let's Encrypt. O Let's Encrypt se conecta à porta 443 pela internet para verificá-lo, o que pode levar até um minuto. Se a solicitação falhar, o certificado atual continua em uso.",
+          applyTailscale:
+            'O dispositivo obtém um certificado do Tailscale, o que pode levar até um minuto. Se a solicitação falhar, o certificado atual continua em uso.',
+          applySelfSigned:
+            'O dispositivo volta ao seu próprio certificado autoassinado. Os navegadores mostram um aviso.',
+          openTitle: 'Abrir o novo endereço',
+          openDesc:
+            'O certificado está pronto. Abra o endereço abaixo e entre para mantê-lo. Sem a sua confirmação em 3 minutos, o certificado anterior volta.',
+          openOk: 'Abrir'
         },
         dns: {
           title: 'DNS',
@@ -639,7 +678,7 @@ const pt_br = {
           performance: 'Desempenho',
           monitor: 'Monitor',
           services: 'Serviços',
-          webInterface: 'Interface web'
+          webInterface: 'Acesso web seguro'
         },
         time: {
           saveFailed: 'Falha ao salvar as configurações de hora',
