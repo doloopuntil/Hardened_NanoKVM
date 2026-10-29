@@ -1,6 +1,7 @@
 use axum::{Json, extract::State, response::IntoResponse};
 use serde::{Deserialize, Serialize};
 use std::{
+    collections::BTreeMap,
     fs,
     io::ErrorKind,
     path::{Path, PathBuf},
@@ -59,6 +60,8 @@ const DELETED_SUFFIX: &str = " (deleted)";
 #[derive(Debug, Serialize)]
 pub struct GetImagesRsp {
     pub files: Vec<String>,
+    /// Size in bytes by path, for the files in `files`.
+    pub sizes: BTreeMap<String, u64>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -88,11 +91,13 @@ pub struct DeleteImageReq {
 }
 
 pub async fn get_images(State(state): State<AppState>) -> Result<impl IntoResponse> {
-    let mut files = Vec::new();
-    collect_images(&state.config.paths.image_directory, &mut files)?;
-    files.sort();
+    let mut images = Vec::new();
+    collect_images(&state.config.paths.image_directory, &mut images)?;
+    images.sort();
 
-    Ok(Json(ApiResponse::ok(GetImagesRsp { files })))
+    let files = images.iter().map(|(file, _)| file.clone()).collect();
+    let sizes = images.into_iter().collect();
+    Ok(Json(ApiResponse::ok(GetImagesRsp { files, sizes })))
 }
 
 pub async fn get_mounted_image() -> Result<impl IntoResponse> {
@@ -325,7 +330,7 @@ fn is_read_only_fs(path: &Path) -> std::io::Result<bool> {
     Ok(stat.f_flag & nix::libc::ST_RDONLY as nix::libc::c_ulong != 0)
 }
 
-fn collect_images(root: &Path, out: &mut Vec<String>) -> Result<()> {
+fn collect_images(root: &Path, out: &mut Vec<(String, u64)>) -> Result<()> {
     let entries = match fs::read_dir(root) {
         Ok(entries) => entries,
         Err(err) if err.kind() == ErrorKind::NotFound => return Ok(()),
@@ -339,7 +344,7 @@ fn collect_images(root: &Path, out: &mut Vec<String>) -> Result<()> {
         if file_type.is_dir() {
             collect_images(&path, out)?;
         } else if file_type.is_file() && has_image_extension(&path) {
-            out.push(path_to_string(&path));
+            out.push((path_to_string(&path), entry.metadata()?.len()));
         }
     }
     Ok(())
@@ -687,6 +692,18 @@ mod tests {
 
         let err = valid_image_path("link.iso", dir.path()).unwrap_err();
         assert!(matches!(err, AppError::BadRequest(_)));
+    }
+
+    #[test]
+    fn collect_images_reports_sizes_of_images_only() {
+        let dir = tempdir().unwrap();
+        fs::write(dir.path().join("a.iso"), [0u8; 10]).unwrap();
+        fs::write(dir.path().join("notes.txt"), [0u8; 3]).unwrap();
+
+        let mut found = Vec::new();
+        collect_images(dir.path(), &mut found).unwrap();
+
+        assert_eq!(found, vec![(path_to_string(&dir.path().join("a.iso")), 10)]);
     }
 
     #[test]

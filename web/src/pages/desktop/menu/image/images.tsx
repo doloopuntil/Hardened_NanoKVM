@@ -16,6 +16,7 @@ import * as api from '@/api/storage.ts';
 import { getVirtualDevice, updateVirtualDevice } from '@/api/virtual-device.ts';
 import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { IMAGE_LIST_CHANGED_EVENT } from '@/lib/image-events.ts';
+import { formatBytes } from '@/lib/image-transfer.ts';
 import { client } from '@/lib/websocket.ts';
 
 type ImagesProps = {
@@ -31,6 +32,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
 
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<string[]>([]);
+  const [sizes, setSizes] = useState<Record<string, number>>({});
   const [mountingImage, setMountingImage] = useState('');
   const [mountedImage, setMountedImage] = useState('');
   const [deletingImage, setDeletingImage] = useState('');
@@ -66,9 +68,11 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
 
         if (files?.length > 0) {
           setImages(files);
+          setSizes(rsp.data?.sizes ?? {});
           getMountedImage();
         } else {
           setImages([]);
+          setSizes({});
         }
       })
       .finally(() => {
@@ -332,6 +336,9 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
             </div>
 
             <div className="flex-1 truncate">{image.replace(/^.*[\\/]/, '')}</div>
+            {sizes[image] !== undefined && (
+              <div className="shrink-0 text-xs text-neutral-500">{formatBytes(sizes[image])}</div>
+            )}
             <div
               className={clsx(
                 'rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none',
