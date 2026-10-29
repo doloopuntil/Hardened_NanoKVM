@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-18
+last-checked: 2026-10-29
 ---
 
 # Testing
@@ -10,7 +10,7 @@ last-checked: 2026-10-18
 
 ```sh
 cargo test --manifest-path server-rust/Cargo.toml
-cargo clippy --manifest-path server-rust/Cargo.toml --all-targets
+cargo clippy --manifest-path server-rust/Cargo.toml --all-targets -- -D warnings
 cargo fmt --manifest-path server-rust/Cargo.toml --check
 ```
 
@@ -22,7 +22,7 @@ On macOS, `api::storage::tests::accepts_image_inside_storage_root` fails: the
 storage code returns the canonical path (`/private/var/...`) while the test
 expects the temporary directory's `/var/...` path. It passes on Linux.
 
-Clippy reports a few dozen existing warnings; check that a change adds none.
+Clippy is clean; `-D warnings` makes any new warning an error locally (CI does not run clippy).
 
 ## Web UI
 
