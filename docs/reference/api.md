@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-26
+last-checked: 2026-10-29
 source: server-rust/src/http/routes.rs
 ---
 
@@ -182,7 +182,7 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 
 | Method   | Path                                 | Rust Status                                                                                                                                                               |
 | -------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET      | `/api/storage/image`                 | Implemented.                                                                                                                                                              |
+| GET      | `/api/storage/image`                 | Implemented. Returns `files` and `sizes` (bytes by path).                                                                                                                 |
 | GET      | `/api/storage/image/mounted`         | Implemented.                                                                                                                                                              |
 | POST     | `/api/storage/image/mount`           | Implemented with `/data` path validation, ISO/CD-ROM and IMG/mass-storage mode validation, LUN eject/insert media changes, and USB reconnect when the media type changes. |
 | POST     | `/api/storage/usb/reconnect`         | Implemented as an explicit fallback for hosts that do not notice virtual-media changes.                                                                                   |
