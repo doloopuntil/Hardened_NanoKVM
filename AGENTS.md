@@ -15,7 +15,7 @@ image is built by `.github/workflows/system-image.yml`.
 
 ```sh
 cargo test --manifest-path server-rust/Cargo.toml
-cargo clippy --manifest-path server-rust/Cargo.toml --all-targets
+cargo clippy --manifest-path server-rust/Cargo.toml --all-targets -- -D warnings
 cargo fmt --manifest-path server-rust/Cargo.toml
 corepack pnpm --dir web install --frozen-lockfile
 corepack pnpm --dir web test
