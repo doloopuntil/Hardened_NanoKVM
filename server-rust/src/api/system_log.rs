@@ -333,10 +333,8 @@ fn tail_file(path: &str, lines: usize) -> Result<(String, bool)> {
 
     let truncated = start > 0;
     let mut content = String::from_utf8_lossy(&buf).to_string();
-    if truncated {
-        if let Some(pos) = content.find('\n') {
-            content = content[pos + 1..].to_string();
-        }
+    if truncated && let Some(pos) = content.find('\n') {
+        content = content[pos + 1..].to_string();
     }
 
     Ok((tail_lines(&content, lines), truncated))

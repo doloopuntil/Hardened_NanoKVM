@@ -546,7 +546,7 @@ fn validate_remote_iso_url(raw: &str) -> Result<RemoteIso> {
 
     let filename = parsed
         .path_segments()
-        .and_then(|segments| segments.filter(|segment| !segment.is_empty()).next_back())
+        .and_then(|mut segments| segments.rfind(|segment| !segment.is_empty()))
         .ok_or_else(|| AppError::BadRequest("url must end with an ISO filename".to_string()))?;
     let filename = valid_upload_filename(filename)?;
     if upload_image_kind(&filename) != Some(UploadImageKind::Iso) {
@@ -776,10 +776,10 @@ fn safe_upload_target(root: &Path, filename: &str) -> Result<PathBuf> {
     let root = fs::canonicalize(root)?;
     let target = root.join(filename);
 
-    if let Ok(metadata) = fs::symlink_metadata(&target) {
-        if metadata.file_type().is_symlink() || !metadata.is_file() {
-            return Err(AppError::BadRequest("invalid destination file".to_string()));
-        }
+    if let Ok(metadata) = fs::symlink_metadata(&target)
+        && (metadata.file_type().is_symlink() || !metadata.is_file())
+    {
+        return Err(AppError::BadRequest("invalid destination file".to_string()));
     }
 
     Ok(target)

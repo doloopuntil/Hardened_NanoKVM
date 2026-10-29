@@ -107,7 +107,9 @@ fn sanitize_key(key: &str) -> String {
 // is opened often.
 type Stamp = (u64, Option<SystemTime>, u64, Option<SystemTime>);
 
-static LIST_CACHE: LazyLock<Mutex<HashMap<PathBuf, (Stamp, Option<SessionListItem>)>>> =
+type CacheEntry = (Stamp, Option<SessionListItem>);
+
+static LIST_CACHE: LazyLock<Mutex<HashMap<PathBuf, CacheEntry>>> =
     LazyLock::new(|| Mutex::new(HashMap::new()));
 
 pub fn list_sessions(dir: &Path, offset: usize, limit: usize) -> Vec<SessionListItem> {
@@ -117,7 +119,7 @@ pub fn list_sessions(dir: &Path, offset: usize, limit: usize) -> Vec<SessionList
         .into_iter()
         .map(|session_ref| (ref_updated(dir, &session_ref), session_ref))
         .collect();
-    refs.sort_by(|a, b| b.0.cmp(&a.0));
+    refs.sort_by_key(|r| std::cmp::Reverse(r.0));
 
     let wanted = offset.saturating_add(limit);
     let mut items = Vec::new();
@@ -170,12 +172,11 @@ fn list_item_cached(dir: &Path, session_ref: &SessionRef) -> Option<SessionListI
     let (meta_len, meta_time) = modified(&dir.join(format!("{name}.meta.json")));
     let stamp = (jsonl_len, jsonl_time, meta_len, meta_time);
 
-    if let Ok(cache) = LIST_CACHE.lock() {
-        if let Some((cached, item)) = cache.get(&jsonl) {
-            if *cached == stamp {
-                return item.clone();
-            }
-        }
+    if let Ok(cache) = LIST_CACHE.lock()
+        && let Some((cached, item)) = cache.get(&jsonl)
+        && *cached == stamp
+    {
+        return item.clone();
     }
     let item = build();
     if let Ok(mut cache) = LIST_CACHE.lock() {
@@ -418,10 +419,10 @@ fn read_jsonl_messages(path: &Path, skip: usize) -> io::Result<Vec<Value>> {
         if other_role {
             continue;
         }
-        if let Ok(message) = serde_json::from_slice::<Value>(&line) {
-            if !is_transient_thought(&message) {
-                messages.push(message);
-            }
+        if let Ok(message) = serde_json::from_slice::<Value>(&line)
+            && !is_transient_thought(&message)
+        {
+            messages.push(message);
         }
     }
     Ok(messages)

@@ -162,10 +162,10 @@ fn checked_script_path(name: &str) -> Result<PathBuf> {
 fn write_script_file(name: &str, data: &[u8]) -> Result<()> {
     fs::create_dir_all(SCRIPT_DIRECTORY)?;
     let path = script_path(name)?;
-    if let Ok(metadata) = fs::symlink_metadata(&path) {
-        if metadata.file_type().is_symlink() {
-            return Err(AppError::BadRequest("invalid script file".to_string()));
-        }
+    if let Ok(metadata) = fs::symlink_metadata(&path)
+        && metadata.file_type().is_symlink()
+    {
+        return Err(AppError::BadRequest("invalid script file".to_string()));
     }
 
     let mut file = OpenOptions::new()

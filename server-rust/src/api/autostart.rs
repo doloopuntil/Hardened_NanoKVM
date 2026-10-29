@@ -125,10 +125,10 @@ fn checked_autostart_path(name: &str) -> Result<PathBuf> {
 fn write_autostart_file(name: &str, data: &[u8]) -> Result<()> {
     fs::create_dir_all(AUTOSTART_DIRECTORY)?;
     let path = autostart_path(name)?;
-    if let Ok(metadata) = fs::symlink_metadata(&path) {
-        if metadata.file_type().is_symlink() {
-            return Err(AppError::BadRequest("invalid autostart file".to_string()));
-        }
+    if let Ok(metadata) = fs::symlink_metadata(&path)
+        && metadata.file_type().is_symlink()
+    {
+        return Err(AppError::BadRequest("invalid autostart file".to_string()));
     }
 
     let tmp = temporary_path(name)?;

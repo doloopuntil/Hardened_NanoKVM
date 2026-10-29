@@ -382,13 +382,14 @@ pub async fn set_hostname(Json(req): Json<SetHostnameReq>) -> Result<impl IntoRe
     let old_hostname = read_trimmed(ETC_HOSTNAME_FILE).unwrap_or_default();
 
     // replacing an empty name would insert the new one between every character
-    if !old_hostname.is_empty() && old_hostname != req.hostname {
-        if let Ok(hosts) = fs::read_to_string(ETC_HOSTS_FILE) {
-            fs::write(
-                ETC_HOSTS_FILE,
-                replace_host_name(&hosts, &old_hostname, &req.hostname),
-            )?;
-        }
+    if !old_hostname.is_empty()
+        && old_hostname != req.hostname
+        && let Ok(hosts) = fs::read_to_string(ETC_HOSTS_FILE)
+    {
+        fs::write(
+            ETC_HOSTS_FILE,
+            replace_host_name(&hosts, &old_hostname, &req.hostname),
+        )?;
     }
 
     fs::write(BOOT_HOSTNAME_FILE, req.hostname.as_bytes())?;
@@ -1419,7 +1420,7 @@ fn swap_fits(size: i64, available_mb: i64) -> bool {
 
 fn swap_available_mb() -> i64 {
     let free = nix::sys::statvfs::statvfs("/")
-        .map(|stat| (stat.blocks_available() as u64 * stat.fragment_size() as u64) >> 20)
+        .map(|stat| (stat.blocks_available() * stat.fragment_size()) >> 20)
         .unwrap_or(0) as i64;
     free + get_swap_size()
 }

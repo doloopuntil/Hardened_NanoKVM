@@ -144,11 +144,10 @@ async fn handle_h264_webrtc_socket(mut socket: WebSocket, config: Arc<Config>) {
                         }
                     }
                     WsMessage::Binary(data) => {
-                        if let Ok(text) = std::str::from_utf8(&data) {
-                            if let Err(err) = handle_signal_message(&client, &signal_tx, text).await {
+                        if let Ok(text) = std::str::from_utf8(&data)
+                            && let Err(err) = handle_signal_message(&client, &signal_tx, text).await {
                                 warn!(error = ?err, "failed to handle h264 webrtc binary signal");
                             }
-                        }
                     }
                     WsMessage::Ping(data) => {
                         if socket.send(WsMessage::Pong(data)).await.is_err() {
