@@ -43,7 +43,7 @@ For people running the device.
 
 ## Releases
 
-- [Changelog](../CHANGELOG.md)
+- [Changelog](../CHANGELOG.md): the list of release pages
 - [System 0.4.0 / application 2.1.0](releases/0.4.0.md) (unreleased)
 - [RC12: application 2.0.42 / system 0.3.0-raw.12](releases/rc12-2.0.42-raw.12.md)
   and its [key transition](releases/2.0.42-key-transition.md)

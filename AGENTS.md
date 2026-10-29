@@ -72,6 +72,8 @@ Details and known failures: [docs/development/testing.md](docs/development/testi
 
 - User guides go in `docs/guide/`, facts to look up in `docs/reference/`,
   contributor material in `docs/development/`, release notes in `docs/releases/`.
+- `CHANGELOG.md` only lists the release pages. Write notes for a change in the release's
+  page (unreleased work: `docs/releases/0.4.0.md`), not in `CHANGELOG.md`.
 - Current pages start with front matter: `status`, `applies-to`, `last-checked`.
   Update `last-checked` when you verify a page against the code.
 - `docs/archive/` holds historical records. Do not update them; link to them.
