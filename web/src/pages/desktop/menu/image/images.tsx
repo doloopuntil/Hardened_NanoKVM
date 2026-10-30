@@ -305,7 +305,6 @@ export const Images = ({
 
       <div className="flex justify-end">
         <Button
-          size="small"
           icon={
             isReconnecting ? (
               <LoaderCircleIcon className="animate-spin" size={14} />
@@ -364,7 +363,14 @@ export const Images = ({
               )}
             </div>
 
-            <div className="flex-1 truncate">{image.replace(/^.*[\\/]/, '')}</div>
+            <div className="flex min-w-0 flex-1 items-center space-x-2">
+              <span className="truncate">{image.replace(/^.*[\\/]/, '')}</span>
+              {mountedImage === image && (
+                <span className="shrink-0 rounded border border-emerald-500/50 bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none text-emerald-300">
+                  {t('image.mounted')}
+                </span>
+              )}
+            </div>
             {sizes[image] !== undefined && (
               <div className="shrink-0 text-xs text-neutral-500">{formatBytes(sizes[image])}</div>
             )}
@@ -378,9 +384,6 @@ export const Images = ({
             >
               {isImageCdrom(image) ? 'ISO' : 'IMG'}
             </div>
-            {mountedImage === image && (
-              <div className="shrink-0 text-xs font-semibold">{t('image.mounted')}</div>
-            )}
 
             <div className="flex h-[24px] w-[24px] items-center justify-center rounded">
               {mountedImage === image ? (

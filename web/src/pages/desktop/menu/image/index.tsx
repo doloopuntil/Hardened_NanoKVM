@@ -106,30 +106,32 @@ export const Image = () => {
         footer={null}
         onCancel={() => toggleModal(false)}
       >
-        <div className="flex flex-col space-y-6">
+        <div className="flex flex-col pt-3">
           <div className="flex items-center justify-between">
             <span className="font-semibold">{t('image.mountMode')}</span>
             <Segmented value={mode} options={modes} disabled={isMounted} onChange={setMode} />
           </div>
 
-          <Images
-            isOpen={isModalOpen}
-            cdrom={mode === 'cd-rom'}
-            setCdrom={(nextCdrom) => setMode(nextCdrom ? 'cd-rom' : 'mass-storage')}
-            setIsMounted={setIsMounted}
-            isDiskShared={storage.isDiskShared}
-            isDiskStateKnown={storage.isDiskStateKnown}
-            refreshDiskState={storage.refresh}
-          >
-            <AddImage
+          <div className="mt-3">
+            <Images
               isOpen={isModalOpen}
-              isWritable={storage.isWritable}
-              isRemoteEnabled={storage.isRemoteEnabled}
+              cdrom={mode === 'cd-rom'}
+              setCdrom={(nextCdrom) => setMode(nextCdrom ? 'cd-rom' : 'mass-storage')}
+              setIsMounted={setIsMounted}
               isDiskShared={storage.isDiskShared}
-              isDisablingDisk={storage.isDisablingDisk}
-              onDisableDisk={storage.disableDisk}
-            />
-          </Images>
+              isDiskStateKnown={storage.isDiskStateKnown}
+              refreshDiskState={storage.refresh}
+            >
+              <AddImage
+                isOpen={isModalOpen}
+                isWritable={storage.isWritable}
+                isRemoteEnabled={storage.isRemoteEnabled}
+                isDiskShared={storage.isDiskShared}
+                isDisablingDisk={storage.isDisablingDisk}
+                onDisableDisk={storage.disableDisk}
+              />
+            </Images>
+          </div>
         </div>
       </Modal>
     </>

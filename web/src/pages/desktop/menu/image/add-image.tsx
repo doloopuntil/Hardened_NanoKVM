@@ -98,7 +98,6 @@ export const AddImage = ({
       <div className="flex items-center justify-between">
         <span className="font-semibold">{t('image.addImage')}</span>
         <Segmented
-          size="small"
           value={activeSource}
           options={sources}
           disabled={isDisabled || isBusy}
@@ -112,7 +111,7 @@ export const AddImage = ({
           showIcon
           message={t('download.diskShared')}
           action={
-            <Button type="primary" size="small" loading={isDisablingDisk} onClick={onDisableDisk}>
+            <Button type="primary" loading={isDisablingDisk} onClick={onDisableDisk}>
               {t('image.turnOff')}
             </Button>
           }
@@ -131,7 +130,6 @@ export const AddImage = ({
             <span className="min-w-0 flex-1 truncate text-sm">{transfer.log}</span>
             <Button
               danger
-              size="small"
               icon={<XCircleIcon size={14} />}
               loading={transfer.isCanceling}
               onClick={transfer.cancel}
