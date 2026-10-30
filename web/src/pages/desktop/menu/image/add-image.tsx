@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Input, notification, Progress, Segmented } from 'antd';
 import clsx from 'clsx';
-import { LinkIcon, UploadIcon, XCircleIcon } from 'lucide-react';
+import { DownloadIcon, LinkIcon, UploadIcon, XCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { formatBytes } from '@/lib/image-transfer.ts';
@@ -82,15 +82,15 @@ export const AddImage = ({
   const submitButton = (
     <Button
       type="primary"
+      aria-label={t('download.ok')}
+      icon={activeSource === 'url' ? <DownloadIcon size={16} /> : <UploadIcon size={16} />}
       disabled={!canSubmit}
       onClick={() =>
         activeSource === 'url'
           ? transfer.download(transfer.input)
           : transfer.upload(transfer.selectedFile)
       }
-    >
-      {t('download.ok')}
-    </Button>
+    />
   );
 
   return (

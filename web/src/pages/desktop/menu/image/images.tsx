@@ -383,9 +383,15 @@ export const Images = ({
 
             <div className="flex h-[24px] w-[24px] items-center justify-center rounded">
               {mountedImage === image ? (
-                <ArrowBigDownDashIcon size={22} className="hidden text-red-500 group-hover:block" />
+                <ArrowBigDownDashIcon
+                  size={22}
+                  className="text-red-500 opacity-60 group-hover:opacity-100"
+                />
               ) : (
-                <ArrowBigUpDashIcon size={22} className="hidden text-blue-500 group-hover:block" />
+                <ArrowBigUpDashIcon
+                  size={22}
+                  className="text-blue-500 opacity-60 group-hover:opacity-100"
+                />
               )}
             </div>
 
