@@ -1,6 +1,6 @@
 use axum::{
-    Json,
-    extract::{Multipart, State},
+    Extension, Json,
+    extract::{ConnectInfo, Multipart, State},
     http::{HeaderMap, header},
     response::IntoResponse,
 };
@@ -13,6 +13,7 @@ use std::{
     ffi::OsString,
     fs,
     io::{ErrorKind, Read, Seek, SeekFrom, Write},
+    net::IpAddr,
     os::unix::fs::{OpenOptionsExt, PermissionsExt},
     path::{Path, PathBuf},
     sync::{LazyLock, Mutex},
@@ -21,15 +22,21 @@ use std::{
 use tokio::{
     io::{AsyncWriteExt, BufWriter},
     sync::watch,
+    time,
 };
-use url::Url;
+use url::{Host, Url};
 
 use crate::{
     AppError, Result,
+    api::account::{require_second_factor, verify_password_limited},
     config::Config,
     error::ApiResponse,
+    http::{middleware::CurrentSession, tls::ClientAddr},
     state::AppState,
-    system::command::{AllowedCommand, run_allowed},
+    system::{
+        audit,
+        command::{AllowedCommand, run_allowed},
+    },
 };
 
 pub const MAX_UPLOAD_BYTES: usize = 8 * 1024 * 1024 * 1024;
@@ -55,6 +62,8 @@ const UPLOAD_PROGRESS_INTERVAL: Duration = Duration::from_secs(1);
 // Batches the ~16 KiB request chunks into fewer blocking-pool writes.
 const UPLOAD_WRITE_BUFFER: usize = 256 * 1024;
 const CANCELED_CODE: i32 = -499;
+const MAX_REDIRECTS: usize = 5;
+const HOST_LOOKUP_TIMEOUT: Duration = Duration::from_secs(10);
 
 /// Image whose remote download failed the checksum; reported once by the status
 /// endpoint, because the background task has no other way to tell the UI.
@@ -81,6 +90,11 @@ pub struct ImageEnabledRsp {
 #[derive(Debug, Deserialize)]
 pub struct SetRemoteImageDownloadReq {
     pub enabled: bool,
+    /// Needed to turn it on, with a second-factor code when the account has one.
+    #[serde(default)]
+    pub password: Option<String>,
+    #[serde(default)]
+    pub code: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -110,12 +124,28 @@ pub async fn get_remote_image_download_enabled(
 
 pub async fn set_remote_image_download_enabled(
     State(state): State<AppState>,
+    Extension(CurrentSession(session)): Extension<CurrentSession>,
+    ConnectInfo(addr): ConnectInfo<ClientAddr>,
     Json(req): Json<SetRemoteImageDownloadReq>,
 ) -> Result<impl IntoResponse> {
+    // Turning it off needs only the session. Turning it on lets the device fetch URLs, and
+    // downloads themselves need no password, so this is the one gate.
+    let source_ip = addr.0.ip().to_string();
+    if req.enabled {
+        let password = req.password.as_deref().ok_or_else(|| {
+            AppError::BadRequest(
+                "the password is required to enable remote image download".to_string(),
+            )
+        })?;
+        verify_password_limited(&state, &source_ip, &session.username, password).await?;
+        require_second_factor(&state, &session.username, &source_ip, req.code.as_deref()).await?;
+    }
+
     let mut config = Config::read()?;
     config.security.allow_remote_image_download = req.enabled;
     config.write()?;
     state.set_remote_image_download_enabled(req.enabled);
+    audit::remote_download_changed(&session.username, &source_ip, req.enabled);
 
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
@@ -151,6 +181,11 @@ pub async fn download_image(
     crate::api::storage::ensure_writable(&state.config.paths.image_directory)?;
     let expected_sha256 = parse_sha256(&req.sha256sum)?;
     let remote = validate_remote_iso_url(&req.file)?;
+    // refuse a private host now, so the answer is immediate; every hop is checked again
+    pin_public_host(
+        &Url::parse(&remote.url).map_err(|_| AppError::BadRequest("invalid url".into()))?,
+    )
+    .await?;
     let target = safe_upload_target(&state.config.paths.image_directory, &remote.filename)?;
     ensure_not_mounted(&target)?;
     let guard = DownloadGuard::acquire(&remote.url)?;
@@ -415,19 +450,46 @@ fn parse_content_length(headers: &str) -> Option<u64> {
         .filter(|length| *length > 0)
 }
 
+// Redirects are followed one hop at a time, so every hop is checked against the public
+// internet before curl connects to it.
 async fn download_remote_with_curl(
     url: &str,
     target: &Path,
 ) -> Result<crate::system::command::CommandOutput> {
+    let mut current =
+        Url::parse(url).map_err(|_| AppError::BadRequest("invalid url".to_string()))?;
+    for _ in 0..=MAX_REDIRECTS {
+        let addr = pin_public_host(&current).await?;
+        let output = curl_hop(&current, addr, target).await?;
+        if output.status != 0 {
+            return Ok(output);
+        }
+        match parse_hop(&output.stdout) {
+            Hop::Done => return Ok(output),
+            Hop::Redirect(next) => current = checked_redirect(&next)?,
+        }
+    }
+    Err(AppError::BadRequest("too many redirects".to_string()))
+}
+
+async fn curl_hop(
+    url: &Url,
+    addr: IpAddr,
+    target: &Path,
+) -> Result<crate::system::command::CommandOutput> {
+    let host = url.host_str().unwrap_or_default();
+    let port = url.port_or_known_default().unwrap_or(443);
+    // pinned to the address that was checked, so the name cannot resolve elsewhere now
+    let pin = match addr {
+        IpAddr::V4(addr) => format!("{host}:{port}:{addr}"),
+        IpAddr::V6(addr) => format!("{host}:{port}:[{addr}]"),
+    };
     let args = vec![
+        OsString::from("--silent"),
+        OsString::from("--show-error"),
         OsString::from("--fail"),
-        OsString::from("--location"),
         OsString::from("--proto"),
         OsString::from("=http,https"),
-        OsString::from("--proto-redir"),
-        OsString::from("=http,https"),
-        OsString::from("--max-redirs"),
-        OsString::from("5"),
         OsString::from("--connect-timeout"),
         OsString::from("20"),
         OsString::from("--max-time"),
@@ -438,11 +500,144 @@ async fn download_remote_with_curl(
         OsString::from("120"),
         OsString::from("--max-filesize"),
         OsString::from(MAX_UPLOAD_BYTES.to_string()),
+        OsString::from("--resolve"),
+        OsString::from(pin),
+        OsString::from("--write-out"),
+        OsString::from("%{http_code} %{redirect_url}"),
         OsString::from("--output"),
         target.as_os_str().to_os_string(),
-        OsString::from(url),
+        OsString::from(url.as_str()),
     ];
     run_allowed(AllowedCommand::Curl, args, REMOTE_DOWNLOAD_TIMEOUT).await
+}
+
+enum Hop {
+    Done,
+    Redirect(String),
+}
+
+// curl prints "<status> <redirect url>" after each hop.
+fn parse_hop(stdout: &[u8]) -> Hop {
+    let text = String::from_utf8_lossy(stdout);
+    let mut parts = text.trim().splitn(2, ' ');
+    let code = parts.next().and_then(|code| code.parse::<u16>().ok());
+    match (code, parts.next().map(str::trim)) {
+        (Some(301 | 302 | 303 | 307 | 308), Some(next)) if !next.is_empty() => {
+            Hop::Redirect(next.to_string())
+        }
+        _ => Hop::Done,
+    }
+}
+
+fn checked_redirect(next: &str) -> Result<Url> {
+    let url = Url::parse(next).map_err(|_| AppError::BadRequest("invalid redirect".to_string()))?;
+    if !matches!(url.scheme(), "http" | "https")
+        || url.host_str().is_none()
+        || !url.username().is_empty()
+        || url.password().is_some()
+    {
+        return Err(AppError::BadRequest("invalid redirect".to_string()));
+    }
+    Ok(url)
+}
+
+const NOT_PUBLIC: &str = "remote images can only be fetched from public hosts";
+
+// Lets a test serve from its own listener; one exact address and port, nothing else.
+#[cfg(test)]
+static TEST_LOCAL_SERVER: Mutex<Option<(IpAddr, u16)>> = Mutex::new(None);
+
+/// The address to connect to: the URL's host must be on the public internet, not on the
+/// device's own network. A name has to resolve to public addresses only.
+async fn pin_public_host(url: &Url) -> Result<IpAddr> {
+    let refuse = || AppError::BadRequest(NOT_PUBLIC.to_string());
+    #[cfg(test)]
+    if let (Some(Host::Ipv4(addr)), Some(port)) = (url.host(), url.port())
+        && *TEST_LOCAL_SERVER.lock().unwrap() == Some((IpAddr::V4(addr), port))
+    {
+        return Ok(IpAddr::V4(addr));
+    }
+    match url.host() {
+        Some(Host::Ipv4(addr)) => is_public_ip(IpAddr::V4(addr))
+            .then_some(IpAddr::V4(addr))
+            .ok_or_else(refuse),
+        Some(Host::Ipv6(addr)) => is_public_ip(IpAddr::V6(addr))
+            .then_some(IpAddr::V6(addr))
+            .ok_or_else(refuse),
+        Some(Host::Domain(name)) => {
+            if !host_name_allowed(name) {
+                return Err(refuse());
+            }
+            let port = url.port_or_known_default().unwrap_or(443);
+            let addrs: Vec<IpAddr> =
+                time::timeout(HOST_LOOKUP_TIMEOUT, tokio::net::lookup_host((name, port)))
+                    .await
+                    .map_err(|_| {
+                        AppError::BadRequest("the host name did not resolve in time".to_string())
+                    })?
+                    .map_err(|_| AppError::BadRequest("the host name did not resolve".to_string()))?
+                    .map(|addr| addr.ip())
+                    .collect();
+            if addrs.is_empty() || !addrs.iter().copied().all(is_public_ip) {
+                return Err(refuse());
+            }
+            Ok(addrs
+                .iter()
+                .copied()
+                .find(IpAddr::is_ipv4)
+                .unwrap_or(addrs[0]))
+        }
+        None => Err(AppError::BadRequest("invalid url".to_string())),
+    }
+}
+
+// Names that stay on the local network, or resolve through it: no dot at all, or a local suffix.
+fn host_name_allowed(name: &str) -> bool {
+    let name = name.trim_end_matches('.').to_ascii_lowercase();
+    name.contains('.')
+        && !name.ends_with(".local")
+        && !name.ends_with(".localhost")
+        && !name.ends_with(".internal")
+        && !name.ends_with(".lan")
+        && !name.ends_with(".home.arpa")
+}
+
+fn is_public_ip(ip: IpAddr) -> bool {
+    match ip {
+        IpAddr::V4(addr) => {
+            let [a, b, c, _] = addr.octets();
+            !(addr.is_unspecified()
+                || addr.is_loopback()
+                || addr.is_private()
+                || addr.is_link_local()
+                || addr.is_broadcast()
+                || addr.is_multicast()
+                || addr.is_documentation()
+                // shared address space, 100.64.0.0/10
+                || (a == 100 && (64..128).contains(&b))
+                // IETF protocol assignments, 192.0.0.0/24
+                || (a == 192 && b == 0 && c == 0)
+                // benchmarking, 198.18.0.0/15
+                || (a == 198 && (18..20).contains(&b))
+                // reserved, 240.0.0.0/4
+                || a >= 240)
+        }
+        IpAddr::V6(addr) => {
+            if let Some(mapped) = addr.to_ipv4_mapped() {
+                return is_public_ip(IpAddr::V4(mapped));
+            }
+            let seg = addr.segments();
+            !(addr.is_unspecified()
+                || addr.is_loopback()
+                || addr.is_multicast()
+                || addr.is_unique_local()
+                || addr.is_unicast_link_local()
+                // documentation, 2001:db8::/32
+                || (seg[0] == 0x2001 && seg[1] == 0x0db8)
+                // NAT64 (64:ff9b::/96) carries an IPv4 address; refuse it as a whole
+                || (seg[0] == 0x0064 && seg[1] == 0xff9b))
+        }
+    }
 }
 
 /// Parses an optional SHA-256 checksum given as 64 hexadecimal characters.
@@ -1191,7 +1386,9 @@ mod tests {
         ));
 
         let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
-        let url = format!("http://{}/test.iso", listener.local_addr().unwrap());
+        let local = listener.local_addr().unwrap();
+        *TEST_LOCAL_SERVER.lock().unwrap() = Some((local.ip(), local.port()));
+        let url = format!("http://{local}/test.iso");
         tokio::spawn(serve_slow_file(listener));
 
         let root = std::env::temp_dir().join(format!("nanokvm-dl-test-{}", random_suffix()));
@@ -1334,5 +1531,183 @@ mod tests {
                 .unwrap()
                 .unwrap();
         assert_eq!(worker.finish().await.unwrap(), expected);
+    }
+
+    fn ip(text: &str) -> IpAddr {
+        text.parse().unwrap()
+    }
+
+    #[test]
+    fn only_public_addresses_pass() {
+        for public in [
+            "93.184.216.34",
+            "8.8.8.8",
+            "2606:4700:4700::1111",
+            "1.1.1.1",
+        ] {
+            assert!(is_public_ip(ip(public)), "{public}");
+        }
+        for private in [
+            "127.0.0.1",
+            "0.0.0.0",
+            "10.0.0.5",
+            "172.16.3.4",
+            "192.168.1.1",
+            "169.254.1.1",
+            "100.64.0.1",
+            "100.127.255.255",
+            "198.18.0.1",
+            "192.0.0.1",
+            "192.0.2.1",
+            "224.0.0.1",
+            "255.255.255.255",
+            "240.0.0.1",
+            "::1",
+            "::",
+            "fe80::1",
+            "fc00::1",
+            "fd12:3456::1",
+            "ff02::1",
+            "2001:db8::1",
+            "::ffff:127.0.0.1",
+            "::ffff:10.0.0.1",
+            "64:ff9b::7f00:1",
+        ] {
+            assert!(!is_public_ip(ip(private)), "{private}");
+        }
+        // just outside the ranges
+        assert!(is_public_ip(ip("100.63.255.255")));
+        assert!(is_public_ip(ip("100.128.0.1")));
+        assert!(is_public_ip(ip("198.20.0.1")));
+    }
+
+    #[test]
+    fn names_that_stay_local_are_refused() {
+        for name in [
+            "localhost",
+            "router",
+            "kvm.local",
+            "x.localhost",
+            "nas.lan",
+            "a.internal",
+            "h.home.arpa",
+            "KVM.LOCAL.",
+        ] {
+            assert!(!host_name_allowed(name), "{name}");
+        }
+        for name in ["releases.ubuntu.com", "mirror.example.org"] {
+            assert!(host_name_allowed(name), "{name}");
+        }
+    }
+
+    #[tokio::test]
+    async fn a_private_literal_or_name_is_refused_before_curl_runs() {
+        for url in [
+            "http://127.0.0.1/x.iso",
+            "http://[::1]/x.iso",
+            "https://192.168.0.10:8443/x.iso",
+            "http://localhost/x.iso",
+            "http://router/x.iso",
+            "http://nas.local/x.iso",
+        ] {
+            let result = pin_public_host(&Url::parse(url).unwrap()).await;
+            assert!(matches!(result, Err(AppError::BadRequest(_))), "{url}");
+        }
+        let public = pin_public_host(&Url::parse("https://93.184.216.34/x.iso").unwrap())
+            .await
+            .unwrap();
+        assert_eq!(public, ip("93.184.216.34"));
+    }
+
+    #[test]
+    fn a_redirect_is_read_from_curls_output() {
+        assert!(matches!(parse_hop(b"200 "), Hop::Done));
+        assert!(matches!(parse_hop(b"302 "), Hop::Done));
+        assert!(matches!(parse_hop(b""), Hop::Done));
+        match parse_hop(b"302 https://mirror.example.org/x.iso") {
+            Hop::Redirect(next) => assert_eq!(next, "https://mirror.example.org/x.iso"),
+            Hop::Done => panic!("expected a redirect"),
+        }
+    }
+
+    #[test]
+    fn a_redirect_may_not_leave_http_or_carry_credentials() {
+        assert!(checked_redirect("https://mirror.example.org/x.iso").is_ok());
+        for next in [
+            "ftp://a.example.org/x.iso",
+            "file:///etc/passwd",
+            "https://u:p@a.example.org/x.iso",
+            "not a url",
+        ] {
+            assert!(checked_redirect(next).is_err(), "{next}");
+        }
+    }
+
+    #[tokio::test]
+    async fn a_redirect_to_a_private_host_is_refused() {
+        if !Path::new("/usr/bin/curl").exists() {
+            return;
+        }
+
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let local = listener.local_addr().unwrap();
+        *TEST_LOCAL_SERVER.lock().unwrap() = Some((local.ip(), local.port()));
+        tokio::spawn(async move {
+            use tokio::io::{AsyncReadExt, AsyncWriteExt};
+            loop {
+                let (mut stream, _) = listener.accept().await.unwrap();
+                let mut buf = [0_u8; 1024];
+                let _ = stream.read(&mut buf).await;
+                let reply = "HTTP/1.1 302 Found\r\nLocation: http://10.0.0.5/x.iso\r\nContent-Length: 0\r\nConnection: close\r\n\r\n";
+                let _ = stream.write_all(reply.as_bytes()).await;
+            }
+        });
+
+        let target = std::env::temp_dir().join(format!("nanokvm-redirect-{}", random_suffix()));
+        let result = download_remote_with_curl(&format!("http://{local}/start.iso"), &target).await;
+        let _ = fs::remove_file(&target);
+
+        assert!(
+            matches!(result, Err(AppError::BadRequest(ref msg)) if msg == NOT_PUBLIC),
+            "{result:?}"
+        );
+    }
+
+    async fn enable_request(
+        state: &AppState,
+        session: &crate::auth::session::Session,
+        password: Option<&str>,
+    ) -> Result<()> {
+        set_remote_image_download_enabled(
+            State(state.clone()),
+            Extension(CurrentSession(session.clone())),
+            ConnectInfo(ClientAddr(([127, 0, 0, 1], 40000).into())),
+            Json(SetRemoteImageDownloadReq {
+                enabled: true,
+                password: password.map(str::to_string),
+                code: None,
+            }),
+        )
+        .await
+        .map(|_| ())
+    }
+
+    #[tokio::test]
+    async fn turning_remote_download_on_needs_the_password_first() {
+        let dir = tempfile::tempdir().unwrap();
+        let mut config = Config::default();
+        config.paths.account_file = dir.path().canonicalize().unwrap().join("pwd");
+        let state = AppState::new(config).await.unwrap();
+        state
+            .accounts
+            .set_account("operator", "correct horse battery")
+            .unwrap();
+        let session = state.sessions.issue("operator", 900).await;
+
+        let none = enable_request(&state, &session, None).await;
+        assert!(matches!(none, Err(AppError::BadRequest(_))));
+        let wrong = enable_request(&state, &session, Some("not the password")).await;
+        assert!(matches!(wrong, Err(AppError::InvalidCredentials)));
+        assert!(!state.remote_image_download_enabled());
     }
 }

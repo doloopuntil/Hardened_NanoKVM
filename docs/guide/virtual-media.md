@@ -42,9 +42,11 @@ host as a USB drive. Only one side writes `/data` at a time:
 - **Upload** from the browser in **Images**. An optional SHA-256 checks the
   file once it has arrived.
 - **Download from a URL**: turn on remote download in **Settings > User > Appearance**
-  first; it is off by default. The device accepts only `http`/`https` URLs, a
-  plain image file name, a size that fits, and a file that really is an ISO 9660
-  image. Enter the optional SHA-256 to have the download checked. The menu bar
+  first; it is off by default, and turning it on asks for your password and, with
+  two-factor, a code. The device accepts only `http`/`https` URLs to a host on the
+  public internet (not an address on your own network, `localhost` or a `.local`
+  name, also after a redirect), a plain image file name, a size that fits, and a file
+  that really is an ISO 9660 image. Enter the optional SHA-256 to have the download checked. The menu bar
   shows the progress, and **Cancel** stops the download and removes the partial
   file.
 - **Over the network**: `scp your-image root@<nanokvm>:/data` (needs SSH).

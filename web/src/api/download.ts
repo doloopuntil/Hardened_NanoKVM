@@ -25,6 +25,7 @@ export function getRemoteImageDownloadEnabled() {
   return http.get('/api/download/image/remote/enabled');
 }
 
-export function setRemoteImageDownloadEnabled(enabled: boolean) {
-  return http.post('/api/download/image/remote/enabled', { enabled });
+// turning it on needs the password, and a code when the account has a second factor
+export function setRemoteImageDownloadEnabled(enabled: boolean, password?: string, code?: string) {
+  return http.post('/api/download/image/remote/enabled', { enabled, password, code });
 }

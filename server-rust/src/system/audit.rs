@@ -122,6 +122,18 @@ pub fn application_update_installed(username: &str, signer: &str, version: &str)
     );
 }
 
+pub fn remote_download_changed(username: &str, source_ip: &str, enabled: bool) {
+    emit(
+        84,
+        &format!(
+            "{TAG}: remote image download {} user={} source={}",
+            if enabled { "enabled" } else { "disabled" },
+            sanitize(username),
+            sanitize(source_ip)
+        ),
+    );
+}
+
 pub fn wireguard_changed(source_ip: &str, enabled: bool) {
     emit(
         85,

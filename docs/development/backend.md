@@ -301,11 +301,11 @@ over the account.
 - The HTTP/HTTPS switch restarts the server process, like an application update,
   and the video stack starts again with it. `S95nanokvm` reboots only if the old
   server does not exit. Changing the HID mode still reboots the device.
-- Remote ISO download needs a source allowlist before it can be on by default.
-- The switch for the remote ISO download needs a password or two-factor step
-  (see `require_second_factor` in `account.rs`). Upstream's newer download code
-  (sipeed/NanoKVM #957) has no source allowlist, SSRF guard or switch, so there is
-  nothing to take over; both items stay our own work.
+- Remote ISO download has no allowlist of sources, so it should stay off by default.
+  Turning it on needs the password and a two-factor code, and the URL host and every
+  redirect hop must be on the public internet (`pin_public_host` in `download.rs`).
+  Upstream's newer download code (sipeed/NanoKVM #957) has no allowlist, SSRF guard
+  or switch, so there is nothing to take over.
 - PicoClaw needs more end-to-end testing against the real runtime.
 - The server runs with root privileges, like the original. Splitting privileged
   operations into a smaller helper is future work.

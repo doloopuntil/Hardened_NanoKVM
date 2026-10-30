@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-29
+last-checked: 2026-10-30
 source: server-rust/src/http/routes.rs
 ---
 
@@ -193,8 +193,8 @@ as authentication, CSRF, origin, malformed uploads, or internal errors.
 | GET      | `/api/download/image/enabled`        | Implemented.                                                                                                                                                              |
 | GET      | `/api/download/image/status`         | Implemented.                                                                                                                                                              |
 | POST     | `/api/download/file`                 | Implemented browser ISO upload with size and path validation.                                                                                                             |
-| GET/POST | `/api/download/image/remote/enabled` | Implemented disabled-by-default remote ISO toggle.                                                                                                                        |
-| POST     | `/api/download/image`                | Implemented guarded remote ISO download with protocol, filename, destination, size, redirect, and ISO signature checks.                                                   |
+| GET/POST | `/api/download/image/remote/enabled` | Implemented disabled-by-default remote ISO toggle. Turning it on needs `password` and, with two-factor, a `code`, and is logged; turning it off needs only the session.                                                                                                                        |
+| POST     | `/api/download/image`                | Implemented guarded remote ISO download with protocol, public-host (every redirect hop, address pinned), filename, destination, size, redirect, and ISO signature checks.                                                   |
 
 ### Network And Tailscale
 

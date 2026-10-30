@@ -22,6 +22,8 @@ import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
 import { Robot } from '@/components/icons/robot.tsx';
 import { SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
+import { RemoteDownloadEnable } from './remote-download-enable.tsx';
+
 export const MenuIcons = () => {
   const { t } = useTranslation();
 
@@ -29,6 +31,7 @@ export const MenuIcons = () => {
   const [isTerminalLoading, setIsTerminalLoading] = useState(false);
   const [isRemoteDownloadEnabled, setIsRemoteDownloadEnabled] = useState(false);
   const [isRemoteDownloadLoading, setIsRemoteDownloadLoading] = useState(false);
+  const [isRemoteDownloadDialogOpen, setIsRemoteDownloadDialogOpen] = useState(false);
 
   const items = [
     { key: 'image', icon: <DiscIcon size={16} /> },
@@ -95,13 +98,7 @@ export const MenuIcons = () => {
 
     if (key === 'remoteDownload') {
       if (!isRemoteDownloadEnabled) {
-        confirm({
-          title: t('settings.appearance.menuBar.remoteDownloadWarningTitle'),
-          content: t('settings.appearance.menuBar.remoteDownloadWarningDesc'),
-          okText: t('settings.appearance.menuBar.remoteDownloadWarningConfirm'),
-          danger: true,
-          onOk: () => updateRemoteDownload(true)
-        });
+        setIsRemoteDownloadDialogOpen(true);
       } else {
         updateRemoteDownload(false);
       }
@@ -186,6 +183,12 @@ export const MenuIcons = () => {
           </SettingRow>
         ))}
       </SettingSection>
+
+      <RemoteDownloadEnable
+        open={isRemoteDownloadDialogOpen}
+        onClose={() => setIsRemoteDownloadDialogOpen(false)}
+        onEnabled={() => setIsRemoteDownloadEnabled(true)}
+      />
     </>
   );
 };
