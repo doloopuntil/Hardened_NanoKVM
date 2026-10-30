@@ -246,6 +246,10 @@ const fi = {
         'Yhdistä USB-gadget uudelleen vain, jos etäisäntä ei huomannut median vaihtoa. Näppäimistö ja hiiri voivat katketa hetkeksi.',
       usbReconnectSuccess: 'USB yhdistetty uudelleen',
       usbReconnectFailed: 'USB-uudelleenyhdistys epäonnistui',
+      addImage: 'Lisää levykuva',
+      fromUrl: 'URL-osoitteesta',
+      fromFile: 'Tiedostosta',
+      mounted: 'Liitetty',
       mountTitle: 'Liitä levykuva',
       deleteTitle: 'Poista levykuva',
       deleteConfirm: 'Haluatko varmasti poistaa tämän levykuvan?',
@@ -310,7 +314,6 @@ const fi = {
       ok: 'OK'
     },
     download: {
-      title: 'Lataa levykuvia',
       input: 'Etälevykuvan URL',
       ok: 'OK',
       disabled:

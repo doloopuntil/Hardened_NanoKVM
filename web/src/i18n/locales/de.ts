@@ -247,6 +247,10 @@ const de = {
         'USB-Gadget nur neu verbinden, wenn der Remote-Host den Medienwechsel nicht erkannt hat. Tastatur und Maus können kurz getrennt werden.',
       usbReconnectSuccess: 'USB neu verbunden',
       usbReconnectFailed: 'USB-Neuverbindung fehlgeschlagen',
+      addImage: 'Bild hinzufügen',
+      fromUrl: 'Von URL',
+      fromFile: 'Aus Datei',
+      mounted: 'Eingebunden',
       mountTitle: 'Bild einbinden',
       deleteTitle: 'Bild löschen',
       deleteConfirm: 'Sind Sie sicher, dass Sie dieses Bild löschen möchten?',
@@ -311,7 +315,6 @@ const de = {
       ok: 'OK'
     },
     download: {
-      title: 'Abbilder herunterladen',
       input: 'URL des Remote-Images',
       ok: 'OK',
       disabled:

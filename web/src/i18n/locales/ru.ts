@@ -246,6 +246,10 @@ const ru = {
         'Переподключайте USB-gadget только если удаленный хост не увидел смену носителя. Клавиатура и мышь могут кратко отключиться.',
       usbReconnectSuccess: 'USB переподключен',
       usbReconnectFailed: 'Не удалось переподключить USB',
+      addImage: 'Добавить образ',
+      fromUrl: 'По URL',
+      fromFile: 'Из файла',
+      mounted: 'Смонтирован',
       mountTitle: 'Смонтировать образ',
       deleteTitle: 'Удалить образ',
       deleteConfirm: 'Вы уверены, что хотите удалить это изображение?',
@@ -310,7 +314,6 @@ const ru = {
       ok: 'ОК'
     },
     download: {
-      title: 'Скачать образ',
       input: 'URL удалённого образа',
       ok: 'OK',
       disabled:

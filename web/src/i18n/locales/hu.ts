@@ -245,6 +245,10 @@ const hu = {
         'Csak akkor csatlakoztassa újra az USB gadgetet, ha a távoli gép nem észlelte a médiaváltást. A billentyűzet és az egér röviden megszakadhat.',
       usbReconnectSuccess: 'USB újracsatlakoztatva',
       usbReconnectFailed: 'Az USB újracsatlakoztatás sikertelen',
+      addImage: 'Kép hozzáadása',
+      fromUrl: 'URL-ről',
+      fromFile: 'Fájlból',
+      mounted: 'Csatlakoztatva',
       mountTitle: 'Kép csatlakoztatása',
       deleteTitle: 'Kép törlése',
       deleteConfirm: 'Biztosan törli ezt a képet?',
@@ -309,7 +313,6 @@ const hu = {
       ok: 'OK'
     },
     download: {
-      title: 'Képek letöltése',
       input: 'Távoli képfájl URL-je',
       ok: 'OK',
       disabled:

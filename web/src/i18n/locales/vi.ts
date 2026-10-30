@@ -240,6 +240,10 @@ const vi = {
         'Chỉ kết nối lại USB gadget nếu máy từ xa không nhận thấy thay đổi media. Bàn phím và chuột có thể ngắt kết nối trong chốc lát.',
       usbReconnectSuccess: 'Đã kết nối lại USB',
       usbReconnectFailed: 'Kết nối lại USB thất bại',
+      addImage: 'Thêm hình ảnh',
+      fromUrl: 'Từ URL',
+      fromFile: 'Từ tệp',
+      mounted: 'Đã mount',
       mountTitle: 'Mount hình ảnh',
       deleteTitle: 'Xóa hình ảnh',
       deleteConfirm: 'Bạn có chắc chắn muốn xóa hình ảnh này không?',
@@ -304,7 +308,6 @@ const vi = {
       ok: 'OK'
     },
     download: {
-      title: 'Tải xuống hình ảnh',
       input: 'URL của image từ xa',
       ok: 'OK',
       disabled:

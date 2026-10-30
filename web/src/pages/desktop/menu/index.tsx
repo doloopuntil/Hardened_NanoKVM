@@ -12,7 +12,6 @@ import { useMenuVisibility } from '@/hooks/useMenuVisibility.ts';
 import { useIsDesktopLayout } from '@/hooks/useResponsiveLayout.ts';
 
 import { KeyboardLedStatus } from '../keyboard-led-status';
-import { DownloadImage } from './download.tsx';
 import { Fullscreen } from './fullscreen';
 import { Image } from './image';
 import { Keyboard } from './keyboard';
@@ -123,12 +122,11 @@ export const Menu = () => {
               <Divider type="vertical" />
 
               {isEnabled('image') && <Image />}
-              {isEnabled('download') && <DownloadImage />}
               {isEnabled('terminal') && <Terminal />}
               {isEnabled('script') && <Script />}
               {isEnabled('wol') && <Wol />}
 
-              {['image', 'download', 'script', 'terminal', 'wol'].some(isEnabled) && (
+              {['image', 'script', 'terminal', 'wol'].some(isEnabled) && (
                 <Divider type="vertical" />
               )}
 

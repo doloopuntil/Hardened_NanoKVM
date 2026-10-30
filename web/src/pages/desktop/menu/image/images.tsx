@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { Button, notification, Typography } from 'antd';
 import clsx from 'clsx';
 import {
@@ -24,9 +24,23 @@ type ImagesProps = {
   cdrom: boolean;
   setCdrom: (cdrom: boolean) => void;
   setIsMounted: (isMounted: boolean) => void;
+  isDiskShared: boolean;
+  isDiskStateKnown: boolean;
+  refreshDiskState: () => void;
+  // shown between the list and the USB reconnect button
+  children?: ReactNode;
 };
 
-export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) => {
+export const Images = ({
+  isOpen,
+  cdrom,
+  setCdrom,
+  setIsMounted,
+  isDiskShared,
+  isDiskStateKnown,
+  refreshDiskState,
+  children
+}: ImagesProps) => {
   const { t } = useTranslation();
   const [notify, contextHolder] = notification.useNotification();
 
@@ -37,8 +51,6 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
   const [mountedImage, setMountedImage] = useState('');
   const [deletingImage, setDeletingImage] = useState('');
   const [isReconnecting, setIsReconnecting] = useState(false);
-  const [isDiskShared, setIsDiskShared] = useState(false);
-  const [isDiskStateKnown, setIsDiskStateKnown] = useState(false);
   const [isListFailed, setIsListFailed] = useState(false);
   const isLoadingRef = useRef(false);
 
@@ -81,35 +93,23 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
       });
   }, [getMountedImage]);
 
-  // the host writes /data while the virtual disk serves it, so images are
-  // read-only here and can only be mounted, not deleted or uploaded
-  const getDiskState = useCallback(() => {
-    attempt(() => getVirtualDevice()).then((rsp) => {
-      setIsDiskStateKnown(!!rsp);
-      if (!rsp) return;
-
-      setIsDiskShared(!!rsp.data?.disk);
-    });
-  }, []);
-
   useEffect(() => {
     if (isOpen) {
       getImages();
-      getDiskState();
     }
-  }, [getDiskState, getImages, isOpen]);
+  }, [getImages, isOpen]);
 
   useEffect(() => {
     function handleImageListChanged() {
       if (isOpen) {
         getImages();
-        getDiskState();
+        refreshDiskState();
       }
     }
 
     window.addEventListener(IMAGE_LIST_CHANGED_EVENT, handleImageListChanged);
     return () => window.removeEventListener(IMAGE_LIST_CHANGED_EVENT, handleImageListChanged);
-  }, [getDiskState, getImages, isOpen]);
+  }, [refreshDiskState, getImages, isOpen]);
 
   // mounting an image takes the mass storage device away from the virtual disk,
   // so ask the user before the virtual disk changes on the computer
@@ -200,7 +200,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
       .finally(() => {
         setMountingImage('');
         client.connect();
-        getDiskState();
+        refreshDiskState();
       });
   }
 
@@ -293,30 +293,57 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
     });
   }
 
-  // loading
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center space-x-2 py-5 text-neutral-400">
-        <LoaderCircleIcon className="animate-spin" size={18} />
-        <span className="text-sm">{t('image.loading')}</span>
-      </div>
-    );
-  }
-
-  // empty image
-  if (images.length === 0) {
-    return (
-      <div className="flex items-center justify-center space-x-2 py-5 text-neutral-500">
-        <PackageSearchIcon size={18} />
-        <span className="text-sm">
-          {isListFailed ? t('common.actionFailed') : t('image.empty')}
-        </span>
-      </div>
-    );
-  }
-
   return (
     <>
+      {renderList()}
+
+      <div className="mt-3 border-0 border-t border-solid border-neutral-700/70 pt-3">
+        {children}
+      </div>
+
+      <div className="mt-3 flex justify-end border-0 border-t border-solid border-neutral-700/70 pt-3">
+        <Button
+          size="small"
+          icon={
+            isReconnecting ? (
+              <LoaderCircleIcon className="animate-spin" size={14} />
+            ) : (
+              <CableIcon size={14} />
+            )
+          }
+          loading={isReconnecting}
+          onClick={confirmReconnectUsbGadget}
+        >
+          {t('image.usbReconnect')}
+        </Button>
+      </div>
+
+      {contextHolder}
+    </>
+  );
+
+  function renderList() {
+    if (isLoading) {
+      return (
+        <div className="flex items-center justify-center space-x-2 py-5 text-neutral-400">
+          <LoaderCircleIcon className="animate-spin" size={18} />
+          <span className="text-sm">{t('image.loading')}</span>
+        </div>
+      );
+    }
+
+    if (images.length === 0) {
+      return (
+        <div className="flex items-center justify-center space-x-2 py-5 text-neutral-500">
+          <PackageSearchIcon size={18} />
+          <span className="text-sm">
+            {isListFailed ? t('common.actionFailed') : t('image.empty')}
+          </span>
+        </div>
+      );
+    }
+
+    return (
       <div className="flex max-h-[400px] flex-col overflow-y-auto pb-2">
         {images.map((image) => (
           <div
@@ -349,6 +376,9 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
             >
               {isImageCdrom(image) ? 'ISO' : 'IMG'}
             </div>
+            {mountedImage === image && (
+              <div className="shrink-0 text-xs font-semibold">{t('image.mounted')}</div>
+            )}
 
             <div className="flex h-[24px] w-[24px] items-center justify-center rounded">
               {mountedImage === image ? (
@@ -371,27 +401,8 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
           </div>
         ))}
       </div>
-
-      <div className="mt-3 flex justify-end border-t border-neutral-700/70 pt-3">
-        <Button
-          size="small"
-          icon={
-            isReconnecting ? (
-              <LoaderCircleIcon className="animate-spin" size={14} />
-            ) : (
-              <CableIcon size={14} />
-            )
-          }
-          loading={isReconnecting}
-          onClick={confirmReconnectUsbGadget}
-        >
-          {t('image.usbReconnect')}
-        </Button>
-      </div>
-
-      {contextHolder}
-    </>
-  );
+    );
+  }
 };
 
 function fileName(path: string): string {

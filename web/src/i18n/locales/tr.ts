@@ -242,6 +242,10 @@ const tr = {
         "USB gadget'ı yalnızca uzak makine medya değişikliğini fark etmediyse yeniden bağlayın. Klavye ve fare kısa süreli kesilebilir.",
       usbReconnectSuccess: 'USB yeniden bağlandı',
       usbReconnectFailed: 'USB yeniden bağlanamadı',
+      addImage: 'İmaj ekle',
+      fromUrl: "URL'den",
+      fromFile: 'Dosyadan',
+      mounted: 'Bağlı',
       mountTitle: 'İmajı bağla',
       deleteTitle: 'İmajı sil',
       deleteConfirm: 'Bu resmi silmek istediğinizden emin misiniz?',
@@ -306,7 +310,6 @@ const tr = {
       ok: 'Tamam'
     },
     download: {
-      title: 'Disk imajı indir',
       input: "Uzak imaj URL'si",
       ok: 'OK',
       disabled:

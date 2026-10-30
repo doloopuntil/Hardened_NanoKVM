@@ -243,6 +243,10 @@ const se = {
         'Återanslut USB-gadgeten endast om fjärrvärden inte upptäckte mediebytet. Tangentbord och mus kan kopplas från kortvarigt.',
       usbReconnectSuccess: 'USB återansluten',
       usbReconnectFailed: 'USB-återanslutning misslyckades',
+      addImage: 'Lägg till avbildning',
+      fromUrl: 'Från URL',
+      fromFile: 'Från fil',
+      mounted: 'Monterad',
       mountTitle: 'Montera avbildning',
       deleteTitle: 'Ta bort avbildning',
       deleteConfirm: 'Är du säker på att du vill ta bort denna avbildning?',
@@ -307,7 +311,6 @@ const se = {
       ok: 'OK'
     },
     download: {
-      title: 'Hämta avbildningar',
       input: 'URL till fjärravbildning',
       ok: 'OK',
       disabled:

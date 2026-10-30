@@ -240,6 +240,10 @@ const ko = {
         '원격 호스트가 미디어 변경을 인식하지 못했을 때만 USB gadget을 다시 연결하세요. 키보드와 마우스가 잠시 끊길 수 있습니다.',
       usbReconnectSuccess: 'USB가 다시 연결됨',
       usbReconnectFailed: 'USB 다시 연결 실패',
+      addImage: '이미지 추가',
+      fromUrl: 'URL에서',
+      fromFile: '파일에서',
+      mounted: '마운트됨',
       mountTitle: '이미지 마운트',
       deleteTitle: '이미지 삭제',
       deleteConfirm: '이 이미지를 제거하시겠습니까?',
@@ -304,7 +308,6 @@ const ko = {
       ok: '확인'
     },
     download: {
-      title: '이미지 다운로드',
       input: '원격 이미지 URL',
       ok: 'OK',
       disabled:

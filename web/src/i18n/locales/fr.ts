@@ -247,6 +247,10 @@ const fr = {
         "Reconnectez le gadget USB seulement si l'hôte distant n'a pas détecté le changement de média. Le clavier et la souris peuvent se déconnecter brièvement.",
       usbReconnectSuccess: 'USB reconnecté',
       usbReconnectFailed: 'Échec de la reconnexion USB',
+      addImage: 'Ajouter une image',
+      fromUrl: 'Depuis une URL',
+      fromFile: 'Depuis un fichier',
+      mounted: 'Montée',
       mountTitle: "Monter l'image",
       deleteTitle: "Supprimer l'image",
       deleteConfirm: 'Etes-vous sûr de vouloir supprimer cette image?',
@@ -311,7 +315,6 @@ const fr = {
       ok: 'OK'
     },
     download: {
-      title: 'Télécharger des images',
       input: "URL de l'image distante",
       ok: 'OK',
       disabled:

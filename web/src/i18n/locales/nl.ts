@@ -247,6 +247,10 @@ const nl = {
         'Verbind het USB-gadget alleen opnieuw als de externe host de mediawijziging niet heeft opgemerkt. Toetsenbord en muis kunnen kort worden losgekoppeld.',
       usbReconnectSuccess: 'USB opnieuw verbonden',
       usbReconnectFailed: 'USB opnieuw verbinden mislukt',
+      addImage: 'Afbeelding toevoegen',
+      fromUrl: 'Via URL',
+      fromFile: 'Uit bestand',
+      mounted: 'Gekoppeld',
       mountTitle: 'Afbeelding koppelen',
       deleteTitle: 'Afbeelding verwijderen',
       deleteConfirm: 'Weet u zeker dat u deze afbeelding wilt verwijderen?',
@@ -311,7 +315,6 @@ const nl = {
       ok: 'OK'
     },
     download: {
-      title: 'Afbeeldingen downloaden',
       input: 'URL van externe image',
       ok: 'OK',
       disabled:

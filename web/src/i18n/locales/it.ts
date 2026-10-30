@@ -247,6 +247,10 @@ const it = {
         "Ricollega il gadget USB solo se l'host remoto non ha rilevato il cambio del supporto. Tastiera e mouse potrebbero disconnettersi brevemente.",
       usbReconnectSuccess: 'USB ricollegato',
       usbReconnectFailed: 'Ricollegamento USB non riuscito',
+      addImage: 'Aggiungi immagine',
+      fromUrl: 'Da URL',
+      fromFile: 'Da file',
+      mounted: 'Montata',
       mountTitle: 'Monta immagine',
       deleteTitle: 'Elimina immagine',
       deleteConfirm: 'Sei sicuro di voler eliminare questa immagine?',
@@ -311,7 +315,6 @@ const it = {
       ok: 'OK'
     },
     download: {
-      title: 'Scarica immagini',
       input: "URL dell'immagine remota",
       ok: 'OK',
       disabled:

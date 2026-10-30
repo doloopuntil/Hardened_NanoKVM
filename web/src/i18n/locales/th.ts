@@ -238,6 +238,10 @@ const th = {
         'เชื่อมต่อ USB gadget ใหม่เฉพาะเมื่อโฮสต์ระยะไกลไม่เห็นการเปลี่ยนสื่อ แป้นพิมพ์และเมาส์อาจตัดการเชื่อมต่อชั่วครู่',
       usbReconnectSuccess: 'เชื่อมต่อ USB ใหม่แล้ว',
       usbReconnectFailed: 'เชื่อมต่อ USB ใหม่ล้มเหลว',
+      addImage: 'เพิ่มอิมเมจ',
+      fromUrl: 'จาก URL',
+      fromFile: 'จากไฟล์',
+      mounted: 'ติดตั้งแล้ว',
       mountTitle: 'ติดตั้งอิมเมจ',
       deleteTitle: 'ลบอิมเมจ',
       deleteConfirm: 'คุณแน่ใจหรือไม่ว่าต้องการลบภาพนี้?',
@@ -302,7 +306,6 @@ const th = {
       ok: 'ยืนยัน'
     },
     download: {
-      title: 'ดาวน์โหลด Disk Image',
       input: 'URL ของอิมเมจระยะไกล',
       ok: 'OK',
       disabled:

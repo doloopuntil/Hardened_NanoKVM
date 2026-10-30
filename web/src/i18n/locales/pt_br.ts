@@ -244,6 +244,10 @@ const pt_br = {
         'Reconecte o gadget USB apenas se o host remoto não percebeu a troca de mídia. Teclado e mouse podem desconectar por instantes.',
       usbReconnectSuccess: 'USB reconectado',
       usbReconnectFailed: 'Falha ao reconectar USB',
+      addImage: 'Adicionar imagem',
+      fromUrl: 'Por URL',
+      fromFile: 'Por arquivo',
+      mounted: 'Montada',
       mountTitle: 'Montar imagem',
       deleteTitle: 'Excluir imagem',
       deleteConfirm: 'Tem certeza que deseja excluir esta imagem?',
@@ -308,7 +312,6 @@ const pt_br = {
       ok: 'OK'
     },
     download: {
-      title: 'Baixar imagens',
       input: 'URL da imagem remota',
       ok: 'OK',
       disabled:

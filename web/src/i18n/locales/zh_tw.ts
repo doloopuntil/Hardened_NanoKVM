@@ -230,6 +230,10 @@ const zh_tw = {
         '僅在遠端主機未偵測到媒體變更時才重新連接 USB gadget。鍵盤和滑鼠可能會短暫中斷。',
       usbReconnectSuccess: 'USB 已重新連接',
       usbReconnectFailed: 'USB 重新連接失敗',
+      addImage: '新增映像檔',
+      fromUrl: '從網址',
+      fromFile: '從檔案',
+      mounted: '已掛載',
       mountTitle: '掛載映像檔',
       deleteTitle: '刪除映像檔',
       deleteConfirm: '確定要刪除該映像檔嗎？',
@@ -294,7 +298,6 @@ const zh_tw = {
       ok: '確定'
     },
     download: {
-      title: '下載映像檔',
       input: '映像檔的下載 URL',
       ok: 'OK',
       disabled:

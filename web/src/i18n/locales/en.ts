@@ -243,6 +243,10 @@ const en = {
         'Reconnect the USB gadget only if the remote host did not notice the media change. Keyboard and mouse may briefly disconnect.',
       usbReconnectSuccess: 'USB reconnected',
       usbReconnectFailed: 'USB reconnect failed',
+      addImage: 'Add image',
+      fromUrl: 'From URL',
+      fromFile: 'From file',
+      mounted: 'Mounted',
       mountTitle: 'Mount image',
       deleteTitle: 'Delete image',
       deleteConfirm: 'Are you sure you want to delete this image?',
@@ -307,7 +311,6 @@ const en = {
       ok: 'OK'
     },
     download: {
-      title: 'Image downloader',
       input: 'Remote image URL',
       ok: 'OK',
       disabled:

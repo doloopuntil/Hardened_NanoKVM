@@ -239,6 +239,10 @@ const et = {
         'Ühenda USB-gadget uuesti ainult siis, kui kaughost ei märganud meedia muutust. Klaviatuur ja hiir võivad hetkeks katkeda.',
       usbReconnectSuccess: 'USB ühendati uuesti',
       usbReconnectFailed: 'USB taasühendamine nurjus',
+      addImage: 'Lisa image-fail',
+      fromUrl: 'URL-ist',
+      fromFile: 'Failist',
+      mounted: 'Ühendatud',
       mountTitle: 'Ühenda image-fail',
       deleteTitle: 'Kustuta image-fail',
       deleteConfirm: 'Kas oled kindel, et soovid selle image kustutada?',
@@ -303,7 +307,6 @@ const et = {
       ok: 'OK'
     },
     download: {
-      title: 'Laadi kujutised alla',
       input: 'Kaug-image URL',
       ok: 'OK',
       disabled:

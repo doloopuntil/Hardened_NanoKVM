@@ -244,6 +244,10 @@ const id = {
         'Sambungkan ulang gadget USB hanya jika host jarak jauh tidak mendeteksi perubahan media. Keyboard dan mouse mungkin terputus sebentar.',
       usbReconnectSuccess: 'USB tersambung ulang',
       usbReconnectFailed: 'Sambung ulang USB gagal',
+      addImage: 'Tambah gambar',
+      fromUrl: 'Dari URL',
+      fromFile: 'Dari berkas',
+      mounted: 'Terpasang',
       mountTitle: 'Pasang gambar',
       deleteTitle: 'Hapus gambar',
       deleteConfirm: 'Apakah Anda yakin ingin menghapus gambar ini?',
@@ -308,7 +312,6 @@ const id = {
       ok: 'OK'
     },
     download: {
-      title: 'Unduh gambar',
       input: 'URL image jarak jauh',
       ok: 'OK',
       disabled:

@@ -244,6 +244,10 @@ const ja = {
         'リモートホストがメディア変更を認識しなかった場合のみ USB ガジェットを再接続してください。キーボードとマウスが一時的に切断されることがあります。',
       usbReconnectSuccess: 'USB を再接続しました',
       usbReconnectFailed: 'USB 再接続に失敗しました',
+      addImage: 'イメージを追加',
+      fromUrl: 'URLから',
+      fromFile: 'ファイルから',
+      mounted: 'マウント中',
       mountTitle: 'イメージをマウント',
       deleteTitle: 'イメージを削除',
       deleteConfirm: 'このイメージを削除してもよろしいですか？',
@@ -309,7 +313,6 @@ const ja = {
       ok: 'OK'
     },
     download: {
-      title: 'イメージをダウンロード',
       input: 'リモートイメージの URL',
       ok: 'OK',
       disabled:

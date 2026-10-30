@@ -247,6 +247,10 @@ const uk = {
         "Перепідключайте USB gadget лише якщо віддалений хост не помітив зміну носія. Клавіатура й миша можуть коротко від'єднатися.",
       usbReconnectSuccess: 'USB перепідключено',
       usbReconnectFailed: 'Не вдалося перепідключити USB',
+      addImage: 'Додати образ',
+      fromUrl: 'За URL',
+      fromFile: 'З файлу',
+      mounted: 'Змонтовано',
       mountTitle: 'Змонтувати образ',
       deleteTitle: 'Видалити образ',
       deleteConfirm: 'Ви впевнені, що хочете видалити це зображення?',
@@ -311,7 +315,6 @@ const uk = {
       ok: 'ОК'
     },
     download: {
-      title: 'Завантажити образи',
       input: 'URL-адреса віддаленого образу',
       ok: 'OK',
       disabled:

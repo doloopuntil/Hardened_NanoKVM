@@ -245,6 +245,10 @@ const pl = {
         'Podłącz gadget USB ponownie tylko wtedy, gdy zdalny host nie zauważył zmiany nośnika. Klawiatura i mysz mogą na chwilę się rozłączyć.',
       usbReconnectSuccess: 'USB podłączono ponownie',
       usbReconnectFailed: 'Ponowne podłączenie USB nie powiodło się',
+      addImage: 'Dodaj obraz',
+      fromUrl: 'Z adresu URL',
+      fromFile: 'Z pliku',
+      mounted: 'Zamontowany',
       mountTitle: 'Zamontuj obraz',
       deleteTitle: 'Usuń obraz',
       deleteConfirm: 'Czy na pewno chcesz usunąć ten obraz?',
@@ -309,7 +313,6 @@ const pl = {
       ok: 'OK'
     },
     download: {
-      title: 'Pobierz obrazy',
       input: 'Adres URL zdalnego obrazu',
       ok: 'OK',
       disabled:

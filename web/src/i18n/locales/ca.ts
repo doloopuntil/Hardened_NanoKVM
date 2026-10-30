@@ -243,6 +243,10 @@ const ca = {
         'Reconnecta el gadget USB només si el host remot no ha detectat el canvi de mitjà. El teclat i el ratolí es poden desconnectar breument.',
       usbReconnectSuccess: 'USB reconnectat',
       usbReconnectFailed: "No s'ha pogut reconnectar USB",
+      addImage: 'Afegeix una imatge',
+      fromUrl: "Des d'una URL",
+      fromFile: "Des d'un fitxer",
+      mounted: 'Muntada',
       mountTitle: 'Munta la imatge',
       deleteTitle: 'Esborra la imatge',
       deleteConfirm: 'Estàs segur que vols suprimir aquesta imatge?',
@@ -307,7 +311,6 @@ const ca = {
       ok: "D'acord"
     },
     download: {
-      title: 'Descarrega imatges',
       input: 'URL de la imatge remota',
       ok: 'OK',
       disabled:

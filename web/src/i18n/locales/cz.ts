@@ -243,6 +243,10 @@ const cz = {
         'USB gadget znovu připojte jen tehdy, pokud vzdálený host nezaznamenal změnu média. Klávesnice a myš se mohou krátce odpojit.',
       usbReconnectSuccess: 'USB znovu připojeno',
       usbReconnectFailed: 'Opětovné připojení USB selhalo',
+      addImage: 'Přidat obraz',
+      fromUrl: 'Z adresy URL',
+      fromFile: 'Ze souboru',
+      mounted: 'Připojeno',
       mountTitle: 'Připojit obraz',
       deleteTitle: 'Smazat obraz',
       deleteConfirm: 'Opravdu chcete smazat tento obrázek?',
@@ -307,7 +311,6 @@ const cz = {
       ok: 'OK'
     },
     download: {
-      title: 'Stáhnout obrazy',
       input: 'URL vzdáleného obrazu',
       ok: 'OK',
       disabled:

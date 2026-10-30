@@ -246,6 +246,10 @@ const nb = {
         'Koble USB-gadgeten til på nytt bare hvis den eksterne verten ikke oppdaget medieendringen. Tastatur og mus kan kobles fra kort.',
       usbReconnectSuccess: 'USB koblet til på nytt',
       usbReconnectFailed: 'USB-tilkobling mislyktes',
+      addImage: 'Legg til bilde',
+      fromUrl: 'Fra URL',
+      fromFile: 'Fra fil',
+      mounted: 'Montert',
       mountTitle: 'Monter bilde',
       deleteTitle: 'Slett bilde',
       deleteConfirm: 'Er du sikker på at du vil slette dette bildet?',
@@ -310,7 +314,6 @@ const nb = {
       ok: 'OK'
     },
     download: {
-      title: 'Last ned bilder',
       input: 'URL til eksternt bilde',
       ok: 'OK',
       disabled:

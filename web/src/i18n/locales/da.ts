@@ -243,6 +243,10 @@ const da = {
         'Genopret kun USB-gadgeten, hvis fjernværten ikke opdagede medieskiftet. Tastatur og mus kan kortvarigt afbrydes.',
       usbReconnectSuccess: 'USB tilsluttet igen',
       usbReconnectFailed: 'Kunne ikke tilslutte USB igen',
+      addImage: 'Tilføj diskbillede',
+      fromUrl: 'Fra URL',
+      fromFile: 'Fra fil',
+      mounted: 'Monteret',
       mountTitle: 'Monter diskbillede',
       deleteTitle: 'Slet diskbillede',
       deleteConfirm: 'Er du sikker på, at du vil slette dette billede?',
@@ -307,7 +311,6 @@ const da = {
       ok: 'OK'
     },
     download: {
-      title: 'Hent billeder',
       input: 'URL til fjernbillede',
       ok: 'OK',
       disabled:

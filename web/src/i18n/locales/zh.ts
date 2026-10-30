@@ -229,6 +229,10 @@ const zh = {
         '仅当远程主机没有识别到介质变化时才重新连接 USB gadget。键盘和鼠标可能会短暂断开。',
       usbReconnectSuccess: 'USB 已重新连接',
       usbReconnectFailed: 'USB 重新连接失败',
+      addImage: '添加镜像',
+      fromUrl: '从链接',
+      fromFile: '从文件',
+      mounted: '已挂载',
       mountTitle: '挂载镜像',
       deleteTitle: '删除镜像',
       deleteConfirm: '确定要删除该镜像吗？',
@@ -293,7 +297,6 @@ const zh = {
       ok: '确定'
     },
     download: {
-      title: '下载镜像',
       input: '远程镜像 URL',
       ok: 'OK',
       disabled:

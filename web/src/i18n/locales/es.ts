@@ -246,6 +246,10 @@ const es = {
         'Reconecta el gadget USB solo si el host remoto no detectó el cambio de medio. El teclado y el ratón pueden desconectarse brevemente.',
       usbReconnectSuccess: 'USB reconectado',
       usbReconnectFailed: 'Error al reconectar USB',
+      addImage: 'Añadir imagen',
+      fromUrl: 'Desde URL',
+      fromFile: 'Desde archivo',
+      mounted: 'Montada',
       mountTitle: 'Montar imagen',
       deleteTitle: 'Eliminar imagen',
       deleteConfirm: '¿Estás seguro de que deseas eliminar esta imagen?',
@@ -310,7 +314,6 @@ const es = {
       ok: 'Aceptar'
     },
     download: {
-      title: 'Descargar imágenes',
       input: 'URL de la imagen remota',
       ok: 'OK',
       disabled:
