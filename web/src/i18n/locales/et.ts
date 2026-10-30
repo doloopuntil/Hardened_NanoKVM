@@ -221,7 +221,7 @@ const et = {
       title: 'Image failid',
       loading: 'Laadimine...',
       empty: 'Midagi ei leitud',
-      mountMode: 'Ühendamise režiim',
+      mountMode: 'Ühenda image-fail kui',
       mountFailed: 'Ühendamine nurjus',
       mountDesc:
         'Mõnes süsteemis tuleb enne image ühendamist kaugmasinas virtuaalne ketas eemaldada',
@@ -243,6 +243,7 @@ const et = {
       fromUrl: 'URL-ist',
       fromFile: 'Failist',
       mounted: 'Ühendatud',
+      turnOff: 'Lülita välja',
       mountTitle: 'Ühenda image-fail',
       deleteTitle: 'Kustuta image-fail',
       deleteConfirm: 'Kas oled kindel, et soovid selle image kustutada?',
@@ -311,7 +312,7 @@ const et = {
       ok: 'OK',
       disabled:
         "Image'e ei saa praegu alla laadida ega üles laadida, sest salvestusruum pole kirjutatav. Kui image on ühendatud, ühenda see lahti ja lülita seejärel virtuaalne ketas välja, et salvestusruum oleks taas kirjutatav.",
-      diskShared: "Lülita esmalt virtuaalne ketta välja ja kasuta seejärel image'i allalaadimist",
+      diskShared: "Lülita virtuaalne ketas välja, et kasutada image'i allalaadimist",
       mountedImage: 'See image on ühendatud, enne sama nimega faili üleslaadimist eemalda see',
       diskOff: 'Lülita virtuaalne ketas välja',
       uploadbox: 'Lohista fail siia või klõpsa valimiseks',

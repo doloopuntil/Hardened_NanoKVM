@@ -226,7 +226,7 @@ const hu = {
       title: 'Képek',
       loading: 'Betöltés...',
       empty: 'Nem található semmi',
-      mountMode: 'Csatolási mód',
+      mountMode: 'Kép csatlakoztatása mint',
       mountFailed: 'Csatlakoztatás sikertelen',
       mountDesc:
         'Egyes rendszerekben szükséges lehet a virtuális lemez eltávolítása a távoli gépen, mielőtt a képet csatlakoztatja',
@@ -249,6 +249,7 @@ const hu = {
       fromUrl: 'URL-ről',
       fromFile: 'Fájlból',
       mounted: 'Csatlakoztatva',
+      turnOff: 'Kikapcsolás',
       mountTitle: 'Kép csatlakoztatása',
       deleteTitle: 'Kép törlése',
       deleteConfirm: 'Biztosan törli ezt a képet?',
@@ -317,7 +318,7 @@ const hu = {
       ok: 'OK',
       disabled:
         'A képfájlok jelenleg nem tölthetők le és nem tölthetők fel, mert a tároló nem írható. Ha egy képfájl csatlakoztatva van, válassza le, majd kapcsolja ki a virtuális lemezt, hogy a tároló újra írható legyen.',
-      diskShared: 'Először kapcsolja ki a virtuális lemezt, majd használja a képfájl-letöltést',
+      diskShared: 'Kapcsolja ki a virtuális lemezt a képfájl-letöltés használatához',
       mountedImage:
         'Ez a lemezkép fel van csatolva, csatolja le, mielőtt azonos nevű fájlt tölt fel',
       diskOff: 'Virtuális lemez kikapcsolása',

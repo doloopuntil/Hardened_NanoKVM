@@ -227,7 +227,7 @@ const es = {
       title: 'Imágenes',
       loading: 'Cargando...',
       empty: 'No se ha encontrado nada',
-      mountMode: 'Modo de montaje',
+      mountMode: 'Montar imagen como',
       mountFailed: 'Fallo al montar',
       mountDesc:
         'En algunos sistemas, es necesario expulsar el disco virtual del host remoto antes de montar una imagen',
@@ -250,6 +250,7 @@ const es = {
       fromUrl: 'Desde URL',
       fromFile: 'Desde archivo',
       mounted: 'Montada',
+      turnOff: 'Desactivar',
       mountTitle: 'Montar imagen',
       deleteTitle: 'Eliminar imagen',
       deleteConfirm: '¿Estás seguro de que deseas eliminar esta imagen?',
@@ -318,7 +319,7 @@ const es = {
       ok: 'OK',
       disabled:
         'Ahora mismo no se pueden descargar ni subir imágenes porque el almacenamiento no es escribible. Si hay una imagen montada, desmóntala y después desactiva el disco virtual para que el almacenamiento vuelva a ser escribible.',
-      diskShared: 'Desactiva primero el disco virtual y luego usa la descarga de imágenes',
+      diskShared: 'Desactiva el disco virtual para usar la descarga de imágenes',
       mountedImage:
         'Esta imagen está montada, desmóntala antes de subir un archivo con el mismo nombre',
       diskOff: 'Desactivar el disco virtual',

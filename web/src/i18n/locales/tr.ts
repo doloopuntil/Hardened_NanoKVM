@@ -223,7 +223,7 @@ const tr = {
       title: 'Disk imajları',
       loading: 'Yükleniyor...',
       empty: 'Hiçbir şey bulunamadı',
-      mountMode: 'Montaj modu',
+      mountMode: 'İmajı şu olarak bağla',
       mountFailed: 'Bağlama başarısız oldu',
       mountDesc:
         'Bazı sistemlerde, disk imajını bağlamadan önce uzak ana bilgisayardaki sanal diski çıkarmak gerekir',
@@ -246,6 +246,7 @@ const tr = {
       fromUrl: "URL'den",
       fromFile: 'Dosyadan',
       mounted: 'Bağlı',
+      turnOff: 'Kapat',
       mountTitle: 'İmajı bağla',
       deleteTitle: 'İmajı sil',
       deleteConfirm: 'Bu resmi silmek istediğinizden emin misiniz?',
@@ -314,7 +315,7 @@ const tr = {
       ok: 'OK',
       disabled:
         'Depolama yazılabilir olmadığı için şu anda imaj indirilemiyor veya yüklenemiyor. Bir imaj bağlıysa bağlantısını kaldırın, ardından depolamayı yeniden yazılabilir yapmak için sanal diski kapatın.',
-      diskShared: 'Önce sanal diski kapatın, sonra imaj indirmeyi kullanın',
+      diskShared: 'İmaj indirmeyi kullanmak için sanal diski kapatın',
       mountedImage: 'Bu imaj bağlı, aynı adlı bir dosyayı yüklemeden önce bağlantısını kesin',
       diskOff: 'Sanal diski kapat',
       uploadbox: 'Dosyayı buraya bırakın veya seçmek için tıklayın',

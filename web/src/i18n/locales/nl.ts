@@ -228,7 +228,7 @@ const nl = {
       title: 'Afbeeldingen',
       loading: 'Laden...',
       empty: 'Niets gevonden',
-      mountMode: 'Montagemodus',
+      mountMode: 'Afbeelding koppelen als',
       mountFailed: 'Koppelen mislukt',
       mountDesc:
         'In sommige systemen is het noodzakelijk om de virtuele schijf op de externe host uit te werpen voordat het image wordt gekoppeld',
@@ -251,6 +251,7 @@ const nl = {
       fromUrl: 'Via URL',
       fromFile: 'Uit bestand',
       mounted: 'Gekoppeld',
+      turnOff: 'Uitschakelen',
       mountTitle: 'Afbeelding koppelen',
       deleteTitle: 'Afbeelding verwijderen',
       deleteConfirm: 'Weet u zeker dat u deze afbeelding wilt verwijderen?',
@@ -319,7 +320,7 @@ const nl = {
       ok: 'OK',
       disabled:
         'Images kunnen nu niet worden gedownload of geüpload omdat de opslag niet beschrijfbaar is. Als er een image is gekoppeld, ontkoppel die dan en schakel daarna de virtuele schijf uit zodat de opslag weer beschrijfbaar wordt.',
-      diskShared: 'Schakel eerst de virtuele schijf uit en gebruik daarna de image-download',
+      diskShared: 'Schakel de virtuele schijf uit om de image-download te gebruiken',
       mountedImage:
         'Dit image is gekoppeld, ontkoppel het voordat u een bestand met dezelfde naam uploadt',
       diskOff: 'Virtuele schijf uitschakelen',

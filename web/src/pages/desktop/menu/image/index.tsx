@@ -107,6 +107,8 @@ export const Image = () => {
         onCancel={() => toggleModal(false)}
       >
         <div className="flex flex-col space-y-6">
+          <Divider style={{ margin: 0 }} />
+
           {!storage.isWritable && storage.isDiskShared && (
             <div className="flex items-start space-x-2 rounded border border-solid border-amber-500/40 bg-amber-500/10 p-3">
               <TriangleAlertIcon size={18} className="mt-0.5 shrink-0 text-amber-400" />
@@ -118,18 +120,16 @@ export const Image = () => {
                   loading={storage.isDisablingDisk}
                   onClick={storage.disableDisk}
                 >
-                  {t('download.diskOff')}
+                  {t('image.turnOff')}
                 </Button>
               </div>
             </div>
           )}
 
           <div className="flex items-center justify-between">
-            <span>{t('image.mountMode')}</span>
+            <span className="font-semibold">{t('image.mountMode')}</span>
             <Segmented value={mode} options={modes} disabled={isMounted} onChange={setMode} />
           </div>
-
-          <Divider style={{ margin: '24px 0 0 0' }} />
 
           <Images
             isOpen={isModalOpen}

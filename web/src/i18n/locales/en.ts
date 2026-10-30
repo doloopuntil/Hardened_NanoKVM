@@ -224,7 +224,7 @@ const en = {
       title: 'Images',
       loading: 'Loading...',
       empty: 'Nothing found',
-      mountMode: 'Mount mode',
+      mountMode: 'Mount image as',
       mountFailed: 'Mount failed',
       mountDesc:
         'On some systems, you need to eject the virtual disk from the remote host before mounting the image',
@@ -247,6 +247,7 @@ const en = {
       fromUrl: 'From URL',
       fromFile: 'From file',
       mounted: 'Mounted',
+      turnOff: 'Turn off',
       mountTitle: 'Mount image',
       deleteTitle: 'Delete image',
       deleteConfirm: 'Are you sure you want to delete this image?',
@@ -315,7 +316,7 @@ const en = {
       ok: 'OK',
       disabled:
         "Images can't be downloaded or uploaded right now because the storage isn't writable. If an image is mounted, unmount it, then turn off the virtual disk to make the storage writable again.",
-      diskShared: 'Turn the virtual disk off first, then use the image download',
+      diskShared: 'Turn off the virtual disk to use the image downloader',
       mountedImage: 'This image is mounted, unmount it before uploading a file with the same name',
       diskOff: 'Turn off the virtual disk',
       uploadbox: 'Drop file here or click to select',

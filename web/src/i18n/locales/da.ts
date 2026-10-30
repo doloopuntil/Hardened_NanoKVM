@@ -224,7 +224,7 @@ const da = {
       title: 'Diskbilleder',
       loading: 'Indlæser...',
       empty: 'Ingen fundet',
-      mountMode: 'Monteringstilstand',
+      mountMode: 'Monter diskbillede som',
       mountFailed: 'Montering af diskbillede mislykkedes',
       mountDesc:
         'På nogle systemer kan det være nødvendigt at skubbe den virtuelle disk ud på fjerncomputeren før du kan montere diskbilledet',
@@ -247,6 +247,7 @@ const da = {
       fromUrl: 'Fra URL',
       fromFile: 'Fra fil',
       mounted: 'Monteret',
+      turnOff: 'Sluk',
       mountTitle: 'Monter diskbillede',
       deleteTitle: 'Slet diskbillede',
       deleteConfirm: 'Er du sikker på, at du vil slette dette billede?',
@@ -315,7 +316,7 @@ const da = {
       ok: 'OK',
       disabled:
         'Billeder kan ikke downloades eller uploades lige nu, fordi lageret ikke kan skrives til. Hvis et billede er monteret, skal du afmontere det og derefter slukke den virtuelle disk, så lageret igen kan skrives til.',
-      diskShared: 'Sluk først den virtuelle disk, og brug derefter billeddownloaden',
+      diskShared: 'Sluk den virtuelle disk for at bruge billeddownloaden',
       mountedImage: 'Dette image er monteret, afmontér det, før du uploader en fil med samme navn',
       diskOff: 'Sluk den virtuelle disk',
       uploadbox: 'Slip filen her, eller klik for at vælge',

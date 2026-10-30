@@ -227,7 +227,7 @@ const nb = {
       title: 'Bilder',
       loading: 'Laster...',
       empty: 'Ingen funnet',
-      mountMode: 'Monteringsmodus',
+      mountMode: 'Monter bilde som',
       mountFailed: 'Montering feilet',
       mountDesc:
         'På noen systemer er det nødvendig å koble fra den virtuelle disken på den eksterne verten før man kan montere arkivfilen',
@@ -250,6 +250,7 @@ const nb = {
       fromUrl: 'Fra URL',
       fromFile: 'Fra fil',
       mounted: 'Montert',
+      turnOff: 'Slå av',
       mountTitle: 'Monter bilde',
       deleteTitle: 'Slett bilde',
       deleteConfirm: 'Er du sikker på at du vil slette dette bildet?',
@@ -318,7 +319,7 @@ const nb = {
       ok: 'OK',
       disabled:
         'Bilder kan ikke lastes ned eller lastes opp akkurat nå fordi lagringen ikke er skrivbar. Hvis et bilde er montert, må du avmontere det og deretter slå av den virtuelle disken slik at lagringen blir skrivbar igjen.',
-      diskShared: 'Slå først av den virtuelle disken, og bruk deretter bildenedlastingen',
+      diskShared: 'Slå av den virtuelle disken for å bruke bildenedlastingen',
       mountedImage:
         'Dette diskavbildet er montert, avmonter det før du laster opp en fil med samme navn',
       diskOff: 'Slå av den virtuelle disken',

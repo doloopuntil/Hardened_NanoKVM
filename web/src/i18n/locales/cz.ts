@@ -224,7 +224,7 @@ const cz = {
       title: 'Obrázky',
       loading: 'Načítání...',
       empty: 'Nic nenalezeno',
-      mountMode: 'Režim připojení',
+      mountMode: 'Připojit obraz jako',
       mountFailed: 'Připojení se nezdařilo',
       mountDesc:
         'V některých systémech je nutné před připojením obrazu vysunout virtuální disk na vzdáleném hostiteli',
@@ -247,6 +247,7 @@ const cz = {
       fromUrl: 'Z adresy URL',
       fromFile: 'Ze souboru',
       mounted: 'Připojeno',
+      turnOff: 'Vypnout',
       mountTitle: 'Připojit obraz',
       deleteTitle: 'Smazat obraz',
       deleteConfirm: 'Opravdu chcete smazat tento obrázek?',
@@ -315,7 +316,7 @@ const cz = {
       ok: 'OK',
       disabled:
         'Obrazy se teď nedají stáhnout ani nahrát, protože úložiště není zapisovatelné. Pokud je připojený obraz, odpojte ho a poté vypněte virtuální disk, aby bylo úložiště znovu zapisovatelné.',
-      diskShared: 'Nejprve vypněte virtuální disk a poté použijte stahování obrazu',
+      diskShared: 'Vypněte virtuální disk, abyste mohli používat stahování obrazů',
       mountedImage: 'Tento obraz je připojen, před nahráním souboru se stejným názvem jej odpojte',
       diskOff: 'Vypnout virtuální disk',
       uploadbox: 'Přetáhněte soubor sem nebo kliknutím vyberte',

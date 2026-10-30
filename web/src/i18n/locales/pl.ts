@@ -226,7 +226,7 @@ const pl = {
       title: 'Obrazy',
       loading: 'Ładowanie...',
       empty: 'Nic nie znaleziono',
-      mountMode: 'Tryb montowania',
+      mountMode: 'Zamontuj obraz jako',
       mountFailed: 'Nie udało się zamontować obrazu',
       mountDesc:
         'W niektórych systemach wymagane jest wyjęcie dysku wirtualnego na zdalnym hoście przed zamontowaniem obrazu',
@@ -249,6 +249,7 @@ const pl = {
       fromUrl: 'Z adresu URL',
       fromFile: 'Z pliku',
       mounted: 'Zamontowany',
+      turnOff: 'Wyłącz',
       mountTitle: 'Zamontuj obraz',
       deleteTitle: 'Usuń obraz',
       deleteConfirm: 'Czy na pewno chcesz usunąć ten obraz?',
@@ -317,7 +318,7 @@ const pl = {
       ok: 'OK',
       disabled:
         'Obrazy nie mogą być teraz pobierane ani przesyłane, ponieważ pamięć nie jest zapisywalna. Jeśli obraz jest zamontowany, odmontuj go, a następnie wyłącz dysk wirtualny, aby pamięć znów była zapisywalna.',
-      diskShared: 'Najpierw wyłącz dysk wirtualny, a następnie użyj pobierania obrazów',
+      diskShared: 'Wyłącz dysk wirtualny, aby używać pobierania obrazów',
       mountedImage:
         'Ten obraz jest zamontowany, odmontuj go przed przesłaniem pliku o tej samej nazwie',
       diskOff: 'Wyłącz dysk wirtualny',

@@ -27,3 +27,13 @@ export function parseJson(raw: string): { code?: number; msg?: string } | null {
     return null;
   }
 }
+
+// The name a transfer shows: the last path segment of a URL, or the file name itself.
+export function fileLabel(source: string) {
+  try {
+    const name = new URL(source).pathname.split('/').filter(Boolean).pop();
+    return name ? decodeURIComponent(name) : source;
+  } catch {
+    return source;
+  }
+}

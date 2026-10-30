@@ -6,7 +6,7 @@ import { getMountedImage } from '@/api/storage.ts';
 import { getCsrfToken } from '@/lib/cookie.ts';
 import { attempt } from '@/lib/feedback.ts';
 import { notifyImageListChanged } from '@/lib/image-events.ts';
-import { isAllowedImageName, isValidSha256, parseJson } from '@/lib/image-transfer.ts';
+import { fileLabel, isAllowedImageName, isValidSha256, parseJson } from '@/lib/image-transfer.ts';
 import { capitalizeFirst } from '@/lib/text.ts';
 
 type TransferKind = 'local' | 'remote';
@@ -446,7 +446,7 @@ export function useImageTransfer({ remoteEnabled, onFailed }: Options) {
 
   function formatTransferLog(transfer: TransferKind, file: string) {
     const label = transfer === 'local' ? t('download.uploading') : t('download.downloading');
-    return `${label}: ${file}`;
+    return `${label}: ${fileLabel(file)}`;
   }
 
   function isAbortError(error: unknown) {
