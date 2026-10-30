@@ -225,7 +225,7 @@ const ca = {
       title: 'Imatges',
       loading: 'Carregant...',
       empty: "No s'ha trobat res",
-      mountMode: 'Mode de muntatge',
+      mountMode: 'Munta la imatge com a',
       mountFailed: 'Error en muntar',
       mountDesc: 'En alguns sistemes cal expulsar el disc virtual abans de muntar la imatge',
       diskOnWarn:
@@ -243,6 +243,13 @@ const ca = {
         'Reconnecta el gadget USB només si el host remot no ha detectat el canvi de mitjà. El teclat i el ratolí es poden desconnectar breument.',
       usbReconnectSuccess: 'USB reconnectat',
       usbReconnectFailed: "No s'ha pogut reconnectar USB",
+      addImage: 'Afegeix una imatge',
+      fromUrl: "Des d'una URL",
+      fromFile: "Des d'un fitxer",
+      turnOff: 'Apaga',
+      eject: 'Expulsa',
+      download: 'Baixa',
+      upload: 'Puja',
       mountTitle: 'Munta la imatge',
       deleteTitle: 'Esborra la imatge',
       deleteConfirm: 'Estàs segur que vols suprimir aquesta imatge?',
@@ -307,12 +314,11 @@ const ca = {
       ok: "D'acord"
     },
     download: {
-      title: 'Descarrega imatges',
       input: 'URL de la imatge remota',
       ok: 'OK',
       disabled:
         "Ara no es poden descarregar ni pujar imatges perquè l'emmagatzematge no és escrivible. Si hi ha una imatge muntada, desmunta-la i després apaga el disc virtual perquè l'emmagatzematge torni a ser escrivible.",
-      diskShared: "Apaga primer el disc virtual i després fes servir la descàrrega d'imatges",
+      diskShared: "Apaga el disc virtual per fer servir la descàrrega d'imatges",
       mountedImage:
         'Aquesta imatge està muntada, desmunta-la abans de pujar un fitxer amb el mateix nom',
       diskOff: 'Apaga el disc virtual',

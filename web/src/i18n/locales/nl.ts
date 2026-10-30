@@ -228,7 +228,7 @@ const nl = {
       title: 'Afbeeldingen',
       loading: 'Laden...',
       empty: 'Niets gevonden',
-      mountMode: 'Montagemodus',
+      mountMode: 'Afbeelding koppelen als',
       mountFailed: 'Koppelen mislukt',
       mountDesc:
         'In sommige systemen is het noodzakelijk om de virtuele schijf op de externe host uit te werpen voordat het image wordt gekoppeld',
@@ -247,6 +247,13 @@ const nl = {
         'Verbind het USB-gadget alleen opnieuw als de externe host de mediawijziging niet heeft opgemerkt. Toetsenbord en muis kunnen kort worden losgekoppeld.',
       usbReconnectSuccess: 'USB opnieuw verbonden',
       usbReconnectFailed: 'USB opnieuw verbinden mislukt',
+      addImage: 'Afbeelding toevoegen',
+      fromUrl: 'Via URL',
+      fromFile: 'Uit bestand',
+      turnOff: 'Uitschakelen',
+      eject: 'Uitwerpen',
+      download: 'Downloaden',
+      upload: 'Uploaden',
       mountTitle: 'Afbeelding koppelen',
       deleteTitle: 'Afbeelding verwijderen',
       deleteConfirm: 'Weet u zeker dat u deze afbeelding wilt verwijderen?',
@@ -311,12 +318,11 @@ const nl = {
       ok: 'OK'
     },
     download: {
-      title: 'Afbeeldingen downloaden',
       input: 'URL van externe image',
       ok: 'OK',
       disabled:
         'Images kunnen nu niet worden gedownload of geüpload omdat de opslag niet beschrijfbaar is. Als er een image is gekoppeld, ontkoppel die dan en schakel daarna de virtuele schijf uit zodat de opslag weer beschrijfbaar wordt.',
-      diskShared: 'Schakel eerst de virtuele schijf uit en gebruik daarna de image-download',
+      diskShared: 'Schakel de virtuele schijf uit om de image-download te gebruiken',
       mountedImage:
         'Dit image is gekoppeld, ontkoppel het voordat u een bestand met dezelfde naam uploadt',
       diskOff: 'Virtuele schijf uitschakelen',

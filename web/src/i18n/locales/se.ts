@@ -224,7 +224,7 @@ const se = {
       title: 'Avbildningar',
       loading: 'Laddar...',
       empty: 'Inget hittades',
-      mountMode: 'Monteringsläge',
+      mountMode: 'Montera avbildning som',
       mountFailed: 'Montering misslyckades',
       mountDesc:
         'I vissa system måste den virtuella disken avmonteras på fjärrvärden innan avbildningen monteras',
@@ -243,6 +243,13 @@ const se = {
         'Återanslut USB-gadgeten endast om fjärrvärden inte upptäckte mediebytet. Tangentbord och mus kan kopplas från kortvarigt.',
       usbReconnectSuccess: 'USB återansluten',
       usbReconnectFailed: 'USB-återanslutning misslyckades',
+      addImage: 'Lägg till avbildning',
+      fromUrl: 'Från URL',
+      fromFile: 'Från fil',
+      turnOff: 'Stäng av',
+      eject: 'Mata ut',
+      download: 'Ladda ned',
+      upload: 'Ladda upp',
       mountTitle: 'Montera avbildning',
       deleteTitle: 'Ta bort avbildning',
       deleteConfirm: 'Är du säker på att du vill ta bort denna avbildning?',
@@ -307,12 +314,11 @@ const se = {
       ok: 'OK'
     },
     download: {
-      title: 'Hämta avbildningar',
       input: 'URL till fjärravbildning',
       ok: 'OK',
       disabled:
         'Avbildningar kan inte laddas ned eller laddas upp just nu eftersom lagringen inte är skrivbar. Om en avbildning är monterad, avmontera den och stäng sedan av den virtuella disken så att lagringen blir skrivbar igen.',
-      diskShared: 'Stäng av den virtuella disken först och använd sedan nedladdningen',
+      diskShared: 'Stäng av den virtuella disken för att använda nedladdningen',
       mountedImage:
         'Den här diskavbilden är monterad, avmontera den innan du laddar upp en fil med samma namn',
       diskOff: 'Stäng av den virtuella disken',

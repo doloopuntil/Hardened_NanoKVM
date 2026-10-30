@@ -32,7 +32,6 @@ export const MenuIcons = () => {
 
   const items = [
     { key: 'image', icon: <DiscIcon size={16} /> },
-    { key: 'download', icon: <DownloadIcon size={16} /> },
     {
       key: 'remoteDownload',
       icon: <DownloadIcon size={16} />,

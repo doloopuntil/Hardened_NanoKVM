@@ -227,7 +227,7 @@ const fi = {
       title: 'Levykuvat',
       loading: 'Ladataan...',
       empty: 'Mitään ei löytynyt',
-      mountMode: 'Liitostila',
+      mountMode: 'Liitä levykuva tyyppinä',
       mountFailed: 'Liittäminen epäonnistui',
       mountDesc:
         'Joissakin järjestelmissä virtuaalilevy on poistettava etäkoneesta ennen levykuvan liittämistä',
@@ -246,6 +246,13 @@ const fi = {
         'Yhdistä USB-gadget uudelleen vain, jos etäisäntä ei huomannut median vaihtoa. Näppäimistö ja hiiri voivat katketa hetkeksi.',
       usbReconnectSuccess: 'USB yhdistetty uudelleen',
       usbReconnectFailed: 'USB-uudelleenyhdistys epäonnistui',
+      addImage: 'Lisää levykuva',
+      fromUrl: 'URL-osoitteesta',
+      fromFile: 'Tiedostosta',
+      turnOff: 'Sammuta',
+      eject: 'Poista',
+      download: 'Lataa',
+      upload: 'Lataa',
       mountTitle: 'Liitä levykuva',
       deleteTitle: 'Poista levykuva',
       deleteConfirm: 'Haluatko varmasti poistaa tämän levykuvan?',
@@ -310,12 +317,11 @@ const fi = {
       ok: 'OK'
     },
     download: {
-      title: 'Lataa levykuvia',
       input: 'Etälevykuvan URL',
       ok: 'OK',
       disabled:
         'Levykuvia ei voi nyt ladata eikä lähettää, koska tallennustila ei ole kirjoitettavissa. Jos levykuva on liitetty, irrota se ja kytke sitten virtuaalilevy pois päältä, jotta tallennustila on taas kirjoitettavissa.',
-      diskShared: 'Sammuta ensin virtuaalilevy ja käytä sitten levykuvan latausta',
+      diskShared: 'Sammuta virtuaalilevy käyttääksesi levykuvan latausta',
       mountedImage:
         'Tämä levykuva on liitettynä, irrota se ennen samannimisen tiedoston lähettämistä',
       diskOff: 'Sammuta virtuaalilevy',

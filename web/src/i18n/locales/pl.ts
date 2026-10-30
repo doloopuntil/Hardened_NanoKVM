@@ -226,7 +226,7 @@ const pl = {
       title: 'Obrazy',
       loading: 'Ładowanie...',
       empty: 'Nic nie znaleziono',
-      mountMode: 'Tryb montowania',
+      mountMode: 'Zamontuj obraz jako',
       mountFailed: 'Nie udało się zamontować obrazu',
       mountDesc:
         'W niektórych systemach wymagane jest wyjęcie dysku wirtualnego na zdalnym hoście przed zamontowaniem obrazu',
@@ -245,6 +245,13 @@ const pl = {
         'Podłącz gadget USB ponownie tylko wtedy, gdy zdalny host nie zauważył zmiany nośnika. Klawiatura i mysz mogą na chwilę się rozłączyć.',
       usbReconnectSuccess: 'USB podłączono ponownie',
       usbReconnectFailed: 'Ponowne podłączenie USB nie powiodło się',
+      addImage: 'Dodaj obraz',
+      fromUrl: 'Z adresu URL',
+      fromFile: 'Z pliku',
+      turnOff: 'Wyłącz',
+      eject: 'Wysuń',
+      download: 'Pobierz',
+      upload: 'Prześlij',
       mountTitle: 'Zamontuj obraz',
       deleteTitle: 'Usuń obraz',
       deleteConfirm: 'Czy na pewno chcesz usunąć ten obraz?',
@@ -309,12 +316,11 @@ const pl = {
       ok: 'OK'
     },
     download: {
-      title: 'Pobierz obrazy',
       input: 'Adres URL zdalnego obrazu',
       ok: 'OK',
       disabled:
         'Obrazy nie mogą być teraz pobierane ani przesyłane, ponieważ pamięć nie jest zapisywalna. Jeśli obraz jest zamontowany, odmontuj go, a następnie wyłącz dysk wirtualny, aby pamięć znów była zapisywalna.',
-      diskShared: 'Najpierw wyłącz dysk wirtualny, a następnie użyj pobierania obrazów',
+      diskShared: 'Wyłącz dysk wirtualny, aby używać pobierania obrazów',
       mountedImage:
         'Ten obraz jest zamontowany, odmontuj go przed przesłaniem pliku o tej samej nazwie',
       diskOff: 'Wyłącz dysk wirtualny',

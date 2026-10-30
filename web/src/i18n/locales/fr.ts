@@ -228,7 +228,7 @@ const fr = {
       title: 'Images',
       loading: 'Chargement...',
       empty: 'Vide',
-      mountMode: 'Mode de montage',
+      mountMode: "Monter l'image en tant que",
       mountFailed: "Échec du montage de l'image",
       mountDesc:
         "Dans certains systèmes, il est nécessaire de déséjecter le disque virtuel sur l'hôte distant avant de monter l'image",
@@ -247,6 +247,13 @@ const fr = {
         "Reconnectez le gadget USB seulement si l'hôte distant n'a pas détecté le changement de média. Le clavier et la souris peuvent se déconnecter brièvement.",
       usbReconnectSuccess: 'USB reconnecté',
       usbReconnectFailed: 'Échec de la reconnexion USB',
+      addImage: 'Ajouter une image',
+      fromUrl: 'Depuis une URL',
+      fromFile: 'Depuis un fichier',
+      turnOff: 'Désactiver',
+      eject: 'Éjecter',
+      download: 'Télécharger',
+      upload: 'Téléverser',
       mountTitle: "Monter l'image",
       deleteTitle: "Supprimer l'image",
       deleteConfirm: 'Etes-vous sûr de vouloir supprimer cette image?',
@@ -311,12 +318,11 @@ const fr = {
       ok: 'OK'
     },
     download: {
-      title: 'Télécharger des images',
       input: "URL de l'image distante",
       ok: 'OK',
       disabled:
         "Les images ne peuvent pas être téléchargées ni téléversées pour le moment, car le stockage n'est pas accessible en écriture. Si une image est montée, démontez-la, puis désactivez le disque virtuel pour que le stockage redevienne accessible en écriture.",
-      diskShared: "Désactivez d'abord le disque virtuel, puis utilisez le téléchargement d'images",
+      diskShared: "Désactivez le disque virtuel pour utiliser le téléchargement d'images",
       mountedImage: "Cette image est montée, démontez-la avant d'envoyer un fichier du même nom",
       diskOff: 'Désactiver le disque virtuel',
       uploadbox: 'Déposez le fichier ici ou cliquez pour sélectionner',

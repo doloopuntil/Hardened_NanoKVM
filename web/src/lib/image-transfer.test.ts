@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatBytes, isAllowedImageName, isValidSha256, parseJson } from './image-transfer.ts';
+import {
+  fileLabel,
+  formatBytes,
+  isAllowedImageName,
+  isValidSha256,
+  parseJson
+} from './image-transfer.ts';
 
 describe('formatBytes', () => {
   it('scales to the largest fitting unit', () => {
@@ -44,5 +50,17 @@ describe('parseJson', () => {
   it('returns null for a body that is not JSON', () => {
     expect(parseJson('<html>')).toBeNull();
     expect(parseJson('{"code":0}')).toEqual({ code: 0 });
+  });
+});
+
+describe('fileLabel', () => {
+  it('names a URL by its last path segment', () => {
+    expect(fileLabel('https://example.org/pub/fedora%2041.iso?x=1')).toBe('fedora 41.iso');
+    expect(fileLabel('https://example.org/pub/dir/')).toBe('dir');
+  });
+
+  it('keeps a plain file name and a URL without a path', () => {
+    expect(fileLabel('rescue.img')).toBe('rescue.img');
+    expect(fileLabel('https://example.org')).toBe('https://example.org');
   });
 });

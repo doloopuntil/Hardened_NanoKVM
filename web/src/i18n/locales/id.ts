@@ -225,7 +225,7 @@ const id = {
       title: 'Gambar',
       loading: 'Memuat...',
       empty: 'Tidak ada yang ditemukan',
-      mountMode: 'Mode pemasangan',
+      mountMode: 'Pasang gambar sebagai',
       mountFailed: 'Pemasangan gagal',
       mountDesc:
         'Di beberapa sistem, perlu mengeluarkan disk virtual pada host jarak jauh sebelum memasang gambar',
@@ -244,6 +244,13 @@ const id = {
         'Sambungkan ulang gadget USB hanya jika host jarak jauh tidak mendeteksi perubahan media. Keyboard dan mouse mungkin terputus sebentar.',
       usbReconnectSuccess: 'USB tersambung ulang',
       usbReconnectFailed: 'Sambung ulang USB gagal',
+      addImage: 'Tambah gambar',
+      fromUrl: 'Dari URL',
+      fromFile: 'Dari berkas',
+      turnOff: 'Matikan',
+      eject: 'Keluarkan',
+      download: 'Unduh',
+      upload: 'Mengunggah',
       mountTitle: 'Pasang gambar',
       deleteTitle: 'Hapus gambar',
       deleteConfirm: 'Apakah Anda yakin ingin menghapus gambar ini?',
@@ -308,12 +315,11 @@ const id = {
       ok: 'OK'
     },
     download: {
-      title: 'Unduh gambar',
       input: 'URL image jarak jauh',
       ok: 'OK',
       disabled:
         'Image tidak dapat diunduh atau diunggah saat ini karena penyimpanan tidak dapat ditulisi. Jika ada image yang terpasang, lepaskan, lalu matikan disk virtual agar penyimpanan dapat ditulisi lagi.',
-      diskShared: 'Matikan disk virtual terlebih dahulu, lalu gunakan unduhan image',
+      diskShared: 'Matikan disk virtual untuk menggunakan unduhan image',
       mountedImage:
         'Image ini sedang di-mount, lepaskan mount-nya sebelum mengunggah berkas dengan nama yang sama',
       diskOff: 'Matikan disk virtual',

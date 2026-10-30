@@ -221,7 +221,7 @@ const ko = {
       title: '이미지',
       loading: '불러오는 중...',
       empty: '아무것도 없습니다',
-      mountMode: '마운트 모드',
+      mountMode: '이미지 마운트 방식',
       mountFailed: '마운트 실패',
       mountDesc:
         '일부 시스템에서는 이미지를 마운트하기 전에 원격 호스트에서 가상 디스크를 제거해야 합니다',
@@ -240,6 +240,13 @@ const ko = {
         '원격 호스트가 미디어 변경을 인식하지 못했을 때만 USB gadget을 다시 연결하세요. 키보드와 마우스가 잠시 끊길 수 있습니다.',
       usbReconnectSuccess: 'USB가 다시 연결됨',
       usbReconnectFailed: 'USB 다시 연결 실패',
+      addImage: '이미지 추가',
+      fromUrl: 'URL에서',
+      fromFile: '파일에서',
+      turnOff: '끄기',
+      eject: '제거',
+      download: '다운로드',
+      upload: '업로드',
       mountTitle: '이미지 마운트',
       deleteTitle: '이미지 삭제',
       deleteConfirm: '이 이미지를 제거하시겠습니까?',
@@ -304,12 +311,11 @@ const ko = {
       ok: '확인'
     },
     download: {
-      title: '이미지 다운로드',
       input: '원격 이미지 URL',
       ok: 'OK',
       disabled:
         '저장소에 쓸 수 없어 지금은 이미지를 다운로드하거나 업로드할 수 없습니다. 이미지가 마운트되어 있으면 마운트를 해제한 다음 가상 디스크를 꺼서 저장소를 다시 쓸 수 있게 하세요.',
-      diskShared: '먼저 가상 디스크를 끈 다음 이미지 다운로드를 사용하세요',
+      diskShared: '이미지 다운로드를 사용하려면 가상 디스크를 끄세요',
       mountedImage:
         '이 이미지는 마운트되어 있으니 같은 이름의 파일을 업로드하기 전에 마운트를 해제하세요',
       diskOff: '가상 디스크 끄기',

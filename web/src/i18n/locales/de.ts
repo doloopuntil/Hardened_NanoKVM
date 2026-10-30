@@ -228,7 +228,7 @@ const de = {
       title: 'Bilder',
       loading: 'Lädt...',
       empty: 'Nichts gefunden',
-      mountMode: 'Mount-Modus',
+      mountMode: 'Bild einbinden als',
       mountFailed: 'Einbinden fehlgeschlagen',
       mountDesc:
         'In einigen Systemen ist es notwendig, die virtuelle Festplatte auf dem entfernten Host auszuwerfen, bevor das Image eingebunden werden kann',
@@ -247,6 +247,13 @@ const de = {
         'USB-Gadget nur neu verbinden, wenn der Remote-Host den Medienwechsel nicht erkannt hat. Tastatur und Maus können kurz getrennt werden.',
       usbReconnectSuccess: 'USB neu verbunden',
       usbReconnectFailed: 'USB-Neuverbindung fehlgeschlagen',
+      addImage: 'Bild hinzufügen',
+      fromUrl: 'Von URL',
+      fromFile: 'Aus Datei',
+      turnOff: 'Ausschalten',
+      eject: 'Auswerfen',
+      download: 'Herunterladen',
+      upload: 'Hochladen',
       mountTitle: 'Bild einbinden',
       deleteTitle: 'Bild löschen',
       deleteConfirm: 'Sind Sie sicher, dass Sie dieses Bild löschen möchten?',
@@ -311,13 +318,11 @@ const de = {
       ok: 'OK'
     },
     download: {
-      title: 'Abbilder herunterladen',
       input: 'URL des Remote-Images',
       ok: 'OK',
       disabled:
         'Images können derzeit weder heruntergeladen noch hochgeladen werden, da der Speicher nicht beschreibbar ist. Wenn ein Image eingebunden ist, binden Sie es aus und schalten Sie dann die virtuelle Festplatte aus, damit der Speicher wieder beschreibbar ist.',
-      diskShared:
-        'Schalten Sie zuerst das virtuelle Laufwerk aus und verwenden Sie dann den Image-Download',
+      diskShared: 'Schalten Sie das virtuelle Laufwerk aus, um den Abbild-Download zu nutzen',
       mountedImage:
         'Dieses Image ist eingebunden, heben Sie die Einbindung auf, bevor Sie eine Datei mit demselben Namen hochladen',
       diskOff: 'Virtuelles Laufwerk ausschalten',

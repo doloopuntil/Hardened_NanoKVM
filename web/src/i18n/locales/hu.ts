@@ -226,7 +226,7 @@ const hu = {
       title: 'Képek',
       loading: 'Betöltés...',
       empty: 'Nem található semmi',
-      mountMode: 'Csatolási mód',
+      mountMode: 'Kép csatlakoztatása mint',
       mountFailed: 'Csatlakoztatás sikertelen',
       mountDesc:
         'Egyes rendszerekben szükséges lehet a virtuális lemez eltávolítása a távoli gépen, mielőtt a képet csatlakoztatja',
@@ -245,6 +245,13 @@ const hu = {
         'Csak akkor csatlakoztassa újra az USB gadgetet, ha a távoli gép nem észlelte a médiaváltást. A billentyűzet és az egér röviden megszakadhat.',
       usbReconnectSuccess: 'USB újracsatlakoztatva',
       usbReconnectFailed: 'Az USB újracsatlakoztatás sikertelen',
+      addImage: 'Kép hozzáadása',
+      fromUrl: 'URL-ről',
+      fromFile: 'Fájlból',
+      turnOff: 'Kikapcsolás',
+      eject: 'Kiadás',
+      download: 'Letöltés',
+      upload: 'Feltöltés',
       mountTitle: 'Kép csatlakoztatása',
       deleteTitle: 'Kép törlése',
       deleteConfirm: 'Biztosan törli ezt a képet?',
@@ -309,12 +316,11 @@ const hu = {
       ok: 'OK'
     },
     download: {
-      title: 'Képek letöltése',
       input: 'Távoli képfájl URL-je',
       ok: 'OK',
       disabled:
         'A képfájlok jelenleg nem tölthetők le és nem tölthetők fel, mert a tároló nem írható. Ha egy képfájl csatlakoztatva van, válassza le, majd kapcsolja ki a virtuális lemezt, hogy a tároló újra írható legyen.',
-      diskShared: 'Először kapcsolja ki a virtuális lemezt, majd használja a képfájl-letöltést',
+      diskShared: 'Kapcsolja ki a virtuális lemezt a képfájl-letöltés használatához',
       mountedImage:
         'Ez a lemezkép fel van csatolva, csatolja le, mielőtt azonos nevű fájlt tölt fel',
       diskOff: 'Virtuális lemez kikapcsolása',

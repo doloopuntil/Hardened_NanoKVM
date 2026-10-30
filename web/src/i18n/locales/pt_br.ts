@@ -225,7 +225,7 @@ const pt_br = {
       title: 'Imagens',
       loading: 'Carregando...',
       empty: 'Nada encontrado',
-      mountMode: 'Modo de montagem',
+      mountMode: 'Montar imagem como',
       mountFailed: 'Falha na montagem',
       mountDesc:
         'Em alguns sistemas, é necessário ejetar o disco virtual no host remoto antes de montar a imagem',
@@ -244,6 +244,13 @@ const pt_br = {
         'Reconecte o gadget USB apenas se o host remoto não percebeu a troca de mídia. Teclado e mouse podem desconectar por instantes.',
       usbReconnectSuccess: 'USB reconectado',
       usbReconnectFailed: 'Falha ao reconectar USB',
+      addImage: 'Adicionar imagem',
+      fromUrl: 'Por URL',
+      fromFile: 'Por arquivo',
+      turnOff: 'Desligar',
+      eject: 'Ejetar',
+      download: 'Baixar',
+      upload: 'Upload',
       mountTitle: 'Montar imagem',
       deleteTitle: 'Excluir imagem',
       deleteConfirm: 'Tem certeza que deseja excluir esta imagem?',
@@ -308,12 +315,11 @@ const pt_br = {
       ok: 'OK'
     },
     download: {
-      title: 'Baixar imagens',
       input: 'URL da imagem remota',
       ok: 'OK',
       disabled:
         'No momento não é possível baixar nem enviar imagens porque o armazenamento não permite gravação. Se houver uma imagem montada, desmonte-a e depois desative o disco virtual para que o armazenamento volte a permitir gravação.',
-      diskShared: 'Desligue primeiro o disco virtual e depois use o download de imagens',
+      diskShared: 'Desligue o disco virtual para usar o download de imagens',
       mountedImage:
         'Esta imagem está montada, desmonte-a antes de enviar um arquivo com o mesmo nome',
       diskOff: 'Desligar o disco virtual',

@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-26
+last-checked: 2026-10-30
 ---
 
 # Rust backend
@@ -302,9 +302,10 @@ over the account.
   and the video stack starts again with it. `S95nanokvm` reboots only if the old
   server does not exit. Changing the HID mode still reboots the device.
 - Remote ISO download needs a source allowlist before it can be on by default.
-- Upstream has a newer remote ISO download and image management widget. Review it
-  before changing this feature further, and take over what fits: the allowlist, the
-  session gate on the switch and the UI.
+- The switch for the remote ISO download needs a password or two-factor step
+  (see `require_second_factor` in `account.rs`). Upstream's newer download code
+  (sipeed/NanoKVM #957) has no source allowlist, SSRF guard or switch, so there is
+  nothing to take over; both items stay our own work.
 - PicoClaw needs more end-to-end testing against the real runtime.
 - The server runs with root privileges, like the original. Splitting privileged
   operations into a smaller helper is future work.

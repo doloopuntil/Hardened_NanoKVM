@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, notification, Typography } from 'antd';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { Button, Divider, notification, Tooltip, Typography } from 'antd';
 import clsx from 'clsx';
 import {
   ArrowBigDownDashIcon,
@@ -24,9 +24,23 @@ type ImagesProps = {
   cdrom: boolean;
   setCdrom: (cdrom: boolean) => void;
   setIsMounted: (isMounted: boolean) => void;
+  isDiskShared: boolean;
+  isDiskStateKnown: boolean;
+  refreshDiskState: () => void;
+  // shown between the list and the USB reconnect button
+  children?: ReactNode;
 };
 
-export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) => {
+export const Images = ({
+  isOpen,
+  cdrom,
+  setCdrom,
+  setIsMounted,
+  isDiskShared,
+  isDiskStateKnown,
+  refreshDiskState,
+  children
+}: ImagesProps) => {
   const { t } = useTranslation();
   const [notify, contextHolder] = notification.useNotification();
 
@@ -37,8 +51,6 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
   const [mountedImage, setMountedImage] = useState('');
   const [deletingImage, setDeletingImage] = useState('');
   const [isReconnecting, setIsReconnecting] = useState(false);
-  const [isDiskShared, setIsDiskShared] = useState(false);
-  const [isDiskStateKnown, setIsDiskStateKnown] = useState(false);
   const [isListFailed, setIsListFailed] = useState(false);
   const isLoadingRef = useRef(false);
 
@@ -81,35 +93,23 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
       });
   }, [getMountedImage]);
 
-  // the host writes /data while the virtual disk serves it, so images are
-  // read-only here and can only be mounted, not deleted or uploaded
-  const getDiskState = useCallback(() => {
-    attempt(() => getVirtualDevice()).then((rsp) => {
-      setIsDiskStateKnown(!!rsp);
-      if (!rsp) return;
-
-      setIsDiskShared(!!rsp.data?.disk);
-    });
-  }, []);
-
   useEffect(() => {
     if (isOpen) {
       getImages();
-      getDiskState();
     }
-  }, [getDiskState, getImages, isOpen]);
+  }, [getImages, isOpen]);
 
   useEffect(() => {
     function handleImageListChanged() {
       if (isOpen) {
         getImages();
-        getDiskState();
+        refreshDiskState();
       }
     }
 
     window.addEventListener(IMAGE_LIST_CHANGED_EVENT, handleImageListChanged);
     return () => window.removeEventListener(IMAGE_LIST_CHANGED_EVENT, handleImageListChanged);
-  }, [getDiskState, getImages, isOpen]);
+  }, [refreshDiskState, getImages, isOpen]);
 
   // mounting an image takes the mass storage device away from the virtual disk,
   // so ask the user before the virtual disk changes on the computer
@@ -200,7 +200,7 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
       .finally(() => {
         setMountingImage('');
         client.connect();
-        getDiskState();
+        refreshDiskState();
       });
   }
 
@@ -293,86 +293,17 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
     });
   }
 
-  // loading
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center space-x-2 py-5 text-neutral-400">
-        <LoaderCircleIcon className="animate-spin" size={18} />
-        <span className="text-sm">{t('image.loading')}</span>
-      </div>
-    );
-  }
-
-  // empty image
-  if (images.length === 0) {
-    return (
-      <div className="flex items-center justify-center space-x-2 py-5 text-neutral-500">
-        <PackageSearchIcon size={18} />
-        <span className="text-sm">
-          {isListFailed ? t('common.actionFailed') : t('image.empty')}
-        </span>
-      </div>
-    );
-  }
-
   return (
-    <>
-      <div className="flex max-h-[400px] flex-col overflow-y-auto pb-2">
-        {images.map((image) => (
-          <div
-            key={image}
-            className={clsx(
-              'group flex cursor-pointer select-none items-center space-x-1 rounded px-1 py-2 hover:bg-neutral-700/70',
-              mountedImage === image && 'text-blue-500'
-            )}
-            onClick={() => mountImage(image)}
-          >
-            <div className="flex h-[24px] w-[24px] items-center justify-center">
-              {mountingImage === image ? (
-                <LoaderCircleIcon className="animate-spin" size={18} />
-              ) : (
-                <PackageIcon size={18} />
-              )}
-            </div>
+    <div>
+      {renderList()}
 
-            <div className="flex-1 truncate">{image.replace(/^.*[\\/]/, '')}</div>
-            {sizes[image] !== undefined && (
-              <div className="shrink-0 text-xs text-neutral-500">{formatBytes(sizes[image])}</div>
-            )}
-            <div
-              className={clsx(
-                'rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none',
-                isImageCdrom(image)
-                  ? 'border-blue-500/50 bg-blue-500/10 text-blue-300'
-                  : 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300'
-              )}
-            >
-              {isImageCdrom(image) ? 'ISO' : 'IMG'}
-            </div>
+      <Divider style={{ margin: '12px 0 20px' }} />
 
-            <div className="flex h-[24px] w-[24px] items-center justify-center rounded">
-              {mountedImage === image ? (
-                <ArrowBigDownDashIcon size={22} className="hidden text-red-500 group-hover:block" />
-              ) : (
-                <ArrowBigUpDashIcon size={22} className="hidden text-blue-500 group-hover:block" />
-              )}
-            </div>
+      {children}
 
-            <Button
-              type="text"
-              size="small"
-              danger
-              className="h-[24px] w-[24px] p-0"
-              icon={<Trash2Icon size={16} />}
-              disabled={mountedImage === image || isDiskShared || !isDiskStateKnown}
-              loading={deletingImage === image}
-              onClick={(e) => showDeleteModal(e, image)}
-            />
-          </div>
-        ))}
-      </div>
+      <Divider style={{ margin: '16px 0' }} />
 
-      <div className="mt-3 flex justify-end border-t border-neutral-700/70 pt-3">
+      <div className="flex justify-end">
         <Button
           size="small"
           icon={
@@ -390,8 +321,100 @@ export const Images = ({ isOpen, cdrom, setCdrom, setIsMounted }: ImagesProps) =
       </div>
 
       {contextHolder}
-    </>
+    </div>
   );
+
+  function renderList() {
+    if (isLoading) {
+      return (
+        <div className="flex items-center justify-center space-x-2 py-5 text-neutral-400">
+          <LoaderCircleIcon className="animate-spin" size={18} />
+          <span className="text-sm">{t('image.loading')}</span>
+        </div>
+      );
+    }
+
+    if (images.length === 0) {
+      return (
+        <div className="flex items-center justify-center space-x-2 py-5 text-neutral-500">
+          <PackageSearchIcon size={18} />
+          <span className="text-sm">
+            {isListFailed ? t('common.actionFailed') : t('image.empty')}
+          </span>
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex max-h-[400px] flex-col overflow-y-auto">
+        {images.map((image) => (
+          <div
+            key={image}
+            className={clsx(
+              'group flex cursor-pointer select-none items-center space-x-1 rounded px-1 py-2 hover:bg-neutral-700/70',
+              mountedImage === image && 'text-blue-500'
+            )}
+            onClick={() => mountImage(image)}
+          >
+            <div className="flex h-[24px] w-[24px] items-center justify-center">
+              {mountingImage === image ? (
+                <LoaderCircleIcon className="animate-spin" size={18} />
+              ) : (
+                <PackageIcon size={18} />
+              )}
+            </div>
+
+            <div className="flex min-w-0 flex-1 items-center space-x-2">
+              <span className="truncate">{image.replace(/^.*[\\/]/, '')}</span>
+            </div>
+            {sizes[image] !== undefined && (
+              <div className="shrink-0 text-xs text-neutral-500">{formatBytes(sizes[image])}</div>
+            )}
+            <div
+              className={clsx(
+                'rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none',
+                isImageCdrom(image)
+                  ? 'border-blue-500/50 bg-blue-500/10 text-blue-300'
+                  : 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300'
+              )}
+            >
+              {isImageCdrom(image) ? 'ISO' : 'IMG'}
+            </div>
+
+            <Tooltip
+              title={mountedImage === image ? t('image.eject') : t('image.mountTitle')}
+              mouseEnterDelay={0.6}
+            >
+              <div className="flex h-[24px] w-[24px] items-center justify-center rounded">
+                {mountedImage === image ? (
+                  <ArrowBigDownDashIcon
+                    size={22}
+                    className="text-red-500 opacity-60 group-hover:opacity-100"
+                  />
+                ) : (
+                  <ArrowBigUpDashIcon
+                    size={22}
+                    className="text-blue-500 opacity-60 group-hover:opacity-100"
+                  />
+                )}
+              </div>
+            </Tooltip>
+
+            <Button
+              type="text"
+              size="small"
+              danger
+              className="h-[24px] w-[24px] p-0"
+              icon={<Trash2Icon size={16} />}
+              disabled={mountedImage === image || isDiskShared || !isDiskStateKnown}
+              loading={deletingImage === image}
+              onClick={(e) => showDeleteModal(e, image)}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
 };
 
 function fileName(path: string): string {
