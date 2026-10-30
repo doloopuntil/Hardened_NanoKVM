@@ -82,7 +82,6 @@ export const AddImage = ({
   const submitButton = (
     <Button
       type="primary"
-      size="small"
       disabled={!canSubmit}
       onClick={() =>
         activeSource === 'url'
@@ -174,7 +173,6 @@ export const AddImage = ({
               <div className="pb-1 text-xs text-neutral-400">{t('download.input')}</div>
               <div className="flex items-center space-x-2">
                 <Input
-                  size="small"
                   value={transfer.input}
                   disabled={isDisabled}
                   onChange={(e) => transfer.changeInput(e.target.value)}
@@ -188,7 +186,6 @@ export const AddImage = ({
               <div className="flex items-center space-x-2">
                 <Button
                   block
-                  size="small"
                   disabled={isDisabled}
                   className={clsx('min-w-0', isDragging && '!border-blue-500 !text-blue-400')}
                   onDrop={(e) => {
@@ -226,7 +223,6 @@ export const AddImage = ({
           <div>
             <div className="pb-1 text-xs text-neutral-400">{t('download.sha256')}</div>
             <Input
-              size="small"
               value={transfer.sha256sum}
               disabled={isDisabled}
               maxLength={64}
