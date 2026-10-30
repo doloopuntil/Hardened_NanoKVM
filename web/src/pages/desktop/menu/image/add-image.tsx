@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Alert, Button, Input, notification, Progress, Segmented } from 'antd';
+import { Alert, Button, Input, notification, Progress, Segmented, Tooltip } from 'antd';
 import clsx from 'clsx';
 import { DownloadIcon, LinkIcon, UploadIcon, XCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -79,18 +79,23 @@ export const AddImage = ({
     status !== 'complete' &&
     (activeSource === 'url' ? !!transfer.input.trim() : !!transfer.selectedFile);
 
+  const submitLabel = activeSource === 'url' ? t('image.download') : t('image.upload');
+
   const submitButton = (
-    <Button
-      type="primary"
-      aria-label={t('download.ok')}
-      icon={activeSource === 'url' ? <DownloadIcon size={16} /> : <UploadIcon size={16} />}
-      disabled={!canSubmit}
-      onClick={() =>
-        activeSource === 'url'
-          ? transfer.download(transfer.input)
-          : transfer.upload(transfer.selectedFile)
-      }
-    />
+    <Tooltip title={submitLabel} mouseEnterDelay={0.6}>
+      <Button
+        type="primary"
+        className="shrink-0"
+        aria-label={submitLabel}
+        icon={activeSource === 'url' ? <DownloadIcon size={16} /> : <UploadIcon size={16} />}
+        disabled={!canSubmit}
+        onClick={() =>
+          activeSource === 'url'
+            ? transfer.download(transfer.input)
+            : transfer.upload(transfer.selectedFile)
+        }
+      />
+    </Tooltip>
   );
 
   return (

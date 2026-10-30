@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Divider, notification, Typography } from 'antd';
+import { Button, Divider, notification, Tooltip, Typography } from 'antd';
 import clsx from 'clsx';
 import {
   ArrowBigDownDashIcon,
@@ -381,19 +381,24 @@ export const Images = ({
               {isImageCdrom(image) ? 'ISO' : 'IMG'}
             </div>
 
-            <div className="flex h-[24px] w-[24px] items-center justify-center rounded">
-              {mountedImage === image ? (
-                <ArrowBigDownDashIcon
-                  size={22}
-                  className="text-red-500 opacity-60 group-hover:opacity-100"
-                />
-              ) : (
-                <ArrowBigUpDashIcon
-                  size={22}
-                  className="text-blue-500 opacity-60 group-hover:opacity-100"
-                />
-              )}
-            </div>
+            <Tooltip
+              title={mountedImage === image ? t('image.eject') : t('image.mountTitle')}
+              mouseEnterDelay={0.6}
+            >
+              <div className="flex h-[24px] w-[24px] items-center justify-center rounded">
+                {mountedImage === image ? (
+                  <ArrowBigDownDashIcon
+                    size={22}
+                    className="text-red-500 opacity-60 group-hover:opacity-100"
+                  />
+                ) : (
+                  <ArrowBigUpDashIcon
+                    size={22}
+                    className="text-blue-500 opacity-60 group-hover:opacity-100"
+                  />
+                )}
+              </div>
+            </Tooltip>
 
             <Button
               type="text"
