@@ -250,7 +250,6 @@ const fr = {
       addImage: 'Ajouter une image',
       fromUrl: 'Depuis une URL',
       fromFile: 'Depuis un fichier',
-      mounted: 'Montée',
       turnOff: 'Désactiver',
       mountTitle: "Monter l'image",
       deleteTitle: "Supprimer l'image",

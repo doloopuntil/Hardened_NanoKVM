@@ -243,7 +243,6 @@ const vi = {
       addImage: 'Thêm hình ảnh',
       fromUrl: 'Từ URL',
       fromFile: 'Từ tệp',
-      mounted: 'Đã mount',
       turnOff: 'Tắt',
       mountTitle: 'Mount hình ảnh',
       deleteTitle: 'Xóa hình ảnh',

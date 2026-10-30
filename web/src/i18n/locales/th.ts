@@ -241,7 +241,6 @@ const th = {
       addImage: 'เพิ่มอิมเมจ',
       fromUrl: 'จาก URL',
       fromFile: 'จากไฟล์',
-      mounted: 'ติดตั้งแล้ว',
       turnOff: 'ปิด',
       mountTitle: 'ติดตั้งอิมเมจ',
       deleteTitle: 'ลบอิมเมจ',

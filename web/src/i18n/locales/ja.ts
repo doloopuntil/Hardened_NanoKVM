@@ -247,7 +247,6 @@ const ja = {
       addImage: 'イメージを追加',
       fromUrl: 'URLから',
       fromFile: 'ファイルから',
-      mounted: 'マウント中',
       turnOff: 'オフにする',
       mountTitle: 'イメージをマウント',
       deleteTitle: 'イメージを削除',

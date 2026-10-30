@@ -249,7 +249,6 @@ const nb = {
       addImage: 'Legg til bilde',
       fromUrl: 'Fra URL',
       fromFile: 'Fra fil',
-      mounted: 'Montert',
       turnOff: 'Slå av',
       mountTitle: 'Monter bilde',
       deleteTitle: 'Slett bilde',

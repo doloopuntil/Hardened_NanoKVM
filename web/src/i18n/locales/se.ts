@@ -246,7 +246,6 @@ const se = {
       addImage: 'Lägg till avbildning',
       fromUrl: 'Från URL',
       fromFile: 'Från fil',
-      mounted: 'Monterad',
       turnOff: 'Stäng av',
       mountTitle: 'Montera avbildning',
       deleteTitle: 'Ta bort avbildning',

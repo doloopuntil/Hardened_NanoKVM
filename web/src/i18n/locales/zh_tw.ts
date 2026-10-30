@@ -233,7 +233,6 @@ const zh_tw = {
       addImage: '新增映像檔',
       fromUrl: '從網址',
       fromFile: '從檔案',
-      mounted: '已掛載',
       turnOff: '關閉',
       mountTitle: '掛載映像檔',
       deleteTitle: '刪除映像檔',

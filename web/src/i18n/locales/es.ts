@@ -249,7 +249,6 @@ const es = {
       addImage: 'Añadir imagen',
       fromUrl: 'Desde URL',
       fromFile: 'Desde archivo',
-      mounted: 'Montada',
       turnOff: 'Desactivar',
       mountTitle: 'Montar imagen',
       deleteTitle: 'Eliminar imagen',

@@ -82,6 +82,7 @@ export const AddImage = ({
   const submitButton = (
     <Button
       type="primary"
+      size="small"
       disabled={!canSubmit}
       onClick={() =>
         activeSource === 'url'
@@ -98,6 +99,7 @@ export const AddImage = ({
       <div className="flex items-center justify-between">
         <span className="font-semibold">{t('image.addImage')}</span>
         <Segmented
+          size="small"
           value={activeSource}
           options={sources}
           disabled={isDisabled || isBusy}
@@ -111,7 +113,7 @@ export const AddImage = ({
           showIcon
           message={t('download.diskShared')}
           action={
-            <Button type="primary" loading={isDisablingDisk} onClick={onDisableDisk}>
+            <Button type="primary" size="small" loading={isDisablingDisk} onClick={onDisableDisk}>
               {t('image.turnOff')}
             </Button>
           }
@@ -130,6 +132,7 @@ export const AddImage = ({
             <span className="min-w-0 flex-1 truncate text-sm">{transfer.log}</span>
             <Button
               danger
+              size="small"
               icon={<XCircleIcon size={14} />}
               loading={transfer.isCanceling}
               onClick={transfer.cancel}
@@ -171,6 +174,7 @@ export const AddImage = ({
               <div className="pb-1 text-xs text-neutral-400">{t('download.input')}</div>
               <div className="flex items-center space-x-2">
                 <Input
+                  size="small"
                   value={transfer.input}
                   disabled={isDisabled}
                   onChange={(e) => transfer.changeInput(e.target.value)}
@@ -184,6 +188,7 @@ export const AddImage = ({
               <div className="flex items-center space-x-2">
                 <Button
                   block
+                  size="small"
                   disabled={isDisabled}
                   className={clsx('min-w-0', isDragging && '!border-blue-500 !text-blue-400')}
                   onDrop={(e) => {
@@ -221,6 +226,7 @@ export const AddImage = ({
           <div>
             <div className="pb-1 text-xs text-neutral-400">{t('download.sha256')}</div>
             <Input
+              size="small"
               value={transfer.sha256sum}
               disabled={isDisabled}
               maxLength={64}

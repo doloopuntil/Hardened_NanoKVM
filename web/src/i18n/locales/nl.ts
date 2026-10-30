@@ -250,7 +250,6 @@ const nl = {
       addImage: 'Afbeelding toevoegen',
       fromUrl: 'Via URL',
       fromFile: 'Uit bestand',
-      mounted: 'Gekoppeld',
       turnOff: 'Uitschakelen',
       mountTitle: 'Afbeelding koppelen',
       deleteTitle: 'Afbeelding verwijderen',

@@ -246,7 +246,6 @@ const ca = {
       addImage: 'Afegeix una imatge',
       fromUrl: "Des d'una URL",
       fromFile: "Des d'un fitxer",
-      mounted: 'Muntada',
       turnOff: 'Apaga',
       mountTitle: 'Munta la imatge',
       deleteTitle: 'Esborra la imatge',

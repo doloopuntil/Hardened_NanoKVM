@@ -246,7 +246,6 @@ const en = {
       addImage: 'Add image',
       fromUrl: 'From URL',
       fromFile: 'From file',
-      mounted: 'Mounted',
       turnOff: 'Turn off',
       mountTitle: 'Mount image',
       deleteTitle: 'Delete image',

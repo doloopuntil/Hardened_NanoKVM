@@ -243,7 +243,6 @@ const ko = {
       addImage: '이미지 추가',
       fromUrl: 'URL에서',
       fromFile: '파일에서',
-      mounted: '마운트됨',
       turnOff: '끄기',
       mountTitle: '이미지 마운트',
       deleteTitle: '이미지 삭제',

@@ -248,7 +248,6 @@ const hu = {
       addImage: 'Kép hozzáadása',
       fromUrl: 'URL-ről',
       fromFile: 'Fájlból',
-      mounted: 'Csatlakoztatva',
       turnOff: 'Kikapcsolás',
       mountTitle: 'Kép csatlakoztatása',
       deleteTitle: 'Kép törlése',

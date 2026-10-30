@@ -242,7 +242,6 @@ const et = {
       addImage: 'Lisa image-fail',
       fromUrl: 'URL-ist',
       fromFile: 'Failist',
-      mounted: 'Ühendatud',
       turnOff: 'Lülita välja',
       mountTitle: 'Ühenda image-fail',
       deleteTitle: 'Kustuta image-fail',

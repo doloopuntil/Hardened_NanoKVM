@@ -250,7 +250,6 @@ const it = {
       addImage: 'Aggiungi immagine',
       fromUrl: 'Da URL',
       fromFile: 'Da file',
-      mounted: 'Montata',
       turnOff: 'Disattiva',
       mountTitle: 'Monta immagine',
       deleteTitle: 'Elimina immagine',

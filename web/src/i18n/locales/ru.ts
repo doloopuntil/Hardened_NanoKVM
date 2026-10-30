@@ -249,7 +249,6 @@ const ru = {
       addImage: 'Добавить образ',
       fromUrl: 'По URL',
       fromFile: 'Из файла',
-      mounted: 'Смонтирован',
       turnOff: 'Отключить',
       mountTitle: 'Смонтировать образ',
       deleteTitle: 'Удалить образ',

@@ -246,7 +246,6 @@ const cz = {
       addImage: 'Přidat obraz',
       fromUrl: 'Z adresy URL',
       fromFile: 'Ze souboru',
-      mounted: 'Připojeno',
       turnOff: 'Vypnout',
       mountTitle: 'Připojit obraz',
       deleteTitle: 'Smazat obraz',

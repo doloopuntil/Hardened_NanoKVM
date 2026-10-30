@@ -246,7 +246,6 @@ const da = {
       addImage: 'Tilføj diskbillede',
       fromUrl: 'Fra URL',
       fromFile: 'Fra fil',
-      mounted: 'Monteret',
       turnOff: 'Sluk',
       mountTitle: 'Monter diskbillede',
       deleteTitle: 'Slet diskbillede',

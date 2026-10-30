@@ -247,7 +247,6 @@ const pt_br = {
       addImage: 'Adicionar imagem',
       fromUrl: 'Por URL',
       fromFile: 'Por arquivo',
-      mounted: 'Montada',
       turnOff: 'Desligar',
       mountTitle: 'Montar imagem',
       deleteTitle: 'Excluir imagem',

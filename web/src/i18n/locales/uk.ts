@@ -250,7 +250,6 @@ const uk = {
       addImage: 'Додати образ',
       fromUrl: 'За URL',
       fromFile: 'З файлу',
-      mounted: 'Змонтовано',
       turnOff: 'Вимкнути',
       mountTitle: 'Змонтувати образ',
       deleteTitle: 'Видалити образ',

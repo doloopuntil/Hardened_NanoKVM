@@ -109,7 +109,13 @@ export const Image = () => {
         <div className="flex flex-col pt-3">
           <div className="flex items-center justify-between">
             <span className="font-semibold">{t('image.mountMode')}</span>
-            <Segmented value={mode} options={modes} disabled={isMounted} onChange={setMode} />
+            <Segmented
+              size="small"
+              value={mode}
+              options={modes}
+              disabled={isMounted}
+              onChange={setMode}
+            />
           </div>
 
           <div className="mt-3">

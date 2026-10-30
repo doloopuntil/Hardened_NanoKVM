@@ -245,7 +245,6 @@ const tr = {
       addImage: 'İmaj ekle',
       fromUrl: "URL'den",
       fromFile: 'Dosyadan',
-      mounted: 'Bağlı',
       turnOff: 'Kapat',
       mountTitle: 'İmajı bağla',
       deleteTitle: 'İmajı sil',

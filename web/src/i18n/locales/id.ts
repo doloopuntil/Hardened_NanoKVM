@@ -247,7 +247,6 @@ const id = {
       addImage: 'Tambah gambar',
       fromUrl: 'Dari URL',
       fromFile: 'Dari berkas',
-      mounted: 'Terpasang',
       turnOff: 'Matikan',
       mountTitle: 'Pasang gambar',
       deleteTitle: 'Hapus gambar',

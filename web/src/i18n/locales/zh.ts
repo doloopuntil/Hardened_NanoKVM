@@ -232,7 +232,6 @@ const zh = {
       addImage: '添加镜像',
       fromUrl: '从链接',
       fromFile: '从文件',
-      mounted: '已挂载',
       turnOff: '关闭',
       mountTitle: '挂载镜像',
       deleteTitle: '删除镜像',

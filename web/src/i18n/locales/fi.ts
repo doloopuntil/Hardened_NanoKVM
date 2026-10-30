@@ -249,7 +249,6 @@ const fi = {
       addImage: 'Lisää levykuva',
       fromUrl: 'URL-osoitteesta',
       fromFile: 'Tiedostosta',
-      mounted: 'Liitetty',
       turnOff: 'Sammuta',
       mountTitle: 'Liitä levykuva',
       deleteTitle: 'Poista levykuva',

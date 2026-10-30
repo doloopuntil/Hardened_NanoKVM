@@ -248,7 +248,6 @@ const pl = {
       addImage: 'Dodaj obraz',
       fromUrl: 'Z adresu URL',
       fromFile: 'Z pliku',
-      mounted: 'Zamontowany',
       turnOff: 'Wyłącz',
       mountTitle: 'Zamontuj obraz',
       deleteTitle: 'Usuń obraz',

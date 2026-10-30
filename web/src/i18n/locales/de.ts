@@ -250,7 +250,6 @@ const de = {
       addImage: 'Bild hinzufügen',
       fromUrl: 'Von URL',
       fromFile: 'Aus Datei',
-      mounted: 'Eingebunden',
       turnOff: 'Ausschalten',
       mountTitle: 'Bild einbinden',
       deleteTitle: 'Bild löschen',
