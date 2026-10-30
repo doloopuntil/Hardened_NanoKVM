@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Input, notification, Progress, Segmented } from 'antd';
+import { Alert, Button, Input, notification, Progress, Segmented } from 'antd';
 import clsx from 'clsx';
 import { LinkIcon, UploadIcon, XCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -12,9 +12,18 @@ type AddImageProps = {
   isWritable: boolean;
   isRemoteEnabled: boolean;
   isDiskShared: boolean;
+  isDisablingDisk: boolean;
+  onDisableDisk: () => void;
 };
 
-export const AddImage = ({ isOpen, isWritable, isRemoteEnabled, isDiskShared }: AddImageProps) => {
+export const AddImage = ({
+  isOpen,
+  isWritable,
+  isRemoteEnabled,
+  isDiskShared,
+  isDisablingDisk,
+  onDisableDisk
+}: AddImageProps) => {
   const { t } = useTranslation();
   const [notify, contextHolder] = notification.useNotification();
 
@@ -65,6 +74,25 @@ export const AddImage = ({ isOpen, isWritable, isRemoteEnabled, isDiskShared }: 
     }
   ];
 
+  const canSubmit =
+    !isDisabled &&
+    status !== 'complete' &&
+    (activeSource === 'url' ? !!transfer.input.trim() : !!transfer.selectedFile);
+
+  const submitButton = (
+    <Button
+      type="primary"
+      disabled={!canSubmit}
+      onClick={() =>
+        activeSource === 'url'
+          ? transfer.download(transfer.input)
+          : transfer.upload(transfer.selectedFile)
+      }
+    >
+      {t('download.ok')}
+    </Button>
+  );
+
   return (
     <div className="flex flex-col space-y-3">
       <div className="flex items-center justify-between">
@@ -78,6 +106,18 @@ export const AddImage = ({ isOpen, isWritable, isRemoteEnabled, isDiskShared }: 
         />
       </div>
 
+      {isDisabled && isDiskShared && (
+        <Alert
+          type="warning"
+          showIcon
+          message={t('download.diskShared')}
+          action={
+            <Button type="primary" size="small" loading={isDisablingDisk} onClick={onDisableDisk}>
+              {t('image.turnOff')}
+            </Button>
+          }
+        />
+      )}
       {isDisabled && !isDiskShared && (
         <div className="text-sm text-red-500">{t('download.disabled')}</div>
       )}
@@ -131,38 +171,44 @@ export const AddImage = ({ isOpen, isWritable, isRemoteEnabled, isDiskShared }: 
           {activeSource === 'url' ? (
             <div>
               <div className="pb-1 text-xs text-neutral-400">{t('download.input')}</div>
-              <Input
-                value={transfer.input}
-                disabled={isDisabled}
-                onChange={(e) => transfer.changeInput(e.target.value)}
-              />
+              <div className="flex items-center space-x-2">
+                <Input
+                  value={transfer.input}
+                  disabled={isDisabled}
+                  onChange={(e) => transfer.changeInput(e.target.value)}
+                />
+                {submitButton}
+              </div>
             </div>
           ) : (
             <div>
               <div className="pb-1 text-xs text-neutral-400">{t('download.inputfile')}</div>
-              <Button
-                block
-                disabled={isDisabled}
-                className={clsx('min-w-0', isDragging && '!border-blue-500 !text-blue-400')}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  setIsDragging(false);
-                  transfer.selectLocalFile(e.dataTransfer.files?.[0] ?? null);
-                }}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setIsDragging(true);
-                }}
-                onDragLeave={(e) => {
-                  e.preventDefault();
-                  setIsDragging(false);
-                }}
-                onClick={() => transfer.fileInputRef.current?.click()}
-              >
-                <span className="block max-w-full truncate">
-                  {transfer.selectedFile ? transfer.selectedFile.name : t('download.uploadbox')}
-                </span>
-              </Button>
+              <div className="flex items-center space-x-2">
+                <Button
+                  block
+                  disabled={isDisabled}
+                  className={clsx('min-w-0', isDragging && '!border-blue-500 !text-blue-400')}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    setIsDragging(false);
+                    transfer.selectLocalFile(e.dataTransfer.files?.[0] ?? null);
+                  }}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setIsDragging(true);
+                  }}
+                  onDragLeave={(e) => {
+                    e.preventDefault();
+                    setIsDragging(false);
+                  }}
+                  onClick={() => transfer.fileInputRef.current?.click()}
+                >
+                  <span className="block max-w-full truncate">
+                    {transfer.selectedFile ? transfer.selectedFile.name : t('download.uploadbox')}
+                  </span>
+                </Button>
+                {submitButton}
+              </div>
               <input
                 ref={transfer.fileInputRef}
                 type="file"
@@ -183,24 +229,6 @@ export const AddImage = ({ isOpen, isWritable, isRemoteEnabled, isDiskShared }: 
               placeholder={t('download.sha256Placeholder')}
               onChange={(e) => transfer.changeSha256(e.target.value)}
             />
-          </div>
-
-          <div className="flex justify-end">
-            <Button
-              type="primary"
-              disabled={
-                isDisabled ||
-                status === 'complete' ||
-                (activeSource === 'url' ? !transfer.input.trim() : !transfer.selectedFile)
-              }
-              onClick={() =>
-                activeSource === 'url'
-                  ? transfer.download(transfer.input)
-                  : transfer.upload(transfer.selectedFile)
-              }
-            >
-              {t('download.ok')}
-            </Button>
           </div>
         </div>
       )}

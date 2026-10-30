@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
-import { Button, notification, Typography } from 'antd';
+import { Button, Divider, notification, Typography } from 'antd';
 import clsx from 'clsx';
 import {
   ArrowBigDownDashIcon,
@@ -294,14 +294,16 @@ export const Images = ({
   }
 
   return (
-    <>
+    <div>
       {renderList()}
 
-      <div className="mt-3 border-0 border-t border-solid border-neutral-700/70 pt-3">
-        {children}
-      </div>
+      <Divider style={{ margin: '12px 0 20px' }} />
 
-      <div className="mt-3 flex justify-end border-0 border-t border-solid border-neutral-700/70 pt-3">
+      {children}
+
+      <Divider style={{ margin: '16px 0' }} />
+
+      <div className="flex justify-end">
         <Button
           size="small"
           icon={
@@ -319,7 +321,7 @@ export const Images = ({
       </div>
 
       {contextHolder}
-    </>
+    </div>
   );
 
   function renderList() {
@@ -344,7 +346,7 @@ export const Images = ({
     }
 
     return (
-      <div className="flex max-h-[400px] flex-col overflow-y-auto pb-2">
+      <div className="flex max-h-[400px] flex-col overflow-y-auto">
         {images.map((image) => (
           <div
             key={image}

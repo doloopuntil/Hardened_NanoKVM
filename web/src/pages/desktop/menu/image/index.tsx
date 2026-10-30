@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Button, Divider, Modal, Segmented, Tooltip } from 'antd';
+import { Modal, Segmented, Tooltip } from 'antd';
 import clsx from 'clsx';
 import { useSetAtom } from 'jotai';
-import { DiscIcon, HardDriveIcon, TriangleAlertIcon } from 'lucide-react';
+import { DiscIcon, HardDriveIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/storage.ts';
@@ -107,25 +107,6 @@ export const Image = () => {
         onCancel={() => toggleModal(false)}
       >
         <div className="flex flex-col space-y-6">
-          <Divider style={{ margin: 0 }} />
-
-          {!storage.isWritable && storage.isDiskShared && (
-            <div className="flex items-start space-x-2 rounded border border-solid border-amber-500/40 bg-amber-500/10 p-3">
-              <TriangleAlertIcon size={18} className="mt-0.5 shrink-0 text-amber-400" />
-              <div className="flex flex-col items-start space-y-2">
-                <span className="text-sm text-amber-200">{t('download.diskShared')}</span>
-                <Button
-                  type="primary"
-                  size="small"
-                  loading={storage.isDisablingDisk}
-                  onClick={storage.disableDisk}
-                >
-                  {t('image.turnOff')}
-                </Button>
-              </div>
-            </div>
-          )}
-
           <div className="flex items-center justify-between">
             <span className="font-semibold">{t('image.mountMode')}</span>
             <Segmented value={mode} options={modes} disabled={isMounted} onChange={setMode} />
@@ -145,6 +126,8 @@ export const Image = () => {
               isWritable={storage.isWritable}
               isRemoteEnabled={storage.isRemoteEnabled}
               isDiskShared={storage.isDiskShared}
+              isDisablingDisk={storage.isDisablingDisk}
+              onDisableDisk={storage.disableDisk}
             />
           </Images>
         </div>
