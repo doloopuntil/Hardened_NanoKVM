@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Form, Input } from 'antd';
-import { LockIcon, ShieldCheckIcon } from 'lucide-react';
+import { LockIcon, ShieldUserIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -145,7 +145,7 @@ export const Password = () => {
               rules={[{ required: true, message: t('auth.totp.noEmptyCode'), min: 1 }]}
             >
               <Input
-                prefix={<ShieldCheckIcon size={14} />}
+                prefix={<ShieldUserIcon size={14} />}
                 inputMode="numeric"
                 autoComplete="one-time-code"
                 placeholder={t('auth.totp.placeholderCode')}

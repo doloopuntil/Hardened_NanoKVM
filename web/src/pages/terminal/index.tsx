@@ -3,7 +3,7 @@ import { AttachAddon } from '@xterm/addon-attach';
 import { FitAddon } from '@xterm/addon-fit';
 import { Terminal as XtermTerminal } from '@xterm/xterm';
 import { Button, Form, Input } from 'antd';
-import { LockIcon, ShieldCheckIcon, UserRoundIcon } from 'lucide-react';
+import { LockIcon, ShieldUserIcon, UserRoundIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import '@xterm/xterm/css/xterm.css';
@@ -224,7 +224,7 @@ export const Terminal = () => {
                   rules={[{ required: true, message: t('auth.totp.noEmptyCode'), min: 1 }]}
                 >
                   <Input
-                    prefix={<ShieldCheckIcon size={14} />}
+                    prefix={<ShieldUserIcon size={14} />}
                     inputMode="numeric"
                     autoComplete="one-time-code"
                     placeholder={t('auth.totp.placeholderCode')}
