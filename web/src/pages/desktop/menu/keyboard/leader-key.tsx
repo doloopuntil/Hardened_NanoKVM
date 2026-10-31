@@ -7,8 +7,7 @@ import {
   ChevronRightIcon,
   ChevronUpIcon,
   CommandIcon,
-  KeyboardIcon,
-  KeyIcon
+  KeyboardIcon
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -104,7 +103,7 @@ export const LeaderKey = () => {
 
   return (
     <>
-      <MenuRow icon={<KeyIcon size={18} />} onClick={openModal}>
+      <MenuRow icon={<CommandIcon size={18} />} onClick={openModal}>
         {t('keyboard.leaderKey.title')}
       </MenuRow>
 

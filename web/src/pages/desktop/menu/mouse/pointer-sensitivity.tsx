@@ -1,6 +1,6 @@
 import { Slider } from 'antd';
 import { useAtom } from 'jotai';
-import { MousePointer2Icon } from 'lucide-react';
+import { GaugeIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as storage from '@/lib/localstorage.ts';
@@ -39,10 +39,6 @@ export const PointerSensitivity = () => {
   );
 
   return (
-    <MenuSubmenu
-      icon={<MousePointer2Icon size={18} />}
-      label={t('mouse.sensitivity')}
-      content={content}
-    />
+    <MenuSubmenu icon={<GaugeIcon size={18} />} label={t('mouse.sensitivity')} content={content} />
   );
 };

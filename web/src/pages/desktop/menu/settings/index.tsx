@@ -19,7 +19,7 @@ import {
   ScrollTextIcon,
   ServerCogIcon,
   SettingsIcon,
-  ShieldCheckIcon,
+  ShieldEllipsisIcon,
   SlidersHorizontalIcon,
   UserRoundIcon
 } from 'lucide-react';
@@ -120,7 +120,7 @@ export const Settings = () => {
         systemTab('firewall', <BrickWallIcon size={14} />, t('settings.system.sections.firewall')),
         {
           id: 'networking.wireguard',
-          icon: <ShieldCheckIcon size={14} />,
+          icon: <ShieldEllipsisIcon size={14} />,
           title: t('settings.wireguard.title'),
           component: <Wireguard />
         },

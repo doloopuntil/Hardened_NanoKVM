@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import {
   HistoryIcon,
   LoaderCircleIcon,
+  PanelRightCloseIcon,
   PlayIcon,
   PowerIcon,
   SettingsIcon,
@@ -14,7 +15,6 @@ import { useTranslation } from 'react-i18next';
 
 import { confirm } from '@/lib/feedback.ts';
 import { usePopconfirmColor } from '@/hooks/usePopconfirmColor.ts';
-import { LayoutSidebarRightCollapse } from '@/components/icons/layout-sidebar-right-collapse.tsx';
 import { MenuRow } from '@/components/menu-rows.tsx';
 
 type HeaderButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
@@ -123,7 +123,7 @@ export const SidebarHeader = ({
         <div className="flex min-w-0 items-center gap-1.5">
           <Tooltip title={t('menu.collapse')} mouseEnterDelay={0.6} placement="bottom">
             <HeaderButton
-              icon={<LayoutSidebarRightCollapse size={18} />}
+              icon={<PanelRightCloseIcon size={18} />}
               aria-label={t('menu.collapse')}
               onClick={onClose}
             />

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Button } from 'antd';
-import { Clock3Icon, LoaderCircleIcon, MessageSquareTextIcon, Trash2Icon } from 'lucide-react';
+import { HistoryIcon, LoaderCircleIcon, MessageSquareTextIcon, Trash2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import type { PicoclawSessionListItem } from '@/api/picoclaw.ts';
@@ -55,7 +55,7 @@ export const SidebarHistory = ({
     if (sessions.length === 0) {
       return (
         <EmptyState
-          icon={<Clock3Icon size={22} />}
+          icon={<HistoryIcon size={22} />}
           title={t('picoclaw.history.emptyTitle')}
           description={t('picoclaw.history.emptyDescription')}
         />

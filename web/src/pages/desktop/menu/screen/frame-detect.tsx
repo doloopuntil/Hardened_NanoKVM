@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Tooltip } from 'antd';
-import { LoaderCircleIcon, Tally4Icon, Tally5Icon } from 'lucide-react';
+import { LoaderCircleIcon, ScanEyeIcon, ScanIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/stream.ts';
@@ -49,9 +49,9 @@ export const FrameDetect = () => {
           isLoading ? (
             <LoaderCircleIcon className="animate-spin" size={18} />
           ) : isEnabled ? (
-            <Tally4Icon color="#22c55e" size={18} />
+            <ScanEyeIcon color="#22c55e" size={18} />
           ) : (
-            <Tally5Icon size={18} />
+            <ScanIcon size={18} />
           )
         }
         onClick={update}
