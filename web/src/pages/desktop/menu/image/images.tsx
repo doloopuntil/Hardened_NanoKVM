@@ -3,6 +3,7 @@ import { Button, Divider, Tooltip, Typography } from 'antd';
 import clsx from 'clsx';
 import {
   CableIcon,
+  EjectIcon,
   HardDriveDownloadIcon,
   LoaderCircleIcon,
   PackageIcon,
@@ -17,7 +18,6 @@ import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { IMAGE_LIST_CHANGED_EVENT } from '@/lib/image-events.ts';
 import { formatBytes } from '@/lib/image-transfer.ts';
 import { client } from '@/lib/websocket.ts';
-import { Eject } from '@/components/icons/eject.tsx';
 
 type ImagesProps = {
   isOpen: boolean;
@@ -381,7 +381,7 @@ export const Images = ({
               >
                 <div className="flex h-[24px] w-[24px] items-center justify-center rounded">
                   {mountedImage === image ? (
-                    <Eject size={20} className="text-red-500 opacity-60 group-hover:opacity-100" />
+                    <EjectIcon size={20} className="text-red-500 opacity-60 group-hover:opacity-100" />
                   ) : (
                     <HardDriveDownloadIcon
                       size={20}
