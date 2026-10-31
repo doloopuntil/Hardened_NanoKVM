@@ -11,6 +11,7 @@ import { IMAGE_LIST_CHANGED_EVENT } from '@/lib/image-events.ts';
 import { isKeyboardEnableAtom } from '@/jotai/keyboard.ts';
 import { submenuOpenCountAtom } from '@/jotai/settings.ts';
 import { useImageStorage } from '@/hooks/useImageStorage.ts';
+import { useIsTouchLayout } from '@/hooks/useResponsiveLayout.ts';
 
 import { AddImage } from './add-image.tsx';
 import { Images } from './images.tsx';
@@ -21,6 +22,7 @@ export const Image = () => {
   const setSubmenuOpenCount = useSetAtom(submenuOpenCountAtom);
   const setIsKeyboardEnable = useSetAtom(isKeyboardEnableAtom);
   const storage = useImageStorage();
+  const isTouchLayout = useIsTouchLayout();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -32,7 +34,7 @@ export const Image = () => {
       label: (
         <div className="flex items-center space-x-1">
           <HardDriveIcon size={16} />
-          <span>Mass Storage</span>
+          <span>{t('image.massStorage')}</span>
         </div>
       )
     },
@@ -41,7 +43,7 @@ export const Image = () => {
       label: (
         <div className="flex items-center space-x-1">
           <DiscIcon size={16} />
-          <span>CD ROM</span>
+          <span>{t('image.cdRom')}</span>
         </div>
       )
     }
@@ -102,7 +104,8 @@ export const Image = () => {
           </div>
         }
         open={isModalOpen}
-        centered
+        // not centred on a phone, so that the phone's keyboard does not cover the text boxes
+        centered={!isTouchLayout}
         footer={null}
         onCancel={() => toggleModal(false)}
       >

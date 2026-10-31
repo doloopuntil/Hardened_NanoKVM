@@ -225,6 +225,8 @@ const da = {
       loading: 'Indlæser...',
       empty: 'Ingen fundet',
       mountMode: 'Monter diskbillede som',
+      massStorage: 'Masselager',
+      cdRom: 'CD-ROM',
       mountFailed: 'Montering af diskbillede mislykkedes',
       mountDesc:
         'På nogle systemer kan det være nødvendigt at skubbe den virtuelle disk ud på fjerncomputeren før du kan montere diskbilledet',

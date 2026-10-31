@@ -226,6 +226,8 @@ const id = {
       loading: 'Memuat...',
       empty: 'Tidak ada yang ditemukan',
       mountMode: 'Pasang gambar sebagai',
+      massStorage: 'Penyimpanan massal',
+      cdRom: 'CD-ROM',
       mountFailed: 'Pemasangan gagal',
       mountDesc:
         'Di beberapa sistem, perlu mengeluarkan disk virtual pada host jarak jauh sebelum memasang gambar',

@@ -225,6 +225,8 @@ const en = {
       loading: 'Loading...',
       empty: 'Nothing found',
       mountMode: 'Mount image as',
+      massStorage: 'Mass storage',
+      cdRom: 'CD-ROM',
       mountFailed: 'Mount failed',
       mountDesc:
         'On some systems, you need to eject the virtual disk from the remote host before mounting the image',

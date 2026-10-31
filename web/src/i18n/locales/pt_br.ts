@@ -226,6 +226,8 @@ const pt_br = {
       loading: 'Carregando...',
       empty: 'Nada encontrado',
       mountMode: 'Montar imagem como',
+      massStorage: 'Armazenamento em massa',
+      cdRom: 'CD-ROM',
       mountFailed: 'Falha na montagem',
       mountDesc:
         'Em alguns sistemas, é necessário ejetar o disco virtual no host remoto antes de montar a imagem',

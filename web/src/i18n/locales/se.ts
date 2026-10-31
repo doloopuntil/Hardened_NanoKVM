@@ -225,6 +225,8 @@ const se = {
       loading: 'Laddar...',
       empty: 'Inget hittades',
       mountMode: 'Montera avbildning som',
+      massStorage: 'Masslagring',
+      cdRom: 'CD-ROM',
       mountFailed: 'Montering misslyckades',
       mountDesc:
         'I vissa system måste den virtuella disken avmonteras på fjärrvärden innan avbildningen monteras',

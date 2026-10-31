@@ -229,6 +229,8 @@ const de = {
       loading: 'Lädt...',
       empty: 'Nichts gefunden',
       mountMode: 'Bild einbinden als',
+      massStorage: 'Massenspeicher',
+      cdRom: 'CD-ROM',
       mountFailed: 'Einbinden fehlgeschlagen',
       mountDesc:
         'In einigen Systemen ist es notwendig, die virtuelle Festplatte auf dem entfernten Host auszuwerfen, bevor das Image eingebunden werden kann',

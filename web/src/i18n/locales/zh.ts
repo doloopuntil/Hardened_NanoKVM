@@ -214,6 +214,8 @@ const zh = {
       loading: '加载中...',
       empty: '无镜像文件',
       mountMode: '将镜像挂载为',
+      massStorage: '大容量存储',
+      cdRom: 'CD-ROM',
       mountFailed: '挂载失败',
       mountDesc: '在某些系统中，需要在远程主机中弹出虚拟硬盘后再挂载镜像',
       diskOnWarn: '挂载镜像会关闭虚拟磁盘，电脑将无法再访问 /data 目录。是否继续？',

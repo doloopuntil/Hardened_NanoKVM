@@ -224,6 +224,8 @@ const tr = {
       loading: 'Yükleniyor...',
       empty: 'Hiçbir şey bulunamadı',
       mountMode: 'İmajı şu olarak bağla',
+      massStorage: 'Yığın depolama',
+      cdRom: 'CD-ROM',
       mountFailed: 'Bağlama başarısız oldu',
       mountDesc:
         'Bazı sistemlerde, disk imajını bağlamadan önce uzak ana bilgisayardaki sanal diski çıkarmak gerekir',

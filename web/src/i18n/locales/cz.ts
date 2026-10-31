@@ -225,6 +225,8 @@ const cz = {
       loading: 'Načítání...',
       empty: 'Nic nenalezeno',
       mountMode: 'Připojit obraz jako',
+      massStorage: 'Velkokapacitní úložiště',
+      cdRom: 'CD-ROM',
       mountFailed: 'Připojení se nezdařilo',
       mountDesc:
         'V některých systémech je nutné před připojením obrazu vysunout virtuální disk na vzdáleném hostiteli',

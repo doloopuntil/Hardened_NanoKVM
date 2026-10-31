@@ -228,6 +228,8 @@ const fi = {
       loading: 'Ladataan...',
       empty: 'Mitään ei löytynyt',
       mountMode: 'Liitä levykuva tyyppinä',
+      massStorage: 'Massamuisti',
+      cdRom: 'CD-ROM',
       mountFailed: 'Liittäminen epäonnistui',
       mountDesc:
         'Joissakin järjestelmissä virtuaalilevy on poistettava etäkoneesta ennen levykuvan liittämistä',

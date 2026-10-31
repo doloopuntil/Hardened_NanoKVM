@@ -228,6 +228,8 @@ const nb = {
       loading: 'Laster...',
       empty: 'Ingen funnet',
       mountMode: 'Monter bilde som',
+      massStorage: 'Masselagring',
+      cdRom: 'CD-ROM',
       mountFailed: 'Montering feilet',
       mountDesc:
         'På noen systemer er det nødvendig å koble fra den virtuelle disken på den eksterne verten før man kan montere arkivfilen',

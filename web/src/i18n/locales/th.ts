@@ -221,6 +221,8 @@ const th = {
       loading: 'กำลังโหลด...',
       empty: 'ไม่พบดิสก์',
       mountMode: 'ติดตั้งอิมเมจเป็น',
+      massStorage: 'อุปกรณ์จัดเก็บข้อมูล',
+      cdRom: 'CD-ROM',
       mountFailed: 'การติดตั้งล้มเหลว',
       mountDesc: 'ในบางระบบ, จะต้อง eject ดิสก์จำลองก่อนที่จะใส่ดิสก์ใหม่',
       diskOnWarn:

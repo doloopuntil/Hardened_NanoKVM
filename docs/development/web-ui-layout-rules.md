@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: app 2.1.0
-last-checked: 2026-10-24
+last-checked: 2026-10-30
 ---
 
 # Web UI layout rules for the Settings pages
@@ -254,6 +254,20 @@ The dialogs that the entries open follow the same idea (`components/dialog-parts
   not centred on a phone, so that the phone's keyboard does not cover the box.
 - A form in a dialog uses the `SettingRow` rows of the Settings pages.
 - A confirmation names its action in the title (rule 18), never "Attention".
+
+The Images dialog (`menu/image/`) is the one dialog that departs from the rules above, on purpose:
+
+- It has no `DialogAction` and no `DialogHint`. Its actions sit on the rows they act on: a
+  mount or eject arrow and a delete button per image, and a 32px icon-only button (Download,
+  Upload, Cancel) beside the field it belongs to, each with a tooltip and an `aria-label`.
+  USB reconnect is a small button at the right end.
+- Its add form puts the label of each field above the box, not in a `SettingRow`, because the
+  dialog is narrow.
+- The help icon in its title opens a modal with the upload steps, so it is not a `LabelTip`.
+- A running transfer is a text line, the progress bar and the Cancel icon right of it, with no
+  box around them (rule 3). A transfer that cannot start because the storage is read-only is
+  an `Alert` (rule 24), and a failure is a `toast` (rule 26).
+- On a phone the dialog is not centred, so that the keyboard does not cover the URL box.
 
 The PicoClaw sidebar is part of the menu bar and follows the same rules where it can:
 

@@ -228,6 +228,8 @@ const es = {
       loading: 'Cargando...',
       empty: 'No se ha encontrado nada',
       mountMode: 'Montar imagen como',
+      massStorage: 'Almacenamiento masivo',
+      cdRom: 'CD-ROM',
       mountFailed: 'Fallo al montar',
       mountDesc:
         'En algunos sistemas, es necesario expulsar el disco virtual del host remoto antes de montar una imagen',

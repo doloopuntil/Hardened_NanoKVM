@@ -226,6 +226,8 @@ const ca = {
       loading: 'Carregant...',
       empty: "No s'ha trobat res",
       mountMode: 'Munta la imatge com a',
+      massStorage: 'Emmagatzematge massiu',
+      cdRom: 'CD-ROM',
       mountFailed: 'Error en muntar',
       mountDesc: 'En alguns sistemes cal expulsar el disc virtual abans de muntar la imatge',
       diskOnWarn:

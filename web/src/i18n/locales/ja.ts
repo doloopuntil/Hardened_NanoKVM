@@ -226,6 +226,8 @@ const ja = {
       loading: '読み込み中...',
       empty: 'イメージファイルがありません',
       mountMode: 'イメージのマウント形式',
+      massStorage: 'マスストレージ',
+      cdRom: 'CD-ROM',
       mountFailed: 'マウントに失敗しました',
       mountDesc:
         '一部のシステムでは、イメージをマウントする前にリモートホストで仮想ディスクをアンマウントする必要があります',

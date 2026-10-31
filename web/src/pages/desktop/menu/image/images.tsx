@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Divider, notification, Tooltip, Typography } from 'antd';
+import { Button, Divider, Tooltip, Typography } from 'antd';
 import clsx from 'clsx';
 import {
   ArrowBigDownDashIcon,
@@ -42,7 +42,6 @@ export const Images = ({
   children
 }: ImagesProps) => {
   const { t } = useTranslation();
-  const [notify, contextHolder] = notification.useNotification();
 
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<string[]>([]);
@@ -264,10 +263,8 @@ export const Images = ({
       .reconnectUsbGadget()
       .then((rsp) => {
         if (rsp.code !== 0) {
-          notify.error({
-            message: t('image.usbReconnectFailed'),
-            description: rsp.msg || t('image.mountDesc'),
-            duration: 10
+          toast.error(t('image.usbReconnectFailed'), {
+            description: rsp.msg || t('image.mountDesc')
           });
           return;
         }
@@ -286,11 +283,7 @@ export const Images = ({
     const message = isMounted ? 'image.unmountFailed' : 'image.mountFailed';
     const description = isMounted ? 'image.unmountDesc' : 'image.mountDesc';
 
-    notify.error({
-      message: t(message),
-      description: apiMessage || t(description),
-      duration: 10
-    });
+    toast.error(t(message), { description: apiMessage || t(description) });
   }
 
   return (
@@ -319,8 +312,6 @@ export const Images = ({
           {t('image.usbReconnect')}
         </Button>
       </div>
-
-      {contextHolder}
     </div>
   );
 
@@ -372,7 +363,7 @@ export const Images = ({
             )}
             <div
               className={clsx(
-                'rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none',
+                'rounded border border-solid px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none',
                 isImageCdrom(image)
                   ? 'border-blue-500/50 bg-blue-500/10 text-blue-300'
                   : 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300'

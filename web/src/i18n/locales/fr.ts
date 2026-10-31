@@ -229,6 +229,8 @@ const fr = {
       loading: 'Chargement...',
       empty: 'Vide',
       mountMode: "Monter l'image en tant que",
+      massStorage: 'Stockage de masse',
+      cdRom: 'CD-ROM',
       mountFailed: "Échec du montage de l'image",
       mountDesc:
         "Dans certains systèmes, il est nécessaire de déséjecter le disque virtuel sur l'hôte distant avant de monter l'image",

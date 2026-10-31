@@ -222,6 +222,8 @@ const ko = {
       loading: '불러오는 중...',
       empty: '아무것도 없습니다',
       mountMode: '이미지 마운트 방식',
+      massStorage: '대용량 저장소',
+      cdRom: 'CD-ROM',
       mountFailed: '마운트 실패',
       mountDesc:
         '일부 시스템에서는 이미지를 마운트하기 전에 원격 호스트에서 가상 디스크를 제거해야 합니다',

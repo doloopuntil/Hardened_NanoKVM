@@ -215,6 +215,8 @@ const zh_tw = {
       loading: '載入中...',
       empty: '未找到任何內容',
       mountMode: '將映像檔掛載為',
+      massStorage: '大量儲存裝置',
+      cdRom: 'CD-ROM',
       mountFailed: '掛載失敗',
       mountDesc: '在某些系統中，需要在遠端主機中彈出虛擬硬碟後再掛載映像檔',
       diskOnWarn: '掛載映像檔會關閉虛擬磁碟，電腦將無法再存取 /data 目錄。是否繼續？',

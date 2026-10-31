@@ -229,6 +229,8 @@ const it = {
       loading: 'Caricamento...',
       empty: 'Nessun risultato',
       mountMode: 'Monta immagine come',
+      massStorage: 'Archiviazione di massa',
+      cdRom: 'CD-ROM',
       mountFailed: 'Montaggio immagine non riuscito',
       mountDesc:
         "In alcuni sistemi, è necessario espellere il disco virtuale sull'host remoto prima di montare l'immagine",

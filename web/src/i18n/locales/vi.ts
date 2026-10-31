@@ -224,6 +224,8 @@ const vi = {
       loading: 'Đang tải...',
       empty: 'Không tìm thấy',
       mountMode: 'Mount hình ảnh dưới dạng',
+      massStorage: 'Lưu trữ dung lượng lớn',
+      cdRom: 'CD-ROM',
       mountFailed: 'Mount thất bại',
       mountDesc: 'Trong một số hệ thống, cần phải eject đĩa ảo trên máy remote trước khi mount',
       diskOnWarn: 'Gắn image sẽ tắt đĩa ảo, nên máy tính không còn truy cập được /data. Tiếp tục?',

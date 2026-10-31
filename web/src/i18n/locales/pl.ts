@@ -227,6 +227,8 @@ const pl = {
       loading: 'Ładowanie...',
       empty: 'Nic nie znaleziono',
       mountMode: 'Zamontuj obraz jako',
+      massStorage: 'Pamięć masowa',
+      cdRom: 'CD-ROM',
       mountFailed: 'Nie udało się zamontować obrazu',
       mountDesc:
         'W niektórych systemach wymagane jest wyjęcie dysku wirtualnego na zdalnym hoście przed zamontowaniem obrazu',

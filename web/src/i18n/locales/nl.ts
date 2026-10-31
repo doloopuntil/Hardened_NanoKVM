@@ -229,6 +229,8 @@ const nl = {
       loading: 'Laden...',
       empty: 'Niets gevonden',
       mountMode: 'Afbeelding koppelen als',
+      massStorage: 'Massaopslag',
+      cdRom: 'CD-ROM',
       mountFailed: 'Koppelen mislukt',
       mountDesc:
         'In sommige systemen is het noodzakelijk om de virtuele schijf op de externe host uit te werpen voordat het image wordt gekoppeld',

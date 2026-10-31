@@ -227,6 +227,8 @@ const hu = {
       loading: 'Betöltés...',
       empty: 'Nem található semmi',
       mountMode: 'Kép csatlakoztatása mint',
+      massStorage: 'Háttértár',
+      cdRom: 'CD-ROM',
       mountFailed: 'Csatlakoztatás sikertelen',
       mountDesc:
         'Egyes rendszerekben szükséges lehet a virtuális lemez eltávolítása a távoli gépen, mielőtt a képet csatlakoztatja',

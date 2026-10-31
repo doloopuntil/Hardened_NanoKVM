@@ -222,6 +222,8 @@ const et = {
       loading: 'Laadimine...',
       empty: 'Midagi ei leitud',
       mountMode: 'Ühenda image-fail kui',
+      massStorage: 'Massmälu',
+      cdRom: 'CD-ROM',
       mountFailed: 'Ühendamine nurjus',
       mountDesc:
         'Mõnes süsteemis tuleb enne image ühendamist kaugmasinas virtuaalne ketas eemaldada',

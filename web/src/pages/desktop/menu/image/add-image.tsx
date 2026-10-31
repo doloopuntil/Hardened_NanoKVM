@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Alert, Button, Input, notification, Progress, Segmented, Tooltip } from 'antd';
+import { Alert, Button, Input, Progress, Segmented, Tooltip } from 'antd';
 import clsx from 'clsx';
 import { DownloadIcon, LinkIcon, UploadIcon, XCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
+import { toast } from '@/lib/feedback.ts';
 import { formatBytes } from '@/lib/image-transfer.ts';
 import { useImageTransfer } from '@/hooks/useImageTransfer.ts';
+import { LabelTip } from '@/components/label-tip.tsx';
 
 type AddImageProps = {
   isOpen: boolean;
@@ -25,15 +27,13 @@ export const AddImage = ({
   onDisableDisk
 }: AddImageProps) => {
   const { t } = useTranslation();
-  const [notify, contextHolder] = notification.useNotification();
 
   const [source, setSource] = useState<'url' | 'file'>('url');
   const [isDragging, setIsDragging] = useState(false);
 
   const transfer = useImageTransfer({
     remoteEnabled: isRemoteEnabled,
-    onFailed: (message) =>
-      notify.error({ message: t('download.failed'), description: message, duration: 10 })
+    onFailed: (message) => toast.error(t('download.failed'), { description: message })
   });
   const { status, resume, reset } = transfer;
 
@@ -101,7 +101,13 @@ export const AddImage = ({
   return (
     <div className="flex flex-col space-y-3">
       <div className="flex items-center justify-between">
-        <span className="font-semibold">{t('image.addImage')}</span>
+        <span className="font-semibold">
+          {!isRemoteEnabled && !isDisabled ? (
+            <LabelTip text={t('image.addImage')} tip={t('download.remoteDisabled')} warning />
+          ) : (
+            t('image.addImage')
+          )}
+        </span>
         <Segmented
           size="small"
           value={activeSource}
@@ -124,33 +130,33 @@ export const AddImage = ({
         />
       )}
       {isDisabled && !isDiskShared && (
-        <div className="text-sm text-red-500">{t('download.disabled')}</div>
-      )}
-      {!isRemoteEnabled && !isDisabled && (
-        <div className="text-xs text-neutral-500">{t('download.remoteDisabled')}</div>
+        <Alert type="warning" showIcon message={t('download.disabled')} />
       )}
 
       {isBusy ? (
-        <div className="flex flex-col space-y-1 rounded bg-neutral-900 p-3">
+        <div className="flex flex-col space-y-1">
+          <span className="min-w-0 truncate text-sm">{transfer.log}</span>
           <div className="flex items-center space-x-2">
-            <span className="min-w-0 flex-1 truncate text-sm">{transfer.log}</span>
-            <Button
-              danger
-              size="small"
-              icon={<XCircleIcon size={14} />}
-              loading={transfer.isCanceling}
-              onClick={transfer.cancel}
-            >
-              {t('download.cancel')}
-            </Button>
+            <div className="min-w-0 flex-1">
+              <Progress
+                percent={transfer.progress ?? 100}
+                status="active"
+                size="small"
+                showInfo={transfer.progress !== null}
+                format={(percent) => `${Math.floor(percent ?? 0)}%`}
+              />
+            </div>
+            <Tooltip title={t('download.cancel')} mouseEnterDelay={0.6}>
+              <Button
+                danger
+                className="shrink-0"
+                aria-label={t('download.cancel')}
+                icon={<XCircleIcon size={16} />}
+                loading={transfer.isCanceling}
+                onClick={transfer.cancel}
+              />
+            </Tooltip>
           </div>
-          <Progress
-            percent={transfer.progress ?? 100}
-            status="active"
-            size="small"
-            showInfo={transfer.progress !== null}
-            format={(percent) => `${Math.floor(percent ?? 0)}%`}
-          />
           {transfer.bytesDone > 0 && (
             <div className="text-xs text-neutral-400">{formatBytes(transfer.bytesDone)}</div>
           )}
@@ -166,7 +172,7 @@ export const AddImage = ({
             <div
               className={clsx(
                 'break-words text-sm',
-                status === 'failed' ? 'text-red-500' : 'text-green-500'
+                status === 'failed' ? 'text-red-400' : 'text-green-400'
               )}
             >
               {transfer.log}
@@ -237,8 +243,6 @@ export const AddImage = ({
           </div>
         </div>
       )}
-
-      {contextHolder}
     </div>
   );
 };
