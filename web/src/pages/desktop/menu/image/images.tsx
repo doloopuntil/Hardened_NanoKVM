@@ -2,9 +2,8 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Divider, Tooltip, Typography } from 'antd';
 import clsx from 'clsx';
 import {
-  ArrowBigDownDashIcon,
-  ArrowBigUpDashIcon,
   CableIcon,
+  HardDriveDownloadIcon,
   LoaderCircleIcon,
   PackageIcon,
   PackageSearchIcon,
@@ -18,6 +17,7 @@ import { attempt, confirm, toast } from '@/lib/feedback.ts';
 import { IMAGE_LIST_CHANGED_EVENT } from '@/lib/image-events.ts';
 import { formatBytes } from '@/lib/image-transfer.ts';
 import { client } from '@/lib/websocket.ts';
+import { Eject } from '@/components/icons/eject.tsx';
 
 type ImagesProps = {
   isOpen: boolean;
@@ -364,7 +364,7 @@ export const Images = ({
             )}
             <div
               className={clsx(
-                'mr-1 rounded border border-solid px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none',
+                'rounded border border-solid px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none',
                 isImageCdrom(image)
                   ? 'border-blue-500/50 bg-blue-500/10 text-blue-300'
                   : 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300'
@@ -373,35 +373,35 @@ export const Images = ({
               {isImageCdrom(image) ? 'ISO' : 'IMG'}
             </div>
 
-            <Tooltip
-              title={mountedImage === image ? t('image.eject') : t('image.mountTitle')}
-              mouseEnterDelay={0.6}
-            >
-              <div className="flex h-[24px] w-[24px] items-center justify-center rounded">
-                {mountedImage === image ? (
-                  <ArrowBigDownDashIcon
-                    size={22}
-                    className="text-red-500 opacity-60 group-hover:opacity-100"
-                  />
-                ) : (
-                  <ArrowBigUpDashIcon
-                    size={22}
-                    className="text-blue-500 opacity-60 group-hover:opacity-100"
-                  />
-                )}
-              </div>
-            </Tooltip>
+            {/* no gap between the two, so the drawn icons are 8px apart */}
+            <div className="flex shrink-0 items-center">
+              <Tooltip
+                title={mountedImage === image ? t('image.eject') : t('image.mountTitle')}
+                mouseEnterDelay={0.6}
+              >
+                <div className="flex h-[24px] w-[24px] items-center justify-center rounded">
+                  {mountedImage === image ? (
+                    <Eject size={20} className="text-red-500 opacity-60 group-hover:opacity-100" />
+                  ) : (
+                    <HardDriveDownloadIcon
+                      size={20}
+                      className="text-blue-500 opacity-60 group-hover:opacity-100"
+                    />
+                  )}
+                </div>
+              </Tooltip>
 
-            <Button
-              type="text"
-              size="small"
-              danger
-              className="h-[24px] w-[24px] p-0"
-              icon={<Trash2Icon size={16} />}
-              disabled={mountedImage === image || isDiskShared || !isDiskStateKnown}
-              loading={deletingImage === image}
-              onClick={(e) => showDeleteModal(e, image)}
-            />
+              <Button
+                type="text"
+                size="small"
+                danger
+                className="h-[24px] w-[24px] p-0"
+                icon={<Trash2Icon size={20} />}
+                disabled={mountedImage === image || isDiskShared || !isDiskStateKnown}
+                loading={deletingImage === image}
+                onClick={(e) => showDeleteModal(e, image)}
+              />
+            </div>
           </div>
         ))}
       </div>
