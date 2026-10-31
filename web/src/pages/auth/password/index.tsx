@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { LockOutlined, SafetyOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input } from 'antd';
+import { LockIcon, ShieldCheckIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -108,7 +108,7 @@ export const Password = () => {
             rules={[{ required: true, message: t('auth.noEmptyPassword'), min: 1 }]}
           >
             <Input
-              prefix={<LockOutlined />}
+              prefix={<LockIcon size={14} />}
               type="password"
               autoComplete="current-password"
               placeholder={t('auth.placeholderCurrentPassword')}
@@ -120,7 +120,7 @@ export const Password = () => {
             rules={[{ required: true, message: t('auth.noEmptyPassword'), min: 1 }]}
           >
             <Input
-              prefix={<LockOutlined />}
+              prefix={<LockIcon size={14} />}
               type="password"
               autoComplete="new-password"
               placeholder={t('auth.placeholderNewPassword')}
@@ -132,7 +132,7 @@ export const Password = () => {
             rules={[{ required: true, message: t('auth.noEmptyPassword'), min: 1 }]}
           >
             <Input
-              prefix={<LockOutlined />}
+              prefix={<LockIcon size={14} />}
               type="password"
               autoComplete="new-password"
               placeholder={t('auth.placeholderPassword2')}
@@ -145,7 +145,7 @@ export const Password = () => {
               rules={[{ required: true, message: t('auth.totp.noEmptyCode'), min: 1 }]}
             >
               <Input
-                prefix={<SafetyOutlined />}
+                prefix={<ShieldCheckIcon size={14} />}
                 inputMode="numeric"
                 autoComplete="one-time-code"
                 placeholder={t('auth.totp.placeholderCode')}

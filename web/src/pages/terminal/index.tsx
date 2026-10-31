@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { LockOutlined, SafetyOutlined, UserOutlined } from '@ant-design/icons';
 import { AttachAddon } from '@xterm/addon-attach';
 import { FitAddon } from '@xterm/addon-fit';
 import { Terminal as XtermTerminal } from '@xterm/xterm';
 import { Button, Form, Input } from 'antd';
+import { LockIcon, ShieldCheckIcon, UserRoundIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import '@xterm/xterm/css/xterm.css';
@@ -202,7 +202,10 @@ export const Terminal = () => {
                 name="username"
                 rules={[{ required: true, message: t('auth.noEmptyUsername'), min: 1 }]}
               >
-                <Input prefix={<UserOutlined />} placeholder={t('auth.placeholderUsername')} />
+                <Input
+                  prefix={<UserRoundIcon size={14} />}
+                  placeholder={t('auth.placeholderUsername')}
+                />
               </Form.Item>
 
               <Form.Item
@@ -210,7 +213,7 @@ export const Terminal = () => {
                 rules={[{ required: true, message: t('auth.noEmptyPassword'), min: 1 }]}
               >
                 <Input.Password
-                  prefix={<LockOutlined />}
+                  prefix={<LockIcon size={14} />}
                   placeholder={t('auth.placeholderPassword')}
                 />
               </Form.Item>
@@ -221,7 +224,7 @@ export const Terminal = () => {
                   rules={[{ required: true, message: t('auth.totp.noEmptyCode'), min: 1 }]}
                 >
                   <Input
-                    prefix={<SafetyOutlined />}
+                    prefix={<ShieldCheckIcon size={14} />}
                     inputMode="numeric"
                     autoComplete="one-time-code"
                     placeholder={t('auth.totp.placeholderCode')}
