@@ -228,7 +228,7 @@ const fr = {
       title: 'Images',
       loading: 'Chargement...',
       empty: 'Vide',
-      mountMode: "Monter l'image en tant que",
+      mountMode: 'Monter comme',
       massStorage: 'Stockage de masse',
       cdRom: 'CD-ROM',
       mountFailed: "Échec du montage de l'image",

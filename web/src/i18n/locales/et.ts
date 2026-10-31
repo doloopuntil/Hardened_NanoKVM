@@ -221,7 +221,7 @@ const et = {
       title: 'Image failid',
       loading: 'Laadimine...',
       empty: 'Midagi ei leitud',
-      mountMode: 'Ühenda image-fail kui',
+      mountMode: 'Ühenda kui',
       massStorage: 'Massmälu',
       cdRom: 'CD-ROM',
       mountFailed: 'Ühendamine nurjus',

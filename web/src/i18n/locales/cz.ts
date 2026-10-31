@@ -224,7 +224,7 @@ const cz = {
       title: 'Obrázky',
       loading: 'Načítání...',
       empty: 'Nic nenalezeno',
-      mountMode: 'Připojit obraz jako',
+      mountMode: 'Připojit jako',
       massStorage: 'Velkokapacitní úložiště',
       cdRom: 'CD-ROM',
       mountFailed: 'Připojení se nezdařilo',

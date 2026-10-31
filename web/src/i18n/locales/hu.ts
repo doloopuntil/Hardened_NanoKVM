@@ -226,7 +226,7 @@ const hu = {
       title: 'Képek',
       loading: 'Betöltés...',
       empty: 'Nem található semmi',
-      mountMode: 'Kép csatlakoztatása mint',
+      mountMode: 'Csatolás mint',
       massStorage: 'Háttértár',
       cdRom: 'CD-ROM',
       mountFailed: 'Csatlakoztatás sikertelen',

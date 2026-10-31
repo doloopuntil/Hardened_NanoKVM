@@ -228,7 +228,7 @@ const de = {
       title: 'Bilder',
       loading: 'Lädt...',
       empty: 'Nichts gefunden',
-      mountMode: 'Bild einbinden als',
+      mountMode: 'Einbinden als',
       massStorage: 'Massenspeicher',
       cdRom: 'CD-ROM',
       mountFailed: 'Einbinden fehlgeschlagen',

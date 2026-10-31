@@ -228,7 +228,7 @@ const uk = {
       title: 'Образи',
       loading: 'Завантаження...',
       empty: 'Нічого не знайдено',
-      mountMode: 'Змонтувати образ як',
+      mountMode: 'Змонтувати як',
       massStorage: 'Накопичувач',
       cdRom: 'CD-ROM',
       mountFailed: 'Не вдалося змонтувати образ',

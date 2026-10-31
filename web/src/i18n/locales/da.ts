@@ -224,7 +224,7 @@ const da = {
       title: 'Diskbilleder',
       loading: 'Indlæser...',
       empty: 'Ingen fundet',
-      mountMode: 'Monter diskbillede som',
+      mountMode: 'Monter som',
       massStorage: 'Masselager',
       cdRom: 'CD-ROM',
       mountFailed: 'Montering af diskbillede mislykkedes',

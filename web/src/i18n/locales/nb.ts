@@ -227,7 +227,7 @@ const nb = {
       title: 'Bilder',
       loading: 'Laster...',
       empty: 'Ingen funnet',
-      mountMode: 'Monter bilde som',
+      mountMode: 'Monter som',
       massStorage: 'Masselagring',
       cdRom: 'CD-ROM',
       mountFailed: 'Montering feilet',

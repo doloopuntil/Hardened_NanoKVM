@@ -224,7 +224,7 @@ const en = {
       title: 'Images',
       loading: 'Loading...',
       empty: 'Nothing found',
-      mountMode: 'Mount image as',
+      mountMode: 'Mount as',
       massStorage: 'Mass storage',
       cdRom: 'CD-ROM',
       mountFailed: 'Mount failed',

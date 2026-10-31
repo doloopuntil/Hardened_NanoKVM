@@ -227,7 +227,7 @@ const es = {
       title: 'Imágenes',
       loading: 'Cargando...',
       empty: 'No se ha encontrado nada',
-      mountMode: 'Montar imagen como',
+      mountMode: 'Montar como',
       massStorage: 'Almacenamiento masivo',
       cdRom: 'CD-ROM',
       mountFailed: 'Fallo al montar',

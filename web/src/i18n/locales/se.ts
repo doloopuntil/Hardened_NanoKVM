@@ -224,7 +224,7 @@ const se = {
       title: 'Avbildningar',
       loading: 'Laddar...',
       empty: 'Inget hittades',
-      mountMode: 'Montera avbildning som',
+      mountMode: 'Montera som',
       massStorage: 'Masslagring',
       cdRom: 'CD-ROM',
       mountFailed: 'Montering misslyckades',

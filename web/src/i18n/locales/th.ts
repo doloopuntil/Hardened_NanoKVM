@@ -220,7 +220,7 @@ const th = {
       title: 'ดิสก์จำลอง',
       loading: 'กำลังโหลด...',
       empty: 'ไม่พบดิสก์',
-      mountMode: 'ติดตั้งอิมเมจเป็น',
+      mountMode: 'ติดตั้งเป็น',
       massStorage: 'อุปกรณ์จัดเก็บข้อมูล',
       cdRom: 'CD-ROM',
       mountFailed: 'การติดตั้งล้มเหลว',

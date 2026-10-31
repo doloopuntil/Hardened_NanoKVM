@@ -225,7 +225,7 @@ const ja = {
       title: 'イメージ',
       loading: '読み込み中...',
       empty: 'イメージファイルがありません',
-      mountMode: 'イメージのマウント形式',
+      mountMode: 'マウント形式',
       massStorage: 'マスストレージ',
       cdRom: 'CD-ROM',
       mountFailed: 'マウントに失敗しました',

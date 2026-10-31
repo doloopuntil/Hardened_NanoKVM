@@ -213,7 +213,7 @@ const zh = {
       title: '镜像',
       loading: '加载中...',
       empty: '无镜像文件',
-      mountMode: '将镜像挂载为',
+      mountMode: '挂载为',
       massStorage: '大容量存储',
       cdRom: 'CD-ROM',
       mountFailed: '挂载失败',

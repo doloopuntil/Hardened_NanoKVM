@@ -225,7 +225,7 @@ const pt_br = {
       title: 'Imagens',
       loading: 'Carregando...',
       empty: 'Nada encontrado',
-      mountMode: 'Montar imagem como',
+      mountMode: 'Montar como',
       massStorage: 'Armazenamento em massa',
       cdRom: 'CD-ROM',
       mountFailed: 'Falha na montagem',

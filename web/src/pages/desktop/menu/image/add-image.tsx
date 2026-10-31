@@ -100,7 +100,7 @@ export const AddImage = ({
 
   return (
     <div className="flex flex-col space-y-3">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
         <span className="font-semibold">
           {!isRemoteEnabled && !isDisabled ? (
             <LabelTip text={t('image.addImage')} tip={t('download.remoteDisabled')} warning />
@@ -109,6 +109,7 @@ export const AddImage = ({
           )}
         </span>
         <Segmented
+          className="ml-auto"
           size="small"
           value={activeSource}
           options={sources}

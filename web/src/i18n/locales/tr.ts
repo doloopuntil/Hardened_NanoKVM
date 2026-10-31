@@ -223,7 +223,7 @@ const tr = {
       title: 'Disk imajları',
       loading: 'Yükleniyor...',
       empty: 'Hiçbir şey bulunamadı',
-      mountMode: 'İmajı şu olarak bağla',
+      mountMode: 'Şu olarak bağla',
       massStorage: 'Yığın depolama',
       cdRom: 'CD-ROM',
       mountFailed: 'Bağlama başarısız oldu',

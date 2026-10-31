@@ -87,6 +87,12 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     that goes under its title is the WireGuard peer public key, which is wide on
     purpose so the whole key shows. An error message wraps to the width of its
     field and never widens it.
+    One general exception: a control may sit under its label, right-aligned, when
+    a translation leaves no room beside the label (`flex-wrap` with `ml-auto` on
+    the control). The layout is not tuned language by language, and a label that
+    wraps or touches its control is a defect. Check every language at 375px
+    after a change to a label or to the text of a control, as the Images dialog
+    does for its two button rows.
 15. Long values wrap at spaces and hyphens (`break-words`); `break-all` is only
     for a single token with no spaces, such as a key or a URL.
 

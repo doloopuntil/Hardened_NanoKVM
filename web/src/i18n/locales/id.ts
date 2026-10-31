@@ -225,7 +225,7 @@ const id = {
       title: 'Gambar',
       loading: 'Memuat...',
       empty: 'Tidak ada yang ditemukan',
-      mountMode: 'Pasang gambar sebagai',
+      mountMode: 'Pasang sebagai',
       massStorage: 'Penyimpanan massal',
       cdRom: 'CD-ROM',
       mountFailed: 'Pemasangan gagal',

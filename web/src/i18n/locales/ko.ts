@@ -221,7 +221,7 @@ const ko = {
       title: '이미지',
       loading: '불러오는 중...',
       empty: '아무것도 없습니다',
-      mountMode: '이미지 마운트 방식',
+      mountMode: '마운트 방식',
       massStorage: '대용량 저장소',
       cdRom: 'CD-ROM',
       mountFailed: '마운트 실패',

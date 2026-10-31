@@ -227,7 +227,7 @@ const fi = {
       title: 'Levykuvat',
       loading: 'Ladataan...',
       empty: 'Mitään ei löytynyt',
-      mountMode: 'Liitä levykuva tyyppinä',
+      mountMode: 'Liitä tyyppinä',
       massStorage: 'Massamuisti',
       cdRom: 'CD-ROM',
       mountFailed: 'Liittäminen epäonnistui',

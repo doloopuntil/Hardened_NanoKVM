@@ -214,7 +214,7 @@ const zh_tw = {
       title: '映像檔',
       loading: '載入中...',
       empty: '未找到任何內容',
-      mountMode: '將映像檔掛載為',
+      mountMode: '掛載為',
       massStorage: '大量儲存裝置',
       cdRom: 'CD-ROM',
       mountFailed: '掛載失敗',

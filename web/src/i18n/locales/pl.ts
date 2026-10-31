@@ -226,7 +226,7 @@ const pl = {
       title: 'Obrazy',
       loading: 'Ładowanie...',
       empty: 'Nic nie znaleziono',
-      mountMode: 'Zamontuj obraz jako',
+      mountMode: 'Zamontuj jako',
       massStorage: 'Pamięć masowa',
       cdRom: 'CD-ROM',
       mountFailed: 'Nie udało się zamontować obrazu',

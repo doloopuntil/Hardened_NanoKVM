@@ -223,7 +223,7 @@ const vi = {
       title: 'Hình ảnh',
       loading: 'Đang tải...',
       empty: 'Không tìm thấy',
-      mountMode: 'Mount hình ảnh dưới dạng',
+      mountMode: 'Mount dưới dạng',
       massStorage: 'Lưu trữ dung lượng lớn',
       cdRom: 'CD-ROM',
       mountFailed: 'Mount thất bại',

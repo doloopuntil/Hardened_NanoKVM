@@ -228,7 +228,7 @@ const nl = {
       title: 'Afbeeldingen',
       loading: 'Laden...',
       empty: 'Niets gevonden',
-      mountMode: 'Afbeelding koppelen als',
+      mountMode: 'Koppelen als',
       massStorage: 'Massaopslag',
       cdRom: 'CD-ROM',
       mountFailed: 'Koppelen mislukt',

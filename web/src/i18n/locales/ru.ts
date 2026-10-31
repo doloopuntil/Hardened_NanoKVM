@@ -227,7 +227,7 @@ const ru = {
       title: 'Образы',
       loading: 'Загрузка...',
       empty: 'Пусто',
-      mountMode: 'Смонтировать образ как',
+      mountMode: 'Смонтировать как',
       massStorage: 'Накопитель',
       cdRom: 'CD-ROM',
       mountFailed: 'Монтирование образа не удалось',

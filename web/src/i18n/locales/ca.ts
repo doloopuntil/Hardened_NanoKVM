@@ -225,7 +225,7 @@ const ca = {
       title: 'Imatges',
       loading: 'Carregant...',
       empty: "No s'ha trobat res",
-      mountMode: 'Munta la imatge com a',
+      mountMode: 'Munta com a',
       massStorage: 'Emmagatzematge massiu',
       cdRom: 'CD-ROM',
       mountFailed: 'Error en muntar',

@@ -110,9 +110,11 @@ export const Image = () => {
         onCancel={() => toggleModal(false)}
       >
         <div className="flex flex-col pt-3">
-          <div className="flex items-center justify-between">
+          {/* the buttons drop under the label when a translation leaves no room beside it */}
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
             <span className="font-semibold">{t('image.mountMode')}</span>
             <Segmented
+              className="ml-auto"
               size="small"
               value={mode}
               options={modes}
