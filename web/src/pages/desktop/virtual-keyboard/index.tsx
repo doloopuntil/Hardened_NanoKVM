@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 import { useEffect, useRef, useState } from 'react';
+import { AppleOutlined, WindowsOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { XIcon } from 'lucide-react';
@@ -18,8 +19,6 @@ import * as storage from '@/lib/localstorage.ts';
 import { client, MessageEvent } from '@/lib/websocket.ts';
 import { isKeyboardOpenAtom } from '@/jotai/keyboard.ts';
 import { useIsDesktopLayout } from '@/hooks/useResponsiveLayout.ts';
-import { Apple } from '@/components/icons/apple.tsx';
-import { Windows } from '@/components/icons/windows.tsx';
 
 import {
   doubleKeys,
@@ -56,8 +55,8 @@ export const VirtualKeyboard = () => {
   const keyboardRef = useRef<any>(null);
 
   const systems = [
-    { value: 'win', icon: <Windows size={14} /> },
-    { value: 'mac', icon: <Apple size={14} /> }
+    { value: 'win', icon: <WindowsOutlined /> },
+    { value: 'mac', icon: <AppleOutlined /> }
   ];
 
   const languages = [
