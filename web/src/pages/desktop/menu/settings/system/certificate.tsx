@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Input, Modal, Select, Spin, Tag } from 'antd';
+import { LoaderCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as totpApi from '@/api/auth-totp.ts';
@@ -283,7 +283,12 @@ export const Certificate = forwardRef<SystemActionHandle, CertificateProps>(
               ) : (
                 t('settings.network.certificate.title')
               )}
-              {isBusy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+              {isBusy && (
+                <Spin
+                  size="small"
+                  indicator={<LoaderCircleIcon size="1em" className="animate-spin" />}
+                />
+              )}
             </span>
           }
           description={

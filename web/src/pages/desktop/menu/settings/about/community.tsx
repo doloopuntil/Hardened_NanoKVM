@@ -1,7 +1,7 @@
-import { GithubOutlined } from '@ant-design/icons';
 import { BookOpenIcon } from 'lucide-react';
 import { Trans, useTranslation } from 'react-i18next';
 
+import { Github } from '@/components/icons/github.tsx';
 import { SettingSection } from '@/components/setting-rows.tsx';
 
 const SIPEED_URL = 'https://github.com/sipeed/NanoKVM';
@@ -15,7 +15,7 @@ export const Community = () => {
     { name: 'Wiki', icon: <BookOpenIcon size={24} />, url: 'https://wiki.sipeed.com/nanokvm' },
     {
       name: 'GitHub',
-      icon: <GithubOutlined style={{ fontSize: '20px' }} width={24} height={24} />,
+      icon: <Github size={20} />,
       url: 'https://github.com/doloopuntil/Hardened_NanoKVM'
     }
   ];

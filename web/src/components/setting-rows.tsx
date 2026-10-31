@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
 import { Input, Spin } from 'antd';
+import { LoaderCircleIcon } from 'lucide-react';
 
 // A read-only "label ... value" row, as used on the Network page. It is as tall as the
 // editable row, so switching between the two does not move the rows around. The value stays on
@@ -146,7 +146,12 @@ export const SettingSection = ({
       <div className="flex min-w-0 flex-col space-y-1">
         <div className="flex items-center gap-2 text-neutral-400">
           {title}
-          {busy && <Spin size="small" indicator={<LoadingOutlined spin />} />}
+          {busy && (
+            <Spin
+              size="small"
+              indicator={<LoaderCircleIcon size="1em" className="animate-spin" />}
+            />
+          )}
         </div>
         {description && <div className="break-words text-xs text-neutral-500">{description}</div>}
       </div>

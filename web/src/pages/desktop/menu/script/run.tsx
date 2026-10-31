@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
 import { Card, Modal, Spin } from 'antd';
+import { LoaderCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import * as api from '@/api/script';
@@ -41,7 +41,7 @@ export const Run = ({ script, setIsRunning }: RunProps) => {
     <Modal title={script} width={600} centered closable={false} footer={null} open={true}>
       {state === 'running' ? (
         <div className="flex h-[300px] items-center justify-center">
-          <Spin indicator={<LoadingOutlined spin />} size="large" />
+          <Spin indicator={<LoaderCircleIcon size="1em" className="animate-spin" />} size="large" />
         </div>
       ) : (
         <Card className="h-[600px] overflow-auto whitespace-pre-line font-mono">{log}</Card>

@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Button, InputNumber } from 'antd';
-import { ScanBarcodeIcon } from 'lucide-react';
+import { CheckIcon, ScanBarcodeIcon, XIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { updateScreen } from '@/api/vm';
@@ -76,10 +75,10 @@ export const Fps = ({ fps, setFps }: FpsProps) => {
           <InputNumber<number> defaultValue={fps} min={1} max={60} onChange={onChange} />
           <Button
             size="small"
-            icon={<CheckOutlined />}
+            icon={<CheckIcon size={14} />}
             onClick={() => update(customizeRef.current)}
           />
-          <Button size="small" icon={<CloseOutlined />} onClick={() => setIsCustomize(false)} />
+          <Button size="small" icon={<XIcon size={14} />} onClick={() => setIsCustomize(false)} />
         </div>
       )}
     </>
