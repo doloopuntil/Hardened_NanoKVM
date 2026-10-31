@@ -337,7 +337,8 @@ export const Images = ({
     }
 
     return (
-      <div className="flex max-h-[400px] flex-col overflow-y-auto">
+      // three images show, the rest scroll; a thin scrollbar on a transparent track
+      <div className="flex max-h-[120px] flex-col overflow-y-auto pr-1 [scrollbar-color:theme(colors.neutral.600)_transparent] [scrollbar-width:thin]">
         {images.map((image) => (
           <div
             key={image}

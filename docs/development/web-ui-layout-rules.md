@@ -273,6 +273,8 @@ The Images dialog (`menu/image/`) is the one dialog that departs from the rules 
 - A running transfer is a text line, the progress bar and the Cancel icon right of it, with no
   box around them (rule 3). A transfer that cannot start because the storage is read-only is
   an `Alert` (rule 24), and a failure is a `toast` (rule 26).
+- The image list shows three rows (`max-h-[120px]`) and scrolls beyond that, with a thin scrollbar on a
+  transparent track.
 - On a phone the dialog is not centred, so that the keyboard does not cover the URL box.
 
 The PicoClaw sidebar is part of the menu bar and follows the same rules where it can:
