@@ -343,7 +343,7 @@ export const Images = ({
           <div
             key={image}
             className={clsx(
-              'group flex cursor-pointer select-none items-center space-x-1 rounded px-1 py-2 hover:bg-neutral-700/70',
+              'group flex cursor-pointer select-none items-center gap-1 rounded px-1 py-2 hover:bg-neutral-700/70',
               mountedImage === image && 'text-blue-500'
             )}
             onClick={() => mountImage(image)}
@@ -364,7 +364,7 @@ export const Images = ({
             )}
             <div
               className={clsx(
-                'rounded border border-solid px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none',
+                'mr-1 rounded border border-solid px-1.5 py-0.5 text-[10px] font-semibold uppercase leading-none',
                 isImageCdrom(image)
                   ? 'border-blue-500/50 bg-blue-500/10 text-blue-300'
                   : 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300'
