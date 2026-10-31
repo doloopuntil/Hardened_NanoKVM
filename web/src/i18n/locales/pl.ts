@@ -339,7 +339,8 @@ const pl = {
       canceled: 'Przesyłanie anulowane',
       downloadCanceled: 'Pobieranie anulowane',
       cancel: 'Anuluj',
-      remoteDisabled: 'Zdalne pobieranie ISO jest wyłączone w ustawieniach wyglądu',
+      remoteDisabled:
+        'Zdalne pobieranie ISO jest wyłączone w Ustawienia > Użytkownik > Preferencje',
       remoteFailed: 'Zdalne pobieranie ISO nie powiodło się',
       sha256: 'Opcjonalna suma kontrolna SHA-256',
       sha256Placeholder: 'Wprowadź 64-znakową sumę kontrolną SHA-256',
@@ -376,7 +377,7 @@ const pl = {
         toggleIn: 'Włączysz lub wyłączysz to w {{path}}'
       },
       appearance: {
-        title: 'Wygląd',
+        title: 'Preferencje',
         display: 'Ekran',
         language: 'Język',
         languageDesc: 'Wybierz język interfejsu',

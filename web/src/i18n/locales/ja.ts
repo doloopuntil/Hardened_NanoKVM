@@ -339,7 +339,8 @@ const ja = {
       canceled: 'アップロードをキャンセルしました',
       downloadCanceled: 'ダウンロードをキャンセルしました',
       cancel: 'キャンセル',
-      remoteDisabled: 'リモート ISO ダウンロードは「設定 > ユーザー > 外観」で無効になっています',
+      remoteDisabled:
+        'リモート ISO ダウンロードは「設定 > ユーザー > 環境設定」で無効になっています',
       remoteFailed: 'リモート ISO ダウンロードに失敗しました',
       sha256: '任意の SHA-256 チェックサム',
       sha256Placeholder: '64 文字の SHA-256 チェックサムを入力してください',
@@ -361,7 +362,7 @@ const ja = {
     settings: {
       title: '設定',
       about: {
-        title: 'バージョン情報',
+        title: 'バージョン',
         information: '情報',
         ip: 'IP アドレス',
         mdns: 'ローカルアドレス',
@@ -376,7 +377,7 @@ const ja = {
         toggleIn: '{{path}} でオンまたはオフにできます'
       },
       appearance: {
-        title: '外観',
+        title: '環境設定',
         display: '表示',
         language: '言語',
         languageDesc: 'インターフェース言語の選択',
@@ -849,7 +850,7 @@ const ja = {
         title: 'ユーザー'
       },
       networking: {
-        title: 'ネットワーク'
+        title: 'ネット'
       },
       wireguard: {
         title: 'WireGuard',

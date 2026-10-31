@@ -1,7 +1,7 @@
 ---
 status: current
 applies-to: system 0.4.0 / app 2.1.0
-last-checked: 2026-10-29
+last-checked: 2026-10-31
 ---
 
 # Testing
@@ -38,6 +38,24 @@ the copy rules. See [Web UI](web.md).
 To check a page without a device, build the UI and serve `web/dist` from a small
 local server that answers the `/api/...` calls the page makes; MSW's mocked mode
 (`pnpm mocked`) is an alternative in a normal browser.
+
+### Layout check across languages (to set up)
+
+Playwright is not a dependency of the repository yet. Install it
+(`corepack pnpm --dir web add -D playwright`, then `npx playwright install chromium`) and add a
+script that serves `web/dist` with mocked `/api/...` answers, opens Settings in the touch layout
+(375px wide, touch and mobile on) for each of the 26 languages and each of the 14 pages, and flags:
+
+- a label that overlaps its control, or any element that runs past the screen edge;
+- a word of the five main navigation labels that breaks in the middle;
+- a label that wraps to a second line only as information: the rules allow it beside a
+  switch and a badge may drop under its text, so it is not a failure, and the count will not
+  go to zero.
+
+English must report no clash and no broken navigation label. A first run, done by hand with
+Playwright on 2026-10-30, found 0 clashes in 2,548 rows and 5 broken navigation labels, which are
+fixed; it also counted 61 wrapped labels, which are fine and stay at that number. The mock has to answer the firewall and certificate endpoints fully, or those pages
+crash and are not measured. Rerun it after a change to a label or to the text of a control.
 
 ## Shell scripts
 

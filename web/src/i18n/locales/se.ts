@@ -338,7 +338,7 @@ const se = {
       downloadCanceled: 'Nedladdning avbruten',
       cancel: 'Avbryt',
       remoteDisabled:
-        'Fjärrnedladdning av ISO är inaktiverad i Inställningar > Användare > Utseende',
+        'Fjärrnedladdning av ISO är inaktiverad i Inställningar > Användare > Preferenser',
       remoteFailed: 'Fjärrnedladdning av ISO misslyckades',
       sha256: 'Valfri SHA-256-kontrollsumma',
       sha256Placeholder: 'Ange en SHA-256-kontrollsumma på 64 tecken',
@@ -374,7 +374,7 @@ const se = {
         toggleIn: 'Slås på eller av i {{path}}'
       },
       appearance: {
-        title: 'Utseende',
+        title: 'Preferenser',
         display: 'Visning',
         language: 'Språk',
         languageDesc: 'Välj språk för gränssnittet',

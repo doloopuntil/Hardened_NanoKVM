@@ -339,7 +339,7 @@ const pt_br = {
       downloadCanceled: 'Download cancelado',
       cancel: 'Cancelar',
       remoteDisabled:
-        'O download remoto de ISO está desativado em Configurações > Usuário > Aparência',
+        'O download remoto de ISO está desativado em Configurações > Usuário > Preferências',
       remoteFailed: 'Falha no download remoto de ISO',
       sha256: 'Checksum SHA-256 opcional',
       sha256Placeholder: 'Digite um checksum SHA-256 de 64 caracteres',
@@ -375,7 +375,7 @@ const pt_br = {
         toggleIn: 'Ative ou desative em {{path}}'
       },
       appearance: {
-        title: 'Aparência',
+        title: 'Preferências',
         display: 'Exibição',
         language: 'Idioma',
         languageDesc: 'Selecione o idioma da interface',

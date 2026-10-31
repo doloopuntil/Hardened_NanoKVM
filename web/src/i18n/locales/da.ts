@@ -336,7 +336,8 @@ const da = {
       canceled: 'Upload annulleret',
       downloadCanceled: 'Download annulleret',
       cancel: 'Annuller',
-      remoteDisabled: 'Ekstern ISO-download er deaktiveret under Indstillinger > Bruger > Udseende',
+      remoteDisabled:
+        'Ekstern ISO-download er deaktiveret under Indstillinger > Bruger > Præferencer',
       remoteFailed: 'Ekstern ISO-download mislykkedes',
       sha256: 'Valgfri SHA-256-kontrolsum',
       sha256Placeholder: 'Indtast en SHA-256-kontrolsum på 64 tegn',
@@ -372,7 +373,7 @@ const da = {
         toggleIn: 'Slå det til eller fra i {{path}}'
       },
       appearance: {
-        title: 'Udseende',
+        title: 'Præferencer',
         display: 'Visning',
         language: 'Sprog',
         languageDesc: 'Vælg sproget til grænsefladen',

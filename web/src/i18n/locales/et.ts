@@ -332,7 +332,7 @@ const et = {
       canceled: 'Üleslaadimine tühistati',
       downloadCanceled: 'Allalaadimine tühistati',
       cancel: 'Tühista',
-      remoteDisabled: 'ISO kaugallalaadimine on keelatud menüüs Seaded > Kasutaja > Välimus',
+      remoteDisabled: 'ISO kaugallalaadimine on keelatud menüüs Seaded > Kasutaja > Eelistused',
       remoteFailed: 'ISO kaugallalaadimine nurjus',
       sha256: 'Valikuline SHA-256 kontrollsumma',
       sha256Placeholder: 'Sisesta 64-märgiline SHA-256 kontrollsumma',
@@ -368,7 +368,7 @@ const et = {
         toggleIn: 'Lülita sisse või välja asukohas {{path}}'
       },
       appearance: {
-        title: 'Välimus',
+        title: 'Eelistused',
         display: 'Kuva',
         language: 'Keel',
         languageDesc: 'Vali kasutajaliidese keel',

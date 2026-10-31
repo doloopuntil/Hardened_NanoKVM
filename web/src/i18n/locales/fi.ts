@@ -340,7 +340,8 @@ const fi = {
       canceled: 'Lähetys peruutettu',
       downloadCanceled: 'Lataus peruttu',
       cancel: 'Peruuta',
-      remoteDisabled: 'ISO-etälataus on poistettu käytöstä kohdassa Asetukset > Käyttäjä > Ulkoasu',
+      remoteDisabled:
+        'ISO-etälataus on poistettu käytöstä kohdassa Asetukset > Käyttäjä > Mieltymykset',
       remoteFailed: 'ISO-etälataus epäonnistui',
       sha256: 'Valinnainen SHA-256-tarkistussumma',
       sha256Placeholder: 'Anna 64-merkkinen SHA-256-tarkistussumma',
@@ -376,7 +377,7 @@ const fi = {
         toggleIn: 'Kytke päälle tai pois kohdassa {{path}}'
       },
       appearance: {
-        title: 'Ulkoasu',
+        title: 'Mieltymykset',
         display: 'Näyttö',
         language: 'Kieli',
         languageDesc: 'Valitse käyttöliittymän kieli',

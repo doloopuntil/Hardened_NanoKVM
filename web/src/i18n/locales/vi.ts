@@ -333,7 +333,7 @@ const vi = {
       canceled: 'Đã hủy tải lên',
       downloadCanceled: 'Đã hủy tải xuống',
       cancel: 'Hủy',
-      remoteDisabled: 'Tải ISO từ xa bị tắt trong Cài đặt > Người dùng > Giao diện',
+      remoteDisabled: 'Tải ISO từ xa bị tắt trong Cài đặt > Người dùng > Tùy chọn',
       remoteFailed: 'Tải ISO từ xa thất bại',
       sha256: 'Checksum SHA-256 tùy chọn',
       sha256Placeholder: 'Nhập mã kiểm tra SHA-256 gồm 64 ký tự',
@@ -369,7 +369,7 @@ const vi = {
         toggleIn: 'Bật hoặc tắt tại {{path}}'
       },
       appearance: {
-        title: 'Giao diện',
+        title: 'Tùy chọn',
         display: 'Hiển thị',
         language: 'Ngôn ngữ',
         languageDesc: 'Chọn ngôn ngữ cho giao diện',

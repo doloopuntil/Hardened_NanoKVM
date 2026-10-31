@@ -342,7 +342,7 @@ const nl = {
       downloadCanceled: 'Download geannuleerd',
       cancel: 'Annuleren',
       remoteDisabled:
-        'ISO-download op afstand is uitgeschakeld in Instellingen > Gebruiker > Uiterlijk',
+        'ISO-download op afstand is uitgeschakeld in Instellingen > Gebruiker > Voorkeuren',
       remoteFailed: 'ISO-download op afstand mislukt',
       sha256: 'Optionele SHA-256-controlesom',
       sha256Placeholder: 'Voer een SHA-256-controlesom van 64 tekens in',
@@ -378,7 +378,7 @@ const nl = {
         toggleIn: 'In of uit te schakelen in {{path}}'
       },
       appearance: {
-        title: 'Uiterlijk',
+        title: 'Voorkeuren',
         display: 'Beeldscherm',
         language: 'Taal',
         languageDesc: 'Selecteer de taal voor de interface',

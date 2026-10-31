@@ -336,7 +336,7 @@ const en = {
       canceled: 'Upload canceled',
       downloadCanceled: 'Download canceled',
       cancel: 'Cancel',
-      remoteDisabled: 'Remote ISO download is disabled in Settings > User > Appearance',
+      remoteDisabled: 'Remote ISO download is disabled in Settings > User > Preferences',
       remoteFailed: 'Remote ISO download failed',
       sha256: 'Optional SHA-256 checksum',
       sha256Placeholder: 'Enter a 64-character SHA-256 checksum',
@@ -372,7 +372,7 @@ const en = {
         toggleIn: 'Turn it on or off in {{path}}'
       },
       appearance: {
-        title: 'Appearance',
+        title: 'Preferences',
         display: 'Display',
         language: 'Language',
         languageDesc: 'Select the language for the interface',

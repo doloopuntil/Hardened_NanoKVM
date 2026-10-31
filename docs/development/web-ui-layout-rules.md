@@ -150,8 +150,8 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
     and stays disabled, with a "Local key required" badge, until a local update key
     is set; the key has a section of its own at the bottom.
 22. A badge (`Tag` with `className="m-0"`) names a state of the row it belongs
-    to. It sits right after the row's label, in a `flex items-center gap-2`
-    span passed as the `label`, never in the value, which stays plain. Its text is
+    to. It sits right after the row's label, in a `flex flex-wrap items-center gap-x-2 gap-y-1`
+    span passed as the `label` (it wraps under the text when a translation is long), never in the value, which stays plain. Its text is
     one or two words; the colour carries the meaning: green is good, blue is
     available, gold is waiting, red is failed or stopped, grey is none or
     not set. A section that checks for updates (Application, System) shows
@@ -198,7 +198,7 @@ and the dialog and toast helpers in `web/src/lib/feedback.ts`.
 
 31. Menu: About and Device, then the groups User, Network and System, so
     the groups that open and close are together. The groups start collapsed and
-    open on click. User holds Account and Appearance (the person and the
+    open on click. User holds Account and Preferences (the person and the
     browser they use); Network holds IP & DNS, Services, Firewall,
     WireGuard and Tailscale; System holds Time, Logging, Performance, Monitor and
     Updates. The first subpage of a group is the one a touch layout opens when

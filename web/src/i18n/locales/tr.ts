@@ -335,7 +335,7 @@ const tr = {
       canceled: 'Yükleme iptal edildi',
       downloadCanceled: 'İndirme iptal edildi',
       cancel: 'İptal',
-      remoteDisabled: 'Uzak ISO indirme Ayarlar > Kullanıcı > Görünüm içinde devre dışı',
+      remoteDisabled: 'Uzak ISO indirme Ayarlar > Kullanıcı > Tercihler içinde devre dışı',
       remoteFailed: 'Uzak ISO indirme başarısız',
       sha256: 'İsteğe bağlı SHA-256 sağlama toplamı',
       sha256Placeholder: '64 karakterlik SHA-256 sağlama toplamını girin',
@@ -372,7 +372,7 @@ const tr = {
         toggleIn: '{{path}} içinden açılıp kapatılabilir'
       },
       appearance: {
-        title: 'Görünüm',
+        title: 'Tercihler',
         display: 'Ekran',
         language: 'Dil',
         languageDesc: 'Arayüz için dili seçin',

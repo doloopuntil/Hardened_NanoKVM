@@ -338,7 +338,7 @@ const ca = {
       downloadCanceled: 'Descàrrega cancel·lada',
       cancel: 'Cancel·la',
       remoteDisabled:
-        "La descàrrega remota d'ISO està desactivada a Configuració > Usuari > Aparença",
+        "La descàrrega remota d'ISO està desactivada a Configuració > Usuari > Preferències",
       remoteFailed: "La descàrrega remota d'ISO ha fallat",
       sha256: 'Suma de verificació SHA-256 opcional',
       sha256Placeholder: 'Introdueix una suma de verificació SHA-256 de 64 caràcters',
@@ -374,7 +374,7 @@ const ca = {
         toggleIn: 'Activa-ho o desactiva-ho a {{path}}'
       },
       appearance: {
-        title: 'Aparença',
+        title: 'Preferències',
         display: 'Pantalla',
         language: 'Idioma',
         languageDesc: "Selecciona l'idioma per a la interfície",

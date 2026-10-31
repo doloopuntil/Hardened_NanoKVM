@@ -41,7 +41,7 @@ host as a USB drive. Only one side writes `/data` at a time:
 
 - **Upload** from the browser in **Images**. An optional SHA-256 checks the
   file once it has arrived.
-- **Download from a URL**: turn on remote download in **Settings > User > Appearance**
+- **Download from a URL**: turn on remote download in **Settings > User > Preferences**
   first; it is off by default, and turning it on asks for your password and, with
   two-factor, a code. The device accepts only `http`/`https` URLs to a host on the
   public internet (not an address on your own network, `localhost` or a `.local`

@@ -115,7 +115,7 @@ The full SD image is built from source in CI; see
   reconnects the USB gadget so BIOS/boot menus rescan the device type. An
   explicit reconnect endpoint remains available as a compatibility fallback.
 - Guarded remote ISO download by URL. It is disabled by default, controlled by
-  Settings > User > Appearance, validates URL shape, filename, size, destination, and
+  Settings > User > Preferences, validates URL shape, filename, size, destination, and
   ISO9660 signature, and writes only under the configured image directory.
   Completed browser uploads and remote downloads refresh the virtual-media image
   list without requiring logout.

@@ -338,7 +338,7 @@ const id = {
       canceled: 'Unggahan dibatalkan',
       downloadCanceled: 'Unduhan dibatalkan',
       cancel: 'Batal',
-      remoteDisabled: 'Unduhan ISO jarak jauh dinonaktifkan di Pengaturan > Pengguna > Tampilan',
+      remoteDisabled: 'Unduhan ISO jarak jauh dinonaktifkan di Pengaturan > Pengguna > Preferensi',
       remoteFailed: 'Unduhan ISO jarak jauh gagal',
       sha256: 'Checksum SHA-256 opsional',
       sha256Placeholder: 'Masukkan checksum SHA-256 64 karakter',
@@ -375,7 +375,7 @@ const id = {
         toggleIn: 'Aktifkan atau nonaktifkan di {{path}}'
       },
       appearance: {
-        title: 'Tampilan',
+        title: 'Preferensi',
         display: 'Layar',
         language: 'Bahasa',
         languageDesc: 'Pilih bahasa untuk antarmuka',

@@ -172,7 +172,7 @@ const BundleUpload = ({
     <>
       <SettingRow
         label={
-          <span className="flex items-center gap-2">
+          <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
             {label}
             {localKey && !localKey.configured && (
               <Tag className="m-0" color="orange">

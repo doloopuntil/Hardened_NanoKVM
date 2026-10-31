@@ -340,7 +340,7 @@ const hu = {
       downloadCanceled: 'Letöltés megszakítva',
       cancel: 'Mégse',
       remoteDisabled:
-        'A távoli ISO-letöltés le van tiltva a Beállítások > Felhasználó > Megjelenés alatt',
+        'A távoli ISO-letöltés le van tiltva a Beállítások > Felhasználó > Preferenciák alatt',
       remoteFailed: 'A távoli ISO-letöltés sikertelen',
       sha256: 'Opcionális SHA-256 ellenőrzőösszeg',
       sha256Placeholder: 'Adjon meg egy 64 karakteres SHA-256 ellenőrzőösszeget',
@@ -376,7 +376,7 @@ const hu = {
         toggleIn: 'Itt kapcsolható be vagy ki: {{path}}'
       },
       appearance: {
-        title: 'Megjelenés',
+        title: 'Preferenciák',
         display: 'Kijelző',
         language: 'Nyelv',
         languageDesc: 'Válassza ki a felület nyelvét',

@@ -334,7 +334,7 @@ const ko = {
       canceled: '업로드 취소됨',
       downloadCanceled: '다운로드가 취소되었습니다',
       cancel: '취소',
-      remoteDisabled: '원격 ISO 다운로드가 설정 > 사용자 > 외형에서 비활성화되어 있습니다',
+      remoteDisabled: '원격 ISO 다운로드가 설정 > 사용자 > 환경설정에서 비활성화되어 있습니다',
       remoteFailed: '원격 ISO 다운로드 실패',
       sha256: '선택 사항 SHA-256 체크섬',
       sha256Placeholder: '64자 SHA-256 체크섬을 입력하세요',
@@ -370,7 +370,7 @@ const ko = {
         toggleIn: '{{path}}에서 켜거나 끌 수 있습니다'
       },
       appearance: {
-        title: '디자인',
+        title: '환경설정',
         display: '표시',
         language: '언어',
         languageDesc: '인터페이스 언어를 선택하세요',

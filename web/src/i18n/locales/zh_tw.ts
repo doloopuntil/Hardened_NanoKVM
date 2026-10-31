@@ -323,7 +323,7 @@ const zh_tw = {
       canceled: '上傳已取消',
       downloadCanceled: '下載已取消',
       cancel: '取消',
-      remoteDisabled: '遠端 ISO 下載已在 設定 > 使用者 > 外觀 中停用',
+      remoteDisabled: '遠端 ISO 下載已在 設定 > 使用者 > 偏好設定 中停用',
       remoteFailed: '遠端 ISO 下載失敗',
       sha256: '可選的 SHA-256 檢查碼',
       sha256Placeholder: '請輸入 64 位元 SHA-256 校驗和',
@@ -359,7 +359,7 @@ const zh_tw = {
         toggleIn: '可在 {{path}} 中開啟或關閉'
       },
       appearance: {
-        title: '外觀',
+        title: '偏好設定',
         display: '顯示',
         language: '語言',
         languageDesc: '選擇介面語言',

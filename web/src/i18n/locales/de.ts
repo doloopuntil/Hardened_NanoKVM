@@ -342,7 +342,7 @@ const de = {
       downloadCanceled: 'Download abgebrochen',
       cancel: 'Abbrechen',
       remoteDisabled:
-        'Remote-ISO-Download ist unter Einstellungen > Benutzer > Darstellung deaktiviert',
+        'Remote-ISO-Download ist unter Einstellungen > Benutzer > Voreinstellungen deaktiviert',
       remoteFailed: 'Remote-ISO-Download fehlgeschlagen',
       sha256: 'Optionale SHA-256-Prüfsumme',
       sha256Placeholder: 'Geben Sie eine 64-stellige SHA-256-Prüfsumme ein',
@@ -378,7 +378,7 @@ const de = {
         toggleIn: 'Ein- oder ausschaltbar unter {{path}}'
       },
       appearance: {
-        title: 'Erscheinungsbild',
+        title: 'Voreinstellungen',
         display: 'Bildschirm',
         language: 'Sprache',
         languageDesc: 'Wählen Sie die Sprache für die Benutzeroberfläche aus',

@@ -331,7 +331,7 @@ const th = {
       canceled: 'ยกเลิกการอัปโหลดแล้ว',
       downloadCanceled: 'ยกเลิกการดาวน์โหลดแล้ว',
       cancel: 'ยกเลิก',
-      remoteDisabled: 'การดาวน์โหลด ISO ระยะไกลถูกปิดใน การตั้งค่า > ผู้ใช้ > รูปลักษณ์',
+      remoteDisabled: 'การดาวน์โหลด ISO ระยะไกลถูกปิดใน การตั้งค่า > ผู้ใช้ > ค่ากำหนด',
       remoteFailed: 'ดาวน์โหลด ISO ระยะไกลล้มเหลว',
       sha256: 'ค่าตรวจสอบ SHA-256 แบบไม่บังคับ',
       sha256Placeholder: 'ป้อน checksum SHA-256 64 ตัวอักษร',
@@ -367,7 +367,7 @@ const th = {
         toggleIn: 'เปิดหรือปิดได้ที่ {{path}}'
       },
       appearance: {
-        title: 'ลักษณะการแสดงผล',
+        title: 'ค่ากำหนด',
         display: 'การแสดงผล',
         language: 'ภาษา',
         languageDesc: 'เลือกภาษาสำหรับอินเทอร์เฟซ',

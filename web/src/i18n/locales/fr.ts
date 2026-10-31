@@ -341,7 +341,7 @@ const fr = {
       downloadCanceled: 'Téléchargement annulé',
       cancel: 'Annuler',
       remoteDisabled:
-        'Le téléchargement ISO distant est désactivé dans Paramètres > Utilisateur > Apparence',
+        'Le téléchargement ISO distant est désactivé dans Paramètres > Utilisateur > Préférences',
       remoteFailed: 'Échec du téléchargement ISO distant',
       sha256: 'Somme de contrôle SHA-256 facultative',
       sha256Placeholder: 'Saisissez une somme de contrôle SHA-256 de 64 caractères',
@@ -377,7 +377,7 @@ const fr = {
         toggleIn: 'À activer ou désactiver dans {{path}}'
       },
       appearance: {
-        title: 'Apparence',
+        title: 'Préférences',
         display: 'Affichage',
         language: 'Langue',
         languageDesc: "Sélectionnez la langue de l'interface",

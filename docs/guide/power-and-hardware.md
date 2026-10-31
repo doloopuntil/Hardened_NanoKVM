@@ -15,7 +15,7 @@ reset. Its **Confirmation** switch makes each of them ask first.
 A NanoKVM Lite has no ATX board, so the buttons would do nothing. When the device
 looks like a Lite (a `beta` board with no OLED and no Wi-Fi), the Power menu is
 hidden by default. That detection is a guess: if you have customised the menu bar
-icons in **Settings > User > Appearance > Menu bar**, your choice decides instead.
+icons in **Settings > User > Preferences > Menu bar**, your choice decides instead.
 
 ## Video capture
 

@@ -39,7 +39,7 @@ on, images cannot be mounted.
   reports it.
 - On phones and tablets, the mobile view has its own keyboard controls, an
   on-screen keyboard, TouchSync pointer control, pinch-to-zoom and panning.
-  **Settings > User > Appearance** can force the mobile view.
+  **Settings > User > Preferences** can force the mobile view.
 
 ## Mouse
 

@@ -865,7 +865,7 @@ const LatestLabel = ({ check }: { check: CheckState }) => {
   const { t } = useTranslation();
 
   return (
-    <span className="flex items-center gap-2">
+    <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
       {t('settings.update.latestVersion')}
       {check && (
         <Tag className="m-0" color={CHECK_COLORS[check]}>

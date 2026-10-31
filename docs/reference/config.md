@@ -56,7 +56,7 @@ are still accepted.
 | Field | Default | Switched from |
 | --- | --- | --- |
 | `security.allow_terminal` | `false` | The Terminal menu. |
-| `security.allow_remote_image_download` | `false` | Settings > User > Appearance. |
+| `security.allow_remote_image_download` | `false` | Settings > User > Preferences. |
 | `security.allow_unsigned_updates` | `false` | Not in the UI. Accepts update metadata without a valid signature; never on a real device. |
 
 ## Paths
