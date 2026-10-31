@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useRef, useState, type MouseEvent } from 'react';
 import { Button, Form, Input } from 'antd';
-import { KeyRoundIcon, LockIcon, UserRoundIcon } from 'lucide-react';
+import { LockIcon, ShieldUserIcon, UserRoundIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -317,7 +317,7 @@ export const Login = (): ReactElement => {
               ]}
             >
               <Input
-                prefix={<KeyRoundIcon size={14} />}
+                prefix={<ShieldUserIcon size={14} />}
                 autoFocus
                 autoComplete="one-time-code"
                 inputMode={useBackupCode ? 'text' : 'numeric'}
