@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Input, Progress, Segmented, Tooltip } from 'antd';
 import clsx from 'clsx';
-import { DownloadIcon, LinkIcon, UploadIcon, XCircleIcon } from 'lucide-react';
+import { CircleXIcon, DownloadIcon, LinkIcon, UploadIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { toast } from '@/lib/feedback.ts';
@@ -152,7 +152,7 @@ export const AddImage = ({
                 danger
                 className="shrink-0"
                 aria-label={t('download.cancel')}
-                icon={<XCircleIcon size={16} />}
+                icon={<CircleXIcon size={16} />}
                 loading={transfer.isCanceling}
                 onClick={transfer.cancel}
               />

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Button } from 'antd';
-import { Clock3Icon, Loader2Icon, MessageSquareTextIcon, Trash2Icon } from 'lucide-react';
+import { Clock3Icon, LoaderCircleIcon, MessageSquareTextIcon, Trash2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import type { PicoclawSessionListItem } from '@/api/picoclaw.ts';
@@ -154,7 +154,7 @@ export const SidebarHistory = ({
       {/* the cards are dimmed and locked while a conversation is being opened: say so */}
       {isSwitching && (
         <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-center pt-6">
-          <Loader2Icon className="animate-spin text-neutral-300" size={24} />
+          <LoaderCircleIcon className="animate-spin text-neutral-300" size={24} />
         </div>
       )}
     </div>

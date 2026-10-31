@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import { useSetAtom } from 'jotai';
-import { Loader2Icon, PlayIcon } from 'lucide-react';
+import { LoaderCircleIcon, PlayIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { picoclawChatOpenAtom } from '@/jotai/picoclaw.ts';
@@ -91,7 +91,7 @@ export const Sidebar = () => {
         {sidebarMode === 'loading' ? (
           <div className="flex flex-1 flex-col items-center pt-10">
             <div className="flex flex-col items-center gap-3">
-              <Loader2Icon className="animate-spin text-neutral-500" size={22} />
+              <LoaderCircleIcon className="animate-spin text-neutral-500" size={22} />
               <span className="text-xs text-neutral-500">{connectionLabel}</span>
             </div>
           </div>

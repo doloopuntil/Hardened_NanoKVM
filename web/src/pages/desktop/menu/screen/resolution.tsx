@@ -1,6 +1,6 @@
 import { Tooltip } from 'antd';
 import { useAtom } from 'jotai';
-import { CircleHelpIcon, RatioIcon } from 'lucide-react';
+import { CircleQuestionMarkIcon, RatioIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { updateScreen } from '@/api/vm';
@@ -47,7 +47,7 @@ export const Resolution = () => {
                 placement="right"
                 overlayInnerStyle={{ width: '300px' }}
               >
-                <CircleHelpIcon size={14} />
+                <CircleQuestionMarkIcon size={14} />
               </Tooltip>
             </div>
           ) : (

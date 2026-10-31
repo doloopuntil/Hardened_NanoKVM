@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { Switch } from 'antd';
 import { useAtom } from 'jotai';
 import {
+  BotIcon,
   DiscIcon,
   DownloadIcon,
   FileJsonIcon,
   MaximizeIcon,
   NetworkIcon,
   PowerIcon,
-  TerminalSquareIcon,
+  SquareTerminalIcon,
   XIcon
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +20,6 @@ import { attempt, confirm } from '@/lib/feedback.ts';
 import * as ls from '@/lib/localstorage.ts';
 import { menuDisabledItemsAtom } from '@/jotai/settings.ts';
 import { useSettingsLoad } from '@/hooks/useSettingsLoad.ts';
-import { Robot } from '@/components/icons/robot.tsx';
 import { SettingRow, SettingSection } from '@/components/setting-rows.tsx';
 
 import { RemoteDownloadEnable } from './remote-download-enable.tsx';
@@ -40,10 +40,10 @@ export const MenuIcons = () => {
       icon: <DownloadIcon size={16} />,
       label: 'settings.appearance.menuBar.remoteDownload'
     },
-    { key: 'terminal', icon: <TerminalSquareIcon size={16} /> },
+    { key: 'terminal', icon: <SquareTerminalIcon size={16} /> },
     { key: 'script', icon: <FileJsonIcon size={16} /> },
     { key: 'wol', icon: <NetworkIcon size={16} /> },
-    { key: 'picoclaw', icon: <Robot size={16} /> },
+    { key: 'picoclaw', icon: <BotIcon size={16} /> },
     { key: 'power', icon: <PowerIcon size={16} /> },
     { key: 'fullscreen', icon: <MaximizeIcon size={16} />, label: 'fullscreen.toggle' },
     { key: 'collapse', icon: <XIcon size={16} />, label: 'menu.collapse' }

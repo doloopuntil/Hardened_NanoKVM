@@ -3,12 +3,12 @@ import { Popconfirm, Popover, Select, Tooltip } from 'antd';
 import clsx from 'clsx';
 import {
   HistoryIcon,
-  Loader2Icon,
+  LoaderCircleIcon,
   PlayIcon,
   PowerIcon,
   SettingsIcon,
   SlidersHorizontalIcon,
-  TrashIcon
+  Trash2Icon
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -46,7 +46,7 @@ const HeaderButton = forwardRef<HTMLButtonElement, HeaderButtonProps>(
       )}
       {...props}
     >
-      {loading ? <Loader2Icon size={16} className="animate-spin" /> : icon}
+      {loading ? <LoaderCircleIcon size={16} className="animate-spin" /> : icon}
     </button>
   )
 );
@@ -224,7 +224,7 @@ export const SidebarHeader = ({
                       </MenuRow>
                       <MenuRow
                         danger
-                        icon={<TrashIcon size={16} />}
+                        icon={<Trash2Icon size={16} />}
                         onClick={() => {
                           setIsMoreOpen(false);
                           handleUninstallClick();

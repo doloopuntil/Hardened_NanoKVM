@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Collapse, Modal } from 'antd';
-import { CircleHelpIcon } from 'lucide-react';
+import { CircleQuestionMarkIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export const Tips = () => {
@@ -54,7 +54,7 @@ export const Tips = () => {
         className="flex cursor-pointer items-center space-x-1 text-neutral-500 hover:text-blue-500"
         onClick={() => setIsModalOpen(true)}
       >
-        <CircleHelpIcon size={16} />
+        <CircleQuestionMarkIcon size={16} />
       </div>
 
       <Modal

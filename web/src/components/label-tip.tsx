@@ -1,5 +1,5 @@
 import { Tooltip } from 'antd';
-import { CircleAlertIcon, CircleHelpIcon } from 'lucide-react';
+import { CircleAlertIcon, CircleQuestionMarkIcon } from 'lucide-react';
 
 type LabelTipProps = {
   text: string;
@@ -18,7 +18,7 @@ export const LabelTip = ({ text, tip, warning = false }: LabelTipProps) => (
       placement="top"
       styles={{ root: { maxWidth: '400px' } }}
     >
-      {warning ? <CircleAlertIcon size={15} /> : <CircleHelpIcon size={15} />}
+      {warning ? <CircleAlertIcon size={15} /> : <CircleQuestionMarkIcon size={15} />}
     </Tooltip>
   </span>
 );
