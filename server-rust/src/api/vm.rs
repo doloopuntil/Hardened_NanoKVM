@@ -26,6 +26,7 @@ use std::{
     os::fd::AsRawFd,
     path::Path,
     ptr,
+    sync::OnceLock,
     time::{Duration, Instant as StdInstant},
 };
 use tokio::{sync::mpsc, task, time};
@@ -43,7 +44,10 @@ use crate::{
     hdmi_idle,
     http::{middleware::CurrentSession, proxy::ClientInfo},
     state::{AppState, is_allowed_session_lock_duration},
-    system::command::{AllowedCommand, run_allowed},
+    system::{
+        command::{AllowedCommand, run_allowed},
+        gpio::{Direction, Line},
+    },
     ws::{hid as hid_ws, origin::validate_ws_origin},
 };
 
@@ -435,23 +439,16 @@ pub async fn set_web_title(Json(req): Json<SetWebTitleReq>) -> Result<impl IntoR
 }
 
 pub async fn get_gpio() -> Result<impl IntoResponse> {
-    let gpio = hardware_gpio();
-    let pwr = read_gpio(&gpio.power_led)?;
-    let hdd = gpio
-        .hdd_led
-        .as_deref()
-        .map(read_gpio)
-        .transpose()?
-        .unwrap_or(false);
-
-    Ok(Json(ApiResponse::ok(GpioRsp { pwr, hdd })))
+    // The power LED input is active low; no supported board wires an HDD LED.
+    let pwr = !atx_lines()?.power_led.get()?;
+    Ok(Json(ApiResponse::ok(GpioRsp { pwr, hdd: false })))
 }
 
 pub async fn set_gpio(Json(req): Json<SetGpioReq>) -> Result<impl IntoResponse> {
-    let gpio = hardware_gpio();
-    let device = match req.kind.as_str() {
-        "power" => gpio.power,
-        "reset" => gpio.reset,
+    let lines = atx_lines()?;
+    let line = match req.kind.as_str() {
+        "power" => &lines.power,
+        "reset" => &lines.reset,
         _ => return Err(AppError::BadRequest("invalid power event".to_string())),
     };
     let duration = if req.duration == 0 {
@@ -460,7 +457,9 @@ pub async fn set_gpio(Json(req): Json<SetGpioReq>) -> Result<impl IntoResponse> 
         Duration::from_millis(req.duration.clamp(50, 5_000))
     };
 
-    write_gpio_pulse(&device, duration).await?;
+    line.set(true)?;
+    time::sleep(duration).await;
+    line.set(false)?;
     Ok(Json(ApiResponse::<()>::ok_empty()))
 }
 
@@ -1287,10 +1286,8 @@ fn looks_like_lite(hardware: Option<&str>, has_oled: bool, has_wifi: bool) -> bo
 
 fn get_hardware_version() -> String {
     match read_trimmed(HARDWARE_VERSION_FILE).as_deref() {
-        Some("beta") => "Beta",
         Some("pcie") => "PCIE",
-        Some("alpha") | None => "Alpha",
-        Some(_) => "Alpha",
+        _ => "Beta",
     }
     .to_string()
 }
@@ -1525,47 +1522,38 @@ fn write_inittab(content: &str) -> Result<()> {
     Ok(())
 }
 
-#[derive(Debug, Clone)]
-struct HardwareGpio {
-    reset: String,
-    power: String,
-    power_led: String,
-    hdd_led: Option<String>,
+/// The ATX board's lines, named in the device tree, claimed for the server's lifetime.
+struct AtxLines {
+    power: Line,
+    reset: Line,
+    power_led: Line,
 }
 
-fn hardware_gpio() -> HardwareGpio {
-    match read_trimmed(HARDWARE_VERSION_FILE).as_deref() {
-        Some("beta") | Some("pcie") => HardwareGpio {
-            reset: "/sys/class/gpio/gpio505/value".to_string(),
-            power: "/sys/class/gpio/gpio503/value".to_string(),
-            power_led: "/sys/class/gpio/gpio504/value".to_string(),
-            hdd_led: None,
-        },
-        _ => HardwareGpio {
-            reset: "/sys/class/gpio/gpio507/value".to_string(),
-            power: "/sys/class/gpio/gpio503/value".to_string(),
-            power_led: "/sys/class/gpio/gpio504/value".to_string(),
-            hdd_led: Some("/sys/class/gpio/gpio505/value".to_string()),
-        },
-    }
+static ATX_LINES: OnceLock<Option<AtxLines>> = OnceLock::new();
+
+fn request_atx_lines() -> std::io::Result<AtxLines> {
+    const CONSUMER: &str = "nanokvm-server";
+    Ok(AtxLines {
+        power: Line::request("atx-power", CONSUMER, Direction::Output(false))?,
+        reset: Line::request("atx-reset", CONSUMER, Direction::Output(false))?,
+        power_led: Line::request("atx-power-led", CONSUMER, Direction::Input)?,
+    })
 }
 
-fn read_gpio(path: &str) -> Result<bool> {
-    let value = fs::read_to_string(path)?;
-    let value = value.trim().parse::<i32>().map_err(|_| {
-        AppError::Internal(format!(
-            "invalid gpio value in {}",
-            Path::new(path).display()
-        ))
-    })?;
-    Ok(value == 0)
+/// Claims the ATX lines at startup so the power and reset outputs are driven low from then on.
+pub fn init_atx_lines() {
+    let _ = atx_lines();
 }
 
-async fn write_gpio_pulse(path: &str, duration: Duration) -> Result<()> {
-    fs::write(path, b"1")?;
-    time::sleep(duration).await;
-    fs::write(path, b"0")?;
-    Ok(())
+fn atx_lines() -> Result<&'static AtxLines> {
+    ATX_LINES
+        .get_or_init(|| {
+            request_atx_lines()
+                .inspect_err(|err| warn!(error = %err, "ATX GPIO lines unavailable"))
+                .ok()
+        })
+        .as_ref()
+        .ok_or_else(|| AppError::Internal("ATX GPIO lines unavailable".to_string()))
 }
 
 fn persist_hdmi_enabled() -> Result<()> {
@@ -1726,18 +1714,6 @@ mod tests {
         assert!(!looks_like_lite(Some("alpha"), false, false));
         assert!(!looks_like_lite(Some("pcie"), false, false));
         assert!(!looks_like_lite(None, false, false));
-    }
-
-    #[test]
-    fn beta_gpio_omits_hdd_led() {
-        let gpio = HardwareGpio {
-            reset: "/sys/class/gpio/gpio505/value".to_string(),
-            power: "/sys/class/gpio/gpio503/value".to_string(),
-            power_led: "/sys/class/gpio/gpio504/value".to_string(),
-            hdd_led: None,
-        };
-        assert_eq!(gpio.reset, "/sys/class/gpio/gpio505/value");
-        assert!(gpio.hdd_led.is_none());
     }
 
     #[test]
