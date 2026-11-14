@@ -84,8 +84,10 @@ static LATEST_MJPEG_FRAME: LazyLock<Mutex<Option<LatestMjpegFrame>>> =
     LazyLock::new(|| Mutex::new(None));
 static MJPEG_FANOUT: LazyLock<StreamFanout<MjpegFrame>> =
     LazyLock::new(|| StreamFanout::new("mjpeg", 4));
-static MJPEG_DEMAND: FrameDemand = FrameDemand::new();
-/// How often a producer with no ready client checks whether its clients are gone.
+static MJPEG_DEMAND: FrameDemand = FrameDemand::new(MJPEG_DEMAND_RECENT);
+/// A viewer that asked for a frame this recently keeps the producer running one frame ahead.
+const MJPEG_DEMAND_RECENT: Duration = Duration::from_millis(500);
+/// How often a producer with no recent demand checks whether its clients are gone.
 const MJPEG_DEMAND_RECHECK: Duration = Duration::from_secs(1);
 /// The single H.264 capture source. libkvm hands out each encoded frame once, so
 /// the direct stream and the WebRTC sender must share one reader.
@@ -142,7 +144,7 @@ pub struct MjpegScreen {
 
 #[derive(Debug, Clone)]
 pub struct LatestMjpegFrame {
-    pub data: Vec<u8>,
+    pub data: Bytes,
     pub width: u16,
     pub height: u16,
     captured_at: Instant,
@@ -355,39 +357,53 @@ impl<T: Clone> StreamFanout<T> {
     }
 }
 
-/// Clients waiting for their next frame. A client whose socket is full stops polling
-/// its stream, so the producer reads frames only while some client can take one.
+/// Viewers asking for frames. A viewer whose socket is full stops polling its stream;
+/// once none has asked within `recent`, the producer stops reading frames.
 struct FrameDemand {
     waiting: AtomicUsize,
+    last_ready: Mutex<Option<Instant>>,
+    recent: Duration,
     notify: Notify,
 }
 
 struct DemandGuard<'a>(&'a FrameDemand);
 
 impl FrameDemand {
-    const fn new() -> Self {
+    const fn new(recent: Duration) -> Self {
         Self {
             waiting: AtomicUsize::new(0),
+            last_ready: Mutex::new(None),
+            recent,
             notify: Notify::const_new(),
         }
     }
 
     fn ready(&self) -> DemandGuard<'_> {
         self.waiting.fetch_add(1, Ordering::AcqRel);
+        *self.last_ready.lock().unwrap_or_else(|e| e.into_inner()) = Some(Instant::now());
         self.notify.notify_one();
         DemandGuard(self)
     }
 
-    /// Waits up to `limit` for a ready client; returns whether there is one.
+    fn wanted(&self) -> bool {
+        self.waiting.load(Ordering::Acquire) > 0
+            || self
+                .last_ready
+                .lock()
+                .unwrap_or_else(|e| e.into_inner())
+                .is_some_and(|at| at.elapsed() < self.recent)
+    }
+
+    /// Waits up to `limit` for a viewer that wants frames; returns whether there is one.
     async fn wait(&self, limit: Duration) -> bool {
         let notified = self.notify.notified();
         tokio::pin!(notified);
         notified.as_mut().enable();
-        if self.waiting.load(Ordering::Acquire) > 0 {
+        if self.wanted() {
             return true;
         }
         let _ = time::timeout(limit, notified).await;
-        self.waiting.load(Ordering::Acquire) > 0
+        self.wanted()
     }
 }
 
@@ -785,16 +801,15 @@ async fn run_mjpeg_producer() {
         if !MJPEG_FIRST_SUCCESS_LOGGED.swap(true, Ordering::Relaxed) {
             info!(result, bytes = data.len(), "read first mjpeg frame");
         }
-        set_latest_mjpeg_frame(&data, screen.width, screen.height);
+        // The screenshot cache shares the frame with the viewers.
+        let data = Bytes::from(data);
+        set_latest_mjpeg_frame(data.clone(), screen.width, screen.height);
 
         let header = Bytes::from(format!(
             "--frame\r\nContent-Type: image/jpeg\r\nContent-Length: {}\r\n\r\n",
             data.len()
         ));
-        MJPEG_FANOUT.send(MjpegFrame {
-            header,
-            data: Bytes::from(data),
-        });
+        MJPEG_FANOUT.send(MjpegFrame { header, data });
     }
 }
 
@@ -1364,7 +1379,7 @@ pub fn capture_mjpeg_frame_now() -> std::result::Result<LatestMjpegFrame, String
     if result < 0 || data.is_empty() {
         return Err(format!("no frame from the HDMI capture (code {result})"));
     }
-    set_latest_mjpeg_frame(&data, screen.width, screen.height);
+    set_latest_mjpeg_frame(Bytes::from(data), screen.width, screen.height);
     latest_mjpeg_frame(Duration::from_secs(1))
         .ok_or_else(|| "the captured frame is gone".to_string())
 }
@@ -1373,10 +1388,10 @@ pub fn h264_frame_duration(fps: u64) -> Duration {
     Duration::from_millis((1000 / fps.max(1)).max(1))
 }
 
-fn set_latest_mjpeg_frame(data: &[u8], width: u16, height: u16) {
+fn set_latest_mjpeg_frame(data: Bytes, width: u16, height: u16) {
     if let Ok(mut frame) = LATEST_MJPEG_FRAME.lock() {
         *frame = Some(LatestMjpegFrame {
-            data: data.to_vec(),
+            data,
             width,
             height,
             captured_at: Instant::now(),
@@ -1434,16 +1449,21 @@ fn h264_direct_packet(is_keyframe: bool, timestamp_micros: u64, data: &[u8]) -> 
 #[cfg(test)]
 mod tests {
     #[tokio::test]
-    async fn frame_demand_waits_for_a_ready_client() {
+    async fn frame_demand_runs_ahead_for_recent_viewers_only() {
         use super::FrameDemand;
         use std::time::Duration;
-        let demand: &'static FrameDemand = Box::leak(Box::new(FrameDemand::new()));
+        let recent = Duration::from_millis(100);
+        let demand: &'static FrameDemand = Box::leak(Box::new(FrameDemand::new(recent)));
 
         assert!(!demand.wait(Duration::from_millis(10)).await);
         {
             let _ready = demand.ready();
             assert!(demand.wait(Duration::from_millis(10)).await);
         }
+        // A viewer busy sending the last frame still counts for `recent`...
+        assert!(demand.wait(Duration::from_millis(10)).await);
+        // ...then a stalled one stops the producer.
+        tokio::time::sleep(recent * 2).await;
         assert!(!demand.wait(Duration::from_millis(10)).await);
 
         // A client that becomes ready while the producer waits wakes it early.
